@@ -60,4 +60,17 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
 
         return (bool)$result;
     }
+
+    /**
+     * @param int|null $id
+     * @return Website[]
+     */
+    public function getByIdOrAll($id = null)
+    {
+        if ($id) {
+            return ($website = $this->find($id)) ? [$website] : [];
+        }
+
+        return $this->findAll();
+    }
 }
