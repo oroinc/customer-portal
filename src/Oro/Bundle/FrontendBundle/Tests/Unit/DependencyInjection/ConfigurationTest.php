@@ -42,7 +42,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                     'settings' => [
                         'resolved' => 1,
                         'frontend_theme' => [
-                            'value' => '',
+                            'value' => '%oro_layout.default_active_theme%',
                             'scope' => 'app'
                         ]
                     ]
