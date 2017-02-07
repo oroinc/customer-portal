@@ -3,7 +3,7 @@ navigation:
         items:
             menu_list_frontend:
                 label: 'oro.commercemenu.default.navigation.items.menu_list_frontend.label'
-                route: 'oro_commerce_global_menu_index'
+                route: 'oro_commerce_menu_global_menu_index'
                 extras:
                     position: 95
                     routes: ['/^oro_commerce_global_menu_[\w_]+$/']
@@ -142,3 +142,19 @@ navigation:
                             my_wishlist: ~
                             track_my_order: ~
                             help: ~
+
+    titles:
+        oro_commerce_menu_global_menu_index: 'Frontend Menus'
+        oro_commerce_menu_global_menu_view: '%%title%% - Frontend Menus'
+        oro_commerce_menu_global_menu_create: 'Create Menu Item - Frontend Menus'
+        oro_commerce_menu_global_menu_update: '%%title%% - Edit - Frontend Menus'
+
+        oro_commerce_menu_customer_menu_index: '%%customer%% - Frontend Menus'
+        oro_commerce_menu_customer_menu_view: '%%title%% - Frontend Menus - %%customer%%'
+        oro_commerce_menu_customer_menu_create: 'Create Menu Item - Frontend Menus - %%customer%%'
+        oro_commerce_menu_customer_menu_update: '%%title%% - Edit - Frontend Menus - %%customer%%'
+
+        oro_commerce_menu_customer_group_menu_index: '%%customerGroup%% - Frontend Menus'
+        oro_commerce_menu_customer_group_menu_view: '%%title%% - Frontend Menus - %%customerGroup%%'
+        oro_commerce_menu_customer_group_menu_create: 'Create Menu Item - Frontend Menus - %%customerGroup%%'
+        oro_commerce_menu_customer_group_menu_update: '%%title%% - Edit - Frontend Menus - %%customerGroup%%'
