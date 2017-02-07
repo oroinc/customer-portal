@@ -1,6 +1,14 @@
 navigation:
     menu_config:
         items:
+            menu_list_frontend:
+                label: 'oro.commercemenu.default.navigation.items.menu_list_frontend.label'
+                route: 'oro_commerce_global_menu_index'
+                extras:
+                    position: 95
+                    routes: ['/^oro_commerce_global_menu_[\w_]+$/']
+                    description: 'oro.commercemenu.default.navigation.items.menu_list_frontend.description'
+
             telephone:
                 label: 'oro.commercemenu.frontend.navigation.items.telephone.label'
             live_chat:
@@ -79,6 +87,12 @@ navigation:
                 label: 'oro.commercemenu.frontend.navigation.items.help.label'
                 uri: '/help'
         tree:
+            application_menu:
+                children:
+                    system_tab:
+                        children:
+                            menu_list_frontend: ~
+
             commerce_top_nav:
                 type: commerce_top_nav
                 scope_type: menu_frontend_visibility

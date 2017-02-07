@@ -20,6 +20,14 @@ oro:
             descriptions.label: Description
             icon.label: Icon
             scope.label: Scope
+        customer_menu.label: Edit Frontend Menu
+        customer_group_menu.label: Edit Frontend Menu
+        default:
+            navigation:
+                items:
+                    menu_list_frontend:
+                        label: Frontend Menus
+                        description: Manage frontend menus in default scope type
         frontend:
             navigation:
                 items:
