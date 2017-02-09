@@ -4,6 +4,8 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleACLData;
+use Oro\Bundle\DataGridBundle\Datagrid\Manager;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerUserRoleControllerACLTest extends WebTestCase
@@ -105,6 +107,30 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
                 'expectedStatus' => 200
             ],
         ];
+    }
+
+    public function testRolePermissionGrid()
+    {
+        $this->loginUser(LoadCustomerUserRoleACLData::USER_ACCOUNT_1_ROLE_DEEP);
+        /* @var $role CustomerUserRole */
+        $role = $this->getReference(LoadCustomerUserRoleACLData::ROLE_WITH_ACCOUNT_1_USER_DEEP);
+        $gridParameters = [
+            'gridName' => 'frontend-customer-user-role-permission-grid',
+            'role' => $role
+        ];
+        $container = $this->client->getContainer();
+        /** @var Manager $gridManager */
+        $gridManager = $container->get('oro_datagrid.datagrid.manager');
+        $grid = $gridManager->getDatagridByRequestParams(
+            'frontend-customer-user-role-permission-grid',
+            $gridParameters
+        );
+        $result = $grid->getData();
+        foreach ($result['data'] as $key) {
+            foreach ($key['permissions'] as $permission) {
+                self::assertNotEquals(AccessLevel::SYSTEM_LEVEL, $permission['access_level']);
+            }
+        }
     }
 
     /**
