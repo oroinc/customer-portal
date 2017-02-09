@@ -16,7 +16,7 @@ data:
         users:
             data:
                 -
-                    type: customerusers
+                    type: customer_users
                     id: '<toString(@default_customer->id)>'
         owner:
             data:

@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\API;
 
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,7 +41,7 @@ class RestCustomerGroupTest extends AbstractRestTest
         $expected = [
             'data' => [
                 [
-                    'type' => 'customergroups',
+                    'type' => 'customer_groups',
                     'id' => '1',
                     'attributes' => [
                         'name' => 'Non-Authenticated Visitors',
@@ -52,7 +51,7 @@ class RestCustomerGroupTest extends AbstractRestTest
                     ],
                 ],
                 [
-                    'type' => 'customergroups',
+                    'type' => 'customer_groups',
                     'id' => (string)$group->getId(),
                     'attributes' => [
                         'name' => 'test group',
@@ -96,7 +95,7 @@ class RestCustomerGroupTest extends AbstractRestTest
 
         $data = [
             'data' => [
-                'type' => 'customergroups',
+                'type' => 'customer_groups',
                 'attributes' => [
                     'name' => 'new group',
                 ],
@@ -146,7 +145,7 @@ class RestCustomerGroupTest extends AbstractRestTest
 
         $expected = [
             'data' => [
-                'type' => 'customergroups',
+                'type' => 'customer_groups',
                 'id' => (string)$group->getId(),
                 'attributes' => [
                     'name' => 'test group',
@@ -178,7 +177,7 @@ class RestCustomerGroupTest extends AbstractRestTest
         $customer2 = $this->createCustomer('customer2');
         $data = [
             'data' => [
-                'type' => 'customergroups',
+                'type' => 'customer_groups',
                 'id' => (string)$group->getId(),
                 'attributes' => [
                     'name' => 'updated group',

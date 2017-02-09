@@ -106,7 +106,7 @@ class SystemConfigListenerTest extends \PHPUnit_Framework_TestCase
     public function testOnSettingsSaveBefore()
     {
         $id = 1;
-        $key = 'oro_customer___default_customer_owner';
+        $key = 'oro_customer.default_customer_owner';
 
         $user = $this->getMockBuilder($this->userClass)
             ->disableOriginalConstructor()

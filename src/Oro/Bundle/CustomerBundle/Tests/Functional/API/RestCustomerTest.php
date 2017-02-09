@@ -120,13 +120,13 @@ class RestCustomerTest extends AbstractRestTest
                     ],
                     'internal_rating' => [
                         'data' => [
-                            'type' => 'accinternalratings',
+                            'type' => 'customer_rating',
                             'id' => 'internal_rating.2_of_5',
                         ],
                     ],
                     'group' => [
                         'data' => [
-                            'type' => 'customergroups',
+                            'type' => 'customer_groups',
                             'id' => (string)$this->getGroup(LoadGroups::GROUP2)->getId(),
                         ],
                     ],
@@ -187,7 +187,7 @@ class RestCustomerTest extends AbstractRestTest
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $expected = [
             'data' => [
-                'type' => 'customergroups',
+                'type' => 'customer_groups',
                 'id' => '<toString(@customer.1->getGroup()->getId())>',
             ],
         ];
@@ -208,7 +208,7 @@ class RestCustomerTest extends AbstractRestTest
         );
         $data = [
             'data' => [
-                'type' => 'customergroups',
+                'type' => 'customer_groups',
                 'id' => (string)$this->getGroup(LoadGroups::GROUP2)->getId(),
             ],
         ];
@@ -239,7 +239,7 @@ class RestCustomerTest extends AbstractRestTest
         $content = json_decode($response->getContent(), true);
         $expected = [
             'data' => [
-                'type' => 'accinternalratings',
+                'type' => 'customer_rating',
                 'id' => 'internal_rating.1_of_5',
                 'attributes' => [
                     'name' => 'internal_rating.1 of 5',
@@ -269,7 +269,7 @@ class RestCustomerTest extends AbstractRestTest
         $content = json_decode($response->getContent(), true);
         $expected = [
             'data' => [
-                'type' => 'accinternalratings',
+                'type' => 'customer_rating',
                 'id' => 'internal_rating.1_of_5',
             ],
         ];
@@ -290,7 +290,7 @@ class RestCustomerTest extends AbstractRestTest
         );
         $data = [
             'data' => [
-                'type' => 'accinternalratings',
+                'type' => 'customer_rating',
                 'id' => 'internal_rating.2_of_5',
             ],
         ];
@@ -693,7 +693,7 @@ class RestCustomerTest extends AbstractRestTest
         $expected = [
             'data' => [
                 [
-                    'type' => 'customerusers',
+                    'type' => 'customer_users',
                     'id' => '<toString(@default_customer->getUsers()->first()->id)>',
                 ],
             ],
@@ -718,7 +718,7 @@ class RestCustomerTest extends AbstractRestTest
         $data = [
             'data' => [
                 [
-                    'type' => 'customerusers',
+                    'type' => 'customer_users',
                     'id' => (string)$user2->getId(),
                 ],
             ],
@@ -751,7 +751,7 @@ class RestCustomerTest extends AbstractRestTest
         $data = [
             'data' => [
                 [
-                    'type' => 'customerusers',
+                    'type' => 'customer_users',
                     'id' => (string)$user2->getId(),
                 ],
             ],
@@ -783,7 +783,7 @@ class RestCustomerTest extends AbstractRestTest
         $data = [
             'data' => [
                 [
-                    'type' => 'customerusers',
+                    'type' => 'customer_users',
                     'id' => (string)$user1->getId(),
                 ],
             ],
@@ -838,13 +838,13 @@ class RestCustomerTest extends AbstractRestTest
             'internal_rating' => [
                 'data' =>
                     [
-                        'type' => 'accinternalratings',
+                        'type' => 'customer_rating',
                         'id' => 'internal_rating.1_of_5',
                     ],
             ],
             'group' => [
                 'data' => [
-                    'type' => 'customergroups',
+                    'type' => 'customer_groups',
                     'id' => (string)$this->getGroup(LoadGroups::GROUP1)->getId(),
                 ],
             ],

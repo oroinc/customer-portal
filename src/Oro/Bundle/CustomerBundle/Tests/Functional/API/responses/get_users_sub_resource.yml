@@ -1,6 +1,6 @@
 data:
     -
-        type: customerusers
+        type: customer_users
         id: '<toString(@default_customer->id)>'
         attributes:
             confirmed: true
@@ -23,7 +23,7 @@ data:
             roles:
                 data:
                     -
-                        type: customeruserroles
+                        type: customer_user_roles
                         id: '1'
             customer:
                 data:
