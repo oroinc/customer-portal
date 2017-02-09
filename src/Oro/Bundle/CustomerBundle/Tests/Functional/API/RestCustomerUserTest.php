@@ -125,20 +125,6 @@ class RestCustomerUserTest extends RestJsonApiTestCase
                     'lastName' => 'Customer user',
                 ],
                 'relationships' => [
-                    'owner' => [
-                        'data' => [
-                            'type' => 'users',
-                            'id' => (string)$owner->getId(),
-                        ],
-                    ],
-                    'salesRepresentatives' => [
-                        'data' => [
-                            [
-                                'type' => 'users',
-                                'id' => (string)$owner->getId(),
-                            ],
-                        ],
-                    ],
                     'customer' => [
                         'data' => [
                             'type' => 'customers',
@@ -148,7 +134,7 @@ class RestCustomerUserTest extends RestJsonApiTestCase
                     'roles' => [
                         'data' => [
                             [
-                                'type' => 'customeruserroles',
+                                'type' => 'customer_user_roles',
                                 'id' => (string)$role->getId(),
                             ],
                         ],
@@ -271,7 +257,7 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         $data = [
             'data' => [
                 [
-                    'type' => 'customeruserroles',
+                    'type' => 'customer_user_roles',
                     'id' => (string)$customerUserRole->getId()
                 ]
             ]
@@ -302,7 +288,7 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         $data = [
             'data' => [
                 [
-                    'type' => 'customeruserroles',
+                    'type' => 'customer_user_roles',
                     'id' => (string)$customerUserRole->getId()
                 ]
             ]
@@ -337,11 +323,11 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         $data = [
             'data' => [
                 [
-                    'type' => 'customeruserroles',
+                    'type' => 'customer_user_roles',
                     'id' => (string)$roleAdmin->getId()
                 ],
                 [
-                    'type' => 'customeruserroles',
+                    'type' => 'customer_user_roles',
                     'id' => (string)$roleBuyer->getId()
                 ]
             ]
@@ -359,7 +345,7 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         $data = [
             'data' => [
                 [
-                    'type' => 'customeruserroles',
+                    'type' => 'customer_user_roles',
                     'id' => (string)$roleBuyer->getId()
                 ]
             ]
@@ -394,7 +380,7 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         $passwordRequestedAt = $customerUser->getPasswordRequestedAt();
         $passwordChangedAt = $customerUser->getPasswordChangedAt();
         $expected = [
-            'type' => 'customerusers',
+            'type' => 'customer_users',
             'id' => (string)$customerUser->getId(),
             'attributes' => [
                 "confirmed" => $customerUser->isConfirmed(),
@@ -439,7 +425,7 @@ class RestCustomerUserTest extends RestJsonApiTestCase
                 'roles' => [
                     'data' => [
                         [
-                            'type' => 'customeruserroles',
+                            'type' => 'customer_user_roles',
                             'id' => (string)$customerUserRole->getId()
                         ]
                     ]
