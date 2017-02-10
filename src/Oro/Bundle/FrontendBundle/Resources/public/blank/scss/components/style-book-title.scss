@@ -1,0 +1,9 @@
+// @theme: blank;
+
+.style-book-title {
+    padding: $style-book-title-inner-offset;
+
+    font-size: $style-book-title-font-size;
+
+    border-bottom: 1px solid get-color('additional', 'light');
+}

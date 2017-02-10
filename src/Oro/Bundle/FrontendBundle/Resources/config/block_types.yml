@@ -40,3 +40,27 @@ services:
             - [setName, ['embedded_list']]
         tags:
             - { name: layout.block_type, alias: embedded_list }
+
+    oro_layout.block_type.groups_menu_item:
+        parent: oro_layout.block_type.abstract_configurable
+        calls:
+            - [setOptionsConfig, [{label: {default: ''}, action: {default: ''}}]]
+            - [setName, ['groups_menu_item']]
+        tags:
+             - { name: layout.block_type, alias: groups_menu_item }
+
+    oro_layout.block_type.group_element:
+            parent: oro_layout.block_type.abstract_configurable_container
+            calls:
+                - [setOptionsConfig, [anchor: {required: true}, label: {required: true}]]
+                - [setName, ['group_element']]
+            tags:
+                 - { name: layout.block_type, alias: group_element }
+
+    oro_layout.block_type.group_element_item:
+            parent: oro_layout.block_type.abstract_configurable_container
+            calls:
+                - [setOptionsConfig, [description: {default: ''}]]
+                - [setName, ['group_element_item']]
+            tags:
+                 - { name: layout.block_type, alias: group_element_item }

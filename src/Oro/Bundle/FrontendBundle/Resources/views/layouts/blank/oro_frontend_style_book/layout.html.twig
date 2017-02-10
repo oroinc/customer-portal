@@ -1,0 +1,216 @@
+{% block _style_book_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'id': 'container',
+        '~class': ' wrapper'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="container-fluid">
+            {{ block_widget(block) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_header_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-header'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_header_inner_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-header__inner'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_groups_nav_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-groups-nav'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_groups_menu_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' main-menu'
+    }) %}
+
+    <ul {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </ul>
+{% endblock %}
+
+{% block groups_menu_item_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' main-menu__item'
+    }) %}
+    <li {{ block('block_attributes') }}>
+        <a href="{{ path('oro_frontend_style_book') }}/{{ action }}" class="main-menu__link">
+            <span class="main-menu__text">{{ label|trans }}</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block _style_book_sticky_panel_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-page-component-module': 'oroui/js/app/components/view-component',
+        'data-page-component-options': {
+            'view': 'orofrontend/default/js/app/views/sticky-panel-view'
+        },
+        '~class': ' sticky-panel'
+    }) %}
+    <div{{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_sticky_panel_content_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' sticky-panel__content'
+    }) %}
+    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block _style_book_sticky_element_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-sticky-elements-nav'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_sticky_element_sidebar_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'id': 'style-book-sticky-elements-nav',
+        '~class': ' style-book-sticky-elements-nav__sidebar'
+    }) %}
+    <div {{ block('block_attributes') }}></div>
+{% endblock %}
+
+{% block _style_book_main_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-main'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_content_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-content page-content--has-sidebar-right'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_sidebar_widget %}
+    {% if block.count > 0 %}
+        {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-sidebar page-sidebar--right'
+        }) %}
+
+        <aside {{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+        </aside>
+    {% endif %}
+{% endblock %}
+
+{% block _style_book_elements_nav_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' primary-menu-container',
+        'data-sticky': {
+            'toggleClass': 'sticked',
+            'placeholderId': 'style-book-sticky-elements-nav'
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_elements_nav_title_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' primary-menu-title'
+    }) %}
+
+    <h3 {{ block('block_attributes') }}>
+        {{ 'oro_frontend_style_book.nav.title'|trans }}
+    </h3>
+{% endblock %}
+
+{% block _style_book_elements_nav_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'id': 'style-book-scrollspy-nav',
+        '~class': ' style-book-elements-nav',
+        'data-page-component-module': 'oroui/js/app/components/view-component',
+        'data-page-component-options': {
+            'view': 'orofrontend/js/app/views/style-book-elements-navigation-view'
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}></div>
+{% endblock %}
+
+{% block group_element_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-group-element',
+        'data-style-book-element': {
+            id: anchor,
+            label: label
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <h2 id="{{ anchor }}" class="style-book-title">{{ label }}</h2>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block group_element_item_widget %}
+    {% if description %}
+        <div class="style-book-group-element__description">
+            {{ description|trans }}
+        </div>
+    {% endif %}
+
+    {% set content = block_widget(block) %}
+
+    <div class="style-book-group-element__preview">
+        {{ content|raw }}
+    </div>
+
+    <div class="style-book-group-element__source">
+        <code class="style-book-group-element__code">
+            {%- spaceless -%}
+                {{ content|trim|escape }}
+            {%- endspaceless -%}
+        </code>
+    </div>
+{% endblock %}

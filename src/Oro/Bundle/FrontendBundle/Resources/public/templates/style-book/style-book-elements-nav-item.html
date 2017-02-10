@@ -1,0 +1,9 @@
+<% if(items.length) { %>
+<ul class="primary-menu primary-menu--vertical nav">
+    <% for(i = 0; i < items.length; i++) { %>
+    <li class="primary-menu__item" data-style-book-element-item>
+        <a href="#<%= items[i].id %>" class="primary-menu__link" data-style-book-element-switch><%= items[i].label %></a>
+    </li>
+    <% } %>
+</ul>
+<% } %>

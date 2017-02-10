@@ -1,0 +1,20 @@
+// @theme: blank;
+
+.style-book-sticky-elements-nav {
+    display: flex;
+    justify-content: flex-end;
+
+    max-width: $style-book-sticky-max-width;
+    margin: 0 auto;
+    padding: $style-book-sticky-inner-offset;
+
+    &:empty {
+        display: none;
+    }
+
+    &__sidebar {
+        position: fixed;
+
+        width: $style-book-sticky-sidebar-width;
+    }
+}

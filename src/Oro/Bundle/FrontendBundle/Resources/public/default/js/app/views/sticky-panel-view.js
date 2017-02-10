@@ -166,13 +166,11 @@ define(function(require) {
                 if (newState !== null) {
                     contentChanged = true;
                     this.toggleElementState($element, newState);
-                    break;
                 }
             }
 
             if (contentChanged) {
                 this.$el.toggleClass('has-content', this.$el.find('.' + this.options.elementClass).length > 0);
-                this.onScroll();
             }
         },
 
@@ -186,7 +184,7 @@ define(function(require) {
                 if (options.currentState) {
                     if (isEmpty) {
                         return false;
-                    } else if (!options.alwaysInSticky && this.inViewPort(options.$elementPlaceholder, $element)) {
+                    } else if (!options.alwaysInSticky && this.inViewPort(options.$elementPlaceholder)) {
                         return false;
                     }
                 } else if (!isEmpty) {

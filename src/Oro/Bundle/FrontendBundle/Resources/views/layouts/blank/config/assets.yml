@@ -7,4 +7,6 @@ styles:
         - 'bundles/orofrontend/blank/scss/settings/global-settings.scss'
         - 'bundles/orofrontend/blank/scss/variables/notification-flash-container-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/table-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/style-book-sticky-elements-nav-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/style-book-title-config.scss'
         - 'bundles/orofrontend/blank/scss/styles.scss'

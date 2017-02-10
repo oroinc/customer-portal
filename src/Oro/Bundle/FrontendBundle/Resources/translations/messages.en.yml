@@ -31,3 +31,32 @@ oro_frontend:
         code.403: "You don't have permission to access this page."
         code.404: 'The page you requested could not be found. Please make sure the path you used is correct.'
         back: 'Click to go back'
+
+oro_frontend_style_book:
+    nav:
+        title: Elements
+    groups:
+        forms:
+            title: 'Forms'
+        grid:
+            title: 'Grid'
+            description_grids: 'Grids can have from 1 to 12 columns. Every single column has 100% width on mobile view. Background and borders on columns used only for clarity'
+            description_offset_row: 'Indent between rows'
+            description_offset_columns: 'Adds the right indent to column'
+            description_offset_columns_bottom: 'Indent under columns - all columns placed in one row (Default theme)'
+            description_half: 'It is used in cases when it is necessary to use two columns with the same width'
+            description_clear: 'Forced displacement of columns on a new line'
+        buttons:
+            description_dafault: 'Button default view'
+            description_action: 'Button action view'
+            description_info: 'Button info view'
+            description_primary: 'Button primary view'
+            description_link: 'Link view'
+            description_large_size: 'Large size button width view'
+            description_size_l: 'Large size button view'
+            description_size_m: 'Medium size button view'
+            description_size_s: 'Small size button view'
+            description_group: 'Button with drop down'
+            description_inline_group: 'Buttons inline group'
+            description_btn_group: 'Buttons group'
+            description_btn_group_vertical: 'Buttons group vertical'
