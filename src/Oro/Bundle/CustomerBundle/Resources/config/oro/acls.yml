@@ -66,3 +66,19 @@ acls:
         class: OroCustomerBundle:CustomerUserAddress
         group_name: "commerce"
         category: 'customer_management'
+
+    oro_customer_frontend_gridview_publish:
+        type: action
+        label: oro.grid.action.gridview_create_public.label
+        description: oro.grid.action.gridview_create_public.description
+        group_name: "commerce"
+        bindings: ~
+        category: "application"
+
+    oro_customer_frontend_gridview_update_public:
+        type: action
+        label: oro.grid.action.gridview_edit_public.label
+        description: oro.grid.action.gridview_edit_public.description
+        group_name: "commerce"
+        bindings: ~
+        category: "application"

@@ -1,0 +1,209 @@
+<?php
+
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend\Api\Rest;
+
+use Doctrine\Common\Persistence\ObjectRepository;
+use Oro\Bundle\CustomerBundle\Entity\GridView;
+use Oro\Bundle\CustomerBundle\Entity\Repository\GridViewUserRepository;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserGridViewACLData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGridViewData;
+use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+
+class GridViewControllerTest extends WebTestCase
+{
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->initClient(
+            [],
+            $this->generateBasicAuthHeader(LoadCustomerUserData::AUTH_USER, LoadCustomerUserData::AUTH_PW)
+        );
+        $this->loadFixtures([LoadGridViewData::class]);
+    }
+
+    public function testPostActionWithIncorrectData()
+    {
+        $this->client->request('POST', $this->getUrl('oro_api_frontend_datagrid_gridview_post'));
+        $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 400);
+    }
+
+    public function testPostAction()
+    {
+        $this->client->request(
+            'POST',
+            $this->getUrl('oro_api_frontend_datagrid_gridview_post'),
+            [
+                'label' => 'test view 1',
+                'type' => GridView::TYPE_PUBLIC,
+                'grid_name' => 'items-grid',
+                'filters' => [],
+                'sorters' => []
+            ]
+        );
+
+        $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 201);
+
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+
+        $this->assertArrayHasKey('id', $response);
+
+        $createdGridView = $this->findGridView($response['id']);
+
+        $this->assertNotNull($createdGridView);
+        $this->assertEquals(LoadCustomerUserData::AUTH_USER, $createdGridView->getOwner()->getUsername());
+        $this->assertEquals('test view 1', $createdGridView->getName());
+        $this->assertEquals(GridView::TYPE_PUBLIC, $createdGridView->getType());
+        $this->assertEquals('items-grid', $createdGridView->getGridName());
+        $this->assertEmpty($createdGridView->getFiltersData());
+        $this->assertEmpty($createdGridView->getSortersData());
+    }
+
+    public function testPutActionPublicWithNoEditPermissions()
+    {
+        $this->loginUser(LoadCustomerUserGridViewACLData::USER_ACCOUNT_2_ROLE_LOCAL);
+
+        /** @var GridView $gridView */
+        $gridView = $this->getReference(LoadGridViewData::GRID_VIEW_PUBLIC);
+
+        $this->client->request(
+            'PUT',
+            $this->getUrl('oro_api_frontend_datagrid_gridview_put', ['id' => $gridView->getId()]),
+            [
+                'label' => 'forbidden by edit permission',
+                'type' => GridView::TYPE_PUBLIC,
+                'grid_name' => 'items-grid',
+                'filters' => [],
+                'sorters' => []
+            ]
+        );
+
+        $this->assertResponseStatusCodeEquals($this->client->getResponse(), 403);
+    }
+
+    public function testPutActionPrivateWithNoCreatePermissions()
+    {
+        $this->loginUser(LoadCustomerUserGridViewACLData::USER_ACCOUNT_2_ROLE_LOCAL);
+
+        /** @var GridView $gridView */
+        $gridView = $this->getReference(LoadGridViewData::GRID_VIEW_1);
+
+        $this->client->request(
+            'PUT',
+            $this->getUrl('oro_api_frontend_datagrid_gridview_put', ['id' => $gridView->getId()]),
+            [
+                'label' => 'forbidden by create permission',
+                'type' => GridView::TYPE_PUBLIC,
+                'grid_name' => 'items-grid',
+                'filters' => [],
+                'sorters' => [],
+            ]
+        );
+
+        $this->assertResponseStatusCodeEquals($this->client->getResponse(), 403);
+    }
+
+    public function testPutAction()
+    {
+        /** @var GridView $gridViewPrivate */
+        $gridViewPrivate = $this->getReference(LoadGridViewData::GRID_VIEW_PRIVATE);
+        $id = $gridViewPrivate->getId();
+
+        $this->client->request(
+            'PUT',
+            $this->getUrl('oro_api_frontend_datagrid_gridview_put', ['id' => $id]),
+            [
+                'label' => 'test view 2',
+                'type' => GridView::TYPE_PUBLIC,
+                'grid_name' => 'items-grid',
+                'filters' => [
+                    'username' => ['type' => 1, 'value' => 'test']
+                ],
+                'sorters' => [
+                    'username' => 1
+                ],
+            ]
+        );
+        $this->assertResponseStatusCodeEquals($this->client->getResponse(), 204);
+
+        $updatedGridView = $this->findGridView($id);
+
+        $this->assertEquals(
+            LoadCustomerUserGridViewACLData::USER_ACCOUNT_2_ROLE_LOCAL,
+            $updatedGridView->getOwner()->getUsername()
+        );
+        $this->assertEquals('test view 2', $updatedGridView->getName());
+        $this->assertEquals(GridView::TYPE_PUBLIC, $updatedGridView->getType());
+        $this->assertEquals('items-grid', $updatedGridView->getGridName());
+        $this->assertEquals(
+            [
+                'username' => ['type' => 1, 'value' => 'test']
+            ],
+            $updatedGridView->getFiltersData()
+        );
+        $this->assertEquals(['username' => 1], $updatedGridView->getSortersData());
+    }
+
+    public function testDeleteAction()
+    {
+        /** @var GridView $gridViewPublic */
+        $gridViewPublic = $this->getReference(LoadGridViewData::GRID_VIEW_PUBLIC);
+        $id = $gridViewPublic->getId();
+
+        $this->assertNotNull($this->findGridView($id));
+
+        $this->client->request(
+            'DELETE',
+            $this->getUrl('oro_api_frontend_datagrid_gridview_delete', ['id' => $id])
+        );
+
+        $this->assertResponseStatusCodeEquals($this->client->getResponse(), 204);
+        $this->assertNull($this->findGridView($id));
+    }
+
+    public function testDefaultAction()
+    {
+        /** @var GridViewUserRepository $repository */
+        $repository = $this->getRepository('OroCustomerBundle:GridViewUser');
+
+        /** @var GridView $gridView */
+        $gridView = $this->getReference(LoadGridViewData::GRID_VIEW_PRIVATE);
+        $id = $gridView->getId();
+
+        $this->assertEmpty($repository->findAll());
+
+        $this->client->request(
+            'POST',
+            $this->getUrl(
+                'oro_api_frontend_datagrid_gridview_default',
+                [
+                    'id' => $id,
+                    'default' => true,
+                    'gridName' => 'items-grid'
+                ]
+            )
+        );
+
+        $this->assertResponseStatusCodeEquals($this->client->getResponse(), 204);
+        $this->assertNotEmpty($repository->findAll());
+    }
+
+    /**
+     * @param int $id
+     * @return GridView
+     */
+    private function findGridView($id)
+    {
+        return $this->getRepository('OroCustomerBundle:GridView')->find($id);
+    }
+
+    /**
+     * @param string $className
+     * @return ObjectRepository
+     */
+    private function getRepository($className)
+    {
+        return $this->getContainer()->get('doctrine')->getManagerForClass($className)->getRepository($className);
+    }
+}

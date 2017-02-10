@@ -69,3 +69,9 @@ oro_frontend_windows_api:
     type:     rest
     options:
         frontend: true
+
+oro_frontend_grid_view_api:
+    resource: "@OroCustomerBundle/Controller/Frontend/Api/Rest/GridViewController.php"
+    type:     rest
+    options:
+        frontend: true
