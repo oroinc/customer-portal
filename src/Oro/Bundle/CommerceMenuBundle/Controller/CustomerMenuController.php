@@ -105,12 +105,16 @@ class CustomerMenuController extends AbstractFrontendMenuController
     /**
      * {@inheritDoc}
      */
-    protected function checkAcl()
+    protected function checkAcl(array $context)
     {
-        if (!$this->get('oro_security.security_facade')->isGranted('oro_customer_customer_update')) {
+        if (!$this->get('oro_security.security_facade')->isGranted(
+            'oro_customer_customer_update',
+            $context[ScopeCustomerCriteriaProvider::ACCOUNT]
+        )
+        ) {
             throw $this->createAccessDeniedException();
         }
-        parent::checkAcl();
+        parent::checkAcl($context);
     }
 
     /**
