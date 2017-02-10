@@ -16,6 +16,9 @@ class OroCustomerBundle implements Migration
     public function up(Schema $schema, QueryBag $queries)
     {
         $schema->dropTable('oro_customer_user_org');
+
+        $queries->addQuery(new UpdateCustomerUserACLQuery());
+
         //remove invalid record because of error there is a NULL value
         $this->removeFromConfig($queries, 'default_customer_owner');
     }

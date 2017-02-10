@@ -10,6 +10,8 @@ use FOS\RestBundle\Controller\ExceptionController as BaseExceptionController;
 
 class ExceptionController extends BaseExceptionController
 {
+    const EXCEPTION_ROUTE_NAME = 'oro_frontend_exception';
+
     /**
      * {@inheritdoc}
      */
@@ -19,7 +21,8 @@ class ExceptionController extends BaseExceptionController
             $container = $this->container;
             $code = $this->getStatusCode($exception);
             $text = $this->getStatusText($code);
-            $url = $container->get('router')->generate('oro_frontend_exception', ['code' => $code, 'text' => $text]);
+            $url = $container->get('router')
+                ->generate(self::EXCEPTION_ROUTE_NAME, ['code' => $code, 'text' => $text]);
 
             $subRequest = Request::create(
                 $url,
@@ -44,7 +47,8 @@ class ExceptionController extends BaseExceptionController
     {
         return $this->container->get('oro_frontend.request.frontend_helper')->isFrontendRequest($request)
             && $request->getRequestFormat() === 'html'
-            && !$this->showException($request);
+            && !$this->showException($request)
+            && !$this->isCircularHandlingException();
     }
 
     /**
@@ -63,5 +67,14 @@ class ExceptionController extends BaseExceptionController
     protected function getStatusText($code)
     {
         return array_key_exists($code, Response::$statusTexts) ? Response::$statusTexts[$code] : "error";
+    }
+
+    /**
+     * @return bool
+     */
+    private function isCircularHandlingException()
+    {
+        $requestStack = $this->container->get('request_stack');
+        return $requestStack->getParentRequest()->get('_route') === self::EXCEPTION_ROUTE_NAME;
     }
 }
