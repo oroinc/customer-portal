@@ -3,12 +3,10 @@
 namespace Oro\Bundle\CommerceMenuBundle\Form\Extension;
 
 use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType;
 
