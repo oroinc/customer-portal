@@ -12,6 +12,7 @@ use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerCriteriaProvider;
 use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider;
 use Oro\Bundle\NavigationBundle\Controller\AbstractAjaxMenuController;
 use Oro\Bundle\OrganizationBundle\Provider\ScopeOrganizationCriteriaProvider;
+use Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider;
 
 /**
  * @Route("/menu/customer")
@@ -21,12 +22,16 @@ class CustomerAjaxMenuController extends AbstractAjaxMenuController
     /**
      * {@inheritDoc}
      */
-    protected function checkAcl()
+    protected function checkAcl(array $context)
     {
-        if (!$this->get('oro_security.security_facade')->isGranted('oro_customer_customer_update')) {
+        if (!$this->get('oro_security.security_facade')->isGranted(
+            'oro_customer_customer_update',
+            $context[ScopeCustomerCriteriaProvider::ACCOUNT]
+        )
+        ) {
             throw $this->createAccessDeniedException();
         }
-        parent::checkAcl();
+        parent::checkAcl($context);
     }
 
     /**
@@ -34,7 +39,7 @@ class CustomerAjaxMenuController extends AbstractAjaxMenuController
      */
     protected function getAllowedContextKeys()
     {
-        return ['customer', 'website'];
+        return [ScopeCustomerCriteriaProvider::ACCOUNT, ScopeCriteriaProvider::WEBSITE];
     }
 
     /**
