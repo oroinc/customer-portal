@@ -8,7 +8,7 @@ use Oro\Bundle\TranslationBundle\Provider\TranslationPackagesProviderExtensionIn
 
 class TranslationPackagesProviderExtension implements TranslationPackagesProviderExtensionInterface
 {
-    const PACKAGE_NAME = 'OroCommerce';
+    const PACKAGE_NAME = 'OroCustomerPortal';
 
     /**
      * {@inheritdoc}

@@ -17,7 +17,7 @@ data:
             users:
                 data:
                     -
-                        type: customerusers
+                        type: customer_users
                         id: '<toString(@default_customer->getUsers()->first()->id)>'
             owner:
                 data:
@@ -45,7 +45,7 @@ data:
                 data: {  }
             group:
                 data:
-                    type: customergroups
+                    type: customer_groups
                     id: '<toString(@customer_group.group1->id)>'
             users:
                 data: {  }
@@ -64,5 +64,5 @@ data:
                         id: '<toString(@default_customer->getOwner()->id)>'
             internal_rating:
                 data:
-                    type: accinternalratings
+                    type: customer_rating
                     id: internal_rating.1_of_5
