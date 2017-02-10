@@ -83,7 +83,7 @@ services:
     oro_commerce_menu.event_listener.scope_grid_listener:
         class: 'Oro\Bundle\NavigationBundle\EventListener\MenuGridListener'
         tags:
-            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.pre.frontend-menu-by-scope-grid, method: onPreBefore }
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.pre.frontend-menu-by-scope-grid, method: onPreBuild }
 
     oro_commerce_menu.menu_scope_provider.abstract:
         abstract: true
@@ -120,3 +120,10 @@ services:
         class: 'Oro\Bundle\CommerceMenuBundle\EventListener\MenuUpdateFormViewListener'
         tags:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.menu-update-edit, method: onEdit }
+
+    oro_commerce_menu.form.extension.menu_update_type:
+        class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateExtension'
+        arguments:
+            - "@oro_pricing.entity_listener.customer"
+        tags:
+            - { name: form.type_extension, extended_type: 'Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType' }
