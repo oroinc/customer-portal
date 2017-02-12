@@ -67,7 +67,7 @@ class GlobalMenuController extends AbstractFrontendMenuController
     /**
      * {@inheritDoc}
      */
-    protected function checkAcl($context)
+    protected function checkAcl(array $context)
     {
         if (!$this->get('oro_security.security_facade')->isGranted('oro_config_system')) {
             throw $this->createAccessDeniedException();
