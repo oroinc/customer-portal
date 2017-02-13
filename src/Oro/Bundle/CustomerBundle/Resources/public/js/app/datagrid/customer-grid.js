@@ -7,7 +7,7 @@ define(function(require) {
 
     CustomerGrid = Grid.extend({
         /** @property {String} */
-        className: 'oro-datagrid customer-datagrid',
+        className: 'oro-datagrid frontend-datagrid',
 
         /** @property */
         template: require('tpl!orocustomer/templates/datagrid/grid.html'),
@@ -18,7 +18,7 @@ define(function(require) {
         initialize: function(options) {
             _.extend(options.toolbarOptions, {
                 actionsPanel: {
-                    className: 'btn-group not-expand customer-datagrid__panel'
+                    className: 'btn-group not-expand frontend-datagrid__panel'
                 }
             });
             _.extend(options.themeOptions, {
