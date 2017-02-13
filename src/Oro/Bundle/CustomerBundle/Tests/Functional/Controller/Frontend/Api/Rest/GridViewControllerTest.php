@@ -7,7 +7,6 @@ use Oro\Bundle\CustomerBundle\Entity\GridView;
 use Oro\Bundle\CustomerBundle\Entity\Repository\GridViewUserRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserGridViewACLData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGridViewData;
-use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class GridViewControllerTest extends WebTestCase
@@ -18,7 +17,10 @@ class GridViewControllerTest extends WebTestCase
 
         $this->initClient(
             [],
-            $this->generateBasicAuthHeader(LoadCustomerUserData::AUTH_USER, LoadCustomerUserData::AUTH_PW)
+            $this->generateBasicAuthHeader(
+                LoadCustomerUserGridViewACLData::USER_ACCOUNT_2_ROLE_LOCAL,
+                LoadCustomerUserGridViewACLData::USER_ACCOUNT_2_ROLE_LOCAL
+            )
         );
         $this->loadFixtures([LoadGridViewData::class]);
     }
@@ -52,7 +54,10 @@ class GridViewControllerTest extends WebTestCase
         $createdGridView = $this->findGridView($response['id']);
 
         $this->assertNotNull($createdGridView);
-        $this->assertEquals(LoadCustomerUserData::AUTH_USER, $createdGridView->getOwner()->getUsername());
+        $this->assertEquals(
+            LoadCustomerUserGridViewACLData::USER_ACCOUNT_2_ROLE_LOCAL,
+            $createdGridView->getOwner()->getUsername()
+        );
         $this->assertEquals('test view 1', $createdGridView->getName());
         $this->assertEquals(GridView::TYPE_PUBLIC, $createdGridView->getType());
         $this->assertEquals('items-grid', $createdGridView->getGridName());
@@ -62,7 +67,7 @@ class GridViewControllerTest extends WebTestCase
 
     public function testPutActionPublicWithNoEditPermissions()
     {
-        $this->loginUser(LoadCustomerUserGridViewACLData::USER_ACCOUNT_2_ROLE_LOCAL);
+        $this->loginUser(LoadCustomerUserGridViewACLData::USER_ACCOUNT_1_ROLE_LOCAL);
 
         /** @var GridView $gridView */
         $gridView = $this->getReference(LoadGridViewData::GRID_VIEW_PUBLIC);
@@ -84,8 +89,6 @@ class GridViewControllerTest extends WebTestCase
 
     public function testPutActionPrivateWithNoCreatePermissions()
     {
-        $this->loginUser(LoadCustomerUserGridViewACLData::USER_ACCOUNT_2_ROLE_LOCAL);
-
         /** @var GridView $gridView */
         $gridView = $this->getReference(LoadGridViewData::GRID_VIEW_1);
 
