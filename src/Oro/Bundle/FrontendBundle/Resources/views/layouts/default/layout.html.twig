@@ -4,6 +4,39 @@
     {% set grid_render_parameters = {
         viewLoading: true
     }|merge(grid_render_parameters) %}
+
+    {% set themeOptions = grid_render_parameters.themeOptions|default({}) %}
+    {% set themeOptions = layout_attr_defaults(themeOptions, {
+        'actionsDropdown': 'auto',
+        'className': 'oro-datagrid frontend-datagrid',
+        'actionOptions': {
+            'refreshAction': {
+                'launcherOptions': {
+                    'className': 'btn btn--default btn--size-s',
+                    'icon': 'repeat fa--no-offset',
+                    'iconHideText': true
+                }
+            },
+            'resetAction': {
+                'launcherOptions': {
+                    'className': 'btn btn--default btn--size-s',
+                    'icon': 'refresh fa--no-offset',
+                    'iconHideText': true
+                }
+            }
+        }
+    }) %}
+    {% set toolbarOptions = grid_render_parameters.toolbarOptions|default({}) %}
+    {% set toolbarOptions = layout_attr_defaults(toolbarOptions, {
+        'actionsPanel': {
+            'className': 'btn-group not-expand frontend-datagrid__panel'
+        }
+    }) %}
+    {% set grid_render_parameters = grid_render_parameters|merge({
+        'themeOptions': themeOptions,
+        'toolbarOptions': toolbarOptions
+    }) %}
+
     {% if split_to_cells != false %}
         {% set themeOptions = grid_render_parameters.themeOptions|default({}) %}
         {% set themeOptions = layout_attr_defaults(themeOptions, {
