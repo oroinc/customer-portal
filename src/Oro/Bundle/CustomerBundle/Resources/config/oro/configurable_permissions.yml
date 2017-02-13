@@ -1,0 +1,5 @@
+oro_configurable_permissions:
+    commerce:
+        default: true
+    commerce_frontend:
+        default: false
