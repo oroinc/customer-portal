@@ -68,6 +68,14 @@ class Customer extends ExtendCustomer
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ConfigField(
+     *     defaultValues={
+     *         "importexport"={
+     *             "identity"=true,
+     *             "order"=10
+     *         }
+     *     }
+     * )
      */
     protected $id;
 
@@ -79,6 +87,9 @@ class Customer extends ExtendCustomer
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=20
      *          }
      *      }
      * )
@@ -94,6 +105,9 @@ class Customer extends ExtendCustomer
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -108,6 +122,9 @@ class Customer extends ExtendCustomer
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -125,6 +142,9 @@ class Customer extends ExtendCustomer
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -140,6 +160,9 @@ class Customer extends ExtendCustomer
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -158,6 +181,9 @@ class Customer extends ExtendCustomer
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -173,6 +199,9 @@ class Customer extends ExtendCustomer
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -188,6 +217,9 @@ class Customer extends ExtendCustomer
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -205,6 +237,13 @@ class Customer extends ExtendCustomer
      *      },
      *      inverseJoinColumns={
      *          @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     *      }
+     * )
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
      *      }
      * )
      **/
