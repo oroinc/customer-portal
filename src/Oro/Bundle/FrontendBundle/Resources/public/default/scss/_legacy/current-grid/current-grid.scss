@@ -850,6 +850,9 @@
 
           cursor: pointer;
 
+          text-overflow: ellipsis;
+          overflow: hidden;
+
           span {
             font-weight: 400;
           }
@@ -873,6 +876,9 @@
             white-space: nowrap;
 
             cursor: pointer;
+
+            text-overflow: ellipsis;
+            overflow: hidden;
 
             &.ui-state-hover {
               background: transparent;
