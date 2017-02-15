@@ -44,22 +44,24 @@
     }
   }
 
-  &__side,
-  &__rightside {
+  &-side,
+  &-rightside {
     display: flex;
     flex: 1 0 0;
     flex-wrap: wrap;
+    align-items: center;
 
     min-width: 200px;
   }
 
-  &__rightside {
+  &-rightside {
     justify-content: flex-end;
   }
   
-  &__base {
+  &-base {
     display: flex;
     flex: 0 0 auto;
+    align-items: center;
   }
 }
 
