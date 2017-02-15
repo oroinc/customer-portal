@@ -949,7 +949,7 @@
   padding: 0;
 
   .action {
-    &.icon-only {
+    &.mode-icon-only {
       color: get-color('additional', 'middle');
 
       @include hover-focus {
@@ -963,7 +963,7 @@
       }
     }
 
-    &.text-only {
+    &.mode-text-only {
       [class^="fa-"] {
         margin-left: 3px;
 
@@ -1107,7 +1107,7 @@
       .launcher-item {
         display: block;
 
-        &.icon-only {
+        &.mode-icon-only {
           display: inline-block;
         }
 
@@ -1154,7 +1154,7 @@ $launcher-color: get-color('additional', 'middle');
       display: block;
     }
 
-    &.icon-only {
+    &.mode-icon-only {
       display: table-cell;
 
       a {
