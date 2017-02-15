@@ -102,6 +102,7 @@ class CustomerGroup extends ExtendCustomerGroup
      * )
      */
     protected $owner;
+
     /**
      * @var OrganizationInterface
      *
@@ -221,6 +222,7 @@ class CustomerGroup extends ExtendCustomerGroup
     public function setOrganization(OrganizationInterface $organization = null)
     {
         $this->organization = $organization;
+
         return $this;
     }
 
@@ -240,6 +242,7 @@ class CustomerGroup extends ExtendCustomerGroup
     public function setOwner($user)
     {
         $this->owner = $user;
+
         return $this;
     }
 }
