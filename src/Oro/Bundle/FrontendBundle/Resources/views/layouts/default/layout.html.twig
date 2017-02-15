@@ -33,6 +33,7 @@
         }
     }) %}
     {% set grid_render_parameters = grid_render_parameters|merge({
+        'filterContainerSelector': '[data-grid-toolbar="top"] [data-datafilter-container]',
         'themeOptions': themeOptions,
         'toolbarOptions': toolbarOptions
     }) %}

@@ -51,7 +51,6 @@ layout:
             options:
                 visible: false
                 class_prefix: datagrid_toolbar_button_container
-
         - '@addTree':
             items:
                 __datagrid_toolbar_leftside_container:
@@ -60,8 +59,11 @@ layout:
                     blockType: container
                 __datagrid_toolbar_rightside_container:
                     blockType: container
+                __datagrid_toolbar_filter_container:
+                    blockType: container
             tree:
                 __datagrid_toolbar:
                     __datagrid_toolbar_leftside_container: ~
                     __datagrid_toolbar_base_container: ~
                     __datagrid_toolbar_rightside_container: ~
+                    __datagrid_toolbar_filter_container: ~

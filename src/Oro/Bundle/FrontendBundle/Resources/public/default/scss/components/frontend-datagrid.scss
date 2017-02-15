@@ -6,6 +6,8 @@
     &__filter {
         display: none;
 
+        width: 100%;
+
         &:not(:empty) {
             display: block;
         }

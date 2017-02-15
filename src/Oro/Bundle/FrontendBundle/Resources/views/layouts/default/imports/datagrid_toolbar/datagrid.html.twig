@@ -7,6 +7,19 @@
     </script>
 {% endblock %}
 
+{% block __datagrid_toolbar__datagrid_toolbar_filter_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' frontend-datagrid__filter',
+        'data-datafilter-container': ''
+    }) %}
+
+    {% set toolbarPosition = attr['data-grid-toolbar']|default('') %}
+    {% if toolbarPosition != 'bottom' %}
+        <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+    {% endif %}
+
+{% endblock %}
+
 {% block __datagrid_toolbar__datagrid_toolbar_sorting_widget %}
     {% set attr = attr|merge({
         class: attr.class|default('') ~ " sorting pull-left form-horizontal",

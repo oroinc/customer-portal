@@ -49,6 +49,7 @@
     display: flex;
     flex: 1 0 0;
     flex-wrap: wrap;
+    align-items: center;
 
     min-width: 200px;
   }
@@ -60,6 +61,7 @@
   &__base {
     display: flex;
     flex: 0 0 auto;
+    align-items: center;
   }
 }
 
