@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Model\ExtendCustomerGroup;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
+use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerGroupRepository")
@@ -29,6 +31,17 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  *          "form"={
  *              "form_type"="oro_customer_customer_group_select",
  *              "grid_name"="customer-groups-select-grid",
+ *          },
+ *          "ownership"={
+ *              "owner_type"="USER",
+ *              "owner_field_name"="owner",
+ *              "owner_column_name"="owner_id",
+ *              "organization_field_name"="organization",
+ *              "organization_column_name"="organization_id"
+ *          },
+ *          "security"={
+ *              "type"="ACL",
+ *              "group_name"="commerce"
  *          },
  *          "dataaudit"={
  *              "auditable"=true
@@ -76,10 +89,40 @@ class CustomerGroup extends ExtendCustomerGroup
     protected $customers;
 
     /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "dataaudit"={
+     *              "auditable"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $owner;
+    /**
+     * @var OrganizationInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
+     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "dataaudit"={
+     *              "auditable"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $organization;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        parent::__construct();
         $this->customers = new ArrayCollection();
     }
 
@@ -160,5 +203,41 @@ class CustomerGroup extends ExtendCustomerGroup
     public function __toString()
     {
         return (string)$this->name;
+    }
+
+    /**
+     * @return OrganizationInterface
+     */
+    public function getOrganization()
+    {
+        return $this->organization;
+    }
+    /**
+     * @param OrganizationInterface $organization
+     *
+     * @return $this
+     */
+    public function setOrganization(OrganizationInterface $organization = null)
+    {
+        $this->organization = $organization;
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+    /**
+     * @param User $user
+     *
+     * @return $this
+     */
+    public function setOwner($user)
+    {
+        $this->owner = $user;
+        return $this;
     }
 }

@@ -74,7 +74,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_12';
+        return 'v1_13';
     }
 
     /**
@@ -291,6 +291,8 @@ class OroCustomerBundleInstaller implements
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['length' => 255]);
+        $table->addColumn('owner_id', 'integer', ['notnull' => false]);
+        $table->addColumn('organization_id', 'integer', ['notnull' => false]);
 
         $table->setPrimaryKey(['id']);
 
