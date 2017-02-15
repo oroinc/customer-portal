@@ -15,4 +15,4 @@ layout:
         - '@setOption':
             id: customer_breadcrumbs
             optionName: currentPage
-            optionValue: 'oro.customer.frontend.customer_user.address.label'
+            optionValue: 'oro.customer.frontend.customer_user.role.entity_plural_label'

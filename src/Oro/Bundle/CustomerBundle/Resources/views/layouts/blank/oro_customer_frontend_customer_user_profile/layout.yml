@@ -6,6 +6,9 @@ layout:
         -
             id: oro_customer_menu
             root: page_sidebar
+        -
+            id: oro_customer_user_view
+            root: page_content
     actions:
         - '@setOption':
             id: customer_breadcrumbs
@@ -15,4 +18,4 @@ layout:
         - '@setOption':
             id: customer_breadcrumbs
             optionName: currentPage
-            optionValue: 'oro.customer.frontend.customer_user.address.label'
+            optionValue: 'oro.customer.menu.customer_user_profile.label'

@@ -14,5 +14,10 @@ layout:
 
         - '@setOption':
             id: customer_breadcrumbs
-            optionName: currentPage
+            optionName: customerPage
             optionValue: 'oro.customer.frontend.customer_user.role.entity_plural_label'
+
+        - '@setOption':
+            id: customer_breadcrumbs
+            optionName: currentPage
+            optionValue: '=data["entity"].getLabel()'
