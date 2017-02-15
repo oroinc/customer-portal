@@ -212,6 +212,7 @@ class CustomerGroup extends ExtendCustomerGroup
     {
         return $this->organization;
     }
+
     /**
      * @param OrganizationInterface $organization
      *
@@ -230,6 +231,7 @@ class CustomerGroup extends ExtendCustomerGroup
     {
         return $this->owner;
     }
+
     /**
      * @param User $user
      *
