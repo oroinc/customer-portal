@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
+ * @dbIsolationPerTest
  */
 class RestCustomerGroupTest extends AbstractRestTest
 {
@@ -42,16 +43,6 @@ class RestCustomerGroupTest extends AbstractRestTest
             'data' => [
                 [
                     'type' => 'customer_groups',
-                    'id' => '1',
-                    'attributes' => [
-                        'name' => 'Non-Authenticated Visitors',
-                    ],
-                    'relationships' => [
-                        'customers' => ['data' => []],
-                    ],
-                ],
-                [
-                    'type' => 'customer_groups',
                     'id' => (string)$group->getId(),
                     'attributes' => [
                         'name' => 'test group',
@@ -80,6 +71,7 @@ class RestCustomerGroupTest extends AbstractRestTest
     public function testDeleteByFilterCustomerGroup()
     {
         $this->createCustomerGroup('group to delete');
+        $this->getManager()->clear();
 
         $uri = $this->getUrl('oro_rest_api_cget', ['entity' => $this->getEntityType(CustomerGroup::class)]);
         $response = $this->request('DELETE', $uri, ['filter' => ['name' => 'group to delete']]);

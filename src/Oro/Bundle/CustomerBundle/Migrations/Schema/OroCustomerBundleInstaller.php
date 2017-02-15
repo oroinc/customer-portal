@@ -141,6 +141,7 @@ class OroCustomerBundleInstaller implements
         $this->addOroCustomerUserSalesRepresentativesForeignKeys($schema);
 
         $this->addRelationsToScope($schema);
+        $this->addOroCustomerGroupForeignKeys($schema);
     }
 
     /**
@@ -1120,6 +1121,27 @@ class OroCustomerBundleInstaller implements
             'customer',
             OroCustomerBundleInstaller::ORO_CUSTOMER_TABLE_NAME,
             'name'
+        );
+    }
+
+    /**
+     * Add oro_customer_group foreign keys.
+     * @param Schema $schema
+     */
+    protected function addOroCustomerGroupForeignKeys(Schema $schema)
+    {
+        $table = $schema->getTable('oro_customer_group');
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_user'),
+            ['owner_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_organization'),
+            ['organization_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
     }
 }
