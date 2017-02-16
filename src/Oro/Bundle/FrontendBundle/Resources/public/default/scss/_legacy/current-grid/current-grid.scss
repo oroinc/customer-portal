@@ -837,10 +837,13 @@
 
       li {
         display: inline-block;
-        width: 45%;
+        vertical-align: top;
+        width: 50%;
+        padding: 0 5px 0 0;
 
         @media (max-width: $screen-md) {
           width: 100%;
+          padding-right: 0;
         }
 
         label {
