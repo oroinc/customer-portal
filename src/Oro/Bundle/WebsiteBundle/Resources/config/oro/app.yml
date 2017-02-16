@@ -1,0 +1,4 @@
+doctrine:
+    orm:
+        resolve_target_entities:
+            Oro\Component\Website\WebsiteInterface: Oro\Bundle\WebsiteBundle\Entity\Website
