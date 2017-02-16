@@ -21,6 +21,8 @@ class OroCustomerBundle implements Migration
 
         //remove invalid record because of error there is a NULL value
         $this->removeFromConfig($queries, 'default_customer_owner');
+
+        $this->addOwnership($schema);
     }
 
     /**
@@ -33,5 +35,27 @@ class OroCustomerBundle implements Migration
             'DELETE FROM oro_config_value WHERE name = :name AND section = :section AND text_value IS NULL',
             ['name' => $name, 'section' => 'oro_customer']
         ));
+    }
+
+    /**
+     * @param Schema $schema
+     */
+    protected function addOwnership(Schema $schema)
+    {
+        $table = $schema->getTable('oro_customer_group');
+        $table->addColumn('owner_id', 'integer', ['notnull' => false]);
+        $table->addColumn('organization_id', 'integer', ['notnull' => false]);
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_user'),
+            ['owner_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_organization'),
+            ['organization_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
     }
 }

@@ -9,8 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Model\ExtendCustomerGroup;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
-use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
+use Oro\Bundle\UserBundle\Entity\Ownership\UserAwareTrait;
 
 /**
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerGroupRepository")
@@ -49,8 +49,10 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      }
  * )
  */
-class CustomerGroup extends ExtendCustomerGroup
+class CustomerGroup extends ExtendCustomerGroup implements OrganizationAwareInterface
 {
+    use UserAwareTrait;
+
     /**
      * @var integer
      *
@@ -87,36 +89,6 @@ class CustomerGroup extends ExtendCustomerGroup
      * )
      **/
     protected $customers;
-
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $owner;
-
-    /**
-     * @var OrganizationInterface
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
-     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          }
-     *      }
-     * )
-     */
-    protected $organization;
 
     /**
      * Constructor
@@ -204,45 +176,5 @@ class CustomerGroup extends ExtendCustomerGroup
     public function __toString()
     {
         return (string)$this->name;
-    }
-
-    /**
-     * @return OrganizationInterface
-     */
-    public function getOrganization()
-    {
-        return $this->organization;
-    }
-
-    /**
-     * @param OrganizationInterface $organization
-     *
-     * @return $this
-     */
-    public function setOrganization(OrganizationInterface $organization = null)
-    {
-        $this->organization = $organization;
-
-        return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getOwner()
-    {
-        return $this->owner;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return $this
-     */
-    public function setOwner($user)
-    {
-        $this->owner = $user;
-
-        return $this;
     }
 }
