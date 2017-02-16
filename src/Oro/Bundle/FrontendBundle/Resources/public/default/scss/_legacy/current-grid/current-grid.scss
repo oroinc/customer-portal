@@ -1,3 +1,31 @@
+@mixin mode-icon-only() {
+  &:not(:first-child) {
+    &:before {
+      top: 5px;
+      bottom: 5px;
+
+      border-left: 1px solid get-color('additional', 'middle');
+
+      @include after();
+    }
+  }
+}
+
+@mixin mode-icon-size($size: $base-font-size--large) {
+  font-size: $size;
+  line-height: strip-units($size / 10);
+}
+
+@mixin mode-text-only() {
+  &:after {
+    display: inline-block;
+
+    font-size: ($base-font-size--s - 1px);
+  }
+
+  @include fa-icon($fa-var-angle-right, after);
+}
+
 //Toolbar
 .grid-scrollable-container {
   overflow-y: visible;
@@ -964,11 +992,7 @@
     }
 
     &.mode-text-only {
-      [class^="fa-"] {
-        margin-left: 3px;
-
-        font-size: 12px;
-      }
+      @include mode-text-only();
     }
   }
 
@@ -995,7 +1019,7 @@
       padding: 0;
 
       a {
-        padding: 5px 10px;
+        padding: 0 10px;
         display: inline-block;
       }
 
@@ -1007,9 +1031,13 @@
 
   .dropdown-toggle {
     display: inline-block;
-    padding: 0 15px;
+    padding: $offset-y-s 15px;
+    height: $base-font-size--m;
     margin: 0;
+
     font-size: $base-font-size--m;
+    line-height: 0;
+
     color: get-color('additional', 'semidark');
 
     &:after {
@@ -1095,7 +1123,10 @@
 
       .launchers-list {
         display: inline-block;
+
         text-align: left;
+
+        white-space: nowrap;
       }
 
       .dropdown-menu {
@@ -1109,6 +1140,8 @@
 
         &.mode-icon-only {
           display: inline-block;
+
+          @include mode-icon-only();
         }
 
         a.action {
@@ -1118,12 +1151,17 @@
 
           [class^='fa-'].hide-text {
             display: inline-block;
-            font-size: $base-font-size--large;
 
             &:after,
             &:before {
               color: inherit;
+
+              @include mode-icon-size();
             }
+          }
+
+          &.mode-text-only {
+            margin: 2px 0;
           }
         }
       }
@@ -1131,15 +1169,14 @@
   }
 
   .action-cell {
-    text-align: right;
-
     .dropdown {
       display: inline-block;
     }
+    .more-bar-holder .dropdown-toggle {
+      margin-left: 0;
+    }
   }
 }
-
-$launcher-color: get-color('additional', 'middle');
 
 .dropdown-menu {
   min-width: 0;
@@ -1157,17 +1194,33 @@ $launcher-color: get-color('additional', 'middle');
     &.mode-icon-only {
       display: table-cell;
 
+      @include mode-icon-only();
+
       a {
-        color: $launcher-color;
+        color: get-color('additional', 'middle');
         text-align: center;
 
-        [class^="cf-"], [class*=" cf-"], [class^="fa-"], [class*=" fa-"] {
+        [class^="fa-"],
+        [class*=" fa-"] {
           margin: 0;
+
           vertical-align: top;
+
+          &:before {
+            @include mode-icon-size();
+          }
         }
-        &:hover, &:focus, &:active, &:visited {
+
+        @include hover-focus-active() {
           color: get-color('additional', 'dark');
         }
+      }
+    }
+    &.mode-text-only {
+      a {
+        @include mode-text-only();
+
+        padding: 3px 10px;
       }
     }
   }

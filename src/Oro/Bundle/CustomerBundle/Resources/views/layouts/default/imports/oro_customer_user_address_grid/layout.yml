@@ -56,9 +56,9 @@ layout:
             optionValue:
                 themeOptions:
                     toolbarTemplateSelector: '#template-customer-user-address-book-addresses-grid-toolbar'
-                    cellActionsHideCount: 4
                     cellLauncherOptions:
-                        launcherMode: 'icon-only'
+                        launcherMode: 'text-only'
+                        actionsState:  'show'
 
         - '@setOption':
               id: __user_addresses_datagrid_toolbar_button_container
