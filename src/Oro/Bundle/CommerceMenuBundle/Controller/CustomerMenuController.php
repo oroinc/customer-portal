@@ -28,7 +28,6 @@ class CustomerMenuController extends AbstractFrontendMenuController
      */
     public function indexAction(Customer $customer)
     {
-        $this->checkAcl();
         $contexts = $this->get('oro_commerce_menu.menu_context_provider.customer')->getContexts($customer);
 
         return [
@@ -51,6 +50,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
     public function contextIndexAction(Request $request)
     {
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
+        $this->checkAcl($context);
 
         return parent::index($context);
     }
@@ -74,12 +74,12 @@ class CustomerMenuController extends AbstractFrontendMenuController
      * @Route("/{menuName}/create/{parentKey}", name="oro_commerce_menu_customer_menu_create")
      * @Template("OroCommerceMenuBundle:CustomerMenu:update.html.twig")
      *
-     * @param string      $menuName
      * @param Request     $request
+     * @param string      $menuName
      * @param string|null $parentKey
      * @return array|RedirectResponse
      */
-    public function createAction($menuName, $parentKey = null, Request $request)
+    public function createAction(Request $request, $menuName, $parentKey = null)
     {
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
 

@@ -25,22 +25,22 @@ class MenuUpdateExtension extends AbstractTypeExtension
                     $form = $event->getForm();
                     $form
                         ->add(
-                        'image',
-                        'oro_image',
-                        [
-                            'label' => 'oro.commercemenu.menuupdate.image.label',
-                            'required' => false
-                        ]
-                    )
+                            'image',
+                            'oro_image',
+                            [
+                                'label' => 'oro.commercemenu.menuupdate.image.label',
+                                'required' => false
+                            ]
+                        )
                         ->add(
-                        'condition',
-                        'text',
-                        [
-                            'required' => false,
-                            'label' => 'oro.commercemenu.menuupdate.condition.label',
-                            'tooltip' => 'oro.commercemenu.form.tooltip.menu_item_condition'
-                        ]
-                    );
+                            'condition',
+                            'text',
+                            [
+                                'required' => false,
+                                'label' => 'oro.commercemenu.menuupdate.condition.label',
+                                'tooltip' => 'oro.commercemenu.form.tooltip.menu_item_condition'
+                            ]
+                        );
                 }
             }
         );

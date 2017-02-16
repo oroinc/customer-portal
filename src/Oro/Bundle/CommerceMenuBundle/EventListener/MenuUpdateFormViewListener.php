@@ -12,7 +12,7 @@ class MenuUpdateFormViewListener
      */
     public function onEdit(BeforeListRenderEvent $event)
     {
-        if(!$event->getFormView()->vars['value'] instanceof MenuUpdate) {
+        if (!$event->getFormView()->vars['value'] instanceof MenuUpdate) {
             return;
         }
         $scrollData = $event->getScrollData();

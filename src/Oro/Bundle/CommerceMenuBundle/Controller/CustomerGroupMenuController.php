@@ -48,8 +48,8 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
      */
     public function contextIndexAction(Request $request)
     {
-        $this->checkAcl();
         $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
+        $this->checkAcl($context);
 
         return parent::index($context);
     }
