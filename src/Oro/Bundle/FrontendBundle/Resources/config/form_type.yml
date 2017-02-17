@@ -15,3 +15,21 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Form\Type\RegionType'
         tags:
             - { name: form.type, alias: oro_frontend_region }
+
+    oro_frontend.form.options_configurator.rule_editor_options_configurator:
+        class: Oro\Bundle\FrontendBundle\Form\OptionsConfigurator\RuleEditorOptionsConfigurator
+        public: false
+
+    oro_frontend.form.type.rule_editor_textarea:
+        class: Oro\Bundle\FrontendBundle\Form\Type\RuleEditorTextareaType
+        arguments:
+            - '@oro_frontend.form.options_configurator.rule_editor_options_configurator'
+        tags:
+            - { name: form.type, alias: oro_frontend_rule_editor }
+
+    oro_frontend.form.type.rule_editor_text:
+        class: Oro\Bundle\FrontendBundle\Form\Type\RuleEditorTextType
+        arguments:
+            - '@oro_frontend.form.options_configurator.rule_editor_options_configurator'
+        tags:
+            - { name: form.type, alias: oro_frontend_rule_editor_text }

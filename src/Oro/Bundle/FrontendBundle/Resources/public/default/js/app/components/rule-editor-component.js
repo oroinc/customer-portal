@@ -17,11 +17,12 @@ define(function(require) {
             operations: {
                 math: ['+', '-', '%', '*', '/'],
                 bool: ['AND', 'OR'],
-                equality: ['=', '!='],
-                compare: ['>', '<', '<=', '>=', 'like'],
-                inclusion: ['in', 'not in']
+                equality: ['==', '!='],
+                compare: ['>', '<', '<=', '>='],
+                inclusion: ['in', 'not in'],
+                like: ['matches']
             },
-            allowedOperations: ['math', 'bool', 'equality', 'compare', 'inclusion'],
+            allowedOperations: ['math', 'bool', 'equality', 'compare', 'inclusion', 'like'],
             termLevelLimit: 3
         },
 
@@ -352,7 +353,12 @@ define(function(require) {
                 return undefined;
             }
 
-            return this.options.dataSource[this._getTermPartUnderCaret(term, position).current];
+            var currentTermUnderCaret = this._getTermPartUnderCaret(term, position).current;
+            if (this.options.dataSource && this.options.dataSource.hasOwnProperty(currentTermUnderCaret)) {
+                return this.options.dataSource[currentTermUnderCaret];
+            }
+
+            return;
         },
 
         /**
@@ -464,7 +470,7 @@ define(function(require) {
 
             var wordIs = this._getWordData(word);
             var isFullExpression = wordIs.isInclusion || wordIs.isCompare;
-            var exprOnly = !this.allowed.compare && !this.allowed.inclusion && !this.allowed.equality;
+            var exprOnly = !this.allowed.compare && !this.allowed.inclusion && !this.allowed.equality && !this.allowed.like;
 
             if (!prevIsNotBool && /[a-z.]/gi.test(term) && !pathValueHasType && !underCaret.space) {
                 if (wordIs.hasLeftSide) {
@@ -637,17 +643,21 @@ define(function(require) {
             var equality = this.allowed.equality ? this.options.operations.equality : [];
             var compare = this.allowed.compare ? this.options.operations.compare : [];
             var inclusion = this.allowed.inclusion ? this.options.operations.inclusion : [];
+            var like = this.allowed.like ? this.options.operations.like : [];
             var math = this.allowed.math ? this.options.operations.math : [];
 
             switch (type) {
                 case 'string':
+                    return _.union(equality, inclusion, like);
                 case 'enum':
-                case 'boolean':
                     return _.union(equality, inclusion);
+                case 'boolean':
+                    return _.union(equality);
                 case 'integer':
                 case 'float':
-                case 'datetime':
                     return _.union(equality, compare, inclusion, math);
+                case 'datetime':
+                    return _.union(equality, compare, inclusion);
                 case 'collection':
                     return inclusion;
                 case 'standalone':
