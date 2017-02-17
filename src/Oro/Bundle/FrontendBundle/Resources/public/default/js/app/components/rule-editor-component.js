@@ -112,12 +112,14 @@ define(function(require) {
                 var query = $queryEl.val();
                 var caretPosition = $queryEl[0].selectionStart;
                 var wordPosition = this._getWordPosition(query, caretPosition);
-                var termParts = this._getTermPartUnderCaret(this._getWordUnderCaret(query, wordPosition).current, caretPosition - wordPosition.start);
+                var termParts = this._getTermPartUnderCaret(
+                    this._getWordUnderCaret(query, wordPosition).current, caretPosition - wordPosition.start);
                 var changedPart = termParts.current + '[' + $helperEl.val() + ']';
 
                 $helperEl.hide();
 
-                $queryEl.val(this.setUpdatedValue(query, changedPart + termParts.tail, wordPosition, wordPosition.start + changedPart.length));
+                $queryEl.val(this.setUpdatedValue(
+                    query, changedPart + termParts.tail, wordPosition, wordPosition.start + changedPart.length));
             }, this);
 
             _.each(this.options.dataSource, function(source, key) {
@@ -192,7 +194,8 @@ define(function(require) {
             var getPrevWord = _.bind(function(_position, offset) {
                 var prevPos = _position.spaces[_position.index - offset - 1];
 
-                return !_.isUndefined(prevPos) ? this._getStringPart(string, prevPos, _position.spaces[_position.index - offset]).trim() : undefined;
+                return !_.isUndefined(prevPos) ?
+                    this._getStringPart(string, prevPos, _position.spaces[_position.index - offset]).trim() : undefined;
             }, this);
 
             var wordPosition = _.isObject(position) ? position : this._getWordPosition(string, position, re);
@@ -232,7 +235,8 @@ define(function(require) {
             });
 
             if (breakLoop || !_.isEmpty(expected) || emptyBrackets) {
-                this.error.brackets = (emptyBrackets ? 'Has empty brackets ' : 'Wrong brackets balance') + ' in \'' + value + '\'';
+                this.error.brackets = (emptyBrackets ?
+                        'Has empty brackets ' : 'Wrong brackets balance') + ' in \'' + value + '\'';
                 return false;
             }
 
@@ -411,23 +415,23 @@ define(function(require) {
 
             var normalized = this._getNormalized(value, caretPosition);
             var normWordPosition = this._getWordPosition(normalized.string, normalized.position);
-
+            var termUnderCaretPosition = this._getWordPosition(normalized.string, normalized.position, _.assign({space: /\\s/gi}, this.opsRegEx));
             var underCaret = {
                 space: value[caretPosition - 1] === ' ',
                 dot: value[caretPosition - 1] === '.',
                 word: this._getWordUnderCaret(normalized.string, normWordPosition),
-                term: this._getWordPosition(normalized.string, normalized.position, _.assign({space: /\\s/gi}, this.opsRegEx))
+                termPosition: termUnderCaretPosition,
+                term: this._getWordUnderCaret(normalized.string, termUnderCaretPosition)
             };
 
-            var splitWordTerm = this._splitTermAndExpr(underCaret.word.current).term;
-
-            var isWordsTerm = underCaret.term.start === normWordPosition.start;
-            var prevNotBool = underCaret.word.previous &&
+            var splitWordTerm = this._splitTermAndExpr(underCaret.word.current);
+            var isWordsTerm = underCaret.termPosition.start === normWordPosition.start;
+            var prevIsNotBool = underCaret.word.previous &&
                 !this._contains(this.options.operations.bool, underCaret.word.previous) &&
                 !this._contains(this.options.operations.bool, underCaret.word.current);
-            var term = isWordsTerm ? splitWordTerm : this._getWordUnderCaret(normalized.string, underCaret.term).current;
-            var inWordPosition = normalized.position - (isWordsTerm ? normWordPosition.start : underCaret.term.start);
-
+            var term = isWordsTerm ? splitWordTerm.term : underCaret.term.current;
+            var inWordPosition = normalized.position -
+                (isWordsTerm ? normWordPosition.start : underCaret.termPosition.start);
             var dataSource = this.getDataSource(term, inWordPosition);
 
             if (!_.isEmpty(dataSource) && !underCaret.dot && !underCaret.space) {
@@ -440,47 +444,64 @@ define(function(require) {
             }
 
             var cases = [];
-            var termPart = this._getStringPart(term, 0, inWordPosition);
 
-            if (!this._checkTermDepth(termPart)) {
+            if (!this._checkTermDepth(underCaret.term.current)) {
                 return {
                     list: [],
                     position: {start: caretPosition, end: caretPosition}
                 };
             }
+            var pathValue = this._getValueByPath(underCaret.term.current, rootData);
 
-            var pathValue = this._getValueByPath(termPart, rootData);
-            var word = (pathValue || this._contains(this.cases.bool, underCaret.word.current)) && !prevNotBool ? underCaret.word.current : underCaret.word.previous;
+            if (_.isEqual(pathValue, rootData) && prevIsNotBool && underCaret.word.previous) {
+                pathValue = this._getValueByPath(underCaret.word.previous, rootData);
+            }
+
+            var pathValueHasType = pathValue && _.isString(pathValue.type);
+            var word = (pathValue || this._contains(this.cases.bool, underCaret.word.current)) && !prevIsNotBool ?
+                underCaret.word.current : underCaret.word.previous;
+            var wordIsNumber = !_.isEmpty(word) && Number(word).toString() === word;
+
             var wordIs = this._getWordData(word);
             var isFullExpression = wordIs.isInclusion || wordIs.isCompare;
             var exprOnly = !this.allowed.compare && !this.allowed.inclusion && !this.allowed.equality;
 
-            if (!prevNotBool && /[a-z.]/gi.test(term) && pathValue && !_.isString(pathValue.type) && !underCaret.space) {
-                if (!wordIs.notOps) {
-                    cases = this._getMarkedRelationItemsKeys(this._getCasesByType(this._getValueByPath(splitWordTerm, rootData), pathValue), termPart);
+            if (!prevIsNotBool && /[a-z.]/gi.test(term) && !pathValueHasType && !underCaret.space) {
+                if (wordIs.hasLeftSide) {
+                    cases = this._getMarkedRelationItemsKeys(
+                        this._getCasesByType(
+                            this._getValueByPath(splitWordTerm.term || underCaret.term.current, rootData), pathValue),
+                        underCaret.term.current);
                 } else {
-                    cases = this._getMarkedRelationItemsKeys(pathValue || rootData, termPart);
+                    cases = this._getMarkedRelationItemsKeys(pathValue || rootData, underCaret.term.current);
                 }
             } else if (wordIs) {
-                if (pathValue && pathValue.type === 'standalone') {
+                if (pathValueHasType && pathValue.type === 'standalone') {
                     cases = this.options.operations.bool;
-                } else if (isFullExpression) {
-                    cases = _.union(cases, this.options.operations.bool, this.allowed.math ? this.options.operations.math : []);
+                } else if (isFullExpression || wordIsNumber) {
+                    cases = _.union(cases,
+                        this.allowed.bool ? this.options.operations.bool : [],
+                        this.allowed.math ? this.options.operations.math : []);
                 } else if (wordIs.isBool) {
                     cases = this._getMarkedRelationItemsKeys(rootData);
                 } else if (wordIs.hasTerm && (!wordIs.hasValue || exprOnly)) {
-                    cases = _.union(cases, pathValue.type ? this._getOpsByType(pathValue.type) : this._getMarkedRelationItemsKeys(rootData));
+                    cases = _.union(cases, pathValue.type ?
+                        this._getOpsByType(pathValue.type) : this._getMarkedRelationItemsKeys(rootData));
                 } else if (wordIs.notOps) {
-                    cases = this._getMarkedRelationItemsKeys(pathValue || rootData, pathValue ? termPart : '');
+                    cases = this._getMarkedRelationItemsKeys(pathValue || rootData,
+                        pathValue ? underCaret.term.current : '');
                 } else if (pathValue && !_.isString(pathValue.type)) {
-                    cases = this._getMarkedRelationItemsKeys(pathValue, termPart);
+                    cases = this._getMarkedRelationItemsKeys(pathValue, underCaret.term.current);
                 }
             }
 
-            cases = _.union(this._getPresetCases(splitWordTerm, !wordIs.notOps && !wordIs.hasValue ? this._getValueByPath(splitWordTerm, rootData) : []), cases);
+            cases = _.union(this._getPresetCases(splitWordTerm.term,
+                !wordIs.notOps && !wordIs.hasValue ? this._getValueByPath(splitWordTerm.term, rootData) : []), cases);
 
-            var termParts = !underCaret.space ? /^(.*)\.(.*)\W?/g.exec(termPart) : null;
-            var searchPart = underCaret.space ? '' : (termParts ? (_.isUndefined(termParts[2]) ? termParts[1] : termParts[2]) : termPart);
+            var termParts = !underCaret.space ? /^(.*)\.(.*)\W?/g.exec(underCaret.term.current) : null;
+            var searchPart = underCaret.space ?
+                '' : (termParts ? (_.isUndefined(termParts[2]) ?
+                        termParts[1] : termParts[2]) : underCaret.term.current);
 
             return {
                 list: this._getSuggestList(cases, searchPart, underCaret.space, underCaret.dot),
@@ -554,7 +575,7 @@ define(function(require) {
                 return [];
             }
 
-            var allowedTypes = this._getAllowedTypes(termData.type);
+            var allowedTypes = termData.type ? this._getAllowedTypes(termData.type) : this._getTypeByOps();
 
             if (!_.isArray(allowedTypes)) {
                 return [];
@@ -602,7 +623,7 @@ define(function(require) {
         },
 
         /**
-         * Returns operation basel on entity's type
+         * Returns operation based on entity's type
          *
          * @param type {String}
          * @returns {Array}
@@ -635,6 +656,32 @@ define(function(require) {
         },
 
         /**
+         * Returns allowed types based on operation
+         *
+         * @param type {String}
+         * @returns {Array}
+         * @private
+         */
+        _getTypeByOps: function(type) {
+            if (!_.isEmpty(type)) {
+                _.flatten(_.map(this.allowed, function(ops) {
+                    return this._getTypeByOps(ops);
+                }, this));
+            }
+
+            switch (type) {
+                case 'equality ':
+                    return ['string', 'enum', 'boolean', 'integer', 'float', 'datetime'];
+                case 'inclusion':
+                    return ['string', 'enum', 'boolean', 'integer', 'float', 'datetime', 'collection'];
+                case 'comparte':
+                    return ['integer', 'float', 'datetime'];
+                case 'math':
+                    return ['integer', 'float', 'datetime'];
+            }
+        },
+
+        /**
          * Getting the word's start position.
          *
          * @param value {String}
@@ -644,21 +691,6 @@ define(function(require) {
          * @private
          */
         _getWordPosition: function(value, position, re) {
-            var _matches = _.compact(_.uniq(re ? _.flatten(_.map(re, function(regex) {
-                    return value.match(regex);
-                })) : value.match(/\s+|\(|\)/g)));
-            var sepPos = _.union([0], getMatchIndex(value, _matches), [value.length]);
-            var index = _.reduce(sepPos, function(memo, item) {
-                return item < position ? ++memo : memo;
-            }, 0);
-
-            return {
-                start: sepPos[index - 1] || 0,
-                end: sepPos[index],
-                index: index,
-                spaces: sepPos
-            };
-
             /**
              * Returns matches positions recursively
              *
@@ -666,7 +698,7 @@ define(function(require) {
              * @param matches {Array}
              * @returns {Array}
              */
-            function getMatchIndex(string, matches) {
+            var getMatchIndex = function(string, matches) {
                 var arr = [];
 
                 if (!string.trim()) {
@@ -683,14 +715,29 @@ define(function(require) {
 
                         arr.push(currPos, nextPos);
 
-                        startPos = nextPos;
+                        indexOf = string.substr(nextPos).indexOf(item);
 
-                        indexOf = string.substr(startPos).indexOf(item);
+                        startPos = nextPos;
                     }
                 });
 
                 return _.sortBy(arr);
-            }
+            };
+            var _matches = _.compact(_.uniq(re ? _.flatten(_.map(re, function(regex) {
+                    return value.match(regex);
+                })) : value.match(/\s+|\(|\)/g)));
+            var sepPos = _.union([0], getMatchIndex(value, _matches), [value.length]);
+            var index = _.reduce(sepPos, function(memo, item) {
+                return item < position ? ++memo : memo;
+            }, 0);
+
+            return {
+                start: sepPos[index - 1] || 0,
+                end: sepPos[index],
+                index: index,
+                spaces: sepPos
+            };
+
         },
 
         /**
@@ -753,9 +800,12 @@ define(function(require) {
             return {
                 hasCompare: checkIt.hasCompare,
                 hasInclusion: checkIt.hasInclusion,
+                hasLeftSide: checkIt.hasCompare || checkIt.hasInclusion,
                 isCompare: checkIt.hasCompare && checkIt.isValid,
                 isInclusion: checkIt.hasInclusion && checkIt.isValid,
-                hasTerm: splitWord && !_.isEmpty(splitWord.term) && !_.isEmpty(this._getValueByPath(splitWord.term).type),
+                hasTerm: splitWord &&
+                    !_.isEmpty(splitWord.term) &&
+                    !_.isEmpty(this._getValueByPath(splitWord.term).type),
                 hasValue: splitWord && !_.isEmpty(splitWord.expr),
                 isBool: _.contains(operations.bool, word),
                 isMath: _.contains(operations.math, lastChar),
@@ -791,7 +841,8 @@ define(function(require) {
                 isExpression = this._checkExpression(string, pathData.type);
             }
 
-            var isValid = noOpsAllowed ? isTerm : (isCompare || isInclusion || isExpression || (pathData && pathData.type === 'standalone'));
+            var isValid = noOpsAllowed ?
+                isTerm : (isCompare || isInclusion || isExpression || (pathData && pathData.type === 'standalone'));
 
             if (isValid) {
                 this.error = {};
@@ -846,7 +897,8 @@ define(function(require) {
         _checkCompare: function(string, match) {
             var matchSplit = this._splitTermAndExpr(string, match);
 
-            return this._checkTerm(matchSplit.term) && this._checkExpression(matchSplit.expr, this._getValueByPath(matchSplit.term).type);
+            return this._checkTerm(matchSplit.term) &&
+                this._checkExpression(matchSplit.expr, this._getValueByPath(matchSplit.term).type);
         },
 
         /**
@@ -861,7 +913,9 @@ define(function(require) {
             var matchSplit = this._splitTermAndExpr(string, match);
             var expr = this._replaceWraps(matchSplit.expr, '[]', 'trim');
 
-            return this._checkTerm(matchSplit.term) && !_.isEmpty(matchSplit.expr) && (this._checkArray(matchSplit.expr) || this._checkTerm(expr));
+            return this._checkTerm(matchSplit.term) &&
+                !_.isEmpty(matchSplit.expr) &&
+                (this._checkArray(matchSplit.expr) || this._checkTerm(expr));
         },
 
         /**
@@ -881,8 +935,8 @@ define(function(require) {
              * @returns {Array}
              */
             var getMatches = function(string, re) {
-                var match,
-                    matches = [];
+                var match;
+                var matches = [];
 
                 while ((match = re.exec(string)) !== null) {
                     matches.push(match[2]);
