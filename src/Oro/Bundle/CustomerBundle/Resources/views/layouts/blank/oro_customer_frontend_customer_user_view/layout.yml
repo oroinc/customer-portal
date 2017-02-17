@@ -1,11 +1,10 @@
 layout:
     imports:
         -
+            id: oro_customer_page
+        -
             id: oro_customer_user_view
             root: page_content
-        -
-            id: oro_customer_menu
-            root: page_sidebar
     actions:
         - '@setOption':
             id: title

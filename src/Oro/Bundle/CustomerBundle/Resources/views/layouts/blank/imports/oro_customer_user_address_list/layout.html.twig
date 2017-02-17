@@ -1,15 +1,3 @@
-{% block __oro_customer_user_address_list__user_addresses_head_widget %}
-    {{ block_widget(block) }}
-{% endblock %}
-
-{% block __oro_customer_user_address_list__user_addresses_head_title_widget %}
-    {% set attr = layout_attr_defaults(attr, {'~class': ' page-subtitle'}) %}
-    <h2 {{ block('block_attributes') }}>
-        <span class="badge"><i class="fa-map-o"></i></span>
-        <span class="page-subtitle__text">{{ block_widget(block) }}</span>
-    </h2>
-{% endblock %}
-
 {% block __oro_customer_user_address_list__user_addresses_create_button_widget %}
     {% set attr = layout_attr_defaults(attr, {'~class': ' btn-info pull-right'}) %}
     {{ block_widget(block, {attr: attr}) }}

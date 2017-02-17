@@ -157,7 +157,7 @@ navigation:
                 route: 'oro_customer_frontend_customer_user_index'
                 extras:
                     position: 100
-                    routes: ['/^oro_customer_frontend_customer_user/']
+                    routes: ['/^oro_customer_frontend_customer/']
                     description: 'oro.customer.menu.customer_users.description'
 
             frontend_customer_user_roles:
@@ -248,8 +248,8 @@ navigation:
         oro_customer_frontend_customer_user_role_update: 'oro.customer.frontend.customer_user.role.entity_plural_label - oro.ui.edit'
         oro_customer_frontend_customer_user_role_create: 'oro.customer.frontend.customer_user.role.entity_plural_label - oro.ui.create'
 
-        oro_customer_frontend_customer_address_create: 'oro.customer.frontend.address.title.company - oro.customer.frontend.address.title.create'
-        oro_customer_frontend_customer_address_update: 'oro.customer.frontend.address.title.company - oro.customer.frontend.address.title.edit'
-        oro_customer_frontend_customer_user_address_create: 'oro.customer.frontend.address.title.personal - oro.customer.frontend.address.title.create'
-        oro_customer_frontend_customer_user_address_update: 'oro.customer.frontend.address.title.personal - oro.customer.frontend.address.title.edit'
+        oro_customer_frontend_customer_address_create: 'oro.customer.frontend.address.title.create - oro.customer.frontend.address.title.company'
+        oro_customer_frontend_customer_address_update: 'oro.customer.frontend.address.title.edit - oro.customer.frontend.address.title.company'
+        oro_customer_frontend_customer_user_address_create: 'oro.customer.frontend.address.title.create - oro.customer.frontend.address.title.personal'
+        oro_customer_frontend_customer_user_address_update: 'oro.customer.frontend.address.title.edit - oro.customer.frontend.address.title.personal'
         oro_customer_frontend_customer_user_address_index: 'oro.customer.frontend.customer_user.address.label'

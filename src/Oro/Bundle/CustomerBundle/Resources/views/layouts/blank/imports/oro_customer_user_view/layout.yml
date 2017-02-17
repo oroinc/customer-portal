@@ -41,12 +41,12 @@ layout:
                         buttons: '=data["buttons"].getAll(data["entity"])'
                 __customer_user_view_information:
                     blockType: container
-                __customer_user_view_information_title_wrapper:
-                    blockType: container
                 __customer_user_view_information_title:
-                    blockType: text
+                    blockType: page_subtitle
                     options:
-                        label: 'oro.customer.frontend.sections.customer_user.user_profile'
+                        text: 'oro.customer.frontend.sections.customer_user.user_profile'
+                        icon: 'user'
+                        badge: 'yellow'
                 __customer_user_address_book:
                     blockType: container
             tree:
@@ -55,6 +55,5 @@ layout:
                         __customer_user_profile_controls_wrapper:
                             __customer_user_profile_controls: ~
                         __customer_user_view_information:
-                            __customer_user_view_information_title_wrapper:
-                                __customer_user_view_information_title: ~
+                            __customer_user_view_information_title: ~
                         __customer_user_address_book: ~

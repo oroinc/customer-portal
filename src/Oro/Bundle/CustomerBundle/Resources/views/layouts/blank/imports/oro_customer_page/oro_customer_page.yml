@@ -1,0 +1,9 @@
+layout:
+    imports:
+        -
+            id: oro_breadcrumbs
+            root: page_main
+        -
+            id: oro_customer_menu
+            root: page_sidebar
+    actions: []

@@ -1,11 +1,7 @@
 layout:
     imports:
         -
-            id: oro_customer_breadcrumbs
-            root: page_main
-        -
-            id: oro_customer_menu
-            root: page_sidebar
+            id: oro_customer_page
         -
             id: oro_customer_user_form
             root: page_content
@@ -15,16 +11,6 @@ layout:
             optionName: text
             optionValue:
                 label: 'oro.customer.customeruser.profile.edit'
-
-        - '@setOption':
-            id: customer_breadcrumbs
-            optionName: customerUser
-            optionValue: '=data["entity"].getFullName()'
-
-        - '@setOption':
-            id: customer_breadcrumbs
-            optionName: currentPage
-            optionValue: 'oro.customer.menu.customer_user_profile.label'
 
         - '@setOption':
             id: customer_user_form

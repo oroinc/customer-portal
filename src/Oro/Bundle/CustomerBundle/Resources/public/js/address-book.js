@@ -4,12 +4,12 @@ define(function(require) {
     'use strict';
 
     var AddressBook;
-    var BaseComponent = require('oroaddress/js/address-book');
+    var BaseAddressBook = require('oroaddress/js/address-book');
     var $ = require('jquery');
     var _ = require('underscore');
     var mediator = require('oroui/js/mediator');
 
-    AddressBook = BaseComponent.extend({
+    AddressBook = BaseAddressBook.extend({
         /**
          * @property {Object}
          */
@@ -40,10 +40,9 @@ define(function(require) {
         addAll: function() {
             AddressBook.__super__.addAll.apply(this, arguments);
 
-            var $manageAddressesLink = $(this.options.manageAddressesLink).clone();
-            $manageAddressesLink.removeClass('hidden');
-            $(this.options.manageAddressesLink).remove();
-            this.$el.find('.map-address-list').append($manageAddressesLink);
+            $(this.options.manageAddressesLink)
+                .appendTo(this.$addressesContainer)
+                .removeClass('hidden');
         }
     });
 

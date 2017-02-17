@@ -7,9 +7,10 @@ layout:
                 __user_addresses_head:
                     blockType: container
                 __user_addresses_head_title:
-                    blockType: text
+                    blockType: page_subtitle
                     options:
                         text: 'oro.customer.frontend.sections.customer_user.default_addresses'
+                        icon: 'map-o'
                 __user_addresses_list:
                     blockType: address_book
                     options:
