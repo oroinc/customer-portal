@@ -101,7 +101,11 @@ navigation:
                 route: 'oro_customer_customer_user_index'
                 extras:
                     position: 30
-                    routes: ['/^oro_customer_customer_user/']
+                    routes:
+                        - 'oro_customer_customer_user_index'
+                        - 'oro_customer_customer_user_view'
+                        - 'oro_customer_customer_user_update'
+                        - 'oro_customer_customer_user_create'
                     description: 'oro.customer.menu.customer_users.description'
 
             shortcut_new_customer_user:
@@ -231,7 +235,7 @@ navigation:
 
         oro_customer_customer_user_role_index:     ~
         oro_customer_customer_user_role_view:      '%%label%% - oro.ui.view'
-        oro_customer_customer_user_role_update:    '%%label%% - oro.ui.edit'
+        oro_customer_customer_user_role_update:    %%label%% - oro.ui.edit
         oro_customer_customer_user_role_create:    oro.ui.create_entity
 
         oro_customer_frontend_customer_user_profile: 'oro.customer.frontend.customer_user.profile.label'
