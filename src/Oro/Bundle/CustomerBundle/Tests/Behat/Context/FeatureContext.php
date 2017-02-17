@@ -8,10 +8,11 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 use Oro\Bundle\UserBundle\Entity\Role;
 
-class CustomerUserContext extends OroFeatureContext
+/**
+ * TODO: get rid of inheritance after BAP-13903 is done
+ */
+class FeatureContext extends \Oro\Bundle\PricingBundle\Tests\Behat\Context\FeatureContext
 {
-    use KernelDictionary;
-
     /**
      * Example: AmandaRCole@example.org customer user has Buyer role
      *

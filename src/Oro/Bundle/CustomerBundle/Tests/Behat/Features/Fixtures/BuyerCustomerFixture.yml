@@ -1,3 +1,6 @@
+include:
+    - ../../../../../../../../../commerce/src/Oro/Bundle/PricingBundle/Tests/Behat/Features/Fixtures/Pricelists.yml
+
 Oro\Bundle\CustomerBundle\Entity\Customer:
     customer1:
         name: 'Company A'
