@@ -823,35 +823,36 @@
       margin: 10px 0 0;
 
       input[type="checkbox"] {
-        margin: 0 6px 5px 0;
+        margin: 0 8px 5px 0;
       }
 
       input[type="radio"] {
         position: static !important;
 
         vertical-align: middle;
-        margin: 0 5px 2px 0;
+        margin: 3px 8px 2px 0;
 
         text-indent: 0;
       }
 
       li {
-        display: inline-block;
-        width: 45%;
-
-        @media (max-width: $screen-md) {
-          width: 100%;
-        }
-
         label {
           padding: 3px 0;
-
-          white-space: nowrap;
 
           cursor: pointer;
 
           span {
+            padding-top: 1px;
+
+            display: block;
+            overflow: hidden;
+
             font-weight: 400;
+            white-space: normal;
+          }
+
+          input {
+            float: left;
           }
 
           &.ui-state-hover {
@@ -864,18 +865,14 @@
     &.ui-multiselect-single {
       .ui-multiselect-checkboxes  {
         li {
-          display: block;
-          width: 100%;
-
           label {
             padding: 3px 0;
-
-            white-space: nowrap;
 
             cursor: pointer;
 
             &.ui-state-hover {
               background: transparent;
+              color: inherit;
             }
           }
         }
