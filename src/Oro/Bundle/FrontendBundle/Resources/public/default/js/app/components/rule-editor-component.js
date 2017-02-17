@@ -470,7 +470,10 @@ define(function(require) {
 
             var wordIs = this._getWordData(word);
             var isFullExpression = wordIs.isInclusion || wordIs.isCompare;
-            var exprOnly = !this.allowed.compare && !this.allowed.inclusion && !this.allowed.equality && !this.allowed.like;
+            var exprOnly = !this.allowed.compare &&
+                !this.allowed.inclusion &&
+                !this.allowed.equality &&
+                !this.allowed.like;
 
             if (!prevIsNotBool && /[a-z.]/gi.test(term) && !pathValueHasType && !underCaret.space) {
                 if (wordIs.hasLeftSide) {
@@ -840,7 +843,8 @@ define(function(require) {
             var noOpsAllowed = _.isEmpty(this.allowed);
             var operationType = this._getOperationType(string);
             var hasCompare = operationType.compare || operationType.equality;
-            var pathData = this._getValueByPath(string);
+            var splitWord = this._splitTermAndExpr(string);
+            var pathData = this._getValueByPath(splitWord.term, this.entities);
             var isTerm = this._checkTerm(string);
 
             if (hasCompare) {
@@ -922,10 +926,10 @@ define(function(require) {
         _checkInclusion: function(string, match) {
             var matchSplit = this._splitTermAndExpr(string, match);
             var expr = this._replaceWraps(matchSplit.expr, '[]', 'trim');
+            var pathData = this._getValueByPath(matchSplit.term, this.entities);
 
-            return this._checkTerm(matchSplit.term) &&
-                !_.isEmpty(matchSplit.expr) &&
-                (this._checkArray(matchSplit.expr) || this._checkTerm(expr));
+            return this._checkTerm(matchSplit.term) && !_.isEmpty(matchSplit.expr) &&
+                (this._checkArray(matchSplit.expr, pathData.type) || this._checkTerm(expr));
         },
 
         /**
