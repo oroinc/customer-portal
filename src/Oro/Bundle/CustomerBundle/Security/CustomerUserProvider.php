@@ -199,7 +199,7 @@ class CustomerUserProvider
                 return $this->isGrantedOidMask(
                     $rootOid,
                     $class,
-                    $this->getMaskBuilderForMask($requiredMask)->getMask('GROUP_SYSTEM')
+                    $this->getMaskBuilderForMask($requiredMask)->getMask('GROUP_DEEP')
                 );
             }
 

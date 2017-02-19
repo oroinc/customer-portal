@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\API;
 
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,12 +36,12 @@ class RestCustomerGroupTest extends AbstractRestTest
         $customer1 = $this->createCustomer('customer1', $group);
         $customer2 = $this->createCustomer('customer2', $group);
 
-        $response = $this->get('oro_rest_api_cget', ['entity' => $this->getEntityType(CustomerGroup::class)]);
+        $response = $this->cget(['entity' => $this->getEntityType(CustomerGroup::class)]);
 
         $expected = [
             'data' => [
                 [
-                    'type' => 'customergroups',
+                    'type' => 'customer_groups',
                     'id' => '1',
                     'attributes' => [
                         'name' => 'Non-Authenticated Visitors',
@@ -52,7 +51,7 @@ class RestCustomerGroupTest extends AbstractRestTest
                     ],
                 ],
                 [
-                    'type' => 'customergroups',
+                    'type' => 'customer_groups',
                     'id' => (string)$group->getId(),
                     'attributes' => [
                         'name' => 'test group',
@@ -96,7 +95,7 @@ class RestCustomerGroupTest extends AbstractRestTest
 
         $data = [
             'data' => [
-                'type' => 'customergroups',
+                'type' => 'customer_groups',
                 'attributes' => [
                     'name' => 'new group',
                 ],
@@ -136,17 +135,14 @@ class RestCustomerGroupTest extends AbstractRestTest
         $customer1 = $this->createCustomer('customer1', $group);
         $customer2 = $this->createCustomer('customer2', $group);
 
-        $response = $this->get(
-            'oro_rest_api_get',
-            [
-                'entity' => $this->getEntityType(CustomerGroup::class),
-                'id' => (string)$group->getId(),
-            ]
-        );
+        $response = $this->get([
+            'entity' => $this->getEntityType(CustomerGroup::class),
+            'id' => (string)$group->getId(),
+        ]);
 
         $expected = [
             'data' => [
-                'type' => 'customergroups',
+                'type' => 'customer_groups',
                 'id' => (string)$group->getId(),
                 'attributes' => [
                     'name' => 'test group',
@@ -178,7 +174,7 @@ class RestCustomerGroupTest extends AbstractRestTest
         $customer2 = $this->createCustomer('customer2');
         $data = [
             'data' => [
-                'type' => 'customergroups',
+                'type' => 'customer_groups',
                 'id' => (string)$group->getId(),
                 'attributes' => [
                     'name' => 'updated group',

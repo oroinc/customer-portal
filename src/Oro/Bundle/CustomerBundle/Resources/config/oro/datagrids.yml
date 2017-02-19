@@ -969,6 +969,7 @@ datagrids:
                     author: |
                         CASE WHEN u.email IS NULL THEN CONCAT(b2b_u.firstName, ' ', b2b_u.lastName, ' - ', b2b_u.email)
                         ELSE '' END as author
+                groupBy: b2b_u.firstName, b2b_u.lastName, b2b_u.email, a.id , u.email
         columns:
             author:
                 label: oro.dataaudit.datagrid.author
