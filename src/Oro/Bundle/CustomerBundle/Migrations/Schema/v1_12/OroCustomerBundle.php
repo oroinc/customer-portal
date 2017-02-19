@@ -43,11 +43,11 @@ class OroCustomerBundle implements Migration
     protected function addOwnership(Schema $schema)
     {
         $table = $schema->getTable('oro_customer_group');
-        $table->addColumn('owner_id', 'integer', ['notnull' => false]);
+        $table->addColumn('user_owner_id', 'integer', ['notnull' => false]);
         $table->addColumn('organization_id', 'integer', ['notnull' => false]);
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_user'),
-            ['owner_id'],
+            ['user_owner_id'],
             ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
