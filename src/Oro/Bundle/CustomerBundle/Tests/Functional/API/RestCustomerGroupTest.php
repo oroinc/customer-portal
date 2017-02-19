@@ -37,7 +37,7 @@ class RestCustomerGroupTest extends AbstractRestTest
         $customer1 = $this->createCustomer('customer1', $group);
         $customer2 = $this->createCustomer('customer2', $group);
 
-        $response = $this->get('oro_rest_api_cget', ['entity' => $this->getEntityType(CustomerGroup::class)]);
+        $response = $this->cget(['entity' => $this->getEntityType(CustomerGroup::class)]);
 
         $expected = [
             'data' => [
@@ -127,13 +127,10 @@ class RestCustomerGroupTest extends AbstractRestTest
         $customer1 = $this->createCustomer('customer1', $group);
         $customer2 = $this->createCustomer('customer2', $group);
 
-        $response = $this->get(
-            'oro_rest_api_get',
-            [
-                'entity' => $this->getEntityType(CustomerGroup::class),
-                'id' => (string)$group->getId(),
-            ]
-        );
+        $response = $this->get([
+            'entity' => $this->getEntityType(CustomerGroup::class),
+            'id' => (string)$group->getId(),
+        ]);
 
         $expected = [
             'data' => [

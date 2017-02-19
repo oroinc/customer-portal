@@ -208,3 +208,10 @@ services:
             - ['setApplicationProvider',['@oro_frontend.provider.current_application']]
         tags:
            - { name: oro.action.extension.button_provider, priority: 120 }
+
+    oro_frontend.layout_context_configurator.page_template:
+        class: 'Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator'
+        arguments:
+            - '@oro_config.global'
+        tags:
+            - { name: layout.context_configurator }
