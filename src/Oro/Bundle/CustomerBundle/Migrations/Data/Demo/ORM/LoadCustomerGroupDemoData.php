@@ -25,9 +25,15 @@ class LoadCustomerGroupDemoData extends AbstractFixture
      */
     public function load(ObjectManager $manager)
     {
+        /** @var \Oro\Bundle\UserBundle\Entity\User $customerOwner */
+        $customerOwner = $manager->getRepository('OroUserBundle:User')->findOneBy([]);
+
         foreach ($this->customerGroups as $groupName) {
             $customerGroup = new CustomerGroup();
-            $customerGroup->setName($groupName);
+            $customerGroup
+                ->setName($groupName)
+                ->setOrganization($customerOwner->getOrganization())
+                ->setOwner($customerOwner);
             $manager->persist($customerGroup);
             $this->addReference(static::ACCOUNT_GROUP_REFERENCE_PREFIX . $customerGroup->getName(), $customerGroup);
         }
