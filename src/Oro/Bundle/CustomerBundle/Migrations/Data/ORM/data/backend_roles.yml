@@ -5,3 +5,4 @@ ROLE_ACCOUNT_MANAGER:
         entity|Oro\Bundle\CustomerBundle\Entity\CustomerUser: [VIEW_SYSTEM, CREATE_SYSTEM, EDIT_SYSTEM, DELETE_SYSTEM, ASSIGN_SYSTEM]
         entity|Oro\Bundle\CustomerBundle\Entity\CustomerUserRole: [VIEW_SYSTEM, CREATE_SYSTEM, EDIT_SYSTEM, DELETE_SYSTEM]
         entity|Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress: [VIEW_SYSTEM, CREATE_SYSTEM, EDIT_SYSTEM, DELETE_SYSTEM, ASSIGN_SYSTEM]
+        entity|Oro\Bundle\CustomerBundle\Entity\CustomerGroup: [VIEW_SYSTEM, ASSIGN_SYSTEM]
