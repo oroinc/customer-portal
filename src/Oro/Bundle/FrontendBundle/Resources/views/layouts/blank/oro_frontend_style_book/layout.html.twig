@@ -194,6 +194,18 @@
 {% endblock %}
 
 {% block group_element_item_widget %}
+    {% if label and anchor %}
+        {% set attr = layout_attr_defaults(attr, {
+            'id': anchor,
+            '~class': ' style-book-title',
+            'data-style-book-element': {
+                id: anchor,
+                label: label,
+                subTreeLvl: subTreeLvl
+            }
+        }) %}
+        <h3 {{ block('block_attributes') }}>{{ label }}</h3>
+    {% endif %}
     {% if description %}
         <div class="style-book-group-element__description">
             {{ description|trans }}
