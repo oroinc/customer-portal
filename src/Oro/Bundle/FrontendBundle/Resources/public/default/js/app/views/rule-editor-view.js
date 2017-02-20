@@ -39,7 +39,7 @@ define(function(require) {
 
             $el.typeahead({
                 minLength: 0,
-                items: 10,
+                items: 20,
                 source: function(value) {
                     var sourceData = component.getSuggestData(value || '', el.selectionStart);
 

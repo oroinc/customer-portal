@@ -606,19 +606,21 @@ define(function(require) {
          * @private
          */
         _getAllowedTypes: function(type) {
+            var byDefault = ['relation', 'collection'];
+
             switch (type) {
                 case 'boolean':
-                    return ['boolean', 'relation'];
+                    return _.union(['boolean'], byDefault);
                 case 'integer':
-                    return ['integer', 'relation'];
+                    return _.union(['integer'], byDefault);
                 case 'string':
-                    return ['string', 'relation'];
+                    return _.union(['string'], byDefault);
                 case 'float':
-                    return ['integer', 'float', 'relation'];
+                    return _.union(['integer'], byDefault);
                 case 'standalone':
                     return null;
                 default:
-                    return ['relation'];
+                    return byDefault;
 
                 /*
                  case 'enum':
