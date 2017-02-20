@@ -1,8 +1,9 @@
 // @theme: default
 
 .column-manager-search {
-    margin: 15px 0 10px 0;
     position: relative;
+
+    margin: 15px 0 10px 0;
 
     input {
         @include base-ui-element(
@@ -28,15 +29,13 @@
         position: absolute;
         top: 5px;
         right: 8px;
+        z-index: z('base');
 
-
-        font-size: 20px;
         font-weight: bold;
+        font-size: 20px;
         line-height: 20px;
 
         color: #8c8c8c;
-        
-        z-index: z('base');
 
         &:hover {
             color: #666;
@@ -47,14 +46,15 @@
         @include fa-icon($fa-var-search, after);
 
         &:after {
-            font-size: 15px;
-            color: #8c8c8c;
-
             position: absolute;
             top: 5px;
             right: 8px;
 
-            z-index: 0;
+            z-index: z('base') - 1;
+
+            font-size: 15px;
+
+            color: #8c8c8c;
         }
 
         > .clear {

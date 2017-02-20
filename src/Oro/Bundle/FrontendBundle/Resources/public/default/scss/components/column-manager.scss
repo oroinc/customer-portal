@@ -26,10 +26,9 @@
         border: 1px solid darken(get-color('additional', light), 4%);
         border-radius: 5px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+        color: get-color('additional', 'dark');
 
         @extend .dropdown-menu-right;
-
-        color: get-color('additional', 'dark');
     }
 
     .close {
