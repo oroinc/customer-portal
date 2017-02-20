@@ -46,7 +46,7 @@ layout:
                     options:
                         text: 'oro.customer.frontend.sections.customer_user.user_profile'
                         icon: 'user'
-                        badge: 'yellow'
+                        badge: 'light'
                 __customer_user_address_book:
                     blockType: container
             tree:
