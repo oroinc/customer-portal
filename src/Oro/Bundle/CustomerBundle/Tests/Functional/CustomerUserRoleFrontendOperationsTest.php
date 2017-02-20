@@ -46,8 +46,9 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
      * @param string $login
      * @param string $resource
      * @param int $status
+     * @param bool $shouldDelete
      */
-    public function testDeleteCustomizedRole($login, $resource, $status)
+    public function testDeleteCustomizedRole($login, $resource, $status, $shouldDelete)
     {
         $this->loginUser($login);
         /** @var CustomerUserRole $customizedRole */
@@ -58,11 +59,13 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
 
         $result = $this->client->getResponse();
 
+        $role = $this->getRepository()->findOneBy(['label' => $resource]);
         $this->assertResponseStatusCodeEquals($result, $status);
-        if ($status === Response::HTTP_OK) {
+        if ($shouldDelete) {
             /** @var CustomerUserRole $role */
-            $role = $this->getRepository()->findOneBy(['label' => $resource]);
             $this->assertNull($role);
+        } else {
+            $this->assertInstanceOf(CustomerUserRole::class, $role);
         }
     }
 
@@ -76,36 +79,43 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
                 'login' => '',
                 'resource' => LoadCustomerUserRoleACLData::ROLE_WITH_ACCOUNT_1_USER_LOCAL,
                 'status' => Response::HTTP_FORBIDDEN,
+                'shouldDelete' => false,
             ],
             'sibling user: LOCAL_VIEW_ONLY' => [
                 'login' => LoadCustomerUserRoleACLData::USER_ACCOUNT_1_ROLE_LOCAL_VIEW_ONLY,
                 'resource' => LoadCustomerUserRoleACLData::ROLE_WITH_ACCOUNT_1_USER_LOCAL,
                 'status' => Response::HTTP_FORBIDDEN,
+                'shouldDelete' => false,
             ],
             'parent customer: LOCAL' => [
                 'login' => LoadCustomerUserRoleACLData::USER_ACCOUNT_1_ROLE_LOCAL,
                 'resource' => LoadCustomerUserRoleACLData::ROLE_WITH_ACCOUNT_1_2_USER_LOCAL,
-                'status' => Response::HTTP_FORBIDDEN,
+                'status' => Response::HTTP_OK,
+                'shouldDelete' => false,
             ],
             'parent customer: DEEP_VIEW_ONLY' => [
                 'login' => LoadCustomerUserRoleACLData::USER_ACCOUNT_1_ROLE_DEEP_VIEW_ONLY,
                 'resource' => LoadCustomerUserRoleACLData::ROLE_WITH_ACCOUNT_1_2_USER_LOCAL,
                 'status' => Response::HTTP_FORBIDDEN,
+                'shouldDelete' => false,
             ],
             'different customer: DEEP' => [
                 'login' => LoadCustomerUserRoleACLData::USER_ACCOUNT_2_ROLE_DEEP,
                 'resource' => LoadCustomerUserRoleACLData::ROLE_WITH_ACCOUNT_1_2_USER_LOCAL,
-                'status' => Response::HTTP_FORBIDDEN,
+                'status' => Response::HTTP_OK,
+                'shouldDelete' => false,
             ],
             'same customer: LOCAL' => [
                 'login' => LoadCustomerUserRoleACLData::USER_ACCOUNT_1_ROLE_LOCAL,
                 'resource' => LoadCustomerUserRoleACLData::ROLE_WITH_ACCOUNT_1_USER_DEEP,
                 'status' => Response::HTTP_OK,
+                'shouldDelete' => true,
             ],
             'parent customer: DEEP' => [
                 'login' => LoadCustomerUserRoleACLData::USER_ACCOUNT_1_ROLE_DEEP,
                 'resource' => LoadCustomerUserRoleACLData::ROLE_WITH_ACCOUNT_1_2_USER_LOCAL,
                 'status' => Response::HTTP_OK,
+                'shouldDelete' => true,
             ],
         ];
     }
