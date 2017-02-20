@@ -216,3 +216,10 @@ services:
             - '@router'
         tags:
             - { name: layout.data_provider, alias: style_book_form }
+
+    oro_frontend.layout_context_configurator.page_template:
+        class: 'Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator'
+        arguments:
+            - '@oro_config.global'
+        tags:
+            - { name: layout.context_configurator }
