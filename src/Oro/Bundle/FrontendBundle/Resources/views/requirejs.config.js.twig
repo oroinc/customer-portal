@@ -1,11 +1,10 @@
-modules = {CustomColumnManagerComponent: 'orodatagrid/default/js/app/components/column-manager-component'};
+modules = {ColumnManagerComponent: 'orodatagrid/default/js/app/components/column-manager-component'};
 
 require({
     config: {
         'oroui/js/app': {routeLinks: ''},
         'controllers/page-controller': {fullRedirect: true},
         'orofilter/js/datafilter-builder': {enableToggleFilters: true},
-        'orodatagrid/js/app/components/column-manager-component': {enableFilters: false},
         'orodatagrid/js/app/components/datagrid-component': {loadModules: modules}
     }
 });
