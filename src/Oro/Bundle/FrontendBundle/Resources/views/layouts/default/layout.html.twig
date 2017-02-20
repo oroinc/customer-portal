@@ -8,7 +8,6 @@
     {% set themeOptions = grid_render_parameters.themeOptions|default({}) %}
     {% set themeOptions = layout_attr_defaults(themeOptions, {
         'actionsDropdown': 'auto',
-        'className': 'oro-datagrid frontend-datagrid',
         'actionOptions': {
             'refreshAction': {
                 'launcherOptions': {
@@ -30,9 +29,20 @@
     {% set toolbarOptions = layout_attr_defaults(toolbarOptions, {
         'actionsPanel': {
             'className': 'btn-group not-expand frontend-datagrid__panel'
-        }
+        },
+        'itemsCounter': {
+            'className': 'grid__tool',
+            'themeOptions': {
+                'templateSelector': '#datagrid-items-counter-template'
+            }
+        },
+        'removeSections': {
+            'bottom': ['left-side', 'right-side']
+        },
+        'hideItemsCounter': false
     }) %}
     {% set grid_render_parameters = grid_render_parameters|merge({
+        'cssClass': 'frontend-datagrid',
         'filterContainerSelector': '[data-grid-toolbar="top"] [data-datafilter-container]',
         'themeOptions': themeOptions,
         'toolbarOptions': toolbarOptions

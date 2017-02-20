@@ -1,4 +1,4 @@
-@mixin mode-icon-only() {
+@mixin add-separator() {
   &:not(:first-child) {
     &:before {
       top: 5px;
@@ -14,16 +14,6 @@
 @mixin mode-icon-size($size: $base-font-size--large) {
   font-size: $size;
   line-height: strip-units($size / 10);
-}
-
-@mixin mode-text-only() {
-  &:after {
-    display: inline-block;
-
-    font-size: ($base-font-size--s - 1px);
-  }
-
-  @include fa-icon($fa-var-angle-right, after);
 }
 
 //Toolbar
@@ -603,14 +593,17 @@
             padding-left: 39px;
           }
 
+
           &:before {
             position: absolute;
-            content: '\f073';
+
             pointer-events: none;
+
             margin: 8px 0 0 12px;
-            font: normal $base-font-size--m 'FontAwesome';
+
             color: get-color('additional', 'middle');
           }
+          @include fa-icon($fa-var-calendar);
         }
 
       }
@@ -973,7 +966,6 @@
 
 .more-bar-holder {
   position: relative;
-  display: inline-block;
   padding: 0;
 
   .action {
@@ -989,10 +981,6 @@
       [class^='fa-'] {
         margin-right: 0;
       }
-    }
-
-    &.mode-text-only {
-      @include mode-text-only();
     }
   }
 
@@ -1122,7 +1110,7 @@
       }
 
       .launchers-list {
-        display: inline-block;
+        display: block;
 
         text-align: left;
 
@@ -1131,44 +1119,62 @@
 
       .dropdown-menu {
         .launchers-list {
+
           white-space: nowrap;
+
+          .mode-text-only {
+            display: block;
+          }
+        }
+      }
+    }
+
+    .launcher-item {
+      display: block;
+
+      &.mode-text-only,
+      &.mode-icon-only {
+        display: inline-block;
+
+        @include add-separator();
+      }
+
+      &.mode-text-only {
+        margin: 2px 0;
+      }
+
+      a.action {
+        position: relative;
+        white-space: nowrap;
+        text-align: center;
+
+        [class^='fa-'].hide-text {
+          display: inline-block;
+
+          &:after,
+          &:before {
+            color: inherit;
+
+            @include mode-icon-size();
+          }
         }
       }
 
-      .launcher-item {
-        display: block;
-
-        &.mode-icon-only {
-          display: inline-block;
-
-          @include mode-icon-only();
-        }
-
-        a.action {
-          position: relative;
-          white-space: nowrap;
-          text-align: center;
-
-          [class^='fa-'].hide-text {
-            display: inline-block;
-
-            &:after,
-            &:before {
-              color: inherit;
-
-              @include mode-icon-size();
-            }
-          }
-
-          &.mode-text-only {
-            margin: 2px 0;
-          }
+      .dropdown-menu {
+        .mode-text-only {
+          display: block;
         }
       }
     }
   }
 
   .action-cell {
+    text-align: right;
+
+    .launcher-item.mode-icon-text {
+      text-align: left;
+    }
+
     .dropdown {
       display: inline-block;
     }
@@ -1194,7 +1200,7 @@
     &.mode-icon-only {
       display: table-cell;
 
-      @include mode-icon-only();
+      @include add-separator();
 
       a {
         color: get-color('additional', 'middle');
@@ -1217,9 +1223,9 @@
       }
     }
     &.mode-text-only {
-      a {
-        @include mode-text-only();
+      display: block;
 
+      a {
         padding: 3px 10px;
       }
     }
