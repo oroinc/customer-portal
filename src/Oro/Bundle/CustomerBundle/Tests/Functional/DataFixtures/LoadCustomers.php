@@ -16,6 +16,7 @@ class LoadCustomers extends AbstractFixture implements DependentFixtureInterface
     use UserUtilityTrait;
 
     const DEFAULT_ACCOUNT_NAME = 'customer.orphan';
+    const CUSTOMER_LEVEL_1_1 = 'customer.level_1_1';
 
     /**
      * {@inheritdoc}
