@@ -43,6 +43,24 @@ class FeatureContext extends \Oro\Bundle\PricingBundle\Tests\Behat\Context\Featu
     }
 
     /**
+     * @Then I should see that :priceListName price list is in :rowNum row on view page
+     * @param string $priceListName
+     * @param int $rowNum
+     */
+    public function assertPriceListNameInRow($priceListName, $rowNum)
+    {
+        --$rowNum;
+        $page = $this->getSession()->getPage();
+        $elem = $page->find('named', ['content', $priceListName]);
+        self::assertEquals('td', $elem->getTagName());
+        $table = $elem->getParent()->getParent();
+        self::assertEquals('tbody', $table->getTagName());
+        $rows = $table->findAll('css', 'tr');
+        self::assertNotEmpty($rows[$rowNum]);
+        self::assertContains($priceListName, $rows[$rowNum]->getText());
+    }
+
+    /**
      * @param string $username
      * @return CustomerUser
      */
