@@ -37,7 +37,7 @@ class SystemConfigListener
      */
     public function onFormPreSetData(ConfigSettingsUpdateEvent $event)
     {
-        $settingsKey = $this->getSettingsKey();
+        $settingsKey = implode(ConfigManager::SECTION_VIEW_SEPARATOR, [OroCustomerExtension::ALIAS, self::SETTING]);
         $settings = $event->getSettings();
         if (is_array($settings) && array_key_exists($settingsKey, $settings)) {
             $settings[$settingsKey]['value'] = $this->registry
@@ -52,7 +52,7 @@ class SystemConfigListener
      */
     public function onSettingsSaveBefore(ConfigSettingsUpdateEvent $event)
     {
-        $settingsKey = $this->getSettingsKey();
+        $settingsKey = implode(ConfigManager::SECTION_MODEL_SEPARATOR, [OroCustomerExtension::ALIAS, self::SETTING]);
         $settings = $event->getSettings();
         if (is_array($settings)
             && array_key_exists($settingsKey, $settings)
@@ -63,15 +63,5 @@ class SystemConfigListener
             $settings[$settingsKey]['value'] = $owner->getId();
             $event->setSettings($settings);
         }
-    }
-
-    /**
-     * @return string
-     */
-    protected function getSettingsKey()
-    {
-        $settingsKey = implode(ConfigManager::SECTION_VIEW_SEPARATOR, [OroCustomerExtension::ALIAS, self::SETTING]);
-
-        return $settingsKey;
     }
 }

@@ -213,13 +213,6 @@ class ThemeListenerTest extends \PHPUnit_Framework_TestCase
                 'hasTheme' => false,
                 'deletedAnnotation' => false
             ],
-            'frontend master request without layout theme' => [
-                'installed' => true,
-                'requestType' => HttpKernelInterface::MASTER_REQUEST,
-                'isFrontendRequest' => true,
-                'hasTheme' => false,
-                'deletedAnnotations' => '_layout'
-            ],
             'frontend sub-request without layout theme' => [
                 'installed' => true,
                 'requestType' => HttpKernelInterface::SUB_REQUEST,

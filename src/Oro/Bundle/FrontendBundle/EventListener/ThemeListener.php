@@ -103,14 +103,10 @@ class ThemeListener
             return;
         }
 
-        if ($request->attributes->get('_theme')) {
+        if ($request->attributes->has('_layout')) {
             $request->attributes->remove('_template');
-        } else {
-            if ($request->attributes->has('_template')) {
-                $request->attributes->remove('_layout');
-            } else {
-                $request->attributes->set('_theme', 'default');
-            }
+        } elseif ($request->attributes->has('_template')) {
+            $request->attributes->remove('_layout');
         }
     }
 }
