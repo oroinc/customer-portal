@@ -45,11 +45,13 @@ This data received from server-side.
     operations: {
         math: ['+', '-', '%', '*', '/'],
         bool: ['and', 'or'],
-        equality: ['=', '!='],
-        compare: ['>', '<', '<=', '>=', 'like'],
-        inclusion: ['in', 'not in']
+        equality: ['==', '!='],
+        compare: ['>', '<', '<=', '>='],
+        inclusion: ['in', 'not in'],
+        like: ['matches']
     },
-    allowedOperations: ['math', 'bool', 'compare', 'inclusion']
+    allowedOperations: ['math', 'bool', 'equality', 'compare', 'inclusion', 'like'],
+    termLevelLimit: 3
 
 ###How to customize
 Developer can control the functions of autocompletion and validation via ``allowedOperations`` option:
@@ -58,6 +60,13 @@ Developer can control the functions of autocompletion and validation via ``allow
 
 In this case, only math operations will be allowed for input.
 
+Also developer can limit depth of the term's keys by:
+    
+    termLevelLimit: 3
+
+In this case control will have 3 levels of suggestions. As example: `pricelist[1].prices.quantity`
+  
+  
 ##Helpers
 If you have components that helps user select external data, you can use them via helper.
 
