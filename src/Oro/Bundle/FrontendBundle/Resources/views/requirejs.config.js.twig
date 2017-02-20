@@ -1,10 +1,10 @@
-modules = {ColumnManagerComponent: 'orodatagrid/default/js/app/components/column-manager-component'};
-
 require({
     config: {
         'oroui/js/app': {routeLinks: ''},
         'controllers/page-controller': {fullRedirect: true},
         'orofilter/js/datafilter-builder': {enableToggleFilters: true},
-        'orodatagrid/js/app/components/datagrid-component': {loadModules: modules}
+        'orodatagrid/js/app/components/column-manager-component': {enableFilters: false},
+        'orodatagrid/js/app/views/column-manager/column-manager-view': {template: '#commerce-column-manager-tpl'},
+        'orodatagrid/js/app/views/column-manager/column-manager-item-view': {template: '#commerce-column-manager-item-tpl'}
     }
 });
