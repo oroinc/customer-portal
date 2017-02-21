@@ -141,6 +141,7 @@ class OroCustomerBundleInstaller implements
         $this->addOroCustomerUserSalesRepresentativesForeignKeys($schema);
 
         $this->addRelationsToScope($schema);
+        $this->addOroCustomerGroupForeignKeys($schema);
     }
 
     /**
@@ -291,6 +292,8 @@ class OroCustomerBundleInstaller implements
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['length' => 255]);
+        $table->addColumn('user_owner_id', 'integer', ['notnull' => false]);
+        $table->addColumn('organization_id', 'integer', ['notnull' => false]);
 
         $table->setPrimaryKey(['id']);
 
@@ -1118,6 +1121,27 @@ class OroCustomerBundleInstaller implements
             'customer',
             OroCustomerBundleInstaller::ORO_CUSTOMER_TABLE_NAME,
             'name'
+        );
+    }
+
+    /**
+     * Add oro_customer_group foreign keys.
+     * @param Schema $schema
+     */
+    protected function addOroCustomerGroupForeignKeys(Schema $schema)
+    {
+        $table = $schema->getTable('oro_customer_group');
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_user'),
+            ['user_owner_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_organization'),
+            ['organization_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
     }
 }

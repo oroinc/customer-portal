@@ -27,8 +27,12 @@ abstract class AbstractRestTest extends RestJsonApiTestCase
      */
     protected function createCustomerGroup($name)
     {
+        $manager = $this->getManager();
+        $owner = $this->getFirstUser($manager);
         $group = new CustomerGroup();
         $group->setName($name);
+        $group->setOwner($owner);
+        $group->setOrganization($owner->getOrganization());
 
         $this->getManager()->persist($group);
         $this->getManager()->flush();
