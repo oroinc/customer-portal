@@ -2,11 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
-use Behat\Mink\Element\NodeElement;
-use Doctrine\Common\Persistence\ObjectRepository;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\PricingBundle\Tests\Behat\Context\FeatureContext as BaseFeatureContext;
-use Oro\Bundle\UserBundle\Entity\Role;
 
 /**
  * TODO: get rid of inheritance after BAP-13903 is done
