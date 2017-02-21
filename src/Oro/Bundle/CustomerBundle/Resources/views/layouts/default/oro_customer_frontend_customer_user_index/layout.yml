@@ -8,7 +8,7 @@ layout:
     actions:
         - '@setOption':
             id: page_title
-            optionName: text
+            optionName: defaultValue
             optionValue: 'oro.customer.frontend.customer_user.entity_plural_label'
 
         - '@setOption':
