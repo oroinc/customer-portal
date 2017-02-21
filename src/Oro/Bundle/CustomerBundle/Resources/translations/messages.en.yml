@@ -69,6 +69,8 @@ oro.customer:
         id.label: 'Id'
         customers.label: 'Customers'
         form.choose: 'Choose a customer group...'
+        organization.label: 'Organization'
+        owner.label: 'Owner'
 
     customeruser:
         entity_label:                'Customer User'
@@ -167,7 +169,9 @@ oro.customer:
         type.predefined.label:           'Predefined'
         type.customizable.label:         'Customizable'
         customer_users.label:             'Customer Users'
-        frontend.edit-predifined-role.message:   'Predefined roles cannot be edited directly. We copied all the original data so that you can save it as a new user role for your organization. All users will be moved from the original role to this new role after you click on "Save".'
+        frontend:
+            edit-predifined-role.message:   'Predefined roles cannot be edited directly. We copied all the original data so that you can save it as a new user role for your organization. All users will be moved from the original role to this new role after you click on "Save".'
+            delete-role-with-users.message: 'This role cannot be deleted, please re-assign the assigned users to a different role before deletion.'
         self_managed:
             label:                  'Self Managed'
             value.true.label:       'Yes'

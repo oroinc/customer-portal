@@ -15,6 +15,13 @@ layout:
             parentId: style_book_content
             prepend: true
 
+        - '@add':
+            id: stylebook_styles
+            parentId: head
+            blockType: style
+            options:
+                src: '=data["asset"].getUrl(data["theme"].getStylesOutput(context["theme"], "stylebook_styles"))'
+
         - '@addTree':
             items:
                 style_book:
