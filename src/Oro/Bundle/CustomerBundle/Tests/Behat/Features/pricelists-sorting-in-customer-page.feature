@@ -14,7 +14,7 @@ Feature: Price lists must be sortable in customer & customerGroup create\edit pa
     And I drag "2" row on top in price lists table
     And I click "Save and Close"
     Then I should see "Customer group has been saved" flash message
-    And I should see that "first price list" price list is in "1" row on view page
+    And first price list must be first record in appropriate table
 
   Scenario: Changing Price List Priorities In Customers
     Given I login as administrator
@@ -28,4 +28,4 @@ Feature: Price lists must be sortable in customer & customerGroup create\edit pa
     And I drag "2" row on top in price lists table
     And I click "Save and Close"
     Then I should see "Customer has been saved" flash message
-    And I should see that "first price list" price list is in "1" row on view page
+    And first price list must be first record in appropriate table
