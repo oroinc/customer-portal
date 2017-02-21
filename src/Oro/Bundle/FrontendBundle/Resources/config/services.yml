@@ -220,3 +220,19 @@ services:
             - '@service_container'
         tags:
             - { name: twig.extension }
+
+    oro_frontend.extractor.frontend_exposed_routes_extractor:
+        class: 'Oro\Bundle\FrontendBundle\Extractor\FrontendExposedRoutesExtractor'
+        arguments:
+            - '@router'
+            - ['oro_*']
+            - '%kernel.cache_dir%'
+            - '%kernel.bundles%'
+
+    oro_frontend.js_routing_controller:
+       class: '%fos_js_routing.controller.class%'
+       arguments:
+            - '@fos_js_routing.serializer'
+            - '@oro_frontend.extractor.frontend_exposed_routes_extractor'
+            - '%fos_js_routing.cache_control%'
+            - '%kernel.debug%'
