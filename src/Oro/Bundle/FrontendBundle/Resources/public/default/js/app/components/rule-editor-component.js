@@ -421,7 +421,8 @@ define(function(require) {
 
             var normalized = this._getNormalized(value, caretPosition);
             var normWordPosition = this._getWordPosition(normalized.string, normalized.position);
-            var termUnderCaretPosition = this._getWordPosition(normalized.string, normalized.position, _.assign({space: /\\s/gi}, this.opsRegEx));
+            var termUnderCaretPosition = this._getWordPosition(normalized.string, normalized.position,
+                _.assign({space: /\\s/gi}, this.opsRegEx));
             var underCaret = {
                 space: value[caretPosition - 1] === ' ',
                 dot: value[caretPosition - 1] === '.',
