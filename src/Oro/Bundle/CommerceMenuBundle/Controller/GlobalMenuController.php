@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/menu/frontend/global")
@@ -62,6 +63,19 @@ class GlobalMenuController extends AbstractFrontendMenuController
     public function updateAction($menuName, $key)
     {
         return parent::update($menuName, $key);
+    }
+
+    /**
+     * @Route("/{menuName}/move", name="oro_commerce_menu_global_menu_move")
+     *
+     * @param Request $request
+     * @param string  $menuName
+     *
+     * @return array|RedirectResponse
+     */
+    public function moveAction(Request $request, $menuName)
+    {
+        return parent::move($request, $menuName);
     }
 
     /**

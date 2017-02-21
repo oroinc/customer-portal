@@ -66,7 +66,7 @@ class CustomerAjaxMenuController extends AbstractAjaxMenuController
     }
 
     /**
-     * @Route("/reset/{menuName}", name="oro_commerce_menu_customer_menu_reset")
+     * @Route("/reset/{menuName}", name="oro_commerce_menu_customer_menu_ajax_reset")
      * @Method({"DELETE"})
      *
      * {@inheritdoc}
@@ -88,7 +88,7 @@ class CustomerAjaxMenuController extends AbstractAjaxMenuController
     }
 
     /**
-     * @Route("/delete/{menuName}/{key}", name="oro_commerce_menu_customer_menu_delete")
+     * @Route("/delete/{menuName}/{key}", name="oro_commerce_menu_customer_menu_ajax_delete")
      * @Method({"DELETE"})
      *
      * {@inheritdoc}
@@ -99,7 +99,7 @@ class CustomerAjaxMenuController extends AbstractAjaxMenuController
     }
 
     /**
-     * @Route("/show/{menuName}/{key}", name="oro_commerce_menu_customer_menu_show")
+     * @Route("/show/{menuName}/{key}", name="oro_commerce_menu_customer_menu_ajax_show")
      * @Method({"PUT"})
      *
      * {@inheritdoc}
@@ -110,7 +110,7 @@ class CustomerAjaxMenuController extends AbstractAjaxMenuController
     }
 
     /**
-     * @Route("/hide/{menuName}/{key}", name="oro_commerce_menu_customer_menu_hide")
+     * @Route("/hide/{menuName}/{key}", name="oro_commerce_menu_customer_menu_ajax_hide")
      * @Method({"PUT"})
      *
      * {@inheritdoc}
@@ -121,7 +121,7 @@ class CustomerAjaxMenuController extends AbstractAjaxMenuController
     }
 
     /**
-     * @Route("/move/{menuName}", name="oro_commerce_menu_customer_menu_move")
+     * @Route("/move/{menuName}", name="oro_commerce_menu_customer_menu_ajax_move")
      * @Method({"PUT"})
      *
      * {@inheritdoc}

@@ -14,7 +14,7 @@ use Oro\Bundle\NavigationBundle\Controller\AbstractAjaxMenuController;
 use Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider;
 
 /**
- * @Route("/menu/customer")
+ * @Route("/menu/customer-group")
  */
 class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
 {
@@ -49,7 +49,7 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
         if (array_key_exists(ScopeCustomerGroupCriteriaProvider::FIELD_NAME, $context)) {
             /** @var CustomerGroup $customerGroup */
             $customerGroup = $context[ScopeCustomerGroupCriteriaProvider::FIELD_NAME];
-//            $context[ScopeOrganizationCriteriaProvider::SCOPE_KEY] = $customerGroup->getOrganization();
+            $context[ScopeOrganizationCriteriaProvider::SCOPE_KEY] = $customerGroup->getOrganization();
         }
 
         return parent::getMenu($menuName, $context);
@@ -64,7 +64,7 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
     }
 
     /**
-     * @Route("/reset/{menuName}", name="oro_commerce_menu_customer_group_menu_reset")
+     * @Route("/reset/{menuName}", name="oro_commerce_menu_customer_group_menu_ajax_reset")
      * @Method({"DELETE"})
      *
      * {@inheritdoc}
@@ -86,7 +86,7 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
     }
 
     /**
-     * @Route("/delete/{menuName}/{key}", name="oro_commerce_menu_customer_group_menu_delete")
+     * @Route("/delete/{menuName}/{key}", name="oro_commerce_menu_customer_group_menu_ajax_delete")
      * @Method({"DELETE"})
      *
      * {@inheritdoc}
@@ -97,7 +97,7 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
     }
 
     /**
-     * @Route("/show/{menuName}/{key}", name="oro_commerce_menu_customer_group_menu_show")
+     * @Route("/show/{menuName}/{key}", name="oro_commerce_menu_customer_group_menu_ajax_show")
      * @Method({"PUT"})
      *
      * {@inheritdoc}
@@ -108,7 +108,7 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
     }
 
     /**
-     * @Route("/hide/{menuName}/{key}", name="oro_commerce_menu_customer_group_menu_hide")
+     * @Route("/hide/{menuName}/{key}", name="oro_commerce_menu_customer_group_menu_ajax_hide")
      * @Method({"PUT"})
      *
      * {@inheritdoc}
@@ -119,7 +119,7 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
     }
 
     /**
-     * @Route("/move/{menuName}", name="oro_commerce_menu_customer_group_menu_move")
+     * @Route("/move/{menuName}", name="oro_commerce_menu_customer_group_menu_ajax_move")
      * @Method({"PUT"})
      *
      * {@inheritdoc}

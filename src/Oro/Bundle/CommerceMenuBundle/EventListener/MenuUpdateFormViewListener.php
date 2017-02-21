@@ -17,16 +17,16 @@ class MenuUpdateFormViewListener
         }
         $scrollData = $event->getScrollData();
 
-        $template = $event->getEnvironment()->render(
-            'OroCommerceMenuBundle:menuUpdate:commerce_menu_update_fields.html.twig',
-            ['form' => $event->getFormView()]
-        );
-
         $blockIds = $scrollData->getBlockIds();
         $firstBlockId = reset($blockIds);
         $subblockIds = $scrollData->getSubblockIds($firstBlockId);
         $firstSubBlockId = reset($subblockIds);
-
-        $scrollData->addSubBlockData($firstBlockId, $firstSubBlockId, $template);
+        if (false !== $firstSubBlockId) {
+            $template = $event->getEnvironment()->render(
+                'OroCommerceMenuBundle:menuUpdate:commerce_menu_update_fields.html.twig',
+                ['form' => $event->getFormView()]
+            );
+            $scrollData->addSubBlockData($firstBlockId, $firstSubBlockId, $template);
+        }
     }
 }

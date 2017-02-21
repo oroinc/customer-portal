@@ -103,6 +103,21 @@ class CustomerMenuController extends AbstractFrontendMenuController
     }
 
     /**
+     * @Route("/{menuName}/move", name="oro_commerce_menu_customer_menu_move")
+     *
+     * @param Request $request
+     * @param string  $menuName
+     *
+     * @return array|RedirectResponse
+     */
+    public function moveAction(Request $request, $menuName)
+    {
+        $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
+
+        return parent::move($request, $menuName, $context);
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function checkAcl(array $context)

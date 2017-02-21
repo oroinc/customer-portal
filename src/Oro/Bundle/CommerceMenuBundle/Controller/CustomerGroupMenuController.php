@@ -101,6 +101,21 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
     }
 
     /**
+     * @Route("/{menuName}/move", name="oro_commerce_menu_customer_group_menu_move")
+     *
+     * @param Request $request
+     * @param string  $menuName
+     *
+     * @return array|RedirectResponse
+     */
+    public function moveAction(Request $request, $menuName)
+    {
+        $context = $this->getContextFromRequest($request, $this->getAllowedContextKeys());
+
+        return parent::move($request, $menuName, $context);
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function checkAcl(array $context)
@@ -131,7 +146,7 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
         if (array_key_exists(ScopeCustomerGroupCriteriaProvider::FIELD_NAME, $context)) {
             /** @var CustomerGroup $customerGroup */
             $customerGroup = $context[ScopeCustomerGroupCriteriaProvider::FIELD_NAME];
-//            $context[ScopeOrganizationCriteriaProvider::SCOPE_KEY] = $customerGroup->getOrganization();
+            $context[ScopeOrganizationCriteriaProvider::SCOPE_KEY] = $customerGroup->getOrganization();
         }
 
         return parent::getMenu($menuName, $context);
