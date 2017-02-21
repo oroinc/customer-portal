@@ -3,8 +3,8 @@ Feature: Price lists must be sortable in customer & customerGroup create\edit pa
 
   Scenario: Changing Price List Priorities In Customer Group
     Given I login as administrator
-    And I go to "/admin/customer/group/view/1"
-    And I click "Edit"
+    And I go to "/admin/customer/group/create"
+    And I fill in "name" with "All Customers"
     Then I should not see "Priority"
     And I should see Drag-n-Drop icon present on price list line
     When I click "Add Price List"

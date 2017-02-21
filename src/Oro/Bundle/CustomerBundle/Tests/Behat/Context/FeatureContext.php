@@ -2,16 +2,15 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
-use Behat\Symfony2Extension\Context\KernelDictionary;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
+use Oro\Bundle\PricingBundle\Tests\Behat\Context\FeatureContext as BaseFeatureContext;
 use Oro\Bundle\UserBundle\Entity\Role;
 
 /**
  * TODO: get rid of inheritance after BAP-13903 is done
  */
-class FeatureContext extends \Oro\Bundle\PricingBundle\Tests\Behat\Context\FeatureContext
+class FeatureContext extends BaseFeatureContext
 {
     /**
      * Example: AmandaRCole@example.org customer user has Buyer role
