@@ -2,23 +2,32 @@
 
 namespace Oro\Bundle\WebsiteBundle\Twig;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 
 class WebsitePathExtension extends \Twig_Extension
 {
     const NAME = 'oro_website_path';
-    
-    /**
-     * @var WebsiteUrlResolver
-     */
-    protected $websiteUrlResolver;
+
+    /** @var ContainerInterface */
+    protected $container;
 
     /**
-     * @param WebsiteUrlResolver $websiteUrlResolver
+     * @param ContainerInterface $container
      */
-    public function __construct(WebsiteUrlResolver $websiteUrlResolver)
+    public function __construct(ContainerInterface $container)
     {
-        $this->websiteUrlResolver = $websiteUrlResolver;
+        $this->container = $container;
+    }
+
+    /**
+     * @return WebsiteUrlResolver
+     */
+    protected function getWebsiteUrlResolver()
+    {
+        return $this->container->get('oro_website.resolver.website_url_resolver');
     }
 
     /**
@@ -35,8 +44,32 @@ class WebsitePathExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('website_path', [$this->websiteUrlResolver, 'getWebsitePath']),
-            new \Twig_SimpleFunction('website_secure_path', [$this->websiteUrlResolver, 'getWebsiteSecurePath'])
+            new \Twig_SimpleFunction('website_path', [$this, 'getWebsitePath']),
+            new \Twig_SimpleFunction('website_secure_path', [$this, 'getWebsiteSecurePath'])
         ];
+    }
+
+    /**
+     * @param string       $route
+     * @param array        $routeParams
+     * @param Website|null $website
+     *
+     * @return string
+     */
+    public function getWebsitePath($route, array $routeParams, Website $website = null)
+    {
+        return $this->getWebsiteUrlResolver()->getWebsitePath($route, $routeParams, $website);
+    }
+
+    /**
+     * @param string       $route
+     * @param array        $routeParams
+     * @param Website|null $website
+     *
+     * @return string
+     */
+    public function getWebsiteSecurePath($route, array $routeParams, Website $website = null)
+    {
+        return $this->getWebsiteUrlResolver()->getWebsiteSecurePath($route, $routeParams, $website);
     }
 }

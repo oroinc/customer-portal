@@ -15,7 +15,7 @@ services:
         class: 'Oro\Bundle\WebsiteBundle\Twig\OroWebsiteExtension'
         public: false
         arguments:
-            - "@oro_website.manager"
+            - "@service_container"
         tags:
             - { name: twig.extension }
 
@@ -66,7 +66,7 @@ services:
         class: Oro\Bundle\WebsiteBundle\Twig\WebsitePathExtension
         public: false
         arguments:
-            - '@oro_website.resolver.website_url_resolver'
+            - '@service_container'
         tags:
             - { name: twig.extension }
 
