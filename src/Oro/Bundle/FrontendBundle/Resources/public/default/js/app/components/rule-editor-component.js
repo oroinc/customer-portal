@@ -888,6 +888,11 @@ define(function(require) {
             }
 
             var term = this._replaceWraps(string, '[]', 'wipe');
+
+            if (!term) {
+                return false;
+            }
+
             var dataType = this._getValueByPath(term).type;
             var hasEndType = !_.isEmpty(dataType) && _.isString(dataType) && dataType !== 'relation';
 
