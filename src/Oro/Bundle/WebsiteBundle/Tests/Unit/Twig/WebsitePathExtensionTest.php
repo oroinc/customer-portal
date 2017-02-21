@@ -2,52 +2,37 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Twig;
 
-use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 use Oro\Bundle\WebsiteBundle\Twig\WebsitePathExtension;
+use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 
 class WebsitePathExtensionTest extends \PHPUnit_Framework_TestCase
 {
+    use TwigExtensionTestCaseTrait;
     use EntityTrait;
 
-    /**
-     * @var WebsiteUrlResolver|\PHPUnit_Framework_MockObject_MockObject
-     */
+    /** @var WebsiteUrlResolver|\PHPUnit_Framework_MockObject_MockObject */
     protected $websiteUrlResolver;
 
-    /**
-     * @var WebsitePathExtension
-     */
-    protected $websitePathExtension;
+    /** @var WebsitePathExtension */
+    protected $extension;
 
     protected function setUp()
     {
         $this->websiteUrlResolver = $this->getMockBuilder(WebsiteUrlResolver::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $this->websitePathExtension = new WebsitePathExtension($this->websiteUrlResolver);
+
+        $container = self::getContainerBuilder()
+            ->add('oro_website.resolver.website_url_resolver', $this->websiteUrlResolver)
+            ->getContainer($this);
+
+        $this->extension = new WebsitePathExtension($container);
     }
 
     public function testGetName()
     {
-        $this->assertEquals(WebsitePathExtension::NAME, $this->websitePathExtension->getName());
-    }
-
-    public function testGetFunctions()
-    {
-        /** @var \Twig_SimpleFunction[] $functions */
-        $functions = $this->websitePathExtension->getFunctions();
-
-        $this->assertCount(2, $functions);
-
-        $availableFunctions = [
-            'website_path',
-            'website_secure_path'
-        ];
-
-        foreach ($functions as $function) {
-            $this->assertInstanceOf(\Twig_SimpleFunction::class, $function);
-            $this->assertTrue(in_array($function->getName(), $availableFunctions, true));
-        }
+        $this->assertEquals(WebsitePathExtension::NAME, $this->extension->getName());
     }
 }
