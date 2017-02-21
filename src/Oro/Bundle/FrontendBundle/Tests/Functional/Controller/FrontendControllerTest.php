@@ -7,13 +7,12 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 class FrontendControllerTest extends WebTestCase
 {
     const FRONTEND_THEME_CONFIG_KEY = 'oro_frontend.frontend_theme';
-    const DEFAULT_THEME = '';
 
     protected function setUp()
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
-        $this->setTheme(self::DEFAULT_THEME);
+        $this->setDefaultTheme();
 
         $this->loadFixtures([
             'Oro\Bundle\ProductBundle\Tests\Functional\DataFixtures\LoadProductData',
@@ -23,7 +22,7 @@ class FrontendControllerTest extends WebTestCase
 
     protected function tearDown()
     {
-        $this->setTheme(self::DEFAULT_THEME);
+        $this->setDefaultTheme();
     }
 
     public function testIndexPage()
@@ -38,7 +37,6 @@ class FrontendControllerTest extends WebTestCase
     {
         // Switch to layout theme
         $configManager = $this->getContainer()->get('oro_config.manager');
-        $this->assertEmpty($configManager->get(self::FRONTEND_THEME_CONFIG_KEY));
         $layoutTheme = 'default';
         $this->setTheme($layoutTheme);
 
@@ -57,7 +55,7 @@ class FrontendControllerTest extends WebTestCase
         $this->assertEquals('Login', $crawler->filter('h2.title')->html());
 
         // Check that after selecting of layout there is an ability to switch to oro theme
-        $this->setTheme(self::DEFAULT_THEME);
+        $this->setDefaultTheme();
 
         $this->client->request('GET', $this->getUrl('oro_frontend_root'));
         $result = $this->client->getResponse();
@@ -79,6 +77,13 @@ class FrontendControllerTest extends WebTestCase
     {
         $configManager = $this->getContainer()->get('oro_config.manager');
         $configManager->set(self::FRONTEND_THEME_CONFIG_KEY, $theme);
+        $configManager->flush();
+    }
+
+    protected function setDefaultTheme()
+    {
+        $configManager = $this->getContainer()->get('oro_config.manager');
+        $configManager->reset(self::FRONTEND_THEME_CONFIG_KEY);
         $configManager->flush();
     }
 }
