@@ -422,7 +422,7 @@ define(function(require) {
             var normalized = this._getNormalized(value, caretPosition);
             var normWordPosition = this._getWordPosition(normalized.string, normalized.position);
             var termUnderCaretPosition = this._getWordPosition(normalized.string, normalized.position,
-                _.assign({space: /\\s/gi}, this.opsRegEx));
+                _.assign({space: /\s/gi}, this.opsRegEx));
             var underCaret = {
                 space: value[caretPosition - 1] === ' ',
                 dot: value[caretPosition - 1] === '.',
@@ -509,9 +509,7 @@ define(function(require) {
                 !wordIs.notOps && !wordIs.hasValue ? this._getValueByPath(splitWordTerm.term, rootData) : []), cases);
 
             var termParts = !underCaret.space ? /^(.*)\.(.*)\W?/g.exec(underCaret.term.current) : null;
-            var searchPart = underCaret.space ?
-                '' : (termParts ? (_.isUndefined(termParts[2]) ?
-                        termParts[1] : termParts[2]) : underCaret.term.current);
+            var searchPart = underCaret.space ? '' : (termParts ? termParts[2] : underCaret.term.current);
 
             return {
                 list: this._getSuggestList(cases, searchPart, underCaret.space, underCaret.dot),
