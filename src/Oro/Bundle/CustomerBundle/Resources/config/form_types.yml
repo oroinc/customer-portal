@@ -156,6 +156,7 @@ services:
             - [setDoctrineHelper, ['@oro_entity.doctrine_helper']]
             - [addExtensionFilter, ['entity', 'commerce']]
             - [addExtensionFilter, ['action', 'commerce']]
+            - [setConfigurableName, ['commerce']]
 
     oro_customer.form.handler.update_customer_user_role_frontend:
         parent: oro_customer.form.handler.update_customer_user_role
@@ -163,6 +164,7 @@ services:
         scope: prototype
         calls:
             - [setTokenStorage, ['@security.token_storage']]
+            - [setConfigurableName, ['commerce_frontend']]
 
     oro_customer.form.type.typed_address:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressType'
