@@ -50,7 +50,7 @@ define(function(require) {
          */
         onSwitchClick: function(e) {
             this.$el.find(this.options.itemSelector).removeClass(this.options.activeClass);
-            $(e.target).closest(this.options.itemSelector).addClass(this.options.activeClass);
+            $(e.target).parents().filter(this.options.itemSelector).addClass(this.options.activeClass);
         },
 
         /**
@@ -71,11 +71,18 @@ define(function(require) {
          * @inheritDoc
          */
         render: function() {
+            var self = this;
             this.$el.html(this.template({
                 items: this.getElementsList()
             }));
 
-            $('body').scrollspy({target: '#' + this.$el.attr('id')});
+            this.$el.find('[data-style-book-element-item]:first').addClass(this.options.activeClass);
+
+            $('body').on({
+                'activate.bs.scrollspy': function(e) {
+                    $(e.target).parents().filter(self.options.itemSelector).addClass(self.options.activeClass);
+                }
+            }).scrollspy({target: '#' + this.$el.attr('id')});
         }
     });
 

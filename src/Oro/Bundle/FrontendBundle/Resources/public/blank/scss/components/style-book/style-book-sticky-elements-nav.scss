@@ -1,6 +1,8 @@
 // @theme: blank;
 
 .style-book-sticky-elements-nav {
+    position: relative;
+
     display: flex;
     justify-content: flex-end;
 
@@ -13,8 +15,12 @@
     }
 
     &__sidebar {
-        position: fixed;
+        position: absolute;
+        right: $style-book-sticky-sidebar-right;
 
         width: $style-book-sticky-sidebar-width;
+        max-height: 100vh;
+
+        overflow-y: auto;
     }
 }

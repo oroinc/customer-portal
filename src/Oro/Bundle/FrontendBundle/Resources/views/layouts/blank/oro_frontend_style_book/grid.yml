@@ -42,12 +42,18 @@ layout:
                 group_element_item_offset_holder:
                     blockType: group_element_item
                     options:
+                        anchor: columns_offset_right
+                        label: Columns offset right
+                        subTreeLvl: 1
                         description: oro_frontend_style_book.groups.grid.description_offset_columns
                 style_book_grid_element_offset:
                     blockType: block
                 group_element_item_offset_bottom_holder:
                     blockType: group_element_item
                     options:
+                        anchor: columns_offset_bottom
+                        label: Indent under columns
+                        subTreeLvl: 1
                         description: oro_frontend_style_book.groups.grid.description_offset_columns_bottom
                 style_book_grid_element_offset_bottom:
                     blockType: block

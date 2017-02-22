@@ -208,7 +208,8 @@ define(function(require) {
             var elementInStickyHeight = $elementInSticky ? $elementInSticky.height() : 0;
 
             return (
-                (elementBottom <= this.viewPort.bottom) &&
+                /* It's hotfix bug when sticky element greater of viewport */
+                /*(elementBottom <= this.viewPort.bottom) &&*/
                 (elementTop >= this.viewPort.top - elementInStickyHeight)
             );
         },

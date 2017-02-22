@@ -60,7 +60,14 @@ services:
     oro_layout.block_type.group_element_item:
             parent: oro_layout.block_type.abstract_configurable_container
             calls:
-                - [setOptionsConfig, [description: {default: ''}]]
+                -
+                    - setOptionsConfig
+                    -
+                        -
+                            description: {default: ''}
+                            anchor: {default: ''}
+                            label: {default: ''}
+                            subTreeLvl: {default: 1}
                 - [setName, ['group_element_item']]
             tags:
                  - { name: layout.block_type, alias: group_element_item }
