@@ -916,9 +916,9 @@ define(function(require) {
          */
         _checkCompare: function(string, match) {
             var matchSplit = this._splitTermAndExpr(string, match);
+            var pathValue = this._getValueByPath(matchSplit.term);
 
-            return this._checkTerm(matchSplit.term) &&
-                this._checkExpression(matchSplit.expr, this._getValueByPath(matchSplit.term).type);
+            return this._checkTerm(matchSplit.term) && this._checkExpression(matchSplit.expr, pathValue.type);
         },
 
         /**
@@ -1063,13 +1063,13 @@ define(function(require) {
                     return isNumber;
                 case 'standalone':
                     return _.isEmpty(value);
+                case 'string':
+                    return quotesLength > 1 && quotesLength % 2 === 0 && !wrongQuotesMatch;
                 default:
-                    return _.isString(value) && !_.isNumber(value) && quotesLength % 2 === 0 && !wrongQuotesMatch;
+                    return quotesLength % 2 === 0 && !wrongQuotesMatch;
 
                 // TODO add helpers for: enum, datetime, collection
                 /*
-                 case 'string':
-                 return _.isString(value) && !_.isNumber(value) && quotesLength % 2 === 0 && !wrongQuotesMatch;
                  case 'enum':
                  break;
                  case 'datetime':
