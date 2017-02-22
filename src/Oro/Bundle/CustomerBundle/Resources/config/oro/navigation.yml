@@ -55,8 +55,6 @@ navigation:
                 extras:
                     icon:        fa-user
 
-            # This is temporary solution to remove navigation key duplication
-            # @todo: renaming of navigation keys will be finished in BB-2679
             customer_list:
                 label:           'oro.customer.customer.entity_plural_label'
                 route:           'oro_customer_customer_index'
@@ -98,7 +96,11 @@ navigation:
                 route: 'oro_customer_customer_user_index'
                 position: 30
                 extras:
-                    routes: ['/^oro_customer_customer_user/']
+                    routes:
+                        - 'oro_customer_customer_user_index'
+                        - 'oro_customer_customer_user_view'
+                        - 'oro_customer_customer_user_update'
+                        - 'oro_customer_customer_user_create'
                     description: 'oro.customer.menu.customer_users.description'
 
             shortcut_new_customer_user:
