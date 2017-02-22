@@ -24,7 +24,7 @@ define(function(require) {
 
         scrollState: null,
 
-        viewPort: null,
+        viewport: null,
 
         /**
          * @inheritDoc
@@ -37,7 +37,7 @@ define(function(require) {
                 directionClass: '',
                 position: 0
             };
-            this.viewPort = {
+            this.viewport = {
                 top: 0,
                 bottom: 0
             };
@@ -102,7 +102,7 @@ define(function(require) {
 
             this.undelegateEvents();
 
-            _.each(['$document', '$elements', 'scrollState', 'viewPort'], function(key) {
+            _.each(['$document', '$elements', 'scrollState', 'viewport'], function(key) {
                 delete this[key];
             }, this);
 
@@ -122,7 +122,7 @@ define(function(require) {
 
                 var options = _.defaults($element.data('sticky') || {}, {
                     $elementPlaceholder: $elementPlaceholder,
-                    screenType: 'any',
+                    viewport: {},
                     placeholderId: '',
                     toggleClass: '',
                     autoWidth: false,
@@ -179,8 +179,7 @@ define(function(require) {
         getNewElementState: function($element) {
             var options = $element.data('sticky');
             var isEmpty = $element.is(':empty');
-            var viewport = viewportManager.getViewport();
-            var screenTypeState = viewport.screenTypes[options.screenType];
+            var screenTypeState = viewportManager.isApplicable(options.viewport);
 
             if (options.isSticky) {
                 if (options.currentState) {
@@ -200,8 +199,8 @@ define(function(require) {
         },
 
         updateViewPort: function() {
-            this.viewPort.top = $(window).scrollTop() + this.$el.height();
-            this.viewPort.bottom = this.viewPort.top + $(window).height();
+            this.viewport.top = $(window).scrollTop() + this.$el.height();
+            this.viewport.bottom = this.viewport.top + $(window).height();
         },
 
         inViewPort: function($element, $elementInSticky) {
@@ -210,8 +209,8 @@ define(function(require) {
             var elementInStickyHeight = $elementInSticky ? $elementInSticky.height() : 0;
 
             return (
-                (elementBottom <= this.viewPort.bottom) &&
-                (elementTop >= this.viewPort.top - elementInStickyHeight)
+                (elementBottom <= this.viewport.bottom) &&
+                (elementTop >= this.viewport.top - elementInStickyHeight)
             );
         },
 

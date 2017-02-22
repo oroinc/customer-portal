@@ -6,22 +6,26 @@ define(function(require) {
     var AddressBook;
     var BaseAddressBook = require('oroaddress/js/address-book');
     var $ = require('jquery');
-    var _ = require('underscore');
     var mediator = require('oroui/js/mediator');
+    var viewportManager = require('oroui/js/viewport-manager');
 
     AddressBook = BaseAddressBook.extend({
-        /**
-         * @property {Object}
-         */
-        defaultOptions: {
-            'useFormDialog': true
+        optionNames: BaseAddressBook.prototype.optionNames.concat(['useFormDialog', 'mapViewPort']),
+
+        useFormDialog: true,
+
+        mapViewPort: {},
+
+        listen: {
+            'viewport:change mediator': '_checkMapVisibility'
         },
 
         /**
          * @param {Object} options
          */
         initialize: function(options) {
-            AddressBook.__super__.initialize.call(this, _.defaults(options || {}, this.defaultOptions));
+            this.showMap = viewportManager.isApplicable(this.mapViewPort);
+            AddressBook.__super__.initialize.call(this, options);
         },
 
         /**
@@ -30,7 +34,7 @@ define(function(require) {
          * @private
          */
         _openAddressEditForm: function(title, url) {
-            if (this.options.useFormDialog) {
+            if (this.useFormDialog) {
                 AddressBook.__super__._openAddressEditForm.apply(this, arguments);
             } else {
                 mediator.execute('redirectTo', {url: url}, {redirect: true});
@@ -43,6 +47,15 @@ define(function(require) {
             $(this.options.manageAddressesLink)
                 .appendTo(this.$addressesContainer)
                 .removeClass('hidden');
+        },
+
+        _checkMapVisibility: function(viewport) {
+            this.showMap = viewport.isApplicable(this.mapViewPort);
+            if (this.showMap) {
+                this.initializeMap();
+            } else {
+                this.disposeMap();
+            }
         }
     });
 

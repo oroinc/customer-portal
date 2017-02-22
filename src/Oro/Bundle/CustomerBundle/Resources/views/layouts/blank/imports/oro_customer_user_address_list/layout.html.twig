@@ -8,7 +8,10 @@
         'data-page-component-module': 'orocustomer/js/app/components/frontend-customer-address-book-component',
         'data-page-component-options': componentOptions|merge({
             template: '#customer-address-book-addresses-list-template',
-            manageAddressesLink: '[data-role="manage-adresses-link"]'
+            manageAddressesLink: '[data-role="manage-adresses-link"]',
+            mapViewPort: {
+                minScreenType: 'tablet'
+            }
         }),
         '~class': ' address-list'
     }) %}
@@ -68,8 +71,26 @@
 {% endblock %}
 
 {% block __oro_customer_user_address_list__user_addresses_list_template_item_actions_open_map_widget %}
-    {% set attr = layout_attr_defaults(attr, {'~class': " address-list__button item-map-button"}) %}
-    <button {{ block('block_attributes') }}>
+    {% import 'OroFrontendBundle:layouts/blank:utils.html.twig' as utils %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' address-list__button item-map-button',
+        'data-page-component-module': "oroui/js/app/components/viewport-component",
+        '~data-page-component-options': {
+            viewport: {
+                maxScreenType: 'tablet-small',
+            },
+            component: 'oroui/js/app/components/view-component',
+            view: 'orofrontend/blank/js/app/views/fullscreen-popup-view',
+            contentView: 'oroaddress/js/mapservice/googlemaps',
+            contentOptions: {
+                address: {
+                    address: '<%= searchable_string %>',
+                    label: '<%= label %>'
+                }
+            }
+        }
+    }) %}
+    <button {{ block('block_attributes_underscore') }}>
         <i class="fa-map-o"></i>
     </button>
 {% endblock %}

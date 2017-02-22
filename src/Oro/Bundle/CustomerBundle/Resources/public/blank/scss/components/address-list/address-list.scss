@@ -96,8 +96,6 @@
 
 @include breakpoint('tablet-small') {
     .address-list {
-        display: block;
-
         margin-left: 0;
         padding-top: 0;
 
@@ -111,6 +109,11 @@
     }
 
     .map-visual-frame {
+        height: auto;
         margin-left: 0;
+    }
+
+    .map-visual {
+        height: 100%;
     }
 }
