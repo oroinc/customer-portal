@@ -19,5 +19,8 @@
         right: $style-book-sticky-sidebar-right;
 
         width: $style-book-sticky-sidebar-width;
+        max-height: 100vh;
+
+        overflow-y: auto;
     }
 }
