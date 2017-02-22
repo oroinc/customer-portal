@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
+ * @dbIsolationPerTest
  */
 class RestCustomerGroupTest extends AbstractRestTest
 {
@@ -36,20 +37,10 @@ class RestCustomerGroupTest extends AbstractRestTest
         $customer1 = $this->createCustomer('customer1', $group);
         $customer2 = $this->createCustomer('customer2', $group);
 
-        $response = $this->get('oro_rest_api_cget', ['entity' => $this->getEntityType(CustomerGroup::class)]);
+        $response = $this->cget(['entity' => $this->getEntityType(CustomerGroup::class)]);
 
         $expected = [
             'data' => [
-                [
-                    'type' => 'customer_groups',
-                    'id' => '1',
-                    'attributes' => [
-                        'name' => 'Non-Authenticated Visitors',
-                    ],
-                    'relationships' => [
-                        'customers' => ['data' => []],
-                    ],
-                ],
                 [
                     'type' => 'customer_groups',
                     'id' => (string)$group->getId(),
@@ -80,6 +71,7 @@ class RestCustomerGroupTest extends AbstractRestTest
     public function testDeleteByFilterCustomerGroup()
     {
         $this->createCustomerGroup('group to delete');
+        $this->getManager()->clear();
 
         $uri = $this->getUrl('oro_rest_api_cget', ['entity' => $this->getEntityType(CustomerGroup::class)]);
         $response = $this->request('DELETE', $uri, ['filter' => ['name' => 'group to delete']]);
@@ -135,13 +127,10 @@ class RestCustomerGroupTest extends AbstractRestTest
         $customer1 = $this->createCustomer('customer1', $group);
         $customer2 = $this->createCustomer('customer2', $group);
 
-        $response = $this->get(
-            'oro_rest_api_get',
-            [
-                'entity' => $this->getEntityType(CustomerGroup::class),
-                'id' => (string)$group->getId(),
-            ]
-        );
+        $response = $this->get([
+            'entity' => $this->getEntityType(CustomerGroup::class),
+            'id' => (string)$group->getId(),
+        ]);
 
         $expected = [
             'data' => [

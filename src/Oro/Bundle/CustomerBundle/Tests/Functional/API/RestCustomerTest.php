@@ -39,7 +39,7 @@ class RestCustomerTest extends AbstractRestTest
      */
     public function testGetCustomers()
     {
-        $response = $this->get('oro_rest_api_cget', ['entity' => $this->getEntityType(Customer::class)]);
+        $response = $this->cget(['entity' => $this->getEntityType(Customer::class)]);
         $this->assertResponseContains(__DIR__.'/responses/get_customers.yml', $response);
     }
 
@@ -66,7 +66,6 @@ class RestCustomerTest extends AbstractRestTest
         $group = $this->getGroup(LoadGroups::GROUP1);
 
         $response = $this->post(
-            'oro_rest_api_post',
             ['entity' => $this->getEntityType(Customer::class)],
             __DIR__.'/requests/create_customer.yml'
         );
@@ -88,13 +87,10 @@ class RestCustomerTest extends AbstractRestTest
      */
     public function testGetCustomer()
     {
-        $response = $this->get(
-            'oro_rest_api_get',
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => '<toString(@customer.1->id)>',
-            ]
-        );
+        $response = $this->get([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => '<toString(@customer.1->id)>',
+        ]);
         $this->assertResponseContains(__DIR__.'/responses/get_customer.yml', $response);
     }
 
@@ -466,27 +462,21 @@ class RestCustomerTest extends AbstractRestTest
      */
     public function testGetParentSubresource()
     {
-        $response = $this->get(
-            'oro_rest_api_get_subresource',
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => '@customer.1->id',
-                'association' => 'parent',
-            ]
-        );
+        $response = $this->getSubresource([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => '@customer.1->id',
+            'association' => 'parent',
+        ]);
         $this->assertResponseContains(__DIR__.'/responses/get_parent_sub_resource.yml', $response);
     }
 
     public function testGetParentRelationship()
     {
-        $response = $this->get(
-            'oro_rest_api_get_relationship',
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => '@customer.1->id',
-                'association' => 'parent',
-            ]
-        );
+        $response = $this->getRelationship([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => '@customer.1->id',
+            'association' => 'parent',
+        ]);
         $expected = [
             'data' => [
                 'type' => 'customers',
@@ -530,27 +520,21 @@ class RestCustomerTest extends AbstractRestTest
      */
     public function testGetChildrenSubresource()
     {
-        $response = $this->get(
-            'oro_rest_api_get_subresource',
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => '@default_customer->id',
-                'association' => 'children',
-            ]
-        );
+        $response = $this->getSubresource([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => '@default_customer->id',
+            'association' => 'children',
+        ]);
         $this->assertResponseContains(__DIR__.'/responses/get_children_sub_resource.yml', $response);
     }
 
     public function testGetChildrenRelationship()
     {
-        $response = $this->get(
-            'oro_rest_api_get_relationship',
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => '<toString(@default_customer->id)>',
-                'association' => 'children',
-            ]
-        );
+        $response = $this->getRelationship([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => '<toString(@default_customer->id)>',
+            'association' => 'children',
+        ]);
         $expected = [
             'data' => [
                 [
@@ -669,27 +653,21 @@ class RestCustomerTest extends AbstractRestTest
 
     public function testGetUsersSubresource()
     {
-        $response = $this->get(
-            'oro_rest_api_get_subresource',
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => '<toString(@default_customer->id)>',
-                'association' => 'users',
-            ]
-        );
+        $response = $this->getSubresource([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => '<toString(@default_customer->id)>',
+            'association' => 'users',
+        ]);
         $this->assertResponseContains(__DIR__.'/responses/get_users_sub_resource.yml', $response);
     }
 
     public function testGetUsersRelationship()
     {
-        $response = $this->get(
-            'oro_rest_api_get_relationship',
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => '<toString(@default_customer->id)>',
-                'association' => 'users',
-            ]
-        );
+        $response = $this->getRelationship([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => '<toString(@default_customer->id)>',
+            'association' => 'users',
+        ]);
         $expected = [
             'data' => [
                 [

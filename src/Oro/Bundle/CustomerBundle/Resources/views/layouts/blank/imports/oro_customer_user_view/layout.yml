@@ -10,7 +10,7 @@ layout:
 
         - '@setOption':
             id: page_title
-            optionName: text
+            optionName: defaultValue
             optionValue: 'oro.customer.frontend.title.customer_user.my_profile'
 
         - '@setOption':

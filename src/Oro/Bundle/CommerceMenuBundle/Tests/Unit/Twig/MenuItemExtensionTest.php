@@ -6,9 +6,12 @@ use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\MatcherInterface;
 
 use Oro\Bundle\CommerceMenuBundle\Twig\MenuExtension;
+use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 
 class MenuItemExtensionTest extends \PHPUnit_Framework_TestCase
 {
+    use TwigExtensionTestCaseTrait;
+
     /** @var MatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $matcher;
 
@@ -17,8 +20,15 @@ class MenuItemExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->matcher = $this->getMockBuilder(MatcherInterface::class)->disableOriginalConstructor()->getMock();
-        $this->extension = new MenuExtension($this->matcher);
+        $this->matcher = $this->getMockBuilder(MatcherInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $container = self::getContainerBuilder()
+            ->add('knp_menu.matcher', $this->matcher)
+            ->getContainer($this);
+
+        $this->extension = new MenuExtension($container);
     }
 
     public function testGetName()
@@ -26,38 +36,19 @@ class MenuItemExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(MenuExtension::NAME, $this->extension->getName());
     }
 
-    /**
-     * @dataProvider expectedFunctionsProvider
-     *
-     * @param string $keyName
-     * @param string $functionName
-     */
-    public function testGetFunctions($keyName, $functionName)
-    {
-        $functions = $this->extension->getFunctions();
-        $this->assertCount(2, $functions);
-
-        $this->assertArrayHasKey($keyName, $functions);
-
-        /** @var \Twig_SimpleFunction $function */
-        $function = $functions[$keyName];
-
-        $this->assertInstanceOf(\Twig_SimpleFunction::class, $function);
-        $this->assertEquals([$this->extension, $functionName], $function->getCallable());
-    }
-
     public function testIsCurrent()
     {
         /** @var ItemInterface|\PHPUnit_Framework_MockObject_MockObject $item */
         $item = $this->createMock(ItemInterface::class);
 
-        $this->matcher
-            ->expects($this->once())
+        $this->matcher->expects($this->once())
             ->method('isCurrent')
-            ->with($item)
+            ->with(self::identicalTo($item))
             ->will($this->returnValue(true));
 
-        $this->assertTrue($this->extension->isCurrent($item));
+        $this->assertTrue(
+            self::callTwigFunction($this->extension, 'oro_commercemenu_is_current', [$item])
+        );
     }
 
     public function testIsAncestor()
@@ -68,20 +59,11 @@ class MenuItemExtensionTest extends \PHPUnit_Framework_TestCase
         $this->matcher
             ->expects($this->once())
             ->method('isAncestor')
-            ->with($item)
+            ->with(self::identicalTo($item))
             ->will($this->returnValue(true));
 
-        $this->assertTrue($this->extension->isAncestor($item));
-    }
-
-    /**
-     * @return array
-     */
-    public function expectedFunctionsProvider()
-    {
-        return [
-            ['oro_commercemenu_is_current', 'isCurrent'],
-            ['oro_commercemenu_is_ancestor', 'isAncestor']
-        ];
+        $this->assertTrue(
+            self::callTwigFunction($this->extension, 'oro_commercemenu_is_ancestor', [$item])
+        );
     }
 }

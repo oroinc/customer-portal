@@ -17,6 +17,7 @@ use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainMetadataProvider;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclPrivilegeRepository;
+use Oro\Bundle\SecurityBundle\Filter\AclPrivilegeConfigurableFilter;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -69,6 +70,9 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit_Fr
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|AclCacheInterface */
     protected $aclCache;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject|AclPrivilegeConfigurableFilter */
+    protected $configurableFilter;
 
     /**
      * @var array
@@ -129,6 +133,13 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit_Fr
         $this->aclCache = $this->getMockBuilder(AclCacheInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->configurableFilter = $this->createMock(AclPrivilegeConfigurableFilter::class);
+        $this->configurableFilter->expects($this->any())
+            ->method('filter')
+            ->willReturnCallback(function ($privileges) {
+                return $privileges;
+            });
     }
 
     /**
@@ -235,6 +246,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit_Fr
         $handler->setOwnershipConfigProvider($this->ownershipConfigProvider);
         $handler->setManagerRegistry($this->managerRegistry);
         $handler->setDoctrineHelper($this->doctrineHelper);
+        $handler->setConfigurableFilter($this->configurableFilter);
     }
 
     /**

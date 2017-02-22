@@ -8,7 +8,7 @@ layout:
     actions:
         - '@setOption':
             id: page_title
-            optionName: text
+            optionName: defaultValue
             optionValue:
                 label: 'oro.customer.frontend.title.page.customer_user.edit'
                 parameters:

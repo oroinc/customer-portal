@@ -2,23 +2,32 @@
 
 namespace Oro\Bundle\WebsiteBundle\Twig;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 class OroWebsiteExtension extends \Twig_Extension
 {
     const NAME = 'oro_website_extension';
 
-    /** @var WebsiteManager */
-    protected $websiteManager;
+    /** @var ContainerInterface */
+    protected $container;
 
     /**
-     * Constructor
-     *
-     * @param WebsiteManager $websiteManager
+     * @param ContainerInterface $container
      */
-    public function __construct(WebsiteManager $websiteManager)
+    public function __construct(ContainerInterface $container)
     {
-        $this->websiteManager = $websiteManager;
+        $this->container = $container;
+    }
+
+    /**
+     * @return WebsiteManager
+     */
+    protected function getWebsiteManager()
+    {
+        return $this->container->get('oro_website.manager');
     }
 
     /**
@@ -27,7 +36,7 @@ class OroWebsiteExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('oro_website_get_current_website', [$this->websiteManager, 'getCurrentWebsite'])
+            new \Twig_SimpleFunction('oro_website_get_current_website', [$this, 'getCurrentWebsite'])
         ];
     }
 
@@ -37,5 +46,13 @@ class OroWebsiteExtension extends \Twig_Extension
     public function getName()
     {
         return self::NAME;
+    }
+
+    /**
+     * @return Website
+     */
+    public function getCurrentWebsite()
+    {
+        return $this->getWebsiteManager()->getCurrentWebsite();
     }
 }
