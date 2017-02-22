@@ -1,0 +1,45 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'datagrid_views.html.twig'
+
+        - '@addTree':
+            items:
+                __datagrid_views:
+                    blockType: container
+                __datagrid_views_toolbar:
+                    blockType: container
+                __datagrid_views_group:
+                    blockType: container
+                __datagrid_views_label:
+                    blockType: block
+                __datagrid_views_popup:
+                    blockType: container
+                __datagrid_views_popup_close:
+                    blockType: block
+                __datagrid_views_popup_container:
+                    blockType: container
+                __datagrid_views_popup_title:
+                    blockType: block
+                __datagrid_views_popup_list:
+                    blockType: container
+                __datagrid_views_popup_list_item:
+                    blockType: container
+                __datagrid_views_popup_footer:
+                    blockType: container
+                __datagrid_views_actions:
+                    blockType: container
+            tree:
+                __root:
+                    __datagrid_views:
+                        __datagrid_views_toolbar:
+                            __datagrid_views_group:
+                                __datagrid_views_label: ~
+                                __datagrid_views_popup:
+                                    __datagrid_views_popup_close: ~
+                                    __datagrid_views_popup_container:
+                                        __datagrid_views_popup_title: ~
+                                        __datagrid_views_popup_list:
+                                            __datagrid_views_popup_list_item: ~
+                                        __datagrid_views_popup_footer: ~
+                            __datagrid_views_actions: ~

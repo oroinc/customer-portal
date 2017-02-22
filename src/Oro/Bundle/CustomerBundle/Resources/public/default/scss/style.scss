@@ -203,4 +203,9 @@
   line-height: 2;
   font-weight: 400;
   text-transform: uppercase;
+
+  [class^="fa-"],
+  [class*=" fa-"] {
+    vertical-align: baseline;
+  }
 }

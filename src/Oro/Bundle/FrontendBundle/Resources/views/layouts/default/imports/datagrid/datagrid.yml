@@ -1,0 +1,6 @@
+layout:
+    imports:
+        -
+            id: datagrid_views
+            root: __root
+    actions: []

@@ -1,0 +1,173 @@
+{% block __datagrid_views__datagrid_views_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'id': 'template-frontend-datagrid-grid-view'
+    }) %}
+    <script type="text/template" {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </script>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_toolbar_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' btn-toolbar'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_group_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' btn-group views-group dropdown',
+        'data-dropdown-trigger': ''
+    }) %}
+    <% if (choices.length) { %>
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+    <% } %>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_actions_widget %}
+    <% if (showActions) { %>
+        <div class="btn-group actions-group">
+            <div class="btn-link dropdown-toggle" data-toggle="dropdown" href="#">
+                <%- actionsLabel %>
+            </div>
+            <ul class="dropdown-menu">
+                <% _.each(actions, function(action) { %>
+                    <% if (action.enabled) { %>
+                        <li><a href="#" class="<%- action.name %>"><%- action.label %></a></li>
+                    <% } %>
+                <% }); %>
+            </ul>
+            <% if (dirty) { %>
+            <div class="edited-label">&nbsp;-&nbsp;<%- editedLabel %></div>
+            <% } %>
+        </div>
+    <% } %>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_label_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' user-page-title',
+        'data-toggle': 'dropdown'
+    }) %}
+    <h2 {{ block('block_attributes') }}>
+        <span class="badge">
+            <i class="fa-map-marker"></i>
+        </span>
+        Test title
+        <i class="fa-angle-down"></i>
+    </h2>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_popup_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-views__dropdown dropdown-menu'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_popup_close_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-views__close'
+    }) %}
+    <span {{ block('block_attributes') }}>
+        <i class="fa-times"></i>
+    </span>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_popup_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-views__containner',
+        'data-prevent-dropdown-close': ''
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_popup_title_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-views__dropdown__title'
+    }) %}
+    <h3 {{ block('block_attributes') }}>Saved Views</h3>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_popup_list_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-views__list'
+    }) %}
+    <ul {{ block('block_attributes') }}>
+        <% _.each(choices, function (choice) { %>
+        {{ block_widget(block) }}
+        <% }); %>
+    </ul>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_popup_list_item_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-views__item'
+    }) %}
+    <li {{ block('block_attributes') }}>
+        <label class="grid-views__label custom-radio">
+            <% if (choice.icon) { %><i class="<%- choice.icon %>"></i><% } %>
+            <input type="radio" class="custom-radio__control" value="<%- choice.value %>" name="grid-view">
+            <span class="custom-radio__text"><%- choice.label %></span>
+        </label>
+        <ul class="grid-views__icons-list">
+            <li class="grid-views__icons-list__item">
+                <a href="#" class="grid-views__icons-list__icon">
+                    <i class="fa-reply-all"></i>
+                </a>
+            </li>
+            <li class="grid-views__icons-list__item">
+                <a href="#" class="grid-views__icons-list__icon">
+                    <i class="fa-floppy-o"></i>
+                </a>
+            </li>
+            <li class="grid-views__icons-list__item">
+                <a href="#" class="grid-views__icons-list__icon">
+                    <i class="fa-pencil"></i>
+                </a>
+            </li>
+            <li class="grid-views__icons-list__item">
+                <a href="#" class="grid-views__icons-list__icon">
+                    <i class="fa-trash"></i>
+                </a>
+            </li>
+        </ul>
+    </li>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_popup_footer_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-views__footer'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        <div class="grid-views__footer__toggle-container">
+            <a href="javascript: void(0);" data-toggle="dropdown" data-child-toggle >
+                <i class="fa-plus-circle hide-text"></i>
+                <span>Save As New</span>
+            </a>
+        </div>
+
+        <div class="grid-views__footer__form clearfix">
+            <form action="#">
+                <input type="text" class="input" placeholder="Enter new list name">
+                <div class="actions">
+                    <button class="btn btn--info btn--size-s">Add</button>
+                    <button class="btn btn--size-s">Cancel</button>
+                </div>
+                <label class="custom-checkbox">
+                    <input type="checkbox" class="custom-checkbox__input">
+                    <span class="custom-checkbox__icon"></span>
+                    <span class="custom-checkbox__text">Set as Default</span>
+                </label>
+            </form>
+        </div>
+    </div>
+{% endblock %}
