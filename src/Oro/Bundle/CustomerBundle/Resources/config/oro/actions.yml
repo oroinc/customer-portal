@@ -274,24 +274,37 @@ operations:
             - oro_customer_frontend_customer_user_role_update
         datagrids:
             - frontend-customer-customer-user-roles-grid
-        acl_resource: [FRONTEND_CUSTOMER_ROLE_DELETE, $.data]
         order: 30
         button_options:
             icon: fa-trash-o
+        preconditions:
+            '@and':
+                - '@acl_granted': [oro_customer_frontend_customer_user_role_delete]
+                - '@equal': [$.data.isPredefined, false]
         actions:
-            - '@run_action_group':
-                action_group: DELETE
-                parameters_mapping:
-                    data: $.data
-            - '@trans':
-                id: oro.customer.customeruserrole.entity_label
-                attribute: $.entityLabel
             - '@flash_message':
-                message: oro.action.delete_message
-                type: 'success'
-                message_parameters:
-                    entityLabel: $.entityLabel
-            - '@redirect': {route: oro_customer_frontend_customer_user_role_index}
+                conditions:
+                    '@not':
+                        - '@acl_granted': ['FRONTEND_CUSTOMER_ROLE_DELETE', $.data]
+                message: oro.customer.customeruserrole.frontend.delete-role-with-users.message
+                type: 'warning'
+            - '@tree':
+                conditions:
+                    '@acl_granted': ['FRONTEND_CUSTOMER_ROLE_DELETE', $.data]
+                actions:
+                    - '@run_action_group':
+                        action_group: DELETE
+                        parameters_mapping:
+                            data: $.data
+                    - '@trans':
+                        id: oro.customer.customeruserrole.entity_label
+                        attribute: $.entityLabel
+                    - '@flash_message':
+                        message: oro.action.delete_message
+                        type: 'success'
+                        message_parameters:
+                            entityLabel: $.entityLabel
+                    - '@redirect': {route: oro_customer_frontend_customer_user_role_index}
     UPDATE:
         exclude_datagrids:
             - customer-customer-user-select-grid

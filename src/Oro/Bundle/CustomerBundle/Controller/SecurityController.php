@@ -3,6 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -14,10 +16,17 @@ class SecurityController extends Controller
      * @Route("/login", name="oro_customer_customer_user_security_login")
      * @Layout()
      */
-    public function loginAction()
+    public function loginAction(Request $request)
     {
         if ($this->getUser()) {
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_profile'));
+        }
+
+        // 302 redirect does not processed by Backbone.sync handler, but 401 error does.
+        if ($request->isXmlHttpRequest()) {
+            //the redirectUrl needed to redirect user to the login page.
+            $redirectUrl = $this->generateUrl('oro_customer_customer_user_security_login');
+            return new JsonResponse(['redirectUrl' => $redirectUrl], 401);
         }
 
         $registrationAllowed = (bool) $this->get('oro_config.manager')->get('oro_customer.registration_allowed');
