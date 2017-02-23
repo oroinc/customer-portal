@@ -4,17 +4,16 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Twig;
 
 use Oro\Bundle\CustomerBundle\Twig\CustomerExtension;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
+use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 
 class CustomerExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var CustomerExtension
-     */
+    use TwigExtensionTestCaseTrait;
+
+    /** @var CustomerExtension */
     protected $extension;
 
-    /**
-     * @var CustomerUserProvider|\PHPUnit_Framework_MockObject_MockObject
-     */
+    /** @var CustomerUserProvider|\PHPUnit_Framework_MockObject_MockObject */
     protected $securityProvider;
 
     /**
@@ -22,32 +21,15 @@ class CustomerExtensionTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->securityProvider = $this->getMockBuilder(
-            'Oro\Bundle\CustomerBundle\Security\CustomerUserProvider'
-        )
+        $this->securityProvider = $this->getMockBuilder(CustomerUserProvider::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->extension = new CustomerExtension(
-            $this->securityProvider
-        );
-    }
+        $container = self::getContainerBuilder()
+            ->add('oro_customer.security.customer_user_provider', $this->securityProvider)
+            ->getContainer($this);
 
-    public function testGetFunctions()
-    {
-        $expectedFunctions = array(
-            'is_granted_view_customer_user' => 'isGrantedViewCustomerUser',
-        );
-
-        /* @var $functions \Twig_Function_Method[] */
-        $actualFunctions = $this->extension->getFunctions();
-        $this->assertSameSize($expectedFunctions, $actualFunctions);
-
-        foreach ($expectedFunctions as $twigFunction => $internalMethod) {
-            $this->assertArrayHasKey($twigFunction, $actualFunctions);
-            $this->assertInstanceOf('\Twig_Function_Method', $actualFunctions[$twigFunction]);
-            $this->assertAttributeEquals($internalMethod, 'method', $actualFunctions[$twigFunction]);
-        }
+        $this->extension = new CustomerExtension($container);
     }
 
     public function testGetName()
@@ -59,12 +41,13 @@ class CustomerExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $object = new \stdClass();
 
-        $this->securityProvider->expects($this->once())
+        $this->securityProvider->expects(self::once())
             ->method('isGrantedViewCustomerUser')
-            ->with($object)
-            ->willReturn(true)
-        ;
+            ->with(self::identicalTo($object))
+            ->willReturn(true);
 
-        $this->assertTrue($this->extension->isGrantedViewCustomerUser($object));
+        $this->assertTrue(
+            self::callTwigFunction($this->extension, 'is_granted_view_customer_user', [$object])
+        );
     }
 }

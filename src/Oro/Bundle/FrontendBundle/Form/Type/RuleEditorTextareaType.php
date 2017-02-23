@@ -9,6 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RuleEditorTextareaType extends AbstractType
 {
+    const NAME = 'oro_frontend_rule_editor';
+
     /**
      * @var RuleEditorOptionsConfigurator
      */
@@ -43,7 +45,7 @@ class RuleEditorTextareaType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'oro_frontend_rule_editor';
+        return self::NAME;
     }
 
     /**

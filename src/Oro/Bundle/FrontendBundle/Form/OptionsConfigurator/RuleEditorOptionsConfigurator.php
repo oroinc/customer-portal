@@ -13,7 +13,7 @@ class RuleEditorOptionsConfigurator
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired(['entities']);
-        $resolver->setDefined(['allowedOperations', 'dataSource', 'pageComponent']);
+        $resolver->setDefined(['allowedOperations', 'dataSource', 'pageComponent', 'attr']);
 
         $resolver->setDefault('pageComponent', 'orofrontend/default/js/app/components/rule-editor-component');
         $resolver->setDefault('dataSource', []);
