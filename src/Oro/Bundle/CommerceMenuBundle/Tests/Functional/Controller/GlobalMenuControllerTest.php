@@ -184,7 +184,6 @@ class GlobalMenuControllerTest extends WebTestCase
 
         $this->client->followRedirects(true);
 
-        /** TODO Change after BAP-1813 */
         $form->getFormNode()->setAttribute(
             'action',
             $form->getFormNode()->getAttribute('action')

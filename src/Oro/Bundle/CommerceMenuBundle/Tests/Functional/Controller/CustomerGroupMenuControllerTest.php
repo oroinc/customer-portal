@@ -226,10 +226,9 @@ class CustomerGroupMenuControllerTest extends WebTestCase
 
         $this->client->followRedirects(true);
 
-        /** TODO Change after BAP-1813 */
         $form->getFormNode()->setAttribute(
             'action',
-            $form->getFormNode()->getAttribute('action').'?_widgetContainer=dialog'
+            $form->getFormNode()->getAttribute('action')
         );
 
         $this->client->submit($form);
@@ -242,7 +241,7 @@ class CustomerGroupMenuControllerTest extends WebTestCase
             ->getManagerForClass('OroCommerceMenuBundle:MenuUpdate')
             ->getRepository('OroCommerceMenuBundle:MenuUpdate');
         $menuUpdate = $repository->findOneBy(['key' => CustomerGroupMenuUpdateData::MENU_UPDATE_1_1]);
-        $this->assertEquals(self::MENU_NAME, $menuUpdate->getParentKey());
+        $this->assertNull($menuUpdate->getParentKey());
     }
 
     /**
