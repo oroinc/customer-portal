@@ -69,6 +69,8 @@ oro.customer:
         id.label: 'Id'
         customers.label: 'Customers'
         form.choose: 'Choose a customer group...'
+        organization.label: 'Organization'
+        owner.label: 'Owner'
 
     customeruser:
         entity_label:                'Customer User'
