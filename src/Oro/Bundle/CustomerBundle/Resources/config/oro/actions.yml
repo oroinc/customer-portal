@@ -401,7 +401,7 @@ operations:
                 parameters: [$.gridName]
 
     oro_customer_frontend_address_delete:
-        label: oro.customer.frontend.address.datagrid.delete.label
+        label: ' '
         extends: DELETE
         replace:
             - preconditions
@@ -414,7 +414,7 @@ operations:
             - frontend-customer-customer-address-grid
 
     oro_customer_user_frontend_address_delete:
-        label: oro.customer.frontend.address.datagrid.delete.label
+        label: ' '
         extends: DELETE
         replace:
             - preconditions
