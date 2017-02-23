@@ -460,7 +460,7 @@ define(function(require) {
             }
             var pathValue = this._getValueByPath(underCaret.term.current, rootData);
 
-            if (_.isEqual(pathValue, rootData) && prevIsNotBool && underCaret.word.previous) {
+            if (_.isEqual(pathValue, rootData) && prevIsNotBool && underCaret.word.previous && !underCaret.space) {
                 pathValue = this._getValueByPath(underCaret.word.previous, rootData);
             }
 
@@ -498,15 +498,16 @@ define(function(require) {
                     cases = _.union(cases, pathValue.type ?
                         this._getOpsByType(pathValue.type) : this._getMarkedRelationItemsKeys(rootData));
                 } else if (wordIs.notOps) {
-                    cases = this._getMarkedRelationItemsKeys(pathValue || rootData,
-                        pathValue ? underCaret.term.current : '');
+                    cases = this._getMarkedRelationItemsKeys(pathValue && !underCaret.space ? pathValue : rootData,
+                        pathValue && !underCaret.space ? underCaret.term.current : '');
                 } else if (pathValue && !_.isString(pathValue.type)) {
                     cases = this._getMarkedRelationItemsKeys(pathValue, underCaret.term.current);
                 }
             }
 
             cases = _.union(this._getPresetCases(splitWordTerm.term,
-                !wordIs.notOps && !wordIs.hasValue ? this._getValueByPath(splitWordTerm.term, rootData) : []), cases);
+                !wordIs.notOps && !wordIs.hasValue && !underCaret.space ?
+                    this._getValueByPath(splitWordTerm.term, rootData) : []), cases);
 
             var termParts = !underCaret.space ? /^(.*)\.(.*)\W?/g.exec(underCaret.term.current) : null;
             var searchPart = underCaret.space ? '' : (termParts ? termParts[2] : underCaret.term.current);
@@ -598,14 +599,14 @@ define(function(require) {
         },
 
         /**
-         * Returns allowed expression which are suitable to term's type
+         * Returns allowed expression types which are suitable to term's type
          *
          * @param type {String}
          * @returns {Array}
          * @private
          */
         _getAllowedTypes: function(type) {
-            var byDefault = ['relation', 'collection'];
+            var byDefault = ['relation'];
 
             switch (type) {
                 case 'boolean':
@@ -1065,6 +1066,8 @@ define(function(require) {
                     return _.isEmpty(value);
                 case 'string':
                     return quotesLength > 1 && quotesLength % 2 === 0 && !wrongQuotesMatch;
+                case 'relation':
+                    return false;
                 default:
                     return quotesLength % 2 === 0 && !wrongQuotesMatch;
 
