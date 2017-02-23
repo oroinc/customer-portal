@@ -5,7 +5,7 @@ layout:
 
         - '@setOption':
             id: page_title
-            optionName: text
+            optionName: defaultValue
             optionValue: 'oro_frontend_style_book.groups.grid.title'
 
         - '@addTree':
