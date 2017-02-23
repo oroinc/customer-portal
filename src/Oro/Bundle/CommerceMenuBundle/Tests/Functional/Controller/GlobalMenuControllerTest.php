@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Functional\Controller;
 
 use Oro\Bundle\CommerceMenuBundle\Tests\Functional\DataFixtures\GlobalMenuUpdateData;
-use Oro\Bundle\NavigationBundle\Entity\MenuUpdate;
+use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
@@ -179,7 +179,6 @@ class GlobalMenuControllerTest extends WebTestCase
             [],
             $this->generateWsseAuthHeader()
         );
-
         $form = $crawler->selectButton('Save')->form();
         $form['tree_move[target]'] = self::MENU_NAME;
 
@@ -188,9 +187,8 @@ class GlobalMenuControllerTest extends WebTestCase
         /** TODO Change after BAP-1813 */
         $form->getFormNode()->setAttribute(
             'action',
-            $form->getFormNode()->getAttribute('action').'?_widgetContainer=dialog'
+            $form->getFormNode()->getAttribute('action')
         );
-
         $this->client->submit($form);
         $result = $this->client->getResponse();
 
@@ -201,6 +199,6 @@ class GlobalMenuControllerTest extends WebTestCase
             ->getManagerForClass('OroCommerceMenuBundle:MenuUpdate')
             ->getRepository('OroCommerceMenuBundle:MenuUpdate');
         $menuUpdate = $repository->findOneBy(['key' => GlobalMenuUpdateData::MENU_UPDATE_1_1]);
-        $this->assertEquals(self::MENU_NAME, $menuUpdate->getParentKey());
+        $this->assertNull($menuUpdate->getParentKey());
     }
 }
