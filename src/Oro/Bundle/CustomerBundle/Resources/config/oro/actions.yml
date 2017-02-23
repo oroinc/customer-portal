@@ -356,6 +356,8 @@ operations:
             - for_all_entities
             - entities
             - datagrid_options
+            - acl_resource
+        acl_resource: [DELETE, entity:Oro\Bundle\CustomerBundle\Entity\CustomerGroup]
         entities:
             - Oro\Bundle\CustomerBundle\Entity\CustomerGroup
         actions:
@@ -418,29 +420,6 @@ operations:
         extends: DELETE
         replace:
             - preconditions
-            - for_all_datagrids
-            - for_all_entities
-            - datagrids
-            - acl_resource
-        acl_resource: oro_customer_frontend_customer_user_address_remove
-        datagrids:
-            - frontend-customer-customer-user-address-grid
-
-
-    oro_customer_frontend_address_delete:
-        extends: DELETE
-        replace:
-            - for_all_datagrids
-            - for_all_entities
-            - datagrids
-            - acl_resource
-        acl_resource: oro_customer_frontend_customer_address_remove
-        datagrids:
-            - frontend-customer-customer-address-grid
-
-    oro_customer_user_frontend_address_delete:
-        extends: DELETE
-        replace:
             - for_all_datagrids
             - for_all_entities
             - datagrids

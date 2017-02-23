@@ -1,11 +1,11 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Api\Rest;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Action;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
-class CustomerGroupControllerTest extends WebTestCase
+class CustomerGroupActionTest extends WebTestCase
 {
     protected function setUp()
     {
