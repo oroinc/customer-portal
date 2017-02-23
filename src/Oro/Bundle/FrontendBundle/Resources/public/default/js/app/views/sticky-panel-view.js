@@ -156,7 +156,7 @@ define(function(require) {
 
         onScroll: function() {
             this.updateScrollState();
-            this.updateViewPort();
+            this.updateViewport();
 
             var contentChanged = false;
             for (var i = 0, iMax = this.elements.length; i < iMax; i++) {
@@ -185,11 +185,11 @@ define(function(require) {
                 if (options.currentState) {
                     if (isEmpty) {
                         return false;
-                    } else if (!options.alwaysInSticky && this.inViewPort(options.$elementPlaceholder, $element)) {
+                    } else if (!options.alwaysInSticky && this.inViewport(options.$elementPlaceholder, $element)) {
                         return false;
                     }
                 } else if (!isEmpty) {
-                    if (options.alwaysInSticky || (screenTypeState && !this.inViewPort($element))) {
+                    if (options.alwaysInSticky || (screenTypeState && !this.inViewport($element))) {
                         return true;
                     }
                 }
@@ -198,12 +198,12 @@ define(function(require) {
             return null;
         },
 
-        updateViewPort: function() {
+        updateViewport: function() {
             this.viewport.top = $(window).scrollTop() + this.$el.height();
             this.viewport.bottom = this.viewport.top + $(window).height();
         },
 
-        inViewPort: function($element, $elementInSticky) {
+        inViewport: function($element, $elementInSticky) {
             var elementTop = $element.offset().top;
             var elementBottom = elementTop + $element.height();
             var elementInStickyHeight = $elementInSticky ? $elementInSticky.height() : 0;

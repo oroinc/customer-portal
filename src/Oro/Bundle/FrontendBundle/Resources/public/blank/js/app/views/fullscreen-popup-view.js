@@ -3,7 +3,6 @@ define(function(require) {
 
     var FullscreenPopupView;
     var BaseView = require('oroui/js/app/views/base/view');
-    var mediator = require('oroui/js/mediator');
     var tools = require('oroui/js/tools');
     var _ = require('underscore');
     var $ = require('jquery');

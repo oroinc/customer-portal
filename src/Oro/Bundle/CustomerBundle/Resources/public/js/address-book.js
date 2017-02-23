@@ -10,11 +10,11 @@ define(function(require) {
     var viewportManager = require('oroui/js/viewport-manager');
 
     AddressBook = BaseAddressBook.extend({
-        optionNames: BaseAddressBook.prototype.optionNames.concat(['useFormDialog', 'mapViewPort']),
+        optionNames: BaseAddressBook.prototype.optionNames.concat(['useFormDialog', 'mapViewport']),
 
         useFormDialog: true,
 
-        mapViewPort: {},
+        mapViewport: {},
 
         listen: {
             'viewport:change mediator': '_checkMapVisibility'
@@ -24,7 +24,7 @@ define(function(require) {
          * @param {Object} options
          */
         initialize: function(options) {
-            this.showMap = viewportManager.isApplicable(this.mapViewPort);
+            this.showMap = viewportManager.isApplicable(this.mapViewport);
             AddressBook.__super__.initialize.call(this, options);
         },
 
@@ -50,7 +50,7 @@ define(function(require) {
         },
 
         _checkMapVisibility: function(viewport) {
-            this.showMap = viewport.isApplicable(this.mapViewPort);
+            this.showMap = viewport.isApplicable(this.mapViewport);
             if (this.showMap) {
                 this.initializeMap();
             } else {

@@ -1,10 +1,4 @@
 .fullscreen-popup {
-    &__header {
-        display: none;
-    }
-}
-
-.fullscreen-popup {
     position: fixed;
     z-index: z('popup');
     top: 40px;

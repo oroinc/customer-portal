@@ -47,7 +47,7 @@ define(function(require) {
                 },
                 addressMapOptions: {'phone': 'phone'},
                 useFormDialog: options.useFormDialog,
-                mapViewPort: options.mapViewPort,
+                mapViewport: options.mapViewport,
                 allowToRemovePrimary: true,
                 confirmRemove: true,
                 confirmRemoveComponent: deleteConfirmation

@@ -1,9 +1,10 @@
 layout:
     imports:
         -
-            id: oro_breadcrumbs
-            root: page_main
-        -
             id: oro_customer_menu
             root: page_sidebar
-    actions: []
+    actions:
+        - '@add':
+            id: breadcrumbs
+            parentId: page_main_header
+            blockType: breadcrumbs
