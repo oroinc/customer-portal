@@ -159,10 +159,7 @@ datagrids:
                 type:   url
                 route:  oro_customer_customer_group_update
                 params: [ id ]
-#            delete_link:
-#                type:   url
-#                route:  oro_api_customer_delete_customer_group
-#                params: [ id ]
+
         actions:
             view:
                 type:         navigate
