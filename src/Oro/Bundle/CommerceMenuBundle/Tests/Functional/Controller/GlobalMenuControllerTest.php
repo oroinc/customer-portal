@@ -198,7 +198,8 @@ class GlobalMenuControllerTest extends WebTestCase
         $repository = $this->getContainer()->get('doctrine')
             ->getManagerForClass('OroCommerceMenuBundle:MenuUpdate')
             ->getRepository('OroCommerceMenuBundle:MenuUpdate');
-        $menuUpdate = $repository->findOneBy(['key' => GlobalMenuUpdateData::MENU_UPDATE_1_1]);
-        $this->assertNull($menuUpdate->getParentKey());
+        $menuUpdate = $repository->findAll();
+        var_dump(count($menuUpdate));
+//        $this->assertNull($menuUpdate->getParentKey());
     }
 }
