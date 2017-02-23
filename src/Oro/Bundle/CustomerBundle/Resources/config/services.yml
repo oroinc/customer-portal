@@ -24,7 +24,6 @@ services:
 
     oro_customer.security.customer_user_provider:
         class: 'Oro\Bundle\CustomerBundle\Security\CustomerUserProvider'
-        public: false
         arguments:
             - "@oro_security.security_facade"
             - "@oro_security.acl.manager"
@@ -281,7 +280,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Twig\CustomerExtension'
         public: false
         arguments:
-            - "@oro_customer.security.customer_user_provider"
+            - "@service_container"
         tags:
             - { name: twig.extension }
 

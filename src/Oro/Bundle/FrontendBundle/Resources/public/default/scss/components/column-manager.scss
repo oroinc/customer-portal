@@ -1,0 +1,61 @@
+// @theme: default
+
+.column-manager {
+    &__title {
+        margin-bottom: 10px;
+    }
+
+    &__actions {
+        position: relative;
+    }
+
+    &__separator {
+        padding: 0 2px;
+
+        color: darken(get-color('additional', 'light'), 12%);
+    }
+
+    &.dropdown {
+        display: inline-block;
+    }
+
+    .dropdown-menu {
+        width: 312px;
+        padding: 14px 18px 18px;
+
+        border: 1px solid darken(get-color('additional', light), 4%);
+        border-radius: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+        color: get-color('additional', 'dark');
+
+        @extend .dropdown-menu-right;
+    }
+
+    .close {
+        position: absolute;
+        top: 18px;
+        right: 9px;
+
+        font-size: $base-font-size--l;
+        text-align: center;
+        line-height: 0;
+
+        color: darken(get-color('additional', 'light'), 44%);
+
+        cursor: pointer;
+
+        &:hover {
+            opacity: .7;
+        }
+    }
+
+    .disabled {
+        color: darken(get-color('additional', 'middle'), 7%);
+
+        pointer-events: none;
+
+        a {
+            color: inherit;
+        }
+    }
+}

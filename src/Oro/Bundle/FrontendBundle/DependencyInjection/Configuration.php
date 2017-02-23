@@ -20,7 +20,8 @@ class Configuration implements ConfigurationInterface
         SettingsBuilder::append(
             $rootNode,
             [
-                'frontend_theme' => ['type' => 'string', 'value' => ''],
+                'frontend_theme' => ['type' => 'string', 'value' => '%oro_layout.default_active_theme%'],
+                'page_templates' => ['type' => 'array', 'value' => []],
             ]
         );
 
