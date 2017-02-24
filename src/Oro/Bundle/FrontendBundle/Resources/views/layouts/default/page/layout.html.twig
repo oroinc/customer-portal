@@ -67,6 +67,7 @@
             }
             appModules = appModules.concat([
                 'orofrontend/default/js/app/modules/input-widgets',
+                'orofrontend/default/js/app/modules/zoom-disable',
                 'orofrontend/default/js/app/modules/button-manager',
                 'orofrontend/default/js/app/modules/delete-action',
                 'orofrontend/default/js/app/modules/select-filter'
@@ -82,7 +83,10 @@
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' page-title-wrapper' ~ (class_prefix ? ' {{ class_prefix }}-page-title-wrapper')
     }) %}
-    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+    {% set content = block_widget(block)|trim %}
+    {% if content|length %}
+        <div{{ block('block_attributes') }}>{{ content|raw }}</div>
+    {% endif %}
 {% endblock %}
 
 {% block _page_title_widget %}

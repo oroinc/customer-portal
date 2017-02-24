@@ -21,7 +21,8 @@ define(function(require) {
             'addressUpdateRouteName': null,
             'currentAddresses': [],
             'useFormDialog': false,
-            'template': ''
+            'template': '',
+            'manageAddressesLink': ''
         },
 
         /**
@@ -34,6 +35,7 @@ define(function(require) {
             var addressBook = new AddressBook({
                 el: options._sourceElement.get(0),
                 template: options.template,
+                manageAddressesLink: options.manageAddressesLink,
                 addressListUrl: options.addressListUrl,
                 addressCreateUrl: options.addressCreateUrl,
                 addressUpdateUrl: function() {
@@ -45,6 +47,7 @@ define(function(require) {
                 },
                 addressMapOptions: {'phone': 'phone'},
                 useFormDialog: options.useFormDialog,
+                mapViewport: options.mapViewport,
                 allowToRemovePrimary: true,
                 confirmRemove: true,
                 confirmRemoveComponent: deleteConfirmation
