@@ -22,6 +22,11 @@ layout:
             options:
                 src: '=data["asset"].getUrl(data["theme"].getStylesOutput(context["theme"], "stylebook_styles"))'
 
+        - '@add':
+            id: style_book_init_code_highlighter
+            parentId: head
+            blockType: block
+
         - '@addTree':
             items:
                 style_book:

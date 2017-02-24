@@ -1,3 +1,15 @@
+{% block _style_book_init_code_highlighter_widget %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-coy.min.css">
+    <style type="text/css">
+        pre[class*=language-]:after,
+        pre[class*=language-]:before {
+            content: none;
+        }
+    </style>
+{% endblock %}
+
 {% block _style_book_widget %}
     {% set attr = layout_attr_defaults(attr, {
         'id': 'container',
@@ -219,10 +231,12 @@
     </div>
 
     <div class="style-book-group-element__source">
-        <code class="style-book-group-element__code">
-            {%- spaceless -%}
-                {{ content|trim|escape }}
-            {%- endspaceless -%}
-        </code>
+        <pre>
+            <code class="style-book-group-element__code language-markup">
+                {%- spaceless -%}
+                    {{ content|trim|escape }}
+                {%- endspaceless -%}
+            </code>
+        </pre>
     </div>
 {% endblock %}
