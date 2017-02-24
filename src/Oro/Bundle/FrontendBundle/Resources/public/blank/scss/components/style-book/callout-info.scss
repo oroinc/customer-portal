@@ -5,34 +5,31 @@
   border: solid get-color('secondary', 'base');
   border-width: 1px 1px 1px 5px;
   border-radius: 4px;
-
   background-color: get-color('ui', 'success');
 
   color: get-color('secondary', 'base');
 
-  p {
+  &__text {
     color: get-color('additional', 'dark');
   }
 
-  .callout-block-title {
+  &__title {
     margin-bottom: $style-book-title-offset;
 
     font-size: $style-book-title-font-size;
   }
 
-  &.callout-warning {
+  &.warning {
     border: solid get-color('secondary', 'dark');
     border-width: 1px 1px 1px 5px;
-
     background-color: get-color('ui', 'warning');
 
     color: get-color('secondary', 'dark');
   }
 
-  &.callout-danger {
+  &.danger {
     border: solid get-color('primary', 'dark');
     border-width: 1px 1px 1px 5px;
-
     background-color: get-color('ui', 'error');
 
     color: get-color('primary', 'dark');
