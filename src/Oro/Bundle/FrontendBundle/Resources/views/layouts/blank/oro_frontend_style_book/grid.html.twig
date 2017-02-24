@@ -128,3 +128,84 @@
         </div>
     </div>
 {% endblock %}
+
+{% block _style_book_grid_element_notification_flash_widget %}
+    <div class="notification-flash--error">
+        <div class="notification-flash__badge">
+            <i class="fa-exclamation-triangle"></i>
+        </div>
+        <div class="notification-flash__text">
+            This is an Error Message
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_notification_flash_success_widget %}
+    <div class="notification-flash--success">
+        <div class="notification-flash__badge">
+            <i class="fa-check"></i>
+        </div>
+        <div class="notification-flash__text">
+            This is a Success Message
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_notification_flash_warning_widget %}
+    <div class="notification-flash--warning">
+        <div class="notification-flash__badge">
+            <i class="fa-exclamation-circle"></i>
+        </div>
+        <div class="notification-flash__text">
+            This is a Warning Message
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_notification_message_widget %}
+    <div class="notification--error">
+        <div class="notification__item">
+            <i class="fa-exclamation-triangle"></i>
+            <span class="notification__text">This is an Error Message</span>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_notification_message_success_widget %}
+    <div class="notification--success">
+        <div class="notification__item">
+            <i class="fa-check"></i>
+            <span class="notification__text">This is a Success Message</span>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_notification_message_warning_widget %}
+    <div class="notification--warning">
+        <div class="notification__item">
+            <i class="fa-exclamation-circle"></i>
+            <span class="notification__text">This is a Warning Message</span>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_callout_info_widget %}
+    <div class="callout-block">
+        <h2 class="callout-block-title">Info Callout</h2>
+        <p>This is a info callout.</p>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_callout_warning_widget %}
+    <div class="callout-block callout-warning">
+        <h2 class="callout-block-title">Warning Callout</h2>
+        <p>This is a warning callout.</p>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_callout_danger_widget %}
+    <div class="callout-block callout-danger">
+        <h2 class="callout-block-title">Danger Callout</h2>
+        <p>This is a danger callout.</p>
+    </div>
+{% endblock %}
