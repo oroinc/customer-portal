@@ -59,8 +59,11 @@ class CustomerExportTest extends WebTestCase
         $this->assertFileExists($this->filePath);
         $fileContent = file_get_contents($this->filePath);
 
-        $this->assertContains('Id,Name', $fileContent);
         $this->assertNotContains('Addresses', $fileContent);
+        $this->assertContains('Id', $fileContent);
+        $this->assertContains('Name', $fileContent);
+        $this->assertContains('Parent', $fileContent);
+        $this->assertContains('Group Name', $fileContent);
         $this->assertContains(LoadCustomers::CUSTOMER_LEVEL_1_1, $fileContent);
         $this->assertContains(LoadCustomers::DEFAULT_ACCOUNT_NAME, $fileContent);
         $this->assertSame(16, $jobResult->getContext()->getReadCount());

@@ -31,7 +31,6 @@ class CustomerControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertContains('customer-customers-grid', $crawler->html());
         $this->assertContains('Export', $result->getContent());
-
     }
 
     /**
