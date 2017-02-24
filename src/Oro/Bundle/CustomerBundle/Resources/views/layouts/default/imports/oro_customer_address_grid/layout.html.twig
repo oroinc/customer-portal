@@ -12,12 +12,7 @@
         '~class': " grid__column grid__column-half text-left"
     }) %}
     <div {{ block('block_attributes') }}>
-        <h2 class="user-page-title">
-            <span class="badge">
-                <i class="fa-map-marker"></i>
-            </span>
-            {{ block_widget(block) }}
-        </h2>
+        {{ block_widget(block) }}
     </div>
 {% endblock %}
 

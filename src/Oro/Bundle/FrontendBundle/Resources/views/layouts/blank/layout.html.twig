@@ -66,7 +66,7 @@
 {% endblock %}
 
 {% block block_attributes_underscore %}
-    {% import 'OroFrontendBundle:layouts/default:utils.html.twig' as utils %}
+    {% import 'OroFrontendBundle:layouts/blank:utils.html.twig' as utils %}
     {{ utils.underscoreRaw(block('block_attributes_base')) }}
 {%- endblock %}
 

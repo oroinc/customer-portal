@@ -1,0 +1,26 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'fullscreen-popup.html.twig'
+        - '@addTree':
+            items:
+                fullscreen_popup:
+                    blockType: container
+                fullscreen_popup_header:
+                    blockType: container
+                fullscreen_popup_header_label:
+                    blockType: block
+                fullscreen_popup_header_close:
+                    blockType: block
+                fullscreen_popup_content:
+                    blockType: container
+                fullscreen_popup_footer:
+                    blockType: container
+            tree:
+                head:
+                    fullscreen_popup:
+                        fullscreen_popup_header:
+                            fullscreen_popup_header_label: ~
+                            fullscreen_popup_header_close: ~
+                        fullscreen_popup_content: ~
+                        fullscreen_popup_footer: ~

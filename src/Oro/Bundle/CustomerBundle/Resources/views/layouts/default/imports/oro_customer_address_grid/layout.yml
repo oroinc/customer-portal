@@ -16,9 +16,10 @@ layout:
                     options:
                         visible: '=data["acl"].isGranted("oro_customer_frontend_customer_address_view")'
                 __addresses_head_title:
-                    blockType: text
+                    blockType: page_subtitle
                     options:
                         text: 'oro.customer.frontend.customer_user_address_book.customer_addresses'
+                        icon: 'map-marker'
             tree:
                 __root:
                     __addresses_head:
