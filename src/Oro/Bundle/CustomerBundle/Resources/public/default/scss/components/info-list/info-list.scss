@@ -1,0 +1,16 @@
+// @theme: default
+
+.info-list {
+    margin-left: 35px;
+}
+
+@include breakpoint('mobile') {
+    .info-list {
+        margin-left: 0;
+
+        &__name {
+            min-width: 100px;
+            margin-right: 10px;
+        }
+    }
+}

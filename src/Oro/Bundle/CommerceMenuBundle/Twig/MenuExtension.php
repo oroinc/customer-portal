@@ -5,19 +5,29 @@ namespace Oro\Bundle\CommerceMenuBundle\Twig;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\MatcherInterface;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 class MenuExtension extends \Twig_Extension
 {
     const NAME = 'oro_commercemenu';
 
-    /** @var MatcherInterface */
-    private $matcher;
+    /** @var ContainerInterface */
+    protected $container;
 
     /**
-     * @param MatcherInterface $matcher
+     * @param ContainerInterface $container
      */
-    public function __construct(MatcherInterface $matcher)
+    public function __construct(ContainerInterface $container)
     {
-        $this->matcher = $matcher;
+        $this->container = $container;
+    }
+
+    /**
+     * @return MatcherInterface
+     */
+    protected function getMatcher()
+    {
+        return $this->container->get('knp_menu.matcher');
     }
 
     /**
@@ -34,14 +44,8 @@ class MenuExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            'oro_commercemenu_is_current' => new \Twig_SimpleFunction(
-                'oro_commercemenu_is_current',
-                [$this, 'isCurrent']
-            ),
-            'oro_commercemenu_is_ancestor' => new \Twig_SimpleFunction(
-                'oro_commercemenu_is_ancestor',
-                [$this, 'isAncestor']
-            ),
+            new \Twig_SimpleFunction('oro_commercemenu_is_current', [$this, 'isCurrent']),
+            new \Twig_SimpleFunction('oro_commercemenu_is_ancestor', [$this, 'isAncestor']),
         ];
     }
 
@@ -52,7 +56,7 @@ class MenuExtension extends \Twig_Extension
      */
     public function isCurrent(ItemInterface $item)
     {
-        return $this->matcher->isCurrent($item);
+        return $this->getMatcher()->isCurrent($item);
     }
 
     /**
@@ -62,6 +66,6 @@ class MenuExtension extends \Twig_Extension
      */
     public function isAncestor(ItemInterface $item)
     {
-        return $this->matcher->isAncestor($item);
+        return $this->getMatcher()->isAncestor($item);
     }
 }
