@@ -922,6 +922,11 @@
 
 //Table
 .oro-datagrid {
+  &.no-data-visible {
+    > .toolbar {
+      display: block;
+    }
+  }
   .other-scroll-container {
     margin: 0;
     border: 0;
