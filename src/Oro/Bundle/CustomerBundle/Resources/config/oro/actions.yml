@@ -357,11 +357,12 @@ operations:
             - entities
             - datagrid_options
             - acl_resource
+            - actions
         acl_resource: [DELETE, entity:Oro\Bundle\CustomerBundle\Entity\CustomerGroup]
         entities:
             - Oro\Bundle\CustomerBundle\Entity\CustomerGroup
-        actions:
-            - '@redirect': {route: 'oro_customer_customer_group_index'}
+        datagrids:
+            - customer-groups-grid
         datagrid_options:
             mass_action:
                 entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerGroup
@@ -372,8 +373,8 @@ operations:
                 icon: trash-o
         actions:
             - '@create_object':
-                class: Oro\Bundle\CustomerBundle\Entity\CustomerGroup
-                arguments: [$data]
+                class: Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent
+                arguments: [$.data]
                 attribute: $.customerGroupDeleteEvent
             - '@call_service_method':
                 service: event_dispatcher
