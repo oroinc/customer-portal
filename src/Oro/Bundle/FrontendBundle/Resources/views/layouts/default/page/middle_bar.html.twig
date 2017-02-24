@@ -44,7 +44,9 @@
     {% set dom_relocation_options =  {
         responsive: [
             {
-                screenType: 'tablet',
+                viewport: {
+                    maxScreenType: 'tablet',
+                },
                 moveTo: "[data-header-row-search-container]"
             }
         ]

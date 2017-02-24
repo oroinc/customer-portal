@@ -32,6 +32,7 @@ define(function(require) {
             this.$el = options._sourceElement;
 
             if (this.options.mobileEnabled) {
+                this.refreshPositions();
                 $(this.$el).slick(this.options);
             }
 
@@ -44,6 +45,15 @@ define(function(require) {
             this.$el.find('.slick-slide').on('zoom-widget:created', 'img', function() {
                 var nextSlide = $(self.$el).slick('slickCurrentSlide');
                 self.changeHandler(self.$el, nextSlide, 'slider:currentImage');
+            });
+        },
+
+        refreshPositions: function() {
+            var self = this;
+            $(self.$el).on('init', function(event, slick) {
+                setTimeout(function() {
+                    $(self.$el).slick('setPosition');
+                }, 100); // This delay needed for waiting when slick initialized
             });
         },
 

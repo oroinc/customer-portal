@@ -116,6 +116,7 @@
     display: inline-block;
     margin: 0 6px 0 0;
     padding-right: 6px;
+    padding-bottom: 2px;
     border-right: 1px solid get-color('ui', 'normal');
 
     font-size: $base-font-size;
@@ -137,6 +138,13 @@
 
       &:hover {
         text-decoration: underline;
+      }
+
+      [class^="cf-"],
+      [class*=" cf-"],
+      [class^="fa-"],
+      [class*=" fa-"]{
+        vertical-align: baseline;
       }
     }
 
