@@ -18,25 +18,25 @@ class StyleBookFormProvider extends AbstractFormProvider
         $form->add('text', 'text')
             ->add('password', 'password')
             ->add('checkbox', 'checkbox', [
-                'label' => 'Checkbox'
+                'label' => 'Count chickens before they hatch'
             ])
             ->add('radio', 'radio', [
-                'label' => 'Radio',
+                'label' => 'You have no choice but select this option. This is also irreversible.',
             ])
             ->add('checkboxes', 'choice', [
-                'choices' => ['OroCommerce', 'OroCRM'],
+                'choices' => ['Cup of coffee', 'Doughnat'],
                 'expanded' => true,
                 'multiple' => true
             ])
             ->add('radios', 'choice', [
-                'choices' => ['OroCommerce', 'OroCRM'],
+                'choices' => ['Dine In', 'To Go'],
                 'expanded' => true,
             ])
             ->add('select', 'choice', [
-                'choices' => ['OroCommerce', 'OroCRM'],
+                'choices' => ['Dine In', 'To Go'],
             ])
             ->add('multiselect', 'choice', [
-                'choices' => ['OroCommerce', 'OroCRM'],
+                'choices' => ['Cup of coffee', 'Doughnat'],
                 'multiple' => true,
             ])
             ->add('datetime', 'oro_date')
