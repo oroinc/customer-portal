@@ -43,12 +43,12 @@ oro_frontend_style_book:
         title: Elements
     groups:
         forms:
-            title: 'Forms'
+            title: 'Form Elements'
         grid:
-            title: 'Grid'
-            description_grids: 'Grids can have from 1 to 12 columns. Every single column has 100% width on mobile view. Background and borders on columns used only for clarity'
-            description_offset_row: 'Indent between rows'
-            description_offset_columns: 'Adds the right indent to column'
+            title: 'Tables'
+            description_grids: 'A grid or table may contain up to 12 columns. Every column is designed using <div> element that takes proportional share of the screen in the desktop view and stratches to occupy the 100% width of the screen in mobile view. You can control relative width of the columns (like in 1/X) using grid__column--X prefix. <br>The schematic wireframe samples below illustrate how OroCommerce with your active theme aligns the cells in the row and the text inside the cells depending on the number of the columns.'
+            description_offset_row: 'To control a spare space between the rows, you can use the grid_row--<offset-mode> class that modifies the bottom margin of the row container. Supported offset modes (and their default bottom margin) are --has-twin-row (50px), --offset-l (20px), --offset-m (10px), --offset-s (5px), --offset-none (0px). The default offset for the grid__row class is 15px, in between the --offset-l and --offset-m.' 
+            description_offset_columns: 'A spare space between columns may be controlled using the grid_column--<offset-mode> class that modifies the right margin of the cell container. Supported offset modes are --offset-l (20px), --offset-m (10px), --offset-s (5px). The default offset for the grid__column class is 0px.'
             description_offset_columns_bottom: 'Indent under columns - all columns placed in one row (Default theme)'
             description_half: 'It is used in cases when it is necessary to use two columns with the same width'
             description_clear: 'Forced displacement of columns on a new line'
