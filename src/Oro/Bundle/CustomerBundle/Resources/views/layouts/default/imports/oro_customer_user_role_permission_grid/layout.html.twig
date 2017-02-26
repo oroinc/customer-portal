@@ -1,9 +1,13 @@
 {% block __oro_customer_user_role_permission_grid__datagrid_widget %}
     {% import 'OroUIBundle::macros.html.twig' as UI %}
 
+    {% set tabsOptions = layout_attr_defaults(options.tabsOptions, {
+        'useDropdown': true
+    }) %}
+
     <div {{ UI.renderPageComponentAttributes({
         module: 'orouser/js/components/role/entity-category-tabs-component',
-        options: options.tabsOptions
+        options: tabsOptions
     }) }}></div>
 
     {{ block_widget(block) }}

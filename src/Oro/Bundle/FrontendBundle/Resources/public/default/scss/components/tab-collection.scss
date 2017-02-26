@@ -1,0 +1,39 @@
+.tab-collection {
+    .nav-item:not(.dropdown) {
+        > .nav-link {
+            &:after {
+                visibility: hidden;
+                content: '*';
+                margin-left: 1px;
+            }
+        }
+
+        &.changed > .nav-link {
+            &:after {
+                visibility: visible;
+            }
+        }
+    }
+
+    .dropdown {
+        .dropdown-menu {
+            .nav-item {
+                margin: 0;
+
+                float: none;
+
+                .nav-link {
+                    @extend .dropdown-item;
+
+                    border-radius: 0;
+                }
+            }
+
+            .nav-item.active {
+                .nav-link {
+                    @extend .dropdown-item.active;
+                }
+            }
+        }
+    }
+}
