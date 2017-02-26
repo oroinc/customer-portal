@@ -1,20 +1,25 @@
-{% block _customer_user_role_title_widget %}
-    <h3 class="nmmt4-md">
-        <span>{{ text }}</span>
-    </h3>
+{% block _customer_user_role_view_container_wrap_widget %}
+    {% set attr = attr|merge({ class: attr.class|default('') ~ " grid" }) %}
+    <div {{ block('block_attributes') }}>
+        <div class="grid__row">
+            {{ block_widget(block) }}
+        </div>
+    </div>
 {% endblock %}
 
-{% block _customer_user_role_top_actions_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " oro-customer-user-role__controls-list pull-right" }) %}
+{% block _customer_user_role_back_link_widget %}
+    {% set attr = attr|merge({ class: attr.class|default('') ~ " oro-customer-user-role__back-link grid__column grid__column--6" }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
 {% endblock %}
 
-{% block _customer_user_role_back_link_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " oro-customer-user-role__back-link col-md-12 mb3-md mb3-sm mt1-md mt1-sm" }) %}
+{% block _customer_user_role_top_actions_widget %}
+    {% set attr = attr|merge({ class: attr.class|default('') ~ " oro-customer-user-role__controls-list grid__column grid__column--6" }) %}
     <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
+        <div class="pull-right">
+            {{ block_widget(block) }}
+        </div>
     </div>
 {% endblock %}
 
