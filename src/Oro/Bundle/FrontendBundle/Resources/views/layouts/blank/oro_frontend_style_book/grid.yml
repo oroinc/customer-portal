@@ -14,7 +14,7 @@ layout:
                     blockType: group_element
                     options:
                         anchor: grid
-                        label: Grid view
+                        label: Column Size
                 group_element_item_grid:
                     blockType: group_element_item
                     options:
@@ -26,7 +26,7 @@ layout:
                     blockType: group_element
                     options:
                         anchor: row_offset
-                        label: Row offset
+                        label: Row Spacing
                 group_element_item_grid_offset_row:
                     blockType: group_element_item
                     options:
@@ -38,12 +38,12 @@ layout:
                     blockType: group_element
                     options:
                         anchor: columns_offset
-                        label: Columns offset
+                        label: Column Spacing
                 group_element_item_offset_holder:
                     blockType: group_element_item
                     options:
                         anchor: columns_offset_right
-                        label: Columns offset right
+                        label: Column Spacing: Right
                         subTreeLvl: 1
                         description: oro_frontend_style_book.groups.grid.description_offset_columns
                 style_book_grid_element_offset:
@@ -52,7 +52,7 @@ layout:
                     blockType: group_element_item
                     options:
                         anchor: columns_offset_bottom
-                        label: Indent under columns
+                        label: Column Spacing: Bottom
                         subTreeLvl: 1
                         description: oro_frontend_style_book.groups.grid.description_offset_columns_bottom
                 style_book_grid_element_offset_bottom:
@@ -62,7 +62,7 @@ layout:
                     blockType: group_element
                     options:
                         anchor: columns_equal
-                        label: Two equal columns with indent
+                        label: Two equally sized columns with indent in between
                 group_element_item_half_holder:
                     blockType: group_element_item
                     options:
@@ -74,7 +74,7 @@ layout:
                     blockType: group_element
                     options:
                         anchor: clear
-                        label: Clear
+                        label: Force the Cell of the Row to the New Line
                 group_element_item_clear_holder:
                     blockType: group_element_item
                     options:
@@ -86,7 +86,7 @@ layout:
                     blockType: group_element
                     options:
                         anchor: notification_flash
-                        label: Notification flash
+                        label: Flash Notification
                 group_element_item_notification_flash_holder:
                     blockType: group_element_item
                     options:
@@ -112,7 +112,7 @@ layout:
                     blockType: group_element
                     options:
                         anchor: notification_message
-                        label: Notification message
+                        label: Notification Message
                 group_element_item_notification_message_holder:
                     blockType: group_element_item
                     options:
@@ -138,7 +138,7 @@ layout:
                     blockType: group_element
                     options:
                         anchor: callout_info
-                        label: Сallout info
+                        label: Inline Сallout Information
                 group_element_item_callout_info_holder:
                     blockType: group_element_item
                     options:
