@@ -4,4 +4,10 @@
     &:hover {
         text-decoration: underline;
     }
+
+    &.disabled:hover {
+        text-decoration: none;
+
+        cursor: default;
+    }
 }
