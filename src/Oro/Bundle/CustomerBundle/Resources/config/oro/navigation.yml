@@ -206,38 +206,38 @@ navigation:
         oro_customer_pinbar_help: 'How To Use Pinbar'
 
         oro_customer_customer_index: ~
-        oro_customer_customer_view:  '%%title%%'
-        oro_customer_customer_update: %%customerName%% - oro.ui.edit
-        oro_customer_customer_create: oro.ui.create_entity
+        oro_customer_customer_view:  '%title%'
+        oro_customer_customer_update: '%customerName% - oro.ui.edit'
+        oro_customer_customer_create: 'oro.ui.create_entity'
 
         oro_customer_customer_group_index: ~
-        oro_customer_customer_group_view:  '%%title%%'
-        oro_customer_customer_group_update: %%customerGroupName%% - oro.ui.edit
-        oro_customer_customer_group_create: oro.ui.create_entity
+        oro_customer_customer_group_view:  '%title%'
+        oro_customer_customer_group_update: '%customerGroupName% - oro.ui.edit'
+        oro_customer_customer_group_create: 'oro.ui.create_entity'
 
         oro_customer_customer_user_index:   ~
-        oro_customer_customer_user_view:    '%%email%%'
-        oro_customer_customer_user_update:  %%email%% - oro.ui.edit
-        oro_customer_customer_user_create:  oro.ui.create_entity
+        oro_customer_customer_user_view:    '%email%'
+        oro_customer_customer_user_update:  '%email% - oro.ui.edit'
+        oro_customer_customer_user_create:  'oro.ui.create_entity'
 
         oro_customer_frontend_customer_user_index:   'oro.customer.frontend.title.customer_user.index'
-        oro_customer_frontend_customer_user_view:    '%%user%%'
-        oro_customer_frontend_customer_user_update:  %%user%% - oro.ui.edit
+        oro_customer_frontend_customer_user_view:    '%user%'
+        oro_customer_frontend_customer_user_update:  '%user% - oro.ui.edit'
         oro_customer_frontend_customer_user_create:  'oro.customer.frontend.title.customer_user.create'
 
         oro_customer_customer_user_role_index:     ~
-        oro_customer_customer_user_role_view:      '%%label%% - oro.ui.view'
-        oro_customer_customer_user_role_update:    '%%label%% - oro.ui.edit'
-        oro_customer_customer_user_role_create:    oro.ui.create_entity
+        oro_customer_customer_user_role_view:      '%label% - oro.ui.view'
+        oro_customer_customer_user_role_update:    '%label% - oro.ui.edit'
+        oro_customer_customer_user_role_create:    'oro.ui.create_entity'
 
         oro_customer_frontend_customer_user_profile: 'oro.customer.frontend.customer_user.profile.label'
-        oro_customer_frontend_customer_user_profile_update: oro.customer.customeruser.profile.edit
+        oro_customer_frontend_customer_user_profile_update: 'oro.customer.customeruser.profile.edit'
 
-        oro_customer_customer_user_security_login: oro.customer.customeruser.profile.login
-        oro_customer_frontend_customer_user_register: oro.customer.customeruser.profile.registration.title
-        oro_customer_frontend_customer_user_reset_request: oro.customer.customeruser.profile.forgot_password
-        oro_customer_frontend_customer_user_reset_check_email: oro.customer.customeruser.profile.check_email.title
-        oro_customer_frontend_customer_user_password_reset: oro.customer.customeruser.profile.reset_password.title
+        oro_customer_customer_user_security_login: 'oro.customer.customeruser.profile.login'
+        oro_customer_frontend_customer_user_register: 'oro.customer.customeruser.profile.registration.title'
+        oro_customer_frontend_customer_user_reset_request: 'oro.customer.customeruser.profile.forgot_password'
+        oro_customer_frontend_customer_user_reset_check_email: 'oro.customer.customeruser.profile.check_email.title'
+        oro_customer_frontend_customer_user_password_reset: 'oro.customer.customeruser.profile.reset_password.title'
 
         oro_customer_frontend_customer_user_role_index:  'oro.customer.frontend.customer_user.role.entity_plural_label'
         oro_customer_frontend_customer_user_role_view:   'oro.customer.frontend.customer_user.role.entity_plural_label - oro.ui.view'
