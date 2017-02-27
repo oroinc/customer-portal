@@ -94,3 +94,5 @@ services:
     oro_website.repository.website:
         class: 'Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository'
         parent: oro_entity.abstract_repository
+        arguments:
+            - '%oro_website.entity.website.class%'
