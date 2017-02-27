@@ -1,3 +1,25 @@
+{% block __datagrid_toolbar__datagrid_toolbar_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid__toolbar grid__toolbar--extended grid__toolbar--offset-s'
+    }) %}
+    <script type="text/html" id="template-datagrid-toolbar">
+        <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+    </script>
+{% endblock %}
+
+{% block __datagrid_toolbar__datagrid_toolbar_filter_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' frontend-datagrid__filter',
+        'data-datafilter-container': ''
+    }) %}
+
+    {% set toolbarPosition = attr['data-grid-toolbar']|default('') %}
+    {% if toolbarPosition != 'bottom' %}
+        <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+    {% endif %}
+
+{% endblock %}
+
 {% block __datagrid_toolbar__datagrid_toolbar_sorting_widget %}
     {% set attr = attr|merge({
         class: attr.class|default('') ~ " sorting pull-left form-horizontal",
@@ -6,6 +28,28 @@
     <div class="grid__tool">
         <div{{ block('block_attributes') }}></div>
     </div>
+{% endblock %}
+
+{% block __datagrid_toolbar__datagrid_toolbar_leftside_container_widget %}
+    <% if (toolbarPosition !== 'bottom') { %>
+        <div class="grid__toolbar-side" data-section="left-side">
+            {{ block_widget(block) }}
+        </div>
+    <% } %>
+{% endblock %}
+
+{% block __datagrid_toolbar__datagrid_toolbar_base_container_widget %}
+    <div class="grid__toolbar-base" data-section="base-side">
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __datagrid_toolbar__datagrid_toolbar_rightside_container_widget %}
+    <% if (toolbarPosition !== 'bottom') { %>
+        <div class="grid__toolbar-rightside" data-section="right-side">
+            {{ block_widget(block) }}
+        </div>
+    <% } %>
 {% endblock %}
 
 {% block __datagrid_toolbar__datagrid_toolbar_mass_actions_widget %}
@@ -29,10 +73,10 @@
 
 {% block __datagrid_toolbar__datagrid_toolbar_pagination_widget %}
     {% set attr = attr|merge({
-        class: attr.class|default('') ~ " oro-pagination",
+        class: attr.class|default(''),
         'data-grid-pagination': ''
     }) %}
-    <div class="grid__tool">
+    <div class="grid__tool oro-pagination">
         <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
     </div>
 {% endblock %}
