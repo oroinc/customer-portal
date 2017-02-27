@@ -135,7 +135,7 @@
             <i class="fa-exclamation-triangle"></i>
         </div>
         <div class="notification-flash__text">
-            This is an Error Message
+            Google calendar cannot by synchronized, as Google integration is not yet configured. Please contact system administrator.
         </div>
     </div>
 {% endblock %}
@@ -146,7 +146,7 @@
             <i class="fa-check"></i>
         </div>
         <div class="notification-flash__text">
-            This is a Success Message
+            The shopping list 'PO1463' was successfully created.
         </div>
     </div>
 {% endblock %}
@@ -157,7 +157,7 @@
             <i class="fa-exclamation-circle"></i>
         </div>
         <div class="notification-flash__text">
-            This is a Warning Message
+            The connection cannot be established at the moment. Please check your internet connection.
         </div>
     </div>
 {% endblock %}
@@ -166,7 +166,7 @@
     <div class="notification--error">
         <div class="notification__item">
             <i class="fa-exclamation-triangle"></i>
-            <span class="notification__text">This is an Error Message</span>
+            <span class="notification__text">Please reassign the tasks to a new responsible user before deleting the user with the sales role.</span>
         </div>
     </div>
 {% endblock %}
@@ -175,7 +175,7 @@
     <div class="notification--success">
         <div class="notification__item">
             <i class="fa-check"></i>
-            <span class="notification__text">This is a Success Message</span>
+            <span class="notification__text">The customer information was updated.</span>
         </div>
     </div>
 {% endblock %}
@@ -184,28 +184,28 @@
     <div class="notification--warning">
         <div class="notification__item">
             <i class="fa-exclamation-circle"></i>
-            <span class="notification__text">This is a Warning Message</span>
+            <span class="notification__text">Please fill in the shipping address in order to proceed with the checkout.</span>
         </div>
     </div>
 {% endblock %}
 
 {% block _style_book_grid_element_callout_info_widget %}
     <div class="callout-block">
-        <h2 class="callout-block__title">Info Callout</h2>
-        <p class="callout-block__text">This is a info callout.</p>
+        <h2 class="callout-block__title">Information</h2>
+        <p class="callout-block__text">It is important to keep at least one consumer running.</p>
     </div>
 {% endblock %}
 
 {% block _style_book_grid_element_callout_warning_widget %}
     <div class="callout-block warning">
-        <h2 class="callout-block__title">Warning Callout</h2>
-        <p class="callout-block__text">This is a warning callout.</p>
+        <h2 class="callout-block__title">Warning!</h2>
+        <p class="callout-block__text">Beware of the planned system maintenance on March 03, 2017 from 00:00 UTC to 00:30 UTC.</p>
     </div>
 {% endblock %}
 
 {% block _style_book_grid_element_callout_danger_widget %}
     <div class="callout-block danger">
-        <h2 class="callout-block__title">Danger Callout</h2>
-        <p class="callout-block__text">This is a danger callout.</p>
+        <h2 class="callout-block__title">Danger!</h2>
+        <p class="callout-block__text">This operation is irreversible. Ensure you have backed up the data before you trigger it.</p>
     </div>
 {% endblock %}
