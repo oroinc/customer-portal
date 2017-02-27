@@ -24,7 +24,7 @@ class StyleBookFormProvider extends AbstractFormProvider
                 'label' => 'You have no choice but select this option. This is also irreversible.',
             ])
             ->add('checkboxes', 'choice', [
-                'choices' => ['Cup of coffee', 'Doughnat'],
+                'choices' => ['Cup of coffee', 'Doughnut'],
                 'expanded' => true,
                 'multiple' => true
             ])
@@ -36,7 +36,7 @@ class StyleBookFormProvider extends AbstractFormProvider
                 'choices' => ['Dine In', 'To Go'],
             ])
             ->add('multiselect', 'choice', [
-                'choices' => ['Cup of coffee', 'Doughnat'],
+                'choices' => ['Cup of coffee', 'Doughnut'],
                 'multiple' => true,
             ])
             ->add('datetime', 'oro_date')
