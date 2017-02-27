@@ -1,3 +1,21 @@
+@mixin add-separator() {
+  &:not(:first-child) {
+    &:before {
+      top: 5px;
+      bottom: 5px;
+
+      border-left: 1px solid get-color('additional', 'middle');
+
+      @include after();
+    }
+  }
+}
+
+@mixin mode-icon-size($size: $base-font-size--large) {
+  font-size: $size;
+  line-height: strip-units($size / 10);
+}
+
 //Toolbar
 .grid-scrollable-container {
   overflow-y: visible;
@@ -18,6 +36,8 @@
 
 
   .page-size {
+    font-size: $base-font-size - 2px;
+
     flex-grow: 0;
   }
 
@@ -159,7 +179,7 @@
   position: relative;
 
   margin: 10px 0;
-  padding: 7px 11px 0;
+  padding: 10px 10px 5px;
   border: 0;
 
   background: get-color('additional', 'base');
@@ -190,6 +210,9 @@
   }
 
   .filter-item {
+    margin: 0 5px 0 0;
+    padding: 0 0 5px 0;
+
     &.open-filter {
       &:before, &:after {
         display: none;
@@ -201,7 +224,6 @@
     position: relative;
 
     flex-basis: 225px;
-    margin: 0 10px 5px 0;
 
     > .btn {
       position: relative;
@@ -454,14 +476,17 @@
             padding-left: 39px;
           }
 
+
           &:before {
             position: absolute;
-            content: '\f073';
+
             pointer-events: none;
+
             margin: 8px 0 0 12px;
-            font: normal $base-font-size--m 'FontAwesome';
+
             color: get-color('additional', 'middle');
           }
+          @include fa-icon($fa-var-calendar);
         }
 
       }
@@ -555,8 +580,6 @@
 }
 
 .filter-container {
-  padding: 0 15px;
-
   .filter-items {
     display: flex;
     flex-wrap: wrap;
@@ -572,7 +595,7 @@
     position: relative;
 
     padding: 0 130px 5px 10px;
-    margin: 0 -10px;
+    margin: 5px -10px -5px;
 
     background: get-color('additional', 'light');
     line-height: 20px;
@@ -823,19 +846,87 @@
 
 .more-bar-holder {
   position: relative;
+  padding: 0;
 
   .action {
-    &:hover {
-      text-decoration: none;
+    &.mode-icon-only {
+      color: get-color('additional', 'middle');
 
-      background-color: get-color('additional', 'light');
-      border-radius: 4px;
+      @include hover-focus {
+        text-decoration: none;
+
+        color: get-color('additional', 'dark');
+      }
+
+      [class^='fa-'] {
+        margin-right: 0;
+      }
     }
   }
+
+  .dropdown-toggle {
+    height: 10px;
+
+    display: inline-block;
+    vertical-align: middle;
+
+    line-height: 0;
+    font-size: 24px;
+    text-decoration: none;
+
+    color: inherit;
+
+    &:after {
+      content: none;
+    }
+  }
+
+  &.action-row {
+    .launcher-item {
+      display: block;
+      padding: 0;
+
+      a {
+        padding: 0 10px;
+        display: inline-block;
+      }
+
+      [class^="fa-"] {
+        font-size: 15px;
+      }
+    }
+  }
+
+  .dropdown-toggle {
+    display: inline-block;
+    padding: $offset-y-s 15px;
+    height: $base-font-size--m;
+    margin: 0;
+
+    font-size: $base-font-size--m;
+    line-height: 0;
+
+    color: get-color('additional', 'semidark');
+
+    &:after {
+      display: none;
+    }
+  }
+
+  .dropdown-menu__placeholder + .dropdown-toggle,
+  .dropdown-toggle:hover {
+    text-decoration: none;
+  }
+
 }
 
 //Table
 .oro-datagrid {
+  &.no-data-visible {
+    > .toolbar {
+      display: block;
+    }
+  }
   .other-scroll-container {
     margin: 0;
     border: 0;
@@ -863,7 +954,7 @@
         tr {
           th {
             vertical-align: middle;
-            padding: 10px 12px;
+            padding: 12px;
             border-bottom: 0;
             border-radius: 0;
 
@@ -875,7 +966,7 @@
             > span {
               font-size: $base-font-size;
               line-height: 1;
-              font-weight: 400;
+              font-weight: 600;
               text-transform: none;
 
               &:hover, &:focus, &:active {
@@ -890,89 +981,142 @@
         tr {
           td {
             vertical-align: middle;
-            padding: 15px 12px;
-          }
-        }
-      }
+            padding: 16px 12px;
 
-      .launcher-item {
-        a.action{
-          position: relative;
-
-          padding-left: 18px;
-
-          [class^='fa-'].hide-text{
-            position: absolute;
-            top: 0;
-            left: 0;
-
-            &:after,
-            &:before {
-              color: inherit;
+            &:last-child {
+              padding-right: 0;
             }
           }
         }
       }
+
+      .actions-row {
+        text-align: right;
+      }
+
+      .launchers-list {
+        display: block;
+
+        text-align: left;
+
+        white-space: nowrap;
+      }
+
+      .dropdown-menu {
+        .launchers-list {
+
+          white-space: nowrap;
+
+          .mode-text-only {
+            display: block;
+          }
+        }
+      }
+    }
+
+    .launcher-item {
+      display: block;
+
+      &.mode-text-only,
+      &.mode-icon-only {
+        display: inline-block;
+
+        @include add-separator();
+      }
+
+      &.mode-text-only {
+        margin: 2px 0;
+      }
+
+      a.action {
+        position: relative;
+        white-space: nowrap;
+        text-align: center;
+
+        [class^='fa-'].hide-text {
+          display: inline-block;
+
+          &:after,
+          &:before {
+            color: inherit;
+
+            @include mode-icon-size();
+          }
+        }
+      }
+
+      .dropdown-menu {
+        .mode-text-only {
+          display: block;
+        }
+      }
+    }
+  }
+
+  .action-cell {
+    text-align: right;
+
+    .launcher-item.mode-icon-text {
+      text-align: left;
+    }
+
+    .dropdown {
+      display: inline-block;
+    }
+    .more-bar-holder .dropdown-toggle {
+      margin-left: 0;
     }
   }
 }
 
-.dropdown-menu__action-cell {
-  min-width: 100px;
-  padding: 0;
+.dropdown-menu {
+  min-width: 0;
   margin: 0;
+  padding: 0;
 
   .launcher-item {
     float: none;
 
     a {
       padding: 5px 10px;
-      line-height: 18px;
+      display: block;
+    }
 
-      .hide-text {
-        margin-right: 5px;
+    &.mode-icon-only {
+      display: table-cell;
+
+      @include add-separator();
+
+      a {
+        color: get-color('additional', 'middle');
+        text-align: center;
+
+        [class^="fa-"],
+        [class*=" fa-"] {
+          margin: 0;
+
+          vertical-align: top;
+
+          &:before {
+            @include mode-icon-size();
+          }
+        }
+
+        @include hover-focus-active() {
+          color: get-color('additional', 'dark');
+        }
+      }
+    }
+    &.mode-text-only {
+      display: block;
+
+      a {
+        padding: 3px 10px;
       }
     }
   }
 
   .nav-pills > li + li {
     margin: 0;
-  }
-}
-
-//Remove code below, when grid styles will be free of platform styles
-//'.grid__row--has-child-grid' is used in customer bundle on the address book page for addresses datagrid
-//It should remove this class too
-.grid__row--has-child-grid {
-  .oro-datagrid {
-    .grid {
-      .launchers-list {
-        text-align: right;
-
-        white-space: nowrap;
-      }
-
-      .launcher-item {
-        float:none;
-        padding: 0 0 0 10px;
-        display: inline-block;
-        border-left: 1px solid get-color('additional', 'light');
-
-        &:first-child {
-          border: 0;
-        }
-
-        a.action{
-          min-width: 12px;
-          min-height: 18px;
-
-          color: get-color('additional', 'light');
-
-          &:hover, &:focus, &:active, &:visited {
-            background: transparent;
-          }
-        }
-      }
-    }
   }
 }

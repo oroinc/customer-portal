@@ -111,6 +111,12 @@ $popover-arrow-outer-color: update-default($popover-arrow-outer-color, fade-in($
 $table-cell-padding:    update-default($table-cell-padding, 8px);
 $table-sm-cell-padding: update-default($table-sm-cell-padding, 30px);
 
+// Buttons
+//
+// For each of Bootstrap's buttons, define text, background and border color.
+
+$btn-active-box-shadow:  update-default($nav-item-margin, inset 0 3px 5px rgba(0, 0, 0, .35));
+
 // Navs
 
 $nav-item-margin:        update-default($nav-item-margin, 5px);
