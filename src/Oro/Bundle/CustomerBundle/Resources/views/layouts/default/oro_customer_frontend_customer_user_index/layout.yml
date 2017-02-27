@@ -16,6 +16,6 @@ layout:
             optionName: grid_render_parameters
             optionValue:
                 themeOptions:
+                    cellActionsHideCount: 3
                     cellLauncherOptions:
                         launcherMode: 'text-only'
-                        actionsState:  'show'

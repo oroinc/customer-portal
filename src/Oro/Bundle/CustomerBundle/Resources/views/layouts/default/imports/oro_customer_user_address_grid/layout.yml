@@ -58,7 +58,7 @@ layout:
                 themeOptions:
                     toolbarTemplateSelector: '#template-customer-user-address-book-addresses-grid-toolbar'
                     cellLauncherOptions:
-                        launcherMode: 'text-only'
+                        launcherMode: 'icon-only'
                         actionsState:  'show'
 
         - '@setOption':
