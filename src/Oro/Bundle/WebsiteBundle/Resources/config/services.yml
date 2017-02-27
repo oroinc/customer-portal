@@ -90,3 +90,7 @@ services:
         decorates: assets.context
         arguments:
             - '@request_stack'
+
+    oro_website.repository.website:
+        class: 'Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository'
+        parent: oro_entity.abstract_repository
