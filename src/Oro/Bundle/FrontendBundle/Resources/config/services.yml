@@ -225,7 +225,7 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Extractor\FrontendExposedRoutesExtractor'
         arguments:
             - '@router'
-            - ['oro_*']
+            - []
             - '%kernel.cache_dir%'
             - '%kernel.bundles%'
 
