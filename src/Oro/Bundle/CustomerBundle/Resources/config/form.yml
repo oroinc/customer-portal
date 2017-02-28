@@ -10,3 +10,4 @@ services:
         calls:
             - [addExtensionFilter, ['action', 'commerce']]
             - [addExtensionFilter, ['entity', 'commerce']]
+            - [setConfigurableName, ['commerce']]

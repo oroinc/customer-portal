@@ -55,8 +55,6 @@ navigation:
                 extras:
                     icon:        fa-user
 
-            # This is temporary solution to remove navigation key duplication
-            # @todo: renaming of navigation keys will be finished in BB-2679
             customer_list:
                 label:           'oro.customer.customer.entity_plural_label'
                 route:           'oro_customer_customer_index'
@@ -98,7 +96,11 @@ navigation:
                 route: 'oro_customer_customer_user_index'
                 position: 30
                 extras:
-                    routes: ['/^oro_customer_customer_user/']
+                    routes:
+                        - 'oro_customer_customer_user_index'
+                        - 'oro_customer_customer_user_view'
+                        - 'oro_customer_customer_user_update'
+                        - 'oro_customer_customer_user_create'
                     description: 'oro.customer.menu.customer_users.description'
 
             shortcut_new_customer_user:
@@ -153,7 +155,7 @@ navigation:
                 route: 'oro_customer_frontend_customer_user_index'
                 position: 100
                 extras:
-                    routes: ['/^oro_customer_frontend_customer_user/']
+                    routes: ['/^oro_customer_frontend_customer/']
                     description: 'oro.customer.menu.customer_users.description'
 
             frontend_customer_user_roles:
@@ -244,8 +246,8 @@ navigation:
         oro_customer_frontend_customer_user_role_update: 'oro.customer.frontend.customer_user.role.entity_plural_label - oro.ui.edit'
         oro_customer_frontend_customer_user_role_create: 'oro.customer.frontend.customer_user.role.entity_plural_label - oro.ui.create'
 
-        oro_customer_frontend_customer_address_create: 'oro.customer.frontend.address.title.company - oro.customer.frontend.address.title.create'
-        oro_customer_frontend_customer_address_update: 'oro.customer.frontend.address.title.company - oro.customer.frontend.address.title.edit'
-        oro_customer_frontend_customer_user_address_create: 'oro.customer.frontend.address.title.personal - oro.customer.frontend.address.title.create'
-        oro_customer_frontend_customer_user_address_update: 'oro.customer.frontend.address.title.personal - oro.customer.frontend.address.title.edit'
+        oro_customer_frontend_customer_address_create: 'oro.customer.frontend.address.title.create - oro.customer.frontend.address.title.company'
+        oro_customer_frontend_customer_address_update: 'oro.customer.frontend.address.title.edit - oro.customer.frontend.address.title.company'
+        oro_customer_frontend_customer_user_address_create: 'oro.customer.frontend.address.title.create - oro.customer.frontend.address.title.personal'
+        oro_customer_frontend_customer_user_address_update: 'oro.customer.frontend.address.title.edit - oro.customer.frontend.address.title.personal'
         oro_customer_frontend_customer_user_address_index: 'oro.customer.frontend.customer_user.address.label'

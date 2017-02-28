@@ -16,29 +16,11 @@ class CustomerUserControllerRegisterTest extends WebTestCase
     /** @var ConfigManager */
     protected $configManager;
 
-    /** @var  bool */
-    protected $isConfirmationRequired;
-
-    /** @var  bool */
-    protected $sendPassword;
-
     protected function setUp()
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
         $this->configManager = $this->getContainer()->get('oro_config.manager');
-        $this->isConfirmationRequired = $this->configManager->get('oro_customer.confirmation_required');
-        $this->sendPassword = $this->configManager->get('oro_customer.send_password_in_welcome_email');
-    }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
-
-        $configManager = $this->getContainer()->get('oro_config.manager');
-        $configManager->set('oro_customer.confirmation_required', $this->isConfirmationRequired);
-        $configManager->set('oro_customer.send_password_in_welcome_email', $this->sendPassword);
-        $configManager->flush();
     }
 
     public function testRegisterPasswordMismatch()
@@ -143,6 +125,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
     public function testRegisterWithConfirmation()
     {
         $this->configManager->set('oro_customer.confirmation_required', true);
+        $this->configManager->flush();
 
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_register'));
         $result = $this->client->getResponse();

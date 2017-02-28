@@ -1,0 +1,65 @@
+{% block _fullscreen_popup_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': 'fullscreen-popup'
+    }) %}
+    <script type="text/template" id="fullscreen-popup-tpl">
+        <div {{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+        </div>
+    </script>
+{% endblock %}
+
+{% block _fullscreen_popup_header_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-role': 'header',
+        '~class': 'fullscreen-popup__header'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _fullscreen_popup_header_label_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': 'fullscreen-popup__label'
+    }) %}
+    <% if (label) { %>
+        <div {{ block('block_attributes') }}>
+            <% if (closeOnLabel) { %>
+                <span data-role="close"><i class="fa fa-chevron-left"></i> <%= label %></span>
+            <% } else { %>
+                <%= label %>
+            <% } %>
+        </div>
+    <% } %>
+{% endblock %}
+
+{% block _fullscreen_popup_header_close_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-role': 'close',
+        '~class': 'fullscreen-popup__close'
+    }) %}
+    <% if (close) { %>
+        <div {{ block('block_attributes') }}></div>
+    <% } %>
+{% endblock %}
+
+{% block _fullscreen_popup_content_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-role': 'content',
+        '~class': 'fullscreen-popup__content'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _fullscreen_popup_footer_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-role': 'footer',
+        '~class': 'fullscreen-popup__footer'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
