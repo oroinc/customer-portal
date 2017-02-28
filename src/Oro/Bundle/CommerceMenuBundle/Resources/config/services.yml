@@ -62,7 +62,7 @@ services:
         class: 'Oro\Bundle\CommerceMenuBundle\Twig\MenuExtension'
         public: false
         arguments:
-            - '@knp_menu.matcher'
+            - '@service_container'
         tags:
             - { name: twig.extension }
 

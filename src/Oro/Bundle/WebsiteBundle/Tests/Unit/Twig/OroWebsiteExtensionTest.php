@@ -4,17 +4,16 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Twig;
 
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Twig\OroWebsiteExtension;
+use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 
 class OroWebsiteExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var OroWebsiteExtension
-     */
+    use TwigExtensionTestCaseTrait;
+
+    /** @var OroWebsiteExtension */
     protected $extension;
 
-    /**
-     * @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject
-     */
+    /** @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $websiteManager;
 
     /**
@@ -22,24 +21,15 @@ class OroWebsiteExtensionTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->websiteManager = $this->getMockBuilder('Oro\Bundle\WebsiteBundle\Manager\WebsiteManager')
+        $this->websiteManager = $this->getMockBuilder(WebsiteManager::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->extension = new OroWebsiteExtension($this->websiteManager);
-    }
+        $container = self::getContainerBuilder()
+            ->add('oro_website.manager', $this->websiteManager)
+            ->getContainer($this);
 
-    public function testGetFunctions()
-    {
-        $result = $this->extension->getFunctions();
-        $functions = [
-            'oro_website_get_current_website'
-        ];
-
-        /** @var $function \Twig_SimpleFunction */
-        foreach ($result as $function) {
-            $this->assertTrue(in_array($function->getName(), $functions));
-        }
+        $this->extension = new OroWebsiteExtension($container);
     }
 
     public function testGetName()

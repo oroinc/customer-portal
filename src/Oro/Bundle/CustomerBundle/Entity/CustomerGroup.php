@@ -59,6 +59,13 @@ class CustomerGroup extends ExtendCustomerGroup implements OrganizationAwareInte
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $id;
 
@@ -70,6 +77,10 @@ class CustomerGroup extends ExtendCustomerGroup implements OrganizationAwareInte
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "identity"=true,
+     *              "order"=10
      *          }
      *      }
      * )
@@ -84,6 +95,9 @@ class CustomerGroup extends ExtendCustomerGroup implements OrganizationAwareInte
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )

@@ -43,7 +43,9 @@
     {% set dom_relocation_options =  {
         responsive: [
             {
-                screenType: 'tablet',
+                viewport: {
+                    maxScreenType: 'tablet',
+                },
                 moveTo: '[data-main-menu-container]'
             }
         ]

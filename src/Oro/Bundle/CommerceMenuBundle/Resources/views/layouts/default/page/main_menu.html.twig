@@ -6,7 +6,9 @@
             autoWidth: true,
             toggleClass: 'header-row--fixed',
             placeholderId: 'sticky-header-row',
-            screenType: 'tablet'
+            viewport: {
+                maxScreenType: 'tablet',
+            },
         },
         '~class': ' header-row' ~ (blocks.header_row.children|length > 2 ? ' header-row--from-left')
     }) %}
@@ -38,7 +40,9 @@
         '~class': ' main-menu-outer collapse-view',
         'data-page-component-module': "oroui/js/app/components/viewport-component",
         '~data-page-component-options': {
-            screenType: 'tablet',
+            viewport: {
+                maxScreenType: 'tablet',
+            },
             component: 'oroui/js/app/components/jquery-widget-component',
             widgetModule: 'oroui/js/widget/collapse-widget',
             open: false
@@ -47,7 +51,9 @@
         'data-dom-relocation-options': {
             responsive: [
                 {
-                    screenType: 'tablet',
+                    viewport: {
+                        maxScreenType: 'tablet',
+                    },
                     moveTo: '[data-main-menu-extra-container]'
                 }
             ]
