@@ -123,7 +123,7 @@
             entityId: app.user.id
         }) }}
     {%- else %}
-        <a href="{{ app.request.getUriForPath(item.uri) }}"{{ _self.attributes(linkAttributes) }}>{{ block('label') }}</a>
+        <a href="{{ item.uri|first == '/' ? app.request.getUriForPath(item.uri) : item.uri }}"{{ _self.attributes(linkAttributes) }}>{{ block('label') }}</a>
     {% endif %}
 
 {% endblock %}
