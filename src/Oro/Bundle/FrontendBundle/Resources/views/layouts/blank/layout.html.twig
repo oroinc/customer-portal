@@ -254,3 +254,7 @@
         </div>
     </div>
 {% endblock %}
+
+{% block attribute_file_widget %}
+    {{ oro_frontend_file_view(entity, fieldName, value) }}
+{% endblock %}

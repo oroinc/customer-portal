@@ -1,3 +1,5 @@
+// @theme: default;
+
 .page-main {
     &__content {
         max-width: $page-main-max-width;
@@ -7,7 +9,6 @@
     }
 
     &__header {
-        width: 100%;
         min-height: 40px;
     }
 
