@@ -215,3 +215,15 @@ services:
             - '@oro_config.global'
         tags:
             - { name: layout.context_configurator }
+
+    oro_frontend.attachment.manager:
+        class: 'Oro\Bundle\FrontendBundle\Manager\AttachmentManager'
+        parent: 'oro_attachment.manager'
+
+    oro_frontend.attachment.twig.file_extension:
+        class: 'Oro\Bundle\FrontendBundle\Twig\FileExtension'
+        public: false
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: twig.extension }
