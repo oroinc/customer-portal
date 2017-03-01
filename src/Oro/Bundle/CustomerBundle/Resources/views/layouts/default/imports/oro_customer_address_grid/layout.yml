@@ -26,7 +26,7 @@ layout:
                         __addresses_head_title: ~
 
         - '@add':
-            id: __addresses_create_button
+            id: __addresses_create_link
             parentId: __addresses_head
             blockType: link
             options:
@@ -35,6 +35,9 @@ layout:
                 route_parameters:
                     entityId: '=data["entity"].getCustomer().getId()'
                 text: 'oro.customer.frontend.customer_user_address_book.create.label'
+                icon: plus
+                attr:
+                    class: 'btn btn--size-s btn--info'
 
         - '@move':
             id: __addresses_datagrid
