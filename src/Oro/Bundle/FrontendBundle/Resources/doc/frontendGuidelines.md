@@ -573,7 +573,7 @@ Are grouped in the following order:
 
 After each group leaves behind an empty string.
 > In CSS we have a each of properties that can be treated in different groups depending on their use:
-`vertical-align`, `overflow`, `clear`, `resize`, `transform`. [List all css properties](http://cssreference.io/).
+`vertical-align`, `overflow`, `clear`, `resize`, `transform`. [List of all css properties](http://cssreference.io/).
 
 ##### Acceptable
 ```scss
@@ -819,10 +819,10 @@ $list-offset: 10px !default;
 ```
 
 ```scss
-.list {
+.block {
     @include clearfix;
 
-    &__item {
+    &__element {
         float: left;
         width: 25%;
         padding-left: $list-offset * 2;
@@ -861,6 +861,32 @@ $list-offset: 10px !default;
     // Usually dynamic.
     &.expand {
         ...
+    }
+}
+
+@include breakpoint('tablet') {
+    .block {
+        width: 100%;
+
+        &__content {
+            padding: $list-offset * 2;
+
+            font-size: 15px;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .block {
+        &__element {
+            width: 100%;
+
+            &-title {
+                margin-bottom: 0;
+
+                font-size: 25px;
+            }
+        }
     }
 }
 ```
