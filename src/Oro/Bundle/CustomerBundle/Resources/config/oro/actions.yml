@@ -372,6 +372,9 @@ operations:
                 link: delete_link
                 icon: trash-o
         actions:
+            - '@assign_constant_value':
+                attribute: $.removeEventName
+                value: Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent::PRE_REMOVE
             - '@create_object':
                 class: Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent
                 arguments: [$.data]
@@ -379,7 +382,7 @@ operations:
             - '@call_service_method':
                 service: event_dispatcher
                 method: dispatch
-                method_parameters: [Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent::PRE_REMOVE, $.customerGroupDeleteEvent]
+                method_parameters: [$.removeEventName, $.customerGroupDeleteEvent]
             - '@run_action_group':
                 action_group: DELETE
                 parameters_mapping:
