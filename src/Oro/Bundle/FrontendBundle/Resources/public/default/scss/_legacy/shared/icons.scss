@@ -81,27 +81,33 @@
     line-height: 1;
 }
 
+// TODO: need refactor after removal less from frontend
 .hide-text {
     &:after,
     &:before {
         color: inherit;
     }
+
+    &.fa--small,
+    &.fa--medium,
+    &.fa--large {
+        &:before {
+            font-size: inherit;
+        }
+    }
 }
 
 .cf,
 .fa {
-    &--small,
-    &--small.hide-text:before {
+    &--small {
         font-size: $root-font-size;
     }
 
-    &--medium,
-    &--medium.hide-text:before {
+    &--medium {
         font-size: $base-font-size;
     }
 
-    &--large,
-    &--medium.hide-text:before {
+    &--large {
         font-size: 24px;
     }
 
