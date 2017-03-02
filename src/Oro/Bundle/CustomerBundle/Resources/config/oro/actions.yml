@@ -356,6 +356,8 @@ operations:
     oro_customer_groups_delete:
         extends: DELETE
         replace:
+            - exclude_entities
+            - exclude_datagrids
             - for_all_datagrids
             - for_all_entities
             - entities

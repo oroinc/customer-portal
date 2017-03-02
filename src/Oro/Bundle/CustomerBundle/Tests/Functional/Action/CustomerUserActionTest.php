@@ -28,13 +28,15 @@ class CustomerUserActionTest extends WebTestCase
     public function testDelete($login, $resource, $status)
     {
         $this->loginUser($login);
+        $id = $this->getReference($resource)->getId();
+
         $this->client->request(
             'GET',
             $this->getUrl(
                 'oro_frontend_action_operation_execute',
                 [
                     'operationName' => 'oro_customer_frontend_user_delete',
-                    'entityId' => $this->getReference($resource)->getId(),
+                    'entityId' => $id,
                     'entityClass' => CustomerUser::class,
                 ]
             ),
@@ -44,6 +46,17 @@ class CustomerUserActionTest extends WebTestCase
         );
 
         $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), $status);
+
+        if ($status === 200) {
+            static::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class)->clear();
+
+            $removedCustomer = static::getContainer()
+                ->get('doctrine')
+                ->getRepository('OroCustomerBundle:CustomerUser')
+                ->find($id);
+
+            static::assertNull($removedCustomer);
+        }
     }
 
     /**

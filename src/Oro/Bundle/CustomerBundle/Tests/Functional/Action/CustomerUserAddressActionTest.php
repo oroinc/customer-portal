@@ -46,5 +46,14 @@ class CustomerUserAddressActionTest extends WebTestCase
         );
 
         $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 200);
+
+        static::getContainer()->get('doctrine')->getManagerForClass(CustomerUserAddress::class)->clear();
+
+        $removedAddress = static::getContainer()
+            ->get('doctrine')
+            ->getRepository('OroCustomerBundle:CustomerUserAddress')
+            ->find($id);
+
+        static::assertNull($removedAddress);
     }
 }

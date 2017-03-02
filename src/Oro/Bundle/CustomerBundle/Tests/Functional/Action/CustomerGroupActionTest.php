@@ -39,6 +39,15 @@ class CustomerGroupActionTest extends WebTestCase
         );
 
         $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 200);
+
+        static::getContainer()->get('doctrine')->getManagerForClass(CustomerGroup::class)->clear();
+
+        $removedGroup = static::getContainer()
+            ->get('doctrine')
+            ->getRepository('OroCustomerBundle:CustomerGroup')
+            ->find($id);
+
+        static::assertNull($removedGroup);
     }
 
     public function testDeleteAnonymousUserGroup()
