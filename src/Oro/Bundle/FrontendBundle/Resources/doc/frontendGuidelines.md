@@ -814,8 +814,8 @@ Helper mixin for organizing @media rules
 ## Best practices
 
 ```scss
-$list-font-title: 'Tahoma' !default;
-$list-offset: 10px !default;
+$block-font-title: 'Tahoma' !default;
+$block-offset: 10px !default;
 ```
 
 ```scss
