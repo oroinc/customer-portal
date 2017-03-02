@@ -360,9 +360,7 @@ operations:
             - for_all_entities
             - entities
             - datagrid_options
-            - acl_resource
             - actions
-        acl_resource: [DELETE, entity:Oro\Bundle\CustomerBundle\Entity\CustomerGroup]
         entities:
             - Oro\Bundle\CustomerBundle\Entity\CustomerGroup
         datagrids:
