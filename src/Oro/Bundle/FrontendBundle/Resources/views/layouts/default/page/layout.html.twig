@@ -40,8 +40,14 @@
                 'oroui/js/app': {routeLinks: ''},
                 'controllers/page-controller': {fullRedirect: true},
                 'oroui/js/app/modules/views-module': {showLoadingMaskOnStartup: false},
+                'oroui/js/error' : {loginRoute: 'oro_customer_customer_user_security_login'},
                 'oro/datagrid/cell/action-cell': {showCloseButton: false},
-                'orodatagrid/js/app/plugins/grid/column-manager-plugin': {icon: 'gear'},
+                'orodatagrid/js/app/plugins/grid/column-manager-plugin': {
+                    icon: 'gear',
+                    wrapperClassName: 'column-manager btn-group',
+                    className: 'btn btn--default btn--size-s',
+                    iconHideText: true
+                },
                 'orodatagrid/js/datagrid/action-launcher': {iconHideText: false},
                 'orodatagrid/js/datagrid/sorting/dropdown': {
                     hasSortingOrderButton: false,
@@ -53,7 +59,14 @@
                     labelPrefix: '{{ 'oro.ui.filter.by'|trans  }} '
                 },
                 'orofilter/js/filter-hint': {inline: false},
-                'oroaddress/js/region/view': {switchState: 'disable'}
+                'oroaddress/js/region/view': {switchState: 'disable'},
+                'orofilter/js/plugins/filters-toggle-plugin': {
+                    launcherOptions: {
+                        className: 'btn btn--default btn--size-s caret',
+                        iconHideText: true
+                    },
+                    order: 650
+                }
             }
         });
         (function() {
@@ -81,14 +94,17 @@
 
 {% block _page_title_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' page-title-wrapper' ~ (class_prefix ? ' {{ class_prefix }}-page-title-wrapper')
+        '~class': ' page-title-wrapper grid__row text-right' ~ (class_prefix ? ' {{ class_prefix }}-page-title-wrapper')
     }) %}
-    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+    {% set content = block_widget(block)|trim %}
+    {% if content|length %}
+        <div{{ block('block_attributes') }}>{{ content|raw }}</div>
+    {% endif %}
 {% endblock %}
 
 {% block _page_title_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' page-title' ~ (class_prefix ? ' {{ class_prefix }}-page-title')
+        '~class': ' page-title grid__column grid__column-half text-left' ~ (class_prefix ? ' {{ class_prefix }}-page-title')
     }) %}
     {% set content = block_widget(block)|trim %}
     {% if content|length %}
@@ -181,4 +197,71 @@
     'id': 'sticky-header-row'
     }) %}
     <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block datagrid_widget %}
+    {% set grid_render_parameters = {
+        viewLoading: true
+    }|merge(grid_render_parameters) %}
+
+    {% set themeOptions = grid_render_parameters.themeOptions|default({}) %}
+    {% set themeOptions = layout_attr_defaults(themeOptions, {
+        'actionsDropdown': 'auto',
+        'className': 'oro-datagrid frontend-datagrid',
+        'actionOptions': {
+            'refreshAction': {
+                'launcherOptions': {
+                'className': 'btn btn--default btn--size-s',
+                'icon': 'repeat fa--no-offset',
+                'iconHideText': true
+                }
+            },
+        'resetAction': {
+            'launcherOptions': {
+                'className': 'btn btn--default btn--size-s',
+                'icon': 'refresh fa--no-offset',
+                'iconHideText': true
+                }
+            }
+        }
+    }) %}
+    {% set toolbarOptions = grid_render_parameters.toolbarOptions|default({}) %}
+    {% set toolbarOptions = layout_attr_defaults(toolbarOptions, {
+        'actionsPanel': {
+            'className': 'btn-group not-expand frontend-datagrid__panel'
+        },
+        'itemsCounter': {
+            'className': 'grid__tool',
+            'themeOptions': {
+                'templateSelector': '#datagrid-items-counter-template',
+                'customClass': 'oro-items-counter'
+            }
+        },
+        'hideItemsCounter': false
+    }) %}
+    {% set grid_render_parameters = grid_render_parameters|merge({
+        'filterContainerSelector': '[data-grid-toolbar="top"] [data-datafilter-container]',
+        'themeOptions': themeOptions,
+        'toolbarOptions': toolbarOptions
+    }) %}
+
+    {% if split_to_cells != false %}
+        {% set themeOptions = grid_render_parameters.themeOptions|default({}) %}
+        {% set themeOptions = layout_attr_defaults(themeOptions, {
+            'headerRowTemplateSelector': '#template-datagrid-header-row',
+            'rowTemplateSelector': '#template-datagrid-row'
+        }) %}
+        {% set toolbarOptions = grid_render_parameters.toolbarOptions|default({}) %}
+        {% set toolbarOptions = layout_attr_defaults(toolbarOptions, {
+            'columnManager': {'addSorting': false}
+        }) %}
+        {% set grid_render_parameters = grid_render_parameters|merge({
+            'themeOptions': themeOptions,
+            'toolbarOptions': toolbarOptions
+        }) %}
+        {{ block("container_widget") }}
+    {% endif %}
+
+    {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+    {{ dataGrid.renderGrid(grid_full_name, grid_parameters, grid_render_parameters) }}
 {% endblock %}
