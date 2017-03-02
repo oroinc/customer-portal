@@ -25,3 +25,4 @@ oro:
                 secure_url.label: Secure URL
     scope:
         website.label: Website
+        content_block.label: Content Block
