@@ -45,9 +45,10 @@
                 {% set customerTree %}
                     <div class="customer-children">
                         {{ UI.renderJsTree({
-                            'module': 'oroui/js/app/components/basic-tree-component',
                             'disableSearch': true,
-                            'treeOptions': {data: treeData}
+                            'treeOptions': {
+                                data: treeData
+                            }
                         }) }}
                     </div>
                 {% endset %}
