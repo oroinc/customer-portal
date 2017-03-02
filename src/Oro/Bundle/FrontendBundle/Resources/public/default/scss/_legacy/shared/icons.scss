@@ -90,11 +90,18 @@
 
 .cf,
 .fa {
-    &--medium {
+    &--small,
+    &--small.hide-text:before {
+        font-size: $root-font-size;
+    }
+
+    &--medium,
+    &--medium.hide-text:before {
         font-size: $base-font-size;
     }
 
-    &--large {
+    &--large,
+    &--medium.hide-text:before {
         font-size: 24px;
     }
 

@@ -173,7 +173,7 @@ operations:
         acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUser]
         button_options:
             class: btn--info
-            icon: fa-plus
+            icon: fa-plus fa--small
         order: 10
         actions:
            - '@redirect':
@@ -188,7 +188,7 @@ operations:
         acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUserRole]
         button_options:
             class: btn--info
-            icon: fa-plus
+            icon: fa-plus fa--small
         order: 10
         actions:
             - '@redirect':

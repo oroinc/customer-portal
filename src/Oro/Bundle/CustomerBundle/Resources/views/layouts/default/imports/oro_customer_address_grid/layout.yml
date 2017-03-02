@@ -35,7 +35,7 @@ layout:
                 route_parameters:
                     entityId: '=data["entity"].getCustomer().getId()'
                 text: 'oro.customer.frontend.customer_user_address_book.create.label'
-                icon: plus
+                icon: plus fa--small
                 attr:
                     class: 'btn btn--size-s btn--info'
 
