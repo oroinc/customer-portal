@@ -12,6 +12,21 @@
         padding: $offset-x;
 
         border-left: 5px solid get-color('primary', 'base');
+
+        line-height: 1.7;
+
+        strong,
+        b {
+            font-weight: bold;
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        [class*="language-"] {
+            padding: 1px 2px;
+        }
     }
 
     &__preview {
