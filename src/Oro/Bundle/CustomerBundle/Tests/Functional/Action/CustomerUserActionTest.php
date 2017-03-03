@@ -1,17 +1,13 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend\Api\Rest;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Action;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
-class CustomerUserControllerTest extends WebTestCase
+class CustomerUserActionTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         $this->initClient();
@@ -32,19 +28,34 @@ class CustomerUserControllerTest extends WebTestCase
     public function testDelete($login, $resource, $status)
     {
         $this->loginUser($login);
-        $this->client->request(
-            'DELETE',
-            $this->getUrl(
-                'oro_api_customer_frontend_delete_customer_user',
-                ['id' => $this->getReference($resource)->getId()]
-            )
-        );
-        $this->assertResponseStatusCodeEquals($this->client->getResponse(), $status);
+        $id = $this->getReference($resource)->getId();
 
-        if ($status === 204) {
-            /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUser $user */
-            $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
-            $this->assertNull($user);
+        $this->client->request(
+            'GET',
+            $this->getUrl(
+                'oro_frontend_action_operation_execute',
+                [
+                    'operationName' => 'oro_customer_frontend_user_delete',
+                    'entityId' => $id,
+                    'entityClass' => CustomerUser::class,
+                ]
+            ),
+            [],
+            [],
+            ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']
+        );
+
+        $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), $status);
+
+        if ($status === 200) {
+            static::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class)->clear();
+
+            $removedCustomer = static::getContainer()
+                ->get('doctrine')
+                ->getRepository('OroCustomerBundle:CustomerUser')
+                ->find($id);
+
+            static::assertNull($removedCustomer);
         }
     }
 
@@ -57,7 +68,7 @@ class CustomerUserControllerTest extends WebTestCase
             'anonymous user' => [
                 'login' => '',
                 'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
-                'status' => 401,
+                'status' => 403,
             ],
             'same customer: LOCAL_VIEW_ONLY' => [
                 'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL_VIEW_ONLY,
@@ -77,29 +88,13 @@ class CustomerUserControllerTest extends WebTestCase
             'parent customer: DEEP' => [
                 'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_DEEP,
                 'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
-                'status' => 204,
+                'status' => 200,
             ],
             'same customer: LOCAL' => [
                 'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL,
                 'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_DEEP_VIEW_ONLY,
-                'status' => 204,
+                'status' => 200,
             ],
         ];
-    }
-
-    /**
-     * @return ObjectManager
-     */
-    protected function getObjectManager()
-    {
-        return $this->getContainer()->get('doctrine')->getManager();
-    }
-
-    /**
-     * @return ObjectRepository
-     */
-    protected function getUserRepository()
-    {
-        return $this->getObjectManager()->getRepository('OroCustomerBundle:CustomerUser');
     }
 }
