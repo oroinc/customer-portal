@@ -1,0 +1,17 @@
+@fixture-BuyerCustomerFixture.yml
+Feature: Price lists must be sortable in customer create\view page
+
+  Scenario: Changing Price List Priorities In Customer Group
+    Given I login as administrator
+    And I go to Customers/Customer Groups
+    And I click "Create Customer Group"
+    Then I should not see "Priority" in price lists table
+    And I should see drag-n-drop icon present on price list line
+    When I fill in "name" with "All Customers"
+    And I click "Add Price List"
+    And I choose a price list "first price list" in "2" row
+    And I choose a price list "second price list" in "1" row
+    And I drag "2" row to the top in price lists table
+    And I click "Save and Close"
+    Then I should see "Customer group has been saved" flash message
+    And first price list must be first record in appropriate table

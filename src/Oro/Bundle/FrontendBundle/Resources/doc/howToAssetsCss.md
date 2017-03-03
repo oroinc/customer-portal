@@ -119,6 +119,7 @@ For example ```components/input/input.scss```:
 ```scss
 .button {
     border: $input-border;
+
     &--full {
         width:  100%;
     }    
