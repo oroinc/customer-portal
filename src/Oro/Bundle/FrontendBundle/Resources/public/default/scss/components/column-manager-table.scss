@@ -3,26 +3,19 @@
 .column-manager-table {
     position: relative;
 
-    margin: 0 0 10px;
+    margin: 10px 0;
 
     color: get-color('additional', 'dark');
-
 
     .column-manager__item {
         padding: 0 10px;
     }
 
-    .table-header-wrapper {
-        display: none !important;
-    }
-
-    .table-wrapper {
-        display: none;
-
-        .table {
-            border-bottom: 1px solid get-color('additional', 'light');
-            border-radius: 3px;
-        }
+    .table {
+        border-bottom: 1px solid get-color('additional', 'light');
+        border-left: 1px solid get-color('additional', 'light');
+        border-right: 1px solid get-color('additional', 'light');
+        border-radius: 3px;
     }
 }
 

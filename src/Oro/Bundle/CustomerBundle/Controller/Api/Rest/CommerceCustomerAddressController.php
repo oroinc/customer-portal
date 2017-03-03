@@ -2,19 +2,19 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Api\Rest;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
 use Oro\Bundle\AddressBundle\Entity\AddressType;
+
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+
+use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @NamePrefix("oro_api_customer_")
@@ -77,33 +77,6 @@ class CommerceCustomerAddressController extends RestController implements ClassR
         }
 
         return new JsonResponse($result, $customer ? Response::HTTP_OK : Response::HTTP_NOT_FOUND);
-    }
-
-    /**
-     * REST DELETE address
-     *
-     * @ApiDoc(
-     *      description="Delete address items",
-     *      resource=true
-     * )
-     * @AclAncestor("oro_customer_delete")
-     * @param int $entityId
-     * @param int $addressId
-     *
-     * @return Response
-     */
-    public function deleteAction($entityId, $addressId)
-    {
-        /** @var CustomerAddress $address */
-        $address = $this->getManager()->find($addressId);
-        /** @var Customer $customer */
-        $customer = $this->getCustomerManager()->find($entityId);
-        if ($customer->getAddresses()->contains($address)) {
-            $customer->removeAddress($address);
-            return $this->handleDeleteRequest($addressId);
-        } else {
-            return $this->handleView($this->view(null, Response::HTTP_NOT_FOUND));
-        }
     }
 
     /**
