@@ -7,7 +7,6 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidatorFactoryInterface;
 use Symfony\Component\Form\PreloadedExtension;
 
-use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Bundle\FormBundle\Form\Extension\TooltipFormExtension;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type\Stub\ImageTypeStub;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity\Stub\MenuUpdateStub;
@@ -16,6 +15,8 @@ use Oro\Bundle\NavigationBundle\Validator\Constraints\MaxNestedLevelValidator;
 use Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateExtension;
 use Oro\Bundle\TranslationBundle\Translation\Translator;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
+
+use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 
 class MenuUpdateExtensionTest extends FormIntegrationTestCase
 {
@@ -58,6 +59,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         $expected = new MenuUpdateStub();
         $expected->setUri('localhost');
         $expected->setCondition('false');
+        // TODO fix it
         $expected->setImage('image.png');
 
         $this->assertFormIsValid($form);

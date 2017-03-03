@@ -2,10 +2,11 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type\Stub;
 
-use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
 
 class ImageTypeStub extends AbstractType
 {
@@ -30,6 +31,9 @@ class ImageTypeStub extends AbstractType
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getParent()
     {
         return TextType::class;

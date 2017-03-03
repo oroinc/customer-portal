@@ -4,6 +4,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Menu\ContextProvider;
 
 use Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerGroupMenuContextProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+
 use Oro\Component\Testing\Unit\EntityTrait;
 
 class CustomerGroupMenuContextProviderTest extends \PHPUnit_Framework_TestCase

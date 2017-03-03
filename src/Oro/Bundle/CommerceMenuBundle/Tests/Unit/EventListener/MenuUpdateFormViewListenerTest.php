@@ -4,8 +4,6 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\EventListener;
 
 use Symfony\Component\Form\FormView;
 
-use Twig_Environment;
-
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\EventListener\MenuUpdateFormViewListener;
 use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
@@ -19,7 +17,7 @@ class MenuUpdateFormViewListenerTest extends \PHPUnit_Framework_TestCase
         $formView = new FormView();
         $formView->vars['value'] = $menuUpdate;
 
-        $environment = $this->createMock(Twig_Environment::class);
+        $environment = $this->createMock(\Twig_Environment::class);
         $template = 'rendered_template_content';
         $environment->expects($this->once())
             ->method('render')

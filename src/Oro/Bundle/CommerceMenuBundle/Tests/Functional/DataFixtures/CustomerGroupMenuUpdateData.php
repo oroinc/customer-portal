@@ -9,7 +9,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\LocaleBundle\Tests\Functional\DataFixtures\LoadLocalizationData;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
-use Oro\Bundle\CommerceMenuBundle\Tests\Functional\DataFixtures\LoadScopeCustomerGroupWebsiteData;
 use Oro\Bundle\NavigationBundle\Tests\Functional\DataFixtures\MenuUpdateTrait;
 
 class CustomerGroupMenuUpdateData extends AbstractFixture implements DependentFixtureInterface

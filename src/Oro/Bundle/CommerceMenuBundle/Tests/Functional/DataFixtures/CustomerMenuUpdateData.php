@@ -6,11 +6,10 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Oro\Bundle\LocaleBundle\Tests\Functional\DataFixtures\LoadLocalizationData;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
+use Oro\Bundle\LocaleBundle\Tests\Functional\DataFixtures\LoadLocalizationData;
 use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
 use Oro\Bundle\NavigationBundle\Tests\Functional\DataFixtures\MenuUpdateTrait;
-use Oro\Bundle\CommerceMenuBundle\Tests\Functional\DataFixtures\LoadScopeCustomerWebsiteData;
 
 class CustomerMenuUpdateData extends AbstractFixture implements DependentFixtureInterface
 {
