@@ -133,24 +133,18 @@
 
 {% block _style_book_content_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' page-content page-content--has-sidebar-right'
+    '~class': ' page-content'
     }) %}
+
+    {% if blocks.style_book_sidebar is defined %}
+        {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-content--has-sidebar-right'
+        }) %}
+    {% endif %}
 
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
-{% endblock %}
-
-{% block _style_book_sidebar_widget %}
-    {% if block.count > 0 %}
-        {% set attr = layout_attr_defaults(attr, {
-        '~class': ' page-sidebar page-sidebar--right'
-        }) %}
-
-        <aside {{ block('block_attributes') }}>
-            {{ block_widget(block) }}
-        </aside>
-    {% endif %}
 {% endblock %}
 
 {% block _style_book_elements_nav_container_widget %}

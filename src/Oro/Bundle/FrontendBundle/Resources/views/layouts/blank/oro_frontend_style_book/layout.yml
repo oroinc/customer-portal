@@ -53,8 +53,6 @@ layout:
                     blockType: container
                 style_book_content:
                     blockType: container
-                style_book_sidebar:
-                    blockType: container
                 style_book_elements_nav_container:
                     blockType: container
                 style_book_elements_nav_title:
@@ -76,7 +74,3 @@ layout:
                                         style_book_sticky_element_sidebar: ~
                             style_book_main:
                                 style_book_content: ~
-                                style_book_sidebar:
-                                    style_book_elements_nav_container:
-                                        style_book_elements_nav_title: ~
-                                        style_book_elements_nav: ~

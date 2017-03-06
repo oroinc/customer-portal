@@ -3,4 +3,18 @@
 .style-book-main {
     display: flex;
     padding: 20px 0;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    .content-section {
+        &__text {
+            margin: 0 0 20px;
+        }
+
+        &__sub-title {
+            margin: $style-book-title-offset;
+
+            font-size: $style-book-title-font-size;
+        }
+    }
 }

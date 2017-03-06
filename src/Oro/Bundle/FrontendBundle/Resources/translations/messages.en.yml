@@ -39,6 +39,13 @@ oro_frontend:
         back: 'Click to go back'
 
 oro_frontend_style_book:
+    main_content:
+          title: 'Oro StyleBook: a UI Component Library'
+          sub_title: 'Oro UI Library Structure and Navigation'
+          text_content: 'The Oro UI Library is a display of the UI elements with their source code.'
+          text_content_first: 'Most of the UI elements that are involved in OroCommerce Management Console and Front Store UI, are included in the Oro UI Library and are grouped into categories (e.g. Form Elements, Grid Elements) tabbed at the top of the page.'
+          text_content_second: 'When on the Category tab, use the elements navigation tree (on the right) to jump to the element`s description, preview and code sample.'
+          text_content_third: 'The elements from the UI Library may be easily reused in your custom forms and pages in Oro application. You can also use the library as a preview of the updated styles when customizing the application look and feel (see <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/frontendStylesArchitecture.md">Oro Styles Architecture</a> and <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/howToAssetsCss.md">Styles Organization and Customization</a> for more information on the UI customization)'
     nav:
         title: Elements
     groups:
