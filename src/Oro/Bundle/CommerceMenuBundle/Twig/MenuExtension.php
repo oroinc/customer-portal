@@ -6,6 +6,7 @@ use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\MatcherInterface;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class MenuExtension extends \Twig_Extension
 {
@@ -46,6 +47,7 @@ class MenuExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('oro_commercemenu_is_current', [$this, 'isCurrent']),
             new \Twig_SimpleFunction('oro_commercemenu_is_ancestor', [$this, 'isAncestor']),
+            new \Twig_SimpleFunction('oro_commercemenu_get_url', [$this, 'getUrl']),
         ];
     }
 
@@ -67,5 +69,27 @@ class MenuExtension extends \Twig_Extension
     public function isAncestor(ItemInterface $item)
     {
         return $this->getMatcher()->isAncestor($item);
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    public function getUrl($url)
+    {
+        $result = parse_url($url);
+        if (array_key_exists('host', $result) || array_key_exists('scheme', $result)) {
+            return $url;
+        }
+        /** @var RequestStack $requestStack */
+        $requestStack = $this->container->get('request_stack');
+        $request = $requestStack->getCurrentRequest();
+
+        if (0 !== strpos($url, '/')) {
+            $url = '/' . $url;
+        }
+
+        return $request->getUriForPath($url);
     }
 }
