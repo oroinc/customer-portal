@@ -47,7 +47,8 @@
   &-side,
   &-rightside {
     display: flex;
-    flex: 1 0 0;
+    // 0px value for fix bug in IE11
+    flex: 1 0 0px;
     flex-wrap: wrap;
     align-items: center;
 
