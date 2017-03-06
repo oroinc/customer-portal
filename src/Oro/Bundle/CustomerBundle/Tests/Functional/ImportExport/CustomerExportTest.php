@@ -23,6 +23,12 @@ class CustomerExportTest extends WebTestCase
      */
     private $filePath;
 
+    /**
+     * Stores content of the exported CSV file
+     * @var string
+     */
+    protected $fileContent;
+
     protected function setUp()
     {
         $this->initClient();
@@ -57,15 +63,15 @@ class CustomerExportTest extends WebTestCase
         $this->assertTrue($jobResult->isSuccessful());
 
         $this->assertFileExists($this->filePath);
-        $fileContent = file_get_contents($this->filePath);
+        $this->fileContent = file_get_contents($this->filePath);
 
-        $this->assertNotContains('Addresses', $fileContent);
-        $this->assertContains('Id', $fileContent);
-        $this->assertContains('Name', $fileContent);
-        $this->assertContains('Parent', $fileContent);
-        $this->assertContains('Group Name', $fileContent);
-        $this->assertContains(LoadCustomers::CUSTOMER_LEVEL_1_1, $fileContent);
-        $this->assertContains(LoadCustomers::DEFAULT_ACCOUNT_NAME, $fileContent);
+        $this->assertNotContains('Addresses', $this->fileContent);
+        $this->assertContains('Id', $this->fileContent);
+        $this->assertContains('Name', $this->fileContent);
+        $this->assertContains('Parent', $this->fileContent);
+        $this->assertContains('Group Name', $this->fileContent);
+        $this->assertContains(LoadCustomers::CUSTOMER_LEVEL_1_1, $this->fileContent);
+        $this->assertContains(LoadCustomers::DEFAULT_ACCOUNT_NAME, $this->fileContent);
         $this->assertSame(16, $jobResult->getContext()->getReadCount());
     }
 }
