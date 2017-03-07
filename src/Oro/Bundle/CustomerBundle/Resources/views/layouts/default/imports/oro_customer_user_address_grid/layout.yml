@@ -26,7 +26,7 @@ layout:
                         __user_addresses_head_title: ~
 
         - '@add':
-            id: __user_addresses_create_button
+            id: __user_addresses_create_link
             parentId: __user_addresses_head
             blockType: link
             options:
@@ -35,6 +35,9 @@ layout:
                 route_parameters:
                     entityId: '=data["entity"].getId()'
                 text: 'oro.customer.address.add'
+                icon: plus fa--small
+                attr:
+                    class: 'btn btn--size-s btn--info'
 
         - '@move':
             id: __user_addresses_datagrid
