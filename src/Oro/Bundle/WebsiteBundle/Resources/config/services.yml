@@ -62,6 +62,12 @@ services:
             - '@oro_config.manager'
             - '@router'
 
+    oro_website.resolver.website_system_url_resolver:
+        class: 'Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver'
+        arguments:
+            - '@oro_config.manager'
+            - '@router.default'
+
     oro_website.twig.website_path:
         class: Oro\Bundle\WebsiteBundle\Twig\WebsitePathExtension
         public: false
