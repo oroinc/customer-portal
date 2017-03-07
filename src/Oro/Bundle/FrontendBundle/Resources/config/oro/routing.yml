@@ -59,7 +59,7 @@ oro_resize_attachment:
     options:
         frontend: true
 
-oro_attachment_file:
+oro_frontend_attachment_file:
     path: "attachment/{codedString}.{extension}"
     defaults: { _controller: OroAttachmentBundle:File:getAttachment}
     requirements:
