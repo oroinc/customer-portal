@@ -14,4 +14,12 @@ abstract class AbstractFrontendMenuController extends AbstractMenuController
     {
         return $this->get('oro_commerce_menu.manager.menu_update');
     }
+
+    /**
+     * @return string
+     */
+    protected function getSavedSuccessMessage()
+    {
+        return $this->get('translator')->trans('oro.commercemenu.menuupdate.saved_message');
+    }
 }
