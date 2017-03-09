@@ -11,11 +11,16 @@ layout:
             optionName: defaultValue
             optionValue: 'oro.customer.frontend.customer_user.entity_plural_label'
 
-        - '@setOption':
+        - '@appendOption':
             id: customer_users_datagrid
-            optionName: grid_render_parameters
+            optionName: grid_render_parameters.themeOptions
             optionValue:
-                themeOptions:
-                    cellActionsHideCount: 3
-                    cellLauncherOptions:
-                        launcherMode: 'text-only'
+                cellActionsHideCount: 3
+                cellLauncherOptions:
+                    launcherMode: 'text-only'
+
+        - '@appendOption':
+            id: customer_users_datagrid
+            optionName: grid_render_parameters.toolbarOptions.itemsCounter
+            optionValue:
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.users'
