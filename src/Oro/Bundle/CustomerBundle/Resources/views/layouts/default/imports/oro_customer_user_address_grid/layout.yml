@@ -54,15 +54,17 @@ layout:
             optionValue:
                 frontend_owner_id: '=data["entity"].getId()'
 
-        - '@setOption':
+        - '@appendOption':
             id: __user_addresses_datagrid
-            optionName: grid_render_parameters
+            optionName: grid_render_parameters.themeOptions
             optionValue:
-                themeOptions:
-                    toolbarTemplateSelector: '#template-customer-user-address-book-addresses-grid-toolbar'
-                    cellLauncherOptions:
-                        launcherMode: 'icon-only'
-                        actionsState:  'show'
+                toolbarTemplateSelector: '#template-customer-user-address-book-addresses-grid-toolbar'
+
+        - '@appendOption':
+            id: __user_addresses_datagrid
+            optionName: grid_render_parameters.toolbarOptions.itemsCounter
+            optionValue:
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.addresses'
 
         - '@setOption':
               id: __user_addresses_datagrid_toolbar_button_container

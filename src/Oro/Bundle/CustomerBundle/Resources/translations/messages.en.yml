@@ -58,7 +58,7 @@ oro.customer:
             required: 'Required Fields'
 
     address:
-        add: 'Add Address'
+        add: 'New Address'
         cancel: 'Cancel'
         save: 'Save'
         manage: 'Manage Addresses'
@@ -429,7 +429,7 @@ oro.customer:
         customer_user_address_book:
             customer_addresses:      'Company Addresses'
             customer_user_addresses: 'My Addresses'
-            create.label: 'Add Company Address'
+            create.label: 'New Company Address'
         title:
             customer_user_role.create: 'Create Customer User Role'
             customer_user_role.edit: 'Edit Customer User Role'

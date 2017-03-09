@@ -1,29 +1,17 @@
 layout:
-    imports:
-        -
-            id: datagrid
-            root: widget_content
-            namespace: widget
     actions:
         - '@setBlockTheme':
             themes: 'datagrid.html.twig'
+
         - '@setOption':
-            id: widget_datagrid
-            optionName: grid_name
-            optionValue: '=context["gridName"]'
-        - '@setOption':
-            id: widget_datagrid
-            optionName: grid_parameters
-            optionValue: '=context["params"]'
-        # - '@setOption':
-        #     id: widget_datagrid
-        #     optionName: grid_render_parameters
-        #     optionValue: '=context["renderParams"]'
-        - '@setOption':
-            id: widget_datagrid
+            id: __datagrid
             optionName: grid_render_parameters
             optionValue:
                 themeOptions:
+                    cellLauncherOptions:
+                        launcherMode: 'icon-only'
+                        actionsState:  'show'
+                    actionsDropdown: 'auto'
                     className: 'oro-datagrid frontend-datagrid'
                     actionOptions:
                         refreshAction:
@@ -44,11 +32,5 @@ layout:
                         themeOptions:
                             templateSelector: '#datagrid-items-counter-template'
                             customClass: 'oro-items-counter'
-                        transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.products'
                     hideItemsCounter: false
                 filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'
-        - '@setOption':
-            id: widget_datagrid
-            optionName: vars
-            optionValue:
-                multiselect: '=context["multiselect"]'
