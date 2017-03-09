@@ -17,7 +17,7 @@ define(function(require) {
         template: require('text!orofrontend/templates/delete-confirmation.html'),
 
         /** @property {String} */
-        okButtonClass: 'btn ok',
+        okButtonClass: 'btn ok btn--info',
 
         /** @property {String} */
         cancelButtonClass: 'btn cancel',

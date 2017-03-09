@@ -2,12 +2,12 @@
 @import './components/capabilities';
 @import './components/grid-toolbar';
 @import './components/permissions-grid';
+@import './components/customer-datagrid';
 @import './style';
 
-@import 'components/map-wrapper.scss';
-@import 'components/list-with-map.scss';
-
 @import './components/customer-form/customer-form';
+@import './components/address-list/address-list';
+@import './components/info-list/info-list';
 @import './components/address-form-outer/address-form-outer';
 @import './components/address-form/address-form';
 @import './components/address-form-actions/address-form-actions';

@@ -1,0 +1,11 @@
+oro_behat_extension:
+  suites:
+    OroCustomerBundle:
+      contexts:
+        - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
+        - OroDataGridBundle::GridContext
+        - OroCustomerBundle::CustomerUserContext
+      paths:
+        - '@OroCustomerBundle/Tests/Behat/Features'

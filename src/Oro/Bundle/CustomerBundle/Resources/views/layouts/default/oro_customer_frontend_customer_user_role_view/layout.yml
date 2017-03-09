@@ -10,12 +10,14 @@ layout:
             themes: 'OroCustomerBundle:layouts:default/oro_customer_frontend_customer_user_role_view/layout.html.twig'
         - '@setOption':
             id: page_title
-            optionName: text
+            optionName: defaultValue
             optionValue:
                 label: '=data["entity"].getLabel()'
         - '@addTree':
             items:
                 customer_user_role_view_container:
+                    blockType: container
+                customer_user_role_view_container_wrap:
                     blockType: container
                 customer_user_role_back_link:
                     blockType: link
@@ -38,9 +40,10 @@ layout:
             tree:
                 page_content:
                     customer_user_role_view_container:
-                        customer_user_role_back_link: ~
-                        customer_user_role_items:
+                        customer_user_role_view_container_wrap:
+                            customer_user_role_back_link: ~
                             customer_user_role_top_actions: ~
+                        customer_user_role_items:
                             customer_user_role_items_view_users: ~
 
         - '@setOption':
@@ -54,7 +57,3 @@ layout:
             optionValue:
                 themeOptions:
                     readonly: true
-
-        - '@move':
-            id: customer_user_role_items_view_privileges_datagrid
-            siblingId: customer_user_role_top_actions

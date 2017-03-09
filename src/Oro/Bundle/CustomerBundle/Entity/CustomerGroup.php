@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Model\ExtendCustomerGroup;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
+use Oro\Bundle\UserBundle\Entity\Ownership\UserAwareTrait;
 
 /**
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerGroupRepository")
@@ -30,20 +32,40 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  *              "form_type"="oro_customer_customer_group_select",
  *              "grid_name"="customer-groups-select-grid",
  *          },
+ *          "ownership"={
+ *              "owner_type"="USER",
+ *              "owner_field_name"="owner",
+ *              "owner_column_name"="user_owner_id",
+ *              "organization_field_name"="organization",
+ *              "organization_column_name"="organization_id"
+ *          },
+ *          "security"={
+ *              "type"="ACL",
+ *              "group_name"="commerce"
+ *          },
  *          "dataaudit"={
  *              "auditable"=true
  *          }
  *      }
  * )
  */
-class CustomerGroup extends ExtendCustomerGroup
+class CustomerGroup extends ExtendCustomerGroup implements OrganizationAwareInterface
 {
+    use UserAwareTrait;
+
     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $id;
 
@@ -55,6 +77,10 @@ class CustomerGroup extends ExtendCustomerGroup
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "identity"=true,
+     *              "order"=10
      *          }
      *      }
      * )
@@ -69,6 +95,9 @@ class CustomerGroup extends ExtendCustomerGroup
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -80,6 +109,7 @@ class CustomerGroup extends ExtendCustomerGroup
      */
     public function __construct()
     {
+        parent::__construct();
         $this->customers = new ArrayCollection();
     }
 

@@ -1,6 +1,21 @@
 layout:
     imports:
         -
-            id: oro_customer_menu
-            root: page_sidebar
-    actions: []
+            id: oro_customer_page
+        -
+            id: oro_customer_user_form
+            root: page_content
+    actions:
+        - '@setOption':
+            id: page_title
+            optionName: defaultValue
+            optionValue:
+                label: 'oro.customer.frontend.title.page.customer_user.edit'
+                parameters:
+                    '%identifier%': '=data["entity"].getFullName()'
+
+        - '@setOption':
+            id: title
+            optionName: params
+            optionValue:
+                '%user%': '=data["entity"].getFullName()'

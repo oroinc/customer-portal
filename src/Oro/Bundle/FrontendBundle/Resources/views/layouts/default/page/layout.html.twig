@@ -40,8 +40,14 @@
                 'oroui/js/app': {routeLinks: ''},
                 'controllers/page-controller': {fullRedirect: true},
                 'oroui/js/app/modules/views-module': {showLoadingMaskOnStartup: false},
+                'oroui/js/error' : {loginRoute: 'oro_customer_customer_user_security_login'},
                 'oro/datagrid/cell/action-cell': {showCloseButton: false},
-                'orodatagrid/js/app/plugins/grid/column-manager-plugin': {icon: 'gear'},
+                'orodatagrid/js/app/plugins/grid/column-manager-plugin': {
+                    icon: 'gear',
+                    wrapperClassName: 'column-manager btn-group',
+                    className: 'btn btn--default btn--size-s',
+                    iconHideText: true
+                },
                 'orodatagrid/js/datagrid/action-launcher': {iconHideText: false},
                 'orodatagrid/js/datagrid/sorting/dropdown': {
                     hasSortingOrderButton: false,
@@ -53,7 +59,14 @@
                     labelPrefix: '{{ 'oro.ui.filter.by'|trans  }} '
                 },
                 'orofilter/js/filter-hint': {inline: false},
-                'oroaddress/js/region/view': {switchState: 'disable'}
+                'oroaddress/js/region/view': {switchState: 'disable'},
+                'orofilter/js/plugins/filters-toggle-plugin': {
+                    launcherOptions: {
+                        className: 'btn btn--default btn--size-s caret',
+                        iconHideText: true
+                    },
+                    order: 650
+                }
             }
         });
         (function() {
@@ -67,6 +80,7 @@
             }
             appModules = appModules.concat([
                 'orofrontend/default/js/app/modules/input-widgets',
+                'orofrontend/default/js/app/modules/zoom-disable',
                 'orofrontend/default/js/app/modules/button-manager',
                 'orofrontend/default/js/app/modules/delete-action',
                 'orofrontend/default/js/app/modules/select-filter'
@@ -80,14 +94,17 @@
 
 {% block _page_title_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' page-title-wrapper' ~ (class_prefix ? ' {{ class_prefix }}-page-title-wrapper')
+        '~class': ' page-title-wrapper grid__row text-right' ~ (class_prefix ? ' {{ class_prefix }}-page-title-wrapper')
     }) %}
-    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+    {% set content = block_widget(block)|trim %}
+    {% if content|length %}
+        <div{{ block('block_attributes') }}>{{ content|raw }}</div>
+    {% endif %}
 {% endblock %}
 
 {% block _page_title_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' page-title' ~ (class_prefix ? ' {{ class_prefix }}-page-title')
+        '~class': ' page-title grid__column grid__column-half text-left' ~ (class_prefix ? ' {{ class_prefix }}-page-title')
     }) %}
     {% set content = block_widget(block)|trim %}
     {% if content|length %}

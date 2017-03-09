@@ -2,11 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\ORM;
 
+use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
 use Oro\Bundle\FrontendBundle\Migrations\Data\ORM\AbstractRolesData;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 
 class LoadCustomerUserRoles extends AbstractRolesData
 {
@@ -72,6 +74,28 @@ class LoadCustomerUserRoles extends AbstractRolesData
 
         $manager->flush();
         $aclManager->flush();
+    }
+
+    /**
+     * @param AclManager $aclManager
+     * @param SecurityIdentityInterface $sid
+     */
+    protected function setPermissionGroup(AclManager $aclManager, SecurityIdentityInterface $sid)
+    {
+        foreach ($aclManager->getAllExtensions() as $extension) {
+            $rootOid = $aclManager->getRootOid($extension->getExtensionKey());
+            foreach ($extension->getAllMaskBuilders() as $maskBuilder) {
+                if ($rootOid->getIdentifier() === 'entity') {
+                    $fullAccessMask = $maskBuilder->getMask('GROUP_DEEP');
+                } elseif ($maskBuilder->hasMask('GROUP_SYSTEM')) {
+                    $fullAccessMask = $maskBuilder->getMask('GROUP_SYSTEM');
+                } else {
+                    $fullAccessMask = $maskBuilder->getMask('GROUP_ALL');
+                }
+
+                $aclManager->setPermission($sid, $rootOid, $fullAccessMask);
+            }
+        }
     }
 
     /**
