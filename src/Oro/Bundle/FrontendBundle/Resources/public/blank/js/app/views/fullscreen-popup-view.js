@@ -12,7 +12,7 @@ define(function(require) {
 
         optionNames: BaseView.prototype.optionNames.concat([
             'template', 'templateSelector', 'templateData',
-            'contentView', 'contentOptions'
+            'contentView', 'contentSelector', 'contentOptions'
         ]),
 
         templateSelector: '#fullscreen-popup-tpl',
@@ -24,6 +24,8 @@ define(function(require) {
         },
 
         contentView: null,
+
+        contentSelector: null,
 
         contentOptions: null,
 
@@ -66,6 +68,8 @@ define(function(require) {
         renderPopupContent: function(callback) {
             if (this.contentView) {
                 this.renderPopupView(callback);
+            } else if (this.contentSelector) {
+                this.renderSelectorContent(callback);
             } else {
                 callback();
             }
@@ -81,6 +85,12 @@ define(function(require) {
                 this.subview('contentView', new this.contentView(this.contentOptions));
                 callback();
             }
+        },
+
+        renderSelectorContent: function(callback) {
+            var content = $(this.contentSelector).html();
+            $(this.contentOptions.el).html(content);
+            callback();
         },
 
         initPopupEvents: function() {
