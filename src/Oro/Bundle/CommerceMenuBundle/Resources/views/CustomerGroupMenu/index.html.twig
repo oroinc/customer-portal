@@ -1,0 +1,17 @@
+{% extends 'OroCommerceMenuBundle:menuUpdate:indexWithTabs.html.twig' %}
+
+{% oro_title_set({params : {"%customerGroup%": entity.name }}) %}
+
+{% set breadcrumbs = {
+    'indexPath': path('oro_customer_customer_group_index'),
+    'indexLabel': 'oro.customer.customergroup.entity_plural_label'|trans,
+    'additional': [
+        {
+            'indexPath': path('oro_customer_customer_group_view', {'id': entity.id }),
+            'indexLabel': entity.name
+        }
+    ],
+    'entityTitle': 'oro.commercemenu.menuupdate.roots_plural_label'|trans
+} %}
+{% set gridTemplate = 'OroCommerceMenuBundle:CustomerGroupMenu:widget/contextIndex.html.twig' %}
+{% set tabRoute = 'oro_commerce_menu_customer_group_menu_context_index' %}

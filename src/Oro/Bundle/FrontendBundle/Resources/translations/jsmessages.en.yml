@@ -9,3 +9,15 @@ oro_frontend:
         save_flash_success: Saved successfully
     column_manager:
         title: "Manage Grid"
+
+    datagrid:
+        pagination:
+            totalRecords:
+                products: "{{ totalRecords }} Total Products"
+                companyAddresses: "{{ totalRecords }} Total Company Addresses"
+                addresses: "{{ totalRecords }} Total Addresses"
+                users: "{{ totalRecords }} Total Users"
+                roles: "{{ totalRecords }} Total Roles"
+                rfq: "{{ totalRecords }} Total Requests For Quote"
+                orders: "{{ totalRecords }} Total Orders"
+                quotes: "{{ totalRecords }} Total Quotes"

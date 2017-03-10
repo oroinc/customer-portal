@@ -1,0 +1,9 @@
+Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate:
+    constraints:
+        - Oro\Bundle\NavigationBundle\Validator\Constraints\MaxNestedLevel: ~
+    properties:
+        titles:
+            - Valid: ~
+        uri:
+            - NotBlank:
+                groups: [UserDefined]

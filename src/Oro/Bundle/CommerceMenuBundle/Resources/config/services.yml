@@ -4,15 +4,6 @@ parameters:
     oro_commerce_menu.menu_update.scope_type: 'menu_frontend_visibility'
 
 services:
-    oro_commerce_menu.manager.menu_update:
-        class: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager
-        arguments:
-            - "@doctrine"
-            - "@oro_menu.builder_chain"
-            - "@oro_navigation.menu_helper.menu_update"
-        calls:
-            - [ setEntityClass, [ '%oro_commerce_menu.entity.menu_update.class%' ]]
-
     oro_commerce_menu.namespace_migration_provider:
         class: 'Oro\Bundle\CommerceMenuBundle\CacheWarmer\NamespaceMigrationProvider'
         tags:
@@ -21,12 +12,12 @@ services:
     oro_commerce_menu.scope_criteria_provider.customer:
         parent: oro_customer.customer_scope_criteria_provider
         tags:
-            - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 30}
+            - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 40}
 
     oro_commerce_menu.scope_criteria_provider.customer_group:
         parent: oro_customer.customer_group_scope_criteria_provider
         tags:
-            - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 20}
+            - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 30}
 
     oro_commerce_menu.menu_update.builder.menu_frontend_visibility:
         parent: oro_navigation.menu_update.builder.abstract
@@ -35,6 +26,14 @@ services:
           - [setScopeType, ['%oro_commerce_menu.menu_update.scope_type%']]
         tags:
             - { name: oro_menu.builder, priority: 200 }
+
+    oro_commerce_menu.manager.menu_update:
+        class: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager
+        arguments:
+            - "@doctrine"
+            - "@oro_navigation.menu_helper.menu_update"
+            - '%oro_commerce_menu.entity.menu_update.class%'
+            - '%oro_commerce_menu.menu_update.scope_type%'
 
     oro_commerce_menu.menu.condition.condition_extension:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\Condition\ConditionExtension'
@@ -72,3 +71,56 @@ services:
           - '@oro_menu.builder_chain'
         tags:
             - { name: layout.data_provider, alias: menu }
+
+    oro_commerce_menu.event_listener.scope_grid_listener:
+        class: 'Oro\Bundle\NavigationBundle\EventListener\MenuGridListener'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.pre.frontend-menu-by-scope-grid, method: onPreBuild }
+
+    oro_commerce_menu.menu_scope_provider.abstract:
+        abstract: true
+        arguments:
+            - '@oro_scope.scope_manager'
+            - '@oro_website.website.provider'
+            - '%oro_commerce_menu.menu_update.scope_type%'
+
+    oro_commerce_menu.menu_context_provider.customer:
+        class: 'Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvider'
+
+    oro_commerce_menu.menu_context_provider.customer_group:
+        class: 'Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerGroupMenuContextProvider'
+
+    oro_commerce_menu.repository.menu_update:
+        class: 'Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository'
+        parent: oro_entity.abstract_repository
+        arguments:
+            - '%oro_commerce_menu.entity.menu_update.class%'
+        calls:
+            - [ setQueryResultCache, [ '@oro_navigation.menu_update.cache' ] ]
+
+    oro_commerce_menu.event_listener.menu_update_cache_flusher:
+        class: Oro\Bundle\NavigationBundle\EventListener\MenuUpdateCacheFlusher
+        arguments:
+            - '@oro_navigation.repository.menu_update'
+            - '@oro_navigation.menu_update.cache'
+            - '@oro_scope.scope_manager'
+            - '%oro_commerce_menu.menu_update.scope_type%'
+        tags:
+            - { name: kernel.event_listener, event: oro_menu.menu_update_change, method: onMenuUpdateScopeChange }
+
+    oro_commerce_menu.event_listener.pricelist_website_form_view:
+        class: 'Oro\Bundle\CommerceMenuBundle\EventListener\MenuUpdateFormViewListener'
+        tags:
+            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.menu-update-edit, method: onEdit }
+
+    oro_commerce_menu.form.extension.menu_update_type:
+        class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateExtension'
+        arguments:
+            - "@oro_pricing.entity_listener.customer"
+        tags:
+            - { name: form.type_extension, extended_type: 'Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType' }
+
+    oro_commerce_menu.scope_criteria_provider.website:
+        parent: oro_website.website_scope_criteria_provider
+        tags:
+            - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 20}
