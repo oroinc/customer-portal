@@ -61,10 +61,6 @@ class ScopeCriteriaProviderTest extends \PHPUnit_Framework_TestCase
                 'context' => ['website' => $website],
                 'criteria' => ['website' => $website],
             ],
-            'array_context_with_website_key_invalid_value' => [
-                'context' => ['website' => 123],
-                'criteria' => [],
-            ],
             'array_context_without_website_key' => [
                 'context' => [],
                 'criteria' => [],

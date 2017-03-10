@@ -48,15 +48,20 @@ layout:
             optionName: grid_name
             optionValue: frontend-customer-customer-address-grid
 
-        - '@setOption':
+        - '@appendOption':
             id: __addresses_datagrid
-            optionName: grid_render_parameters
+            optionName: grid_render_parameters.themeOptions
             optionValue:
-                themeOptions:
-                    toolbarTemplateSelector: '#template-customer-address-book-addresses-grid-toolbar'
-                    cellLauncherOptions:
-                        launcherMode: 'icon-only'
-                        actionsState:  'hide'
+                toolbarTemplateSelector: '#template-customer-address-book-addresses-grid-toolbar'
+                cellLauncherOptions:
+                    launcherMode: 'icon-only'
+                    actionsState:  'hide'
+
+        - '@appendOption':
+            id: __addresses_datagrid
+            optionName: grid_render_parameters.toolbarOptions.itemsCounter
+            optionValue:
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.companyAddresses'
 
         - '@setOption':
               id: __addresses_datagrid_toolbar_button_container
