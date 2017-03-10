@@ -19,11 +19,16 @@ layout:
             optionValue:
                 role: '=data["entity"]'
 
+        # - '@setOption':
+        #     id: __datagrid
+        #     optionName: grid_render_parameters
+        #     optionValue:
+        #         cssClass: 'inner-permissions-grid'
+
         - '@setOption':
             id: __datagrid
-            optionName: grid_render_parameters
-            optionValue:
-                cssClass: 'inner-permissions-grid'
+            optionName: grid_render_parameters.cssClass
+            optionValue: 'inner-permissions-grid'
 
         - '@setOption':
             id: __datagrid
