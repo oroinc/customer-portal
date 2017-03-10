@@ -9,7 +9,7 @@
     }
 
     &__header {
-        min-height: 40px;
+        min-height: $page-main-header-min-height;
     }
 
     &.offset-none {
