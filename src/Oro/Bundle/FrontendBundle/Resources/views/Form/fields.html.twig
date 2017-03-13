@@ -10,3 +10,13 @@
         <div class="description-container" style="display: none;"></div>
     </div>
 {% endblock %}
+
+{% block oro_frontend_page_template_collection_widget %}
+    <div>
+        {% if form.children|length == 0 %}
+            <div class="description-container">{{ "oro_frontend.system_configuration.messages.no_page_templates"|trans }}</div>
+        {% else %}
+            {{ form_widget(form) }}
+        {% endif %}
+    </div>
+{% endblock %}

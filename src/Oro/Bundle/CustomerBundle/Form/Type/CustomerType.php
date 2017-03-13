@@ -139,7 +139,7 @@ class CustomerType extends AbstractType
             && $event->getForm()->isValid()
         ) {
             $this->eventDispatcher->dispatch(
-                CustomerEvent::ON_ACCOUNT_GROUP_CHANGE,
+                CustomerEvent::ON_CUSTOMER_GROUP_CHANGE,
                 new CustomerEvent($customer)
             );
         }
@@ -152,7 +152,6 @@ class CustomerType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'cascade_validation' => true,
                 'intention' => 'customer',
             ]
         );

@@ -16,10 +16,13 @@ class OroCustomerBundle implements Migration
     public function up(Schema $schema, QueryBag $queries)
     {
         $schema->dropTable('oro_customer_user_org');
+
         $queries->addQuery(new UpdateCustomerUserACLQuery());
 
         //remove invalid record because of error there is a NULL value
         $this->removeFromConfig($queries, 'default_customer_owner');
+
+        $this->addOwnership($schema);
 
         /** Tables modifications **/
         $this->updateOroGridViewTable($schema);
@@ -28,6 +31,40 @@ class OroCustomerBundle implements Migration
         /** Foreign keys generation **/
         $this->addOroGridViewForeignKeys($schema);
         $this->addOroGridViewUserForeignKeys($schema);
+    }
+
+    /**
+     * @param QueryBag $queries
+     * @param string
+     */
+    protected function removeFromConfig(QueryBag $queries, $name)
+    {
+        $queries->addQuery(new ParametrizedSqlMigrationQuery(
+            'DELETE FROM oro_config_value WHERE name = :name AND section = :section AND text_value IS NULL',
+            ['name' => $name, 'section' => 'oro_customer']
+        ));
+    }
+
+    /**
+     * @param Schema $schema
+     */
+    protected function addOwnership(Schema $schema)
+    {
+        $table = $schema->getTable('oro_customer_group');
+        $table->addColumn('user_owner_id', 'integer', ['notnull' => false]);
+        $table->addColumn('organization_id', 'integer', ['notnull' => false]);
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_user'),
+            ['user_owner_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_organization'),
+            ['organization_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
     }
 
     /**
@@ -84,17 +121,5 @@ class OroCustomerBundle implements Migration
             ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
-    }
-
-    /**
-     * @param QueryBag $queries
-     * @param string
-     */
-    protected function removeFromConfig(QueryBag $queries, $name)
-    {
-        $queries->addQuery(new ParametrizedSqlMigrationQuery(
-            'DELETE FROM oro_config_value WHERE name = :name AND section = :section AND text_value IS NULL',
-            ['name' => $name, 'section' => 'oro_customer']
-        ));
     }
 }

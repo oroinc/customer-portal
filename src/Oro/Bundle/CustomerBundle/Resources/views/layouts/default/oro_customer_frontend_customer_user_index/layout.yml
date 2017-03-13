@@ -8,5 +8,19 @@ layout:
     actions:
         - '@setOption':
             id: page_title
-            optionName: text
+            optionName: defaultValue
             optionValue: 'oro.customer.frontend.customer_user.entity_plural_label'
+
+        - '@appendOption':
+            id: customer_users_datagrid
+            optionName: grid_render_parameters.themeOptions
+            optionValue:
+                cellActionsHideCount: 3
+                cellLauncherOptions:
+                    launcherMode: 'text-only'
+
+        - '@appendOption':
+            id: customer_users_datagrid
+            optionName: grid_render_parameters.toolbarOptions.itemsCounter
+            optionValue:
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.users'

@@ -23,13 +23,6 @@ services:
             - { name: kernel.event_listener, event: oro_distribution.route_collection.autoload, method: onCollectionAutoload, priority: 120 }
         lazy: true
 
-    oro_frontend.menu.breadcrumb_manager:
-        class: 'Oro\Bundle\FrontendBundle\Menu\BreadcrumbManager'
-        public: false
-        parent: oro_navigation.breadcrumb_manager
-        tags:
-            - {name: oro_breadcrumbs.provider}
-
     oro_frontend.listener.theme:
         class: 'Oro\Bundle\FrontendBundle\EventListener\ThemeListener'
         arguments:
@@ -208,3 +201,22 @@ services:
             - ['setApplicationProvider',['@oro_frontend.provider.current_application']]
         tags:
            - { name: oro.action.extension.button_provider, priority: 120 }
+
+    oro_frontend.layout_context_configurator.page_template:
+        class: 'Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator'
+        arguments:
+            - '@oro_config.global'
+        tags:
+            - { name: layout.context_configurator }
+
+    oro_frontend.attachment.manager:
+        class: 'Oro\Bundle\FrontendBundle\Manager\AttachmentManager'
+        parent: 'oro_attachment.manager'
+
+    oro_frontend.attachment.twig.file_extension:
+        class: 'Oro\Bundle\FrontendBundle\Twig\FileExtension'
+        public: false
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: twig.extension }

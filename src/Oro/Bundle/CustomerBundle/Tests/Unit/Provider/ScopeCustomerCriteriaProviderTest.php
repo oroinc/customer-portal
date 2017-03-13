@@ -72,10 +72,6 @@ class ScopeCustomerCriteriaProviderTest extends \PHPUnit_Framework_TestCase
                 'context' => ['customer' => $customer],
                 'criteria' => ['customer' => $customer],
             ],
-            'array_context_with_customer_key_invalid_value' => [
-                'context' => ['customer' => 123],
-                'criteria' => [],
-            ],
             'array_context_without_customer_key' => [
                 'context' => [],
                 'criteria' => [],

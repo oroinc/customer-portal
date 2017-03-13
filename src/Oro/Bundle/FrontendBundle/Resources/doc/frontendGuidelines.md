@@ -160,7 +160,6 @@ Last - attributes with JSON content.
 .element {
     // Use base color
     color: $color;
-
 }
 ```
 
@@ -408,9 +407,7 @@ Exception are **pseudo elements** and **states**.
 ##### Acceptable
 ```scss
 .block {
-
     &__element {
-
         &--modifier {
             ...
         }
@@ -473,6 +470,95 @@ across the block when providing changes to the interface.
 }
 ```
 
+
+### Place of @media rules
+
+All @media rules place at the end of file.
+The block applies only to the common styles for all devices. @media describes individual styles for each type of device.
+This allows us in the future to change or add styles only for a specific type of device.
+
+##### Acceptable
+```scss
+.block {
+    width: 50%;
+    padding: 10px;
+
+    background-color: get-color('additional', 'middle');
+
+    &__element {
+        font-size: 12px;
+    }
+}
+
+@include breakpoint('tablet') {
+    .block {
+        width: 100%;
+    }
+}
+
+@include breakpoint('mobile') {
+    .block {
+        padding: 15px;
+
+        &__element {
+            font-size: 15px;
+        }
+    }
+}
+```
+
+##### Unacceptable
+```scss
+.block {
+    width: 50%;
+    padding: 10px;
+
+    background-color: get-color('additional', 'middle');
+
+    @include breakpoint('tablet') {
+        width: 100%;
+    }
+
+    @include breakpoint('mobile') {
+        padding: 15px;
+    }
+
+    &__element {
+        font-size: 12px;
+
+        // STOP!
+        @include breakpoint('mobile') {
+            font-size: 15px;
+        }
+    }
+}
+```
+
+### Work with colors
+
+To work with color, use **get-color()** function, which returns a color from a predefined color scheme.
+
+Example:
+
+```scss
+.block {
+    border-color: get-color('additional', 'light');
+    color: get-color('primary', 'main');
+}
+```
+
+If you need darker or lighter or more transparent color
+use native Sass functions: **darken()**, **lighten()**, **transparentize()**, etc.
+
+```scss
+.block {
+    background-color: transparentize(get-color('primary', 'main'), .8);
+    border-color: darken(get-color('additional', 'light'), 10%);
+    color: lighten(get-color('primary', 'main'), 10%);
+}
+```
+
+
 ### Group properties
 
 Are grouped in the following order:
@@ -486,6 +572,8 @@ Are grouped in the following order:
 7. mixins,
 
 After each group leaves behind an empty string.
+> In CSS we have a each of properties that can be treated in different groups depending on their use:
+`vertical-align`, `overflow`, `clear`, `resize`, `transform`. [List of all css properties](http://cssreference.io/).
 
 ##### Acceptable
 ```scss
@@ -493,13 +581,15 @@ After each group leaves behind an empty string.
 $element-color: #000 !default;
 $element-font: 12px !default;
 $element-line-height: 1.2 !default;
+```
 
+```scss
 .element {
     // positioning
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 10;
+    z-index: z('fixed');
 
     // block model
     width: 100px;
@@ -567,20 +657,20 @@ $default-background: #dadada !default;
 
 ```scss
 .modal {
-    @extend %dialog;
-
     // other modal styles
 
-    &__close {
-        @extend %dialog__close;
+    @extend %dialog;
 
+    &__close {
         // other button styles
+
+        @extend %dialog__close;
     }
 
     &__header {
-        @extend %background-gradient;
-
         // other header styles
+
+        @extend %background-gradient;
     }
 }
 ```
@@ -724,13 +814,15 @@ Helper mixin for organizing @media rules
 ## Best practices
 
 ```scss
-$list-font-title: 'Tahoma' !default;
-$list-offset: 10px !default;
+$block-font-title: 'Tahoma' !default;
+$block-offset: 10px !default;
+```
 
-.list {
+```scss
+.block {
     @include clearfix;
 
-    &__item {
+    &__element {
         float: left;
         width: 25%;
         padding-left: $list-offset * 2;
@@ -753,7 +845,7 @@ $list-offset: 10px !default;
         }
 
         &:hover {
-            border-color: #0000FF;
+            border-color: get-color('additional', 'middle');
         }
     }
 
@@ -762,17 +854,39 @@ $list-offset: 10px !default;
     }
 
     &:hover {
-        background-color: #FF3248;
-
-        .list__item {
-            color: #fff;
-        }
+        background-color: get-color('secondary', 'light');
     }
 
     // State written &. (the active state of the menu item, for example).
     // Usually dynamic.
     &.expand {
         ...
+    }
+}
+
+@include breakpoint('tablet') {
+    .block {
+        width: 100%;
+
+        &__content {
+            padding: $list-offset * 2;
+
+            font-size: 15px;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .block {
+        &__element {
+            width: 100%;
+
+            &-title {
+                margin-bottom: 0;
+
+                font-size: 25px;
+            }
+        }
     }
 }
 ```
