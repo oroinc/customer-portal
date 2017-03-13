@@ -1,14 +1,7 @@
 {% block _style_book_init_code_highlighter_widget %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-scss.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-coy.min.css">
-    <style type="text/css">
-        pre[class*=language-]:after,
-        pre[class*=language-]:before {
-            content: none;
-        }
-    </style>
+    <script src="{{ asset('bundles/bowerassets/prism/prism.js') }}"></script>
+    <script src="{{ asset('bundles/bowerassets/prism/components/prism-scss.min.js') }}"></script>
+    <script src="{{ asset('bundles/bowerassets/prism/plugins/normalize-whitespace/prism-normalize-whitespace.min.js') }}"></script>
 {% endblock %}
 
 {% block _style_book_widget %}
