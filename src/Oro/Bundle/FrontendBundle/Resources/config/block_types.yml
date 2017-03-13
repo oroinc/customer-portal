@@ -68,6 +68,9 @@ services:
                             anchor: {default: ''}
                             label: {default: ''}
                             subTreeLvl: {default: 1}
+                            preview: {default: true}
+                            source: {default: true}
+                            source_language: {default: markup}
                 - [setName, ['group_element_item']]
             tags:
                  - { name: layout.block_type, alias: group_element_item }

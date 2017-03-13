@@ -1,5 +1,6 @@
 {% block _style_book_init_code_highlighter_widget %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-scss.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-coy.min.css">
     <style type="text/css">
@@ -219,18 +220,20 @@
     {% endif %}
 
     {% set content = block_widget(block) %}
-
-    <div class="style-book-group-element__preview">
-        {{ content|raw }}
-    </div>
-
-    <div class="style-book-group-element__source">
-        <pre>
-            <code class="style-book-group-element__code language-markup">
-                {%- spaceless -%}
-                    {{ content|trim|escape }}
-                {%- endspaceless -%}
-            </code>
-        </pre>
-    </div>
+    {% if preview == true %}
+        <div class="style-book-group-element__preview">
+            {{ content|raw }}
+        </div>
+    {% endif %}
+    {% if source == true %}
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-{{ source_language }}">
+                    {%- spaceless -%}
+                        {{ content|trim|escape }}
+                    {%- endspaceless -%}
+                </code>
+            </pre>
+        </div>
+    {% endif %}
 {% endblock %}
