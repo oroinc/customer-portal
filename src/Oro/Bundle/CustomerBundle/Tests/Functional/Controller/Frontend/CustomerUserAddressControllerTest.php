@@ -34,8 +34,8 @@ class CustomerUserAddressControllerTest extends WebTestCase
             $this->getUrl('oro_customer_frontend_customer_user_address_index')
         );
 
-        $addCompanyAddressLink = $crawler->selectLink('Add Company Address')->link();
-        $addUserAddressLink = $crawler->selectLink('Add Address')->link();
+        $addCompanyAddressLink = $crawler->selectLink('New Company Address')->link();
+        $addUserAddressLink = $crawler->selectLink('New Address')->link();
         $this->assertNotEmpty($addCompanyAddressLink);
         $this->assertNotEmpty($addUserAddressLink);
         $addressLists = $crawler->filter('.address-list');
