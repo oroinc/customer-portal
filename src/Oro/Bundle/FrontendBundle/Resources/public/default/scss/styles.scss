@@ -11,6 +11,7 @@
 @import 'base/base';
 
 @import './components/page-title';
+@import './components/page-subtitle';
 @import './components/page-header';
 @import './components/page-footer';
 @import './components/page-main';
@@ -37,6 +38,10 @@
 @import './components/flexible-container';
 @import './components/popover-trigger';
 @import './components/middlebar';
+@import './components/tab-collection';
 @import './components/column-manager';
 @import './components/column-manager-search';
 @import './components/column-manager-table';
+@import './components/items-count-widget';
+@import './components/frontend-datagrid';
+@import './components/box-toolbar';

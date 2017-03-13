@@ -2,13 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 
+use Oro\Bundle\AddressBundle\Entity\AddressType;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\DomCrawler\Form;
-
-use Oro\Bundle\AddressBundle\Entity\AddressType;
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 
 class CustomerUserAddressControllerTest extends WebTestCase
 {
@@ -174,41 +174,6 @@ class CustomerUserAddressControllerTest extends WebTestCase
         ], $result['defaults']);
 
         return $customerUserId;
-    }
-
-    /**
-     * @depends testCreateAddress
-     *
-     * @param int $customerUserId
-     */
-    public function testDeleteAddress($customerUserId)
-    {
-        $this->client->request(
-            'GET',
-            $this->getUrl(
-                'oro_api_customer_get_customeruser_address_primary',
-                ['entityId' => $customerUserId]
-            ),
-            [],
-            [],
-            $this->generateWsseAuthHeader()
-        );
-
-        $address = $this->getJsonResponseContent($this->client->getResponse(), 200);
-
-        $this->client->request(
-            'DELETE',
-            $this->getUrl(
-                'oro_api_customer_delete_customeruser_address',
-                ['entityId' => $customerUserId, 'addressId' => $address['id']]
-            ),
-            [],
-            [],
-            $this->generateWsseAuthHeader()
-        );
-
-        $result = $this->client->getResponse();
-        $this->assertEquals(204, $result->getStatusCode());
     }
 
     /**

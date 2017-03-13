@@ -16,8 +16,6 @@ define(function(require) {
             layoutTimeout: 250
         },
 
-        targetBreakpoint: null,
-
         /**
          * @inheritDoc
          */
@@ -92,9 +90,9 @@ define(function(require) {
                 var options = this.checkTargetOptions(viewportData, $el.data('responsiveOptions'));
 
                 if (_.isObject(options)) {
-                    if ($el.data('targetBreakPoint') !== options.screenType) {
+                    if (!_.isEqual($el.data('targetBreakPoint'), options.viewport)) {
                         $(options.moveTo).first().append($el);
-                        $el.data('targetBreakPoint', options.screenType);
+                        $el.data('targetBreakPoint', options.viewport);
                     }
                 } else {
                     $el.data('originalPosition').append($el);
@@ -105,7 +103,7 @@ define(function(require) {
 
         checkTargetOptions: function(viewportData, responsiveOptions) {
             for (var i = responsiveOptions.length - 1; i >= 0; i--) {
-                if (viewportData.screenTypes[responsiveOptions[i].screenType]) {
+                if (viewportData.isApplicable(responsiveOptions[i].viewport)) {
                     return responsiveOptions[i];
                 }
             }

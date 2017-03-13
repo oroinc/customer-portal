@@ -45,7 +45,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
             $this->assertEquals(self::$labels[$key], $position->textContent);
         }
 
-        $this->assertContains(LoadCustomerUserData::AUTH_USER, $crawler->filter('.user-page')->html());
+        $this->assertContains(LoadCustomerUserData::AUTH_USER, $crawler->filter('.customer-profile')->html());
     }
 
     public function testEditProfile()
@@ -63,7 +63,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        $this->assertContains('CustomerUserUpdated', $crawler->filter('.user-page')->html());
+        $this->assertContains('CustomerUserUpdated', $crawler->filter('.customer-profile')->html());
     }
 
     public function testEditProfilePasswordMismatch()
