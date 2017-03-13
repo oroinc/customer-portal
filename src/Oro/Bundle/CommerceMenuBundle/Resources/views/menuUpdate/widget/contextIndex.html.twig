@@ -1,0 +1,11 @@
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+{% set params = {'viewLinkRoute': gridViewLinkRoute, 'viewLinkParams': {'context': context}} %}
+{% set gridName = oro_datagrid_build_fullname(gridName, random()) %}
+
+<div class="widget-content">
+    {{ dataGrid.renderGrid(gridName, params, {
+        'enableFullScreenLayout': true,
+        'enableViews': true,
+        'showViewsInNavbar': true,
+    }) }}
+</div>

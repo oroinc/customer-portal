@@ -23,13 +23,6 @@ services:
             - { name: kernel.event_listener, event: oro_distribution.route_collection.autoload, method: onCollectionAutoload, priority: 120 }
         lazy: true
 
-    oro_frontend.menu.breadcrumb_manager:
-        class: 'Oro\Bundle\FrontendBundle\Menu\BreadcrumbManager'
-        public: false
-        parent: oro_navigation.breadcrumb_manager
-        tags:
-            - {name: oro_breadcrumbs.provider}
-
     oro_frontend.listener.theme:
         class: 'Oro\Bundle\FrontendBundle\EventListener\ThemeListener'
         arguments:

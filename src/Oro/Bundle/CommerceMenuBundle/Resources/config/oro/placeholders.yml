@@ -1,0 +1,14 @@
+placeholders:
+    placeholders:
+        view_navButtons_before:
+            items:
+                commerce_customer_menu_button: ~
+                commerce_customer_group_menu_button: ~
+
+    items:
+        commerce_customer_menu_button:
+            template: OroCommerceMenuBundle:Placeholders:customerButton.html.twig
+            applicable: "@oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_customer.entity.customer.class%)"
+        commerce_customer_group_menu_button:
+            template: OroCommerceMenuBundle:Placeholders:customerGroupButton.html.twig
+            applicable: "@oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_customer.entity.customer_group.class%)"

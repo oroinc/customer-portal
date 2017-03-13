@@ -87,10 +87,6 @@ class ScopeCustomerGroupCriteriaProviderTest extends \PHPUnit_Framework_TestCase
                 'context' => ['customerGroup' => $customerGroup],
                 'criteria' => ['customerGroup' => $customerGroup],
             ],
-            'array_context_with_customer_group_key_invalid_value' => [
-                'context' => ['customerGroup' => 123],
-                'criteria' => [],
-            ],
             'array_context_without_customer_group_key' => [
                 'context' => [],
                 'criteria' => [],
