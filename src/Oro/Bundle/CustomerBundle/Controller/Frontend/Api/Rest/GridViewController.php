@@ -10,12 +10,10 @@ use FOS\RestBundle\Controller\Annotations\Put;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use Oro\Bundle\DataGridBundle\Controller\Api\Rest\GridViewController as BaseGridViewController;
-use Oro\Bundle\DataGridBundle\Entity\AbstractGridView;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @NamePrefix("oro_api_frontend_datagrid_gridview_")
@@ -142,32 +140,8 @@ class GridViewController extends BaseGridViewController
     /**
      * {@inheritdoc}
      */
-    protected function checkEditPublicAccess(AbstractGridView $gridView)
+    protected function isGridViewPublishGranted()
     {
-        if ($gridView->getType() !== AbstractGridView::TYPE_PUBLIC) {
-            return;
-        }
-
-        if ($this->getSecurityFacade()->isGranted('oro_customer_frontend_gridview_update_public')) {
-            return;
-        }
-
-        throw new AccessDeniedException();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function checkCreatePublicAccess(Request $request)
-    {
-        if ($request->request->get('type') !== AbstractGridView::TYPE_PUBLIC) {
-            return;
-        }
-
-        if ($this->getSecurityFacade()->isGranted('oro_customer_frontend_gridview_publish')) {
-            return;
-        }
-
-        throw new AccessDeniedException();
+        return $this->getSecurityFacade()->isGranted('oro_customer_frontend_gridview_publish');
     }
 }

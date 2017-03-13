@@ -74,11 +74,3 @@ acls:
         group_name: "commerce"
         bindings: ~
         category: "application"
-
-    oro_customer_frontend_gridview_update_public:
-        type: action
-        label: oro.grid.action.gridview_edit_public.label
-        description: oro.grid.action.gridview_edit_public.description
-        group_name: "commerce"
-        bindings: ~
-        category: "application"
