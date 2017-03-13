@@ -3,9 +3,20 @@ oro_behat_extension:
     OroCustomerBundle:
       contexts:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
+        - OroApplicationBundle::CommerceMainContext
         - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
         - OroDataGridBundle::GridContext
         - OroCustomerBundle::CustomerUserContext
+        - OroCustomerBundle::ACLContext
+        - OroSecurityBundle::PermissionContext
       paths:
         - '@OroCustomerBundle/Tests/Behat/Features'
+
+  elements:
+    CustomerUserRoleForm:
+      selector: "form[id*='_customer_user_role']"
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\CustomerUserRoleForm
+    CustomerUserRoleView:
+      selector: "[data-target='#customer-customer-user-role-view'], section.page-content"
+      class: Oro\Bundle\UserBundle\Tests\Behat\Element\UserRoleViewForm
