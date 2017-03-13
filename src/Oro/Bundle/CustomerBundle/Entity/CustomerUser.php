@@ -10,6 +10,7 @@ use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\LocaleBundle\Model\FullNameInterface;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
@@ -60,6 +61,20 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     const SECURITY_GROUP = 'commerce';
 
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $id;
+
+    /**
      * @var CustomerUserRole[]|Collection
      *
      * @ORM\ManyToMany(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUserRole", inversedBy="customerUsers")
@@ -76,6 +91,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -95,6 +113,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=40
      *          }
      *      }
      * )
@@ -109,6 +130,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=60
      *          }
      *      }
      * )
@@ -123,6 +147,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=30
      *          }
      *      }
      * )
@@ -139,6 +166,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -155,6 +185,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=10
      *          }
      *      }
      * )
@@ -171,6 +204,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -187,6 +223,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=20,
      *          }
      *      }
      * )
@@ -203,6 +242,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -217,6 +259,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -237,6 +282,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -252,6 +300,9 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -271,6 +322,13 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *          @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      *      }
      * )
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      **/
     protected $salesRepresentatives;
 
@@ -278,6 +336,13 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      * @var \DateTime $createdAt
      *
      * @ORM\Column(name="created_at", type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $createdAt;
 
@@ -285,6 +350,13 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      * @var \DateTime $updatedAt
      *
      * @ORM\Column(name="updated_at", type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $updatedAt;
 
@@ -307,13 +379,73 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      * @ORM\JoinColumn(name="website_id", referencedColumnName="id", onDelete="SET NULL")
      * @ConfigField(
      *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
      */
     protected $website;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     * @ConfigField(
+     *      defaultValues={
+     *          "dataaudit"={
+     *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=50
+     *          }
+     *      }
+     * )
+     */
+    protected $enabled = true;
+
+    /**
+     * @var Organization
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
+     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $organization;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="login_count", type="integer", options={"default"=0, "unsigned"=true})
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $loginCount;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $username;
 
     /**
      * {@inheritdoc}

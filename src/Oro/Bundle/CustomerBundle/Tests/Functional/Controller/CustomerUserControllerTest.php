@@ -122,6 +122,7 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
         $this->assertContains(self::FIRST_NAME, $result->getContent());
         $this->assertContains(self::LAST_NAME, $result->getContent());
         $this->assertContains(self::EMAIL, $result->getContent());
+        $this->assertContains('Export', $result->getContent());
     }
 
     /**
