@@ -155,7 +155,7 @@ class AddressBookTest extends WebTestCase
      */
     protected function isAddUserAddressButtonVisible(Crawler $crawler)
     {
-        return $crawler->selectLink('Add Address')->count() > 0;
+        return $crawler->selectLink('New Address')->count() > 0;
     }
 
     /**
@@ -164,7 +164,7 @@ class AddressBookTest extends WebTestCase
      */
     protected function isAddCustomerAddressButtonVisible(Crawler $crawler)
     {
-        return $crawler->selectLink('Add Company Address')->count() > 0;
+        return $crawler->selectLink('New Company Address')->count() > 0;
     }
 
     /**

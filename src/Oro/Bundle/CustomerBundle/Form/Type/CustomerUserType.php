@@ -276,7 +276,6 @@ class CustomerUserType extends AbstractType
         $resolver->setRequired(['data']);
 
         $resolver->setDefaults([
-            'cascade_validation' => true,
             'data_class' => $this->dataClass,
             'intention' => 'customer_user',
             'extra_fields_message' => 'This form should not contain extra fields: "{{ extra_fields }}"',

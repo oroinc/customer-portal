@@ -86,7 +86,6 @@ class ClassMigration
             $this->migrateTableColumn($defaultConnection, 'oro_security_permission_entity', 'name', $from, $to);
             $this->migrateTableColumn($defaultConnection, 'oro_email_template', 'entityname', $from, $to);
             $this->migrateTableColumn($defaultConnection, 'oro_email_template', 'content', $from, $to);
-            $this->migrateTableColumn($defaultConnection, 'oro_navigation_title', 'route', $from, $to);
 
             $this->migrateTableColumn($searchConnection, 'oro_search_item', 'entity', $from, $to);
             $this->migrateTableColumn($searchConnection, 'oro_search_item', 'alias', $from, $to);

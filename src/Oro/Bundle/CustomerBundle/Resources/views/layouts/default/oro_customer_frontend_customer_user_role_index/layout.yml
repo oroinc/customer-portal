@@ -10,3 +10,9 @@ layout:
             id: page_title
             optionName: defaultValue
             optionValue: 'oro.customer.frontend.customer_user.role.entity_plural_label'
+
+        - '@appendOption':
+            id: customer_user_roles_datagrid
+            optionName: grid_render_parameters.toolbarOptions.itemsCounter
+            optionValue:
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.roles'

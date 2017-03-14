@@ -2,6 +2,12 @@ parameters:
     oro_website.entity.website.class: Oro\Bundle\WebsiteBundle\Entity\Website
 
 services:
+    oro_website.repository.website:
+        class: Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository
+        parent: oro_entity.abstract_repository
+        arguments:
+            - '%oro_website.entity.website.class%'
+
     oro_website.manager:
         class: 'Oro\Bundle\WebsiteBundle\Manager\WebsiteManager'
         public: true
@@ -96,6 +102,12 @@ services:
         decorates: assets.context
         arguments:
             - '@request_stack'
+
+    oro_website.website_scope_criteria_provider:
+        class: 'Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider'
+        public: false
+        arguments:
+            - "@oro_website.manager"
 
     oro_website.repository.website:
         class: 'Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository'

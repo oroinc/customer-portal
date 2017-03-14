@@ -4,68 +4,63 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
-use Oro\Bundle\ImportExportBundle\File\FileManager;
-use Oro\Bundle\ImportExportBundle\Job\JobExecutor;
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Bundle\ImportExportBundle\Tests\Functional\Export\AbstractExportTest;
 
 /**
  * @dbIsolationPerTest
  */
-class CustomerExportTest extends WebTestCase
+class CustomerExportTest extends AbstractExportTest
 {
-    /**
-     * @var JobExecutor
-     */
-    private $jobExecutor;
-
-    /**
-     * @var string
-     */
-    private $filePath;
-
     protected function setUp()
     {
-        $this->initClient();
+        parent::setUp();
         $this->loadFixtures([LoadCustomers::class]);
-        $this->jobExecutor = self::getContainer()->get('oro_importexport.job_executor');
-        $this->filePath = FileManager::generateTmpFilePath(
-            FileManager::generateFileName('oro_customer_customer', 'csv')
-        );
     }
 
-    protected function tearDown()
+    /**
+     * {@inheritdoc}
+     */
+    protected function getProcessorAlias()
     {
-        @unlink($this->filePath);
+        return 'oro_customer_customer';
     }
 
-    public function testExport()
+    /**
+     * {@inheritdoc}
+     */
+    protected function getEntityName()
     {
-        $configuration = [
-            'export' => [
-                'processorAlias' => 'oro_customer_customer',
-                'entityName' => Customer::class,
-                'filePath' => $this->filePath,
-            ]
+        return Customer::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getContains()
+    {
+        return [
+            'Id',
+            'Name',
+            'Parent',
+            'Group Name',
+            LoadCustomers::CUSTOMER_LEVEL_1_1,
+            LoadCustomers::DEFAULT_ACCOUNT_NAME,
         ];
+    }
 
-        $jobResult = $this->jobExecutor->executeJob(
-            'export',
-            'entity_export_to_csv',
-            $configuration
-        );
+    /**
+     * {@inheritdoc}
+     */
+    protected function getNotContains()
+    {
+        return ['Addresses'];
+    }
 
-        $this->assertTrue($jobResult->isSuccessful());
-
-        $this->assertFileExists($this->filePath);
-        $fileContent = file_get_contents($this->filePath);
-
-        $this->assertNotContains('Addresses', $fileContent);
-        $this->assertContains('Id', $fileContent);
-        $this->assertContains('Name', $fileContent);
-        $this->assertContains('Parent', $fileContent);
-        $this->assertContains('Group Name', $fileContent);
-        $this->assertContains(LoadCustomers::CUSTOMER_LEVEL_1_1, $fileContent);
-        $this->assertContains(LoadCustomers::DEFAULT_ACCOUNT_NAME, $fileContent);
-        $this->assertSame(16, $jobResult->getContext()->getReadCount());
+    /**
+     * {@inheritdoc}
+     */
+    protected function getExpectedNumberOfLines()
+    {
+        return 16;
     }
 }
