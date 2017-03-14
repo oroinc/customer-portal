@@ -4,6 +4,10 @@
     font-size: $page-title-font-size;
     line-height: 1.1;
 
+    &--has-actions {
+        float: left;
+    }
+
     &__text {
         vertical-align: middle;
         text-transform: uppercase;
