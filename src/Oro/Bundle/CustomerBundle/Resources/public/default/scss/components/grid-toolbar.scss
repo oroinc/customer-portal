@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   align-content: stretch;
-  justify-content: center;
+  justify-content: space-between;
   margin: 10px 0;
 
   &--extended {
@@ -47,9 +47,8 @@
   &-side,
   &-rightside {
     display: flex;
-    // 0px value for fix bug in IE11
-    flex: 1 0 0px;
     flex-wrap: wrap;
+    flex: 1 0 auto;
     align-items: center;
 
     min-width: 200px;
