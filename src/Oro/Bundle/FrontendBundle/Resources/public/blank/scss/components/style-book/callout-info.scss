@@ -13,9 +13,9 @@
   }
 
   &__title {
-    margin-bottom: $style-book-title-offset;
+    margin-bottom: 10px;
 
-    font-size: $style-book-title-font-size;
+    font-size: $base-font;
   }
 
   &.warning {

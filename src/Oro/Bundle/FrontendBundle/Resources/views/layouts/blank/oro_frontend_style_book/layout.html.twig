@@ -194,10 +194,11 @@
 {% endblock %}
 
 {% block group_element_item_widget %}
+    <div class="style-book-group-element__item">
     {% if label and anchor %}
         {% set attr = layout_attr_defaults(attr, {
             'id': anchor,
-            '~class': ' style-book-title',
+            '~class': ' style-book-group-element__title',
             'data-style-book-element': {
                 id: anchor,
                 label: label,
@@ -213,11 +214,7 @@
     {% endif %}
 
     {% set content = block_widget(block) %}
-    {% if preview == true %}
-        <div class="style-book-group-element__preview">
-            {{ content|raw }}
-        </div>
-    {% endif %}
+
     {% if source == true %}
         <div class="style-book-group-element__source">
             <pre>
@@ -229,4 +226,11 @@
             </pre>
         </div>
     {% endif %}
+
+    {% if preview == true %}
+        <div class="style-book-group-element__preview">
+            {{ content|raw }}
+        </div>
+    {% endif %}
+    </div>
 {% endblock %}

@@ -7,14 +7,18 @@
     flex-direction: row;
 
     .content-section {
+        margin-bottom: 15px;
+
         &__text {
-            margin: 0 0 20px;
+            &:not(:first-child) {
+                margin-top: $offset-y-m;
+            }
         }
 
         &__sub-title {
-            margin: $style-book-title-offset;
+            margin-bottom: $offset-y-m;
 
-            font-size: $style-book-title-font-size;
+            font-size: $base-font-size--l;
         }
     }
 }
