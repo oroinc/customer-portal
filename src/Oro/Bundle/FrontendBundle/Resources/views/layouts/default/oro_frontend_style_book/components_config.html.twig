@@ -129,6 +129,20 @@
                 </div>
                 <div class="color-palette__color-box">
                     {% with %}
+                    {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_secondary_lighten'|trans %}
+
+                    {{ color_key_title }}
+                    <strong class="color-palette__name--title">
+                        {{ palette_key }}
+                    </strong>
+                    <div class="color-palette__name color-palette__name--secondary-lighten"></div>
+                    <code class="color-palette__usage language-css">
+                        {{ _self.get_color(palette_name, palette_key) }}
+                    </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
                         {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_secondary_dark'|trans %}
 
                         {{ color_key_title }}

@@ -86,6 +86,7 @@ oro_frontend_style_book:
             color_key_secondary_main: 'main'
             color_key_secondary_base: 'base'
             color_key_secondary_light: 'light'
+            color_key_secondary_lighten: 'lighten'
             color_key_secondary_dark: 'dark'
             pallete_title_additional: 'additional'
             color_key_additional_ultra: 'ultra'
