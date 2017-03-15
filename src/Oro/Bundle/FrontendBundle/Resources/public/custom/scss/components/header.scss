@@ -28,8 +28,12 @@
                 margin-left: -100%;
             }
 
+            &__center + .middlebar__left {
+                margin-left: auto;
+            }
+
             .header-row {
-                padding: 53px 0 10px;
+                margin: 45px -20px 0 -20px;
             }
         }
     }

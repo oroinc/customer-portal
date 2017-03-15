@@ -1,11 +1,6 @@
 //@theme: custom;
-
-.header-row {
-    border: 0;
-}
-
-@include breakpoint('tablet') {
+@include breakpoint('desktop') {
     .header-row {
-        padding: 13px 0 10px;
+        border: 0;
     }
 }

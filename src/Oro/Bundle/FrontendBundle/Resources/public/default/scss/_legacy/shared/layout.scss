@@ -3,7 +3,7 @@
   min-height: 100px;
   padding: 20px 0 19px;
 
-  @media (max-width: $screen-md) {
+  @media (max-width: $breakpoint-tablet) {
     min-height: initial;
     padding: 10px 0;
   }
@@ -24,7 +24,7 @@
     float: left;
     margin-left: -100%;
 
-    @media (max-width: $screen-md) {
+    @media (max-width: $breakpoint-tablet) {
       width: 100%;
       margin: 0;
       float: none;
@@ -36,7 +36,7 @@
     float: left;
     margin-left: -39%;
 
-    @media (max-width: $screen-md) {
+    @media (max-width: $breakpoint-tablet) {
       display: none;
     }
   }
@@ -57,7 +57,7 @@
   text-indent: -999rem;
   background-size: 100%;
 
-  @media (max-width: 991px) {
+  @media (max-width: $breakpoint-tablet) {
     margin: 0 auto;
   }
 }
