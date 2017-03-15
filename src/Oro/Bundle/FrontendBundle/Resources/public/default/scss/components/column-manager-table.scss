@@ -26,9 +26,12 @@
 
     &__container {
         position: relative;
-
+        
+        display: flex;
         padding: 5px 0;
         margin: 0 -5px;
+
+        align-items: center;
 
         &:after {
             right: 0;
@@ -43,10 +46,12 @@
     }
 
     &__handle {
-        display: inline-block;
+        display: block;
         width: 9px;
         height: 33px;
         margin-right: 8px;
+
+        flex: 0 0 auto;
 
         border: 3px dotted get-color('additional', 'light');
         border-top: 0;
@@ -55,5 +60,29 @@
         cursor: move;
 
         vertical-align: middle;
+    }
+
+    &__label {
+        flex: 1 1 auto;
+    }
+
+    &__move {
+        padding-right: 5px;
+
+        color: get-color('additional', 'middle');
+
+        flex: 0 0 auto;
+
+        .move-up,
+        .move-down {
+            padding: 0 5px;
+
+            display: block;
+
+            line-height: 1;
+            
+            background: none;
+            border: none;
+        }
     }
 }
