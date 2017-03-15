@@ -6,6 +6,6 @@
 
 @include breakpoint('mobile') {
   .quick-access-container {
-    display: inline-block;
+    display: $quick-access-container-m-display;
   }
 }
