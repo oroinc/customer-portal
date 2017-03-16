@@ -25,6 +25,9 @@ class AddressProvider
     /** @var string */
     protected $updateRouteName;
 
+    /** @var bool */
+    protected $defaultOnly;
+
     /**
      * @param UrlGeneratorInterface $router
      * @param FragmentHandler $fragmentHandler
@@ -45,10 +48,12 @@ class AddressProvider
 
     /**
      * @param string $listRouteName
+     * @param bool $defaultOnly
      */
-    public function setListRouteName($listRouteName)
+    public function setListRouteName($listRouteName, $defaultOnly = false)
     {
         $this->listRouteName = $listRouteName;
+        $this->defaultOnly = $defaultOnly;
     }
 
     /**
@@ -86,7 +91,13 @@ class AddressProvider
             );
         }
 
-        $addressListUrl = $this->router->generate($this->listRouteName, ['entityId' => $entity->getId()]);
+        $params = ['entityId' => $entity->getId()];
+
+        if ($this->defaultOnly) {
+            $params['default_only'] = true;
+        }
+
+        $addressListUrl = $this->router->generate($this->listRouteName, $params);
         $addressCreateUrl = $this->router->generate($this->createRouteName, ['entityId' => $entity->getId()]);
 
         return [

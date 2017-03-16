@@ -585,7 +585,7 @@ services:
             - [setCreateRouteName, ['oro_customer_frontend_customer_address_create']]
             - [setUpdateRouteName, ['oro_customer_frontend_customer_address_update']]
         tags:
-             - { name: layout.data_provider, alias: customer_address_provider }
+            - { name: layout.data_provider, alias: customer_address_provider }
 
     oro_customer.layout.data_provider.customer_user_address_provider:
         parent: oro_customer.layout.data_provider.address_provider_abstract
@@ -595,7 +595,17 @@ services:
             - [setCreateRouteName, ['oro_customer_frontend_customer_user_address_create']]
             - [setUpdateRouteName, ['oro_customer_frontend_customer_user_address_update']]
         tags:
-             - { name: layout.data_provider, alias: customer_user_address_provider }
+            - { name: layout.data_provider, alias: customer_user_address_provider }
+
+    oro_customer.layout.data_provider.customer_user_default_address_provider:
+        parent: oro_customer.layout.data_provider.address_provider_abstract
+        calls:
+            - [setEntityClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
+            - [setListRouteName, ['oro_api_customer_frontend_get_customeruser_addresses', true]]
+            - [setCreateRouteName, ['oro_customer_frontend_customer_user_address_create']]
+            - [setUpdateRouteName, ['oro_customer_frontend_customer_user_address_update']]
+        tags:
+            - { name: layout.data_provider, alias: customer_user_default_address_provider }
 
     oro_customer.customer_scope_criteria_provider:
         class: 'Oro\Bundle\CustomerBundle\Provider\ScopeCustomerCriteriaProvider'

@@ -1,0 +1,16 @@
+{% extends 'OroCommerceMenuBundle:menuUpdate:update.html.twig' %}
+
+{% set routePrefix = 'oro_commerce_menu_global_menu_' %}
+
+{% oro_title_set({params : {"%title%": entity.title|trans()}}) %}
+{% set breadcrumbs = {
+    'entity': entity,
+    'indexPath': path('oro_commerce_menu_global_menu_index'),
+    'indexLabel': 'oro.commercemenu.menuupdate.roots_plural_label'|trans,
+    'additional': [
+        {
+            'indexPath': path('oro_commerce_menu_global_menu_view', {menuName: menuName}),
+            'indexLabel': menuName
+        }
+    ]
+} %}

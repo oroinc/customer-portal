@@ -4,7 +4,8 @@
     position: relative;
 
     &-wrap {
-        margin: 0 39% 0 33.5%;
+        width: 100%;
+        max-width: 320px;
     }
 
     &__input {
@@ -32,10 +33,6 @@
 @include breakpoint('tablet') {
     .search-widget {
         margin: $offset-y $offset-x;
-
-        &-wrap {
-            margin: 0 25% 0 40%;
-        }
 
         &__input {
             height: 45px;

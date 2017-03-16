@@ -1,0 +1,25 @@
+// @theme: default
+
+.box-toolbar {
+    @include clearfix();
+}
+
+@include breakpoint('desktop') {
+    .box-toolbar {
+        &__actions {
+            float: right;
+        }
+
+        &__title {
+            float: left;
+        }
+    }
+}
+
+@include breakpoint('tablet') {
+    .box-toolbar {
+        &__title {
+            padding-bottom: $offset-y;
+        }
+    }
+}

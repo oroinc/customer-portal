@@ -101,9 +101,9 @@ In order to inherit one theme from another you should define parent theme in **t
 
 For example: if you need to inherit default theme from blank do as follows:
 
-*/theme.yml*		
-```		
-parent: blank		
+*/theme.yml*
+```
+parent: blank
 ```
 
 It allows you to inherit all styles from parent theme and have access to all mixins, variables, etc from parent theme.
@@ -236,29 +236,7 @@ In the main file for default theme we have:
 
 4. Form styles **default theme**: package/platform/src/Oro/Bundle/FormBundle/Resources/public/default/scss
 
-**PAY ATTENTION!!!**<br>
+**PAY ATTENTION!!!**
+
 In default theme FormBundle goes first because of settings, that are not related to this bundle.**
 
-
-### How to work with colors
-
-To work with color, use **get-color()** function, which returns a color from a predefined color scheme.
-
-Example:
-
-```scss
-.component {
-    border-color: get-color('additional', 'light');
-    color: get-color('primary', 'main');
-}
-```
-
-If you need darker or lighter or more transparent color use native Sass functions: **darken()**, **lighten()**, **transparentize()**, etc
-
-```scss
-.component {
-    border-color: darken(get-color('additional', 'light'), 10%);
-    color: lighten(get-color('primary', 'main'), 10%);
-    background-color: transparentize(get-color('primary', 'main'), .8);
-}
-```

@@ -106,7 +106,7 @@ class AddressBookTestPage extends AbstractPage
      */
     public function getCustomerAddressAddButtons()
     {
-        return $this->getElement("//a[text()='Add Company Address']", true, false);
+        return $this->getElement("//a[text()='New Company Address']", true, false);
     }
 
     /**
@@ -114,7 +114,7 @@ class AddressBookTestPage extends AbstractPage
      */
     public function getUserAddressAddButtons()
     {
-        return $this->getElement("//a[text()='Add Address']", true, false);
+        return $this->getElement("//a[text()='New Address']", true, false);
     }
 
     /**

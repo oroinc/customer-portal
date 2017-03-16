@@ -76,20 +76,31 @@
 [class*=" fa-"] {
     margin-right: 3px;
 
-    vertical-align: middle;
-
     line-height: 1;
 }
 
+// TODO: need refactor after removal less from frontend
 .hide-text {
     &:after,
     &:before {
         color: inherit;
     }
+
+    &.fa--small,
+    &.fa--medium,
+    &.fa--large {
+        &:before {
+            font-size: inherit;
+        }
+    }
 }
 
 .cf,
 .fa {
+    &--small {
+        font-size: $root-font-size;
+    }
+
     &--medium {
         font-size: $base-font-size;
     }
@@ -104,10 +115,6 @@
 
     &--hidden {
         visibility: hidden;
-    }
-
-    &--base-line {
-        vertical-align: baseline;
     }
 
     &--no-offset {

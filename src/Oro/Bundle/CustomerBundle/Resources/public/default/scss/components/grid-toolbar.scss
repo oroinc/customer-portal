@@ -5,7 +5,35 @@
   justify-content: center;
   margin: 10px 0;
 
+  &-side,
+  &-rightside {
+    display: flex;
+    // 0px value for fix bug in IE11
+    flex: 1 0 0px;
+    flex-wrap: wrap;
+    align-items: center;
+
+    min-width: 200px;
+  }
+
+  &-rightside {
+    justify-content: flex-end;
+  }
+
+  &-base {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+  }
+
   &--extended {
+    justify-content: space-between;
+
+    .grid__toolbar-side,
+    .grid__toolbar-rightside {
+      flex: 1 0 auto;
+    }
+
     .grid__tool {
       flex-grow: 0;
 
@@ -42,26 +70,6 @@
         }
       }
     }
-  }
-
-  &-side,
-  &-rightside {
-    display: flex;
-    flex: 1 0 0;
-    flex-wrap: wrap;
-    align-items: center;
-
-    min-width: 200px;
-  }
-
-  &-rightside {
-    justify-content: flex-end;
-  }
-  
-  &-base {
-    display: flex;
-    flex: 0 0 auto;
-    align-items: center;
   }
 }
 
