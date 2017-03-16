@@ -12,7 +12,7 @@ define(function(require) {
 
         optionNames: BaseView.prototype.optionNames.concat([
             'template', 'templateSelector', 'templateData',
-            'contentView', 'contentSelector', 'contentOptions'
+            'content', 'contentSelector', 'contentView', 'contentOptions'
         ]),
 
         templateSelector: '#fullscreen-popup-tpl',
@@ -23,9 +23,11 @@ define(function(require) {
             close: true
         },
 
-        contentView: null,
+        content: null,
 
         contentSelector: null,
+
+        contentView: null,
 
         contentOptions: null,
 
@@ -62,17 +64,31 @@ define(function(require) {
 
             this.renderPopupContent(_.bind(function() {
                 this.initPopupEvents();
+                this.trigger('show');
             }, this));
         },
 
         renderPopupContent: function(callback) {
-            if (this.contentView) {
-                this.renderPopupView(callback);
+            if (this.content) {
+                this.renderContent(callback);
             } else if (this.contentSelector) {
                 this.renderSelectorContent(callback);
+            }else if (this.contentView) {
+                this.renderPopupView(callback);
             } else {
                 callback();
             }
+        },
+
+        renderContent: function(callback) {
+            $(this.contentOptions.el).html(this.content);
+            callback();
+        },
+
+        renderSelectorContent: function(callback) {
+            var content = $(this.contentSelector).html();
+            $(this.contentOptions.el).html(content);
+            callback();
         },
 
         renderPopupView: function(callback) {
@@ -85,12 +101,6 @@ define(function(require) {
                 this.subview('contentView', new this.contentView(this.contentOptions));
                 callback();
             }
-        },
-
-        renderSelectorContent: function(callback) {
-            var content = $(this.contentSelector).html();
-            $(this.contentOptions.el).html(content);
-            callback();
         },
 
         initPopupEvents: function() {
@@ -106,6 +116,7 @@ define(function(require) {
 
             delete this.$popup;
             this.removeSubview('contentView');
+            this.trigger('close');
         },
 
         /**
