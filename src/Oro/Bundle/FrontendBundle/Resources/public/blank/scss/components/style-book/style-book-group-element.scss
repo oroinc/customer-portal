@@ -1,0 +1,396 @@
+// @theme: blank;
+
+.style-book-group-element {
+    margin-bottom: 30px;
+
+    &:last-child {
+        margin-bottom: 20px;
+    }
+
+    &__title {
+        margin: 0 0 10px;
+
+        font-size: $base-font-size + 1;
+    }
+
+    &__description {
+        margin: 20px 0;
+        padding: $offset-x;
+
+        border-left: 5px solid get-color('primary', 'base');
+
+        line-height: 1.7;
+
+        strong,
+        b {
+            font-weight: bold;
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        [class*="language-"] {
+            padding: 1px 2px;
+        }
+    }
+
+    &__item {
+        margin-bottom: 25px;
+        padding-left: 25px;
+    }
+
+    &__preview {
+        margin-bottom: 10px;
+        padding: 15px;
+
+        border: 5px solid get-color('additional', 'base');
+
+        .grid__row {
+            line-height: 2.5;
+            background: get-color('additional', 'base');
+
+            .grid__column {
+                overflow: hidden;
+                white-space: nowrap;
+                border: 1px solid get-color('additional', 'middle');
+                background: get-color('additional', 'light');
+            }
+        }
+
+    .color-palette {
+        &:not(:first-child) {
+            padding-top: 40px;
+            margin-top: 40px;
+
+            border-top: 1px solid get-color('additional', 'middle');
+        }
+
+        &__collection {
+            font-size: 0;
+        }
+
+        &__palette-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: $base-font-size--m;
+
+            margin: 0 0 10px;
+
+            &--key {
+                text-transform: none;
+                font-weight: normal;
+            }
+        }
+
+        &__color-box {
+            box-sizing: border-box;
+            display: inline-block;
+            width: (100 / 3) * 1%;
+            margin-bottom: 20px;
+            padding: 0 5px;
+
+            font-size: 12px;
+
+            vertical-align: top;
+        }
+
+        &__usage {
+            margin-top: 5px;
+            margin-bottom: 0;
+            display: block;
+        }
+
+        &__name {
+            padding: 10px;
+            margin-top: 5px;
+
+            color: get-color('additional', 'ultra');
+
+            &--title {
+                font-weight: bold;
+            }
+
+            &--primary-main {
+                background: get-color('primary', 'main');
+
+                &:before {
+                    content: "#{get-color('primary', 'main')}";
+                }
+            }
+
+            &--primary-base {
+                background: get-color('primary', 'base');
+
+                &:before {
+                    content: "#{get-color('primary', 'base')}";
+                }
+            }
+
+            &--primary-light {
+                background: get-color('primary', 'light');
+
+                &:before {
+                    content: "#{get-color('primary', 'light')}";
+                }
+            }
+
+            &--primary-dark {
+                background: get-color('primary', 'dark');
+
+                &:before {
+                    content: "#{get-color('primary', 'dark')}";
+                }
+            }
+
+            &--secondary-base {
+                background: get-color('secondary', 'base');
+
+                &:before {
+                    content: "#{get-color('secondary', 'base')}";
+                }
+            }
+
+            &--secondary-lighten {
+                background: get-color('secondary', 'lighten');
+
+                &:before {
+                    content: "#{get-color('secondary', 'lighten')}";
+                }
+            }
+
+            &--secondary-light {
+                background: get-color('secondary', 'light');
+
+                &:before {
+                    content: "#{get-color('secondary', 'light')}";
+                }
+            }
+
+            &--secondary-dark {
+                background: get-color('secondary', 'dark');
+
+                &:before {
+                    content: "#{get-color('secondary', 'dark')}";
+                }
+            }
+
+            &--additional-ultra {
+                background: get-color('additional', 'ultra');
+
+                color: get-color('primary', 'main');
+
+                border: 1px solid get-color('additional', 'middle');
+
+                &:before {
+                    content: "#{get-color('additional', 'ultra')}";
+                }
+            }
+
+            &--additional-base {
+                background: get-color('additional', 'base');
+
+                color: get-color('primary', 'main');
+
+                &:before {
+                    content: "#{get-color('additional', 'base')}";
+                }
+            }
+
+            &--additional-light {
+                background: get-color('additional', 'light');
+
+                color: get-color('primary', 'main');
+
+                &:before {
+                    content: "#{get-color('additional', 'light')}";
+                }
+            }
+
+            &--additional-middle {
+                background: get-color('additional', 'middle');
+
+                color: get-color('primary', 'main');
+
+                &:before {
+                    content: "#{get-color('additional', 'middle')}";
+                }
+            }
+
+            &--additional-dark {
+                background: get-color('additional', 'dark');
+
+                &:before {
+                    content: "#{get-color('additional', 'dark')}";
+                }
+            }
+
+            &--additional-darker {
+                background: get-color('additional', 'darker');
+
+                &:before {
+                    content: "#{get-color('additional', 'darker')}";
+                }
+            }
+
+            &--ui-error {
+                background: get-color('ui', 'error');
+
+                color: get-color('primary', 'main');
+
+                &:before {
+                    content: "#{get-color('ui', 'error')}";
+                }
+            }
+
+            &--ui-error-dark {
+                background: get-color('ui', 'error-dark');
+
+                &:before {
+                    content: "#{get-color('ui', 'error-dark')}";
+                }
+            }
+
+            &--ui-success {
+                background: get-color('ui', 'success');
+
+                color: get-color('primary', 'main');
+
+                &:before {
+                    content: "#{get-color('ui', 'success')}";
+                }
+            }
+
+            &--ui-success-dark {
+                background: get-color('ui', 'success-dark');
+
+                &:before {
+                    content: "#{get-color('ui', 'success-dark')}";
+                }
+            }
+
+            &--ui-warning {
+                background: get-color('ui', 'warning');
+
+                color: get-color('primary', 'main');
+
+                &:before {
+                    content: "#{get-color('ui', 'warning')}";
+                }
+            }
+
+            &--ui-warning-dark {
+                background: get-color('ui', 'warning-dark');
+
+                &:before {
+                    content: "#{get-color('ui', 'warning-dark')}";
+                }
+            }
+
+            &--ui-normal {
+                background: get-color('ui', 'normal');
+
+                &:before {
+                    content: "#{get-color('ui', 'normal')}";
+                }
+            }
+
+            &--ui-focus {
+                background: get-color('ui', 'focus');
+
+                &:before {
+                    content: "#{get-color('ui', 'focus')}";
+                }
+            }
+        }
+    }
+
+    .example-typography {
+        line-height: $base-line-height;
+        margin: 0;
+
+        &:after {
+            margin-left: 10px;
+            color: darken(get-color('additional', 'middle'), 10%);
+        }
+    }
+
+    .base-font {
+        &:after {
+            content:'#{$base-font}';
+            color: get-color('additional', 'dark');
+        }
+    }
+
+    .base-line-height {
+        &:after {
+            content:'#{$base-line-height}';
+            color: get-color('additional', 'dark');
+        }
+    }
+
+    .base-font-icons {
+        &:after {
+            content:'#{$icon-font}';
+            color: get-color('additional', 'dark');
+        }
+    }
+
+    .root-font-size {
+        font-size: $root-font-size;
+
+        &:after {
+            content:'(#{$root-font-size})';
+        }
+    }
+
+    .base-font-size {
+        font-size: $base-font-size;
+
+        &:after {
+            content:'(#{$base-font-size})';
+        }
+
+        &--s {
+            font-size: $base-font-size--s;
+
+            &:after {
+                content:'(#{$base-font-size--s})';
+            }
+        }
+
+        &--m {
+            font-size: $base-font-size--m;
+
+            &:after {
+                content:'(#{$base-font-size--m})';
+            }
+        }
+
+        &--l {
+            font-size: $base-font-size--l;
+
+            &:after {
+                content:'(#{$base-font-size--l})';
+            }
+        }
+    }
+}
+
+    &__code {
+        display: block;
+
+        padding: $offset-x;
+        margin: 0;
+
+        word-break: break-all;
+        word-wrap: break-word;
+
+        border: 1px solid get-color('additional', 'middle');
+        background-color: get-color('additional', 'base');
+        border-radius: 4px;
+
+        white-space: pre-wrap;
+
+    }
+}

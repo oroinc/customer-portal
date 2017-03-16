@@ -6,14 +6,13 @@ layout:
             items:
                 quick_access_container:
                     blockType: container
-                    siblingId: logo
                     prepend: false
                 quick_access_menu:
                     blockType: menu
                     options:
                         item: '=data["menu"].getMenu("commerce_quick_access", {"check_access": true})'
             tree:
-                page_header:
+                middle_bar_right:
                     quick_access_container:
                         quick_access_menu: ~
 

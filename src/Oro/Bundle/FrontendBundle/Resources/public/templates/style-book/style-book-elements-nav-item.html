@@ -1,0 +1,29 @@
+<% if(items.length) { %>
+<% var subTreeLvl = 0; %>
+<ul class="primary-menu primary-menu--vertical nav">
+    <% for (i = 0; i < items.length; i++) { %>
+        <% if (i + 1 < items.length) { var nextItmTreeLvl = (items[i + 1].subTreeLvl || 0); } %>
+        <li class="primary-menu__item" data-style-book-element-item>
+            <a href="#<%= items[i].id %>" class="primary-menu__link" data-style-book-element-switch><%= items[i].label %></a>
+        <% if (i + 1 < items.length && subTreeLvl < nextItmTreeLvl) { %>
+            <% subTreeLvl = subTreeLvl + 1; %>
+            <ul class="primary-menu primary-menu--vertical nav">
+            <% continue; %>
+        <% } %>
+        <% if (i + 1 < items.length && subTreeLvl > nextItmTreeLvl) { %>
+            <% for (j = 0; j < subTreeLvl - nextItmTreeLvl; j++) { %>
+                </li>
+                </ul>
+            <% } %>
+            </li>
+            <% subTreeLvl = subTreeLvl + nextItmTreeLvl - subTreeLvl; %>
+            <% continue; %>
+        <% } %>
+        <% if (i + 1 < items.length && subTreeLvl === nextItmTreeLvl) { %>
+        </li>
+            <% continue; %>
+        <% } %>
+    <% } %>
+    </li>
+</ul>
+<% } %>
