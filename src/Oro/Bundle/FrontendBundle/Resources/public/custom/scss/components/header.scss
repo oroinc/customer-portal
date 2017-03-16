@@ -19,21 +19,6 @@
         .middlebar {
             &__right {
                 display: block;
-                width: 100%;
-                margin: 0;
-            }
-
-            &__left {
-                float: left;
-                margin-left: -100%;
-            }
-
-            &__center + .middlebar__left {
-                margin-left: auto;
-            }
-
-            .header-row {
-                margin: 45px -20px 0 -20px;
             }
         }
     }

@@ -1,10 +1,12 @@
 // @theme: blank;
 
-@import 'components/bootstrap/bootstrap4';
+@import './components/bootstrap/bootstrap4';
 
-@import 'components/pinned-dropdown';
-@import 'components/notification-flash-container';
-@import 'components/popup-gallery-widget';
-@import 'components/breadcrumbs/breadcrumbs.scss';
-@import 'components/notes.scss';
+@import './components/pinned-dropdown';
+@import './components/middlebar';
+@import './components/notification-flash-container';
+@import './components/popup-gallery-widget';
+@import './components/breadcrumbs/breadcrumbs';
+@import './components/notes';
+@import './components/sticky-panel/sticky-panel';
 @import 'components/fullscreen-popup/fullscreen-popup.scss';

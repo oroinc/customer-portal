@@ -1,0 +1,112 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'components_config.html.twig'
+
+        - '@setOption':
+            id: page_title
+            optionName: defaultValue
+            optionValue: 'oro_frontend_style_book.groups.configs.title'
+
+        - '@addTree':
+            items:
+                group_element_components_colors_view:
+                    blockType: group_element
+                    options:
+                        anchor: colors
+                        label: Colors
+                group_element_components_colors:
+                    blockType: group_element_item
+                    options:
+                        description: oro_frontend_style_book.groups.configs.description_colors
+                        source: false
+                style_book_components_color:
+                    blockType: block
+
+                group_element_components_typography_view:
+                    blockType: group_element
+                    options:
+                        anchor: typography
+                        label: Typography
+                group_element_components_typography:
+                    blockType: group_element_item
+                    options:
+                        description: oro_frontend_style_book.groups.configs.description_typography
+                        source: false
+                style_book_components_typography:
+                    blockType: block
+
+                group_element_components_sizes_view:
+                    blockType: group_element
+                    options:
+                        anchor: sizes
+                        label: Sizes
+                group_element_components_sizes:
+                    blockType: group_element_item
+                    options:
+                        preview: false
+                        source_language: scss
+                style_book_components_sizes:
+                    blockType: block
+
+                group_element_components_functions_view:
+                    blockType: group_element
+                    options:
+                        anchor: functions
+                        label: Functions
+                group_element_components_functions:
+                    blockType: group_element_item
+                    options:
+                      preview: false
+                      source_language: scss
+                style_book_components_functions:
+                    blockType: block
+
+                group_element_components_mixins_view:
+                    blockType: group_element
+                    options:
+                        anchor: mixins
+                        label: Mixins
+                group_element_components_mixins:
+                    blockType: group_element_item
+                    options:
+                        preview: false
+                        source_language: scss
+                style_book_components_mixins:
+                    blockType: block
+
+                group_element_components_mixins_components_view:
+                    blockType: group_element
+                    options:
+                        anchor: mixins-components
+                        label: Mixins for Components
+                group_element_components_mixins_components:
+                    blockType: group_element_item
+                    options:
+                        preview: false
+                        source_language: scss
+                style_book_components_mixins_components:
+                    blockType: block
+
+            tree:
+                style_book_content:
+                    group_element_components_colors_view:
+                        group_element_components_colors:
+                            style_book_components_color: ~
+                    group_element_components_typography_view:
+                        group_element_components_typography:
+                            style_book_components_typography: ~
+                    group_element_components_sizes_view:
+                        group_element_components_sizes:
+                            style_book_components_sizes: ~
+                    group_element_components_functions_view:
+                        group_element_components_functions:
+                            style_book_components_functions: ~
+                    group_element_components_mixins_view:
+                        group_element_components_mixins:
+                            style_book_components_mixins: ~
+                    group_element_components_mixins_components_view:
+                        group_element_components_mixins_components:
+                            style_book_components_mixins_components: ~
+
+    conditions: 'context["action"]=="configs"'

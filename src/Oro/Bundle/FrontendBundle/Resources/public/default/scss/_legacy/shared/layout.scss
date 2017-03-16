@@ -1,65 +1,9 @@
-/* START MIDDLE BAR */
-.middlebar {
-  min-height: 100px;
-  padding: 20px 0 19px;
-
-  @media (max-width: $breakpoint-tablet) {
-    min-height: initial;
-    padding: 10px 0;
-  }
-
-  &__center {
-    width: 100%;
-    float: left;
-    margin-top: 4px;
-
-    @media (max-width: $screen-sm) {
-      float: none;
-      margin: 0;
-    }
-  }
-
-  &__left {
-    width: 258px;
-    float: left;
-    margin-left: -100%;
-
-    @media (max-width: $breakpoint-tablet) {
-      width: 100%;
-      margin: 0;
-      float: none;
-    }
-  }
-
-  &__right {
-    width: 39%;
-    float: left;
-    margin-left: -39%;
-
-    @media (max-width: $breakpoint-tablet) {
-      display: none;
-    }
-  }
-
-  &__shopping-list {
-    padding: 0 !important;
-    background: transparent !important;
-  }
-}
-
-/* END MIDDLE BAR */
-
 .logo {
   display: block;
   width: 19rem;
   height: 3.5rem;
-  margin: 1.2rem 0 0;
   text-indent: -999rem;
   background-size: 100%;
-
-  @media (max-width: $breakpoint-tablet) {
-    margin: 0 auto;
-  }
 }
 
 .cart__promo {

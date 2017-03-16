@@ -1,0 +1,47 @@
+// @theme: default;
+
+.middlebar {
+    margin: 0;
+    padding: 20px 0;
+
+    &__center {
+        width: calc(100% - 320px * 2);
+        display: flex;
+        flex: 0 0 auto;
+        justify-content: center;
+    }
+
+    &__left,
+    &__right {
+        width: 320px;
+        flex: 0 0 auto;
+    }
+
+    &__shopping-list {
+        padding: 0 !important;
+        background: transparent !important;
+    }
+}
+
+
+@include breakpoint('tablet') {
+    .middlebar {
+        padding: 10px 0;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        &__left {
+            width: 100%;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        &__right,
+        &__center {
+            width: 100%;
+
+            display: none;
+        }
+    }
+}

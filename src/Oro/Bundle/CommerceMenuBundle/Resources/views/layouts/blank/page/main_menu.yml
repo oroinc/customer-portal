@@ -6,7 +6,6 @@ layout:
             items:
                 header_row:
                     blockType: container
-                    siblingId: logo
                     prepend: false
                 header_row_main_menu:
                     blockType: container
