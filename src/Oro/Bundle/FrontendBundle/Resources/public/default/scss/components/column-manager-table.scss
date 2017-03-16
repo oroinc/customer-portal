@@ -72,17 +72,16 @@
         color: get-color('additional', 'middle');
 
         flex: 0 0 auto;
+    }
 
-        .move-up,
-        .move-down {
-            padding: 0 5px;
+    &__move-btn {
+        padding: 0 5px;
 
-            display: block;
+        display: block;
 
-            line-height: 1;
-            
-            background: none;
-            border: none;
-        }
+        line-height: 1;
+
+        background: none;
+        border: none;
     }
 }
