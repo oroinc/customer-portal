@@ -23,14 +23,14 @@ Feature: Managing customer user roles
     Then the role has following active permissions:
       | Customer User Address | View:User (Own) | Create:Department (Same Level) | Edit:Сorporate (All Levels) |
     And I should see "Audit history for Customer User"
-    When restricted VIEW permission for entity Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress and group commerce_frontend
-    And restricted CREATE permission for entity Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress and group commerce_frontend
-    And restricted oro_customer_dataaudit_history capability and group commerce_frontend
+    When permission VIEW for entity Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress and group commerce_frontend restricts in application
+    And permission CREATE for entity Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress and group commerce_frontend restricts in application
+    And capability oro_customer_dataaudit_history and group commerce_frontend restricts in application
     And I reload the page
     Then the role has not following permissions:
       | Customer User Address | View | Create |
     And I should not see "Audit history for Customer User"
-    When restricted all permissions for entity Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress and group commerce_frontend
+    When all permissions for entity Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress and group commerce_frontend restricts in application
     And I should see "Customer User Address"
     And I reload the page
     Then I should not see "Customer User Address"

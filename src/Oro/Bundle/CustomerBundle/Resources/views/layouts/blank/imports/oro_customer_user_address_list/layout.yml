@@ -15,7 +15,7 @@ layout:
                     blockType: address_book
                     options:
                         entity: '=data["entity"]'
-                        componentOptions: '=data["customer_user_address_provider"].getComponentOptions(data["entity"])'
+                        componentOptions: '=data["customer_user_default_address_provider"].getComponentOptions(data["entity"])'
                 __user_addresses_list_template:
                         blockType: container
                         options:
