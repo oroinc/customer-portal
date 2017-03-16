@@ -1,5 +1,6 @@
 styles:
     inputs:
+        - 'bundles/bowerassets/prism/themes/prism-coy.css'
         - 'bundles/orofrontend/default/vendors/slick/slick.css'
         - 'bundles/orofrontend/blank/scss/variables/bootstrap4-variables-config.scss' # Must be first from *.scss
         - 'bundles/orofrontend/blank/scss/variables/btn-group-config.scss'
