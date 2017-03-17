@@ -24,6 +24,8 @@ define(function(require) {
             this.cancelButtonClass = options.cancelButtonClass;
             this.triggerData = options.triggerData || null;
 
+            this.triggerData.lineItemId = parseInt(this.triggerData.lineItemId);
+
             this.$elem.on('click', _.bind(this.deleteItem, this));
         },
 

@@ -8,7 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 class CustomerEvent extends Event
 {
-    const ON_ACCOUNT_GROUP_CHANGE = 'oro_customer.customer.on_customer_group_change';
+    const ON_CUSTOMER_GROUP_CHANGE = 'oro_customer.customer.on_customer_group_change';
 
     /**
      * @var  Customer
