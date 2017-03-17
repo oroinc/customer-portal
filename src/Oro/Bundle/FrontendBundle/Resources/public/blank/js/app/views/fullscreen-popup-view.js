@@ -12,7 +12,7 @@ define(function(require) {
 
         optionNames: BaseView.prototype.optionNames.concat([
             'template', 'templateSelector', 'templateData',
-            'contentView', 'contentOptions'
+            'content', 'contentSelector', 'contentView', 'contentOptions'
         ]),
 
         templateSelector: '#fullscreen-popup-tpl',
@@ -22,6 +22,10 @@ define(function(require) {
             closeOnLabel: true,
             close: true
         },
+
+        content: null,
+
+        contentSelector: null,
 
         contentView: null,
 
@@ -60,15 +64,31 @@ define(function(require) {
 
             this.renderPopupContent(_.bind(function() {
                 this.initPopupEvents();
+                this.trigger('show');
             }, this));
         },
 
         renderPopupContent: function(callback) {
-            if (this.contentView) {
+            if (this.content) {
+                this.renderContent(callback);
+            } else if (this.contentSelector) {
+                this.renderSelectorContent(callback);
+            }else if (this.contentView) {
                 this.renderPopupView(callback);
             } else {
                 callback();
             }
+        },
+
+        renderContent: function(callback) {
+            $(this.contentOptions.el).html(this.content);
+            callback();
+        },
+
+        renderSelectorContent: function(callback) {
+            var content = $(this.contentSelector).html();
+            $(this.contentOptions.el).html(content);
+            callback();
         },
 
         renderPopupView: function(callback) {
@@ -96,6 +116,7 @@ define(function(require) {
 
             delete this.$popup;
             this.removeSubview('contentView');
+            this.trigger('close');
         },
 
         /**

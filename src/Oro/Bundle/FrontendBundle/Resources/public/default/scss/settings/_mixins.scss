@@ -34,7 +34,7 @@
 
     text-align: center;
     font-size: $badge-f-size;
-    line-height: strip-units($badge-size/ $badge-f-size);
+    line-height: $badge-size;
 
     background-color: $badge-bg;
     border-radius: $badge-radius;

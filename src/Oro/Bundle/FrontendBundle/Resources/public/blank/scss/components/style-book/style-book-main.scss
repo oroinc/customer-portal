@@ -1,0 +1,24 @@
+// @theme: blank;
+
+.style-book-main {
+    display: flex;
+    padding: 20px 0;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    .content-section {
+        margin-bottom: 15px;
+
+        &__text {
+            &:not(:first-child) {
+                margin-top: $offset-y-m;
+            }
+        }
+
+        &__sub-title {
+            margin-bottom: $offset-y-m;
+
+            font-size: $base-font-size--l;
+        }
+    }
+}

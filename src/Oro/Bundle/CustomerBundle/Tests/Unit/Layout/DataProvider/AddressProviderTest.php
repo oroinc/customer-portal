@@ -81,6 +81,49 @@ class AddressProviderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetComponentOptionsForDefaultAddresses()
+    {
+        $this->provider->setEntityClass('Oro\Bundle\CustomerBundle\Entity\Customer');
+        $this->provider->setListRouteName('oro_api_customer_frontend_get_customer_addresses', true);
+        $this->provider->setCreateRouteName('oro_customer_frontend_customer_address_create');
+        $this->provider->setUpdateRouteName('oro_customer_frontend_customer_address_update');
+
+        /** @var Customer $entity */
+        $entity = $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', ['id' => 40]);
+
+        $this->router->expects($this->exactly(2))
+            ->method('generate')
+            ->withConsecutive(
+                [
+                    'oro_api_customer_frontend_get_customer_addresses',
+                    ['entityId' => $entity->getId(), 'default_only' => true],
+                ],
+                [
+                    'oro_customer_frontend_customer_address_create',
+                    ['entityId' => $entity->getId()],
+                ]
+            )
+            ->willReturnOnConsecutiveCalls('/address/list/test/url?default_only=true', '/address/create/test/url');
+
+        $this->fragmentHandler->expects($this->once())
+            ->method('render')
+            ->with('/address/list/test/url?default_only=true')
+            ->willReturn(['data']);
+
+        $data = $this->provider->getComponentOptions($entity);
+
+        $this->assertEquals(
+            [
+                'entityId' => 40,
+                'addressListUrl' => '/address/list/test/url?default_only=true',
+                'addressCreateUrl' => '/address/create/test/url',
+                'addressUpdateRouteName' => 'oro_customer_frontend_customer_address_update',
+                'currentAddresses' => ['data'],
+            ],
+            $data
+        );
+    }
+
     /**
      * @expectedException \UnexpectedValueException
      */

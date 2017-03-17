@@ -76,8 +76,6 @@
 [class*=" fa-"] {
     margin-right: 3px;
 
-    vertical-align: middle;
-
     line-height: 1;
 }
 
@@ -117,10 +115,6 @@
 
     &--hidden {
         visibility: hidden;
-    }
-
-    &--base-line {
-        vertical-align: baseline;
     }
 
     &--no-offset {

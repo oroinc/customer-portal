@@ -4,9 +4,8 @@
     &__item {
         position: relative;
 
-        &--current {
-            font-weight: $primary-menu-link-font-weight-current;
-
+        &--current,
+        &.active {
             &:before {
                 top: 10px;
                 left: 0;
@@ -36,7 +35,8 @@
 
             border-top: 1px solid get-color('additional', 'light');
 
-            &--current {
+            &--current,
+            &.active {
                 &:before {
                     content: none;
                 }

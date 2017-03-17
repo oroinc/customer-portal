@@ -278,7 +278,6 @@ class CustomerUserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => $this->dataClass,
             'intention' => 'customer_user',
-            'extra_fields_message' => 'This form should not contain extra fields: "{{ extra_fields }}"',
             'ownership_disabled' => true,
         ]);
     }
