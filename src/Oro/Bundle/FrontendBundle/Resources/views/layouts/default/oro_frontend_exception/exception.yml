@@ -14,3 +14,9 @@ layout:
             options:
                 status_code: '=data["status_code"]'
                 status_text: '=data["status_text"]'
+        - '@add':
+            id: slideshow
+            parentId: page_content
+            blockType: content_block
+            options:
+                alias: 'non_existing_block'
