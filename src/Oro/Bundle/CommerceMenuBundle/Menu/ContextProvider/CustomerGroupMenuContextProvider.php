@@ -4,9 +4,19 @@ namespace Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider;
 
 class CustomerGroupMenuContextProvider implements CustomerGroupMenuContextProviderInterface
 {
+    /** @var WebsiteManager */
+    protected $websiteManager;
+
+    public function __construct(WebsiteManager $websiteManager)
+    {
+        $this->websiteManager = $websiteManager;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -14,7 +24,8 @@ class CustomerGroupMenuContextProvider implements CustomerGroupMenuContextProvid
     {
         return [
             [
-                ScopeCustomerGroupCriteriaProvider::FIELD_NAME => $customerGroup->getId()
+                ScopeCustomerGroupCriteriaProvider::FIELD_NAME => $customerGroup->getId(),
+                ScopeCriteriaProvider::WEBSITE => $this->websiteManager->getDefaultWebsite()->getId()
             ]
         ];
     }
