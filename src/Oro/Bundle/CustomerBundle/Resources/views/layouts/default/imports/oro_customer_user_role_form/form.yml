@@ -27,6 +27,18 @@ layout:
                         grid_parameters:
                             role: '=data["entity"].getId()'
                             customer: '=data["customizableRole"].getCustomer().getId()'
+                        grid_render_parameters:
+                            cssClass: 'frontend-datagrid'
+                            toolbarOptions:
+                                actionsPanel:
+                                    className: 'btn-group not-expand frontend-datagrid__panel'
+                                itemsCounter:
+                                    className: 'grid__tool'
+                                    themeOptions:
+                                        templateSelector: '#datagrid-items-counter-template'
+                                    transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.users'
+                                hideItemsCounter: false
+                            filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'
                         form: '=data["oro_customer_frontend_customer_user_role_form"].getRoleFormView(data["entity"])'
                 __customer_user_role_form_end:
                     blockType: form_end

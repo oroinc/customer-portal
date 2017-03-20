@@ -6,14 +6,16 @@ use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+
 use Oro\Bundle\AddressBundle\Entity\AddressType;
-
+use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -59,20 +61,28 @@ class CustomerUserAddressController extends RestController implements ClassResou
      * )
      * @AclAncestor("oro_customer_customer_user_view")
      * @param int $entityId
-     *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function cgetAction($entityId)
+    public function cgetAction($entityId, Request $request)
     {
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getCustomerUserManager()->find($entityId);
         $result  = [];
 
         if ($customerUser) {
-            $items = $customerUser->getAddresses();
-
-            foreach ($items as $item) {
-                $result[] = $this->getPreparedItem($item);
+            $addresses = $customerUser->getAddresses();
+            if ($request->query->get('default_only')) {
+                /** @var AbstractDefaultTypedAddress $address */
+                foreach ($addresses as $address) {
+                    if ($address->isPrimary() || $address->getDefaults()->count()) {
+                        $result[] = $this->getPreparedItem($address);
+                    }
+                }
+            } else {
+                foreach ($addresses as $address) {
+                    $result[] = $this->getPreparedItem($address);
+                }
             }
         }
 
