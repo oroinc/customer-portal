@@ -28,7 +28,7 @@ class CustomerGroupMenuContextProvider implements CustomerGroupMenuContextProvid
         return [
             [
                 ScopeCustomerGroupCriteriaProvider::FIELD_NAME => $customerGroup->getId(),
-                ScopeCriteriaProvider::WEBSITE => $this->websiteManager->get()->getId()
+                ScopeCriteriaProvider::WEBSITE => $this->websiteManager->getDefaultWebsite()->getId()
             ]
         ];
     }
