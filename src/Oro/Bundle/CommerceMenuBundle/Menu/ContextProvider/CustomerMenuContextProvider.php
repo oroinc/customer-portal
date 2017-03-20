@@ -12,6 +12,9 @@ class CustomerMenuContextProvider implements CustomerMenuContextProviderInterfac
     /** @var WebsiteManager */
     protected $websiteManager;
 
+    /**
+     * @param WebsiteManager $websiteManager
+     */
     public function __construct(WebsiteManager $websiteManager)
     {
         $this->websiteManager = $websiteManager;
