@@ -166,13 +166,11 @@ define(function(require) {
                 if (newState !== null) {
                     contentChanged = true;
                     this.toggleElementState($element, newState);
-                    break;
                 }
             }
 
             if (contentChanged) {
                 this.$el.toggleClass('has-content', this.$el.find('.' + this.options.elementClass).length > 0);
-                this.onScroll();
             }
         },
 

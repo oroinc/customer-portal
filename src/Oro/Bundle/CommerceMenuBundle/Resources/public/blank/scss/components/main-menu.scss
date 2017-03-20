@@ -8,6 +8,10 @@
 
     &__item {
         flex-grow: 0;
+
+        &.active {
+            background: get-color('additional', 'base');
+        }
     }
 
     &__link {

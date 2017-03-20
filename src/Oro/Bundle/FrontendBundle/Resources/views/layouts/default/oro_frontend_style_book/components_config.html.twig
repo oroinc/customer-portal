@@ -1,0 +1,633 @@
+{% macro get_color(palette_name, palette_key) %}
+    get-color('{{ palette_name|default('') }}', '{{ palette_key|default('') }}');
+{% endmacro %}
+
+{% block _style_book_components_color_widget %}
+    {% set palette_key_title, color_key_title, function_key = 'oro_frontend_style_book.groups.configs.color_palette'|trans, 'oro_frontend_style_book.groups.configs.color_key'|trans, 'oro_frontend_style_book.groups.configs.function_key'|trans %}
+    <div class="color-palette">
+        {% with %}
+            {% set palette_name = 'oro_frontend_style_book.groups.configs.pallete_title_primary'|trans %}
+
+            <h3 class="color-palette__palette-title">
+                <span class="color-palette__palette-title--key">
+                    {{ palette_key_title }}
+                </span>
+                {{ palette_name }}
+            </h3>
+            <div class="color-palette__collection">
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_primary_main'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--primary-main"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key)|trans }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_primary_base'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--primary-base"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_primary_light'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--primary-light"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_primary_dark'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--primary-dark"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+            </div>
+        {% endwith %}
+    </div>
+    <div class="color-palette">
+        {% with %}
+            {% set palette_name = 'oro_frontend_style_book.groups.configs.pallete_title_secondary'|trans %}
+
+            <h3 class="color-palette__palette-title">
+                <span class="color-palette__palette-title--key">
+                    {{ palette_key_title }}
+                </span>
+                {{ palette_name }}
+            </h3>
+            <div class="color-palette__collection">
+                <div class="color-palette__color-box">
+                    {% with %}
+                    {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_secondary_main'|trans %}
+
+                    {{ color_key_title }}
+                    <strong class="color-palette__name--title">
+                        {{ palette_key }}
+                    </strong>
+                    <div class="color-palette__name color-palette__name--secondary-main"></div>
+                    <code class="color-palette__usage language-css">
+                        {{ _self.get_color(palette_name, palette_key) }}
+                    </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_secondary_base'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--secondary-base"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_secondary_light'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--secondary-light"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                    {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_secondary_lighten'|trans %}
+
+                    {{ color_key_title }}
+                    <strong class="color-palette__name--title">
+                        {{ palette_key }}
+                    </strong>
+                    <div class="color-palette__name color-palette__name--secondary-lighten"></div>
+                    <code class="color-palette__usage language-css">
+                        {{ _self.get_color(palette_name, palette_key) }}
+                    </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_secondary_dark'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--secondary-dark"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+            </div>
+        {% endwith %}
+    </div>
+    <div class="color-palette">
+        {% with %}
+            {% set palette_name = 'oro_frontend_style_book.groups.configs.pallete_title_additional'|trans %}
+
+            <h3 class="color-palette__palette-title">
+                <span class="color-palette__palette-title--key">
+                    {{ palette_key_title }}
+                </span>
+                {{ palette_name }}
+            </h3>
+            <div class="color-palette__collection">
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_additional_ultra'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--additional-ultra"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_additional_base'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--additional-base"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_additional_light'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--additional-light"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_additional_middle'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--additional-middle"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_additional_dark'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--additional-dark"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_additional_darker'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--additional-darker"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+            </div>
+        {% endwith %}
+    </div>
+    <div class="color-palette">
+        {% with %}
+            {% set palette_name = 'oro_frontend_style_book.groups.configs.pallete_title_ui'|trans %}
+
+            <h3 class="color-palette__palette-title">
+                <span class="color-palette__palette-title--key">
+                    {{ palette_key_title }}
+                </span>
+                {{ palette_name }}
+            </h3>
+            <div class="color-palette__collection">
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_ui_error'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--ui-error"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_ui_error_dark'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--ui-error-dark"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_ui_success'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--ui-success"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_ui_success_dark'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--ui-success-dark"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_ui_warning'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--ui-warning"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_ui_warning_dark'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--ui-warning-dark"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_ui_normal'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--ui-normal"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+                <div class="color-palette__color-box">
+                    {% with %}
+                        {% set palette_key = 'oro_frontend_style_book.groups.configs.color_key_ui_focus'|trans %}
+
+                        {{ color_key_title }}
+                        <strong class="color-palette__name--title">
+                            {{ palette_key }}
+                        </strong>
+                        <div class="color-palette__name color-palette__name--ui-focus"></div>
+                        <code class="color-palette__usage language-css">
+                            {{ _self.get_color(palette_name, palette_key) }}
+                        </code>
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    {% endwith %}
+{% endblock %}
+
+{% block _style_book_components_typography_widget %}
+    <p class="example-typography base-font">{{ 'oro_frontend_style_book.groups.configs.text_typography_font'|trans }}</p>
+    <p class="example-typography base-font-minor">{{ 'oro_frontend_style_book.groups.configs.text_typography_font_minor'|trans }}</p>
+    <p class="example-typography base-line-height">{{ 'oro_frontend_style_book.groups.configs.text_typography_line_height'|trans }}</p>
+    <br>
+    <p class="example-typography base-font-icons">{{ 'oro_frontend_style_book.groups.configs.text_typography_font_icons'|trans }}</p>
+    <p class="example-typography base-font-icons">{{ 'oro_frontend_style_book.groups.configs.text_typography_font_icons_custom'|trans }}</p>
+    <br>
+    <p class="example-typography root-font-size">{{ 'oro_frontend_style_book.groups.configs.text_typography_root'|trans }}</p>
+    <p class="example-typography base-font-size--s">{{ 'oro_frontend_style_book.groups.configs.text_typography_base_s'|trans }}</p>
+    <p class="example-typography base-font-size">{{ 'oro_frontend_style_book.groups.configs.text_typography_base'|trans }}</p>
+    <p class="example-typography base-font-size--large">{{ 'oro_frontend_style_book.groups.configs.text_typography_base_large'|trans }}</p>
+    <p class="example-typography base-font-size--m">{{ 'oro_frontend_style_book.groups.configs.text_typography_base_m'|trans }}</p>
+    <p class="example-typography base-font-size--l">{{ 'oro_frontend_style_book.groups.configs.text_typography_base_l'|trans }}</p>
+
+{% endblock %}
+
+{% block _style_book_components_sizes_widget %}
+    $site-width: 1400px;
+
+    // Desktop Media Breakpoint
+    $breakpoint-desktop: 1100px;
+    // iPad mini 4 (768*1024), iPad Air 2 (768*1024), iPad Pro (1024*1366)
+    $breakpoint-tablet: $breakpoint-desktop - 1px;
+    $breakpoint-tablet-small: 992px;
+    $breakpoint-mobile-landscape: 640px;
+    // iPhone 4s (320*480), iPhone 5s (320*568), iPhone 6s (375*667), iPhone 6s Plus (414*763)
+    $breakpoint-mobile: 414px;
+
+    // Media breakpoints old
+    $screen-sm: 767px;
+    $screen-md: 991px;
+
+    // Offsets
+    $offset-y: 15px !default;
+    $offset-y-m: 10px !default;
+    $offset-y-s: 5px !default;
+    $offset-x: 15px !default;
+    $offset-x-m: 10px !default;
+    $offset-x-s: 5px !default;
+{% endblock %}
+
+{% block _style_book_components_functions_widget %}
+    // @return the value in a map associated with a given key;
+    // Use: color: get-color('primary', 'base') => color: #000;
+
+    @function get-color($palette: 'primary', $key: 'main') {
+        $current-palette: map-get($color-palette,  $palette);
+
+        @return map-get($current-palette, $key);
+    }
+
+
+    // @return: the value in a map associated with a given key
+    // Use: z-index: z('base');
+
+    @function z($layer: 'base') {
+        $layers: (
+            'base': 1,
+            'fixed': 50,
+            'dropdown': 100,
+            'popup': 150,
+            'hidden': -1
+        );
+
+        $z-index: map-get($layers, $layer);
+        @return $z-index;
+    }
+
+
+    // Remove the unit of a length
+    // @return number
+    // Use: $value: strip-units(10px); -> 10
+
+    @function strip-units($value) {
+        @return $value / ($value * 0 + 1);
+    }
+
+
+    // In SASS we can only once set a value to variable with flag !default, all others values will be ignored.
+    // The variable must be declared.
+    // @return new value with flag !default;
+    // Use: $component-var: reset-var($component-var, 10);
+
+    @function update-default($var, $value: null) {
+        @if ($var) {
+            $var: null;
+            $var: $value !default;
+
+            @return $var;
+        }
+    }
+{% endblock %}
+
+{% block _style_book_components_mixins_widget %}
+    @mixin after() {
+        content: '';
+
+        position: absolute;
+
+        display: block;
+    }
+
+    @mixin clearfix {
+        &::after {
+            content: '';
+
+            display: block;
+
+            clear: both;
+        }
+    }
+
+    @mixin list-normalize() {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    // Use: @include breakpoint('desktop') {
+    //  content
+    //}
+    @mixin breakpoint($type) {
+        $breakpoints: (
+            'desktop': '(min-width: ' + $breakpoint-desktop + ')',
+            'tablet': '(max-width: ' +  $breakpoint-tablet + ')',
+            'tablet-small': '(max-width: ' +  $breakpoint-tablet-small + ')',
+            'mobile-landscape': '(max-width: ' +  $breakpoint-mobile-landscape + ')',
+            'mobile': '(max-width: ' + $breakpoint-mobile + ')'
+        );
+
+        @media #{map-get($breakpoints, $type)} {
+            @content;
+        }
+    }
+
+    // Use: @include font-face('Lato', '../fonts/lato/lato-regular-webfont', 400, normal);
+    @mixin font-face($font-family, $file-path, $font-weight, $font-style) {
+        @font-face {
+            font-family: $font-family;
+            src: url('#{$file-path}.eot');
+            src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+            url('#{$file-path}.woff') format('woff'),
+            url('#{$file-path}.ttf') format('truetype'),
+            url('#{$file-path}.svg##{$font-family}') format('svg');
+            font-weight: $font-weight;
+            font-style: $font-style;
+        }
+        // Chrome for Windows rendering fix: http://www.adtrak.co.uk/blog/font-face-chrome-rendering/
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            @font-face {
+                font-family: $font-family;
+                src: url('#{$file-path}.svg##{$font-family}') format('svg');
+            }
+        }
+    }
+
+    // Check devices on server, if device is desktop added class to body (.desktop-version)
+    @mixin only-desktop {
+        @include breakpoint('desktop') {
+            .desktop-version {
+                @content;
+            }
+        }
+    }
+
+    @mixin ellipsis() {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    %direct-link {
+        padding: 0 10px;
+
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    @mixin direct-link() {
+        @extend %direct-link;
+    }
+
+    @mixin badge(
+        $badge-size:        26px,
+        $badge-f-size:      14px,
+        $badge-bg:          get-color('primary', 'base'),
+        $badge-radius:      50%,
+        $badge-color:       get-color('additional', 'ultra'),
+        $badge-icon-align:  baseline,
+        $badge-icon-offset: 0
+    ) {
+        display: inline-block;
+        vertical-align: middle;
+        width: $badge-size;
+        height: $badge-size;
+
+        text-align: center;
+        font-size: $badge-f-size;
+        line-height: strip-units($badge-size/ $badge-f-size);
+
+        background-color: $badge-bg;
+        border-radius: $badge-radius;
+        color: $badge-color;
+
+        [class^="cf-"],
+        [class^="fa-"] {
+            margin: $badge-icon-offset;
+        }
+    }
+{% endblock %}
+
+{% block _style_book_components_mixins_components_widget %}
+    @mixin link() {
+        color: $link-color;
+
+        &--current {
+            color: $link-color-current;
+        }
+
+        &:hover {
+            color: $link-color-hover;
+        }
+    }
+
+
+    // Mixin for include font-awesome icons to custom elements
+    // List of icons https://github.com/FortAwesome/Font-Awesome/blob/master/scss/_variables.scss
+    // @param $icon-name (Font Awesome icon)
+    // @param $state {CSS pseudo-element}
+
+    @mixin fa-icon($icon: null, $state: before) {
+        @if ($icon) {
+            &:#{$state} {
+                content: '#{$icon}';
+
+                font-family: $icon-font;
+            }
+        }
+    }
+
+
+    %base-transition {
+        transition: all linear 100ms;
+    }
+{% endblock %}

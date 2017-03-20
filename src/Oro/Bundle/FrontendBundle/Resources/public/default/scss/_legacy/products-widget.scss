@@ -532,41 +532,6 @@
     }
   }
 
-  &__price-wrap {
-    overflow: hidden;
-
-    display: inline-block;
-  }
-
-  &__price-hint {
-    margin-bottom: -10px;
-    padding-bottom: 20px;
-  }
-
-  &__price {
-    span {
-      font-size: $base-font-size--large;
-    }
-
-    small {
-      font-size: $base-font-size - 1;
-    }
-
-    .product-item__price_block {
-      display: inline-table;
-    }
-
-    &_list-view {
-      margin-top: 10px;
-    }
-  }
-
-  &__listed-price {
-    .product-item__price_block {
-      display: inline-table;
-    }
-  }
-
   &__mspr {
     &_gallery-view {
       display: none;
