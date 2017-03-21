@@ -1,6 +1,8 @@
 services:
     oro_frontend.extension.transtation_packages_provider:
-        class: 'Oro\Bundle\FrontendBundle\Provider\TranslationPackagesProviderExtension'
+        parent: oro_translation.extension.transtation_packages_provider.abstract
+        calls:
+            - ['addPackage', ['OroCustomerPortal', 'oro/customer-portal', '/src']]
         tags:
             - {name: oro_translation.extension.packages_provider}
 
