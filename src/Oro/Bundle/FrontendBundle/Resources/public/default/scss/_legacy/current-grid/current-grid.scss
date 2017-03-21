@@ -300,8 +300,12 @@
 
         opacity: 1;
 
-        [class^="cf-"] {
-          font-size: 20px;
+        [class^="fa-"] {
+          font-size: $base-font-icon-button;
+
+          &:before{
+            font-size: $base-font-icon-button;
+          }
         }
       }
 

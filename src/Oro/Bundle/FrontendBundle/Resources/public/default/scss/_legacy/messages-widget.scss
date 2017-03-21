@@ -37,8 +37,8 @@
 
       opacity: 1;
 
-      [class^="cf-"] {
-        font-size: 20px;
+      [class^="fa-"] {
+        font-size: $base-font-icon-button;
       }
 
       + .messages-widget__goto-btn {
@@ -65,8 +65,8 @@
       color: get-color('ui', 'normal');
       text-decoration: none;
 
-      [class^="cf-"] {
-        font-size: 1.8rem;
+      [class^="fa-"] {
+        font-size: $base-font-icon-button;
       }
     }
   }
@@ -92,8 +92,12 @@
 
       opacity: 1;
 
-      [class^="cf-"] {
-        font-size: 20px;
+      [class^="fa-"] {
+        font-size: $base-font-icon-button;
+
+        &:before{
+          font-size: $base-font-icon-button;
+        }
       }
 
       + .messages-widget__goto-btn {
@@ -116,8 +120,12 @@
       color: get-color('ui', 'normal');
       text-decoration: none;
 
-      [class^="cf-"] {
-        font-size: 18px;
+      [class^="fa-"] {
+        font-size: $base-font-icon-button;
+
+        &:before{
+          font-size: $base-font-icon-button;
+        }
       }
     }
   }
