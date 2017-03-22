@@ -24,6 +24,10 @@ define(function(require) {
             this.cancelButtonClass = options.cancelButtonClass;
             this.triggerData = options.triggerData || null;
 
+            if (_.isObject(this.triggerData) && this.triggerData.lineItemId) {
+                this.triggerData.lineItemId = parseInt(this.triggerData.lineItemId, 10);
+            }
+
             this.$elem.on('click', _.bind(this.deleteItem, this));
         },
 

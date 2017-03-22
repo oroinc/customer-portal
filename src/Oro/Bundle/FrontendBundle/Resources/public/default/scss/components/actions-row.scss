@@ -13,15 +13,21 @@
         cursor: pointer;
 
         &--separate {
-            margin: 0 4px;
+            margin: 0 3px;
 
             color: get-color('additional', 'base');
+
+            cursor: default;
+
+            vertical-align: middle;
         }
     }
 
     &__button {
         display: inline-block;
         padding: 0 3px;
+
+        cursor: pointer;
 
         border: 0;
         background: transparent;

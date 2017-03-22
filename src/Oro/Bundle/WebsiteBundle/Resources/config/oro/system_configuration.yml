@@ -17,6 +17,7 @@ system_configuration:
                 label: oro.website.system_configuration.fields.url.label
                 constraints:
                     - Url: ~
+                    - NotBlank: ~
         oro_website.secure_url:
             data_type: string
             type: 'Symfony\Component\Form\Extension\Core\Type\UrlType'
@@ -26,6 +27,7 @@ system_configuration:
                 label: oro.website.system_configuration.fields.secure_url.label
                 constraints:
                     - Url: ~
+                    - NotBlank: ~
 
     tree:
         system_configuration:

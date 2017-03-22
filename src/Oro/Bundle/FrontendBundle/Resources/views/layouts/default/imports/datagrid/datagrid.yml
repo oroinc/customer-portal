@@ -7,12 +7,12 @@ layout:
             id: __datagrid
             optionName: grid_render_parameters
             optionValue:
+                cssClass: 'frontend-datagrid'
                 themeOptions:
                     cellLauncherOptions:
                         launcherMode: 'icon-only'
                         actionsState:  'show'
                     actionsDropdown: 'auto'
-                    className: 'oro-datagrid frontend-datagrid'
                     actionOptions:
                         refreshAction:
                             launcherOptions:
@@ -31,6 +31,5 @@ layout:
                         className: 'grid__tool'
                         themeOptions:
                             templateSelector: '#datagrid-items-counter-template'
-                            customClass: 'oro-items-counter'
                     hideItemsCounter: false
                 filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'
