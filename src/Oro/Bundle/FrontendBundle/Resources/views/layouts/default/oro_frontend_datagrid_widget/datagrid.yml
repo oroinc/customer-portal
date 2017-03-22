@@ -15,10 +15,6 @@ layout:
             id: widget_datagrid
             optionName: grid_parameters
             optionValue: '=context["params"]'
-        # - '@setOption':
-        #     id: widget_datagrid
-        #     optionName: grid_render_parameters
-        #     optionValue: '=context["renderParams"]'
         - '@setOption':
             id: widget_datagrid
             optionName: grid_render_parameters.toolbarOptions.itemsCounter.transTemplate
