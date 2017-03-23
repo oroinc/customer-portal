@@ -47,8 +47,6 @@
         }
 
         // override icon right margin
-        [class^='cf-'],
-        [class*=' cf-'],
         [class^='fa-'],
         [class*=' fa-'] {
             margin-right: 0;
