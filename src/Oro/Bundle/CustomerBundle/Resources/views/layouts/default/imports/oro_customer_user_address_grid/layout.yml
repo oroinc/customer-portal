@@ -59,6 +59,7 @@ layout:
             optionName: grid_render_parameters.themeOptions
             optionValue:
                 toolbarTemplateSelector: '#template-customer-user-address-book-addresses-grid-toolbar'
+                cellActionsHideCount: 4
 
         - '@appendOption':
             id: __user_addresses_datagrid

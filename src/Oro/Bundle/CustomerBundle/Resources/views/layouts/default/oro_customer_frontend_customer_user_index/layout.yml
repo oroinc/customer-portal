@@ -17,7 +17,7 @@ layout:
             optionValue:
                 cellActionsHideCount: 3
                 cellLauncherOptions:
-                    launcherMode: 'text-only'
+                    launcherMode: 'icon-text'
 
         - '@appendOption':
             id: customer_users_datagrid

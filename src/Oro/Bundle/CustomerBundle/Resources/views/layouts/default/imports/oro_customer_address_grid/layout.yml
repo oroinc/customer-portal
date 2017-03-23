@@ -53,9 +53,7 @@ layout:
             optionName: grid_render_parameters.themeOptions
             optionValue:
                 toolbarTemplateSelector: '#template-customer-address-book-addresses-grid-toolbar'
-                cellLauncherOptions:
-                    launcherMode: 'icon-only'
-                    actionsState:  'hide'
+                cellActionsHideCount: 4
 
         - '@appendOption':
             id: __addresses_datagrid
