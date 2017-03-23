@@ -16,8 +16,6 @@ layout:
             optionName: grid_render_parameters.themeOptions
             optionValue:
                 cellActionsHideCount: 3
-                cellLauncherOptions:
-                    launcherMode: 'icon-text'
 
         - '@appendOption':
             id: customer_users_datagrid
