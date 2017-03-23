@@ -34,3 +34,5 @@ layout:
             parentId: quick_access_container
         - '@remove':
             id: main_menu_list
+        - '@remove':
+            id: main_menu_container

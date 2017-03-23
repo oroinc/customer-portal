@@ -27,8 +27,11 @@
     &__container {
         position: relative;
 
+        display: flex;
         padding: 5px 0;
         margin: 0 -5px;
+
+        align-items: center;
 
         &:after {
             right: 0;
@@ -43,10 +46,12 @@
     }
 
     &__handle {
-        display: inline-block;
-        width: 9px;
+        display: block;
+        width: 11px;
         height: 33px;
         margin-right: 8px;
+
+        flex: 0 0 auto;
 
         border: 3px dotted get-color('additional', 'light');
         border-top: 0;
@@ -55,5 +60,66 @@
         cursor: move;
 
         vertical-align: middle;
+    }
+
+    &__label {
+        flex: 1 1 auto;
+    }
+
+    &__move {
+        padding-right: 5px;
+
+        display: flex;
+
+        color: get-color('additional', 'middle');
+
+        flex: 0 0 auto;
+    }
+
+    &__move-btn {
+        position: relative;
+        padding: 8px 10px;
+
+        display: block;
+
+        line-height: 1;
+
+        background: none;
+        border: none;
+
+        &:not(:first-child) {
+            margin-left: 2px;
+
+            &:before {
+                position: absolute;
+                top: 50%;
+                left: -2px;
+
+                width: 2px;
+                height: 13px;
+
+                background: get-color('additional', 'middle');
+
+                transform: translate(0, -50%);
+
+                @include after();
+            }
+        }
+
+        [class^="fa-"],
+        [class*=" fa-"] {
+            margin: 0;
+        }
+    }
+
+    &__move-up {
+        .renderable:first-child & {
+            color: lighten(get-color('additional', 'middle'), 8%);
+        }
+    }
+    &__move-down {
+        .renderable:last-child & {
+            color: lighten(get-color('additional', 'middle'), 8%);
+        }
     }
 }

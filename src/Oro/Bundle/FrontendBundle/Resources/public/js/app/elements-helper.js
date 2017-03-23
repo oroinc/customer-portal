@@ -251,6 +251,9 @@ define(function(require) {
                     manually: this.isChangedManually(element, e)
                 };
 
+                if (options.manually) {
+                    this.model.set(modelKey + '_changed_manually', true);
+                }
                 this.model.set(modelKey, value, options);
             }
         },

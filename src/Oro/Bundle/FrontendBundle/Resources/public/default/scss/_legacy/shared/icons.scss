@@ -45,38 +45,9 @@
     @include fa-icon($fa-var-list);
 }
 
-[class^="cf-"],
-[class*=" cf-"] {
-    display: inline-block;
-
-  font-family: $base-font-icon;
-  font-weight: normal;
-  font-style: normal;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-
-    word-wrap: normal;
-
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility;
-
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
-
-    /* Support for IE. */
-    -ms-font-feature-settings: 'liga';
-}
-
-[class^="cf-"],
-[class*=" cf-"],
 [class^="fa-"],
 [class*=" fa-"] {
     margin-right: 3px;
-
-    vertical-align: middle;
 
     line-height: 1;
 }
@@ -97,7 +68,6 @@
     }
 }
 
-.cf,
 .fa {
     &--small {
         font-size: $root-font-size;
@@ -119,49 +89,7 @@
         visibility: hidden;
     }
 
-    &--base-line {
-        vertical-align: baseline;
-    }
-
     &--no-offset {
         margin-right: 0;
     }
 }
-
-/* Custom font icons */
-
-$icons : (
-    export: "\e715",
-    left-open: "\e75d",
-    right-open: "\e75e",
-    list: "\e005",
-    clipboard: "\1f4cb",
-    download: "\e902",
-    newspaper: "\e907",
-    tag: "\e908",
-    print: "\e909",
-    tools: "\e90b",
-    assignment: "\e85d",
-    check_box: "\e834",
-    check_box_outline_blank: "\e835",
-    clear: "\e5cd",
-    description: "\e873",
-    info: "\e88e",
-    local_mall: "\e54c",
-    local_offer: "\e54e",
-    launch: "\e89e",
-    open_with: "\e89f",
-    view_headline: "\e8ee",
-    view_list: "\e8ef",
-    apps: "\e8f0"
-);
-
-.cf {
-    @each $icon, $code in $icons {
-        &-#{$icon}:before {
-            content: $code;
-        }
-    }
-}
-
-/* Custom font icons  END */

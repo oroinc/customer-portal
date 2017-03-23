@@ -300,8 +300,12 @@
 
         opacity: 1;
 
-        [class^="cf-"] {
-          font-size: 20px;
+        [class^="fa-"] {
+          font-size: $base-font-icon-button;
+
+          &:before{
+            font-size: $base-font-icon-button;
+          }
         }
       }
 
@@ -937,7 +941,7 @@
     }
 
     .table-bordered {
-      border-width: 0 0 1px 0;
+      border-width: 1px 0;
     }
   }
 

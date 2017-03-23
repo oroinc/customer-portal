@@ -15,38 +15,11 @@ layout:
             id: widget_datagrid
             optionName: grid_parameters
             optionValue: '=context["params"]'
-        # - '@setOption':
-        #     id: widget_datagrid
-        #     optionName: grid_render_parameters
-        #     optionValue: '=context["renderParams"]'
         - '@setOption':
             id: widget_datagrid
-            optionName: grid_render_parameters
-            optionValue:
-                themeOptions:
-                    className: 'oro-datagrid frontend-datagrid'
-                    actionOptions:
-                        refreshAction:
-                            launcherOptions:
-                                className: 'btn btn--default btn--size-s'
-                                icon: 'undo fa--no-offset'
-                                iconHideText: true
-                        resetAction:
-                            launcherOptions:
-                                className: 'btn btn--default btn--size-s'
-                                icon: 'refresh fa--no-offset'
-                                iconHideText: true
-                toolbarOptions:
-                    actionsPanel:
-                        className: 'btn-group not-expand frontend-datagrid__panel'
-                    itemsCounter:
-                        className: 'grid__tool'
-                        themeOptions:
-                            templateSelector: '#datagrid-items-counter-template'
-                            customClass: 'oro-items-counter'
-                        transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.products'
-                    hideItemsCounter: false
-                filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'
+            optionName: grid_render_parameters.toolbarOptions.itemsCounter.transTemplate
+            optionValue: 'oro_frontend.datagrid.pagination.totalRecords.products'
+
         - '@setOption':
             id: widget_datagrid
             optionName: vars

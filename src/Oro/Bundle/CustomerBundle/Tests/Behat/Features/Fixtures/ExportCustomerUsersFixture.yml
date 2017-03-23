@@ -1,0 +1,53 @@
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    company_A:
+        name: 'Company A'
+        organization: '@organization'
+        owner: '@admin'
+    company_A_west:
+        name: 'Company A - West Division'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    amanda:
+        email: 'AmandaRCole@example.org'
+        username: 'AmandaRCole@example.org'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        firstName: 'Amanda'
+        lastName: 'Cole'
+        enabled: '1'
+        confirmed: '1'
+        customer: '@company_A'
+        organization: '@organization'
+        role: ['@buyer']
+        owner: '@admin'
+        website: '@website1'
+    branda:
+        email: 'BrandaJSanborn@example.org'
+        username: 'BrandaJSanborn@example.org'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        firstName: 'Branda'
+        lastName: 'Sanborn'
+        enabled: '0'
+        confirmed: '1'
+        customer: '@company_A'
+        organization: '@organization'
+        role: ['@buyer']
+        owner: '@admin'
+        website: '@website1'
+    ruth:
+        email: 'RuthWMaxwell@example.org'
+        username: 'RuthWMaxwell@example.org'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        firstName: 'Ruth'
+        lastName: 'Maxwell'
+        enabled: '1'
+        confirmed: '0'
+        customer: '@company_A_west'
+        organization: '@organization'
+        role: ['@buyer']
+        owner: '@admin'
+        website: '@website1'
