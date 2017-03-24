@@ -49,8 +49,6 @@
         color: get-color('additional', 'ultra');
         border-radius: $notification-flash-badge-radius;
 
-        /* cf- prefix should be removed when BB-4721 will be resolved */ 
-        [class^="cf-"],
         [class^="fa-"] {
             position: absolute;
             top: 50%;
@@ -71,8 +69,6 @@
         order: 1;
         cursor: pointer;
 
-        /* cf- prefix should be removed when BB-4721 will be resolved */ 
-        [class^="cf-"],
         [class^="fa-"] {
            display: block;
 

@@ -32,8 +32,6 @@
         @extend .notification;
         padding: $notification-xmd-inner-offset;
 
-        /* cf- prefix should be removed when BB-4721 will be resolved */ 
-        [class^="cf-"],
         [class^="fa-"] {
             font-size: $notification-xmd-icon-size;
         }
@@ -49,8 +47,6 @@
         }
     }
     
-    /* cf- prefix should be removed when BB-4721 will be resolved */ 
-    [class^="cf-"],
     [class^="fa-"] {
         margin-right: $notification-icon-offset;
     }

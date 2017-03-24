@@ -108,14 +108,14 @@ class SoftDeleteableFilterTest extends WebTestCase
         $result = $this->getRepository()
             ->findAll();
 
-        $this->assertCount(12, $result);
+        $this->assertCount(13, $result);
 
         //FILTER DISABLED
         $this->disableFilter();
         $result = $this->getRepository()
             ->findAll();
 
-        $this->assertCount(13, $result);
+        $this->assertCount(14, $result);
 
         //CHECK QUERIES
         $this->checkQueries();
