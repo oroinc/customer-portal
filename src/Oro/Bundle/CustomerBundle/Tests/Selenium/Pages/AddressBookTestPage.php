@@ -215,7 +215,7 @@ class AddressBookTestPage extends AbstractPage
      */
     protected function getEditButtonSelector($selectorPrefix, $grid = false)
     {
-        $iconClass = $grid ? "icon-pencil" : 'cf-pencil';
+        $iconClass = $grid ? "icon-pencil" : 'fa-pencil';
 
         return $selectorPrefix . sprintf("//i[contains(@class, '%s')]", $iconClass);
     }
@@ -227,7 +227,7 @@ class AddressBookTestPage extends AbstractPage
      */
     protected function getDeleteButtonSelector($selectorPrefix, $grid = false)
     {
-        $iconClass = $grid ? "icon-trash" : 'cf-trash';
+        $iconClass = $grid ? "icon-trash" : 'fa-trash';
 
         return $selectorPrefix . sprintf("//i[contains(@class, '%s')]", $iconClass);
     }

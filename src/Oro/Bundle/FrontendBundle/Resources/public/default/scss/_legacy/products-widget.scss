@@ -497,6 +497,13 @@
         }
       }
     }
+
+    .view-product {
+      [class^="fa-"]{
+        font-size: $font-icon-button-s;
+        padding: 0 6px;
+      }
+    }
   }
 
   &__quick-view-btn {
