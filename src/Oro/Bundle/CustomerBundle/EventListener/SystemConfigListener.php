@@ -52,16 +52,19 @@ class SystemConfigListener
      */
     public function onSettingsSaveBefore(ConfigSettingsUpdateEvent $event)
     {
-        $settingsKey = implode(ConfigManager::SECTION_MODEL_SEPARATOR, [OroCustomerExtension::ALIAS, self::SETTING]);
         $settings = $event->getSettings();
-        if (is_array($settings)
-            && array_key_exists($settingsKey, $settings)
-            && is_a($settings[$settingsKey]['value'], $this->ownerClass)
-        ) {
-            /** @var object $owner */
-            $owner = $settings[$settingsKey]['value'];
-            $settings[$settingsKey]['value'] = $owner->getId();
-            $event->setSettings($settings);
+
+        if (!array_key_exists('value', $settings)) {
+            return;
         }
+
+        if (!is_a($settings['value'], $this->ownerClass)) {
+            return;
+        }
+
+        /** @var object $owner */
+        $owner = $settings['value'];
+        $settings['value'] = $owner->getId();
+        $event->setSettings($settings);
     }
 }
