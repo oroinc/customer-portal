@@ -11,6 +11,8 @@ use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * @group CommunityEdition
+ *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -370,7 +372,7 @@ class RestCustomerUserTest extends RestJsonApiTestCase
      * @param CustomerUser $customerUser
      * @return array
      */
-    private function getExpectedData(CustomerUser $customerUser)
+    protected function getExpectedData(CustomerUser $customerUser)
     {
         $customerUserRole = $this->getManager()
             ->getRepository(CustomerUserRole::class)
