@@ -9,9 +9,7 @@ layout:
                     blockType: container
                 __datagrid_views_toolbar:
                     blockType: container
-                __datagrid_views_group:
-                    blockType: container
-                __datagrid_views_label:
+                __datagrid_views_container_label:
                     blockType: block
                 __datagrid_views_popup:
                     blockType: container
@@ -27,19 +25,18 @@ layout:
                     blockType: container
                 __datagrid_views_popup_footer:
                     blockType: container
-                __datagrid_views_actions:
+                __datagrid_views_label:
                     blockType: container
             tree:
                 __root:
                     __datagrid_views:
                         __datagrid_views_toolbar:
-                            __datagrid_views_group:
-                                __datagrid_views_label: ~
-                                __datagrid_views_popup:
-                                    __datagrid_views_popup_close: ~
-                                    __datagrid_views_popup_container:
-                                        __datagrid_views_popup_title: ~
-                                        __datagrid_views_popup_list:
-                                            __datagrid_views_popup_list_item: ~
-                                        __datagrid_views_popup_footer: ~
-                            __datagrid_views_actions: ~
+                            __datagrid_views_container_label: ~
+                            __datagrid_views_popup:
+                                __datagrid_views_popup_close: ~
+                                __datagrid_views_popup_container:
+                                    __datagrid_views_popup_title: ~
+                                    __datagrid_views_popup_list:
+                                        __datagrid_views_popup_list_item: ~
+                                    __datagrid_views_popup_footer: ~
+                    __datagrid_views_label: ~
