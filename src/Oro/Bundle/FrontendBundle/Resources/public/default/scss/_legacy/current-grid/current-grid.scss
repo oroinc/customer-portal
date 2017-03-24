@@ -1,21 +1,3 @@
-@mixin add-separator() {
-  &:not(:first-child) {
-    &:before {
-      top: 5px;
-      bottom: 5px;
-
-      border-left: 1px solid get-color('additional', 'middle');
-
-      @include after();
-    }
-  }
-}
-
-@mixin mode-icon-size($size: $base-font-size--large) {
-  font-size: $size;
-  line-height: strip-units($size / 10);
-}
-
 //Toolbar
 .grid-scrollable-container {
   overflow-y: visible;
@@ -178,22 +160,6 @@
   position: relative;
   padding: 0;
 
-  .action {
-    &.mode-icon-only {
-      color: get-color('additional', 'middle');
-
-      @include hover-focus {
-        text-decoration: none;
-
-        color: get-color('additional', 'dark');
-      }
-
-      [class^='fa-'] {
-        margin-right: 0;
-      }
-    }
-  }
-
   .dropdown-toggle {
     height: 10px;
 
@@ -208,22 +174,6 @@
 
     &:after {
       content: none;
-    }
-  }
-
-  &.action-row {
-    .launcher-item {
-      display: block;
-      padding: 0;
-
-      a {
-        padding: 0 10px;
-        display: inline-block;
-      }
-
-      [class^="fa-"] {
-        font-size: 15px;
-      }
     }
   }
 
@@ -334,50 +284,7 @@
 
       .dropdown-menu {
         .launchers-list {
-
           white-space: nowrap;
-
-          .mode-text-only {
-            display: block;
-          }
-        }
-      }
-    }
-
-    .launcher-item {
-      display: block;
-
-      &.mode-text-only,
-      &.mode-icon-only {
-        display: inline-block;
-
-        @include add-separator();
-      }
-
-      &.mode-text-only {
-        margin: 2px 0;
-      }
-
-      a.action {
-        position: relative;
-        white-space: nowrap;
-        text-align: center;
-
-        [class^='fa-'].hide-text {
-          display: inline-block;
-
-          &:after,
-          &:before {
-            color: inherit;
-
-            @include mode-icon-size();
-          }
-        }
-      }
-
-      .dropdown-menu {
-        .mode-text-only {
-          display: block;
         }
       }
     }
@@ -385,10 +292,6 @@
 
   .action-cell {
     text-align: right;
-
-    .launcher-item.mode-icon-text {
-      text-align: left;
-    }
 
     .dropdown {
       display: inline-block;
@@ -403,50 +306,4 @@
   min-width: 0;
   margin: 0;
   padding: 0;
-
-  .launcher-item {
-    float: none;
-
-    a {
-      padding: 5px 10px;
-      display: block;
-    }
-
-    &.mode-icon-only {
-      display: table-cell;
-
-      @include add-separator();
-
-      a {
-        color: get-color('additional', 'middle');
-        text-align: center;
-
-        [class^="fa-"],
-        [class*=" fa-"] {
-          margin: 0;
-
-          vertical-align: top;
-
-          &:before {
-            @include mode-icon-size();
-          }
-        }
-
-        @include hover-focus-active() {
-          color: get-color('additional', 'dark');
-        }
-      }
-    }
-    &.mode-text-only {
-      display: block;
-
-      a {
-        padding: 3px 10px;
-      }
-    }
-  }
-
-  .nav-pills > li + li {
-    margin: 0;
-  }
 }
