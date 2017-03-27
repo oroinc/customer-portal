@@ -45,6 +45,9 @@
             content: '...';
         }
     }
+    &__link {
+        color: get-color('additional', 'dark');
+    }
 }
 
 @include breakpoint('tablet') {

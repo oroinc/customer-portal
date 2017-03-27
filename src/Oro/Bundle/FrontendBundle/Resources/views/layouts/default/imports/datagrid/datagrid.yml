@@ -28,7 +28,7 @@ layout:
                     actionsPanel:
                         className: 'btn-group not-expand frontend-datagrid__panel'
                     itemsCounter:
-                        className: 'grid__tool'
+                        className: 'grid-tool'
                         themeOptions:
                             templateSelector: '#datagrid-items-counter-template'
                     hideItemsCounter: false
