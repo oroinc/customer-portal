@@ -70,3 +70,18 @@
         margin-right: 0;
     }
 }
+
+@include breakpoint('tablet') {
+    .actions-row {
+        &__item {
+            &:before {
+                height: $base-font-size;
+            }
+        }
+        &__button {
+            padding: 2px 6px;
+
+            font-size: $base-font-size + 2px;
+        }
+    }
+}
