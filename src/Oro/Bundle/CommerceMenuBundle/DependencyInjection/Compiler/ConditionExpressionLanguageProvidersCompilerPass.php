@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class ConditionExpressionLanguageProvidersCompilerPass implements CompilerPassInterface
 {
     const TAG_NAME              = 'oro_commerce_menu.condition.expression_language_provider';
-    const CONDITION_SERVICE_ID  = 'oro_commerce_menu.menu.condition.condition_extension';
+    const EXPRESSION_LANGUAGE_SERVICE_ID  = 'oro_commerce_menu.expression_language';
 
     /**
      * {@inheritdoc}
@@ -18,10 +18,10 @@ class ConditionExpressionLanguageProvidersCompilerPass implements CompilerPassIn
     {
         $providers = $container->findTaggedServiceIds(self::TAG_NAME);
 
-        $service = $container->getDefinition(self::CONDITION_SERVICE_ID);
+        $service = $container->getDefinition(self::EXPRESSION_LANGUAGE_SERVICE_ID);
 
         foreach ($providers as $providerId => $tags) {
-            $service->addMethodCall('addProvider', [new Reference($providerId)]);
+            $service->addMethodCall('registerProvider', [new Reference($providerId)]);
         }
     }
 }

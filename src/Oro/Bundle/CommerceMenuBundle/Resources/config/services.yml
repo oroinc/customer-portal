@@ -35,19 +35,13 @@ services:
             - '%oro_commerce_menu.entity.menu_update.class%'
             - '%oro_commerce_menu.menu_update.scope_type%'
 
-    oro_commerce_menu.menu.condition.condition_extension:
-        class: 'Oro\Bundle\CommerceMenuBundle\Menu\Condition\ConditionExtension'
-        public: false
-        tags:
-            - { name: oro_navigation.menu_extension, priority: 80 }
-
     oro_commerce_menu.menu.condition.config_value_expression_language_provider:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\Condition\ConfigValueExpressionLanguageProvider'
         public: false
         arguments:
             - '@oro_config.manager'
         tags:
-            - { name: oro_commerce_menu.condition.expression_language_provider, alias: config_value }
+            - { name: oro_commerce_menu.condition.expression_language_provider }
 
     oro_commerce_menu.menu.condition.logged_in_expression_language_provider:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\Condition\LoggedInExpressionLanguageProvider'
@@ -55,7 +49,7 @@ services:
         arguments:
             - '@oro_security.security_facade.link'
         tags:
-            - { name: oro_commerce_menu.condition.expression_language_provider, alias: is_logged_in }
+            - { name: oro_commerce_menu.condition.expression_language_provider }
 
     oro_commerce_menu.twig.menu_extension:
         class: 'Oro\Bundle\CommerceMenuBundle\Twig\MenuExtension'
@@ -86,9 +80,13 @@ services:
 
     oro_commerce_menu.menu_context_provider.customer:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvider'
+        arguments:
+            - '@oro_website.manager'
 
     oro_commerce_menu.menu_context_provider.customer_group:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerGroupMenuContextProvider'
+        arguments:
+            - '@oro_website.manager'
 
     oro_commerce_menu.repository.menu_update:
         class: 'Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository'
@@ -124,3 +122,28 @@ services:
         parent: oro_website.website_scope_criteria_provider
         tags:
             - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 20}
+
+    oro_commerce_menu.expression_language.cache:
+        public: false
+        parent: oro.cache.abstract
+        calls:
+            - [ setNamespace, [ 'oro_commerce_menu_expression_language' ] ]
+
+    oro_commerce_menu.expression_language.parsed_cache:
+        class: Symfony\Bridge\Doctrine\ExpressionLanguage\DoctrineParserCache
+        arguments:
+            - '@oro_commerce_menu.expression_language.cache'
+
+    oro_commerce_menu.expression_language:
+        class: Symfony\Component\ExpressionLanguage\ExpressionLanguage
+        arguments:
+            - '@oro_commerce_menu.expression_language.parsed_cache'
+            - []
+
+    oro_commerce_menu.builder.menu_condition_builder:
+        public: false
+        class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuConditionBuilder'
+        arguments:
+            - "@oro_commerce_menu.expression_language"
+        tags:
+            - { name: oro_menu.builder, priority: 210 }
