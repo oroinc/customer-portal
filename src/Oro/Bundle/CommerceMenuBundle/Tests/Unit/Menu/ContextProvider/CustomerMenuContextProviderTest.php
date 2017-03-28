@@ -4,7 +4,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Menu\ContextProvider;
 
 use Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvider;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\MagentoBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 use Oro\Component\Testing\Unit\EntityTrait;
