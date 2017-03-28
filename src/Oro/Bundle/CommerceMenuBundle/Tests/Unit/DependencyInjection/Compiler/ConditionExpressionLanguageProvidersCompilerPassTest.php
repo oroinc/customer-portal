@@ -24,13 +24,13 @@ class ConditionExpressionLanguageProvidersCompilerPassTest extends \PHPUnit_Fram
         $definition->expects($this->exactly(2))
             ->method('addMethodCall')
             ->willReturnMap([
-                ['addProvider', [new Reference(1)], $definition],
-                ['addProvider', [new Reference(2)], $definition],
+                ['registerProvider', [new Reference(1)], $definition],
+                ['registerProvider', [new Reference(2)], $definition],
             ]);
 
         $container->expects($this->once())
             ->method('getDefinition')
-            ->with(ConditionExpressionLanguageProvidersCompilerPass::CONDITION_SERVICE_ID)
+            ->with(ConditionExpressionLanguageProvidersCompilerPass::EXPRESSION_LANGUAGE_SERVICE_ID)
             ->willReturn($definition);
 
         $compilerPass = new ConditionExpressionLanguageProvidersCompilerPass();

@@ -3,9 +3,12 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ObjectManager;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Event\ConfigSettingsUpdateEvent;
 use Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener;
+use Oro\Bundle\UserBundle\Entity\User;
 
 class SystemConfigListenerTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,10 +27,16 @@ class SystemConfigListenerTest extends \PHPUnit_Framework_TestCase
      */
     protected $listener;
 
+    /**
+     * @var ConfigManager
+     */
+    protected $configManager;
+
     protected function setUp()
     {
-        $this->registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
-        $this->userClass = 'Oro\Bundle\UserBundle\Entity\User';
+        $this->configManager = $this->createMock(ConfigManager::class);
+        $this->registry = $this->createMock(ManagerRegistry::class);
+        $this->userClass = User::class;
 
         $this->listener = new SystemConfigListener($this->registry, $this->userClass);
     }
@@ -66,10 +75,10 @@ class SystemConfigListenerTest extends \PHPUnit_Framework_TestCase
     public function invalidSettingsDataProvider()
     {
         return [
-            [null],
+            [[null]],
             [[]],
             [['a' => 'b']],
-            [new \DateTime()]
+            [[new \DateTime()]],
         ];
     }
 
@@ -83,11 +92,8 @@ class SystemConfigListenerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getEvent([$key => ['value' => $id]]);
-        $event->expects($this->once())
-            ->method('setSettings')
-            ->with([$key => ['value' => $user]]);
 
-        $manager = $this->getMockBuilder('\Doctrine\Common\Persistence\ObjectManager')
+        $manager = $this->getMockBuilder(ObjectManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $manager->expects($this->once())
@@ -101,13 +107,13 @@ class SystemConfigListenerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($manager));
 
         $this->listener->onFormPreSetData($event);
+
+        $this->assertEquals([$key => ['value' => $user]], $event->getSettings());
     }
 
     public function testOnSettingsSaveBefore()
     {
         $id = 1;
-        $key = 'oro_customer.default_customer_owner';
-
         $user = $this->getMockBuilder($this->userClass)
             ->disableOriginalConstructor()
             ->getMock();
@@ -115,28 +121,19 @@ class SystemConfigListenerTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue($id));
 
-        $event = $this->getEvent([$key => ['value' => $user]]);
-        $event->expects($this->once())
-            ->method('setSettings')
-            ->with([$key => ['value' => $id]]);
+        $event = $this->getEvent(['value' => $user]);
 
         $this->listener->onSettingsSaveBefore($event);
+
+        $this->assertEquals(['value' => $id], $event->getSettings());
     }
 
     /**
-     * @param mixed $settings
-     * @return ConfigSettingsUpdateEvent|\PHPUnit_Framework_MockObject_MockObject
+     * @param array $settings
+     * @return ConfigSettingsUpdateEvent
      */
-    protected function getEvent($settings)
+    protected function getEvent(array $settings)
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|ConfigSettingsUpdateEvent $event */
-        $event = $this->getMockBuilder('Oro\Bundle\ConfigBundle\Event\ConfigSettingsUpdateEvent')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $event->expects($this->once())
-            ->method('getSettings')
-            ->will($this->returnValue($settings));
-
-        return $event;
+        return new ConfigSettingsUpdateEvent($this->configManager, $settings);
     }
 }

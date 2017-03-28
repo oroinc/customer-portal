@@ -18,6 +18,7 @@ class OroCustomerBundle implements Migration
         $schema->dropTable('oro_customer_user_org');
 
         $queries->addQuery(new UpdateCustomerUserACLQuery());
+        $queries->addQuery(new UpdateAnonymousCustomerGroupOwnership());
 
         //remove invalid record because of error there is a NULL value
         $this->removeFromConfig($queries, 'default_customer_owner');

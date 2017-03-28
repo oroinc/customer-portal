@@ -4,7 +4,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Menu\ContextProvider;
 
 use Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvider;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\MagentoBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 use Oro\Component\Testing\Unit\EntityTrait;
@@ -16,11 +16,13 @@ class CustomerMenuContextProviderTest extends \PHPUnit_Framework_TestCase
     public function testGetContexts()
     {
         $website = $this->getEntity(Website::class, ['id' => 1]);
+        /** @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject $websiteManager */
         $websiteManager = $this->createMock(WebsiteManager::class);
         $websiteManager->expects($this->once())
             ->method('getDefaultWebsite')
             ->willReturn($website);
 
+        /** @var Customer $customer */
         $customer = $this->getEntity(Customer::class, ['id' => 5]);
         $provider = new CustomerMenuContextProvider($websiteManager);
 
