@@ -30,11 +30,6 @@
     flex-wrap: wrap;
   }
 
-  @media (max-width: $screen-md) {
-    justify-content: space-between;
-  }
-
-
   .page-size {
     font-size: $base-font-size - 2px;
 
@@ -47,22 +42,6 @@
 
     .mass-actions-panel {
       max-width: 135px;
-    }
-
-    @media (max-width: $screen-md) {
-      order: 3;
-
-      .action-select {
-        width: 100%;
-        margin: 0;
-      }
-    }
-
-    @media (max-width: $screen-md) {
-      flex-basis: calc(100% - 138px);
-      margin: 0 0 10px;
-
-      text-align: right;
     }
   }
 
@@ -103,10 +82,6 @@
     margin: 0;
 
     font-size: 0;
-
-    @media (max-width: $screen-md) {
-      margin: 0 0 10px;
-    }
 
     .action {
       display: inline-block;
@@ -183,12 +158,6 @@
   border: 0;
 
   background: get-color('additional', 'base');
-
-  .filter-list {
-    @media (max-width: $screen-md) {
-      float: none;
-    }
-  }
 
   .filter-list-container {
     position: absolute !important;
@@ -286,10 +255,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-
-            @media (max-width: $screen-md) {
-              display: block;
-            }
           }
         }
       }
@@ -300,12 +265,8 @@
 
         opacity: 1;
 
-        [class^="fa-"] {
-          font-size: $base-font-icon-button;
-
-          &:before{
-            font-size: $base-font-icon-button;
-          }
+        [class^="cf-"] {
+          font-size: 20px;
         }
       }
 
@@ -339,7 +300,6 @@
                     $use-base-style: true,
                     $padding: 8px 9px,
                     $line-height: 1.36
-
             );
 
             display: block;
@@ -426,10 +386,6 @@
       .filter-end-date {
         position: relative;
 
-        @media (max-width: $screen-md) {
-          display: block;
-        }
-
         i {
           color: $base-font-size;
           font-family: 'FontAwesome' !important;
@@ -445,10 +401,6 @@
           .timepicker-input {
             flex-basis: 90px;
             padding-left: 9px;
-
-            @media (max-width: $screen-md) {
-              flex-basis: 105px;
-            }
           }
         }
 
@@ -474,12 +426,9 @@
         }
 
         .datefilter {
+          @include fa-icon($fa-var-calendar);
+
           display: block;
-
-          input[type="text"] {
-            padding-left: 39px;
-          }
-
 
           &:before {
             position: absolute;
@@ -490,9 +439,11 @@
 
             color: get-color('additional', 'middle');
           }
-          @include fa-icon($fa-var-calendar);
-        }
 
+          input[type="text"] {
+            padding-left: 39px;
+          }
+        }
       }
 
       .number-range-filter {
@@ -524,36 +475,6 @@
 
           vertical-align: middle;
         }
-      }
-
-      @media (max-width: $screen-md) {
-        .number-range-filter {
-          .filter-start {
-            input[type=text] {
-              width: 50px !important;
-            }
-          }
-          .filter-end {
-            input[type=text] {
-              width: 50px !important;
-            }
-          }
-          .value-field-frame {
-            padding-right: 0 !important;
-          }
-          .filter-value {
-            white-space: nowrap;
-          }
-          .product-price-filter {
-            display: inline-block;
-          }
-        }
-      }
-    }
-
-    @media (max-width: $screen-md) {
-      .filter-criteria {
-        min-width: 0 !important;
       }
     }
   }
@@ -589,10 +510,6 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
-
-    @media (max-width: $screen-md) {
-      margin: 10px 0 0;
-    }
   }
 
   .filter-items-hint {
@@ -675,7 +592,8 @@
         margin: 0;
       }
 
-      a {
+      a,
+      .add-filter-button{
         color: get-color('primary', 'dark');
         font-weight: 400;
 
@@ -691,13 +609,6 @@
   &.select-filter-widget {
     min-width: 320px !important;
     padding: 20px 20px 10px;
-
-    @media (max-width: $screen-md) {
-      left: 1.5rem !important;
-
-      width: calc(100% - 30px) !important;
-      min-width: 0 !important;
-    }
 
     .ui-multiselect-header {
       padding: 0;
@@ -1122,5 +1033,109 @@
 
   .nav-pills > li + li {
     margin: 0;
+  }
+}
+
+@include breakpoint('tablet-small') {
+  .grid-toolbar {
+    justify-content: space-between;
+
+    .grid-toolbar-mass-actions {
+      flex-basis: calc(100% - 138px);
+      margin: 0 0 10px;
+      order: 3;
+
+      text-align: right;
+
+      .action-select {
+        width: 100%;
+        margin: 0;
+      }
+    }
+
+    .actions-panel{
+      margin: 0 0 10px;
+    }
+  }
+
+  .filter-box {
+    .filter-list {
+      float: none;
+    }
+
+    .oro-drop {
+      .filter-criteria {
+        min-width: 0 !important;
+
+        .number-range-filter {
+          .filter-start {
+            input[type=text] {
+              width: 50px !important;
+            }
+          }
+
+          .filter-end {
+            input[type=text] {
+              width: 50px !important;
+            }
+          }
+
+          .value-field-frame {
+            padding-right: 0 !important;
+          }
+
+          .filter-value {
+            white-space: nowrap;
+          }
+
+          .product-price-filter {
+            display: inline-block;
+          }
+        }
+
+        > div {
+          .horizontal {
+            + div {
+              display: block;
+            }
+          }
+        }
+
+        .filter-start-date,
+        .filter-end-date {
+          display: block;
+
+          .fields-row {
+            .timepicker-input {
+              flex-basis: 105px;
+            }
+          }
+        }
+
+      }
+    }
+
+  }
+
+  .filter-container {
+    .filter-items {
+      margin: 10px 0 0;
+    }
+
+    .ui-multiselect {
+      &.select-filter-widget {
+        width: 100% !important;
+        margin: 0;
+      }
+    }
+  }
+
+  .ui-multiselect-menu {
+    &.select-filter-widget {
+      left: 1.5rem !important;
+
+      width: calc(100% - 30px) !important;
+      min-width: 0 !important;
+    }
   }
 }
