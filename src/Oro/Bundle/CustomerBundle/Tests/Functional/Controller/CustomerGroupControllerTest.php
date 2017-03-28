@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 
 use Doctrine\ORM\EntityManager;
 
+use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadAnonymousCustomerGroup;
 use Symfony\Component\DomCrawler\Crawler;
 
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -43,6 +44,19 @@ class CustomerGroupControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertContains('customer-groups-grid', $crawler->html());
+    }
+
+    public function testGrid()
+    {
+        $response = $this->client->requestGrid(
+            'customer-groups-grid',
+            ['customer-groups-grid[_filter][name][value]' => LoadAnonymousCustomerGroup::GROUP_NAME_NON_AUTHENTICATED]
+        );
+
+        $result = $this->getJsonResponseContent($response, 200);
+        $result = reset($result['data']);
+
+        $this->assertEquals(LoadAnonymousCustomerGroup::GROUP_NAME_NON_AUTHENTICATED, $result['name']);
     }
 
     public function testCreate()
