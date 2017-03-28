@@ -52,6 +52,37 @@ class CustomerUserContext extends OroFeatureContext
     }
 
     /**
+     * Example: AmandaRCole@example.org customer user followed the link to change the password
+     *
+     * @Given /^(?P<username>\S+) customer user followed the link to change the password$/
+     *
+     * @param string $username
+     */
+    public function customerFollowedTheLinkToChangeThePassword($username)
+    {
+        $user = $this->getCustomerUser($username);
+        $url = $this->getUrl(
+            'oro_customer_frontend_customer_user_password_reset',
+            [
+                'token' => $user->getConfirmationToken(),
+                'username' => $username
+            ]
+        );
+        $this->visitPath($url);
+        $this->waitForAjax();
+    }
+
+    /**
+     * @param string $path
+     * @param array  $parameters
+     * @return string
+     */
+    protected function getUrl($path, $parameters)
+    {
+        return $this->getContainer()->get('router')->generate($path, $parameters);
+    }
+
+    /**
      * @param string $username
      * @return CustomerUser
      */
