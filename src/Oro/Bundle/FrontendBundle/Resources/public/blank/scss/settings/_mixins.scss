@@ -25,3 +25,19 @@
         text-align: $table-text-align;
     }
 }
+
+@mixin mosaic-grid(
+    $mosaic-grid-columns: 3
+) {
+    -webkit-columns: $mosaic-grid-columns;
+    -moz-columns: $mosaic-grid-columns;
+    columns: $mosaic-grid-columns;
+}
+
+@mixin mosaic-grid-break-inside(
+    $break-inside-value: avoid
+) {
+    -webkit-column-break-inside: $break-inside-value;
+    page-break-inside: $break-inside-value;
+    break-inside: $break-inside-value;
+}
