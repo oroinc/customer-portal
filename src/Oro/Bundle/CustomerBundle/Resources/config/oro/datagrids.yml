@@ -1031,6 +1031,7 @@ datagrids:
             show_map:
                 type:          map
                 icon:          map-o
+                frontend_type: frontend-map
 
     frontend-customer-customer-address-grid:
         acl_resource: oro_customer_frontend_customer_address_view

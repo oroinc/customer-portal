@@ -20,14 +20,17 @@ layout:
                     options:
                         text: 'oro.customer.frontend.customer_user_address_book.customer_user_addresses'
                         icon: 'map-marker'
+                __user_addresses_title_action:
+                    blockType: container
             tree:
                 __root:
                     __user_addresses_head:
                         __user_addresses_head_title: ~
+                        __user_addresses_title_action: ~
 
         - '@add':
             id: __user_addresses_create_link
-            parentId: __user_addresses_head
+            parentId: __user_addresses_title_action
             blockType: link
             options:
                 visible: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_create")'
@@ -59,6 +62,9 @@ layout:
             optionName: grid_render_parameters.themeOptions
             optionValue:
                 toolbarTemplateSelector: '#template-customer-user-address-book-addresses-grid-toolbar'
+                cellActionsHideCount: 4
+                cellLauncherOptions:
+                    launcherMode: 'icon-only'
 
         - '@appendOption':
             id: __user_addresses_datagrid

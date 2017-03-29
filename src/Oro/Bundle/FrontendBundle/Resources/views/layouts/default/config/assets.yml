@@ -3,6 +3,7 @@ styles:
         - 'bundles/orofrontend/default/vendors/slick/slick.css'
         - 'bundles/orofrontend/default/scss/settings/global-settings.scss'
         - 'bundles/orofrontend/default/scss/variables/base-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/breadcrumbs-config.scss'
         - 'bundles/orofrontend/default/scss/variables/link-config.scss'
         - 'bundles/orofrontend/default/scss/variables/page-title-config.scss'
         - 'bundles/orofrontend/default/scss/variables/page-subtitle-config.scss'
