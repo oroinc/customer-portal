@@ -5,9 +5,9 @@ Feature: Creating User
 
   Scenario: Creating User with low password complexity
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I click "Account"
-    And I click "Users"
-    And I press "Create User"
+    And I follow "Account"
+    And I follow "Users"
+    And I follow "Create User"
     And I fill form with:
       | Password         | 0 |
       | Confirm Password | 0 |

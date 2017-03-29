@@ -52,7 +52,7 @@ class CustomerUserContext extends OroFeatureContext
     }
 
     /**
-     * Example: AmandaRCole@example.org customer user followed the link to change the password
+     * Example: Ryan1Range@example.org customer user followed the link to change the password
      *
      * @Given /^(?P<username>\S+) customer user followed the link to change the password$/
      *
@@ -61,6 +61,12 @@ class CustomerUserContext extends OroFeatureContext
     public function customerFollowedTheLinkToChangeThePassword($username)
     {
         $user = $this->getCustomerUser($username);
+        self::assertNotNull($user, sprintf('Could not found customer user "%s"', $username));
+        self::assertNotNull(
+            $user->getConfirmationToken(),
+            sprintf('Could not found confirmation token for  customer user "%s"', $username)
+        );
+
         $url = $this->getUrl(
             'oro_customer_frontend_customer_user_password_reset',
             [
@@ -69,7 +75,6 @@ class CustomerUserContext extends OroFeatureContext
             ]
         );
         $this->visitPath($url);
-        $this->waitForAjax();
     }
 
     /**
