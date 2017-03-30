@@ -377,6 +377,23 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $this->assertResponseStatusCodeEquals($this->client->getResponse(), 403);
     }
 
+    public function testViewNotContainsTabsWithEmptyPermissions()
+    {
+        /** @var CustomerUserRole[] $roles */
+        $roles = $this->getUserRoleRepository()->findBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR']);
+        $role = array_shift($roles);
+
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_frontend_customer_user_role_view', ['id' => $role->getId()])
+        );
+        $result = $this->client->getResponse();
+
+        static::assertHtmlResponseStatusCodeEquals($result, 200);
+        static::assertNotContains('Marketing', $crawler->html());
+        static::assertNotContains('Catalog', $crawler->html());
+    }
+
     /**
      * @return CustomerUserRole
      */
