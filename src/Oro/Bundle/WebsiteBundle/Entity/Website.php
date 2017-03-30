@@ -234,4 +234,12 @@ class Website extends ExtendWebsite implements OrganizationAwareInterface, Websi
 
         return $this;
     }
+
+    /**
+     * @return Collection|Website[]
+     */
+    public function getInversedWebsites()
+    {
+        return $this->inversedWebsites;
+    }
 }

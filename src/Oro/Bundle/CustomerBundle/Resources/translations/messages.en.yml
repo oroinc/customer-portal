@@ -160,6 +160,10 @@ oro.customer:
             password: 'Enter your password'
             password_confirmation: 'Reenter your password'
 
+        import:
+            message:
+                default_website_does_not_exist: 'Default website doesn''t exist'
+                default_website_role_does_not_exist: 'Default role for website %website% doesn''t exist'
 
     customeruserrole:
         entity_label:                    'Customer User Role'
