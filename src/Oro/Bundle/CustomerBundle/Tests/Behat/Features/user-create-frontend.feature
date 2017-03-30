@@ -13,4 +13,5 @@ Feature: Creating User
       | Password         | 0 |
       | Confirm Password | 0 |
     When I press "Save"
-    Then I should see "The password must be at least 8 characters long and include a lower case letter and an upper case letter"
+    Then I should see validation errors:
+      | Password | The password must be at least 8 characters long and include a lower case letter and an upper case letter |
