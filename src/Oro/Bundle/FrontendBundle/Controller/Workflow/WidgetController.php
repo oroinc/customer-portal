@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\FrontendBundle\Controller\Workflow;
 
+use Oro\Bundle\WorkflowBundle\Exception\ForbiddenTransitionException;
+use Oro\Bundle\WorkflowBundle\Exception\InvalidTransitionException;
+use Oro\Bundle\WorkflowBundle\Exception\WorkflowNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -60,36 +63,45 @@ class WidgetController extends Controller
         $workflow = $workflowManager->getWorkflow($workflowItem);
 
         $transition = $workflow->getTransitionManager()->extractTransition($transitionName);
+
         $transitionForm = $this->get('oro_workflow.layout.data_provider.transition_form')
             ->getTransitionForm($transitionName, $workflowItem);
-        $transitionForm->addError(new FormError('XXX ZZZ'));
-        $saved = $this->getTransitionFormHandler($transition)
-            ->processTransitionForm($transitionForm, $workflowItem, $transition, $request);
 
-        //if ($saved) {
-        //    $response = $this->get('oro_workflow.handler.transition_handler')->handle($transition, $workflowItem);
-        //    if ($response) {
-        //        return $response;
-        //    }
-        //}
+        if ($request->isMethod('POST')) {
+            $saved = $this->getTransitionFormHandler($transition)
+                ->processTransitionForm($transitionForm, $workflowItem, $transition, $request);
+            if ($saved) {
+                try {
+                    $workflowManager->transit($workflowItem, $transition);
+                } catch (WorkflowNotFoundException $e) {
+                    $responseCode = 404;
+                    $responseMessage = $e->getMessage();
+                } catch (InvalidTransitionException $e) {
+                    $responseCode = 400;
+                    $responseMessage = $e->getMessage();
+                } catch (ForbiddenTransitionException $e) {
+                    $responseCode = 403;
+                    $responseMessage = $e->getMessage();
+                } catch (\Exception $e) {
+                    $responseCode = 500;
+                    $responseMessage = $e->getMessage();
+                }
 
-        $routeProvider = $this->container->get('oro_workflow.provider.transition_route');
-        $routeParams = [
-            'transitionName' => $transition->getName(),
-            'workflowItemId' => $workflowItem->getId(),
-        ];
+                if (!isset($e)) {
+                    //if ($request->isXmlHttpRequest()) {
+                    //    return new JsonResponse(['redirectUrl' => '/']);
+                    //} else {
+                    return $this->redirect('/');
+                    //}
+                }
+            }
+        }
 
         return [
             'data' => [
-                'formAction' => $this->generateUrl(
-                    $routeProvider->getFormDialogRoute(),
-                    $routeParams
-                ),
                 'transition' => $transition,
-                'formView' => $transitionForm->createView(),
-                'form' => $transitionForm->createView(),
-                'transitionName' => $transitionName,
-                'workflowName' => $workflowItem->getWorkflowName(),
+                'workflowItem' => $workflowItem,
+                'formRouteName' => 'oro_frontend_workflow_widget_transition_form',
             ]
         ];
     }

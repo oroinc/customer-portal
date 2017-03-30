@@ -4,7 +4,11 @@ layout:
             id: page_title
             optionName: defaultValue
             optionValue: '=context["workflowName"]~" / "~data["transition"].getName()'
+        - '@add':
+            id: transition_form_holder
+            parentId: page_content
+            blockType: container
     imports:
         -
             id: oro_workflow_transition_form
-            root: page_content
+            root: transition_form_holder
