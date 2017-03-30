@@ -1,0 +1,8 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'OroUIBundle:layouts:base/dialog/dialog.html.twig'
+    imports:
+        -
+            id: oro_workflow_transition_form
+            root: widget_content

@@ -1,0 +1,10 @@
+layout:
+    actions:
+        - '@setOption':
+            id: page_title
+            optionName: defaultValue
+            optionValue: '=context["workflowName"]~" / "~data["transition"].getName()'
+    imports:
+        -
+            id: oro_workflow_transition_form
+            root: page_content
