@@ -27,3 +27,23 @@ services:
               type: export
               entity: '%oro_customer.entity.customer_user.class%'
               alias: oro_customer_customer_user
+
+    # Customer Fixtures
+    oro_customer.importexport.template_fixture.customer:
+        public: false
+        class: Oro\Bundle\CustomerBundle\ImportExport\TemplateFixture\CustomerFixture
+        arguments:
+            - '@oro_entity_extend.enum_value_provider'
+        tags:
+            - { name: oro_importexport.template_fixture }
+
+    oro_customer.importexport.template_fixture.data_converter.customer:
+        parent: oro_importexport.data_converter.template_fixture.configurable
+
+    oro_customer.importexport.processor.export_template:
+        public: false
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, [@oro_customer.importexport.template_fixture.data_converter.customer]]
+        tags:
+            - { name: oro_importexport.processor, type: export_template, entity: '%oro_customer.entity.customer.class%', alias: oro_customer_customer }
