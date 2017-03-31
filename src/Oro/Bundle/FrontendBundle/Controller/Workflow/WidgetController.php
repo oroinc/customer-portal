@@ -99,11 +99,10 @@ class WidgetController extends Controller
                     $url = '/';
                     if ($workflowItem->getResult()->get('redirectUrl')) {
                         $url = $workflowItem->getResult()->get('redirectUrl');
-                    } else {
-                        if ($request->headers->get('referer')) {
-                            $url = $request->headers->get('referer');
-                        }
+                    } elseif ($request->headers->get('referer')) {
+                        $url = $request->headers->get('referer');
                     }
+
                     if ($request->isXmlHttpRequest()) {
                         return JsonResponse::create([
                             'workflowItem' => ['result' => ['redirectUrl' => $url]]
@@ -119,6 +118,7 @@ class WidgetController extends Controller
             'data' => [
                 'workflowName' => $workflowName,
                 'workflowItem' => $workflowItem,
+                'transition' => $transition,
                 'transitionName' => $transitionName,
                 'entityId' => $request->get('entityId', 0),
                 'formRouteName' => 'oro_frontend_workflow_widget_start_transition_form',
@@ -168,11 +168,10 @@ class WidgetController extends Controller
                     $url = '/';
                     if ($workflowItem->getResult()->get('redirectUrl')) {
                         $url = $workflowItem->getResult()->get('redirectUrl');
-                    } else {
-                        if ($request->headers->get('referer')) {
-                            $url = $request->headers->get('referer');
-                        }
+                    } elseif ($request->headers->get('referer')) {
+                        $url = $request->headers->get('referer');
                     }
+
                     if ($request->isXmlHttpRequest()) {
                         return JsonResponse::create([
                             'workflowItem' => ['result' => $workflowItem->getResult()->toArray()]

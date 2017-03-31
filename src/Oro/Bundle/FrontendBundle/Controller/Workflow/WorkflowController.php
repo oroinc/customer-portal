@@ -7,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -117,6 +116,7 @@ class WorkflowController extends Controller
                 'workflowName' => $workflowName,
                 'workflowItem' => $workflowItem,
                 'transitionName' => $transitionName,
+                'transition' => $transition,
                 'entityId' => $request->get('entityId', 0),
                 'originalUrl' => $request->get('originalUrl', '/'),
                 'formRouteName' => 'oro_frontend_workflow_start_transition_form',
