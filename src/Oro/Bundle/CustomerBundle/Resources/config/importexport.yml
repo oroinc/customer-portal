@@ -3,7 +3,7 @@ services:
     oro_customer.importexport.data_converter.customer:
         parent: oro_importexport.data_converter.configurable
 
-    # Export
+    # Customer Export
     oro_customer.importexport.processor.export.customer:
         public: false
         parent: oro_importexport.processor.export_abstract
@@ -11,6 +11,22 @@ services:
             - [setDataConverter, ['@oro_customer.importexport.data_converter.customer']]
         tags:
             - { name: oro_importexport.processor, type: export, entity: '%oro_customer.entity.customer.class%', alias: oro_customer_customer }
+
+    # Customer Import
+    oro_customer.importexport.strategy.customer.add_or_replace:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerImportStrategy
+        parent: oro_importexport.strategy.configurable_add_or_replace
+
+    oro_customer.importexport.processor.import:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+            - [setDataConverter, ['@oro_customer.importexport.data_converter.customer']]
+            - [setStrategy, ['@oro_customer.importexport.strategy.customer.add_or_replace']]
+        tags:
+            - name: oro_importexport.processor
+              type: import
+              entity: '%oro_customer.entity.customer.class%'
+              alias: oro_customer_customer
 
     # Customer User Data Converter
     oro_customer.importexport.data_converter.customer_user:

@@ -952,6 +952,14 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     }
 
     /**
+     * @return ArrayCollection|CustomerUserSettings[]
+     */
+    public function getSettings()
+    {
+        return $this->settings;
+    }
+
+    /**
      * @param Website|null $website
      * @return $this
      */
