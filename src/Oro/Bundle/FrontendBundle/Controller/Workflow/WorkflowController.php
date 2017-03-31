@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -85,17 +86,16 @@ class WorkflowController extends Controller
                 }
 
                 if (!isset($e)) {
+                    $url = '/';
                     if ($workflowItem->getResult()->get('redirectUrl')) {
-                        return $this->redirect($workflowItem->getResult()->get('redirectUrl'));
+                        $url = $workflowItem->getResult()->get('redirectUrl');
                     } else {
-                        $url = '/';
-
                         if ($request->headers->get('referer')) {
                             $url = $request->headers->get('referer');
                         }
-
-                        return $this->redirect($url);
                     }
+
+                    return $this->redirect($url);
                 }
             }
         }

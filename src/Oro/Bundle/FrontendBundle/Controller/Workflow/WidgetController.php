@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -80,15 +81,19 @@ class WidgetController extends Controller
                 }
 
                 if (!isset($e)) {
+                    $url = '/';
                     if ($workflowItem->getResult()->get('redirectUrl')) {
-                        return $this->redirect($workflowItem->getResult()->get('redirectUrl'));
+                        $url = $workflowItem->getResult()->get('redirectUrl');
                     } else {
-                        $url = '/';
-
                         if ($request->headers->get('referer')) {
                             $url = $request->headers->get('referer');
                         }
-
+                    }
+                    if ($request->isXmlHttpRequest()) {
+                        return JsonResponse::create([
+                            'workflowItem' => ['result' => $workflowItem->getResult()->toArray()]
+                        ]);
+                    } else {
                         return $this->redirect($url);
                     }
                 }
