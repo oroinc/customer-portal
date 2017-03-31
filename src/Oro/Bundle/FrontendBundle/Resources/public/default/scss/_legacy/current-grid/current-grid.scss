@@ -3,50 +3,6 @@
   overflow-x: auto;
 }
 
-.more-bar-holder {
-  position: relative;
-  padding: 0;
-
-  .dropdown-toggle {
-    height: 10px;
-
-    display: inline-block;
-    vertical-align: middle;
-
-    line-height: 0;
-    font-size: 24px;
-    text-decoration: none;
-
-    color: inherit;
-
-    &:after {
-      content: none;
-    }
-  }
-
-  .dropdown-toggle {
-    display: inline-block;
-    padding: $offset-y-s 15px;
-    height: $base-font-size--m;
-    margin: 0;
-
-    font-size: $base-font-size--m;
-    line-height: 0;
-
-    color: get-color('additional', 'semidark');
-
-    &:after {
-      display: none;
-    }
-  }
-
-  .dropdown-menu__placeholder + .dropdown-toggle,
-  .dropdown-toggle:hover {
-    text-decoration: none;
-  }
-
-}
-
 //Table
 .oro-datagrid {
   &.no-data-visible {
@@ -117,35 +73,14 @@
         }
       }
 
-      .actions-row {
+      .action-row {
         text-align: right;
-      }
-
-      .launchers-list {
-        display: block;
-
-        text-align: left;
-
-        white-space: nowrap;
-      }
-
-      .dropdown-menu {
-        .launchers-list {
-          white-space: nowrap;
-        }
       }
     }
   }
 
   .action-cell {
     text-align: right;
-
-    .dropdown {
-      display: inline-block;
-    }
-    .more-bar-holder .dropdown-toggle {
-      margin-left: 0;
-    }
   }
 }
 
