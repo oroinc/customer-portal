@@ -33,7 +33,7 @@ services:
         parent: oro_importexport.processor.import_abstract
         calls:
             - [setDataConverter, ['@oro_customer.importexport.template_fixture.data_converter.customer_user']]
-            - [setStrategy, ['@oro_customer.importexport.strategy.customer_user_import_strategy']]
+            - [setStrategy, ['@oro_customer.importexport.strategy.customer.add_or_replace']]
         tags:
             - name: oro_importexport.processor
               type: import_validation
