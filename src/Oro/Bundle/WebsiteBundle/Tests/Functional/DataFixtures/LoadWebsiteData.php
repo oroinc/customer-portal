@@ -6,8 +6,6 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
-
-use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
@@ -23,9 +21,9 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
      * @var array
      */
     protected $webSites = [
-        ['name' => self::WEBSITE1, 'url' => 'http://www.us.com', 'localizations' => ['en_US']],
-        ['name' => self::WEBSITE2, 'url' => 'http://www.canada.com', 'localizations' => ['en_CA']],
-        ['name' => self::WEBSITE3, 'url' => 'http://www.canada-new.com', 'localizations' => ['en_CA']],
+        self::WEBSITE1,
+        self::WEBSITE2,
+        self::WEBSITE3,
     ];
 
     /**
@@ -49,11 +47,11 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
         $organization = $user->getOrganization();
 
         // Create websites
-        foreach ($this->webSites as $webSite) {
+        foreach ($this->webSites as $webSiteName) {
             $site = new Website();
             $site->setOwner($businessUnit)
                 ->setOrganization($organization)
-                ->setName($webSite['name']);
+                ->setName($webSiteName);
 
             $this->setReference($site->getName(), $site);
 
@@ -62,14 +60,5 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
 
         $manager->flush();
         $manager->clear();
-    }
-
-    /**
-     * @param string $code
-     * @return Localization
-     */
-    protected function getLocalization($code)
-    {
-        return $this->getReference($code);
     }
 }
