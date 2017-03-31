@@ -149,6 +149,7 @@ navigation:
                 label: 'oro.customer.menu.customer_user_profile.label'
                 route: 'oro_customer_frontend_customer_user_profile'
                 position: 10
+                acl_resource_id: 'oro_customer_frontend_customer_user_view'
 
             frontend_customer_users:
                 label: 'oro.customer.menu.customer_user.label'
@@ -164,6 +165,89 @@ navigation:
                  position: 200
                  extras:
                      routes: ['/^oro_customer_frontend_customer_user_role/']
+
+            oro_customer_menu_customer_user_index:
+                label: 'oro.customer.menu.customer_user.label'
+                route: 'oro_customer_frontend_customer_user_profile'
+
+            oro_customer_frontend_customer_user_address_index:
+                label: 'oro.customer.frontend.customer_user.address.label'
+                route: 'oro_customer_frontend_customer_user_address_index'
+                position: 20
+
+            oro_customer_frontend_customer_personal_address_index:
+                label: 'oro.customer.frontend.address.title.personal'
+                route: 'oro_customer_frontend_customer_user_address_index'
+
+            oro_customer_frontend_customer_personal_address_create:
+                label: 'oro.customer.frontend.address.page_title.create'
+                extras:
+                    routes: ['oro_customer_frontend_customer_user_address_create']
+
+            oro_customer_frontend_customer_personal_address_update:
+                label: 'oro.customer.frontend.address.page_title.edit'
+                extras:
+                    routes: ['oro_customer_frontend_customer_user_address_update']
+
+            oro_customer_frontend_customer_company_address_index:
+                label: 'oro.customer.frontend.address.title.company'
+                route: 'oro_customer_frontend_customer_user_address_index'
+
+            oro_customer_frontend_customer_company_address_create:
+                label: 'oro.customer.frontend.address.page_title.create'
+                extras:
+                    routes: ['oro_customer_frontend_customer_address_create']
+
+            oro_customer_frontend_customer_company_address_update:
+                label: 'oro.customer.frontend.address.page_title.edit'
+                extras:
+                    routes: ['oro_customer_frontend_customer_address_update']
+
+            oro_customer_frontend_customer_user_index:
+                label: 'oro.customer.frontend.customer_user.entity_plural_label'
+                route: 'oro_customer_frontend_customer_user_index'
+                position: 30
+                acl_resource_id: 'oro_customer_frontend_customer_user_view'
+
+            oro_customer_frontend_customer_user_create:
+                label: 'oro.customer.frontend.title.customer_user.create'
+                extras:
+                    routes: ['oro_customer_frontend_customer_user_create']
+
+            oro_customer_frontend_customer_user_update:
+                label: 'oro.customer.frontend.title.customer_user.edit'
+                extras:
+                    routes: ['oro_customer_frontend_customer_user_update']
+
+            oro_customer_frontend_customer_user_view:
+                label: 'oro.customer.frontend.title.page.customer_user.view'
+                extras:
+                    routes: ['oro_customer_frontend_customer_user_view']
+
+            oro_customer_frontend_customer_user_role_index:
+                label: 'oro.customer.frontend.customer_user.role.entity_plural_label'
+                route: 'oro_customer_frontend_customer_user_role_index'
+                position: 40
+                acl_resource_id: 'oro_customer_frontend_customer_user_role_index'
+
+            oro_customer_frontend_customer_user_role_create:
+                label: 'oro.customer.frontend.title.customer_user.create'
+                extras:
+                    routes: ['oro_customer_frontend_customer_user_role_create']
+
+            oro_customer_frontend_customer_user_role_update:
+                label: 'oro.customer.frontend.title.page.customer_user_role.edit'
+                extras:
+                    routes: ['oro_customer_frontend_customer_user_role_update']
+
+            oro_customer_frontend_customer_user_role_view:
+                label: 'oro.ui.view'
+                extras:
+                    routes: ['oro_customer_frontend_customer_user_role_view']
+
+            oro_customer_frontend_customer_user_profile_update:
+                label: 'oro.customer.customeruser.profile.edit'
+                route: 'oro_customer_frontend_customer_user_profile_update'
 
         tree:
             application_menu:
@@ -194,6 +278,41 @@ navigation:
                 scope_type: menu_frontend_visibility
                 children:
                     oro_customer_frontend_customer_user_profile: ~
+
+            oro_customer_breadcrumbs_menu:
+                scope_type: menu_frontend_visibility
+                children:
+                    oro_customer_menu_customer_user_index:
+                        children:
+                            oro_customer_frontend_customer_user_profile: ~
+                            oro_customer_frontend_customer_user_address_index: ~
+                            oro_customer_frontend_customer_personal_address_index:
+                                children:
+                                    oro_customer_frontend_customer_personal_address_create: ~
+                                    oro_customer_frontend_customer_personal_address_update: ~
+                            oro_customer_frontend_customer_company_address_index:
+                                children:
+                                    oro_customer_frontend_customer_company_address_create: ~
+                                    oro_customer_frontend_customer_company_address_update: ~
+                            oro_customer_frontend_customer_user_index:
+                                children:
+                                    oro_customer_frontend_customer_user_create: ~
+                                    oro_customer_frontend_customer_user_update: ~
+                                    oro_customer_frontend_customer_user_view: ~
+                            oro_customer_frontend_customer_user_role_index:
+                                children:
+                                    oro_customer_frontend_customer_user_role_create: ~
+                                    oro_customer_frontend_customer_user_role_update: ~
+                                    oro_customer_frontend_customer_user_role_view: ~
+                            oro_customer_frontend_customer_user_profile_update: ~
+
+            oro_customer_menu:
+                scope_type: menu_frontend_visibility
+                children:
+                    oro_customer_frontend_customer_user_profile: ~
+                    oro_customer_frontend_customer_user_address_index: ~
+                    oro_customer_frontend_customer_user_index: ~
+                    oro_customer_frontend_customer_user_role_index: ~
 
             shortcuts:
                 children:

@@ -694,3 +694,10 @@ services:
             - '@security.token_storage'
         tags:
             - { name: website_search.placeholder }
+
+    oro_customer.event_listener.navigation:
+        class: 'Oro\Bundle\CustomerBundle\EventListener\NavigationListener'
+        arguments:
+            - "@oro_security.security_facade"
+        tags:
+            - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }

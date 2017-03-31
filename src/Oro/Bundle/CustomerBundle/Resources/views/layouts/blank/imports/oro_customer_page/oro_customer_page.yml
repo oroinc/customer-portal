@@ -9,4 +9,4 @@ layout:
             parentId: page_main_header
             blockType: breadcrumbs
             options:
-                menu_name: "customer_usermenu"
+                menu_name: "oro_customer_breadcrumbs_menu"
