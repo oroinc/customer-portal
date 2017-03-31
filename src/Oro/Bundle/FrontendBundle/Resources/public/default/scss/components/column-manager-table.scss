@@ -7,21 +7,26 @@
 
     color: get-color('additional', 'dark');
 
-    .column-manager__item {
-        padding: 0 10px;
+    .table-wrapper {
+        border: 1px solid get-color('additional', 'light');
+        border-radius: 3px;
+
+        overflow: auto;
+        overflow-x: hidden;
     }
 
-    .table {
-        border-bottom: 1px solid get-color('additional', 'light');
-        border-left: 1px solid get-color('additional', 'light');
-        border-right: 1px solid get-color('additional', 'light');
-        border-radius: 3px;
+    .column-manager__item {
+        padding: 0 10px;
     }
 }
 
 .column-manager {
     &__item {
         background: none;
+
+        tr:first-child & {
+            border: 0;
+        }
     }
 
     &__container {
@@ -117,9 +122,15 @@
             color: lighten(get-color('additional', 'middle'), 8%);
         }
     }
+
     &__move-down {
         .renderable:last-child & {
             color: lighten(get-color('additional', 'middle'), 8%);
         }
+    }
+
+    &__footer {
+        padding-bottom: $offset-y-m;
+        margin-bottom: -$offset-y-m;
     }
 }
