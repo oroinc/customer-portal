@@ -6,7 +6,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -80,25 +79,23 @@ class WorkflowController extends Controller
                 try {
                     $workflowManager->transit($workflowItem, $transition);
                 } catch (WorkflowNotFoundException $e) {
-                    $responseCode = 404;
-                    $responseMessage = $e->getMessage();
                 } catch (InvalidTransitionException $e) {
-                    $responseCode = 400;
-                    $responseMessage = $e->getMessage();
                 } catch (ForbiddenTransitionException $e) {
-                    $responseCode = 403;
-                    $responseMessage = $e->getMessage();
                 } catch (\Exception $e) {
-                    $responseCode = 500;
-                    $responseMessage = $e->getMessage();
                 }
 
                 if (!isset($e)) {
-                    //if ($request->isXmlHttpRequest()) {
-                    //    return new JsonResponse(['redirectUrl' => '/']);
-                    //} else {
-                        return $this->redirect('/');
-                    //}
+                    if ($workflowItem->getResult()->get('redirectUrl')) {
+                        return $this->redirect($workflowItem->getResult()->get('redirectUrl'));
+                    } else {
+                        $url = '/';
+
+                        if ($request->headers->get('referer')) {
+                            $url = $request->headers->get('referer');
+                        }
+
+                        return $this->redirect($url);
+                    }
                 }
             }
         }
