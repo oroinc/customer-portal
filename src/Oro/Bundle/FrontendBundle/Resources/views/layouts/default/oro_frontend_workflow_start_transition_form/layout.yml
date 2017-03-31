@@ -3,11 +3,24 @@ layout:
         - '@setOption':
             id: page_title
             optionName: defaultValue
-            optionValue: '=context["workflowName"]~" / "~data["transition"].getName()'
+            optionValue: '=context["workflowName"]~" / "~data["transitionName"]'
         - '@add':
             id: transition_form_holder
             parentId: page_content
             blockType: container
+        - '@add':
+            id: form_actions_back
+            parentId: form_actions
+            blockType: link
+            options:
+                path: '=data["originalUrl"]'
+                text: oro.workflow.transition.form.cancel.label
+                attr:
+                    class: '=" button"'
+        - '@move':
+            id: form_actions_submit
+            siblingId: form_actions_back
+            prepend: false
     imports:
         -
             id: oro_workflow_start_transition_form
