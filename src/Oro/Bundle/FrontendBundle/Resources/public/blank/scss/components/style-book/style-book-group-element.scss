@@ -58,6 +58,22 @@
             }
         }
 
+        .custom-radio {
+            padding-right: $offset-y;
+
+            line-height: 13px;
+
+            &__text {
+                &:before {
+                    vertical-align: bottom;
+                }
+            }
+        }
+
+        .custom-checkbox {
+            padding-right: $offset-y;
+        }
+
     .color-palette {
         &:not(:first-child) {
             padding-top: 40px;
@@ -386,11 +402,18 @@
         word-break: break-all;
         word-wrap: break-word;
 
-        border: 1px solid get-color('additional', 'middle');
         background-color: get-color('additional', 'base');
-        border-radius: 4px;
 
         white-space: pre-wrap;
 
+        .token {
+            &.tag {
+                white-space: normal;
+            }
+
+            &.attr-name {
+                white-space: nowrap;
+            }
+        }
     }
 }

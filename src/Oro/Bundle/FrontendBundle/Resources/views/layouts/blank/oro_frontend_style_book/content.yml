@@ -3,11 +3,6 @@ layout:
         - '@setBlockTheme':
             themes: 'content.html.twig'
 
-        - '@setOption':
-            id: page_title
-            optionName: defaultValue
-            optionValue: 'oro_frontend_style_book.main_content.title'
-
         - '@addTree':
             items:
                 style_book_main_content:

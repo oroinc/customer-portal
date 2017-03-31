@@ -8,6 +8,8 @@ layout:
                     blockType: vertical_container
                 __page:
                     blockType: container
+                __label_wrapper:
+                    blockType: container
                 __label:
                     blockType: text
                     options:
@@ -34,7 +36,8 @@ layout:
                 __root:
                     __page_wrapper:
                         __page:
-                            __label: ~
+                            __label_wrapper:
+                                __label: ~
                             __description: ~
                             __form: ~
                             __form_submit_wrapper:

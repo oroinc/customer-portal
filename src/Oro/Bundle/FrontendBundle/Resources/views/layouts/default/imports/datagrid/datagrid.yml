@@ -13,9 +13,6 @@ layout:
             optionValue:
                 cssClass: 'frontend-datagrid'
                 themeOptions:
-                    cellLauncherOptions:
-                        launcherMode: 'icon-only'
-                        actionsState:  'show'
                     actionsDropdown: 'auto'
                     actionOptions:
                         refreshAction:
