@@ -531,14 +531,23 @@ services:
             - '@oro_config.global'
             - '@oro_entity.doctrine_helper'
 
-    oro_customer.provider.fronted_customer_user_role_tabs_options:
-        class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleOptionsProvider'
+    oro_customer.provider.fronted_customer_user_role_capability_set_options:
+        class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleCapabilitySetOptionsProvider'
         arguments:
             - '@oro_customer.provider.role_privilege_capability_provider'
             - '@oro_user.provider.role_privilege_category_provider'
-            - '@translator'
         tags:
-            - { name: layout.data_provider, alias: oro_customer_fronted_customer_user_role_options }
+            - { name: layout.data_provider, alias: oro_customer_fronted_customer_user_role_capability_set_options }
+
+    oro_customer.provider.fronted_customer_user_role_tab_options:
+        class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleTabOptionsProvider'
+        scope: prototype
+        arguments:
+            - '@oro_user.provider.role_privilege_category_provider'
+            - '@translator'
+            - '@oro_customer.form.handler.update_customer_user_role_frontend'
+        tags:
+            - { name: layout.data_provider, alias: oro_customer_fronted_customer_user_role_tab_options }
 
     oro_customer.provider.role_privilege_capability_provider:
         class: %oro_user.provider.role_privilege_capability_provider.class%
