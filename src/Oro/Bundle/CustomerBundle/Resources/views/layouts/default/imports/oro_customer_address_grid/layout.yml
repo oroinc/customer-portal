@@ -20,14 +20,17 @@ layout:
                     options:
                         text: 'oro.customer.frontend.customer_user_address_book.customer_addresses'
                         icon: 'map-marker'
+                __page_subtitle_actions:
+                    blockType: container
             tree:
                 __root:
                     __addresses_head:
                         __addresses_head_title: ~
+                        __page_subtitle_actions: ~
 
         - '@add':
             id: __addresses_create_link
-            parentId: __addresses_head
+            parentId: __page_subtitle_actions
             blockType: link
             options:
                 visible: '=data["acl"].isGranted("oro_customer_frontend_customer_address_create") && data["acl"].isGranted("oro_customer_frontend_customer_address_view")'
@@ -36,8 +39,6 @@ layout:
                     entityId: '=data["entity"].getCustomer().getId()'
                 text: 'oro.customer.frontend.customer_user_address_book.create.label'
                 icon: plus fa--small
-                attr:
-                    class: 'btn btn--size-s btn--info'
 
         - '@move':
             id: __addresses_datagrid
@@ -53,9 +54,9 @@ layout:
             optionName: grid_render_parameters.themeOptions
             optionValue:
                 toolbarTemplateSelector: '#template-customer-address-book-addresses-grid-toolbar'
+                cellActionsHideCount: 4
                 cellLauncherOptions:
                     launcherMode: 'icon-only'
-                    actionsState:  'hide'
 
         - '@appendOption':
             id: __addresses_datagrid

@@ -22,7 +22,7 @@ oro_frontend:
         fields:
             frontend_theme.label: 'Theme'
             page_template_collection.label: 'Page Templates'
-            no_page_template.label: 'No page template'
+            no_page_template.label: 'Default template'
             page_template_routes.label: 'Select Page Template'
         messages:
             no_page_templates: 'No templates available.'
@@ -40,7 +40,7 @@ oro_frontend:
 
 oro_frontend_style_book:
     main_content:
-          title: 'Oro StyleBook: UI Component Library'
+          sub_title_main: 'Oro StyleBook: UI Component Library'
           sub_title: 'Oro UI Library Structure and Navigation'
           text_content: 'The Oro UI Library is a display of the UI elements with their source code.'
           text_content_first: 'Most of the UI elements that are involved in OroCommerce Management Console and Front Store UI, are included in the Oro UI Library and are grouped into categories (e.g. Form Elements, Grid Elements) tabbed at the top of the page.'

@@ -29,5 +29,5 @@ layout:
             optionName: vars
             optionValue:
                 options:
-                    tabsOptions: '=data["oro_customer_fronted_customer_user_role_options"].getTabsOptions()'
-                    capabilitySetOptions: '=data["oro_customer_fronted_customer_user_role_options"].getCapabilitySetOptions(data["entity"])'
+                    tabsOptions: '=data["oro_customer_fronted_customer_user_role_tab_options"].getOptions(data["entity"])'
+                    capabilitySetOptions: '=data["oro_customer_fronted_customer_user_role_capability_set_options"].getOptions(data["entity"])'
