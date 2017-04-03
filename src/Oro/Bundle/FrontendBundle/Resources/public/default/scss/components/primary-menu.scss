@@ -31,7 +31,7 @@
 @include breakpoint('tablet') {
     .primary-menu {
         &__item {
-            padding: $primary-menu-item-inner-offset-tablet-small;
+            padding: $primary-menu-item-inner-offset-tablet;
 
             border-top: 1px solid get-color('additional', 'light');
 
@@ -45,6 +45,11 @@
                     color: inherit;
                 }
             }
+        }
+
+        &__link {
+            display: block;
+            padding: $primary-menu-link-inner-offset-tablet;
         }
 
         .fa-minus,
