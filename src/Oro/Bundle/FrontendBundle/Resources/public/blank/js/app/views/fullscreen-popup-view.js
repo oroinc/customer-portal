@@ -132,6 +132,7 @@ define(function(require) {
 
             if (this.contentElement && this.contentElementPlaceholder) {
                 this.contentElementPlaceholder.after(this.contentElement);
+                this.contentElementPlaceholder.remove();
             }
 
             this.$popup.remove();
