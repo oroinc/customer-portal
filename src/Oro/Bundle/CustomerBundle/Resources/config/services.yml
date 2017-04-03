@@ -704,3 +704,10 @@ services:
             - '@security.token_storage'
         tags:
             - { name: website_search.placeholder }
+
+    oro_customer.customer.validator.constraint.unique_customer_name:
+        class: 'Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerNameConstraintValidator'
+        arguments:
+            - "@oro_customer.repository.customer"
+        tags:
+            - { name: validator.constraint_validator }

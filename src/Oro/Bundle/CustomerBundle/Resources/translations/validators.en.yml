@@ -3,5 +3,6 @@
 
 oro:
     customer:
-          message:
-              password_mismatch: 'The password fields must match.'
+        message:
+            password_mismatch: 'The password fields must match.'
+            ambiguous_customer_name: 'There is more then one customer called ''%name%''. It is not possible to choose the correct one.'

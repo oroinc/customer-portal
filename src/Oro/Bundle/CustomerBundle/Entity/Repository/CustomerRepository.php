@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorInterface;
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorTrait;
@@ -55,5 +56,19 @@ class CustomerRepository extends EntityRepository implements BatchIteratorInterf
         }
 
         return $children;
+    }
+
+    /**
+     * @param string $name
+     * @return int
+     */
+    public function countByName($name)
+    {
+        $qb = $this->createQueryBuilder('customer');
+        $qb->select('COUNT(customer)')
+            ->where('customer.name = :name')
+            ->setParameter('name', $name);
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }
