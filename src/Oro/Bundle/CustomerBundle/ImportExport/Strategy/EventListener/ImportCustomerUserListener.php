@@ -62,6 +62,10 @@ class ImportCustomerUserListener
         $entity = $event->getEntity();
         $context = $event->getContext();
 
+        if (!$entity instanceof CustomerUser) {
+            return;
+        }
+
         $this->updatePasswordIfEmpty($entity);
 
         if (!$this->updateWebsiteWithDefaultIfEmpty($entity)) {

@@ -29,7 +29,16 @@ class UniqueCustomerNameConstraintValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        $customerName = $value->getName();
+        if ($value === null) {
+            return;
+        }
+
+        if ($value instanceof Customer) {
+            $customerName = $value->getName();
+        } else {
+            $customerName = (string) $value;
+        }
+
         if ($this->repository->countByName($customerName) > 1) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%name%', $customerName)

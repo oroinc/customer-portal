@@ -28,13 +28,17 @@ services:
               entity: '%oro_customer.entity.customer_user.class%'
               alias: oro_customer_customer_user
 
-    # Customer User Import Processor
+    # Customer User Import
     oro_customer.importexport.processor.import.customer_user:
         parent: oro_importexport.processor.import_abstract
         calls:
-            - [setDataConverter, ['@oro_customer.importexport.template_fixture.data_converter.customer_user']]
+            - [setDataConverter, ['@oro_customer.importexport.data_converter.customer_user']]
             - [setStrategy, ['@oro_customer.importexport.strategy.customer.add_or_replace']]
         tags:
+            - name: oro_importexport.processor
+              type: import
+              entity: '%oro_customer.entity.customer_user.class%'
+              alias: oro_customer_customer_user
             - name: oro_importexport.processor
               type: import_validation
               entity: '%oro_customer.entity.customer_user.class%'

@@ -11,7 +11,6 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\LocaleBundle\Model\FullNameInterface;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -67,7 +66,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
-     *              "excluded"=true
+     *              "order"=1
      *          }
      *      }
      * )
@@ -149,6 +148,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *              "auditable"=true
      *          },
      *          "importexport"={
+     *              "identity"=true,
      *              "order"=30
      *          }
      *      }
@@ -368,6 +368,13 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *      mappedBy="customerUser",
      *      cascade={"all"},
      *      orphanRemoval=true
+     * )
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
      * )
      */
     protected $settings;
@@ -990,5 +997,13 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
         if (array_diff_key($event->getEntityChangeSet(), array_flip($excludedFields))) {
             $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
         }
+    }
+
+    /**
+     * @return ArrayCollection|CustomerUserSettings[]
+     */
+    public function getSettings()
+    {
+        return $this->settings;
     }
 }
