@@ -15,6 +15,7 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\ImportExport\Strategy\EventListener\ImportCustomerUserListener;
 use Oro\Bundle\EntityBundle\Helper\FieldHelper;
 use Oro\Bundle\ImportExportBundle\Context\Context;
+use Oro\Bundle\ImportExportBundle\Context\ContextInterface;
 use Oro\Bundle\ImportExportBundle\Event\StrategyEvent;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ImportStrategyHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
@@ -43,6 +44,26 @@ class ImportCustomerUserListenerTest extends \PHPUnit_Framework_TestCase
      */
     protected $strategyHelper;
 
+    /**
+     * @var WebsiteRepository|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $websiteRepository;
+
+    /**
+     * @var CustomerUserRoleRepository|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerUserRoleRepository;
+
+    /**
+     * @var StrategyEvent|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $event;
+
+    /**
+     * @var ContextInterface
+     */
+    protected $context;
+
     protected function setUp()
     {
         $this->registry = $this->createMock(ManagerRegistry::class);
@@ -62,58 +83,214 @@ class ImportCustomerUserListenerTest extends \PHPUnit_Framework_TestCase
             $configurableDataConverter,
             $securityFacade
         );
+
+        $this->websiteRepository = $this->createMock(WebsiteRepository::class);
+        $this->customerUserRoleRepository = $this->createMock(CustomerUserRoleRepository::class);
+        $this->event = $this->createMock(StrategyEvent::class);
+        $this->context = new Context([]);
+    }
+
+    public function testWebsiteAndRoleExist()
+    {
+        $websiteName = 'WebsiteTest';
+        $website = new Website();
+        $website->setName($websiteName);
+
+        $this->websiteRepository->method('getDefaultWebsite')
+            ->willReturn($website);
+
+        $roleName = 'ROLE_FRONTEND_TEST';
+        $customerUserRole = new CustomerUserRole($roleName);
+
+        $this->customerUserRoleRepository->method('getDefaultCustomerUserRoleByWebsite')
+            ->willReturn($customerUserRole);
+
+        $customerUser = new CustomerUser();
+        $this->updateEventMock($customerUser);
+
+        $password = 'password';
+        $this->updateCustomerManagerMock($password);
+        $this->updateTranslationMock($website);
+        $this->updateRegistryMock();
+
+        $listener = new ImportCustomerUserListener(
+            $this->registry,
+            $this->customerUserManager,
+            $this->translation,
+            $this->strategyHelper
+        );
+
+        $listener->onProcessAfter($this->event);
+
+        $this->assertEquals($websiteName, (string) $customerUser->getWebsite());
+        $this->assertEquals(1, count($customerUser->getRoles()));
+        $this->assertEquals($roleName, $customerUser->getRole($roleName)->getRole());
+        $this->assertEquals(0, $this->context->getErrorEntriesCount());
+        $this->assertEquals($password, $customerUser->getPassword());
     }
 
     /**
      * @dataProvider dataProvider
-     * @param Website|null $website
-     * @param Website|null $customerUserRole
-     * @param bool $websiteViolation
-     * @param bool $roleViolation
+     * @param $website
+     * @param $customerUserRole
      */
-    public function testOnProcessAfterEventAddEntity(
-        $website,
-        $customerUserRole,
-        $websiteViolation,
-        $roleViolation
-    ) {
-        $websiteRepository = $this->createMock(WebsiteRepository::class);
-        $websiteRepository->method('getDefaultWebsite')
-            ->willReturn($website);
-
-        $customerUserRoleRepository = $this->createMock(CustomerUserRoleRepository::class);
-        $customerUserRoleRepository->method('getDefaultCustomerUserRoleByWebsite')
+    public function testWebsiteOrWebsiteAndRoleDoesNotExist($website, $customerUserRole)
+    {
+        $this->customerUserRoleRepository->method('getDefaultCustomerUserRoleByWebsite')
             ->willReturn($customerUserRole);
 
-        $this->registry->method('getRepository')
-            ->willReturnMap([
-                [Website::class, null, $websiteRepository],
-                [CustomerUserRole::class, null, $customerUserRoleRepository]
-            ]);
-
         $customerUser = new CustomerUser();
-
-        /** @var StrategyEvent|\PHPUnit_Framework_MockObject_MockObject $event */
-        $event = $this->createMock(StrategyEvent::class);
-
-        $event->method('getEntity')
-            ->willReturn($customerUser);
-
-        $context = new Context([]);
-        $context->setValue('read_offset', 0);
-
-        $event->method('getContext')
-            ->willReturn($context);
+        $this->updateEventMock($customerUser);
 
         $password = 'password';
-        $this->customerUserManager->method('generatePassword')
-            ->willReturn($password);
+        $this->updateCustomerManagerMock($password);
+        $this->updateTranslationMock($website);
+        $this->updateRegistryMock();
 
-        $this->customerUserManager->method('updatePassword')
-            ->willReturnCallback(function ($customerUser) use ($password) {
-                $customerUser->setPassword($password);
-            });
+        $listener = new ImportCustomerUserListener(
+            $this->registry,
+            $this->customerUserManager,
+            $this->translation,
+            $this->strategyHelper
+        );
 
+        $listener->onProcessAfter($this->event);
+
+        $this->assertNull($customerUser->getWebsite());
+        $this->assertEquals(0, count($customerUser->getRoles()));
+        $this->assertNull($customerUser->getRole('ROLE_FRONTEND_TEST'));
+        $this->assertEquals(2, $this->context->getErrorEntriesCount());
+        $this->assertEquals(
+            [
+                'Error in row #0. Default website doesn\'t exists',
+                'Error in row #0. Default role for website WebsiteTest doesn\'t exists'
+            ],
+            $this->context->getErrors()
+        );
+        $this->assertEquals($password, $customerUser->getPassword());
+    }
+
+    public function testRoleDoesNotExists()
+    {
+        $websiteName = 'WebsiteTest';
+        $website = new Website();
+        $website->setName($websiteName);
+
+        $this->websiteRepository->method('getDefaultWebsite')
+            ->willReturn($website);
+
+        $customerUserRole = null;
+        $this->customerUserRoleRepository->method('getDefaultCustomerUserRoleByWebsite')
+            ->willReturn($customerUserRole);
+
+        $customerUser = new CustomerUser();
+        $this->updateEventMock($customerUser);
+
+        $password = 'password';
+        $this->updateCustomerManagerMock($password);
+        $this->updateTranslationMock($website);
+        $this->updateRegistryMock();
+
+        $listener = new ImportCustomerUserListener(
+            $this->registry,
+            $this->customerUserManager,
+            $this->translation,
+            $this->strategyHelper
+        );
+
+        $listener->onProcessAfter($this->event);
+
+        $this->assertEquals('WebsiteTest', (string) $customerUser->getWebsite());
+        $this->assertEquals(0, count($customerUser->getRoles()));
+        $this->assertNull($customerUser->getRole('ROLE_FRONTEND_TEST'));
+        $this->assertEquals(1, $this->context->getErrorEntriesCount());
+        $this->assertEquals(
+            ['Error in row #0. Default role for website WebsiteTest doesn\'t exists'],
+            $this->context->getErrors()
+        );
+        $this->assertEquals($password, $customerUser->getPassword());
+    }
+
+    public function testUpdateEntity()
+    {
+        $websiteBeforeName = 'WebsiteBefore';
+        $websiteBefore = new Website();
+        $websiteBefore->setName($websiteBeforeName);
+
+        $websiteAfter = new Website();
+        $websiteAfter->setName('WebsiteAfter');
+
+        $this->websiteRepository->method('getDefaultWebsite')
+            ->willReturn($websiteAfter);
+
+        $roleNameBefore = 'ROLE_FRONTEND_TEST_BEFORE';
+        $customerUserRoleBefore = new CustomerUserRole('ROLE_FRONTEND_TEST_BEFORE');
+        $customerUserRoleAfter = new CustomerUserRole('ROLE_FRONTEND_TEST_AFTER');
+
+        $this->customerUserRoleRepository->method('getDefaultCustomerUserRoleByWebsite')
+            ->willReturn($customerUserRoleAfter);
+
+        $this->updateRegistryMock();
+
+        $customerUser = new CustomerUser();
+        $customerUser->setWebsite($websiteBefore);
+        $customerUser->addRole($customerUserRoleBefore);
+        $passwordBefore = 'password_before';
+        $passwordAfter = 'password_after';
+        $customerUser->setPassword($passwordBefore);
+
+        $this->updateEventMock($customerUser);
+        $this->updateCustomerManagerMock($customerUser, $passwordAfter);
+
+        $listener = new ImportCustomerUserListener(
+            $this->registry,
+            $this->customerUserManager,
+            $this->translation,
+            $this->strategyHelper
+        );
+
+        $listener->onProcessAfter($this->event);
+
+        $this->assertEquals($websiteBeforeName, (string) $customerUser->getWebsite());
+        $this->assertEquals($roleNameBefore, $customerUser->getRole($roleNameBefore)->getRole());
+        $this->assertEquals($passwordBefore, $customerUser->getPassword());
+    }
+
+
+    /**
+     * @return array
+     */
+    public function dataProvider()
+    {
+        $website = new Website();
+        $website->setName('WebsiteTest');
+        $customerUserRole = new CustomerUserRole('ROLE_FRONTEND_TEST');
+
+        return [
+            'null all entities' => [null, null],
+            'null website entity' => [null, $customerUserRole],
+        ];
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     */
+    protected function updateEventMock(CustomerUser $customerUser)
+    {
+        $this->event->method('getEntity')
+            ->willReturn($customerUser);
+
+        $this->context->setValue('read_offset', 0);
+
+        $this->event->method('getContext')
+            ->willReturn($this->context);
+    }
+
+    /**
+     * @param Website $website
+     */
+    protected function updateTranslationMock(Website $website = null)
+    {
         $this->translation->method('trans')
             ->willReturnMap([
                 [
@@ -138,158 +315,28 @@ class ImportCustomerUserListenerTest extends \PHPUnit_Framework_TestCase
                     'Error in row #0.'
                 ]
             ]);
-
-        $listener = new ImportCustomerUserListener(
-            $this->registry,
-            $this->customerUserManager,
-            $this->translation,
-            $this->strategyHelper
-        );
-
-        $listener->onProcessAfter($event);
-
-        $this->assertEntityValid($customerUser, $context, $websiteViolation, $roleViolation);
     }
 
-    public function testOnProcessAfterEventUpdateEntity()
+    /**
+     * @param string $password
+     */
+    protected function updateCustomerManagerMock($password)
     {
-        $websiteBefore = $this->createMock(Website::class);
-        $websiteBefore->method('__toString')
-            ->willReturn('WebsiteBefore');
-
-        $websiteAfter = $this->createMock(Website::class);
-        $websiteAfter->method('__toString')
-            ->willReturn('WebsiteAfter');
-
-        $websiteRepository = $this->createMock(WebsiteRepository::class);
-        $websiteRepository->method('getDefaultWebsite')
-            ->willReturn($websiteAfter);
-
-
-        $roleNameBefore = 'ROLE_FRONTEND_TEST_BEFORE';
-        $customerUserRoleBefore = $this->getMockBuilder(CustomerUserRole::class)
-            ->setConstructorArgs([$roleNameBefore])
-            ->getMock();
-
-        $customerUserRoleBefore->method('getRole')
-            ->willReturn($roleNameBefore);
-
-        $roleNameAfter = 'ROLE_FRONTEND_TEST_AFTER';
-        $customerUserRoleAfter = $this->getMockBuilder(CustomerUserRole::class)
-            ->setConstructorArgs([$roleNameAfter])
-            ->getMock();
-
-        $customerUserRoleRepository = $this->createMock(CustomerUserRoleRepository::class);
-        $customerUserRoleRepository->method('getDefaultCustomerUserRoleByWebsite')
-            ->willReturn($customerUserRoleAfter);
-
-        $this->registry->method('getRepository')
-            ->willReturnMap([
-                [Website::class, null, $websiteRepository],
-                [CustomerUserRole::class, null, $customerUserRoleRepository]
-            ]);
-
-        $customerUser = new CustomerUser();
-        $customerUser->setWebsite($websiteBefore);
-        $customerUser->addRole($customerUserRoleBefore);
-        $passwordBefore = 'password_before';
-        $passwordAfter = 'password_after';
-        $customerUser->setPassword($passwordBefore);
-
-        /** @var StrategyEvent|\PHPUnit_Framework_MockObject_MockObject $event */
-        $event = $this->createMock(StrategyEvent::class);
-
-        $event->method('getEntity')
-            ->willReturn($customerUser);
-
-        $context = new Context([]);
-
-        $event->method('getContext')
-            ->willReturn($context);
+        $this->customerUserManager->method('generatePassword')
+            ->willReturn($password);
 
         $this->customerUserManager->method('updatePassword')
-            ->willReturnCallback(function ($customerUser) use ($passwordAfter) {
-                $customerUser->setPassword($passwordAfter);
+            ->willReturnCallback(function ($customerUser) use ($password) {
+                $customerUser->setPassword($password);
             });
-
-        $listener = new ImportCustomerUserListener(
-            $this->registry,
-            $this->customerUserManager,
-            $this->translation,
-            $this->strategyHelper
-        );
-
-        $listener->onProcessAfter($event);
-
-        $this->assertEquals((string) $websiteBefore, (string) $customerUser->getWebsite());
-        $this->assertEquals($roleNameBefore, $customerUser->getRole($roleNameBefore)->getRole());
-        $this->assertEquals($passwordBefore, $customerUser->getPassword());
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @param Context $context
-     * @param $websiteViolation
-     * @param $roleViolation
-     */
-    protected function assertEntityValid(
-        CustomerUser $customerUser,
-        Context $context,
-        $websiteViolation,
-        $roleViolation
-    ) {
-        $this->assertEquals('password', $customerUser->getPassword());
-        if (!$websiteViolation && !$roleViolation) {
-            $this->assertEquals('WebsiteTest', (string) $customerUser->getWebsite());
-            $this->assertEquals(1, count($customerUser->getRoles()));
-            $this->assertEquals('ROLE_FRONTEND_TEST', $customerUser->getRole('ROLE_FRONTEND_TEST')->getRole());
-            $this->assertEquals(0, $context->getErrorEntriesCount());
-        } elseif (!$websiteViolation) {
-            $this->assertEquals('WebsiteTest', (string) $customerUser->getWebsite());
-            $this->assertEquals(0, count($customerUser->getRoles()));
-            $this->assertNull($customerUser->getRole('ROLE_FRONTEND_TEST'));
-            $this->assertEquals(1, $context->getErrorEntriesCount());
-            $this->assertEquals(
-                ['Error in row #0. Default role for website WebsiteTest doesn\'t exists'],
-                $context->getErrors()
-            );
-        } else {
-            $this->assertNull($customerUser->getWebsite());
-            $this->assertEquals(0, count($customerUser->getRoles()));
-            $this->assertNull($customerUser->getRole('ROLE_FRONTEND_TEST'));
-            $this->assertEquals(2, $context->getErrorEntriesCount());
-            $this->assertEquals(
-                [
-                    'Error in row #0. Default website doesn\'t exists',
-                    'Error in row #0. Default role for website WebsiteTest doesn\'t exists'
-                ],
-                $context->getErrors()
-            );
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function dataProvider()
+    protected function updateRegistryMock()
     {
-        $website = $this->createMock(Website::class);
-        $website->method('__toString')
-            ->willReturn('WebsiteTest');
-
-        $roleName = 'ROLE_FRONTEND_TEST';
-        $customerUserRole = $this->getMockBuilder(CustomerUserRole::class)
-            ->setConstructorArgs([$roleName])
-            ->getMock();
-
-        $customerUserRole->method('getRole')
-            ->willReturn($roleName);
-
-        return [
-            'null all entities' => [null, null, true, true],
-            'null website entity' => [null, $customerUserRole, true, true],
-            'not null website entity' => [$website, null, false, true],
-            'not null all entities' => [$website, $customerUserRole, false, false]
-        ];
+        $this->registry->method('getRepository')
+            ->willReturnMap([
+                [Website::class, null, $this->websiteRepository],
+                [CustomerUserRole::class, null, $this->customerUserRoleRepository]
+            ]);
     }
 }
