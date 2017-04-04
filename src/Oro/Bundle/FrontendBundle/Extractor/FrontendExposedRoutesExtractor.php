@@ -13,10 +13,7 @@ class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
     public function getExposedRoutes()
     {
         $routes = parent::getExposedRoutes();
-        $routes = array_filter($routes, function (Route $route, $key) {
-            if ($key == 'oro_datagrid_api_rest_gridview_post') {
-                return true;
-            }
+        $routes = array_filter($routes, function (Route $route) {
             return $route->hasOption('frontend') && $route->getOption('frontend');
         }, ARRAY_FILTER_USE_BOTH);
 
