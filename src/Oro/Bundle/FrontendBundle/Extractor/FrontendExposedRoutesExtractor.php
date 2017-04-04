@@ -3,6 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\Extractor;
 
 use FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractor;
+use Symfony\Component\Routing\Route;
 
 class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
 {
@@ -12,9 +13,12 @@ class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
     public function getExposedRoutes()
     {
         $routes = parent::getExposedRoutes();
-        $routes = array_filter($routes, function ($route) {
+        $routes = array_filter($routes, function (Route $route, $key) {
+            if ($key == 'oro_datagrid_api_rest_gridview_post') {
+                return true;
+            }
             return $route->hasOption('frontend') && $route->getOption('frontend');
-        });
+        }, ARRAY_FILTER_USE_BOTH);
 
         return $routes;
     }
