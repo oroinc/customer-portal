@@ -11,17 +11,22 @@ define(function(require) {
         keepElement: true,
 
         optionNames: BaseView.prototype.optionNames.concat([
-            'template', 'templateSelector', 'templateData',
+            'template', 'templateSelector',
+            'popupLabel', 'popupCloseOnLabel', 'popupCloseButton', 'popupIcon', 'popupBadge',
             'content', 'contentSelector', 'contentView', 'contentOptions'
         ]),
 
         templateSelector: '#fullscreen-popup-tpl',
 
-        templateData: {
-            label: _.__('Back'),
-            closeOnLabel: true,
-            close: true
-        },
+        popupLabel: _.__('Back'),
+
+        popupCloseOnLabel: true,
+
+        popupCloseButton: true,
+
+        popupIcon: false,
+
+        popupBadge: false,
 
         content: null,
 
@@ -124,7 +129,13 @@ define(function(require) {
          */
         getTemplateData: function() {
             var data = FullscreenPopupView.__super__.getTemplateData.apply(this, arguments);
-            data = _.extend({}, data, this.templateData);
+            data = _.extend({}, data, {
+                label: this.popupLabel,
+                closeOnLabel: this.popupCloseOnLabel,
+                close: this.popupCloseButton,
+                icon: this.popupIcon,
+                badge: this.popupBadge
+            });
             return data;
         }
     });
