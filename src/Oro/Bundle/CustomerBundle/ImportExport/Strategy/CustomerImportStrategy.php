@@ -4,11 +4,23 @@ namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy;
 
 use Doctrine\ORM\PersistentCollection;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrategy;
 
 class CustomerImportStrategy extends ConfigurableAddOrReplaceStrategy
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function beforeProcessEntity($entity)
+    {
+        $entity = parent::beforeProcessEntity($entity);
+        $entity = $this->verifyIfParentExists($entity);
+
+        return $entity;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -26,5 +38,24 @@ class CustomerImportStrategy extends ConfigurableAddOrReplaceStrategy
         }
 
         return $existingEntity;
+    }
+
+    /**
+     * @param object $entity
+     * @return object|null
+     */
+    private function verifyIfParentExists($entity)
+    {
+        if ($entity instanceof Customer && $entity->getParent()) {
+            $parent = $this->findExistingEntityByIdentityFields($entity->getParent());
+
+            if ($parent === null) {
+                $this->context->addPostponedRow($this->context->getValue('rawItemData'));
+
+                return null;
+            }
+        }
+
+        return $entity;
     }
 }
