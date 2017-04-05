@@ -4,6 +4,7 @@ define(function(require) {
     var ContentSliderComponent;
     var BaseComponent = require('oroui/js/app/components/base/component');
     var tools = require('oroui/js/tools');
+    var mediator = require('oroui/js/mediator');
     var $ = require('jquery');
     var _ = require('underscore');
     require('slick');
@@ -31,6 +32,8 @@ define(function(require) {
             this.options = _.defaults(options || {}, this.options);
             this.$el = options._sourceElement;
 
+            this.listenTo(mediator, 'layout:reposition', this.updatePosition);
+
             if (this.options.mobileEnabled) {
                 this.refreshPositions();
                 $(this.$el).slick(this.options);
@@ -49,11 +52,10 @@ define(function(require) {
         },
 
         refreshPositions: function() {
-            var self = this;
-            $(self.$el).on('init', function(event, slick) {
-                setTimeout(function() {
-                    $(self.$el).slick('setPosition');
-                }, 100); // This delay needed for waiting when slick initialized
+            var updatePosition = _.bind(this.updatePosition, this);
+            $(this.$el).on('init', function(event, slick) {
+                // This delay needed for waiting when slick initialized
+                setTimeout(updatePosition, 100);
             });
         },
 
@@ -67,6 +69,10 @@ define(function(require) {
         changeHandler: function(slick, nextSlide, eventName) {
             var $activeImage = $(slick).find('.slick-slide[data-slick-index=' + nextSlide + '] img');
             $(slick).find('.slick-slide img').trigger(eventName, $activeImage.get(0));
+        },
+
+        updatePosition: function() {
+            this.$el.slick('setPosition');
         }
     });
 

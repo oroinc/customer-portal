@@ -69,7 +69,10 @@ class CustomerUserType extends AbstractType
         $passwordOptions = [
             'type' => 'password',
             'required' => false,
-            'first_options' => ['label' => 'oro.customer.customeruser.password.label'],
+            'first_options' => [
+                'label' => 'oro.customer.customeruser.password.label',
+                'attr' => ['autocomplete' => 'new-password'],
+            ],
             'second_options' => ['label' => 'oro.customer.customeruser.password_confirmation.label'],
             'invalid_message' => 'oro.customer.message.password_mismatch',
         ];
