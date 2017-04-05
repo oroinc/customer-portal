@@ -24,30 +24,44 @@
 
         line-height: 40px;
         text-transform: uppercase;
+        color: lighten(get-color('additional', 'dark'), 22%);
 
         background: get-color('additional', 'ultra');
         border-bottom: 1px solid get-color('additional', 'light');
     }
 
-    &__back {
+    &__text {
         padding: 5px 0;
 
         font-size: $base-font-size--s;
 
         cursor: pointer;
 
-        .fa-chevron-left {
-            margin-right: 8px;
+        [class^="fa-"],
+        [class*=" fa-"] {
+            margin-right: 5px;
 
             font-size: $base-font-size--s;
             vertical-align: baseline;
         }
     }
 
+    &__badge {
+        margin-right: 5px;
+
+        @include badge(
+            $badge-bg: lighten(get-color('additional', 'dark'), 22%)
+        );
+
+        vertical-align: baseline;
+    }
+
     &__close {
         position: absolute;
         top: 0;
         right: 16px;
+        
+        font-size: 20px;
 
         cursor: pointer;
 
