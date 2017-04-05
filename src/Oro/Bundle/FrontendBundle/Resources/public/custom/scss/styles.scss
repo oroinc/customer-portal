@@ -1,9 +1,9 @@
-// @theme: custom
+// @theme: custom;
 
 /*=== START COMPONENTS===*/
-@import 'components/header.scss';
-@import 'components/notification-messages.scss';
+@import './components/header';
+@import './components/notification-messages';
 /*=== END COMPONENTS===*/
 
 /* Commerce theme */
-@import 'components/commerce/commerce.scss';
+@import './components/commerce/commerce';
