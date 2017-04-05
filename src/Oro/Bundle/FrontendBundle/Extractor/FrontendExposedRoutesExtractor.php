@@ -15,7 +15,7 @@ class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
         $routes = parent::getExposedRoutes();
         $routes = array_filter($routes, function (Route $route) {
             return $route->hasOption('frontend') && $route->getOption('frontend');
-        }, ARRAY_FILTER_USE_BOTH);
+        });
 
         return $routes;
     }
