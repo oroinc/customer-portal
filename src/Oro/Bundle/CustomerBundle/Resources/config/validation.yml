@@ -50,7 +50,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         plainPassword:
             - NotBlank:
                 groups: [create]
-            - Oro\Bundle\UserBundle\Validator\Constraints\PasswordComplexity: ~
+            - Oro\Bundle\UserBundle\Validator\Constraints\PasswordComplexity:
+                groups: [create, Default]
         username:
             - NotBlank: ~
             - Length:
