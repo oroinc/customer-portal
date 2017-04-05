@@ -97,7 +97,7 @@ define(function(require) {
             titleOptions: {
                 icon: null,
                 iconClass: null,
-                text: ""
+                text: ''
             }
         },
 
@@ -126,7 +126,7 @@ define(function(require) {
                 if (options.gridViewsOptions.hideTitle) {
                     this.hideTitle = $(options.gridViewsOptions.hideTitle);
                 }
-             }
+            }
 
             this.togglePageTitles(true);
 
@@ -249,7 +249,6 @@ define(function(require) {
             var mode = $this.data('switch-edit-mode') || mode; // 'hide' | 'show'
             var $buttonMain = this.$('[data-switch-edit-button]');
             var $switchEditModeContainer = this.$('[data-edit-container]');
-
 
             this.$gridViewUpdate.off().text(this.$gridViewUpdate.data('text'));
 
