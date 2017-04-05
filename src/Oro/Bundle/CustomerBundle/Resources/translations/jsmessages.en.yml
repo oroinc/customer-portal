@@ -18,6 +18,9 @@ oro.customer:
             entity_plural_label: "Roles"
             users: "Users"
 
+    customer_address_book:
+        customer_addresses: 'Company Addresses'
+
     customer_user_address_book:
         customer_user_addresses: 'My Addresses'
 

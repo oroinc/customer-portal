@@ -49,7 +49,7 @@ layout:
         - '@setOption':
             id: __addresses_datagrid
             optionName: grid_render_parameters.gridViewsOptions.text
-            optionValue: 'oro.customer.customer_user.entity_plural_label'
+            optionValue: 'oro.customer.customer_address_book.customer_addresses'
 
         - '@setOption':
             id: __addresses_datagrid

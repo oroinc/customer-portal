@@ -6,7 +6,6 @@ define(function(require) {
     var $ = require('jquery');
     var _ = require('underscore');
     var __ = require('orotranslation/js/translator');
-    var mediator = require('oroui/js/mediator');
     var GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
     var DeleteConfirmation = require('orofrontend/js/app/components/delete-confirmation');
     var error = require('oroui/js/error');
@@ -246,16 +245,16 @@ define(function(require) {
          */
         switchEditMode: function(event, mode) {
             var $this = $(event.currentTarget);
-            var mode = $this.data('switch-edit-mode') || mode; // 'hide' | 'show'
+            var modeState = $this.data('switch-edit-mode') || mode; // 'hide' | 'show'
             var $buttonMain = this.$('[data-switch-edit-button]');
             var $switchEditModeContainer = this.$('[data-edit-container]');
 
             this.$gridViewUpdate.off().text(this.$gridViewUpdate.data('text'));
 
-            if (mode === 'show') {
+            if (modeState === 'show') {
                 $buttonMain.hide();
                 $switchEditModeContainer.show();
-            } else if (mode === 'hide') {
+            } else if (modeState === 'hide') {
                 $buttonMain.show();
                 $switchEditModeContainer.hide();
             }
@@ -403,7 +402,7 @@ define(function(require) {
                 }
 
                 if (a.priority > b.priority) {
-                    return 1
+                    return 1;
                 }
 
                 return 0;
@@ -422,7 +421,7 @@ define(function(require) {
                     return actionItem.enabled;
                 });
 
-                showActions.push(showAction)
+                showActions.push(showAction);
             });
 
             return showActions;
