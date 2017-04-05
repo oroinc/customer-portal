@@ -9,8 +9,12 @@ layout:
                     blockType: container
                 __datagrid_views_toolbar:
                     blockType: container
+                __datagrid_views_toolbar_header:
+                    blockType: container
                 __datagrid_views_container_label:
                     blockType: block
+                __datagrid_views_container_edit_label:
+                    blockType: container
                 __datagrid_views_popup:
                     blockType: container
                 __datagrid_views_popup_close:
@@ -31,7 +35,9 @@ layout:
                 __root:
                     __datagrid_views:
                         __datagrid_views_toolbar:
-                            __datagrid_views_container_label: ~
+                            __datagrid_views_toolbar_header:
+                                __datagrid_views_container_label: ~
+                            __datagrid_views_container_edit_label: ~
                             __datagrid_views_popup:
                                 __datagrid_views_popup_close: ~
                                 __datagrid_views_popup_container:

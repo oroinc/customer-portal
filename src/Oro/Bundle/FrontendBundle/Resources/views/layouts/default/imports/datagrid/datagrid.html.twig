@@ -3,6 +3,12 @@
         viewLoading: true
     }|merge(grid_render_parameters) %}
 
+    {% set renderParams = renderParams|default({})|merge({
+    enableFullScreenLayout: true,
+    enableViews: true,
+    showViewsInCustomElement: '.page-title > .navbar-extra .pull-left-extra .grid-views-holder'
+    }) %}
+
     {% if split_to_cells != false %}
         {% set themeOptions = grid_render_parameters.themeOptions|default({}) %}
         {% set themeOptions = layout_attr_defaults(themeOptions, {
@@ -21,5 +27,6 @@
     {% endif %}
 
     {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
     {{ dataGrid.renderGrid(grid_full_name, grid_parameters, grid_render_parameters) }}
 {% endblock %}

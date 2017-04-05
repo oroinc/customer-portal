@@ -1,7 +1,8 @@
 {% block __datagrid_views__datagrid_views_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        'id': 'template-frontend-datagrid-grid-view'
+        'class': 'js-frontend-datagrid-grid-views-tpl'
     }) %}
+
     <script type="text/template" {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </script>
@@ -19,19 +20,30 @@
     <% } %>
 {% endblock %}
 
-{% block __datagrid_views__datagrid_views_container_label_widget %}
+{% block __datagrid_views__datagrid_views_toolbar_header_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' page-subtitle',
+        '~class': ' grid-views__header',
         'data-toggle': 'dropdown'
     }) %}
-    <h2 {{ block('block_attributes') }}>
-        <span class="badge">
-            <i class="fa-map-marker"></i>
-        </span>
-        <span class="page-subtitle__text">
-            <%= title %>
-        </span>
-    </h2>
+    <% if (choices.length) { %>
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+    <% } %>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_container_label_widget %}
+    <%= title %>
+{% endblock %}
+
+{% block __datagrid_views__datagrid_views_container_edit_label_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid-views__edit-label',
+    }) %}
+
+    <% if (dirty) { %>
+        <span {{ block('block_attributes') }}>&nbsp;-&nbsp;<%- editedLabel %></span>
+    <% } %>
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_widget %}
@@ -48,7 +60,7 @@
         '~class': ' grid-views__close'
     }) %}
     <span {{ block('block_attributes') }}>
-        <i class="fa-times"></i>
+        <i class="fa-times" data-close></i>
     </span>
 {% endblock %}
 
@@ -64,7 +76,7 @@
 
 {% block __datagrid_views__datagrid_views_popup_title_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid-views__title'
+        '~class': ' grid-views__subtitle'
     }) %}
     <h3 {{ block('block_attributes') }}>Saved Views</h3>
 {% endblock %}
@@ -138,7 +150,7 @@
                     data-switch-edit-button=""
             >
                 <i class="fa-plus-circle hide-text"></i>
-                Save As New
+                <%- _.__("oro_frontend.datagrid_views.save_as_new") %>
             </button>
         </div>
 
@@ -146,38 +158,37 @@
             <div class="grid-views__form-content">
                 <div class="grid">
                     <div class="grid__row grid__row--offset-m">
-                        <input type="text" class="input input--full" name="name" placeholder="Enter new list name" data-view-value>
+                        <input id="frontend-grid-view-name"
+                               name="name"
+                               class="input input--full"
+                               type="text"
+                               placeholder="<%- _.__('oro_frontend.datagrid_views.placeholder') %>"
+                               data-view-value
+                        >
                     </div>
                     <div class="grid__row grid__row--offset-none">
                         <div class="grid__column grid__column--no-gutters-l grid__column--gutter-r-s">
                             <button type="button"
                                     class="btn btn--info btn--size-xs"
-                                    data-role="save-new"
-                            >Add</button>
-
-                            <button type="button"
-                                    class="btn btn--info btn--size-xs"
-                                    data-role="rename"
-                            >Save</button>
-
-                            <button type="button"
-                                    class="btn btn--info btn--size-xs"
-                                    data-role="save-created"
-                            >Save</button>
+                                    data-grid-view-update
+                                    data-text="<%- _.__('oro_frontend.datagrid_views.add') %>"
+                                    data-text-add="<%- _.__('oro_frontend.datagrid_views.add') %>"
+                                    data-text-save="<%- _.__('oro_frontend.datagrid_views.save') %>"
+                            ><%- _.__('oro_frontend.datagrid_views.add') %></button>
                         </div>
 
                         <div class="grid__column grid__column--no-gutters-l">
                             <button type="button"
                                     class="btn btn--size-xs"
                                     data-switch-edit-mode="hide"
-                            >Cancel</button>
+                            ><%- _.__("oro_frontend.datagrid_views.cancel") %></button>
                         </div>
 
                         <div class="grid__column">
                             <label class="custom-checkbox">
                                 <input type="checkbox" name="is_default" class="custom-checkbox__input">
                                 <span class="custom-checkbox__icon"></span>
-                                <span class="custom-checkbox__text">Set as Default</span>
+                                <span class="custom-checkbox__text"><%- _.__("oro_frontend.datagrid_views.set_as_default") %></span>
                             </label>
                         </div>
                     </div>
@@ -189,11 +200,22 @@
 
 {% block __datagrid_views__datagrid_views_label_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        'id': 'template-frontend-datagrid-grid-view-label'
+        'class': 'js-frontend-datagrid-grid-view-label-tpl'
     }) %}
 
     <script type="text/template" {{ block('block_attributes') }}>
-        <%- title %>
-        <i class="fa-angle-down"></i>
+        <h2 class="grid-views__title<% if (icon) { %> has-icon <% } %>">
+            <% if (icon) { %>
+                <span class="grid-views__piece">
+                    <span class="badge <%= iconClass %>">
+                        <i class="fa-<%= icon %>"></i>
+                    </span>
+                </span>
+            <% } %>
+            <span class="grid-views__title-text">
+                <%- title %>
+                <i class="fa-angle-down"></i>
+            </span>
+        </h2>
     </script>
 {% endblock %}

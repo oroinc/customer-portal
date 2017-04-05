@@ -21,3 +21,16 @@ oro_frontend:
                 rfq: "{{ totalRecords }} Total Requests For Quote"
                 orders: "{{ totalRecords }} Total Orders"
                 quotes: "{{ totalRecords }} Total Quotes"
+
+    datagrid_views:
+        add: "Add"
+        save: "Save"
+        cancel: "Cancel"
+        save_as_new: "Save As New"
+        set_as_default: "Set as Default"
+        placeholder: "Enter new list name"
+
+oro:
+    datagrid:
+        gridView:
+            all: "All "
