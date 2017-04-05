@@ -20,14 +20,14 @@ Feature: Managing customer user roles
     Then the role has following active permissions:
       | Customer Group | View:Full | Create:Full | Edit:Full | Delete:Full |
     And I should see "Audit history for Customer User"
-    When restricted VIEW permission for entity Oro\Bundle\CustomerBundle\Entity\CustomerGroup and group commerce
-    And restricted CREATE permission for entity Oro\Bundle\CustomerBundle\Entity\CustomerGroup and group commerce
-    And restricted oro_customer_dataaudit_history capability and group commerce
+    When permission VIEW for entity Oro\Bundle\CustomerBundle\Entity\CustomerGroup and group commerce restricts in application
+    And permission CREATE for entity Oro\Bundle\CustomerBundle\Entity\CustomerGroup and group commerce restricts in application
+    And capability oro_customer_dataaudit_history and group commerce restricts in application
     And I reload the page
     Then the role has not following permissions:
       | Customer Group | View | Create |
     And I should not see "Audit history for Customer User"
-    When restricted all permissions for entity Oro\Bundle\CustomerBundle\Entity\CustomerGroup and group commerce
+    When all permissions for entity Oro\Bundle\CustomerBundle\Entity\CustomerGroup and group commerce restricts in application
     And I should see "Customer Group"
     And I reload the page
     Then I should not see "Customer Group"

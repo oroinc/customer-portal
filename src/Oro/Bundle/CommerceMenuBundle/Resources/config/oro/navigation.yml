@@ -70,7 +70,7 @@ navigation:
             my_customer:
                 label: 'oro.commercemenu.frontend.navigation.items.my_customer.label'
                 extras:
-                    conditions: 'is_logged_in()'
+                    condition: 'is_logged_in()'
             sign_out:
                 label: 'oro.commercemenu.frontend.navigation.items.sign_out.label'
                 route: 'oro_customer_customer_user_security_logout'

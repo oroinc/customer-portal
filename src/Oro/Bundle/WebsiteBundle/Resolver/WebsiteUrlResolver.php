@@ -5,7 +5,7 @@ namespace Oro\Bundle\WebsiteBundle\Resolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Component\Website\WebsiteInterface;
 
 class WebsiteUrlResolver
 {
@@ -23,19 +23,19 @@ class WebsiteUrlResolver
     }
 
     /**
-     * @param Website|null $website
+     * @param WebsiteInterface|null $website
      * @return string|null
      */
-    public function getWebsiteUrl(Website $website = null)
+    public function getWebsiteUrl(WebsiteInterface $website = null)
     {
         return $this->configManager->get(self::CONFIG_URL, false, false, $website);
     }
 
     /**
-     * @param Website|null $website
+     * @param WebsiteInterface|null $website
      * @return string|null
      */
-    public function getWebsiteSecureUrl(Website $website = null)
+    public function getWebsiteSecureUrl(WebsiteInterface $website = null)
     {
         $url = null;
         if ($websiteSecureUrl = $this->getWebsiteScopeConfigValue(self::CONFIG_SECURE_URL, $website)) {
@@ -54,10 +54,10 @@ class WebsiteUrlResolver
     /**
      * @param string $route
      * @param array $routeParams
-     * @param Website|null $website
+     * @param WebsiteInterface|null $website
      * @return string
      */
-    public function getWebsitePath($route, array $routeParams, Website $website = null)
+    public function getWebsitePath($route, array $routeParams, WebsiteInterface $website = null)
     {
         $url = $this->getWebsiteUrl($website);
 
@@ -67,10 +67,10 @@ class WebsiteUrlResolver
     /**
      * @param string $route
      * @param array $routeParams
-     * @param Website|null $website
+     * @param WebsiteInterface|null $website
      * @return string
      */
-    public function getWebsiteSecurePath($route, array $routeParams, Website $website = null)
+    public function getWebsiteSecurePath($route, array $routeParams, WebsiteInterface $website = null)
     {
         $url = $this->getWebsiteSecureUrl($website);
 
@@ -79,10 +79,10 @@ class WebsiteUrlResolver
 
     /**
      * @param string $configKey
-     * @param Website|null $website
+     * @param WebsiteInterface|null $website
      * @return null|string
      */
-    protected function getWebsiteScopeConfigValue($configKey, Website $website = null)
+    protected function getWebsiteScopeConfigValue($configKey, WebsiteInterface $website = null)
     {
         $configValue = $this->configManager->get($configKey, false, true, $website);
         if (!empty($configValue['value']) && empty($configValue['use_parent_scope_value'])) {
@@ -94,10 +94,10 @@ class WebsiteUrlResolver
 
     /**
      * @param string $configKey
-     * @param Website|null $website
+     * @param WebsiteInterface|null $website
      * @return null|string
      */
-    protected function getDefaultConfigValue($configKey, Website $website = null)
+    protected function getDefaultConfigValue($configKey, WebsiteInterface $website = null)
     {
         return $this->configManager->get($configKey, true, false, $website);
     }

@@ -291,7 +291,7 @@ services:
             - '%oro_user.entity.class%'
         tags:
             - { name: kernel.event_listener, event: oro_config.settings_form_preset, method: onFormPreSetData }
-            - { name: kernel.event_listener, event: oro_config.settings_before_save, method: onSettingsSaveBefore }
+            - { name: kernel.event_listener, event: oro_config.settings_before_save.oro_customer.default_customer_owner, method: onSettingsSaveBefore }
 
     oro_frontend.listener.ormdatasource_acl:
         class: 'Oro\Bundle\CustomerBundle\EventListener\OrmDatasourceAclListener'
@@ -531,14 +531,23 @@ services:
             - '@oro_config.global'
             - '@oro_entity.doctrine_helper'
 
-    oro_customer.provider.fronted_customer_user_role_tabs_options:
-        class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleOptionsProvider'
+    oro_customer.provider.fronted_customer_user_role_capability_set_options:
+        class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleCapabilitySetOptionsProvider'
         arguments:
             - '@oro_customer.provider.role_privilege_capability_provider'
             - '@oro_user.provider.role_privilege_category_provider'
-            - '@translator'
         tags:
-            - { name: layout.data_provider, alias: oro_customer_fronted_customer_user_role_options }
+            - { name: layout.data_provider, alias: oro_customer_fronted_customer_user_role_capability_set_options }
+
+    oro_customer.provider.fronted_customer_user_role_tab_options:
+        class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleTabOptionsProvider'
+        scope: prototype
+        arguments:
+            - '@oro_user.provider.role_privilege_category_provider'
+            - '@translator'
+            - '@oro_customer.form.handler.update_customer_user_role_frontend'
+        tags:
+            - { name: layout.data_provider, alias: oro_customer_fronted_customer_user_role_tab_options }
 
     oro_customer.provider.role_privilege_capability_provider:
         class: %oro_user.provider.role_privilege_capability_provider.class%
@@ -585,7 +594,7 @@ services:
             - [setCreateRouteName, ['oro_customer_frontend_customer_address_create']]
             - [setUpdateRouteName, ['oro_customer_frontend_customer_address_update']]
         tags:
-             - { name: layout.data_provider, alias: customer_address_provider }
+            - { name: layout.data_provider, alias: customer_address_provider }
 
     oro_customer.layout.data_provider.customer_user_address_provider:
         parent: oro_customer.layout.data_provider.address_provider_abstract
@@ -595,7 +604,17 @@ services:
             - [setCreateRouteName, ['oro_customer_frontend_customer_user_address_create']]
             - [setUpdateRouteName, ['oro_customer_frontend_customer_user_address_update']]
         tags:
-             - { name: layout.data_provider, alias: customer_user_address_provider }
+            - { name: layout.data_provider, alias: customer_user_address_provider }
+
+    oro_customer.layout.data_provider.customer_user_default_address_provider:
+        parent: oro_customer.layout.data_provider.address_provider_abstract
+        calls:
+            - [setEntityClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
+            - [setListRouteName, ['oro_api_customer_frontend_get_customeruser_addresses', true]]
+            - [setCreateRouteName, ['oro_customer_frontend_customer_user_address_create']]
+            - [setUpdateRouteName, ['oro_customer_frontend_customer_user_address_update']]
+        tags:
+            - { name: layout.data_provider, alias: customer_user_default_address_provider }
 
     oro_customer.customer_scope_criteria_provider:
         class: 'Oro\Bundle\CustomerBundle\Provider\ScopeCustomerCriteriaProvider'

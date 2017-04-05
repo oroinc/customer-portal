@@ -4,6 +4,7 @@ define(function(require) {
     var FullscreenPopupView;
     var BaseView = require('oroui/js/app/views/base/view');
     var tools = require('oroui/js/tools');
+    var mediator = require('oroui/js/mediator');
     var _ = require('underscore');
     var $ = require('jquery');
 
@@ -12,7 +13,7 @@ define(function(require) {
 
         optionNames: BaseView.prototype.optionNames.concat([
             'template', 'templateSelector', 'templateData',
-            'contentView', 'contentOptions'
+            'content', 'contentElement', 'contentSelector', 'contentView', 'contentOptions'
         ]),
 
         templateSelector: '#fullscreen-popup-tpl',
@@ -22,6 +23,14 @@ define(function(require) {
             closeOnLabel: true,
             close: true
         },
+
+        content: null,
+
+        contentElement: null,
+
+        contentElementPlaceholder: null,
+
+        contentSelector: null,
 
         contentView: null,
 
@@ -58,17 +67,46 @@ define(function(require) {
 
             this.$popup.appendTo($('body'));
 
-            this.renderPopupContent(_.bind(function() {
-                this.initPopupEvents();
-            }, this));
+            this.renderPopupContent(_.bind(this.onShow, this));
+        },
+
+        onShow: function() {
+            this.initPopupEvents();
+            mediator.trigger('layout:reposition');
+            this.trigger('show');
         },
 
         renderPopupContent: function(callback) {
-            if (this.contentView) {
+            if (this.content) {
+                this.renderContent(callback);
+            } else if (this.contentElement) {
+                this.moveContentElement(callback);
+            } else if (this.contentSelector) {
+                this.renderSelectorContent(callback);
+            }else if (this.contentView) {
                 this.renderPopupView(callback);
             } else {
                 callback();
             }
+        },
+
+        renderContent: function(callback) {
+            $(this.contentOptions.el).html(this.content);
+            callback();
+        },
+
+        moveContentElement: function(callback) {
+            this.contentElementPlaceholder = $('<div/>');
+            this.contentElement.after(this.contentElementPlaceholder);
+            $(this.contentOptions.el).append(this.contentElement);
+
+            callback();
+        },
+
+        renderSelectorContent: function(callback) {
+            var content = $(this.contentSelector).html();
+            $(this.contentOptions.el).html(content);
+            callback();
         },
 
         renderPopupView: function(callback) {
@@ -92,10 +130,16 @@ define(function(require) {
                 return;
             }
 
+            if (this.contentElement && this.contentElementPlaceholder) {
+                this.contentElementPlaceholder.after(this.contentElement);
+                this.contentElementPlaceholder.remove();
+            }
+
             this.$popup.remove();
 
             delete this.$popup;
             this.removeSubview('contentView');
+            this.trigger('close');
         },
 
         /**

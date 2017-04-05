@@ -25,8 +25,7 @@ a {
 
     @include link();
 
-    &:hover {
+    @include element-state('hover') {
         text-decoration: underline;
     }
 }
-

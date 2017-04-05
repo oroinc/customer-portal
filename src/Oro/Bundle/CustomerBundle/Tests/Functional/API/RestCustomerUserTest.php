@@ -39,7 +39,7 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         $content = json_decode($response->getContent(), true);
 
         $expected = $this->getExpectedData($customerUser);
-        $this->assertCount(7, $content['data']);
+        $this->assertCount(8, $content['data']);
         $actualCustomerUser = $content['data'][1];
         $this->assertEquals($expected, $actualCustomerUser);
     }

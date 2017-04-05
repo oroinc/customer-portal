@@ -63,21 +63,24 @@
     white-space: nowrap;
   }
 }
-.dropdown-menu__role-permissions-action {
-  .grid .entity-row-action & {
+
+.dropdown-menu__permissions-item {
+  &.dropdown-menu {
     padding: 8px 12px;
-    top: 5px;
-    margin-top: 17px;
-    left: auto;
-    right: -10px;
+
+    z-index: z('fixed') - 1;
   }
-  .dropdown-menu-collection__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    & > li {
-      white-space: nowrap;
-      margin: 0;
-    }
+}
+
+.dropdown-menu__role-permissions-action {
+  &.dropdown-menu {
+    right: 100%;
+    left: auto;
+    top: -7px;
+
+    padding: 8px 12px;
+
+    white-space: nowrap;
+    z-index: z('fixed') - 1;
   }
 }

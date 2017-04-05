@@ -1,7 +1,7 @@
 .fullscreen-popup {
     position: fixed;
     z-index: z('popup');
-    top: 40px;
+    top: 0;
     right: 0;
     bottom: 0;
     left: 0;
@@ -12,9 +12,7 @@
     background: get-color('additional', 'ultra');
 
     &__header {
-        position: absolute;
         z-index: 1;
-        top: -40px;
         right: 0;
         left: 0;
 
@@ -28,6 +26,22 @@
         text-transform: uppercase;
 
         background: get-color('additional', 'ultra');
+        border-bottom: 1px solid get-color('additional', 'light');
+    }
+
+    &__back {
+        padding: 5px 0;
+
+        font-size: $base-font-size--s;
+
+        cursor: pointer;
+
+        .fa-chevron-left {
+            margin-right: 8px;
+
+            font-size: $base-font-size--s;
+            vertical-align: baseline;
+        }
     }
 
     &__close {
@@ -42,5 +56,12 @@
 
     &__content {
         height: 100%;
+
+        overflow: auto;
+    }
+
+    //TODO: Make corrent padding of popup conent for any content
+    .tab-content__wrapper {
+        padding: 20px;
     }
 }
