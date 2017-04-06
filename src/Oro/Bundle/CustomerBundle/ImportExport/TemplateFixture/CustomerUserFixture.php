@@ -46,11 +46,7 @@ class CustomerUserFixture extends AbstractTemplateRepository implements Template
     }
 
     /**
-     * Creates a new instance of the entity
-     *
-     * @param string $key
-     *
-     * @return object
+     * {@inheritdoc}
      */
     protected function createEntity($key)
     {

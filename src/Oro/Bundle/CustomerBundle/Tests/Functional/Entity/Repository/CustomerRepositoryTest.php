@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Entity\Repository;
 use Oro\Bundle\CatalogBundle\Tests\Functional\DataFixtures\LoadCategoryData;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadDuplicatedCustomer;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\VisibilityBundle\Entity\Visibility\CustomerCategoryVisibility;
@@ -31,7 +32,7 @@ class CustomerRepositoryTest extends WebTestCase
 
         $this->loadFixtures(
             [
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers',
+                LoadDuplicatedCustomer::class,
             ]
         );
 
@@ -183,6 +184,7 @@ class CustomerRepositoryTest extends WebTestCase
         return [
             ['customer.level_1.1', 1],
             ['non-existing-customer', 0],
+            [LoadDuplicatedCustomer::DUPLICATED_CUSTOMER_NAME, 2],
         ];
     }
 
