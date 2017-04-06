@@ -49,6 +49,11 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
     const GROUP2_EMAIL = 'customer.level_1.2@test.com';
     const GROUP2_PASSWORD = 'pass';
 
+    const RESET_FIRST_NAME = 'Ryan';
+    const RESET_LAST_NAME = 'Range';
+    const RESET_EMAIL = 'Ryan1Range@example.org';
+    const RESET_PASSWORD = 'Ryan1Range@example.org';
+
     /** @var ContainerInterface */
     protected $container;
 
@@ -103,6 +108,14 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
             'enabled' => true,
             'customer' => 'customer.level_1.2'
         ],
+        [
+            'first_name' => self::RESET_FIRST_NAME,
+            'last_name' => self::RESET_LAST_NAME,
+            'email' => self::RESET_EMAIL,
+            'password' => self::RESET_PASSWORD,
+            'enabled' => true,
+            'confirmationToken' => 'some_token'
+        ]
     ];
 
     /**
@@ -142,6 +155,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
                 ->setEmail($user['email'])
                 ->setEnabled($user['enabled'])
                 ->setOrganization($customer->getOrganization())
+                ->setConfirmationToken($user['confirmationToken'] ?? null)
                 ->addRole($role)
                 ->setPlainPassword($user['password']);
 

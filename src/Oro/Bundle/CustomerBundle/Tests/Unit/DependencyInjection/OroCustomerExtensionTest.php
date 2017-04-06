@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection;
 
-use Oro\Bundle\SecurityBundle\Tests\Unit\DependencyInjection\AbstractPrependExtensionTest;
 use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
+use Oro\Bundle\SecurityBundle\Tests\Unit\DependencyInjection\AbstractPrependExtensionTest;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroCustomerExtensionTest extends AbstractPrependExtensionTest
@@ -19,9 +19,15 @@ class OroCustomerExtensionTest extends AbstractPrependExtensionTest
 
         $expectedParameters = [
             'oro_customer.entity.customer.class',
-            'oro_customer.entity.customer_group.class'
+            'oro_customer.entity.customer_group.class',
         ];
 
+        $expectedDefinitions = [
+            'oro_customer.provider.fronted_customer_user_role_tab_options',
+            'oro_customer.provider.fronted_customer_user_role_capability_set_options',
+        ];
+
+        $this->assertDefinitionsLoaded($expectedDefinitions);
         $this->assertParametersLoaded($expectedParameters);
 
         $this->assertEquals('oro_customer', $extension->getAlias());

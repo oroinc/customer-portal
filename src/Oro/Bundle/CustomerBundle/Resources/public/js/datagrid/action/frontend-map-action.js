@@ -19,6 +19,7 @@ define(function(require) {
         initialize: function(options) {
             FrontendMapAction.__super__.initialize.apply(this, arguments);
             mediator.on('viewport:change', this.onViewportChange, this);
+            this.listenTo(this.model, 'change:isDropdownActions', this.actionsDropdownListener);
         },
 
         onViewportChange: function() {
@@ -47,6 +48,12 @@ define(function(require) {
                 this.fullscreenView.show();
                 this.mapView.updateMap(this.getAddress(), this.model.get('label'));
             }, this));
+        },
+
+        actionsDropdownListener: function() {
+            if (this.model.get('isDropdownActions')) {
+                this.createFullScreenView();
+            }
         }
     });
 
