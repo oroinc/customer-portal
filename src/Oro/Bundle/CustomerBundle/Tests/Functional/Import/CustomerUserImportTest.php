@@ -19,7 +19,7 @@ class CustomerUserImportTest extends AbstractImportTest
         $this->client->request('GET', $this->getUrl('oro_customer_customer_user_index'));
         $response = $this->client->getResponse()->getContent();
 
-        $this->assertContains('Import File', $response);
+        $this->assertContains('Import file', $response);
         $this->assertContains('Validate Data File', $response);
         $this->assertContains('Download Data Template', $response);
     }
@@ -55,7 +55,9 @@ class CustomerUserImportTest extends AbstractImportTest
     {
         return [
             ['firstname' => 'Jerry', 'lastname' => 'Coleman'],
-            ['firstname' => 'Lorem', 'lastname' => 'Ipsum']
+            ['firstname' => 'Lorem', 'lastname' => 'Ipsum'],
+            ['firstname' => 'John', 'lastname' => 'Smith'],
+
         ];
     }
 }
