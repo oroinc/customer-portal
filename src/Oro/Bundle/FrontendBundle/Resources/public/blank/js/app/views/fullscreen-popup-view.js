@@ -4,6 +4,7 @@ define(function(require) {
     var FullscreenPopupView;
     var BaseView = require('oroui/js/app/views/base/view');
     var tools = require('oroui/js/tools');
+    var mediator = require('oroui/js/mediator');
     var _ = require('underscore');
     var $ = require('jquery');
 
@@ -11,9 +12,11 @@ define(function(require) {
         keepElement: true,
 
         optionNames: BaseView.prototype.optionNames.concat([
-            'template', 'templateSelector',
-            'popupLabel', 'popupCloseOnLabel', 'popupCloseButton', 'popupIcon', 'popupBadge',
-            'content', 'contentSelector', 'contentView', 'contentOptions'
+            'template', 'templateSelector', 'templateData',
+            'content', 'contentSelector', 'contentView',
+            'contentOptions', 'contentElement',
+            'popupLabel', 'popupCloseOnLabel',
+            'popupCloseButton', 'popupIcon', 'popupBadge'
         ]),
 
         templateSelector: '#fullscreen-popup-tpl',
@@ -29,6 +32,10 @@ define(function(require) {
         popupBadge: false,
 
         content: null,
+
+        contentElement: null,
+
+        contentElementPlaceholder: null,
 
         contentSelector: null,
 
@@ -67,15 +74,20 @@ define(function(require) {
 
             this.$popup.appendTo($('body'));
 
-            this.renderPopupContent(_.bind(function() {
-                this.initPopupEvents();
-                this.trigger('show');
-            }, this));
+            this.renderPopupContent(_.bind(this.onShow, this));
+        },
+
+        onShow: function() {
+            this.initPopupEvents();
+            mediator.trigger('layout:reposition');
+            this.trigger('show');
         },
 
         renderPopupContent: function(callback) {
             if (this.content) {
                 this.renderContent(callback);
+            } else if (this.contentElement) {
+                this.moveContentElement(callback);
             } else if (this.contentSelector) {
                 this.renderSelectorContent(callback);
             }else if (this.contentView) {
@@ -87,6 +99,14 @@ define(function(require) {
 
         renderContent: function(callback) {
             $(this.contentOptions.el).html(this.content);
+            callback();
+        },
+
+        moveContentElement: function(callback) {
+            this.contentElementPlaceholder = $('<div/>');
+            this.contentElement.after(this.contentElementPlaceholder);
+            $(this.contentOptions.el).append(this.contentElement);
+
             callback();
         },
 
@@ -115,6 +135,11 @@ define(function(require) {
         close: function() {
             if (!this.$popup) {
                 return;
+            }
+
+            if (this.contentElement && this.contentElementPlaceholder) {
+                this.contentElementPlaceholder.after(this.contentElement);
+                this.contentElementPlaceholder.remove();
             }
 
             this.$popup.remove();

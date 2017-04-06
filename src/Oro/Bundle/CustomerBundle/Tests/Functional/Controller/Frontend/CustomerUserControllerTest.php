@@ -7,6 +7,9 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\AbstractUserController
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class CustomerUserControllerTest extends AbstractUserControllerTest
 {
     const NAME_PREFIX = 'NamePrefix';
@@ -86,6 +89,20 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertContains('Customer User has been saved', $crawler->html());
+    }
+
+    public function testCreateWithLowPasswordComplexity()
+    {
+        $this->loginUser(LoadCustomerUserACLData::USER_ACCOUNT_2_ROLE_DEEP);
+
+        $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_create'));
+        $form = $crawler->selectButton('Save')->form();
+        $form['oro_customer_frontend_customer_user[plainPassword][first]'] = '0';
+        $form['oro_customer_frontend_customer_user[plainPassword][second]'] = '0';
+        $crawler = $this->client->submit($form);
+
+        $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
+        $this->assertContains('The password must be at least 2 characters long', $crawler->html());
     }
 
     /**
