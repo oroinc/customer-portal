@@ -11,8 +11,8 @@ Feature: Export Customer Users
     Then I should see "Export started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Export performed successfully. 3 customer users were exported. Download" text
     And Exported file for "Customer Users" contains the following data:
-      | First Name | Last Name | Email Address              | Customer Name              | Enabled | Confirmed |
-      | Amanda     | Cole      | AmandaRCole@example.org    | Company A                  | 1       | 1         |
-      | Branda     | Sanborn   | BrandaJSanborn@example.org | Company A                  | 0       | 1         |
-      | Ruth       | Maxwell   | RuthWMaxwell@example.org   | Company A - West Division  | 1       | 0         |
+      | Id | First Name | Last Name | Email Address              | Customer Name              | Enabled | Confirmed |
+      |  1 | Amanda     | Cole      | AmandaRCole@example.org    | Company A                  | 1       | 1         |
+      |  2 | Branda     | Sanborn   | BrandaJSanborn@example.org | Company A                  | 0       | 1         |
+      |  3 | Ruth       | Maxwell   | RuthWMaxwell@example.org   | Company A - West Division  | 1       | 0         |
     And I click Logout in user menu
