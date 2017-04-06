@@ -1,4 +1,4 @@
-@fixture-ExportCustomerUsersFixture.yml @dn
+@fixture-ExportCustomerUsersFixture.yml
 Feature: Export Customer Users
   In order to export list of customer users
   As an Administrator
