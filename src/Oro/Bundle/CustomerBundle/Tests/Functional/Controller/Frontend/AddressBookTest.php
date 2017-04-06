@@ -51,10 +51,10 @@ class AddressBookTest extends WebTestCase
 
         $this->assertFalse($this->isAddUserAddressButtonVisible($crawler));
         $this->assertFalse($this->isAddCustomerAddressButtonVisible($crawler));
-        $this->assertFalse($this->isCustomerUserAddressSectionVisible());
+        $this->assertFalse($this->isCustomerUserAddressSectionVisible($crawler));
 
         $this->assertTrue($this->isAddressBookMenuVisible($crawler));
-        $this->assertTrue($this->isCustomerAddressSectionVisible());
+        $this->assertTrue($this->isCustomerAddressSectionVisible($crawler));
     }
 
     public function testCustomerAndCustomerUserAddressView()
@@ -71,9 +71,9 @@ class AddressBookTest extends WebTestCase
         $this->assertFalse($this->isAddUserAddressButtonVisible($crawler));
         $this->assertFalse($this->isAddCustomerAddressButtonVisible($crawler));
 
-        $this->assertTrue($this->isCustomerUserAddressSectionVisible());
+        $this->assertTrue($this->isCustomerUserAddressSectionVisible($crawler));
         $this->assertTrue($this->isAddressBookMenuVisible($crawler));
-        $this->assertTrue($this->isCustomerAddressSectionVisible());
+        $this->assertTrue($this->isCustomerAddressSectionVisible($crawler));
     }
 
     public function testCustomerUserAddressView()
@@ -90,10 +90,10 @@ class AddressBookTest extends WebTestCase
 
         $this->assertFalse($this->isAddUserAddressButtonVisible($crawler));
         $this->assertFalse($this->isAddCustomerAddressButtonVisible($crawler));
-        $this->assertFalse($this->isCustomerAddressSectionVisible());
+        $this->assertFalse($this->isCustomerAddressSectionVisible($crawler));
 
         $this->assertTrue($this->isAddressBookMenuVisible($crawler));
-        $this->assertTrue($this->isCustomerUserAddressSectionVisible());
+        $this->assertTrue($this->isCustomerUserAddressSectionVisible($crawler));
     }
 
     public function testCustomerAddressCreateButton()
@@ -109,9 +109,9 @@ class AddressBookTest extends WebTestCase
         );
 
         $this->assertFalse($this->isAddUserAddressButtonVisible($crawler));
-        $this->assertFalse($this->isCustomerUserAddressSectionVisible());
+        $this->assertFalse($this->isCustomerUserAddressSectionVisible($crawler));
 
-        $this->assertTrue($this->isCustomerAddressSectionVisible());
+        $this->assertTrue($this->isCustomerAddressSectionVisible($crawler));
         $this->assertTrue($this->isAddCustomerAddressButtonVisible($crawler));
         $this->assertTrue($this->isAddressBookMenuVisible($crawler));
     }
@@ -128,10 +128,10 @@ class AddressBookTest extends WebTestCase
             $this->getUrl('oro_customer_frontend_customer_user_address_index')
         );
 
-        $this->assertFalse($this->isCustomerAddressSectionVisible());
+        $this->assertFalse($this->isCustomerAddressSectionVisible($crawler));
         $this->assertFalse($this->isAddCustomerAddressButtonVisible($crawler));
 
-        $this->assertTrue($this->isCustomerUserAddressSectionVisible());
+        $this->assertTrue($this->isCustomerUserAddressSectionVisible($crawler));
         $this->assertTrue($this->isAddressBookMenuVisible($crawler));
     }
 
@@ -170,17 +170,17 @@ class AddressBookTest extends WebTestCase
     /**
      * @return bool
      */
-    protected function isCustomerUserAddressSectionVisible()
+    protected function isCustomerUserAddressSectionVisible(Crawler $crawler)
     {
-        return false !== strpos($this->client->getResponse(), 'My Addresses');
+        return $crawler->filter('[data-page-component-name=frontend-customer-customer-user-address-grid]')->count() > 0;
     }
 
     /**
      * @return bool
      */
-    protected function isCustomerAddressSectionVisible()
+    protected function isCustomerAddressSectionVisible(Crawler $crawler)
     {
-        return false !== strpos($this->client->getResponse(), 'Company Addresses');
+        return $crawler->filter('[data-page-component-name=frontend-customer-customer-address-grid]')->count() > 0;
     }
 
     /**
