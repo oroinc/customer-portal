@@ -184,7 +184,7 @@ define(function(require) {
          * @param e
          */
         onSave: function(e) {
-            var model = this._getEditableViewModel(e);
+            var model = this._getEditableViewModel(e.currentTarget);
 
             this._onSaveModel(model);
         },
@@ -222,7 +222,7 @@ define(function(require) {
          */
         onRename: function(e) {
             var self = this;
-            var model = this._getEditableViewModel($(e.currentTarget));
+            var model = this._getEditableViewModel(e.currentTarget);
 
             this.switchEditMode(e, 'show');
 
@@ -339,12 +339,12 @@ define(function(require) {
         },
 
         /**
-         * @param e
+         * @param {HTMl} element
          * @returns {*}
          * @private
          */
-        _getModelForDelete: function(e) {
-            return this._getEditableViewModel(e);
+        _getModelForDelete: function(element) {
+            return this._getEditableViewModel(element);
         },
 
         /**
