@@ -210,8 +210,10 @@ define(function(require) {
                 .text(this.$gridViewUpdate.data('text-add'))
                 .on('click', function(e) {
                     e.stopPropagation();
+                    var data = self.getInputData(self.$el);
+                    var model = self._createBaseViewModel(data);
 
-                    self._onSaveAsModel(self);
+                    self._onSaveAsModel(model);
                 });
         },
 
@@ -220,7 +222,7 @@ define(function(require) {
          */
         onRename: function(e) {
             var self = this;
-            var model = this._getEditableViewModel(e);
+            var model = this._getEditableViewModel($(e.currentTarget));
 
             this.switchEditMode(e, 'show');
 
@@ -233,8 +235,9 @@ define(function(require) {
                 .text(this.$gridViewUpdate.data('text-save'))
                 .on('click', function(e) {
                     e.stopPropagation();
+                    var data = self.getInputData(self.$el);
 
-                    self._onRenameSaveModel(model, self);
+                    self._onRenameSaveModel(model, data);
                 });
         },
 
@@ -323,12 +326,12 @@ define(function(require) {
         },
 
         /**
-         * @param e
+         * @param {HTML} element
          * @returns {*}
          * @private
          */
-        _getEditableViewModel: function(e) {
-            var viewModel = $(e.currentTarget).data('choice-value');
+        _getEditableViewModel: function(element) {
+            var viewModel = $(element).data('choice-value');
 
             return this.viewsCollection.get({
                 name: viewModel
@@ -364,12 +367,12 @@ define(function(require) {
         },
 
         /**
-         * @param {object} View
+         * @param {object} GridView
          * @returns {boolean}
          * @private
          */
-        _getViewIsDirty: function(View) {
-            var isCurrent = this.collection.state.gridView === View.id;
+        _getViewIsDirty: function(GridView) {
+            var isCurrent = this.collection.state.gridView === GridView.id;
 
             return this.viewDirty && isCurrent;
         },
