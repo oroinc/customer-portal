@@ -276,7 +276,6 @@ navigation:
                     oro_customer_frontend_customer_user_profile: ~
 
             frontend_menu:
-                scope_type: menu_frontend_visibility
                 children:
                     oro_customer_menu_customer_user_index:
                         children:
