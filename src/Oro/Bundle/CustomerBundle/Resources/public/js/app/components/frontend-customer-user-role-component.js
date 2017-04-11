@@ -117,8 +117,11 @@ define(function(require) {
                 okText: __('oro.customer.customer_user_role.continue'),
                 cancelText: __('oro.customer.customer_user_role.cancel'),
                 content: __('oro.customer.customer_user_role.content'),
-                className: 'modal modal-primary',
-                okButtonClass: 'btn-primary btn-large'
+                okButtonClass: 'btn btn--info ok',
+                cancelButtonClass: 'btn cancel',
+                allowOk: true,
+                allowCancel: true,
+                template: _.template(require('text!orofrontend/templates/transition-confirmation.html'))
             });
         },
 
