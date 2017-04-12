@@ -2,6 +2,7 @@
 
 @import './reset';
 
+// TODO: move to loading component
 .body {
     &.loading {
         height: 100%;
@@ -12,14 +13,7 @@
     }
 }
 
-@include breakpoint('tablet') {
-    .body {
-        &.sales-mode {
-            overflow-x: hidden;
-        }
-    }
-}
-
+// Links
 a {
     text-decoration: none;
 
@@ -28,4 +22,12 @@ a {
     @include element-state('hover') {
         text-decoration: underline;
     }
+}
+
+//Bootstrap override
+.container-fluid {
+    width: 100%;
+    max-width: $site-width;
+    margin: 0 auto;
+    padding: 0 $offset-x-m;
 }
