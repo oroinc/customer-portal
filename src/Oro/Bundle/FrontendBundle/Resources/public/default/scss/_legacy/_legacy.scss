@@ -32,12 +32,8 @@
 /*jQuery UI datepicker override styles*/
 @import './shared/ui-datepicker-override';
 
-@import './shared/forms';
-
 @import './shared/validation';
 
-/*Styles needed for development only, $todo must be removed before release*/
-@import './shared/develop';
 
 /*Current grid styles*/
 @import './current-grid/current-grid';
