@@ -168,7 +168,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "excluded"=true
+     *              "order"=5
      *          }
      *      }
      * )
@@ -206,7 +206,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "excluded"=true
+     *              "order"=15
      *          }
      *      }
      * )
@@ -244,7 +244,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "excluded"=true
+     *              "order"=25
      *          }
      *      }
      * )
@@ -261,7 +261,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "excluded"=true
+     *              "order"=27
      *          }
      *      }
      * )
