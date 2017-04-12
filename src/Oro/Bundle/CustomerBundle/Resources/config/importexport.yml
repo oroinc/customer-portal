@@ -15,8 +15,15 @@ services:
     # Customer User Data Converter
     oro_customer.importexport.data_converter.customer_user:
         parent: oro_importexport.data_converter.configurable
+        class: Oro\Bundle\CustomerBundle\ImportExport\Converter\CustomerUserDataConverter
 
     # Customer User Export
+    oro_customer.importexport.normalizer.customer_user:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerUserNormalizer
+        parent: oro_importexport.serializer.configurable_entity_normalizer
+        tags:
+            - { name: oro_importexport.normalizer }
+
     oro_customer.importexport.processor.export.customer_user:
         public: false
         parent: oro_importexport.processor.export_abstract
@@ -69,13 +76,10 @@ services:
         tags:
             - { name: oro_importexport.template_fixture }
 
-    oro_customer.importexport.template_fixture.data_converter.customer_user:
-        parent: oro_importexport.data_converter.template_fixture.configurable
-
     oro_customer.importexport.processor.export_template.customer_user:
         parent: oro_importexport.processor.export_abstract
         calls:
-            - [setDataConverter, ['@oro_customer.importexport.template_fixture.data_converter.customer_user']]
+            - [setDataConverter, ['@oro_customer.importexport.data_converter.customer_user']]
         tags:
             - name: oro_importexport.processor
               type: export_template

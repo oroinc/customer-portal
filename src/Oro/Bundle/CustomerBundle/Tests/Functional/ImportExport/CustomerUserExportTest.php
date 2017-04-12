@@ -39,6 +39,7 @@ class CustomerUserExportTest extends AbstractExportTest
             'First Name',
             'Last Name',
             'Email',
+            'Customer Id',
             'Customer Name',
             'Enabled',
             'Confirmed',
@@ -62,6 +63,7 @@ class CustomerUserExportTest extends AbstractExportTest
             'Owner',
             'Sales Representatives',
             LoadCustomerUserData::LEVEL_1_PASSWORD,
+            'Customer Parent',
         ];
     }
 
