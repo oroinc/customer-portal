@@ -19,25 +19,22 @@
         {% set found = false %}
 
         {% for child in block if child.vars.visible %}
-            {% set currentUrl = path(child.vars.route_name, child.vars.route_parameters) %}
-            {% set itemCurrentClass = '' %}
-            {% set linkCurrentClass = '' %}
-            {% if currentUrl in requestUrl and not found %}
-                {% set itemCurrentClass = 'primary-menu__item--current' %}
-                {% set linkCurrentClass = 'primary-menu__link--current' %}
-            {% endif %}
+            {% for menuItem in child.vars.item.children if menuItem.isDisplayed() %}
+                {% set currentUrl = menuItem.uri %}
+                {% set itemCurrentClass = '' %}
+                {% set linkCurrentClass = '' %}
+                {% if currentUrl in requestUrl and not found %}
+                    {% set itemCurrentClass = 'primary-menu__item--current' %}
+                    {% set linkCurrentClass = 'primary-menu__link--current' %}
+                {% endif %}
 
-            <li class="primary-menu__item {{ itemCurrentClass }}">
-                {{ block_widget(child, {
-                    attr: layout_attr_defaults(child.vars.attr, {
-                        '~class': ' primary-menu__link ' ~ linkCurrentClass
-                    })
-                }) }}
-            </li>
-
-            {% if currentUrl in requestUrl and not found %}
-                {% set found = true %}
-            {% endif %}
+                <li class="primary-menu__item {{ itemCurrentClass }}">
+                    <a href="{{ menuItem.uri }}" class="{{ ' primary-menu__link ' ~ linkCurrentClass }}">{{ menuItem.label|trans }}</a>
+                </li>
+                {% if currentUrl in requestUrl and not found %}
+                    {% set found = true %}
+                {% endif %}
+            {% endfor %}
         {% endfor %}
     </ul>
 {% endblock %}

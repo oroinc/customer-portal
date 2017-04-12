@@ -93,6 +93,9 @@ navigation:
                         children:
                             menu_list_frontend: ~
 
+            frontend_menu:
+                scope_type: menu_frontend_visibility
+
             commerce_top_nav:
                 type: commerce_top_nav
                 scope_type: menu_frontend_visibility

@@ -135,7 +135,7 @@ class GlobalMenuControllerTest extends WebTestCase
             'oro_commerce_menu_global_menu_update',
             [
                 'menuName' => self::MENU_NAME,
-                'key' => 'frontend_customer_users'
+                'key' => 'oro_customer_menu_customer_user_index'
             ]
         );
         $crawler = $this->client->request('GET', $url);
