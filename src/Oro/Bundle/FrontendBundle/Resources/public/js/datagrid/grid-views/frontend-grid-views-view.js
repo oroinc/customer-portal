@@ -237,7 +237,8 @@ define(function(require) {
                     e.stopPropagation();
                     var data = self.getInputData(self.$el);
 
-                    self._onRenameSaveModel(model, data);
+                    model.set(data);
+                    self._onRenameSaveModel(model);
                 });
         },
 
