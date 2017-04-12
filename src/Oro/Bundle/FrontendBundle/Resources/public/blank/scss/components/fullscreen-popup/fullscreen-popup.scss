@@ -12,7 +12,7 @@
     background: get-color('additional', 'ultra');
 
     &__header {
-        z-index: 1;
+        z-index: z('base');
         right: 0;
         left: 0;
 
@@ -24,7 +24,6 @@
 
         line-height: 40px;
         text-transform: uppercase;
-        color: lighten(get-color('additional', 'dark'), 22%);
 
         background: get-color('additional', 'ultra');
         border-bottom: 1px solid get-color('additional', 'light');
@@ -34,6 +33,7 @@
         padding: 5px 0;
 
         font-size: $base-font-size--s;
+        font-weight: bold;
 
         cursor: pointer;
 
@@ -50,7 +50,7 @@
         margin-right: 5px;
 
         @include badge(
-            $badge-bg: lighten(get-color('additional', 'dark'), 22%)
+            $badge-bg: get-color('additional', 'dark')
         );
 
         vertical-align: baseline;
