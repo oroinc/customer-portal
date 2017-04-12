@@ -48,6 +48,7 @@ class FrontendCustomerUserType extends AbstractType
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
         $builder->remove('salesRepresentatives');
+        $builder->remove('addresses');
         $builder->add(
             'roles',
             FrontendCustomerUserRoleSelectType::NAME,

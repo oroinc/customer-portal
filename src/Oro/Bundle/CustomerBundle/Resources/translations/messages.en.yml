@@ -458,6 +458,7 @@ oro.customer:
                 customer_user_role.create: Create Role
                 customer_user_role.edit: Edit Role
                 customer_user.edit: 'Edit Customer User - %identifier%'
+                customer_user.view: 'Customer User'
         sections:
             customer_user_role:
                 label: Role Title

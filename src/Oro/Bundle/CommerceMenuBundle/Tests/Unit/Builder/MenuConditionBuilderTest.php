@@ -4,9 +4,9 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Builder;
 
 use Knp\Menu\ItemInterface;
 
-use Oro\Bundle\CommerceMenuBundle\Builder\MenuConditionBuilder;
-
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+
+use Oro\Bundle\CommerceMenuBundle\Builder\MenuConditionBuilder;
 
 class MenuConditionBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,13 +33,16 @@ class MenuConditionBuilderTest extends \PHPUnit_Framework_TestCase
             ->method('getChildren')
             ->willReturn([]);
 
-        $childMenu1->expects($this->exactly(2))
+        $childMenu1->expects($this->once())
             ->method('getExtra')
             ->withConsecutive(
-                [MenuConditionBuilder::CONDITION_KEY],
-                [MenuConditionBuilder::IS_ALLOWED_OPTION_KEY]
+                [MenuConditionBuilder::CONDITION_KEY]
             )
-            ->willReturnOnConsecutiveCalls('is_logged_in', false);
+            ->willReturnOnConsecutiveCalls('is_logged_in');
+
+        $childMenu1->expects($this->once())
+            ->method('isDisplayed')
+            ->willReturn(false);
 
         /** @var $childMenu2 ItemInterface|\PHPUnit_Framework_MockObject_MockObject */
         $childMenu2 = $this->createMock(ItemInterface::class);
@@ -47,14 +50,17 @@ class MenuConditionBuilderTest extends \PHPUnit_Framework_TestCase
             ->method('getChildren')
             ->willReturn([]);
 
-        $childMenu2->expects($this->exactly(3))
+        $childMenu2->expects($this->exactly(2))
             ->method('getExtra')
             ->withConsecutive(
                 [MenuConditionBuilder::CONDITION_KEY],
-                [MenuConditionBuilder::IS_ALLOWED_OPTION_KEY],
                 [MenuConditionBuilder::CONDITION_KEY]
             )
-            ->willReturnOnConsecutiveCalls('is_logged_in', true, 'is_logged_in');
+            ->willReturnOnConsecutiveCalls('is_logged_in', 'is_logged_in');
+
+        $childMenu2->expects($this->once())
+            ->method('isDisplayed')
+            ->willReturn(true);
 
         $this->expressionLanguage->expects($this->once())
             ->method('evaluate')
@@ -62,8 +68,8 @@ class MenuConditionBuilderTest extends \PHPUnit_Framework_TestCase
             ->willReturn(false);
 
         $childMenu2->expects($this->once())
-            ->method('setExtra')
-            ->with(MenuConditionBuilder::IS_ALLOWED_OPTION_KEY, false);
+            ->method('setDisplay')
+            ->willReturn(false);
 
         /** @var $mainMenu ItemInterface|\PHPUnit_Framework_MockObject_MockObject */
         $mainMenu = $this->createMock(ItemInterface::class);
