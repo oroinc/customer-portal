@@ -126,3 +126,18 @@ $nav-link-padding:       update-default($nav-link-padding, 10px 15px);
 $nav-tabs-border-radius: update-default($nav-tabs-border-radius, 4px);
 
 $nav-tabs-link-hover-border-color: update-default($nav-tabs-link-hover-border-color, transparent);
+
+
+// Modals
+
+// Padding applied to the modal body
+$modal-inner-padding:         $offset-y;
+
+$modal-dialog-margin:         0 auto;
+$modal-dialog-sm-up-margin-y: 0;
+
+$modal-title-padding:         $offset-y;
+
+$modal-header-border-color:   #e5e5e5 !default;
+
+$modal-md:                    90%;
