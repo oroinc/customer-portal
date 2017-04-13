@@ -210,7 +210,9 @@ operations:
         preconditions:
             '@not_equal': [$id, $.currentUser.id]
         frontend_options:
-            confirmation: oro.customer.customer_user.delete_confirm
+            confirmation:
+                message: oro.customer.customer_user.delete_confirm
+                component: oroui/js/delete-confirmation
         actions:
             - '@run_action_group':
                 action_group: DELETE
