@@ -21,3 +21,4 @@ oro_frontend:
                 rfq: "{{ totalRecords }} Total Requests For Quote"
                 orders: "{{ totalRecords }} Total Orders"
                 quotes: "{{ totalRecords }} Total Quotes"
+        manage_grid: 'Manage grid'
