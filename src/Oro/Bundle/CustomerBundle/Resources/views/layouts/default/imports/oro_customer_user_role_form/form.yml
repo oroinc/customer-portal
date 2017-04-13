@@ -47,7 +47,7 @@ layout:
                                 actionsPanel:
                                     className: 'btn-group not-expand frontend-datagrid__panel'
                                 itemsCounter:
-                                    className: 'grid__tool'
+                                    className: 'datagrid-tool'
                                     themeOptions:
                                         templateSelector: '#datagrid-items-counter-template'
                                     transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.users'
