@@ -131,11 +131,11 @@ $nav-tabs-link-hover-border-color: update-default($nav-tabs-link-hover-border-co
 // Modals
 
 // Padding applied to the modal body
-$modal-inner-padding:         $offset-y;
+$modal-inner-padding:         update-default($modal-inner-padding, $offset-y);
 
-$modal-dialog-margin:         0 auto;
-$modal-dialog-sm-up-margin-y: 0;
+$modal-dialog-margin:         update-default($modal-dialog-margin, 0 auto);
+$modal-dialog-sm-up-margin-y: update-default($modal-dialog-sm-up-margin-y, 0);
 
-$modal-title-padding:         $offset-y;
+$modal-title-padding:         update-default($modal-title-padding, $offset-y);
 
-$modal-md:                    90%;
+$modal-md:                    update-default($modal-md, 90%);
