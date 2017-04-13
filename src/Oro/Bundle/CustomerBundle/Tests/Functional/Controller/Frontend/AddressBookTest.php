@@ -112,7 +112,6 @@ class AddressBookTest extends WebTestCase
         $this->assertFalse($this->isCustomerUserAddressSectionVisible($crawler));
 
         $this->assertTrue($this->isCustomerAddressSectionVisible($crawler));
-        $this->assertTrue($this->isAddCustomerAddressButtonVisible($crawler));
         $this->assertTrue($this->isAddressBookMenuVisible($crawler));
     }
 
