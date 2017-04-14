@@ -1,0 +1,31 @@
+// @theme: default
+
+.fa-bars {
+    @include fa-icon($fa-var-list);
+}
+
+.fa {
+    &--small {
+        font-size: $root-font-size;
+    }
+
+    &--medium {
+        font-size: $base-font-size;
+    }
+
+    &--large {
+        font-size: 24px;
+    }
+
+    &--gray {
+        color: lighten(get-color('additional', 'dark'), 17.5%);
+    }
+
+    &--hidden {
+        visibility: hidden;
+    }
+
+    &--no-offset {
+        margin-right: 0;
+    }
+}
