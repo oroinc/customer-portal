@@ -11,26 +11,16 @@ layout:
 
         - '@addTree':
             items:
-                __addresses_head:
+                __addresses_view_additional_container:
                     blockType: container
-                    options:
-                        visible: '=data["acl"].isGranted("oro_customer_frontend_customer_address_view")'
-                __addresses_head_title:
-                    blockType: page_subtitle
-                    options:
-                        text: 'oro.customer.frontend.customer_user_address_book.customer_addresses'
-                        icon: 'map-marker'
-                __page_subtitle_actions:
-                    blockType: container
+
             tree:
-                __root:
-                    __addresses_head:
-                        __addresses_head_title: ~
-                        __page_subtitle_actions: ~
+                __addresses_datagrid_views_toolbar:
+                    __addresses_view_additional_container: ~
 
         - '@add':
             id: __addresses_create_link
-            parentId: __page_subtitle_actions
+            parentId: __addresses_view_additional_container
             blockType: link
             options:
                 visible: '=data["acl"].isGranted("oro_customer_frontend_customer_address_create") && data["acl"].isGranted("oro_customer_frontend_customer_address_view")'
@@ -39,10 +29,8 @@ layout:
                     entityId: '=data["entity"].getCustomer().getId()'
                 text: 'oro.customer.frontend.customer_user_address_book.create.label'
                 icon: plus fa--small
-
-        - '@move':
-            id: __addresses_datagrid
-            siblingId: __addresses_head
+                attr:
+                    class: 'btn btn--size-s btn--info'
 
         - '@setOption':
             id: __addresses_datagrid
@@ -58,11 +46,26 @@ layout:
                 cellLauncherOptions:
                     launcherMode: 'icon-only'
 
+        - '@setOption':
+            id: __addresses_datagrid
+            optionName: grid_render_parameters.gridViewsOptions.text
+            optionValue: 'oro.customer.customer_address_book.customer_addresses'
+
+        - '@setOption':
+            id: __addresses_datagrid
+            optionName: grid_render_parameters.gridViewsOptions.icon
+            optionValue: 'map-marker'
+
         - '@appendOption':
             id: __addresses_datagrid
             optionName: grid_render_parameters.toolbarOptions.itemsCounter
             optionValue:
                 transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.companyAddresses'
+
+        - '@setOption':
+            id: __addresses_datagrid_views
+            optionName: attr.data-datagrid-views-name
+            optionValue: frontend-customer-customer-address-grid
 
         - '@setOption':
               id: __addresses_datagrid_toolbar_button_container

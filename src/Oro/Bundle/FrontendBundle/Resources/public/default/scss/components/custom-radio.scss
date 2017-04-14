@@ -46,4 +46,17 @@
         width: 16px;
         height: 16px;
     }
+
+    &.absolute {
+        position: relative;
+
+        .custom-radio__text {
+            margin-left: 25px;
+
+            &:before {
+                position: absolute;
+                left: 0;
+            }
+        }
+    }
 }
