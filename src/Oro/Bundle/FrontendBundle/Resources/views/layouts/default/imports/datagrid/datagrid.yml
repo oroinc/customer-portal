@@ -1,4 +1,8 @@
 layout:
+    imports:
+        -
+            id: datagrid_views
+            root: __root
     actions:
         - '@setBlockTheme':
             themes: 'datagrid.html.twig'

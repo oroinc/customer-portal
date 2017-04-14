@@ -11,26 +11,15 @@ layout:
 
         - '@addTree':
             items:
-                __user_addresses_head:
-                    blockType: container
-                    options:
-                        visible: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_view")'
-                __user_addresses_head_title:
-                    blockType: page_subtitle
-                    options:
-                        text: 'oro.customer.frontend.customer_user_address_book.customer_user_addresses'
-                        icon: 'map-marker'
-                __user_addresses_title_action:
+                __user_addresses_view_additional_container:
                     blockType: container
             tree:
-                __root:
-                    __user_addresses_head:
-                        __user_addresses_head_title: ~
-                        __user_addresses_title_action: ~
+                __user_addresses_datagrid_views_toolbar:
+                    __user_addresses_view_additional_container: ~
 
         - '@add':
             id: __user_addresses_create_link
-            parentId: __user_addresses_title_action
+            parentId: __user_addresses_view_additional_container
             blockType: link
             options:
                 visible: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_create")'
@@ -42,9 +31,20 @@ layout:
                 attr:
                     class: 'btn btn--size-s btn--info'
 
-        - '@move':
+        - '@setOption':
+            id: __user_addresses_datagrid_views
+            optionName: attr.data-datagrid-views-name
+            optionValue: frontend-customer-customer-user-address-grid
+
+        - '@setOption':
             id: __user_addresses_datagrid
-            siblingId: __user_addresses_head
+            optionName: grid_render_parameters.gridViewsOptions.text
+            optionValue: 'oro.customer.customer_user_address_book.customer_user_addresses'
+
+        - '@setOption':
+            id: __user_addresses_datagrid
+            optionName: grid_render_parameters.gridViewsOptions.icon
+            optionValue: 'map-marker'
 
         - '@setOption':
             id: __user_addresses_datagrid

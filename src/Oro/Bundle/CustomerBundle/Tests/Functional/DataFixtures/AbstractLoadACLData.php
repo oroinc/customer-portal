@@ -10,6 +10,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
+use Oro\Bundle\SecurityBundle\Acl\Extension\ActionAclExtension;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Entity\User;
@@ -274,9 +275,10 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
         $sid = $aclManager->getSid($role);
         $oid = $aclManager->getOid('entity:'.$className);
 
+        $chainMetadataProvider->startProviderEmulation(FrontendOwnershipMetadataProvider::ALIAS);
+
         foreach ($aclManager->getAllExtensions() as $extension) {
             if ($extension instanceof EntityAclExtension) {
-                $chainMetadataProvider->startProviderEmulation(FrontendOwnershipMetadataProvider::ALIAS);
                 $builder = $aclManager->getMaskBuilder($oid);
                 $mask = $builder->reset()->get();
                 foreach ($allowedACL[0] as $acl) {
@@ -291,10 +293,15 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
 
                 $aclManager->setPermission($sid, $oid, $mask);
                 $aclManager->setPermission($sid, $oid, $deleteMask);
+            } elseif ($extension instanceof ActionAclExtension) {
+                $capabilityOID = $aclManager->getRootOid($extension->getExtensionKey());
+                $builder = $aclManager->getMaskBuilder($capabilityOID);
 
-                $chainMetadataProvider->stopProviderEmulation();
+                $aclManager->setPermission($sid, $capabilityOID, $builder->getMask('GROUP_ALL'));
             }
         }
+
+        $chainMetadataProvider->stopProviderEmulation();
     }
 
     /**
