@@ -6,10 +6,12 @@
 {% endblock %}
 
 {% block _customer_user_profile_controls_wrapper_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " customer-profile__controls-wrapper" }) %}
-    <div{{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
+    {% if block.children is not empty %}
+        {% set attr = attr|merge({ class: attr.class|default('') ~ " customer-profile__controls-wrapper" }) %}
+        <div{{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block _customer_user_profile_controls_widget %}

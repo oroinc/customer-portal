@@ -92,4 +92,22 @@
     &--no-offset {
         margin-right: 0;
     }
+
+    &--offset-l {
+        margin-right: 0;
+        margin-left: 3px;
+    }
+
+    &--link-r {
+        margin-right: 0;
+        margin-left: 3px;
+
+        font-size: $root-font-size;
+        font-weight: bold;
+    }
+
+    &--link-l {
+        font-size: $root-font-size;
+        font-weight: bold;
+    }
 }

@@ -293,6 +293,21 @@ oro.customer:
         website.label:          Website
         localization.label:     Localization
 
+    gridview:
+        entity_label: Grid View
+        entity_plural_label: Grid Views
+        id.label: Id
+        appearance_data.label: Appearance data
+        columns_data.label: Columns
+        filters_data.label: Filters
+        grid_name.label: Grid Name
+        name.label: Name
+        sorters_data.label: Sorters
+        type.label: Type
+        discr_type.label: Discriminator Type
+        customer_user_owner.label: Owner
+        organization.label: Organization
+
     menu:
         customers_tab.label: 'Customers'
         customer_list.description: 'List of Customers'
@@ -443,6 +458,7 @@ oro.customer:
                 customer_user_role.create: Create Role
                 customer_user_role.edit: Edit Role
                 customer_user.edit: 'Edit Customer User - %identifier%'
+                customer_user.view: 'Customer User'
         sections:
             customer_user_role:
                 label: Role Title
