@@ -14,6 +14,8 @@ parameters:
     oro_customer.entity.widget.class: Oro\Bundle\CustomerBundle\Entity\CustomerUserSidebarWidget
     oro_customer.entity.page_state.class: Oro\Bundle\CustomerBundle\Entity\PageState
     oro_customer.entity.windows_state.class: Oro\Bundle\CustomerBundle\Entity\WindowsState
+    oro_customer.entity.grid_view.class: Oro\Bundle\CustomerBundle\Entity\GridView
+    oro_customer.entity.grid_view_user.class: Oro\Bundle\CustomerBundle\Entity\GridViewUser
 
 services:
     oro_customer.deprecated_rest_api_route_options_resolver:
@@ -442,11 +444,13 @@ services:
         arguments:
             - "@oro_security.security_facade"
 
-    oro_customer.audit.discriminator_map_listener:
-        class: 'Oro\Bundle\CustomerBundle\Audit\DiscriminatorMapListener'
+    oro_customer.discriminator_map_listener:
+        class: 'Oro\Bundle\EntityBundle\ORM\DiscriminatorMapListener'
         public: false
         calls:
             - [ addClass, ['oro_audit', '%oro_customer.entity.audit.class%'] ]
+            - [ addClass, ['oro_grid_view', '%oro_customer.entity.grid_view.class%'] ]
+            - [ addClass, ['oro_grid_view_user_rel', '%oro_customer.entity.grid_view_user.class%'] ]
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata }
 
@@ -713,6 +717,42 @@ services:
             - '@security.token_storage'
         tags:
             - { name: website_search.placeholder }
+
+    oro_customer.grid_view.manager.api:
+        class: 'Oro\Bundle\DataGridBundle\Entity\Manager\GridViewApiEntityManager'
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - '%oro_customer.entity.grid_view.class%'
+            - '@doctrine.orm.entity_manager'
+            - '@oro_datagrid.grid_view.manager'
+
+    oro_customer.grid_view.manager:
+        parent: oro_datagrid.grid_view.manager
+        calls:
+            - [setGridViewClassName, ['%oro_customer.entity.grid_view.class%']]
+            - [setGridViewUserClassName, ['%oro_customer.entity.grid_view_user.class%']]
+
+    oro_customer.grid_view.manager.composite:
+        class: 'Oro\Bundle\CustomerBundle\Entity\Manager\GridViewManagerComposite'
+        decorates: oro_datagrid.grid_view.manager
+        arguments:
+            - '@oro_customer.grid_view.manager.composite.inner'
+            - '@oro_customer.grid_view.manager'
+            - '@oro_security.security_facade'
+
+    oro_customer.extension.views:
+        class: 'Oro\Bundle\CustomerBundle\Datagrid\Extension\GridViewsExtension'
+        parent: oro_datagrid.extension.views
+
+    oro_customer.extension.views.composite:
+        class: 'Oro\Bundle\CustomerBundle\Datagrid\Extension\GridViewsExtensionComposite'
+        decorates: oro_datagrid.extension.views
+        arguments:
+            - '@oro_customer.extension.views.composite.inner'
+            - '@oro_customer.extension.views'
+            - '@oro_security.security_facade'
+        tags:
+            - { name: oro_datagrid.extension }
 
     oro_customer.event_listener.navigation:
         class: 'Oro\Bundle\CustomerBundle\EventListener\NavigationListener'

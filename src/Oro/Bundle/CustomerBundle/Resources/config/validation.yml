@@ -106,3 +106,5 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
             - Length:
                 min: 3
                 max: 255
+        customerUsers:
+            - Oro\Bundle\UserBundle\Validator\Constraints\UserWithoutRole: ~
