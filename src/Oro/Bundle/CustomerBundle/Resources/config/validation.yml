@@ -50,7 +50,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         plainPassword:
             - NotBlank:
                 groups: [create]
-            - Oro\Bundle\UserBundle\Validator\Constraints\PasswordComplexity: ~
+            - Oro\Bundle\UserBundle\Validator\Constraints\PasswordComplexity:
+                groups: [create, Default]
         username:
             - NotBlank: ~
             - Length:
@@ -103,3 +104,5 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
             - Length:
                 min: 3
                 max: 255
+        customerUsers:
+            - Oro\Bundle\UserBundle\Validator\Constraints\UserWithoutRole: ~

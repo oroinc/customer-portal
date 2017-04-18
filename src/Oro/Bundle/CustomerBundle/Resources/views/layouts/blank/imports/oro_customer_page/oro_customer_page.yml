@@ -8,3 +8,5 @@ layout:
             id: breadcrumbs
             parentId: page_main_header
             blockType: breadcrumbs
+            options:
+                menu_name: "frontend_menu"

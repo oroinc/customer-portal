@@ -4,13 +4,12 @@ namespace Oro\Bundle\CommerceMenuBundle\Builder;
 
 use Knp\Menu\ItemInterface;
 
-use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
-
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+
+use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 
 class MenuConditionBuilder implements BuilderInterface
 {
-    const IS_ALLOWED_OPTION_KEY     = 'isAllowed';
     const CONDITION_KEY             = 'condition';
     const DEFAULT_IS_ALLOWED_POLICY = true;
 
@@ -44,9 +43,9 @@ class MenuConditionBuilder implements BuilderInterface
             $this->applyConditionsRecursively($menuChild);
         }
 
-        if ($menu->getExtra(self::CONDITION_KEY) && $menu->getExtra(self::IS_ALLOWED_OPTION_KEY) !== false) {
+        if ($menu->getExtra(self::CONDITION_KEY) && $menu->isDisplayed() !== false) {
             $result = (bool)$this->expressionLanguage->evaluate($menu->getExtra(self::CONDITION_KEY));
-            $menu->setExtra(self::IS_ALLOWED_OPTION_KEY, $result);
+            $menu->setDisplay($result);
         }
     }
 }

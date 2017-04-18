@@ -70,6 +70,6 @@ class CustomerUserExportTest extends AbstractExportTest
      */
     protected function getExpectedNumberOfLines()
     {
-        return 7;
+        return 8;
     }
 }
