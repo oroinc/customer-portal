@@ -224,7 +224,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             'entity' => [
                 0 => [
                     'identity' => [
-                        'id' =>'entity:FirstClass',
+                        'id' => 'entity:FirstClass',
                         'name' => 'VIEW',
                     ],
                     'permissions' => [
@@ -236,7 +236,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
                 ],
                 1 => [
                     'identity' => [
-                        'id' =>'entity:SecondClass',
+                        'id' => 'entity:SecondClass',
                         'name' => 'VIEW',
                     ],
                     'permissions' => [
@@ -250,7 +250,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             'action' => [
                 0 => [
                     'identity' => [
-                        'id' =>'action',
+                        'id' => 'action',
                         'name' => 'random_action',
                     ],
                     'permissions' => [
