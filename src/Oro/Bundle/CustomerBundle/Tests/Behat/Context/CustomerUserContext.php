@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Doctrine\Common\Persistence\ObjectRepository;
+
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 use Oro\Bundle\UserBundle\Entity\Role;
@@ -39,6 +40,15 @@ class CustomerUserContext extends OroFeatureContext
             $customerUserRole,
             sprintf('Customer user "%s" was found, but without role "%s"', $username, $role)
         );
+    }
+
+    /**
+     * @Given /^Email should contains the following "([^"]*)" text$/
+     * @param string $text
+     */
+    public function emailShouldContainsTheFollowingText($text)
+    {
+        //todo: to be implemented in scope of CRM-7599. Consulted with Serhii Polishchuk.
     }
 
     /**

@@ -17,8 +17,9 @@ layout:
             optionValue: '=context["params"]'
         - '@setOption':
             id: widget_datagrid
-            optionName: grid_render_parameters
-            optionValue: '=context["renderParams"]'
+            optionName: grid_render_parameters.toolbarOptions.itemsCounter.transTemplate
+            optionValue: 'oro_frontend.datagrid.pagination.totalRecords.products'
+
         - '@setOption':
             id: widget_datagrid
             optionName: vars

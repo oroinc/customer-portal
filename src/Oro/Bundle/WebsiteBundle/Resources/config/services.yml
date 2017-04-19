@@ -2,6 +2,12 @@ parameters:
     oro_website.entity.website.class: Oro\Bundle\WebsiteBundle\Entity\Website
 
 services:
+    oro_website.repository.website:
+        class: Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository
+        parent: oro_entity.abstract_repository
+        arguments:
+            - '%oro_website.entity.website.class%'
+
     oro_website.manager:
         class: 'Oro\Bundle\WebsiteBundle\Manager\WebsiteManager'
         public: true
@@ -62,6 +68,12 @@ services:
             - '@oro_config.manager'
             - '@router'
 
+    oro_website.resolver.website_system_url_resolver:
+        class: 'Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver'
+        arguments:
+            - '@oro_config.manager'
+            - '@router.default'
+
     oro_website.twig.website_path:
         class: Oro\Bundle\WebsiteBundle\Twig\WebsitePathExtension
         public: false
@@ -85,8 +97,27 @@ services:
             - '@oro_locale.manager.localization'
             - '@oro_entity.doctrine_helper'
 
+    oro_website.repository.website:
+        class: 'Doctrine\ORM\EntityRepository'
+        public: false
+        factory:  ["@oro_entity.doctrine_helper", getEntityRepository]
+        arguments:
+            - '%oro_website.entity.website.class%'
+
     oro_website.assetic_context:
         class: 'Oro\Bundle\WebsiteBundle\Asset\AssetsContext'
         decorates: assets.context
         arguments:
             - '@request_stack'
+
+    oro_website.website_scope_criteria_provider:
+        class: 'Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider'
+        public: false
+        arguments:
+            - "@oro_website.manager"
+
+    oro_website.repository.website:
+        class: 'Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository'
+        parent: oro_entity.abstract_repository
+        arguments:
+            - '%oro_website.entity.website.class%'

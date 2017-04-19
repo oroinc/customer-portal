@@ -7,6 +7,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 
 class CustomerUserControllerRegisterTest extends WebTestCase
 {
@@ -16,32 +17,22 @@ class CustomerUserControllerRegisterTest extends WebTestCase
     /** @var ConfigManager */
     protected $configManager;
 
-    /** @var  bool */
-    protected $isConfirmationRequired;
-
-    /** @var  bool */
-    protected $sendPassword;
-
     protected function setUp()
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
         $this->configManager = $this->getContainer()->get('oro_config.manager');
-        $this->isConfirmationRequired = $this->configManager->get('oro_customer.confirmation_required');
-        $this->sendPassword = $this->configManager->get('oro_customer.send_password_in_welcome_email');
+        $this->loadFixtures([LoadCustomerUserData::class]);
     }
 
-    protected function tearDown()
-    {
-        parent::tearDown();
-
-        $configManager = $this->getContainer()->get('oro_config.manager');
-        $configManager->set('oro_customer.confirmation_required', $this->isConfirmationRequired);
-        $configManager->set('oro_customer.send_password_in_welcome_email', $this->sendPassword);
-        $configManager->flush();
-    }
-
-    public function testRegisterPasswordMismatch()
+    /**
+     * @dataProvider getInvalidData
+     *
+     * @param string $firstPassword
+     * @param string $secondPassword
+     * @param string $message
+     */
+    public function testInvalidRegister($firstPassword, $secondPassword, $message)
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_register'));
         $result = $this->client->getResponse();
@@ -57,8 +48,8 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 'lastName' => 'Brown',
                 'email' => self::EMAIL,
                 'plainPassword' => [
-                    'first' => 'plainPassword',
-                    'second' => 'plainPassword2'
+                    'first' => $firstPassword,
+                    'second' => $secondPassword
                 ]
             ]
         ];
@@ -69,7 +60,26 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertEmpty($this->getCustomerUser(['email' => self::EMAIL]));
-        $this->assertContains('The password fields must match.', $crawler->html());
+        $this->assertContains($message, $crawler->html());
+    }
+
+    /**
+     * @return array
+     */
+    public function getInvalidData()
+    {
+        return [
+            'mismatch passwords' => [
+                'firstPassword' => 'plainPassword',
+                'secondPassword' => 'plainPassword2',
+                'errorMessage' => 'The password fields must match.'
+            ],
+            'low password complexity' => [
+                'firstPassword' => '0',
+                'secondPassword' => '0',
+                'errorMessage' => 'The password must be at least 2 characters long'
+            ]
+        ];
     }
 
     /**
@@ -143,6 +153,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
     public function testRegisterWithConfirmation()
     {
         $this->configManager->set('oro_customer.confirmation_required', true);
+        $this->configManager->flush();
 
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_register'));
         $result = $this->client->getResponse();
@@ -242,6 +253,39 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertContains('This value is already used.', $crawler->filter('.notification__text')->html());
+    }
+
+    public function testResetPasswordWithLowPasswordComplexity()
+    {
+        $user = $this->getCustomerUser(['email' => LoadCustomerUserData::RESET_EMAIL]);
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl(
+                'oro_customer_frontend_customer_user_password_reset',
+                [
+                    'token' => $user->getConfirmationToken(),
+                    'username' => $user->getUsername()
+                ]
+            )
+        );
+        $form = $crawler->selectButton('Create')->form();
+
+        $submittedData = [
+            'oro_customer_customer_user_password_reset' => [
+                '_token' => $form->get('oro_customer_customer_user_password_reset[_token]')->getValue(),
+                'plainPassword' => [
+                    'first' => '0',
+                    'second' => '0'
+                ]
+            ]
+        ];
+
+        $this->client->followRedirects(true);
+        $crawler = $this->client->submit($form, $submittedData);
+        $result = $this->client->getResponse();
+
+        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        $this->assertContains('The password must be at least 2 characters long', $crawler->html());
     }
 
     /**

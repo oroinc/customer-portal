@@ -2,16 +2,6 @@ oro_customer_address_api:
     resource: "@OroCustomerBundle/Controller/Api/Rest/CommerceCustomerAddressController.php"
     type:     rest
 
-oro_customer_group_api:
-    resource: "@OroCustomerBundle/Controller/Api/Rest/CustomerGroupController.php"
-    type:     rest
-
-oro_customer_frontend_customer_user_api:
-    resource: "@OroCustomerBundle/Controller/Frontend/Api/Rest/CustomerUserController.php"
-    type:     rest
-    options:
-        frontend: true
-
 oro_customer_customer_user_address_api:
     resource: "@OroCustomerBundle/Controller/Api/Rest/CustomerUserAddressController.php"
     type:     rest
@@ -66,6 +56,12 @@ oro_frontend_entity_data_api:
 
 oro_frontend_windows_api:
     resource: "@OroCustomerBundle/Controller/Api/Rest/FrontendWindowsStateController.php"
+    type:     rest
+    options:
+        frontend: true
+
+oro_frontend_grid_view_api:
+    resource: "@OroCustomerBundle/Controller/Frontend/Api/Rest/GridViewController.php"
     type:     rest
     options:
         frontend: true

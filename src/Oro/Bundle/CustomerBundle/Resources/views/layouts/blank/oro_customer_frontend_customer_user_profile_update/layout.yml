@@ -1,6 +1,18 @@
 layout:
     imports:
         -
-            id: oro_customer_menu
-            root: page_sidebar
-    actions: []
+            id: oro_customer_page
+        -
+            id: oro_customer_user_form
+            root: page_content
+    actions:
+        - '@setOption':
+            id: page_title
+            optionName: defaultValue
+            optionValue:
+                label: 'oro.customer.customeruser.profile.edit'
+
+        - '@setOption':
+            id: customer_user_form
+            optionName: form
+            optionValue: '=data["oro_customer_frontend_customer_user_form"].getProfileFormView(data["entity"])'

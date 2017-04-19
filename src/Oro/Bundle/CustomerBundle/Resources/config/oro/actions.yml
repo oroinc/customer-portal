@@ -171,6 +171,9 @@ operations:
         routes:
            - oro_customer_frontend_customer_user_index
         acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUser]
+        button_options:
+            class: btn--info
+            icon: fa-plus fa--small
         order: 10
         actions:
            - '@redirect':
@@ -183,6 +186,9 @@ operations:
         routes:
             - oro_customer_frontend_customer_user_role_index
         acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUserRole]
+        button_options:
+            class: btn--info
+            icon: fa-plus fa--small
         order: 10
         actions:
             - '@redirect':
@@ -204,7 +210,9 @@ operations:
         preconditions:
             '@not_equal': [$id, $.currentUser.id]
         frontend_options:
-            confirmation: oro.customer.customer_user.delete_confirm
+            confirmation:
+                message: oro.customer.customer_user.delete_confirm
+                component: oroui/js/delete-confirmation
         actions:
             - '@run_action_group':
                 action_group: DELETE
@@ -328,6 +336,113 @@ operations:
             - customer-group-customers-grid-update-basic
             - customer-groups-select-grid
             - customer-user-by-customer-grid
+            - customer-groups-grid
+
+    oro_customer_frontend_user_delete:
+        extends: DELETE
+        replace:
+            - preconditions
+            - for_all_datagrids
+            - for_all_entities
+            - datagrids
+        preconditions:
+            '@and':
+                - '@not_blank': $.data
+                - '@not_equal': [$.loggedUser.id, $id]
+        preactions:
+            - '@call_service_method':
+                  service: 'oro_security.security_facade'
+                  method: 'getLoggedUser'
+                  attribute: $.loggedUser
+        datagrids:
+            - frontend-customer-customer-user-grid
+
+    oro_customer_groups_delete:
+        extends: DELETE
+        replace:
+            - exclude_entities
+            - exclude_datagrids
+            - for_all_datagrids
+            - for_all_entities
+            - entities
+            - datagrid_options
+            - actions
+        entities:
+            - Oro\Bundle\CustomerBundle\Entity\CustomerGroup
+        datagrids:
+            - customer-groups-grid
+        datagrid_options:
+            mass_action:
+                entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerGroup
+                data_identifier: customer_group.id
+                type: delete
+                label: oro.grid.action.delete
+                link: delete_link
+                icon: trash-o
+        actions:
+            - '@assign_constant_value':
+                attribute: $.removeEventName
+                value: Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent::PRE_REMOVE
+            - '@create_object':
+                class: Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent
+                arguments: [$.data]
+                attribute: $.customerGroupDeleteEvent
+            - '@call_service_method':
+                service: event_dispatcher
+                method: dispatch
+                method_parameters: [$.removeEventName, $.customerGroupDeleteEvent]
+            - '@run_action_group':
+                action_group: DELETE
+                parameters_mapping:
+                    data: $.data
+            - '@flash_message':
+                message: oro.action.delete_message
+                type: 'success'
+                message_parameters:
+                    entityLabel: $.entityLabel
+            - '@redirect':
+                conditions:
+                    '@and':
+                        - '@empty': $.gridName
+                        - '@not_empty': $.routes[name]
+                parameters:
+                    route: $.routes[name]
+            - '@refresh_grid':
+                conditions:
+                    '@and':
+                        - '@empty': $.routes[name]
+                        - '@not_empty': $.gridName
+                parameters: [$.gridName]
+
+    oro_customer_frontend_address_delete:
+        label: ' '
+        extends: DELETE
+        replace:
+            - preconditions
+            - for_all_datagrids
+            - for_all_entities
+            - datagrids
+            - acl_resource
+        acl_resource: oro_customer_frontend_customer_address_remove
+        button_options:
+            icon: trash
+        datagrids:
+            - frontend-customer-customer-address-grid
+
+    oro_customer_user_frontend_address_delete:
+        label: ' '
+        extends: DELETE
+        replace:
+            - preconditions
+            - for_all_datagrids
+            - for_all_entities
+            - datagrids
+            - acl_resource
+        acl_resource: oro_customer_frontend_customer_user_address_remove
+        button_options:
+            icon: trash
+        datagrids:
+            - frontend-customer-customer-user-address-grid
 
 action_groups:
     oro_customer_customeruser_set_enabled:

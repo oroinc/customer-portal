@@ -27,7 +27,7 @@ datagrids:
         extended_entity_name: %oro_customer.entity.customer.class%
         acl_resource: oro_customer_customer_view
         options:
-            entityHint:        customer
+            entityHint:        customers
         inline_editing:
             enable: true
             behaviour: enable_selected
@@ -120,7 +120,7 @@ datagrids:
         extended_entity_name: %oro_customer.entity.customer_group.class%
         acl_resource: oro_customer_customer_group_view
         options:
-            entityHint:        customer group
+            entityHint:        customer groups
         source:
             type:         orm
             query:
@@ -159,10 +159,7 @@ datagrids:
                 type:   url
                 route:  oro_customer_customer_group_update
                 params: [ id ]
-            delete_link:
-                type:   url
-                route:  oro_api_customer_delete_customer_group
-                params: [ id ]
+
         actions:
             view:
                 type:         navigate
@@ -177,12 +174,6 @@ datagrids:
                 link:          update_link
                 icon:          pencil-square-o
                 acl_resource:  oro_customer_customer_group_update
-            delete:
-                type:          delete
-                label:         oro.grid.action.delete
-                link:          delete_link
-                icon:          trash-o
-                acl_resource:  oro_customer_customer_group_delete
 
     customer-group-customers-grid-basic:
         acl_resource: oro_customer_customer_view
@@ -226,7 +217,7 @@ datagrids:
                 icon:         eye
                 acl_resource: oro_customer_customer_view
         options:
-            entityHint: customer
+            entityHint: customers
 
     customer-group-customers-grid-view:
         extends: customer-group-customers-grid-basic
@@ -304,7 +295,7 @@ datagrids:
         entity_name: %oro_customer.entity.customer_user.class%
         acl_resource: oro_customer_customer_user_view
         options:
-            entityHint:        customer user
+            entityHint:        customer users
             entity_pagination: true
         source:
             type:         orm
@@ -475,7 +466,7 @@ datagrids:
 
     basic-customer-customer-user-roles-grid:
         options:
-            entityHint: role
+            entityHint: roles
             entity_pagination: true
         source:
             type: orm
@@ -631,7 +622,7 @@ datagrids:
             default:
                 hasRole: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC
         options:
-            entityHint: user
+            entityHint: users
             rowSelection:
                 dataField: id
                 columnName: hasRole
@@ -718,7 +709,7 @@ datagrids:
     frontend-customer-customer-users-grid-basic:
         entity_name: %oro_customer.entity.customer_user.class%
         options:
-            entityHint: customer user
+            entityHint: customer users
         acl_resource: oro_customer_frontend_customer_user_view
         source:
             type: orm
@@ -877,7 +868,7 @@ datagrids:
             default:
                 hasRole: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC
         options:
-            entityHint: user
+            entityHint: users
             rowSelection:
                 dataField: id
                 columnName: hasRole
@@ -898,10 +889,6 @@ datagrids:
                 type:   url
                 route:  oro_customer_frontend_customer_user_update
                 params: [ id ]
-            delete_link:
-                type:   url
-                route:  oro_api_customer_frontend_delete_customer_user
-                params: [ id ]
         actions:
             view:
                 type:          navigate
@@ -916,12 +903,6 @@ datagrids:
                 link:          update_link
                 icon:          pencil-square-o
                 acl_resource:  oro_customer_frontend_customer_user_update
-            delete:
-                type:          delete
-                label:         oro.grid.action.delete
-                link:          delete_link
-                icon:          trash-o
-                acl_resource:  oro_customer_frontend_customer_user_delete
         action_configuration: ['@oro_customer.datagrid.action_permission_provider', "getUserPermissions"]
 
     audit-grid:
@@ -1049,7 +1030,8 @@ datagrids:
         actions:
             show_map:
                 type:          map
-                icon:          map-marker
+                icon:          map-o
+                frontend_type: frontend-map
 
     frontend-customer-customer-address-grid:
         acl_resource: oro_customer_frontend_customer_address_view
@@ -1065,21 +1047,12 @@ datagrids:
                 route: oro_customer_frontend_customer_address_update
                 params: {entityId: frontendOwner.id , id: id}
 
-            delete_link:
-                type: url
-                route: oro_api_customer_frontend_delete_customer_address
-                params: {entityId: frontendOwner.id , addressId: id}
         actions:
             update:
                 type:          navigate
                 link:          update_link
                 icon:          pencil
                 acl_resource:  oro_customer_frontend_customer_address_update
-            delete:
-                type:          delete
-                link:          delete_link
-                icon:          trash-o
-                acl_resource:  oro_customer_frontend_customer_address_remove
 
     frontend-customer-customer-user-address-grid:
         acl_resource: oro_customer_frontend_customer_user_address_view
@@ -1095,18 +1068,9 @@ datagrids:
                 route: oro_customer_frontend_customer_user_address_update
                 params: {entityId: frontendOwner.id , id: id}
 
-            delete_link:
-                type: url
-                route: oro_api_customer_frontend_delete_customeruser_address
-                params: {entityId: frontendOwner.id , addressId: id}
         actions:
             update:
                 type:          navigate
                 link:          update_link
                 icon:          pencil
                 acl_resource:  oro_customer_frontend_customer_user_address_update
-            delete:
-                type:          delete
-                link:          delete_link
-                icon:          trash-o
-                acl_resource:  oro_customer_frontend_customer_user_address_remove

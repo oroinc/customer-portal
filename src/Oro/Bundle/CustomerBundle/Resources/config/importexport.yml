@@ -1,0 +1,29 @@
+services:
+    # Data converter
+    oro_customer.importexport.data_converter.customer:
+        parent: oro_importexport.data_converter.configurable
+
+    # Export
+    oro_customer.importexport.processor.export.customer:
+        public: false
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, ['@oro_customer.importexport.data_converter.customer']]
+        tags:
+            - { name: oro_importexport.processor, type: export, entity: '%oro_customer.entity.customer.class%', alias: oro_customer_customer }
+
+    # Customer User Data Converter
+    oro_customer.importexport.data_converter.customer_user:
+        parent: oro_importexport.data_converter.configurable
+
+    # Customer User Export
+    oro_customer.importexport.processor.export.customer_user:
+        public: false
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, ['@oro_customer.importexport.data_converter.customer_user']]
+        tags:
+            - name: oro_importexport.processor
+              type: export
+              entity: '%oro_customer.entity.customer_user.class%'
+              alias: oro_customer_customer_user

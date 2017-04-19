@@ -21,14 +21,18 @@ layout:
 
         - '@setOption':
             id: __datagrid
-            optionName: grid_render_parameters
-            optionValue:
-                cssClass: 'inner-permissions-grid'
+            optionName: grid_render_parameters.cssClass
+            optionValue: 'inner-permissions-grid'
 
         - '@setOption':
             id: __datagrid
             optionName: vars
             optionValue:
                 options:
-                    tabsOptions: '=data["oro_customer_fronted_customer_user_role_options"].getTabsOptions()'
-                    capabilitySetOptions: '=data["oro_customer_fronted_customer_user_role_options"].getCapabilitySetOptions(data["entity"])'
+                    tabsOptions: '=data["oro_customer_fronted_customer_user_role_tab_options"].getOptions(data["entity"])'
+                    capabilitySetOptions: '=data["oro_customer_fronted_customer_user_role_capability_set_options"].getOptions(data["entity"])'
+
+        - '@setOption':
+            id: __datagrid
+            optionName: grid_render_parameters.gridViewsOptions.text
+            optionValue: 'oro.customer.customer_user.role.users'

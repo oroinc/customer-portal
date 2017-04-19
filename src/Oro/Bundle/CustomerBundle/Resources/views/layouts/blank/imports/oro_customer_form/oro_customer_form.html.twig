@@ -4,6 +4,13 @@
     </div>
 {% endblock %}
 
+{% block __oro_customer_form__label_wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' page-title-wrapper'
+    }) %}
+    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
 {% block __oro_customer_form__label_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' page-title'

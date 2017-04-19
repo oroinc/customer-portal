@@ -1,0 +1,36 @@
+layout:
+    imports:
+        -
+            id: datagrid_views
+            root: __root
+    actions:
+        - '@setBlockTheme':
+            themes: 'datagrid.html.twig'
+
+        - '@setOption':
+            id: __datagrid
+            optionName: grid_render_parameters
+            optionValue:
+                cssClass: 'frontend-datagrid'
+                themeOptions:
+                    actionsDropdown: 'auto'
+                    actionOptions:
+                        refreshAction:
+                            launcherOptions:
+                                className: 'btn btn--default btn--size-s'
+                                icon: 'undo fa--no-offset'
+                                iconHideText: true
+                        resetAction:
+                            launcherOptions:
+                                className: 'btn btn--default btn--size-s'
+                                icon: 'refresh fa--no-offset'
+                                iconHideText: true
+                toolbarOptions:
+                    actionsPanel:
+                        className: 'btn-group not-expand frontend-datagrid__panel'
+                    itemsCounter:
+                        className: 'datagrid-tool'
+                        themeOptions:
+                            templateSelector: '#datagrid-items-counter-template'
+                    hideItemsCounter: false
+                filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'

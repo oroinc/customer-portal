@@ -13,7 +13,7 @@ attributes to corresponding element as it is showing below:
          data-dom-relocation-options="{
             responsive: [
                 {
-                    screenType: 'tablet'
+                    viewport: {maxScreenType: 'tablet'}
                     moveTo: '#container' // jQuery selector
                 }
             ]
@@ -33,21 +33,21 @@ Like this:
 ```javascript
 responsive: [
     {
-        screenType: 'tablet'
+        viewport: {maxScreenType: 'tablet'},
         moveTo: '[data-target-example-1]' // jQuery selector
     },
     {
-        screenType: 'mobile'
+        viewport: {maxScreenType: 'mobile'},
         moveTo: '[data-target-example-2]' // jQuery selector
     }
 ]
 ```
 It's working with same logic like css @media, so last item of array have higher priority.
 
-###screenType
-**Type:** String
+###viewport
+**Type:** Object
 
-**Default:** 'any'
+**Default:** '{}'
 
 Option describes when should relocate DOM element. All available screen type defined by [Viewport Manager](../../../../../../../../platform/src/Oro/Bundle/UIBundle/Resources/doc/reference/client-side/viewport-manager.md).
 

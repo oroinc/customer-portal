@@ -1,15 +1,20 @@
+// @theme: default;
+
 .page-main {
     &__content {
         max-width: $page-main-max-width;
         margin: 0 auto 70px;
-        padding-top: 35px;
 
         @include clearfix();
     }
 
+    &__header {
+        min-height: $page-main-header-min-height;
+    }
+
     &.offset-none {
-        .page-main__content {
-            padding-top: 0;
+        .page-main__header {
+            min-height: 0;
         }
     }
 }

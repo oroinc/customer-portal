@@ -27,6 +27,32 @@ layout:
                         grid_parameters:
                             role: '=data["entity"].getId()'
                             customer: '=data["customizableRole"].getCustomer().getId()'
+                        grid_render_parameters:
+                            cssClass: 'frontend-datagrid'
+                            gridViewsOptions:
+                                text: 'oro.customer.customer_user.role.users'
+                            themeOptions:
+                                actionOptions:
+                                    refreshAction:
+                                        launcherOptions:
+                                            className: 'btn btn--default btn--size-s'
+                                            icon: 'undo fa--no-offset'
+                                            iconHideText: true
+                                    resetAction:
+                                        launcherOptions:
+                                            className: 'btn btn--default btn--size-s'
+                                            icon: 'refresh fa--no-offset'
+                                            iconHideText: true
+                            toolbarOptions:
+                                actionsPanel:
+                                    className: 'btn-group not-expand frontend-datagrid__panel'
+                                itemsCounter:
+                                    className: 'datagrid-tool'
+                                    themeOptions:
+                                        templateSelector: '#datagrid-items-counter-template'
+                                    transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.users'
+                                hideItemsCounter: false
+                            filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'
                         form: '=data["oro_customer_frontend_customer_user_role_form"].getRoleFormView(data["entity"])'
                 __customer_user_role_form_end:
                     blockType: form_end

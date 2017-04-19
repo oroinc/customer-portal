@@ -1,39 +1,14 @@
 {% block _middle_bar_widget %}
-    {% set attr = attr|merge({
-    class: attr.class|default('') ~ " middlebar"
-    }) %}
-    <div {{ block('block_attributes') }}>
-        <div class="container-fluid">
-            {{ block_widget(block) }}
-        </div>
-    </div>
-{% endblock %}
-
-{% block _middle_bar_logo_widget %}
-    {% set attr = attr|merge({
-    class: attr.class|default('') ~ " middlebar__left"
-    }) %}
-    <div {{ block('block_attributes') }}>
-        {# In home page #}
-        {% if app.request.attributes.get('_route') == 'oro_frontend_root' %}
-            <img
-                src="{% image '@OroFrontendBundle/Resources/public/default/images/logo/logo-oroacem.svg' %}{{ asset_url }}{% endimage %}"
-                class="logo"
-                alt="logo"
-            >
-        {% else %}
-            <a href="{{ path('oro_frontend_root') }}" class="logo" style="background: url('{% image '@OroFrontendBundle/Resources/public/default/images/logo/logo-oroacem.svg' %}{{ asset_url }}{% endimage %}') no-repeat;">OROCommerce</a>
-        {% endif %}
+    <div class="container-fluid">
+        {{ parent_block_widget(block) }}
     </div>
 {% endblock %}
 
 {% block _middle_bar_center_widget %}
-    {% set attr = attr|merge({
-    class: attr.class|default('') ~ " middlebar__center hidden-sm hidden-xs"
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' hidden-sm hidden-xs'
     }) %}
-    <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
+    {{ parent_block_widget(block) }}
 {% endblock %}
 
 {% block _middle_bar_search_widget %}
@@ -44,7 +19,9 @@
     {% set dom_relocation_options =  {
         responsive: [
             {
-                screenType: 'tablet',
+                viewport: {
+                    maxScreenType: 'tablet',
+                },
                 moveTo: "[data-header-row-search-container]"
             }
         ]
@@ -60,7 +37,7 @@
         >
             <input class="search-widget__input input input--full" type="text" placeholder="{{ 'oro.website_search.search_field_placeholder'|trans({}, translation_domain) }}" value="" name="search"/>
             <button name="oro_website_search_search_button" class="search-widget__submit" type="submit">
-                <i class="fa-search fa--base-line"></i>
+                <i class="fa-search"></i>
             </button>
         </form>
     </div>

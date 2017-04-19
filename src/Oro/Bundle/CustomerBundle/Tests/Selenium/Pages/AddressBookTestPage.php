@@ -106,7 +106,7 @@ class AddressBookTestPage extends AbstractPage
      */
     public function getCustomerAddressAddButtons()
     {
-        return $this->getElement("//a[text()='Add Company Address']", true, false);
+        return $this->getElement("//a[text()='New Company Address']", true, false);
     }
 
     /**
@@ -114,7 +114,7 @@ class AddressBookTestPage extends AbstractPage
      */
     public function getUserAddressAddButtons()
     {
-        return $this->getElement("//a[text()='Add Address']", true, false);
+        return $this->getElement("//a[text()='New Address']", true, false);
     }
 
     /**
@@ -215,7 +215,7 @@ class AddressBookTestPage extends AbstractPage
      */
     protected function getEditButtonSelector($selectorPrefix, $grid = false)
     {
-        $iconClass = $grid ? "icon-pencil" : 'cf-pencil';
+        $iconClass = $grid ? "icon-pencil" : 'fa-pencil';
 
         return $selectorPrefix . sprintf("//i[contains(@class, '%s')]", $iconClass);
     }
@@ -227,7 +227,7 @@ class AddressBookTestPage extends AbstractPage
      */
     protected function getDeleteButtonSelector($selectorPrefix, $grid = false)
     {
-        $iconClass = $grid ? "icon-trash" : 'cf-trash';
+        $iconClass = $grid ? "icon-trash" : 'fa-trash';
 
         return $selectorPrefix . sprintf("//i[contains(@class, '%s')]", $iconClass);
     }

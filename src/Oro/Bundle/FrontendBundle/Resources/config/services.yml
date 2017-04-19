@@ -1,6 +1,8 @@
 services:
     oro_frontend.extension.transtation_packages_provider:
-        class: 'Oro\Bundle\FrontendBundle\Provider\TranslationPackagesProviderExtension'
+        parent: oro_translation.extension.transtation_packages_provider.abstract
+        calls:
+            - ['addPackage', ['OroCustomerPortal', 'oro/customer-portal', '/src']]
         tags:
             - {name: oro_translation.extension.packages_provider}
 
@@ -22,13 +24,6 @@ services:
             - { name: kernel.event_listener, event: oro_distribution.route_collection.expose, method: onCollectionAutoload, priority: 120 }
             - { name: kernel.event_listener, event: oro_distribution.route_collection.autoload, method: onCollectionAutoload, priority: 120 }
         lazy: true
-
-    oro_frontend.menu.breadcrumb_manager:
-        class: 'Oro\Bundle\FrontendBundle\Menu\BreadcrumbManager'
-        public: false
-        parent: oro_navigation.breadcrumb_manager
-        tags:
-            - {name: oro_breadcrumbs.provider}
 
     oro_frontend.listener.theme:
         class: 'Oro\Bundle\FrontendBundle\EventListener\ThemeListener'
@@ -209,9 +204,45 @@ services:
         tags:
            - { name: oro.action.extension.button_provider, priority: 120 }
 
+    oro_frontend.layout.data_provider.style_book_form:
+        class: 'Oro\Bundle\FrontendBundle\Layout\DataProvider\StyleBookFormProvider'
+        arguments:
+            - '@form.factory'
+            - '@router'
+        tags:
+            - { name: layout.data_provider, alias: style_book_form }
+
     oro_frontend.layout_context_configurator.page_template:
         class: 'Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator'
         arguments:
             - '@oro_config.global'
         tags:
             - { name: layout.context_configurator }
+
+    oro_frontend.attachment.manager:
+        class: 'Oro\Bundle\FrontendBundle\Manager\AttachmentManager'
+        parent: 'oro_attachment.manager'
+
+    oro_frontend.attachment.twig.file_extension:
+        class: 'Oro\Bundle\FrontendBundle\Twig\FileExtension'
+        public: false
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: twig.extension }
+
+    oro_frontend.extractor.frontend_exposed_routes_extractor:
+        class: 'Oro\Bundle\FrontendBundle\Extractor\FrontendExposedRoutesExtractor'
+        arguments:
+            - '@router'
+            - []
+            - '%kernel.cache_dir%'
+            - '%kernel.bundles%'
+
+    oro_frontend.js_routing_controller:
+       class: '%fos_js_routing.controller.class%'
+       arguments:
+            - '@fos_js_routing.serializer'
+            - '@oro_frontend.extractor.frontend_exposed_routes_extractor'
+            - '%fos_js_routing.cache_control%'
+            - '%kernel.debug%'

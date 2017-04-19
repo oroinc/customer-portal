@@ -24,7 +24,9 @@
     }) %}
 
     {% set collapseView =  layout_attr_defaults(attr, {
-        screenType: 'mobile',
+        viewport: {
+            maxScreenType: 'mobile-landscape',
+        },
         component: 'oroui/js/app/components/jquery-widget-component',
         widgetModule: 'oroui/js/widget/collapse-widget',
         trigger: '[data-collapse-trigger-footer]',

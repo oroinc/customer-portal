@@ -1,0 +1,12 @@
+layout:
+    imports:
+        -
+            id: oro_customer_menu
+            root: page_sidebar
+    actions:
+        - '@add':
+            id: breadcrumbs
+            parentId: page_main_header
+            blockType: breadcrumbs
+            options:
+                menu_name: "frontend_menu"

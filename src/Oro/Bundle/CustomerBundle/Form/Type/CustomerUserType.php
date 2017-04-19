@@ -69,7 +69,10 @@ class CustomerUserType extends AbstractType
         $passwordOptions = [
             'type' => 'password',
             'required' => false,
-            'first_options' => ['label' => 'oro.customer.customeruser.password.label'],
+            'first_options' => [
+                'label' => 'oro.customer.customeruser.password.label',
+                'attr' => ['autocomplete' => 'new-password'],
+            ],
             'second_options' => ['label' => 'oro.customer.customeruser.password_confirmation.label'],
             'invalid_message' => 'oro.customer.message.password_mismatch',
         ];
@@ -276,10 +279,8 @@ class CustomerUserType extends AbstractType
         $resolver->setRequired(['data']);
 
         $resolver->setDefaults([
-            'cascade_validation' => true,
             'data_class' => $this->dataClass,
             'intention' => 'customer_user',
-            'extra_fields_message' => 'This form should not contain extra fields: "{{ extra_fields }}"',
             'ownership_disabled' => true,
         ]);
     }

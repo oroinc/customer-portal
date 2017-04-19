@@ -10,6 +10,12 @@ oro_frontend_datagrid:
     options:
         frontend: true
 
+oro_frontend_style_book:
+    resource:     "@OroFrontendBundle/Controller/StyleBookController.php"
+    type:         annotation
+    options:
+        frontend: true
+
 oro_installer:
     resource: "@OroInstallerBundle/Resources/config/oro/routing.yml"
     options:
@@ -59,10 +65,18 @@ oro_resize_attachment:
     options:
         frontend: true
 
-oro_attachment_file:
+oro_frontend_attachment_file:
     path: "attachment/{codedString}.{extension}"
     defaults: { _controller: OroAttachmentBundle:File:getAttachment}
     requirements:
         extension: '\w+'
+    options:
+        frontend: true
+
+oro_frontend_js_routing_js:
+    path: "/js/frontend_routing.{_format}"
+    defaults: { _controller: oro_frontend.js_routing_controller:indexAction, _format: js }
+    requirements:
+        _format: js|json
     options:
         frontend: true

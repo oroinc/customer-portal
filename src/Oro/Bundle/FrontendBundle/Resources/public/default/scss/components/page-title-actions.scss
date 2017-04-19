@@ -1,0 +1,20 @@
+// @theme: default;
+
+.page-title-actions {
+    float: right;
+}
+
+.page-title-actions-wrapper {
+    @include clearfix();
+
+    .page-subtitle {
+        float: left;
+    }
+
+    .page-title-actions {
+        a {
+            margin-bottom: 10px;
+        }
+    }
+}
+

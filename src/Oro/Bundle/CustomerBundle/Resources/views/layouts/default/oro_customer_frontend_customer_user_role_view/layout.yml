@@ -4,6 +4,10 @@ layout:
             id: oro_customer_user_role_permission_grid
             root: customer_user_role_items
             namespace: customer_user_role_items_view_privileges
+        -
+            id: datagrid
+            root: customer_user_role_items
+            namespace: customer_user_grid
 
     actions:
         - '@setBlockTheme':
@@ -17,6 +21,8 @@ layout:
             items:
                 customer_user_role_view_container:
                     blockType: container
+                customer_user_role_view_container_wrap:
+                    blockType: container
                 customer_user_role_back_link:
                     blockType: link
                     options:
@@ -29,19 +35,13 @@ layout:
                         buttons: '=data["buttons"].getAll(data["entity"])'
                 customer_user_role_items:
                     blockType: container
-                customer_user_role_items_view_users:
-                    blockType: datagrid
-                    options:
-                        grid_name: frontend-customer-customer-users-grid-view
-                        grid_parameters:
-                            role: '=data["entity"].getId()'
             tree:
                 page_content:
                     customer_user_role_view_container:
-                        customer_user_role_back_link: ~
-                        customer_user_role_items:
+                        customer_user_role_view_container_wrap:
+                            customer_user_role_back_link: ~
                             customer_user_role_top_actions: ~
-                            customer_user_role_items_view_users: ~
+                        customer_user_role_items: ~
 
         - '@setOption':
             id: customer_user_role_items_view_privileges_datagrid
@@ -50,11 +50,40 @@ layout:
 
         - '@appendOption':
             id: customer_user_role_items_view_privileges_datagrid
-            optionName: grid_render_parameters
+            optionName: grid_render_parameters.themeOptions
             optionValue:
-                themeOptions:
                     readonly: true
 
+        - '@setOption':
+            id: customer_user_grid_datagrid
+            optionName: grid_name
+            optionValue: frontend-customer-customer-users-grid-view
+
+        - '@setOption':
+            id: customer_user_grid_datagrid
+            optionName: grid_parameters
+            optionValue:
+                role: '=data["entity"].getId()'
+
+        - '@setOption':
+            id: customer_user_grid_datagrid
+            optionName: grid_render_parameters.gridViewsOptions.text
+            optionValue: 'oro.customer.customer_user.role.users'
+
+        - '@setOption':
+            id: customer_user_grid_datagrid
+            optionName: grid_render_parameters.themeOptions.cellLauncherOptions
+            optionValue:
+                launcherMode: 'icon-text'
+                actionsState:  'show'
+
+        - '@appendOption':
+            id: customer_user_grid_datagrid
+            optionName: grid_render_parameters.toolbarOptions.itemsCounter
+            optionValue:
+                transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.users'
+
         - '@move':
-            id: customer_user_role_items_view_privileges_datagrid
-            siblingId: customer_user_role_top_actions
+            id: customer_user_grid_datagrid
+            siblingId: customer_user_role_items_view_privileges_datagrid
+

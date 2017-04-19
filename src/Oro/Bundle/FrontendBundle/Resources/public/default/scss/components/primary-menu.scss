@@ -4,9 +4,8 @@
     &__item {
         position: relative;
 
-        &--current {
-            font-weight: $primary-menu-link-font-weight-current;
-
+        &--current,
+        &.active {
             &:before {
                 top: 10px;
                 left: 0;
@@ -32,11 +31,12 @@
 @include breakpoint('tablet') {
     .primary-menu {
         &__item {
-            padding: $primary-menu-item-inner-offset-tablet-small;
+            padding: $primary-menu-item-inner-offset-tablet;
 
             border-top: 1px solid get-color('additional', 'light');
 
-            &--current {
+            &--current,
+            &.active {
                 &:before {
                     content: none;
                 }
@@ -45,6 +45,11 @@
                     color: inherit;
                 }
             }
+        }
+
+        &__link {
+            display: block;
+            padding: $primary-menu-link-inner-offset-tablet;
         }
 
         .fa-minus,

@@ -11,6 +11,7 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Ownership\AuditableBusinessUnitAwareTrait;
 use Oro\Bundle\WebsiteBundle\Model\ExtendWebsite;
+use Oro\Component\Website\WebsiteInterface;
 
 /**
  * @ORM\Table(
@@ -47,7 +48,7 @@ use Oro\Bundle\WebsiteBundle\Model\ExtendWebsite;
  * )
  * @ORM\HasLifecycleCallbacks()
  */
-class Website extends ExtendWebsite implements OrganizationAwareInterface
+class Website extends ExtendWebsite implements OrganizationAwareInterface, WebsiteInterface
 {
     use DatesAwareTrait;
     use AuditableBusinessUnitAwareTrait;

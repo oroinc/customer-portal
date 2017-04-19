@@ -109,6 +109,21 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
         $this->assertContains($this->getReference(LoadUserData::USER2)->getFullName(), $result->getContent());
     }
 
+    public function testCreateWithLowPasswordComplexity()
+    {
+        $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_create'));
+        $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
+
+        $form = $crawler->selectButton('Save and Close')->form();
+        $form['oro_customer_customer_user[plainPassword][first]'] = '0';
+        $form['oro_customer_customer_user[plainPassword][second]'] = '0';
+
+        $crawler = $this->client->submit($form);
+
+        $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
+        $this->assertContains('The password must be at least 2 characters long', $crawler->html());
+    }
+
     /**
      * @depends testCreate
      */
@@ -122,6 +137,7 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
         $this->assertContains(self::FIRST_NAME, $result->getContent());
         $this->assertContains(self::LAST_NAME, $result->getContent());
         $this->assertContains(self::EMAIL, $result->getContent());
+        $this->assertContains('Export', $result->getContent());
     }
 
     /**

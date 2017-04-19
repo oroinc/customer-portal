@@ -3,6 +3,7 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         name:
             - NotBlank: ~
         addresses:
+            - Valid: ~
             - Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
                 message: One of the addresses must be set as primary.
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
@@ -49,7 +50,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         plainPassword:
             - NotBlank:
                 groups: [create]
-            - Oro\Bundle\UserBundle\Validator\Constraints\PasswordComplexity: ~
+            - Oro\Bundle\UserBundle\Validator\Constraints\PasswordComplexity:
+                groups: [create, Default]
         username:
             - NotBlank: ~
             - Length:
@@ -64,6 +66,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         customer:
             - NotBlank: ~
         addresses:
+            - Valid: ~
             - Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
                 message: One of the addresses must be set as primary.
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
@@ -101,3 +104,5 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
             - Length:
                 min: 3
                 max: 255
+        customerUsers:
+            - Oro\Bundle\UserBundle\Validator\Constraints\UserWithoutRole: ~

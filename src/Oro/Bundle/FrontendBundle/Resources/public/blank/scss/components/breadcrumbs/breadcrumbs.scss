@@ -1,16 +1,16 @@
 // @theme: blank;
 
 .breadcrumbs {
-    margin-top: 10px;
+    font-size: $breadcrumbs-font-size;
 
-    font-size: 12px;
+    color: $breadcrumbs-color;
 
-    color: get-color('additional', 'dark');;
+    margin: $breadcrumbs-offset;
 
     &__item,
     &__link,
     a,
     a:hover {
-        color: get-color('additional', 'dark');;
+        color: $breadcrumbs-link-color;
     }
 }

@@ -24,7 +24,7 @@ define(function(require) {
 
         scrollState: null,
 
-        viewPort: null,
+        viewport: null,
 
         /**
          * @inheritDoc
@@ -37,7 +37,7 @@ define(function(require) {
                 directionClass: '',
                 position: 0
             };
-            this.viewPort = {
+            this.viewport = {
                 top: 0,
                 bottom: 0
             };
@@ -102,7 +102,7 @@ define(function(require) {
 
             this.undelegateEvents();
 
-            _.each(['$document', '$elements', 'scrollState', 'viewPort'], function(key) {
+            _.each(['$document', '$elements', 'scrollState', 'viewport'], function(key) {
                 delete this[key];
             }, this);
 
@@ -122,7 +122,7 @@ define(function(require) {
 
                 var options = _.defaults($element.data('sticky') || {}, {
                     $elementPlaceholder: $elementPlaceholder,
-                    screenType: 'any',
+                    viewport: {},
                     placeholderId: '',
                     toggleClass: '',
                     autoWidth: false,
@@ -156,7 +156,7 @@ define(function(require) {
 
         onScroll: function() {
             this.updateScrollState();
-            this.updateViewPort();
+            this.updateViewport();
 
             var contentChanged = false;
             for (var i = 0, iMax = this.elements.length; i < iMax; i++) {
@@ -166,31 +166,28 @@ define(function(require) {
                 if (newState !== null) {
                     contentChanged = true;
                     this.toggleElementState($element, newState);
-                    break;
                 }
             }
 
             if (contentChanged) {
                 this.$el.toggleClass('has-content', this.$el.find('.' + this.options.elementClass).length > 0);
-                this.onScroll();
             }
         },
 
         getNewElementState: function($element) {
             var options = $element.data('sticky');
             var isEmpty = $element.is(':empty');
-            var viewport = viewportManager.getViewport();
-            var screenTypeState = viewport.screenTypes[options.screenType];
+            var screenTypeState = viewportManager.isApplicable(options.viewport);
 
             if (options.isSticky) {
                 if (options.currentState) {
                     if (isEmpty) {
                         return false;
-                    } else if (!options.alwaysInSticky && this.inViewPort(options.$elementPlaceholder, $element)) {
+                    } else if (!options.alwaysInSticky && this.inViewport(options.$elementPlaceholder, $element)) {
                         return false;
                     }
                 } else if (!isEmpty) {
-                    if (options.alwaysInSticky || (screenTypeState && !this.inViewPort($element))) {
+                    if (options.alwaysInSticky || (screenTypeState && !this.inViewport($element))) {
                         return true;
                     }
                 }
@@ -199,19 +196,19 @@ define(function(require) {
             return null;
         },
 
-        updateViewPort: function() {
-            this.viewPort.top = $(window).scrollTop() + this.$el.height();
-            this.viewPort.bottom = this.viewPort.top + $(window).height();
+        updateViewport: function() {
+            this.viewport.top = $(window).scrollTop() + this.$el.height();
+            this.viewport.bottom = this.viewport.top + $(window).height();
         },
 
-        inViewPort: function($element, $elementInSticky) {
+        inViewport: function($element, $elementInSticky) {
             var elementTop = $element.offset().top;
             var elementBottom = elementTop + $element.height();
             var elementInStickyHeight = $elementInSticky ? $elementInSticky.height() : 0;
 
             return (
-                (elementBottom <= this.viewPort.bottom) &&
-                (elementTop >= this.viewPort.top - elementInStickyHeight)
+                (elementBottom <= this.viewport.bottom) &&
+                (elementTop >= this.viewport.top - elementInStickyHeight)
             );
         },
 
