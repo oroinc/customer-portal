@@ -31,6 +31,11 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $this->addPhoneToAddress($container);
 
         $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
+
+        $config = $this->processConfiguration($configuration, $configs);
+        $container
+            ->getDefinition('oro_frontend.extractor.frontend_exposed_routes_extractor')
+            ->replaceArgument(1, $config['routes_to_expose']);
     }
 
     /**
