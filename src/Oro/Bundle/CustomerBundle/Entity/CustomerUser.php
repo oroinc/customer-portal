@@ -92,7 +92,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "excluded"=true
+     *              "order"=45
      *          }
      *      }
      * )
@@ -302,7 +302,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "excluded"=true
+     *              "order"=70
      *          }
      *      }
      * )

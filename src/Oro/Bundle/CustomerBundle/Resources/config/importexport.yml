@@ -17,6 +17,13 @@ services:
         parent: oro_importexport.data_converter.configurable
         class: Oro\Bundle\CustomerBundle\ImportExport\Converter\CustomerUserDataConverter
 
+    # Customer User Normalizer
+    oro_customer.importexport.serializer.normalizer.customer_user:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerUserNormalizer
+        parent: oro_importexport.serializer.configurable_entity_normalizer
+        tags:
+            - { name: oro_importexport.normalizer }
+
     # Customer User Export
     oro_customer.importexport.normalizer.customer_user:
         class: Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerUserNormalizer
