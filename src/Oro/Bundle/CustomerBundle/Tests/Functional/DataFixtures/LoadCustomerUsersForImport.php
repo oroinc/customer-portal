@@ -4,6 +4,8 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 class LoadCustomerUsersForImport extends AbstractLoadCustomerUserFixture
 {
+    const EMAIL = 'example@email.com';
+
     /**
      * {@inheritdoc}
      */
@@ -31,7 +33,7 @@ class LoadCustomerUsersForImport extends AbstractLoadCustomerUserFixture
     {
         return [
             [
-                'email' => 'example@email.com',
+                'email' => static::EMAIL,
                 'customer' => 'default_customer',
                 'firstname' => 'Lorem',
                 'lastname' => 'Ipsum',

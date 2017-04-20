@@ -9,6 +9,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerUserAddOrReplaceStrategy;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUsersForImport;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadDuplicatedCustomer;
 use Oro\Bundle\ImportExportBundle\Context\StepExecutionProxyContext;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -37,7 +38,8 @@ class CustomerUserAddOrReplaceStrategyTest extends WebTestCase
 
         $this->loadFixtures(
             [
-                LoadDuplicatedCustomer::class
+                LoadDuplicatedCustomer::class,
+                LoadCustomerUsersForImport::class,
             ]
         );
 
@@ -67,7 +69,7 @@ class CustomerUserAddOrReplaceStrategyTest extends WebTestCase
         $customer = new Customer();
         $customer->setName(LoadDuplicatedCustomer::DEFAULT_ACCOUNT_NAME);
 
-        $customerUser = $this->createCustomerEntity();
+        $customerUser = $this->createCustomerUserEntity();
         $customerUser->setCustomer($customer);
 
         $this->assertInstanceOf(CustomerUser::class, $this->strategy->process($customerUser));
@@ -78,10 +80,28 @@ class CustomerUserAddOrReplaceStrategyTest extends WebTestCase
         $customer = new Customer();
         $customer->setName(LoadDuplicatedCustomer::DUPLICATED_CUSTOMER_NAME);
 
-        $customerUser = $this->createCustomerEntity();
+        $customerUser = $this->createCustomerUserEntity();
         $customerUser->setCustomer($customer);
 
         $this->assertNull($this->strategy->process($customerUser));
+    }
+
+    public function testEmailWillNotBeDeletedFromExistingEntityWhenIsSetToNullDuringImport()
+    {
+        $existingCustomerUser = $this->getReference(LoadCustomerUsersForImport::EMAIL);
+
+        $customer = new Customer();
+        $customer->setName(LoadDuplicatedCustomer::DEFAULT_ACCOUNT_NAME);
+
+        $customerUser = $this->createCustomerUserEntity();
+        $customerUser->setEmail(null);
+        $customerUser->setCustomer($customer);
+        $this->setValue($customerUser, 'id', $existingCustomerUser->getId());
+
+        /** @var CustomerUser $processedCustomerUser */
+        $processedCustomerUser = $this->strategy->process($customerUser);
+
+        $this->assertSame(LoadCustomerUsersForImport::EMAIL, $processedCustomerUser->getEmail());
     }
 
     /**
@@ -97,7 +117,7 @@ class CustomerUserAddOrReplaceStrategyTest extends WebTestCase
     /**
      * @return CustomerUser
      */
-    private function createCustomerEntity()
+    private function createCustomerUserEntity()
     {
         $customerUser = new CustomerUser();
         $customerUser->setFirstName('Tester')
