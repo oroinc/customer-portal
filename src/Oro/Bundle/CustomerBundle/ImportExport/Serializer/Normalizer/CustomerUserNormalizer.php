@@ -19,7 +19,7 @@ class CustomerUserNormalizer extends ConfigurableEntityNormalizer
     {
         $result = parent::normalize($object, $format, $context);
 
-        if ($object->getCustomer()) {
+        if (isset($result['customer']) && $object->getCustomer()) {
             $result['customer']['name'] = $object->getCustomer()->getName();
         }
         

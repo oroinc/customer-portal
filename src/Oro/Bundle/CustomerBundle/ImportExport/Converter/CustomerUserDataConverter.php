@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\ImportExport\Converter;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\ImportExportBundle\Converter\ConfigurableTableDataConverter;
 use Oro\Bundle\UserBundle\Entity\User;
 
@@ -15,8 +16,8 @@ class CustomerUserDataConverter extends ConfigurableTableDataConverter
     {
         $result = parent::getBackendHeader();
 
-        $result[] = 'customer:name';
-        $result[] = 'owner:id';
+        $result = $this->addCustomerName($result);
+        $result = $this->addOwnerId($result);
 
         return $result;
     }
@@ -67,5 +68,31 @@ class CustomerUserDataConverter extends ConfigurableTableDataConverter
         }
         
         return null;
+    }
+
+    /**
+     * @param array $result
+     * @return array
+     */
+    private function addCustomerName(array $result)
+    {
+        if (!$this->fieldHelper->getConfigValue(CustomerUser::class, 'customer', 'excluded')) {
+            $result[] = 'customer:name';
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $result
+     * @return array
+     */
+    private function addOwnerId(array $result)
+    {
+        if (!$this->fieldHelper->getConfigValue(CustomerUser::class, 'owner', 'excluded')) {
+            $result[] = 'owner:id';
+        }
+
+        return $result;
     }
 }
