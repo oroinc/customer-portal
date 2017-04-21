@@ -33,7 +33,7 @@ placeholders:
         requirejs_config_extend:
             items:
                 frontend_requirejs_config:
-                    order: 100
+                    order: 200
 
     items:
         logo:
