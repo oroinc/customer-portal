@@ -2,14 +2,14 @@
     <span><%= value %></span>
     <button class="button-icon fs16 gray" data-role="start-editing">
         <% if (tooltip) { %>
-        <span class="ttip__wrap">
-            <i class="fa-pencil ttip__toggle"></i>
-                <span class="ttip">
-                <span class="ttip__content dark"><%= tooltip %></span>
+        <span class="tooltip-container">
+            <i class="fa-pencil tooltip-trigger"></i>
+            <span class="tooltip top tooltip--animated">
+                <span class="tooltip-inner"><%= tooltip %></span>
             </span>
         </span>
         <% } else { %>
-        <i class="fa-pencil ttip__toggle"></i>
+        <i class="fa-pencil"></i>
         <% } %>
     </button>
 </h1>
