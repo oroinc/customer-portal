@@ -49,7 +49,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'value' => [],
                             'scope' => 'app'
                         ]
-                    ]
+                    ],
+                    'routes_to_expose' => [],
                 ]
             ]
         ];

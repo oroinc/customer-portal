@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Oro\Bundle\LocaleBundle\DependencyInjection\OroLocaleExtension;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
+use Symfony\Component\DependencyInjection\Definition;
 
 class OroFrontendExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,6 +26,12 @@ class OroFrontendExtensionTest extends \PHPUnit_Framework_TestCase
             ->method('getParameter')
             ->with(OroLocaleExtension::PARAMETER_ADDRESS_FORMATS)
             ->willReturn([]);
+
+        $routesExtractorDefinition = $this->createMock(Definition::class);
+        $container->expects($this->once())
+            ->method('getDefinition')
+            ->with('oro_frontend.extractor.frontend_exposed_routes_extractor')
+            ->willReturn($routesExtractorDefinition);
 
         $extension = new OroFrontendExtension();
         $extension->load([], $container);
