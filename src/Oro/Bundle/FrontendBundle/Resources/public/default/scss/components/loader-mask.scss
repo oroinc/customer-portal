@@ -1,0 +1,7 @@
+// @theme: default;
+
+.loader-content {
+    padding-left: $loader-mask-loader-content-offset-inner-left;
+
+    background: $loader-mask-loader-bg url($loader-mask-loader-url) no-repeat center left;
+}

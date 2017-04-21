@@ -2,17 +2,6 @@
 
 @import './reset';
 
-// TODO: move to loading component
-.body {
-    &.loading {
-        height: 100%;
-
-        .loader-mask {
-            position: fixed;
-        }
-    }
-}
-
 // Links
 a {
     text-decoration: none;
