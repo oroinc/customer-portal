@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrategy;
 
@@ -23,6 +26,10 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             $excludedFields[] = 'email';
         }
 
+        if ($entitiesOfCustomerUser && count($itemData['roles']) === 0) {
+            $excludedFields[] = 'roles';
+        }
+
         parent::importExistingEntity($entity, $existingEntity, $itemData, $excludedFields);
     }
 
@@ -42,5 +49,19 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         $this->updateContextCounters($entity);
 
         return $entity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getObjectValue($entity, $fieldName)
+    {
+        $value = parent::getObjectValue($entity, $fieldName);
+
+        if ($fieldName === 'roles' && !$value instanceof Collection) {
+            $value = new ArrayCollection($value);
+        }
+
+        return $value;
     }
 }

@@ -76,7 +76,7 @@ class ImportCustomerUserListener
             $event->setEntity(null);
         }
 
-        if (!$this->updateRoleByWebsiteIfEmpty($entity)) {
+        if (!$entity->getId() && !$this->updateRoleByWebsiteIfEmpty($entity)) {
             $error = $this->translator->trans(
                 'oro.customer.customeruser.import.message.default_website_role_does_not_exist',
                 ['%website%' => (string) $entity->getWebsite()]

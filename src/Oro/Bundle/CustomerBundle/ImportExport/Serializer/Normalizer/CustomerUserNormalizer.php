@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\ImportExportBundle\Serializer\Normalizer\ConfigurableEntityNormalizer;
 
 class CustomerUserNormalizer extends ConfigurableEntityNormalizer
@@ -41,7 +42,19 @@ class CustomerUserNormalizer extends ConfigurableEntityNormalizer
     /**
      * {@inheritdoc}
      */
-    protected function getFieldValueFromObject($object, $fieldName)
+    protected function setObjectValue($object, $fieldName, $value)
+    {
+        if ($object instanceof CustomerUserRole && $fieldName === 'role') {
+            $object->setRole($value, false);
+        } else {
+            parent::setObjectValue($object, $fieldName, $value);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getObjectValue($object, $fieldName)
     {
         $value = $this->fieldHelper->getObjectValue($object, $fieldName);
 
