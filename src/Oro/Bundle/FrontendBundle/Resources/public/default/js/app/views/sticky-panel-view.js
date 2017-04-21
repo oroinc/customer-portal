@@ -14,7 +14,7 @@ define(function(require) {
         options: {
             placeholderClass: 'moved-to-sticky',
             elementClass: 'in-sticky',
-            scrollTimeout: 25,
+            scrollTimeout: 60,
             layoutTimeout: 40
         },
 
@@ -60,7 +60,7 @@ define(function(require) {
 
             this.$document.on(
                 'scroll' + this.eventNamespace(),
-                _.debounce(_.bind(this.onScroll, this), this.options.scrollTimeout)
+                _.throttle(_.bind(this.onScroll, this), this.options.scrollTimeout)
             );
 
             mediator.on('layout:reposition',  _.debounce(this.onScroll, this.options.layoutTimeout), this);
@@ -110,10 +110,13 @@ define(function(require) {
         },
 
         collectElements: function() {
-            this.elements = $('[data-sticky]').get();
+            var elementName = this.$el.data('sticky-name');
+            var elSelector = elementName ? '[data-sticky-target="' + elementName + '"][data-sticky]' : '[data-sticky]';
+
+            this.elements = $(elSelector).get();
             var $placeholder = this.$el.children();
 
-            _.each(this.elements, function(element, i) {
+            this.elements.forEach(function(element, i) {
                 var $element = $(element);
                 this.elements[i] = $element;
 
@@ -159,15 +162,15 @@ define(function(require) {
             this.updateViewport();
 
             var contentChanged = false;
-            for (var i = 0, iMax = this.elements.length; i < iMax; i++) {
-                var $element = this.elements[i];
+
+            this.elements.forEach(function($element) {
                 var newState = this.getNewElementState($element);
 
                 if (newState !== null) {
                     contentChanged = true;
                     this.toggleElementState($element, newState);
                 }
-            }
+            }, this);
 
             if (contentChanged) {
                 this.$el.toggleClass('has-content', this.$el.find('.' + this.options.elementClass).length > 0);
@@ -177,13 +180,14 @@ define(function(require) {
         getNewElementState: function($element) {
             var options = $element.data('sticky');
             var isEmpty = $element.is(':empty');
+
             var screenTypeState = viewportManager.isApplicable(options.viewport);
 
             if (options.isSticky) {
                 if (options.currentState) {
                     if (isEmpty) {
                         return false;
-                    } else if (!options.alwaysInSticky && this.inViewport(options.$elementPlaceholder, $element)) {
+                    } else if (!options.alwaysInSticky && this.inViewport(options.$elementPlaceholder, true)) {
                         return false;
                     }
                 } else if (!isEmpty) {
@@ -197,18 +201,33 @@ define(function(require) {
         },
 
         updateViewport: function() {
-            this.viewport.top = $(window).scrollTop() + this.$el.height();
+            this.viewport.top = $(window).scrollTop();
             this.viewport.bottom = this.viewport.top + $(window).height();
         },
 
-        inViewport: function($element, $elementInSticky) {
+        inViewport: function($element, backMargin) {
             var elementTop = $element.offset().top;
-            var elementBottom = elementTop + $element.height();
-            var elementInStickyHeight = $elementInSticky ? $elementInSticky.height() : 0;
+            var elementHeight = $element.height();
+            var backMarginValue = (backMargin ? elementHeight : 0);
+            var elementBottom = elementTop + elementHeight;
+            var stickTop = 0;
+            var stickBottom = 0;
+
+            $('[data-sticky-name]').each(function() {
+                var $el = $(this);
+                switch ($el.data('stick-to')) {
+                    case 'top':
+                        stickTop += $el.height();
+                        break;
+                    case 'bottom':
+                        stickBottom += $el.height();
+                        break;
+                }
+            });
 
             return (
-                (elementBottom <= this.viewport.bottom) &&
-                (elementTop >= this.viewport.top - elementInStickyHeight)
+                (elementBottom <= this.viewport.bottom - stickBottom + backMarginValue) &&
+                (elementTop + backMarginValue >= this.viewport.top + stickTop)
             );
         },
 

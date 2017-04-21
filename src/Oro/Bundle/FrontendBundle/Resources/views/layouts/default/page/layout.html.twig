@@ -165,29 +165,9 @@
     </script>
 {% endblock %}
 
-{% block _sticky_panel_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        'data-page-component-module': 'oroui/js/app/components/view-component',
-        'data-page-component-options': {
-            'view': 'orofrontend/default/js/app/views/sticky-panel-view'
-        },
-        '~class': ' sticky-panel'
-    }) %}
-    <div{{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
-{% endblock %}
-
-{% block _sticky_panel_content_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' sticky-panel__content'
-    }) %}
-    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
-{% endblock %}
-
 {% block _sticky_element_notification_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        'id': 'sticky-element-notification'
+    'id': 'sticky-element-notification'
     }) %}
     <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
 {% endblock %}
