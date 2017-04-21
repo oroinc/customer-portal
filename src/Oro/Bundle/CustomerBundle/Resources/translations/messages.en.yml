@@ -495,6 +495,10 @@ oro.customer:
         administrator: 'Administrator'
         module_label: 'Audit history for Customer User'
 
+    importexport:
+        customer_user:
+            unable_to_change_owner: 'You are not allowed to change owner of %entity_name% to %owner_name%.'
+
 oro.scope:
     customer.label: Customer
     customer_group.label: Customer Group

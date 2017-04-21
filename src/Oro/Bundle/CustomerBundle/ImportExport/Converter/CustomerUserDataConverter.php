@@ -2,8 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\ImportExport\Converter;
 
-use Doctrine\Common\Util\ClassUtils;
-
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\ImportExportBundle\Converter\ConfigurableTableDataConverter;
 use Oro\Bundle\UserBundle\Entity\User;

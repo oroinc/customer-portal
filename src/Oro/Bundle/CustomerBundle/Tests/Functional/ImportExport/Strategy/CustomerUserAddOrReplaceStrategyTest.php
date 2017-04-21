@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\Strategy;
 
 use Akeneo\Bundle\BatchBundle\Entity\JobExecution;
 use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
+use Doctrine\ORM\EntityManager;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -12,10 +13,14 @@ use Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerUserAddOrReplaceStra
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUsersForImport;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadDuplicatedCustomer;
 use Oro\Bundle\ImportExportBundle\Context\StepExecutionProxyContext;
+use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationToken;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Component\Testing\Unit\EntityTrait;
 
 class CustomerUserAddOrReplaceStrategyTest extends WebTestCase
 {
+    use EntityTrait;
+
     /**
      * @var CustomerUserAddOrReplaceStrategy
      */
@@ -66,6 +71,8 @@ class CustomerUserAddOrReplaceStrategyTest extends WebTestCase
 
     public function testProcessNonDuplicatedCustomer()
     {
+        $this->createAdminUserToken();
+
         $customer = new Customer();
         $customer->setName(LoadDuplicatedCustomer::DEFAULT_ACCOUNT_NAME);
 
@@ -125,5 +132,17 @@ class CustomerUserAddOrReplaceStrategyTest extends WebTestCase
             ->setEmail('tester@oro.inc')
             ->setRoles([new CustomerUserRole()]);
         return $customerUser;
+    }
+
+    private function createAdminUserToken()
+    {
+        /** @var EntityManager $em */
+        $em = $this->client->getContainer()->get('doctrine')->getManagerForClass('OroUserBundle:User');
+
+        $user = $em->getRepository('OroUserBundle:User')->findOneBy(['email' => self::AUTH_USER]);
+        $organization = $em->getRepository('OroOrganizationBundle:Organization')->find(self::AUTH_ORGANIZATION);
+
+        $token = new UsernamePasswordOrganizationToken($user, $user->getUsername(), 'main', $organization);
+        $this->client->getContainer()->get('security.token_storage')->setToken($token);
     }
 }

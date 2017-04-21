@@ -45,7 +45,6 @@ class CustomerUserFixture extends AbstractTemplateRepository implements Template
                     ->setBirthday($dateTime)
                     ->setNamePrefix('Mr')
                     ->setNameSuffix('Jr.')
-                    ->setNameSuffix('Jr.')
                     ->setMiddleName('John');
 
                 $this->addRole($entity, $customerRole);
