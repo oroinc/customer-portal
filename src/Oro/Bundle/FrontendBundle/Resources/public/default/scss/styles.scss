@@ -30,6 +30,7 @@
 @import './components/primary-menu';
 @import './components/notification';
 @import './components/notification-flash';
+@import './components/notification-message';
 @import './components/custom-radio';
 @import './components/actions-row';
 @import './components/collapse-view';
@@ -50,4 +51,7 @@
 @import './components/icons';
 @import './components/utilites';
 @import './components/dropdown-menu-calendar';
+@import 'components/pagination-widget';
+@import 'components/search-widget';
+@import 'components/uploader-widget';
 @import './components/loader-mask';
