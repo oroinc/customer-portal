@@ -135,3 +135,24 @@
         width: 8.33333333%;
     }
 }
+
+//Colors
+.red {
+    color: get-color('primary', 'dark');
+}
+
+.orange {
+    color: get-color('primary', 'base');
+}
+
+.base-color {
+    color: get-color('additional', 'dark') !important;
+}
+
+.gray {
+    color: get-color('additional', 'middle');
+}
+
+.blue {
+    color: get-color('ui', 'normal');
+}

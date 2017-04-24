@@ -3,8 +3,7 @@
 /*Reset*/
 @import './shared/_reset';
 
-/*Variables & mixins & helpers*/
-@import './shared/_helpers';
+/*Variables & mixins */
 
 @import '_legacy/_legacy';
 
@@ -51,3 +50,4 @@
 @import './components/utilites';
 @import './components/dropdown-menu-calendar';
 @import './components/loader-mask';
+@import './components/helpers';
