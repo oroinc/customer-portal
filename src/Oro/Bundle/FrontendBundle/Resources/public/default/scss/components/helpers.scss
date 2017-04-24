@@ -36,20 +36,18 @@
 }
 
 //Alignments
-.va-t_sm {
-    @media (max-width: $screen-md) {
-        vertical-align: top !important;
-    }
-}
-
-.va-t_md {
-    @media (min-width: 992px) {
-        vertical-align: top !important;
-    }
-}
-
 .va-m_md {
     vertical-align: middle !important;
+}
+
+@include breakpoint('tablet-small') {
+    .va-t_sm {
+        vertical-align: top !important;
+    }
+
+    .va-t_md {
+        vertical-align: top !important;
+    }
 }
 
 //Elements displayings
