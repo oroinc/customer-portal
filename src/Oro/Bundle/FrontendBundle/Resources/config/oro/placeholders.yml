@@ -23,8 +23,6 @@ placeholders:
             items:
                 template_datagrid_toolbar_pagination_input_frontend: ~
                 template_datagrid_toolbar_page_size_frontend: ~
-                template_datagrid_select_all_header_cell_frontend: ~
-                template_datagrid_action_header_cell_frontend: ~
                 filter_container: ~
 
         install_additional_configuration_fields:
@@ -71,12 +69,6 @@ placeholders:
             applicable: "@oro_layout.helper->isLayoutRequest()"
         template_datagrid_toolbar_page_size_frontend:
             template: OroFrontendBundle:js:page-size.html.twig
-            applicable: "@oro_layout.helper->isLayoutRequest()"
-        template_datagrid_select_all_header_cell_frontend:
-            template: OroFrontendBundle:js:select-all-header-cell.html.twig
-            applicable: "@oro_layout.helper->isLayoutRequest()"
-        template_datagrid_action_header_cell_frontend:
-            template: OroFrontendBundle:js:action-header-cell.html.twig
             applicable: "@oro_layout.helper->isLayoutRequest()"
 
         # backend grid only
