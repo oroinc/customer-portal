@@ -88,6 +88,18 @@ layout:
                 style_book_components_mixins_components:
                     blockType: block
 
+                group_element_components_animation_view:
+                    blockType: group_element
+                    options:
+                        anchor: animation
+                        label: Animation
+                group_element_components_animation:
+                    blockType: group_element_item
+                    options:
+                        description: oro_frontend_style_book.groups.configs.description_animation
+                style_book_components_animation:
+                    blockType: block
+
             tree:
                 style_book_content:
                     group_element_components_colors_view:
@@ -108,5 +120,8 @@ layout:
                     group_element_components_mixins_components_view:
                         group_element_components_mixins_components:
                             style_book_components_mixins_components: ~
+                    group_element_components_animation_view:
+                        group_element_components_animation:
+                            style_book_components_animation: ~
 
     conditions: 'context["action"]=="configs"'

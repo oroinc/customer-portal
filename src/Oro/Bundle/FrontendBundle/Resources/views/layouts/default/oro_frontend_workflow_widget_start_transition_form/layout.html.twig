@@ -1,0 +1,23 @@
+{% extends 'OroUIBundle:layouts:base/dialog/dialog.html.twig' %}
+
+{% block _widget_content_widget %}
+    {% set pageComponentOptions = {
+        savedId: savedId|default(null),
+        message: 'oro.workflow.flash.success'
+    } %}
+    {% set attr = {
+        'data-page-component-module': 'orofrontend/js/app/components/widget-form-component',
+    }|merge(attr)|merge({
+        'data-page-component-options': pageComponentOptions|merge(attr['data-page-component-options']|default({})),
+    }) %}
+    {{ parent() }}
+{% endblock %}
+
+{% block _form_actions_widget %}
+    {% set attr = attr|merge({
+    class: attr.class|default('') ~ " widget-actions"
+    }) %}
+    <div{{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
