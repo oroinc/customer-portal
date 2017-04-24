@@ -6,6 +6,10 @@ define(function(require) {
     var $ = require('jquery');
     var _ = require('underscore');
 
+    if (window.location.href.indexOf('?new') !== -1) {
+        return require('orofrontend/default/js/app/views/rule-editor-view2');
+    }
+
     RuleEditorView = BaseView.extend({
         /**
          * @inheritDoc

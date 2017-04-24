@@ -6,6 +6,10 @@ define(function(require) {
     var $ = require('jquery');
     var _ = require('underscore');
 
+    if (window.location.href.indexOf('?new') !== -1) {
+        return require('orofrontend/default/js/app/components/rule-editor-component2');
+    }
+
     RuleEditorComponent = ViewComponent.extend({
         view: 'orofrontend/default/js/app/views/rule-editor-view',
 
