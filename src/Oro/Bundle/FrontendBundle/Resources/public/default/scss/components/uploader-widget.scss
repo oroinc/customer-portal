@@ -1,0 +1,42 @@
+// @theme: default;
+
+div.uploader {
+    display: flex;
+    align-items: center;
+
+    input {
+        z-index: z('base') + 1;
+
+        width: 100%;
+    }
+
+    .filename {
+        z-index: z('base');
+
+        order: 2;
+    }
+
+    .action {
+        z-index: z('base');
+
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0 ($offset-y + 11px);
+        margin: 0 $offset-y-m 0 0;
+        order: 1;
+
+        color: get-color('additional', 'ultra');
+        background: get-color('additional', 'darker');
+        border-radius: 4px;
+
+        font-size: $base-font-size;
+        line-height: 2.85;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        cursor: pointer;
+    }
+}
