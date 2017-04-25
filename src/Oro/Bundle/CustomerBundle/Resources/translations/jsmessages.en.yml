@@ -13,3 +13,14 @@ oro.customer:
 
     customer_user:
         delete_confirm: 'Are you sure you want to delete Customer User?'
+        entity_plural_label: "Users"
+        role:
+            entity_plural_label: "Roles"
+            users: "Users"
+
+    customer_address_book:
+        customer_addresses: 'Company Addresses'
+
+    customer_user_address_book:
+        customer_user_addresses: 'My Addresses'
+

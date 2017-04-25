@@ -11,6 +11,11 @@
 
     background: get-color('additional', 'ultra');
 
+    &--bottom {
+        top: initial;
+        bottom: 0;
+    }
+
     &__content {
         width: $sticky-panel-width;
         margin: 0 auto;
