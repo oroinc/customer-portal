@@ -4,8 +4,6 @@
 
 /*=== START COMPONENTS===*/
 @import './checkout-widget';
-@import './dialog';
-
 /*=== END COMPONENTS===*/
 
 /*Layout*/
@@ -16,5 +14,3 @@
 
 /*jQuery UI datepicker override styles*/
 @import './shared/ui-datepicker-override';
-
-@import './shared/dialog-widget';

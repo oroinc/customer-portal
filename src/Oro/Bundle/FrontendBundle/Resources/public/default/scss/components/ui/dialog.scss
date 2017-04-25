@@ -1,0 +1,115 @@
+// @theme: default
+
+.ui-widget-overlay {
+    background: get-color('additional', 'darker');
+
+    opacity: .5;
+}
+
+.ui-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: z('popup');
+
+    border-radius: 4px;
+
+    .ui-dialog-content {
+        overflow: auto;
+        height: calc(100% - 177px) !important;
+    }
+
+    &.ui-dialog-no-scroll {
+        .ui-dialog-content {
+            overflow: visible;
+        }
+    }
+
+    &.ui-widget-content {
+        border: 0;
+    }
+
+    .ui-dialog-titlebar {
+        padding: 40px 40px $offset-y;
+
+        font-weight: 400;
+
+        border: 0;
+        background: transparent;
+        color: get-color('additional', 'dark');
+
+        &.ui-draggable-handle {
+            cursor: move;
+        }
+    }
+
+    .ui-dialog-titlebar-close {
+        border: 0;
+        background: none;
+        color: get-color('additional', 'darker');
+
+        opacity: .2;
+
+        @include element-state('hover') {
+            opacity: .5;
+        }
+    }
+
+    .ui-icon-closethick {
+        text-indent: 0;
+
+        @include fa-icon($fa-var-remove);
+
+        &:before {
+            font-size: 21px;
+        }
+    }
+
+    .ui-button-text {
+        @include text-hide();
+    }
+
+    .ui-dialog-titlebar-buttonpane {
+        position: absolute;
+        top: 5px;
+        right: 0;
+    }
+
+    .ui-dialog-title {
+        font-size: $base-font-size--l - 1px;
+    }
+
+    .ui-widget-content {
+        padding: 0 40px;
+
+        border: 0;
+    }
+
+    .ui-dialog-buttonpane {
+        padding: 20px 40px 30px;
+
+        .pull-right .action-wrapper {
+            margin-left: $offset-x-m;
+        }
+
+        .pull-left .action-wrapper {
+            margin-right: $offset-x-m;
+        }
+    }
+}
+
+@include breakpoint('mobile-landscape') {
+    .ui-dialog {
+        .ui-dialog-titlebar {
+            padding: 40px $offset-x $offset-y;
+        }
+
+        .ui-widget-content {
+            padding: 0 $offset-x;
+        }
+
+        .ui-dialog-buttonpane {
+            padding: 20px $offset-x;
+        }
+    }
+}
