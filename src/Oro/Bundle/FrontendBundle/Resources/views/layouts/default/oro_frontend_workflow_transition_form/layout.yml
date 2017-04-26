@@ -1,9 +1,13 @@
 layout:
     actions:
         - '@setOption':
+            id: title
+            optionName: value
+            optionValue: '=data["transition"].getButtonLabel()~" / "~data["translator"].getTrans(context["workflowName"],[],"workflows")'
+        - '@setOption':
             id: page_title
             optionName: defaultValue
-            optionValue: '=context["workflowName"]~" / "~data["transition"].getName()'
+            optionValue: '=data["translator"].getTrans(context["workflowName"],[],"workflows")~" / "~data["transition"].getButtonLabel()'
         - '@add':
             id: transition_form_holder
             parentId: page_content
