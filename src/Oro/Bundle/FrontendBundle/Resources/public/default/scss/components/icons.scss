@@ -14,7 +14,11 @@
     }
 
     &--large {
-        font-size: 24px;
+        font-size:$base-font-size--large;
+    }
+
+    &--x-large {
+        font-size: 20px;
     }
 
     &--gray {

@@ -44,7 +44,7 @@
         {% set hasVariants = actionsCount > 1 %}
         {% set additionalCss = "btn" %}
         {% if block.parent.vars.class_prefix == 'datagrid_toolbar_button_container' %}
-            {% set additionalCss = additionalCss ~ " btn-info oq-group-btn" %}
+            {% set additionalCss = additionalCss ~ " btn--info " %}
         {% else %}
             {% set additionalCss = additionalCss ~ " btn" %}
         {% endif %}
@@ -124,7 +124,7 @@
         {% if hasVariants %}
             {% set additionalCss = "btn" %}
             {% if block.parent.vars.class_prefix == 'datagrid_toolbar_button_container' %}
-                {% set additionalCss = additionalCss ~ " btn--info oq-group-btn " %}
+                {% set additionalCss = additionalCss ~ " btn--info " %}
             {% endif %}
             {% if hasVariants %}
                 {% set additionalCss = " btn-group full " %}
