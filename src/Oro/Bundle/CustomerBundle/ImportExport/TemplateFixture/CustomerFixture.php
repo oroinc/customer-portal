@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\EntityExtendBundle\Provider\EnumValueProvider;
 use Oro\Bundle\ImportExportBundle\TemplateFixture\AbstractTemplateRepository;
 use Oro\Bundle\ImportExportBundle\TemplateFixture\TemplateFixtureInterface;
+use Oro\Bundle\UserBundle\Entity\User;
 
 class CustomerFixture extends AbstractTemplateRepository implements TemplateFixtureInterface
 {
@@ -40,6 +41,7 @@ class CustomerFixture extends AbstractTemplateRepository implements TemplateFixt
         $entity->setName('Company A - East Division');
         $entity->setGroup((new CustomerGroup())->setName('All Customers'));
         $entity->setParent((new Customer())->setName('Company A'));
+        $entity->setOwner($this->createOwner());
 
         $internalRating = $this->enumValueProvider->getEnumValueByCode(Customer::INTERNAL_RATING_CODE, '1_of_5');
         $entity->setInternalRating($internalRating);
@@ -66,5 +68,21 @@ class CustomerFixture extends AbstractTemplateRepository implements TemplateFixt
         $method->setValue($customer, 1);
 
         return $customer;
+    }
+
+    /**
+     * @return User
+     */
+    private function createOwner()
+    {
+        $user = new User();
+        $reflectionUser = new \ReflectionClass($user);
+
+        $userId = $reflectionUser->getProperty('id');
+        $userId->setAccessible(true);
+        $userId->setValue($user, 1);
+        $userId->setAccessible(false);
+
+        return $user;
     }
 }

@@ -2,6 +2,7 @@ services:
     # Data converter
     oro_customer.importexport.data_converter.customer:
         parent: oro_importexport.data_converter.configurable
+        class: Oro\Bundle\CustomerBundle\ImportExport\Converter\CustomerDataConverter
 
     # Customer Export
     oro_customer.importexport.processor.export.customer:
@@ -14,7 +15,7 @@ services:
 
     # Customer Import
     oro_customer.importexport.strategy.customer.add_or_replace:
-        class: Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerImportStrategy
+        class: Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerAddOrReplaceStrategy
         parent: oro_importexport.strategy.configurable_add_or_replace
 
     oro_customer.importexport.processor.import:
@@ -27,6 +28,13 @@ services:
               type: import
               entity: '%oro_customer.entity.customer.class%'
               alias: oro_customer_customer
+
+    # Customer Data Normalizer
+    oro_customer.importexport.serializer.normalizer.customer:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerNormalizer
+        parent: oro_importexport.serializer.configurable_entity_normalizer
+        tags:
+            - { name: oro_importexport.normalizer }
 
     # Customer User Data Converter
     oro_customer.importexport.data_converter.customer_user:
@@ -53,13 +61,10 @@ services:
         tags:
             - { name: oro_importexport.template_fixture }
 
-    oro_customer.importexport.template_fixture.data_converter.customer:
-        parent: oro_importexport.data_converter.template_fixture.configurable
-
     oro_customer.importexport.processor.export_template:
         public: false
         parent: oro_importexport.processor.export_abstract
         calls:
-            - [setDataConverter, [@oro_customer.importexport.template_fixture.data_converter.customer]]
+            - [setDataConverter, [@oro_customer.importexport.data_converter.customer]]
         tags:
             - { name: oro_importexport.processor, type: export_template, entity: '%oro_customer.entity.customer.class%', alias: oro_customer_customer }

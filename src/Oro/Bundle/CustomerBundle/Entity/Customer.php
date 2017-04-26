@@ -202,7 +202,7 @@ class Customer extends ExtendCustomer
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "excluded"=true
+     *              "order"=50
      *          }
      *      }
      * )
