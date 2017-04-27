@@ -57,18 +57,4 @@ class CustomerRepository extends EntityRepository implements BatchIteratorInterf
 
         return $children;
     }
-
-    /**
-     * @param string $name
-     * @return int
-     */
-    public function countByName($name)
-    {
-        $qb = $this->createQueryBuilder('customer');
-        $qb->select('COUNT(customer)')
-            ->where('customer.name = :name')
-            ->setParameter('name', $name);
-
-        return $qb->getQuery()->getSingleScalarResult();
-    }
 }

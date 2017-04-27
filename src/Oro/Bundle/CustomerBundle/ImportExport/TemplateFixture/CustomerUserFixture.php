@@ -31,7 +31,7 @@ class CustomerUserFixture extends AbstractTemplateRepository implements Template
             case 'Jerry Coleman':
                 $owner = (new User())->setId(1);
                 $dateTime = (new \DateTime())->setTimestamp(545843181);
-                $customerRole = $this->generateCustomerRole();
+                $customerRole = new CustomerUserRole('BUYER');
                 $website = $this->generateWebsite();
 
                 $entity->setCustomer((new Customer())->setName('Oro Inc.'))
@@ -45,9 +45,8 @@ class CustomerUserFixture extends AbstractTemplateRepository implements Template
                     ->setBirthday($dateTime)
                     ->setNamePrefix('Mr')
                     ->setNameSuffix('Jr.')
-                    ->setMiddleName('John');
-
-                $this->addRole($entity, $customerRole);
+                    ->setMiddleName('John')
+                    ->addRole($customerRole);
 
                 return;
         }
@@ -84,33 +83,5 @@ class CustomerUserFixture extends AbstractTemplateRepository implements Template
         $property->setAccessible(false);
 
         return $website;
-    }
-
-    /**
-     * @return CustomerUserRole
-     */
-    private function generateCustomerRole()
-    {
-        $customerRole = new CustomerUserRole();
-        $reflectionObject = new \ReflectionObject($customerRole);
-        $property = $reflectionObject->getProperty('id');
-        $property->setAccessible(true);
-        $property->setValue($customerRole, 1);
-        $property->setAccessible(false);
-
-        return $customerRole;
-    }
-
-    /**
-     * @param $entity
-     * @param $customerRole
-     */
-    private function addRole($entity, $customerRole)
-    {
-        $reflectionObject = new \ReflectionObject($entity);
-        $property = $reflectionObject->getProperty('roles');
-        $property->setAccessible(true);
-        $property->setValue($entity, new ArrayCollection([$customerRole]));
-        $property->setAccessible(false);
     }
 }

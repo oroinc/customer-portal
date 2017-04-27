@@ -4,8 +4,10 @@ namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\PersistentCollection;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrategy;
 
 class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
@@ -24,6 +26,24 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     /**
      * {@inheritdoc}
      */
+    protected function findExistingEntity($entity, array $searchContext = [])
+    {
+        $existingEntity = parent::findExistingEntity($entity, $searchContext);
+
+        // we need to initialize customer users because of issue with UoW which tries to load old data
+        // from database and overrides customer users from imported file
+        if ($existingEntity instanceof Customer) {
+            $customerUsers = $existingEntity->getUsers();
+            if ($customerUsers instanceof PersistentCollection) {
+                $customerUsers->initialize();
+            }
+        }
+
+        return $existingEntity;
+    }
+    /**
+     * {@inheritdoc}
+     */
     protected function importExistingEntity(
         $entity,
         $existingEntity,
@@ -32,34 +52,15 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     ) {
         $entitiesOfCustomerUser = $entity instanceof CustomerUser && $existingEntity instanceof CustomerUser;
 
-        // As email is identity we need to manually exclude it in case it's empty. More info: BB-7978
-        if ($entitiesOfCustomerUser && $entity->getEmail() === null) {
-            $excludedFields[] = 'email';
-        }
-
-        if ($entitiesOfCustomerUser && count($itemData['roles']) === 0) {
-            $excludedFields[] = 'roles';
+        if ($itemData !== null && $entitiesOfCustomerUser) {
+            foreach ($itemData as $fieldName => $fieldValue) {
+                if ($fieldValue === null || (is_array($fieldValue) && count($fieldValue) === 0)) {
+                    $excludedFields[] = $fieldName;
+                }
+            }
         }
 
         parent::importExistingEntity($entity, $existingEntity, $itemData, $excludedFields);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @param CustomerUser $entity
-     */
-    public function validateAndUpdateContext($entity)
-    {
-        $validationErrors = $this->strategyHelper->validateEntity($entity, ['Default', 'import']);
-        if ($validationErrors) {
-            $this->processValidationErrors($entity, $validationErrors);
-
-            return null;
-        }
-
-        $this->updateContextCounters($entity);
-
-        return $entity;
     }
 
     /**
@@ -75,7 +76,7 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
         return $value;
     }
-    
+
     /**
      * @param $entity
      * @return CustomerUser|null
@@ -89,7 +90,7 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         if ($this->isNewCustomerUser($entity)) {
             return $this->handleOwnerOfNewCustomerUser($entity);
         }
-        
+
         return $this->handleOwnerOfExistingCustomerUser($entity);
     }
 

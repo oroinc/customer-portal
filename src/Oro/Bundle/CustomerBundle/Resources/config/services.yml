@@ -761,9 +761,3 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
 
-    oro_customer.customer.validator.constraint.unique_customer_name:
-        class: 'Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerNameConstraintValidator'
-        arguments:
-            - "@oro_customer.repository.customer"
-        tags:
-            - { name: validator.constraint_validator }

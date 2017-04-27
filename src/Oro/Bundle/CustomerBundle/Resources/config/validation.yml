@@ -65,8 +65,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             - Date: ~
         customer:
             - NotBlank: ~
-            - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerNameConstraint:
-                groups: [import]
         addresses:
             - Valid: ~
             - Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:

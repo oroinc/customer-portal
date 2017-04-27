@@ -62,16 +62,6 @@ class CustomerRepositoryTest extends WebTestCase
     }
 
     /**
-     * @dataProvider countByNameDataProvider
-     * @param string $name
-     * @param int $expectedResults
-     */
-    public function testCountByName($name, $expectedResults)
-    {
-        $this->assertEquals($expectedResults, $this->repository->countByName($name));
-    }
-
-    /**
      * @return array
      */
     public function customerReferencesDataProvider()
@@ -173,18 +163,6 @@ class CustomerRepositoryTest extends WebTestCase
                     'customer.level_1.1',
                 ]
             ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function countByNameDataProvider()
-    {
-        return [
-            ['customer.level_1.1', 1],
-            ['non-existing-customer', 0],
-            [LoadDuplicatedCustomer::DUPLICATED_CUSTOMER_NAME, 2],
         ];
     }
 

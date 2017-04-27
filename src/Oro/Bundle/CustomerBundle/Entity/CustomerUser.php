@@ -303,7 +303,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "order"=40
+     *              "order"=80
      *          }
      *      }
      * )
