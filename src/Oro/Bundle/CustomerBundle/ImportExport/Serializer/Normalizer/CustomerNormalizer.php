@@ -20,6 +20,11 @@ class CustomerNormalizer extends ConfigurableEntityNormalizer
             unset($result['owner']['username']);
         }
 
+        if (isset($result['parent']) && $object->getParent()) {
+            $result['parent']['id'] = $object->getParent()->getId();
+            unset($result['parent']['name']);
+        }
+
         return $result;
     }
 
@@ -30,5 +35,4 @@ class CustomerNormalizer extends ConfigurableEntityNormalizer
     {
         return $data instanceof Customer;
     }
-
 }

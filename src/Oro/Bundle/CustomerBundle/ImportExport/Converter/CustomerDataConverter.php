@@ -15,6 +15,7 @@ class CustomerDataConverter extends ConfigurableTableDataConverter
     {
         $result = parent::getBackendHeader();
         $result = $this->addOwnerId($result);
+        $result = $this->addParentId($result);
 
         return $result;
     }
@@ -34,6 +35,7 @@ class CustomerDataConverter extends ConfigurableTableDataConverter
                 return $header;
             }
         }
+
         return parent::getEntityRulesAndBackendHeaders(
             $entityName,
             $fullData,
@@ -54,6 +56,11 @@ class CustomerDataConverter extends ConfigurableTableDataConverter
                     ['Id' => 'id'],
                     ['Id' => 'id']
                 ];
+            case Customer::class:
+                return [
+                    ['Id' => 'id'],
+                    ['Id' => 'id']
+                ];
         }
 
         return null;
@@ -67,6 +74,19 @@ class CustomerDataConverter extends ConfigurableTableDataConverter
     {
         if (!$this->fieldHelper->getConfigValue(Customer::class, 'owner', 'excluded')) {
             $result[] = 'owner:id';
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $result
+     * @return array
+     */
+    private function addParentId(array $result)
+    {
+        if (!$this->fieldHelper->getConfigValue(Customer::class, 'parent', 'excluded')) {
+            $result[] = 'parent:id';
         }
 
         return $result;
