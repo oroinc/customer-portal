@@ -1,3 +1,5 @@
+@ticket-BB-7456
+@automatically-ticket-tagged
 @fixture-BuyerCustomerFixture.yml
 Feature: Removing last role from the customer user on frontend
   Regression test for BB-7456

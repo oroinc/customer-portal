@@ -1,3 +1,5 @@
+@ticket-BB-7716
+@automatically-ticket-tagged
 @fixture-BuyerCustomerFixture.yml
 Feature: Price lists must be sortable in customerGroup create\view page
 

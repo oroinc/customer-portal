@@ -69,6 +69,7 @@
     {% set customerSelectorComponentOptions = {
         customerFieldId: '#' ~ form.customer.vars.id,
         datagridName: 'customer-customer-users-grid-update',
+        enableConfirmation: entity.id,
         originalValue: form.customer.vars.value
     } %}
 
