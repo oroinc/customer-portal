@@ -116,12 +116,7 @@ define(function(require) {
                 title: __('oro.customer.customer_user_role.change_customer_confirmation_title'),
                 okText: __('oro.customer.customer_user_role.continue'),
                 cancelText: __('oro.customer.customer_user_role.cancel'),
-                content: __('oro.customer.customer_user_role.content'),
-                okButtonClass: 'btn btn--info ok',
-                cancelButtonClass: 'btn cancel',
-                allowOk: true,
-                allowCancel: true,
-                template: _.template(require('text!orofrontend/templates/transition-confirmation.html'))
+                content: __('oro.customer.customer_user_role.content')
             });
         },
 

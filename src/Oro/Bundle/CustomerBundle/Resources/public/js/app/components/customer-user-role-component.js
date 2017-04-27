@@ -117,8 +117,7 @@ define(function(require) {
                 okText: __('oro.customer.customer_user_role.continue'),
                 cancelText: __('oro.customer.customer_user_role.cancel'),
                 content: __('oro.customer.customer_user_role.content'),
-                className: 'modal modal-primary',
-                okButtonClass: 'btn-primary btn-large'
+                className: 'modal modal-primary'
             });
         },
 
