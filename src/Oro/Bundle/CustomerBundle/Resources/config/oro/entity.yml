@@ -24,3 +24,6 @@ oro_entity:
         Oro\Bundle\CustomerBundle\Entity\WindowsState:
             alias:        customer_user_windows_state
             plural_alias: customer_user_windows_states
+        Oro\Bundle\CustomerBundle\Entity\GridViewUser:
+            alias:        customer_grid_view_user
+            plural_alias: customer_grid_view_users
