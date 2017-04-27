@@ -1,14 +1,15 @@
 define(function(require) {
     'use strict';
 
-    var CustomerUserRole;
+    var CustomerUserRoleComponent;
     var BaseComponent = require('oroui/js/app/components/base/component');
     var mediator = require('oroui/js/mediator');
+    var $ = require('jquery');
     var _ = require('underscore');
     var __ = require('orotranslation/js/translator');
     var Modal = require('oroui/js/modal');
 
-    CustomerUserRole = BaseComponent.extend({
+    CustomerUserRoleComponent = BaseComponent.extend({
         /**
          * @property {Object}
          */
@@ -16,7 +17,14 @@ define(function(require) {
             customerFieldId: '#customerFieldId',
             datagridName: 'customer-users-datagrid',
             originalValue: null,
-            previousValueDataAttribute: 'previousValue'
+            previousValueDataAttribute: 'previousValue',
+            enableConfirmation: false,
+            dialogOptions: {
+                title: __('oro.customer.customer_user_role.change_customer_confirmation_title'),
+                okText: __('oro.customer.customer_user_role.continue'),
+                cancelText: __('oro.customer.customer_user_role.cancel'),
+                content: __('oro.customer.customer_user_role.content')
+            }
         },
 
         /**
@@ -28,7 +36,7 @@ define(function(require) {
          * @inheritDoc
          */
         initialize: function(options) {
-            this.options = _.defaults(options || {}, this.options);
+            this.options = $.extend(true, {}, this.options, options);
 
             this.customerField = this.options._sourceElement.find(this.options.customerFieldId);
             this.customerField.data(this.options.previousValueDataAttribute, this.options.originalValue);
@@ -43,9 +51,8 @@ define(function(require) {
         onCustomerSelectorChange: function(e) {
             var value = e.target.value;
 
-            if (value === this.options.originalValue) {
+            if (value === this.options.originalValue || !this.options.enableConfirmation) {
                 this._updateGridAndSaveParameters(value);
-
                 return;
             }
 
@@ -75,6 +82,8 @@ define(function(require) {
                 return;
             }
 
+            delete this.customerField;
+
             this.options._sourceElement.off('change');
 
             if (this.changeCustomerConfirmDialog) {
@@ -83,7 +92,7 @@ define(function(require) {
                 delete this.changeCustomerConfirmDialog;
             }
 
-            CustomerUserRole.__super__.dispose.call(this);
+            CustomerUserRoleComponent.__super__.dispose.call(this);
         },
 
         /**
@@ -112,13 +121,7 @@ define(function(require) {
          * @private
          */
         _createChangeCustomerConfirmationDialog: function() {
-            return new Modal({
-                title: __('oro.customer.customer_user_role.change_customer_confirmation_title'),
-                okText: __('oro.customer.customer_user_role.continue'),
-                cancelText: __('oro.customer.customer_user_role.cancel'),
-                content: __('oro.customer.customer_user_role.content'),
-                className: 'modal modal-primary'
-            });
+            return new Modal(this.options.dialogOptions);
         },
 
         /**
@@ -140,5 +143,5 @@ define(function(require) {
         }
     });
 
-    return CustomerUserRole;
+    return CustomerUserRoleComponent;
 });
