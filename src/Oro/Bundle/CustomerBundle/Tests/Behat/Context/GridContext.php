@@ -12,9 +12,9 @@ class GridContext extends OroFeatureContext implements OroPageObjectAware
     use PageObjectDictionary;
 
     /**
-     * Example: I set "Test" as grid view name for "TestGrid" grid
+     * Example: I set "Test" as grid view name for "TestGrid" grid on frontend
      *
-     * @Given /^(?:|I )set "(?P<name>([\w\s]+))" as grid view name for "(?P<gridName>([\w\s]+))" grid$/
+     * @Given /^(?:|I )set "(?P<name>([\w\s]+))" as grid view name for "(?P<gridName>([\w\s]+))" grid on frontend$/
      *
      * @param string $name
      * @param string $gridName
@@ -26,9 +26,9 @@ class GridContext extends OroFeatureContext implements OroPageObjectAware
     }
 
     /**
-     * Example: I mark Set as Default on grid view for "TestGrid" grid
+     * Example: I mark Set as Default on grid view for "TestGrid" grid on frontend
      *
-     * @Given /^(?:|I )mark Set as Default on grid view for "(?P<gridName>([\w\s]+))" grid$/
+     * @Given /^(?:|I )mark Set as Default on grid view for "(?P<gridName>([\w\s]+))" grid on frontend$/
      *
      * @param string $gridName
      */
