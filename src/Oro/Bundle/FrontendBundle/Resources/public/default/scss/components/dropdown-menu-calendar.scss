@@ -13,12 +13,6 @@
     .ui-datevariables-div {
         padding: $offset-x-m;
 
-        .fa-info-circle {
-            margin-left: $offset-x-s;
-
-            vertical-align: middle;
-        }
-
         .ui_date_variable {
             @include element-state('hover') {
                 color: get-color('additional', 'dark');

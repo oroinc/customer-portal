@@ -12,11 +12,3 @@ a {
         text-decoration: underline;
     }
 }
-
-//Bootstrap override
-.container-fluid {
-    width: 100%;
-    max-width: $site-width;
-    margin: 0 auto;
-    padding: 0 $offset-x-m;
-}

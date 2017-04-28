@@ -72,6 +72,14 @@
         display: none !important;
     }
 }
+
+.container-fluid {
+    width: 100%;
+    max-width: $site-width;
+    margin: 0 auto;
+    padding: 0 $offset-x-m;
+}
+
 .clearfix:after,
 .container:after,
 .container-fluid:after,
