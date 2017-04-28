@@ -44,6 +44,12 @@
                     className: 'b2b-sorting-select-control',
                     dropdownClassName: 'oro-select2__dropdown'
                 },
+                'orodatagrid/js/grid-views-builder': {
+                    GridViewsView: 'orofrontend/js/datagrid/grid-views/frontend-grid-views-view'
+                },
+                'orodatagrid/js/datagrid/grid-views/model': {
+                    route: 'oro_api_frontend_datagrid_gridview_post'
+                },
                 'oro/filter/abstract-filter': {
                     placeholder: null,
                     labelPrefix: '{{ 'oro.ui.filter.by'|trans  }} '
@@ -71,8 +77,6 @@
             appModules = appModules.concat([
                 'orofrontend/default/js/app/modules/input-widgets',
                 'orofrontend/default/js/app/modules/zoom-disable',
-                'orofrontend/default/js/app/modules/button-manager',
-                'orofrontend/default/js/app/modules/delete-action',
                 'orofrontend/default/js/app/modules/select-filter'
             ]);
             require({
@@ -159,29 +163,9 @@
     </script>
 {% endblock %}
 
-{% block _sticky_panel_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        'data-page-component-module': 'oroui/js/app/components/view-component',
-        'data-page-component-options': {
-            'view': 'orofrontend/default/js/app/views/sticky-panel-view'
-        },
-        '~class': ' sticky-panel'
-    }) %}
-    <div{{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
-{% endblock %}
-
-{% block _sticky_panel_content_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' sticky-panel__content'
-    }) %}
-    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
-{% endblock %}
-
 {% block _sticky_element_notification_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        'id': 'sticky-element-notification'
+    'id': 'sticky-element-notification'
     }) %}
     <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
 {% endblock %}

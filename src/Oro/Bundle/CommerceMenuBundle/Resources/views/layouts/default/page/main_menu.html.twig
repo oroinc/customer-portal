@@ -1,10 +1,11 @@
 {% block _header_row_widget %}
     {% set attr = layout_attr_defaults(attr, {
         'data-page-component-module': 'orocommercemenu/js/app/components/header-row',
+        'data-sticky-target': 'top-sticky-panel',
         '~data-sticky': {
             isSticky: true,
             autoWidth: true,
-            toggleClass: 'header-row--fixed',
+            toggleClass: 'header-row--fixed slide-in-down',
             placeholderId: 'sticky-header-row',
             viewport: {
                 maxScreenType: 'tablet',

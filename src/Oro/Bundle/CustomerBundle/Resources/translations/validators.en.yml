@@ -3,5 +3,5 @@
 
 oro:
     customer:
-          message:
-              password_mismatch: 'The password fields must match.'
+        message:
+            password_mismatch: 'The password fields must match.'

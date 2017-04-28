@@ -11,7 +11,8 @@ class ACLContext extends BaseACLContext
      */
     protected function getRoleViewFormElement()
     {
-        return $this->elementFactory->createElement('CustomerUserRoleView');
+        $elementName = $this->isUserRoleEditPage() ? 'UserRoleView' : 'CustomerUserRoleView';
+        return $this->elementFactory->createElement($elementName);
     }
 
     /**
@@ -19,6 +20,15 @@ class ACLContext extends BaseACLContext
      */
     protected function getRoleEditFormElement()
     {
-        return $this->elementFactory->createElement('CustomerUserRoleForm');
+        $elementName = $this->isUserRoleEditPage() ? 'UserRoleForm' : 'CustomerUserRoleForm';
+        return $this->elementFactory->createElement($elementName);
+    }
+
+    /**
+     * @return bool
+     */
+    private function isUserRoleEditPage()
+    {
+        return (bool) preg_match('/\/user\/role\/update\//', $this->getSession()->getCurrentUrl());
     }
 }

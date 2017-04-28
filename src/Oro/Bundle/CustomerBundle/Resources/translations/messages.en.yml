@@ -160,6 +160,10 @@ oro.customer:
             password: 'Enter your password'
             password_confirmation: 'Reenter your password'
 
+        import:
+            message:
+                default_website_does_not_exist: 'Default website doesn''t exist'
+                default_website_role_does_not_exist: 'Default role for website %website% doesn''t exist'
 
     customeruserrole:
         entity_label:                    'Customer User Role'
@@ -292,6 +296,21 @@ oro.customer:
         customer_user.label:     Customer User
         website.label:          Website
         localization.label:     Localization
+
+    gridview:
+        entity_label: Grid View
+        entity_plural_label: Grid Views
+        id.label: Id
+        appearance_data.label: Appearance data
+        columns_data.label: Columns
+        filters_data.label: Filters
+        grid_name.label: Grid Name
+        name.label: Name
+        sorters_data.label: Sorters
+        type.label: Type
+        discr_type.label: Discriminator Type
+        customer_user_owner.label: Owner
+        organization.label: Organization
 
     menu:
         customers_tab.label: 'Customers'
@@ -443,6 +462,7 @@ oro.customer:
                 customer_user_role.create: Create Role
                 customer_user_role.edit: Edit Role
                 customer_user.edit: 'Edit Customer User - %identifier%'
+                customer_user.view: 'Customer User'
         sections:
             customer_user_role:
                 label: Role Title
@@ -474,6 +494,10 @@ oro.customer:
     dataaudit:
         administrator: 'Administrator'
         module_label: 'Audit history for Customer User'
+
+    importexport:
+        customer_user:
+            unable_to_change_owner: 'You are not allowed to change owner of %entity_name% to %owner_name%.'
 
 oro.scope:
     customer.label: Customer

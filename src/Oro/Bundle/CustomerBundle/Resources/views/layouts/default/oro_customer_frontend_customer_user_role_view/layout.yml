@@ -67,6 +67,11 @@ layout:
 
         - '@setOption':
             id: customer_user_grid_datagrid
+            optionName: grid_render_parameters.gridViewsOptions.text
+            optionValue: 'oro.customer.customer_user.role.users'
+
+        - '@setOption':
+            id: customer_user_grid_datagrid
             optionName: grid_render_parameters.themeOptions.cellLauncherOptions
             optionValue:
                 launcherMode: 'icon-text'

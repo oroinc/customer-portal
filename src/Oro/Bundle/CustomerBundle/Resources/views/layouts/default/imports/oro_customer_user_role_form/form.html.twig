@@ -26,11 +26,13 @@
     {% set customerUserRoleOptions = {
         customerFieldId: '#' ~ form.customer.vars.id,
         datagridName: 'frontend-customer-customer-users-grid-update',
-        originalValue: form.customer.vars.value
+        originalValue: form.customer.vars.value,
+        enableConfirmation: attr.enableConfirmation|default(false),
+        dialogOptions: { className: 'modal modal-primary' }
     } %}
 
     <div {{ UI.renderPageComponentAttributes({
-        module: 'orocustomer/js/app/components/frontend-customer-user-role-component',
+        module: 'orocustomer/js/app/components/customer-user-role-component',
         options: customerUserRoleOptions
     }) }} >
         {{ form_row(form.customer) }}

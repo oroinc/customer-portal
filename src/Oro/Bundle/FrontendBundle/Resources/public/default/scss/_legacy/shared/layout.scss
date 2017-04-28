@@ -288,12 +288,3 @@
 .shopping-list {
   @include list-normalize();
 }
-
-
-@include breakpoint('mobile') {
-  .catalog__filter-controls {
-    &__item {
-      margin-right: 0;
-    }
-  }
-}
