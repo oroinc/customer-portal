@@ -49,12 +49,6 @@ services:
             - { name: oro_importexport.normalizer }
 
     # Customer User Export
-    oro_customer.importexport.normalizer.customer_user:
-        class: Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerUserNormalizer
-        parent: oro_importexport.serializer.configurable_entity_normalizer
-        tags:
-            - { name: oro_importexport.normalizer }
-
     oro_customer.importexport.processor.export.customer_user:
         public: false
         parent: oro_importexport.processor.export_abstract
@@ -71,7 +65,7 @@ services:
         parent: oro_importexport.processor.import_abstract
         calls:
             - [setDataConverter, ['@oro_customer.importexport.data_converter.customer_user']]
-            - [setStrategy, ['@oro_customer.importexport.strategy.customer.add_or_replace']]
+            - [setStrategy, ['@oro_customer.importexport.strategy.customer_user.add_or_replace']]
         tags:
             - name: oro_importexport.processor
               type: import
@@ -83,7 +77,7 @@ services:
               alias: oro_customer_customer_user
 
     # Customer User Import Strategy
-    oro_customer.importexport.strategy.customer.add_or_replace:
+    oro_customer.importexport.strategy.customer_user.add_or_replace:
         class: Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerUserAddOrReplaceStrategy
         public: false
         parent: oro_importexport.strategy.configurable_add_or_replace
