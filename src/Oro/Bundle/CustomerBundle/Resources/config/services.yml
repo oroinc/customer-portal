@@ -760,3 +760,4 @@ services:
             - "@oro_security.security_facade"
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
+

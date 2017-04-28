@@ -7,7 +7,7 @@ define(function(require) {
     var _ = require('underscore');
     var __ = require('orotranslation/js/translator');
     var GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
-    var DeleteConfirmation = require('orofrontend/js/app/components/delete-confirmation');
+    var DeleteConfirmation = require('oroui/js/delete-confirmation');
     var error = require('oroui/js/error');
 
     FrontendGridViewsView = GridViewsView.extend({
@@ -85,8 +85,7 @@ define(function(require) {
                 }
             ],
             DeleteConfirmationOptions: {
-                content: __('Are you sure you want to delete this item?'),
-                okButtonClass: 'btn ok btn--info'
+                content: __('Are you sure you want to delete this item?')
             },
             elements: {
                 gridViewName: 'input[name=name]',
