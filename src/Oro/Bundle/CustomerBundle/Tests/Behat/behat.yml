@@ -9,6 +9,7 @@ oro_behat_extension:
         - OroDataGridBundle::GridContext
         - OroCustomerBundle::CustomerUserContext
         - OroCustomerBundle::ACLContext
+        - OroCustomerBundle::GridContext
         - OroSecurityBundle::PermissionContext
         - OroImportExportBundle::ImportExportContext:
             - '@oro_entity.entity_alias_resolver'
@@ -23,3 +24,12 @@ oro_behat_extension:
     CustomerUserRoleView:
       selector: "[data-target='#customer-customer-user-role-view'], section.page-content"
       class: Oro\Bundle\UserBundle\Tests\Behat\Element\UserRoleViewForm
+    Company Addresses Grid:
+      selector: '[id^="grid-frontend-customer-customer-address-grid"]'
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+    Company User Addresses Grid:
+      selector: '[id^="grid-frontend-customer-customer-user-address-grid"]'
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+    Company User Addresses Grid View List:
+      selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
