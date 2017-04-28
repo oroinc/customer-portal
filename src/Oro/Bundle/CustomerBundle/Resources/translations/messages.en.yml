@@ -160,6 +160,10 @@ oro.customer:
             password: 'Enter your password'
             password_confirmation: 'Reenter your password'
 
+        import:
+            message:
+                default_website_does_not_exist: 'Default website doesn''t exist'
+                default_website_role_does_not_exist: 'Default role for website %website% doesn''t exist'
 
     customeruserrole:
         entity_label:                    'Customer User Role'
@@ -492,6 +496,8 @@ oro.customer:
         module_label: 'Audit history for Customer User'
 
     importexport:
+        customer_user:
+            unable_to_change_owner: 'You are not allowed to change owner of %entity_name% to %owner_name%.'
         customer:
             unable_to_change_owner: 'You are not allowed to change owner of %entity_name% to %owner_name%.'
 

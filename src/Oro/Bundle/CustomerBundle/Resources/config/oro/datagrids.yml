@@ -374,6 +374,10 @@ datagrids:
                     inner:
                         - { join: customerUser.customer, alias: customer }
         columns:
+            id:
+                label: oro.customer.customeruser.id.label
+                renderable: false
+                order: -2
             customerName:
                 label: oro.customer.customeruser.customer.label
                 order: -1

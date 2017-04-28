@@ -6,15 +6,15 @@ Feature: Export Customer Users
   As an Administrator
   I want to have the Export button on the Customers -> Customer Users page
 
-  Scenario: Export Customers
+  Scenario: Export Customer Users
     Given I login as administrator
     And I go to Customers/Customer Users
     When I press "Export"
     Then I should see "Export started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Export performed successfully. 3 customer users were exported. Download" text
     And Exported file for "Customer Users" contains the following data:
-      | First Name | Last Name | Email Address              | Customer Name              | Enabled | Confirmed |
-      | Amanda     | Cole      | AmandaRCole@example.org    | Company A                  | 1       | 1         |
-      | Branda     | Sanborn   | BrandaJSanborn@example.org | Company A                  | 0       | 1         |
-      | Ruth       | Maxwell   | RuthWMaxwell@example.org   | Company A - West Division  | 1       | 0         |
+      |ID|Name Prefix| First Name |Middle Name| Last Name |Name Suffix|Birthday   | Email Address              |Customer Id| Customer Name              |Roles 1 Role                |Roles 2 Role         | Enabled | Confirmed |Owner Id|Website Id|
+      |1 |Amanda Pre | Amanda     | Middle Co | Cole      |Cole Suff  |           | AmandaRCole@example.org    |1          | Company A                  |ROLE_FRONTEND_ADMINISTRATOR |ROLE_FRONTEND_BUYER  | 1       | 1         |1       |1         |
+      |2 |           | Branda     |           | Sanborn   |           |10/02/1990 | BrandaJSanborn@example.org |1          | Company A                  |ROLE_FRONTEND_BUYER         |                     | 0       | 1         |1       |2         |
+      |3 |Ruth Pre   | Ruth       | Middle Max| Maxwell   |Ruth Suff  |           | RuthWMaxwell@example.org   |2          | Company A - West Division  |ROLE_FRONTEND_BUYER         |                     | 1       | 0         |2       |2         |
     And I click Logout in user menu

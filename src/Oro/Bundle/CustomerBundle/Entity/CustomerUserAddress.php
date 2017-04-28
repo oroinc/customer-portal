@@ -69,7 +69,7 @@ class CustomerUserAddress extends ExtendCustomerUserAddress implements AddressPh
      * @ORM\OneToMany(
      *      targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType",
      *      mappedBy="address",
-     *      cascade={"persist", "remove"},
+     *      cascade={"persist", "remove", "detach"},
      *      orphanRemoval=true
      * )
      **/
