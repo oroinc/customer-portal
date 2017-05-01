@@ -904,6 +904,19 @@ datagrids:
                 icon:          pencil-square-o
                 acl_resource:  oro_customer_frontend_customer_user_update
         action_configuration: ['@oro_customer.datagrid.action_permission_provider', "getUserPermissions"]
+        mass_actions:
+            delete:
+                label: Delete
+                type: delete
+                entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUser
+                data_identifier: customerUser.id
+                name: delete
+                frontend_type: delete-mass
+                route: oro_datagrid_front_mass_action
+                acl_resource:  oro_customer_frontend_customer_user_delete
+                launcherOptions:
+                    iconClassName: fa-trash-o
+                    className: datagrid-massaction__dropdown-item
 
     audit-grid:
         source:
