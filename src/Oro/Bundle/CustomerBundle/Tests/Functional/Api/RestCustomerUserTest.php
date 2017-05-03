@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Functional\API;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api;
 
 use Doctrine\ORM\EntityManager;
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;

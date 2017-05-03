@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Functional\API;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;

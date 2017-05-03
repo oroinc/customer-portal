@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Functional\API;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
