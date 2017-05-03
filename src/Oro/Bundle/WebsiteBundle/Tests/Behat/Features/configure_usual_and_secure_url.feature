@@ -1,3 +1,5 @@
+@ticket-BAP-12990
+@automatically-ticket-tagged
 Feature: Configure usual and secure url
   In order to configure usual and secure url
   As a Site Administrator

@@ -8,7 +8,7 @@ define(function(require) {
     var _ = require('underscore');
     var routing = require('routing');
     var AddressBook = require('orocustomer/js/address-book');
-    var deleteConfirmation = require('orofrontend/js/app/components/delete-confirmation');
+    var deleteConfirmation = require('oroui/js/delete-confirmation');
 
     CustomerAddressBook = BaseComponent.extend({
         /**

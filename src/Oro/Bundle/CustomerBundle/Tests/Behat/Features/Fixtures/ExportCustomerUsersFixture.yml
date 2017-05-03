@@ -1,3 +1,20 @@
+Oro\Bundle\WebsiteBundle\Entity\Website:
+    website2:
+        name: Second
+        organization: '@organization'
+        owner: '@business_unit'
+
+Oro\Bundle\UserBundle\Entity\User:
+    second_user:
+        username: user2
+        email: user2@example.com
+        firstName: New
+        lastName: Owner
+        password: password
+        salt: salt
+        organization: '@organization'
+        owner: '@business_unit'
+
 Oro\Bundle\CustomerBundle\Entity\Customer:
     company_A:
         name: 'Company A'
@@ -16,11 +33,14 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
         firstName: 'Amanda'
         lastName: 'Cole'
+        middleName: 'Middle Co'
+        namePrefix: 'Amanda Pre'
+        nameSuffix: 'Cole Suff'
         enabled: '1'
         confirmed: '1'
         customer: '@company_A'
         organization: '@organization'
-        role: ['@buyer']
+        role: ['@front_admin', '@buyer']
         owner: '@admin'
         website: '@website1'
     branda:
@@ -30,13 +50,14 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
         firstName: 'Branda'
         lastName: 'Sanborn'
+        birthday: <(new \DateTime('1990-10-02 12:00'))>
         enabled: '0'
         confirmed: '1'
         customer: '@company_A'
         organization: '@organization'
         role: ['@buyer']
         owner: '@admin'
-        website: '@website1'
+        website: '@website2'
     ruth:
         email: 'RuthWMaxwell@example.org'
         username: 'RuthWMaxwell@example.org'
@@ -44,10 +65,13 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
         firstName: 'Ruth'
         lastName: 'Maxwell'
+        middleName: 'Middle Max'
+        namePrefix: 'Ruth Pre'
+        nameSuffix: 'Ruth Suff'
         enabled: '1'
         confirmed: '0'
         customer: '@company_A_west'
         organization: '@organization'
         role: ['@buyer']
-        owner: '@admin'
-        website: '@website1'
+        owner: '@second_user'
+        website: '@website2'
