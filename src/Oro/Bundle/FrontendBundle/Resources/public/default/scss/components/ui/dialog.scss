@@ -12,11 +12,17 @@
     left: 50%;
     z-index: z('popup');
 
+    display: flex;
+    flex-flow: column;
+    max-height: 100%;
+    height: auto !important;
+    min-height: 280px !important;
+
     border-radius: 4px;
 
     .ui-dialog-content {
-        overflow: auto;
-        height: calc(100% - 177px) !important;
+        overflow-y: auto;
+        flex-shrink: 5;
     }
 
     &.ui-dialog-no-scroll {
