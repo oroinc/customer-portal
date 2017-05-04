@@ -6,6 +6,7 @@ use Doctrine\ORM\PersistentCollection;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrategy;
 
 class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
@@ -48,7 +49,50 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             }
         }
 
+        if ($existingEntity instanceof Customer) {
+            $childrenCustomers = $existingEntity->getChildren();
+            if ($childrenCustomers instanceof PersistentCollection) {
+                $childrenCustomers->initialize();
+            }
+        }
+
         return $existingEntity;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @todo replace empty cells check with BAP-14672
+     */
+    protected function importExistingEntity(
+        $entity,
+        $existingEntity,
+        $itemData = null,
+        array $excludedFields = []
+    ) {
+        $entitiesOfCustomer = $entity instanceof Customer && $existingEntity instanceof Customer;
+
+        if ($itemData !== null && $entitiesOfCustomer) {
+            foreach ($itemData as $fieldName => $fieldValue) {
+                if ($fieldValue === null || (is_array($fieldValue) && count($fieldValue) === 0)) {
+                    $excludedFields[] = $fieldName;
+                }
+            }
+        }
+
+        parent::importExistingEntity($entity, $existingEntity, $itemData, $excludedFields);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function isPermissionGrantedForEntity($permission, $entity, $entityClass)
+    {
+        // do not check permissions for ENUM entities
+        if ($entityClass === ExtendHelper::buildEnumValueClassName(Customer::INTERNAL_RATING_CODE)) {
+            return true;
+        }
+
+        return parent::isPermissionGrantedForEntity($permission, $entity, $entityClass);
     }
 
     /**

@@ -35,4 +35,12 @@ class CustomerNormalizer extends ConfigurableEntityNormalizer
     {
         return $data instanceof Customer;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsDenormalization($data, $type, $format = null, array $context = [])
+    {
+        return is_a($type, Customer::class, true);
+    }
 }

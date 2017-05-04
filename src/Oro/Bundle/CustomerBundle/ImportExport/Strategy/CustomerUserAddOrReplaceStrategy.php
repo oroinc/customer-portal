@@ -41,8 +41,10 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
         return $existingEntity;
     }
+
     /**
      * {@inheritdoc}
+     * @todo replace empty cells check with BAP-14672
      */
     protected function importExistingEntity(
         $entity,
