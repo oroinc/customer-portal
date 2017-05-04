@@ -1007,12 +1007,4 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
             $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
         }
     }
-
-    /**
-     * @return ArrayCollection|CustomerUserSettings[]
-     */
-    public function getSettings()
-    {
-        return $this->settings;
-    }
 }
