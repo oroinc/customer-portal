@@ -1,9 +1,9 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Functional\API;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Tests\Functional\API\DataFixtures\LoadCustomerData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
