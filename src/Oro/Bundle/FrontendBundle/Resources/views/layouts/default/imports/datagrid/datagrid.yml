@@ -17,12 +17,12 @@ layout:
                     actionOptions:
                         refreshAction:
                             launcherOptions:
-                                className: 'btn btn--default btn--size-s'
+                                className: 'btn btn--default btn--size-s refresh-action'
                                 icon: 'undo fa--no-offset'
                                 iconHideText: true
                         resetAction:
                             launcherOptions:
-                                className: 'btn btn--default btn--size-s'
+                                className: 'btn btn--default btn--size-s reset-action'
                                 icon: 'refresh fa--no-offset'
                                 iconHideText: true
                 toolbarOptions:
