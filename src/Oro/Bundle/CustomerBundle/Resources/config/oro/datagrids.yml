@@ -908,6 +908,16 @@ datagrids:
                 icon:          pencil-square-o
                 acl_resource:  oro_customer_frontend_customer_user_update
         action_configuration: ['@oro_customer.datagrid.action_permission_provider', "getUserPermissions"]
+        mass_actions:
+            delete:
+                label: Delete
+                type: delete
+                entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUser
+                data_identifier: customerUser.id
+                name: delete
+                frontend_type: delete-mass
+                route: oro_frontend_datagrid_mass_action
+                acl_resource:  oro_customer_frontend_customer_user_delete
 
     audit-grid:
         source:
@@ -1036,6 +1046,16 @@ datagrids:
                 type:          map
                 icon:          map-o
                 frontend_type: frontend-map
+        mass_actions:
+            delete:
+                label: Delete
+                type: delete
+                entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
+                data_identifier: address.id
+                name: delete
+                frontend_type: delete-mass
+                route: oro_frontend_datagrid_mass_action
+                acl_resource:  oro_customer_frontend_customer_user_address_remove
 
     frontend-customer-customer-address-grid:
         acl_resource: oro_customer_frontend_customer_address_view
