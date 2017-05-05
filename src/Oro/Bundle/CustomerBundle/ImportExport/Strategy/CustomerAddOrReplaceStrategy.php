@@ -61,6 +61,19 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
     /**
      * {@inheritdoc}
+     */
+    protected function processValidationErrors($entity, array $validationErrors)
+    {
+        parent::processValidationErrors($entity, $validationErrors);
+
+        // validation errors should clear all EM because wrong entities with MANAGED state are stored there
+        $this->doctrineHelper->getEntityManager($entity)->clear();
+        $this->databaseHelper->onClear();
+    }
+
+
+    /**
+     * {@inheritdoc}
      * @todo replace empty cells check with BAP-14672
      */
     protected function importExistingEntity(
