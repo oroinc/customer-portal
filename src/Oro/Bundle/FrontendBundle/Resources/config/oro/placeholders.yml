@@ -76,6 +76,10 @@ placeholders:
             applicable: "@oro_layout.helper->isTemplateRequest()"
         template_datagrid_toolbar_page_size:
             applicable: "@oro_layout.helper->isTemplateRequest()"
+        template_datagrid_select_all_header_cell:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
+        template_datagrid_action_header_cell:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
 
         # backend filters
         filter_container:
