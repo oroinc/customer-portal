@@ -7,7 +7,7 @@ define(function(require) {
     var _ = require('underscore');
     var __ = require('orotranslation/js/translator');
     var GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
-    var DeleteConfirmation = require('orofrontend/js/app/components/delete-confirmation');
+    var DeleteConfirmation = require('oroui/js/delete-confirmation');
     var error = require('oroui/js/error');
 
     FrontendGridViewsView = GridViewsView.extend({
@@ -85,8 +85,7 @@ define(function(require) {
                 }
             ],
             DeleteConfirmationOptions: {
-                content: __('Are you sure you want to delete this item?'),
-                okButtonClass: 'btn ok btn--info'
+                content: __('Are you sure you want to delete this item?')
             },
             elements: {
                 gridViewName: 'input[name=name]',
@@ -102,6 +101,7 @@ define(function(require) {
 
         /** @property */
         hideTitle: $([]),
+
         /**
          * @param options
          */
@@ -244,7 +244,7 @@ define(function(require) {
 
         /**
          * @param event
-         * @param options
+         * @param mode
          * @returns {Path|*|jQuery|HTMLElement}
          */
         switchEditMode: function(event, mode) {
@@ -354,11 +354,21 @@ define(function(require) {
          */
         _getViewActions: function() {
             var actions = [];
+            var actionsOptions = this.defaults.actionsOptions;
+            var onlySystemView = this.viewsCollection.length === 1;
 
-            this.viewsCollection.each(function(View) {
-                var actionsForView = this._getActions(View);
+            this.viewsCollection.each(function(GridView) {
+                var actionsForView = this._getActions(GridView);
+                var useAsDefaultAction = _.find(actionsOptions, {name: 'use_as_default'});
 
-                actionsForView = this.updateActions(actionsForView);
+                if (_.isObject(useAsDefaultAction)) {
+                    useAsDefaultAction.enabled =
+                        GridView !== 'undefined' &&
+                        !GridView.get('is_default') &&
+                        !onlySystemView;
+                }
+
+                actionsForView = this.updateActionsOptions(actionsForView, actionsOptions);
                 actionsForView = this.filterByPriority(actionsForView);
 
                 actions.push(actionsForView);
@@ -379,14 +389,15 @@ define(function(require) {
         },
 
         /**
-         * @param actions
+         * @param {*} actions
+         * @param {*} actionsOptions
          * @returns {*}
          */
-        updateActions: function(actions) {
-            var options = this.defaults.actionsOptions;
+        updateActionsOptions: function(actions, actionsOptions) {
+            actionsOptions = actionsOptions || {};
 
             _.each(actions, function(item, iterate) {
-                var currentOptions = _.find(options, {'name': item.name}) || {};
+                var currentOptions = _.find(actionsOptions, {'name': item.name}) || {};
                 var filteredOptions = _.omit(currentOptions, 'name'); // skip 'name'
 
                 _.extend(item, filteredOptions || {});

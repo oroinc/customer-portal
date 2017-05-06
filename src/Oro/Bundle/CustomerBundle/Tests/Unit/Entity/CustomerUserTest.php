@@ -259,4 +259,33 @@ class CustomerUserTest extends AbstractUserTest
 
         $this->assertSame('USD', $user->getWebsiteSettings($website)->getCurrency());
     }
+
+    public function testSettingGetter()
+    {
+        $user = $this->getUser();
+        $website = new Website();
+
+        $this->assertEquals(0, $user->getSettings()->count());
+
+        $firstSetting = new CustomerUserSettings(new Website());
+        $user->setWebsiteSettings($firstSetting);
+        $this->assertEquals(1, $user->getSettings()->count());
+        $this->assertTrue($user->getSettings()->contains($firstSetting));
+
+        $secondSetting = new CustomerUserSettings($website);
+        $user->setWebsiteSettings($secondSetting);
+        $this->assertEquals(2, $user->getSettings()->count());
+        $this->assertTrue($user->getSettings()->contains($secondSetting));
+
+        $thirdSetting = new CustomerUserSettings($website);
+        $user->setWebsiteSettings($thirdSetting);
+        $this->assertEquals(2, $user->getSettings()->count());
+        $this->assertFalse($user->getSettings()->contains($secondSetting));
+        $this->assertTrue($user->getSettings()->contains($thirdSetting));
+
+        $fourthSetting = new CustomerUserSettings(new Website());
+        $user->setWebsiteSettings($fourthSetting);
+        $this->assertEquals(3, $user->getSettings()->count());
+        $this->assertTrue($user->getSettings()->contains($fourthSetting));
+    }
 }

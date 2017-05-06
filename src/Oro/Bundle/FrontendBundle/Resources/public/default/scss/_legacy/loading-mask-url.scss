@@ -4,7 +4,7 @@
 
 .loading {
   > .loader-mask {
-    z-index: z('fixed');
+    z-index: z('dropdown') - 1;
     .loader-content {
       background: get-color('additional', 'ultra') url('#{$global-url}/orofrontend/default/images/loader.gif') no-repeat center left;
     }
