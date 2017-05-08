@@ -499,6 +499,16 @@ oro.customer:
         customer_user:
             unable_to_change_owner: 'You are not allowed to change owner of %entity_name% to %owner_name%.'
 
+    mass_actions:
+        enable_customers:
+            success_message: '%count% customer(s) were enabled'
+            error_message:   '%count% customer(s) were enabled'
+            label:           Enable
+        disable_customers:
+            success_message: '%count% customer(s) were disabled'
+            error_message:   '%count% customer(s) were disabled'
+            label:           Disable
+
 oro.scope:
     customer.label: Customer
     customer_group.label: Customer Group

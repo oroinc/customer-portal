@@ -24,3 +24,12 @@ oro.customer:
     customer_user_address_book:
         customer_user_addresses: 'My Addresses'
 
+    mass_actions:
+        enable_customers:
+            confirm_title: Disable customers
+            confirm_content: Selected customers will be enabled.
+            confirm_ok: Apply
+        disable_customers:
+            confirm_title: Disable customers
+            confirm_content: Selected customers will be disabled.
+            confirm_ok: Apply

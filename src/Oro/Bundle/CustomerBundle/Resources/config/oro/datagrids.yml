@@ -912,11 +912,13 @@ datagrids:
             delete:
                 label: Delete
                 type: delete
+                icon: trash
                 entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUser
                 data_identifier: customerUser.id
                 name: delete
                 frontend_type: delete-mass
-                route: oro_frontend_datagrid_mass_action
+                handler: oro_customer.datagrid.extension.mass_action.handler.delete
+                route: oro_datagrid_front_mass_action
                 acl_resource:  oro_customer_frontend_customer_user_delete
 
     audit-grid:
@@ -1054,7 +1056,7 @@ datagrids:
                 data_identifier: address.id
                 name: delete
                 frontend_type: delete-mass
-                route: oro_frontend_datagrid_mass_action
+                route: oro_datagrid_front_mass_action
                 acl_resource:  oro_customer_frontend_customer_user_address_remove
 
     frontend-customer-customer-address-grid:
