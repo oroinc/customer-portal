@@ -960,6 +960,14 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     }
 
     /**
+     * @return ArrayCollection|CustomerUserSettings[]
+     */
+    public function getSettings()
+    {
+        return $this->settings;
+    }
+
+    /**
      * @param Website|null $website
      * @return $this
      */
@@ -998,13 +1006,5 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
         if (array_diff_key($event->getEntityChangeSet(), array_flip($excludedFields))) {
             $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
         }
-    }
-
-    /**
-     * @return ArrayCollection|CustomerUserSettings[]
-     */
-    public function getSettings()
-    {
-        return $this->settings;
     }
 }

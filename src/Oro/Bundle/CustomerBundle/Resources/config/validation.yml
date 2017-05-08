@@ -7,6 +7,8 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
             - Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
                 message: One of the addresses must be set as primary.
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
+        parent:
+            - Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference: ~
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     properties:
