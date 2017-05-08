@@ -65,8 +65,8 @@ class WorkflowControllerTest extends WebTestCase
         $this->assertContains('oro.testframework.workflowawareentity.name.label', $html, '', true);
         $this->assertContains(sprintf(
             '%s / %s',
-            LoadWorkflowDefinitions::COMMERCE_WORKFLOW_FORMS,
-            LoadWorkflowDefinitions::COMMERCE_WORKFLOW_FORMS_START_TRANSITION
+            'oro.workflow.commerce_workflow_with_form_configuration.label',
+            'oro.workflow.commerce_workflow_with_form_configuration.transition.start_transition.label'
         ), $html, '', true);
 
         $workflowItem = new WorkflowItem();
@@ -106,8 +106,8 @@ class WorkflowControllerTest extends WebTestCase
         $this->assertContains(
             sprintf(
                 '%s / %s',
-                LoadWorkflowDefinitions::COMMERCE_WORKFLOW_FORMS,
-                LoadWorkflowDefinitions::COMMERCE_WORKFLOW_FORMS_TRANSITION
+                'oro.workflow.commerce_workflow_with_form_configuration.label',
+                'oro.workflow.commerce_workflow_with_form_configuration.transition.transition_1.label'
             ),
             $html,
             '',

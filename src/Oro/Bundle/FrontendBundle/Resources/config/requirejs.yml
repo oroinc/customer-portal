@@ -34,7 +34,7 @@ config:
 
         'orofrontend/js/app/elements-helper': 'bundles/orofrontend/js/app/elements-helper.js'
 
-        'slick': 'bundles/orofrontend/default/vendors/slick/slick.min.js'
+        'slick': 'bundles/orofrontend/default/vendors/slick/slick.js'
         'orofrontend/js/app/components/list-slider-component': 'bundles/orofrontend/js/app/components/list-slider-component.js'
         'orofrontend/js/app/components/popup-gallery-widget': 'bundles/orofrontend/js/app/components/popup-gallery-widget.js'
         'orofrontend/js/app/components/column-manager/frontend-column-manager-component': 'bundles/orofrontend/js/app/components/column-manager/frontend-column-manager-component.js'
