@@ -6,10 +6,14 @@
 
 {@inheritdoc}
 
-Create customer user.
-Sample data of create request:
+{@request:json_api}
 
-`{  
+Example:
+
+`</api/customer_users>`
+
+```JSON
+{  
    "data":{  
       "type":"customer_users",
       "attributes":{  
@@ -36,4 +40,6 @@ Sample data of create request:
          }
       }
    }
-}`
+}
+```
+{@/request}

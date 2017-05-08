@@ -14,11 +14,11 @@ api:
            plural_alias: customer_users
     entities:
         Oro\Bundle\CustomerBundle\Entity\Customer:
-            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_entity.md'
+            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer.md'
         Oro\Bundle\CustomerBundle\Entity\CustomerGroup: ~
         Oro\Bundle\CustomerBundle\Entity\CustomerUserRole: ~
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:
-            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user_entity.md'
+            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user.md'
             fields:
                 salt:
                     exclude: true
