@@ -920,6 +920,9 @@ datagrids:
                 handler: oro_customer.datagrid.extension.mass_action.handler.delete
                 route: oro_datagrid_front_mass_action
                 acl_resource:  oro_customer_frontend_customer_user_delete
+                launcherOptions:
+                    iconClassName: fa-trash-o
+                    className: datagrid-massaction__dropdown-item
 
     audit-grid:
         source:
