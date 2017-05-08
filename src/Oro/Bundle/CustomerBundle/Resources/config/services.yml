@@ -763,3 +763,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
 
+    oro_customer.validation.constraint.circular_customer_reference_validator:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator
+        tags:
+            - { name: validator.constraint_validator }

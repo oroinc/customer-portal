@@ -5,3 +5,4 @@ oro:
     customer:
         message:
             password_mismatch: 'The password fields must match.'
+            circular_customer_reference: 'Circular reference detected. ''{{ parentName }}'' cannot be parent of ''{{ customerName }}'' because it''s his child'
