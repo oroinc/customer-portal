@@ -121,8 +121,10 @@
     {% set attr = layout_attr_defaults(attr, {
         'id': 'flash-messages',
         '~class': ' notification-flash-container',
+        'data-sticky-target': 'top-sticky-panel',
         'data-sticky': {
-            'placeholderId': 'sticky-element-notification'
+            isSticky: true,
+            placeholderId: 'sticky-element-notification'
         }
     }) %}
     <div{{ block('block_attributes') }}></div>
