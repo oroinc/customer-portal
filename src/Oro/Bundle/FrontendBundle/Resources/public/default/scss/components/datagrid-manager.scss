@@ -1,12 +1,16 @@
 // @theme: default
 
-.column-manager {
+.datagrid-manager {
     &__title {
         margin-bottom: $offset-y-m;
     }
 
     &__actions {
         position: relative;
+
+        &-item {
+            display: inline-block;
+        }
     }
 
     &__separator {
@@ -118,9 +122,36 @@
         }
     }
 
+    &__checkboxes {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        margin-bottom: $offset-y-m + 2px;
+
+        // Rewrite ui-* styles
+        &.ui-rewrite {
+            overflow-y: inherit;
+        }
+    }
+
+    &__checkboxes-item {
+        width: 50%;
+        margin-top: $offset-y-s;
+        padding-right: $offset-x-s;
+    }
+
     &__footer {
         padding-bottom: $offset-y-m;
         margin-bottom: -$offset-y-m;
+    }
+
+    &__no-columns {
+        padding: $offset-y;
+
+        text-align: center;
+
+        border: 1px solid get-color('additional', 'light');
+        border-radius: 3px;
     }
 
     &.dropdown {
@@ -137,6 +168,19 @@
         color: get-color('additional', 'dark');
 
         @extend .dropdown-menu-right;
+
+        // Rewrite ui-* styles
+        &.ui-rewrite {
+            // Break inline styles
+            left: auto !important;
+
+            // Break inline styles
+            width: 100% !important;
+            max-width: 312px;
+
+            // Break inline styles
+            min-width: inherit !important;
+        }
     }
 
     .close {
@@ -167,12 +211,18 @@
         }
     }
 
+    // Rewrite ui-* styles
+    .custom-checkbox__input.ui-rewrite {
+        position: absolute;
+        top: 0;
+    }
+
     @at-root {
         .fullscreen {
             // Break inline styles
             max-width: none !important;
 
-            .column-manager {
+            .datagrid-manager {
                 &__header {
                     display: none;
                 }
