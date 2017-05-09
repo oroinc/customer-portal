@@ -2,8 +2,9 @@ services:
     # Data converter
     oro_customer.importexport.data_converter.customer:
         parent: oro_importexport.data_converter.configurable
+        class: Oro\Bundle\CustomerBundle\ImportExport\Converter\CustomerDataConverter
 
-    # Export
+    # Customer Export
     oro_customer.importexport.processor.export.customer:
         public: false
         parent: oro_importexport.processor.export_abstract
@@ -12,9 +13,40 @@ services:
         tags:
             - { name: oro_importexport.processor, type: export, entity: '%oro_customer.entity.customer.class%', alias: oro_customer_customer }
 
+    # Customer Import
+    oro_customer.importexport.strategy.customer.add_or_replace:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerAddOrReplaceStrategy
+        parent: oro_importexport.strategy.configurable_add_or_replace
+
+    oro_customer.importexport.processor.import.customer:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+            - [setDataConverter, ['@oro_customer.importexport.data_converter.customer']]
+            - [setStrategy, ['@oro_customer.importexport.strategy.customer.add_or_replace']]
+        tags:
+            - name: oro_importexport.processor
+              type: import
+              entity: '%oro_customer.entity.customer.class%'
+              alias: oro_customer_customer
+
+    # Customer Data Normalizer
+    oro_customer.importexport.serializer.normalizer.customer:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerNormalizer
+        parent: oro_importexport.serializer.configurable_entity_normalizer
+        tags:
+            - { name: oro_importexport.normalizer }
+
     # Customer User Data Converter
     oro_customer.importexport.data_converter.customer_user:
         parent: oro_importexport.data_converter.configurable
+        class: Oro\Bundle\CustomerBundle\ImportExport\Converter\CustomerUserDataConverter
+
+    # Customer User Normalizer
+    oro_customer.importexport.serializer.normalizer.customer_user:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerUserNormalizer
+        parent: oro_importexport.serializer.configurable_entity_normalizer
+        tags:
+            - { name: oro_importexport.normalizer }
 
     # Customer User Export
     oro_customer.importexport.processor.export.customer_user:
@@ -27,3 +59,72 @@ services:
               type: export
               entity: '%oro_customer.entity.customer_user.class%'
               alias: oro_customer_customer_user
+
+    # Customer User Import
+    oro_customer.importexport.processor.import.customer_user:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+            - [setDataConverter, ['@oro_customer.importexport.data_converter.customer_user']]
+            - [setStrategy, ['@oro_customer.importexport.strategy.customer_user.add_or_replace']]
+        tags:
+            - name: oro_importexport.processor
+              type: import
+              entity: '%oro_customer.entity.customer_user.class%'
+              alias: oro_customer_customer_user
+            - name: oro_importexport.processor
+              type: import_validation
+              entity: '%oro_customer.entity.customer_user.class%'
+              alias: oro_customer_customer_user
+
+    # Customer User Import Strategy
+    oro_customer.importexport.strategy.customer_user.add_or_replace:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerUserAddOrReplaceStrategy
+        public: false
+        parent: oro_importexport.strategy.configurable_add_or_replace
+
+    # Customer User Import Listener
+    oro_customer.importexport.strategy.event_listener.import_customer_user_listener:
+        class: 'Oro\Bundle\CustomerBundle\ImportExport\Strategy\EventListener\ImportCustomerUserListener'
+        arguments:
+            - '@doctrine'
+            - '@oro_customer_user.manager'
+            - '@translator'
+            - '@oro_importexport.strategy.import.helper'
+        tags:
+            - name: kernel.event_listener
+              event: oro_importexport.strategy.process_after
+              method: onProcessAfter
+
+    #Fixtures
+    oro_customer.importexport.template_fixture.customer_user:
+        class: Oro\Bundle\CustomerBundle\ImportExport\TemplateFixture\CustomerUserFixture
+        tags:
+            - { name: oro_importexport.template_fixture }
+
+    oro_customer.importexport.processor.export_template.customer_user:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, ['@oro_customer.importexport.data_converter.customer_user']]
+        tags:
+            - name: oro_importexport.processor
+              type: export_template
+              entity: '%oro_customer.entity.customer_user.class%'
+              alias: oro_customer_customer_user
+
+    # Customer Fixtures
+    oro_customer.importexport.template_fixture.customer:
+        public: false
+        class: Oro\Bundle\CustomerBundle\ImportExport\TemplateFixture\CustomerFixture
+        arguments:
+            - '@oro_entity_extend.enum_value_provider'
+        tags:
+            - { name: oro_importexport.template_fixture }
+
+    oro_customer.importexport.processor.export_template.customer:
+        public: false
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, [@oro_customer.importexport.data_converter.customer]]
+        tags:
+            - { name: oro_importexport.processor, type: export_template, entity: '%oro_customer.entity.customer.class%', alias: oro_customer_customer }
+

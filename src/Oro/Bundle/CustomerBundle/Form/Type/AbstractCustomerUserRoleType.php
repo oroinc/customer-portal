@@ -11,9 +11,8 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 
-use Oro\Bundle\SecurityBundle\Form\Type\AclPrivilegeType;
-use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\UserBundle\Form\EventListener\ChangeRoleSubscriber;
 
 abstract class AbstractCustomerUserRoleType extends AbstractType
 {
@@ -83,6 +82,7 @@ abstract class AbstractCustomerUserRoleType extends AbstractType
             ]
         );
 
+        $builder->addEventSubscriber(new ChangeRoleSubscriber());
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             /** @var CustomerUserRole|null $role */
             $role = $event->getData();
