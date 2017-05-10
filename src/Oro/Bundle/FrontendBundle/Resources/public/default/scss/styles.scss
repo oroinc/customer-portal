@@ -27,7 +27,6 @@
 @import './components/notification';
 @import './components/notification-flash';
 @import './components/notification-message';
-@import './components/custom-radio';
 @import './components/actions-row';
 @import './components/collapse-view';
 @import './components/expand-text';
@@ -38,9 +37,9 @@
 @import './components/popover-trigger';
 @import './components/middlebar';
 @import './components/tab-collection';
-@import './components/column-manager';
-@import './components/column-manager-search';
-@import './components/column-manager-table';
+@import './components/datagrid-manager';
+@import './components/datagrid-manager-search';
+@import './components/datagrid-manager-table';
 @import './components/controls-list';
 @import './components/items-count-widget';
 @import './components/frontend-datagrid';
@@ -52,7 +51,7 @@
 @import './components/utilites';
 @import './components/dropdown-menu-calendar';
 @import './components/tables';
-@import 'components/pagination-widget';
-@import 'components/search-widget';
-@import 'components/uploader-widget';
+@import './components/pagination-widget';
+@import './components/search-widget';
+@import './components/uploader-widget';
 @import './components/loader-mask';

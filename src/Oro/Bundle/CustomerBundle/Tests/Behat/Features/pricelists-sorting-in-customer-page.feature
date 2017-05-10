@@ -14,6 +14,6 @@ Feature: Price lists must be sortable in customer create\view page
     And I choose Price List "first price list" in 2 row
     And I choose a Price List "second price list" in 1 row
     And I drag 2 row to the top in "Price List" table
-    And I click "Save and Close"
+    And I save and close form
     Then I should see "Customer group has been saved" flash message
     And I should see that "first price list" is in 1 row

@@ -17,7 +17,7 @@ layout:
         - '@add':
             id: notification
             parentId: page_container
-            siblingId: top_sticky_panel
+            siblingId: page_header
             blockType: block
 
         - '@add':
@@ -29,6 +29,7 @@ layout:
             id: sticky_header_row
             parentId: top_sticky_panel_content
             blockType: block
+
         - '@add':
             id: sticky_element_notification
             parentId: top_sticky_panel_content

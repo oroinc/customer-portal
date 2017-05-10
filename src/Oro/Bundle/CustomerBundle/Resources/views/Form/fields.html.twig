@@ -20,16 +20,21 @@
     {{ form_rest(form) }}
 {% endblock %}
 
+{% block oro_customer_customer_user_typed_address_widget %}
+    {#Reuse parent widget declaration#}
+    {{ block('oro_customer_typed_address_widget') }}
+{% endblock %}
+
 {% block oro_customer_typed_address_widget %}
-    {{ form_row(form.types, {label: 'oro.customer.customeraddress.types.label'}) }}
-    {{ form_row(form.defaults, {label: 'oro.customer.customeraddress.defaults.label'}) }}
     {{ form_row(form.primary, {label: 'oro.customer.customeraddress.primary.label'}) }}
     {{ block('oro_address_rows') }}
-{%  endblock %}
+    {{ form_row(form.types, {label: 'oro.customer.customeraddress.types.label'}) }}
+    {{ form_row(form.defaults, {label: 'oro.customer.customeraddress.defaults.label'}) }}
+{% endblock %}
 
 {% block oro_customer_frontend_customer_user_typed_address_widget %}
     {{ block('oro_customer_frontend_typed_address_widget') }}
-{%  endblock %}
+{% endblock %}
 
 {% block oro_address_rows %}
     {{ form_row(form.id) }}
@@ -48,7 +53,7 @@
     {{ form_row(form.region, {label: 'oro.customer.customeraddress.region.label'}) }}
     {{ form_row(form.postalCode, {label: 'oro.customer.customeraddress.postal_code.label'}) }}
     {{ form_rest(form) }}
-{%  endblock %}
+{% endblock %}
 
 {% block oro_address_collection_widget %}
     {% set attr = attr|merge({'class': (attr.class is defined ? attr.class ~ ' ' : '') ~ 'oro-address-collection' }) %}
