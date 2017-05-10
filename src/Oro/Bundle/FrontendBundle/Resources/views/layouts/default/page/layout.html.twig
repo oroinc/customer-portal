@@ -34,7 +34,7 @@
                 'oro/datagrid/cell/action-cell': {showCloseButton: false},
                 'orodatagrid/js/app/plugins/grid/column-manager-plugin': {
                     icon: 'gear',
-                    wrapperClassName: 'column-manager btn-group',
+                    wrapperClassName: 'datagrid-manager btn-group',
                     className: 'btn btn--default btn--size-s',
                     iconHideText: true
                 },
@@ -63,6 +63,12 @@
                     },
                     order: 650
                 },
+                'orofilter/js/datafilter-builder': {
+                    FiltersManager: 'orofrontend/js/app/datafilter/frontend-collection-filters-manager'
+                },
+                'oro/dialog-widget': {
+                    messengerContainerClass: 'ui-dialog-messages'
+                },
                 'oro/datagrid/action/delete-mass-action': {
                     'DeleteConfirmation': 'orofrontend/js/app/components/delete-confirmation'
                 }
@@ -80,8 +86,6 @@
             appModules = appModules.concat([
                 'orofrontend/default/js/app/modules/input-widgets',
                 'orofrontend/default/js/app/modules/zoom-disable',
-                'orofrontend/default/js/app/modules/button-manager',
-                'orofrontend/default/js/app/modules/delete-action',
                 'orofrontend/default/js/app/modules/select-filter'
             ]);
             require({
@@ -126,8 +130,10 @@
     {% set attr = layout_attr_defaults(attr, {
         'id': 'flash-messages',
         '~class': ' notification-flash-container',
+        'data-sticky-target': 'top-sticky-panel',
         'data-sticky': {
-            'placeholderId': 'sticky-element-notification'
+            isSticky: true,
+            placeholderId: 'sticky-element-notification'
         }
     }) %}
     <div{{ block('block_attributes') }}></div>
@@ -168,29 +174,9 @@
     </script>
 {% endblock %}
 
-{% block _sticky_panel_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        'data-page-component-module': 'oroui/js/app/components/view-component',
-        'data-page-component-options': {
-            'view': 'orofrontend/default/js/app/views/sticky-panel-view'
-        },
-        '~class': ' sticky-panel'
-    }) %}
-    <div{{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
-{% endblock %}
-
-{% block _sticky_panel_content_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' sticky-panel__content'
-    }) %}
-    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
-{% endblock %}
-
 {% block _sticky_element_notification_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        'id': 'sticky-element-notification'
+    'id': 'sticky-element-notification'
     }) %}
     <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
 {% endblock %}

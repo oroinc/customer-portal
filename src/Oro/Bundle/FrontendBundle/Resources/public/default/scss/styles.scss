@@ -30,7 +30,6 @@
 @import './components/primary-menu';
 @import './components/notification';
 @import './components/notification-flash';
-@import './components/custom-radio';
 @import './components/actions-row';
 @import './components/collapse-view';
 @import './components/expand-text';
@@ -41,9 +40,9 @@
 @import './components/popover-trigger';
 @import './components/middlebar';
 @import './components/tab-collection';
-@import './components/column-manager';
-@import './components/column-manager-search';
-@import './components/column-manager-table';
+@import './components/datagrid-manager';
+@import './components/datagrid-manager-search';
+@import './components/datagrid-manager-table';
 @import './components/items-count-widget';
 @import './components/frontend-datagrid';
 @import './components/box-toolbar';

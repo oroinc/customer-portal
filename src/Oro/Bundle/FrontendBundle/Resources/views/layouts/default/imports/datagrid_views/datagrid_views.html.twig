@@ -108,7 +108,16 @@
                         checked <% }
                     %>
                 >
-                <span class="custom-radio__text"><%- choice.label %></span>
+                <span class="custom-radio__text">
+                    <span class="grid-views__text-line"
+                          data-page-component-module="oroui/js/app/components/jquery-widget-component"
+                          data-page-component-options="{{ {
+                              widgetModule: 'orofrontend/default/js/widgets/line-clamp-widget',
+                          }|json_encode }}"
+                    >
+                        <%- choice.label %>
+                    </span>
+                </span>
             </label>
         </div>
         <% if (showActions[iterate]) { %>

@@ -5,60 +5,23 @@
   @include clearfix();
 
   &.order-checkout-widget_block {
-    margin: 15px 0 0;
+    margin: $offset-y 0 0;
 
     .ttip {
       text-align: left;
     }
   }
 
-  &.order-checkout-widget_fixed {
-    display: none;
-
-    @media (max-width: $screen-md) {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      z-index: 999999;
-
-      width: 100%;
-      padding: 0 15px 10px 15px;
-      box-shadow: 0 -1px 0 0 get-color('additional', 'light');
-
-      background: get-color('additional', 'base');
-
-      .order-checkout-widget__table {
-        width: 100%;
-
-        td {
-          width: 50%;
-          padding: 8px 19px 10px 19px;
-
-          &:first-child {
-            text-align: right;
-          }
-
-          &:last-child {
-            text-align: left;
-          }
-        }
-      }
-    }
-  }
-
   &__container-wrapper {
-    margin: 0 0 20px;
+    margin: 0 0 ($offset-y + 5px);
 
     @include clearfix();
 
-    @media (max-width: $screen-md) {
-      margin: 20px 0;
-    }
   }
 
   &__container {
     float: right;
-    padding: 15px;
+    padding: $offset-y;
     border-radius: .3rem;
 
     background: get-color('additional', 'base');
@@ -87,11 +50,6 @@
 
     &_lg {
       width: 280px;
-
-      @media (max-width: $screen-md) {
-        width: 100%;
-        padding: 15px 30px;
-      }
     }
 
     &_error {
@@ -102,7 +60,7 @@
   }
 
   &__table {
-    margin: 0 0 15px;
+    margin: 0 0 $offset-y;
 
     td {
       padding: 4px 0 3px 25px;
@@ -137,5 +95,34 @@
     float: right;
 
     width: 320px;
+  }
+}
+
+@include breakpoint('tablet-small') {
+  .order-checkout-widget {
+    &__container-wrapper {
+      margin: $offset-y + 5px 0;
+    }
+
+    &__containe_lg {
+      width: 100%;
+      padding: $offset-y ($offset-y * 2);
+    }
+
+    .widget-content {
+      .btn-group {
+        margin: 0 0 $offset-y-m;
+      }
+    }
+  }
+}
+
+@include breakpoint('mobile') {
+  .order-checkout-widget {
+    &__col,
+    &__container {
+      width: 100%;
+      clear: both;
+    }
   }
 }

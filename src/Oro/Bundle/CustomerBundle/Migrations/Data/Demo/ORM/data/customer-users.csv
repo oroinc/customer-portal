@@ -1,5 +1,5 @@
 "customer","email","firstName","lastName","role","street","city","state","zipCode","country","types","defaultTypes"
-"Company A",AmandaRCole@example.org,Amanda,Cole,Administrator,"12300 Harvest Lane",Sedalia,MO,65301,US,"billing,shipping","billing,shipping"
+"Company A",AmandaRCole@example.org,Amanda,Cole,Administrator,"45600 Marion Drive","Winter Haven",FL,33830,US,"billing,shipping","billing,shipping"
 "Company A",BrandaJSanborn@example.org,Branda,"Sanborn",Buyer,"23400 Caldwell Road",Rochester,NY,14608,US,"billing,shipping","billing,shipping"
 "Company A",LoisLLessard@example.org,Lois,"Lessard",Buyer,"34500 Capitol Avenue",Romney,IN,47981,US,"billing,shipping","billing,shipping"
 "Company A - East Division",LonnieVTownsend@example.org,Lonnie,"Townsend",Administrator,"45600 Marion Drive","Winter Haven",FL,33830,US,"billing,shipping","billing,shipping"

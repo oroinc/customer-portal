@@ -5,12 +5,6 @@
 
     {% set themeOptions = grid_render_parameters.themeOptions|default({}) %}
 
-    {% set themeOptions = layout_attr_defaults(themeOptions, {
-        customModules: {
-            columnManagerComponent: 'orofrontend/js/app/components/column-manager/frontend-column-manager-component'
-        }
-    }) %}
-
     {% if split_to_cells != false %}
         {% set themeOptions = layout_attr_defaults(themeOptions, {
             'headerRowTemplateSelector': '#template-datagrid-header-row',

@@ -1,3 +1,5 @@
+@ticket-BB-8128
+@automatically-ticket-tagged
 Feature: Managing customer user roles
   In order to control customer user permissions
   As an Administrator
