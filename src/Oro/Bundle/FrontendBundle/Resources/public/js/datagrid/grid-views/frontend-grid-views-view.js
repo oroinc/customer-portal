@@ -8,7 +8,6 @@ define(function(require) {
     var __ = require('orotranslation/js/translator');
     var GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
     var DeleteConfirmation = require('oroui/js/delete-confirmation');
-    var error = require('oroui/js/error');
 
     FrontendGridViewsView = GridViewsView.extend({
         /** @property */
@@ -16,6 +15,9 @@ define(function(require) {
 
         /** @property */
         titleTemplate: '.js-frontend-datagrid-grid-view-label-tpl',
+
+        /** @property */
+        errorTemplate: '#template-datagrid-view-name-error-modal',
 
         route: 'oro_api_frontend_datagrid_gridview_default',
 
@@ -111,6 +113,8 @@ define(function(require) {
             if ($selector.length) {
                 this.template =  $selector.get(0);
             }
+
+            this.nameErrorTemplate = _.template($(this.errorTemplate).html());
 
             if (_.isObject(options.gridViewsOptions)) {
                 this.titleOptions = _.extend(
@@ -253,7 +257,9 @@ define(function(require) {
             var $buttonMain = this.$('[data-switch-edit-button]');
             var $switchEditModeContainer = this.$('[data-edit-container]');
 
-            this.$gridViewUpdate.off().text(this.$gridViewUpdate.data('text'));
+            this.$gridViewUpdate
+                .off()
+                .text(this.$gridViewUpdate.data('text'));
 
             if (modeState === 'show') {
                 $buttonMain.hide();
@@ -310,20 +316,36 @@ define(function(require) {
         },
 
         /**
-         * @param modal
          * @param model
          * @param response
          * @param options
          */
-        onError: function(modal, model, response, options) {
-            var jsonResponse = JSON.parse(response.responseText);
-            var errors = jsonResponse.errors.children.label.errors;
-
-            error.showError(_.first(errors));
-
+        onError: function(model, response, options) {
             this.$el.trigger('show.bs.dropdown');
 
-            this.switchEditMode({}, 'show');
+            if (response.status === 400) {
+                var jsonResponse = JSON.parse(response.responseText);
+                var errors = jsonResponse.errors.children.label.errors;
+
+                if (errors) {
+                    this.setNameError(_.first(errors));
+                }
+            }
+        },
+
+        /**
+         * @param {String} error
+         */
+        setNameError: function(error) {
+            this.$('.validation-failed').remove();
+
+            if (error) {
+                error = this.nameErrorTemplate({
+                    error: error
+                });
+
+                this.$gridViewName.after(error);
+            }
         },
 
         /**
