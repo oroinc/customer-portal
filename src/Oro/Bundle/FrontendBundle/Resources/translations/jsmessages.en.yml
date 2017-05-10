@@ -30,10 +30,13 @@ oro_frontend:
         placeholder: "Search Filters"
 
     datagrid_views:
-        all: "All "
         add: "Add"
         save: "Save"
         cancel: "Cancel"
         save_as_new: "Save As New"
         set_as_default: "Set as Default"
         placeholder: "Enter new list name"
+oro:
+    datagrid:
+        gridView:
+            all: "All "
