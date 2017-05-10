@@ -34,7 +34,7 @@
                 'oro/datagrid/cell/action-cell': {showCloseButton: false},
                 'orodatagrid/js/app/plugins/grid/column-manager-plugin': {
                     icon: 'gear',
-                    wrapperClassName: 'column-manager btn-group',
+                    wrapperClassName: 'datagrid-manager btn-group',
                     className: 'btn btn--default btn--size-s',
                     iconHideText: true
                 },
@@ -63,8 +63,11 @@
                     },
                     order: 650
                 },
-                'oro/datagrid/action/delete-mass-action': {
-                    'DeleteConfirmation': 'orofrontend/js/app/components/delete-confirmation'
+                'orofilter/js/datafilter-builder': {
+                    FiltersManager: 'orofrontend/js/app/datafilter/frontend-collection-filters-manager'
+                },
+                'oro/dialog-widget': {
+                    messengerContainerClass: 'ui-dialog-messages'
                 }
             }
         });
@@ -124,8 +127,10 @@
     {% set attr = layout_attr_defaults(attr, {
         'id': 'flash-messages',
         '~class': ' notification-flash-container',
+        'data-sticky-target': 'top-sticky-panel',
         'data-sticky': {
-            'placeholderId': 'sticky-element-notification'
+            isSticky: true,
+            placeholderId: 'sticky-element-notification'
         }
     }) %}
     <div{{ block('block_attributes') }}></div>

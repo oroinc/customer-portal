@@ -498,6 +498,8 @@ oro.customer:
     importexport:
         customer_user:
             unable_to_change_owner: 'You are not allowed to change owner of %entity_name% to %owner_name%.'
+        customer:
+            unable_to_change_owner: 'You are not allowed to change owner of %entity_name% to %owner_name%.'
 
     mass_actions:
         enable_customers:

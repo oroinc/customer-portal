@@ -1,6 +1,6 @@
 // @theme: default
 
-.column-manager-search {
+.datagrid-manager-search {
     position: relative;
 
     margin: 15px 0 10px 0;
@@ -22,8 +22,11 @@
             box-shadow: $input-box-shadow-focus-state;
         }
 
-        width: 100%;
+        // Break inline styles
+        width: 100% !important;
     }
+
+    @include disable-search-styles(input);
 
     > .clear {
         position: absolute;

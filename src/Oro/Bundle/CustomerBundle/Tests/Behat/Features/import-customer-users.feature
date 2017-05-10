@@ -33,7 +33,6 @@ Feature: Import Customer Users
       | |           | Branda     |           | Sanborn   |           |          | BrandaJSanborn@example.org |1           | Company A                  |ROLE_FRONTEND_BUYER             |                           |2         | 0       | 1         |        |
       | |Ruth Pre   | Ruth       | Middle Max| Maxwell   |Ruth Suff  |11/06/1988| RuthWMaxwell@example.org   |2           | Company A - West Division  |ROLE_FRONTEND_BUYER             |                           |2         | 1       | 0         |2       |
     When I import file
-    Then I should see "Import started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Errors: 0 processed: 3, read: 3, added: 3, updated: 0, replaced: 0" text
     And I reload the page
     And I should see following grid:
@@ -81,7 +80,6 @@ Feature: Import Customer Users
       |3 |New Prefix | Branda     |           | Sanborn   |           |05/11/1985| BrandaJSanborn@example.org |2          | ROLE_FRONTEND_ADMINISTRATOR      |            |1         | 1       | 0         |1       |
       |4 |Ruth Pre   | Ruth       | Middle XXX| Maxwell   |Ruth XXX   |11/06/1990| RuthWMaxwell@example.org   |2          | ROLE_FRONTEND_BUYER              |            |2         | 1       | 1         |2       |
     When I import file
-    Then I should see "Import started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Errors: 0 processed: 3, read: 3, added: 0, updated: 3, replaced: 0" text
     And I reload the page
     And I should see following grid:
@@ -126,7 +124,6 @@ Feature: Import Customer Users
     And I press "Export"
     And I should see "Export started successfully. You will receive email notification upon completion." flash message
     When I import exported file
-    Then I should see "Import started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Errors: 0 processed: 3, read: 3, added: 0, updated: 0, replaced: 3" text
     And I reload the page
     And I should see following grid:
@@ -168,7 +165,7 @@ Feature: Import Customer Users
     And I click Logout in user menu
 
   Scenario: Import new Customer Users by user without "Assign" permission
-    And user has following permissions
+    Given user has following permissions
       | Assign | Customer User          | None   |
       | Create | Customer User          | Global |
       | Edit   | Customer User          | Global |
@@ -185,10 +182,9 @@ Feature: Import Customer Users
     And number of records should be 4
       And I download "Customer Users" Data Template file
     And I fill template with data:
-      |ID|Name Prefix| First Name |Middle Name| Last Name |Name Suffix |Birthday  | Email Address       |Customer Id|Roles 1 Role       |Website Id| Enabled | Confirmed |Owner Id|
-      |  |NewUser Pre| NewFirst   |NewMiddle  |NewLast    |NewUser Suff|10/21/1980| NewUser@example.org |1          |ROLE_FRONTEND_ADMINISTRATOR|1         | 1       | 1         | 1       |
+      |ID|Name Prefix| First Name |Middle Name| Last Name |Name Suffix |Birthday  | Email Address       |Customer Id|Roles 1 Role               |Website Id| Enabled | Confirmed |Owner Id|
+      |  |NewUser Pre| NewFirst   |NewMiddle  |NewLast    |NewUser Suff|10/21/1980| NewUser@example.org |1          |ROLE_FRONTEND_ADMINISTRATOR|1         | 1       | 1         | 1      |
     When I import file
-    Then I should see "Import started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Errors: 1 processed: 0, read: 1, added: 0, updated: 0, replaced: 0" text
     And I reload the page
     And number of records should be 4
@@ -206,7 +202,6 @@ Feature: Import Customer Users
       |ID|Name Prefix| First Name |Middle Name| Last Name |Name Suffix |Birthday  | Email Address       |Customer Id|Roles 1 Role       |Website Id| Enabled | Confirmed |Owner Id|
       |  |NewUser Pre| NewFirst   |NewMiddle  |NewLast    |NewUser Suff|10/21/1980| NewUser@example.org |1          |ROLE_FRONTEND_ADMINISTRATOR|1         | 1       | 1         | 2       |
     When I import file
-    Then I should see "Import started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 1, updated: 0, replaced: 0" text
     And I reload the page
     And I should see following grid:
@@ -234,7 +229,6 @@ Feature: Import Customer Users
       |ID|Customer Id|Website Id|
       |5 |2          |2         |
     When I import file
-    Then I should see "Import started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 0, updated: 0, replaced: 1" text
     And I reload the page
     And I should see following grid:
@@ -260,7 +254,6 @@ Feature: Import Customer Users
       |ID|Email Address         |
       |5 |NewUser_UP@example.org|
     When I import file
-    Then I should see "Import started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 1, updated: 0, replaced: 0" text
     And I reload the page
     And I should see following grid:
@@ -287,7 +280,6 @@ Feature: Import Customer Users
       |2 |Amanda Pre | Amanda_up  | Middle Co | Cole      |Cole Suff  |10/21/1980| AmandaRCole@example.org    |1          | ROLE_FRONTEND_ADMINISTRATOR2|            |1         | 0       | 1         |1       |
       |  |testtest   | test       | test      | test      |Cole Suff  |10/21/1986| tester@example.org         |1          | ROLE_FRONTEND_ADMINISTRATOR |            |1         | 0       | 1         |2       |
     When I import file
-    Then I should see "Import started successfully. You will receive email notification upon completion." flash message
     And reload the page
     And Email should contains the following "Errors: 2 processed: 2, read: 2, added: 1, updated: 0, replaced: 0" text
     And I should see following grid:

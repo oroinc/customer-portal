@@ -42,6 +42,14 @@ class CustomerUserNormalizer extends ConfigurableEntityNormalizer
     /**
      * {@inheritdoc}
      */
+    public function supportsDenormalization($data, $type, $format = null, array $context = [])
+    {
+        return is_a($type, CustomerUser::class, true) || is_a($type, CustomerUserRole::class, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function setObjectValue($object, $fieldName, $value)
     {
         if ($object instanceof CustomerUserRole && $fieldName === 'role') {

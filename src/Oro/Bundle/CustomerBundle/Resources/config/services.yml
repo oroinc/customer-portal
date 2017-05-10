@@ -640,6 +640,7 @@ services:
             - { name: oro_scope.provider, scopeType: customer_group_category_visibility, priority: 30 }
             - { name: oro_scope.provider, scopeType: customer_group_product_visibility, priority: 30 }
             - { name: oro_scope.provider, scopeType: web_content, priority: 100 }
+            - { name: oro_scope.provider, scopeType: cms_content_block, priority: 100 }
             - { name: oro_scope.provider, scopeType: workflow_definition, priority: 20 }
 
     oro_customer.customer_scope_criteria_provider.link:
@@ -649,6 +650,7 @@ services:
             - { name: oro_scope.provider, scopeType: customer_category_visibility, priority: 30 }
             - { name: oro_scope.provider, scopeType: customer_product_visibility, priority: 30 }
             - { name: oro_scope.provider, scopeType: web_content, priority: 1000 }
+            - { name: oro_scope.provider, scopeType: cms_content_block, priority: 1000 }
             - { name: oro_scope.provider, scopeType: workflow_definition, priority: 30 }
 
     oro_customer.entity_ownership.listener:
@@ -805,3 +807,9 @@ services:
         shared: false
         tags:
             - { name: oro_datagrid.extension.mass_action.type, type: enablecustomers }
+
+    oro_customer.validation.constraint.circular_customer_reference_validator:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator
+        tags:
+            - { name: validator.constraint_validator }
+
