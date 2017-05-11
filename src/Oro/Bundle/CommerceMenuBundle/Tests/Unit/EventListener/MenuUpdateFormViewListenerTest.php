@@ -37,7 +37,7 @@ class MenuUpdateFormViewListenerTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $event = new BeforeListRenderEvent($environment, $scrollData, $formView);
+        $event = new BeforeListRenderEvent($environment, $scrollData, new \stdClass(), $formView);
 
         $listener = new MenuUpdateFormViewListener;
 
