@@ -1,0 +1,39 @@
+// @theme: default;
+
+.controls-list {
+    li {
+        display: inline-block;
+        margin: 0 6px 0 0;
+        padding-right: 6px;
+        padding-bottom: 2px;
+
+        font-size: $base-font-size;
+        line-height: 1;
+
+        border-right: 1px solid get-color('ui', 'normal');
+
+        &:last-child {
+            margin-right: 0;
+            padding-right: 0;
+
+            border-right: 0;
+        }
+    }
+
+    [class^="fa-"],
+    [class*=" fa-"] {
+        vertical-align: baseline;
+    }
+
+    i {
+        margin-right: 3px;
+
+        font-size: $font-icon-button-m;
+    }
+}
+
+@include breakpoint('desktop') {
+    .controls-list {
+        float: right;
+    }
+}

@@ -1,4 +1,8 @@
+// @theme: default
+
 .ui-widget-overlay {
+    z-index: z('popup');
+
     background: get-color('additional', 'darker');
 
     opacity: .5;
@@ -8,6 +12,7 @@
     position: fixed;
     top: 50%;
     left: 50%;
+    z-index: z('popup') + 1;
 
     border-radius: 4px;
 

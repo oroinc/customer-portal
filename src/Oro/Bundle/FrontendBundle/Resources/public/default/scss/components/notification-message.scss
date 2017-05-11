@@ -1,0 +1,16 @@
+// @theme: default;
+
+.error-message {
+    color: get-color('ui', 'error-dark');
+
+    font-size: $base-font-size--s;
+    line-height: 1;
+
+    ul {
+        @include list-normalize();
+
+        li {
+            margin-bottom: $offset-y-s;
+        }
+    }
+}

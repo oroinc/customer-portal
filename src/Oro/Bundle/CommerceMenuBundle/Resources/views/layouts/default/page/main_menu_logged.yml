@@ -11,5 +11,5 @@ layout:
             tree:
                 header_row:
                     header_row_shopping:
-                        # main_menu_messages: ~
+                      # main_menu_messages: ~
     conditions: 'context["is_logged_in"]'
