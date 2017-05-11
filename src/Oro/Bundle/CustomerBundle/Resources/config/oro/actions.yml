@@ -96,6 +96,9 @@ operations:
                     confirm_content: oro.customer.mass_actions.disable_customers.confirm_content
                     confirm_ok: oro.customer.mass_actions.disable_customers.confirm_ok
                 acl_resource: oro_customer_frontend_customer_user_update
+                launcherOptions:
+                    iconClassName: fa-ban
+                    className: datagrid-massaction__dropdown-item
         actions:
             - '@refresh_grid': frontend-customer-customer-user-grid
 
@@ -150,6 +153,9 @@ operations:
                     confirm_content: oro.customer.mass_actions.enable_customers.confirm_content
                     confirm_ok: oro.customer.mass_actions.enable_customers.confirm_ok
                 acl_resource: oro_customer_frontend_customer_user_update
+                launcherOptions:
+                    iconClassName: fa-check
+                    className: datagrid-massaction__dropdown-item
         actions:
             - '@refresh_grid': frontend-customer-customer-user-grid
 

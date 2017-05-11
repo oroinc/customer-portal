@@ -1057,6 +1057,7 @@ datagrids:
         mass_actions:
             delete:
                 label: Delete
+                icon: trash
                 type: delete
                 entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
                 data_identifier: address.id
