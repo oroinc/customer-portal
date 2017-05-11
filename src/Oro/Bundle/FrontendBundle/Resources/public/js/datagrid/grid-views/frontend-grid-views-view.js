@@ -20,7 +20,7 @@ define(function(require) {
         errorTemplate: '#template-datagrid-view-name-error-modal',
 
         /** @property */
-        defaultTitlePrefix: __('oro_frontend.datagrid_views.all'),
+        defaultPrefix: __('oro_frontend.datagrid_views.all'),
 
         route: 'oro_api_frontend_datagrid_gridview_default',
 
