@@ -238,8 +238,9 @@ define(function(require) {
             this.$gridViewUpdate
                 .text(this.$gridViewUpdate.data('text-save'))
                 .on('click', function(e) {
-                    e.stopPropagation();
                     var data = self.getInputData(self.$el);
+
+                    e.stopPropagation();
 
                     model.set(data);
                     self._onRenameSaveModel(model);
@@ -384,10 +385,17 @@ define(function(require) {
                 var useAsDefaultAction = _.find(actionsOptions, {name: 'use_as_default'});
 
                 if (_.isObject(useAsDefaultAction)) {
-                    useAsDefaultAction.enabled =
-                        GridView !== 'undefined' &&
-                        !GridView.get('is_default') &&
-                        !onlySystemView;
+                    if (GridView.get('type') === 'system') {
+                        useAsDefaultAction.enabled =
+                            typeof GridView !== 'undefined' &&
+                            !GridView.get('is_default') &&
+                            !!this._getCurrentDefaultViewModel() &&
+                            !onlySystemView;
+                    } else {
+                        useAsDefaultAction.enabled =
+                            typeof GridView !== 'undefined' &&
+                            !GridView.get('is_default');
+                    }
                 }
 
                 actionsForView = this.updateActionsOptions(actionsForView, actionsOptions);
