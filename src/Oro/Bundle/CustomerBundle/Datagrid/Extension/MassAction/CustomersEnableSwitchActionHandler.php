@@ -130,9 +130,8 @@ class CustomersEnableSwitchActionHandler implements MassActionHandlerInterface
      */
     protected function finishBatch(EntityManager $em, $processedEntities)
     {
-        $em->flush();
-
         foreach ($processedEntities as $entity) {
+            $em->flush($entity);
             $em->detach($entity);
         }
     }
