@@ -44,7 +44,7 @@
         {% set hasVariants = actionsCount > 1 %}
         {% set additionalCss = "btn" %}
         {% if block.parent.vars.class_prefix == 'datagrid_toolbar_button_container' %}
-            {% set additionalCss = additionalCss ~ " btn-info oq-group-btn" %}
+            {% set additionalCss = additionalCss ~ " btn--info " %}
         {% else %}
             {% set additionalCss = additionalCss ~ " btn" %}
         {% endif %}
@@ -92,17 +92,8 @@
     {% import 'OroActionBundle:layouts/base:layout.html.twig' as _layout %}
     <ul{{ block('block_attributes') }}>
         {% for button in buttons %}
-            {% set buttonTemplateData = button.templateData %}
-            {% set buttonTemplateData = buttonTemplateData|merge({
-                'frontendOptions': {
-                    'data': {
-                        'page-component-module': buttonTemplateData.frontendOptions.data['page-component-module']|default('orofrontend/js/app/components/transition-button'),
-                    }
-                }
-            }) %}
-
             <li>
-                {% include button.template with buttonTemplateData|merge({onlyLink: true, noIconText: true}) %}
+                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true}) %}
             </li>
         {% endfor %}
     </ul>
@@ -124,7 +115,7 @@
         {% if hasVariants %}
             {% set additionalCss = "btn" %}
             {% if block.parent.vars.class_prefix == 'datagrid_toolbar_button_container' %}
-                {% set additionalCss = additionalCss ~ " btn--info oq-group-btn " %}
+                {% set additionalCss = additionalCss ~ " btn--info " %}
             {% endif %}
             {% if hasVariants %}
                 {% set additionalCss = " btn-group full " %}
@@ -136,16 +127,7 @@
             } %}
 
             <div{{ block('block_attributes') }}>
-                {% set buttonTemplateData = button.templateData %}
-                {% set buttonTemplateData = buttonTemplateData|merge({
-                    'frontendOptions': {
-                        'data': {
-                            'page-component-module': buttonTemplateData.frontendOptions.data['page-component-module']|default('orofrontend/js/app/components/transition-button'),
-                        }
-                    }
-                }) %}
-
-                {% include button.template with buttonTemplateData|merge({onlyLink: true, aClass: dropdownActionClass, noIcon: true, noIconText: true}) %}
+                {% include button.template with button.templateData|merge({onlyLink: true, aClass: dropdownActionClass, noIcon: true, noIconText: true}) %}
 
                 <a href="#" class="{{ dropdownToggleClass }}" data-toggle="dropdown" data-container="body" aria-haspopup="true" aria-expanded="true"></a>
 

@@ -9,6 +9,8 @@ layout:
             namespace: customer_user_role_form_privileges
 
     actions:
+        - '@setFormTheme':
+            themes: 'form.html.twig'
         - '@setOption':
             id: page_title
             optionName: defaultValue

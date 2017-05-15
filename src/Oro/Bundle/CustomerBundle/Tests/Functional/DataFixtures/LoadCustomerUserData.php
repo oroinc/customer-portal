@@ -147,6 +147,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
                 $customer = $customerUser->getCustomer();
             }
             $entity = new CustomerUser();
+
             $entity
                 ->setCustomer($customer)
                 ->setOwner($owner)

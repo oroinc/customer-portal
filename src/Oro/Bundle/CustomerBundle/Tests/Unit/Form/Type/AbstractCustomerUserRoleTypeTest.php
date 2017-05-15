@@ -9,8 +9,8 @@ use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
 
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType;
-use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as CustomerSelectTypeStub;
+use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;

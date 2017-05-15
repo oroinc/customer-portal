@@ -21,3 +21,19 @@ oro_frontend:
                 rfq: "{{ totalRecords }} Total Requests For Quote"
                 orders: "{{ totalRecords }} Total Orders"
                 quotes: "{{ totalRecords }} Total Quotes"
+        manage_grid: 'Manage grid'
+
+    filter_manager:
+        checkAll: 'Select All'
+        unCheckAll: 'Deselect All'
+        label: "Add Filters"
+        placeholder: "Search Filters"
+
+    datagrid_views:
+        all: "All "
+        add: "Add"
+        save: "Save"
+        cancel: "Cancel"
+        save_as_new: "Save As New"
+        set_as_default: "Set as Default"
+        placeholder: "Enter new list name"

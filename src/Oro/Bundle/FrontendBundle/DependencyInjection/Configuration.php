@@ -24,6 +24,18 @@ class Configuration implements ConfigurationInterface
                 'page_templates' => ['type' => 'array', 'value' => []],
             ]
         );
+        $rootNode->children()
+            ->arrayNode('routes_to_expose')
+                ->beforeNormalization()
+                    ->ifTrue(function ($v) {
+                        return !is_array($v);
+                    })
+                    ->then(function ($v) {
+                        return [$v];
+                    })
+                    ->end()
+                ->prototype('scalar')
+            ->end();
 
         return $treeBuilder;
     }

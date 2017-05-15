@@ -15,9 +15,9 @@
 {% endblock %}
 
 {% block _customer_user_role_top_actions_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " oro-customer-user-role__controls-list grid__column grid__column--6" }) %}
+    {% set attr = attr|merge({ class: attr.class|default('') ~ "grid__column grid__column--6" }) %}
     <div {{ block('block_attributes') }}>
-        <div class="pull-right">
+        <div class="controls-list">
             {{ block_widget(block) }}
         </div>
     </div>

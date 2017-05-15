@@ -107,6 +107,7 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
         }
 
         $data['appendUsers'] = implode(',', $usersToAppend);
+
         $event->setData($data);
     }
 

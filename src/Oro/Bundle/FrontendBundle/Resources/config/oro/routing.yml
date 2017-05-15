@@ -72,3 +72,11 @@ oro_frontend_attachment_file:
         extension: '\w+'
     options:
         frontend: true
+
+oro_frontend_js_routing_js:
+    path: "/js/frontend_routing.{_format}"
+    defaults: { _controller: oro_frontend.js_routing_controller:indexAction, _format: js }
+    requirements:
+        _format: js|json
+    options:
+        frontend: true

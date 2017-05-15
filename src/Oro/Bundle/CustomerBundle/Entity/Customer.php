@@ -71,7 +71,8 @@ class Customer extends ExtendCustomer
      * @ConfigField(
      *     defaultValues={
      *         "importexport"={
-     *             "order"=10
+     *             "order"=10,
+     *             "identity"=true
      *         }
      *     }
      * )
@@ -88,7 +89,6 @@ class Customer extends ExtendCustomer
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "identity"=true,
      *              "order"=20
      *          }
      *      }
@@ -202,7 +202,7 @@ class Customer extends ExtendCustomer
      *              "auditable"=true
      *          },
      *          "importexport"={
-     *              "excluded"=true
+     *              "order"=50
      *          }
      *      }
      * )

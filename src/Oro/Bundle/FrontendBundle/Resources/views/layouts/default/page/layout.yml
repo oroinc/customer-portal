@@ -1,22 +1,23 @@
 layout:
+    imports:
+        -
+            id: sticky_panel
+            root: page_container
+            namespace: top
+
     actions:
         - '@setBlockTheme':
             themes: 'layout.html.twig'
 
-        - '@add':
-            id: sticky_panel
-            parentId: page_container
-            siblingId: page_header
-            blockType: container
-        - '@add':
-            id: sticky_panel_content
-            parentId: sticky_panel
-            blockType: container
+        - '@setOption':
+            id: top_sticky_panel
+            optionName: sticky_name
+            optionValue: top-sticky-panel
 
         - '@add':
             id: notification
             parentId: page_container
-            siblingId: sticky_panel
+            siblingId: page_header
             blockType: block
 
         - '@add':
@@ -26,10 +27,15 @@ layout:
 
         - '@add':
             id: sticky_header_row
-            parentId: sticky_panel_content
-            blockType: block
-        - '@add':
-            id: sticky_element_notification
-            parentId: sticky_panel_content
+            parentId: top_sticky_panel_content
             blockType: block
 
+        - '@add':
+            id: sticky_element_notification
+            parentId: top_sticky_panel_content
+            blockType: block
+
+        - '@move':
+            id: top_sticky_panel
+            parentId: page_container
+            siblingId: page_header

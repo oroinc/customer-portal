@@ -53,7 +53,7 @@ class CustomerMenuControllerTest extends WebTestCase
 
         $this->assertContains(
             'Select existing menu item or create new.',
-            $crawler->filter('.content .text-center')->html()
+            $crawler->filter('[data-role="content"] .tree-empty-content')->html()
         );
     }
 

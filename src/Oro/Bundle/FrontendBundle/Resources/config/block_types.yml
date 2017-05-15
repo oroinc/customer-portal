@@ -41,6 +41,19 @@ services:
         tags:
             - { name: layout.block_type, alias: embedded_list }
 
+    oro_frontend.block_type.sticky_panel:
+        parent: oro_layout.block_type.abstract_configurable_container
+        calls:
+            -
+                - setOptionsConfig
+                -
+                    -
+                        sticky_name: {default: ''}
+                        stick_to: {default: 'top'}
+            - [setName, ['sticky_panel']]
+        tags:
+            - { name: layout.block_type, alias: sticky_panel }
+
     oro_layout.block_type.groups_menu_item:
         parent: oro_layout.block_type.abstract_configurable
         calls:

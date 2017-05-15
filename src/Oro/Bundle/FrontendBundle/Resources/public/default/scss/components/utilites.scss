@@ -1,0 +1,17 @@
+// @theme: default;
+
+// TODO: need refactor after removal less from frontend
+.hide-text {
+    &:after,
+    &:before {
+        color: inherit;
+    }
+
+    &.fa--small,
+    &.fa--medium,
+    &.fa--large {
+        &:before {
+            font-size: inherit;
+        }
+    }
+}

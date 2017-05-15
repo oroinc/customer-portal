@@ -9,7 +9,18 @@ oro.customer:
         change_customer_confirmation_title: 'Customer changed'
         continue: 'Continue'
         cancel: 'Cancel'
-        content: 'There are currently customer users from other customers associated with this role. Once you confirm the change of an customer these customer users will no longer be associated with this role. Do you wish to proceed with the customer change?'
+        content: 'There are currently some users from the customer account originally associated with this role. Once you confirm the change of a customer these users will no longer be associated with the role. Do you wish to proceed with the customer change?'
 
     customer_user:
         delete_confirm: 'Are you sure you want to delete Customer User?'
+        entity_plural_label: "Users"
+        role:
+            entity_plural_label: "Roles"
+            users: "Users"
+
+    customer_address_book:
+        customer_addresses: 'Company Addresses'
+
+    customer_user_address_book:
+        customer_user_addresses: 'My Addresses'
+

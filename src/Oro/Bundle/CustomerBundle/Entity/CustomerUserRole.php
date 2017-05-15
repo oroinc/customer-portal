@@ -71,6 +71,13 @@ class CustomerUserRole extends AbstractRole implements OrganizationAwareInterfac
      * @var string
      *
      * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "identity"=true
+     *          }
+     *      }
+     * )
      */
     protected $role;
 

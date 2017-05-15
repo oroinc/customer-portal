@@ -1,0 +1,7 @@
+// @theme: default;
+
+$loader-mask-loader-content-align: update-default($loader-mask-loader-content-align, left);
+$loader-mask-loader-url: '#{$global-url}/orofrontend/default/images/loader.gif' !default;
+$loader-mask-frame-offset-inner: update-default($loader-mask-frame-offset-inner, 20px);
+$loader-mask-loader-bg: get-color('additional', 'ultra') !default;
+$loader-mask-loader-content-offset-inner-left: 30px !default;
