@@ -19,6 +19,9 @@ define(function(require) {
         /** @property */
         errorTemplate: '#template-datagrid-view-name-error-modal',
 
+        /** @property */
+        defaultPrefix: __('oro_frontend.datagrid_views.all'),
+
         route: 'oro_api_frontend_datagrid_gridview_default',
 
         /** @property */
