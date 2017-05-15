@@ -1,6 +1,6 @@
 .fullscreen-popup {
     position: fixed;
-    z-index: z('popup');
+    z-index: z('popup') + 1;
     top: 0;
     right: 0;
     bottom: 0;
