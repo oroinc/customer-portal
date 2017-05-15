@@ -14,16 +14,21 @@
     left: 50%;
     z-index: z('popup') + 1;
 
+    display: flex;
+    flex-flow: column;
+    max-height: 100%;
+    height: auto !important;
+    min-height: 280px !important;
+
     border-radius: 4px;
 
     .ui-widget-content {
-        height: calc(100% - 177px) !important;
-        overflow: auto;
+        overflow-y: auto;
+        flex-shrink: 5;
     }
 
     &.ui-widget-content {
-        max-height: 100%;
-        max-width: calc(100% - 20px);
+        max-width: 100%;
 
         border: 0;
 
