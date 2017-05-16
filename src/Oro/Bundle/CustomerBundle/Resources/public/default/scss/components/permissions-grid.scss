@@ -103,3 +103,13 @@
     z-index: z('fixed') - 1;
   }
 }
+
+@include breakpoint('mobile-landscape') {
+  .inner-permissions-grid {
+    .entity-permission-container {
+      > .action-permissions {
+        padding-left: 7px;
+      }
+    }
+  }
+}
