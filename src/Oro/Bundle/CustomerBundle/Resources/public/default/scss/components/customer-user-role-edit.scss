@@ -64,3 +64,14 @@
     margin-top: -63px;
   }
 }
+
+@include breakpoint('mobile-landscape') {
+  .inner-permissions-grid {
+    // rewrite inline styles on mobile
+    .grid-header-cell {
+      max-width: none !important;
+      min-width: 0 !important;
+      width: auto !important;
+    }
+  }
+}
