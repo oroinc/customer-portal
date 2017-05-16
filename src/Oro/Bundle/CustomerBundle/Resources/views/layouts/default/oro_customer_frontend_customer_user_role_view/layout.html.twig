@@ -1,21 +1,19 @@
 {% block _customer_user_role_view_container_wrap_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " grid" }) %}
+    {% set attr = attr|merge({ class: attr.class|default('') ~ " box-toolbar" }) %}
     <div {{ block('block_attributes') }}>
-        <div class="grid__row">
-            {{ block_widget(block) }}
-        </div>
+        {{ block_widget(block) }}
     </div>
 {% endblock %}
 
 {% block _customer_user_role_back_link_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " oro-customer-user-role__back-link grid__column grid__column--6" }) %}
+    {% set attr = attr|merge({ class: attr.class|default('') ~ " box-toolbar__content" }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
 {% endblock %}
 
 {% block _customer_user_role_top_actions_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ "grid__column grid__column--6" }) %}
+    {% set attr = attr|merge({ class: attr.class|default('') ~ " box-toolbar__actions" }) %}
     <div {{ block('block_attributes') }}>
         <div class="controls-list">
             {{ block_widget(block) }}
