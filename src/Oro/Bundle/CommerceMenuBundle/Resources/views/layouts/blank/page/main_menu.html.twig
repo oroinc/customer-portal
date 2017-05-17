@@ -1,6 +1,7 @@
 {% block _header_row_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        'data-page-component-module': 'orocommercemenu/js/app/components/header-row',
+        'data-page-component-module': 'oroui/js/app/components/view-component',
+        'data-page-component-options': {view: 'orocommercemenu/js/app/views/header-row-view'},
         '~class': ' header-row'
     }) %}
 

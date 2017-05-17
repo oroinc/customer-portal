@@ -75,9 +75,6 @@
 @include breakpoint('tablet') {
     .header-row {
         &__trigger {
-            position: relative;
-            z-index: z('dropdown') + 1;
-
             text-align: center;
         }
 
