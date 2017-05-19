@@ -249,7 +249,7 @@ define(function(require) {
 
                     e.stopPropagation();
 
-                    model.set(data);
+                    model.set(data, {silent: true});
                     self._onRenameSaveModel(model);
                 });
         },
@@ -273,8 +273,8 @@ define(function(require) {
                 this.$gridViewUpdate.data('text')
             );
 
-            this.toggleEditForm(modeState);
             this.fillForm();
+            this.toggleEditForm(modeState);
         },
 
         /**
@@ -302,6 +302,7 @@ define(function(require) {
                 is_default: false
             }, data);
 
+            this.clearValidation();
             this.$gridViewName.val(obj.name);
             this.$gridViewDefault.attr('checked', obj.is_default);
         },
@@ -349,10 +350,10 @@ define(function(require) {
                 var errors = jsonResponse.errors.children.label.errors;
 
                 if (errors) {
-                    this.setNameError(_.first(errors));
                     this.fillForm({
                         name: model.previous('label')
                     });
+                    this.setNameError(_.first(errors));
                     this.toggleEditForm('show');
                 }
             }
