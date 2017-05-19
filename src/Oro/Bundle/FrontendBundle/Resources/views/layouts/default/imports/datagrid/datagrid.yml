@@ -13,6 +13,7 @@ layout:
             optionValue:
                 cssClass: 'frontend-datagrid'
                 themeOptions:
+                    disableFloatingHeaderPlugin: true
                     actionsDropdown: 'auto'
                     actionOptions:
                         refreshAction:
