@@ -1,25 +1,21 @@
 // @theme: default
 
 .box-toolbar {
-    @include clearfix();
-}
+    display: flex;
+    margin: 0 0 $offset-y 0;
 
-@include breakpoint('desktop') {
-    .box-toolbar {
-        &__actions {
-            float: right;
-        }
-
-        &__title {
-            float: left;
-        }
+    &--offset-none {
+        margin: 0;
     }
-}
 
-@include breakpoint('tablet') {
-    .box-toolbar {
-        &__title {
-            padding-bottom: $offset-y;
-        }
+    &__content {
+        padding: 0 $offset-x-m 0 0;
+
+        // 0px value for fix bug in IE11
+        flex: 1 0 0px;
+    }
+
+    &__actions {
+        flex: 0 0 auto;
     }
 }
