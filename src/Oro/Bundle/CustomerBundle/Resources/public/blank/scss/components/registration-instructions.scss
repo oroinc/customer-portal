@@ -1,0 +1,15 @@
+// @theme: blank;
+
+.registration-instructions {
+    margin: $registration-instructions-offset;
+    padding: $registration-instructions-inner-offset;
+
+    background: $registration-instructions-background;
+    text-align: $registration-instructions-text-align;
+}
+
+@include breakpoint('tablet-small') {
+    .registration-instructions {
+        text-align: $registration-instructions-tablet-small-text-align;
+    }
+}
