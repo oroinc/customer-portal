@@ -12,8 +12,8 @@ layout:
             optionName: grid_render_parameters
             optionValue:
                 cssClass: 'frontend-datagrid'
+                enableFloatingHeaderPlugin: false
                 themeOptions:
-                    disableFloatingHeaderPlugin: true
                     actionsDropdown: 'auto'
                     actionOptions:
                         refreshAction:
