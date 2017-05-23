@@ -41,6 +41,7 @@ class AddressProviderTest extends \PHPUnit_Framework_TestCase
         $this->provider->setListRouteName('oro_api_customer_frontend_get_customer_addresses');
         $this->provider->setCreateRouteName('oro_customer_frontend_customer_address_create');
         $this->provider->setUpdateRouteName('oro_customer_frontend_customer_address_update');
+        $this->provider->setDeleteRouteName('oro_api_customer_frontend_delete_customer_address');
 
         /** @var Customer $entity */
         $entity = $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', ['id' => 40]);
@@ -76,6 +77,7 @@ class AddressProviderTest extends \PHPUnit_Framework_TestCase
                 'addressCreateUrl' => '/address/create/test/url',
                 'addressUpdateRouteName' => 'oro_customer_frontend_customer_address_update',
                 'currentAddresses' => ['data'],
+                'addressDeleteRouteName' => 'oro_api_customer_frontend_delete_customer_address',
             ],
             $data
         );
@@ -87,6 +89,7 @@ class AddressProviderTest extends \PHPUnit_Framework_TestCase
         $this->provider->setListRouteName('oro_api_customer_frontend_get_customer_addresses', true);
         $this->provider->setCreateRouteName('oro_customer_frontend_customer_address_create');
         $this->provider->setUpdateRouteName('oro_customer_frontend_customer_address_update');
+        $this->provider->setDeleteRouteName('oro_api_customer_frontend_delete_customer_address');
 
         /** @var Customer $entity */
         $entity = $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', ['id' => 40]);
@@ -119,6 +122,7 @@ class AddressProviderTest extends \PHPUnit_Framework_TestCase
                 'addressCreateUrl' => '/address/create/test/url',
                 'addressUpdateRouteName' => 'oro_customer_frontend_customer_address_update',
                 'currentAddresses' => ['data'],
+                'addressDeleteRouteName' => 'oro_api_customer_frontend_delete_customer_address',
             ],
             $data
         );
