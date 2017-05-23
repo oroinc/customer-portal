@@ -34,3 +34,9 @@ oro_behat_extension:
     Customer Company User Addresses Grid View List:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Customer New Company Address Button:
+      selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views .grid-views__aditional .btn'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Customer Company Address Button:
+      selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views .grid-views__aditional .btn'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
