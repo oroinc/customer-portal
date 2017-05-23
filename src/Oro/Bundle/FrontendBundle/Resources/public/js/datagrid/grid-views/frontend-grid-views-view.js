@@ -107,6 +107,8 @@ define(function(require) {
         /** @property */
         hideTitle: $([]),
 
+        /** @property */
+        showErrorMessage: false,
         /**
          * @param options
          */
@@ -214,6 +216,7 @@ define(function(require) {
             this.switchEditMode(e, 'show');
 
             this.$gridViewUpdate
+                .off()
                 .text(this.$gridViewUpdate.data('text-add'))
                 .on('click', function(e) {
                     e.stopPropagation();
@@ -231,7 +234,7 @@ define(function(require) {
             var self = this;
             var model = this._getEditableViewModel(e.currentTarget);
 
-            this.switchEditMode(e, 'show');
+            this.switchEditMode(e, 'show', model.get('is_default'));
 
             this.fillForm({
                 name: model.get('label'),
@@ -239,41 +242,55 @@ define(function(require) {
             });
 
             this.$gridViewUpdate
+                .off()
                 .text(this.$gridViewUpdate.data('text-save'))
                 .on('click', function(e) {
                     var data = self.getInputData(self.$el);
 
                     e.stopPropagation();
 
-                    model.set(data);
+                    model.set(data, {silent: true});
                     self._onRenameSaveModel(model);
                 });
         },
 
         /**
-         * @param event
-         * @param mode
+         * @param {object} event
+         * @param {string} mode
+         * @param {bool} [hideCheckbox] - undefined
          * @returns {Path|*|jQuery|HTMLElement}
          */
-        switchEditMode: function(event, mode) {
+
+        switchEditMode: function(event, mode, hideCheckbox) {
             var $this = $(event.currentTarget);
             var modeState = $this.data('switch-edit-mode') || mode; // 'hide' | 'show'
+
+            hideCheckbox = hideCheckbox || false;
+
+            this.$('[data-checkbox-container]').toggleClass('hidden', hideCheckbox);
+
+            this.$gridViewUpdate.text(
+                this.$gridViewUpdate.data('text')
+            );
+
+            this.fillForm();
+            this.toggleEditForm(modeState);
+        },
+
+        /**
+         * @param {string} mode
+         */
+        toggleEditForm: function(mode) {
             var $buttonMain = this.$('[data-switch-edit-button]');
             var $switchEditModeContainer = this.$('[data-edit-container]');
 
-            this.$gridViewUpdate
-                .off()
-                .text(this.$gridViewUpdate.data('text'));
-
-            if (modeState === 'show') {
+            if (mode === 'show') {
                 $buttonMain.hide();
                 $switchEditModeContainer.show();
-            } else if (modeState === 'hide') {
+            } else if (mode === 'hide') {
                 $buttonMain.show();
                 $switchEditModeContainer.hide();
             }
-
-            this.fillForm();
         },
 
         /**
@@ -285,6 +302,7 @@ define(function(require) {
                 is_default: false
             }, data);
 
+            this.clearValidation();
             this.$gridViewName.val(obj.name);
             this.$gridViewDefault.attr('checked', obj.is_default);
         },
@@ -332,16 +350,35 @@ define(function(require) {
                 var errors = jsonResponse.errors.children.label.errors;
 
                 if (errors) {
+                    this.fillForm({
+                        name: model.previous('label')
+                    });
                     this.setNameError(_.first(errors));
+                    this.toggleEditForm('show');
                 }
             }
+        },
+
+        /**
+         * {DocInherit}
+         */
+        onGridViewsModelInvalid: function(errors) {
+            this.setNameError(_.first(errors));
+            this.toggleEditForm('show');
+        },
+
+        /**
+         *  Remove container with validation errors
+         */
+        clearValidation: function() {
+            this.$('.validation-failed').remove();
         },
 
         /**
          * @param {String} error
          */
         setNameError: function(error) {
-            this.$('.validation-failed').remove();
+            this.clearValidation();
 
             if (error) {
                 error = this.nameErrorTemplate({

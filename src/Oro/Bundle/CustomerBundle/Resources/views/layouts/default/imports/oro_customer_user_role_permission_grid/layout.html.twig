@@ -5,6 +5,10 @@
         'useDropdown': true
     }) %}
 
+    {% set capabilitySetOptions = layout_attr_defaults(options.capabilitySetOptions, {
+        'readonly': options.readonly|default(false)
+    }) %}
+
     <div {{ UI.renderPageComponentAttributes({
         module: 'orouser/js/components/role/entity-category-tabs-component',
         options: tabsOptions
@@ -14,6 +18,6 @@
 
     <div class="role-capability-set" {{ UI.renderPageComponentAttributes({
         module: 'orouser/js/components/role/capability-set-component',
-        options: options.capabilitySetOptions
+        options: capabilitySetOptions
     }) }}></div>
 {% endblock %}
