@@ -139,3 +139,8 @@ $modal-dialog-sm-up-margin-y: update-default($modal-dialog-sm-up-margin-y, 0);
 $modal-title-padding:         update-default($modal-title-padding, $offset-y);
 
 $modal-md:                    update-default($modal-md, 90%);
+
+
+// Tooltips
+
+$tooltip-max-width: update-default($tooltip-max-width, null);
