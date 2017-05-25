@@ -49,13 +49,15 @@ class FrontendCustomerUserType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
         $builder->remove('salesRepresentatives');
         $builder->remove('addresses');
-        $builder->add(
-            'roles',
-            FrontendCustomerUserRoleSelectType::NAME,
-            [
-                'label' => 'oro.customer.customeruser.roles.label'
-            ]
-        );
+        if ($this->securityFacade->isGranted('oro_customer_frontend_customer_user_role_update')) {
+            $builder->add(
+                'roles',
+                FrontendCustomerUserRoleSelectType::NAME,
+                [
+                    'label' => 'oro.customer.customeruser.roles.label',
+                ]
+            );
+        }
     }
 
     /**

@@ -105,6 +105,11 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         CustomerUser $expectedData,
         $roleGranted = true
     ) {
+        $this->securityFacade->expects($this->once())
+            ->method('isGranted')
+            ->with('oro_customer_frontend_customer_user_role_update')
+            ->willReturn(true);
+
         $form = $this->factory->create($this->formType, $defaultData, []);
 
         $this->assertEquals($defaultData, $form->getData());
