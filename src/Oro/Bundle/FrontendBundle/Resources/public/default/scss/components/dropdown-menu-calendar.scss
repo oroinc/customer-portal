@@ -1,0 +1,78 @@
+// @theme: default
+
+.dropdown-menu-calendar {
+    min-width: 270px;
+    padding: 0;
+
+    background: get-color('additional', 'ultra');
+
+    .tab-content {
+        padding: $offset-y-m ($offset-x-m - 2px) 0;
+    }
+
+    .ui-datevariables-div {
+        padding: $offset-x-m;
+
+        .ui_date_variable {
+            @include element-state('hover') {
+                color: get-color('additional', 'dark');
+
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .ui-datepicker {
+        padding: 0;
+
+        border: 0;
+    }
+
+    .nav-tabs-oro {
+        display: flex;
+        align-items: center;
+
+        text-align: center;
+
+        > li {
+            width: 50%;
+
+            > a {
+                display: block;
+                padding: 7px 0;
+
+                text-decoration: none;
+
+                color: get-color('additional', 'dark');
+                background-color: get-color('additional', 'light');
+
+                &:before {
+                    margin-right: $offset-x-s;
+                }
+
+                &.calendar {
+                    @include fa-icon($fa-var-calendar);
+                }
+
+                &.variables {
+                    @include fa-icon($fa-var-list-ul);
+                }
+
+                @include element-state('active') {
+                    color: get-color('additional', 'dark');
+                }
+
+                @include element-state('hover') {
+                    color: get-color('additional', 'dark');
+                    background-color: get-color('additional', 'base');
+                }
+            }
+            
+            &.active {
+                > a {
+                    background-color: get-color('additional', 'ultra');
+                }
+            }
+        }
+    }
+}

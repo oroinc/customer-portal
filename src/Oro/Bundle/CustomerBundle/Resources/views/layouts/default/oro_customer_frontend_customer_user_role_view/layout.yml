@@ -52,7 +52,13 @@ layout:
             id: customer_user_role_items_view_privileges_datagrid
             optionName: grid_render_parameters.themeOptions
             optionValue:
-                    readonly: true
+                readonly: true
+
+        - '@appendOption':
+            id: customer_user_role_items_view_privileges_datagrid
+            optionName: vars.options
+            optionValue:
+                readonly: true
 
         - '@setOption':
             id: customer_user_grid_datagrid

@@ -1,0 +1,41 @@
+// @theme: default;
+
+.search-widget {
+    position: relative;
+
+    &-wrap {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    &__input {
+        height: 50px;
+        padding: 0 50px 0 18px;
+    }
+
+    &__submit {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+
+        width: 50px;
+        padding: 0;
+
+        font-size: $base-font-size--m - 1px;
+
+        background: transparent;
+        border: 0;
+        color: get-color('additional', 'middle');
+    }
+}
+
+@include breakpoint('tablet') {
+    .search-widget {
+        margin: $offset-y $offset-x;
+
+        &__input {
+            height: 45px;
+        }
+    }
+}

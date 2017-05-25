@@ -27,3 +27,7 @@ select,
 textarea {
     color: inherit;
 }
+
+:focus {
+    outline: none;
+}
