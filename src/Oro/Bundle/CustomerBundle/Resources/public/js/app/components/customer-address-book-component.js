@@ -25,6 +25,13 @@ define(function(require) {
                             {'id': address.get('id'), 'entityId': options.entityId}
                         );
                     },
+                    addressDeleteUrl: function() {
+                        var address = arguments[0];
+                        return routing.generate(
+                            options.addressDeleteRouteName,
+                            {'addressId': address.get('id'), 'entityId': options.entityId}
+                        );
+                    },
                     addressMapOptions: {'phone': 'phone'}
                 });
                 widget.getAction('add_address', 'adopted', function(action) {
