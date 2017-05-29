@@ -66,6 +66,7 @@ class CustomerUserHandler
      */
     public function process(CustomerUser $customerUser)
     {
+        $isUpdated = false;
         if (in_array($this->request->getMethod(), ['POST', 'PUT'], true)) {
             $this->form->submit($this->request);
 
@@ -100,10 +101,17 @@ class CustomerUserHandler
 
                 $this->userManager->updateUser($customerUser);
 
-                return true;
+                $isUpdated = true;
             }
         }
 
-        return false;
+        // Reloads the user to reset its username. This is needed when the
+        // username or password have been changed to avoid issues with the
+        // security layer.
+        if ($customerUser->getId() && $customerUser->getId() === $this->securityFacade->getLoggedUserId()) {
+            $this->userManager->reloadUser($customerUser);
+        }
+
+        return $isUpdated;
     }
 }
