@@ -114,6 +114,7 @@ oro.customer:
         owner.label:                 'Owner'
         website.label:               'Website'
         sales_representatives.label: 'Assigned Sales Representatives'
+        contact_information.label:   'Contact Information'
 
         profile:
             company_name: 'Company Name'

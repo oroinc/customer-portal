@@ -30,3 +30,11 @@ oro_entity:
         Oro\Bundle\CustomerBundle\Entity\GridView:
             alias:        customer_grid_view
             plural_alias: customer_grid_views
+
+    virtual_fields:
+        Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+            contactInformation:
+                query:
+                    select:
+                        expr:         entity.email
+                        return_type:  string
