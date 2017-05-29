@@ -80,6 +80,33 @@ class CommerceCustomerAddressController extends RestController implements ClassR
     }
 
     /**
+     * REST DELETE address
+     *
+     * @ApiDoc(
+     *      description="Delete address items",
+     *      resource=true
+     * )
+     * @AclAncestor("oro_customer_delete")
+     * @param int $entityId
+     * @param int $addressId
+     *
+     * @return Response
+     */
+    public function deleteAction($entityId, $addressId)
+    {
+        /** @var CustomerAddress $address */
+        $address = $this->getManager()->find($addressId);
+        /** @var Customer $customer */
+        $customer = $this->getCustomerManager()->find($entityId);
+        if ($customer->getAddresses()->contains($address)) {
+            $customer->removeAddress($address);
+            return $this->handleDeleteRequest($addressId);
+        } else {
+            return $this->handleView($this->view(null, Response::HTTP_NOT_FOUND));
+        }
+    }
+
+    /**
      * REST GET address by type
      *
      * @param int $entityId
