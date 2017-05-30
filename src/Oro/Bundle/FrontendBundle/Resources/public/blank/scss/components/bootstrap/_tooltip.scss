@@ -38,16 +38,14 @@
         white-space: nowrap;
 
         opacity: 0;
-        display: none;
+        visibility: hidden;
+
+        transform: translate(-50%, 0);
 
         .tooltip-inner {
             position: relative;
-            left: -50%;
 
             display: block;
-
-            max-width: none;
-            width: auto;
 
             &:before {
                 bottom: -5px;
@@ -60,7 +58,7 @@
             margin-bottom: 0;
 
             opacity: 1;
-            display: block;
+            visibility: visible;
         }
     }
 }
