@@ -1,0 +1,13 @@
+oro_behat_extension:
+  elements:
+    Commerce Menu Form:
+      selector: 'div#container'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Title: 'menu_update[titles][values][default]'
+          URI: 'menu_update[uri]'
+          Icon: 'menu_update[icon]'
+          Description: 'menu_update[descriptions][values][default]'
+          Condition: 'menu_update[condition]'
+          Image: 'menu_update[image][file]'
