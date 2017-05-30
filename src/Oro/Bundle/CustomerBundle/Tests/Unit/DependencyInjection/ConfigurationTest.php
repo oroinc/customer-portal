@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Processor;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,10 +15,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $configuration = new Configuration();
 
-        $this->assertInstanceOf(
-            'Symfony\Component\Config\Definition\Builder\TreeBuilder',
-            $configuration->getConfigTreeBuilder()
-        );
+        $this->assertInstanceOf(TreeBuilder::class, $configuration->getConfigTreeBuilder());
     }
 
     /**
@@ -62,7 +60,16 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         'send_password_in_welcome_email' => [
                             'value' => false,
                             'scope' => 'app'
-                        ]
+                        ],
+                        'registration_instructions_enabled' => [
+                            'value' => false,
+                            'scope' => 'app',
+                        ],
+                        'registration_instructions_text' => [
+                            'value' =>
+                                'To register for a new account, contact a sales representative at 1 (800) 555-0123',
+                            'scope' => 'app',
+                        ],
                     ]
                 ]
             ]

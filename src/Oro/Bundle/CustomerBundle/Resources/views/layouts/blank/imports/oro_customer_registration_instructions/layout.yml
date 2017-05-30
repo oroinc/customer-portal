@@ -8,8 +8,8 @@ layout:
                 __text:
                     blockType: text
                     options:
-                        visible: true
-                        text: 'To register for a new account, contact a sales representative at 1 (800) 555-0123'
+                        visible: '=data["system_config_provider"].getValue("oro_customer.registration_instructions_enabled")'
+                        text: '=data["system_config_provider"].getValue("oro_customer.registration_instructions_text")'
             tree:
                 __root:
                     __text: ~
