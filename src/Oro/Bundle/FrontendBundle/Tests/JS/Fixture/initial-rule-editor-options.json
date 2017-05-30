@@ -1,0 +1,366 @@
+[
+  {
+    "entities": {
+      "root_entities": {
+        "Oro\\Bundle\\ProductBundle\\Entity\\Product": "product",
+        "Oro\\Bundle\\PricingBundle\\Entity\\PriceList": "pricelist"
+      },
+      "fields_data": {
+        "Oro\\Bundle\\ProductBundle\\Entity\\Product": {
+          "featured": {
+            "label": "Is Featured",
+            "type": "boolean"
+          },
+          "id": {
+            "label": "Id",
+            "type": "integer"
+          },
+          "inventory_status": {
+            "label": "Inventory Status",
+            "type": "enum"
+          },
+          "sku": {
+            "label": "SKU",
+            "type": "string"
+          },
+          "status": {
+            "label": "Status",
+            "type": "string"
+          },
+          "type": {
+            "label": "Type",
+            "type": "string"
+          },
+          "createdAt": {
+            "label": "Created At",
+            "type": "datetime"
+          },
+          "updatedAt": {
+            "label": "Updated At",
+            "type": "datetime"
+          },
+          "map": {
+            "label": "MAP",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\PricingBundle\\Entity\\PriceAttributeProductPrice"
+          },
+          "msrp": {
+            "label": "MSRP",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\PricingBundle\\Entity\\PriceAttributeProductPrice"
+          },
+          "category": {
+            "label": "Category",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\CatalogBundle\\Entity\\Category"
+          },
+          "backOrder": {
+            "label": "Backorders",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\EntityBundle\\Entity\\EntityFieldFallbackValue"
+          },
+          "decrementQuantity": {
+            "label": "Decrement Inventory",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\EntityBundle\\Entity\\EntityFieldFallbackValue"
+          },
+          "maximumQuantityToOrder": {
+            "label": "Maximum Quantity To Order",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\EntityBundle\\Entity\\EntityFieldFallbackValue"
+          },
+          "minimumQuantityToOrder": {
+            "label": "Minimum Quantity To Order",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\EntityBundle\\Entity\\EntityFieldFallbackValue"
+          },
+          "inventoryThreshold": {
+            "label": "Inventory Threshold",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\EntityBundle\\Entity\\EntityFieldFallbackValue"
+          },
+          "manageInventory": {
+            "label": "Managed Inventory",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\EntityBundle\\Entity\\EntityFieldFallbackValue"
+          },
+          "attributeFamily": {
+            "label": "Product Family",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\EntityConfigBundle\\Attribute\\Entity\\AttributeFamily"
+          },
+          "organization": {
+            "label": "Organization",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\OrganizationBundle\\Entity\\Organization"
+          },
+          "owner": {
+            "label": "Owner",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\OrganizationBundle\\Entity\\BusinessUnit"
+          },
+          "pageTemplate": {
+            "label": "Page Template",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\EntityBundle\\Entity\\EntityFieldFallbackValue"
+          },
+          "primaryUnitPrecision": {
+            "label": "Unit of Quantity",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\ProductBundle\\Entity\\ProductUnitPrecision"
+          }
+        },
+        "Oro\\Bundle\\PricingBundle\\Entity\\PriceAttributeProductPrice": {
+          "currency": {
+            "label": "Currency",
+            "type": "string"
+          },
+          "id": {
+            "label": "Id",
+            "type": "integer"
+          },
+          "productSku": {
+            "label": "Product SKU",
+            "type": "string"
+          },
+          "quantity": {
+            "label": "Quantity",
+            "type": "float"
+          },
+          "value": {
+            "label": "Value",
+            "type": "float"
+          }
+        },
+        "Oro\\Bundle\\CatalogBundle\\Entity\\Category": {
+          "id": {
+            "label": "ID",
+            "type": "integer"
+          },
+          "left": {
+            "label": "Tree left index",
+            "type": "integer"
+          },
+          "level": {
+            "label": "Tree level",
+            "type": "integer"
+          },
+          "materializedPath": {
+            "label": "Materialized path",
+            "type": "string"
+          },
+          "right": {
+            "label": "Tree right index",
+            "type": "integer"
+          },
+          "root": {
+            "label": "Tree root",
+            "type": "integer"
+          },
+          "createdAt": {
+            "label": "Created At",
+            "type": "datetime"
+          },
+          "updatedAt": {
+            "label": "Updated At",
+            "type": "datetime"
+          }
+        },
+        "Oro\\Bundle\\EntityBundle\\Entity\\EntityFieldFallbackValue": {
+          "fallback": {
+            "label": "Fallback",
+            "type": "string"
+          },
+          "id": {
+            "label": "Id",
+            "type": "integer"
+          },
+          "scalarValue": {
+            "label": "Scalar value",
+            "type": "string"
+          }
+        },
+        "Oro\\Bundle\\EntityConfigBundle\\Attribute\\Entity\\AttributeFamily": {
+          "code": {
+            "label": "Code",
+            "type": "string"
+          },
+          "entityClass": {
+            "label": "AttributeFamily",
+            "type": "string"
+          },
+          "id": {
+            "label": "ID",
+            "type": "integer"
+          },
+          "isEnabled": {
+            "label": "Is enabled",
+            "type": "boolean"
+          },
+          "createdAt": {
+            "label": "Created At",
+            "type": "datetime"
+          },
+          "updatedAt": {
+            "label": "Updated At",
+            "type": "datetime"
+          }
+        },
+        "Oro\\Bundle\\OrganizationBundle\\Entity\\Organization": {
+          "description": {
+            "label": "Description",
+            "type": "string"
+          },
+          "enabled": {
+            "label": "Status",
+            "type": "boolean"
+          },
+          "id": {
+            "label": "Id",
+            "type": "integer"
+          },
+          "is_global": {
+            "label": "Global access",
+            "type": "boolean"
+          },
+          "name": {
+            "label": "Name",
+            "type": "string"
+          },
+          "createdAt": {
+            "label": "Created At",
+            "type": "datetime"
+          },
+          "updatedAt": {
+            "label": "Updated At",
+            "type": "datetime"
+          }
+        },
+        "Oro\\Bundle\\OrganizationBundle\\Entity\\BusinessUnit": {
+          "email": {
+            "label": "Email",
+            "type": "string"
+          },
+          "extend_description": {
+            "label": "Description",
+            "type": "string"
+          },
+          "fax": {
+            "label": "Fax",
+            "type": "string"
+          },
+          "id": {
+            "label": "Id",
+            "type": "integer"
+          },
+          "name": {
+            "label": "Name",
+            "type": "string"
+          },
+          "phone": {
+            "label": "Phone",
+            "type": "string"
+          },
+          "website": {
+            "label": "Website",
+            "type": "string"
+          },
+          "createdAt": {
+            "label": "Created At",
+            "type": "datetime"
+          },
+          "updatedAt": {
+            "label": "Updated At",
+            "type": "datetime"
+          }
+        },
+        "Oro\\Bundle\\ProductBundle\\Entity\\ProductUnitPrecision": {
+          "conversionRate": {
+            "label": "Conversion Rate",
+            "type": "float"
+          },
+          "id": {
+            "label": "oro.product.productunitprecision.id.label",
+            "type": "integer"
+          },
+          "precision": {
+            "label": "Precision",
+            "type": "integer"
+          },
+          "sell": {
+            "label": "Sell",
+            "type": "boolean"
+          }
+        },
+        "Oro\\Bundle\\PricingBundle\\Entity\\PriceList": {
+          "active": {
+            "label": "Active",
+            "type": "boolean"
+          },
+          "actual": {
+            "label": "Actual",
+            "type": "boolean"
+          },
+          "containSchedule": {
+            "label": "Contain Schedules",
+            "type": "boolean"
+          },
+          "default": {
+            "label": "Is Default",
+            "type": "boolean"
+          },
+          "id": {
+            "label": "Id",
+            "type": "integer"
+          },
+          "name": {
+            "label": "Name",
+            "type": "string"
+          },
+          "productAssignmentRule": {
+            "label": "Rule",
+            "type": "standalone"
+          },
+          "createdAt": {
+            "label": "Created At",
+            "type": "datetime"
+          },
+          "updatedAt": {
+            "label": "Updated At",
+            "type": "datetime"
+          },
+          "prices": {
+            "label": "Prices",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\PricingBundle\\Entity\\ProductPrice"
+          },
+          "assignedProducts": {
+            "label": "Assigned Products",
+            "type": "collection"
+          }
+        },
+        "Oro\\Bundle\\PricingBundle\\Entity\\ProductPrice": {
+          "currency": {
+            "label": "Currency",
+            "type": "string"
+          },
+          "productSku": {
+            "label": "Product SKU",
+            "type": "string"
+          },
+          "quantity": {
+            "label": "Quantity",
+            "type": "float"
+          },
+          "value": {
+            "label": "Value",
+            "type": "float"
+          }
+        }
+      }
+    },
+    "dataSource": {
+      "pricelist": "        <div id=\"price_list_select___name___590056a46fba3-uid-590056a49a4be-el\"\n                                            \n                                                    data-page-component-module=\"oroform/js/app/components/select-create-inline-type-component\"\n            data-page-component-options=\"{&quot;inputSelector&quot;:&quot;#price_list_select___name___590056a46fba3-uid-590056a49a4be&quot;,&quot;entityLabel&quot;:&quot;&quot;,&quot;urlParts&quot;:{&quot;grid&quot;:{&quot;route&quot;:&quot;oro_datagrid_widget&quot;,&quot;gridWidgetView&quot;:&quot;oro_datagrid_widget&quot;,&quot;parameters&quot;:{&quot;gridName&quot;:&quot;pricing-price-list-select-grid&quot;,&quot;params&quot;:[],&quot;renderParams&quot;:[]}}},&quot;existingEntityGridId&quot;:&quot;id&quot;,&quot;createEnabled&quot;:false}\"\n            \n                    class=\"entity-create-or-select-container \">\n        <div class=\"input-append\">\n                                                                                                                <input type=\"hidden\"         id=\"price_list_select___name___590056a46fba3-uid-590056a49a4be\" name=\"price_list_select___name___590056a46fba3\" data-ftid=\"price_list_select___name___590056a46fba3\" data-name=\"form__price-list-select---name---590056a46fba3\" class=\"select2\" data-page-component-module=\"oro/select2-autocomplete-component\" data-page-component-options=\"{&quot;configs&quot;:{&quot;containerCssClass&quot;:&quot;oro-select2&quot;,&quot;dropdownCssClass&quot;:&quot;oro-select2__dropdown&quot;,&quot;placeholder&quot;:&quot;Choose a Price List...&quot;,&quot;autocomplete_alias&quot;:&quot;oro_pricing_price_list&quot;,&quot;properties&quot;:[&quot;name&quot;],&quot;route_name&quot;:&quot;oro_form_autocomplete_search&quot;,&quot;component&quot;:&quot;autocomplete&quot;,&quot;route_parameters&quot;:[]},&quot;url&quot;:&quot;\\/admin\\/autocomplete\\/search&quot;,&quot;excluded&quot;:[]}\"\n />\n\n\n                            <button class=\"add-on btn entity-select-btn\"><i class=\"fa-bars\"></i></button>\n\n                                    </div>\n    </div>\n\n    \n"
+    }
+  }
+]
