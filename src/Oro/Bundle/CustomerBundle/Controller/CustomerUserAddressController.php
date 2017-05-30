@@ -142,7 +142,8 @@ class CustomerUserAddressController extends Controller
             'addressListUrl'         => $addressListUrl,
             'addressCreateUrl'       => $addressCreateUrl,
             'addressUpdateRouteName' => 'oro_customer_customer_user_address_update',
-            'currentAddresses'       => $currentAddresses
+            'currentAddresses'       => $currentAddresses,
+            'addressDeleteRouteName' => 'oro_api_customer_delete_customeruser_address',
         ];
     }
 }
