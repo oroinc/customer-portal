@@ -17,7 +17,6 @@
     display: flex;
     flex-flow: column;
     max-height: 100%;
-    height: auto !important;
     min-height: 280px !important;
 
     font-family: $base-font;
@@ -25,8 +24,6 @@
     border-radius: 4px;
 
     .ui-widget-content {
-        max-height: 85vh;
-
         overflow-y: auto;
         flex-shrink: 5;
     }
@@ -125,8 +122,6 @@
 
     .ui-dialog-buttonpane {
         padding: 20px 40px 30px;
-
-        overflow: visible;
 
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
