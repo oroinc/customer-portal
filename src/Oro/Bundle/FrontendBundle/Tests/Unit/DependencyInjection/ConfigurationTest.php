@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Processor;
-
 use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
+use Symfony\Component\Config\Definition\Processor;
 
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,7 +47,11 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         'page_templates' => [
                             'value' => [],
                             'scope' => 'app'
-                        ]
+                        ],
+                        'guest_access_enabled' => [
+                            'value' => true,
+                            'scope' => 'app',
+                        ],
                     ],
                     'routes_to_expose' => [],
                 ]

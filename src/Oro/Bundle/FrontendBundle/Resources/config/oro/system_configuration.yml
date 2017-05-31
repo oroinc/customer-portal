@@ -12,6 +12,10 @@ system_configuration:
             icon:  fa-shopping-cart
         page_templates:
             title: oro_frontend.system_configuration.groups.page_templates.title
+        guests:
+            title: oro_frontend.system_configuration.groups.guests.title
+        website_access:
+            title: oro_frontend.system_configuration.groups.website_access.title
 
     fields:
         oro_frontend.frontend_theme:
@@ -29,6 +33,15 @@ system_configuration:
                 required: false
                 label: oro_frontend.system_configuration.fields.page_template_routes.label
 
+        oro_frontend.guest_access_enabled:
+            data_type: boolean
+            type: oro_config_checkbox
+            priority: 2000
+            options:
+                label: oro_frontend.system_configuration.fields.guest_access_enabled.label
+                tooltip: oro_frontend.system_configuration.fields.guest_access_enabled.tooltip
+                required: false
+
     tree:
         system_configuration:
             commerce:
@@ -44,3 +57,41 @@ system_configuration:
                                     page_templates:
                                         children:
                                             - oro_frontend.page_templates
+                    guests:
+                        priority: 2000
+                        children:
+                            website_access:
+                                priority: 100
+                                children:
+                                    website_access:
+                                        priority: 100
+                                        children:
+                                            - oro_frontend.guest_access_enabled
+
+        organization_configuration:
+            commerce:
+                children:
+                    guests:
+                        priority: 2000
+                        children:
+                            website_access:
+                                priority: 100
+                                children:
+                                    website_access:
+                                        priority: 100
+                                        children:
+                                            - oro_frontend.guest_access_enabled
+
+        website_configuration:
+            commerce:
+                children:
+                    guests:
+                        priority: 2000
+                        children:
+                            website_access:
+                                priority: 100
+                                children:
+                                    website_access:
+                                        priority: 100
+                                        children:
+                                            - oro_frontend.guest_access_enabled
