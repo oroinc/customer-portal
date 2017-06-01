@@ -38,10 +38,10 @@
         font-size: 20px;
         line-height: 20px;
 
-        color: #8c8c8c;
+        color: transparentize(get-color('additional', 'middle'), 27%);
 
         &:hover {
-            color: #666;
+            color: transparentize(get-color('additional', 'middle'), 42%);
         }
     }
 
@@ -57,7 +57,7 @@
 
             font-size: 15px;
 
-            color: #8c8c8c;
+            color: transparentize(get-color('additional', 'middle'), 27%);
         }
 
         > .clear {
