@@ -1,0 +1,45 @@
+// @theme: default;
+
+.information-nav {
+    &__title {
+        position: relative;
+
+        text-transform: $information-nav-title-text-transform;
+    }
+
+    &__icon {
+        display: none;
+    }
+}
+
+@include breakpoint('tablet-small') {
+    .information-nav {
+        padding: $information-nav-tablet-small-offset;
+
+        border-top: 1px solid get-color('additional', 'light');
+
+        &__title {
+            margin: $information-nav-title-tablet-small-offset;
+            padding: $information-nav-title-tablet-small-inner-offset;
+        }
+
+        &__list {
+            margin: -$offset-y 0 ($offset-y-m * 2);
+            padding: 0 0 0 ($offset-x + $offset-x-m);
+        }
+
+        &__icon {
+            position: absolute;
+            left: 0;
+            display: inline-block;
+
+            margin-right: $offset-x-s;
+
+            vertical-align: baseline;
+        }
+
+        &.expanded &__icon {
+            transform: rotate(90deg);
+        }
+    }
+}

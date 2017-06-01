@@ -1,0 +1,14 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'sales_menu.html.twig'
+        - '@addTree':
+            items:
+                sales_menu:
+                    blockType: menu
+                    options:
+                        item: '=data["menu"].getMenu("commerce_footer_links")'
+                        depth: 2
+            tree:
+                page_footer_side:
+                    sales_menu: ~

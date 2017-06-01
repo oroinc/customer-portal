@@ -1,31 +1,18 @@
-{% block _footer_menu_container_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': " container-fluid"
-    }) %}
-    <div {{ block('block_attributes') }}>
-        <div class="footer-nav clearfix">
-            {{ block_widget(block) }}
-        </div>
-    </div>
-{% endblock %}
-
 {% block _footer_menu_widget %}
-    {% set attr = attr|merge({
-        class: attr.class|default('') ~ " footer-nav__list",
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' information-nav__list',
         'data-collapse-container-footer': true
     }) %}
-
     {% set child_attr = layout_attr_defaults(child_attr, {
-        '~class': ' footer-nav__item'
+        '~class': ' information-nav__item'
     }) %}
-
     {% set link_attr = layout_attr_defaults(link_attr, {
-        '~class': 'footer-nav__link'
+        '~class': ' information-nav__link'
     }) %}
 
     {% set collapseView =  layout_attr_defaults(attr, {
         viewport: {
-            maxScreenType: 'mobile-landscape',
+            maxScreenType: 'tablet-small',
         },
         component: 'oroui/js/app/components/jquery-widget-component',
         widgetModule: 'oroui/js/widget/collapse-widget',
@@ -37,17 +24,17 @@
     {% spaceless %}
         {% for child in item.children %}
             {% if child.extras.isAllowed %}
-                <div class="footer-nav__column collapse-view"
-                    data-page-component-module="oroui/js/app/components/viewport-component"
-                    data-page-component-options="{{ collapseView|json_encode }}">
-                    {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
-                    <h2 class="footer-nav__title"
-                        data-collapse-trigger-footer>
-                        <i class="footer-nav__icon fa-caret-right"></i>
-                        {{ label }}
-                    </h2>
-                    {% set item = child %}
-                    {{ block('menu_widget') }}
+                <div class="grid__column grid__column--4 grid__column--ts-12">
+                    <div class="information-nav collapse-view"
+                        data-page-component-module="oroui/js/app/components/viewport-component"
+                        data-page-component-options="{{ collapseView|json_encode }}">
+                        {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
+                        <h3 class="information-nav__title" data-collapse-trigger-footer>
+                            <i class="information-nav__icon fa-caret-right"></i>{{- label -}}
+                        </h3>
+                        {% set item = child %}
+                        {{ block('menu_widget') }}
+                    </div>
                 </div>
             {% endif %}
         {% endfor %}
