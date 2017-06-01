@@ -41,3 +41,12 @@ oro_behat_extension:
     Customer Company Address Button:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views .grid-views__aditional .btn'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Customer Users Registration form:
+      selector: '[id^="customer_users-uid"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Show Registration Instructions Default: 'customer_users[oro_customer___registration_instructions_enabled][use_parent_scope_value]'
+          Show Registration Instructions: 'customer_users[oro_customer___registration_instructions_enabled][value]'
+          Registration Instructions Text Default: 'customer_users[oro_customer___registration_instructions_text][use_parent_scope_value]'
+          Registration Instructions Text: 'customer_users[oro_customer___registration_instructions_text][value]'
