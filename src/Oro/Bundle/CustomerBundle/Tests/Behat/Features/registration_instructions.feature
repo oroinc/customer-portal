@@ -24,54 +24,128 @@ Feature: Registration Instructions
       | Admin  |first_session |
       | User   |second_session|
 
-  Scenario: Default condition
-    Given I proceed as the User
-    When I am on homepage
-    And click "Sign In"
-    And I should not see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
+#  Scenario: Default condition
+#    Given I proceed as the User
+#    When I am on homepage
+#    And click "Sign In"
+#    Then I should not see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
+#
+#  Scenario: Show Registration Instructions with default text
+#    Given I proceed as the Admin
+#    And login as administrator
+#    And go to System/ Configuration
+#    And click "Customer Users" on configuration sidebar
+#    And fill "Customer Users Registration form" with:
+#      |Show Registration Instructions Default|false|
+#      |Show Registration Instructions        |true |
+#    And submit form
+#    And I should see "Configuration saved" flash message
+#    And I proceed as the User
+#    When reload the page
+#    Then I should see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
+#
+#  Scenario: Show Registration Instructions with custom text
+#    Given I proceed as the Admin
+#    And fill "Customer Users Registration form" with:
+#      |Registration Instructions Text Default|false               |
+#      |Registration Instructions Text        |Test text blablabla |
+#    And submit form
+#    And I should see "Configuration saved" flash message
+#    And I proceed as the User
+#    When reload the page
+#    Then I should see "Test text blablabla"
+#
+#  Scenario: Show Registration Instructions when Text is setted to default
+#    Given I proceed as the Admin
+#    And fill "Customer Users Registration form" with:
+#      |Registration Instructions Text Default|true|
+#    And submit form
+#    And I should see "Configuration saved" flash message
+#    And I proceed as the User
+#    When reload the page
+#    Then I should see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
+#    And I should not see "Test text blablabla"
+#
+#  Scenario: Show Registration Instructions is setted to default
+#    Given I proceed as the Admin
+#    And fill "Customer Users Registration form" with:
+#      |Show Registration Instructions Default|true|
+#    And submit form
+#    And I should see "Configuration saved" flash message
+#    And I proceed as the User
+#    When reload the page
+#    Then I should not see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
 
-  Scenario: Show Registration Instructions with default text
+  Scenario: New Site creation and configuration (Site level)
     Given I proceed as the Admin
     And login as administrator
-    And go to System/ Configuration
-    And click "Customer Users" on configuration sidebar
-    And fill "Customer Users Registration form" with:
-    |Show Registration Instructions Default|false|
-    |Show Registration Instructions        |true |
-    When submit form
-    Then I should see "Configuration saved" flash message
-    And I proceed as the User
-    When reload the page
-    Then I should see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
+    And go to System/ Websites
+    And click "Create Website"
+    And fill form with:
+    |Name|NewSite|
+    And save and close form
+    And should see "Website has been saved" flash message
+    And click "Configuration"
+    And fill "Routing General form" with:
+    |URL Use System|false                              |
+    |URL           |http://dev-commerce-crm-ee.newsite/|
+    And submit form
+    And I should see "Configuration saved" flash message
 
-  Scenario: Show Registration Instructions with custom text
-    Given I proceed as the Admin
-    And fill "Customer Users Registration form" with:
-      |Registration Instructions Text Default|false               |
-      |Registration Instructions Text        |Test text blablabla |
-    When submit form
-    Then I should see "Configuration saved" flash message
-    And I proceed as the User
-    When reload the page
-    Then I should see "Test text blablabla"
-
-  Scenario: Show Registration Instructions when Text is setted to default
-    Given I proceed as the Admin
-    And fill "Customer Users Registration form" with:
-      |Registration Instructions Text Default|true|
-    When submit form
-    Then I should see "Configuration saved" flash message
-    And I proceed as the User
-    When reload the page
-    Then I should see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
-    And I should not see "Test text blablabla"
-
-  Scenario: Show Registration Instructions is setted to default
-    Given I proceed as the Admin
-    And fill "Customer Users Registration form" with:
-      |Show Registration Instructions Default|true|
-    When submit form
-    Then I should see "Configuration saved" flash message
-    And I proceed as the User
-    When reload the page
-    Then I should not see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
+#  Scenario: Default condition (Site level)
+#    Given I proceed as the User
+#    When I go to "http://dev-commerce-crm-ee.newsite/"
+#    And click "Sign In"
+#    Then I should not see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
+#
+#  Scenario: Show Registration Instructions with default text (Site level)
+#    Given I proceed as the Admin
+#    And login as administrator
+#    And go to System/ Websites
+#    And click view "NewSite" in grid
+#    And click "Configuration"
+#    And click "Customer Users" on configuration sidebar
+#    And fill "Customer Users Registration form" with:
+#      |Show Registration Instructions Default|false|
+#      |Show Registration Instructions        |true |
+#    And submit form
+#    And I should see "Configuration saved" flash message
+#    And I proceed as the User
+#    When reload the page
+#    Then I should see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
+#
+#  Scenario: Show Registration Instructions with custom text (Site level)
+#    Given I proceed as the Admin
+#    And fill "Customer Users Registration form" with:
+#      |Registration Instructions Text Default|false               |
+#      |Registration Instructions Text        |Test text blablabla |
+#    And submit form
+#    And I should see "Configuration saved" flash message
+#    And I proceed as the User
+#    When reload the page
+#    Then I should see "Test text blablabla"
+#    When I am on the homepage
+#    Then I should not see "Test text blablabla"
+#    And I should not see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
+#    And I go to "http://dev-commerce-crm-ee.newsite/"
+#
+#  Scenario: Show Registration Instructions when Text is setted to default (Site level)
+#    Given I proceed as the Admin
+#    And fill "Customer Users Registration form" with:
+#      |Registration Instructions Text Default|true|
+#    And submit form
+#    And I should see "Configuration saved" flash message
+#    And I proceed as the User
+#    When reload the page
+#    Then I should see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
+#    And I should not see "Test text blablabla"
+#
+#  Scenario: Show Registration Instructions is setted to default (Site level)
+#    Given I proceed as the Admin
+#    And fill "Customer Users Registration form" with:
+#      |Show Registration Instructions Default|true|
+#    And submit form
+#    And I should see "Configuration saved" flash message
+#    And I proceed as the User
+#    When reload the page
+#    Then I should not see "To register for a new account, contact a sales representative at 1 (800) 555-0123"

@@ -50,3 +50,13 @@ oro_behat_extension:
           Show Registration Instructions: 'customer_users[oro_customer___registration_instructions_enabled][value]'
           Registration Instructions Text Default: 'customer_users[oro_customer___registration_instructions_text][use_parent_scope_value]'
           Registration Instructions Text: 'customer_users[oro_customer___registration_instructions_text][value]'
+    Routing General form:
+      selector: '[id^="routing-uid"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          URL Use System: 'routing[oro_website___url][use_parent_scope_value]'
+          URL: 'routing[oro_website___url][value]'
+    Configuration:
+      selector: '[title="Organization Configuration"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
