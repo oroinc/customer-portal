@@ -38,7 +38,7 @@ $color-palette: map_merge($color-palette, $theme-color-palette);
 
 ````
 
-To get the color you need, you can use the function `get-color($palette, $key);`;
+To get the color you need, you can use the function `get-color($palette, $key);`.
 
 ````scss
 .input {
@@ -98,7 +98,6 @@ $theme-fonts: ();
 @include font-face($font-family, $file-path, $font-weight, $font-style);
 
 // Using use-font-face
-
 $your-fonts: (
     'main': (
         'family': '...',
@@ -138,7 +137,7 @@ For change font size, line-height theme developer can override next variables:
 // Offsets;
 
 // Fonts families
-$base-font: map_get(map_get($your-fonts, 'main'), 'family'),;
+$base-font: get-font-name('main');
 
 // Fonts sizes
 $base-font-size: 14px;
