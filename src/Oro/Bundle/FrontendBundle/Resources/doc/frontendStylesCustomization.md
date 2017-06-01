@@ -3,7 +3,7 @@
 # Overview
 
 This document gives examples of how to customize the theme for the desired design.
-For the theme developer, the subject is given the opportunity to change:
+A theme developer can introduce changes to the following settings:
 * [the color scheme](#how-change-the-color-scheme);
 * [typography](#how-to-change-fonts-and-typography);
 * [media breakpoints](#how-to-change-media-breakpoints);
@@ -14,12 +14,12 @@ unnecessary files through `assets.yml`
 and **create** a [separate css](https://github.com/orocrm/platform/blob/master/src/Oro/Bundle/LayoutBundle/Resources/doc/config_definition.md)
 or completely **disable** all ORO `.scss` [files](#how-remove-unnecessary-oro-files).
 
-> All  theme configs files must located in path: `Resources/public/{theme_name/settings/*.scss`
+> All  theme config files must be located in the following path: `Resources/public/{theme_name/settings/*.scss`
 
 ## How change the color scheme.
 
 You need to create your own list of colors and merge it with `$color-palette` using SASS function `map_merge($map1, $map2)`.
-Keys from your color palette will rewrite already existing or supplement.
+This way, your color scheme will rewrite or extend the already existing $color-palette.
 
 ````scss
 $theme-color-palette: (
@@ -38,7 +38,7 @@ $color-palette: map_merge($color-palette, $theme-color-palette);
 
 ````
 
-To get the color you need, you can use the function `get-color($palette, $key);`.
+To get the color you need, use the `get-color($palette, $key);` function.
 
 ````scss
 .input {
@@ -47,13 +47,13 @@ To get the color you need, you can use the function `get-color($palette, $key);`
 ````
 
 ## How to change fonts and typography
-For disabling all ORO fonts - you must override `$theme-fonts` variable and set empty `map`;
+To disable all ORO fonts, override `$theme-fonts` variable and set `map` empty;
 
 ````scss
 $theme-fonts: ();
 ````
 
-For updating yor must merge `$theme-fonts` with your `$theme-custom-fonts`
+To update fonts, merge `$theme-fonts` with your `$theme-custom-fonts`
 
 ````scss
 $theme-custom-fonts: (
@@ -87,7 +87,7 @@ $theme-custom-fonts: (
 $theme-fonts: map_merge($theme-fonts, $theme-custom-fonts);
 ````
 
-If you want **disable ORO fonts** not override you must set:
+To disable all Oro fonts without overriding them with yours:
 1. Set in your $theme-fonts: ();
 2. Call mixin font-face() or use-font-face();
 
@@ -132,14 +132,14 @@ $your-fonts: (
 > `@mixin use-font-face` call dynamically `font-face` with `$your-fonts`.
 
 
-For change font size, line-height theme developer can override next variables:
+To change the font size and line-height, override the next variables:
 ````scss
 // Offsets;
 
-// Fonts families
+// Font families
 $base-font: get-font-name('main');
 
-// Fonts sizes
+// Font sizes
 $base-font-size: 14px;
 $base-font-size--large: 16px;
 $base-font-size--xs: 11px;
@@ -152,7 +152,7 @@ $base-line-height: 1.35;
 
 ## How to change media breakpoints
 
-For update media breakpoints media theme developer cant change next breakpoints:
+To update media breakpoints, change the next breakpoints:
 
 ````scss
 // Desktop Media Breakpoint;
@@ -166,7 +166,7 @@ $breakpoint-mobile: 414px;
 
 ## How to change Offsets
 
-For update media breakpoints media theme developer cant change next breakpoints:
+To update Offsets, change the next variables:
 
 ````scss
 // Offsets;
@@ -181,9 +181,7 @@ $offset-x-s: 5px;
 
 ## How to override or disable files
 
-Override some `scss/less/css` - developer override(or remove) any styles file, registered in `Resources/views/layouts/
-{theme_name}/config/assets.yml`
-For this, you should write next config in your `Resources/views/layouts/{theme_name}`.
+To remove or override `scss/less/css`, create an assets.yml file in your theme and write the following config in `Resources/views/layouts/{theme_name}`
 
 ````yml
 styles:
@@ -195,6 +193,6 @@ styles:
 ## How remove unnecessary ORO files
 
 Remove all `scss/less/css`: all themes use styles registered in this theme and from parent themes.
-You can't change this behaviour without changes in assets build logic.
-To remove all assets you should override `oro_layout.assetic.layout_resource` service in your bundle and customize assets collect logic.
+You cannot change this behavior without changes in assets build logic.
+To remove all assets, override `oro_layout.assetic.layout_resource` service in your bundle and customize assets collect logic.
 
