@@ -6,6 +6,7 @@ oro_behat_extension:
         - OroApplicationBundle::CommerceMainContext
         - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\UserBundle\Tests\Behat\Context\FeatureContext
         - OroDataGridBundle::GridContext
         - OroFormBundle::FormContext
         - OroCustomerBundle::CustomerUserContext
@@ -34,6 +35,9 @@ oro_behat_extension:
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
     Customer Company User Addresses Grid View List:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Enable Customer User checkbox:
+      selector: 'form[name="oro_customer_frontend_customer_user"] label[for*="oro_customer_frontend_customer_user_enabled"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer New Company Address Button:
       selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views .grid-views__aditional .btn'
