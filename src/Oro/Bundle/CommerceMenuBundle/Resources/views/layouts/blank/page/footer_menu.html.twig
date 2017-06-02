@@ -1,6 +1,10 @@
 {% block _footer_menu_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
+<<<<<<< Updated upstream
         '~class': ' grid__row'
+=======
+    '~class': ' grid__row'
+>>>>>>> Stashed changes
     }) %}
 
     <div class="grid">
@@ -14,6 +18,7 @@
 
 {% block _footer_menu_widget %}
     {% set attr = layout_attr_defaults(attr, {
+<<<<<<< Updated upstream
         '~class': ' primary-menu primary-menu--vertical'
     }) %}
     {% set child_attr = layout_attr_defaults(child_attr, {
@@ -21,6 +26,15 @@
     }) %}
     {% set link_attr = layout_attr_defaults(link_attr, {
         '~class': 'link'
+=======
+    '~class': ' primary-menu primary-menu--vertical'
+    }) %}
+    {% set child_attr = layout_attr_defaults(child_attr, {
+    '~class': ' primary-menu__item'
+    }) %}
+    {% set link_attr = layout_attr_defaults(link_attr, {
+    '~class': 'link'
+>>>>>>> Stashed changes
     }) %}
 
     {% spaceless %}
