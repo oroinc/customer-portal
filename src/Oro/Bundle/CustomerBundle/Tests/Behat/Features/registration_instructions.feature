@@ -81,12 +81,20 @@ Feature: Registration Instructions
     And go to System/ Websites
     And click "Create Website"
     And fill form with:
-    |Name    |NewSite             |
-    |Fallback|Current website only|
+    |Name|NewSite|
     And save and close form
     And should see "Website has been saved" flash message
     And go to System/ Websites
     And click "Set default" on row "NewSite" in grid
+    And click "Configuration" on row "Default" in grid
+    And I fill "Routing General form" with:
+    |URL Use System       |false                            |
+    |URL                  |http://dev-commerce-crm-ee1.local|
+    |Secure URL Use System|false                            |
+    |Secure URL           |http://dev-commerce-crm-ee1.local|
+    And submit form
+    And I should see "Configuration saved" flash message
+    And go to System/ Websites
     And click "Configuration" on row "NewSite" in grid
 
   Scenario: Default condition (Site level)
@@ -102,6 +110,7 @@ Feature: Registration Instructions
       |Show Registration Instructions        |true |
     And submit form
     And I should see "Configuration saved" flash message
+    And I wait for action
     And I proceed as the User
     When reload the page
     Then I should see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
@@ -119,6 +128,23 @@ Feature: Registration Instructions
     When I proceed as the Admin
     And go to System/ Websites
     And click "Set default" on row "Default" in grid
+    And click "Configuration" on row "Default" in grid
+    And I fill "Routing General form" with:
+      |URL Use System       |false                            |
+      |URL                  |http://dev-commerce-crm-ee.local |
+      |Secure URL Use System|false                            |
+      |Secure URL           |http://dev-commerce-crm-ee.local |
+    And submit form
+    And I should see "Configuration saved" flash message
+    And go to System/ Websites
+    And click "Configuration" on row "NewSite" in grid
+    And I fill "Routing General form" with:
+      |URL Use System       |false                            |
+      |URL                  |http://dev-commerce-crm-ee1.local|
+      |Secure URL Use System|false                            |
+      |Secure URL           |http://dev-commerce-crm-ee1.local|
+    And submit form
+    And I should see "Configuration saved" flash message
     And I proceed as the User
     And reload the page
     Then I should not see "Test text blablabla"
@@ -126,7 +152,23 @@ Feature: Registration Instructions
     And I proceed as the Admin
     And go to System/ Websites
     And click "Set default" on row "NewSite" in grid
+    And click "Configuration" on row "Default" in grid
+    And I fill "Routing General form" with:
+      |URL Use System       |false                            |
+      |URL                  |http://dev-commerce-crm-ee1.local|
+      |Secure URL Use System|false                            |
+      |Secure URL           |http://dev-commerce-crm-ee1.local|
+    And submit form
+    And I should see "Configuration saved" flash message
+    And go to System/ Websites
     And click "Configuration" on row "NewSite" in grid
+    And I fill "Routing General form" with:
+      |URL Use System       |false                            |
+      |URL                  |http://dev-commerce-crm-ee.local |
+      |Secure URL Use System|false                            |
+      |Secure URL           |http://dev-commerce-crm-ee.local |
+    And submit form
+    And I should see "Configuration saved" flash message
     And click "Customer Users" on configuration sidebar
 
   Scenario: Show Registration Instructions when Text is setted to default (Site level)

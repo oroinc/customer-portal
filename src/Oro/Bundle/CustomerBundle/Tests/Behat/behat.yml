@@ -57,6 +57,8 @@ oro_behat_extension:
         mapping:
           URL Use System: 'routing[oro_website___url][use_parent_scope_value]'
           URL: 'routing[oro_website___url][value]'
+          Secure URL Use System: 'routing[oro_website___secure_url][use_parent_scope_value]'
+          Secure URL: 'routing[oro_website___secure_url][value]'
     Configuration:
       selector: '[title="Organization Configuration"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
