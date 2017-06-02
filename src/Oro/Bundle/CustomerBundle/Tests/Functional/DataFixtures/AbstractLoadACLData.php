@@ -155,7 +155,7 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
     }
 
     /**
-     * @return string
+     * @return string|array
      */
     abstract protected function getAclResourceClassName();
 
@@ -254,7 +254,11 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
             $role->setLabel($key)
                 ->setSelfManaged(true)
                 ->setOrganization($user->getOrganization());
-            $this->setRolePermissions($role, $this->getAclResourceClassName(), $permissions);
+            $classnames = (array) $this->getAclResourceClassName();
+            foreach ($classnames as $class) {
+                $this->setRolePermissions($role, $class, $permissions);
+            }
+
             $manager->persist($role);
             $this->setReference($key, $role);
         }

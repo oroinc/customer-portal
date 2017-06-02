@@ -57,18 +57,12 @@
 {% endblock widget_attributes %}
 
 {%- block form_errors -%}
-    {%- if errors|length > 0 -%}
-        <div class="notification--error">
-            <ul class="notification__list">
-                {%- for error in errors -%}
-                    <li class="notification__item">
-                        <i class="fa-exclamation-triangle"></i>
-                        <span class="notification__text">{{ error.message|trans }}</span>
-                    </li>
-                {%- endfor -%}
-            </ul>
-        </div>
-    {%- endif -%}
+    {%- for error in errors -%}
+        {#validation markup should be the same as in frontend validator#}
+        <span class="validation-failed">
+            <span>{{ error.message|trans }}</span>
+        </span>
+    {%- endfor -%}
 {%- endblock form_errors -%}
 
 {%- block choice_widget_expanded -%}

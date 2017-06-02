@@ -28,6 +28,10 @@ services:
               type: import
               entity: '%oro_customer.entity.customer.class%'
               alias: oro_customer_customer
+            - name: oro_importexport.processor
+              type: import_validation
+              entity: '%oro_customer.entity.customer.class%'
+              alias: oro_customer_customer
 
     # Customer Data Normalizer
     oro_customer.importexport.serializer.normalizer.customer:

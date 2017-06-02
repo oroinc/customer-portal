@@ -252,7 +252,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $result = $this->client->getResponse();
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('This value is already used.', $crawler->filter('.notification__text')->html());
+        $this->assertContains('This value is already used.', $crawler->filter('.validation-failed')->html());
     }
 
     public function testResetPasswordWithLowPasswordComplexity()

@@ -19,6 +19,7 @@ define(function(require) {
             'addressListUrl': null,
             'addressCreateUrl': null,
             'addressUpdateRouteName': null,
+            'addressDeleteRouteName': null,
             'currentAddresses': [],
             'useFormDialog': false,
             'template': '',
@@ -43,6 +44,13 @@ define(function(require) {
                     return routing.generate(
                         options.addressUpdateRouteName,
                         {'id': address.get('id'), 'entityId': options.entityId}
+                    );
+                },
+                addressDeleteUrl: function() {
+                    var address = arguments[0];
+                    return routing.generate(
+                        options.addressDeleteRouteName,
+                        {'addressId': address.get('id'), 'entityId': options.entityId}
                     );
                 },
                 addressMapOptions: {'phone': 'phone'},
