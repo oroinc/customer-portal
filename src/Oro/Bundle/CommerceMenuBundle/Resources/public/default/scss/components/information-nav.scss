@@ -1,6 +1,12 @@
 // @theme: default;
 
 .information-nav {
+    &--responsive {
+        display: inline-block;
+        vertical-align: top;
+        width: 100% / 3;
+    }
+
     &__title {
         position: relative;
 
@@ -14,6 +20,10 @@
 
 @include breakpoint('tablet-small') {
     .information-nav {
+        &--responsive {
+            width: 100%;
+        }
+
         padding: $information-nav-tablet-small-offset;
 
         border-top: 1px solid get-color('additional', 'light');
@@ -24,22 +34,16 @@
         }
 
         &__list {
-            margin: -$offset-y 0 ($offset-y-m * 2);
-            padding: 0 0 0 ($offset-x + $offset-x-m);
+            margin-bottom: $offset-y-m * 2;
+            padding-left: $offset-x;
         }
 
         &__icon {
-            position: absolute;
-            left: 0;
             display: inline-block;
 
             margin-right: $offset-x-s;
 
             vertical-align: baseline;
-        }
-
-        &.expanded &__icon {
-            transform: rotate(90deg);
         }
     }
 }

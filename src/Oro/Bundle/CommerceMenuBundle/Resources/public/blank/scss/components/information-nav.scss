@@ -14,14 +14,17 @@
     }
 
     &__item {
-        margin: $information-nav-item-offset;
-    }
+        &:not(:first-child) {
+            margin: $information-nav-item-offset;
+        }
 
-    &__link {
-        color: $information-nav-link-color;
 
-        &:hover {
-            color: $information-nav-link-color-hover;
+        &-content {
+            color: $information-nav-item-content-color;
+
+            &:hover {
+                color: $information-nav-item-content-color-hover;
+            }
         }
     }
 }

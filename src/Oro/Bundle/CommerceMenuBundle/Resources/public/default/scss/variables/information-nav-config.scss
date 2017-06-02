@@ -3,12 +3,12 @@
 $information-nav-tablet-small-offset: 0 !default;
 
 $information-nav-title-tablet-small-offset: 0 !default;
-$information-nav-title-tablet-small-inner-offset: ($offset-y-m * 2) $offset-y-m !default;
+$information-nav-title-tablet-small-inner-offset: ($offset-y-m * 2) 0 !default;
 
 $information-nav-title-font-size: $base-font-size--large;
 $information-nav-title-line-height: 1;
 $information-nav-title-text-transform: uppercase !default;
 
 $information-nav-item-offset: $offset-y 0 0;
-$information-nav-link-color: get-color('additional', 'dark');
-$information-nav-link-color-hover: get-color('additional', 'dark');
+$information-nav-item-content-color: get-color('additional', 'dark');
+$information-nav-item-content-color-hover: get-color('additional', 'dark');

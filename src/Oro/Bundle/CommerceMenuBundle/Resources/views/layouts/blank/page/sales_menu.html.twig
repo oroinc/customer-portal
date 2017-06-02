@@ -4,16 +4,16 @@
         <h3 class="information-nav__title">{{ 'oro.commercemenu.frontend.navigation.items.sales.label'|trans }}</h3>
         <ul class=" information-nav__list">
             <li class=" information-nav__item first">
-                <a href="/" class=" information-nav__link">JOHN SMITH</a>
+                <span class=" information-nav__item-content">JOHN SMITH</span>
             </li>
             <li class=" information-nav__item">
-                <a href="tel:14155555555" class=" information-nav__link">1 (415) 555 - 5555</a>
+                <a href="tel:14155555555" class=" information-nav__item-content">1 (415) 555 - 5555</a>
             </li>
             <li class=" information-nav__item">
-                <a href="tel:18005555555" class=" information-nav__link">1 (800) 555 - 5555</a>
+                <a href="tel:18005555555" class=" information-nav__item-content">1 (800) 555 - 5555</a>
             </li>
             <li class=" information-nav__item last">
-                <a href="mailto:jsmith@oro.org" class=" information-nav__link">jsmith@oro.org</a>
+                <a href="mailto:jsmith@oro.org" class=" information-nav__item-content">jsmith@oro.org</a>
             </li>
         </ul>
     </div>
@@ -27,7 +27,7 @@
         '~class': ' information-nav__item'
     }) %}
     {% set link_attr = layout_attr_defaults(link_attr, {
-        '~class': ' information-nav__link'
+        '~class': ' information-nav__item-content'
     }) %}
 
     {% spaceless %}
