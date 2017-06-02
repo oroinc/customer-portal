@@ -1,34 +1,40 @@
 {% block _footer_menu_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid__row'
+    '~class': ' grid'
     }) %}
 
-    <div class="grid">
-        <div {{ block('block_attributes') }}>
-            {{ block_widget(block) }}
-        </div>
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
     </div>
-
 {% endblock %}
 
+{% block _footer_menu_row_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid__row grid__row--offset-none'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
 
 {% block _footer_menu_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' primary-menu primary-menu--vertical'
+    '~class': ' information-nav__list'
     }) %}
     {% set child_attr = layout_attr_defaults(child_attr, {
-    '~class': ' primary-menu__item'
+    '~class': ' information-nav__item'
     }) %}
     {% set link_attr = layout_attr_defaults(link_attr, {
-    '~class': 'link'
+    '~class': ' information-nav__item-content'
     }) %}
 
     {% spaceless %}
         {% for child in item.children %}
             {% if child.extras.isAllowed %}
-                <div class="grid__column">
+                <div class="information-nav information-nav--responsive">
                     {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
-                    <h3 class="title">{{ label }}</h3>
+                    <h3 class="information-nav__title">{{ label }}</h3>
                     {% set item = child %}
                     {{ block('menu_widget') }}
                 </div>
