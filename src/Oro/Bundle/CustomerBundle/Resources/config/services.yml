@@ -723,6 +723,17 @@ services:
         tags:
             - { name: website_search.placeholder }
 
+    oro_customer.validator.customer_without_role:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRoleValidator
+        parent: oro_user.validator.user_without_role
+        tags:
+            - { name: validator.constraint_validator }
+
+    oro_customer.validator.customer_check_role:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRoleValidator
+        tags:
+            - { name: validator.constraint_validator }
+
     oro_customer.grid_view.manager.api:
         class: 'Oro\Bundle\DataGridBundle\Entity\Manager\GridViewApiEntityManager'
         parent: oro_soap.manager.entity_manager.abstract

@@ -17,7 +17,7 @@
     float: right;
     &.disabled {
       pointer-events: none;
-      color: #aaa;
+      color: transparentize(get-color('additional', 'middle'), 14%);
     }
   }
   &__items {
@@ -48,8 +48,8 @@
     opacity: 0.4;
   }
   &__item-label_changed {
-    background-color: #f5f5f5;
-    box-shadow: 0 0 0 3px #f5f5f5;
+    background-color: get-color('additional', 'base');
+    box-shadow: 0 0 0 3px get-color('additional', 'base');
   }
 }
 .role-capabilities_single-group {
