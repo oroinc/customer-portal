@@ -185,3 +185,10 @@
     }) %}
     <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
 {% endblock %}
+
+{% block _page_footer_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " container-fluid"
+    }) %}
+    {{ parent_block_widget(block) }}
+{% endblock %}
