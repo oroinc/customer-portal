@@ -13,6 +13,7 @@ oro_behat_extension:
         - OroCustomerBundle::ACLContext
         - OroCustomerBundle::GridContext
         - OroSecurityBundle::PermissionContext
+        - OroCustomerBundle::RegistrationInstructionFeatureContext
         - OroImportExportBundle::ImportExportContext:
             - '@oro_entity.entity_alias_resolver'
             - '@oro_importexport.processor.registry'

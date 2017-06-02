@@ -87,11 +87,7 @@ Feature: Registration Instructions
     And go to System/ Websites
     And click "Set default" on row "NewSite" in grid
     And click "Configuration" on row "Default" in grid
-    And I fill "Routing General form" with:
-    |URL Use System       |false                            |
-    |URL                  |http://dev-commerce-crm-ee1.local|
-    |Secure URL Use System|false                            |
-    |Secure URL           |http://dev-commerce-crm-ee1.local|
+    And I fill "Routing General form" with fictional website
     And submit form
     And I should see "Configuration saved" flash message
     And go to System/ Websites
@@ -110,7 +106,6 @@ Feature: Registration Instructions
       |Show Registration Instructions        |true |
     And submit form
     And I should see "Configuration saved" flash message
-    And I wait for action
     And I proceed as the User
     When reload the page
     Then I should see "To register for a new account, contact a sales representative at 1 (800) 555-0123"
@@ -129,20 +124,12 @@ Feature: Registration Instructions
     And go to System/ Websites
     And click "Set default" on row "Default" in grid
     And click "Configuration" on row "Default" in grid
-    And I fill "Routing General form" with:
-      |URL Use System       |false                            |
-      |URL                  |http://dev-commerce-crm-ee.local |
-      |Secure URL Use System|false                            |
-      |Secure URL           |http://dev-commerce-crm-ee.local |
+    And I fill "Routing General form" with actual website
     And submit form
     And I should see "Configuration saved" flash message
     And go to System/ Websites
     And click "Configuration" on row "NewSite" in grid
-    And I fill "Routing General form" with:
-      |URL Use System       |false                            |
-      |URL                  |http://dev-commerce-crm-ee1.local|
-      |Secure URL Use System|false                            |
-      |Secure URL           |http://dev-commerce-crm-ee1.local|
+    And I fill "Routing General form" with fictional website
     And submit form
     And I should see "Configuration saved" flash message
     And I proceed as the User
@@ -153,20 +140,12 @@ Feature: Registration Instructions
     And go to System/ Websites
     And click "Set default" on row "NewSite" in grid
     And click "Configuration" on row "Default" in grid
-    And I fill "Routing General form" with:
-      |URL Use System       |false                            |
-      |URL                  |http://dev-commerce-crm-ee1.local|
-      |Secure URL Use System|false                            |
-      |Secure URL           |http://dev-commerce-crm-ee1.local|
+    And I fill "Routing General form" with fictional website
     And submit form
     And I should see "Configuration saved" flash message
     And go to System/ Websites
     And click "Configuration" on row "NewSite" in grid
-    And I fill "Routing General form" with:
-      |URL Use System       |false                            |
-      |URL                  |http://dev-commerce-crm-ee.local |
-      |Secure URL Use System|false                            |
-      |Secure URL           |http://dev-commerce-crm-ee.local |
+    And I fill "Routing General form" with actual website
     And submit form
     And I should see "Configuration saved" flash message
     And click "Customer Users" on configuration sidebar
