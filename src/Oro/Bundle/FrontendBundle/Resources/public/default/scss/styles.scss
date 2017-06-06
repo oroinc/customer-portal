@@ -15,7 +15,9 @@
 @import './components/page-main';
 @import './components/section-title';
 @import './components/link';
-@import './components/embedded-list';
+@import './components/embedded-list/embedded-list';
+@import './components/embedded-list/embedded-list-slider';
+@import './components/embedded-list/embedded-list-tiles';
 @import './components/title';
 @import './components/copyright';
 @import './components/grid';

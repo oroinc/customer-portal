@@ -42,6 +42,8 @@ define(function(require) {
             if (this.options.relatedComponent) {
                 this.onChange();
             }
+
+            this.destroy();
         },
 
         refreshPositions: function() {
@@ -72,6 +74,12 @@ define(function(require) {
 
         updatePosition: function() {
             this.$el.slick('setPosition');
+        },
+
+        destroy: function() {
+            $(this.$el).on('destroy', function(event, slick) {
+                slick.$slider.addClass('destroyed');
+            });
         }
     });
 

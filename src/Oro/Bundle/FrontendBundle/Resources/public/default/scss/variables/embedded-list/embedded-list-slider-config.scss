@@ -1,0 +1,20 @@
+// @theme: default;
+
+$embedded-list-slider-btn-arrow-width: 36px !default;
+$embedded-list-slider-btn-arrow-height: 100px !default;
+$embedded-list-slider-btn-arrow-top-pos: 35% !default;
+$embedded-list-slider-btn-arrow-side-pos: -($embedded-list-slider-btn-arrow-width) !default;
+$embedded-list-slider-btn-arrow-background: get-color('additional', 'light') !default;
+$embedded-list-slider-btn-arrow-hover-background: darken(get-color('additional', 'light'), 5%) !default;
+
+$embedded-list-slider-arrow-size: 12px !default;
+$embedded-list-slider-arrow-side-offset: 3px !default;
+$embedded-list-slider-arrow-border: 2px solid lighten(get-color('additional', 'dark'), 16.5%) !default;
+
+$embedded-list-slider-dots-offset: 0 auto 20px !default;
+$embedded-list-slider-dots-btn-size: 10px !default;
+$embedded-list-slider-dots-btn-left-offset: 8px !default;
+$embedded-list-slider-dots-btn-border: 1px solid get-color('additional', 'ultra') !default;
+$embedded-list-slider-dots-btn-background: transparent !default;
+$embedded-list-slider-dots-btn-active-background: get-color('additional', 'ultra') !default;
+$embedded-list-slider-dots-btn-border-radius: 50% !default;

@@ -204,11 +204,11 @@
             {% set attr = layout_attr_defaults(attr, {
                 'data-page-component-module': 'orofrontend/js/app/components/list-slider-component',
                 '~data-page-component-options': slider_options,
-                '~class': ' embedded-list__container--slider'
+                '~class': ' embedded-list-slider'
             }) %}
         {% else %}
             {% set attr = layout_attr_defaults(attr, {
-                '~class': ' embedded-list__container--tiles'
+                '~class': ' embedded-list-tiles'
             }) %}
         {% endif %}
 
