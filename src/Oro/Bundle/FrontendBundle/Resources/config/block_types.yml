@@ -57,7 +57,13 @@ services:
     oro_layout.block_type.groups_menu_item:
         parent: oro_layout.block_type.abstract_configurable
         calls:
-            - [setOptionsConfig, [{label: {default: ''}, action: {default: ''}}]]
+            -
+                - setOptionsConfig
+                -
+                    -
+                        label: {default: ''}
+                        group: {default: ''}
+                        isActive: {default: '=context["group"] == group'}
             - [setName, ['groups_menu_item']]
         tags:
              - { name: layout.block_type, alias: groups_menu_item }

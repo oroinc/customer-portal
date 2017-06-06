@@ -1,4 +1,4 @@
-// @theme: default
+// @theme: default;
 
 .main-menu {
     &__link {
@@ -61,7 +61,7 @@
         display: none;
 
         background: get-color('additional', 'ultra');
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .2);
+        box-shadow: $main-menu-sublist-container-shadow;
     }
 
     &__sublist {
