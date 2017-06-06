@@ -3,4 +3,4 @@ layout:
         - '@setBlockTheme':
             themes: 'components_config.html.twig'
 
-    conditions: 'context["action"]=="configs"'
+    conditions: 'context["group"]=="configs"'
