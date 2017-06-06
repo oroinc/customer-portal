@@ -95,6 +95,7 @@ $zindex-modal:             update-default($zindex-modal, z('popup') + 1);
 // Tooltips
 
 $tooltip-max-width: update-default($tooltip-max-width, 320px);
+$tooltip-text-align: left;
 
 // Popovers
 
