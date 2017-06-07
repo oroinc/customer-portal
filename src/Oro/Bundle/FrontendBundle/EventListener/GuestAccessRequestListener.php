@@ -71,23 +71,9 @@ class GuestAccessRequestListener
 
         $decision = $this->guestAccessDecisionMaker->decide($event->getRequest()->getPathInfo());
         if ($decision === GuestAccessDecisionMakerInterface::URL_DISALLOW) {
-            throw $this->createNotFoundException();
-        }
-
-        if ($decision === GuestAccessDecisionMakerInterface::URL_REDIRECT) {
             $redirectResponse = $this->createRedirectResponse($this->getCustomerUserLoginUrl());
             $event->setResponse($redirectResponse);
         }
-    }
-
-    /**
-     * @param string $message
-     *
-     * @return NotFoundHttpException
-     */
-    private function createNotFoundException($message = 'Not Found')
-    {
-        return new NotFoundHttpException($message);
     }
 
     /**

@@ -168,23 +168,6 @@ class GuestAccessRequestListenerTest extends \PHPUnit_Framework_TestCase
             ->with(self::REQUEST_URL)
             ->willReturn(GuestAccessDecisionMakerInterface::URL_DISALLOW);
 
-        $this->expectException(NotFoundHttpException::class);
-        $this->expectExceptionMessage('Not Found');
-
-        $this->listener->onKernelRequest($this->event);
-    }
-
-    public function testOnKernelRequestIfUrlRedirect()
-    {
-        $this->mockEventIsSupported();
-        $this->mockRequest();
-
-        $this->guestAccessDecisionMaker
-            ->expects(static::once())
-            ->method('decide')
-            ->with(self::REQUEST_URL)
-            ->willReturn(GuestAccessDecisionMakerInterface::URL_REDIRECT);
-
         $this->router
             ->expects(static::once())
             ->method('generate')

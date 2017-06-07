@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\GuestAccess;
 
-use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessUrlsProviderInterface;
+use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProviderInterface;
 use Oro\Bundle\RedirectBundle\Routing\MatchedUrlDecisionMaker;
 
 class GuestAccessDecisionMaker implements GuestAccessDecisionMakerInterface
@@ -13,20 +13,20 @@ class GuestAccessDecisionMaker implements GuestAccessDecisionMakerInterface
     private $matchedUrlDecisionMaker;
 
     /**
-     * @var GuestAccessUrlsProviderInterface
+     * @var GuestAccessAllowedUrlsProviderInterface
      */
-    private $guestAccessUrlsProvider;
+    private $guestAccessAllowedUrlsProvider;
 
     /**
-     * @param GuestAccessUrlsProviderInterface $guestAccessUrlsProvider
-     * @param MatchedUrlDecisionMaker          $matchedUrlDecisionMaker
+     * @param GuestAccessAllowedUrlsProviderInterface $guestAccessAllowedUrlsProvider
+     * @param MatchedUrlDecisionMaker                 $matchedUrlDecisionMaker
      */
     public function __construct(
-        GuestAccessUrlsProviderInterface $guestAccessUrlsProvider,
+        GuestAccessAllowedUrlsProviderInterface $guestAccessAllowedUrlsProvider,
         MatchedUrlDecisionMaker $matchedUrlDecisionMaker
     ) {
         $this->matchedUrlDecisionMaker = $matchedUrlDecisionMaker;
-        $this->guestAccessUrlsProvider = $guestAccessUrlsProvider;
+        $this->guestAccessAllowedUrlsProvider = $guestAccessAllowedUrlsProvider;
     }
 
     /**
@@ -38,10 +38,6 @@ class GuestAccessDecisionMaker implements GuestAccessDecisionMakerInterface
             case ($this->matchedUrlDecisionMaker->matches($url) === false):
             case ($this->isAllowedUrl($url) === true):
                 return GuestAccessDecisionMakerInterface::URL_ALLOW;
-                break;
-
-            case ($this->isRedirectUrl($url) === true):
-                return GuestAccessDecisionMakerInterface::URL_REDIRECT;
                 break;
 
             default:
@@ -56,17 +52,7 @@ class GuestAccessDecisionMaker implements GuestAccessDecisionMakerInterface
      */
     private function isAllowedUrl($url)
     {
-        return $this->matches($this->guestAccessUrlsProvider->getAllowedUrls(), $url);
-    }
-
-    /**
-     * @param string $url
-     *
-     * @return bool
-     */
-    private function isRedirectUrl($url)
-    {
-        return $this->matches($this->guestAccessUrlsProvider->getRedirectUrls(), $url);
+        return $this->matches($this->guestAccessAllowedUrlsProvider->getAllowedUrlsPatterns(), $url);
     }
 
     /**

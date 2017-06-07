@@ -4,7 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\GuestAccess;
 
 use Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMaker;
 use Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMakerInterface;
-use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessUrlsProviderInterface;
+use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProviderInterface;
 use Oro\Bundle\RedirectBundle\Routing\MatchedUrlDecisionMaker;
 
 class GuestAccessDecisionMakerTest extends \PHPUnit_Framework_TestCase
@@ -20,16 +20,8 @@ class GuestAccessDecisionMakerTest extends \PHPUnit_Framework_TestCase
      * @internal
      */
     const ALLOWED_URLS = [
-        '^/customer/user/login',
-        '^/customer/user/registration',
-    ];
-
-    /**
-     * @internal
-     */
-    const REDIRECT_URLS = [
-        '^/$',
-        '^/customer$',
+        '^/customer/user/login$',
+        '^/customer/user/registration$',
     ];
 
     /**
@@ -43,16 +35,16 @@ class GuestAccessDecisionMakerTest extends \PHPUnit_Framework_TestCase
     private $guestAccessDecisionMaker;
 
     /**
-     * @var GuestAccessUrlsProviderInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var GuestAccessAllowedUrlsProviderInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $guestAccessUrlsProvider;
+    private $guestAccessAllowedUrlsProvider;
 
     protected function setUp()
     {
         $this->matchedUrlDecisionMaker = $this->createMock(MatchedUrlDecisionMaker::class);
-        $this->guestAccessUrlsProvider = $this->createMock(GuestAccessUrlsProviderInterface::class);
+        $this->guestAccessAllowedUrlsProvider = $this->createMock(GuestAccessAllowedUrlsProviderInterface::class);
         $this->guestAccessDecisionMaker = new GuestAccessDecisionMaker(
-            $this->guestAccessUrlsProvider,
+            $this->guestAccessAllowedUrlsProvider,
             $this->matchedUrlDecisionMaker
         );
     }
@@ -65,15 +57,10 @@ class GuestAccessDecisionMakerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecide($url, $expectedDecision)
     {
-        $this->guestAccessUrlsProvider
+        $this->guestAccessAllowedUrlsProvider
             ->expects(static::any())
-            ->method('getAllowedUrls')
+            ->method('getAllowedUrlsPatterns')
             ->willReturn(self::ALLOWED_URLS);
-
-        $this->guestAccessUrlsProvider
-            ->expects(static::any())
-            ->method('getRedirectUrls')
-            ->willReturn(self::REDIRECT_URLS);
 
         $this->matchedUrlDecisionMaker
             ->expects(static::once())
@@ -97,11 +84,9 @@ class GuestAccessDecisionMakerTest extends \PHPUnit_Framework_TestCase
             'skipped url of MatchedUrlDecisionMaker' => ['/_profiler', GuestAccessDecisionMakerInterface::URL_ALLOW],
             'allowed login url' => ['/customer/user/login', GuestAccessDecisionMakerInterface::URL_ALLOW],
             'allowed registration url' => ['/customer/user/registration', GuestAccessDecisionMakerInterface::URL_ALLOW],
-            'allowed inner url' => ['/customer/user/registration/inner', GuestAccessDecisionMakerInterface::URL_ALLOW],
-            'disallowed url' => ['/customer/user', GuestAccessDecisionMakerInterface::URL_DISALLOW],
+            'disallowed inner url' => ['/customer/user/login/inner', GuestAccessDecisionMakerInterface::URL_DISALLOW],
+            'disallowed parent url' => ['/customer/user', GuestAccessDecisionMakerInterface::URL_DISALLOW],
             'disallowed random url' => ['/some-random-url', GuestAccessDecisionMakerInterface::URL_DISALLOW],
-            'redirected url' => ['/', GuestAccessDecisionMakerInterface::URL_REDIRECT],
-            'another redirected url' => ['/customer', GuestAccessDecisionMakerInterface::URL_REDIRECT],
         ];
     }
 }

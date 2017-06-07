@@ -54,7 +54,7 @@ services:
         public: false
 
     oro_frontend.guest_access.provider.guest_access_urls_provider:
-        class: 'Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessUrlsProvider'
+        class: 'Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider'
         public: false
 
     oro_frontend.assetic.configuration:
