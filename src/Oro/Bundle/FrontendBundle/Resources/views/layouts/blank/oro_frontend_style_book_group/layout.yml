@@ -2,4 +2,6 @@ layout:
     imports:
         -
             id: style-book
+        -
+            id: style-book-sidebar
     actions: []

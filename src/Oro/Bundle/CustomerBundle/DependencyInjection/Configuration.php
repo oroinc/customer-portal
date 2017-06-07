@@ -10,6 +10,12 @@ use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
 class Configuration implements ConfigurationInterface
 {
     /**
+     * @internal
+     */
+    const DEFAULT_REGISTRATION_INSTRUCTIONS_TEXT
+        = 'To register for a new account, contact a sales representative at 1 (800) 555-0123';
+
+    /**
      * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
@@ -25,6 +31,11 @@ class Configuration implements ConfigurationInterface
                 'registration_allowed' => ['type' => 'boolean', 'value' => true],
                 'confirmation_required' => ['type' => 'boolean', 'value' => true],
                 'send_password_in_welcome_email' => ['type' => 'boolean', 'value' => false],
+                'registration_instructions_enabled' => ['type' => 'boolean', 'value' => false],
+                'registration_instructions_text' => [
+                    'type' => 'textarea',
+                    'value' => self::DEFAULT_REGISTRATION_INSTRUCTIONS_TEXT,
+                ],
             ]
         );
 

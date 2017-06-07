@@ -13,6 +13,7 @@ oro_behat_extension:
         - OroCustomerBundle::ACLContext
         - OroCustomerBundle::GridContext
         - OroSecurityBundle::PermissionContext
+        - OroCustomerBundle::RegistrationInstructionFeatureContext
         - OroImportExportBundle::ImportExportContext:
             - '@oro_entity.entity_alias_resolver'
             - '@oro_importexport.processor.registry'
@@ -47,4 +48,26 @@ oro_behat_extension:
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer User Registration Error Container:
       selector: ".form-row span.validation-failed"
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
+    Customer Users Registration form:
+      selector: '[id^="customer_users-uid"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Show Registration Instructions Default: 'customer_users[oro_customer___registration_instructions_enabled][use_parent_scope_value]'
+          Show Registration Instructions: 'customer_users[oro_customer___registration_instructions_enabled][value]'
+          Registration Instructions Text Default: 'customer_users[oro_customer___registration_instructions_text][use_parent_scope_value]'
+          Registration Instructions Text: 'customer_users[oro_customer___registration_instructions_text][value]'
+    Routing General form:
+      selector: '[id^="routing-uid"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          URL Use System: 'routing[oro_website___url][use_parent_scope_value]'
+          URL: 'routing[oro_website___url][value]'
+          Secure URL Use System: 'routing[oro_website___secure_url][use_parent_scope_value]'
+          Secure URL: 'routing[oro_website___secure_url][value]'
+    Configuration:
+      selector: '[title="Organization Configuration"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
