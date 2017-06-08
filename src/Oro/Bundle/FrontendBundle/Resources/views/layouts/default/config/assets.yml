@@ -19,8 +19,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/primary-menu-config.scss'
         - 'bundles/orofrontend/default/scss/variables/notification-config.scss'
         - 'bundles/orofrontend/default/scss/variables/notification-flash-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/grid-header-cell-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/frontend-datagrid-config.scss'
         - 'bundles/orofrontend/default/scss/variables/loader-mask-config.scss'
         - 'bundles/orofrontend/default/scss/variables/embedded-list/embedded-list-config.scss'
         - 'bundles/orofrontend/default/scss/variables/embedded-list/embedded-list-slider-config.scss'
