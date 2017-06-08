@@ -7,10 +7,12 @@ define(function(require) {
     var initialOptions = JSON.parse(require('text!./Fixture/initial-rule-editor-options.json'));
     var $el = null;
     var html = '<textarea id="test"></textarea>';
+    var typeahead = null;
     var keyupEvent = null;
     var ruleEditor = null;
 
     describe('orofrontend/default/js/app/components/rule-editor-component', function() {
+
         beforeEach(function(done) {
             window.jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
             window.setFixtures(html);
@@ -25,15 +27,19 @@ define(function(require) {
             }, initialOptions[0]));
 
             setTimeout(function() {
+                typeahead = $el.data('typeahead');
                 done();
-            }, 400);
+            }, 200);
         });
 
-        afterEach(function() {
+        afterEach(function(done) {
             $el = null;
             ruleEditor.strings.childSeparator = '.';
             ruleEditor.dispose();
             ruleEditor = null;
+            typeahead = null;
+
+            done();
         });
 
         it('component is defined', function() {
@@ -44,17 +50,236 @@ define(function(require) {
             expect(ruleEditor.view).toBeDefined();
         });
 
+        describe('check autocomplete logic', function() {
+
+            it('chain select', function(done) {
+                $el.val('');
+
+                typeahead.lookup();
+
+                function iterateSelect(index) {
+                    setTimeout(function() { typeahead.select(); }, index * 20);
+                }
+
+                for (var i = 0; i < 6; i++) {
+                    iterateSelect(i);
+                }
+
+                setTimeout(function() {
+                    expect($el.val()).toEqual('product.featured + product.featured + ');
+                    done();
+                }, 200);
+            });
+
+            it(':check items resolve if value "product."', function(done) {
+                $el.val('product.');
+                $el.get(0).selectionStart = 8;
+                setTimeout(function() {
+                    typeahead.lookup();
+                }, 1);
+
+                setTimeout(function() {
+                    expect(ruleEditor.view.autocompleteData.items).toEqual(jasmine.objectContaining({
+                        'featured': {
+                            group: 'entities',
+                            item: 'product.featured',
+                            label: 'Is Featured',
+                            parentItem: 'product',
+                            type: 'boolean'
+                        },
+                        'id': {
+                            group: 'entities',
+                            item: 'product.id',
+                            label: 'Id',
+                            parentItem: 'product',
+                            type: 'integer'
+                        },
+                        'sku': {
+                            group: 'entities',
+                            item: 'product.sku',
+                            label: 'SKU',
+                            parentItem: 'product',
+                            type: 'string'
+                        },
+                        'status': {
+                            group: 'entities',
+                            item: 'product.status',
+                            label: 'Status',
+                            parentItem: 'product',
+                            type: 'string'
+                        }
+                    }));
+                    done();
+                }, 40);
+
+            });
+
+            it(':check items resolve if value "product.featured"', function(done) {
+
+                $el.val('product.featured ');
+                $el.get(0).selectionStart = 17;
+
+                setTimeout(function() {
+                    typeahead.lookup();
+                }, 1);
+
+                setTimeout(function() {
+                    expect(ruleEditor.view.autocompleteData.items).toEqual(jasmine.objectContaining({
+                        '+': {
+                            group: 'operations',
+                            item: '+',
+                            type: 'math'
+                        },
+                        '-': {
+                            group: 'operations',
+                            item: '-',
+                            type: 'math'
+                        },
+                        '==': {
+                            group: 'operations',
+                            item: '==',
+                            type: 'equality'
+                        }
+                    }));
+                    done();
+                }, 40);
+
+            });
+
+            it('check level 1', function() {
+                ruleEditor.options.termLevelLimit = 1;
+                ruleEditor._prepareAutocomplete();
+
+                expect(ruleEditor.entitiesItems).toBeDefined();
+                expect(ruleEditor.entitiesItems).toEqual({});
+            });
+
+            it('check level 2', function() {
+                ruleEditor.options.termLevelLimit = 2;
+                ruleEditor._prepareAutocomplete();
+
+                var expected = {
+                    'featured': {
+                        'label': 'Is Featured',
+                        'type': 'boolean',
+                        'parentItem': 'product',
+                        'group': 'entities',
+                        'item': 'product.featured'
+                    },
+                    'id': {
+                        'label': 'Id',
+                        'type': 'integer',
+                        'parentItem': 'product',
+                        'group': 'entities',
+                        'item': 'product.id'
+                    },
+                    'inventory_status': {
+                        'label': 'Inventory Status',
+                        'type': 'enum',
+                        'parentItem': 'product',
+                        'group': 'entities',
+                        'item': 'product.inventory_status'
+                    },
+                    'sku': {
+                        'label': 'SKU',
+                        'type': 'string',
+                        'parentItem': 'product',
+                        'group': 'entities',
+                        'item': 'product.sku'
+                    },
+                    'status': {
+                        'label': 'Status',
+                        'type': 'string',
+                        'parentItem': 'product',
+                        'group': 'entities',
+                        'item': 'product.status'
+                    },
+                    'type': {
+                        'label': 'Type',
+                        'type': 'string',
+                        'parentItem': 'product',
+                        'group': 'entities',
+                        'item': 'product.type'
+                    },
+                    'createdAt': {
+                        'label': 'Created At',
+                        'type': 'datetime',
+                        'parentItem': 'product',
+                        'group': 'entities',
+                        'item': 'product.createdAt'
+                    },
+                    'updatedAt': {
+                        'label': 'Updated At',
+                        'type': 'datetime',
+                        'parentItem': 'product',
+                        'group': 'entities',
+                        'item': 'product.updatedAt'
+                    }
+                };
+
+                expect(ruleEditor.entitiesItems.product.child).toBeDefined();
+                expect(ruleEditor.entitiesItems.product.child).toEqual(jasmine.objectContaining(expected));
+            });
+
+            it('check level 3', function() {
+                ruleEditor.options.termLevelLimit = 3;
+                ruleEditor._prepareAutocomplete();
+
+                var expected = {
+                    'currency': {
+                        'label': 'Currency',
+                        'type': 'string',
+                        'parentItem': 'product.msrp',
+                        'group': 'entities',
+                        'item': 'product.msrp.currency'
+                    },
+                    'id': {
+                        'label': 'Id',
+                        'type': 'integer',
+                        'parentItem': 'product.msrp',
+                        'group': 'entities',
+                        'item': 'product.msrp.id'
+                    },
+                    'productSku': {
+                        'label': 'Product SKU',
+                        'type': 'string',
+                        'parentItem': 'product.msrp',
+                        'group': 'entities',
+                        'item': 'product.msrp.productSku'
+                    },
+                    'quantity': {
+                        'label': 'Quantity',
+                        'type': 'float',
+                        'parentItem': 'product.msrp',
+                        'group': 'entities',
+                        'item': 'product.msrp.quantity'
+                    },
+                    'value': {
+                        'label': 'Value',
+                        'type': 'float',
+                        'parentItem': 'product.msrp',
+                        'group': 'entities',
+                        'item': 'product.msrp.value'
+                    }
+                };
+                expect(ruleEditor.entitiesItems.product.child.map.child).toBeDefined();
+                expect(ruleEditor.entitiesItems.product.child.map.child).toEqual(jasmine.objectContaining(expected));
+            });
+        });
+
         describe('check value update after inserting selected value', function() {
 
             it('inserting in the field start', function(done) {
                 $el.val('pro');
                 $el.get(0).selectionStart = 2;
 
-                var typeahead = $el.data('typeahead');
                 typeahead.lookup();
-                typeahead.keyup(keyupEvent);
-                expect($el.val()).toEqual('product.');
-                done();
+                typeahead.select();
+
+                setTimeout(function() {
+                    expect($el.val()).toEqual('product.');
+                    done();
+                }, 100);
             });
 
             it('inserting in the middle of field', function(done) {
@@ -63,11 +288,13 @@ define(function(require) {
                 $el.get(0).selectionStart = 8;
                 $el.get(0).selectionEnd = 8;
 
-                var typeahead = $el.data('typeahead');
                 typeahead.lookup();
-                typeahead.keyup(keyupEvent);
-                expect($el.val()).toEqual('product.featured  == 10');
-                done();
+                typeahead.select();
+
+                setTimeout(function() {
+                    expect($el.val()).toEqual('product.featured  == 10');
+                    done();
+                }, 100);
             });
 
             it('inserting in the middle of field selected area', function(done) {
@@ -76,11 +303,13 @@ define(function(require) {
                 $el.get(0).selectionStart = 8;
                 $el.get(0).selectionEnd = 10;
 
-                var typeahead = $el.data('typeahead');
                 typeahead.lookup();
-                typeahead.keyup(keyupEvent);
-                expect($el.val()).toEqual('product.id  == 10');
-                done();
+                typeahead.select();
+
+                setTimeout(function() {
+                    expect($el.val()).toEqual('product.id  == 10');
+                    done();
+                }, 100);
             });
 
             it('inserting in the field end', function(done) {
@@ -89,11 +318,13 @@ define(function(require) {
                 $el.get(0).selectionStart = 12;
                 $el.get(0).selectionEnd = 12;
 
-                var typeahead = $el.data('typeahead');
                 typeahead.lookup();
-                typeahead.keyup(keyupEvent);
-                expect($el.val()).toEqual('product.id != ');
-                done();
+                typeahead.select();
+
+                setTimeout(function() {
+                    expect($el.val()).toEqual('product.id != ');
+                    done();
+                }, 100);
             });
         });
 
@@ -436,13 +667,14 @@ define(function(require) {
 
                 $el.val('');
 
-                var typeahead = $el.data('typeahead');
                 typeahead.lookup();
-                typeahead.keyup(keyupEvent);
-                expect($el.val()).toEqual('product,');
-                done();
-            });
+                typeahead.select();
 
+                setTimeout(function() {
+                    expect($el.val()).toEqual('product,');
+                    done();
+                }, 50);
+            });
         });
     });
 });

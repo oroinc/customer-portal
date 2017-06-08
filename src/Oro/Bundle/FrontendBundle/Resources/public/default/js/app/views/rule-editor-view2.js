@@ -46,9 +46,9 @@ define(function(require) {
 
             var typeahead = this.typeahead = this.$el.data('typeahead');
 
-            this.$el.on('focus click', function(e) {
+            this.$el.on('focus click change', _.debounce(function() {
                 typeahead.lookup();
-            });
+            }));
         },
 
         _typeaheadSource: function() {
@@ -73,7 +73,6 @@ define(function(require) {
 
         _typeaheadUpdater: function(item) {
             this.component.updateValue(this.autocompleteData, item);
-
             var position = this.autocompleteData.position;
             this.$el.one('change', function() {
                 this.selectionStart = this.selectionEnd = position;
