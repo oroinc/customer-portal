@@ -11,9 +11,9 @@ $embedded-list-slider-arrow-size: 12px !default;
 $embedded-list-slider-arrow-side-offset: 3px !default;
 $embedded-list-slider-arrow-border: 2px solid lighten(get-color('additional', 'dark'), 16.5%) !default;
 
-$embedded-list-slider-dots-offset: 0 auto 20px !default;
+$embedded-list-slider-dots-item-offset: 8px !default;
+
 $embedded-list-slider-dots-btn-size: 10px !default;
-$embedded-list-slider-dots-btn-left-offset: 8px !default;
 $embedded-list-slider-dots-btn-border: 1px solid get-color('additional', 'ultra') !default;
 $embedded-list-slider-dots-btn-background: transparent !default;
 $embedded-list-slider-dots-btn-active-background: get-color('additional', 'ultra') !default;

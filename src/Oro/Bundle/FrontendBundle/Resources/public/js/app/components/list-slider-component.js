@@ -21,7 +21,8 @@ define(function(require) {
             autoplaySpeed: 2000,
             arrows: !tools.isMobile(),
             dots: false,
-            infinite: false
+            infinite: false,
+            additionalClass: 'embedded-list-slider'
         },
 
         /**
@@ -29,10 +30,18 @@ define(function(require) {
          * @param options
          */
         initialize: function(options) {
+            var self = this;
+
             this.options = _.defaults(options || {}, this.options);
             this.$el = options._sourceElement;
 
             this.listenTo(mediator, 'layout:reposition', this.updatePosition);
+
+            $(this.$el).on('init', function(event, slick) {
+                if (self.$el.hasClass(self.options.additionalClass)) {
+                    self.$el.addClass(self.options.additionalClass);
+                }
+            });
 
             if (this.options.mobileEnabled) {
                 this.refreshPositions();
@@ -43,7 +52,9 @@ define(function(require) {
                 this.onChange();
             }
 
-            this.destroy();
+            $(this.$el).on('destroy', function(event, slick) {
+                self.$el.removeClass(self.options.additionalClass);
+            });
         },
 
         refreshPositions: function() {
@@ -74,12 +85,6 @@ define(function(require) {
 
         updatePosition: function() {
             this.$el.slick('setPosition');
-        },
-
-        destroy: function() {
-            $(this.$el).on('destroy', function(event, slick) {
-                slick.$slider.addClass('destroyed');
-            });
         }
     });
 

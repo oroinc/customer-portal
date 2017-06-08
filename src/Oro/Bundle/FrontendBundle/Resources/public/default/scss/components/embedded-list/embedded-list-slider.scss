@@ -8,10 +8,6 @@
 
     white-space: nowrap;
 
-    &.destroyed {
-        white-space: normal;
-    }
-
     &.slick-initialized {
         // Show content after slick slider is inited
         overflow: visible;
@@ -32,8 +28,8 @@
 
     .slick-arrow {
         position: absolute;
-        z-index: z('base') + 3;
         top: $embedded-list-slider-btn-arrow-top-pos;
+        z-index: z('base') + 3;
 
         overflow: hidden;
 
@@ -58,9 +54,9 @@
             top: 50%;
             left: 50%;
 
+            display: block;
             width: $embedded-list-slider-arrow-size;
             height: $embedded-list-slider-arrow-size;
-            display: block;
 
             border-top: $embedded-list-slider-arrow-border;
 
@@ -101,23 +97,26 @@
     .slick-dots {
         position: absolute;
         bottom: 0;
+        left: 50%;
 
-        display: flex;
-        width: 100%;
-        margin: $embedded-list-slider-dots-offset;
+        transform: translate(-50%);
 
-        justify-content: center;
+        text-align: center;
 
-        @include list-normalize();
-    }
+        li {
+            display: inline-block;
+            vertical-align: top;
 
-    .slick-dots {
+            margin-left: $embedded-list-slider-dots-item-offset;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+
         button {
-            display: block;
-
             width: $embedded-list-slider-dots-btn-size;
             height: $embedded-list-slider-dots-btn-size;
-            margin-left: $embedded-list-slider-dots-btn-left-offset;
             padding: 0;
 
             font-size: 0;
@@ -125,12 +124,10 @@
             border: $embedded-list-slider-dots-btn-border;
             border-radius: $embedded-list-slider-dots-btn-border-radius;
             background: $embedded-list-slider-dots-btn-background;
+        }
 
-            li:first-child & {
-                margin-left: 0;
-            }
-
-            .slick-active & {
+        .slick-active {
+            button {
                 background: $embedded-list-slider-dots-btn-active-background;
             }
         }
