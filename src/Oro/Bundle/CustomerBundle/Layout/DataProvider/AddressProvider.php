@@ -25,6 +25,9 @@ class AddressProvider
     /** @var string */
     protected $updateRouteName;
 
+    /** @var string */
+    protected $deleteRouteName;
+
     /** @var bool */
     protected $defaultOnly;
 
@@ -73,16 +76,26 @@ class AddressProvider
     }
 
     /**
+     * @param string $deleteRouteName
+     */
+    public function setDeleteRouteName($deleteRouteName)
+    {
+        $this->deleteRouteName = $deleteRouteName;
+    }
+
+    /**
      * @param object $entity
      *
      * @return array
      */
     public function getComponentOptions($entity)
     {
-        if (!$this->listRouteName || !$this->createRouteName || !$this->updateRouteName) {
+        if (!$this->listRouteName || !$this->createRouteName || !$this->updateRouteName || !$this->deleteRouteName) {
+            // @codingStandardsIgnoreStart
             throw new \UnexpectedValueException(
-                "Missing value. Make sure that \"list\", \"create\" and \"update\" route names are not empty."
+                "Missing value. Make sure that \"list\", \"create\", \"update\" and \"delete\" route names are not empty."
             );
+            // @codingStandardsIgnoreEnd
         }
         
         if (!$entity instanceof $this->entityClass) {
@@ -106,6 +119,7 @@ class AddressProvider
             'addressCreateUrl' => $addressCreateUrl,
             'addressUpdateRouteName' => $this->updateRouteName,
             'currentAddresses' => $this->fragmentHandler->render($addressListUrl),
+            'addressDeleteRouteName' => $this->deleteRouteName,
         ];
     }
 }

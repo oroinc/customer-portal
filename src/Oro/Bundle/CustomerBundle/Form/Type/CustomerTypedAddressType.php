@@ -35,6 +35,13 @@ class CustomerTypedAddressType extends AbstractType
 
         $builder
             ->add(
+                'phone',
+                'text',
+                [
+                    'required' => false
+                ]
+            )
+            ->add(
                 'types',
                 'translatable_entity',
                 [
@@ -56,13 +63,6 @@ class CustomerTypedAddressType extends AbstractType
             ->add(
                 'primary',
                 'checkbox',
-                [
-                    'required' => false
-                ]
-            )
-            ->add(
-                'phone',
-                'text',
                 [
                     'required' => false
                 ]

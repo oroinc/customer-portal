@@ -50,6 +50,9 @@ datagrids:
                         - { join: customer.parent, alias: parent }
                         - { join: customer.internal_rating, alias: internalRating }
         columns:
+            id:
+                label: oro.customer.customer.id.label
+                renderable: false
             name:
                 label: oro.customer.customer.name.label
             group_name:
@@ -371,6 +374,10 @@ datagrids:
                     inner:
                         - { join: customerUser.customer, alias: customer }
         columns:
+            id:
+                label: oro.customer.customeruser.id.label
+                renderable: false
+                order: -2
             customerName:
                 label: oro.customer.customeruser.customer.label
                 order: -1

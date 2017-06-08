@@ -75,7 +75,7 @@ $dropdown-min-width:      update-default($dropdown-min-width, 160px);
 $dropdown-padding-y:      update-default($dropdown-padding-y, 5px);
 $dropdown-margin-top:     update-default($dropdown-padding-y, 2px);
 
-$dropdown-box-shadow:       update-default($dropdown-box-shadow, 0 6px 12px rgba(0, 0, 0, .175));
+$dropdown-box-shadow:     update-default($dropdown-box-shadow, 0 6px 12px rgba(0, 0, 0, .175));
 
 $dropdown-item-padding-x: update-default($dropdown-item-padding-x, 20px);
 
@@ -89,9 +89,12 @@ $zindex-popover:           update-default($zindex-popover, z('dropdown') + 6);
 $zindex-tooltip:           update-default($zindex-tooltip, z('dropdown') + 7);
 $zindex-navbar-fixed:      update-default($zindex-navbar-fixed, z('dropdown') + 3);
 $zindex-navbar-sticky:     update-default($zindex-navbar-sticky, z('dropdown') + 3);
-$zindex-modal-bg:          update-default($zindex-modal-bg, z('dropdown') + 4);
-$zindex-modal:             update-default($zindex-modal, z('dropdown') + 5);
+$zindex-modal-bg:          update-default($zindex-modal-bg, z('popup'));
+$zindex-modal:             update-default($zindex-modal, z('popup') + 1);
 
+// Tooltips
+
+$tooltip-max-width: update-default($tooltip-max-width, null);
 
 // Popovers
 
@@ -126,3 +129,16 @@ $nav-link-padding:       update-default($nav-link-padding, 10px 15px);
 $nav-tabs-border-radius: update-default($nav-tabs-border-radius, 4px);
 
 $nav-tabs-link-hover-border-color: update-default($nav-tabs-link-hover-border-color, transparent);
+
+
+// Modals
+
+// Padding applied to the modal body
+$modal-inner-padding:         update-default($modal-inner-padding, $offset-y);
+
+$modal-dialog-margin:         update-default($modal-dialog-margin, 0 auto);
+$modal-dialog-sm-up-margin-y: update-default($modal-dialog-sm-up-margin-y, 0);
+
+$modal-title-padding:         update-default($modal-title-padding, $offset-y);
+
+$modal-md:                    update-default($modal-md, 90%);

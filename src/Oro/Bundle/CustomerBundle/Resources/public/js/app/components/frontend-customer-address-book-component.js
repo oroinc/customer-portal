@@ -8,7 +8,7 @@ define(function(require) {
     var _ = require('underscore');
     var routing = require('routing');
     var AddressBook = require('orocustomer/js/address-book');
-    var deleteConfirmation = require('orofrontend/js/app/components/delete-confirmation');
+    var deleteConfirmation = require('oroui/js/delete-confirmation');
 
     CustomerAddressBook = BaseComponent.extend({
         /**
@@ -19,6 +19,7 @@ define(function(require) {
             'addressListUrl': null,
             'addressCreateUrl': null,
             'addressUpdateRouteName': null,
+            'addressDeleteRouteName': null,
             'currentAddresses': [],
             'useFormDialog': false,
             'template': '',
@@ -43,6 +44,13 @@ define(function(require) {
                     return routing.generate(
                         options.addressUpdateRouteName,
                         {'id': address.get('id'), 'entityId': options.entityId}
+                    );
+                },
+                addressDeleteUrl: function() {
+                    var address = arguments[0];
+                    return routing.generate(
+                        options.addressDeleteRouteName,
+                        {'addressId': address.get('id'), 'entityId': options.entityId}
                     );
                 },
                 addressMapOptions: {'phone': 'phone'},

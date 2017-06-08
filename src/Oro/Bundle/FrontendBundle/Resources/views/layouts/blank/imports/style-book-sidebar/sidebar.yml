@@ -1,0 +1,24 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'sidebar.html.twig'
+
+        - '@addTree':
+            items:
+                style_book_main:
+                    blockType: container
+                style_book_sidebar:
+                    blockType: container
+                style_book_elements_nav_container:
+                    blockType: container
+                style_book_elements_nav_title:
+                    blockType: block
+                style_book_elements_nav:
+                    blockType: container
+
+            tree:
+                style_book_main:
+                    style_book_sidebar:
+                        style_book_elements_nav_container:
+                            style_book_elements_nav_title: ~
+                            style_book_elements_nav: ~

@@ -65,7 +65,7 @@ define(function(require) {
                 }
 
                 var offset = $footer.offset();
-                if (!items || offset.left < previousLeft) {
+                if (!items || offset.left <= previousLeft) {
                     items = [];
                     itemsByRow.push(items);
                 }
@@ -81,6 +81,9 @@ define(function(require) {
         },
 
         setAlign: function(items) {
+            if (items.length < 2) {
+                return;
+            }
             var maxHeight = _.max(items, function(item) {
                 return item.height;
             }).height;

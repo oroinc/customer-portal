@@ -1,0 +1,124 @@
+// @theme: default;
+
+// TODO: Do not append the new code, just delete!
+.oro-grid-table {
+    width: 100%;
+
+    &__title {
+        margin-bottom: $offset-y-s + 1px;
+
+        font-size: $base-font-size--large;
+        line-height: $base-ui-element-line-height;
+    }
+
+    thead {
+        text-align: left;
+
+        th {
+            padding: $offset-y-m ($offset-x-m + 2px);
+
+            font-weight: 400;
+
+            border: 0;
+            border-top: 1px solid get-color('additional', 'light');
+            border-bottom: 1px solid get-color('additional', 'light');
+            background: get-color('additional', 'base');
+        }
+    }
+
+    tbody {
+        td {
+            vertical-align: middle;
+            padding: ($offset-y-s - 1px) ($offset-x-m + 2px);
+
+            .decor-row {
+                padding: ($offset-y + 3px) 0 ($offset-y-m - 2px);
+
+                &:before {
+                    content: '';
+
+                    display: block;
+                    height: 1px;
+
+                    background-color: get-color('additional', 'light');
+                }
+            }
+
+            &.underlined-row {
+                padding: 0 !important;
+
+                &:before {
+                    content: '';
+
+                    display: block;
+                    height: 1px;
+
+                    background-color: get-color('additional', 'light');
+                }
+            }
+        }
+    }
+
+    .product__qty-input {
+        margin: 0;
+    }
+
+    &__verticalp-enlarged {
+        tbody {
+            td {
+                padding: $offset-y ($offset-x-s + 1px);
+
+                &:not(:first-child) {
+                    padding-left: $offset-y - 3px;
+                }
+
+                &:first-child {
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+
+    &_b-bordered {
+        border-bottom: 1px solid get-color('additional', 'light');
+    }
+
+    &-properties {
+
+        tbody {
+            td {
+                padding: ($offset-y-s - 3px) 0;
+            }
+        }
+
+        .title {
+            padding: ($offset-y-s + 1px) 0;
+        }
+
+        .decor-row {
+            padding: ($offset-y + 10px) 0 $offset-y;
+        }
+
+        .product-item__title {
+            margin-bottom: $offset-y-m + 1px;
+        }
+    }
+
+    &__orders {
+        margin-top: $offset-y-m;
+
+        tr {
+            &:first-child {
+                td {
+                    padding: $offset-y ($offset-y - 3px) ($offset-y-s - 1px);
+                }
+            }
+        }
+
+        td {
+            padding: ($offset-y-m - 2px) ($offset-y - 3px) 0;
+
+            line-height: 1;
+        }
+    }
+}

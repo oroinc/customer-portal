@@ -1,0 +1,57 @@
+// @theme: default;
+
+.oro-pagination {
+    white-space: nowrap;
+    text-align: center;
+
+    &__total {
+        margin: 0 3px;
+        display: inline-block;
+        vertical-align: middle;
+
+        font-size: $base-font-size - 1px;
+    }
+
+    &__pager {
+        display: inline-block;
+        vertical-align: middle;
+
+        font-size: 0;
+        text-align: center;
+    }
+
+    &__input {
+        width: 35px;
+
+        margin: 0 3px;
+
+        text-align: center;
+        color: get-color('additional', 'dark');
+    }
+
+    &__prev,
+    &__next {
+        margin: 0 3px;
+
+        i {
+            margin: 0 2px;
+        }
+    }
+}
+
+@include breakpoint('tablet-small') {
+    .oro-pagination {
+        &__total {
+            display: none;
+        }
+    }
+}
+
+@include breakpoint('mobile') {
+    .oro-pagination {
+        &__label {
+            display: none;
+        }
+    }
+}
+

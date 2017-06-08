@@ -11,6 +11,7 @@ use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
 
@@ -87,6 +88,33 @@ class CustomerUserAddressController extends RestController implements ClassResou
         }
 
         return new JsonResponse($result, $customerUser ? Response::HTTP_OK : Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * REST DELETE address
+     *
+     * @ApiDoc(
+     *      description="Delete address items",
+     *      resource=true
+     * )
+     * @AclAncestor("oro_customer_customer_user_delete")
+     * @param int $entityId
+     * @param int $addressId
+     *
+     * @return Response
+     */
+    public function deleteAction($entityId, $addressId)
+    {
+        /** @var CustomerUserAddress $address */
+        $address = $this->getManager()->find($addressId);
+        /** @var CustomerUser $customerUser */
+        $customerUser = $this->getCustomerUserManager()->find($entityId);
+        if ($customerUser->getAddresses()->contains($address)) {
+            $customerUser->removeAddress($address);
+            return $this->handleDeleteRequest($addressId);
+        } else {
+            return $this->handleView($this->view(null, Response::HTTP_NOT_FOUND));
+        }
     }
 
     /**

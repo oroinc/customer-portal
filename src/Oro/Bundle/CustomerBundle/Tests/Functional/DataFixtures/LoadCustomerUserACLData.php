@@ -3,15 +3,16 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 
 class LoadCustomerUserACLData extends AbstractLoadACLData
 {
     /**
-     * @return string
+     * {@inheritdoc}
      */
     protected function getAclResourceClassName()
     {
-        return CustomerUser::class;
+        return [CustomerUser::class, CustomerUserRole::class];
     }
 
     /**

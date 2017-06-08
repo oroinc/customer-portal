@@ -1,0 +1,53 @@
+// @theme: default
+
+.fa-bars {
+    @include fa-icon($fa-var-list);
+}
+
+.fa {
+    &--small {
+        font-size: $root-font-size;
+    }
+
+    &--medium {
+        font-size: $base-font-size;
+    }
+
+    &--large {
+        font-size:$base-font-size--large;
+    }
+
+    &--x-large {
+        font-size: 20px;
+    }
+
+    &--gray {
+        color: lighten(get-color('additional', 'dark'), 17.5%);
+    }
+
+    &--hidden {
+        visibility: hidden;
+    }
+
+    &--no-offset {
+        margin-right: 0;
+    }
+
+    &--offset-l {
+        margin-right: 0;
+        margin-left: 3px;
+    }
+
+    &--link-r {
+        margin-right: 0;
+        margin-left: 3px;
+
+        font-size: $root-font-size;
+        font-weight: bold;
+    }
+
+    &--link-l {
+        font-size: $root-font-size;
+        font-weight: bold;
+    }
+}

@@ -7,6 +7,8 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
             - Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
                 message: One of the addresses must be set as primary.
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
+        parent:
+            - Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference: ~
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     properties:
@@ -32,6 +34,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
+        - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRole: ~
     properties:
         firstName:
             - NotBlank: ~
@@ -57,10 +60,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             - Length:
                 min: 3
                 max: 255
-        roles:
-            - Count:
-                min: 1
-                minMessage: "You must select at least {{ limit }} role"
         birthday:
             - Date: ~
         customer:
@@ -105,4 +104,4 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
                 min: 3
                 max: 255
         customerUsers:
-            - Oro\Bundle\UserBundle\Validator\Constraints\UserWithoutRole: ~
+            - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRole: ~

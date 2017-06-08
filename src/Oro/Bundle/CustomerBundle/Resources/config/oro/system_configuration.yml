@@ -42,6 +42,21 @@ system_configuration:
                 label: oro.customer.system_configuration.fields.send_password_in_welcome_email.label
                 tooltip: oro.customer.system_configuration.fields.send_password_in_welcome_email.tooltip
                 required: false
+        oro_customer.registration_instructions_enabled:
+            data_type: boolean
+            type: oro_config_checkbox
+            priority: 70
+            options:
+                label: oro.customer.system_configuration.fields.registration_instructions_enabled.label
+                tooltip: oro.customer.system_configuration.fields.registration_instructions_enabled.tooltip
+                required: false
+        oro_customer.registration_instructions_text:
+            data_type: string
+            type: textarea
+            priority: 60
+            options:
+                label: oro.customer.system_configuration.fields.registration_instructions_text.label
+                required: false
     tree:
         system_configuration:
             commerce:
@@ -58,3 +73,33 @@ system_configuration:
                                             - oro_customer.registration_allowed
                                             - oro_customer.confirmation_required
                                             - oro_customer.send_password_in_welcome_email
+                                            - oro_customer.registration_instructions_enabled
+                                            - oro_customer.registration_instructions_text
+
+        organization_configuration:
+            commerce:
+                children:
+                    customer:
+                        priority: 1000
+                        children:
+                            customer_users:
+                                priority: 100
+                                children:
+                                    customer_users_registration:
+                                        children:
+                                            - oro_customer.registration_instructions_enabled
+                                            - oro_customer.registration_instructions_text
+
+        website_configuration:
+            commerce:
+                children:
+                    customer:
+                        priority: 1000
+                        children:
+                            customer_users:
+                                priority: 100
+                                children:
+                                    customer_users_registration:
+                                        children:
+                                            - oro_customer.registration_instructions_enabled
+                                            - oro_customer.registration_instructions_text

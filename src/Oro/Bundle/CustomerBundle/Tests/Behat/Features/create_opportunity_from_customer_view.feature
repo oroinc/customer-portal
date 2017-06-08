@@ -1,3 +1,5 @@
+@ticket-BAP-14250
+@automatically-ticket-tagged
 @fixture-opportunity_from_related.yml
 Feature: Create Opportunity from Customers entity view
   In order to ease opportunity management

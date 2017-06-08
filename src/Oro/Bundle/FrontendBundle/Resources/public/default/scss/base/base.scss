@@ -2,24 +2,7 @@
 
 @import './reset';
 
-.body {
-    &.loading {
-        height: 100%;
-
-        .loader-mask {
-            position: fixed;
-        }
-    }
-}
-
-@include breakpoint('tablet') {
-    .body {
-        &.sales-mode {
-            overflow-x: hidden;
-        }
-    }
-}
-
+// Links
 a {
     text-decoration: none;
 

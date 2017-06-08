@@ -61,7 +61,7 @@
 {% endblock content_data %}
 
 {% block stats %}
-    {% set data = oro_ui_scroll_data_before('customer-stats-view', {}) %}
+    {% set data = oro_ui_scroll_data_before('customer-stats-view', {}, entity) %}
     {% if data.dataBlocks is defined %}
         {% for scrollBlock in data.dataBlocks|oro_sort_by %}
             {% for subblock in scrollBlock.subblocks %}

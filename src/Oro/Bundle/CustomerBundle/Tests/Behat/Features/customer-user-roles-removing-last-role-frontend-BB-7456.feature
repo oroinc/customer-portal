@@ -1,3 +1,5 @@
+@ticket-BB-7456
+@automatically-ticket-tagged
 @fixture-BuyerCustomerFixture.yml
 Feature: Removing last role from the customer user on frontend
   Regression test for BB-7456
@@ -9,7 +11,7 @@ Feature: Removing last role from the customer user on frontend
     And I click Edit Buyer in grid
     And I fill form with:
       | Role Title | New Buyer Role |
-    And I click "Save"
+    And I save form
     And I click "Roles"
     When I click Edit New Buyer Role in grid
     And I uncheck AmandaRCole@example.org record in grid

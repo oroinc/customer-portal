@@ -595,6 +595,7 @@ services:
         calls:
             - [setEntityClass, ['Oro\Bundle\CustomerBundle\Entity\Customer']]
             - [setListRouteName, ['oro_api_customer_frontend_get_customer_addresses']]
+            - [setDeleteRouteName, ['oro_api_customer_frontend_delete_customer_address']]
             - [setCreateRouteName, ['oro_customer_frontend_customer_address_create']]
             - [setUpdateRouteName, ['oro_customer_frontend_customer_address_update']]
         tags:
@@ -605,6 +606,7 @@ services:
         calls:
             - [setEntityClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
             - [setListRouteName, ['oro_api_customer_frontend_get_customeruser_addresses']]
+            - [setDeleteRouteName, ['oro_api_customer_frontend_delete_customeruser_address']]
             - [setCreateRouteName, ['oro_customer_frontend_customer_user_address_create']]
             - [setUpdateRouteName, ['oro_customer_frontend_customer_user_address_update']]
         tags:
@@ -615,6 +617,7 @@ services:
         calls:
             - [setEntityClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
             - [setListRouteName, ['oro_api_customer_frontend_get_customeruser_addresses', true]]
+            - [setDeleteRouteName, ['oro_api_customer_frontend_delete_customeruser_address']]
             - [setCreateRouteName, ['oro_customer_frontend_customer_user_address_create']]
             - [setUpdateRouteName, ['oro_customer_frontend_customer_user_address_update']]
         tags:
@@ -640,6 +643,7 @@ services:
             - { name: oro_scope.provider, scopeType: customer_group_category_visibility, priority: 30 }
             - { name: oro_scope.provider, scopeType: customer_group_product_visibility, priority: 30 }
             - { name: oro_scope.provider, scopeType: web_content, priority: 100 }
+            - { name: oro_scope.provider, scopeType: cms_content_block, priority: 100 }
             - { name: oro_scope.provider, scopeType: workflow_definition, priority: 20 }
 
     oro_customer.customer_scope_criteria_provider.link:
@@ -649,6 +653,7 @@ services:
             - { name: oro_scope.provider, scopeType: customer_category_visibility, priority: 30 }
             - { name: oro_scope.provider, scopeType: customer_product_visibility, priority: 30 }
             - { name: oro_scope.provider, scopeType: web_content, priority: 1000 }
+            - { name: oro_scope.provider, scopeType: cms_content_block, priority: 1000 }
             - { name: oro_scope.provider, scopeType: workflow_definition, priority: 30 }
 
     oro_customer.entity_ownership.listener:
@@ -718,6 +723,17 @@ services:
         tags:
             - { name: website_search.placeholder }
 
+    oro_customer.validator.customer_without_role:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRoleValidator
+        parent: oro_user.validator.user_without_role
+        tags:
+            - { name: validator.constraint_validator }
+
+    oro_customer.validator.customer_check_role:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRoleValidator
+        tags:
+            - { name: validator.constraint_validator }
+
     oro_customer.grid_view.manager.api:
         class: 'Oro\Bundle\DataGridBundle\Entity\Manager\GridViewApiEntityManager'
         parent: oro_soap.manager.entity_manager.abstract
@@ -760,3 +776,8 @@ services:
             - "@oro_security.security_facade"
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
+
+    oro_customer.validation.constraint.circular_customer_reference_validator:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator
+        tags:
+            - { name: validator.constraint_validator }
