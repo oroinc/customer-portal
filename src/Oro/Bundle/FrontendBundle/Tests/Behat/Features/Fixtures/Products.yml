@@ -1,0 +1,52 @@
+include:
+    - ../../../../../../../../../customer-portal/src/Oro/Bundle/CustomerBundle/Tests/Behat/Features/Fixtures/BuyerCustomerFixture.yml
+
+Oro\Bundle\OrganizationBundle\Entity\BusinessUnit:
+  businessUnit:
+    name: Common Business Unit
+    organization: '@organization'
+
+Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue:
+    locvalue1:
+        string: 'Product1'
+    locvalue2:
+        string: 'Product2'
+    locvalue3:
+        string: 'Product3'
+    localNewCategory:
+        string: 'NewCategory'
+
+Oro\Bundle\CatalogBundle\Entity\Category:
+    categoryLightingProducts:
+        addTitle: ['@localNewCategory']
+        setParentCategory: [1]
+        addProduct: ['@product1']
+
+Oro\Bundle\ProductBundle\Entity\Product:
+    product1:
+        sku: '1'
+        type: 'simple'
+        organization: '@organization'
+        owner: '@businessUnit'
+        attributeFamily: '@defaultProductFamily'
+        addName: ['@locvalue1']
+        inventoryStatus: '@enumInventoryStatuses'
+        status: 'enabled'
+    product2:
+        sku: '2'
+        type: 'simple'
+        organization: '@organization'
+        owner: '@businessUnit'
+        attributeFamily: '@defaultProductFamily'
+        addName: ['@locvalue2']
+        inventoryStatus: '@enumInventoryStatuses'
+        status: 'enabled'
+    product3:
+        sku: '3'
+        type: 'simple'
+        organization: '@organization'
+        owner: '@businessUnit'
+        attributeFamily: '@defaultProductFamily'
+        addName: ['@locvalue3']
+        inventoryStatus: '@enumInventoryStatuses'
+        status: 'enabled'

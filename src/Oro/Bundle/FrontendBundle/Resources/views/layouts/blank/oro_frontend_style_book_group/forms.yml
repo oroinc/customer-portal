@@ -153,4 +153,4 @@ layout:
                         group_element_form_multiselect:
                             form_multiselect: ~
 
-    conditions: 'context["action"]=="forms"'
+    conditions: 'context["group"]=="forms"'

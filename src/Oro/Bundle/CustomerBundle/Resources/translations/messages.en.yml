@@ -114,6 +114,7 @@ oro.customer:
         owner.label:                 'Owner'
         website.label:               'Website'
         sales_representatives.label: 'Assigned Sales Representatives'
+        contact_information.label:   'Contact Information'
 
         profile:
             company_name: 'Company Name'
@@ -379,6 +380,8 @@ oro.customer:
             registration_allowed.label: 'Registration Allowed'
             confirmation_required.label: 'Confirmation Required'
             send_password_in_welcome_email.label: 'Send plain text password in welcome emails'
+            registration_instructions_enabled.label: 'Show Registration Instructions'
+            registration_instructions_text.label: 'Registration Instructions Text'
 
     security:
         permissions: 'Action Permissions'

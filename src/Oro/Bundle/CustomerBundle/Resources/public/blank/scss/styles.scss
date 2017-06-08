@@ -1,10 +1,11 @@
 // @theme: blank
 
-@import 'components/login-form';
-@import 'components/register-form';
-@import 'components/forgot-password-form';
-@import 'components/reset-password-form';
-@import 'components/check-email';
+@import './components/login-form';
+@import './components/register-form';
+@import './components/forgot-password-form';
+@import './components/reset-password-form';
+@import './components/check-email';
+@import './components/registration-instructions';
 @import './components/customer-profile/customer-profile';
 @import './components/info-list/info-list';
 @import './components/info-list-status/info-list-status';

@@ -38,10 +38,12 @@
         white-space: nowrap;
 
         opacity: 0;
+        visibility: hidden;
+
+        transform: translate(-50%, 0);
 
         .tooltip-inner {
             position: relative;
-            left: -50%;
 
             display: block;
 
@@ -56,6 +58,7 @@
             margin-bottom: 0;
 
             opacity: 1;
+            visibility: visible;
         }
     }
 }

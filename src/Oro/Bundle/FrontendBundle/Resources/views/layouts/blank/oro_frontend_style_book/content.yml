@@ -11,5 +11,3 @@ layout:
             tree:
                 style_book_content:
                     style_book_main_content: ~
-
-    conditions: 'context["action"]==""'

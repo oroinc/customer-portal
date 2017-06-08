@@ -1,0 +1,24 @@
+oro_behat_extension:
+  suites:
+    OroFrontendBundle:
+      contexts:
+        - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
+        - OroConfigBundle::FeatureContext
+        - OroFormBundle::FormContext
+      paths:
+        - '@OroFrontendBundle/Tests/Behat/Features'
+  elements:
+    Active Sticky Panel:
+      selector: ".sticky-panel.sticky-panel--top.has-content"
+    Main Menu Into Header:
+      selector: ".page-header .header-row"
+    Main Menu Into Sticky Panel:
+      selector: ".sticky-panel.sticky-panel--top.has-content .header-row"
+    Product Filter Into Sticky Panel:
+      selector: ".sticky-panel.sticky-panel--top.has-content .filter-box"
+    Product Filter Into Page Content:
+      selector: ".page-content .filter-box"
+    Header:
+      selector: ".page-header"
+    Copyright:
+      selector: ".copyright"
