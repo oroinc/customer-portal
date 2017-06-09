@@ -7,7 +7,15 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CustomerVisitor
  *
- * @ORM\Table(name="customer_visitor")
+ * @ORM\Table(
+ *     name="customer_visitor",
+ *     uniqueConstraints = {
+ *         @ORM\UniqueConstraint(
+ *             name="oro_unq_cust_vis_session",
+ *             columns = {"session_id"}
+ *         )
+ *     }
+ * )
  * @ORM\Entity()
  */
 class CustomerVisitor
@@ -28,6 +36,12 @@ class CustomerVisitor
      */
     private $lastVisit;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="session_id", type="string", length=255, nullable=false)
+     */
+    protected $sessionId;
 
     /**
      * Get id
