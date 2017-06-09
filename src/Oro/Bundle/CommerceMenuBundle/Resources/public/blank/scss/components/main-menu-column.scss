@@ -97,10 +97,6 @@
             display: block !important;
         }
 
-        &__icon {
-            display: none;
-        }
-
         &--splited {
            min-width: 400px;
 
@@ -111,7 +107,6 @@
 
 @include breakpoint('tablet') {
     .main-menu-column {
-        margin: $main-menu-column-tablet-offset;
         padding: 18px 34px 0 34px;
 
         border-top: 1px solid get-color('additional', 'light');
@@ -134,10 +129,6 @@
 
         &__title {
             margin-bottom: 14px;
-        }
-
-        &__icon {
-            margin: -2px 0 0 5px;
         }
     }
 }

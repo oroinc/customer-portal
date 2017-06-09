@@ -1,9 +1,3 @@
-.main-menu-outer {
-    .main-menu-outer__trigger {
-        display: none;
-    }
-}
-
 @include breakpoint('desktop') {
     .main-menu-outer {
         display: flex;
@@ -27,15 +21,6 @@
                 margin-right: 5px;
                 color: get-color('additional', 'dark');
             }
-        }
-
-        .main-menu-outer__trigger {
-            display: block;
-
-            padding: 10px 15px;
-
-            font-size: 14px;
-            font-weight: bold;
         }
 
         .main-menu-outer__container {

@@ -25,6 +25,7 @@
         background-color: get-color('additionl', 'ultra');
     }
 
+    /// ------------------->
     &.open {
         .header-row__trigger {
             background: get-color('additional', 'ultra');
@@ -36,6 +37,7 @@
             display: block;
         }
     }
+    //// <---------------
 }
 
 @include only-desktop {
@@ -79,7 +81,7 @@
         }
 
         &__toggle {
-            display: none;
+            //display: none;
         }
     }
 }
