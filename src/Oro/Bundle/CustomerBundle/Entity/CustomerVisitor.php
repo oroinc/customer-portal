@@ -5,8 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CustomerVisitor
- *
  * @ORM\Table(
  *     name="oro_customer_visitor",
  *     uniqueConstraints = {
@@ -44,8 +42,6 @@ class CustomerVisitor
     protected $sessionId;
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -54,8 +50,14 @@ class CustomerVisitor
     }
 
     /**
-     * Set lastVisit
-     *
+     * @return \DateTime
+     */
+    public function getLastVisit()
+    {
+        return $this->lastVisit;
+    }
+
+    /**
      * @param \DateTime $lastVisit
      *
      * @return CustomerVisitor
@@ -68,13 +70,22 @@ class CustomerVisitor
     }
 
     /**
-     * Get lastVisit
-     *
-     * @return \DateTime
+     * @return string
      */
-    public function getLastVisit()
+    public function getSessionId()
     {
-        return $this->lastVisit;
+        return $this->sessionId;
+    }
+
+    /**
+     * @param string $sessionId
+     *
+     * @return CustomerVisitor
+     */
+    public function setSessionId($sessionId)
+    {
+        $this->sessionId = $sessionId;
+
+        return $this;
     }
 }
-
