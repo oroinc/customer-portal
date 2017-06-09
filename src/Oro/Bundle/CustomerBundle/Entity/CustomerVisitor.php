@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CustomerVisitor
  *
  * @ORM\Table(
- *     name="customer_visitor",
+ *     name="oro_customer_visitor",
  *     uniqueConstraints = {
  *         @ORM\UniqueConstraint(
  *             name="oro_unq_cust_vis_session",
@@ -32,7 +32,7 @@ class CustomerVisitor
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="lastVisit", type="datetime")
+     * @ORM\Column(name="last_visit", type="datetime")
      */
     private $lastVisit;
 

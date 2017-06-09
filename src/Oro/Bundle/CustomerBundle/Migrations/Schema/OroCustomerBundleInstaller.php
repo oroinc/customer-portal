@@ -117,6 +117,8 @@ class OroCustomerBundleInstaller implements
         $this->createOroCustomerSalesRepresentativesTable($schema);
         $this->createOroCustomerUserSalesRepresentativesTable($schema);
 
+        $this->createCustomerVisitorTable($schema);
+
         $this->updateOroGridViewTable($schema);
         $this->updateOroGridViewUserTable($schema);
 
@@ -1205,5 +1207,20 @@ class OroCustomerBundleInstaller implements
             ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
+    }
+
+    /**
+     * Create customer_visitor table
+     *
+     * @param Schema $schema
+     */
+    protected function createCustomerVisitorTable(Schema $schema)
+    {
+        $table = $schema->createTable('oro_customer_visitor');
+        $table->addColumn('id', 'integer', ['autoincrement' => true]);
+        $table->addColumn('last_visit', 'datetime', []);
+        $table->addColumn('session_id', 'string', ['length' => 255]);
+        $table->setPrimaryKey(['id']);
+        $table->addUniqueIndex(['session_id'], 'oro_unq_cust_vis_session');
     }
 }

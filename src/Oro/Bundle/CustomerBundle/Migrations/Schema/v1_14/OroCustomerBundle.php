@@ -25,9 +25,9 @@ class OroCustomerBundle implements Migration
      */
     protected function createCustomerVisitorTable(Schema $schema)
     {
-        $table = $schema->createTable('customer_visitor');
+        $table = $schema->createTable('oro_customer_visitor');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
-        $table->addColumn('lastVisit', 'datetime', []);
+        $table->addColumn('last_visit', 'datetime', []);
         $table->addColumn('session_id', 'string', ['length' => 255]);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['session_id'], 'oro_unq_cust_vis_session');
