@@ -56,7 +56,5 @@ Feature: Frontend Grid Views
     And I click grid view list on "All Users" grid
     And I click "Delete"
     When I click grid view list on "All Users" grid
-    Then I should not see "View_1"
+    Then I should not see "Test_View_2"
     And I click "Sign Out"
-
-
