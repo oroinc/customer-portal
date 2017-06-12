@@ -64,6 +64,7 @@ define(function(require) {
             );
 
             mediator.on('layout:reposition',  _.debounce(this.onScroll, this.options.layoutTimeout), this);
+            mediator.on('page:afterChange', this.render, this);
 
             return this;
         },
