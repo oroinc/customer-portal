@@ -11,7 +11,8 @@
 @include breakpoint('desktop') {
     .primary-menu-container {
         .fa-minus,
-        .fa-plus {
+        .fa-plus,
+        .fa-angle-right {
             opacity: 0;
         }
     }
@@ -22,11 +23,15 @@
         padding: $primary-menu-container-inner-offset-tablet;
 
         .fa-minus,
-        .fa-plus {
+        .fa-plus,
+        .fa-angle-right {
             position: absolute;
             right: 10px;
             top: 15px;
+        }
 
+        .fa-minus,
+        .fa-plus {
             font-size: 12px;
         }
 
@@ -42,6 +47,10 @@
             .fa-minus {
                 opacity: 1;
             }
+        }
+
+        &__hidden-on-tablet {
+            display: none;
         }
     }
 }

@@ -26,6 +26,23 @@
             vertical-align: middle;
         }
     }
+
+    @at-root {
+        .fullscreen-popup {
+            .primary-menu {
+                &__item {
+                    border-top: 0;
+                    border-bottom: 1px solid get-color('additional', 'light');
+                }
+
+                &__link {
+                    padding: $primary-menu-link-inner-offset-fullscreen;
+
+                    text-transform: $primary-menu-link-text-transform-fullscreen;
+                }
+            }
+        }
+    }
 }
 
 @include breakpoint('tablet') {
