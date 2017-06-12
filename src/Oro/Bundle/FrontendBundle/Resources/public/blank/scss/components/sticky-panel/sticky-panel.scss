@@ -21,6 +21,12 @@
         margin: 0 auto;
     }
 
+    &__toolbar {
+        background: get-color('additional', 'base');
+
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .2);
+    }
+
     &.has-content {
         display: block;
     }
