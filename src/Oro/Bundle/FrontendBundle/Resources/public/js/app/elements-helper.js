@@ -162,7 +162,7 @@ define(function(require) {
             this.getElement(key).on(event + this.elementEventNamespace + this.cid, function(e, options) {
                 options = options || {};
                 options.manually = self.isChangedManually(this, e);
-                callback(e, options);
+                return callback(e, options);
             });
         },
 
