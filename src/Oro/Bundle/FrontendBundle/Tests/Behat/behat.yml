@@ -5,6 +5,9 @@ oro_behat_extension:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
         - OroConfigBundle::FeatureContext
         - OroFormBundle::FormContext
+        - OroApplicationBundle::CommerceMainContext
+        - OroDataGridBundle::GridContext
+        - OroCustomerBundle::GridContext
       paths:
         - '@OroFrontendBundle/Tests/Behat/Features'
   elements:
@@ -24,5 +27,8 @@ oro_behat_extension:
       selector: ".copyright"
     Manage Grid:
       selector: "div[id^='grid-frontend-customer-customer-user-grid'] [data-grid-toolbar='top'] .datagrid-manager a[title='Grid Settings']"
+    Customer User Grid:
+      selector: "div[id^='grid-frontend-customer-customer-user-grid']"
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
     Add:
       selector: "div[id^='grid-frontend-customer-customer-user-grid'] button[data-text='Add']"
