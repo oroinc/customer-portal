@@ -22,3 +22,7 @@ oro_behat_extension:
       selector: ".page-header"
     Copyright:
       selector: ".copyright"
+    Manage Grid:
+      selector: "div[id^='grid-frontend-customer-customer-user-grid'] [data-grid-toolbar='top'] .datagrid-manager a[title='Grid Settings']"
+    Add:
+      selector: "div[id^='grid-frontend-customer-customer-user-grid'] button[data-text='Add']"
