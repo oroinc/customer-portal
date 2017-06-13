@@ -89,8 +89,7 @@ Feature: Checked actions in grid line items
     And I should see following elements:
       | Top Pager     |
       | Bottom pager  |
-    And I click "Next"
+    And I press next page button
     And I should see following grid:
       | email  | user_10@example.org|
     And I click "Sign Out"
-
