@@ -13,8 +13,8 @@ Feature: Frontend Grid Views
   # I should have:
   # grid View "All Users"
   # Users
-  # First Name         Last Name	     Email Address              Customer       Enabled   Confirmed
-  # Amanda	           Cole	           AmandaRCole@example.org    Company A      yes       yes
+  # First Name         Last Name       Email Address              Customer       Enabled   Confirmed
+  # Amanda             Cole            AmandaRCole@example.org    Company A      yes       yes
   # FirstName_01       LastName_01     user_01@example.org        Company A      yes       yes
   # FirstName_02       LastName_02     user_02@example.org        Company A      yes       yes
   # FirstName_03       LastName_03     user_03@example.org        Company A      yes       yes
@@ -23,27 +23,27 @@ Feature: Frontend Grid Views
     Given I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account"
     And I click "Users"
-    And I click "Manage Grid"
-    # When I hide all columns in grid except First Name, Last Name, Email Address
+    And I click "Frontend Data Grid Manager Button"
+    When I hide all columns in grid except "First Name, Last Name, Email Address" on frontend
     When I filter Filter By First Name as contains "FirstName_03"
-    When I click grid view list on "Customer User Grid" grid
+    When I click grid view list on "Frontend Data Grid" grid
     And I click "Save As New"
-    And I set "Test_View_1" as grid view name for "Customer User Grid" grid on frontend
-    And I mark Set as Default on grid view for "Customer User Grid" grid on frontend
-    And I click "Add"
+    And I set "Test_View_1" as grid view name for "Frontend Data Grid" grid on frontend
+    And I mark Set as Default on grid view for "Frontend Data Grid" grid on frontend
+    And I click "Frontend Data Grid Add View"
     Then I should see "View has been successfully created" flash message
     And I reload the page
     Then I should see "Test_View_1"
     And I should see following grid:
       |First Name      |Last Name       |Email Address          |
       |FirstName_03    |LastName_03     |user_03@example.org    |
-    # And I should not see "Enabled"
-    # And I should not see "Confirmed"
+    And I shouldn't see "Enabled" column in grid
+    And I shouldn't see "Confirmed" column in grid
 
-    And I click grid view list on "Customer User Grid" grid
+    And I click grid view list on "Frontend Data Grid" grid
     And I click "Delete"
     And I press "Yes, Delete"
     Then I should see "View has been successfully deleted" flash message
-    When I click grid view list on "Customer User Grid" grid
+    When I click grid view list on "Frontend Data Grid" grid
     Then I should not see "Test_View_1"
     And I click "Sign Out"

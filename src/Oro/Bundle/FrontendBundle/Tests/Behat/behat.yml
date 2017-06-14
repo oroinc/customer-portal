@@ -25,10 +25,13 @@ oro_behat_extension:
       selector: ".page-header"
     Copyright:
       selector: ".copyright"
-    Manage Grid:
-      selector: "div[id^='grid-frontend-customer-customer-user-grid'] [data-grid-toolbar='top'] .datagrid-manager a[title='Grid Settings']"
-    Customer User Grid:
-      selector: "div[id^='grid-frontend-customer-customer-user-grid']"
+    Frontend Data Grid:
+      selector: "div[id^='grid-frontend']"
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
-    Add:
-      selector: "div[id^='grid-frontend-customer-customer-user-grid'] button[data-text='Add']"
+    Frontend Data Grid Manager Button:
+      selector: "div[id^='grid-frontend'] .datagrid-manager a[title='Grid Settings']"
+    Frontend Data Grid Manager:
+      selector: "div[id^='grid-frontend'] .datagrid-manager .dropdown-menu"
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\DataGridManager
+    Frontend Data Grid Add View:
+      selector: "div[id^='grid-frontend'] button[data-text='Add']"
