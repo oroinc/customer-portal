@@ -130,6 +130,11 @@
           "value": {
             "label": "Value",
             "type": "float"
+          },
+          "test": {
+            "label": "Unit of Quantity",
+            "type": "relation",
+            "relation_alias": "Oro\\Bundle\\ProductBundle\\Entity\\ProductUnitPrecision"
           }
         },
         "Oro\\Bundle\\CatalogBundle\\Entity\\Category": {
