@@ -1,5 +1,5 @@
 @ticket-BB-7171
-@fixture-GridViewsFixture.yml
+@fixture-FrontendGridViewsFixture.yml
 Feature: Frontend Grid Views
   #Implement frontend grid views.
   #The functionality should work exactly like in the admin.
@@ -23,14 +23,13 @@ Feature: Frontend Grid Views
     Given I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account"
     And I click "Users"
-    And I click "Frontend Data Grid Manager Button"
-    When I hide all columns in grid except "First Name, Last Name, Email Address" on frontend
+    When I hide all columns in "Customer User Grid" grid except "First Name, Last Name, Email Address" on frontend
     When I filter Filter By First Name as contains "FirstName_03"
-    When I click grid view list on "Frontend Data Grid" grid
+    When I click grid view list on "Customer User Grid" grid
     And I click "Save As New"
-    And I set "Test_View_1" as grid view name for "Frontend Data Grid" grid on frontend
-    And I mark Set as Default on grid view for "Frontend Data Grid" grid on frontend
-    And I click "Frontend Data Grid Add View"
+    And I set "Test_View_1" as grid view name for "Customer User Grid" grid on frontend
+    And I mark Set as Default on grid view for "Customer User Grid" grid on frontend
+    And I click Add datagrid view for "Customer User Grid" grid on frontend
     Then I should see "View has been successfully created" flash message
     And I reload the page
     Then I should see "Test_View_1"
@@ -40,10 +39,10 @@ Feature: Frontend Grid Views
     And I shouldn't see "Enabled" column in grid
     And I shouldn't see "Confirmed" column in grid
 
-    And I click grid view list on "Frontend Data Grid" grid
+    And I click grid view list on "Customer User Grid" grid
     And I click "Delete"
     And I press "Yes, Delete"
     Then I should see "View has been successfully deleted" flash message
-    When I click grid view list on "Frontend Data Grid" grid
+    When I click grid view list on "Customer User Grid" grid
     Then I should not see "Test_View_1"
     And I click "Sign Out"

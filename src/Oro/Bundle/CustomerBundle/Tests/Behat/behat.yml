@@ -49,6 +49,9 @@ oro_behat_extension:
     Customer User Registration Error Container:
       selector: ".form-row span.validation-failed"
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Customer User Grid:
+      selector: '[id^="grid-frontend-customer-customer-user-grid"]'
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
 
     Customer Users Registration form:
       selector: '[id^="customer_users-uid"]'
@@ -70,4 +73,16 @@ oro_behat_extension:
           Secure URL: 'routing[oro_website___secure_url][value]'
     Configuration:
       selector: '[title="Organization Configuration"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
+    FrontendGridColumnManagerButton:
+      selector: 'div.datagrid-manager.dropdown a'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
+    FrontendGridColumnManager:
+      selector: 'div.datagrid-manager div.dropdown-menu'
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager
+
+    FrontendGridAddViewButton:
+      selector: 'button[data-text="Add"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element

@@ -1,14 +1,10 @@
 <?php
 
-namespace Oro\Bundle\FrontendBundle\Tests\Behat\Element;
-
-use Behat\Mink\Element\NodeElement;
-use Oro\Bundle\TestFrameworkBundle\Behat\Element\Element;
-use Oro\Bundle\TestFrameworkBundle\Behat\Element\Table;
+namespace Oro\Bundle\CustomerBundle\Tests\Behat\Element;
 
 use Oro\Bundle\DataGridBundle\Tests\Behat\Element\GridColumnManager;
 
-class DataGridManager extends GridColumnManager
+class FrontendGridColumnManager extends GridColumnManager
 {
     protected function ensureManagerVisible()
     {
@@ -16,13 +12,14 @@ class DataGridManager extends GridColumnManager
             return;
         }
 
+        $button = $this->elementFactory->createElement('FrontendGridColumnManagerButton');
+        $button->click();
+
         self::assertTrue($this->isVisible(), 'Can not open grid column manager dropdown');
     }
 
     /**
-     * Hide all columns in grid exception mentioned in exceptions array
-     *
-     * @param array $exceptions
+     * {@inheritdoc}
      */
     public function hideAllColumns(array $exceptions = [])
     {
@@ -53,29 +50,18 @@ class DataGridManager extends GridColumnManager
     }
 
     /**
-     * @param string $title
-     * @return NodeElement|null
-     */
-    protected function getDataGridManagerRowByContent($title) {
-        $row = $this->find('css', sprintf('[data-role="column-manager-table-wrapper"] table tbody tr:contains("%s")', $title));
-
-        self::assertNotNull($row, 'Cannot find a table row with this text!');
-
-        return $row;
-    }
-
-    /**
-     * @param string $title
-     * @return NodeElement|mixed|null
+     * {@inheritdoc}
      */
     protected function getVisibilityCheckbox($title)
     {
-        $tableRow = $this->getDataGridManagerRowByContent($title);
+        $field = $this->find('css', '.custom-checkbox__text:contains("' . $title . '")');
 
-        $visibilityCheckbox = $tableRow->find('css', 'input[type=checkbox]');
+        self::assertNotNull($field, 'Can not find visibility cell for ' . $title);
 
-        self::assertNotNull($visibilityCheckbox, 'Can not find visibility cell for ' . $title);
+        $input = $field->getParent()->find('css', 'input.custom-checkbox__input');
 
-        return $visibilityCheckbox;
+        self::assertNotNull($input, 'Can not find visibility checkbox for ' . $title);
+
+        return $input;
     }
 }

@@ -5,9 +5,6 @@ oro_behat_extension:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
         - OroConfigBundle::FeatureContext
         - OroFormBundle::FormContext
-        - OroApplicationBundle::CommerceMainContext
-        - OroDataGridBundle::GridContext
-        - OroCustomerBundle::GridContext
       paths:
         - '@OroFrontendBundle/Tests/Behat/Features'
   elements:
@@ -25,13 +22,3 @@ oro_behat_extension:
       selector: ".page-header"
     Copyright:
       selector: ".copyright"
-    Frontend Data Grid:
-      selector: "div[id^='grid-frontend']"
-      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
-    Frontend Data Grid Manager Button:
-      selector: "div[id^='grid-frontend'] .datagrid-manager a[title='Grid Settings']"
-    Frontend Data Grid Manager:
-      selector: "div[id^='grid-frontend'] .datagrid-manager .dropdown-menu"
-      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\DataGridManager
-    Frontend Data Grid Add View:
-      selector: "div[id^='grid-frontend'] button[data-text='Add']"
