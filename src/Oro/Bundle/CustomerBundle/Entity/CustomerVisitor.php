@@ -4,6 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Oro\Bundle\CustomerBundle\Model\ExtendCustomerVisitor;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+
 /**
  * @ORM\Table(
  *     name="oro_customer_visitor",
@@ -14,9 +17,12 @@ use Doctrine\ORM\Mapping as ORM;
  *         )
  *     }
  * )
- * @ORM\Entity()
+ * @ORM\Entity
+ * @Config(
+ *       mode="hidden"
+ * )
  */
-class CustomerVisitor
+class CustomerVisitor extends ExtendCustomerVisitor
 {
     /**
      * @var int
