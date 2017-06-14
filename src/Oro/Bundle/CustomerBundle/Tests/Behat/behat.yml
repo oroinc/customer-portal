@@ -79,3 +79,13 @@ oro_behat_extension:
     FrontendGridColumnManager:
       selector: 'div.datagrid-manager div.dropdown-menu'
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager
+
+    Customer User Form:
+      selector: 'form[name="oro_customer_frontend_customer_user"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Buyer (Predefined):
+            locator: '//input[@data-ftid="oro_customer_frontend_customer_user_roles_2"]/../span[@class="custom-checkbox__icon"]'
+            type: xpath
+            element: PrettyCheckbox
