@@ -27,20 +27,16 @@
         }
     }
 
-    @at-root {
-        .fullscreen-popup {
-            .primary-menu {
-                &__item {
-                    border-top: 0;
-                    border-bottom: 1px solid get-color('additional', 'light');
-                }
+    &--fullscreen {
+        .primary-menu__item {
+            border-top: 0;
+            border-bottom: 1px solid get-color('additional', 'light');
+        }
 
-                &__link {
-                    padding: $primary-menu-link-inner-offset-fullscreen;
+        .primary-menu__link {
+            padding: $primary-menu-link-inner-offset-fullscreen;
 
-                    text-transform: $primary-menu-link-text-transform-fullscreen;
-                }
-            }
+            text-transform: $primary-menu-link-text-transform-fullscreen;
         }
     }
 }
