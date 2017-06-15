@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 
 use Oro\Bundle\CustomerBundle\Model\ExtendCustomerVisitor;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
@@ -10,14 +11,10 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 /**
  * @ORM\Table(
  *     name="oro_customer_visitor",
- *     uniqueConstraints = {
- *         @ORM\UniqueConstraint(
- *             name="oro_unq_cust_vis_session",
- *             columns = {"session_id"}
- *         )
- *     }
+ *     indexes={@Index(name="id_session_id_idx", columns={"id", "session_id"})}
  * )
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  * @Config(
  *       mode="hidden"
  * )
@@ -46,6 +43,12 @@ class CustomerVisitor extends ExtendCustomerVisitor
      * @ORM\Column(name="session_id", type="string", length=255, nullable=false)
      */
     protected $sessionId;
+
+    public function __construct()
+    {
+        $this->lastVisit = new \DateTime('now', new \DateTimeZone('UTC'));
+        parent::__construct();
+    }
 
     /**
      * @return int
@@ -93,5 +96,13 @@ class CustomerVisitor extends ExtendCustomerVisitor
         $this->sessionId = $sessionId;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->sessionId = bin2hex(random_bytes(10));
     }
 }

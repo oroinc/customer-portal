@@ -1210,7 +1210,7 @@ class OroCustomerBundleInstaller implements
     }
 
     /**
-     * Create customer_visitor table
+     * Create oro_customer_visitor table
      *
      * @param Schema $schema
      */
@@ -1221,6 +1221,6 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('last_visit', 'datetime', []);
         $table->addColumn('session_id', 'string', ['length' => 255]);
         $table->setPrimaryKey(['id']);
-        $table->addUniqueIndex(['session_id'], 'oro_unq_cust_vis_session');
+        $table->addIndex(['id', 'session_id'], 'id_session_id_idx');
     }
 }
