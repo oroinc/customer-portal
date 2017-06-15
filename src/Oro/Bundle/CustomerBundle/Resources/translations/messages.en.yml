@@ -298,6 +298,13 @@ oro.customer:
         website.label:          Website
         localization.label:     Localization
 
+    customervisitor:
+        entity_label: Customer Visitor
+        entity_plural_label: Customer Visitor
+        id.label: ID
+        last_visit.label: Last Visit
+        session_id.label: Session ID
+
     gridview:
         entity_label: Grid View
         entity_plural_label: Grid Views

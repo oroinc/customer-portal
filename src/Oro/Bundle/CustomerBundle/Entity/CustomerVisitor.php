@@ -15,9 +15,7 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
  * )
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
- * @Config(
- *       mode="hidden"
- * )
+ * @Config
  */
 class CustomerVisitor extends ExtendCustomerVisitor
 {
@@ -42,7 +40,7 @@ class CustomerVisitor extends ExtendCustomerVisitor
      *
      * @ORM\Column(name="session_id", type="string", length=255, nullable=false)
      */
-    protected $sessionId;
+    private $sessionId;
 
     public function __construct()
     {
