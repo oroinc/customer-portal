@@ -114,6 +114,13 @@ class CustomerVisitorManagerTest extends \PHPUnit_Framework_TestCase
             ->method('flush');
 
         $this->manager->updateLastVisitTime($user, 60);
+
+        $this->assertEquals(
+            (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp(),
+            $user->getLastVisit()->getTimestamp(),
+            '',
+            10
+        );
     }
 
     public function testUpdateLastVisitTimeWithoutAction()
@@ -127,5 +134,10 @@ class CustomerVisitorManagerTest extends \PHPUnit_Framework_TestCase
             ->method('flush');
 
         $this->manager->updateLastVisitTime($user, 86460); // 86460 - 1 day and 1 minute
+
+        $this->assertNotEquals(
+            (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp(),
+            $user->getLastVisit()->getTimestamp()
+        );
     }
 }
