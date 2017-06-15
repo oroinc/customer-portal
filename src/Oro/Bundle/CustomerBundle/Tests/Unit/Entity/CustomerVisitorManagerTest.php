@@ -68,8 +68,6 @@ class CustomerVisitorManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testFindOrCreateForNonExistedUser()
     {
-        $user = new CustomerVisitor();
-
         $repository = $this->createMock(ObjectRepository::class);
         $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepositoryForClass')
@@ -82,36 +80,52 @@ class CustomerVisitorManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->entityManager->expects($this->once())
             ->method('persist')
-            ->with($user);
+            ->with($this->isInstanceOf(CustomerVisitor::class));
 
         $this->entityManager->expects($this->once())
             ->method('flush');
 
-        $this->assertEquals($user, $this->manager->findOrCreate(self::ENTITY_ID, self::SESSION_ID));
+        $this->assertInstanceOf(
+            CustomerVisitor::class,
+            $this->manager->findOrCreate(self::ENTITY_ID, self::SESSION_ID)
+        );
     }
 
     public function testFindOrCreateWithoutId()
     {
-        $user = new CustomerVisitor();
         $this->entityManager->expects($this->once())
             ->method('persist')
-            ->with($user);
+            ->with($this->isInstanceOf(CustomerVisitor::class));
 
         $this->entityManager->expects($this->once())
             ->method('flush');
 
-        $this->assertEquals($user, $this->manager->findOrCreate());
+        $this->assertInstanceOf(CustomerVisitor::class, $this->manager->findOrCreate());
     }
 
     public function testUpdateLastVisitTime()
     {
         $user = new CustomerVisitor();
-        $this->manager->updateLastVisitTime($user, 400);
+        $date = new \DateTime('now', new \DateTimeZone('UTC'));
+        $date->modify('-1 day');
+        $user->setLastVisit($date);
+
+        $this->entityManager->expects($this->once())
+            ->method('flush');
+
+        $this->manager->updateLastVisitTime($user, 60);
     }
 
     public function testUpdateLastVisitTimeWithoutAction()
     {
         $user = new CustomerVisitor();
-        $this->manager->updateLastVisitTime($user, 400);
+        $date = new \DateTime('now', new \DateTimeZone('UTC'));
+        $date->modify('-1 day');
+        $user->setLastVisit($date);
+
+        $this->entityManager->expects($this->never())
+            ->method('flush');
+
+        $this->manager->updateLastVisitTime($user, 86460); // 86460 - 1 day and 1 minute
     }
 }

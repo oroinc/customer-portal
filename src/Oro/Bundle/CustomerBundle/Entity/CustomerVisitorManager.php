@@ -49,7 +49,7 @@ class CustomerVisitorManager
     {
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
 
-        if ($updateLatency < $user->getLastVisit()->diff($now)->s) {
+        if ($updateLatency < $now->getTimestamp() - $user->getLastVisit()->getTimestamp()) {
             $user->setLastVisit($now);
             $this->getEntityManager()->flush();
         }

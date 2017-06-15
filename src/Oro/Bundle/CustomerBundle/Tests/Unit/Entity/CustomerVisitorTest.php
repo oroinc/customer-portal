@@ -22,9 +22,11 @@ class CustomerVisitorTest extends \PHPUnit_Framework_TestCase
 
     public function testLastVisitAccessors()
     {
-        $this->assertLessThanOrEqual(
-            new \DateTime('now', new \DateTimeZone('UTC')),
-            (new CustomerVisitor())->getLastVisit()
+        $this->assertEquals(
+            (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp(),
+            (new CustomerVisitor())->getLastVisit()->getTimestamp(),
+            '',
+            10
         );
 
         $now = new \DateTime;
