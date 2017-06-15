@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\UserBundle\Entity\BaseUserManager;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
+use Oro\Bundle\UserBundle\Entity\UserInterface;
 
 class CustomerUserManager extends BaseUserManager implements ContainerAwareInterface, LoggerAwareInterface
 {
@@ -170,5 +171,15 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
     protected function isSendPasswordInWelcomeEmail()
     {
         return (bool)$this->getConfigValue('oro_customer.send_password_in_welcome_email');
+    }
+
+    /**
+     * @param UserInterface $user
+     */
+    protected function assertRoles(UserInterface $user)
+    {
+        if ($user->isEnabled() && !$user->getRoles()) {
+            throw new \RuntimeException('Enabled customer has not default role');
+        }
     }
 }

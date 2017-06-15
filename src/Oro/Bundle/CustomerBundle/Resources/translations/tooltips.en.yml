@@ -2,3 +2,4 @@ oro.customer.system_configuration.fields.default_customer_owner.tooltip: 'Defaul
 oro.customer.system_configuration.fields.registration_allowed.tooltip: 'Allow customer users registration'
 oro.customer.system_configuration.fields.confirmation_required.tooltip: 'Send confirmation email'
 oro.customer.system_configuration.fields.send_password_in_welcome_email.tooltip: 'Allow to send plain text password in welcome emails, if it known'
+oro.customer.system_configuration.fields.registration_instructions_enabled.tooltip: 'When enabled, the registration instructions will be shown on the store frontend login page'

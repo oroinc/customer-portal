@@ -6,29 +6,50 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 
 class StyleBookController extends Controller
 {
     /**
-     * @Layout
+     * @Layout(vars={"group"})
+     * @Route("/", name="oro_frontend_style_book")
+     */
+    public function indexAction()
+    {
+        $this->checkAccess();
+        return [
+            'group' => null,
+        ];
+    }
+
+    /**
+     * @Layout(vars={"group"})
      * @Route(
-     *     "/style-book/{group}",
-     *     name="oro_frontend_style_book",
-     *     defaults={"group" = null},
-     *     requirements={"group"=".+"}
+     *     "/{group}/",
+     *     name="oro_frontend_style_book_group",
+     *     requirements={"group"="\w+"}
      * )
+     * @param string $group
+     *
+     * @return array
+     */
+    public function groupAction($group)
+    {
+        $this->checkAccess();
+        return [
+            'group' => $group,
+        ];
+    }
+
+    /**
      * @throws NotFoundHttpException
      */
-    public function indexAction($group = null)
+    protected function checkAccess()
     {
         $isDebug = $this->getParameter('kernel.debug');
         if (!$isDebug) {
             throw $this->createNotFoundException();
         }
-
-        return [
-            'action' => (string)$group,
-        ];
     }
 }

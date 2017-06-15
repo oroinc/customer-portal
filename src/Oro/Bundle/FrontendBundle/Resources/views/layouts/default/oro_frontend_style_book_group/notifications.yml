@@ -136,4 +136,4 @@ layout:
                             group_element_item_callout_danger_holder:
                                 style_book_grid_element_callout_danger: ~
 
-    conditions: 'context["action"]=="forms"'
+    conditions: 'context["group"]=="forms"'

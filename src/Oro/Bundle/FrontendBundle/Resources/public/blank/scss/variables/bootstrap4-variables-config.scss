@@ -92,6 +92,9 @@ $zindex-navbar-sticky:     update-default($zindex-navbar-sticky, z('dropdown') +
 $zindex-modal-bg:          update-default($zindex-modal-bg, z('popup'));
 $zindex-modal:             update-default($zindex-modal, z('popup') + 1);
 
+// Tooltips
+
+$tooltip-max-width: update-default($tooltip-max-width, null);
 
 // Popovers
 

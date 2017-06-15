@@ -16,7 +16,6 @@
 
     display: flex;
     flex-flow: column;
-    max-height: 100%;
     min-height: $dialog-min-height !important;
 
     font-family: $base-font;
@@ -107,7 +106,6 @@
 
     .ui-dialog-buttonpane {
         padding: $dialog-buttonpane-offset-inner;
-
 
         .pull-right .action-wrapper {
             margin-left: $dialog-action-wrapper-side-offset;
