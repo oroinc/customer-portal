@@ -1,13 +1,20 @@
-{% block _search_row_widget %}
+{% block _search_row_main_container_widget %}
     <div class="header-row__container hidden-on-desktop">
-        <button class="header-row__trigger hidden-on-desktop" data-toggle="dropdown">
-            <span class="nav-trigger__icon nav-trigger__icon--transparent nav-trigger__icon--large">
-                <span class="fa-search fa--gray fa--no-offset"></span>
-            </span>
-        </button>
-        <div class="header-row__toggle" data-header-row-toggle>
-            <div class="header-row__dropdown" data-header-row-search-container></div>
-        </div>
+        {{ block_widget(block) }}
     </div>
 {% endblock %}
 
+{% block _search_row_extra_container_widget %}
+    <div class="header-row__dropdown" data-header-row-search-container></div>
+{% endblock %}
+
+{% block _search_row_trigger_widget %}
+    <button class="header-row__trigger hidden-on-desktop" data-toggle="dropdown">
+        <span class="nav-trigger__icon nav-trigger__icon--transparent nav-trigger__icon--large">
+            <span class="fa-search fa--gray fa--no-offset"></span>
+        </span>
+    </button>
+    <div class="header-row__toggle" data-header-row-toggle>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}

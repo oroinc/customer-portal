@@ -32,6 +32,9 @@ layout:
         - '@move':
             id: header_row
             parentId: quick_access_container
+        - '@move':
+            id: search_row_extra_container
+            parentId: main_menu_extra_container
         - '@remove':
             id: main_menu_list
         - '@remove':
