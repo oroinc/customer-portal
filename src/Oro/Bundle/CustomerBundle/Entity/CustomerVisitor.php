@@ -42,6 +42,9 @@ class CustomerVisitor extends ExtendCustomerVisitor
      */
     private $sessionId;
 
+    /**
+     * {@inheritdoc}
+     */
     public function __construct()
     {
         $this->lastVisit = new \DateTime('now', new \DateTimeZone('UTC'));
