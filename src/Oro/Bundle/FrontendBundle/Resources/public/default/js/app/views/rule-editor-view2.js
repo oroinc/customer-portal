@@ -3,6 +3,7 @@ define(function(require) {
 
     var RuleEditorView;
     var BaseView = require('oroui/js/app/views/base/view');
+    require('bootstrap');
     var $ = require('jquery');
     var _ = require('underscore');
     var Typeahead = $.fn.typeahead.Constructor;

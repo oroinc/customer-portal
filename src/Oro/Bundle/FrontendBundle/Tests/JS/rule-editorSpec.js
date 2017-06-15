@@ -1,6 +1,8 @@
 define(function(require) {
     'use strict';
 
+    require('jasmine-jquery');
+    require('orofrontend/default/js/app/views/rule-editor-view2');
     var $ = require('jquery');
     var _ = require('underscore');
     var RuleEditor = require('orofrontend/default/js/app/components/rule-editor-component2');
@@ -14,7 +16,6 @@ define(function(require) {
     describe('orofrontend/default/js/app/components/rule-editor-component', function() {
 
         beforeEach(function(done) {
-            window.jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
             window.setFixtures(html);
             $el = $('#test');
 
@@ -22,14 +23,19 @@ define(function(require) {
             keyupEvent.keyCode = 13;
 
             ruleEditor = new RuleEditor(_.extend({}, {
-                _sourceElement: $el,
-                view: 'orofrontend/default/js/app/views/rule-editor-view2'
+                _sourceElement: $el
             }, initialOptions[0]));
 
-            setTimeout(function() {
+            var getTypeahead = function() {
                 typeahead = $el.data('typeahead');
                 done();
-            }, 200);
+            };
+
+            if (ruleEditor.deferredInit) {
+                ruleEditor.deferredInit.done(getTypeahead);
+            } else {
+                getTypeahead();
+            }
         });
 
         afterEach(function(done) {
@@ -48,6 +54,115 @@ define(function(require) {
 
         it('view is defined', function() {
             expect(ruleEditor.view).toBeDefined();
+        });
+
+        describe('check rule editor validation', function() {
+
+            it('should be valid when "product.id == 5"', function() {
+                expect(ruleEditor.isValid('product.id == 5')).toBeTruthy();
+            });
+
+            it('should be not valid when "product."', function() {
+                expect(ruleEditor.isValid('product.')).toBeFalsy();
+            });
+
+            it('should be not valid when "(product.id == 5 and product.id == 10("', function() {
+                expect(ruleEditor.isValid('(product.id == 5 and product.id == 10(')).toBeFalsy();
+            });
+
+            it('should be not valid when "(product.id == 5 and product.id == 10()"', function() {
+                expect(ruleEditor.isValid('(product.id == 5 and product.id == 10()')).toBeFalsy();
+            });
+
+            it('should be not valid when "product"', function() {
+                expect(ruleEditor.isValid('product')).toBeFalsy();
+            });
+
+            it('window exploid should be not valid when "window.category = {id: 1}; true and category.id"',
+                function() {
+                    expect(ruleEditor.isValid('window.category = {id: 1}; true and category.id')).toBeFalsy();
+                }
+            );
+
+            it('should be not valid when "(product.id == 5((((  and product.id == 10()"', function() {
+                expect(ruleEditor.isValid('(product.id == 5((((  and product.id == 10()')).toBeFalsy();
+            });
+
+            it('should be not valid when ")product.id == 5 and product.id == 10("', function() {
+                expect(ruleEditor.isValid(')product.id == 5 and product.id == 10(')).toBeFalsy();
+            });
+
+            it('should be not valid when "(product.id == 5() and product.id == 10)"', function() {
+                expect(ruleEditor.isValid('(product.id == 5() and product.id == 10)')).toBeFalsy();
+            });
+
+            it('should be not valid when "{product.id == 5 and product.id == 10}"', function() {
+                expect(ruleEditor.isValid('{product.id == 5 and product.id == 10}')).toBeFalsy();
+            });
+
+            it('should be valid when "(product.id == 5 and product.id == 10) or ' +
+                '(product.sku in ["sku1", "sku2", "sku3"])"',
+                function() {
+                    expect(
+                        ruleEditor.isValid(
+                            '(product.id == 5 and product.id == 10) or (product.sku in ["sku1", "sku2", "sku3"])'
+                        )
+                    ).toBeTruthy();
+                }
+            );
+
+            it('should be valid when "product.id == 5" is integer', function() {
+                expect(ruleEditor.isValid('product.id == 5')).toBeTruthy();
+            });
+
+            it('should be valid when "product.attributeFamily.code == "testStr"" is string', function() {
+                expect(ruleEditor.isValid('product.attributeFamily.code == "testStr"')).toBeTruthy();
+            });
+
+            it('should be valid when "product.id == 1.234"', function() {
+                expect(ruleEditor.isValid('product.id == 1.234')).toBeTruthy();
+            });
+
+            it('should be valid when "pricelist.prices.value == 1.234"', function() {
+                expect(ruleEditor.isValid('pricelist.prices.value == 1.234')).toBeTruthy();
+            });
+
+            it('should be not valid when "product.category.updatedAt > "', function() {
+                expect(ruleEditor.isValid('product.category.updatedAt > ')).toBeFalsy();
+            });
+
+            it('should be valid when "product.id in [1, 2, 3, 4, 5]"', function() {
+                expect(ruleEditor.isValid('product.id in [1, 2, 3, 4, 5]')).toBeTruthy();
+            });
+
+            it('should be valid when "product.id matches [1,2,3,4,5]"', function() {
+                expect(ruleEditor.isValid('product.id matches [1,2,3,4,5]')).toBeFalsy();
+            });
+
+            it('should be valid when "product.id not in [1, 2, 3, 4, 5]"', function() {
+                expect(ruleEditor.isValid('product.id not in [1, 2, 3, 4, 5]')).toBeTruthy();
+            });
+
+            it('should be valid when "product.id == 2 and product.category.id == category.id"', function() {
+                expect(ruleEditor.isValid('product.id == 2 and product.category.id == category.id')).toBeFalsy();
+            });
+
+            it('should be valid when "product.id == product.id"', function() {
+                expect(ruleEditor.isValid('product.id == product.id')).toBeTruthy();
+                expect(ruleEditor.isValid('product.id != product.id')).toBeTruthy();
+                expect(ruleEditor.isValid('product.id > product.id')).toBeTruthy();
+                expect(ruleEditor.isValid('product.featured < product.featured')).toBeTruthy();
+                expect(ruleEditor.isValid('product.sku == product.sku')).toBeTruthy();
+                expect(ruleEditor.isValid('product.sku != product.sku')).toBeTruthy();
+                expect(ruleEditor.isValid('product.sku > product.sku')).toBeTruthy();
+            });
+
+            it('should be not valid when "product.someStr == 4" is not contains at entities or operators', function() {
+                expect(ruleEditor.isValid('product.someStr == 4')).toBeFalsy();
+                expect(ruleEditor.isValid('someStr == 4')).toBeFalsy();
+                expect(ruleEditor.isValid('product.someStr $ 4')).toBeFalsy();
+                expect(ruleEditor.isValid('product.sku match test')).toBeFalsy();
+            });
         });
 
         describe('check autocomplete logic', function() {

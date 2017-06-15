@@ -6,11 +6,15 @@ define(function(require) {
     var _ = require('underscore');
 
     RuleEditorComponent = ViewComponent.extend({
-        view: 'orofrontend/default/js/app/views/rule-editor-view',
+        view: 'orofrontend/default/js/app/views/rule-editor-view2',
 
         regex: {
             queryLeft: /^.*[ ]/g,
-            queryRight: /[ ].*$/g
+            queryRight: /[ ].*$/g,
+            openBracket: /[\(]/g,
+            closeBracket: /[\)]/g,
+            array: /\[[^\[\]]*\]/,
+            itemSeparator: /([ \(\)])/
         },
 
         strings: {
@@ -21,7 +25,7 @@ define(function(require) {
         options: {
             operations: {
                 math: ['+', '-', '%', '*', '/'],
-                bool: ['AND', 'OR'],
+                bool: ['and', 'or'],
                 equality: ['==', '!='],
                 compare: ['>', '<', '<=', '>='],
                 inclusion: ['in', 'not in'],
@@ -33,6 +37,20 @@ define(function(require) {
                 root_entities: {},
                 fields_data: {}
             }
+        },
+
+        toNative: {
+            'and': '&&',
+            'or': '||',
+            'boolean': 'true',
+            'relation': 'true',
+            'integer': '0',
+            'float': '0',
+            'standalone': '""',
+            'string': '""',
+            'in': '$next.indexOf($prev) != -1',
+            'not in': '$next.indexOf($prev) == -1',
+            'matches': '$prev.indexOf($next) != -1'
         },
 
         allItems: null,
@@ -51,8 +69,193 @@ define(function(require) {
             return RuleEditorComponent.__super__.initialize.apply(this, arguments);
         },
 
-        isValid: function() {
-            return true;
+        /**
+         * Check expression syntax
+         *
+         * @param {String} value
+         * @returns {Boolean}
+         */
+        isValid: function(value) {
+            value = _.trim(value);
+            if (value.length === 0) {
+                return true;
+            }
+
+            value = this._convertToNativeJS(value);
+            if (value === false) {
+                return false;
+            }
+            return this._checkNativeJS(value);
+        },
+
+        /**
+         * Convert expression to native JS code
+         *
+         * @private
+         * @param {String} value
+         * @returns {Boolean|String}
+         */
+        _convertToNativeJS: function(value) {
+            var clearMethods = ['_clearStrings', '_clearArrays', '_clearSeparators'];
+            for (var method in clearMethods) {
+                value = this[clearMethods[method]](value);
+                if (value === false) {
+                    return false;
+                }
+            }
+
+            var items = value.split(this.regex.itemSeparator);
+            _.each(items, this._convertItemToNativeJS, this);
+
+            return items.join('');
+        },
+
+        /**
+         * Convert each item, or group of items, into native JS code
+         *
+         * @private
+         * @param {String} item
+         * @param {Integer} i
+         * @param {Array} items
+         */
+        _convertItemToNativeJS: function(item, i, items) {
+            if (item.length === 0) {
+                return;
+            }
+            var prevSeparator = i - 1;
+            var prevItem = prevSeparator - 1;
+            var nextSeparator = i + 1;
+            var nextItem = nextSeparator + 1;
+
+            if (items[nextItem] && this.allItems[item + ' ' + items[nextItem]]) {
+                //items with whitespaces, for example: not in
+                item = item + ' ' + items[nextItem];
+                items[nextItem] = '';
+                items[nextSeparator] = '';
+
+                nextSeparator = nextItem + 1;
+                nextItem = nextSeparator + 1;
+            }
+
+            var nativeJS = this._getNativeJS(item);
+            if (nativeJS === item) {
+                return item;
+            }
+
+            if (nativeJS.indexOf('$prev') !== -1 && items[prevItem]) {
+                nativeJS = nativeJS.replace('$prev', items[prevItem]);
+                items[prevItem] = '';
+                items[prevSeparator] = '';
+            }
+
+            if (nativeJS.indexOf('$next') !== -1 && items[nextItem]) {
+                nativeJS = nativeJS.replace('$next', items[nextItem]);
+                items[nextItem] = '';
+                items[nextSeparator] = '';
+            }
+
+            items[i] = nativeJS;
+        },
+
+        /**
+         * Make all strings empty, convert all strings to use double quote
+         *
+         * @private
+         * @param {String} value
+         * @returns {String}
+         */
+        _clearStrings: function(value) {
+            value = value.replace(/\\\\/g, '');//remove "\" symbols
+            value = value.replace(/\\['"]/g, '').replace(/\\/g, '');//remove \" and \'
+            value = value.replace(/"[^"]*"/g, '""').replace(/'[^']*'/g, '""');//clear strings and convert quotes
+            return value;
+        },
+
+        /**
+         * Make all arrays empty, remove nested arrays
+         *
+         * @private
+         * @param {String} value
+         * @returns {String|Boolean}
+         */
+        _clearArrays: function(value) {
+            var array;
+            var changedValue;
+
+            //while we have an array
+            //""array"" placeholder used to remove nested arrays
+            while (value.indexOf('[') !== -1 && value.indexOf(']') !== -1) {
+                array = value.match(this.regex.array);
+                if (array.length === 0) {
+                    //we have only one of [ or ], array not finished
+                    return false;
+                }
+
+                if (!this._checkNativeJS(array[0].replace(/""array""/g, '[]'))) {
+                    //array not valid
+                    return false;
+                }
+
+                changedValue = value.replace(array[0], '""array""');
+                if (changedValue === value) {
+                    return false;//recursion
+                }
+
+                value = changedValue;
+            }
+
+            value = value.replace(/""array""/g, '[]');
+
+            return value;
+        },
+
+        /**
+         * Remove duplicated/extra whitespaces
+         * @private
+         * @param {String} value
+         * @returns {String|Boolean}
+         */
+        _clearSeparators: function(value) {
+            value = value.replace(/\s+/g, ' ');//remove duplicated whitespaces
+            value = value.replace('( ', '(').replace(' )', ')');//remove before and after whitespaces brackets
+            return value;
+        },
+
+        /**
+         * Try to find native JS code for expression item
+         *
+         * @private
+         * @param {String} value
+         * @returns {String|Boolean}
+         */
+        _getNativeJS: function(value) {
+            var item = this.allItems[value];
+            if (this.toNative[value] !== undefined) {
+                return this.toNative[value];
+            } else if (item && this.toNative[item.type] !== undefined) {
+                return this.toNative[item.type];
+            }
+            return value;
+        },
+
+        /**
+         * Check native JS expression syntax
+         *
+         * @private
+         * @param {String} value
+         * @returns {Boolean}
+         */
+        _checkNativeJS: function(value) {
+            //replace all "&&" and "||" to "&", because if first part of "&&" or "||" return true or false - JS ignore(do not execute) second part
+            // and replace all ";" - we should accept only one expression(var test = 1; test == 1) will be failed
+            value = value.replace(/&&|\|\|/g, '&').replace(/;/g, '');
+            try {
+                var f = new Function('return ' + value);
+                var result = f();
+                return _.isBoolean(result) || !_.isUndefined(result);
+            } catch (e) {
+                return false;
+            }
         },
 
         getAutocompleteData: function(value, position) {
@@ -64,8 +267,8 @@ define(function(require) {
         },
 
         updateValue: function(autocompleteData, item) {
-            var hasChilds = !!autocompleteData.items[item].child;
-            item += hasChilds ? this.strings.childSeparator : this.strings.itemSeparator;
+            var hasChild = !!autocompleteData.items[item].child;
+            item += hasChild ? this.strings.childSeparator : this.strings.itemSeparator;
 
             var queryParts = autocompleteData.queryParts.slice();
             queryParts.pop();
@@ -120,11 +323,11 @@ define(function(require) {
         },
 
         _getEntityChild: function(level, parentItem, entity) {
-            var childs = {};
+            var child = {};
 
             level++;
             if (level > this.options.termLevelLimit) {
-                return childs;
+                return child;
             }
 
             _.each(this.options.entities.fields_data[entity], function(itemInfo, item) {
@@ -133,10 +336,10 @@ define(function(require) {
                 if (itemInfo.type === 'relation') {
                     itemInfo.child = this._getEntityChild(level, childItem, itemInfo.relation_alias);
                 }
-                this._addItem('entities', childs, item, itemInfo);
+                this._addItem('entities', child, item, itemInfo);
             }, this);
 
-            return childs;
+            return child;
         },
 
         _prepareAutocompleteData: function(value, position) {
