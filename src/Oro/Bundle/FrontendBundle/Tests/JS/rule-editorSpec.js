@@ -229,16 +229,15 @@ define(function(require) {
 
             });
 
-            it(':check items resolve if value "product.featured"', function(done) {
+            it(':check items resolve if previous item is entity or scalar(not operation)', function(done) {
 
-                $el.val('product.featured ');
-                $el.get(0).selectionStart = 17;
+                var values = ['product.featured', '1', '1 in [1,2,3]', '(1 == 1)'];
+                _.each(values, function(value) {
+                    $el.val(value + ' ');
+                    $el.get(0).selectionStart = $el.val().length;
 
-                setTimeout(function() {
                     typeahead.lookup();
-                }, 1);
 
-                setTimeout(function() {
                     expect(ruleEditor.view.autocompleteData.items).toEqual(jasmine.objectContaining({
                         '+': {
                             group: 'operations',
@@ -256,9 +255,19 @@ define(function(require) {
                             type: 'equality'
                         }
                     }));
-                    done();
-                }, 40);
+                });
+                done();
+            });
 
+            it(':check items autocomplete group if previous character is "("', function(done) {
+                $el.val('( ');
+
+                typeahead.lookup();
+
+                expect(ruleEditor.view.autocompleteData.items.product).toBeDefined();
+                expect(ruleEditor.view.autocompleteData.items.pricelist).toBeDefined();
+
+                done();
             });
 
             it('check level 1', function() {

@@ -39,6 +39,7 @@ define(function(require) {
             this.$el.typeahead({
                 minLength: 0,
                 items: 20,
+                select: _.bind(this._typeaheadSelect, this),
                 source: _.bind(this._typeaheadSource, this),
                 lookup: _.bind(this._typeaheadLookup, this),
                 highlighter: _.bind(this._typeaheadHighlighter, this),
@@ -47,7 +48,7 @@ define(function(require) {
 
             var typeahead = this.typeahead = this.$el.data('typeahead');
 
-            this.$el.on('focus click change', _.debounce(function() {
+            this.$el.on('focus click', _.debounce(function() {
                 typeahead.lookup();
             }));
         },
@@ -63,6 +64,13 @@ define(function(require) {
 
         _typeaheadLookup: function() {
             return this.typeahead.process(this.typeahead.source());
+        },
+
+        _typeaheadSelect: function() {
+            var select = Typeahead.prototype.select;
+            var result = select.apply(this.typeahead, arguments);
+            this.typeahead.lookup();
+            return result;
         },
 
         _typeaheadHighlighter: function(item) {

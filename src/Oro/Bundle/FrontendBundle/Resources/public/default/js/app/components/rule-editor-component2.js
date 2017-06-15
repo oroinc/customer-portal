@@ -377,9 +377,14 @@ define(function(require) {
         },
 
         _setAutocompleteGroup: function(autocompleteData) {
-            var prevItem = _.trim(autocompleteData.beforeQuery).split(this.strings.itemSeparator).pop();
-            prevItem = this.allItems[prevItem] || {};
-            autocompleteData.group = prevItem.group === 'entities' ? 'operations' : 'entities';
+            var prevItemStr = _.trim(autocompleteData.beforeQuery).split(this.strings.itemSeparator).pop();
+            var prevItem = this.allItems[prevItemStr] || {};
+
+            if (!prevItemStr || prevItemStr === '(' || prevItem.group === 'operations') {
+                autocompleteData.group = 'entities';
+            } else {
+                autocompleteData.group = 'operations';
+            }
         },
 
         _setAutocompleteItems: function(autocompleteData) {
