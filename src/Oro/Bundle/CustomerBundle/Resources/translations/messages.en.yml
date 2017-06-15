@@ -506,13 +506,21 @@ oro.customer:
 
     mass_actions:
         enable_customers:
-            success_message: '%count% customer(s) were enabled'
-            error_message:   '%count% customer(s) were enabled'
+            success_message: "{0} Can't enable selected user(s)|[1,Inf[%count% user(s) were enabled"
+            error_message:   "{0} Can't enable selected user(s)|[1,Inf[%count% user(s) were enabled"
             label:           Enable
         disable_customers:
-            success_message: '%count% customer(s) were disabled'
-            error_message:   '%count% customer(s) were disabled'
+            success_message: "{0} Can't disable selected user(s)|[1,Inf[%count% user(s) were disabled"
+            error_message:   "{0} Can't disable selected user(s)|[1,Inf[%count% user(s) were disabled"
             label:           Disable
+        delete_customers:
+            success_message: "{0} Can't delete selected user(s)|[1,Inf[%count% user(s) were deleted"
+            error_message:   "{0} Can't delete selected user(s)|[1,Inf[%count% user(s) were deleted"
+            label:           Delete
+        delete_customer_addresses:
+            success_message: "{0} Can't delete selected address(es)|[1,Inf[%count% address(es) were deleted"
+            error_message:   "{0} Can't delete selected address(es)|[1,Inf[%count% address(es) were deleted"
+            label:           Delete
 
 oro.scope:
     customer.label: Customer

@@ -819,4 +819,3 @@ services:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator
         tags:
             - { name: validator.constraint_validator }
-

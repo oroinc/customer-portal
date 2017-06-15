@@ -96,8 +96,12 @@ class CustomersEnableSwitchActionHandler implements MassActionHandlerInterface
         $this->currentUser = null;
 
         return $count > 0
-            ? new MassActionResponse(true, $this->translator->trans($this->successMessage, ['%count%' => $count]))
-            : new MassActionResponse(false, $this->translator->trans($this->errorMessage, ['%count%' => $count]));
+            ? new MassActionResponse(true, $this->translator->transChoice($this->successMessage, $count, [
+                '%count%' => $count
+            ]))
+            : new MassActionResponse(false, $this->translator->transChoice($this->errorMessage, $count, [
+                '%count%' => $count
+            ]));
     }
 
     /**

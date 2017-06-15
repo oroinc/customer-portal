@@ -913,7 +913,7 @@ datagrids:
         action_configuration: ['@oro_customer.datagrid.action_permission_provider', "getUserPermissions"]
         mass_actions:
             delete:
-                label: Delete
+                label: oro.customer.mass_actions.delete_customers.label
                 type: delete
                 icon: trash
                 entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUser
@@ -926,6 +926,14 @@ datagrids:
                 launcherOptions:
                     iconClassName: fa-trash-o
                     className: datagrid-massaction__dropdown-item
+                defaultMessages:
+                    confirm_title: oro.customer.mass_actions.delete_customers.confirm_title
+                    confirm_content: oro.customer.mass_actions.delete_customers.confirm_content
+                    confirm_ok: oro.customer.mass_actions.delete_customers.confirm_ok
+                confirmMessages:
+                    selected_message: oro.customer.mass_actions.delete_customers.confirm_content
+                messages:
+                    success: oro.customer.mass_actions.delete_customers.success_message
 
     audit-grid:
         source:
@@ -1056,15 +1064,26 @@ datagrids:
                 frontend_type: frontend-map
         mass_actions:
             delete:
-                label: Delete
-                icon: trash
+                label: oro.customer.mass_actions.delete_customer_addresses.label
                 type: delete
+                icon: trash
                 entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
                 data_identifier: address.id
                 name: delete
                 frontend_type: delete-mass
                 route: oro_datagrid_front_mass_action
                 acl_resource:  oro_customer_frontend_customer_user_address_remove
+                launcherOptions:
+                    iconClassName: fa-trash-o
+                    className: datagrid-massaction__dropdown-item
+                defaultMessages:
+                    confirm_title: oro.customer.mass_actions.delete_customer_addresses.confirm_title
+                    confirm_content: oro.customer.mass_actions.delete_customer_addresses.confirm_content
+                    confirm_ok: oro.customer.mass_actions.delete_customer_addresses.confirm_ok
+                confirmMessages:
+                    selected_message: oro.customer.mass_actions.delete_customer_addresses.confirm_content
+                messages:
+                    success: oro.customer.mass_actions.delete_customer_addresses.success_message
 
     frontend-customer-customer-address-grid:
         acl_resource: oro_customer_frontend_customer_address_view
