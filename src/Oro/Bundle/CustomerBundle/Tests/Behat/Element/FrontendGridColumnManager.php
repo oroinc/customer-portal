@@ -41,7 +41,8 @@ class FrontendGridColumnManager extends GridColumnManager
     /**
      * @return NodeElement[]
      */
-    protected function getDataGridManagerRows() {
+    protected function getDataGridManagerRows()
+    {
         $rows = $this->findAll('css', '[data-role="column-manager-table-wrapper"] table tbody tr');
 
         self::assertNotNull($rows, 'Cannot find any table row!');

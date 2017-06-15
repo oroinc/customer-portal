@@ -48,11 +48,13 @@ class GridContext extends OroFeatureContext implements OroPageObjectAware
         return $this->elementFactory->createElement($grid);
     }
 
+    //@codingStandardsIgnoreStart
     /**
      * Hide all columns in grid except mentioned
      *
      * @When /^I hide all columns in "(?P<datagridName>([\w\s]+))" grid except "(?P<exceptions>(?:[^"]|\\")*)" on frontend$/
      */
+    //@codingStandardsIgnoreEnd
     public function uncheckAllColumnOptionsFrontendDatagrid($datagridName, $exceptions = '')
     {
         $exceptions = explode(',', $exceptions);
