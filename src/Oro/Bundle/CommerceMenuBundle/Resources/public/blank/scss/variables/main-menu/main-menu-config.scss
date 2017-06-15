@@ -18,3 +18,8 @@ $main-menu-sublist-container-d-border: 1px solid get-color('additional', 'light'
 $main-menu-sublist-container-d-z-index: z('base') + 10 !default;
 $main-menu-sublist-container-d-bg-color:  get-color('additional', 'ultra') !default;
 
+// Tablet styles
+$main-menu-link-line-tablet-offset: 20px !default;
+$main-menu-link-line-tablet-height: 1 !default;
+
+$main-menu-button-arrow-offset: 20px !default;

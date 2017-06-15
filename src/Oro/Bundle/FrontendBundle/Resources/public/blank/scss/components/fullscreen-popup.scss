@@ -9,37 +9,38 @@
     height: auto;
     margin-left: 0;
 
-    background: get-color('additional', 'ultra');
+    background: $fullscreen-popup-bg;
 
     &__header {
-        z-index: z('base');
+        position: absolute;
+        z-index: z('base') + 1;
         right: 0;
         left: 0;
 
         display: block;
 
-        width: 100%;
-        height: 40px;
-        padding: 0 16px;
+        height: $fullscreen-popup-header-height;
+        padding: $fullscreen-popup-header-offset;
 
-        line-height: 40px;
-        text-transform: uppercase;
+        line-height: $fullscreen-popup-header-height;
+        text-transform: $fullscreen-popup-text-transform;
 
-        background: get-color('additional', 'ultra');
-        border-bottom: 1px solid get-color('additional', 'light');
+        background: $fullscreen-popup-header-height-bg;
+        border-bottom: $fullscreen-popup-header-height-border;
+
     }
 
     &__text {
-        padding: 5px 0;
+        padding: $fullscreen-popup-text-offset;
 
         font-size: $base-font-size--s;
-        font-weight: bold;
+        font-weight: $fullscreen-popup-text-weight;
 
         cursor: pointer;
 
         [class^="fa-"],
         [class*=" fa-"] {
-            margin-right: 5px;
+            margin-right: $offset-x-s;
 
             font-size: $base-font-size--s;
             vertical-align: baseline;
@@ -47,11 +48,9 @@
     }
 
     &__badge {
-        margin-right: 5px;
+        margin-right: $offset-x-s;
 
-        @include badge(
-            $badge-bg: get-color('additional', 'dark')
-        );
+        @include badge($badge-bg: $fullscreen-popu-badge-bg);
 
         vertical-align: baseline;
     }
@@ -59,9 +58,9 @@
     &__close {
         position: absolute;
         top: 0;
-        right: 16px;
+        right: $offset-x;
         
-        font-size: 20px;
+        font-size: $fullscreen-popu-close-font-size;
 
         cursor: pointer;
 
@@ -72,6 +71,8 @@
         height: 100%;
 
         overflow: auto;
+
+        padding-top: $fullscreen-popup-header-height;
     }
 
     //TODO: Make corrent padding of popup conent for any content

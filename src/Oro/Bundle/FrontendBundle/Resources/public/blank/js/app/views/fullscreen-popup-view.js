@@ -14,7 +14,7 @@ define(function(require) {
         optionNames: BaseView.prototype.optionNames.concat([
             'template', 'templateSelector', 'templateData',
             'content', 'contentSelector', 'contentView',
-            'contentOptions', 'contentElement',
+            'contentOptions', 'contentElement', 'contentAttributes',
             'popupLabel', 'popupCloseOnLabel',
             'popupCloseButton', 'popupIcon', 'popupBadge'
         ]),
@@ -43,6 +43,8 @@ define(function(require) {
 
         contentOptions: null,
 
+        contentAttributes: {},
+
         events: {
             'click': 'show'
         },
@@ -53,6 +55,7 @@ define(function(require) {
          * @inheritDoc
          */
         initialize: function() {
+            this.contentElement = $(this.contentElement);
             FullscreenPopupView.__super__.initialize.apply(this, arguments);
         },
 
@@ -105,7 +108,10 @@ define(function(require) {
         moveContentElement: function(callback) {
             this.contentElementPlaceholder = $('<div/>');
             this.contentElement.after(this.contentElementPlaceholder);
-            $(this.contentOptions.el).append(this.contentElement);
+            $(this.contentOptions.el)
+                .append(
+                    this.contentElement.attr(this.contentAttributes)
+                );
 
             callback();
         },
@@ -138,6 +144,9 @@ define(function(require) {
             }
 
             if (this.contentElement && this.contentElementPlaceholder) {
+                this.contentElement.removeAttr(
+                    _.keys(this.contentAttributes).join(' ')
+                );
                 this.contentElementPlaceholder.after(this.contentElement);
                 this.contentElementPlaceholder.remove();
             }

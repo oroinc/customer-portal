@@ -4,8 +4,9 @@
 @import './components/footer-nav.scss';
 
 @import 'components/header-row';
-@import 'components/main-menu';
-@import 'components/nav-trigger';
+@import 'components/nav-trigger'
+;
+@import 'components/main-menu/main-menu';
+@import 'components/main-menu/main-menu-outer';
 
-@import 'components/main-menu-outer';
 @import 'components/sales-block';
