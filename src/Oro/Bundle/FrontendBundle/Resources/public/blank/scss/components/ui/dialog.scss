@@ -20,8 +20,6 @@
 
     font-family: $base-font;
 
-    border-radius: $dialog-border-radius;
-
     &.ui-widget-content,
     .ui-widget-content {
         max-width: 100%;
@@ -128,6 +126,10 @@
             padding: $dialog-notification-offset-inner;
         }
     }
+}
+
+.ui-widget-content {
+    border-radius: $dialog-widget-content-border-radius;
 }
 
 @include breakpoint('mobile-landscape') {
