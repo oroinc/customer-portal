@@ -6,7 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\DataGridBundle\Entity\Manager\GridViewManager;
 use Oro\Bundle\DataGridBundle\Entity\Manager\GridViewManager as BaseGridViewManager;
 use Oro\Bundle\DataGridBundle\Extension\GridViews\ViewInterface;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 
 class GridViewManagerComposite extends BaseGridViewManager
@@ -17,22 +17,22 @@ class GridViewManagerComposite extends BaseGridViewManager
     /** @var GridViewManager */
     protected $frontendGridViewManager;
 
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
     /**
-     * @param GridViewManager $defaultGridViewManager
-     * @param GridViewManager $frontendGridViewManager
-     * @param SecurityFacade $securityFacade
+     * @param GridViewManager        $defaultGridViewManager
+     * @param GridViewManager        $frontendGridViewManager
+     * @param TokenAccessorInterface $tokenAccessor
      */
     public function __construct(
         GridViewManager $defaultGridViewManager,
         GridViewManager $frontendGridViewManager,
-        SecurityFacade $securityFacade
+        TokenAccessorInterface $tokenAccessor
     ) {
         $this->defaultGridViewManager = $defaultGridViewManager;
         $this->frontendGridViewManager = $frontendGridViewManager;
-        $this->securityFacade = $securityFacade;
+        $this->tokenAccessor = $tokenAccessor;
     }
 
     /**
@@ -90,6 +90,6 @@ class GridViewManagerComposite extends BaseGridViewManager
      */
     protected function isFrontend()
     {
-        return $this->securityFacade->getLoggedUser() instanceof CustomerUser;
+        return $this->tokenAccessor->getUser() instanceof CustomerUser;
     }
 }

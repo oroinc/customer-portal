@@ -10,12 +10,12 @@ use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\EntityBundle\Exception\NotManageableEntityException;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -38,9 +38,9 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
     protected $securityProvider;
 
     /**
-     * @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $securityFacade;
+    protected $authorizationChecker;
 
     /**
      * @var AuthenticationTrustResolverInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -65,9 +65,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->securityFacade = $this->getMockBuilder(SecurityFacade::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
 
         $this->trustResolver = $this->createMock(AuthenticationTrustResolverInterface::class);
 
@@ -77,7 +75,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
 
         $services = [
             'oro_customer.security.customer_user_provider' => $this->securityProvider,
-            'oro_security.security_facade' => $this->securityFacade,
+            'security.authorization_checker' => $this->authorizationChecker,
             'oro_customer.provider.customer_user_relations_provider' => $this->relationsProvider,
         ];
 
@@ -160,7 +158,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
             ->with($object, false)
             ->willReturn($inputData['objectId']);
 
-        $this->securityFacade->expects($this->any())
+        $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
             ->with($inputData['isGrantedAttr'], $inputData['isGrantedDescr'])
             ->willReturn($inputData['isGranted']);
@@ -692,7 +690,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
      */
     public function testVoteAnonymousAbstain($object)
     {
-        $this->securityFacade->expects($this->never())
+        $this->authorizationChecker->expects($this->never())
             ->method('isGranted');
 
         /* @var $token TokenInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -737,7 +735,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
      */
     public function testVoteAnonymous($attribute, $permissionAttribute, $isGranted, $expectedResult)
     {
-        $this->securityFacade->expects($this->once())
+        $this->authorizationChecker->expects($this->once())
             ->method('isGranted')
             ->with($permissionAttribute, $this->getDescriptor())
             ->willReturn($isGranted);

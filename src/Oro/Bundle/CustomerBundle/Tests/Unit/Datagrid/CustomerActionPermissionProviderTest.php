@@ -5,8 +5,9 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Datagrid\CustomerActionPermissionProvider;
 
 class CustomerActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
@@ -22,9 +23,9 @@ class CustomerActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
     protected $record;
 
     /**
-     * @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $securityFacade;
+    protected $authorizationChecker;
 
     /**
      * @var Registry|\PHPUnit_Framework_MockObject_MockObject
@@ -43,9 +44,7 @@ class CustomerActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->record = $this->createMock('Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface');
 
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
 
         $this->doctrine = $this->getMockBuilder('Doctrine\Bundle\DoctrineBundle\Registry')
             ->disableOriginalConstructor()
@@ -55,7 +54,10 @@ class CustomerActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->actionPermissionProvider = new CustomerActionPermissionProvider($this->securityFacade, $this->doctrine);
+        $this->actionPermissionProvider = new CustomerActionPermissionProvider(
+            $this->authorizationChecker,
+            $this->doctrine
+        );
     }
 
     /**
@@ -83,7 +85,7 @@ class CustomerActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
             ->willReturn($inputData['object'])
         ;
 
-        $this->securityFacade->expects($this->any())
+        $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
             ->willReturnCallback(function ($permission) use ($inputData) {
                 return $inputData['isGranted'][$permission];

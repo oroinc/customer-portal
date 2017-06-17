@@ -387,8 +387,8 @@ operations:
                 - '@not_equal': [$.loggedUser.id, $id]
         preactions:
             - '@call_service_method':
-                  service: 'oro_security.security_facade'
-                  method: 'getLoggedUser'
+                  service: 'oro_security.token_accessor'
+                  method: 'getUser'
                   attribute: $.loggedUser
         datagrids:
             - frontend-customer-customer-user-grid

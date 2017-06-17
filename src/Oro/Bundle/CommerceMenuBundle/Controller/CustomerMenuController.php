@@ -122,7 +122,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
      */
     protected function checkAcl(array $context)
     {
-        if (!$this->get('oro_security.security_facade')->isGranted(
+        if (!$this->isGranted(
             'oro_customer_customer_update',
             $context[ScopeCustomerCriteriaProvider::ACCOUNT]
         )

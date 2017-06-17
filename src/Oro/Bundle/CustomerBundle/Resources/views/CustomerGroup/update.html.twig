@@ -17,7 +17,7 @@
     {% placeholder update_navButtons with {entity: entity} %}
     {{ UI.cancelButton(path('oro_customer_customer_group_index')) }}
     {% set html = UI.saveAndCloseButton() %}
-    {% if entity.id or resource_granted('oro_customer_customer_group_update') %}
+    {% if entity.id or is_granted('oro_customer_customer_group_update') %}
         {% set html = html ~ UI.saveAndStayButton() %}
     {% endif %}
     {{ UI.dropdownSaveButton({'html': html}) }}
