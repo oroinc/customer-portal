@@ -8,7 +8,17 @@ class GuestAccessAllowedUrlsProvider implements GuestAccessAllowedUrlsProviderIn
      * @internal
      */
     const ALLOWED_URLS = [
-        '^/exception/', // Required for the rendering of 404 page.
+        // Required for the rendering of 404 page.
+        '^/exception/',
+        // Internal URLs and assets.
+        '^/_profiler',
+        '^/_wdt',
+        '^/_fragment',
+        '^/js/',
+        '^/api/',
+        // Allow embedded forms.
+        '^/embedded-form',
+        // Explicitly allowed URLs.
         '^/customer/user/login$',
         '^/customer/user/reset-request$',
         '^/customer/user/send-email$',

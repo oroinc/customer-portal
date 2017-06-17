@@ -3,30 +3,38 @@
 namespace Oro\Bundle\FrontendBundle\GuestAccess;
 
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProviderInterface;
-use Oro\Bundle\RedirectBundle\Routing\MatchedUrlDecisionMaker;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
 class GuestAccessDecisionMaker implements GuestAccessDecisionMakerInterface
 {
-    /**
-     * @var MatchedUrlDecisionMaker
-     */
-    private $matchedUrlDecisionMaker;
-
     /**
      * @var GuestAccessAllowedUrlsProviderInterface
      */
     private $guestAccessAllowedUrlsProvider;
 
     /**
+     * @var FrontendHelper
+     */
+    private $frontendHelper;
+
+    /**
+     * @var bool
+     */
+    private $installed;
+
+    /**
      * @param GuestAccessAllowedUrlsProviderInterface $guestAccessAllowedUrlsProvider
-     * @param MatchedUrlDecisionMaker                 $matchedUrlDecisionMaker
+     * @param FrontendHelper                          $frontendHelper
+     * @param bool                                    $installed
      */
     public function __construct(
         GuestAccessAllowedUrlsProviderInterface $guestAccessAllowedUrlsProvider,
-        MatchedUrlDecisionMaker $matchedUrlDecisionMaker
+        FrontendHelper $frontendHelper,
+        $installed
     ) {
-        $this->matchedUrlDecisionMaker = $matchedUrlDecisionMaker;
         $this->guestAccessAllowedUrlsProvider = $guestAccessAllowedUrlsProvider;
+        $this->frontendHelper = $frontendHelper;
+        $this->installed = $installed;
     }
 
     /**
@@ -35,7 +43,8 @@ class GuestAccessDecisionMaker implements GuestAccessDecisionMakerInterface
     public function decide($url)
     {
         switch (true) {
-            case ($this->matchedUrlDecisionMaker->matches($url) === false):
+            case ($this->installed === false):
+            case ($this->frontendHelper->isFrontendUrl($url) === false):
             case ($this->isAllowedUrl($url) === true):
                 return GuestAccessDecisionMakerInterface::URL_ALLOW;
                 break;

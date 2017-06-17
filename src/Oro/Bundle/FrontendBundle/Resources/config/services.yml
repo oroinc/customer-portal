@@ -50,7 +50,8 @@ services:
         class: 'Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMaker'
         arguments:
             - '@oro_frontend.guest_access.provider.guest_access_urls_provider'
-            - '@oro_redirect.routing.matched_url_decision_maker'
+            - '@oro_frontend.request.frontend_helper'
+            - '%installed%'
         public: false
 
     oro_frontend.guest_access.provider.guest_access_urls_provider:

@@ -20,6 +20,12 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit_Framework_TestCase
     {
         $allowedUrls = [
             '^/exception/',
+            '^/_profiler',
+            '^/_wdt',
+            '^/_fragment',
+            '^/js/',
+            '^/api/',
+            '^/embedded-form',
             '^/customer/user/login$',
             '^/customer/user/reset-request$',
             '^/customer/user/send-email$',
