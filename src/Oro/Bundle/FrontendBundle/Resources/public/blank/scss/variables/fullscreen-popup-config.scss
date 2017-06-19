@@ -11,6 +11,7 @@ $fullscreen-popup-text-transform: uppercase !default;
 $fullscreen-popup-text-offset: $offset-y-s 0 !default;
 $fullscreen-popup-text-weight: bold !default;
 
-$fullscreen-popu-badge-bg: get-color('additional', 'dark') !default;
+$fullscreen-popu-badge-bg: darken(get-color('additional', 'middle'), 33%) !default;
 
 $fullscreen-popu-close-font-size: 20px !default;
+$fullscreen-popu-close-color: lighten(get-color('additional', 'dark'), 41%) !default;

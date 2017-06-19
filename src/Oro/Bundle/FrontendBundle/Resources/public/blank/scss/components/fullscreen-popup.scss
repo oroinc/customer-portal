@@ -42,7 +42,6 @@
         [class*=" fa-"] {
             margin-right: $offset-x-s;
 
-            font-size: $base-font-size--s;
             vertical-align: baseline;
         }
     }
@@ -63,6 +62,7 @@
         font-size: $fullscreen-popu-close-font-size;
 
         cursor: pointer;
+        color: $fullscreen-popu-close-color;
 
         @include fa-icon($fa-var-close, after);
     }

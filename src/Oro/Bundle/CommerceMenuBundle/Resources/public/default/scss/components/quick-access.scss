@@ -61,6 +61,8 @@
 
 @include breakpoint('tablet') {
     .quick-access {
+        padding: $offset-y;
+
         &__list {
             text-align: left;
         }
@@ -69,7 +71,7 @@
             display: block;
 
             margin: 0;
-            padding: 8px 15px 7px;
+            padding: 8px 0;
 
             text-transform: uppercase;
         }

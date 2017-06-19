@@ -28,7 +28,12 @@ define(function(require) {
         $relatedContainer: $([]),
 
         /** @property */
-        consideringTopPosition: true,
+        consideringTopPosition: 40,
+
+        /**
+         * @inheritDoc
+         */
+        keepElement: true,
 
         /**
          * @param {Object} options
@@ -74,7 +79,7 @@ define(function(require) {
             this.$relatedContainer.one('ransitionend webkitTransitionEnd oTransitionEnd',
                 _.bind(this.hidePrevTrigger, this)
             );
-            this.updateHeight(this.$relatedContainer);
+            this.updateHeight();
         },
 
         goToNextSection: function($el) {
@@ -115,45 +120,42 @@ define(function(require) {
                 .toggleClass('hidden', this.nestingLevel === 0);
         },
 
-        /**
-         * @param {jQuery} $el
-         */
-        updateHeight: function($el) {
-            var $menuContainer = this.$(this.options.menuContainerSelector);
+        updateHeight: function() {
             var $popupParent = this.$el.closest('.fullscreen-popup');
-            var menuHeight = 'auto';
-            var containerHeight = 'auto';
-            var setHeight = _.bind(function(menuHeight, containerHeight) {
-                $menuContainer.css({
-                    'height': menuHeight
-                });
+            var containerHeight = 0;
 
+            if ($popupParent.length) {
+                containerHeight = $popupParent.height();
+            }
+
+            if (this.consideringTopPosition > 0) {
+                containerHeight -= this.onsideringTopPosition;
+            }
+
+            if (containerHeight > 0) {
                 this.$relatedContainer.css({
                     'height': containerHeight
                 });
-            }, this);
-
-            if (this.nestingLevel === 0) {
-                setHeight(menuHeight, containerHeight);
-            } else {
-                var $container = $el || $([]);
-                menuHeight = $container.height();
-
-                if ($popupParent.length) {
-                    containerHeight = $popupParent.height();
-                }
-
-                if (this.consideringTopPosition) {
-                    menuHeight += this.getRootTopPosition();
-                    containerHeight -= this.getRootTopPosition();
-                }
-
-                setHeight(menuHeight, containerHeight);
             }
         },
 
-        getRootTopPosition: function() {
-            return 40;
+        /**
+         * @inheritDoc
+         */
+        dispose: function(options) {
+            if (this.disposed) {
+                return;
+            }
+
+            this.$travelingTrigger.off();
+            mediator.off(null, null, this);
+
+            delete this.nestingLevel;
+            delete this.$relatedTrigger;
+            delete this.$relatedContainer;
+            delete this.consideringTopPosition;
+
+            MenuTravelingWidget.__super__.dispose.apply(this, arguments);
         }
     });
 

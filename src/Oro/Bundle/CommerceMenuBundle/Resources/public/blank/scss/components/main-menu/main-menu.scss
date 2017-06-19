@@ -61,10 +61,24 @@
         text-transform: uppercase;
         font-weight: bold;
 
-        color: get-color('additional', 'darker');
+        color: lighten(get-color('additional', 'dark'), 41%);
 
         border-color: transparent;
-        background-color: transparent;
+        background-color: get-color('additional', 'ultra');
+    }
+
+    @include fullscreen-mode {
+        .main-menu__back-trigger {
+            position: absolute;
+            top: 0;
+            left: $offset-x;
+            z-index: z('base') + 1;
+
+            display: block;
+            width: $main-menu-back-trigger-width;
+
+            text-align: $main-menu-back-trigger-align;
+        }
     }
 }
 
@@ -192,7 +206,7 @@
 
         &__sublist-container {
             position: absolute;
-            top: $fullscreen-popup-header-height;
+            top: $fullscreen-popup-header-height - 1;
             left: 100%;
             z-index: z('base');
 
@@ -207,17 +221,6 @@
     &.current + .main-menu__sublist-container {
         left: 0;
         overflow-y: scroll;
-    }
-
-    .fullscreen-mode {
-        .main-menu__back-trigger {
-            position: absolute;
-            top: 0;
-            left: $offset-x;
-            z-index: z('base') + 1;
-
-            display: block;
-        }
     }
 }
 
