@@ -53,7 +53,6 @@ define(function(require) {
             if (viewportManager.isApplicable(this.viewport)) {
                 this.setFullScreenViewDesign(true);
 
-                this.$el.removeAttr('style');
                 this.fullscreenView = new FullScreenPopupView(this.popupOptions);
                 this.fullscreenView.on('close', function() {
                     this.setFullScreenViewDesign(false);

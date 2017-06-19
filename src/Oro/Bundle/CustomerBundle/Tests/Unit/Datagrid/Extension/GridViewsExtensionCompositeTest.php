@@ -8,7 +8,7 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\MetadataObject;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\DataGridBundle\Extension\GridViews\GridViewsExtension;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 
@@ -20,8 +20,8 @@ class GridViewsExtensionCompositeTest extends \PHPUnit_Framework_TestCase
     /** @var GridViewsExtension|\PHPUnit_Framework_MockObject_MockObject */
     protected $frontendGridViewsExtension;
 
-    /** @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $tokenAccessor;
 
     /** @var GridViewsExtensionComposite */
     protected $extension;
@@ -30,12 +30,12 @@ class GridViewsExtensionCompositeTest extends \PHPUnit_Framework_TestCase
     {
         $this->defaultGridViewsExtension = $this->createMock(GridViewsExtension::class);
         $this->frontendGridViewsExtension = $this->createMock(GridViewsExtension::class);
-        $this->securityFacade = $this->createMock(SecurityFacade::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->extension = new GridViewsExtensionComposite(
             $this->defaultGridViewsExtension,
             $this->frontendGridViewsExtension,
-            $this->securityFacade
+            $this->tokenAccessor
         );
     }
 
@@ -49,7 +49,7 @@ class GridViewsExtensionCompositeTest extends \PHPUnit_Framework_TestCase
     {
         $config = DatagridConfiguration::create([]);
 
-        $this->securityFacade->expects($this->once())->method('getLoggedUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
             ->method('isApplicable')
             ->with($config)
@@ -70,7 +70,7 @@ class GridViewsExtensionCompositeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPriority($user, $isFrontend)
     {
-        $this->securityFacade->expects($this->once())->method('getLoggedUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
             ->method('getPriority')
             ->willReturn(20);
@@ -92,7 +92,7 @@ class GridViewsExtensionCompositeTest extends \PHPUnit_Framework_TestCase
         $config = DatagridConfiguration::create([]);
         $data = MetadataObject::create([]);
 
-        $this->securityFacade->expects($this->once())->method('getLoggedUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
             ->method('visitMetadata')
             ->willReturnCallback(
@@ -127,7 +127,7 @@ class GridViewsExtensionCompositeTest extends \PHPUnit_Framework_TestCase
     {
         $params = new ParameterBag();
 
-        $this->securityFacade->expects($this->once())->method('getLoggedUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
         $this->defaultGridViewsExtension->expects($this->exactly((int) !$isFrontend))
             ->method('setParameters')
             ->willReturnCallback(

@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\Manager\GridViewManagerComposite;
 use Oro\Bundle\DataGridBundle\Entity\Manager\GridViewManager;
 use Oro\Bundle\DataGridBundle\Extension\GridViews\View;
 use Oro\Bundle\DataGridBundle\Extension\GridViews\ViewInterface;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 
@@ -19,8 +19,8 @@ class GridViewManagerCompositeTest extends \PHPUnit_Framework_TestCase
     /** @var GridViewManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $frontendGridViewManager;
 
-    /** @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $tokenAccessor;
 
     /** @var GridViewManagerComposite */
     protected $manager;
@@ -29,12 +29,12 @@ class GridViewManagerCompositeTest extends \PHPUnit_Framework_TestCase
     {
         $this->defaultGridViewManager = $this->createMock(GridViewManager::class);
         $this->frontendGridViewManager = $this->createMock(GridViewManager::class);
-        $this->securityFacade = $this->createMock(SecurityFacade::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->manager = new GridViewManagerComposite(
             $this->defaultGridViewManager,
             $this->frontendGridViewManager,
-            $this->securityFacade
+            $this->tokenAccessor
         );
     }
 
@@ -49,7 +49,7 @@ class GridViewManagerCompositeTest extends \PHPUnit_Framework_TestCase
         $view = new View('test');
         $customUser = new User();
 
-        $this->securityFacade->expects($this->once())->method('getLoggedUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
         $this->defaultGridViewManager->expects($this->exactly((int) !$isFrontend))
             ->method('setDefaultGridView')
             ->willReturnCallback(
@@ -88,7 +88,7 @@ class GridViewManagerCompositeTest extends \PHPUnit_Framework_TestCase
     {
         $gridName = 'test';
 
-        $this->securityFacade->expects($this->once())->method('getLoggedUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
         $this->defaultGridViewManager->expects($this->exactly((int) !$isFrontend))
             ->method('getSystemViews')
             ->with($gridName)
@@ -112,7 +112,7 @@ class GridViewManagerCompositeTest extends \PHPUnit_Framework_TestCase
         $customUser = new User();
         $gridName = 'test';
 
-        $this->securityFacade->expects($this->once())->method('getLoggedUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
         $this->defaultGridViewManager->expects($this->exactly((int) !$isFrontend))
             ->method('getAllGridViews')
             ->with($customUser, $gridName)
@@ -139,7 +139,7 @@ class GridViewManagerCompositeTest extends \PHPUnit_Framework_TestCase
         $customUser = new User();
         $gridName = 'test';
 
-        $this->securityFacade->expects($this->once())->method('getLoggedUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
         $this->defaultGridViewManager->expects($this->exactly((int) !$isFrontend))
             ->method('getDefaultView')
             ->with($customUser, $gridName)
@@ -167,7 +167,7 @@ class GridViewManagerCompositeTest extends \PHPUnit_Framework_TestCase
         $default = true;
         $gridName = 'test';
 
-        $this->securityFacade->expects($this->once())->method('getLoggedUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->once())->method('getUser')->willReturn($user);
         $this->defaultGridViewManager->expects($this->exactly((int) !$isFrontend))
             ->method('getView')
             ->with($id, $default, $gridName)

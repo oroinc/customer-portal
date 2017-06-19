@@ -2,30 +2,27 @@
 
 namespace Oro\Bundle\CustomerBundle\Datagrid;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 
 class CustomerActionPermissionProvider
 {
-    /**
-     * @var SecurityFacade
-     */
-    protected $securityFacade;
+    /** @var AuthorizationCheckerInterface */
+    protected $authorizationChecker;
 
-    /**
-     * @var Registry
-     */
+    /** @var ManagerRegistry */
     protected $doctrine;
 
     /**
-     * @param SecurityFacade $securityFacade
-     * @param Registry $doctrine
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param ManagerRegistry               $doctrine
      */
-    public function __construct(SecurityFacade $securityFacade, Registry $doctrine)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, ManagerRegistry $doctrine)
     {
-        $this->securityFacade = $securityFacade;
+        $this->authorizationChecker = $authorizationChecker;
         $this->doctrine = $doctrine;
     }
 
@@ -44,7 +41,7 @@ class CustomerActionPermissionProvider
             if (isset($options['acl_permission']) && isset($options['acl_class'])) {
                 $object = $this->findObject($options['acl_class'], $record->getValue('id'));
 
-                $isGranted = $this->securityFacade->isGranted($options['acl_permission'], $object);
+                $isGranted = $this->authorizationChecker->isGranted($options['acl_permission'], $object);
             }
 
             $actions[$action] = $isGranted;

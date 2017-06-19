@@ -2,21 +2,30 @@
 
 namespace Oro\Bundle\CustomerBundle\Datagrid;
 
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class ActionPermissionProvider
 {
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    /** @var AuthorizationCheckerInterface */
+    protected $authorizationChecker;
+
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
     /**
-     * @param SecurityFacade $securityFacade
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param TokenAccessorInterface        $tokenAccessor
      */
-    public function __construct(SecurityFacade $securityFacade)
-    {
-        $this->securityFacade = $securityFacade;
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        TokenAccessorInterface $tokenAccessor
+    ) {
+        $this->authorizationChecker = $authorizationChecker;
+        $this->tokenAccessor = $tokenAccessor;
     }
 
     /**
@@ -27,7 +36,7 @@ class ActionPermissionProvider
     public function getUserPermissions(ResultRecordInterface $record)
     {
         $disabled = $enabled = $record->getValue('enabled');
-        $user = $this->securityFacade->getLoggedUser();
+        $user = $this->tokenAccessor->getUser();
         $delete = true;
         if ($user instanceof CustomerUser) {
             $isCurrentUser = $user->getId() == $record->getValue('id');
@@ -53,7 +62,7 @@ class ActionPermissionProvider
     {
         $isGranted = true;
         if ($record->getValue('isRolePredefined')) {
-            $isGranted = $this->securityFacade->isGranted('oro_customer_frontend_customer_user_role_create');
+            $isGranted = $this->authorizationChecker->isGranted('oro_customer_frontend_customer_user_role_create');
         }
 
         return [

@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
+use Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager;
 use Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 use Oro\Bundle\TestFrameworkBundle\Behat\Element\OroPageObjectAware;
@@ -45,5 +46,25 @@ class GridContext extends OroFeatureContext implements OroPageObjectAware
     protected function getGrid($grid = 'Grid')
     {
         return $this->elementFactory->createElement($grid);
+    }
+
+    //@codingStandardsIgnoreStart
+    /**
+     * @When /^(?:|I )show column "(?P<columnName>(?:[^"]|\\")*)" in "(?P<datagridName>(?:[^"]|\\")*)" frontend grid$/
+     * @When /^(?:|I )mark as visible column "(?P<columnName>(?:[^"]|\\")*)" in "(?P<datagridName>(?:[^"]|\\")*)" frontend grid$/
+     *
+     * @param string $columnName
+     * @param string $datagridName
+     */
+    //@codingStandardsIgnoreEnd
+    public function checkColumnOptionFrontendDatagrid($columnName, $datagridName)
+    {
+        $grid = $this->getGrid($datagridName);
+
+        /** @var FrontendGridColumnManager $columnManager */
+        $columnManager = $grid->getElement('FrontendGridColumnManager');
+        $columnManager->open();
+        $columnManager->checkColumnVisibility($columnName);
+        $columnManager->close();
     }
 }
