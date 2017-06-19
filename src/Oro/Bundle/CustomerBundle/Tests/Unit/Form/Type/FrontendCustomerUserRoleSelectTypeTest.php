@@ -8,17 +8,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\QueryBuilder;
 
 use Oro\Component\Testing\Unit\EntityTrait;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
 class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
@@ -29,8 +30,8 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
      */
     protected $formType;
 
-    /** @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $tokenAccessor;
 
     /** @var $registry Registry|\PHPUnit_Framework_MockObject_MockObject */
     protected $registry;
@@ -54,13 +55,9 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $this->qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->securityFacade->expects($this->any())->method('getLoggedUser')->willReturn($user);
-        $this->registry = $this->getMockBuilder('Doctrine\Bundle\DoctrineBundle\Registry')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $this->tokenAccessor->expects($this->any())->method('getUser')->willReturn($user);
+        $this->registry = $this->createMock(ManagerRegistry::class);
         /** @var $repo CustomerUserRoleRepository|\PHPUnit_Framework_MockObject_MockObject */
         $repo = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository')
             ->disableOriginalConstructor()
@@ -82,7 +79,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $this->aclHelper = $this->createAclHelperMock();
         $this->registry->expects($this->any())->method('getManagerForClass')->willReturn($em);
         $this->formType = new FrontendCustomerUserRoleSelectType(
-            $this->securityFacade,
+            $this->tokenAccessor,
             $this->registry,
             $this->aclHelper
         );
@@ -130,14 +127,11 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
     public function testEmptyUser()
     {
-        /** @var $securityFacade SecurityFacade|\PHPUnit_Framework_MockObject_MockObject */
-        $securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $securityFacade->expects($this->once())->method('getLoggedUser')->willReturn(null);
+        $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $tokenAccessor->expects($this->once())->method('getUser')->willReturn(null);
         /** @var $resolver OptionsResolver|\PHPUnit_Framework_MockObject_MockObject */
         $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
-        $roleFormType = new FrontendCustomerUserRoleSelectType($securityFacade, $this->registry, $this->aclHelper);
+        $roleFormType = new FrontendCustomerUserRoleSelectType($tokenAccessor, $this->registry, $this->aclHelper);
         $roleFormType->configureOptions($resolver);
     }
 

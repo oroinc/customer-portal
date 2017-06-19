@@ -5,12 +5,13 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
 
 use Oro\Bundle\FormBundle\Form\Type\OroDateType;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -35,9 +36,14 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     protected $formType;
 
     /**
-     * @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $securityFacade;
+    protected $authorizationChecker;
+
+    /**
+     * @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $tokenAccessor;
 
     /**
      * @var Customer[]
@@ -55,11 +61,11 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
 
-        $this->formType = new CustomerUserType($this->securityFacade);
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+
+        $this->formType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
         $this->formType->setDataClass(self::DATA_CLASS);
         $this->formType->setAddressClass(self::ADDRESS_CLASS);
     }
@@ -119,12 +125,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $rolesGranted = true
     ) {
         if ($rolesGranted) {
-            $this->securityFacade->expects($this->once())
+            $this->authorizationChecker->expects($this->once())
                 ->method('isGranted')
                 ->with('oro_customer_customer_user_role_view')
                 ->will($this->returnValue(true));
         }
-        $this->securityFacade->expects($this->exactly(2))->method('getOrganization')->willReturn(new Organization());
+        $this->tokenAccessor->expects($this->exactly(2))->method('getOrganization')->willReturn(new Organization());
 
         $form = $this->factory->create($this->formType, $defaultData, []);
 

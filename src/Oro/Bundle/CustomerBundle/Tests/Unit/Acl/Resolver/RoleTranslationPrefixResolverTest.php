@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Resolver;
 
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
 use Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver;
@@ -10,19 +10,17 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 class RoleTranslationPrefixResolverTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \PHPUnit_Framework_MockObject_MockObject|SecurityFacade */
-    protected $securityFacade;
+    /** @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface */
+    protected $tokenAccessor;
 
     /** @var RoleTranslationPrefixResolver */
     protected $resolver;
 
     protected function setUp()
     {
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        $this->resolver = new RoleTranslationPrefixResolver($this->securityFacade);
+        $this->resolver = new RoleTranslationPrefixResolver($this->tokenAccessor);
     }
 
     protected function tearDown()
@@ -38,8 +36,8 @@ class RoleTranslationPrefixResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrefix($loggedUser, $expectedPrefix = null)
     {
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn($loggedUser);
 
         if (!$expectedPrefix) {

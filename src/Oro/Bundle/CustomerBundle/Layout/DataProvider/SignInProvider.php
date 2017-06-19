@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class SignInProvider
 {
@@ -15,33 +15,27 @@ class SignInProvider
      */
     protected $options = [];
 
-    /**
-     * @var RequestStack
-     */
+    /** @var RequestStack */
     protected $requestStack;
 
-    /**
-     * @var SecurityFacade
-     */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
-    /**
-     * @var CsrfTokenManagerInterface
-     */
+    /** @var CsrfTokenManagerInterface */
     protected $csrfTokenManager;
 
     /**
-     * @param RequestStack $requestStack
-     * @param SecurityFacade $securityFacade
+     * @param RequestStack              $requestStack
+     * @param TokenAccessorInterface    $tokenAccessor
      * @param CsrfTokenManagerInterface $csrfTokenManager
      */
     public function __construct(
         RequestStack $requestStack,
-        SecurityFacade $securityFacade,
+        TokenAccessorInterface $tokenAccessor,
         CsrfTokenManagerInterface $csrfTokenManager
     ) {
         $this->requestStack = $requestStack;
-        $this->securityFacade = $securityFacade;
+        $this->tokenAccessor = $tokenAccessor;
         $this->csrfTokenManager = $csrfTokenManager;
     }
 
@@ -108,6 +102,6 @@ class SignInProvider
      */
     public function getLoggedUser()
     {
-        return $this->securityFacade->getLoggedUser();
+        return $this->tokenAccessor->getUser();
     }
 }
