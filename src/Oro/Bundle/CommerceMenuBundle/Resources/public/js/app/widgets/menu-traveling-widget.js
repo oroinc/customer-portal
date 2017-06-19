@@ -129,7 +129,7 @@ define(function(require) {
             }
 
             if (this.consideringTopPosition > 0) {
-                containerHeight -= this.onsideringTopPosition;
+                containerHeight -= this.consideringTopPosition;
             }
 
             if (containerHeight > 0) {
