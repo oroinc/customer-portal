@@ -11,9 +11,9 @@ use Doctrine\ORM\Query\AST\SelectStatement;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
 use Oro\Bundle\DataGridBundle\Event\OrmResultBefore;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\MetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataInterface;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\EventListener\OrmDatasourceAclListener;
@@ -21,9 +21,9 @@ use Oro\Bundle\CustomerBundle\EventListener\OrmDatasourceAclListener;
 class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|SecurityFacade
+     * @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface
      */
-    protected $securityfacade;
+    protected $tokenAccessor;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|MetadataProviderInterface
@@ -42,14 +42,12 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->securityfacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->metadataProvider = $this
             ->createMock('Oro\Bundle\SecurityBundle\Owner\Metadata\MetadataProviderInterface');
 
-        $this->listener = new OrmDatasourceAclListener($this->securityfacade, $this->metadataProvider);
+        $this->listener = new OrmDatasourceAclListener($this->tokenAccessor, $this->metadataProvider);
 
         $this->event = $this->getMockBuilder('Oro\Bundle\DataGridBundle\Event\OrmResultBefore')
             ->disableOriginalConstructor()
@@ -58,7 +56,7 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        unset($this->securityfacade, $this->metadataProvider, $this->listener, $this->event);
+        unset($this->authorizationChecker, $this->metadataProvider, $this->listener, $this->event);
     }
 
     /**
@@ -69,8 +67,8 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function testOnResultBefore($entities = [], $expectedSkipAclCheck = true)
     {
-        $this->securityfacade->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn(new CustomerUser());
 
         /** @var FromClause $from */
@@ -150,8 +148,8 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testOnResultBeforeSkipForBackendUser()
     {
-        $this->securityfacade->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn(new User());
 
         $this->event->expects($this->never())->method('getQuery');

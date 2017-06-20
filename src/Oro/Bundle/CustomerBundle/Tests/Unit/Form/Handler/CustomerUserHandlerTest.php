@@ -6,7 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\FormHandlerTestCase;
 use Psr\Log\LoggerInterface;
@@ -33,9 +33,9 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
     protected $sendEmailForm;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|SecurityFacade
+     * @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface
      */
-    protected $securityFacade;
+    protected $tokenAccessor;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|TranslatorInterface
@@ -73,9 +73,7 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
         $this->logger = $this->createMock('Psr\Log\LoggerInterface');
@@ -84,7 +82,7 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
             $this->form,
             $this->request,
             $this->userManager,
-            $this->securityFacade,
+            $this->tokenAccessor,
             $this->translator,
             $this->logger
         );
@@ -111,15 +109,9 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
             $organization = new Organization();
             $organization->setName('test');
 
-            $organizationToken =
-                $this->createMock('Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface');
-            $organizationToken->expects($this->any())
-                ->method('getOrganizationContext')
+            $this->tokenAccessor->expects($this->any())
+                ->method('getOrganization')
                 ->willReturn($organization);
-
-            $this->securityFacade->expects($this->any())
-                ->method('getToken')
-                ->willReturn($organizationToken);
 
             $this->form->expects($this->at(2))
                 ->method('get')
@@ -209,8 +201,8 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
 
         $this->assertExistingUserSaveCalls($organization, $customerUser);
 
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUserId')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUserId')
             ->willReturn(1);
         $this->userManager->expects($this->once())
             ->method('reloadUser')
@@ -232,8 +224,8 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
 
         $this->assertExistingUserSaveCalls($organization, $customerUser);
 
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUserId')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUserId')
             ->willReturn(1);
         $this->userManager->expects($this->never())
             ->method('reloadUser')
@@ -251,14 +243,9 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
      */
     protected function assertExistingUserSaveCalls(Organization $organization, CustomerUser $customerUser)
     {
-        $organizationToken = $this->createMock(OrganizationContextTokenInterface::class);
-        $organizationToken->expects($this->any())
-            ->method('getOrganizationContext')
+        $this->tokenAccessor->expects($this->any())
+            ->method('getOrganization')
             ->willReturn($organization);
-
-        $this->securityFacade->expects($this->any())
-            ->method('getToken')
-            ->willReturn($organizationToken);
         $this->userManager->expects($this->never())
             ->method('sendWelcomeEmail');
         $this->userManager->expects($this->once())
