@@ -29,7 +29,7 @@
                     component: 'oroui/js/app/components/view-component',
                     view: 'orofrontend/blank/js/app/views/fullscreen-popup-view',
                     contentElement: '[data-main-menu-extra-container]',
-                    popupLabel: 'Menu',
+                    popupLabel: 'oro_frontend.fullscreen_popup.menu.label'|trans,
                     popupIcon: 'fa-navicon fa--gray fa--x-large',
                     contentAttributes: {
                         'class': 'fullscreen-mode'
@@ -75,7 +75,7 @@
     <div {{ block('block_attributes') }}>
         <button class="main-menu__back-trigger"
                 data-go-to="prev"
-        ><i class="fa-chevron-left"></i> Back</button>
+        ><i class="fa-chevron-left"></i> {{ 'oro_frontend.fullscreen_popup.back.label'|trans }}</button>
         <div class="main-menu-outer__container">
             {{ block_widget(block) }}
         </div>
