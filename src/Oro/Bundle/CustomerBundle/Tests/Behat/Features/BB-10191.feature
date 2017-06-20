@@ -24,20 +24,15 @@ Feature: BB-10191
     And click "Confirm"
     And I should see "Confirmation successful" flash message
     And go to Customers/Customer Users
-    And click "Create Customer User"
+    And click edit "Testuser1@test.com" in grid
     And fill "Customer User Form Admin" with:
-    |First Name        |FirstN            |
-    |Last Name         |LastN             |
-    |Customer          |TestCompany       |
-    |Password          |Testuser2@test.com|
-    |Confirm Password  |Testuser2@test.com|
-    |Administrator Role|true              |
-    |Email Address     |Testuser2@test.com|
-    And click "Today"
+    |Administrator Role|true |
+    |Buyer Role        |false|
+    And I wait for action
     And save and close form
     And should see "Customer User has been saved" flash message
     And I proceed as the User
-    And I signed in as Testuser2@test.com on the store frontend
+    And I signed in as Testuser1@test.com on the store frontend
     And click "Account"
     And click "Users"
     And click "Create User"
