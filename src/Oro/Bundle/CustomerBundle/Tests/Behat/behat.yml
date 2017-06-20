@@ -94,4 +94,9 @@ oro_behat_extension:
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       options:
         mapping:
-          Administrator Role: 'oro_customer_customer_user[roles][]'
+          Administrator Role:
+           locator: '[id^="oro_customer_customer_user_roles_1-uid"]'
+           type: css
+          Buyer Role:
+           locator: '[id^="oro_customer_customer_user_roles_2-uid"]'
+           type: css
