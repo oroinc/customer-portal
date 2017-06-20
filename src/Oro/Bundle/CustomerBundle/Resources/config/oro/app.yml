@@ -21,8 +21,6 @@ security:
             logout:
                 path:                       oro_customer_customer_user_security_logout
                 invalidate_session:         false
-                delete_cookies:
-                    customer_visitor: ~
             organization-remember-me:
                 key:                        %secret%
                 name:                       OROCOMMERCE
