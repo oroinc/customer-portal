@@ -2,9 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\EventListener;
 
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 use Oro\Bundle\NavigationBundle\Event\ConfigureMenuEvent;
 use Oro\Bundle\NavigationBundle\Utils\MenuUpdateUtils;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 
 /**
  * Show/Hide menu item
@@ -13,15 +14,15 @@ class NavigationListener
 {
     const MENU_ITEM_ID = 'oro_customer_frontend_customer_user_address_index';
 
-    /** @var SecurityFacade */
-    private $securityFacade;
+    /** @var AuthorizationCheckerInterface */
+    private $authorizationChecker;
 
     /**
-     * @param SecurityFacade $securityFacade
+     * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(SecurityFacade $securityFacade)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->securityFacade = $securityFacade;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -32,8 +33,8 @@ class NavigationListener
         $addressBookItem = MenuUpdateUtils::findMenuItem($event->getMenu(), self::MENU_ITEM_ID);
         if ($addressBookItem !== null) {
             $isDisplay = false;
-            if ($this->securityFacade->isGranted('oro_customer_frontend_customer_view') ||
-                $this->securityFacade->isGranted('oro_customer_frontend_customer_user_view')) {
+            if ($this->authorizationChecker->isGranted('oro_customer_frontend_customer_view') ||
+                $this->authorizationChecker->isGranted('oro_customer_frontend_customer_user_view')) {
                 $isDisplay = true;
             }
             $addressBookItem->setDisplay($isDisplay);

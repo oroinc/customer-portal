@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\ImportExport\Strategy\EventListener;
 
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\ValidatorInterface;
 
@@ -18,9 +19,9 @@ use Oro\Bundle\ImportExportBundle\Context\Context;
 use Oro\Bundle\ImportExportBundle\Context\ContextInterface;
 use Oro\Bundle\ImportExportBundle\Event\StrategyEvent;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ImportStrategyHelper;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 
 class ImportCustomerUserListenerTest extends \PHPUnit_Framework_TestCase
 {
@@ -73,7 +74,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit_Framework_TestCase
         $validatorInterface = $this->createMock(ValidatorInterface::class);
         $fieldHelper = $this->createMock(FieldHelper::class);
         $configurableDataConverter = $this->createMock(ConfigurableTableDataConverter::class);
-        $securityFacade = $this->createMock(SecurityFacade::class);
+        $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->strategyHelper = new ImportStrategyHelper(
             $this->registry,
@@ -81,7 +83,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit_Framework_TestCase
             $this->translation,
             $fieldHelper,
             $configurableDataConverter,
-            $securityFacade
+            $authorizationChecker,
+            $tokenAccessor
         );
 
         $this->websiteRepository = $this->createMock(WebsiteRepository::class);

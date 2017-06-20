@@ -81,3 +81,13 @@ oro_frontend_js_routing_js:
         _format: js|json
     options:
         frontend: true
+
+oro_datagrid_front_mass_action:
+    path: '{gridName}/massFrontAction/{actionName}'
+    defaults:
+        _controller: OroDataGridBundle:Grid:massAction
+    requirements:
+        gridName:   '[\w\:-]+'
+        actionName: '[\w-]+'
+    options:
+        frontend: true

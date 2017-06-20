@@ -5,9 +5,11 @@ namespace Oro\Bundle\CustomerBundle\Acl\Voter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -107,10 +109,7 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
      */
     protected function getPermissionForCustomerRole($type)
     {
-        /* @var $user CustomerUser */
-        $user = $this->getLoggedUser();
-
-        if (!$user instanceof CustomerUser) {
+        if (!$this->getLoggedUser() instanceof CustomerUser) {
             return self::ACCESS_DENIED;
         }
 
@@ -129,19 +128,27 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
     }
 
     /**
-     * @return SecurityFacade
+     * @return AuthorizationCheckerInterface
      */
-    protected function getSecurityFacade()
+    protected function getAuthorizationChecker()
     {
-        return $this->container->get('oro_security.security_facade');
+        return $this->container->get('security.authorization_checker');
     }
 
     /**
-     * @return CustomerUser|null
+     * @return TokenAccessorInterface
+     */
+    protected function getTokenAccessor()
+    {
+        return $this->container->get('oro_security.token_accessor');
+    }
+
+    /**
+     * @return AbstractUser|null
      */
     protected function getLoggedUser()
     {
-        return $this->getSecurityFacade()->getLoggedUser();
+        return $this->getTokenAccessor()->getUser();
     }
 
     /**
@@ -153,7 +160,7 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
             return true;
         }
 
-        return $this->getSecurityFacade()->isGranted(BasicPermissionMap::PERMISSION_EDIT, $this->object);
+        return $this->getAuthorizationChecker()->isGranted(BasicPermissionMap::PERMISSION_EDIT, $this->object);
     }
 
     /**
@@ -165,7 +172,7 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
             return true;
         }
 
-        return $this->getSecurityFacade()->isGranted(BasicPermissionMap::PERMISSION_VIEW, $this->object);
+        return $this->getAuthorizationChecker()->isGranted(BasicPermissionMap::PERMISSION_VIEW, $this->object);
     }
 
     /**
@@ -187,6 +194,6 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
      */
     protected function isGrantedDeleteCustomerUserRole($object)
     {
-        return $this->getSecurityFacade()->isGranted(BasicPermissionMap::PERMISSION_DELETE, $object);
+        return $this->getAuthorizationChecker()->isGranted(BasicPermissionMap::PERMISSION_DELETE, $object);
     }
 }

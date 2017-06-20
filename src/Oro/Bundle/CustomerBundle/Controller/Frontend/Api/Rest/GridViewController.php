@@ -142,6 +142,6 @@ class GridViewController extends BaseGridViewController
      */
     protected function isGridViewPublishGranted()
     {
-        return $this->getSecurityFacade()->isGranted('oro_customer_frontend_gridview_publish');
+        return $this->isGranted('oro_customer_frontend_gridview_publish');
     }
 }

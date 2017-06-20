@@ -6,29 +6,28 @@ use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
-use Oro\Component\DependencyInjection\ServiceLink;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class RecordOwnerDataListener
 {
     const OWNER_TYPE_USER = 'FRONTEND_USER';
     const OWNER_TYPE_ACCOUNT = 'FRONTEND_CUSTOMER';
 
-    /** @var ServiceLink */
-    protected $securityContextLink;
+    /** @var TokenStorageInterface */
+    protected $tokenStorage;
 
     /** @var ConfigProvider */
     protected $configProvider;
 
     /**
-     * @param ServiceLink    $securityContextLink
-     * @param ConfigProvider $configProvider
+     * @param TokenStorageInterface $tokenStorage
+     * @param ConfigProvider        $configProvider
      */
-    public function __construct(ServiceLink $securityContextLink, ConfigProvider $configProvider)
+    public function __construct(TokenStorageInterface $tokenStorage, ConfigProvider $configProvider)
     {
-        $this->securityContextLink = $securityContextLink;
-        $this->configProvider  = $configProvider;
+        $this->tokenStorage = $tokenStorage;
+        $this->configProvider = $configProvider;
     }
 
     /**
@@ -39,7 +38,7 @@ class RecordOwnerDataListener
      */
     public function prePersist(LifecycleEventArgs $args)
     {
-        $token = $this->getSecurityContext()->getToken();
+        $token = $this->tokenStorage->getToken();
         if (!$token) {
             return;
         }
@@ -73,13 +72,5 @@ class RecordOwnerDataListener
                 );
             }
         }
-    }
-
-    /**
-     * @return SecurityContextInterface
-     */
-    protected function getSecurityContext()
-    {
-        return $this->securityContextLink->getService();
     }
 }

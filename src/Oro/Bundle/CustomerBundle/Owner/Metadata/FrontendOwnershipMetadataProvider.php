@@ -31,11 +31,6 @@ class FrontendOwnershipMetadataProvider extends AbstractMetadataProvider
     private $securityConfigProvider;
 
     /**
-     * @var FrontendOwnershipMetadataProvider
-     */
-    private $noOwnershipMetadata;
-
-    /**
      * @var CacheProvider
      */
     private $cache;
@@ -104,7 +99,7 @@ class FrontendOwnershipMetadataProvider extends AbstractMetadataProvider
      */
     public function supports()
     {
-        return $this->getContainer()->get('oro_security.security_facade')->getLoggedUser() instanceof CustomerUser;
+        return $this->getContainer()->get('oro_security.token_accessor')->getUser() instanceof CustomerUser;
     }
 
     /**

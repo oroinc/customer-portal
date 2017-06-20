@@ -4,21 +4,21 @@ namespace Oro\Bundle\CustomerBundle\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Exception\ForbiddenException;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\SoapBundle\Handler\DeleteHandler;
 
 class UserDeleteHandler extends DeleteHandler
 {
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
     /**
-     * @param SecurityFacade $securityFacade
+     * @param TokenAccessorInterface $tokenAccessor
      */
-    public function __construct(SecurityFacade $securityFacade)
+    public function __construct(TokenAccessorInterface $tokenAccessor)
     {
-        $this->securityFacade = $securityFacade;
+        $this->tokenAccessor = $tokenAccessor;
     }
 
     /**
@@ -26,7 +26,7 @@ class UserDeleteHandler extends DeleteHandler
      */
     public function checkPermissions($entity, ObjectManager $em)
     {
-        $loggedUserId = $this->securityFacade->getLoggedUserId();
+        $loggedUserId = $this->tokenAccessor->getUserId();
         if ($loggedUserId && $loggedUserId == $entity->getId()) {
             throw new ForbiddenException('self delete');
         }
