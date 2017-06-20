@@ -2,51 +2,31 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Group;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class AclGroupProviderTest extends \PHPUnit_Framework_TestCase
 {
     const LOCAL_LEVEL = 'Oro\Bundle\CustomerBundle\Entity\Customer';
     const BASIC_LEVEL = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|SecurityFacade
-     */
-    protected $securityFacade;
+    /** @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface */
+    protected $tokenAccessor;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @var AclGroupProvider
-     */
+    /** @var AclGroupProvider */
     protected $provider;
 
     protected function setUp()
     {
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->container->expects($this->any())
-            ->method('get')
-            ->with('oro_security.security_facade')
-            ->willReturn($this->securityFacade);
-
-        $this->provider = new AclGroupProvider();
-        $this->provider->setContainer($this->container);
+        $this->provider = new AclGroupProvider($this->tokenAccessor);
     }
 
     protected function tearDown()
     {
-        unset($this->securityFacade, $this->container, $this->provider);
+        unset($this->tokenAccessor, $this->provider);
     }
 
     /**
@@ -57,8 +37,8 @@ class AclGroupProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSupports($user, $expectedResult)
     {
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn($user);
 
         $this->assertEquals($expectedResult, $this->provider->supports());
@@ -71,15 +51,15 @@ class AclGroupProviderTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'incorrect user object' => [
-                'securityFacadeUser' => new \stdClass(),
+                'user' => new \stdClass(),
                 'expectedResult' => false
             ],
             'customer user' => [
-                'securityFacadeUser' => new CustomerUser(),
+                'user' => new CustomerUser(),
                 'expectedResult' => true
             ],
             'user is not logged in' => [
-                'securityFacadeUser' => null,
+                'user' => null,
                 'expectedResult' => true
             ],
         ];
@@ -88,14 +68,5 @@ class AclGroupProviderTest extends \PHPUnit_Framework_TestCase
     public function testGetGroup()
     {
         $this->assertEquals(CustomerUser::SECURITY_GROUP, $this->provider->getGroup());
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage ContainerInterface not injected
-     */
-    public function testWithoutContainer()
-    {
-        (new AclGroupProvider())->supports();
     }
 }

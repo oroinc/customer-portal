@@ -14,7 +14,7 @@
 
     {{ UI.cancelButton(path('oro_customer_customer_user_index')) }}
     {% set html = UI.saveAndCloseButton() %}
-    {% if entity.id or resource_granted('oro_customer_customer_user_update') %}
+    {% if entity.id or is_granted('oro_customer_customer_user_update') %}
         {% set html = html ~ UI.saveAndStayButton() %}
     {% endif %}
     {{ UI.dropdownSaveButton({'html': html}) }}

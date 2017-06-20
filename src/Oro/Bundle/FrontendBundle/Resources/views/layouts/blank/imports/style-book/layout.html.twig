@@ -69,10 +69,10 @@
 
 {% block groups_menu_item_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' main-menu__item'
+        '~class': ' main-menu__item' ~ (isActive ? ' active')
     }) %}
     <li {{ block('block_attributes') }}>
-        <a href="{{ path('oro_frontend_style_book') }}/{{ action }}" class="main-menu__link">
+        <a href="{{ path('oro_frontend_style_book_group', {group: group}) }}" class="main-menu__link">
             <span class="main-menu__text">{{ label|trans }}</span>
         </a>
     </li>

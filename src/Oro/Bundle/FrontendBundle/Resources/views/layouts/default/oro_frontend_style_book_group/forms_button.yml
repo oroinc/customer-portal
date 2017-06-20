@@ -96,4 +96,4 @@ layout:
                         group_element_button_size_s_view:
                             style_book_button_element_size_s: ~
 
-    conditions: 'context["action"]=="forms"'
+    conditions: 'context["group"]=="forms"'

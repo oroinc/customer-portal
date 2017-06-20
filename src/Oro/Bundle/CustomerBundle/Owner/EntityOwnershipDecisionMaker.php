@@ -12,6 +12,6 @@ class EntityOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
      */
     public function supports()
     {
-        return $this->getContainer()->get('oro_security.security_facade')->getLoggedUser() instanceof CustomerUser;
+        return $this->getContainer()->get('oro_security.token_accessor')->getUser() instanceof CustomerUser;
     }
 }

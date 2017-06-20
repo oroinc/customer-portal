@@ -4,6 +4,10 @@ layout:
             id: oro_customer_form
             namespace: login
             root: page_content
+        -
+            id: oro_customer_registration_instructions
+            root: login_page
+            namespace: registration_instructions
     actions:
         - '@setBlockTheme':
             themes: 'customer_user_login_form.html.twig'
@@ -34,6 +38,12 @@ layout:
         - '@changeBlockType':
             id: login_form
             blockType: container
+
+        - '@move':
+            id: registration_instructions_text
+            parentId: login_page
+            prepend: false
+
         - '@addTree':
             items:
                 login_form_start:

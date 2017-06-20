@@ -5,22 +5,24 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 use Knp\Menu\MenuItem;
 use Knp\Menu\MenuFactory;
 
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 use Oro\Bundle\CustomerBundle\EventListener\NavigationListener;
 use Oro\Bundle\NavigationBundle\Event\ConfigureMenuEvent;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 
 class NavigationListenerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject */
-    private $securityFacade;
+    /** @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    private $authorizationChecker;
 
     /** @var NavigationListener */
     private $listener;
 
     protected function setUp()
     {
-        $this->securityFacade = $this->createMock(SecurityFacade::class);
-        $this->listener       = new NavigationListener($this->securityFacade);
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+
+        $this->listener = new NavigationListener($this->authorizationChecker);
     }
 
     /**
@@ -32,8 +34,7 @@ class NavigationListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function testOnNavigationConfigure($isGrantedCustomer, $isGrantedCustomerUser, $expectedIsDisplayed)
     {
-        $this->securityFacade
-            ->expects($this->atLeastOnce())
+        $this->authorizationChecker->expects($this->atLeastOnce())
             ->method('isGranted')
             ->will($this->returnValueMap(
                 [

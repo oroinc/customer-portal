@@ -211,6 +211,44 @@ class CustomerUserManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($required, $this->userManager->isConfirmationRequired());
     }
 
+    public function testSaveSaveDisabledCustomerWithoutRole()
+    {
+        $password = 'password';
+        $encodedPassword = 'encodedPassword';
+        $email = 'test@test.com';
+
+        $customerUser = new CustomerUser();
+        $customerUser
+            ->setUsername($email)
+            ->setEmail($email)
+            ->setPlainPassword($password);
+
+        $customerUser->setEnabled(false);
+
+        $encoder = $this->createMock('Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface');
+        $encoder->expects($this->once())
+            ->method('encodePassword')
+            ->with($customerUser->getPlainPassword(), $customerUser->getSalt())
+            ->will($this->returnValue($encodedPassword));
+
+        $this->ef->expects($this->once())
+            ->method('getEncoder')
+            ->with($customerUser)
+            ->will($this->returnValue($encoder));
+
+        $this->registry->expects($this->any())
+            ->method('getManagerForClass')
+            ->will($this->returnValue($this->om));
+
+        $this->om->expects($this->once())->method('persist')->with($this->equalTo($customerUser));
+        $this->om->expects($this->once())->method('flush');
+
+        $this->userManager->updateUser($customerUser);
+
+        $this->assertEquals($email, $customerUser->getEmail());
+        $this->assertEquals($encodedPassword, $customerUser->getPassword());
+    }
+
     /**
      * @return array
      */

@@ -161,3 +161,13 @@ oro_customer_audit:
     type:         annotation
     options:
         frontend: true
+
+oro_datagrid_front_mass_action:
+    path: '{gridName}/massFrontAction/{actionName}'
+    defaults:
+        _controller: OroDataGridBundle:Grid:massAction
+    requirements:
+        gridName:   '[\w\:-]+'
+        actionName: '[\w-]+'
+    options:
+        frontend: true

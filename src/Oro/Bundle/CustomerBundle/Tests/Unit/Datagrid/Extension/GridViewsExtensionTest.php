@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid\Extension;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 use Oro\Bundle\CustomerBundle\Datagrid\Extension\GridViewsExtension;
@@ -12,8 +13,8 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\MetadataObject;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\DataGridBundle\Entity\Manager\GridViewManager;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 
 use Oro\Component\DependencyInjection\ServiceLink;
 
@@ -22,8 +23,11 @@ class GridViewsExtensionTest extends \PHPUnit_Framework_TestCase
     /** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $eventDispatcher;
 
-    /** @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject */
-    protected $securityFacade;
+    /** @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $authorizationChecker;
+
+    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $tokenAccessor;
 
     /** @var TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $translator;
@@ -43,7 +47,8 @@ class GridViewsExtensionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        $this->securityFacade = $this->createMock(SecurityFacade::class);
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->translator = $this->createMock(TranslatorInterface::class);
         $this->registry = $this->createMock(ManagerRegistry::class);
         $this->aclHelper = $this->createMock(AclHelper::class);
@@ -55,7 +60,8 @@ class GridViewsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->extension = new GridViewsExtension(
             $this->eventDispatcher,
-            $this->securityFacade,
+            $this->authorizationChecker,
+            $this->tokenAccessor,
             $this->translator,
             $this->registry,
             $this->aclHelper,
@@ -69,7 +75,7 @@ class GridViewsExtensionTest extends \PHPUnit_Framework_TestCase
         $data = MetadataObject::create([]);
         $config = DatagridConfiguration::create([DatagridConfiguration::NAME_KEY => 'grid']);
 
-        $this->securityFacade->expects($this->exactly(6))
+        $this->authorizationChecker->expects($this->exactly(6))
             ->method('isGranted')
             ->willReturnCallback(
                 function ($attribute) {

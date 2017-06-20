@@ -8,29 +8,27 @@ use Doctrine\ORM\Query\AST\Subselect;
 
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Event\OrmResultBefore;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\MetadataProviderInterface;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\UserBundle\Entity\User;
 
 class OrmDatasourceAclListener
 {
-    /**
-     * @var SecurityFacade
-     */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
-    /**
-     * @var MetadataProviderInterface
-     */
+    /** @var MetadataProviderInterface */
     protected $metadataProvider;
 
     /**
-     * @param SecurityFacade $securityFacade
+     * @param TokenAccessorInterface    $tokenAccessor
      * @param MetadataProviderInterface $metadataProvider
      */
-    public function __construct(SecurityFacade $securityFacade, MetadataProviderInterface $metadataProvider)
-    {
-        $this->securityFacade = $securityFacade;
+    public function __construct(
+        TokenAccessorInterface $tokenAccessor,
+        MetadataProviderInterface $metadataProvider
+    ) {
+        $this->tokenAccessor = $tokenAccessor;
         $this->metadataProvider = $metadataProvider;
     }
 
@@ -40,7 +38,7 @@ class OrmDatasourceAclListener
     public function onResultBefore(OrmResultBefore $event)
     {
         // listener logic is applied only to frontend part of application
-        if ($this->securityFacade->getLoggedUser() instanceof User) {
+        if ($this->tokenAccessor->getUser() instanceof User) {
             return;
         }
 

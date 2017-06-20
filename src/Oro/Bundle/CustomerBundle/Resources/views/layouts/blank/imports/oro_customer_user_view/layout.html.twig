@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        {% if resource_granted('oro_customer_frontend_customer_user_role_view') %}
+        {% if is_granted('oro_customer_frontend_customer_user_role_view') %}
             <div class="info-list__item">
                 <div class="info-list__name">
                     {% if customerUser.roles|length == 1 %}
