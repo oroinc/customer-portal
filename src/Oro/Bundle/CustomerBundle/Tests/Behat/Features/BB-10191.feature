@@ -23,15 +23,18 @@ Feature: BB-10191
     And click view "Testuser1@test.com" in grid
     And click "Confirm"
     And I should see "Confirmation successful" flash message
+    And I proceed as the User
+    And I signed in as Testuser1@test.com on the store frontend
+    And I proceed as the Admin
     And go to Customers/Customer Users
     And click edit "Testuser1@test.com" in grid
     And fill "Customer User Form Admin" with:
     |Administrator Role|true |
     |Buyer Role        |false|
-    And I wait for action
     And save and close form
     And should see "Customer User has been saved" flash message
     And I proceed as the User
+    And click "Sign Out"
     And I signed in as Testuser1@test.com on the store frontend
     And click "Account"
     And click "Users"
