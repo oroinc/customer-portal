@@ -79,6 +79,13 @@
 
             text-align: $main-menu-back-trigger-align;
         }
+
+        .main-menu__button-arrow {
+            [class^="fa-"],
+            [class*=" fa-"] {
+                transform: rotate(-90deg);
+            }
+        }
     }
 }
 
@@ -214,7 +221,7 @@
 
             background: get-color('additional', 'ultra');
 
-            transition: left .4s linear;
+            transition: $main-menu-sublist-container-transition;
         }
     }
 

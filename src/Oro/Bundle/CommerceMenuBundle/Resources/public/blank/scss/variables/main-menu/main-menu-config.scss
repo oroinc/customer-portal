@@ -9,6 +9,7 @@ $main-menu-link-color-hover: get-color('ui', 'focus') !default;
 $main-menu-sublist-title-offset: $offset-x-s !default;
 $main-menu-sublist-item-inner-offset: $offset-x !default;
 $main-menu-subcategory-item-inner-offset: $offset-y-s $offset-x-s !default;
+$main-menu-sublist-container-transition: left .4s linear !default;
 
 // Desktop styles
 $main-menu-button-arrow-d-width: 20px !default;

@@ -14,11 +14,18 @@ define(function(require) {
         options: {
             currentClass: 'current',
             sectionSelector: '.main-menu__item',
+            parentContainerSelector: '.fullscreen-popup',
             triggerSelector: '[data-go-to]'
         },
 
         /** @property */
         nestingLevel: 0,
+
+        /** @property */
+        $travelingTrigger: $([]),
+
+        /** @property */
+        $parentContainer : $([]),
 
         /** @property */
         $relatedTrigger: $([]),
@@ -40,13 +47,14 @@ define(function(require) {
         initialize: function(options) {
             this.options = _.defaults(options || {}, this.options);
             this.$travelingTrigger = this.$(this.options.triggerSelector);
+            this.$parentContainer = this.$el.closest(this.options.parentContainerSelector);
 
             this.hidePrevTrigger();
             this.bindEvents();
         },
 
         bindEvents: function() {
-            this.$travelingTrigger.on('click', _.bind(this.goToSection, this));
+            this.$travelingTrigger.on('click.nsMenuTravelingWidget', _.bind(this.goToSection, this));
             mediator.on('layout:reposition',  _.debounce(this.updateHeight, 50), this);
         },
 
@@ -124,11 +132,10 @@ define(function(require) {
                 return;
             }
 
-            var $popupParent = this.$el.closest('.fullscreen-popup');
             var containerHeight = 0;
 
-            if ($popupParent.length) {
-                containerHeight = $popupParent.height();
+            if (this.$parentContainer.length) {
+                containerHeight = this.$parentContainer.height();
             }
 
             if (this.consideringTopPosition > 0) {
@@ -143,13 +150,6 @@ define(function(require) {
         },
 
         /**
-         * Reset inline styles when widget disposed
-         */
-        resetStyles: function() {
-            this.$el.find('[data-go-to="next"]').next().removeAttr('style');
-        },
-
-        /**
          * @inheritDoc
          */
         dispose: function(options) {
@@ -157,14 +157,19 @@ define(function(require) {
                 return;
             }
 
-            this.resetStyles();
-
-            this.$travelingTrigger.off();
             mediator.off(null, null, this);
 
-            delete this.nestingLevel;
+            this.$travelingTrigger
+                .off('.nsMenuTravelingWidget')
+                .removeClass('current')
+                .next()
+                .removeAttr('style');
+
+            delete this.$travelingTrigger;
             delete this.$relatedTrigger;
             delete this.$relatedContainer;
+            delete this.$parentContainer;
+            delete this.nestingLevel;
             delete this.consideringTopPosition;
 
             MenuTravelingWidget.__super__.dispose.apply(this, arguments);
