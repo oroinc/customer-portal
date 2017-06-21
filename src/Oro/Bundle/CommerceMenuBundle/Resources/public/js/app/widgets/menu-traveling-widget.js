@@ -47,7 +47,6 @@ define(function(require) {
         initialize: function(options) {
             this.options = _.defaults(options || {}, this.options);
             this.$travelingTrigger = this.$(this.options.triggerSelector);
-            this.$parentContainer = this.$el.closest(this.options.parentContainerSelector);
 
             this.hidePrevTrigger();
             this.bindEvents();
@@ -132,11 +131,13 @@ define(function(require) {
                 return;
             }
 
+            if (!this.$parentContainer.length) {
+                this.$parentContainer = this.$el.closest(this.options.parentContainerSelector);
+            }
+
             var containerHeight = 0;
 
-            if (this.$parentContainer.length) {
-                containerHeight = this.$parentContainer.height();
-            }
+            containerHeight = this.$parentContainer.height();
 
             if (this.consideringTopPosition > 0) {
                 containerHeight -= this.consideringTopPosition;
