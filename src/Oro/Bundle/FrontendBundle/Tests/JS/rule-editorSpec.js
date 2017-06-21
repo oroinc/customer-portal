@@ -22,7 +22,7 @@ define(function(require) {
             keyupEvent = $.Event('keyup');
             keyupEvent.keyCode = 13;
 
-            ruleEditor = new RuleEditor(_.extend({}, {
+            ruleEditor = new RuleEditor($.extend(true, {}, {
                 _sourceElement: $el
             }, initialOptions[0]));
 
@@ -123,10 +123,6 @@ define(function(require) {
                 expect(ruleEditor.isValid('product.id == 1.234')).toBeTruthy();
             });
 
-            it('should be valid when "pricelist.prices.value == 1.234"', function() {
-                expect(ruleEditor.isValid('pricelist.prices.value == 1.234')).toBeTruthy();
-            });
-
             it('should be not valid when "product.category.updatedAt > "', function() {
                 expect(ruleEditor.isValid('product.category.updatedAt > ')).toBeFalsy();
             });
@@ -162,6 +158,46 @@ define(function(require) {
                 expect(ruleEditor.isValid('someStr == 4')).toBeFalsy();
                 expect(ruleEditor.isValid('product.someStr $ 4')).toBeFalsy();
                 expect(ruleEditor.isValid('product.sku match test')).toBeFalsy();
+            });
+
+            it('should not be valid when "pricelist"', function() {
+                expect(ruleEditor.isValid('pricelist')).toBeFalsy();
+            });
+
+            it('should not be valid when "pricelist."', function() {
+                expect(ruleEditor.isValid('pricelist.')).toBeFalsy();
+            });
+
+            it('should not be valid when "pricelist.id"', function() {
+                expect(ruleEditor.isValid('pricelist.id')).toBeFalsy();
+            });
+
+            it('should not be valid when "pricelist[]"', function() {
+                expect(ruleEditor.isValid('pricelist[]')).toBeFalsy();
+            });
+
+            it('should not be valid when "pricelist[]."', function() {
+                expect(ruleEditor.isValid('pricelist[].')).toBeFalsy();
+            });
+
+            it('should not be valid when "pricelist[].id"', function() {
+                expect(ruleEditor.isValid('pricelist[].id')).toBeFalsy();
+            });
+
+            it('should not be valid when "pricelist[1]"', function() {
+                expect(ruleEditor.isValid('pricelist[1]')).toBeFalsy();
+            });
+
+            it('should not be valid when "pricelist[1]."', function() {
+                expect(ruleEditor.isValid('pricelist[1].')).toBeFalsy();
+            });
+
+            it('should be valid when "pricelist[1].id"', function() {
+                expect(ruleEditor.isValid('pricelist[1].id')).toBeTruthy();
+            });
+
+            it('should be valid when "pricelist[1].prices.value == 1.234"', function() {
+                expect(ruleEditor.isValid('pricelist[1].prices.value == 1.234')).toBeTruthy();
             });
         });
 
@@ -798,6 +834,28 @@ define(function(require) {
                     expect($el.val()).toEqual('product,');
                     done();
                 }, 50);
+            });
+        });
+
+        describe('check rule editor data source render', function() {
+
+            it('shown if type pricel', function(done) {
+                $el.val('pricel');
+                typeahead.lookup();
+                typeahead.select();
+
+                expect('#data-source-element').toExist();
+                done();
+            });
+
+            it('remove data source', function(done) {
+                $el.val('pricelist[1].id + product.id');
+                $el[0].selectionStart = 27;
+
+                typeahead.lookup();
+
+                expect('#data-source-element').not.toExist();
+                done();
             });
         });
     });

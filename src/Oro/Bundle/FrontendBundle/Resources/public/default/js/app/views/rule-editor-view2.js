@@ -10,7 +10,7 @@ define(function(require) {
 
     RuleEditorView = BaseView.extend({
         optionNames: BaseView.prototype.optionNames.concat([
-            'component'
+            'component', 'dataSource'
         ]),
 
         events: {
@@ -22,9 +22,17 @@ define(function(require) {
 
         component: null,
         typeahead: null,
-        autocompleteData: {},
+
+        autocompleteData: null,
+
+        dataSource: null,
+
+        dataSourceInstances: null,
 
         initialize: function(options) {
+            this.autocompleteData = this.autocompleteData || {};
+            this.dataSource = this.dataSource || {};
+            this.dataSourceInstances = this.dataSourceInstances || {};
             this.initAutocomplete();
             return RuleEditorView.__super__.initialize.apply(this, arguments);
         },
@@ -48,7 +56,7 @@ define(function(require) {
 
             var typeahead = this.typeahead = this.$el.data('typeahead');
 
-            this.$el.on('focus click', _.debounce(function() {
+            this.$el.on('focus click input', _.debounce(function() {
                 typeahead.lookup();
             }));
         },
@@ -58,7 +66,8 @@ define(function(require) {
             var position = this.el.selectionStart;
 
             this.autocompleteData = this.component.getAutocompleteData(value, position);
-            this.typeahead.query = this.autocompleteData.query;
+            this._toggleDataSource();
+            this.typeahead.query = this.autocompleteData.queryLast;
             return _.keys(this.autocompleteData.items);
         },
 
@@ -81,7 +90,7 @@ define(function(require) {
         },
 
         _typeaheadUpdater: function(item) {
-            this.component.updateValue(this.autocompleteData, item);
+            this.component.updateQuery(this.autocompleteData, item);
             var position = this.autocompleteData.position;
             this.$el.one('change', function() {
                 this.selectionStart = this.selectionEnd = position;
@@ -90,13 +99,74 @@ define(function(require) {
             return this.autocompleteData.value;
         },
 
-        setUpdatedValue: function(query, item, position, newCaretPosition) {
-            var $el = this.view.$el;
-            var update = this._getUpdatedData(query, item, position);
+        getDataSource: function(dataSourceKey) {
+            var dataSource = this.dataSourceInstances[dataSourceKey];
+            if (!dataSource) {
+                return this._initializeDataSource(dataSourceKey);
+            }
 
-            this._setCaretPosition($el, newCaretPosition || update.position || $el[0].selectionStart);
+            return dataSource;
+        },
 
-            return update.value;
+        _initializeDataSource: function(dataSourceKey) {
+            var dataSource = this.dataSourceInstances[dataSourceKey] = {};
+
+            dataSource.$widget = $(this.dataSource[dataSourceKey]);
+            dataSource.$field = dataSource.$widget.find(':input[name]:first');
+            dataSource.active = false;
+
+            this._hideDataSource(dataSource);
+
+            this.$el.after(dataSource.$widget).trigger('content:changed');
+
+            dataSource.$field.on('change', _.bind(function() {
+                if (!dataSource.active) {
+                    return;
+                }
+
+                this.component.updateDataSourceValue(this.autocompleteData, dataSource.$field.val());
+                this.$el.val(this.autocompleteData.value).change();
+            }, this));
+
+            return dataSource;
+        },
+
+        _toggleDataSource: function() {
+            this._hideDataSources();
+
+            var dataSourceKey = this.autocompleteData.dataSourceKey;
+            var dataSourceValue = this.autocompleteData.dataSourceValue;
+
+            if (_.isEmpty(dataSourceKey) || !_.has(this.dataSource, dataSourceKey)) {
+                return;
+            }
+
+            this.autocompleteData.items = {};
+
+            var dataSource = this.getDataSource(dataSourceKey);
+
+            dataSource.$field.val(dataSourceValue).change();
+
+            this._showDataSource(dataSource);
+        },
+
+        /**
+         * Remove data source element
+         *
+         * @private
+         */
+        _hideDataSources: function() {
+            _.each(this.dataSourceInstances, this._hideDataSource, this);
+        },
+
+        _hideDataSource: function(dataSource) {
+            dataSource.active = false;
+            dataSource.$widget.hide();
+        },
+
+        _showDataSource: function(dataSource) {
+            dataSource.$widget.show();
+            dataSource.active = true;
         }
     });
 

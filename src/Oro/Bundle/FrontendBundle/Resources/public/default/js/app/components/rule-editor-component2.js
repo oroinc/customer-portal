@@ -14,7 +14,10 @@ define(function(require) {
             openBracket: /[\(]/g,
             closeBracket: /[\)]/g,
             array: /\[[^\[\]]*\]/,
-            itemSeparator: /([ \(\)])/
+            arrayF: /\[(.*?)\]/g,
+            itemSeparator: /([ \(\)])/,
+            dataSourceSeparator: '([ \\(\\)]*)',
+            split: /([ \.])+/g
         },
 
         strings: {
@@ -36,7 +39,8 @@ define(function(require) {
             entities: {
                 root_entities: {},
                 fields_data: {}
-            }
+            },
+            dataSource: []
         },
 
         toNative: {
@@ -96,7 +100,7 @@ define(function(require) {
          * @returns {Boolean|String}
          */
         _convertToNativeJS: function(value) {
-            var clearMethods = ['_clearStrings', '_clearArrays', '_clearSeparators'];
+            var clearMethods = ['_clearStrings', '_clearDataSource', '_clearArrays', '_clearSeparators'];
             for (var method in clearMethods) {
                 value = this[clearMethods[method]](value);
                 if (value === false) {
@@ -168,6 +172,19 @@ define(function(require) {
             value = value.replace(/\\\\/g, '');//remove "\" symbols
             value = value.replace(/\\['"]/g, '').replace(/\\/g, '');//remove \" and \'
             value = value.replace(/"[^"]*"/g, '""').replace(/'[^']*'/g, '""');//clear strings and convert quotes
+            return value;
+        },
+
+        _clearDataSource: function(value) {
+            var item;
+            for (item in this.options.dataSource) {
+                if (value.match(new RegExp(this.regex.dataSourceSeparator + item + '\\.'))) {
+                    return false;
+                }
+
+                value = value.replace(new RegExp('(' + this.regex.dataSourceSeparator + item + ')' + '\\[[\\s]*\\d+\\s*\\]', 'g'), '$1');
+            }
+
             return value;
         },
 
@@ -262,21 +279,60 @@ define(function(require) {
             var autocompleteData = this._prepareAutocompleteData(value, position);
 
             this._setAutocompleteItems(autocompleteData);
-
+            this._setDataSource(autocompleteData);
             return autocompleteData;
         },
 
-        updateValue: function(autocompleteData, item) {
+        updateValue: function(autocompleteData) {
+            autocompleteData.value = autocompleteData.beforeQuery +
+                autocompleteData.queryParts.join(this.strings.childSeparator) +
+                autocompleteData.afterQuery;
+        },
+
+        updateQuery: function(autocompleteData, item) {
+            var positionModificator = 0;
             var hasChild = !!autocompleteData.items[item].child;
+            var hasDataSource = _.has(this.options.dataSource, item);
+
+            if (hasDataSource) {
+                item += '[]';
+                positionModificator = hasChild ? -2 : -1;
+            }
+
             item += hasChild ? this.strings.childSeparator : this.strings.itemSeparator;
 
-            var queryParts = autocompleteData.queryParts.slice();
-            queryParts.pop();
-            queryParts.push(item);
+            autocompleteData.queryParts[autocompleteData.queryIndex] = item;
 
-            autocompleteData.value = autocompleteData.beforeQuery + queryParts.join(this.strings.childSeparator);
-            autocompleteData.position = autocompleteData.value.length;
-            autocompleteData.value += autocompleteData.afterQuery;
+            this.updateValue(autocompleteData);
+
+            autocompleteData.position = autocompleteData.value.length - autocompleteData.afterQuery.length +
+                positionModificator;
+        },
+
+        updateDataSourceValue: function(autocompleteData, dataSourceValue) {
+            autocompleteData.queryParts[autocompleteData.queryIndex] = autocompleteData
+                .query.replace(this.regex.arrayF, '[' + dataSourceValue + ']');
+
+            this.updateValue(autocompleteData);
+        },
+
+        /**
+         * @param {Object} autocompleteData
+         * @private
+         */
+        _setDataSource: function(autocompleteData) {
+            var dataSourceKey = autocompleteData.query.replace(this.regex.arrayF, '');
+            var dataSourceValue = '';
+
+            if (dataSourceKey === autocompleteData.query) {
+                dataSourceKey = '';
+            } else {
+                dataSourceValue = this.regex.arrayF.exec(autocompleteData.query);
+                dataSourceValue = dataSourceValue ? dataSourceValue[1] : '';
+            }
+
+            autocompleteData.dataSourceKey = dataSourceKey;
+            autocompleteData.dataSourceValue = dataSourceValue;
         },
 
         _prepareAutocomplete: function() {
@@ -371,9 +427,12 @@ define(function(require) {
             autocompleteData.beforeQuery = beforeCaret.slice(0, beforeCaret.length - queryLeft.length);
             autocompleteData.afterQuery = afterCaret.slice(queryRight.length);
 
-            autocompleteData.queryFull = queryLeft + queryRight.split(this.strings.childSeparator).pop();
+            autocompleteData.queryFull = queryLeft + queryRight;
             autocompleteData.queryParts = autocompleteData.queryFull.split(this.strings.childSeparator);
-            autocompleteData.query = autocompleteData.queryParts[autocompleteData.queryParts.length - 1];
+            autocompleteData.queryLast = autocompleteData.queryParts[autocompleteData.queryParts.length - 1];
+            autocompleteData.queryIndex = queryLeft.split(this.strings.childSeparator).length - 1;
+            autocompleteData.query = queryLeft.split(this.strings.childSeparator).pop() +
+                queryRight.split(this.strings.childSeparator).shift();
         },
 
         _setAutocompleteGroup: function(autocompleteData) {
@@ -388,11 +447,12 @@ define(function(require) {
         },
 
         _setAutocompleteItems: function(autocompleteData) {
-            var queryParts = autocompleteData.queryParts;
-
             var items = this[autocompleteData.group + 'Items'];
-            for (var i = 0; i < queryParts.length - 1; i++) {
-                items = items[queryParts[i]] || {};
+            var item;
+            for (var i = 0; i < autocompleteData.queryParts.length - 1; i++) {
+                item = autocompleteData.queryParts[i];
+                item = item.replace(this.regex.arrayF, '');
+                items = items[item] || {};
                 items = items.child || null;
                 if (!items) {
                     break;
