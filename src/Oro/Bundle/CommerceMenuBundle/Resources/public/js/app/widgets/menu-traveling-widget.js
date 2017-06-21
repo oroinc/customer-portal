@@ -14,8 +14,7 @@ define(function(require) {
         options: {
             currentClass: 'current',
             sectionSelector: '.main-menu__item',
-            triggerSelector: '[data-go-to]',
-            menuContainerSelector: '.main-menu-outer__container'
+            triggerSelector: '[data-go-to]'
         },
 
         /** @property */
@@ -76,7 +75,7 @@ define(function(require) {
 
             this.$relatedContainer = this.$relatedTrigger.next();
 
-            this.$relatedContainer.one('ransitionend webkitTransitionEnd oTransitionEnd',
+            this.$relatedContainer.one('transitionend webkitTransitionEnd',
                 _.bind(this.hidePrevTrigger, this)
             );
             this.updateHeight();
@@ -121,6 +120,10 @@ define(function(require) {
         },
 
         updateHeight: function() {
+            if (this.disposed) {
+                return;
+            }
+
             var $popupParent = this.$el.closest('.fullscreen-popup');
             var containerHeight = 0;
 
@@ -140,12 +143,21 @@ define(function(require) {
         },
 
         /**
+         * Reset inline styles when widget disposed
+         */
+        resetStyles: function() {
+            this.$el.find('[data-go-to="next"]').next().removeAttr('style');
+        },
+
+        /**
          * @inheritDoc
          */
         dispose: function(options) {
             if (this.disposed) {
                 return;
             }
+
+            this.resetStyles();
 
             this.$travelingTrigger.off();
             mediator.off(null, null, this);
