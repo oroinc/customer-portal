@@ -2,10 +2,10 @@ define(function(require) {
     'use strict';
 
     require('jasmine-jquery');
-    require('orofrontend/default/js/app/views/rule-editor-view2');
+    require('orofrontend/default/js/app/views/rule-editor-view');
     var $ = require('jquery');
     var _ = require('underscore');
-    var RuleEditor = require('orofrontend/default/js/app/components/rule-editor-component2');
+    var RuleEditor = require('orofrontend/default/js/app/components/rule-editor-component');
     var initialOptions = JSON.parse(require('text!./Fixture/initial-rule-editor-options.json'));
     var $el = null;
     var html = '<textarea id="test"></textarea>';
