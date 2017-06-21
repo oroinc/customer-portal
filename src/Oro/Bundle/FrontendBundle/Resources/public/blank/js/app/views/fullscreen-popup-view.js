@@ -15,7 +15,7 @@ define(function(require) {
             'template', 'templateSelector', 'templateData',
             'content', 'contentSelector', 'contentView',
             'contentOptions', 'contentElement', 'contentAttributes',
-            'popupLabel', 'popupCloseOnLabel',
+            'previousClass', 'popupLabel', 'popupCloseOnLabel',
             'popupCloseButton', 'popupIcon', 'popupBadge'
         ]),
 
@@ -37,6 +37,8 @@ define(function(require) {
 
         contentElementPlaceholder: null,
 
+        previousClass: null,
+
         contentSelector: null,
 
         contentView: null,
@@ -56,6 +58,8 @@ define(function(require) {
          */
         initialize: function() {
             this.contentElement = $(this.contentElement);
+            this.savePreviousClasses(this.contentElement);
+
             FullscreenPopupView.__super__.initialize.apply(this, arguments);
         },
 
@@ -147,6 +151,7 @@ define(function(require) {
                 this.contentElement.removeAttr(
                     _.keys(this.contentAttributes).join(' ')
                 );
+                this.contentElement.attr('class', this.previousClass);
                 this.contentElementPlaceholder.after(this.contentElement);
                 this.contentElementPlaceholder.remove();
             }
@@ -171,6 +176,13 @@ define(function(require) {
                 badge: this.popupBadge
             });
             return data;
+        },
+
+        /**
+         * @param {jQuery} $el
+         */
+        savePreviousClasses: function($el) {
+            this.previousClass = $el.attr('class');
         }
     });
 
