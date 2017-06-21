@@ -151,7 +151,7 @@ define(function(require) {
                 this.contentElement.removeAttr(
                     _.keys(this.contentAttributes).join(' ')
                 );
-                this.contentElement.attr('class', this.previousClass);
+                this.setPreviousClasses(this.contentElement);
                 this.contentElementPlaceholder.after(this.contentElement);
                 this.contentElementPlaceholder.remove();
             }
@@ -183,6 +183,13 @@ define(function(require) {
          */
         savePreviousClasses: function($el) {
             this.previousClass = $el.attr('class');
+        },
+
+        /**
+         * @param {jQuery} $el
+         */
+        setPreviousClasses: function($el) {
+            $el.attr('class', this.previousClass);
         }
     });
 
