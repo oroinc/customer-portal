@@ -5,6 +5,7 @@ namespace Oro\Bundle\RedirectBundle\Tests\Unit\Security;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\EventListener\GuestAccessRequestListener;
 use Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMakerInterface;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,9 +31,9 @@ class GuestAccessRequestListenerTest extends \PHPUnit_Framework_TestCase
     const REDIRECT_STATUS_CODE = 302;
 
     /**
-     * @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $securityFacade;
+    private $tokenAccessor;
 
     /**
      * @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject
@@ -66,7 +67,7 @@ class GuestAccessRequestListenerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->securityFacade = $this->createMock(SecurityFacade::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->guestAccessDecisionMaker = $this->createMock(GuestAccessDecisionMakerInterface::class);
         $this->router = $this->createMock(RouterInterface::class);
@@ -74,7 +75,7 @@ class GuestAccessRequestListenerTest extends \PHPUnit_Framework_TestCase
         $this->request = $this->createMock(Request::class);
 
         $this->listener = new GuestAccessRequestListener(
-            $this->securityFacade,
+            $this->tokenAccessor,
             $this->configManager,
             $this->guestAccessDecisionMaker,
             $this->router
@@ -88,9 +89,9 @@ class GuestAccessRequestListenerTest extends \PHPUnit_Framework_TestCase
             ->method('isMasterRequest')
             ->willReturn(true);
 
-        $this->securityFacade
+        $this->tokenAccessor
             ->expects(static::once())
-            ->method('hasLoggedUser')
+            ->method('hasUser')
             ->willReturn(false);
 
         $this->configManager
@@ -113,9 +114,9 @@ class GuestAccessRequestListenerTest extends \PHPUnit_Framework_TestCase
             ->method('isMasterRequest')
             ->willReturn(false);
 
-        $this->securityFacade
+        $this->tokenAccessor
             ->expects(static::never())
-            ->method('hasLoggedUser');
+            ->method('hasUser');
 
         $this->listener->onKernelRequest($this->event);
     }
@@ -127,9 +128,9 @@ class GuestAccessRequestListenerTest extends \PHPUnit_Framework_TestCase
             ->method('isMasterRequest')
             ->willReturn(true);
 
-        $this->securityFacade
+        $this->tokenAccessor
             ->expects(static::once())
-            ->method('hasLoggedUser')
+            ->method('hasUser')
             ->willReturn(true);
 
         $this->configManager
@@ -216,9 +217,9 @@ class GuestAccessRequestListenerTest extends \PHPUnit_Framework_TestCase
             ->method('isMasterRequest')
             ->willReturn(true);
 
-        $this->securityFacade
+        $this->tokenAccessor
             ->expects(static::once())
-            ->method('hasLoggedUser')
+            ->method('hasUser')
             ->willReturn(false);
 
         $this->configManager
