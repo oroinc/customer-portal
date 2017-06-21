@@ -7,8 +7,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -25,8 +24,8 @@ class CustomerUserHandler
     /** @var CustomerUserManager */
     protected $userManager;
 
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
     /** @var TranslatorInterface */
     protected $translator;
@@ -38,7 +37,7 @@ class CustomerUserHandler
      * @param FormInterface $form
      * @param Request $request
      * @param CustomerUserManager $userManager
-     * @param SecurityFacade $securityFacade
+     * @param TokenAccessorInterface $tokenAccessor
      * @param TranslatorInterface $translator
      * @param LoggerInterface $logger
      */
@@ -46,14 +45,14 @@ class CustomerUserHandler
         FormInterface $form,
         Request $request,
         CustomerUserManager $userManager,
-        SecurityFacade $securityFacade,
+        TokenAccessorInterface $tokenAccessor,
         TranslatorInterface $translator,
         LoggerInterface $logger
     ) {
         $this->form = $form;
         $this->request = $request;
         $this->userManager = $userManager;
-        $this->securityFacade = $securityFacade;
+        $this->tokenAccessor = $tokenAccessor;
         $this->translator = $translator;
         $this->logger = $logger;
     }
@@ -93,9 +92,8 @@ class CustomerUserHandler
                     }
                 }
 
-                $token = $this->securityFacade->getToken();
-                if ($token instanceof OrganizationContextTokenInterface) {
-                    $organization = $token->getOrganizationContext();
+                $organization = $this->tokenAccessor->getOrganization();
+                if (null !== $organization) {
                     $customerUser->setOrganization($organization);
                 }
 
@@ -108,7 +106,7 @@ class CustomerUserHandler
         // Reloads the user to reset its username. This is needed when the
         // username or password have been changed to avoid issues with the
         // security layer.
-        if ($customerUser->getId() && $customerUser->getId() === $this->securityFacade->getLoggedUserId()) {
+        if ($customerUser->getId() && $customerUser->getId() === $this->tokenAccessor->getUserId()) {
             $this->userManager->reloadUser($customerUser);
         }
 

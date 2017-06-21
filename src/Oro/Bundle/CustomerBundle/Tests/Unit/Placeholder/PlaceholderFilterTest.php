@@ -2,34 +2,28 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Placeholder;
 
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Placeholder\PlaceholderFilter;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class PlaceholderFilterTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var PlaceholderFilter
-     */
+    /** @var PlaceholderFilter */
     protected $placeholderFilter;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|SecurityFacade
-     */
-    protected $securityFacade;
+    /** @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface */
+    protected $tokenAccessor;
 
     protected function setUp()
     {
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        $this->placeholderFilter = new PlaceholderFilter($this->securityFacade);
+        $this->placeholderFilter = new PlaceholderFilter($this->tokenAccessor);
     }
 
     protected function tearDown()
     {
-        unset($this->placeholderFilter, $this->securityFacade);
+        unset($this->placeholderFilter, $this->tokenAccessor);
     }
 
     /**
@@ -40,8 +34,8 @@ class PlaceholderFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsUserApplicable($user, $expected)
     {
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn($user);
 
         $this->assertEquals($expected, $this->placeholderFilter->isUserApplicable());
@@ -66,8 +60,8 @@ class PlaceholderFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsLoginRequired($user, $expected)
     {
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn($user);
 
         $this->assertEquals($expected, $this->placeholderFilter->isLoginRequired());
@@ -92,8 +86,8 @@ class PlaceholderFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsFrontendApplicable($user, $expected)
     {
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn($user);
 
         $this->assertEquals($expected, $this->placeholderFilter->isFrontendApplicable());

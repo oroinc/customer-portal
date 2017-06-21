@@ -7,7 +7,7 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\MetadataObject;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\DataGridBundle\Extension\GridViews\GridViewsExtension as BaseGridViewsExtension;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class GridViewsExtensionComposite extends BaseGridViewsExtension
 {
@@ -17,22 +17,22 @@ class GridViewsExtensionComposite extends BaseGridViewsExtension
     /** @var BaseGridViewsExtension */
     protected $frontendGridViewsExtension;
 
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
     /**
      * @param BaseGridViewsExtension $defaultGridViewsExtension
      * @param BaseGridViewsExtension $frontendGridViewsExtension
-     * @param SecurityFacade $securityFacade
+     * @param TokenAccessorInterface $tokenAccessor
      */
     public function __construct(
         BaseGridViewsExtension $defaultGridViewsExtension,
         BaseGridViewsExtension $frontendGridViewsExtension,
-        SecurityFacade $securityFacade
+        TokenAccessorInterface $tokenAccessor
     ) {
         $this->defaultGridViewsExtension = $defaultGridViewsExtension;
         $this->frontendGridViewsExtension = $frontendGridViewsExtension;
-        $this->securityFacade = $securityFacade;
+        $this->tokenAccessor = $tokenAccessor;
     }
 
     /**
@@ -80,6 +80,6 @@ class GridViewsExtensionComposite extends BaseGridViewsExtension
      */
     protected function isFrontend()
     {
-        return $this->securityFacade->getLoggedUser() instanceof CustomerUser;
+        return $this->tokenAccessor->getUser() instanceof CustomerUser;
     }
 }

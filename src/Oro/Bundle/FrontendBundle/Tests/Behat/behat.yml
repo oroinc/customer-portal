@@ -8,6 +8,15 @@ oro_behat_extension:
       paths:
         - '@OroFrontendBundle/Tests/Behat/Features'
   elements:
+    Frontend Grid:
+      selector: 'div.oro-datagrid'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+    FrontendGridToolbarPaginator:
+      selector: '.oro-items-counter'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
+    FrontendMassActionHeadCheckbox:
+      selector: 'th.select-all-header-cell button'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Active Sticky Panel:
       selector: ".sticky-panel.sticky-panel--top.has-content"
     Main Menu Into Header:

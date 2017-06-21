@@ -7,9 +7,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
@@ -18,27 +19,28 @@ class CustomerUserType extends AbstractType
 {
     const NAME = 'oro_customer_customer_user';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $dataClass;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $addressClass;
 
-    /**
-     * @var SecurityFacade
-     */
-    protected $securityFacade;
+    /** @var AuthorizationCheckerInterface */
+    protected $authorizationChecker;
+
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
     /**
-     * @param SecurityFacade $securityFacade
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param TokenAccessorInterface        $tokenAccessor
      */
-    public function __construct(SecurityFacade $securityFacade)
-    {
-        $this->securityFacade = $securityFacade;
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        TokenAccessorInterface $tokenAccessor
+    ) {
+        $this->authorizationChecker = $authorizationChecker;
+        $this->tokenAccessor = $tokenAccessor;
     }
 
     /**
@@ -187,7 +189,7 @@ class CustomerUserType extends AbstractType
                 ]
             );
 
-        if ($this->securityFacade->isGranted('oro_customer_customer_user_role_view')) {
+        if ($this->authorizationChecker->isGranted('oro_customer_customer_user_role_view')) {
             $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'preSetData']);
             $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'preSubmit']);
         }
@@ -228,7 +230,7 @@ class CustomerUserType extends AbstractType
 
         /** @var CustomerUser $data */
         $data = $event->getData();
-        $data->setOrganization($this->securityFacade->getOrganization());
+        $data->setOrganization($this->tokenAccessor->getOrganization());
 
         $form->add(
             'roles',
@@ -263,7 +265,7 @@ class CustomerUserType extends AbstractType
                     }
 
                     return $repository->getAvailableRolesByCustomerUserQueryBuilder(
-                        $this->securityFacade->getOrganization(),
+                        $this->tokenAccessor->getOrganization(),
                         $customer
                     );
                 }

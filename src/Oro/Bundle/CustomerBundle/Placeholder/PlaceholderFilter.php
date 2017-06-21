@@ -2,22 +2,20 @@
 
 namespace Oro\Bundle\CustomerBundle\Placeholder;
 
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class PlaceholderFilter
 {
-    /**
-     * @var SecurityFacade
-     */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
     /**
-     * @param SecurityFacade $securityFacade
+     * @param TokenAccessorInterface $tokenAccessor
      */
-    public function __construct(SecurityFacade $securityFacade)
+    public function __construct(TokenAccessorInterface $tokenAccessor)
     {
-        $this->securityFacade = $securityFacade;
+        $this->tokenAccessor = $tokenAccessor;
     }
 
     /**
@@ -25,7 +23,7 @@ class PlaceholderFilter
      */
     public function isUserApplicable()
     {
-        return $this->securityFacade->getLoggedUser() instanceof CustomerUser;
+        return $this->tokenAccessor->getUser() instanceof CustomerUser;
     }
 
     /**
@@ -33,7 +31,7 @@ class PlaceholderFilter
      */
     public function isLoginRequired()
     {
-        return !is_object($this->securityFacade->getLoggedUser());
+        return !is_object($this->tokenAccessor->getUser());
     }
 
     /**
@@ -41,7 +39,7 @@ class PlaceholderFilter
      */
     public function isFrontendApplicable()
     {
-        $user = $this->securityFacade->getLoggedUser();
+        $user = $this->tokenAccessor->getUser();
 
         return !is_object($user) || $user instanceof CustomerUser;
     }

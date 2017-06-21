@@ -30,7 +30,7 @@
                 {{ UI.renderHtmlProperty('oro.customer.customeruser.customer.label'|trans, UI.entityViewLink(entity.customer, entity.customer.name, 'oro_customer_customer_view')) }}
             {% endif %}
 
-            {% if resource_granted('oro_customer_customer_user_role_view') %}
+            {% if is_granted('oro_customer_customer_user_role_view') %}
                 {% set roles = [] %}
                 {% for entityRole in entity.roles %}
                     {% set roles = roles|merge([entityRole.label|escape]) %}

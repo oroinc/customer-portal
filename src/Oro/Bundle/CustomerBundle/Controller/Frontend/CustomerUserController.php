@@ -108,7 +108,7 @@ class CustomerUserController extends Controller
             $form,
             $request,
             $this->get('oro_customer_user.manager'),
-            $this->get('oro_security.security_facade'),
+            $this->get('oro_security.token_accessor'),
             $this->get('translator'),
             $this->get('logger')
         );

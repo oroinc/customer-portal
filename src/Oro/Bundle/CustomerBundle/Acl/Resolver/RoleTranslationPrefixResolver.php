@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Acl\Resolver;
 
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
@@ -11,17 +11,15 @@ class RoleTranslationPrefixResolver
     const BACKEND_PREFIX = 'oro.customer.security.access-level.';
     const FRONTEND_PREFIX = 'oro.customer.frontend.security.access-level.';
 
-    /**
-     * @var SecurityFacade
-     */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
     /**
-     * @param SecurityFacade $securityFacade
+     * @param TokenAccessorInterface $tokenAccessor
      */
-    public function __construct(SecurityFacade $securityFacade)
+    public function __construct(TokenAccessorInterface $tokenAccessor)
     {
-        $this->securityFacade = $securityFacade;
+        $this->tokenAccessor = $tokenAccessor;
     }
 
     /**
@@ -30,7 +28,7 @@ class RoleTranslationPrefixResolver
      */
     public function getPrefix()
     {
-        $user = $this->securityFacade->getLoggedUser();
+        $user = $this->tokenAccessor->getUser();
 
         if ($user instanceof User) {
             return self::BACKEND_PREFIX;

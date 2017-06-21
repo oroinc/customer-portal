@@ -2,25 +2,31 @@
 
 namespace Oro\Bundle\CustomerBundle\Acl\Group;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-
 use Oro\Bundle\SecurityBundle\Acl\Group\AclGroupProviderInterface;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
-class AclGroupProvider implements AclGroupProviderInterface, ContainerAwareInterface
+class AclGroupProvider implements AclGroupProviderInterface
 {
-    use ContainerAwareTrait;
+    /** @var TokenAccessorInterface */
+    private $tokenAccessor;
+
+    /**
+     * @param TokenAccessorInterface $tokenAccessor
+     */
+    public function __construct(TokenAccessorInterface $tokenAccessor)
+    {
+        $this->tokenAccessor = $tokenAccessor;
+    }
 
     /**
      * {@inheritDoc}
      */
     public function supports()
     {
-        $user = $this->getSecurityFacade()->getLoggedUser();
+        $user = $this->tokenAccessor->getUser();
 
-        return !is_object($user) || $user instanceof CustomerUser;
+        return null === $user || $user instanceof CustomerUser;
     }
 
     /**
@@ -29,17 +35,5 @@ class AclGroupProvider implements AclGroupProviderInterface, ContainerAwareInter
     public function getGroup()
     {
         return CustomerUser::SECURITY_GROUP;
-    }
-
-    /**
-     * @return SecurityFacade
-     */
-    protected function getSecurityFacade()
-    {
-        if (!$this->container) {
-            throw new \InvalidArgumentException('ContainerInterface not injected');
-        }
-
-        return $this->container->get('oro_security.security_facade');
     }
 }
