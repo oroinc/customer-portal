@@ -1,0 +1,122 @@
+// @theme: default;
+
+.main-menu {
+    &__link {
+        padding-left: 24px;
+
+        white-space: nowrap;
+        text-transform: uppercase;
+
+        &:hover,
+        &:focus {
+            text-decoration: none;
+        }
+    }
+    
+    &__list {
+        display: flex;
+
+        @include list-normalize();
+        @include clearfix();
+
+        &--nested {
+            display: block;
+
+            font-size: 0;
+        }
+    }
+
+    &__item {
+        &--nested {
+            position: relative;
+
+            display: inline-block;
+
+            padding-right: 24px;
+            padding-left: 22px;
+
+            font-size: $base-font-size;
+
+            vertical-align: middle;
+
+            background: get-color('additional', 'base');
+        }
+    }
+
+    &__sublist {
+        display: none;
+    }
+
+    &__button-arrow {
+        padding: 8px 12px 8px 8px;
+
+        font-size: inherit;
+
+        background: none;
+        border: 0;
+
+        cursor: pointer;
+    }
+}
+
+@include only-desktop() {
+    .main-menu {
+        &__item {
+            &:hover {
+                background: get-color('additional', 'base');
+            }
+        }
+    }
+}
+
+@include breakpoint('desktop') {
+    .main-menu {
+        max-height: $main-menu-item-height;
+
+        display: flex;
+
+        &__view-parent {
+            display: none;
+        }
+
+        &__item {
+            min-height: $main-menu-item-height;
+        }
+
+        &__link {
+            min-height: $main-menu-item-height;
+
+            display: inline-block;
+        }
+
+
+        &__item--floated-dropdown,
+        &__item--centered-dropdown {
+            position: relative;
+        }
+
+        &__item--floated-dropdown .main-menu__sublist-container {
+            right: auto;
+        }
+
+        &__item--centered-dropdown .main-menu__sublist-container {
+            left: calc(-50% - 34px);
+            right: auto;
+        }
+
+        &__sublist-container {
+            display: none;
+
+            background: get-color('additional', 'ultra');
+            box-shadow: $main-menu-sublist-container-shadow;
+        }
+
+        .mobile-version & {
+            &__item {
+                &.open {
+                    background: get-color('additional', 'base');
+                }
+            }
+        }
+    }    
+}

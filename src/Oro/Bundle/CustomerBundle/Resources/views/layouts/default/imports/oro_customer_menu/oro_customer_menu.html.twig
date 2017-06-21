@@ -14,7 +14,10 @@
                 popupIcon: 'fa-user',
                 popupBadge: true,
                 popupLabel: 'oro.customer.menu.customer_user.label'|trans,
-                contentSelector: '[data-customer-menu-container]'
+                contentElement: '[data-customer-menu-container]',
+                contentAttributes: {
+                    'class': 'fullscreen-mode'
+                }
             }|json_encode() }}"
         >
             {{ 'oro.customer.frontend.menu.customer_user_profile.label'|trans }}
