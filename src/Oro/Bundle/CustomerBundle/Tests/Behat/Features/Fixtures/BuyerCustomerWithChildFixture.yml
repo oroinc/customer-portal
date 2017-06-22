@@ -1,0 +1,43 @@
+include:
+    - BuyerCustomerFixture.yml
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer1-1:
+        name: 'child of first customer'
+        organization: '@organization'
+        owner: '@admin'
+        parent: '@customer1'
+    customer2:
+        name: 'second customer'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    ruth:
+        email: 'RuthWMaxwell@example.org'
+        username: 'RuthWMaxwell@example.org'
+        password: 'Gd6AkSQDer1ZNLwYZLbjk4cTjWjB46WmjNtFs7tTZO9rDDZSxEeAYrbcakgiFjeO2w9uvLTIZ02dZeNVNg5uAQ=='
+        salt: 'i5ojb68dhtcss040o488sg080wkwccc'
+        firstName: 'Ruth'
+        lastName: 'Maxwell'
+        enabled: '1'
+        confirmed: '1'
+        customer: '@customer1-1'
+        organization: '@organization'
+        role: ['@front_admin']
+        owner: '@admin'
+        website: '@website1'
+    juana:
+        email: 'JuanaPBrzezinski@example.net'
+        username: 'JuanaPBrzezinski@example.net'
+        password: '/vz6fCpP4UvkcczT+U0pQNSzLw0dKslQLsiucpc2VHRSc/zOg71G1tFrTtvgTSGzES2VYj7NTT7Kqbz9tk2h8g=='
+        salt: 'tkh7pgp00g04c8k08cgw4wco4kwwscs'
+        firstName: 'Juana'
+        lastName: 'Brzezinski'
+        enabled: '1'
+        confirmed: '1'
+        customer: '@customer2'
+        organization: '@organization'
+        role: ['@front_admin']
+        owner: '@admin'
+        website: '@website1'
