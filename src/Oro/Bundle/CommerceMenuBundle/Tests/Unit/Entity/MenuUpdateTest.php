@@ -16,6 +16,7 @@ class MenuUpdateTest extends \PHPUnit_Framework_TestCase
     {
         $properties = [
             ['condition', 'condition'],
+            ['screens', ['mobile' => ['class' => 'test']]]
         ];
 
         $this->assertPropertyAccessors(new MenuUpdate(), $properties);

@@ -89,6 +89,13 @@ class MenuUpdate extends ExtendMenuUpdate implements
     protected $condition;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="screens", type="array")
+     */
+    protected $screens = [];
+
+    /**
      * {@inheritdoc}
      */
     public function __construct()
@@ -135,6 +142,25 @@ class MenuUpdate extends ExtendMenuUpdate implements
     public function setCondition($condition)
     {
         $this->condition = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getScreens()
+    {
+        return $this->screens;
+    }
+
+    /**
+     * @param array $screens
+     * @return $this
+     */
+    public function setScreens(array $screens)
+    {
+        $this->screens = $screens;
 
         return $this;
     }
