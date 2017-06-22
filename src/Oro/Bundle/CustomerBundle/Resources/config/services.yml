@@ -692,6 +692,12 @@ services:
         arguments:
             - '%oro_customer.entity.customer.class%'
 
+    oro_customer.repository.customer_user:
+        class: 'Doctrine\ORM\EntityRepository'
+        parent: oro_entity.abstract_repository
+        arguments:
+            - '%oro_customer.entity.customer_user.class%'
+
     oro_customer.authentication.listener.anonymous:
         class: Oro\Bundle\CustomerBundle\Security\Http\Firewall\AnonymousAuthenticationListener
         decorates: security.authentication.listener.anonymous.frontend
@@ -735,6 +741,13 @@ services:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRoleValidator
         tags:
             - { name: validator.constraint_validator }
+
+    oro_customer.customer_user.validator.unique_name_and_email:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmailValidator
+        arguments:
+            - '@oro_customer.repository.customer_user'
+        tags:
+            - { name: validator.constraint_validator, alias: oro_customer.customer_user.validator.unique_name_and_email }
 
     oro_customer.grid_view.manager.api:
         class: 'Oro\Bundle\DataGridBundle\Entity\Manager\GridViewApiEntityManager'
