@@ -47,7 +47,7 @@ services:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\Condition\LoggedInExpressionLanguageProvider'
         public: false
         arguments:
-            - '@oro_security.security_facade.link'
+            - '@oro_security.token_accessor'
         tags:
             - { name: oro_commerce_menu.condition.expression_language_provider }
 

@@ -7,30 +7,34 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class FrontendCustomerUserType extends AbstractType
 {
     const NAME = 'oro_customer_frontend_customer_user';
 
-    /**
-     * @var SecurityFacade
-     */
-    protected $securityFacade;
+    /** @var AuthorizationCheckerInterface */
+    protected $authorizationChecker;
 
-    /**
-     * @var string
-     */
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
+
+    /** @var string */
     protected $customerUserClass;
 
     /**
-     * @param SecurityFacade $securityFacade
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param TokenAccessorInterface        $tokenAccessor
      */
-    public function __construct(SecurityFacade $securityFacade)
-    {
-        $this->securityFacade = $securityFacade;
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        TokenAccessorInterface $tokenAccessor
+    ) {
+        $this->authorizationChecker = $authorizationChecker;
+        $this->tokenAccessor = $tokenAccessor;
     }
 
     /**
@@ -49,7 +53,7 @@ class FrontendCustomerUserType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
         $builder->remove('salesRepresentatives');
         $builder->remove('addresses');
-        if ($this->securityFacade->isGranted('oro_customer_frontend_customer_user_role_view')) {
+        if ($this->authorizationChecker->isGranted('oro_customer_frontend_customer_user_role_view')) {
             $builder->add(
                 'roles',
                 FrontendCustomerUserRoleSelectType::NAME,
@@ -67,7 +71,7 @@ class FrontendCustomerUserType extends AbstractType
     public function onPreSetData(FormEvent $event)
     {
         /** @var $user CustomerUser */
-        $user = $this->securityFacade->getLoggedUser();
+        $user = $this->tokenAccessor->getUser();
         if (!$user instanceof CustomerUser) {
             return;
         }

@@ -23,7 +23,7 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
      */
     protected function checkAcl(array $context)
     {
-        if (!$this->get('oro_security.security_facade')->isGranted(
+        if (!$this->isGranted(
             'oro_customer_account_group_update',
             $context[ScopeCustomerGroupCriteriaProvider::FIELD_NAME]
         )

@@ -7,7 +7,7 @@
         {# JS template for address view #}
         <script type="text/html" id="template-addressbook-item">
             <div class="actions pull-right">
-                {% if addressUpdateAclResource is not defined or resource_granted(addressUpdateAclResource) %}
+                {% if addressUpdateAclResource is not defined or is_granted(addressUpdateAclResource) %}
                     <a class="item-edit-button" title="<%= _.__('oro.customer.address.edit') %>"><i class="fa-pencil hide-text"><%= _.__('oro.customer.address.edit') %></i></a>
                     <% if (!primary) { %><a class="item-remove-button" title="<%= _.__('oro.customer.address.remove') %>"><i class="fa-trash-o mml2-md mml2-sm hide-text"><%= _.__('oro.customer.address.remove') %></i></a><% } %>
                 {% endif %}

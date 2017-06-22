@@ -6,44 +6,24 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 
 use Oro\Bundle\CommerceMenuBundle\Menu\Condition\LoggedInExpressionLanguageProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
-
-use Oro\Component\DependencyInjection\ServiceLink;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class LoggedInExpressionLanguageProviderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var LoggedInExpressionLanguageProvider */
     private $provider;
 
-    /** @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject */
-    private $securityFacade;
+    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    private $tokenAccessor;
 
     /**
      * {@inheritdoc}
      */
     public function setUp()
     {
-        $this->securityFacade = $this->getMockBuilder(SecurityFacade::class)->disableOriginalConstructor()->getMock();
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        $securityFacadeLink = $this->getSecurityFacadeLink($this->securityFacade);
-        $this->provider = new LoggedInExpressionLanguageProvider($securityFacadeLink);
-    }
-
-    /**
-     * @param \PHPUnit_Framework_MockObject_MockObject $securityFacade
-     *
-     * @return ServiceLink|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getSecurityFacadeLink(\PHPUnit_Framework_MockObject_MockObject $securityFacade)
-    {
-        /** @var ServiceLink|\PHPUnit_Framework_MockObject_MockObject $securityFacadeLink */
-        $securityFacadeLink = $this->getMockBuilder(ServiceLink::class)->disableOriginalConstructor()->getMock();
-        $securityFacadeLink
-            ->expects($this->any())
-            ->method('getService')
-            ->willReturn($securityFacade);
-
-        return $securityFacadeLink;
+        $this->provider = new LoggedInExpressionLanguageProvider($this->tokenAccessor);
     }
 
     /**
@@ -63,14 +43,9 @@ class LoggedInExpressionLanguageProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ExpressionFunction::class, $function);
         $this->assertEquals('is_logged_in()', call_user_func($function->getCompiler()));
 
-        $loggedUser = null;
-        if ($isLoggedUser) {
-            $loggedUser = $this->createMock(CustomerUser::class);
-        }
-
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUser')
-            ->willReturn($loggedUser);
+        $this->tokenAccessor->expects($this->once())
+            ->method('hasUser')
+            ->willReturn($isLoggedUser);
 
         $this->assertEquals($expectedData, call_user_func($function->getEvaluator()));
     }

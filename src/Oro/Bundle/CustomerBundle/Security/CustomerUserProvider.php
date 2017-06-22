@@ -6,43 +6,44 @@ use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\PermissionGrantingStrategy;
 use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Acl\Util\ClassUtils;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 class CustomerUserProvider
 {
-    /**
-     * @var SecurityFacade
-     */
-    protected $securityFacade;
+    /** @var AuthorizationCheckerInterface */
+    protected $authorizationChecker;
 
-    /**
-     * @var AclManager
-     */
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
+
+    /** @var AclManager */
     protected $aclManager;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $customerUserClass;
 
-    /**
-     * @var array|EntityMaskBuilder[]
-     */
+    /** @var EntityMaskBuilder[] */
     protected $maskBuilders = [];
 
     /**
-     * @param SecurityFacade $securityFacade
-     * @param AclManager $aclManager
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param TokenAccessorInterface        $tokenAccessor
+     * @param AclManager                    $aclManager
      */
-    public function __construct(SecurityFacade $securityFacade, AclManager $aclManager)
-    {
-        $this->securityFacade = $securityFacade;
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        TokenAccessorInterface $tokenAccessor,
+        AclManager $aclManager
+    ) {
+        $this->authorizationChecker = $authorizationChecker;
+        $this->tokenAccessor = $tokenAccessor;
         $this->aclManager = $aclManager;
     }
 
@@ -59,7 +60,7 @@ class CustomerUserProvider
      */
     public function getLoggedUser()
     {
-        $user = $this->securityFacade->getLoggedUser();
+        $user = $this->tokenAccessor->getUser();
         if ($user instanceof CustomerUser) {
             return $user;
         }
@@ -128,7 +129,7 @@ class CustomerUserProvider
     public function isGrantedViewCustomerUser($class)
     {
         $descriptor = sprintf('entity:%s@%s', CustomerUser::SECURITY_GROUP, $this->customerUserClass);
-        if (!$this->securityFacade->isGranted(BasicPermissionMap::PERMISSION_VIEW, $descriptor)) {
+        if (!$this->authorizationChecker->isGranted(BasicPermissionMap::PERMISSION_VIEW, $descriptor)) {
             return false;
         }
 

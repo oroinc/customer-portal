@@ -4,9 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProvider;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProvider;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Owner\EntityOwnershipDecisionMaker;
 
@@ -33,9 +33,9 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit_Framework_TestCase
     protected $container;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|SecurityFacade
+     * @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface
      */
-    protected $securityFacade;
+    protected $tokenAccessor;
 
     protected function setUp()
     {
@@ -48,9 +48,7 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->container->expects($this->any())
@@ -69,9 +67,9 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit_Framework_TestCase
                             $this->metadataProvider,
                         ],
                         [
-                            'oro_security.security_facade',
+                            'oro_security.token_accessor',
                             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->securityFacade,
+                            $this->tokenAccessor,
                         ],
                     ]
                 )
@@ -88,7 +86,7 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit_Framework_TestCase
             $this->treeProvider,
             $this->decisionMaker,
             $this->container,
-            $this->securityFacade
+            $this->tokenAccessor
         );
     }
 
@@ -100,9 +98,8 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSupports($user, $expectedResult)
     {
-        $this->securityFacade
-            ->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn($user);
 
         $this->assertEquals($expectedResult, $this->decisionMaker->supports());
@@ -114,15 +111,15 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit_Framework_TestCase
     public function supportsDataProvider()
     {
         return [
-            'without security facade' => [
+            'without user' => [
                 'user' => null,
                 'expectedResult' => false,
             ],
-            'security facade with incorrect user class' => [
+            'unsupported user' => [
                 'user' => new \stdClass(),
                 'expectedResult' => false,
             ],
-            'security facade with user class' => [
+            'supported user' => [
                 'user' => new CustomerUser(),
                 'expectedResult' => true,
             ],

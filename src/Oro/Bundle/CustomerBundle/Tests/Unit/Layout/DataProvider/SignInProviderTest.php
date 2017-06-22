@@ -11,9 +11,9 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInProvider;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class SignInProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,8 +29,8 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
     /** @var ParameterBag|\PHPUnit_Framework_MockObject_MockObject */
     protected $parameterBag;
 
-    /** @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $tokenAccessor;
 
     /** @var CsrfTokenManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $csrfTokenManager;
@@ -48,10 +48,10 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
             ->method('getCurrentRequest')
             ->will($this->returnValue($this->request));
 
-        $this->securityFacade = $this->createMock(SecurityFacade::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->csrfTokenManager = $this->createMock(CsrfTokenManagerInterface::class);
 
-        $this->dataProvider = new SignInProvider($this->requestStack, $this->securityFacade, $this->csrfTokenManager);
+        $this->dataProvider = new SignInProvider($this->requestStack, $this->tokenAccessor, $this->csrfTokenManager);
     }
 
     public function testGetLastNameWithSession()
@@ -75,7 +75,7 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLastNameWithoutSession()
     {
-        $dataProvider = new SignInProvider($this->requestStack, $this->securityFacade, $this->csrfTokenManager);
+        $dataProvider = new SignInProvider($this->requestStack, $this->tokenAccessor, $this->csrfTokenManager);
         $this->assertEquals('', $dataProvider->getLastName());
         /** test local cache */
         $this->assertEquals('', $dataProvider->getLastName());
@@ -114,7 +114,7 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
             ->method('getSession')
             ->will($this->returnValue($session));
 
-        $dataProvider = new SignInProvider($this->requestStack, $this->securityFacade, $this->csrfTokenManager);
+        $dataProvider = new SignInProvider($this->requestStack, $this->tokenAccessor, $this->csrfTokenManager);
         $this->assertEquals('', $dataProvider->getError());
         /** test local cache */
         $this->assertEquals('', $dataProvider->getError());
@@ -122,7 +122,7 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetErrorFromRequestAttributes()
     {
-        $dataProvider = new SignInProvider($this->requestStack, $this->securityFacade, $this->csrfTokenManager);
+        $dataProvider = new SignInProvider($this->requestStack, $this->tokenAccessor, $this->csrfTokenManager);
 
         /** @var SessionInterface|\PHPUnit_Framework_MockObject_MockObject $session */
         $session = $this->createMock(SessionInterface::class);
@@ -171,9 +171,8 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
     {
         $customerUser = new CustomerUser();
 
-        $this->securityFacade
-            ->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->will($this->returnValue($customerUser));
 
         $this->assertEquals($customerUser, $this->dataProvider->getLoggedUser());

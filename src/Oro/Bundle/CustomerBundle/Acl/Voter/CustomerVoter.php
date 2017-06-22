@@ -7,11 +7,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\EntityBundle\Exception\NotManageableEntityException;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Entity\CustomerOwnerAwareInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
@@ -192,16 +192,17 @@ class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterfa
      */
     protected function isGrantedClassPermission($attribute, $class)
     {
-        $securityFacade = $this->getSecurityFacade();
         $descriptor = $this->getDescriptorByClass($class);
 
         switch ($attribute) {
             case self::ATTRIBUTE_VIEW:
-                $isGranted = $securityFacade->isGranted(BasicPermissionMap::PERMISSION_VIEW, $descriptor);
+                $isGranted = $this->getAuthorizationChecker()
+                    ->isGranted(BasicPermissionMap::PERMISSION_VIEW, $descriptor);
                 break;
 
             case self::ATTRIBUTE_EDIT:
-                $isGranted = $securityFacade->isGranted(BasicPermissionMap::PERMISSION_EDIT, $descriptor);
+                $isGranted = $this->getAuthorizationChecker()
+                    ->isGranted(BasicPermissionMap::PERMISSION_EDIT, $descriptor);
                 break;
 
             default:
@@ -278,11 +279,11 @@ class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterfa
     }
 
     /**
-     * @return SecurityFacade
+     * @return AuthorizationCheckerInterface
      */
-    protected function getSecurityFacade()
+    protected function getAuthorizationChecker()
     {
-        return $this->getContainer()->get('oro_security.security_facade');
+        return $this->getContainer()->get('security.authorization_checker');
     }
 
     /**

@@ -2,8 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid;
 
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\CustomerBundle\Datagrid\ActionPermissionProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -39,19 +41,25 @@ class ActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
         'update'
     ];
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|SecurityFacade */
-    protected $securityFacade;
+    /** @var \PHPUnit_Framework_MockObject_MockObject|AuthorizationCheckerInterface */
+    protected $authorizationChecker;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface */
+    protected $tokenAccessor;
 
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->record = $this->createMock('Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface');
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->actionPermissionProvider = new ActionPermissionProvider($this->securityFacade);
+        $this->record = $this->createMock(ResultRecordInterface::class);
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+
+        $this->actionPermissionProvider = new ActionPermissionProvider(
+            $this->authorizationChecker,
+            $this->tokenAccessor
+        );
     }
 
     /**
@@ -99,7 +107,7 @@ class ActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
             ->with($this->isType('string'))
             ->willReturn($isRolePredefined);
 
-        $this->securityFacade->expects($isRolePredefined ? $this->once() : $this->never())
+        $this->authorizationChecker->expects($isRolePredefined ? $this->once() : $this->never())
             ->method('isGranted')
             ->with($this->isType('string'))
             ->willReturn($isGranted);
