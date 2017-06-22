@@ -25,7 +25,7 @@ define(function(require) {
         $travelingTrigger: $([]),
 
         /** @property */
-        $parentContainer : $([]),
+        $parentContainer: $([]),
 
         /** @property */
         $relatedTrigger: $([]),
