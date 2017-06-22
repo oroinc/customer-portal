@@ -22,10 +22,6 @@
             }
         }
 
-        .main-menu-outer__container {
-            border-top: 1px solid get-color('additional', 'light');
-        }
-
         &.expanded {
             .main-menu__categories {
                 display: block;

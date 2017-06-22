@@ -61,6 +61,7 @@
 
 @include breakpoint('tablet') {
     .quick-access {
+        border-bottom: 1px solid get-color('additional', 'light');
         padding: $offset-y;
 
         &__list {
