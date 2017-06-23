@@ -23,7 +23,7 @@ Feature: Frontend Grid Views
     Given I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account"
     And I click "Users"
-    When I hide all columns in "Customer User Grid" grid except "First Name, Last Name, Email Address" on frontend
+    When I hide all columns in "Customer User Grid" except "First Name, Last Name, Email Address" on frontend grid
     When I filter Filter By First Name as contains "FirstName_03"
     When I click grid view list on "Customer User Grid" grid
     And I click "Save As New"
