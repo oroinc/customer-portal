@@ -1,4 +1,9 @@
 config:
+    map:
+        '*':
+            'orofilter/js/plugins/filters-toggle-plugin': 'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin'
+        'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin':
+            'orofilter/js/plugins/filters-toggle-plugin': 'orofilter/js/plugins/filters-toggle-plugin'
     shim:
         'slick':
             deps:
@@ -34,6 +39,8 @@ config:
         'orofrontend/js/app/elements-helper': 'bundles/orofrontend/js/app/elements-helper.js'
         'orofrontend/js/app/datafilter/frontend-collection-filters-manager': 'bundles/orofrontend/js/app/datafilter/frontend-collection-filters-manager.js'
         'orofrontend/js/app/datafilter/frontend-multiselect-decorator': 'bundles/orofrontend/js/app/datafilter/frontend-multiselect-decorator.js'
+        'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin': 'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin.js'
+        'orofrontend/js/app/datafilter/actions/fullscreen-filters-action': 'orofrontend/js/app/datafilter/actions/fullscreen-filters-action.js'
 
         'slick': 'bundles/orofrontend/default/vendors/slick/slick.js'
         'orofrontend/js/app/components/list-slider-component': 'bundles/orofrontend/js/app/components/list-slider-component.js'
