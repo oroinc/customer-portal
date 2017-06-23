@@ -30,9 +30,8 @@ security:
 
         frontend:
             pattern:                        ^/
-            provider:                       commerce_customer_user
             context:                        customer_identity
-            anonymous:                      true
+            anonymous_customer_user:        true
 
 doctrine:
     orm:

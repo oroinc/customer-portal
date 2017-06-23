@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+use Oro\Bundle\CustomerBundle\DependencyInjection\Security\AnonymousCustomerUserFactory;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappingPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\OwnerTreeListenerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\WindowsStateManagerPass;
@@ -22,6 +23,9 @@ class OroCustomerBundle extends Bundle
         $container->addCompilerPass(new OwnerTreeListenerPass());
         $container->addCompilerPass(new DataAuditEntityMappingPass());
         $container->addCompilerPass(new WindowsStateManagerPass());
+
+        $extension = $container->getExtension('security');
+        $extension->addSecurityListenerFactory(new AnonymousCustomerUserFactory());
     }
 
     /**
