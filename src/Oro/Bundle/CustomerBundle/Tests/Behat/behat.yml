@@ -76,15 +76,7 @@ oro_behat_extension:
           Secure URL: 'routing[oro_website___secure_url][value]'
     Configuration:
       selector: '[title="Organization Configuration"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-
-    FrontendGridColumnManagerButton:
-      selector: 'div.datagrid-manager.dropdown a'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-
-    FrontendGridColumnManager:
-      selector: 'div.datagrid-manager div.dropdown-menu'
-      class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element   
 
     FrontendGridAddViewButton:
       selector: 'button[data-text="Add"]'

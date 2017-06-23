@@ -50,28 +50,6 @@ class GridContext extends OroFeatureContext implements OroPageObjectAware
 
     //@codingStandardsIgnoreStart
     /**
-     * Hide all columns in grid except mentioned
-     *
-     * @When /^I hide all columns in "(?P<datagridName>([\w\s]+))" grid except "(?P<exceptions>(?:[^"]|\\")*)" on frontend$/
-     */
-    //@codingStandardsIgnoreEnd
-    public function uncheckAllColumnOptionsFrontendDatagrid($datagridName, $exceptions = '')
-    {
-        $exceptions = explode(',', $exceptions);
-        $exceptions = array_map('trim', $exceptions);
-        $exceptions = array_filter($exceptions);
-
-        $grid = $this->getGrid($datagridName);
-
-        /** @var FrontendGridColumnManager $columnManager */
-        $columnManager = $grid->getElement('FrontendGridColumnManager');
-        $columnManager->open();
-        $columnManager->hideAllColumns($exceptions);
-        $columnManager->close();
-    }
-
-    //@codingStandardsIgnoreStart
-    /**
      * @When /^(?:|I )show column "(?P<columnName>(?:[^"]|\\")*)" in "(?P<datagridName>(?:[^"]|\\")*)" frontend grid$/
      * @When /^(?:|I )mark as visible column "(?P<columnName>(?:[^"]|\\")*)" in "(?P<datagridName>(?:[^"]|\\")*)" frontend grid$/
      *
