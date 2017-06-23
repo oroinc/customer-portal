@@ -379,14 +379,6 @@ services:
             - { name: oro_menu.builder, alias: frontend_mostviewed }
             - { name: oro_featuretogle.feature, feature: email }
 
-    oro_customer.item.pinbar.post_persist_listener:
-        class: 'Oro\Bundle\NavigationBundle\Entity\Listener\PinbarPostPersist'
-        public: false
-        calls:
-            - [ setClassName, ['%oro_customer.entity.pinbar_tab.class%']]
-        tags:
-            - { name: doctrine.event_listener, event: postPersist }
-
     kernel.listener.frontend_nav_history_response:
         class: '%oro_navigation.event.response_history.listener.class%'
         tags:
