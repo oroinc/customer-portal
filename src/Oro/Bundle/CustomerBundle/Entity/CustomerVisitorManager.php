@@ -26,17 +26,29 @@ class CustomerVisitorManager
      */
     public function findOrCreate($id = null, $sessionId = null)
     {
-        if (null === $id) {
+        $user = $this->find($id, $sessionId);
+
+        if (null === $user) {
             return $this->createUser();
+        }
+
+        return $user;
+    }
+
+    /**
+     * @param integer|null $id
+     * @param string|null  $sessionId
+     * @return CustomerVisitor|null
+     */
+    public function find($id = null, $sessionId = null)
+    {
+        if (null === $id) {
+            return null;
         }
 
         $user = $this->doctrineHelper
             ->getEntityRepositoryForClass(CustomerVisitor::class)
             ->findOneBy(['id' => $id, 'sessionId' => $sessionId]);
-
-        if (null === $user) {
-            return $this->createUser();
-        }
 
         return $user;
     }
