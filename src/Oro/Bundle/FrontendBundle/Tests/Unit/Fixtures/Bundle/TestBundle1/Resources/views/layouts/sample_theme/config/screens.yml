@@ -1,0 +1,4 @@
+screens:
+    sample_screen:
+        label: 'Sample screen'
+        hidingCssClass: 'sample-css-class'

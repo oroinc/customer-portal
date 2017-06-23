@@ -2,11 +2,12 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-use Oro\Bundle\LocaleBundle\DependencyInjection\OroLocaleExtension;
-use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
+use Oro\Bundle\FrontendBundle\Tests\Unit\Fixtures\Bundle\TestBundle1\TestBundle1;
+use Oro\Bundle\LocaleBundle\DependencyInjection\OroLocaleExtension;
+use Oro\Component\Config\CumulativeResourceManager;
+use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
 class OroFrontendExtensionTest extends \PHPUnit_Framework_TestCase
@@ -44,7 +45,7 @@ class OroFrontendExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(OroFrontendExtension::ALIAS, $extension->getAlias());
     }
 
-    public function testPrepend()
+    public function testPrependFosRest()
     {
         /** @var \PHPUnit_Framework_MockObject_MockObject|ExtendedContainerBuilder $container */
         $container = $this->getMockBuilder(ExtendedContainerBuilder::class)->disableOriginalConstructor()->getMock();
@@ -79,5 +80,34 @@ class OroFrontendExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension = new OroFrontendExtension();
         $extension->prepend($container);
+    }
+
+    public function testPrependScreensConfigs()
+    {
+        CumulativeResourceManager::getInstance()
+                                 ->clear()
+                                 ->setBundles(['TestBundle1' => TestBundle1::class]);
+
+        $container = new ContainerBuilder();
+        $extension = new OroFrontendExtension();
+        $extension->prepend($container);
+
+        $expected = [[
+            'themes' => [
+                'sample_theme' => [
+                    'config' => [
+                        'screens' => [
+                            'sample_screen' => [
+                                'label' => 'Sample screen',
+                                'hidingCssClass' => 'sample-css-class',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]];
+        $actual = $container->getExtensionConfig('oro_layout');
+
+        $this->assertEquals($expected, $actual);
     }
 }
