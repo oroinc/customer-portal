@@ -11,3 +11,15 @@ oro_behat_extension:
           Description: 'menu_update[descriptions][values][default]'
           Condition: 'menu_update[condition]'
           Image: 'menu_update[image][file]'
+
+    Main Menu Button:
+      selector:
+        type: xpath
+        locator: '//div[contains(@class,"header-row")]//button[contains(@class, "header-row__trigger")]//span[contains(@class, "fa-navicon")]/ancestor::button'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
+    Main Menu Search Button:
+      selector:
+        type: xpath
+        locator: '//div[contains(@class,"header-row")]//button[contains(@class, "header-row__trigger")]//span[contains(@class, "fa-search")]/ancestor::button'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
