@@ -1,4 +1,4 @@
-// @theme: custom
+// @theme: custom;
 
 .sidebar__menu {
     max-height: none;
@@ -81,6 +81,8 @@
     }
 
     .main-menu__sublist-container {
+        width: 100%;
+
         position: static;
         
         background: none;
@@ -88,20 +90,55 @@
     }
 }
 
-@include breakpoint('tablet') {
-    .sidebar__menu {
-        margin: 0;
-        padding: 10px 15px;
+@include breakpoint('desktop') {
+    .main-menu {
+        .mobile-version & {
+            &__button-arrow {
+                display: block;
+                margin-left: -15px;
+            }
+        }
 
-        border: 1px solid get-color('additional', 'base');
-        border-right: 0;
-        border-left: 0;
-        background: transparent;
+        &__item {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+}
+
+@include only-desktop {
+    .main-menu {
+        &__item {
+            &:hover {
+                .main-menu__sublist-container {
+                    display: none;
+                }
+            }
+
+            &.open {
+                .main-menu__sublist-container {
+                    display: block;
+                }
+            }
+        }
+
+        &__taptick {
+            display: none;
+        }
+
+        &__button-arrow {
+            display: block;
+            margin-left: -15px;
+        }
     }
 }
 
 @include breakpoint('tablet') {
+    .sidebar__menu {
+        display: none;
+    }
+
     .main-menu {
-        border-top: 1px solid darken(get-color('additional', 'base'), 5%);
+        border-bottom: 1px solid get-color('additional', 'light');
     }
 }

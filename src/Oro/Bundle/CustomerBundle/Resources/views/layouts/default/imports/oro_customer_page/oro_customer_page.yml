@@ -5,3 +5,4 @@ layout:
         - '@move':
             id: head_customer_menu_container
             parentId: page_sidebar
+            prepend: true

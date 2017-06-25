@@ -3,26 +3,7 @@
         '~class': ' primary-menu-container primary-menu-container__hidden-on-tablet'
     }) %}
     <div {{ block('block_attributes') }}>
-        <h3 class="primary-menu-title"
-            data-page-component-module="oroui/js/app/components/viewport-component"
-            data-page-component-options="{{ {
-                viewport: {
-                    maxScreenType: 'tablet',
-                },
-                component: 'oroui/js/app/components/view-component',
-                view: 'orofrontend/blank/js/app/views/fullscreen-popup-view',
-                popupIcon: 'fa-user',
-                popupBadge: true,
-                popupLabel: 'oro.customer.menu.customer_user.label'|trans,
-                contentElement: '[data-customer-menu-container]',
-                contentAttributes: {
-                    'class': 'fullscreen-mode'
-                }
-            }|json_encode() }}"
-        >
-            {{ 'oro.customer.frontend.menu.customer_user_profile.label'|trans }}
-            <i class="fa-angle-right fa--large"></i>
-        </h3>
+        <h3 class="primary-menu-title">{{ 'oro.customer.frontend.menu.customer_user_profile.label'|trans }}</h3>
         <div class="primary-menu-container__hidden-on-tablet" data-customer-menu-container>
             {{ block_widget(block) }}
         </div>
