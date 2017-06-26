@@ -21,9 +21,12 @@ Feature: grid views management on datagrids
     And I set "Test view 01" as grid view name for "Customer Company Addresses Grid" grid on frontend
     And I click "Save"
     Then I should see "View has been successfully updated" flash message
-    And I should see "Test view 01"
-    When I click "Rename"
+    When I click "Customer Company Addresses Grid View List Close Button"
+    Then I should see "Test view 01"
+    When I click grid view list on "Customer Company Addresses Grid" grid
+    And I click "Rename"
     And I set "Test view 02" as grid view name for "Customer Company Addresses Grid" grid on frontend
     And I click "Save"
     Then I should see "View has been successfully updated" flash message
-    And I should see "Test view 02"
+    When I click "Customer Company Addresses Grid View List Close Button"
+    Then I should see "Test view 02"
