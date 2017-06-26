@@ -127,7 +127,7 @@ class CustomerUserTest extends AbstractUserTest
             ['nameSuffix', 'test'],
             ['birthday', new \DateTime()],
             ['password', 'test'],
-            ['plainPassword', 'test'],
+['plainPassword', 'test'],                                                                                                  
             ['confirmationToken', 'test'],
             ['passwordRequestedAt', new \DateTime()],
             ['passwordChangedAt', new \DateTime()],
@@ -137,6 +137,7 @@ class CustomerUserTest extends AbstractUserTest
             ['updatedAt', new \DateTime()],
             ['website', new Website()],
             ['salt', md5('user')],
+            ['isGuest', true],
         ];
     }
 
