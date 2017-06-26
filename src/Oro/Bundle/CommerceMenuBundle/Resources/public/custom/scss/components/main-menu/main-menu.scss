@@ -118,6 +118,8 @@
             &.open {
                 .main-menu__sublist-container {
                     display: block;
+
+                    border-width: 0;
                 }
             }
         }

@@ -2,13 +2,16 @@
 
 // Base styles
 $main-menu-item-height: 49px;
-$main-menu-link-inner-offset: 14px 25px;
+$main-menu-item--nested: 0 24px 0 22px;
+$main-menu-link-inner-offset: 0 0 0 24px;
 $main-menu-ancestor-link-inner-offset: 35px;
 $main-menu-link-color: get-color('additional', 'dark');
 $main-menu-link-color-hover: get-color('additional', 'dark');
+$main-menu-link-text-transform: uppercase !default;
 $main-menu-sublist-container-shadow: 0 2px 5px 0 rgba(0, 0, 0, .2);
 $main-menu-sublist-item-inner-offset: 0;
 
 // Desktop styles
 $main-menu-button-arrow-d-width: 35px;
 $main-menu-button-arrow-d-offset-left: -35px;
+$main-menu-button-arrow-d-inner-offset: 8px 12px 8px 8px;

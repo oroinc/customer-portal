@@ -2,10 +2,7 @@
 
 .main-menu {
     &__link {
-        padding-left: 24px;
-
-        white-space: nowrap;
-        text-transform: uppercase;
+        text-transform: $main-menu-link-text-transform;
 
         &:hover,
         &:focus {
@@ -30,8 +27,7 @@
 
             display: inline-block;
 
-            padding-right: 24px;
-            padding-left: 22px;
+            padding: $main-menu-item--nested;
 
             font-size: $base-font-size;
 
@@ -46,12 +42,9 @@
     }
 
     &__button-arrow {
-        padding: 8px 12px 8px 8px;
+        padding: $main-menu-button-arrow-d-inner-offset;
 
         font-size: inherit;
-
-        background: none;
-        border: 0;
 
         cursor: pointer;
     }
@@ -63,6 +56,10 @@
             &:hover {
                 background: get-color('additional', 'base');
             }
+        }
+
+        &__link {
+            white-space: nowrap;
         }
     }
 }
