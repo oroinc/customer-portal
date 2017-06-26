@@ -154,4 +154,4 @@ layout:
                         group_element_button_element_btn_group_vertical_view:
                             style_book_button_element_btn_group_vertical: ~
 
-    conditions: 'context["action"]=="forms"'
+    conditions: 'context["group"]=="forms"'

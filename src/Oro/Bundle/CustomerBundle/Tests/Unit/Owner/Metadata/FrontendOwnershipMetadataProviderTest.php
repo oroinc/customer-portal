@@ -11,7 +11,7 @@ use Oro\Bundle\EntityConfigBundle\Config\Config;
 use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
@@ -31,9 +31,9 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
     protected $configProvider;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|SecurityFacade
+     * @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface
      */
-    protected $securityFacade;
+    protected $tokenAccessor;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|EntityClassResolver
@@ -66,9 +66,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->securityConfigProvider = $this->getMockBuilder('Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider')
             ->disableOriginalConstructor()
@@ -114,9 +112,9 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
                             $this->entityClassResolver,
                         ],
                         [
-                            'oro_security.security_facade',
+                            'oro_security.token_accessor',
                             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->securityFacade,
+                            $this->tokenAccessor,
                         ],
                         [
                             'oro_entity_config.provider.security',
@@ -144,7 +142,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
             $this->cache,
             $this->provider,
             $this->container,
-            $this->securityFacade
+            $this->tokenAccessor
         );
     }
 
@@ -244,8 +242,8 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSupports($user, $expectedResult)
     {
-        $this->securityFacade->expects($this->once())
-            ->method('getLoggedUser')
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn($user);
 
         $this->assertEquals($expectedResult, $this->provider->supports());
@@ -258,15 +256,15 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'incorrect user object' => [
-                'securityFacadeUser' => new \stdClass(),
+                'user' => new \stdClass(),
                 'expectedResult' => false,
             ],
             'customer user' => [
-                'securityFacadeUser' => new CustomerUser(),
+                'user' => new CustomerUser(),
                 'expectedResult' => true,
             ],
             'user is not logged in' => [
-                'securityFacadeUser' => null,
+                'user' => null,
                 'expectedResult' => false,
             ],
         ];

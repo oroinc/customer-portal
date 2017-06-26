@@ -101,5 +101,4 @@ layout:
                         group_element_item_clear_holder:
                             style_book_grid_element_clear: ~
 
-
-    conditions: 'context["action"]=="grid"'
+    conditions: 'context["group"]=="grid"'

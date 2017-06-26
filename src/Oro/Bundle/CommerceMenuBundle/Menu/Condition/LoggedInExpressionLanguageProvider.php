@@ -5,19 +5,19 @@ namespace Oro\Bundle\CommerceMenuBundle\Menu\Condition;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
-use Oro\Component\DependencyInjection\ServiceLink;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class LoggedInExpressionLanguageProvider implements ExpressionFunctionProviderInterface
 {
-    /** @var ServiceLink */
-    private $securityFacadeLink;
+    /** @var TokenAccessorInterface */
+    private $tokenAccessor;
 
     /**
-     * @param ServiceLink $securityFacadeLink
+     * @param TokenAccessorInterface $tokenAccessor
      */
-    public function __construct(ServiceLink $securityFacadeLink)
+    public function __construct(TokenAccessorInterface $tokenAccessor)
     {
-        $this->securityFacadeLink = $securityFacadeLink;
+        $this->tokenAccessor = $tokenAccessor;
     }
 
     /**
@@ -37,6 +37,6 @@ class LoggedInExpressionLanguageProvider implements ExpressionFunctionProviderIn
      */
     public function isLoggedIn()
     {
-        return $this->securityFacadeLink->getService()->getLoggedUser() !== null;
+        return $this->tokenAccessor->hasUser();
     }
 }

@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 class RestCustomerUserTest extends RestJsonApiTestCase
 {
     use UserUtilityTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -446,6 +447,10 @@ class RestCustomerUserTest extends RestJsonApiTestCase
     {
         $manager = $this->getManager();
         $owner = $this->getFirstUser($manager);
+        $role = $manager->getRepository(CustomerUserRole::class)->findOneBy([
+            'role' => 'ROLE_FRONTEND_ADMINISTRATOR'
+        ]);
+
         $customerUser = new CustomerUser();
         $customerUser->setOwner($owner);
         $customerUser->setUsername($name);
@@ -453,6 +458,7 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         $customerUser->setFirstName('name');
         $customerUser->setLastName('surname');
         $customerUser->setEmail($name.'@test.com');
+        $customerUser->addRole($role);
         $customerUser->setPassword('test');
         $manager->persist($customerUser);
         $manager->flush($customerUser);

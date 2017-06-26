@@ -27,7 +27,8 @@ services:
     oro_customer.security.customer_user_provider:
         class: 'Oro\Bundle\CustomerBundle\Security\CustomerUserProvider'
         arguments:
-            - "@oro_security.security_facade"
+            - "@security.authorization_checker"
+            - "@oro_security.token_accessor"
             - "@oro_security.acl.manager"
         calls:
             - [setCustomerUserClass, ['%oro_customer.entity.customer_user.class%']]
@@ -141,20 +142,21 @@ services:
     oro_customer.datagrid.action_permission_provider:
         class: 'Oro\Bundle\CustomerBundle\Datagrid\ActionPermissionProvider'
         arguments:
-            - "@oro_security.security_facade"
+            - "@security.authorization_checker"
+            - "@oro_security.token_accessor"
 
     oro_customer.datagrid.customer_action_permission_provider:
         class: 'Oro\Bundle\CustomerBundle\Datagrid\CustomerActionPermissionProvider'
         public: false
         arguments:
-            - "@oro_security.security_facade"
+            - "@security.authorization_checker"
             - "@doctrine"
 
     oro_customer.datagrid.extension.accoun_user:
         class: 'Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserExtension'
         public: false
-        calls:
-            - [setContainer, ["@service_container"]]
+        arguments:
+            - '@oro_security.token_accessor'
         tags:
             - { name: oro_datagrid.extension }
 
@@ -205,7 +207,7 @@ services:
     oro_customer.placeholder.filter:
         class: 'Oro\Bundle\CustomerBundle\Placeholder\PlaceholderFilter'
         arguments:
-            - "@oro_security.security_facade"
+            - "@oro_security.token_accessor"
 
     oro_customer.customer_user.password.handler.abstract:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserPasswordHandler'
@@ -248,15 +250,15 @@ services:
     oro_customer.acl.group_provider:
         class: 'Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider'
         public: false
-        calls:
-            - [setContainer, ["@service_container"]]
+        arguments:
+            - '@oro_security.token_accessor'
         tags:
             - { name: oro_security.acl.group_provider, alias: frontend_group }
 
     oro_customer.acl.resolver.role_translation_prefix:
         class: 'Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver'
         arguments:
-            - "@oro_security.security_facade"
+            - "@oro_security.token_accessor"
 
     oro_customer.customer_user_address.manager.api:
         class: 'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'
@@ -298,7 +300,7 @@ services:
     oro_frontend.listener.ormdatasource_acl:
         class: 'Oro\Bundle\CustomerBundle\EventListener\OrmDatasourceAclListener'
         arguments:
-            - "@oro_security.security_facade"
+            - "@oro_security.token_accessor"
             - "@oro_customer.owner.frontend_ownership_metadata_provider"
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.orm_datasource.result.before, method: onResultBefore, priority: 100 }
@@ -328,7 +330,7 @@ services:
         class: 'Oro\Bundle\NavigationBundle\Menu\NavigationItemBuilder'
         public: false
         arguments:
-            - "@security.context"
+            - "@oro_security.token_accessor"
             - "@doctrine.orm.entity_manager"
             - "@oro_navigation.item.factory"
             - "@router"
@@ -340,7 +342,7 @@ services:
         class: 'Oro\Bundle\NavigationBundle\Menu\NavigationItemBuilder'
         public: false
         arguments:
-            - "@security.context"
+            - "@oro_security.token_accessor"
             - "@doctrine.orm.entity_manager"
             - "@oro_navigation.item.factory"
             - "@router"
@@ -352,13 +354,13 @@ services:
         class: 'Oro\Bundle\NavigationBundle\Menu\NavigationHistoryBuilder'
         public: false
         arguments:
-            - "@security.context"
+            - "@oro_security.token_accessor"
             - "@doctrine.orm.entity_manager"
             - "@oro_navigation.item.factory"
             - "@router"
         calls:
             - [ setMatcher, [ "@knp_menu.matcher" ]]
-            - [ setOptions, [ "@oro_config.user" ]]
+            - [ setConfigManager, [ "@oro_config.user" ]]
         tags:
             - { name: oro_menu.builder, alias: frontend_history }
             - { name: oro_featuretogle.feature, feature: email }
@@ -367,23 +369,15 @@ services:
         class: 'Oro\Bundle\NavigationBundle\Menu\NavigationMostviewedBuilder'
         public: false
         arguments:
-            - "@security.context"
+            - "@oro_security.token_accessor"
             - "@doctrine.orm.entity_manager"
             - "@oro_navigation.item.factory"
             - "@router"
         calls:
-            - [ setOptions, [ "@oro_config.user" ]]
+            - [ setConfigManager, [ "@oro_config.user" ]]
         tags:
             - { name: oro_menu.builder, alias: frontend_mostviewed }
             - { name: oro_featuretogle.feature, feature: email }
-
-    oro_customer.item.pinbar.post_persist_listener:
-        class: 'Oro\Bundle\NavigationBundle\Entity\Listener\PinbarPostPersist'
-        public: false
-        calls:
-            - [ setClassName, ['%oro_customer.entity.pinbar_tab.class%']]
-        tags:
-            - { name: doctrine.event_listener, event: postPersist }
 
     kernel.listener.frontend_nav_history_response:
         class: '%oro_navigation.event.response_history.listener.class%'
@@ -391,7 +385,7 @@ services:
             - { name: kernel.event_listener, event: kernel.response, method: onResponse }
         arguments:
             - "@oro_navigation.item.factory"
-            - "@security.context"
+            - "@security.token_storage"
             - "@doctrine"
             - "@oro_navigation.title_service"
         calls:
@@ -442,7 +436,7 @@ services:
     oro_customer.customer_delete_handler:
         class: 'Oro\Bundle\CustomerBundle\Handler\UserDeleteHandler'
         arguments:
-            - "@oro_security.security_facade"
+            - "@oro_security.token_accessor"
 
     oro_customer.discriminator_map_listener:
         class: 'Oro\Bundle\EntityBundle\ORM\DiscriminatorMapListener'
@@ -483,7 +477,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInProvider'
         arguments:
             - "@request_stack"
-            - "@oro_security.security_facade"
+            - "@oro_security.token_accessor"
             - "@security.csrf.token_manager"
         tags:
             - { name: layout.data_provider, alias: oro_customer_sign_in }
@@ -658,7 +652,7 @@ services:
 
     oro_customer.entity_ownership.listener:
         class: Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener
-        arguments: ["@oro_organization.link.security_context", "@oro_entity_config.provider.ownership"]
+        arguments: ["@security.token_storage", "@oro_entity_config.provider.ownership"]
         tags:
              - { name: doctrine.event_listener, event: prePersist }
 
@@ -723,6 +717,17 @@ services:
         tags:
             - { name: website_search.placeholder }
 
+    oro_customer.validator.customer_without_role:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRoleValidator
+        parent: oro_user.validator.user_without_role
+        tags:
+            - { name: validator.constraint_validator }
+
+    oro_customer.validator.customer_check_role:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRoleValidator
+        tags:
+            - { name: validator.constraint_validator }
+
     oro_customer.grid_view.manager.api:
         class: 'Oro\Bundle\DataGridBundle\Entity\Manager\GridViewApiEntityManager'
         parent: oro_soap.manager.entity_manager.abstract
@@ -743,7 +748,7 @@ services:
         arguments:
             - '@oro_customer.grid_view.manager.composite.inner'
             - '@oro_customer.grid_view.manager'
-            - '@oro_security.security_facade'
+            - '@oro_security.token_accessor'
 
     oro_customer.extension.views:
         class: 'Oro\Bundle\CustomerBundle\Datagrid\Extension\GridViewsExtension'
@@ -755,16 +760,56 @@ services:
         arguments:
             - '@oro_customer.extension.views.composite.inner'
             - '@oro_customer.extension.views'
-            - '@oro_security.security_facade'
+            - '@oro_security.token_accessor'
         tags:
             - { name: oro_datagrid.extension }
 
     oro_customer.event_listener.navigation:
         class: 'Oro\Bundle\CustomerBundle\EventListener\NavigationListener'
         arguments:
-            - "@oro_security.security_facade"
+            - "@security.authorization_checker"
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
+
+    oro_customer.datagrid.extension.mass_action.handler.delete:
+        parent: oro_datagrid.extension.mass_action.handler.delete
+        class: Oro\Bundle\CustomerBundle\Datagrid\Extension\MassAction\CustomersDeleteActionHandler
+        calls:
+            - [setTokenAccessor, ['@oro_security.token_accessor']]
+
+    oro_customer.datagrid.mass_action.customers_enable_switch.handler.disable:
+        class: Oro\Bundle\CustomerBundle\Datagrid\Extension\MassAction\CustomersEnableSwitchActionHandler
+        shared: false
+        arguments:
+            - '@oro_security.acl_helper'
+            - '@security.token_storage'
+            - '@translator'
+            - false
+            - 'oro.customer.mass_actions.disable_customers.success_message'
+            - 'oro.customer.mass_actions.disable_customers.error_message'
+
+    oro_customer.datagrid.mass_action.customers_enable_switch.handler.enable:
+        class: Oro\Bundle\CustomerBundle\Datagrid\Extension\MassAction\CustomersEnableSwitchActionHandler
+        shared: false
+        arguments:
+            - '@oro_security.acl_helper'
+            - '@security.token_storage'
+            - '@translator'
+            - true
+            - 'oro.customer.mass_actions.enable_customers.success_message'
+            - 'oro.customer.mass_actions.enable_customers.error_message'
+
+    oro_customer.datagrid.mass_action.disable_customers:
+        class: Oro\Bundle\DataGridBundle\Extension\MassAction\Actions\Ajax\AjaxMassAction
+        shared: false
+        tags:
+            - { name: oro_datagrid.extension.mass_action.type, type: disablecustomers }
+
+    oro_customer.datagrid.mass_action.enable_customers:
+        class: Oro\Bundle\DataGridBundle\Extension\MassAction\Actions\Ajax\AjaxMassAction
+        shared: false
+        tags:
+            - { name: oro_datagrid.extension.mass_action.type, type: enablecustomers }
 
     oro_customer.validation.constraint.circular_customer_reference_validator:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator

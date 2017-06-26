@@ -10,6 +10,10 @@ layout:
                     blockType: container
                     options:
                         class_prefix: 'customer-profile-edit-page'
+                __customer_user_form_errors:
+                    blockType: form_errors
+                    options:
+                        form: '=data["oro_customer_frontend_customer_user_form"].getCustomerUserFormView(data["entity"])'
                 __customer_user_form:
                     blockType: form
                     options:
@@ -47,6 +51,7 @@ layout:
             tree:
                 __root:
                     __customer_user_page:
+                        __customer_user_form_errors: ~
                         __customer_user_form:
                             __customer_user_form_fields_container:
                                 __customer_user_form_fields_information: ~
