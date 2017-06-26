@@ -39,9 +39,9 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
         );
 
         $this->customerUserRepository->expects($this->once())
-            ->method('findBy')
-            ->with(['email' => 'foo'])
-            ->willReturn([]);
+            ->method('findOneBy')
+            ->with(['email' => 'foo', 'isGuest' => false])
+            ->willReturn(null);
 
         /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
         $context = $this->createMock(ExecutionContextInterface::class);
@@ -56,14 +56,6 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
 
     public function testValidationSucceedsWhenOnlyGuestUsersExistWithSuchUsernameOrEmail()
     {
-        $existingCustomer1 = $this->getEntity(
-            CustomerUser::class,
-            [
-                'username' => 'foo',
-                'email' => 'foo',
-                'guest' => true,
-            ]
-        );
         $newCustomer = $this->getEntity(
             CustomerUser::class,
             [
@@ -73,9 +65,9 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
         );
 
         $this->customerUserRepository->expects($this->once())
-            ->method('findBy')
-            ->with(['email' => 'foo'])
-            ->willReturn([$existingCustomer1]);
+            ->method('findOneBy')
+            ->with(['email' => 'foo', 'isGuest' => false])
+            ->willReturn(null);
 
         /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
         $context = $this->createMock(ExecutionContextInterface::class);
@@ -90,15 +82,7 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
 
     public function testValidationFailsWhenNonGuestUserWithSuchEmailOrUsernameExists()
     {
-        $existingCustomer1 = $this->getEntity(
-            CustomerUser::class,
-            [
-                'username' => 'foo',
-                'email' => 'foo',
-                'guest' => true,
-            ]
-        );
-        $existingCustomer2 = $this->getEntity(
+        $existingCustomer = $this->getEntity(
             CustomerUser::class,
             [
                 'username' => 'foo',
@@ -115,9 +99,9 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
         );
 
         $this->customerUserRepository->expects($this->once())
-            ->method('findBy')
-            ->with(['email' => 'foo'])
-            ->willReturn([$existingCustomer1, $existingCustomer2]);
+            ->method('findOneBy')
+            ->with(['email' => 'foo', 'isGuest' => false])
+            ->willReturn($existingCustomer);
 
         /** @var ConstraintViolationBuilderInterface|\PHPUnit_Framework_MockObject_MockObject $violationBuilder */
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);

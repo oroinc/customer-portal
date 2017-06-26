@@ -25,6 +25,8 @@ class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
     }
 
     /**
+     * @param UniqueCustomerUserNameAndEmail $constraint
+     *
      * {@inheritdoc}
      */
     public function validate($entity, Constraint $constraint)
@@ -32,20 +34,20 @@ class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
         /** @var CustomerUser $customerUser */
         $customerUser = $entity;
 
-        /** @var CustomerUser[] $existingCustomerUsers */
-        $existingCustomerUsers = $this->customerUserRepository->findBy(['email' => $customerUser->getEmail()]);
-        if (!$existingCustomerUsers) {
-            return;
-        }
+        /** @var CustomerUser $existingCustomerUser */
+        $existingCustomerUser = $this->customerUserRepository->findOneBy(
+            [
+                'email' => $customerUser->getEmail(),
+                'isGuest' => false
+            ]
+        );
 
-        foreach ($existingCustomerUsers as $customerUser) {
-            if (!$customerUser->isGuest()) {
-                $this->context->buildViolation($constraint->message)
-                    ->atPath('email')
-                    ->setInvalidValue('email')
-                    ->addViolation();
-                return;
-            }
+        if ($existingCustomerUser) {
+            $this->context->buildViolation($constraint->message)
+                ->atPath('email')
+                ->setInvalidValue('email')
+                ->addViolation();
+            return;
         }
     }
 }
