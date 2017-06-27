@@ -54,8 +54,6 @@
     }
 
     &__back-trigger {
-        display: none;
-
         text-transform: uppercase;
         font-weight: bold;
 
@@ -68,6 +66,9 @@
             $color:            lighten(get-color('additional', 'dark'), 41%),
             $appearance:       true
         );
+
+        display: none;
+
     }
 
     @include fullscreen-mode {
