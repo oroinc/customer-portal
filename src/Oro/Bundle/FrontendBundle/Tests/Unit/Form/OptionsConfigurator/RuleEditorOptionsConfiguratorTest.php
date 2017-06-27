@@ -62,7 +62,10 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit_Framework_TestCase
         $configurator->configureOptions($resolver);
 
         $expected = [
-            'pageComponent' => 'orofrontend/default/js/app/components/rule-editor-component',
+            'pageComponent' => 'oroui/js/app/components/view-component',
+            'pageComponentOptions' => [
+                'view' => 'oroform/js/app/views/expression-editor-view',
+            ],
             'dataSource' => [],
             'entities' => []
         ];
@@ -77,6 +80,9 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit_Framework_TestCase
             ],
             'dataSource' => ['price_list' => 'test'],
             'pageComponent' => 'custom-component',
+            'pageComponentOptions' => [
+                'view' => 'custom-view',
+            ],
             'allowedOperations' => ['math']
         ];
 
@@ -86,6 +92,9 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             'pageComponent' => 'custom-component',
+            'pageComponentOptions' => [
+                'view' => 'custom-view',
+            ],
             'dataSource' => ['price_list' => 'test'],
             'entities' => [
                 AutocompleteFieldsProviderInterface::ROOT_ENTITIES_KEY => [PriceList::class => 'price_list']

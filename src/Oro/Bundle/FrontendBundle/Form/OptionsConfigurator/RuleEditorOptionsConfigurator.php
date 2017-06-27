@@ -15,7 +15,10 @@ class RuleEditorOptionsConfigurator
         $resolver->setRequired(['entities']);
         $resolver->setDefined(['allowedOperations', 'dataSource', 'pageComponent', 'attr']);
 
-        $resolver->setDefault('pageComponent', 'orofrontend/default/js/app/components/rule-editor-component');
+        $resolver->setDefault('pageComponent', 'oroui/js/app/components/view-component');
+        $resolver->setDefault('pageComponentOptions', [
+            'view' => 'oroform/js/app/views/expression-editor-view',
+        ]);
         $resolver->setDefault('dataSource', []);
 
         $resolver->setAllowedTypes('allowedOperations', 'array');
@@ -24,8 +27,8 @@ class RuleEditorOptionsConfigurator
         $resolver->setAllowedTypes('pageComponent', 'string');
 
         $resolver->setNormalizer('attr', function (Options $options, $attr) {
-            $pageComponentOptions = [
-                'entities' => $options['entities']
+            $pageComponentOptions = $options['pageComponentOptions'] + [
+                'entities' => $options['entities'],
             ];
             if (isset($options['dataSource'])) {
                 $pageComponentOptions['dataSource'] = $options['dataSource'];
