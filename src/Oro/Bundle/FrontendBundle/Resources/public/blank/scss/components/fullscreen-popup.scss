@@ -38,6 +38,7 @@
 
         font-size: $base-font-size--s;
         font-weight: $fullscreen-popup-text-weight;
+        line-height: $fullscreen-popup-header-height;
 
         cursor: pointer;
 
@@ -45,7 +46,7 @@
         [class*=" fa-"] {
             margin-right: $offset-x-s;
 
-            line-height: $fullscreen-popup-header-height;
+            line-height: inherit;
 
             vertical-align: top;
         }
