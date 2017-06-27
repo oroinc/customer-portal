@@ -1,15 +1,14 @@
 <h1 class="<%= additionalClass %>">
     <span><%= value %></span>
-    <button class="button button--plain" data-role="start-editing">
-        <% if (tooltip) { %>
-        <span class="tooltip-container">
-            <i class="fa-pencil fa--large fa--no-offset tooltip-trigger"></i>
-            <span class="tooltip top tooltip--animated">
-                <span class="tooltip-inner"><%= tooltip %></span>
-            </span>
-        </span>
-        <% } else { %>
-            <i class="fa-pencil fa--large fa--no-offset"></i>
-        <% } %>
+    <button class="button button--plain"
+        data-role="start-editing"
+    <% if (tooltip) { %>
+        data-toggle="tooltip"
+        data-title="<%= tooltip %>"
+        data-html="true"
+        data-container="body"
+    <% } %>
+    >
+        <i class="fa-pencil fa--large fa--no-offset"></i>
     </button>
 </h1>
