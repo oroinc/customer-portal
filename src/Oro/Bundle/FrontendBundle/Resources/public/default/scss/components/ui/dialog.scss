@@ -123,6 +123,8 @@
     .ui-dialog-buttonpane {
         padding: 20px 40px 30px;
 
+        flex-shrink: 0;
+
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
 
