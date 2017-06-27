@@ -31,6 +31,9 @@
     }
 
     &__text {
+        display: inline-block;
+        vertical-align: top;
+
         padding: $fullscreen-popup-text-offset;
 
         font-size: $base-font-size--s;
@@ -42,8 +45,14 @@
         [class*=" fa-"] {
             margin-right: $offset-x-s;
 
-            vertical-align: baseline;
+            line-height: $fullscreen-popup-header-height;
+
+            vertical-align: top;
         }
+    }
+
+    &__words {
+        vertical-align: middle;
     }
 
     &__badge {

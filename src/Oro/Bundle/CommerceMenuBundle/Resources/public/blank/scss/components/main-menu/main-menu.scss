@@ -56,15 +56,18 @@
     &__back-trigger {
         display: none;
 
-        padding: $offset-x-m 0;
-
         text-transform: uppercase;
         font-weight: bold;
 
-        color: lighten(get-color('additional', 'dark'), 41%);
-
-        border-color: transparent;
-        background-color: get-color('additional', 'ultra');
+        @include base-ui-element(
+            $use-base-style:   true,
+            $padding:          11px 0 $offset-x-m 0,
+            $border:           1px solid transparent,
+            $border-radius:    0,
+            $background-color: get-color('additional', 'ultra'),
+            $color:            lighten(get-color('additional', 'dark'), 41%),
+            $appearance:       true
+        );
     }
 
     @include fullscreen-mode {
