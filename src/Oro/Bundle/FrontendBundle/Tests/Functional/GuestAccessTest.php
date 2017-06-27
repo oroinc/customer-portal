@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\FrontendBundle\Tests\Functional\Controller;
+namespace Oro\Bundle\FrontendBundle\Tests\Functional;
 
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -86,7 +86,7 @@ class GuestAccessTest extends WebTestCase
     {
         return [
             ['/'],
-            ['/customer/user/registration/inner-url'],
+            ['/about'],
         ];
     }
 
