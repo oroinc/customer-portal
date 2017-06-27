@@ -62,6 +62,7 @@ class CustomerUserHandler
      *
      * @param CustomerUser $customerUser
      * @return bool True on successful processing, false otherwise
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function process(CustomerUser $customerUser)
     {

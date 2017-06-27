@@ -9,7 +9,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader;
 
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
-use Oro\Bundle\LocaleBundle\DependencyInjection\OroLocaleExtension;
 
 class OroFrontendExtension extends Extension implements PrependExtensionInterface
 {
@@ -27,8 +26,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $loader->load('services.yml');
         $loader->load('form_type.yml');
         $loader->load('block_types.yml');
-
-        $this->addPhoneToAddress($container);
 
         $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
 
@@ -69,27 +66,5 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     public function getAlias()
     {
         return self::ALIAS;
-    }
-
-    /**
-     * Add phone to address format configuration to all locales
-     *
-     * @param ContainerBuilder $container
-     */
-    protected function addPhoneToAddress(ContainerBuilder $container)
-    {
-        $formatAddressLocales = $container->getParameter(OroLocaleExtension::PARAMETER_ADDRESS_FORMATS);
-
-        foreach ($formatAddressLocales as &$locale) {
-            $searchResult = stripos($locale['format'], '%%phone%%');
-            if (false === $searchResult) {
-                $locale['format'] .= "\n%%phone%%";
-            }
-        }
-        
-        $container->setParameter(
-            OroLocaleExtension::PARAMETER_ADDRESS_FORMATS,
-            $formatAddressLocales
-        );
     }
 }
