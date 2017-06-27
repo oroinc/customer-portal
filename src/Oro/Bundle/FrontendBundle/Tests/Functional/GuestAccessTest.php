@@ -86,7 +86,7 @@ class GuestAccessTest extends WebTestCase
     {
         return [
             ['/'],
-            ['/about'],
+            ['/customer/profile/'],
         ];
     }
 
