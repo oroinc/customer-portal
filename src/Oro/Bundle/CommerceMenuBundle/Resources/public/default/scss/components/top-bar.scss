@@ -79,6 +79,22 @@
     }
 }
 
+.topbar-cusomer-menu {
+    &__dropdown {
+        li {
+            margin: $top-bar-cusomer-menu-dropdown-item-offset;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        a {
+            color: $top-bar-link-color;
+        }
+    }
+}
+
 @include breakpoint('desktop') {
     .topbar-navigation {
         &__item {

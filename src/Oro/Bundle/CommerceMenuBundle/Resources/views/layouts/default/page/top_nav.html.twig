@@ -60,3 +60,13 @@
         </ul>
     </div>
 {% endblock %}
+
+{% block _top_nav_controls_dropdown_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': " pull-left topbar-cusomer-menu dropdown"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}

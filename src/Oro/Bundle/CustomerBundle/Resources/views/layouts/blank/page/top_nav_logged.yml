@@ -37,5 +37,4 @@ layout:
                         top_nav_my_customer_link: ~
                     top_nav_sign_out_item:
                         top_nav_sign_out_link: ~
-
     conditions: 'context["is_logged_in"]'

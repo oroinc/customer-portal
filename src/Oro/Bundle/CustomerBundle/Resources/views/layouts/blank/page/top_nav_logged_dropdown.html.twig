@@ -1,0 +1,21 @@
+{% block _top_nav_customer_dropdown_menu_widget %}
+    <div class="topbar-cusomer-menu__dropdown dropdown-menu"
+         data-options="{&quot;container&quot;: true, &quot;}">
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _top_nav_customer_dropdown_trigger_widget %}
+    <button type="button" class="topbar-cusomer-menu__trigger" data-toggle="dropdown">
+        {{ block_widget(block) }}
+        <i class="fa-angle-down"></i>
+    </button>
+{% endblock %}
+
+{% block _top_nav_customer_dropdown_sign_out_link_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' link sign-out-link'
+    }) %}
+
+    {{ block_widget(block, {attr: attr}) }}
+{% endblock %}

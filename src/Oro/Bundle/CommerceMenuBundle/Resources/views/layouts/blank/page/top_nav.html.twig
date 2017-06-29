@@ -35,6 +35,16 @@
     </div>
 {% endblock %}
 
+{% block _top_nav_controls_dropdown_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " grid__column grid__column--5 topbar-cusomer-menu dropdown"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block _top_nav_menu_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': " grid__column grid__column--7"

@@ -29,6 +29,19 @@
     display: inline-block;
 }
 
+.topbar-cusomer-menu {
+    &__trigger {
+        padding: $top-bar-cusomer-menu-trigger-offset-top;
+
+        background: none;
+        border: 0;
+    }
+
+    &__dropdown {
+        padding: $top-bar-cusomer-menu-dropdown-offset;
+    }
+}
+
 @include breakpoint('tablet') {
     .topbar {
         .grid__column {

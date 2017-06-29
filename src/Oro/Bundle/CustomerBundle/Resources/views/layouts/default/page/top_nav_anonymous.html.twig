@@ -1,20 +1,19 @@
-{% block _top_sign_in_item_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__item'
-    }) %}
-
-    <li {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </li>
-{% endblock %}
-
 {% block _top_sign_in_link_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' topbar-navigation__link',
+        '~class': ' topbar-navigation__link pull-left',
         'href': path(route_name)
     }) %}
-
     <a {{ block('block_attributes') }}>
         <i class="fa-sign-in"></i> {{ text|trans }}
     </a>
+{% endblock %}
+
+{% block _top_sign_in_link_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' pull-left topbar-navigation__item'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
 {% endblock %}
