@@ -36,6 +36,7 @@ define(function(require) {
             this.$el = options._sourceElement;
 
             this.listenTo(mediator, 'layout:reposition', this.updatePosition);
+            self.addEmbeddedArrowsClass(this.$el, this.options);
 
             $(this.$el).on('init', function(event, slick) {
                 if (self.$el.hasClass(self.options.additionalClass)) {
@@ -54,6 +55,10 @@ define(function(require) {
 
             $(this.$el).on('destroy', function(event, slick) {
                 self.$el.removeClass(self.options.additionalClass);
+            });
+
+            $(this.$el).on('breakpoint', function(event, slick) {
+                self.addEmbeddedArrowsClass(slick.$slider, slick.options);
             });
         },
 
@@ -85,6 +90,10 @@ define(function(require) {
 
         updatePosition: function() {
             this.$el.slick('setPosition');
+        },
+
+        addEmbeddedArrowsClass: function(slider, options) {
+            slider.toggleClass('embedded-arrows', options.arrows);
         }
     });
 
