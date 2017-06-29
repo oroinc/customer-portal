@@ -24,8 +24,6 @@ define(function(require) {
          * @property
          */
         popupOptions: {
-            popupBadge: true,
-            popupIcon: 'fa-cog',
             popupLabel: _.__('oro_frontend.datagrid.manage_grid'),
             contentElement: null
         },
