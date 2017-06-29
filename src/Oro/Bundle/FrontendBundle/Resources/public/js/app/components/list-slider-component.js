@@ -22,7 +22,8 @@ define(function(require) {
             arrows: !tools.isMobile(),
             dots: false,
             infinite: false,
-            additionalClass: 'embedded-list-slider'
+            additionalClass: 'embedded-list-slider',
+            embeddedArrowsClass: 'embedded-arrows'
         },
 
         /**
@@ -93,7 +94,8 @@ define(function(require) {
         },
 
         addEmbeddedArrowsClass: function(slider, options) {
-            slider.toggleClass('embedded-arrows', options.arrows);
+            var self = this;
+            slider.toggleClass(self.options.embeddedArrowsClass, options.arrows);
         }
     });
 
