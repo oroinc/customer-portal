@@ -25,9 +25,6 @@ define(function(require) {
         $travelingTrigger: $([]),
 
         /** @property */
-        $parentContainer: $([]),
-
-        /** @property */
         $relatedTrigger: $([]),
 
         /** @property */
@@ -131,13 +128,12 @@ define(function(require) {
                 return;
             }
 
-            if (!this.$parentContainer.length) {
-                this.$parentContainer = this.$el.closest(this.options.parentContainerSelector);
-            }
-
+            var $container = this.$el.parents(this.options.parentContainerSelector);
             var containerHeight = 0;
 
-            containerHeight = this.$parentContainer.height();
+            if ($container.length) {
+                containerHeight  = $container.height();
+            }
 
             if (this.consideringTopPosition > 0) {
                 containerHeight -= this.consideringTopPosition;
@@ -169,7 +165,6 @@ define(function(require) {
             delete this.$travelingTrigger;
             delete this.$relatedTrigger;
             delete this.$relatedContainer;
-            delete this.$parentContainer;
             delete this.nestingLevel;
             delete this.consideringTopPosition;
 
