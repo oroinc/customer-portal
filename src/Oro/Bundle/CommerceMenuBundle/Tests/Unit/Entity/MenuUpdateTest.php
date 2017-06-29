@@ -4,6 +4,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity;
 
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
+use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity\Stub\MenuUpdateStub;
 
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
@@ -16,10 +17,19 @@ class MenuUpdateTest extends \PHPUnit_Framework_TestCase
     {
         $properties = [
             ['condition', 'condition'],
-            ['screens', ['mobile' => ['class' => 'test']]]
+            ['screens', ['mobile' => ['class' => 'test']]],
         ];
 
-        $this->assertPropertyAccessors(new MenuUpdate(), $properties);
+        static::assertPropertyAccessors(new MenuUpdate(), $properties);
+    }
+
+    public function testPropertiesCollections()
+    {
+        $properties = [
+            ['menuUserAgentConditions', new MenuUserAgentCondition()],
+        ];
+
+        static::assertPropertyCollections(new MenuUpdate(), $properties);
     }
 
     public function testGetExtras()

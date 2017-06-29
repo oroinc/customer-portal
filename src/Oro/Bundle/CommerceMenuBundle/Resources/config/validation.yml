@@ -7,3 +7,10 @@ Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate:
         uri:
             - NotBlank:
                 groups: [UserDefined]
+
+Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition:
+    properties:
+        value:
+            - NotBlank: ~
+            - Length:
+                max: 255

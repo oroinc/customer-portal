@@ -3,8 +3,8 @@
 namespace Oro\Bundle\CommerceMenuBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
 use Oro\Bundle\CommerceMenuBundle\Model\ExtendMenuUpdate;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
@@ -89,6 +89,18 @@ class MenuUpdate extends ExtendMenuUpdate implements
     protected $condition;
 
     /**
+     * @var Collection|MenuUserAgentCondition[]
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition",
+     *      mappedBy="menuUpdate",
+     *      cascade={"ALL"},
+     *      orphanRemoval=true
+     * )
+     */
+    protected $menuUserAgentConditions;
+
+    /**
      * @var array
      *
      * @ORM\Column(name="screens", type="array")
@@ -102,6 +114,8 @@ class MenuUpdate extends ExtendMenuUpdate implements
     {
         parent::__construct();
         $this->traitConstructor();
+
+        $this->menuUserAgentConditions = new ArrayCollection();
     }
 
     /**
@@ -147,6 +161,41 @@ class MenuUpdate extends ExtendMenuUpdate implements
     }
 
     /**
+     * @return MenuUserAgentCondition[]|Collection
+     */
+    public function getMenuUserAgentConditions()
+    {
+        return $this->menuUserAgentConditions;
+    }
+
+    /**
+     * @param MenuUserAgentCondition $menuUserAgentCondition
+     * @return MenuUpdate
+     */
+    public function addMenuUserAgentCondition(MenuUserAgentCondition $menuUserAgentCondition)
+    {
+        if (!$this->menuUserAgentConditions->contains($menuUserAgentCondition)) {
+            $menuUserAgentCondition->setMenuUpdate($this);
+            $this->menuUserAgentConditions->add($menuUserAgentCondition);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param MenuUserAgentCondition $menuUserAgentCondition
+     * @return MenuUpdate
+     */
+    public function removeMenuUserAgentCondition(MenuUserAgentCondition $menuUserAgentCondition)
+    {
+        if ($this->menuUserAgentConditions->contains($menuUserAgentCondition)) {
+            $this->menuUserAgentConditions->removeElement($menuUserAgentCondition);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getScreens()
@@ -156,7 +205,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
 
     /**
      * @param array $screens
-     * @return $this
+     * @return MenuUpdate
      */
     public function setScreens(array $screens)
     {
