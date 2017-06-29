@@ -83,7 +83,6 @@ class OroAccountBundle implements
      */
     private function renameCustomerUserSidebarWidget(Schema $schema, QueryBag $queries)
     {
-
         $table = $schema->getTable("oro_account_user_sdbar_wdg");
 
         $table->dropIndex("oro_acc_sdbr_wdgs_usr_place_idx");
