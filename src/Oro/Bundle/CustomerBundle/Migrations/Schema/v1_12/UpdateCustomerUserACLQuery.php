@@ -33,7 +33,6 @@ class UpdateCustomerUserACLQuery extends ParametrizedMigrationQuery
      */
     public function doExecute(LoggerInterface $logger, $dryRun = false)
     {
-
         $sql = 'SELECT id FROM acl_classes WHERE class_type = :class';
         $params = ['class' => '(root)'];
         $types = ['class' => 'string'];
