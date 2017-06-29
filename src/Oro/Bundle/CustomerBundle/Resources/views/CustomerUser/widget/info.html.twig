@@ -41,6 +41,11 @@
             {% if entity.salesRepresentatives | length %}
                 {{ UI.renderHtmlProperty('oro.customer.customeruser.sales_representatives.label'|trans, UI.entityViewLinks(entity.salesRepresentatives, 'fullName', 'oro_user_view')) }}
             {% endif %}
+            {{ UI.renderProperty('oro.customer.customeruser.is_guest.label'|trans, entity.isGuest ?
+            'oro.customer.customeruser.is_guest_yes.label'|trans
+            :
+            'oro.customer.customeruser.is_guest_no.label'|trans
+            ) }}
         </div>
     </div>
 </div>

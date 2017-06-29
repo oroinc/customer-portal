@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 
 class UniqueCustomerUserNameAndEmail extends Constraint
 {
-    public $message = 'This email is already used.';
+    public $message = 'oro.customer.message.user_customer_exists';
 
     /**
      * {@inheritdoc}

@@ -187,7 +187,16 @@ class CustomerUserType extends AbstractType
                 [
                     'label' => 'oro.customer.customer.sales_representatives.label',
                 ]
+            )
+            ->add(
+                'isGuest',
+                'checkbox',
+                [
+                    'required' => false,
+                    'label' => 'oro.customer.customeruser.is_guest.label',
+                ]
             );
+
 
         if ($this->authorizationChecker->isGranted('oro_customer_customer_user_role_view')) {
             $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'preSetData']);

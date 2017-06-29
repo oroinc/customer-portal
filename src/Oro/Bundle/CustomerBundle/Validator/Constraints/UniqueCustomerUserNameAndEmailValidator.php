@@ -42,7 +42,7 @@ class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
             ]
         );
 
-        if ($existingCustomerUser) {
+        if (!$entity->isGuest() && $existingCustomerUser && $entity->getId() !== $existingCustomerUser->getId()) {
             $this->context->buildViolation($constraint->message)
                 ->atPath('email')
                 ->setInvalidValue('email')

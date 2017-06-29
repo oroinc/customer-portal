@@ -1004,7 +1004,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      * @param bool $isGuest
      * @return $this
      */
-    public function setGuest($isGuest)
+    public function setIsGuest($isGuest)
     {
         $this->isGuest = $isGuest;
 

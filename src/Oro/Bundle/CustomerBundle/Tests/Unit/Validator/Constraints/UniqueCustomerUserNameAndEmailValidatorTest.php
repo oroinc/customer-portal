@@ -80,24 +80,15 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
         $this->validator->validate($newCustomer, $constraint);
     }
 
-    public function testValidationFailsWhenNonGuestUserWithSuchEmailOrUsernameExists()
+    /**
+     * @dataProvider guestCustomerUsersDataProvider
+     *
+     * @param EntityTrait $existingCustomer
+     * @param EntityTrait $newCustomer
+     * @param bool $valid
+     */
+    public function testValidationFailsWhenNonGuestUserWithSuchEmailExists($existingCustomer, $newCustomer, $valid)
     {
-        $existingCustomer = $this->getEntity(
-            CustomerUser::class,
-            [
-                'username' => 'foo',
-                'email' => 'foo',
-                'guest' => false,
-            ]
-        );
-        $newCustomer = $this->getEntity(
-            CustomerUser::class,
-            [
-                'username' => 'foo',
-                'email' => 'foo',
-            ]
-        );
-
         $this->customerUserRepository->expects($this->once())
             ->method('findOneBy')
             ->with(['email' => 'foo', 'isGuest' => false])
@@ -105,18 +96,96 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
 
         /** @var ConstraintViolationBuilderInterface|\PHPUnit_Framework_MockObject_MockObject $violationBuilder */
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
-        $violationBuilder->expects($this->at(0))->method('atPath')->willReturn($violationBuilder);
-        $violationBuilder->expects($this->at(1))->method('setInvalidValue')->willReturn($violationBuilder);
-        $violationBuilder->expects($this->at(2))->method('addViolation')->willReturn($violationBuilder);
 
         /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
         $context = $this->createMock(ExecutionContextInterface::class);
-        $context->expects($this->once())->method('buildViolation')->willReturn($violationBuilder);
+
+        if (!$valid) {
+            $violationBuilder->expects($this->at(0))->method('atPath')->willReturn($violationBuilder);
+            $violationBuilder->expects($this->at(1))->method('setInvalidValue')->willReturn($violationBuilder);
+            $violationBuilder->expects($this->at(2))->method('addViolation')->willReturn($violationBuilder);
+
+            $context->expects($this->once())->method('buildViolation')->willReturn($violationBuilder);
+        } else {
+            $context->expects($this->never())->method('buildViolation');
+        }
 
         /** @var UniqueCustomerUserNameAndEmail|\PHPUnit_Framework_MockObject_MockObject $constraint */
         $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
 
         $this->validator->initialize($context);
         $this->validator->validate($newCustomer, $constraint);
+    }
+
+    /**
+     * @return array
+     */
+    public function guestCustomerUsersDataProvider()
+    {
+        return [
+            'new customer' => [
+                $this->getEntity(
+                    CustomerUser::class,
+                    [
+                        'id' => 1,
+                        'username' => 'foo',
+                        'email' => 'foo',
+                        'isGuest' => false,
+                    ]
+                ),
+                $this->getEntity(
+                    CustomerUser::class,
+                    [
+                        'id' => null,
+                        'username' => 'foo',
+                        'email' => 'foo',
+                        'isGuest' => false,
+                    ]
+                ),
+                false
+            ],
+            'other customer' => [
+                $this->getEntity(
+                    CustomerUser::class,
+                    [
+                        'id' => 1,
+                        'username' => 'foo',
+                        'email' => 'foo',
+                        'isGuest' => false,
+                    ]
+                ),
+                $this->getEntity(
+                    CustomerUser::class,
+                    [
+                        'id' => 2,
+                        'username' => 'foo',
+                        'email' => 'foo',
+                        'isGuest' => false,
+                    ]
+                ),
+                false
+            ],
+            'same customer' => [
+                $this->getEntity(
+                    CustomerUser::class,
+                    [
+                        'id' => 1,
+                        'username' => 'foo',
+                        'email' => 'foo',
+                        'isGuest' => false,
+                    ]
+                ),
+                $this->getEntity(
+                    CustomerUser::class,
+                    [
+                        'id' => 1,
+                        'username' => 'foo',
+                        'email' => 'foo',
+                        'isGuest' => true,
+                    ]
+                ),
+                true
+            ],
+        ];
     }
 }
