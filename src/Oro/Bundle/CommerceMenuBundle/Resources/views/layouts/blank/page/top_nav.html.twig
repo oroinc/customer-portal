@@ -23,28 +23,6 @@
     {{ block('menu_widget') }}
 {% endblock %}
 
-{% block _top_nav_controls_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': " grid__column grid__column--5"
-    }) %}
-
-    <div {{ block('block_attributes') }}>
-        <ul class="primary-menu">
-            {{ block_widget(block) }}
-        </ul>
-    </div>
-{% endblock %}
-
-{% block _top_nav_controls_dropdown_container_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': " grid__column grid__column--5 topbar-cusomer-menu dropdown"
-    }) %}
-
-    <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
-{% endblock %}
-
 {% block _top_nav_menu_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': " grid__column grid__column--7"

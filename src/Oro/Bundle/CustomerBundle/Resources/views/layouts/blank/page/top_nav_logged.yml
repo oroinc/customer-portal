@@ -4,6 +4,11 @@ layout:
             themes: 'top_nav_logged.html.twig'
         - '@addTree':
             items:
+                top_nav_controls:
+                    blockType: container
+                    prepend: true
+                    options:
+                        visible: '=data["system_config_provider"].getValue("oro_customer.user_menu_show_items")=="all_at_once"'
                 top_nav_logged_user:
                     blockType: container
                 top_nav_signed_in_as_label:
@@ -29,12 +34,13 @@ layout:
                         route_name: oro_customer_frontend_customer_user_profile
                         text: 'oro.customer.frontend.menu.customer_user_profile.label'
             tree:
-                top_nav_controls:
-                    top_nav_logged_user:
-                        top_nav_signed_in_as_label: ~
-                        top_nav_signed_in_as: ~
-                    top_nav_my_customer_item:
-                        top_nav_my_customer_link: ~
-                    top_nav_sign_out_item:
-                        top_nav_sign_out_link: ~
+                top_nav_container:
+                    top_nav_controls:
+                        top_nav_logged_user:
+                            top_nav_signed_in_as_label: ~
+                            top_nav_signed_in_as: ~
+                        top_nav_my_customer_item:
+                            top_nav_my_customer_link: ~
+                        top_nav_sign_out_item:
+                            top_nav_sign_out_link: ~
     conditions: 'context["is_logged_in"]'

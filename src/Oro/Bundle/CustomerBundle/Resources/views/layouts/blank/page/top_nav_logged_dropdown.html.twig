@@ -1,12 +1,22 @@
+{% block _top_nav_controls_dropdown_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': " grid__column grid__column--5 topbar-customer-menu dropdown"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block _top_nav_customer_dropdown_menu_widget %}
-    <div class="topbar-cusomer-menu__dropdown dropdown-menu"
-         data-options="{&quot;container&quot;: true, &quot;}">
+    <div class="topbar-customer-menu__dropdown dropdown-menu"
+         data-options="{&quot;container&quot;: true}">
         {{ block_widget(block) }}
     </div>
 {% endblock %}
 
 {% block _top_nav_customer_dropdown_trigger_widget %}
-    <button type="button" class="topbar-cusomer-menu__trigger" data-toggle="dropdown">
+    <button type="button" class="topbar-customer-menu__trigger" data-toggle="dropdown">
         {{ block_widget(block) }}
         <i class="fa-angle-down"></i>
     </button>
