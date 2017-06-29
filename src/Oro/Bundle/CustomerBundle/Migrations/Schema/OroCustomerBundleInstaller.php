@@ -74,7 +74,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_14';
+        return 'v1_15';
     }
 
     /**
@@ -1218,6 +1218,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('last_visit', 'datetime', []);
         $table->addColumn('session_id', 'string', ['length' => 255]);
+        $table->addColumn('customer_user_id', 'integer', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['id', 'session_id'], 'id_session_id_idx');
     }
