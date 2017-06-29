@@ -6,6 +6,12 @@ define(function(require) {
     var ColumnManagerView = require('orodatagrid/js/app/views/column-manager/column-manager-view');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var viewportManager = require('oroui/js/viewport-manager');
+    var module = require('module');
+    var config = module.config();
+
+    config = _.extend({
+        popupOptions: {}
+    }, config);
 
     FrontendColumnManagerView = ColumnManagerView.extend({
         /**
@@ -23,10 +29,12 @@ define(function(require) {
         /**
          * @property
          */
-        popupOptions: {
+        popupOptions: _.extend({}, {
+            popupBadge: true,
+            popupIcon: 'fa-cog',
             popupLabel: _.__('oro_frontend.datagrid.manage_grid'),
             contentElement: null
-        },
+        }, _.pick(config.popupOptions, 'popupBadge', 'popupIcon', 'popupLabel', 'popupCloseButton')),
 
         /**
          * @inheritDoc
