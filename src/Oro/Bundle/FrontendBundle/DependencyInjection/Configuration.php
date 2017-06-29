@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
             [
                 'frontend_theme' => ['type' => 'string', 'value' => '%oro_layout.default_active_theme%'],
                 'page_templates' => ['type' => 'array', 'value' => []],
+                'guest_access_enabled' => ['type' => 'boolean', 'value' => true],
             ]
         );
         $rootNode->children()

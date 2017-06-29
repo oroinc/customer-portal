@@ -1,0 +1,8 @@
+layout:
+    actions:
+        - '@remove':
+            id: sidebar_customer_menu_container
+        - '@move':
+            id: head_customer_menu_container
+            parentId: page_sidebar
+            prepend: true
