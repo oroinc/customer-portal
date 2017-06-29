@@ -8,7 +8,7 @@ use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
-class AbstractRolesDataTest extends \PHPUnit_Framework_TestCase
+class AbstractRolesData extends \PHPUnit_Framework_TestCase
 {
     /**
      * Call Kernel::locateResource with $first=true, block all bundles data loading and should not happens.
