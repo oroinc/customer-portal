@@ -13,5 +13,13 @@
 
     &__dropdown {
         padding: $top-bar-cusomer-menu-dropdown-offset;
+
+        a {
+            color: $top-bar-cusomer-menu-links-color;
+            
+            @include element-state('hover'){
+                color: $top-bar-cusomer-menu-links-hover-color;
+            }
+        }
     }
 }
