@@ -1,16 +1,16 @@
 {% block _top_nav_controls_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': " pull-left"
+        '~class': " pull-left"
     }) %}
     {% set dom_relocation_options =  {
-    responsive: [
-    {
-    viewport: {
-    maxScreenType: 'tablet',
-    },
-    moveTo: '[data-main-menu-container]'
-    }
-    ]
+        responsive: [
+            {
+                viewport: {
+                    maxScreenType: 'tablet',
+                },
+                moveTo: '[data-main-menu-container]'
+            }
+        ]
     }|json_encode %}
 
     <div {{ block('block_attributes') }}>
