@@ -1,0 +1,15 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'main_menu_anonymous.html.twig'
+        - '@addTree':
+            items:
+                header_row_customer:
+                    blockType: link
+                    options:
+                        route_name: oro_customer_customer_user_security_login
+            tree:
+                header_row:
+                    header_row_customer: ~
+
+    conditions: '!context["is_logged_in"]'

@@ -9,7 +9,7 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource;
 use Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserByCustomerExtension;
 
-class CustomerUserByCustomerExtensionTest extends \PHPUnit_Framework_TestCase
+class CustomerUserByAccountExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var CustomerUserByCustomerExtension

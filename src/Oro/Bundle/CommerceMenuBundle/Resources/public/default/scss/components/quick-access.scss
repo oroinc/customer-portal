@@ -61,13 +61,10 @@
 
 @include breakpoint('tablet') {
     .quick-access {
-        padding-top: 7px;
-
         border-bottom: 1px solid get-color('additional', 'light');
+        padding: $offset-y;
 
         &__list {
-            margin: 7px 0 15px;
-
             text-align: left;
         }
 
@@ -75,7 +72,7 @@
             display: block;
 
             margin: 0;
-            padding: 8px 15px 7px;
+            padding: 8px 0;
 
             text-transform: uppercase;
         }
@@ -89,14 +86,6 @@
             height: 26px;
 
             line-height: 26px;
-        }
-    }
-}
-
-@include breakpoint('tablet-small') {
-    .quick-access {
-        &__item {
-            margin-left: 5px;
         }
     }
 }
