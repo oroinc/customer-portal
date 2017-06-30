@@ -1,4 +1,4 @@
-// @theme: blank
+// @theme: blank;
 
 .topbar-customer-menu {
     &__trigger {
@@ -17,7 +17,7 @@
         a {
             color: $top-bar-cusomer-menu-links-color;
             
-            @include element-state('hover'){
+            @include element-state('hover') {
                 color: $top-bar-cusomer-menu-links-hover-color;
             }
         }
