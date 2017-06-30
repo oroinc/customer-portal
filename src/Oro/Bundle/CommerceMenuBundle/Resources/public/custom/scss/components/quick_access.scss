@@ -47,15 +47,6 @@ $badge-sm: 26px;
 
 @include breakpoint('tablet') {
     .sidebar__quick-access {
-        background: transparent;
-
-        .quick-access__list {
-            margin: 0;
-            padding: 10px 0;
-        }
-
-        .quick-access__item {
-            margin: 0;
-        }
+        display: none;
     }
 }

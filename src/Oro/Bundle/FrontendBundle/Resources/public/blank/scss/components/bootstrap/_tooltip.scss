@@ -16,9 +16,11 @@
     &.left {
         @extend .tooltip.tooltip-left;
     }
+}
 
-    &--animated {
-        transition: all .2s;
+.tooltip-inner {
+    &:not(.not-expand) {
+        text-align: $tooltip-text-align;
     }
 }
 
@@ -26,39 +28,4 @@
     position: relative;
 
     display: inline-block;
-}
-
-.tooltip-trigger {
-    & + .tooltip {
-        bottom: 100%;
-        left: 50%;
-
-        margin-bottom: $offset-y;
-
-        white-space: nowrap;
-
-        opacity: 0;
-        visibility: hidden;
-
-        transform: translate(-50%, 0);
-
-        .tooltip-inner {
-            position: relative;
-
-            display: block;
-
-            &:before {
-                bottom: -5px;
-            }
-        }
-    }
-
-    @include element-state('hover') {
-        & + .tooltip {
-            margin-bottom: 0;
-
-            opacity: 1;
-            visibility: visible;
-        }
-    }
 }

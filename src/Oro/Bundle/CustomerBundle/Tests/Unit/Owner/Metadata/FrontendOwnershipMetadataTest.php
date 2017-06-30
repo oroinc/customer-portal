@@ -17,12 +17,12 @@ class FrontendOwnershipMetadataTest extends \PHPUnit_Framework_TestCase
     public function testSetFrontendOwner(array $ownerType, $expectedOwnerType, array $exceptionDefinition = [])
     {
         if ($exceptionDefinition) {
-            list ($exception, $message) = $exceptionDefinition;
+            list($exception, $message) = $exceptionDefinition;
             $this->expectException($exception);
             $this->expectExceptionMessage($message);
         }
 
-        list ($frontendOwnerType, $frontendOwnerFieldName, $frontendOwnerColumnName) = $ownerType;
+        list($frontendOwnerType, $frontendOwnerFieldName, $frontendOwnerColumnName) = $ownerType;
         $metadata = new FrontendOwnershipMetadata(
             $frontendOwnerType,
             $frontendOwnerFieldName,
