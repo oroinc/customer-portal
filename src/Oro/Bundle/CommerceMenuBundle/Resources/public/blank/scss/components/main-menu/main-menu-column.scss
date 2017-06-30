@@ -29,16 +29,7 @@
     }
 
     &:first-child {
-        padding-right: 34px;
-    }
-
-    &:not(:first-child) {
-        padding-left: 34px;
-        padding-right: 34px;
-    }
-
-    &:last-child {
-        padding-right: 0;
+        padding-right: $main-menu-column-offset;
     }
 
     &--splited &__inner-left,
@@ -93,12 +84,17 @@
 
 @include breakpoint('desktop') {
     .main-menu-column {
-        &__inner {
-            display: block !important;
+        &:not(:first-child) {
+            padding-left: $main-menu-column-offset;
+            padding-right: $main-menu-column-offset;
         }
 
-        &__icon {
-            display: none;
+        &:last-child {
+            padding-right: 0;
+        }
+
+        &__inner {
+            display: block !important;
         }
 
         &--splited {
@@ -111,8 +107,7 @@
 
 @include breakpoint('tablet') {
     .main-menu-column {
-        margin: $main-menu-column-tablet-offset;
-        padding: 18px 34px 0 34px;
+        padding: 20px;
 
         border-top: 1px solid get-color('additional', 'light');
 
@@ -134,10 +129,6 @@
 
         &__title {
             margin-bottom: 14px;
-        }
-
-        &__icon {
-            margin: -2px 0 0 5px;
         }
     }
 }
