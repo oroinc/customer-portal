@@ -5,31 +5,20 @@ namespace Oro\Bundle\CustomerBundle\Provider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\ScopeBundle\Manager\AbstractScopeCriteriaProvider;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
-use Oro\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ScopeCustomerGroupCriteriaProvider extends AbstractScopeCriteriaProvider
 {
     const FIELD_NAME = 'customerGroup';
 
-    /**
-     * @var SecurityFacade
-     */
+    /** @var TokenStorageInterface */
     protected $tokenStorage;
 
-    /**
-     * @var PropertyAccessor
-     */
-    protected $propertyAccessor;
-
-    /**
-     * @var CustomerUserRelationsProvider
-     */
+    /** @var CustomerUserRelationsProvider */
     protected $customerUserProvider;
 
     /**
-     * @param TokenStorageInterface $tokenStorage
+     * @param TokenStorageInterface         $tokenStorage
      * @param CustomerUserRelationsProvider $customerUserRelationsProvider
      */
     public function __construct(

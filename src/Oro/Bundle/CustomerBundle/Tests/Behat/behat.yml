@@ -28,12 +28,21 @@ oro_behat_extension:
     CustomerUserRoleView:
       selector: "[data-target='#customer-customer-user-role-view'], section.page-content"
       class: Oro\Bundle\UserBundle\Tests\Behat\Element\UserRoleViewForm
+    Customer Users Grid:
+      selector: '[id^="grid-frontend-customer-customer-user-grid"]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
     Customer Company Addresses Grid:
       selector: '[id^="grid-frontend-customer-customer-address-grid"]'
-      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+    Customer Company Addresses Grid View List:
+      selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Customer Company Addresses Grid View List Close Button:
+      selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views [data-close]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer Company User Addresses Grid:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"]'
-      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
     Customer Company User Addresses Grid View List:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element

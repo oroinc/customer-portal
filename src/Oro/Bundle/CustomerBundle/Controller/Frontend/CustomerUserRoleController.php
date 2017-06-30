@@ -5,7 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -43,8 +42,8 @@ class CustomerUserRoleController extends Controller
     public function viewAction(CustomerUserRole $role)
     {
         $isGranted = $role->isPredefined()
-            ? $this->getSecurityFacade()->isGranted('oro_customer_frontend_customer_user_role_view')
-            : $this->getSecurityFacade()->isGranted('FRONTEND_CUSTOMER_ROLE_VIEW', $role);
+            ? $this->isGranted('oro_customer_frontend_customer_user_role_view')
+            : $this->isGranted('FRONTEND_CUSTOMER_ROLE_VIEW', $role);
 
         if (!$isGranted || !$role->isSelfManaged() || !$role->isPublic()) {
             throw $this->createAccessDeniedException();
@@ -86,8 +85,8 @@ class CustomerUserRoleController extends Controller
     public function updateAction(CustomerUserRole $role, Request $request)
     {
         $isGranted = $role->isPredefined()
-            ? $this->getSecurityFacade()->isGranted('oro_customer_frontend_customer_user_role_create')
-            : $this->getSecurityFacade()->isGranted('FRONTEND_CUSTOMER_ROLE_UPDATE', $role);
+            ? $this->isGranted('oro_customer_frontend_customer_user_role_create')
+            : $this->isGranted('FRONTEND_CUSTOMER_ROLE_UPDATE', $role);
 
         if (!$isGranted || !$role->isSelfManaged() || !$role->isPublic()) {
             throw $this->createAccessDeniedException();
@@ -145,13 +144,5 @@ class CustomerUserRoleController extends Controller
                 'customizableRole' => $customizableRole
             ]
         ];
-    }
-
-    /**
-     * @return SecurityFacade
-     */
-    protected function getSecurityFacade()
-    {
-        return $this->get('oro_security.security_facade');
     }
 }

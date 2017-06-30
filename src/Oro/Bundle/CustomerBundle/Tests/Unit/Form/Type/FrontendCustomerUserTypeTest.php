@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\PreloadedExtension;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as CustomerSelectTypeStub;
 
 use Oro\Bundle\FormBundle\Form\Type\OroDateType;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
@@ -23,6 +22,7 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntityType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
 {
@@ -33,19 +33,21 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
      */
     protected $formType;
 
-    /** @var  SecurityFacade|\PHPUnit_Framework_MockObject_MockObject */
-    protected $securityFacade;
+    /** @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $authorizationChecker;
+
+    /** @var  TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $tokenAccessor;
 
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        $this->formType = new FrontendCustomerUserType($this->securityFacade);
+        $this->formType = new FrontendCustomerUserType($this->authorizationChecker, $this->tokenAccessor);
         $this->formType->setCustomerUserClass(self::DATA_CLASS);
         $this->factory = Forms::createFormFactoryBuilder()
             ->addExtensions($this->getExtensions())
@@ -60,7 +62,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $customer = $this->getCustomer(1);
         $user = new CustomerUser();
         $user->setCustomer($customer);
-        $this->securityFacade->expects($this->any())->method('getLoggedUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->any())->method('getUser')->willReturn($user);
 
         $frontendUserRoleSelectType = new EntitySelectTypeStub(
             $this->getRoles(),
@@ -70,7 +72,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $addressEntityType = new EntityType($this->getAddresses(), 'test_address_entity');
         $customerSelectType = new CustomerSelectTypeStub($this->getCustomers(), 'oro_customer_customer_select');
 
-        $customerUserType = new CustomerUserType($this->securityFacade);
+        $customerUserType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
         $customerUserType->setDataClass(self::DATA_CLASS);
         $customerUserType->setAddressClass(self::ADDRESS_CLASS);
 
@@ -105,12 +107,12 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         CustomerUser $expectedData,
         $roleGranted = true
     ) {
-        $this->securityFacade->expects($this->at(0))
+        $this->authorizationChecker->expects($this->at(0))
             ->method('isGranted')
             ->with('oro_customer_customer_user_role_view')
             ->willReturn(false);
 
-        $this->securityFacade->expects($this->at(1))
+        $this->authorizationChecker->expects($this->at(1))
             ->method('isGranted')
             ->with('oro_customer_frontend_customer_user_role_view')
             ->willReturn(true);
@@ -211,17 +213,17 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
      */
     public function testOnPreSetData()
     {
-        /** @var $securityFacade SecurityFacade|\PHPUnit_Framework_MockObject_MockObject */
-        $securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
-        /** @var FrontendCustomerUserType $formType */
-        $formType = new FrontendCustomerUserType($securityFacade);
-        /** @var $event FormEvent|\PHPUnit_Framework_MockObject_MockObject */
+        $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+
+        $formType = new FrontendCustomerUserType($authorizationChecker, $tokenAccessor);
+
         $event = $this->getMockBuilder('Symfony\Component\Form\FormEvent')
             ->disableOriginalConstructor()
             ->getMock();
-        $securityFacade->expects($this->any())->method('getLoggedUser')->willReturn(null);
+
+        $tokenAccessor->expects($this->any())->method('getUser')->willReturn(null);
+
         $formType->onPreSetData($event);
     }
 

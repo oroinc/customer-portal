@@ -4,14 +4,15 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Voter;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Acl\Voter\CustomerUserRoleVoter;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -352,21 +353,29 @@ class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
      */
     protected function getMockForUpdateAndView($customerUser, $customerUserRole, $isGranted, $attribute)
     {
-        /** @var SecurityFacade|\PHPUnit_Framework_MockObject_MockObject $securityFacade */
-        $securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->container->expects($this->any())
             ->method('get')
-            ->with('oro_security.security_facade')
-            ->willReturn($securityFacade);
+            ->willReturnMap([
+                [
+                    'security.authorization_checker',
+                    ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+                    $authorizationChecker
+                ],
+                [
+                    'oro_security.token_accessor',
+                    ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+                    $tokenAccessor
+                ],
+            ]);
 
-        $securityFacade->expects($this->once())
-            ->method('getLoggedUser')
+        $tokenAccessor->expects($this->once())
+            ->method('getUser')
             ->willReturn($customerUser);
 
-        $securityFacade->expects($customerUser ? $this->once() : $this->never())
+        $authorizationChecker->expects($customerUser ? $this->once() : $this->never())
             ->method('isGranted')
             ->with($attribute, $customerUserRole)
             ->willReturn($isGranted);

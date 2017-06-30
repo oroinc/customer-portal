@@ -140,7 +140,6 @@ class WorkflowPermissionDatasourceTest extends \PHPUnit_Framework_TestCase
 
     protected function validateResult($result)
     {
-
         $this->assertCount(2, $result);
 
         /** @var ResultRecord $item1 */

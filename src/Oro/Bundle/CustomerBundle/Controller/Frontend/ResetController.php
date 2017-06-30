@@ -111,7 +111,7 @@ class ResetController extends Controller
         if ($handler->process($form, $this->getRequest())) {
             // force user logout
             $session->invalidate();
-            $this->get('security.context')->setToken(null);
+            $this->get('security.token_storage')->setToken(null);
 
             $session->getFlashBag()->add(
                 'success',

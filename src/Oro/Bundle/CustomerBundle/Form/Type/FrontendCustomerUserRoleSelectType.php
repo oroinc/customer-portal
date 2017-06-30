@@ -6,21 +6,20 @@ use Symfony\Bridge\Doctrine\Form\ChoiceList\ORMQueryBuilderLoader;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Collections\Criteria;
 
-use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
 class FrontendCustomerUserRoleSelectType extends AbstractType
 {
     const NAME = 'oro_customer_frontend_customer_user_role_select';
 
-    /** @var SecurityFacade */
-    protected $securityFacade;
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
     /** @var ManagerRegistry */
     protected $registry;
@@ -28,19 +27,17 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
     /** @var string */
     protected $roleClass;
 
-    /**
-     * @var AclHelper
-     */
+    /** @var AclHelper */
     protected $aclHelper;
 
     /**
-     * @param SecurityFacade $securityFacade
-     * @param Registry $registry
-     * @param AclHelper $aclHelper
+     * @param TokenAccessorInterface $tokenAccessor
+     * @param ManagerRegistry        $registry
+     * @param AclHelper              $aclHelper
      */
-    public function __construct(SecurityFacade $securityFacade, Registry $registry, AclHelper $aclHelper)
+    public function __construct(TokenAccessorInterface $tokenAccessor, ManagerRegistry $registry, AclHelper $aclHelper)
     {
-        $this->securityFacade = $securityFacade;
+        $this->tokenAccessor = $tokenAccessor;
         $this->registry = $registry;
         $this->aclHelper = $aclHelper;
     }
@@ -82,7 +79,7 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $loggedUser = $this->securityFacade->getLoggedUser();
+        $loggedUser = $this->tokenAccessor->getUser();
         if (!$loggedUser instanceof CustomerUser) {
             return;
         }

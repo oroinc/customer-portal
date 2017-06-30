@@ -2,65 +2,38 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid\Extension;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserExtension;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 class CustomerUserExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var CustomerUserExtension
-     */
-    protected $extension;
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $tokenAccessor;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ContainerInterface
-     */
-    protected $container;
+    /** @var CustomerUserExtension */
+    protected $extension;
 
     protected function setUp()
     {
-        $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        $this->extension = new CustomerUserExtension();
-        $this->extension->setContainer($this->container);
-    }
-
-    protected function tearDown()
-    {
-        unset($this->extension, $this->container);
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage ContainerInterface not injected
-     */
-    public function testIsApplicableWithoutContainer()
-    {
-        $extension = new CustomerUserExtension();
-        $extension->isApplicable(DatagridConfiguration::create([]));
+        $this->extension = new CustomerUserExtension($this->tokenAccessor);
     }
 
     /**
      * @param mixed $user
-     * @param string $class
      * @param bool $expected
      *
      * @dataProvider applicableDataProvider
      */
-    public function testIsApplicable($user, $class, $expected)
+    public function testIsApplicable($user, $expected)
     {
-        $this->container->expects($this->once())->method('getParameter')
-            ->with('oro_customer.entity.customer_user.class')->willReturn($class);
-
-        $securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()->getMock();
-        $securityFacade->expects($this->once())->method('getLoggedUser')->willReturn($user);
-        $this->container->expects($this->once())->method('get')->with('oro_security.security_facade')
-            ->willReturn($securityFacade);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
 
         $this->assertEquals($expected, $this->extension->isApplicable(DatagridConfiguration::create([])));
     }
@@ -79,15 +52,9 @@ class CustomerUserExtensionTest extends \PHPUnit_Framework_TestCase
     public function applicableDataProvider()
     {
         return [
-            [new User(), 'Oro\Bundle\CustomerBundle\Entity\CustomerUser', false],
-            [null, 'Oro\Bundle\CustomerBundle\Entity\CustomerUser', true],
-            ['anon.', 'Oro\Bundle\CustomerBundle\Entity\CustomerUser', true],
-            [new CustomerUser(), 'Oro\Bundle\CustomerBundle\Entity\CustomerUser', true],
-            [
-                'Oro\Bundle\CustomerBundle\Entity\CustomerUser',
-                'Oro\Bundle\CustomerBundle\Entity\CustomerUser',
-                true,
-            ],
+            [new User(), false],
+            [null, true],
+            [new CustomerUser(), true],
         ];
     }
 }

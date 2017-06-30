@@ -29,7 +29,7 @@ class CustomerUserManagerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
 
         /** @var CustomerUser $loggedUser */
-        $loggedUser = $this->getContainer()->get('oro_security.security_facade')->getLoggedUser();
+        $loggedUser = $this->getContainer()->get('oro_security.token_accessor')->getUser();
         $originalId = $loggedUser->getId();
         $this->assertInstanceOf(CustomerUser::class, $loggedUser);
         $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUsername(), 'logged user email');
@@ -56,7 +56,7 @@ class CustomerUserManagerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
 
         /** @var CustomerUser $loggedUser */
-        $loggedUser = $this->getContainer()->get('oro_security.security_facade')->getLoggedUser();
+        $loggedUser = $this->getContainer()->get('oro_security.token_accessor')->getUser();
         $em = $this->getContainer()->get('doctrine')->getManagerForClass(ClassUtils::getClass($loggedUser));
 
         $originalId = $loggedUser->getId();
