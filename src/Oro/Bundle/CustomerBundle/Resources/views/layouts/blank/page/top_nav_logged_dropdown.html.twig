@@ -29,3 +29,33 @@
 
     {{ block_widget(block, {attr: attr}) }}
 {% endblock %}
+
+{% block _top_nav_customer_menu_list_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' topbar-customer-menu-list'
+    }) %}
+
+    <ul {{ block('block_attributes') }}>
+        {% set requestUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+        {% set found = false %}
+
+        {% for child in block if child.vars.visible %}
+            {% for menuItem in child.vars.item.children if menuItem.isDisplayed() %}
+                {% set currentUrl = menuItem.uri %}
+                {% set itemCurrentClass = '' %}
+                {% set linkCurrentClass = '' %}
+                {% if currentUrl in requestUrl and not found %}
+                    {% set itemCurrentClass = 'current' %}
+                    {% set linkCurrentClass = 'current' %}
+                {% endif %}
+
+                <li class="topbar-customer-menu-list__item {{ itemCurrentClass }}">
+                    <a href="{{ menuItem.uri }}" class="{{ ' topbar-customer-menu-list__link ' ~ linkCurrentClass }}">{{ menuItem.label|trans }}</a>
+                </li>
+                {% if currentUrl in requestUrl and not found %}
+                    {% set found = true %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endblock %}

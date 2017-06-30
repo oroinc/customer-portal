@@ -17,6 +17,8 @@ layout:
                       blockType: menu
                       options:
                           item: '=data["menu"].getMenu("oro_customer_menu")'
+                top_nav_customer_menu_list:
+                    blockType: container
                 top_nav_customer_dropdown_menu:
                     blockType: container
                 top_nav_customer_dropdown_trigger:
@@ -37,6 +39,7 @@ layout:
                             top_nav_customer_dropdown_trigger_welcome_label: ~
                             top_nav_user_name: ~
                         top_nav_customer_dropdown_menu:
-                            top_nav_customer_menu: ~
+                            top_nav_customer_menu_list:
+                                top_nav_customer_menu: ~
                             top_nav_customer_dropdown_sign_out_link: ~
     conditions: 'context["is_logged_in"]'
