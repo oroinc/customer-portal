@@ -4,11 +4,19 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_14;
 
 use Doctrine\DBAL\Schema\Schema;
 
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
-class OroCustomerBundle implements Migration
+class OroCustomerBundle implements Migration, ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -16,6 +24,7 @@ class OroCustomerBundle implements Migration
     {
         /** Tables generation **/
         $this->createCustomerVisitorTable($schema);
+        $this->updateConfig();
     }
 
     /**
@@ -31,5 +40,16 @@ class OroCustomerBundle implements Migration
         $table->addColumn('session_id', 'string', ['length' => 255]);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['id', 'session_id'], 'id_session_id_idx');
+    }
+
+    public function updateConfig()
+    {
+        $dumper = $this->container->get('oro_entity_extend.tools.dumper');
+        $dumper->updateConfig(function (ConfigInterface $config) {
+            $configId  = $config->getId();
+            $className = $configId->getClassName();
+
+            return $className === CustomerUser::class || $className === CustomerUserRole::class;
+        });
     }
 }
