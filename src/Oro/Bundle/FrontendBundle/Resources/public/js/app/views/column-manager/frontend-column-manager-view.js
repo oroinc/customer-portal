@@ -11,7 +11,7 @@ define(function(require) {
 
     config = _.extend({
         className: 'dropdown-menu',
-        viewport:{
+        viewport: {
             maxScreenType: 'mobile-landscape'
         },
         popupOptions: {},
