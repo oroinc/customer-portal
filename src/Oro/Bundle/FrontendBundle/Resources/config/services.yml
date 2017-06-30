@@ -36,6 +36,28 @@ services:
             - {name: kernel.event_listener, event: kernel.request, method: onKernelRequest}
             - {name: kernel.event_listener, event: kernel.view, method: onKernelView, priority: 20 }
 
+    oro_frontend.listener.guest_access_request_listener:
+        class: 'Oro\Bundle\FrontendBundle\EventListener\GuestAccessRequestListener'
+        arguments:
+            - '@oro_security.token_accessor'
+            - '@oro_config.manager'
+            - '@oro_frontend.guest_access.guest_access_decision_maker'
+            - '@router'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 5 }
+
+    oro_frontend.guest_access.guest_access_decision_maker:
+        class: 'Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMaker'
+        arguments:
+            - '@oro_frontend.guest_access.provider.guest_access_urls_provider'
+            - '@oro_frontend.request.frontend_helper'
+            - '%installed%'
+        public: false
+
+    oro_frontend.guest_access.provider.guest_access_urls_provider:
+        class: 'Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider'
+        public: false
+
     oro_frontend.assetic.configuration:
         class: '%oro_assetic.configuration.class%'
         public: false

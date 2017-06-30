@@ -1,7 +1,38 @@
 {% block _header_row_customer_widget %}
     <div class="header-row__container hidden-on-desktop">
-        <a href="{{ path(route_name) }}" class="header-row__trigger">
-            <span class="nav-trigger__icon"><i class="fa-user"></i></span>
-        </a>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _header_row_customer_container_widget %}
+    <div class="header-row__dropdown">
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _header_row_customer_trigger_widget %}
+    <button class="header-row__trigger hidden-on-desktop"
+            data-page-component-module="oroui/js/app/components/viewport-component"
+            data-page-component-options="{{ {
+                viewport: {
+                    maxScreenType: 'tablet',
+                },
+                component: 'oroui/js/app/components/view-component',
+                view: 'orofrontend/blank/js/app/views/fullscreen-popup-view',
+                popupIcon: 'fa-user',
+                popupBadge: true,
+                popupLabel: 'oro.customer.menu.customer_user.label'|trans,
+                contentElement: '[data-customer-menu-container]',
+                contentAttributes: {
+                    'class': 'fullscreen-mode'
+                }
+            }|json_encode() }}"
+    >
+        <span class="nav-trigger__icon">
+            <span class="fa-user fa--no-offset"></span>
+        </span>
+    </button>
+    <div class="header-row__toggle">
+        {{ block_widget(block) }}
     </div>
 {% endblock %}
