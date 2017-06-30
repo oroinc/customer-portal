@@ -147,7 +147,6 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
      */
     public function testGetRegisterFormViewOrganizationEmpty()
     {
-
         $defaultOwnerId = 1;
         $website = $this->getEntity(Website::class);
 

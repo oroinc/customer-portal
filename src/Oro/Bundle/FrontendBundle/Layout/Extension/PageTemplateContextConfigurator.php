@@ -32,7 +32,6 @@ class PageTemplateContextConfigurator implements ContextConfiguratorInterface
             ->setDefaults(
                 [
                     'page_template' => function (Options $options, $value) {
-
                         if (!$value) {
                             $pageTemplates = $this->configManager->get(
                                 OroFrontendExtension::ALIAS . ConfigManager::SECTION_MODEL_SEPARATOR . 'page_templates'

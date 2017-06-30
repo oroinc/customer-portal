@@ -7,7 +7,7 @@ use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
 
 use Oro\Bundle\WorkflowBundle\Tests\Unit\Extension\StartTransitionButtonProviderExtensionTestCase;
 
-class FrontendStartTransitionButtonProviderExtensionTestTest extends StartTransitionButtonProviderExtensionTestCase
+class FrontendStartTransitionButtonProviderExtensionTest extends StartTransitionButtonProviderExtensionTestCase
 {
     /**
      * {@inheritdoc}

@@ -22,7 +22,6 @@ class ConfigurationTypeExtensionTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-
         $this->configurationTypeExtension = new ConfigurationTypeExtension();
         parent::setUp();
     }
