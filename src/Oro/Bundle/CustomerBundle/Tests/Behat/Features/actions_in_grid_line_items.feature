@@ -23,15 +23,15 @@ Feature: Checked actions in grid line items
   # # Scenario: Preconditions
   # I should have:
   # Company Addresses
-  # Address             City	    Zip/Postal Code	  Country          Customer
+  # Address             City      Zip/Postal Code   Country          Customer
   # Company_Street_01   City_01   1234              United States    Acme Company
 
   # # Scenario: Preconditions
   # I should have:
 
   # Users
-  # First Name         Last Name	     Email Address              Customer
-  # Amanda	           Cole	           AmandaRCole@example.org    Acme Company
+  # First Name         Last Name       Email Address              Customer
+  # Amanda             Cole            AmandaRCole@example.org    Acme Company
   # FirstName_1        LastName_1      user_1@example.org         Acme Company
   # FirstName_2        LastName_2      user_2@example.org         Acme Company
   # FirstName_3        LastName_3      user_3@example.org         Acme Company
