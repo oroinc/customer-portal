@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
-use Oro\Bundle\FrontendBundle\Tests\Behat\Element\FrontendGridFilterManager;
 use Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager;
 use Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;

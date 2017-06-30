@@ -95,4 +95,4 @@ oro_behat_extension:
 
     FrontendGridFilterManager:
       selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
-      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\FrontendGridFilterManager
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
