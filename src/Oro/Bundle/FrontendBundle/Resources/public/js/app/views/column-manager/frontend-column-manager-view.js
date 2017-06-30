@@ -34,7 +34,8 @@ define(function(require) {
             popupIcon: 'fa-cog',
             popupLabel: _.__('oro_frontend.datagrid.manage_grid'),
             contentElement: null
-        }, _.pick(config.popupOptions, 'popupBadge', 'popupIcon', 'popupLabel', 'popupCloseButton')),
+        }, _.pick(config.popupOptions, 'popupBadge', 'popupIcon', 'popupLabel',
+            'popupCloseButton', 'className', 'viewport', 'templateSelector')),
 
         /**
          * @inheritDoc
