@@ -30,7 +30,7 @@ oro_behat_extension:
       selector: '[data-grid-toolbar="bottom"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     FrontendGridActionRefreshButton:
-      selector: '.refresh-actionsss'
+      selector: '.refresh-action'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     FrontendGridActionResetButton:
       selector: '.reset-action'

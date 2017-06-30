@@ -52,7 +52,6 @@ Feature: Checked actions in grid line items
       | FrontendGridActionRefreshButton |
       | FrontendGridActionResetButton   |
       | FrontendGridActionFilterButton  |
-
     And I should see following actions for Company_Street_01 in grid:
       | map    |
       | edit   |
