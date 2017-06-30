@@ -17,6 +17,30 @@ oro_behat_extension:
     FrontendMassActionHeadCheckbox:
       selector: 'th.select-all-header-cell button'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    FrontendGridNextPageButton:
+      selector: '.oro-pagination [data-grid-pagination-direction="next"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    FrontendGridPrevPageButton:
+      selector: '.oro-pagination [data-grid-pagination-direction="prev"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    FrontendGridTopToolbar:
+      selector: '[data-grid-toolbar="top"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    FrontendGridBottomToolbar:
+      selector: '[data-grid-toolbar="bottom"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    FrontendGridActionRefreshButton:
+      selector: '.refresh-actionsss'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    FrontendGridActionResetButton:
+      selector: '.reset-action'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    FrontendGridActionFilterButton:
+      selector: '.action[title="Filters"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    DetachedSelect2Result:
+      selector: '#select2-drop-mask + .select2-drop .select2-results'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Active Sticky Panel:
       selector: ".sticky-panel.sticky-panel--top.has-content"
     Main Menu Into Header:

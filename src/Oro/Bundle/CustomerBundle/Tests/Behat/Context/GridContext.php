@@ -2,6 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
+use Behat\Gherkin\Node\TableNode;
+
 use Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager;
 use Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
@@ -66,5 +68,79 @@ class GridContext extends OroFeatureContext implements OroPageObjectAware
         $columnManager->open();
         $columnManager->checkColumnVisibility($columnName);
         $columnManager->close();
+    }
+
+    /**
+     * @When /^(?:|I )go to next page in grid$/
+     * @When /^(?:|I )go to next page in "(?P<gridName>[\w\s]+)"$/
+     */
+    public function iGoToNextPageInGrid($gridName = null)
+    {
+        $grid = $this->getGrid($gridName);
+
+        $grid->getElement('FrontendGridNextPageButton')->click();
+    }
+
+    /**
+     * @When /^(?:|I )go to prev page in grid$/
+     * @When /^(?:|I )go to prev page in "(?P<gridName>[\w\s]+)"$/
+     */
+    public function iGoToPrevPageInGrid($gridName = null)
+    {
+        $grid = $this->getGrid($gridName);
+
+        $grid->getElement('FrontendGridPrevPageButton')->click();
+    }
+
+    /**
+     * Example: I should see following elements in "Frontend Grid" grid:
+     *            | Action System Button  |
+     *            | Action Default Button |
+     *            | Filter Button         |
+     * @When /^(?:|I )should see following elements in grid:$/
+     * @When /^(?:|I )should see following elements in "(?P<gridName>[\w\s]+)":$/
+     * @When /^(?:|I )should see following elements in "(?P<toolbar>[\w\s]+)" for grid:$/
+     * @When /^(?:|I )should see following elements in "(?P<toolbar>[\w\s]+)" for "(?P<gridName>[\w\s]+)":$/
+     */
+    public function iShouldSeeElementsInGrid(TableNode $table, $toolbar = null, $gridName = null)
+    {
+        $context = $this->getGrid($gridName);
+
+        if (!is_null($toolbar)) {
+            $context = $context->getElement($toolbar);
+        }
+
+        foreach ($table as $item) {
+            self::assertTrue(
+                $context->getElement(reset($item))->isIsset(),
+                sprintf('Element "%s" not found on the page', reset($item))
+            );
+        }
+    }
+
+    /**
+     * Example: I should not see following elements in "Frontend Grid" grid:
+     *            | Action System Button  |
+     *            | Action Default Button |
+     *            | Filter Button         |
+     * @When /^(?:|I )should not see following elements in grid:$/
+     * @When /^(?:|I )should not see following elements in "(?P<gridName>[\w\s]+)":$/
+     * @When /^(?:|I )should not see following elements in "(?P<toolbar>[\w\s]+)" for grid:$/
+     * @When /^(?:|I )should not see following elements in "(?P<toolbar>[\w\s]+)" for "(?P<gridName>[\w\s]+)":$/
+     */
+    public function iShouldNotSeeElementsInGrid(TableNode $table, $toolbar = null, $gridName = null)
+    {
+        $context = $this->getGrid($gridName);
+
+        if (!is_null($toolbar)) {
+            $context = $context->getElement($toolbar);
+        }
+
+        foreach ($table as $item) {
+            self::assertFalse(
+                $context->getElement(reset($item))->isIsset(),
+                sprintf('Element "%s" not found on the page', reset($item))
+            );
+        }
     }
 }
