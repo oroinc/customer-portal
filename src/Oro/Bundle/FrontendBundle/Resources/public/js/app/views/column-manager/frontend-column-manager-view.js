@@ -10,21 +10,24 @@ define(function(require) {
     var config = module.config();
 
     config = _.extend({
-        popupOptions: {}
+        className: 'dropdown-menu',
+        viewport:{
+            maxScreenType: 'mobile-landscape'
+        },
+        popupOptions: {},
+        templateSelector: '#frontend-column-manager-tpl'
     }, config);
 
     FrontendColumnManagerView = ColumnManagerView.extend({
         /**
          * @property
          */
-        className: 'dropdown-menu',
+        className: config.className,
 
         /**
          * @property
          */
-        viewport: {
-            maxScreenType: 'mobile-landscape'
-        },
+        viewport: config.viewport,
 
         /**
          * @property
@@ -34,13 +37,12 @@ define(function(require) {
             popupIcon: 'fa-cog',
             popupLabel: _.__('oro_frontend.datagrid.manage_grid'),
             contentElement: null
-        }, _.pick(config.popupOptions, 'popupBadge', 'popupIcon', 'popupLabel',
-            'popupCloseButton', 'className', 'viewport', 'templateSelector')),
+        }, _.pick(config.popupOptions, 'popupBadge', 'popupIcon', 'popupLabel', 'popupCloseButton')),
 
         /**
          * @inheritDoc
          */
-        templateSelector: '#frontend-column-manager-tpl',
+        templateSelector: config.templateSelector,
 
         /**
          * @inheritDoc
