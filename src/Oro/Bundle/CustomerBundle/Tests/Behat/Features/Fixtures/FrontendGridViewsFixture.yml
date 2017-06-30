@@ -19,41 +19,13 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         role: ['@buyer']
         owner: '@admin'
         website: '@website1'
-    FirstName_01:
-        email: 'user_01@example.org'
-        username: 'user_01@example.org'
-        password: 'user_01@example.org'
-        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
-        firstName: 'FirstName_01'
-        lastName: 'LastName_01'
-        enabled: '1'
-        confirmed: '1'
-        customer: '@company_A'
-        organization: '@organization'
-        role: ['@buyer']
-        owner: '@admin'
-        website: '@website1'
-    FirstName_02:
-        email: 'user_02@example.org'
-        username: 'user_02@example.org'
-        password: 'user_02@example.org'
-        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
-        firstName: 'FirstName_02'
-        lastName: 'LastName_02'
-        enabled: '1'
-        confirmed: '1'
-        customer: '@company_A'
-        organization: '@organization'
-        role: ['@buyer']
-        owner: '@admin'
-        website: '@website1'
-    FirstName_03:
-        email: 'user_03@example.org'
-        username: 'user_03@example.org'
-        password: 'user_03@example.org'
-        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
-        firstName: 'FirstName_03'
-        lastName: 'LastName_03'
+    customer_users{1..3}:
+        email: 'user_<current()>@example.org'
+        username: 'user_<current()>@example.org'
+        password: <sentence()>
+        salt: <sentence()>
+        firstName: 'FirstName_<current()>'
+        lastName: 'LastName_<current()>'
         enabled: '1'
         confirmed: '1'
         customer: '@company_A'

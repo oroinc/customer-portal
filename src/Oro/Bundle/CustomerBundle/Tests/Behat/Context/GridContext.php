@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
+use Oro\Bundle\FrontendBundle\Tests\Behat\Element\FrontendGridFilterManager;
 use Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager;
 use Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
@@ -66,16 +67,5 @@ class GridContext extends OroFeatureContext implements OroPageObjectAware
         $columnManager->open();
         $columnManager->checkColumnVisibility($columnName);
         $columnManager->close();
-    }
-
-    /**
-     * @When /^(?:|I )click Add datagrid view for "(?P<datagridName>(?:[^"]|\\")*)" grid on frontend$/
-     */
-    public function iAddDatagridView($datagridName)
-    {
-        $grid = $this->getGrid($datagridName);
-
-        $addDatagridViewButton = $grid->getElement('FrontendGridAddViewButton');
-        $addDatagridViewButton->click();
     }
 }
