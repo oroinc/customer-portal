@@ -6,60 +6,144 @@ use Doctrine\Common\Cache\CacheProvider;
 
 use Oro\Bundle\EntityBundle\ORM\EntityClassResolver;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
-use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
+use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
-use Oro\Bundle\SecurityBundle\Owner\Metadata\AbstractMetadataProvider;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\AbstractOwnershipMetadataProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
-class FrontendOwnershipMetadataProvider extends AbstractMetadataProvider
+class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvider
 {
     const ALIAS = 'frontend_ownership';
 
-    /**
-     * @var string
-     */
-    protected $localLevelClass;
+    /** @var EntityClassResolver */
+    protected $entityClassResolver;
 
-    /**
-     * @var string
-     */
-    protected $basicLevelClass;
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
 
-    /**
-     * @var ConfigProvider
-     */
-    private $securityConfigProvider;
-
-    /**
-     * @var CacheProvider
-     */
+    /** @var CacheProvider */
     private $cache;
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function setAccessLevelClasses(array $owningEntityNames, EntityClassResolver $entityClassResolver = null)
-    {
-        if (!isset($owningEntityNames['local_level'], $owningEntityNames['basic_level'])) {
-            throw new \InvalidArgumentException(
-                'Array parameter $owningEntityNames must contains `local_level` and `basic_level` keys'
-            );
-        }
+    /** @var array */
+    private $owningEntityNames;
 
-        $this->localLevelClass = $this->getEntityClassResolver()->getEntityClass($owningEntityNames['local_level']);
-        $this->basicLevelClass = $this->getEntityClassResolver()->getEntityClass($owningEntityNames['basic_level']);
+    /** @var string */
+    private $businessUnitClass;
+
+    /** @var string */
+    private $userClass;
+
+    /**
+     * @param array                  $owningEntityNames [owning entity type => entity class name, ...]
+     * @param ConfigManager          $configManager
+     * @param EntityClassResolver    $entityClassResolver
+     * @param TokenAccessorInterface $tokenAccessor
+     * @param CacheProvider          $cache
+     */
+    public function __construct(
+        array $owningEntityNames,
+        ConfigManager $configManager,
+        EntityClassResolver $entityClassResolver,
+        TokenAccessorInterface $tokenAccessor,
+        CacheProvider $cache
+    ) {
+        parent::__construct($configManager);
+        $this->owningEntityNames = $owningEntityNames;
+        $this->entityClassResolver = $entityClassResolver;
+        $this->tokenAccessor = $tokenAccessor;
+        $this->cache = $cache;
     }
 
     /**
-     * @return ConfigProvider
+     * {@inheritdoc}
      */
-    protected function getSecurityConfigProvider()
+    public function getUserClass()
     {
-        if (!$this->securityConfigProvider) {
-            $this->securityConfigProvider = $this->getContainer()->get('oro_entity_config.provider.security');
+        $this->ensureOwningEntityClassesInitialized();
+
+        return $this->userClass;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBusinessUnitClass()
+    {
+        $this->ensureOwningEntityClassesInitialized();
+
+        return $this->businessUnitClass;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrganizationClass()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @deprecated since 2.3, use getUserClass instead
+     */
+    public function getBasicLevelClass()
+    {
+        return $this->getUserClass();
+    }
+
+    /**
+     * {@inheritdoc}
+     * @deprecated since 2.3, use getBusinessUnitClass instead
+     */
+    public function getLocalLevelClass($deep = false)
+    {
+        return $this->getBusinessUnitClass();
+    }
+
+    /**
+     * {@inheritdoc}
+     * @deprecated since 2.3, use getOrganizationClass instead
+     */
+    public function getGlobalLevelClass()
+    {
+        return $this->getOrganizationClass();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supports()
+    {
+        return $this->tokenAccessor->getUser() instanceof CustomerUser;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMaxAccessLevel($accessLevel, $className = null)
+    {
+        $maxLevel = $accessLevel;
+        if ($accessLevel > AccessLevel::DEEP_LEVEL) {
+            if ($className) {
+                $metadata = $this->getMetadata($className);
+                if ($metadata->hasOwner()) {
+                    $maxLevel = AccessLevel::DEEP_LEVEL;
+                }
+            } else {
+                $maxLevel = AccessLevel::DEEP_LEVEL;
+            }
         }
 
-        return $this->securityConfigProvider;
+        return $maxLevel;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCache()
+    {
+        return $this->cache;
     }
 
     /**
@@ -71,46 +155,14 @@ class FrontendOwnershipMetadataProvider extends AbstractMetadataProvider
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getGlobalLevelClass()
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getLocalLevelClass($deep = false)
-    {
-        return $this->localLevelClass;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getBasicLevelClass()
-    {
-        return $this->basicLevelClass;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function supports()
-    {
-        return $this->getContainer()->get('oro_security.token_accessor')->getUser() instanceof CustomerUser;
-    }
-
-    /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getOwnershipMetadata(ConfigInterface $config)
     {
-        $ownerType              = $config->get('frontend_owner_type');
-        $ownerFieldName         = $config->get('frontend_owner_field_name');
-        $ownerColumnName        = $config->get('frontend_owner_column_name');
-        $organizationFieldName  = $config->get('organization_field_name');
+        $ownerType = $config->get('frontend_owner_type');
+        $ownerFieldName = $config->get('frontend_owner_field_name');
+        $ownerColumnName = $config->get('frontend_owner_column_name');
+        $organizationFieldName = $config->get('organization_field_name');
         $organizationColumnName = $config->get('organization_column_name');
 
         return new FrontendOwnershipMetadata(
@@ -123,62 +175,16 @@ class FrontendOwnershipMetadataProvider extends AbstractMetadataProvider
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getMaxAccessLevel($accessLevel, $className = null)
-    {
-        if ($className) {
-            if (in_array($accessLevel, [
-                    AccessLevel::NONE_LEVEL,
-                    AccessLevel::BASIC_LEVEL,
-                    AccessLevel::LOCAL_LEVEL,
-                    AccessLevel::DEEP_LEVEL
-                ])
-            ) {
-                $maxLevel = $accessLevel;
-            } else {
-                $metadata = $this->getMetadata($className);
-                if ($metadata->hasOwner()) {
-                    $maxLevel = AccessLevel::DEEP_LEVEL;
-                } else {
-                    $maxLevel = $accessLevel;
-                }
-            }
-        } else {
-            $maxLevel = ($accessLevel > AccessLevel::DEEP_LEVEL) ? AccessLevel::DEEP_LEVEL : $accessLevel;
-        }
-
-        return $maxLevel;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getCache()
-    {
-        if (!$this->cache) {
-            $this->cache = $this->getContainer()
-                ->get('oro_customer.owner.frontend_ownership_metadata_provider.cache');
-        }
-
-        return $this->cache;
-    }
-
-    /**
-     * Only commerce entities can have frontend ownership
-     *
      * {@inheritdoc}
      */
     protected function getOwnershipConfigs()
     {
-        $securityProvider = $this->getSecurityConfigProvider();
-
+        // only commerce entities can have frontend ownership
         $configs = parent::getOwnershipConfigs();
-
         foreach ($configs as $key => $value) {
             $className = $value->getId()->getClassName();
-            if ($securityProvider->hasConfig($className)) {
-                $securityConfig = $securityProvider->getConfig($className);
+            if ($this->configManager->hasConfig($className)) {
+                $securityConfig = $this->configManager->getEntityConfig('security', $className);
                 if ($securityConfig->get('group_name') === CustomerUser::SECURITY_GROUP) {
                     continue;
                 }
@@ -188,5 +194,35 @@ class FrontendOwnershipMetadataProvider extends AbstractMetadataProvider
         }
 
         return $configs;
+    }
+
+    /**
+     * Makes sure that the owning entity classes are initialized.
+     */
+    private function ensureOwningEntityClassesInitialized()
+    {
+        if (null === $this->owningEntityNames) {
+            // already initialized
+            return;
+        }
+
+        if (!isset(
+            $this->owningEntityNames['business_unit'],
+            $this->owningEntityNames['user']
+        )) {
+            throw new \InvalidArgumentException(
+                'The $owningEntityNames must contains "business_unit" and "user" keys.'
+            );
+        }
+
+        $this->businessUnitClass = $this->entityClassResolver->getEntityClass(
+            $this->owningEntityNames['business_unit']
+        );
+        $this->userClass = $this->entityClassResolver->getEntityClass(
+            $this->owningEntityNames['user']
+        );
+
+        // remove source data to mark that the initialization passed
+        $this->owningEntityNames = null;
     }
 }

@@ -41,3 +41,21 @@ CustomerBundle
     - removed method `getSecurityContext`
 - Class `Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType`
     - changed the constructor signature: parameter `Registry $registry` was replaced with `ManagerRegistry $registry`
+- Class `Oro\Bundle\CustomerBundle\EventListener\OrmDatasourceAclListener`
+    - changed the constructor signature: parameter `MetadataProviderInterface $metadataProvider` was replaced with `OwnershipMetadataProviderInterface $metadataProvider`
+- Class `Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener`
+    - constant `OWNER_TYPE_ACCOUNT` was renamed to `OWNER_TYPE_CUSTOMER`
+- Class `Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserRoleHandler`
+    - changed the signature of method `setChainMetadataProvider`: parameter `ChainMetadataProvider $chainMetadataProvider` was replaced with `ChainOwnershipMetadataProvider $chainMetadataProvider`
+- Class `Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider`
+    - removed property `localLevelClass`
+    - removed property `basicLevelClass`
+    - removed method `getSecurityConfigProvider`
+    - changed the constructor signature: new signature is `__construct(array $owningEntityNames, ConfigManager $configManager, EntityClassResolver $entityClassResolver, TokenAccessorInterface $tokenAccessor, CacheProvider $cache)`
+- Class `Oro\Bundle\CustomerBundle\Owner\EntityOwnershipDecisionMaker`
+    - changed the constructor signature: new signature is `__construct(OwnerTreeProviderInterface $treeProvider, ObjectIdAccessor $objectIdAccessor, EntityOwnerAccessor $entityOwnerAccessor, OwnershipMetadataProviderInterface $ownershipMetadataProvider, TokenAccessorInterface $tokenAccessor, ManagerRegistry $doctrine)`
+- Class `Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider`
+    - changed the constructor signature: parameter `MetadataProviderInterface $ownershipMetadataProvider` was replaced with `OwnershipMetadataProviderInterface $ownershipMetadataProvider`
+- The DI container parameter `oro_customer.entity.owners` was changed
+    - the option `local_level` was renamed to `business_unit`
+    - the option `basic_level` was renamed to `user`
