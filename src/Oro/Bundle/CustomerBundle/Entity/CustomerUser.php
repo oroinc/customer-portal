@@ -456,6 +456,20 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     protected $username;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_guest", type="boolean")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=50
+     *          }
+     *      }
+     * )
+     */
+    protected $isGuest = false;
+
+    /**
      * {@inheritdoc}
      */
     public function __construct()
@@ -974,6 +988,25 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     public function setWebsite(Website $website = null)
     {
         $this->website = $website;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGuest()
+    {
+        return $this->isGuest;
+    }
+
+    /**
+     * @param bool $isGuest
+     * @return $this
+     */
+    public function setIsGuest($isGuest)
+    {
+        $this->isGuest = $isGuest;
 
         return $this;
     }

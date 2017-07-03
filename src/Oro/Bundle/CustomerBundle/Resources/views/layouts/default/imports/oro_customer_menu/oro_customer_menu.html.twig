@@ -1,27 +1,11 @@
 {% block __oro_customer_menu__container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' primary-menu-container'
+        '~class': ' primary-menu-container primary-menu-container__hidden-on-tablet'
     }) %}
-    <div class="collapse-view"
-         data-page-component-module="oroui/js/app/components/viewport-component"
-         data-page-component-options="{{ {
-             viewport: {
-                 maxScreenType: 'tablet',
-             },
-             component: 'oroui/js/app/components/jquery-widget-component',
-             widgetModule: 'oroui/js/widget/collapse-widget',
-             storageKey: id
-         }|json_encode() }}"
-    >
-        <div {{ block('block_attributes') }}>
-            <h3 class="primary-menu-title" data-collapse-trigger>
-                {{ 'oro.customer.frontend.menu.customer_user_profile.label'|trans }}
-                <i class="fa-plus"></i>
-                <i class="fa-minus"></i>
-            </h3>
-            <div data-collapse-container>
-                {{ block_widget(block) }}
-            </div>
+    <div {{ block('block_attributes') }}>
+        <h3 class="primary-menu-title">{{ 'oro.customer.frontend.menu.customer_user_profile.label'|trans }}</h3>
+        <div class="primary-menu-container__hidden-on-tablet" data-customer-menu-container>
+            {{ block_widget(block) }}
         </div>
     </div>
 {% endblock %}

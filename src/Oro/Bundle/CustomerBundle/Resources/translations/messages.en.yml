@@ -115,6 +115,9 @@ oro.customer:
         website.label:               'Website'
         sales_representatives.label: 'Assigned Sales Representatives'
         contact_information.label:   'Contact Information'
+        is_guest.label:              'Is Guest'
+        is_guest_yes.label:          'Yes'
+        is_guest_no.label:           'No'
 
         profile:
             company_name: 'Company Name'

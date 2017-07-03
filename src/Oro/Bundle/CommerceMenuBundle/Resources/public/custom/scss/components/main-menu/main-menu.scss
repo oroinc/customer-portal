@@ -1,4 +1,4 @@
-// @theme: custom
+// @theme: custom;
 
 .sidebar__menu {
     max-height: none;
@@ -12,12 +12,18 @@
         margin-top: 0;
     }
 
+    .main-menu {
+        max-height: inherit;
+
+        display: block;
+    }
+
     &--collapsible {
         background-color: get-color('additional', 'base');
 
         border: 0;
 
-        .main-menu__list {
+        .main-menu {
             margin: 0 -15px 0 -30px;
             padding: 5px 0 0 0;
 
@@ -37,10 +43,6 @@
                 padding: 8px 15px 7px 30px;
             }
         }
-    }
-
-    .main-menu__list {
-        display: block;
     }
 
     .main-menu__item {
@@ -79,6 +81,8 @@
     }
 
     .main-menu__sublist-container {
+        width: 100%;
+
         position: static;
         
         background: none;
@@ -86,21 +90,57 @@
     }
 }
 
-@include breakpoint('tablet') {
-    .sidebar__menu {
-        margin: 0;
-        padding: 10px 15px;
-
-        border: 1px solid get-color('additional', 'base');
-        border-right: 0;
-        border-left: 0;
-        background: transparent;
-
-        &--collapsible {
-            
-            .main-menu__list {
-                margin: 0 -15px;
+@include breakpoint('desktop') {
+    .main-menu {
+        .mobile-version & {
+            &__button-arrow {
+                display: block;
+                margin-left: -15px;
             }
         }
+
+        &__item {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+}
+
+@include only-desktop {
+    .main-menu {
+        &__item {
+            &:hover {
+                .main-menu__sublist-container {
+                    display: none;
+                }
+            }
+
+            &.open {
+                .main-menu__sublist-container {
+                    display: block;
+
+                    border-width: 0;
+                }
+            }
+        }
+
+        &__taptick {
+            display: none;
+        }
+
+        &__button-arrow {
+            display: block;
+            margin-left: -15px;
+        }
+    }
+}
+
+@include breakpoint('tablet') {
+    .sidebar__menu {
+        display: none;
+    }
+
+    .main-menu {
+        border-bottom: 1px solid get-color('additional', 'light');
     }
 }

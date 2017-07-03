@@ -74,7 +74,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_14';
+        return 'v1_15';
     }
 
     /**
@@ -175,6 +175,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('birthday', 'date', ['notnull' => false]);
         $table->addColumn('enabled', 'boolean', []);
         $table->addColumn('confirmed', 'boolean', []);
+        $table->addColumn('is_guest', 'boolean', []);
         $table->addColumn('salt', 'string', ['length' => 255]);
         $table->addColumn('password', 'string', ['length' => 255]);
         $table->addColumn('confirmation_token', 'string', ['notnull' => false, 'length' => 255]);
@@ -187,9 +188,6 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('website_id', 'integer', ['notnull' => false]);
 
         $table->setPrimaryKey(['id']);
-
-        $table->addUniqueIndex(['username']);
-        $table->addUniqueIndex(['email']);
 
         $this->attachmentExtension->addAttachmentAssociation(
             $schema,
@@ -1220,6 +1218,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('last_visit', 'datetime', []);
         $table->addColumn('session_id', 'string', ['length' => 255]);
+        $table->addColumn('customer_user_id', 'integer', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['id', 'session_id'], 'id_session_id_idx');
     }

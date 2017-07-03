@@ -14,8 +14,26 @@ class OroCustomerBundle implements Migration
      */
     public function up(Schema $schema, QueryBag $queries)
     {
+        /** Tables modifications **/
+        $this->updateCustomerUserTable($schema);
+
         /** Tables generation **/
         $this->createCustomerVisitorTable($schema);
+    }
+
+    /**
+     * Update oro_customer_user table
+     *
+     * @param Schema $schema
+     */
+    private function updateCustomerUserTable(Schema $schema)
+    {
+        $table = $schema->getTable('oro_customer_user');
+        $table->addColumn('is_guest', 'boolean', []);
+
+        //remove uniq indices for name and email fields
+        $table->dropIndex('UNIQ_9511CEB5F85E0677');
+        $table->dropIndex('uniq_oro_customer_user_email');
     }
 
     /**
