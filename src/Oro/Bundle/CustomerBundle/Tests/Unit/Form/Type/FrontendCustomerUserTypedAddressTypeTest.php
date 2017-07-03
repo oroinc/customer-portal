@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserTypedAddressType;
 
-class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddressTypeTest
+class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypeAddressTypeTest
 {
     /** @var FrontendCustomerUserTypedAddressType */
     protected $formType;
