@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
-use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainMetadataProvider;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -28,7 +28,7 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
     protected $ownershipConfigProvider;
 
     /**
-     * @var ChainMetadataProvider
+     * @var ChainOwnershipMetadataProvider
      */
     protected $chainMetadataProvider;
 
@@ -60,9 +60,9 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
     }
 
     /**
-     * @param ChainMetadataProvider $chainMetadataProvider
+     * @param ChainOwnershipMetadataProvider $chainMetadataProvider
      */
-    public function setChainMetadataProvider(ChainMetadataProvider $chainMetadataProvider)
+    public function setChainMetadataProvider(ChainOwnershipMetadataProvider $chainMetadataProvider)
     {
         $this->chainMetadataProvider = $chainMetadataProvider;
     }
