@@ -5,6 +5,7 @@ namespace Oro\Bundle\FrontendBundle\Provider;
 use Oro\Bundle\ActionBundle\Provider\CurrentApplicationProviderInterface;
 use Oro\Bundle\ActionBundle\Provider\CurrentApplicationProviderTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ActionCurrentApplicationProvider implements CurrentApplicationProviderInterface
@@ -46,6 +47,7 @@ class ActionCurrentApplicationProvider implements CurrentApplicationProviderInte
     {
         $token = $this->tokenStorage->getToken();
 
-        return $token && $token->getUser() instanceof CustomerUser;
+        return !$token ||
+            ($token && ($token->getUser() instanceof CustomerUser || $token instanceof AnonymousCustomerUserToken));
     }
 }
