@@ -20,12 +20,18 @@ services:
             - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 30}
 
     oro_commerce_menu.menu_update.builder.menu_frontend_visibility:
-        parent: oro_navigation.menu_update.builder.abstract
-        calls:
-          - [setClassName, ['%oro_commerce_menu.entity.menu_update.class%']]
-          - [setScopeType, ['%oro_commerce_menu.menu_update.scope_type%']]
+        class: 'Oro\Bundle\NavigationBundle\Builder\MenuUpdateBuilder'
+        arguments:
+            - '@oro_locale.helper.localization'
+            - '@oro_commerce_menu.provider.menu_update_provider'
         tags:
             - { name: oro_menu.builder, priority: 200 }
+
+    oro_commerce_menu.provider.menu_update_provider:
+        class: 'Oro\Bundle\NavigationBundle\Provider\MenuUpdateProvider'
+        arguments:
+            - '@oro_scope.scope_manager'
+            - '@oro_commerce_menu.manager.menu_update'
 
     oro_commerce_menu.manager.menu_update:
         class: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager
