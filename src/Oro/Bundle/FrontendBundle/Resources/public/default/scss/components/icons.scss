@@ -25,6 +25,10 @@
         color: lighten(get-color('additional', 'dark'), 17.5%);
     }
 
+    &--dark-gray {
+        color: get-color('additional', 'dark');
+    }
+
     &--hidden {
         visibility: hidden;
     }
