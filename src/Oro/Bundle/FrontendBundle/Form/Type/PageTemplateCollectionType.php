@@ -5,9 +5,6 @@ namespace Oro\Bundle\FrontendBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-
-use Oro\Bundle\FormBundle\Form\Type\CollectionType;
-
 use Oro\Component\Layout\Extension\Theme\Manager\PageTemplatesManager;
 
 class PageTemplateCollectionType extends AbstractType
@@ -33,14 +30,10 @@ class PageTemplateCollectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         foreach ($this->pageTemplatesManager->getRoutePageTemplates() as $routeName => $routeOptions) {
-            $builder->add(
-                $routeName,
-                PageTemplateType::class,
-                [
-                    'route_name' => $routeName,
-                    'label' => $routeOptions['label']
-                ]
-            );
+            $builder->add($routeName, PageTemplateType::class, [
+                'route_name' => $routeName,
+                'label' => $routeOptions['label']
+            ]);
         }
     }
 
