@@ -147,3 +147,10 @@ services:
             - "@oro_commerce_menu.expression_language"
         tags:
             - { name: oro_menu.builder, priority: 210 }
+
+    oro_commerce_menu.validator.menu_update_expression:
+        class: 'Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpressionValidator'
+        arguments:
+            - "@oro_commerce_menu.expression_language"
+        tags:
+            - { name: validator.constraint_validator, alias: oro_commerce_menu_update_expression_validator }
