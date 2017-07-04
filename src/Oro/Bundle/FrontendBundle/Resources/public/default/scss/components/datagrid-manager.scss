@@ -126,6 +126,7 @@
         display: flex;
         flex-wrap: wrap;
         width: 100%;
+        height: auto !important;
         margin-bottom: $offset-y-m + 2px;
 
         // Rewrite ui-* styles

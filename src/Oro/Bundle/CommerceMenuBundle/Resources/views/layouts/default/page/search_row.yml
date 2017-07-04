@@ -3,9 +3,18 @@ layout:
         - '@setBlockTheme':
             themes: 'search_row.html.twig'
 
-        - '@add':
-            id: search_row
-            parentId: header_row
-            siblingId: header_row_main_menu
-            prepend: false
-            blockType: container
+        - '@addTree':
+            items:
+                search_row_main_container:
+                    blockType: container
+                    siblingId: header_row_main_menu
+                    prepend: false
+                search_row_trigger:
+                    blockType: container
+                search_row_extra_container:
+                    blockType: block
+            tree:
+                header_row:
+                    search_row_main_container:
+                        search_row_trigger:
+                            search_row_extra_container: ~

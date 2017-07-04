@@ -12,7 +12,7 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
 use Oro\Bundle\DataGridBundle\Event\OrmResultBefore;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\SecurityBundle\Owner\Metadata\MetadataProviderInterface;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -26,7 +26,7 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
     protected $tokenAccessor;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|MetadataProviderInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|OwnershipMetadataProviderInterface
      */
     protected $metadataProvider;
 
@@ -45,7 +45,7 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->metadataProvider = $this
-            ->createMock('Oro\Bundle\SecurityBundle\Owner\Metadata\MetadataProviderInterface');
+            ->createMock('Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface');
 
         $this->listener = new OrmDatasourceAclListener($this->tokenAccessor, $this->metadataProvider);
 

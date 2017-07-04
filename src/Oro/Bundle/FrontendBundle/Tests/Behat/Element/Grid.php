@@ -9,6 +9,8 @@ class Grid extends BaseGrid
     const DEFAULT_MAPPINGS = [
         'GridToolbarPaginator' => 'FrontendGridToolbarPaginator',
         'MassActionHeadCheckbox' => 'FrontendMassActionHeadCheckbox',
+        'GridColumnManager' => 'FrontendGridColumnManager',
+        'GridFilterManager' => 'FrontendGridFilterManager',
     ];
 
     /**
