@@ -41,6 +41,12 @@ oro_frontend:
         code.404: 'The page you requested could not be found. Please make sure the path you used is correct.'
         back: 'Click to go back'
 
+    fullscreen_popup:
+        menu:
+            label: "Menu"
+        back:
+            label: "Back"
+
 oro_frontend_style_book:
     main_content:
           sub_title_main: 'Oro StyleBook: UI Component Library'

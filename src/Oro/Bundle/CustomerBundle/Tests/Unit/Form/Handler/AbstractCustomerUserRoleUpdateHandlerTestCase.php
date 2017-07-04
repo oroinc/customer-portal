@@ -15,7 +15,7 @@ use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
-use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainMetadataProvider;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclPrivilegeRepository;
 use Oro\Bundle\SecurityBundle\Filter\AclPrivilegeConfigurableFilter;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -44,7 +44,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit_Fr
     protected $privilegeRepository;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ChainMetadataProvider
+     * @var \PHPUnit_Framework_MockObject_MockObject|ChainOwnershipMetadataProvider
      */
     protected $chainMetadataProvider;
 
@@ -106,7 +106,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit_Fr
                 ->getMock();
 
         $this->chainMetadataProvider =
-            $this->getMockBuilder(ChainMetadataProvider::class)
+            $this->getMockBuilder(ChainOwnershipMetadataProvider::class)
                 ->disableOriginalConstructor()
                 ->getMock();
 
