@@ -1,0 +1,91 @@
+// @theme: default
+
+.quick-access {
+    &__list {
+        text-align: right;
+
+        @include list-normalize();
+        @include clearfix();
+    }
+
+    &__item {
+        position: relative;
+
+        display: inline-block;
+        margin-left: 10px;
+
+        font-size: $base-font-size;
+    }
+
+    &__link {
+        display: inline-block;
+        vertical-align: middle;
+
+        font-weight: 400;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        color: get-color('additional', 'dark');
+
+        overflow: hidden;
+
+        &:hover {
+            text-decoration: none;
+
+            color: get-color('additional', 'darker');
+
+            .quick-access__text {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__text {
+        vertical-align: middle;
+    }
+
+    &__icon {
+        margin-right: 5px;
+
+        @include badge(20px, 11px, get-color('primary', 'light'), 3px);
+
+        &--light {
+            background-color: get-color('secondary', 'main');
+        }
+
+        &--dark {
+            background-color: get-color('primary', 'base');
+        }
+    }
+}
+
+@include breakpoint('tablet') {
+    .quick-access {
+        border-bottom: 1px solid get-color('additional', 'light');
+        padding: $offset-y;
+
+        &__list {
+            text-align: left;
+        }
+
+        &__item {
+            display: block;
+
+            margin: 0;
+            padding: 8px 0;
+
+            text-transform: uppercase;
+        }
+
+        &__text {
+            font-weight: bold;
+        }
+
+        &__icon {
+            width: 26px;
+            height: 26px;
+
+            line-height: 26px;
+        }
+    }
+}

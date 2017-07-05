@@ -14,7 +14,7 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntityType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
 use Symfony\Component\Form\PreloadedExtension;
 
-class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
+class FrontendCustomerTypeAddressTypeTest extends CustomerTypedAddressTypeTest
 {
     /** @var FrontendCustomerTypedAddressType */
     protected $formType;
