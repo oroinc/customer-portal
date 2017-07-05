@@ -1,6 +1,7 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
 {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
 {% import 'OroUIBundle::macros.html.twig' as UI %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 
 {% oro_title_set({params : {"%label%": entity.label }}) %}
 
@@ -38,6 +39,7 @@
                 {'data' : [
                     UI.renderProperty('oro.customer.customeruserrole.label.label'|trans, entity.label),
                     UI.renderProperty('oro.customer.customeruserrole.customer.label'|trans, entity.customer),
+                    entityConfig.renderDynamicFields(entity),
                     selfManagedProperty
                 ]}
             ]

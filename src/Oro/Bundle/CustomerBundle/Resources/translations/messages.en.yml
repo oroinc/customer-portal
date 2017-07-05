@@ -244,6 +244,7 @@ oro.customer:
 
     sections:
         general: 'General Information'
+        additional: 'Additional'
         addresses: 'Addresses'
         customergroup:
             customers: 'Customers'

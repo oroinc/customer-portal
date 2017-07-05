@@ -7,72 +7,24 @@ use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
-use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
-use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
-use Oro\Bundle\MigrationBundle\Migration\Extension\DataStorageExtension;
-use Oro\Bundle\MigrationBundle\Migration\Extension\DataStorageExtensionAwareInterface;
+use Oro\Bundle\EntityConfigBundle\Migration\UpdateEntityExtendConfigMigrationQuery;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class OroCustomerBundle implements
     Migration,
-    ContainerAwareInterface,
-    DataStorageExtensionAwareInterface
+    ContainerAwareInterface
 {
     use ContainerAwareTrait;
-
-    /** @var DataStorageExtension */
-    private $dataStorageExtension;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDataStorageExtension(DataStorageExtension $dataStorageExtension)
-    {
-        $this->dataStorageExtension = $dataStorageExtension;
-    }
 
     /**
      * @inheritDoc
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        $this->updateConfig();
-    }
-
-    private function updateConfig()
-    {
-        $storage = $this->dataStorageExtension;
-        $stateData = [];
-
-        $dumper = $this->container->get('oro_entity_extend.tools.dumper');
-        $dumper->updateConfig(function (ConfigInterface $config) use ($storage, $stateData) {
-            $configId  = $config->getId();
-            $className = $configId->getClassName();
-
-            $isSupported = $className === CustomerUser::class || $className === CustomerUserRole::class;
-
-            if ($isSupported) {
-                $stateData = $storage->get('initial_entity_config_state', []);
-                $stateData['entities'][$className] = $config->get('state');
-            }
-
-            return $isSupported;
-        });
-
-        $this->dataStorageExtension->set('initial_entity_config_state', $stateData);
-
-        $configManager = $this->container->get('oro_entity_config.config_manager');
-        $provider = $configManager->getProvider('extend');
-
-        $entityConfig = $provider->getConfig(CustomerUser::class);
-        $entityConfig->set('state', ExtendScope::STATE_ACTIVE);
-        $configManager->persist($entityConfig);
-
-        $entityConfig = $provider->getConfig(CustomerUserRole::class);
-        $entityConfig->set('state', ExtendScope::STATE_ACTIVE);
-        $configManager->persist($entityConfig);
+        $commandExecutor = $this->container->get('oro_entity_config.tools.command_executor');
+        $queries->addPostQuery(
+            new UpdateEntityExtendConfigMigrationQuery($commandExecutor)
+        );
     }
 }

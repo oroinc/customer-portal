@@ -295,7 +295,7 @@ datagrids:
                         THEN true ELSE false END) as hasGroup
 
     customer-customer-user-grid-no-filter-base:
-        entity_name: %oro_customer.entity.customer_user.class%
+        extended_entity_name: '%oro_customer.entity.customer_user.class%'
         acl_resource: oro_customer_customer_user_view
         options:
             entityHint:        customer users
@@ -472,6 +472,7 @@ datagrids:
                     data_name: customerUser.confirmed
 
     basic-customer-customer-user-roles-grid:
+        extended_entity_name: '%oro_customer.entity.customer_user_role.class%'
         options:
             entityHint: roles
             entity_pagination: true
@@ -486,7 +487,7 @@ datagrids:
                     - role.public
                     - (CASE WHEN role.customer IS NOT NULL THEN false ELSE true END) as isRolePredefined
                 from:
-                    - { table: %oro_customer.entity.customer_user_role.class%, alias: role }
+                    - { table: '%oro_customer.entity.customer_user_role.class%', alias: role }
         properties:
             id: ~
             view_link:
