@@ -15,8 +15,8 @@ use Oro\Component\TestUtils\ORM\Mocks\DriverMock;
 use Oro\Component\TestUtils\ORM\Mocks\EntityManagerMock;
 use Oro\Component\TestUtils\ORM\OrmTestCase;
 use Oro\Bundle\EntityBundle\Tools\DatabaseChecker;
-use Oro\Bundle\SecurityBundle\Owner\OwnerTreeInterface;
-use Oro\Bundle\SecurityBundle\Owner\Metadata\MetadataProviderInterface;
+use Oro\Bundle\SecurityBundle\Owner\OwnerTreeBuilderInterface;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
@@ -51,7 +51,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
     protected $cache;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|MetadataProviderInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|OwnershipMetadataProviderInterface
      */
     protected $ownershipMetadataProvider;
 
@@ -103,12 +103,12 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         $this->cache->expects($this->any())
             ->method('save');
 
-        $this->ownershipMetadataProvider = $this->createMock(MetadataProviderInterface::class);
+        $this->ownershipMetadataProvider = $this->createMock(OwnershipMetadataProviderInterface::class);
         $this->ownershipMetadataProvider->expects($this->any())
-            ->method('getBasicLevelClass')
+            ->method('getUserClass')
             ->willReturn(self::ENTITY_NAMESPACE . '\TestCustomerUser');
         $this->ownershipMetadataProvider->expects($this->any())
-            ->method('getLocalLevelClass')
+            ->method('getBusinessUnitClass')
             ->willReturn(self::ENTITY_NAMESPACE . '\TestCustomer');
 
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
@@ -195,10 +195,10 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
     }
 
     /**
-     * @param array     $expected
-     * @param OwnerTreeInterface $actual
+     * @param array                     $expected
+     * @param OwnerTreeBuilderInterface $actual
      */
-    protected function assertOwnerTreeEquals(array $expected, OwnerTreeInterface $actual)
+    protected function assertOwnerTreeEquals(array $expected, OwnerTreeBuilderInterface $actual)
     {
         foreach ($expected as $property => $value) {
             $this->assertEquals(
@@ -275,7 +275,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
     /**
      * @param array $customers
      * @param array $users
-     * @return OwnerTreeInterface
+     * @return OwnerTreeBuilderInterface
      */
     protected function setupTree(array $customers, array $users = [])
     {
