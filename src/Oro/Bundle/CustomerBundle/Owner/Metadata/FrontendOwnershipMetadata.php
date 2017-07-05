@@ -16,23 +16,23 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
     /**
      * {@inheritdoc}
      */
-    public function isLocalLevelOwned($deep = false)
+    public function isUserOwned()
     {
-        return $this->ownerType === self::OWNER_TYPE_FRONTEND_CUSTOMER;
+        return self::OWNER_TYPE_FRONTEND_USER === $this->ownerType;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isBasicLevelOwned()
+    public function isBusinessUnitOwned()
     {
-        return $this->ownerType === self::OWNER_TYPE_FRONTEND_USER;
+        return self::OWNER_TYPE_FRONTEND_CUSTOMER === $this->ownerType;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isGlobalLevelOwned()
+    public function isOrganizationOwned()
     {
         return false;
     }
@@ -49,10 +49,10 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
             ];
         }
 
-        if ($this->isBasicLevelOwned()) {
+        if ($this->isUserOwned()) {
             $maxLevel = AccessLevel::DEEP_LEVEL;
             $minLevel = AccessLevel::BASIC_LEVEL;
-        } elseif ($this->isLocalLevelOwned()) {
+        } elseif ($this->isBusinessUnitOwned()) {
             $maxLevel = AccessLevel::DEEP_LEVEL;
             $minLevel = AccessLevel::LOCAL_LEVEL;
         } else {

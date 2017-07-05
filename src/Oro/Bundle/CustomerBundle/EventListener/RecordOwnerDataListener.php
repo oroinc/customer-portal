@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class RecordOwnerDataListener
 {
     const OWNER_TYPE_USER = 'FRONTEND_USER';
-    const OWNER_TYPE_ACCOUNT = 'FRONTEND_CUSTOMER';
+    const OWNER_TYPE_CUSTOMER = 'FRONTEND_CUSTOMER';
 
     /** @var TokenStorageInterface */
     protected $tokenStorage;
@@ -55,14 +55,14 @@ class RecordOwnerDataListener
             $ownerFieldName = $config->get('frontend_owner_field_name');
             // set default owner for organization and user owning entities
             if ($frontendOwnerType
-                && in_array($frontendOwnerType, [self::OWNER_TYPE_USER, self::OWNER_TYPE_ACCOUNT], true)
+                && in_array($frontendOwnerType, [self::OWNER_TYPE_USER, self::OWNER_TYPE_CUSTOMER], true)
                 && !$accessor->getValue($entity, $ownerFieldName)
             ) {
                 $owner = null;
                 if ($frontendOwnerType === self::OWNER_TYPE_USER) {
                     $owner = $user;
                 }
-                if ($frontendOwnerType === self::OWNER_TYPE_ACCOUNT) {
+                if ($frontendOwnerType === self::OWNER_TYPE_CUSTOMER) {
                     $owner = $user->getCustomer();
                 }
                 $accessor->setValue(
