@@ -17,9 +17,11 @@ Feature: grid views management on datagrids
     And I click "Add"
     Then I should see "View has been successfully created" flash message
     And I should see a "Customer Company User Addresses Grid View List" element
+    And I click "Customer Company Addresses Grid View List Close Button"
 
   Scenario: Gridview can be renamed few times
-    When I click "Rename"
+    When I click grid view list on "Customer Company Addresses Grid" grid
+    Then I click "Rename"
     And I set "Test view 01" as grid view name for "Customer Company Addresses Grid" grid on frontend
     And I click "Save"
     Then I should see "View has been successfully updated" flash message
