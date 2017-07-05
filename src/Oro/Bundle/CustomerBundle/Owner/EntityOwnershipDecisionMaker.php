@@ -2,58 +2,78 @@
 
 namespace Oro\Bundle\CustomerBundle\Owner;
 
-use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
-use Oro\Bundle\SecurityBundle\Owner\AbstractEntityOwnershipDecisionMaker;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
+use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdAccessor;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\SecurityBundle\Owner\AbstractEntityOwnershipDecisionMaker;
+use Oro\Bundle\SecurityBundle\Owner\EntityOwnerAccessor;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
+use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
 
 class EntityOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
 {
+    /** @var TokenAccessorInterface */
+    protected $tokenAccessor;
+
+    /** @var ManagerRegistry */
+    protected $doctrine;
+
     /**
-     * @var CustomerRepository
+     * @param OwnerTreeProviderInterface         $treeProvider
+     * @param ObjectIdAccessor                   $objectIdAccessor
+     * @param EntityOwnerAccessor                $entityOwnerAccessor
+     * @param OwnershipMetadataProviderInterface $ownershipMetadataProvider
+     * @param TokenAccessorInterface             $tokenAccessor
+     * @param ManagerRegistry                    $doctrine
      */
-    private $customerRepository;
+    public function __construct(
+        OwnerTreeProviderInterface $treeProvider,
+        ObjectIdAccessor $objectIdAccessor,
+        EntityOwnerAccessor $entityOwnerAccessor,
+        OwnershipMetadataProviderInterface $ownershipMetadataProvider,
+        TokenAccessorInterface $tokenAccessor,
+        ManagerRegistry $doctrine
+    ) {
+        parent::__construct($treeProvider, $objectIdAccessor, $entityOwnerAccessor, $ownershipMetadataProvider);
+        $this->tokenAccessor = $tokenAccessor;
+        $this->doctrine = $doctrine;
+    }
 
     /**
      * {@inheritdoc}
      */
     public function supports()
     {
-        return $this->getContainer()->get('oro_security.token_accessor')->getUser() instanceof CustomerUser;
+        return $this->tokenAccessor->getUser() instanceof CustomerUser;
     }
 
     /**
      * {@inheritdoc}
      */
     // TODO: please remove this workaround after BB-10196
-    public function isAssociatedWithLocalLevelEntity($user, $domainObject, $deep = false, $organization = null)
+    public function isAssociatedWithBusinessUnit($user, $domainObject, $deep = false, $organization = null)
     {
-        $isAssociated = parent::isAssociatedWithLocalLevelEntity($user, $domainObject, $deep, $organization);
+        $isAssociated = parent::isAssociatedWithBusinessUnit($user, $domainObject, $deep, $organization);
 
         if (!$isAssociated && $deep) {
             $metadata = $this->getObjectMetadata($domainObject);
-            if ($metadata->isBasicLevelOwned() && method_exists($domainObject, 'getCustomer')) {
+            if ($metadata->isUserOwned() && method_exists($domainObject, 'getCustomer')) {
                 $customerId = $this->getObjectId($user->getCustomer());
                 $ownerId = $this->getObjectIdIgnoreNull($domainObject->getCustomer());
                 $isAssociated = $customerId === $ownerId;
                 if (!$isAssociated) {
-                    $childrenIds = $this->getCustomerRepository()->getChildrenIds($customerId);
+                    /** @var CustomerRepository $customerRepository */
+                    $customerRepository = $this->doctrine->getRepository(Customer::class);
+                    $childrenIds = $customerRepository->getChildrenIds($customerId);
                     $isAssociated = in_array($ownerId, $childrenIds, true);
                 }
             }
         }
 
         return $isAssociated;
-    }
-
-    /**
-     * @return CustomerRepository
-     */
-    private function getCustomerRepository()
-    {
-        if (!$this->customerRepository) {
-            $this->customerRepository = $this->getContainer()->get('oro_customer.repository.customer');
-        }
-
-        return $this->customerRepository;
     }
 }

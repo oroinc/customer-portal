@@ -21,6 +21,38 @@ class FrontendGridColumnManager extends GridColumnManager
     /**
      * {@inheritdoc}
      */
+    public function hideAllColumns(array $exceptions = [])
+    {
+        $this->ensureManagerVisible();
+
+        $rows = $this->getDataGridManagerRows();
+        foreach ($rows as $row) {
+            $name = $row->find('css', '.custom-checkbox__text')->getText();
+
+            // Skip exceptions
+            if (in_array($name, $exceptions, true)) {
+                continue;
+            }
+
+            $this->uncheckColumnVisibility($name);
+        }
+    }
+
+    /**
+     * @return NodeElement[]
+     */
+    protected function getDataGridManagerRows()
+    {
+        $rows = $this->findAll('css', '[data-role="column-manager-table-wrapper"] table tbody tr');
+
+        self::assertNotNull($rows, 'Cannot find any table row!');
+
+        return $rows;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getVisibilityCheckbox($title)
     {
         $field = $this->find('css', '.custom-checkbox__text:contains("' . $title . '")');
