@@ -1,7 +1,8 @@
+@ticket-BB-10060
 @fixture-MassActionsCustomerAddressFixture.yml
 
-Feature:
-    Scenario: Check titles for mass actions
+Feature: Check titles for mass actions if action-sate equal icon-only
+    Scenario: Check titles for mass actions if action-sate equal icon-only
         Given I signed in as AmandaRCole@example.org on the store frontend
         And I click "Account"
         And I click "Roles"
