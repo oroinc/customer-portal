@@ -26,6 +26,8 @@ oro:
             saved_message: "Menu item saved successfully."
             deleted_message: "Menu item successfully deleted."
             menu_user_agent_conditions_collection.label: "User Agent"
+            menu_screens_condition:
+                label: "Exclude on Screens"
         menu_user_agent_conditions_collection:
             add_label.label: "Add"
         menu_user_agent_conditions_collection_group:

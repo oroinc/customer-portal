@@ -246,3 +246,9 @@ services:
             - '@oro_frontend.extractor.frontend_exposed_routes_extractor'
             - '%fos_js_routing.cache_control%'
             - '%kernel.debug%'
+
+    oro_frontend.provider.screens:
+        class: 'Oro\Bundle\FrontendBundle\Provider\ScreensProvider'
+        arguments:
+            - '@oro_layout.theme_manager'
+            - '@oro.cache.memory_cache_chain'
