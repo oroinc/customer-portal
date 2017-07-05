@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 use Oro\Bundle\ActionBundle\Tests\Unit\Provider\RouteProviderTest as BaseRouteProviderTest;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\FrontendBundle\Provider\RouteProvider;
 use Oro\Bundle\UserBundle\Entity\User;
 
@@ -157,5 +158,15 @@ class RouteProviderTest extends BaseRouteProviderTest
             ->willReturn($user);
 
         return $token;
+    }
+
+    public function testGetPageRouteForCustomerVisitor()
+    {
+        $token = $this->createMock(AnonymousCustomerUserToken::class);
+        $this->tokenStorage->expects($this->any())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->assertEquals('oro_frontend_action_widget_form_page', $this->provider->getFormPageRoute());
     }
 }

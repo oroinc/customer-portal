@@ -40,10 +40,7 @@ class GetOrCreateActiveUser extends AssignActiveUser
 
         $token = $this->tokenStorage->getToken();
         if ($token instanceof AnonymousCustomerUserToken) {
-            /**
-             * @TODO: Try to get customer user by customer visitor
-             */
-            $customerUser = $this->guestCustomerUserManager->create();
+            $customerUser = $this->guestCustomerUserManager->getOrCreate($token->getVisitor());
         } elseif (null !== $token) {
             $customerUser = $token->getUser();
         }

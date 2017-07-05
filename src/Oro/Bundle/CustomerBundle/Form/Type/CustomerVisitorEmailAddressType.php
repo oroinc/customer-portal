@@ -48,12 +48,13 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::setDefaultOptions($resolver);
+        parent::configureOptions($resolver);
 
         $token = $this->tokenStorage->getToken();
         if ($token instanceof AnonymousCustomerUserToken) {
             $resolver->setDefaults([
                 'required' => true,
+                'multiple' => false,
                 'constraints' => [new NotBlank(), new Email()]
             ]);
         }

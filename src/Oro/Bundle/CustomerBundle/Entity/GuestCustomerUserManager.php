@@ -49,24 +49,43 @@ class GuestCustomerUserManager
     }
 
     /**
-     * @TODO: Method must be updated/refactored in scope of task BB-10377
+     * @param CustomerVisitor $visitor
      *
+     * @return CustomerUser
+     */
+    public function getOrCreate(CustomerVisitor $visitor)
+    {
+        if ($visitor->getCustomerUser()) {
+            $customerUser = $visitor->getCustomerUser();
+        } else {
+            $customerUser = $this->create();
+            $visitor->setCustomerUser($customerUser);
+
+            $customerVisitorEntityManager = $this->doctrineHelper->getEntityManagerForClass(CustomerVisitor::class);
+            $customerVisitorEntityManager->persist($visitor);
+            $customerVisitorEntityManager->flush($visitor);
+        }
+
+        return $customerUser;
+    }
+
+    /**
      * @return CustomerUser
      */
     public function create()
     {
         $customerUser = new CustomerUser();
+        $customerUser->setIsGuest(true);
+        $customerUser->setEnabled(false);
+        $customerUser->setConfirmed(false);
         $customerUser->setUsername($this->customerUserManager->generatePassword(15));
         $generatedPassword = $this->customerUserManager->generatePassword(10);
         $customerUser->setPlainPassword($generatedPassword);
         $this->customerUserManager->updatePassword($customerUser);
-        $customerUser->setEnabled(false);
-        $customerUser->setConfirmed(false);
         $website = $this->websiteManager->getCurrentWebsite();
         $customerUser->setWebsite($website);
         $customerUser->setOrganization($website->getOrganization());
         $customerUser->createCustomer();
-        /** Anonymous group will be used to define payment term */
         $anonymousGroup = $this->customerUserRelationsProvider->getCustomerGroup();
         $customerUser->getCustomer()->setGroup($anonymousGroup);
 

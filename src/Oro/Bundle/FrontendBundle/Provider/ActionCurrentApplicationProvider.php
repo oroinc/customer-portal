@@ -47,7 +47,6 @@ class ActionCurrentApplicationProvider implements CurrentApplicationProviderInte
     {
         $token = $this->tokenStorage->getToken();
 
-        return !$token ||
-            ($token && ($token->getUser() instanceof CustomerUser || $token instanceof AnonymousCustomerUserToken));
+        return $token && ($token->getUser() instanceof CustomerUser || $token instanceof AnonymousCustomerUserToken);
     }
 }
