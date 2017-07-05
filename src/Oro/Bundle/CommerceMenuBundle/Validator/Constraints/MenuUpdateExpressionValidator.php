@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CommerceMenuBundle\Validator\Constraints;
 
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use Symfony\Component\ExpressionLanguage\SyntaxError;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -30,7 +29,7 @@ class MenuUpdateExpressionValidator extends ConstraintValidator
         if ($value) {
             try {
                 $this->expressionLanguage->evaluate($value);
-            } catch (SyntaxError $ex) {
+            } catch (\Exception $ex) {
                 $this->context->addViolation($ex->getMessage());
             }
         }
