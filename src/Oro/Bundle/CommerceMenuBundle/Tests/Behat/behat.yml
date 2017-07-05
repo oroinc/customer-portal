@@ -61,12 +61,6 @@ oro_behat_extension:
         locator: '//a[contains (@href,"/admin/config/user/") and @title="Configuration"]'
         type: xpath
 
-    Sales Representative Info:
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-      selector:
-        locator: '.page-footer-container__side'
-        type: css
-
   suites:
     OroCommerceMenuBundle:
       contexts:
