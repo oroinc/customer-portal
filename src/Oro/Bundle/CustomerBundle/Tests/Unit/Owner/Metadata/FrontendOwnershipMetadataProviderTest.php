@@ -8,8 +8,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Oro\Bundle\EntityBundle\ORM\EntityClassResolver;
 use Oro\Bundle\EntityConfigBundle\Config\Config;
+use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
-use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -22,32 +22,19 @@ use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
  */
 class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
 {
-    const LOCAL_LEVEL = 'Oro\Bundle\CustomerBundle\Entity\Customer';
-    const BASIC_LEVEL = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
+    /** @var \PHPUnit_Framework_MockObject_MockObject|ConfigManager */
+    protected $configManager;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ConfigProvider
-     */
-    protected $configProvider;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface
-     */
-    protected $tokenAccessor;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|EntityClassResolver
-     */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|EntityClassResolver */
     protected $entityClassResolver;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|CacheProvider
-     */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface */
+    protected $tokenAccessor;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject|CacheProvider */
     protected $cache;
 
-    /**
-     * @var FrontendOwnershipMetadataProvider
-     */
+    /** @var FrontendOwnershipMetadataProvider */
     protected $provider;
 
     /**
@@ -55,109 +42,59 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
      */
     protected $container;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ConfigProvider
-     */
-    protected $securityConfigProvider;
-
     protected function setUp()
     {
-        $this->configProvider = $this->getMockBuilder('Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $this->configManager = $this->createMock(ConfigManager::class);
+        $this->entityClassResolver = $this->createMock(EntityClassResolver::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-
-        $this->securityConfigProvider = $this->getMockBuilder('Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->entityClassResolver = $this->getMockBuilder('Oro\Bundle\EntityBundle\ORM\EntityClassResolver')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->entityClassResolver->expects($this->any())
-            ->method('getEntityClass')
-            ->willReturnMap(
-                [
-                    ['OroCustomerBundle:Customer', self::LOCAL_LEVEL],
-                    ['OroCustomerBundle:CustomerUser', self::BASIC_LEVEL],
-                    [self::LOCAL_LEVEL, self::LOCAL_LEVEL],
-                    [self::BASIC_LEVEL, self::BASIC_LEVEL],
-                ]
-            );
-
-        $this->cache = $this->getMockBuilder('Doctrine\Common\Cache\CacheProvider')
-            ->setMethods(['fetch', 'save'])
-            ->getMockForAbstractClass();
-
-        $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->container->expects($this->any())
-            ->method('get')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        [
-                            'oro_entity_config.provider.ownership',
-                            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->configProvider,
-                        ],
-                        [
-                            'oro_customer.owner.frontend_ownership_metadata_provider.cache',
-                            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->cache,
-                        ],
-                        [
-                            'oro_entity.orm.entity_class_resolver',
-                            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->entityClassResolver,
-                        ],
-                        [
-                            'oro_security.token_accessor',
-                            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->tokenAccessor,
-                        ],
-                        [
-                            'oro_entity_config.provider.security',
-                            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->securityConfigProvider,
-                        ],
-                    ]
-                )
-            );
+        $this->cache = $this->createMock(CacheProvider::class);
 
         $this->provider = new FrontendOwnershipMetadataProvider(
             [
-                'local_level' => self::LOCAL_LEVEL,
-                'basic_level' => self::BASIC_LEVEL,
-            ]
-        );
-        $this->provider->setContainer($this->container);
-    }
-
-    protected function tearDown()
-    {
-        unset(
-            $this->configProvider,
+                'business_unit' => 'AcmeBundle:Customer',
+                'user' => 'AcmeBundle:CustomerUser',
+            ],
+            $this->configManager,
             $this->entityClassResolver,
-            $this->cache,
-            $this->provider,
-            $this->container,
-            $this->tokenAccessor
+            $this->tokenAccessor,
+            $this->cache
         );
     }
 
-    public function testSetAccessLevelClasses()
+    public function testGetUserClass()
     {
-        $provider = new FrontendOwnershipMetadataProvider(
-            [
-                'local_level' => 'OroCustomerBundle:Customer',
-                'basic_level' => 'OroCustomerBundle:CustomerUser',
-            ]
-        );
-        $provider->setContainer($this->container);
+        $this->entityClassResolver->expects($this->exactly(2))
+            ->method('getEntityClass')
+            ->willReturnMap([
+                ['AcmeBundle:CustomerUser', 'AcmeBundle\Entity\CustomerUser'],
+                ['AcmeBundle:Customer', 'AcmeBundle\Entity\Customer'],
+            ]);
 
-        $this->assertEquals(self::LOCAL_LEVEL, $provider->getLocalLevelClass());
-        $this->assertEquals(self::BASIC_LEVEL, $provider->getBasicLevelClass());
+        $this->assertEquals('AcmeBundle\Entity\CustomerUser', $this->provider->getUserClass());
+        // test that the class is cached in a local property
+        $this->assertEquals('AcmeBundle\Entity\CustomerUser', $this->provider->getUserClass());
+    }
+
+    public function testGetBusinessUnitClass()
+    {
+        $this->entityClassResolver->expects($this->exactly(2))
+            ->method('getEntityClass')
+            ->willReturnMap([
+                ['AcmeBundle:CustomerUser', 'AcmeBundle\Entity\CustomerUser'],
+                ['AcmeBundle:Customer', 'AcmeBundle\Entity\Customer'],
+            ]);
+
+        $this->assertEquals('AcmeBundle\Entity\Customer', $this->provider->getBusinessUnitClass());
+        // test that the class is cached in a local property
+        $this->assertEquals('AcmeBundle\Entity\Customer', $this->provider->getBusinessUnitClass());
+    }
+
+    public function testGetOrganizationClass()
+    {
+        $this->entityClassResolver->expects($this->never())
+            ->method('getEntityClass');
+
+        $this->assertNull($this->provider->getOrganizationClass());
     }
 
     public function testGetMetadataWithoutCache()
@@ -168,13 +105,13 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
             ->set('frontend_owner_field_name', 'test_field')
             ->set('frontend_owner_column_name', 'test_column');
 
-        $this->configProvider->expects($this->once())
+        $this->configManager->expects($this->once())
             ->method('hasConfig')
             ->with(\stdClass::class)
             ->willReturn(true);
-        $this->configProvider->expects($this->once())
-            ->method('getConfig')
-            ->with(\stdClass::class)
+        $this->configManager->expects($this->once())
+            ->method('getEntityConfig')
+            ->with('ownership', \stdClass::class)
             ->willReturn($config);
 
         $this->cache = null;
@@ -187,12 +124,12 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMetadataUndefinedClassWithCache()
     {
-        $this->configProvider->expects($this->once())
+        $this->configManager->expects($this->once())
             ->method('hasConfig')
             ->with('UndefinedClass')
             ->willReturn(false);
-        $this->configProvider->expects($this->never())
-            ->method('getConfig');
+        $this->configManager->expects($this->never())
+            ->method('getEntityConfig');
 
         $this->cache->expects($this->at(0))
             ->method('fetch')
@@ -217,21 +154,6 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
 
         // cache
         $this->assertEquals($metadata, $providerWithCleanCache->getMetadata('UndefinedClass'));
-    }
-
-    public function testGetGlobalLevelClass()
-    {
-        $this->assertFalse($this->provider->getGlobalLevelClass());
-    }
-
-    public function testGetLocalLevelClass()
-    {
-        $this->assertEquals(self::LOCAL_LEVEL, $this->provider->getLocalLevelClass());
-    }
-
-    public function testGetBasicLevelClass()
-    {
-        $this->assertEquals(self::BASIC_LEVEL, $this->provider->getBasicLevelClass());
     }
 
     /**
@@ -274,14 +196,20 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
      * @dataProvider owningEntityNamesDataProvider
      *
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Array parameter $owningEntityNames must contains `local_level` and `basic_level` keys
+     * @expectedExceptionMessage The $owningEntityNames must contains "business_unit" and "user" keys.
      *
      * @param array $owningEntityNames
      */
-    public function testSetAccessLevelClassesException(array $owningEntityNames)
+    public function testInvalidOwningEntityNames(array $owningEntityNames)
     {
-        $provider = new FrontendOwnershipMetadataProvider($owningEntityNames);
-        $provider->setContainer($this->container);
+        $provider = new FrontendOwnershipMetadataProvider(
+            $owningEntityNames,
+            $this->configManager,
+            $this->entityClassResolver,
+            $this->tokenAccessor,
+            $this->cache
+        );
+        $provider->getUserClass();
     }
 
     /**
@@ -295,12 +223,12 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'owningEntityNames' => [
-                    'local_level' => 'AcmeBundle\Entity\Customer',
+                    'business_unit' => 'AcmeBundle\Entity\Customer',
                 ],
             ],
             [
                 'owningEntityNames' => [
-                    'basic_level' => 'AcmeBundle\Entity\User',
+                    'user' => 'AcmeBundle\Entity\User',
                 ],
             ],
         ];
@@ -377,24 +305,36 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testWarmUpCacheFilterConfigsByScope()
+    public function testWarmUpCache()
     {
-        $config1 = new Config(new EntityConfigId('ownership', 'AcmeBundle\Entity\User'));
+        $config1 = new Config(new EntityConfigId('ownership', 'AcmeBundle\Entity\CustomerUser'));
         $config2 = new Config(new EntityConfigId('ownership', 'AcmeBundle\Entity\Customer'));
 
-        $this->configProvider->expects($this->once())->method('getConfigs')->willReturn([$config1, $config2]);
-        $this->securityConfigProvider->expects($this->atLeastOnce())->method('hasConfig')->willReturn(true);
+        $securityConfig1 = new Config(new EntityConfigId('security', 'AcmeBundle\Entity\CustomerUser'));
+        $securityConfig2 = new Config(new EntityConfigId('security', 'AcmeBundle\Entity\Customer'));
+        $securityConfig2->set('group_name', 'commerce');
 
-        $securityConfig1 = $this->createMock('Oro\Bundle\EntityConfigBundle\Config\ConfigInterface');
-        $securityConfig1->expects($this->once())->method('get')->with('group_name')->willReturn('');
+        $configMap = [
+            ['ownership', 'AcmeBundle\Entity\CustomerUser', $config1],
+            ['ownership', 'AcmeBundle\Entity\Customer', $config2],
+            ['security', 'AcmeBundle\Entity\CustomerUser', $securityConfig1],
+            ['security', 'AcmeBundle\Entity\Customer', $securityConfig2],
+        ];
+        $this->configManager->expects($this->once())
+            ->method('getConfigs')
+            ->with('ownership')
+            ->willReturn([$config1, $config2]);
 
-        $securityConfig2 = $this->createMock('Oro\Bundle\EntityConfigBundle\Config\ConfigInterface');
-        $securityConfig2->expects($this->once())->method('get')->with('group_name')->willReturn('commerce');
+        $this->configManager->expects($this->atLeastOnce())
+            ->method('hasConfig')
+            ->willReturn(true);
+        $this->configManager->expects($this->atLeastOnce())
+            ->method('getEntityConfig')
+            ->willReturnMap($configMap);
 
-        $this->securityConfigProvider->expects($this->atLeastOnce())->method('getConfig')
-            ->will($this->onConsecutiveCalls($securityConfig1, $securityConfig2));
-
-        $this->cache->expects($this->once())->method('fetch') ->with($this->equalTo('AcmeBundle\Entity\Customer'));
+        $this->cache->expects($this->once())
+            ->method('fetch')
+            ->with($this->equalTo('AcmeBundle\Entity\Customer'));
 
         $this->provider->warmUpCache();
     }

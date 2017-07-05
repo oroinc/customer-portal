@@ -88,3 +88,11 @@ oro_behat_extension:
     FrontendGridColumnManager:
       selector: 'div.datagrid-manager div.dropdown-menu'
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager
+
+    FrontendGridAddViewButton:
+      selector: 'button[data-text="Add"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
+    FrontendGridFilterManager:
+      selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
