@@ -1,5 +1,5 @@
 @ticket-BB-8879
-@fixture-MassActionsCustomerAddressFixture.yml
+@fixture-OroCustomerBundle:MassActionsCustomerAddressFixture.yml
 Feature: Mass delete customer user company addresses
   In order to decrease time needed to delete several records at once
   As a customer user

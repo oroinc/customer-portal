@@ -1,4 +1,4 @@
-@fixture-CustomerUserAddressFixture.yml
+@fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 Feature: grid views management on datagrids
   As Frontend User
   I need to create and use grid view on some grid

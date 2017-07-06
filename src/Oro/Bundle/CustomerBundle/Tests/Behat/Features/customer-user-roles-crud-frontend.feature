@@ -1,6 +1,6 @@
 @ticket-BB-8128
 @automatically-ticket-tagged
-@fixture-BuyerCustomerFixture.yml
+@fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Managing customer user roles
   In order to control customer user permissions
   As an Buyer
