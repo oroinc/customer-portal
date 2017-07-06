@@ -9,14 +9,26 @@
 {% endblock %}
 
 {% block _top_nav_customer_dropdown_menu_widget %}
-    <div class="topbar-customer-menu__dropdown dropdown-menu">
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " topbar-customer-menu__dropdown dropdown-menu"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
 {% endblock %}
 
 {% block _top_nav_customer_dropdown_trigger_widget %}
-    <button type="button" class="topbar-customer-menu__trigger" data-toggle="dropdown">
-        {{ block_widget(block) }}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " topbar-customer-menu__trigger",
+        'type': 'button',
+        'data-toggle': 'dropdown'
+    }) %}
+
+    <button {{ block('block_attributes') }}>
+        <span class="topbar-customer-menu__greeting">
+            {{ block_widget(block) }}
+        </span>
         <i class="fa-angle-down"></i>
     </button>
 {% endblock %}
