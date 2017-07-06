@@ -33,11 +33,6 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        templateSelector: '#frontend-column-manager-tpl',
-
-        /**
-         * @inheritDoc
-         */
         initialize: function(options) {
             this.viewport = _.extend(this.viewport, options.viewport || {});
             this.popupOptions.contentElement = this.$el;

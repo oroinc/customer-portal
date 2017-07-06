@@ -1,0 +1,98 @@
+{% block _require_js_config_widget %}
+    <script>
+        require({
+            config: {
+                'controllers/page-controller': {fullRedirect: true},
+
+                'oroui/js/app': {routeLinks: ''},
+                'oroui/js/app/modules/views-module': {showLoadingMaskOnStartup: false},
+                'oroui/js/error' : {loginRoute: 'oro_customer_customer_user_security_login'},
+                'oroui/js/modal': {defaults: {okButtonClass: 'btn btn--info ok'}},
+
+                'oro/datagrid/cell/action-cell': {showCloseButton: false},
+                'orodatagrid/js/app/plugins/grid/column-manager-plugin': {
+                    icon: 'gear',
+                    wrapperClassName: 'datagrid-manager btn-group',
+                    className: 'btn btn--default btn--size-s',
+                    iconHideText: true
+                },
+                'orodatagrid/js/datagrid/action-launcher': {iconHideText: false},
+                'orodatagrid/js/datagrid/sorting/dropdown': {
+                    hasSortingOrderButton: false,
+                    className: 'b2b-sorting-select-control',
+                    dropdownClassName: 'oro-select2__dropdown'
+                },
+                'orodatagrid/js/grid-views-builder': {GridViewsView: 'orofrontend/js/datagrid/grid-views/frontend-grid-views-view'},
+                'orodatagrid/js/datagrid/grid-views/model': {route: 'oro_api_frontend_datagrid_gridview_post'},
+                'orodatagrid/js/app/views/column-manager/column-manager-collection-view': {fallbackSelector: '.datagrid-manager__no-columns'},
+
+                'oro/filter/abstract-filter': {
+                    placeholder: null,
+                    labelPrefix: '{{ 'oro.ui.filter.by'|trans  }} '
+                },
+                'orofilter/js/filter-hint': {inline: false},
+                'orofilter/js/plugins/filters-toggle-plugin': {
+                    launcherOptions: {
+                        className: 'btn btn--default btn--size-s caret',
+                        iconHideText: true
+                    },
+                    order: 650
+                },
+                'orofilter/js/datafilter-builder': {
+                    FiltersManager: 'orofrontend/js/app/datafilter/frontend-collection-filters-manager',
+                    enableToggleFilters: true
+                },
+
+                'oroaddress/js/region/view': {switchState: 'disable'},
+
+                'oro/dialog-widget': {
+                    messengerContainerClass: 'ui-dialog-messages'
+                }
+            },
+            paths: {
+                {% if app.debug %}
+                'oro/routes': '{{ path('oro_frontend_js_routing_js', {"callback": "fos.Router.setData"}) }}'
+                {% else %}
+                'oro/routes': {{ asset('js/frontend_routes.js', 'routing')|json_encode|raw }}
+                {% endif %}
+            },
+            map: {
+                '*': {
+                    'oroui/templates/modal-dialog.html': 'orofrontend/templates/modal-dialog/modal-dialog.html',
+                    'oroui/templates/standart-confirmation.html': 'orofrontend/templates/modal-dialog/modal-dialog.html',
+                    'oroui/templates/delete-confirmation.html': 'orofrontend/templates/modal-dialog/modal-dialog.html',
+                    'orodatagrid/templates/column-manager/column-manager-collection.html': 'orofrontend/default/templates/datagrid/column-manager-collection.html',
+                    'orodatagrid/templates/column-manager/column-manager-item.html': 'orofrontend/default/templates/datagrid/column-manager-item.html',
+                    'orodatagrid/templates/column-manager/column-manager-filter.html': 'orofrontend/default/templates/datagrid/column-manager-filter.html',
+                    'orodatagrid/templates/column-manager/column-manager.html': 'orofrontend/default/templates/datagrid/column-manager.html',
+                    'orodatagrid/templates/datagrid/pagination-input.html': 'orofrontend/default/templates/datagrid/pagination-input.html',
+                    'orodatagrid/templates/datagrid/page-size.html': 'orofrontend/default/templates/datagrid/page-size.html',
+                    'orodatagrid/templates/datagrid/visible-items-counter.html': 'orofrontend/default/templates/datagrid/visible-items-counter.html',
+                    'orodatagrid/templates/datagrid/select-all-header-cell.html': 'orofrontend/default/templates/datagrid/select-all-header-cell.html',
+                    'orodatagrid/templates/datagrid/action-header-cell.html': 'orofrontend/default/templates/datagrid/action-header-cell.html',
+                    'orodatagrid/templates/datagrid/grid-view-label.html': 'orofrontend/default/templates/datagrid/grid-view-label.html',
+                    'oropricing/templates/order/subtotals.html': 'oropricing/templates/order/frontend/subtotals.html',
+                    'oropricing/templates/order/totals.html': 'oropricing/templates/order/frontend/totals.html'
+                }
+            }
+        });
+        (function() {
+            var appModules = requirejs.s.contexts._.config.appmodules || [];
+            var removeModules = ['oroemail/js/app/modules/views-module'];
+            for (var i = 0; i < removeModules.length; i++) {
+                var index = appModules.indexOf(removeModules[i]);
+                if (index !== -1) {
+                    appModules.splice(index, 1);
+                }
+            }
+            appModules = appModules.concat([
+                'orofrontend/default/js/app/modules/input-widgets',
+                'orofrontend/default/js/app/modules/zoom-disable',
+                'orofrontend/default/js/app/modules/select-filter'
+            ]);
+            require({
+                appmodules: appModules
+            });
+        })();
+    </script>
+{% endblock %}

@@ -207,25 +207,3 @@
         </div>
     </div>
 {% endblock %}
-
-{% block __datagrid_views__datagrid_views_label_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        'class': 'js-frontend-datagrid-grid-view-label-tpl'
-    }) %}
-
-    <script type="text/template" {{ block('block_attributes') }}>
-        <h2 class="grid-views__title<% if (icon) { %> has-icon <% } %>">
-            <% if (icon) { %>
-                <span class="grid-views__piece">
-                    <span class="badge <%= iconClass %>">
-                        <i class="fa-<%= icon %>"></i>
-                    </span>
-                </span>
-            <% } %>
-            <span class="grid-views__title-text">
-                <%- title %>
-                <i class="fa-angle-down"></i>
-            </span>
-        </h2>
-    </script>
-{% endblock %}
