@@ -75,5 +75,6 @@ oro_behat_extension:
         - OroCheckoutBundle::FeatureContext
         - OroFormBundle::FormContext
         - OroEntityExtendBundle::EntityExtendContext
+        - OroNavigationBundle::FeatureContext
       paths:
         - '@OroCommerceMenuBundle/Tests/Behat/Features'
