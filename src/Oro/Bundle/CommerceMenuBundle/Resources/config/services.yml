@@ -158,3 +158,11 @@ services:
         class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuDisplayBuilder'
         abstract: true
         public: false
+
+    oro_commerce_menu.builder.menu_screens_condition_builder:
+        public: false
+        class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuScreensConditionBuilder'
+        arguments:
+            - '@oro_frontend.provider.screens'
+        tags:
+            - { name: oro_menu.builder, priority: 225 }

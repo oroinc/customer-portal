@@ -38,8 +38,10 @@ class MenuUpdateTest extends \PHPUnit_Framework_TestCase
         $priority = 10;
 
         $update = new MenuUpdateStub();
+        $screens = ['sample-screen'];
         $update
             ->setImage($image)
+            ->setScreens($screens)
             ->setCondition('test condition')
             ->setIcon('test-icon')
             ->setPriority($priority)
@@ -47,6 +49,7 @@ class MenuUpdateTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             'image' => $image,
+            'screens' => $screens,
             'condition' => 'test condition',
             'divider' => true,
             'translate_disabled' => false,

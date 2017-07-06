@@ -149,4 +149,21 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
 
         return $factory;
     }
+
+
+    /**
+     * @param array $screensConfig
+     *
+     * @return Theme|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private function createThemeMock(array $screensConfig)
+    {
+        $theme = $this->createMock(Theme::class);
+        $theme
+            ->expects(static::once())
+            ->method('getConfig')
+            ->willReturn(['screens' => $screensConfig]);
+
+        return $theme;
+    }
 }

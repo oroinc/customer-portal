@@ -125,6 +125,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
     {
         $extras = [
             'image' => $this->getImage(),
+            'screens' => $this->getScreens(),
             'condition' => $this->getCondition(),
             'divider' => $this->isDivider(),
             'translate_disabled' => $this->getId() ? true : false
