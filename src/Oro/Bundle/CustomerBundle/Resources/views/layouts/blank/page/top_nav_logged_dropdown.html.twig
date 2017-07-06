@@ -33,6 +33,10 @@
     </button>
 {% endblock %}
 
+{% block _top_nav_user_name_widget%}
+    <span title="{{ text }}">{{ text }}</span>
+{% endblock %}
+
 {% block _top_nav_customer_dropdown_sign_out_link_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' link sign-out-link'
