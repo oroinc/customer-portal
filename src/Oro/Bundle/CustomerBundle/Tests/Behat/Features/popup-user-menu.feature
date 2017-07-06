@@ -25,16 +25,17 @@ Feature: Popup user menu
   # Show how the "popup" template works
 
   Scenario: Popup user menu - is present on front store
-    Given I login as administrator
-    And go to System / Configuration
-    And I click "Commerce"
-    And I click "Design"
-    And I click "Theme"
-    And fill "Menu Templates Form" with:
-      | Use Default  | false                    |
-      | User Menu    | Show subitems in a popup |
-    And save form
-    And click "Save settings"
-    And I click Logout in user menu
+#    Given I login as administrator
+#    And go to System / Configuration
+#    And I click "Commerce"
+#    And I click "Design"
+#    And I click "Theme"
+#    And fill "Menu Templates Form" with:
+#      | Use Default  | false                    |
+#      | User Menu    | Show subitems in a popup |
+#    And save form
+#    And click "Save settings"
+#    And I click Logout in user menu
     Then I signed in as NancyJSallee@example.org on the store frontend
+    When I click "Popup User Menu trigger"
     And I should see an "Popup User Menu" element
