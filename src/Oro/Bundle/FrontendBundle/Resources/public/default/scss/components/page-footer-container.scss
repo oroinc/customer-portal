@@ -1,0 +1,7 @@
+// @theme: default;
+
+@include breakpoint('tablet-small') {
+    .page-footer-container {
+        margin-top: -50px;
+    }
+}
