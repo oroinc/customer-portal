@@ -6,34 +6,43 @@ define(function(require) {
     var ColumnManagerView = require('orodatagrid/js/app/views/column-manager/column-manager-view');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var viewportManager = require('oroui/js/viewport-manager');
+    var module = require('module');
+    var config = module.config();
+
+    config = _.extend({
+        className: 'dropdown-menu',
+        viewport: {
+            maxScreenType: 'mobile-landscape'
+        },
+        popupOptions: {},
+        templateSelector: '#frontend-column-manager-tpl'
+    }, config);
 
     FrontendColumnManagerView = ColumnManagerView.extend({
         /**
          * @property
          */
-        className: 'dropdown-menu',
+        className: config.className,
 
         /**
          * @property
          */
-        viewport: {
-            maxScreenType: 'mobile-landscape'
-        },
+        viewport: config.viewport,
 
         /**
          * @property
          */
-        popupOptions: {
+        popupOptions: _.extend({}, {
             popupBadge: true,
             popupIcon: 'fa-cog',
             popupLabel: _.__('oro_frontend.datagrid.manage_grid'),
             contentElement: null
-        },
+        }, _.pick(config.popupOptions, 'popupBadge', 'popupIcon', 'popupLabel', 'popupCloseButton')),
 
         /**
          * @inheritDoc
          */
-        templateSelector: '#frontend-column-manager-tpl',
+        templateSelector: config.templateSelector,
 
         /**
          * @inheritDoc
