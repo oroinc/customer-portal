@@ -37,7 +37,7 @@ define(function(require) {
             this.$el = options._sourceElement;
 
             this.listenTo(mediator, 'layout:reposition', this.updatePosition);
-            self.addEmbeddedArrowsClass(this.$el, this.options);
+            this.addEmbeddedArrowsClass(this.$el, this.options.arrows || false);
 
             $(this.$el).on('init', function(event, slick) {
                 if (self.$el.hasClass(self.options.additionalClass)) {
@@ -59,7 +59,7 @@ define(function(require) {
             });
 
             $(this.$el).on('breakpoint', function(event, slick) {
-                self.addEmbeddedArrowsClass(slick.$slider, slick.options);
+                self.addEmbeddedArrowsClass(slick.$slider, slick.options.arrows || false);
             });
         },
 
@@ -93,9 +93,10 @@ define(function(require) {
             this.$el.slick('setPosition');
         },
 
-        addEmbeddedArrowsClass: function(slider, options) {
+        addEmbeddedArrowsClass: function(slider, bool) {
             var self = this;
-            slider.toggleClass(self.options.embeddedArrowsClass, options.arrows);
+
+            slider.toggleClass(self.options.embeddedArrowsClass, bool);
         }
     });
 
