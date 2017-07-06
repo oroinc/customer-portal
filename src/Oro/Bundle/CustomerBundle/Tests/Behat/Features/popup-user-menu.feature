@@ -24,7 +24,7 @@ Feature: Popup user menu
   # Show how an administrator can change the template used for customer user menu
   # Show how the "popup" template works
 
-  Scenario: Site level - Allow User Configuration
+  Scenario: Popup user menu - is present on front store
     Given I login as administrator
     And go to System / Configuration
     And I click "Commerce"
