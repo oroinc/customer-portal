@@ -60,6 +60,7 @@ layout:
                 login_form_username:
                     blockType: input
                     options:
+                        type: email
                         id: userNameSignIn
                         name: _username
                         value: '=data["oro_customer_sign_in"].getLastName()'
