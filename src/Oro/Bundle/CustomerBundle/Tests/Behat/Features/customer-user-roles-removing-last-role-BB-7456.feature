@@ -1,6 +1,6 @@
 @ticket-BB-7456
 @automatically-ticket-tagged
-@fixture-BuyerCustomerFixture.yml
+@fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Removing last role from the customer user
   Regression test for BB-7456
 

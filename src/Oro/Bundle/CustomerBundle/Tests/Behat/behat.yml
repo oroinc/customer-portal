@@ -37,9 +37,6 @@ oro_behat_extension:
     Customer Company Addresses Grid View List:
       selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-    Customer Company Addresses Grid View List Close Button:
-      selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views [data-close]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer Company User Addresses Grid:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -96,3 +93,24 @@ oro_behat_extension:
     FrontendGridFilterManager:
       selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
+
+    Customer User Form:
+      selector: 'form[name="oro_customer_frontend_customer_user"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Buyer (Predefined):
+            locator: '//input[@data-ftid="oro_customer_frontend_customer_user_roles_2"]/../span[@class="custom-checkbox__icon"]'
+            type: xpath
+            element: PrettyCheckbox
+    Customer User Form Admin:
+      selector: '[id^="oro_customer_customer_user-uid"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Administrator Role:
+           locator: '[id^="oro_customer_customer_user_roles_1-uid"]'
+           type: css
+          Buyer Role:
+           locator: '[id^="oro_customer_customer_user_roles_2-uid"]'
+           type: css
