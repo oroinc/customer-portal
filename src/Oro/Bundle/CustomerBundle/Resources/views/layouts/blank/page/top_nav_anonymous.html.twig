@@ -1,16 +1,16 @@
-{% block _top_sign_in_item_widget %}
+{% block _top_sign_in_link_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' primary-menu__item'
+        '~class': ' grid__column grid__column--5'
     }) %}
 
-    <li {{ block('block_attributes') }}>
+    <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
-    </li>
+    </div>
 {% endblock %}
 
 {% block _top_sign_in_link_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' link'
+        '~class': ' link'
     }) %}
 
     {{ block_widget(block, {attr: attr}) }}

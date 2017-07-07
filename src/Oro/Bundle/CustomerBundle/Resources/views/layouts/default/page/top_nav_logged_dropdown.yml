@@ -1,0 +1,5 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'top_nav_logged_dropdown.html.twig'
+    conditions: 'context["is_logged_in"]'
