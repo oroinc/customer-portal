@@ -1,6 +1,6 @@
 @ticket-BB-7716
 @automatically-ticket-tagged
-@fixture-BuyerCustomerFixture.yml
+@fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Price lists must be sortable in customerGroup create\view page
 
   Scenario: Changing Price List Priorities In Customers
