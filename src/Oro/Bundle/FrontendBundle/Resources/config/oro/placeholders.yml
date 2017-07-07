@@ -48,3 +48,19 @@ placeholders:
             template: OroActivityListBundle:ActivityList:activities.html.twig
         web_settings:
             template: OroFrontendBundle:InstallConfiguration:web.html.twig
+        filter_embedded_templates:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
+        template_audit_condition_type_select:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
+        widget_filter_templates:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
+        orodashboard_widget_items_templates:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
+        email_filter_templates:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
+        dot_menu_js:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
+        pinbar_js:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
+        oro_reminder_subscribe_script:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
