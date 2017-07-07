@@ -156,11 +156,12 @@ oro_customer_frontend_entity_pagination_last:
     options:
         frontend: true
 
-oro_customer_audit:
-    resource:     "@OroCustomerBundle/Controller/AuditController.php"
-    type:         annotation
-    options:
-        frontend: true
+# Disabled as per BAP-9497.
+#oro_customer_audit:
+#    resource:     "@OroCustomerBundle/Controller/AuditController.php"
+#    type:         annotation
+#    options:
+#        frontend: true
 
 oro_datagrid_front_mass_action:
     path: '{gridName}/massFrontAction/{actionName}'
