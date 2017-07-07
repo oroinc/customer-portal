@@ -37,9 +37,6 @@ oro_behat_extension:
     Customer Company Addresses Grid View List:
       selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-    Customer Company Addresses Grid View List Close Button:
-      selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views [data-close]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer Company User Addresses Grid:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid

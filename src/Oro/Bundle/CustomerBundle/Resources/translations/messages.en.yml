@@ -505,6 +505,24 @@ oro.customer:
         administrator: 'Administrator'
         module_label: 'Audit history for Customer User'
 
+    audit:
+        entity_label: Audit
+        entity_plural_label: Audits
+        action.label: Audit action
+        id.label: Id
+        logged_at.label: Logged at
+        object_class.label: Audit class
+        object_id.label: Id
+        object_name.label: Audit
+        owner_description.label: Audit owner description
+        transaction_id.label: Audit transaction id
+        version.label: Audit version
+        fields.label: Audit fields
+        impersonation.label: Audit impersonation
+        organization.label: Audit organization
+        user.label: Audit user
+        customer_user.label: Customer user
+
     importexport:
         customer_user:
             unable_to_change_owner: 'You are not allowed to change owner of %entity_name% to %owner_name%.'
