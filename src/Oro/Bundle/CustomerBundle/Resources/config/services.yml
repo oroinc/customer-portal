@@ -854,3 +854,10 @@ services:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator
         tags:
             - { name: validator.constraint_validator }
+
+    oro_customer.voter.anonymous_customer_user:
+        class: 'Oro\Bundle\CustomerBundle\Voter\AnonymousCustomerUserVoter'
+        arguments:
+           - '@oro_featuretoggle.voter.config_voter'
+           - '@security.token_storage'
+        lazy: true
