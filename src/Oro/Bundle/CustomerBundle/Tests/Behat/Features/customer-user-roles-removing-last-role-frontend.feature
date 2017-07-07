@@ -1,4 +1,4 @@
-@fixture-BuyerCustomerFixture.yml
+@fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Removing last role from the customer user on frontend
   Regression test for BB-7456
 

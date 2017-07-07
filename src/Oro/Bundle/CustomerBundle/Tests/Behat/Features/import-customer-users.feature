@@ -1,4 +1,4 @@
-@fixture-ImportCustomerUsersFixture.yml
+@fixture-OroCustomerBundle:ImportCustomerUsersFixture.yml
 Feature: Import Customer Users
   In order to add multiple customer users at once
   As an Administrator
