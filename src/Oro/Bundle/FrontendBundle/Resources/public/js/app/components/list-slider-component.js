@@ -21,7 +21,9 @@ define(function(require) {
             autoplaySpeed: 2000,
             arrows: !tools.isMobile(),
             dots: false,
-            infinite: false
+            infinite: false,
+            additionalClass: 'embedded-list-slider',
+            embeddedArrowsClass: 'embedded-arrows'
         },
 
         /**
@@ -29,10 +31,19 @@ define(function(require) {
          * @param options
          */
         initialize: function(options) {
+            var self = this;
+
             this.options = _.defaults(options || {}, this.options);
             this.$el = options._sourceElement;
 
             this.listenTo(mediator, 'layout:reposition', this.updatePosition);
+            this.addEmbeddedArrowsClass(this.$el, this.options.arrows || false);
+
+            $(this.$el).on('init', function(event, slick) {
+                if (self.$el.hasClass(self.options.additionalClass)) {
+                    self.$el.addClass(self.options.additionalClass);
+                }
+            });
 
             if (this.options.mobileEnabled) {
                 this.refreshPositions();
@@ -42,6 +53,14 @@ define(function(require) {
             if (this.options.relatedComponent) {
                 this.onChange();
             }
+
+            $(this.$el).on('destroy', function(event, slick) {
+                self.$el.removeClass(self.options.additionalClass);
+            });
+
+            $(this.$el).on('breakpoint', function(event, slick) {
+                self.addEmbeddedArrowsClass(slick.$slider, slick.options.arrows || false);
+            });
         },
 
         refreshPositions: function() {
@@ -72,6 +91,12 @@ define(function(require) {
 
         updatePosition: function() {
             this.$el.slick('setPosition');
+        },
+
+        addEmbeddedArrowsClass: function(slider, bool) {
+            var self = this;
+
+            slider.toggleClass(self.options.embeddedArrowsClass, bool);
         }
     });
 
