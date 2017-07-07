@@ -1,6 +1,6 @@
 @ticket-BB-8155
 @automatically-ticket-tagged
-@fixture-ExportCustomerUsersFixture.yml
+@fixture-OroCustomerBundle:ExportCustomerUsersFixture.yml
 Feature: Export Customer Users
   In order to export list of customer users
   As an Administrator

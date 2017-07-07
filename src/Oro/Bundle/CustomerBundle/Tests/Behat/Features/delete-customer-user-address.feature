@@ -1,4 +1,4 @@
-@fixture-CustomerUserAddressFixture.yml
+@fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 Feature: Delete customer user default address
 
   Scenario: Delete customer user default address

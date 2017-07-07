@@ -1,4 +1,4 @@
-@fixture-FrontendGridViewsFixture.yml
+@fixture-OroCustomerBundle:FrontendGridViewsFixture.yml
 Feature: Frontend Grid Views
   #Implement frontend grid views.
   #The functionality should work exactly like in the admin.
