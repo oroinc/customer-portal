@@ -1,5 +1,5 @@
 @ticket-BB-8879
-@fixture-CustomerUserFixture.yml
+@fixture-OroCustomerBundle:CustomerUserFixture.yml
 Feature: Mass delete customer users
   In order to decrease time needed to delete several records at once
   As a customer user

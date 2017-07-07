@@ -1,0 +1,4 @@
+layout:
+    actions:
+        - '@remove':
+            id: head_customer_menu_list
