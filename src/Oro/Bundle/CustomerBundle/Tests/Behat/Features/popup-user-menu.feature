@@ -1,4 +1,4 @@
-@fixture-BuyerCustomerFixture.yml
+@fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 
 Feature: Popup user menu
   In order to provide optimized user experience based on the customer user menu configuration
