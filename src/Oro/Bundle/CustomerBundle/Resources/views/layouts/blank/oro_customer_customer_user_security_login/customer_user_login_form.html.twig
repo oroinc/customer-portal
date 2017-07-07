@@ -58,7 +58,7 @@
     {% set attr = layout_attr_defaults(attr, {
         'required': 'required',
         'autofocus': true,
-        'data-validation': {"NotBlank":{"payload":null}},
+        'data-validation': {"NotBlank":{"payload":null}, "Email":{"payload": null}},
         '~class': " input input--full"
     }) %}
 
@@ -73,5 +73,9 @@
 {% endblock %}
 
 {% block _login_form_password_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-validation': {"NotBlank":{"payload":null}},
+    }) %}
+
     {{ block('_login_form_username_widget') }}
 {% endblock %}

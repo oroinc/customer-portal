@@ -57,6 +57,14 @@ search:
                 name: lastName
                 target_type: text
                 target_fields: [lastName]
+            -
+                name: customer
+                relation_type: many-to-one
+                relation_fields:
+                    -
+                        name: name
+                        target_type: text
+                        target_fields: [name]
 
     Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
         alias: oro_customer_customer_user_role

@@ -23,3 +23,58 @@ oro_behat_extension:
         type: xpath
         locator: '//div[contains(@class,"header-row")]//button[contains(@class, "header-row__trigger")]//span[contains(@class, "fa-search")]/ancestor::button'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
+    Customer Visible Contact Info Form:
+      selector: 'form[name="sale_contact_info"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Display Default: 'sale_contact_info[oro_sale___contact_info_source_display][use_parent_scope_value]'
+          Contact Details Default: 'sale_contact_info[oro_sale___contact_details][use_parent_scope_value]'
+          Customer Visible Contact Info Organization: 'sale_contact_info[oro_sale___contact_info_user_option][use_parent_scope_value]'
+          Enter Contact Info Organization: 'sale_contact_info[oro_sale___contact_info_manual_text][use_parent_scope_value]'
+          Available User Options Default: 'sale_contact_info[oro_sale___available_user_options][use_parent_scope_value]'
+          Allow User Configuration Default: 'sale_contact_info[oro_sale___allow_user_configuration][use_parent_scope_value]'
+          Guest Contact Default: 'sale_contact_info[oro_sale___guest_contact_info_text][use_parent_scope_value]'
+
+    Contacts:
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+      selector:
+        locator: '//i[@class="fa-id-card-o"]/../../a[@href="/admin/config/system/commerce/sale_contact_info"]'
+        type: xpath
+
+    UserContacts:
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+      selector:
+        locator: '//i[@class="fa-id-card-o"]/../../a[@href="/admin/config/user/2/commerce/sale_contact_info"]'
+        type: xpath
+
+    SiteContacts:
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+      selector:
+        locator: '//i[@class="fa-id-card-o"]/../../a[@href="/admin/config/website/1/commerce/sale_contact_info"]'
+        type: xpath
+
+    User Configuration:
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+      selector:
+        locator: '//a[contains (@href,"/admin/config/user/") and @title="Configuration"]'
+        type: xpath
+
+  suites:
+    OroCommerceMenuBundle:
+      contexts:
+        - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
+        - OroDataGridBundle::GridContext
+        - OroApplicationBundle::CommerceMainContext
+        - OroShippingBundle::SingleCurrencyContext
+        - OroShoppingListBundle::ShoppingListContext
+        - OroCustomerBundle::CustomerUserContext
+        - OroCheckoutBundle::FeatureContext
+        - OroFormBundle::FormContext
+        - OroEntityExtendBundle::EntityExtendContext
+        - OroNavigationBundle::FeatureContext
+      paths:
+        - '@OroCommerceMenuBundle/Tests/Behat/Features'
