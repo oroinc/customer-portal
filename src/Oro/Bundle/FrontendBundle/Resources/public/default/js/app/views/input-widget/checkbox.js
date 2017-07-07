@@ -31,14 +31,12 @@ define(function(require) {
         },
 
         _on: function() {
-            this.$el.attr('checked', true);
-            this.$el.prop('checked', 'checked');
+            this.$el.prop('checked', true);
             this.$el.parent().addClass('checked');
         },
 
         _off: function() {
-            this.$el.attr('checked', false);
-            this.$el.removeProp('checked');
+            this.$el.prop('checked', false);
             this.$el.parent().removeClass('checked');
         },
 

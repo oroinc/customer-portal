@@ -1,6 +1,6 @@
 @ticket-BB-9097
 @automatically-ticket-tagged
-@fixture-Products.yml
+@fixture-OroFrontendBundle:Products.yml
 Feature: Sticky panel for main menu, product filters etc.
 
   Scenario: Check is sticky panel visible and has main menu content (mobile version)

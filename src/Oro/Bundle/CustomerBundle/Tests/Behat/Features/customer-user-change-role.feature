@@ -1,4 +1,4 @@
-@fixture-BuyerCustomerFixture.yml
+@fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Update customer user roles
 
   Scenario: Customer user able to update his roles
