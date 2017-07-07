@@ -128,6 +128,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
             'screens' => $this->getScreens(),
             'condition' => $this->getCondition(),
             'divider' => $this->isDivider(),
+            'userAgentConditions' => $this->getMenuUserAgentConditions(),
             'translate_disabled' => $this->getId() ? true : false
         ];
 

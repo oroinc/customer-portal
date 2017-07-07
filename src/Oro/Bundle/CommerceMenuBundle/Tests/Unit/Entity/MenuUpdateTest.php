@@ -52,6 +52,7 @@ class MenuUpdateTest extends \PHPUnit_Framework_TestCase
             'screens' => $screens,
             'condition' => 'test condition',
             'divider' => true,
+            'userAgentConditions' => $update->getMenuUserAgentConditions(),
             'translate_disabled' => false,
             'position' => $priority,
             'icon' => 'test-icon',
