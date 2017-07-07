@@ -88,7 +88,6 @@
                 messenger.setup({
                     container: '#{{ attr.id }}',
                     template: _.template($.trim($('#message-item-template').html())),
-                    delay: 5000
                 });
                 {% if app.session.flashbag.peekAll|length > 0 %}
                 $(function() {
@@ -115,4 +114,11 @@
     'id': 'sticky-header-row'
     }) %}
     <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block _page_footer_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " container-fluid"
+    }) %}
+    {{ parent_block_widget(block) }}
 {% endblock %}

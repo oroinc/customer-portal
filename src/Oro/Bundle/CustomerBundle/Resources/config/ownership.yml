@@ -1,7 +1,7 @@
 parameters:
     oro_customer.entity.owners:
-        local_level: '%oro_customer.entity.customer.class%'
-        basic_level: '%oro_customer.entity.customer_user.class%'
+        business_unit: '%oro_customer.entity.customer.class%'
+        user: '%oro_customer.entity.customer_user.class%'
 
 services:
     oro_customer.owner.frontend_ownership_metadata_provider:
@@ -9,21 +9,29 @@ services:
         public: false
         arguments:
             - '%oro_customer.entity.owners%'
-        calls:
-            - [setContainer, ["@service_container"]]
+            - '@oro_entity_config.config_manager'
+            - '@oro_entity.orm.entity_class_resolver'
+            - '@oro_security.token_accessor'
+            - '@oro_customer.owner.frontend_ownership_metadata_provider.cache'
         tags:
             - { name: oro_security.owner.metadata_provider, alias: frontend_ownership }
 
     oro_customer.owner.frontend_ownership_metadata_provider.cache:
         parent: oro.cache.abstract
-        public: true
+        public: false
         calls:
             - [ setNamespace, [ 'oro_acl_entity_ownership_frontend' ] ]
 
     oro_customer.owner.decision_maker:
         public: false
         class: 'Oro\Bundle\CustomerBundle\Owner\EntityOwnershipDecisionMaker'
-        parent: oro_security.owner.decision_maker.abstract
+        arguments:
+            - '@oro_security.ownership_tree_provider.chain'
+            - '@oro_security.acl.object_id_accessor'
+            - '@oro_security.owner.entity_owner_accessor'
+            - '@oro_security.owner.metadata_provider.chain'
+            - '@oro_security.token_accessor'
+            - '@doctrine'
         tags:
            - { name: oro_security.owner.ownership_decision_maker, priority: 10 }
 

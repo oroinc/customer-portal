@@ -1,4 +1,4 @@
-@fixture-CustomerUserAddressFixture.yml
+@fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 Feature: grid views management on datagrids
   As Frontend User
   I need to create and use grid view on some grid
@@ -16,6 +16,8 @@ Feature: grid views management on datagrids
     Then I should see "View has been successfully created" flash message
     And I should see a "Customer Company User Addresses Grid View List" element
 
+  @skip
+  # Unskip after BB-10598 will be resolved
   Scenario: Make sure gridview can be renamed few times
     When I click "Rename"
     And I set "Test view 01" as grid view name for "Customer Company Addresses Grid" grid on frontend

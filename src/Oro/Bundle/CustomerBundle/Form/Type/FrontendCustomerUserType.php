@@ -117,6 +117,7 @@ class FrontendCustomerUserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => $this->customerUserClass,
+            'ownership_disabled' => true,
         ]);
     }
 }

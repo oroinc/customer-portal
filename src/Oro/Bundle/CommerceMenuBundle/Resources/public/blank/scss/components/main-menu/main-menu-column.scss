@@ -1,0 +1,134 @@
+// @theme: blank;
+
+.main-menu-column {
+    position: relative;
+
+    min-width: 200px;
+
+    font-size: $base-font-size;
+
+    box-sizing: border-box;
+
+    &::before {
+        position: absolute;
+        top: 40px;
+        bottom: 0;
+        left: 0;
+
+        display: block;
+
+        width: 1px;
+
+        content: '';
+
+        border-left: 1px solid get-color('additional', 'light');
+    }
+
+    &:first-child::before {
+        display: none;
+    }
+
+    &:first-child {
+        padding-right: $main-menu-column-offset;
+    }
+
+    &--splited &__inner-left,
+    &--splited &__inner-right {
+        float: left;
+
+        width: 50%;
+        vertical-align: top;
+    }
+
+    &__title {
+        margin-bottom: 24px;
+
+        text-transform: uppercase;
+
+        color: get-color('primary', 'dark');
+    }
+
+    &__item,
+    &__subitem {
+        margin-bottom: 8px;
+    }
+
+    &__item &__link {
+        color: get-color('additional', 'dark');
+    }
+
+    &__subitem {
+        padding-left: 20px;
+    }
+
+    &__subitem &__link {
+        color: $main-menu-column-link-color;
+    }
+
+    &__image {
+        display: block;
+
+        max-width: 100%;
+        height: auto;
+    }
+
+    &__link {
+        display: block;
+
+        max-width: 300px;
+
+        white-space: normal;
+        word-wrap: break-word;
+    }
+}
+
+@include breakpoint('desktop') {
+    .main-menu-column {
+        &:not(:first-child) {
+            padding-left: $main-menu-column-offset;
+            padding-right: $main-menu-column-offset;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
+
+        &__inner {
+            display: block !important;
+        }
+
+        &--splited {
+           min-width: 400px;
+
+            white-space: nowrap;
+        }
+    }
+}
+
+@include breakpoint('tablet') {
+    .main-menu-column {
+        padding: 20px;
+
+        border-top: 1px solid get-color('additional', 'light');
+
+        &::before {
+            border-left: 0;
+        }
+
+        &--splited &__inner-left,
+        &--splited &__inner-right {
+            float: none;
+
+            width: auto;
+            margin-bottom: 15px;
+        }
+
+        &__inner {
+            margin-bottom: 5px;
+        }
+
+        &__title {
+            margin-bottom: 14px;
+        }
+    }
+}

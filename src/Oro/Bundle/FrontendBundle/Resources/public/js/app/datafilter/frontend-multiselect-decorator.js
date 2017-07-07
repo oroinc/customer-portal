@@ -30,7 +30,7 @@ define(function(require) {
           * @inheritDoc
           */
         multiselectFilterParameters: {
-            label: '<div>' + __('oro_frontend.filter_manager.label') + '</div>',
+            label: __('oro_frontend.filter_manager.label'),
             placeholder: __('oro_frontend.filter_manager.placeholder')
         },
 
@@ -54,15 +54,20 @@ define(function(require) {
                 .addClass('dropdown-menu ui-rewrite');
         },
 
+        onOpenDropdown: function() {
+            var instance = this.multiselect('instance');
+            this.setCheckboxesDesign(instance);
+            return MultiselectDecorator.prototype.onOpenDropdown.apply(this, arguments);
+        },
+
         /**
          * Action on multiselect widget refresh
          */
         onRefresh: function() {
             var instance = this.multiselect('instance');
-
             this.setDropdownHeaderDesign(instance);
-
             this.setCheckboxesDesign(instance);
+            this.updateFooterPosition(instance);
         },
 
         /**
@@ -146,8 +151,7 @@ define(function(require) {
          */
         setCheckboxesDesign: function(instance) {
             var $icon = instance.labels.find('.custom-checkbox__icon');
-
-            instance.checkboxContainer
+            instance.menu.children('.ui-multiselect-checkboxes')
                 .removeClass('ui-helper-reset')
                 .addClass('datagrid-manager__checkboxes ui-rewrite')
                 .find('li')
@@ -162,6 +166,19 @@ define(function(require) {
                 instance.inputs
                     .addClass('custom-checkbox__input ui-rewrite')
                     .after($('<i/>', {'class': 'custom-checkbox__icon'}));
+            }
+        },
+
+        /**
+         * Places footer to the end of menu content that is needed after refresh of widget since lib removes old list
+         * and appends new one to the end of content
+         * @param {object} instance
+         */
+        updateFooterPosition: function(instance) {
+            var $footerContainer = instance.menu.parent().find('.datagrid-manager__footer');
+            var $checkboxContainer = instance.menu.find('.ui-multiselect-checkboxes');
+            if ($footerContainer.length && $checkboxContainer.length) {
+                $checkboxContainer.after($footerContainer);
             }
         }
     });
