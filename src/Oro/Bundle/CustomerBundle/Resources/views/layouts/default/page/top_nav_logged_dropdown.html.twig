@@ -1,0 +1,31 @@
+{% block _top_nav_controls_dropdown_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " pull-left topbar-customer-menu dropdown"
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _top_nav_customer_dropdown_sign_out_link_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' topbar-navigation__link sign-out-link',
+        'href': path(route_name),
+        'data-dom-relocation': true,
+        'data-dom-relocation-options': {
+            responsive: [
+                {
+                    viewport: {
+                        maxScreenType: 'tablet'
+                    },
+                    moveTo: '[data-customer-menu-container]'
+                }
+            ]
+        }
+    }) %}
+
+    <a {{ block('block_attributes') }}>
+        <i class="fa-sign-out"></i> {{ text|trans }}
+    </a>
+{% endblock %}

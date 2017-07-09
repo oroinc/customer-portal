@@ -145,5 +145,6 @@ services:
         class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuConditionBuilder'
         arguments:
             - "@oro_commerce_menu.expression_language"
+            - "@monolog.logger"
         tags:
             - { name: oro_menu.builder, priority: 210 }

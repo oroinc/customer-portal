@@ -13,16 +13,47 @@
 
         overflow: auto;
         overflow-x: hidden;
+
+        background-color: get-color('additional', 'light');
+
+        .table {
+            margin-bottom: 0;
+        }
     }
 
     .datagrid-manager__item {
         padding: 0 10px;
+        background-color: get-color('additional', 'ultra');
+    }
+
+    .ui-sortable-helper {
+        .datagrid-manager__item {
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        }
+    }
+
+    .sortable-placeholder {
+        display: none;
     }
 
     .table {
         // Disable styles from platform
         tr:first-child td {
             border: 0;
+        }
+    }
+
+    @at-root {
+        .fullscreen {
+            .datagrid-manager-table {
+                .datagrid-manager__item {
+                    padding: 0 12px;
+                }
+
+                .table-wrapper {
+                    border-radius: 0;
+                }
+            }
         }
     }
 }

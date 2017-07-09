@@ -3,29 +3,37 @@
 namespace Oro\Bundle\CommerceMenuBundle\Builder;
 
 use Knp\Menu\ItemInterface;
-
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class MenuConditionBuilder implements BuilderInterface
 {
-    const CONDITION_KEY             = 'condition';
+    const CONDITION_KEY = 'condition';
     const DEFAULT_IS_ALLOWED_POLICY = true;
 
-    /** @var ExpressionLanguage */
+    /**
+     * @var ExpressionLanguage
+     */
     private $expressionLanguage;
 
     /**
-     * @param ExpressionLanguage $expressionLanguage
+     * @var LoggerInterface
      */
-    public function __construct(ExpressionLanguage $expressionLanguage)
+    private $logger;
+
+    /**
+     * @param ExpressionLanguage $expressionLanguage
+     * @param LoggerInterface    $logger
+     */
+    public function __construct(ExpressionLanguage $expressionLanguage, LoggerInterface $logger)
     {
         $this->expressionLanguage = $expressionLanguage;
+        $this->logger = $logger;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function build(ItemInterface $menu, array $options = [], $alias = null)
     {
@@ -38,14 +46,32 @@ class MenuConditionBuilder implements BuilderInterface
     private function applyConditionsRecursively(ItemInterface $menu)
     {
         $menuChildren = $menu->getChildren();
-
         foreach ($menuChildren as $menuChild) {
             $this->applyConditionsRecursively($menuChild);
         }
 
-        if ($menu->getExtra(self::CONDITION_KEY) && $menu->isDisplayed() !== false) {
-            $result = (bool)$this->expressionLanguage->evaluate($menu->getExtra(self::CONDITION_KEY));
+        if ($menu->isDisplayed() !== false) {
+            $condition = (string)$menu->getExtra(self::CONDITION_KEY);
+            $result = $this->evaluateExpression($condition);
             $menu->setDisplay($result);
         }
+    }
+
+    /**
+     * @param string $condition
+     *
+     * @return bool
+     */
+    private function evaluateExpression($condition)
+    {
+        try {
+            $result = $condition ? $this->expressionLanguage->evaluate($condition) : static::DEFAULT_IS_ALLOWED_POLICY;
+        } catch (\Exception $e) {
+            $result = false;
+            $error = sprintf('Exception caught while evaluating menu condition expression: %s', $e->getMessage());
+            $this->logger->error($error);
+        }
+
+        return (bool)$result;
     }
 }

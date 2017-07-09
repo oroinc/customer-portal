@@ -157,7 +157,6 @@
                 messenger.setup({
                     container: '#{{ attr.id }}',
                     template: _.template($.trim($('#message-item-template').html())),
-                    delay: 5000
                 });
                 {% if app.session.flashbag.peekAll|length > 0 %}
                 $(function() {
