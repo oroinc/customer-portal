@@ -34,7 +34,9 @@ operations:
             icon: fa-check
         acl_resource: [EDIT, $.data]
         preconditions:
-            '@equal': [$enabled, false]
+            '@and':
+                - '@has_elements': $.data.getRoles
+                - '@equal': [$enabled, false]
         actions:
             - '@run_action_group':
                 action_group: oro_customer_customeruser_set_enabled
@@ -115,8 +117,8 @@ operations:
             - '@get_active_user': $.currentUser
         preconditions:
             '@and':
+                - '@has_elements': $.data.getRoles
                 - '@equal': [$enabled, false]
-                - '@not_equal': [$id, $.currentUser.id]
         actions:
             - '@run_action_group':
                 action_group: oro_customer_frontend_customeruser_set_enabled
