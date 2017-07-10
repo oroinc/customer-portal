@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
+use Oro\Bundle\EntityExtendBundle\Migration\LoadEntityConfigStateMigrationQuery;
 use Oro\Bundle\MigrationBundle\Migration\Extension\DataStorageExtension;
 use Oro\Bundle\MigrationBundle\Migration\Extension\DataStorageExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
@@ -56,6 +57,10 @@ class OroCustomerBundle implements
 
         $configManager->flush();
         $configManager->clear();
+
+        $queries->addQuery(
+            new LoadEntityConfigStateMigrationQuery($this->dataStorageExtension)
+        );
     }
 
     /**
