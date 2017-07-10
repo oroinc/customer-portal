@@ -25,9 +25,6 @@ oro_behat_extension:
     CustomerUserRoleForm:
       selector: "form[id*='_customer_user_role']"
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\CustomerUserRoleForm
-    CustomerUserRoleView:
-      selector: "[data-target='#customer-customer-user-role-view'], section.page-content"
-      class: Oro\Bundle\UserBundle\Tests\Behat\Element\UserRoleViewForm
     Customer Users Grid:
       selector: '[id^="grid-frontend-customer-customer-user-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -98,6 +95,18 @@ oro_behat_extension:
     FrontendGridColumnManager:
       selector: 'div.datagrid-manager div.dropdown-menu'
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager
+
+    Edit Address Button:
+      selector: '#address-book .list-item.map-item button[title="Edit"]'
+
+    Delete Address Button:
+      selector: '#address-book .list-item.map-item button[title="Remove"]'
+
+    Delete Address Button Edit Page:
+      selector: '.oro-address-collection button.removeRow'
+
+    Add Address Button Edit Page:
+      selector: '.oro-address-collection a.add-list-item'
 
     FrontendGridAddViewButton:
       selector: 'button[data-text="Add"]'

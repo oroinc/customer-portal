@@ -125,11 +125,11 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $rolesGranted = true
     ) {
         if ($rolesGranted) {
-            $this->authorizationChecker->expects($this->once())
+            $this->authorizationChecker->expects($this->any())
                 ->method('isGranted')
-                ->with('oro_customer_customer_user_role_view')
                 ->will($this->returnValue(true));
         }
+
         $this->tokenAccessor->expects($this->exactly(2))->method('getOrganization')->willReturn(new Organization());
 
         $form = $this->factory->create($this->formType, $defaultData, []);
@@ -263,6 +263,22 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     public function testGetName()
     {
         $this->assertEquals(CustomerUserType::NAME, $this->formType->getName());
+    }
+
+    public function testHasNoAddress()
+    {
+        $customerUser = $this->createCustomerUser();
+
+        $this->authorizationChecker->expects($this->any())
+            ->method('isGranted')
+            ->withConsecutive(
+                ['oro_customer_customer_user_role_view'],
+                ['oro_customer_customer_user_address_update']
+            )
+            ->willReturn(false);
+
+        $form = $this->factory->create($this->formType, $customerUser, []);
+        $this->assertFalse($form->has('addresses'));
     }
 
     /**

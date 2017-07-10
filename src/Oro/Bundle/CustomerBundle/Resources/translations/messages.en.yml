@@ -254,8 +254,6 @@ oro.customer:
         password: 'Password'
 
     customeraddress:
-        entity_label:        Address
-        entity_plural_label: Addresses
         city.label:          City
         country.label:       Country
         entity_description:  Represent customer's address
