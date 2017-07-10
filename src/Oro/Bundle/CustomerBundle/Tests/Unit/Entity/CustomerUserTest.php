@@ -91,6 +91,39 @@ class CustomerUserTest extends AbstractUserTest
         $this->assertEquals('test company', $user->getCustomer()->getName());
     }
 
+    public function testUpdateCustomer()
+    {
+        $organization = new Organization();
+        $organization->setName('test');
+
+        $user = $this->getUser();
+        $user->setOrganization($organization)
+            ->setFirstName('John')
+            ->setLastName('Doe')
+            ->setOwner(new User())
+            ->setCustomer(new Customer());
+        $address = new CustomerAddress();
+        $user->addAddress($address);
+        $this->assertContains($address, $user->getAddresses());
+        $backendUser = new User();
+        $user->setOwner($backendUser);
+        $this->assertEquals($user->getOwner(), $backendUser);
+
+        $user->updateCustomer();
+        $customer = $user->getCustomer();
+        $this->assertInstanceOf('Oro\Bundle\CustomerBundle\Entity\Customer', $customer);
+        $this->assertEquals($organization, $customer->getOrganization());
+        $this->assertEquals('John Doe', $customer->getName());
+
+        $user->setFirstName('Jane');
+        $user->updateCustomer();
+        $this->assertEquals('John Doe', $user->getCustomer()->getName());
+
+        $user->setCustomer(null);
+        $user->updateCustomer('test company');
+        $this->assertEquals('test company', $user->getCustomer()->getName());
+    }
+
     public function testSerializing()
     {
         $user = $this->getUser();
