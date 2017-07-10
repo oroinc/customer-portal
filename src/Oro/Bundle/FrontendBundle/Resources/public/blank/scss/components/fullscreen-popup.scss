@@ -27,11 +27,6 @@
 
         background: $fullscreen-popup-header-height-bg;
         border-bottom: $fullscreen-popup-header-height-border;
-
-        [class^="fa-"],
-        [class*=" fa-"] {
-            font-size: 26px;
-        }
     }
 
     &__text {
@@ -51,7 +46,6 @@
             margin-right: $offset-x-s;
 
             line-height: inherit;
-            font-size: $fullscreen-popup-text-icon-size;
 
             vertical-align: top;
         }
@@ -67,11 +61,6 @@
         @include badge($badge-bg: $fullscreen-popup-badge-bg);
 
         vertical-align: baseline;
-
-        [class^="fa-"],
-        [class*=" fa-"] {
-            font-size: $fullscreen-popup-text-badge-icon-size;
-        }
     }
 
     &__close {

@@ -7,8 +7,8 @@
         &--current,
         &.active {
             &:before {
-                top: 8px;
-                left: 6px;
+                top: 10px;
+                left: 0;
 
                 width: 7px;
                 height: 7px;
@@ -37,17 +37,6 @@
             padding: $primary-menu-link-inner-offset-fullscreen;
 
             text-transform: $primary-menu-link-text-transform-fullscreen;
-        }
-    }
-}
-
-.primary-menu-container {
-    .primary-menu__item {
-        &--current,
-        &.active {
-            &:before {
-                left: 0;
-            }
         }
     }
 }
