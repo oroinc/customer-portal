@@ -1,0 +1,15 @@
+// @theme: default;
+
+.embedded-list-tiles {
+    display: flex;
+
+    font-size: 0;
+
+    flex-wrap: wrap;
+
+    .embedded-list__item {
+        display: inline-block;
+
+        font-size: $base-font-size;
+    }
+}

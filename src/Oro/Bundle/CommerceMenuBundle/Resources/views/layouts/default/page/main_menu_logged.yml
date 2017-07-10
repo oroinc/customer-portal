@@ -6,10 +6,12 @@ layout:
             items:
                 header_row_shopping:
                     blockType: container
+                    options:
+                        visible: 'context["is_logged_in"]'
                 main_menu_messages:
                     blockType: block
             tree:
                 header_row:
                     header_row_shopping:
                       # main_menu_messages: ~
-    conditions: 'context["is_logged_in"]'
+
