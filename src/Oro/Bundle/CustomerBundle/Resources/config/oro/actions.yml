@@ -324,6 +324,7 @@ operations:
     DELETE:
         exclude_entities:
             - Oro\Bundle\CustomerBundle\Entity\CustomerGroup
+            - Oro\Bundle\CustomerBundle\Entity\Customer
         exclude_datagrids:
             - customer-customer-user-select-grid
             - customer-customer-users-grid-view
@@ -337,6 +338,52 @@ operations:
             - customer-groups-select-grid
             - customer-user-by-customer-grid
             - customer-groups-grid
+            - customer-customers-grid
+
+    oro_customer_delete:
+        extends: DELETE
+        replace:
+            - actions
+            - for_all_datagrids
+            - for_all_entities
+            - exclude_datagrids
+            - exclude_entities
+        entities:
+            - Oro\Bundle\CustomerBundle\Entity\Customer
+        datagrids:
+            - customer-customers-grid
+        datagrid_options:
+            mass_action:
+                entity_name: Oro\Bundle\CustomerBundle\Entity\Customer
+                data_identifier: customer.id
+                type: delete
+                handler: oro_customer.customer.mass_action.handler.delete
+                label: oro.grid.action.delete
+                link: delete_link
+                icon: trash-o
+        actions:
+            - '@run_action_group':
+                action_group: oro_customer_delete
+                parameters_mapping:
+                    data: $.data
+            - '@flash_message':
+                message: oro.action.delete_message
+                type: 'success'
+                message_parameters:
+                    entityLabel: $.entityLabel
+            - '@redirect':
+                conditions:
+                    '@and':
+                        - '@empty': $.gridName
+                        - '@not_empty': $.routes[name]
+                parameters:
+                    route: $.routes[name]
+            - '@refresh_grid':
+                conditions:
+                    '@and':
+                        - '@empty': $.routes[name]
+                        - '@not_empty': $.gridName
+                parameters: [$.gridName]
 
     oro_customer_frontend_user_delete:
         extends: DELETE
@@ -445,6 +492,15 @@ operations:
             - frontend-customer-customer-user-address-grid
 
 action_groups:
+    oro_customer_delete:
+        parameters:
+            data: ~
+        acl_resource: [DELETE, $.data]
+        actions:
+            - '@call_service_method':
+                service: oro_customer.customer.action_group.handler.delete
+                method: handleDelete
+                method_parameters: [$.data]
     oro_customer_customeruser_set_enabled:
         parameters:
             data:
