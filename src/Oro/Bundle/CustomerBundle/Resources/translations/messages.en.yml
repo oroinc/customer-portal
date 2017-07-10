@@ -299,6 +299,13 @@ oro.customer:
         website.label:          Website
         localization.label:     Localization
 
+    customervisitor:
+        entity_label: Customer Visitor
+        entity_plural_label: Customer Visitor
+        id.label: ID
+        last_visit.label: Last Visit
+        session_id.label: Session ID
+
     gridview:
         entity_label: Grid View
         entity_plural_label: Grid Views
@@ -376,6 +383,7 @@ oro.customer:
             customer.title: 'Customer'
             customer_users.title: 'Customer Users'
             customer_users_registration.title: 'Customer Users Registration'
+            menu_templates.title: 'Menu Templates'
         fields:
             default_customer_owner.label: 'Default Customer Owner'
             registration_allowed.label: 'Registration Allowed'
@@ -383,6 +391,11 @@ oro.customer:
             send_password_in_welcome_email.label: 'Send plain text password in welcome emails'
             registration_instructions_enabled.label: 'Show Registration Instructions'
             registration_instructions_text.label: 'Registration Instructions Text'
+            user_menu_show_items:
+                label: 'User Menu'
+                option:
+                    all_at_once.label: 'Show all items at once'
+                    subitems_in_popup.label: 'Show subitems in a popup'
 
     security:
         permissions: 'Action Permissions'
@@ -489,6 +502,7 @@ oro.customer:
                 permission.label: Permission
         menu:
             customer_user_signed_in_as.label: 'Signed in as:'
+            customer_user_welcome.label: 'Welcome, '
             customer_user_sign_out.label: 'Sign Out'
             customer_user_profile.label: 'Account'
 
@@ -498,6 +512,24 @@ oro.customer:
     dataaudit:
         administrator: 'Administrator'
         module_label: 'Audit history for Customer User'
+
+    audit:
+        entity_label: Audit
+        entity_plural_label: Audits
+        action.label: Audit action
+        id.label: Id
+        logged_at.label: Logged at
+        object_class.label: Audit class
+        object_id.label: Id
+        object_name.label: Audit
+        owner_description.label: Audit owner description
+        transaction_id.label: Audit transaction id
+        version.label: Audit version
+        fields.label: Audit fields
+        impersonation.label: Audit impersonation
+        organization.label: Audit organization
+        user.label: Audit user
+        customer_user.label: Customer user
 
     importexport:
         customer_user:

@@ -972,23 +972,24 @@ datagrids:
                             join: b2b_a.customerUser
                             alias: b2b_u
 
-    frontend-audit-history-grid:
-        acl_resource: oro_customer_dataaudit_history
-        extends: audit-history-grid
-        source:
-            query:
-                select:
-                    author: |
-                        CASE WHEN u.email IS NULL THEN CONCAT(b2b_u.firstName, ' ', b2b_u.lastName, ' - ', b2b_u.email)
-                        ELSE '' END as author
-                groupBy: b2b_u.firstName, b2b_u.lastName, b2b_u.email, a.id , u.email
-        columns:
-            author:
-                label: oro.dataaudit.datagrid.author
-                type: twig
-                template: OroCustomerBundle:DataAudit:author.html.twig
-                frontend_type: html
-                data_name: author
+# Disabled as per BAP-9497
+#    frontend-audit-history-grid:
+#        acl_resource: oro_customer_dataaudit_history
+#        extends: audit-history-grid
+#        source:
+#            query:
+#                select:
+#                    author: |
+#                        CASE WHEN u.email IS NULL THEN CONCAT(b2b_u.firstName, ' ', b2b_u.lastName, ' - ', b2b_u.email)
+#                        ELSE '' END as author
+#                groupBy: b2b_u.firstName, b2b_u.lastName, b2b_u.email, a.id , u.email
+#        columns:
+#            author:
+#                label: oro.dataaudit.datagrid.author
+#                type: twig
+#                template: OroCustomerBundle:DataAudit:author.html.twig
+#                frontend_type: html
+#                data_name: author
 
     frontend-customer-address-grid-base:
         source:

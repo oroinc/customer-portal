@@ -5,10 +5,16 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use Oro\Bundle\DataAuditBundle\Entity\AbstractAudit;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 
 /**
  * @ORM\Entity()
+ * @Config(
+ *      defaultValues={
+ *          "security"={}
+ *     }
+ * )
  */
 class Audit extends AbstractAudit
 {
