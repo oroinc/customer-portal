@@ -1,8 +1,8 @@
 @ticket-BB-10060
-@fixture-MassActionsCustomerAddressFixture.yml
+@fixture-OroCustomerBundle:MassActionsCustomerAddressFixture.yml
 
-Feature: Check titles for mass actions if action-sate equal icon-only
-    Scenario: Check titles for mass actions if action-sate equal icon-only
+Feature: Check titles for mass actions in Address Book page if action-sate equal icon-only
+    Scenario: Check titles for mass actions
         Given I signed in as AmandaRCole@example.org on the store frontend
         And I click "Account"
         And I click "Roles"
@@ -13,12 +13,12 @@ Feature: Check titles for mass actions if action-sate equal icon-only
         Then I should see "Customer User Role has been saved" flash message
         And the role has following active permissions:
             | Customer User Address | Edit:Сorporate (All Levels) |
-        And I click "Account"
         And I click "Address Book"
-        Then I should see only following actions for row #2 on "Customer Company Addresses Grid" grid:
+        Then I should see only following actions for row #1 on "Customer Company Addresses Grid" grid:
             | Map |
+            | Edit |
             | Delete |
-        Then I should see only following actions for row #2 on "Customer Company User Addresses Grid" grid:
+        Then I should see only following actions for row #1 on "Customer Company User Addresses Grid" grid:
             | Map |
+            | Edit |
             | Delete |
-        And I click "Sign Out"
