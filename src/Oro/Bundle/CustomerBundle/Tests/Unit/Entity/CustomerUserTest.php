@@ -91,7 +91,7 @@ class CustomerUserTest extends AbstractUserTest
         $this->assertEquals('test company', $user->getCustomer()->getName());
     }
 
-    public function testUpdateCustomer()
+    public function testFillCustomer()
     {
         $organization = new Organization();
         $organization->setName('test');
@@ -109,18 +109,14 @@ class CustomerUserTest extends AbstractUserTest
         $user->setOwner($backendUser);
         $this->assertEquals($user->getOwner(), $backendUser);
 
-        $user->updateCustomer();
+        $user->fillCustomer();
+
         $customer = $user->getCustomer();
-        $this->assertInstanceOf('Oro\Bundle\CustomerBundle\Entity\Customer', $customer);
+        $this->assertInstanceOf(Customer::class, $customer);
         $this->assertEquals($organization, $customer->getOrganization());
         $this->assertEquals('John Doe', $customer->getName());
 
-        $user->setFirstName('Jane');
-        $user->updateCustomer();
-        $this->assertEquals('John Doe', $user->getCustomer()->getName());
-
-        $user->setCustomer(null);
-        $user->updateCustomer('test company');
+        $user->fillCustomer('test company');
         $this->assertEquals('test company', $user->getCustomer()->getName());
     }
 

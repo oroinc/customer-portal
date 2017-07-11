@@ -550,7 +550,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     {
         if (!$this->customer) {
             $this->customer = new Customer();
-            $this->updateCustomer($companyName);
+            $this->fillCustomer($companyName);
         }
 
         return $this;
@@ -561,7 +561,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      *
      * @return CustomerUser
      */
-    public function updateCustomer($companyName = null)
+    public function fillCustomer($companyName = null)
     {
         $this->customer->setOrganization($this->organization);
 
