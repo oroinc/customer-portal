@@ -105,6 +105,8 @@
     .ui-dialog-buttonpane {
         padding: $dialog-buttonpane-offset-inner;
 
+        overflow: visible;
+
         .pull-right .action-wrapper {
             margin-left: $dialog-action-wrapper-side-offset;
         }
