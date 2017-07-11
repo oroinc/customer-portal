@@ -1,7 +1,9 @@
 <script type="text/html" id="template-addressbook-item">
     <div class="actions">
-        {% if address_edit_acl_resource is not defined or is_granted(address_edit_acl_resource) %}
+        {% if options.acl.addressEdit is not defined or is_granted(options.acl.addressEdit) %}
             <button class="btn item-edit-button" title="<%= _.__('oro.customer.address.edit') %>"><i class="fa-pencil-square-o hide-text"><%= _.__('oro.customer.address.edit') %></i></button>
+        {% endif %}
+        {% if options.acl.addressRemove is not defined or is_granted(options.acl.addressRemove) %}
             <% if (!primary) { %><button class="btn item-remove-button" title="<%= _.__('oro.customer.address.remove') %>"><i class="fa-trash-o hide-text"><%= _.__('oro.customer.address.remove') %></i></button><% } %>
         {% endif %}
     </div>

@@ -9,16 +9,6 @@ class ACLContext extends BaseACLContext
     /**
      * {@inheritdoc}
      */
-    protected function getRoleViewFormElement()
-    {
-        $elementName = $this->isUserRoleEditPage() ? 'UserRoleView' : 'CustomerUserRoleView';
-
-        return $this->elementFactory->createElement($elementName);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getRoleEditFormElement()
     {
         $elementName = $this->isUserRoleEditPage() ? 'UserRoleForm' : 'CustomerUserRoleForm';

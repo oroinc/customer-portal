@@ -33,27 +33,30 @@
 {% block content_data %}
     {% set id = 'customer-edit' %}
 
+    {% set subblocks = [{
+        'data': [
+            form_row(form.name),
+            form_row(form.group),
+            form_row(form.parent),
+            form_row(form.internal_rating),
+            form_row(form.salesRepresentatives),
+        ]
+    }] %}
+
+    {% if is_granted('oro_customer_customer_address_update') %}
+        {% set subblocks = subblocks|merge([{
+            'title': 'oro.customer.sections.addresses'|trans,
+            'data': [
+                form_widget(form.addresses),
+            ]
+        }]) %}
+    {% endif %}
+
     {% set dataBlocks = [
         {
             'title': 'oro.customer.sections.general'|trans,
             'class': 'active',
-            'subblocks': [
-                {
-                    'data': [
-                        form_row(form.name),
-                        form_row(form.group),
-                        form_row(form.parent),
-                        form_row(form.internal_rating),
-                        form_row(form.salesRepresentatives),
-                    ]
-                },
-                {
-                    'title': 'oro.customer.sections.addresses'|trans,
-                    'data': [
-                        form_widget(form.addresses),
-                    ]
-                },
-            ]
+            'subblocks': subblocks
         }
     ] %}
 
