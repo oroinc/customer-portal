@@ -16,6 +16,10 @@ parameters:
     oro_customer.entity.windows_state.class: Oro\Bundle\CustomerBundle\Entity\WindowsState
     oro_customer.entity.grid_view.class: Oro\Bundle\CustomerBundle\Entity\GridView
     oro_customer.entity.grid_view_user.class: Oro\Bundle\CustomerBundle\Entity\GridViewUser
+    oro_customer.entity.customer_visitor.class: Oro\Bundle\CustomerBundle\Entity\CustomerVisitor
+
+    oro_customer.anonymous_customer_user.lifetime: 2592000 # 30 days in seconds
+    oro_customer.anonymous_customer_user.update_latency: 600 # 10 minutes in seconds
 
 services:
     oro_customer.deprecated_rest_api_route_options_resolver:
@@ -197,6 +201,37 @@ services:
         public: false
         arguments:
             - "@oro_customer_user.manager"
+
+    oro_customer.customer_visitor_manager:
+        class: 'Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager'
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '%oro_customer.entity.customer_visitor.class%'
+
+    oro_customer.customer_visitor.credentials_cookie_response_listener:
+        class:  'Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseListener'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    oro_customer.authentication.listener.anonymous_customer_user:
+        class: 'Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener'
+        abstract: true
+        arguments:
+            - '@security.token_storage'
+            - '@security.authentication.manager'
+            - '@logger'
+            - '%oro_customer.anonymous_customer_user.lifetime%'
+        public: false
+        tags:
+            - { name: monolog.logger, channel: security }
+
+    oro_customer.authentication.provider.anonymous_customer_user:
+        class: 'Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticationProvider'
+        arguments:
+            - '@oro_customer.customer_visitor_manager'
+            - '%oro_customer.anonymous_customer_user.update_latency%'
+        abstract: true
+        public: false
 
     oro_customer.customer_user_menu:
         class: 'Oro\Bundle\CustomerBundle\Menu\CustomerUserMenuBuilder'
@@ -684,15 +719,6 @@ services:
         arguments:
             - '%oro_customer.entity.customer.class%'
 
-    oro_customer.authentication.listener.anonymous:
-        class: Oro\Bundle\CustomerBundle\Security\Http\Firewall\AnonymousAuthenticationListener
-        decorates: security.authentication.listener.anonymous.frontend
-        arguments:
-            - '@oro_customer.authentication.listener.anonymous.inner'
-            - '@security.token_storage'
-            - '@logger'
-            - '@security.authentication.manager'
-
     oro_user.provider.role_privilege_capability_provider_commerce:
         class: %oro_user.provider.role_privilege_capability_provider.class%
         arguments:
@@ -815,3 +841,38 @@ services:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator
         tags:
             - { name: validator.constraint_validator }
+
+    oro_customer.customer.handler.delete:
+        parent: oro_soap.handler.delete.abstract
+        class: Oro\Bundle\CustomerBundle\Handler\CustomerDeleteHandler
+        calls:
+           - [setCustomerAssignHelper, ['@oro_customer.customer.assign.helper']]
+
+    oro_customer.customer.action_group.handler.delete:
+        class: Oro\Bundle\ActionBundle\Handler\DeleteHandler
+        arguments:
+           - '@oro_customer.customer.handler.delete'
+           - '@oro_action.api_manager'
+           - '@oro_entity.doctrine_helper'
+
+    oro_customer.customer.mass_action.handler.delete:
+        class: Oro\Bundle\CustomerBundle\Handler\CustomersDeleteMassActionHandler
+        parent: oro_datagrid.extension.mass_action.handler.delete
+        calls:
+           - [setCustomerAssignHelper, ['@oro_customer.customer.assign.helper']]
+
+    oro_customer.customer.assign.helper:
+        class: Oro\Bundle\CustomerBundle\Handler\CustomerAssignHelper
+        public: false
+        arguments:
+            - '@doctrine'
+        calls:
+            - [addIgnoredRelation, ['Oro\Bundle\CustomerBundle\Entity\Customer', 'parent']]
+
+    oro_customer.clear_lost_customer_users_processor:
+        class: Oro\Bundle\CustomerBundle\Migrations\Schema\v1_15\ClearLostCustomerUsers
+        arguments:
+            - '@oro_message_queue.message_producer'
+            - '@oro_entity.orm.native_query_executor_helper'
+        tags:
+            - { name: 'oro_message_queue.client.message_processor', topicName: 'oro_customer.clear_lost_customer_users' }

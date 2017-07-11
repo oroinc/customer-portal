@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Oro\Bundle\AddressBundle\Form\Handler\AddressHandler;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
@@ -50,13 +51,7 @@ class CustomerUserAddressController extends Controller
      *     name="oro_customer_frontend_customer_user_address_create",
      *     requirements={"entityId":"\d+"}
      * )
-     * @Acl(
-     *      id="oro_customer_frontend_customer_user_address_create",
-     *      type="entity",
-     *      class="OroCustomerBundle:CustomerUserAddress",
-     *      permission="CREATE",
-     *      group_name="commerce"
-     * )
+     * @AclAncestor("oro_customer_frontend_customer_user_address_create")
      * @Layout
      *
      * @ParamConverter("customerUser", options={"id" = "entityId"})
@@ -76,13 +71,7 @@ class CustomerUserAddressController extends Controller
      *     name="oro_customer_frontend_customer_user_address_update",
      *     requirements={"entityId":"\d+", "id":"\d+"}
      * )
-     * @Acl(
-     *      id="oro_customer_frontend_customer_user_address_update",
-     *      type="entity",
-     *      class="OroCustomerBundle:CustomerUserAddress",
-     *      permission="EDIT",
-     *      group_name="commerce"
-     * )
+     * @AclAncestor("oro_customer_frontend_customer_user_address_update")
      * @Layout
      *
      * @ParamConverter("customerUser", options={"id" = "entityId"})

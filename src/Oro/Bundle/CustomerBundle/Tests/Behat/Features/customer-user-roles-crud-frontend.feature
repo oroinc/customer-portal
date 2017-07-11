@@ -24,14 +24,14 @@ Feature: Managing customer user roles
     When I click View Test customer user role in grid
     Then the role has following active permissions:
       | Customer User Address | View:User (Own) | Create:Department (Same Level) | Edit:Сorporate (All Levels) |
-    And I should see "Audit history for Customer User"
+    And I should see "Share data view"
     When permission VIEW for entity Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress and group commerce_frontend restricts in application
     And permission CREATE for entity Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress and group commerce_frontend restricts in application
-    And capability oro_customer_dataaudit_history and group commerce_frontend restricts in application
+    And capability oro_customer_frontend_gridview_publish and group commerce_frontend restricts in application
     And I reload the page
     Then the role has not following permissions:
       | Customer User Address | View | Create |
-    And I should not see "Audit history for Customer User"
+    And I should not see "Share data view"
     When all permissions for entity Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress and group commerce_frontend restricts in application
     And I should see "Customer User Address"
     And I reload the page

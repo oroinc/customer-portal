@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class AuditControllerTest extends WebTestCase
 {
@@ -17,20 +18,20 @@ class AuditControllerTest extends WebTestCase
         $this->client->useHashNavigation(true);
     }
 
-    public function testAuditHistory()
+    /**
+     * It is assumed that route "oro_customer_frontend_dataaudit_history" does not exist as per BAP-9497.
+     */
+    public function testAuditHistoryRouteDoesNotExist()
     {
-        $user = $this->getCurrentUser();
-        $this->client->request(
-            'GET',
-            $this->getUrl(
-                'oro_customer_frontend_dataaudit_history',
-                [
-                    'entity' => 'Oro_Bundle_CustomerBundle_Entity_CustomerUser',
-                    'id' => $user->getId(),
-                ]
-            )
+        $this->expectException(RouteNotFoundException::class);
+
+        $this->getUrl(
+            'oro_customer_frontend_dataaudit_history',
+            [
+                'entity' => 'Oro_Bundle_CustomerBundle_Entity_CustomerUser',
+                'id' => $this->getCurrentUser()->getId(),
+            ]
         );
-        self::assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
     }
 
     /**

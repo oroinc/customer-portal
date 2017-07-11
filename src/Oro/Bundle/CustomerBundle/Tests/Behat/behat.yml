@@ -25,9 +25,6 @@ oro_behat_extension:
     CustomerUserRoleForm:
       selector: "form[id*='_customer_user_role']"
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\CustomerUserRoleForm
-    CustomerUserRoleView:
-      selector: "[data-target='#customer-customer-user-role-view'], section.page-content"
-      class: Oro\Bundle\UserBundle\Tests\Behat\Element\UserRoleViewForm
     Customer Users Grid:
       selector: '[id^="grid-frontend-customer-customer-user-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -36,9 +33,6 @@ oro_behat_extension:
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
     Customer Company Addresses Grid View List:
       selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-    Customer Company Addresses Grid View List Close Button:
-      selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views [data-close]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer Company User Addresses Grid:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"]'
@@ -77,6 +71,19 @@ oro_behat_extension:
           URL: 'routing[oro_website___url][value]'
           Secure URL Use System: 'routing[oro_website___secure_url][use_parent_scope_value]'
           Secure URL: 'routing[oro_website___secure_url][value]'
+    Menu Templates Form:
+      selector: 'form[name="theme"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Use Default: 'theme[oro_customer___user_menu_show_items][use_parent_scope_value]'
+          User Menu: 'theme[oro_customer___user_menu_show_items][value]'
+    Popup User Menu trigger:
+      selector: '.topbar-customer-menu .topbar-customer-menu__trigger'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Popup User Menu:
+      selector: '.topbar-customer-menu .topbar-customer-menu-list'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Configuration:
       selector: '[title="Organization Configuration"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
@@ -88,6 +95,18 @@ oro_behat_extension:
     FrontendGridColumnManager:
       selector: 'div.datagrid-manager div.dropdown-menu'
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager
+
+    Edit Address Button:
+      selector: '#address-book .list-item.map-item button[title="Edit"]'
+
+    Delete Address Button:
+      selector: '#address-book .list-item.map-item button[title="Remove"]'
+
+    Delete Address Button Edit Page:
+      selector: '.oro-address-collection button.removeRow'
+
+    Add Address Button Edit Page:
+      selector: '.oro-address-collection a.add-list-item'
 
     FrontendGridAddViewButton:
       selector: 'button[data-text="Add"]'
