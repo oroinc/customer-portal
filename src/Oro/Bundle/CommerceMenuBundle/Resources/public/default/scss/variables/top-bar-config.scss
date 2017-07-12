@@ -1,7 +1,13 @@
-// @theme: default
+// @theme: default;
 
 $top-bar-font-size: 12px;
 $top-bar-background: get-color('additional', 'light') !default;
 $top-bar-link-color: get-color('additional', 'dark') !default;
 $top-bar-promo-color: get-color('primary', 'dark') !default;
 $top-bar-menu-item-offset-inner: $offset-x-s 0 !default;
+
+$topbar-navigation-item-tablet-inner-offset: 0 !default;
+$topbar-navigation-item-tablet-border-bottom: 1px solid get-color('additional', 'light') !default;
+$topbar-navigation-item-tablet-text-transform: uppercase !default;
+$topbar-navigation-link-tablet-inner-offset: 13px 16px !default;
+$topbar-navigation-link-tablet-border-bottom: 1px solid get-color('additional', 'light') !default;

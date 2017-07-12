@@ -35,28 +35,3 @@
         {{ block_widget(block) }}
     </div>
 {% endblock %}
-
-{% block _top_nav_controls_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-    '~class': " pull-left"
-    }) %}
-    {% set dom_relocation_options =  {
-        responsive: [
-            {
-                viewport: {
-                    maxScreenType: 'tablet',
-                },
-                moveTo: '[data-main-menu-container]'
-            }
-        ]
-    }|json_encode %}
-
-    <div {{ block('block_attributes') }}>
-        <ul class="topbar-navigation topbar-navigation--controls"
-            data-dom-relocation
-            data-dom-relocation-options="{{ dom_relocation_options }}"
-        >
-            {{ block_widget(block) }}
-        </ul>
-    </div>
-{% endblock %}

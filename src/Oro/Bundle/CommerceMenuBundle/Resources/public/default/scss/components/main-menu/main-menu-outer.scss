@@ -1,0 +1,31 @@
+@include breakpoint('desktop') {
+    .main-menu-outer {
+        display: flex;
+    }
+}
+
+@include breakpoint('tablet') {
+    .main-menu-outer {
+        margin-bottom: 10px;
+
+        border-bottom: 1px solid get-color('additional', 'light');
+
+        &__text {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .collapse-view {
+            &__trigger-icon {
+                margin-right: 5px;
+                color: get-color('additional', 'dark');
+            }
+        }
+
+        &.expanded {
+            .main-menu__categories {
+                display: block;
+            }
+        }
+    }
+}

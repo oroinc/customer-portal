@@ -15,6 +15,7 @@ api:
     entities:
         Oro\Bundle\CustomerBundle\Entity\Customer:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer.md'
+            delete_handler: oro_customer.customer.handler.delete
         Oro\Bundle\CustomerBundle\Entity\CustomerGroup: ~
         Oro\Bundle\CustomerBundle\Entity\CustomerUserRole: ~
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:

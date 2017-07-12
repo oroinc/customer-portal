@@ -1,4 +1,4 @@
-// @theme: default
+// @theme: default;
 
 .topbar {
     background: $top-bar-background;
@@ -104,13 +104,17 @@
         display: none;
     }
     .topbar-navigation {
-        padding: 0 0 20px 15px;
-
         &__item {
             display: block;
-            margin-right: 20px;
-            padding: 5px 0;
-            text-transform: uppercase;
+            margin-right: 0;
+            padding: $topbar-navigation-item-tablet-inner-offset;
+            border-bottom: $topbar-navigation-item-tablet-border-bottom;
+            text-transform: $topbar-navigation-item-tablet-text-transform;
+        }
+        &__link {
+            display: block;
+            padding: $topbar-navigation-link-tablet-inner-offset;
+            border-bottom: $topbar-navigation-link-tablet-border-bottom;
         }
     }
 }

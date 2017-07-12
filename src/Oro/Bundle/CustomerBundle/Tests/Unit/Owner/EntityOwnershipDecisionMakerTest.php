@@ -2,10 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdAccessor;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProvider;
+use Oro\Bundle\SecurityBundle\Owner\EntityOwnerAccessor;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Owner\EntityOwnershipDecisionMaker;
@@ -13,7 +16,7 @@ use Oro\Bundle\CustomerBundle\Owner\EntityOwnershipDecisionMaker;
 class EntityOwnershipDecisionMakerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|OwnershipMetadataProvider
+     * @var \PHPUnit_Framework_MockObject_MockObject|OwnershipMetadataProviderInterface
      */
     protected $metadataProvider;
 
@@ -28,11 +31,6 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit_Framework_TestCase
     protected $decisionMaker;
 
     /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface
      */
     protected $tokenAccessor;
@@ -44,49 +42,22 @@ class EntityOwnershipDecisionMakerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->metadataProvider = $this
-            ->getMockBuilder('Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProvider')
+            ->getMockBuilder('Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->container->expects($this->any())
-            ->method('get')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        [
-                            'oro_security.ownership_tree_provider',
-                            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->treeProvider,
-                        ],
-                        [
-                            'oro_security.owner.metadata_provider.chain',
-                            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->metadataProvider,
-                        ],
-                        [
-                            'oro_security.token_accessor',
-                            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-                            $this->tokenAccessor,
-                        ],
-                    ]
-                )
-            );
+        $doctrineHelper = $this->createMock(DoctrineHelper::class);
+        $doctrine = $this->createMock(ManagerRegistry::class);
 
-        $this->decisionMaker = new EntityOwnershipDecisionMaker();
-        $this->decisionMaker->setContainer($this->container);
-    }
-
-    protected function tearDown()
-    {
-        unset(
-            $this->metadataProvider,
+        $this->decisionMaker = new EntityOwnershipDecisionMaker(
             $this->treeProvider,
-            $this->decisionMaker,
-            $this->container,
-            $this->tokenAccessor
+            new ObjectIdAccessor($doctrineHelper),
+            new EntityOwnerAccessor($this->metadataProvider),
+            $this->metadataProvider,
+            $this->tokenAccessor,
+            $doctrine
         );
     }
 

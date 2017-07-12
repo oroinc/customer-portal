@@ -37,23 +37,6 @@
     }
 }
 
-@include breakpoint('tablet') {
-    .shown-on-desktop {
-        display: none !important;
-    }
-
-    .header-row {
-        &__container {
-            &.open {
-                .header-row__trigger {
-                    background: get-color('additional', 'ultra');
-                    box-shadow: inset 0 4px 4px -2px rgba(0, 0, 0, .2);
-                }
-            }
-        }
-    }
-}
-
 @include breakpoint('desktop') {
     %hidden-on-desktop {
         &.hidden-on-desktop {
@@ -80,6 +63,10 @@
 
 @include breakpoint('tablet') {
     .header-row {
+        position: relative;
+
+        z-index: 1;
+
         margin: 0 -($offset-x-m);
 
         &__container {
@@ -90,6 +77,13 @@
 
             &--unstack {
                 flex-grow: 1;
+            }
+
+            &.open {
+                .header-row__trigger {
+                    background: get-color('additional', 'ultra');
+                    box-shadow: inset 0 4px 4px -2px rgba(0, 0, 0, .2);
+                }
             }
         }
 
@@ -113,7 +107,6 @@
         &__dropdown {
             min-width: 260px;
 
-            border: 1px solid get-color(additional, 'light');
             background: get-color('additional', 'ultra');
 
         }
