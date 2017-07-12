@@ -27,8 +27,6 @@
 
             display: inline-block;
 
-            padding: $main-menu-item--nested;
-
             font-size: $base-font-size;
 
             vertical-align: middle;
@@ -76,6 +74,11 @@
 
         &__item {
             min-height: $main-menu-item-height;
+
+            &--nested {
+                padding: $main-menu-item--nested;
+
+            }
         }
 
         &__link {
