@@ -1,0 +1,4 @@
+assets:
+    css:
+        ororeminder:
+            - 'bundles/orocommercemenu/css/less/style.less'
