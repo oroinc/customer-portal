@@ -2,8 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
-use Behat\Gherkin\Node\TableNode;
-
 use Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager;
 use Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
