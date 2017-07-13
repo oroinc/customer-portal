@@ -44,12 +44,14 @@
     {% endset %}
 
     {% set addressBookWidget %}
-        {{ oro_widget_render({
-            'widgetType': 'block',
-            'contentClasses': [],
-            'url': path('oro_customer_customer_user_address_book', {id: entity.id}),
-            'title': 'oro.customer.customeruser.address_book.label'|trans
-        }) }}
+        {% if is_granted('oro_customer_customer_user_address_view') %}
+            {{ oro_widget_render({
+                'widgetType': 'block',
+                'contentClasses': [],
+                'url': path('oro_customer_customer_user_address_book', {id: entity.id}),
+                'title': 'oro.customer.customeruser.address_book.label'|trans
+            }) }}
+        {% endif %}
     {% endset %}
 
     {% set dataBlocks = [

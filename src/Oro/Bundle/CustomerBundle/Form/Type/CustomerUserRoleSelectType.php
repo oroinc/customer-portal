@@ -63,7 +63,7 @@ class CustomerUserRoleSelectType extends AbstractType
             'class' => $this->roleClass,
             'multiple' => true,
             'expanded' => true,
-            'required' => true,
+            'required' => false,
             'choice_label' => function ($role) {
                 if (!($role instanceof CustomerUserRole)) {
                     return (string)$role;

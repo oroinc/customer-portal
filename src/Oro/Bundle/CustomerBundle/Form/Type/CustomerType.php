@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
@@ -34,12 +35,19 @@ class CustomerType extends AbstractType
      */
     protected $modelChangeSet = [];
 
+    /** @var AuthorizationCheckerInterface */
+    protected $authorizationChecker;
+
     /**
      * @param EventDispatcherInterface $eventDispatcher
+     * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        AuthorizationCheckerInterface $authorizationChecker
+    ) {
         $this->eventDispatcher = $eventDispatcher;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -66,19 +74,6 @@ class CustomerType extends AbstractType
                 ]
             )
             ->add(
-                'addresses',
-                AddressCollectionType::NAME,
-                [
-                    'label' => 'oro.customer.customer.addresses.label',
-                    'type' => CustomerTypedAddressType::NAME,
-                    'required' => true,
-                    'options' => [
-                        'data_class' => $this->addressClass,
-                        'single_form' => false
-                    ]
-                ]
-            )
-            ->add(
                 'internal_rating',
                 'oro_enum_select',
                 [
@@ -99,6 +94,33 @@ class CustomerType extends AbstractType
             )
             ->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'preSubmit'])
             ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'postSubmit']);
+
+        if ($this->authorizationChecker->isGranted('oro_customer_customer_address_update')) {
+            $options = [
+                'label' => 'oro.customer.customer.addresses.label',
+                'type' => CustomerTypedAddressType::NAME,
+                'required' => true,
+                'options' => [
+                    'data_class' => $this->addressClass,
+                    'single_form' => false
+                ]
+            ];
+
+            if (!$this->authorizationChecker->isGranted('oro_customer_customer_address_create')) {
+                $options['allow_add'] = false;
+            }
+
+            if (!$this->authorizationChecker->isGranted('oro_customer_customer_address_remove')) {
+                $options['allow_delete'] = false;
+            }
+
+            $builder
+                ->add(
+                    'addresses',
+                    AddressCollectionType::NAME,
+                    $options
+                );
+        }
     }
 
     /**

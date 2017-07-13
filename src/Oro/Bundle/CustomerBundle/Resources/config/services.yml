@@ -855,6 +855,41 @@ services:
         tags:
             - { name: validator.constraint_validator }
 
+    oro_customer.customer.handler.delete:
+        parent: oro_soap.handler.delete.abstract
+        class: Oro\Bundle\CustomerBundle\Handler\CustomerDeleteHandler
+        calls:
+           - [setCustomerAssignHelper, ['@oro_customer.customer.assign.helper']]
+
+    oro_customer.customer.action_group.handler.delete:
+        class: Oro\Bundle\ActionBundle\Handler\DeleteHandler
+        arguments:
+           - '@oro_customer.customer.handler.delete'
+           - '@oro_action.api_manager'
+           - '@oro_entity.doctrine_helper'
+
+    oro_customer.customer.mass_action.handler.delete:
+        class: Oro\Bundle\CustomerBundle\Handler\CustomersDeleteMassActionHandler
+        parent: oro_datagrid.extension.mass_action.handler.delete
+        calls:
+           - [setCustomerAssignHelper, ['@oro_customer.customer.assign.helper']]
+
+    oro_customer.customer.assign.helper:
+        class: Oro\Bundle\CustomerBundle\Handler\CustomerAssignHelper
+        public: false
+        arguments:
+            - '@doctrine'
+        calls:
+            - [addIgnoredRelation, ['Oro\Bundle\CustomerBundle\Entity\Customer', 'parent']]
+
+    oro_customer.clear_lost_customer_users_processor:
+        class: Oro\Bundle\CustomerBundle\Migrations\Schema\v1_15\ClearLostCustomerUsers
+        arguments:
+            - '@oro_message_queue.message_producer'
+            - '@oro_entity.orm.native_query_executor_helper'
+        tags:
+            - { name: 'oro_message_queue.client.message_processor', topicName: 'oro_customer.clear_lost_customer_users' }
+
     oro_customer.voter.anonymous_customer_user:
         class: 'Oro\Bundle\CustomerBundle\Voter\AnonymousCustomerUserVoter'
         arguments:
