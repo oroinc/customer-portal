@@ -1,9 +1,0 @@
-layout:
-    actions:
-        - '@setBlockTheme':
-            themes: 'modal.html.twig'
-
-        - '@add':
-            id: modal
-            blockType: block
-            parentId: head
