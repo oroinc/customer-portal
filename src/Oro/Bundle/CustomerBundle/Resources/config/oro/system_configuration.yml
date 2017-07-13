@@ -20,6 +20,10 @@ system_configuration:
                 label: oro.customer.system_configuration.fields.default_customer_owner.label
                 tooltip: oro.customer.system_configuration.fields.default_customer_owner.tooltip
                 required: true
+                configs:
+                    allowClear: true
+                constraints:
+                    - NotBlank: ~
         oro_customer.registration_allowed:
             data_type: boolean
             type: oro_config_checkbox
