@@ -8,6 +8,8 @@ use Oro\Bundle\UIBundle\Provider\UserAgentProviderInterface;
 
 class UserAgentConditionsEvaluator implements ConditionEvaluatorInterface
 {
+    const MENU_CONDITION_KEY_EXTRA = 'userAgentConditions';
+
     /**
      * @var UserAgentProviderInterface
      */
@@ -26,11 +28,11 @@ class UserAgentConditionsEvaluator implements ConditionEvaluatorInterface
      */
     public function evaluate(ItemInterface $menuItem, array $options)
     {
-        $menuItemExtras = $menuItem->getExtras();
-        if (!isset($menuItemExtras['userAgentConditions'])) {
+        $menuUserAgentConditionsCollection = $menuItem->getExtra(self::MENU_CONDITION_KEY_EXTRA);
+        if (!$menuUserAgentConditionsCollection || $menuUserAgentConditionsCollection->isEmpty()) {
             return true;
         }
-        $menuUserAgentConditionsCollection = $menuItemExtras['userAgentConditions'];
+
         $userAgentValue = $this->userAgentProvider->getUserAgent()->getUserAgent();
 
         $groupedConditionsArray = [];

@@ -2,6 +2,11 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Menu\ConditionEvaluator;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\PersistentCollection;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\UIBundle\Provider\UserAgentInterface;
@@ -21,6 +26,16 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit_Framework_TestCase
     private $menuItem;
 
     /**
+     * @var EntityManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $entityManager;
+
+    /**
+     * @var ClassMetadata|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $metadata;
+
+    /**
      * @var UserAgentConditionsEvaluator
      */
     private $userAgentConditionsEvaluator;
@@ -29,6 +44,8 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->menuItem = $this->createMock(ItemInterface::class);
         $this->userAgentProvider = $this->createMock(UserAgentProviderInterface::class);
+        $this->entityManager = $this->createMock(EntityManager::class);
+        $this->metadata = $this->createMock(ClassMetadata::class);
         $this->userAgentConditionsEvaluator = new UserAgentConditionsEvaluator(
             $this->userAgentProvider
         );
@@ -37,11 +54,26 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit_Framework_TestCase
     public function testEvaluateWithoutExtras()
     {
         $this->menuItem->expects(static::once())
-            ->method('getExtras')
-            ->willReturn([]);
+            ->method('getExtra')
+            ->with(UserAgentConditionsEvaluator::MENU_CONDITION_KEY_EXTRA)
+            ->willReturn(null);
         $this->userAgentProvider->expects(static::never())
             ->method('getUserAgent')
             ->willReturn('userAgent');
+        static::assertTrue($this->userAgentConditionsEvaluator->evaluate($this->menuItem, []));
+    }
+
+    public function testEvaluateWithEmptyExtra()
+    {
+        $collection = new PersistentCollection(
+            $this->entityManager,
+            $this->metadata,
+            new ArrayCollection([])
+        );
+        $this->menuItem->expects(static::once())
+            ->method('getExtra')
+            ->with(UserAgentConditionsEvaluator::MENU_CONDITION_KEY_EXTRA)
+            ->willReturn($collection);
         static::assertTrue($this->userAgentConditionsEvaluator->evaluate($this->menuItem, []));
     }
 
@@ -65,9 +97,16 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit_Framework_TestCase
             ->method('getConditionGroupIdentifier')
             ->willReturn(1);
 
+        $collection = new PersistentCollection(
+            $this->entityManager,
+            $this->metadata,
+            new ArrayCollection([$menuUserAgentCondition])
+        );
+
         $this->menuItem->expects(static::once())
-            ->method('getExtras')
-            ->willReturn(['userAgentConditions' => [$menuUserAgentCondition]]);
+            ->method('getExtra')
+            ->with(UserAgentConditionsEvaluator::MENU_CONDITION_KEY_EXTRA)
+            ->willReturn($collection);
 
         $userAgent = $this->createMock(UserAgentInterface::class);
         $userAgent->expects(static::once())
@@ -86,9 +125,17 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionWhenAnotherCollection()
     {
+        $collection = new PersistentCollection(
+            $this->entityManager,
+            $this->metadata,
+            new ArrayCollection([new \stdClass])
+        );
+
         $this->menuItem->expects(static::once())
-            ->method('getExtras')
-            ->willReturn(['userAgentConditions' => [new \stdClass]]);
+            ->method('getExtra')
+            ->with(UserAgentConditionsEvaluator::MENU_CONDITION_KEY_EXTRA)
+            ->willReturn($collection);
+
         $userAgent = $this->createMock(UserAgentInterface::class);
         $userAgent->expects(static::once())
             ->method('getUserAgent')
