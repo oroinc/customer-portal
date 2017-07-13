@@ -150,6 +150,8 @@ class OroCustomerBundleInstaller implements
 
         $this->addOroGridViewForeignKeys($schema);
         $this->addOroGridViewUserForeignKeys($schema);
+
+        $this->addCustomerVisitorForeignKeys($schema);
     }
 
     /**
@@ -1221,5 +1223,22 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('customer_user_id', 'integer', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['id', 'session_id'], 'id_session_id_idx');
+    }
+
+    /**
+     * Add oro_customer_visitor foreign keys.
+     *
+     * @param Schema $schema
+     */
+    protected function addCustomerVisitorForeignKeys(Schema $schema)
+    {
+        $table = $schema->getTable('oro_customer_visitor');
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_customer_user'),
+            ['customer_user_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL']
+        );
+        $table->addUniqueIndex(['customer_user_id'], 'idx_customer_visitor_id_customer_user_id');
     }
 }

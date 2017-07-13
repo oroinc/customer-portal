@@ -314,6 +314,7 @@ oro.customer:
         id.label: ID
         last_visit.label: Last Visit
         session_id.label: Session ID
+        customer_user.label: Customer User
 
     gridview:
         entity_label: Grid View

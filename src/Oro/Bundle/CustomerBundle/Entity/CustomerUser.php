@@ -142,7 +142,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      * @ConfigField(
      *      defaultValues={
      *          "dataaudit"={
@@ -444,7 +444,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
@@ -564,13 +564,10 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     public function fillCustomer($companyName = null)
     {
         $this->customer->setOrganization($this->organization);
-
         if (!$companyName) {
             $companyName = sprintf('%s %s', $this->firstName, $this->lastName);
         }
-
         $this->customer->setName($companyName);
-
         if ($this->getOwner() && !$this->customer->getOwner()) {
             $this->customer->setOwner($this->getOwner(), false);
         }
