@@ -52,7 +52,8 @@ define(function(require) {
             }
 
             this.fullscreenView = new FullscreenPopupView({
-                content: this.$mapContainerFrame
+                content: this.$mapContainerFrame,
+                popupIcon: 'fa-chevron-left'
             });
             this.fullscreenView.on('close', onClose);
             this.fullscreenView.show();

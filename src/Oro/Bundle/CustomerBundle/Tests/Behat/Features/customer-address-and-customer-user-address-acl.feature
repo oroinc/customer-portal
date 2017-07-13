@@ -1,5 +1,5 @@
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
-
+@regression
 Feature: Managing customer address and customer user address ACLs
   In order to control user permissions
   As an Administrator

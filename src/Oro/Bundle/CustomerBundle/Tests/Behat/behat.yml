@@ -49,6 +49,9 @@ oro_behat_extension:
     Customer Company Address Button:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views .grid-views__aditional .btn'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Customer Create User Button:
+      selector: '[id^="grid-frontend-customer-customer-user-grid"] .grid-views .grid-views__aditional .btn'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer User Registration Error Container:
       selector: ".form-row span.validation-failed"
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
