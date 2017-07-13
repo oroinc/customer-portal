@@ -20,7 +20,7 @@ class CustomerUserAddressController extends Controller
     /**
      * @Route("/address-book/{id}", name="oro_customer_customer_user_address_book", requirements={"id"="\d+"})
      * @Template("OroCustomerBundle:Address/widget:addressBook.html.twig")
-     * @AclAncestor("oro_customer_customer_user_view")
+     * @AclAncestor("oro_customer_customer_user_address_view")
      *
      * @param CustomerUser $customerUser
      * @return array
@@ -29,7 +29,6 @@ class CustomerUserAddressController extends Controller
     {
         return [
             'entity' => $customerUser,
-            'address_edit_acl_resource' => 'oro_customer_customer_user_update',
             'options' => $this->getAddressBookOptions($customerUser)
         ];
     }
@@ -41,7 +40,7 @@ class CustomerUserAddressController extends Controller
      *      requirements={"customerUserId"="\d+"}
      * )
      * @Template("OroCustomerBundle:Address/widget:update.html.twig")
-     * @AclAncestor("oro_customer_customer_user_create")
+     * @AclAncestor("oro_customer_customer_user_address_create")
      * @ParamConverter("customerUser", options={"id" = "entityId"})
      *
      * @param CustomerUser $customerUser
@@ -59,7 +58,7 @@ class CustomerUserAddressController extends Controller
      *      requirements={"customerUserId"="\d+","id"="\d+"},defaults={"id"=0}
      * )
      * @Template("OroCustomerBundle:Address/widget:update.html.twig")
-     * @AclAncestor("oro_customer_customer_user_update")
+     * @AclAncestor("oro_customer_customer_user_address_update")
      * @ParamConverter("customerUser", options={"id" = "entityId"})
      *
      * @param CustomerUser        $customerUser
@@ -144,6 +143,19 @@ class CustomerUserAddressController extends Controller
             'addressUpdateRouteName' => 'oro_customer_customer_user_address_update',
             'currentAddresses'       => $currentAddresses,
             'addressDeleteRouteName' => 'oro_api_customer_delete_customeruser_address',
+            'acl'                    => $this->getAclResources()
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getAclResources()
+    {
+        return [
+            'addressEdit' => 'oro_customer_customer_user_address_update',
+            'addressCreate' => 'oro_customer_customer_user_address_create',
+            'addressRemove' => 'oro_customer_customer_user_address_remove',
         ];
     }
 }

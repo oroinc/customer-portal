@@ -3,10 +3,6 @@ Feature: Frontend Grid Views
   #Implement frontend grid views.
   #The functionality should work exactly like in the admin.
   #Also we should remember current grid state (filters, sorters, etc) for each page, and restore it when the user comes back to this page again.
-  #Design:
-  #https://projects.invisionapp.com/share/9T7EIUAAE#/screens/161065160
-  #https://projects.invisionapp.com/share/9T7EIUAAE#/screens/175537128
-  #PSD file - https://drive.google.com/open?id=0B3CsM8JeMMssQllxLWNQOUxlSHM
 
   # Scenario: Preconditions
   # I should have:

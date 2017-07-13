@@ -3,6 +3,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerType'
         arguments:
           - '@event_dispatcher'
+          - '@security.authorization_checker'
         calls:
             - [setAddressClass, ['%oro_customer.entity.customer_address.class%']]
         tags:

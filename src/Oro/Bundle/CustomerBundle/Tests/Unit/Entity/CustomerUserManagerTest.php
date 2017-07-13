@@ -7,6 +7,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class CustomerUserManagerTest extends \PHPUnit_Framework_TestCase
 {
     const USER_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
@@ -211,7 +214,7 @@ class CustomerUserManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($required, $this->userManager->isConfirmationRequired());
     }
 
-    public function testSaveSaveDisabledCustomerWithoutRole()
+    public function testSaveDisabledCustomerWithoutRole()
     {
         $password = 'password';
         $encodedPassword = 'encodedPassword';
@@ -247,6 +250,26 @@ class CustomerUserManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($email, $customerUser->getEmail());
         $this->assertEquals($encodedPassword, $customerUser->getPassword());
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Enabled customer has not default role
+     */
+    public function testUpdateUserWithException()
+    {
+        $password = 'password';
+        $email = 'test@test.com';
+
+        $customerUser = new CustomerUser();
+        $customerUser
+            ->setUsername($email)
+            ->setEmail($email)
+            ->setPlainPassword($password);
+
+        $customerUser->setEnabled(true);
+
+        $this->userManager->updateUser($customerUser);
     }
 
     /**
