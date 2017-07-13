@@ -51,8 +51,6 @@ class AnonymousCustomerUserVoter implements VoterInterface
             if ($this->tokenStorage->getToken() instanceof AnonymousCustomerUserToken) {
                 return $this->configVoter->vote($feature, $scopeIdentifier);
             }
-
-            return VoterInterface::FEATURE_ENABLED;
         }
 
         return VoterInterface::FEATURE_ABSTAIN;

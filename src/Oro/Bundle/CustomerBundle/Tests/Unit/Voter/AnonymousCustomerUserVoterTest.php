@@ -41,7 +41,7 @@ class AnonymousCustomerUserVoterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(VoterInterface::FEATURE_ABSTAIN, $vote);
     }
 
-    public function testVoteEnabledForLoggedUser()
+    /*public function testVoteEnabledForLoggedUser()
     {
         $featureName = 'feature_name';
 
@@ -54,7 +54,7 @@ class AnonymousCustomerUserVoterTest extends \PHPUnit_Framework_TestCase
 
         $vote = $this->voter->vote($featureName, $scopeIdentifier);
         $this->assertEquals(VoterInterface::FEATURE_ENABLED, $vote);
-    }
+    }*/
 
     public function testVoteEnabledForNotLoggedUser()
     {

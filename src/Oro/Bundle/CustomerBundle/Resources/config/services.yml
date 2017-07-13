@@ -879,3 +879,9 @@ services:
             - '@oro_website.manager'
             - '@oro_customer_user.manager'
             - '@oro_customer.provider.customer_user_relations_provider'
+
+    oro_customer.voter.customer_user:
+        class: 'Oro\Bundle\CustomerBundle\Voter\CustomerUserVoter'
+        arguments:
+           - '@oro_security.token_accessor'
+        lazy: true
