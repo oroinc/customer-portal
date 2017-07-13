@@ -162,8 +162,8 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertResponseStatusCodeEquals($response, 200);
 
-        $this->assertEquals(4, substr_count($response->getContent(), '[Quote]'));
-        $this->assertContains('Audit history for Customer User', $response->getContent());
+        $this->assertEquals(8, substr_count($response->getContent(), 'shipping address'));
+        $this->assertContains('Share data view', $response->getContent());
         $this->assertNotContains('Access system information', $response->getContent());
 
         // Check datagrid

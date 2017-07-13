@@ -46,7 +46,7 @@
 
     &__handle {
         display: block;
-        width: 11px;
+        width: 9px;
         height: 33px;
         margin-right: 8px;
 
@@ -65,67 +65,11 @@
         flex: 1 1 auto;
     }
 
-    &__move {
-        display: none;
-        padding-right: $offset-x-s;
-
-        color: get-color('additional', 'middle');
-
-        flex: 0 0 auto;
-    }
-
-    &__move-btn {
-        position: relative;
-
-        padding: 8px $offset-x-m;
-        display: block;
-
-        line-height: 1;
-
-        background: none;
-        border: none;
-
-        &:not(:first-child) {
-            margin-left: 2px;
-
-            &:before {
-                position: absolute;
-                top: 50%;
-                left: -2px;
-
-                width: 2px;
-                height: 13px;
-
-                background: get-color('additional', 'middle');
-
-                transform: translate(0, -50%);
-
-                @include after();
-            }
-        }
-
-        [class^="fa-"],
-        [class*=" fa-"] {
-            margin: 0;
-        }
-    }
-
-    &__move-up {
-        .renderable:first-child & {
-            color: lighten(get-color('additional', 'middle'), 12%);
-        }
-    }
-
-    &__move-down {
-        .renderable:last-child & {
-            color: lighten(get-color('additional', 'middle'), 12%);
-        }
-    }
-
     &__checkboxes {
         display: flex;
         flex-wrap: wrap;
         width: 100%;
+        height: auto !important;
         margin-bottom: $offset-y-m + 2px;
 
         // Rewrite ui-* styles
@@ -223,24 +167,41 @@
             max-width: none !important;
 
             .datagrid-manager {
+                &__container {
+                    &:after {
+                        content: none;
+                    }
+                }
+
+                &__reset-btn {
+                    display: block;
+                    padding: 7px;
+
+                    text-align: center;
+
+                    border: 1px solid get-color('additional', 'light');
+
+                    border-radius: 5px;
+                }
+
+                &__handle {
+                    margin-right: 12px;
+                }
+
                 &__header {
                     display: none;
                 }
 
-                &__move {
-                    display: flex;
-                }
-
                 &__actions {
-                    padding: $offset-y $offset-x 0;
+                    padding: $offset-y $offset-x $offset-y-s;
                 }
 
                 &-table {
-                    padding: 0 $offset-x;
+                    padding: 0 $offset-x-m 0 0;
                 }
 
                 &__footer {
-                    padding: 0 $offset-x $offset-y;
+                    padding: $offset-y-s $offset-x-m;
                 }
             }
         }

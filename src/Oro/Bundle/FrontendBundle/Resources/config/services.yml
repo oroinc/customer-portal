@@ -268,3 +268,9 @@ services:
             - '@oro_frontend.extractor.frontend_exposed_routes_extractor'
             - '%fos_js_routing.cache_control%'
             - '%kernel.debug%'
+
+    oro_frontend.form.configurator.theme:
+        class: 'Oro\Bundle\FrontendBundle\Form\Configurator\ThemeConfigurator'
+        arguments:
+            - '@oro_config.config_bag'
+            - '@security.context'

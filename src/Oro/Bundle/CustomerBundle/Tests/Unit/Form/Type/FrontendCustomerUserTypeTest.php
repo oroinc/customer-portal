@@ -107,15 +107,15 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         CustomerUser $expectedData,
         $roleGranted = true
     ) {
-        $this->authorizationChecker->expects($this->at(0))
+        $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
-            ->with('oro_customer_customer_user_role_view')
-            ->willReturn(false);
+            ->willReturnCallback(function ($acl) {
+                if ($acl === 'oro_customer_customer_user_role_view') {
+                    return false;
+                }
 
-        $this->authorizationChecker->expects($this->at(1))
-            ->method('isGranted')
-            ->with('oro_customer_frontend_customer_user_role_view')
-            ->willReturn(true);
+                return true;
+            });
 
         $form = $this->factory->create($this->formType, $defaultData, []);
 

@@ -1,4 +1,4 @@
-@fixture-BuyerCustomerFixture.yml
+@fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Removing last role from the customer user
   Regression test for BB-7456
 
@@ -27,4 +27,4 @@ Feature: Removing last role from the customer user
     And I click Edit AmandaRCole@example.org in grid
     And I check "Enabled"
     When I save and close form
-    Then I should see "You must select at least 1 role"
+    Then I should see "Please select at least one role before you enable the customer user"

@@ -87,31 +87,28 @@ class FrontendOwnershipMetadataTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testIsBasicLevelOwned()
+    public function testIsUserOwned()
     {
         $metadata = new FrontendOwnershipMetadata();
-        $this->assertFalse($metadata->isBasicLevelOwned());
+        $this->assertFalse($metadata->isUserOwned());
 
         $metadata = new FrontendOwnershipMetadata('FRONTEND_USER', 'customer_user', 'customer_user_id');
-        $this->assertTrue($metadata->isBasicLevelOwned());
+        $this->assertTrue($metadata->isUserOwned());
 
         $metadata = new FrontendOwnershipMetadata('FRONTEND_CUSTOMER', 'FRONTEND_CUSTOMER', 'customer_id');
-        $this->assertFalse($metadata->isBasicLevelOwned());
+        $this->assertFalse($metadata->isUserOwned());
     }
 
-    public function testIsLocalLevelOwned()
+    public function testIsBusinessUnitOwned()
     {
         $metadata = new FrontendOwnershipMetadata();
-        $this->assertFalse($metadata->isLocalLevelOwned());
-        $this->assertFalse($metadata->isLocalLevelOwned(true));
+        $this->assertFalse($metadata->isBusinessUnitOwned());
 
         $metadata = new FrontendOwnershipMetadata('FRONTEND_CUSTOMER', 'FRONTEND_CUSTOMER', 'customer_id');
-        $this->assertTrue($metadata->isLocalLevelOwned());
-        $this->assertTrue($metadata->isLocalLevelOwned(true));
+        $this->assertTrue($metadata->isBusinessUnitOwned());
 
         $metadata = new FrontendOwnershipMetadata('FRONTEND_USER', 'customer_user', 'customer_user_id');
-        $this->assertFalse($metadata->isLocalLevelOwned());
-        $this->assertFalse($metadata->isLocalLevelOwned(true));
+        $this->assertFalse($metadata->isBusinessUnitOwned());
     }
 
     public function testSerialization()
@@ -120,22 +117,22 @@ class FrontendOwnershipMetadataTest extends \PHPUnit_Framework_TestCase
         $data = serialize($metadata);
 
         $metadata = new FrontendOwnershipMetadata();
-        $this->assertFalse($metadata->isBasicLevelOwned());
-        $this->assertFalse($metadata->isLocalLevelOwned());
+        $this->assertFalse($metadata->isUserOwned());
+        $this->assertFalse($metadata->isBusinessUnitOwned());
         $this->assertEquals('', $metadata->getOwnerFieldName());
         $this->assertEquals('', $metadata->getOwnerColumnName());
 
         $metadata = unserialize($data);
-        $this->assertTrue($metadata->isBasicLevelOwned());
-        $this->assertFalse($metadata->isLocalLevelOwned());
+        $this->assertTrue($metadata->isUserOwned());
+        $this->assertFalse($metadata->isBusinessUnitOwned());
         $this->assertEquals('customer_user', $metadata->getOwnerFieldName());
         $this->assertEquals('customer_user_id', $metadata->getOwnerColumnName());
     }
 
-    public function testIsGlobalLevelOwned()
+    public function testIsOrganizationOwned()
     {
         $metadata = new FrontendOwnershipMetadata();
-        $this->assertFalse($metadata->isGlobalLevelOwned());
+        $this->assertFalse($metadata->isOrganizationOwned());
     }
 
     /**

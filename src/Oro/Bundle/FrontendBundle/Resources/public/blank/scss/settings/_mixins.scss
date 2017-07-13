@@ -49,7 +49,8 @@
     $badge-radius:      50%,
     $badge-color:       get-color('additional', 'ultra'),
     $badge-icon-align:  baseline,
-    $badge-icon-offset: 0
+    $badge-icon-offset: 0,
+    $badge-icon-line-height: inherit
 ) {
     display: inline-block;
     vertical-align: middle;
@@ -66,5 +67,7 @@
 
     [class^="fa-"] {
         margin: $badge-icon-offset;
+
+        line-height: $badge-icon-line-height;
     }
 }

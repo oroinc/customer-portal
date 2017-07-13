@@ -20,6 +20,7 @@ class CustomerUserOperationsTest extends WebTestCase
             ]
         );
     }
+
     public function testConfirm()
     {
         /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUser $user */
@@ -109,6 +110,7 @@ class CustomerUserOperationsTest extends WebTestCase
 
         $user = $this->getUserRepository()->find($id);
         $this->assertFalse($user->isEnabled());
+        $this->assertNotEmpty($user->getRoles());
 
         $this->executeOperation($user, 'oro_customer_customeruser_enable');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());

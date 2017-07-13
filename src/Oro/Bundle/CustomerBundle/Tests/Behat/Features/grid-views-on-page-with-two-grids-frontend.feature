@@ -1,6 +1,6 @@
 @ticket-BB-8155
 @automatically-ticket-tagged
-@fixture-BuyerCustomerFixture.yml
+@fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Update default grid views on page with more than one datagrids
 
   Scenario: Edit create new default grid view

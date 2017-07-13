@@ -1,0 +1,4 @@
+layout:
+    actions:
+        - '@remove':
+            id: top_nav_customer_menu

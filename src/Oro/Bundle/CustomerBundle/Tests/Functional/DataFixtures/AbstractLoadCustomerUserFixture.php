@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
-use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainMetadataProvider;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -154,7 +154,7 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
         $className,
         array $allowedAcls
     ) {
-        /* @var $chainMetadataProvider ChainMetadataProvider */
+        /* @var ChainOwnershipMetadataProvider $chainMetadataProvider */
         $chainMetadataProvider = $this->container->get('oro_security.owner.metadata_provider.chain');
 
         if ($aclManager->isAclEnabled()) {
