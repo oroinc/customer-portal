@@ -543,23 +543,39 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
 
     /**
      * @param string|null $companyName
+     *
+     * @return CustomerUser
      */
     public function createCustomer($companyName = null)
     {
         if (!$this->customer) {
             $this->customer = new Customer();
-            $this->customer->setOrganization($this->organization);
-
-            if (!$companyName) {
-                $companyName = sprintf('%s %s', $this->firstName, $this->lastName);
-            }
-
-            $this->customer->setName($companyName);
-
-            if ($this->getOwner() && !$this->customer->getOwner()) {
-                $this->customer->setOwner($this->getOwner(), false);
-            }
+            $this->fillCustomer($companyName);
         }
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $companyName
+     *
+     * @return CustomerUser
+     */
+    public function fillCustomer($companyName = null)
+    {
+        $this->customer->setOrganization($this->organization);
+
+        if (!$companyName) {
+            $companyName = sprintf('%s %s', $this->firstName, $this->lastName);
+        }
+
+        $this->customer->setName($companyName);
+
+        if ($this->getOwner() && !$this->customer->getOwner()) {
+            $this->customer->setOwner($this->getOwner(), false);
+        }
+
+        return $this;
     }
 
     /**
