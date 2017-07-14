@@ -12,6 +12,8 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     properties:
+        country:
+            - NotBlank: ~
         street:
             - NotBlank: ~
         city:
@@ -72,6 +74,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
     properties:
+        country:
+            - NotBlank: ~
         street:
             - NotBlank: ~
         city:
