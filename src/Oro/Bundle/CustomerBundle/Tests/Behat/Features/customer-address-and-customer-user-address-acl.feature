@@ -37,6 +37,7 @@ Feature: Managing customer address and customer user address ACLs
       | City            | New city       |
       | State           | Alabama        |
       | Zip/Postal Code | 67726534       |
+      | Organization    | Test Org       |
     And I press "Save"
     Then I should see "Address saved" flash message
 
@@ -50,6 +51,7 @@ Feature: Managing customer address and customer user address ACLs
       | City            | New city       |
       | State           | Alabama        |
       | Zip/Postal Code | 677262368      |
+      | Organization    | Test Org       |
     And I press "Save"
     Then I should see "Address saved" flash message
 
@@ -113,6 +115,7 @@ Feature: Managing customer address and customer user address ACLs
       | City            | New city       |
       | State           | Alabama        |
       | Zip/Postal Code | 67726534       |
+      | Organization    | Test Org       |
     Given administrator have "None" permissions for "Create" "Customer Address" entity
     And I press "Save"
     Then I should see "You do not have permission to perform this action" error message
@@ -127,6 +130,7 @@ Feature: Managing customer address and customer user address ACLs
       | City            | New city       |
       | State           | Alabama        |
       | Zip/Postal Code | 67726534       |
+      | Organization    | Test Org       |
     Given administrator have "None" permissions for "Create" "Customer User Address" entity
     And I press "Save"
     Then I should see "You do not have permission to perform this action" error message

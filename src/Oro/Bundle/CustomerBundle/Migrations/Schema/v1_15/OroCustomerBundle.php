@@ -28,9 +28,30 @@ class OroCustomerBundle implements Migration, ContainerAwareInterface
      */
     public function up(Schema $schema, QueryBag $queries)
     {
+        /** Tables generation **/
+        $this->updateCustomerVisitorTable($schema);
+
         // send migration message to queue. we should process this migration asynchronous because instances
         // could have a lot of customer user in system.
         $this->container->get('oro_message_queue.message_producer')
             ->send(ClearLostCustomerUsers::TOPIC_NAME, '');
+    }
+
+    /**
+     * Update oro_customer_visitor table
+     *
+     * @param Schema $schema
+     */
+    protected function updateCustomerVisitorTable(Schema $schema)
+    {
+        $table = $schema->getTable('oro_customer_visitor');
+        $table->addColumn('customer_user_id', 'integer', ['notnull' => false]);
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_customer_user'),
+            ['customer_user_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL']
+        );
+        $table->addUniqueIndex(['customer_user_id'], 'idx_customer_visitor_id_customer_user_id');
     }
 }
