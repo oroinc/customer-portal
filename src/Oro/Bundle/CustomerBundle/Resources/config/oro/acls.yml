@@ -11,6 +11,54 @@ acls:
         class: OroCustomerBundle:CustomerUser
         category: 'customer_management'
 
+    oro_customer_customer_address_view:
+        type: entity
+        permission: VIEW
+        class: OroCustomerBundle:CustomerAddress
+        category: 'customer_management'
+
+    oro_customer_customer_address_create:
+        type: entity
+        permission: CREATE
+        class: OroCustomerBundle:CustomerAddress
+        category: 'customer_management'
+
+    oro_customer_customer_address_update:
+        type: entity
+        permission: EDIT
+        class: OroCustomerBundle:CustomerAddress
+        category: 'customer_management'
+
+    oro_customer_customer_address_remove:
+        type: entity
+        permission: DELETE
+        class: OroCustomerBundle:CustomerAddress
+        category: 'customer_management'
+
+    oro_customer_customer_user_address_view:
+        type: entity
+        permission: VIEW
+        class: OroCustomerBundle:CustomerUserAddress
+        category: 'customer_management'
+
+    oro_customer_customer_user_address_create:
+        type: entity
+        permission: CREATE
+        class: OroCustomerBundle:CustomerUserAddress
+        category: 'customer_management'
+
+    oro_customer_customer_user_address_update:
+        type: entity
+        permission: EDIT
+        class: OroCustomerBundle:CustomerUserAddress
+        category: 'customer_management'
+
+    oro_customer_customer_user_address_remove:
+        type: entity
+        permission: DELETE
+        class: OroCustomerBundle:CustomerUserAddress
+        category: 'customer_management'
+
     oro_customer_frontend_customer_user_view:
         type: entity
         permission: VIEW
@@ -46,6 +94,20 @@ acls:
         group_name: "commerce"
         category: 'customer_management'
 
+    oro_customer_frontend_customer_address_create:
+        type: entity
+        permission: CREATE
+        class: OroCustomerBundle:CustomerAddress
+        group_name: "commerce"
+        category: 'customer_management'
+
+    oro_customer_frontend_customer_address_update:
+        type: entity
+        permission: EDIT
+        class: OroCustomerBundle:CustomerAddress
+        group_name: "commerce"
+        category: 'customer_management'
+
     oro_customer_frontend_customer_address_remove:
         type: entity
         permission: DELETE
@@ -56,6 +118,20 @@ acls:
     oro_customer_frontend_customer_user_address_view:
         type: entity
         permission: VIEW
+        class: OroCustomerBundle:CustomerUserAddress
+        group_name: "commerce"
+        category: 'customer_management'
+
+    oro_customer_frontend_customer_user_address_create:
+        type: entity
+        permission: CREATE
+        class: OroCustomerBundle:CustomerUserAddress
+        group_name: "commerce"
+        category: 'customer_management'
+
+    oro_customer_frontend_customer_user_address_update:
+        type: entity
+        permission: EDIT
         class: OroCustomerBundle:CustomerUserAddress
         group_name: "commerce"
         category: 'customer_management'

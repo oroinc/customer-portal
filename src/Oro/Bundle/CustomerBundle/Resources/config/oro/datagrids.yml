@@ -1077,6 +1077,7 @@ datagrids:
                     data_name: countryName
         actions:
             show_map:
+                label:         oro.customer.action.customer_frontend_address.map
                 type:          map
                 icon:          map-o
                 frontend_type: frontend-map
@@ -1119,6 +1120,7 @@ datagrids:
 
         actions:
             update:
+                label:         oro.customer.action.customer_frontend_address.edit
                 type:          navigate
                 link:          update_link
                 icon:          pencil
@@ -1140,6 +1142,7 @@ datagrids:
 
         actions:
             update:
+                label:         oro.customer.action.customer_user_frontend_address.edit
                 type:          navigate
                 link:          update_link
                 icon:          pencil

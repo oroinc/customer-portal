@@ -63,6 +63,10 @@
 
 @include breakpoint('tablet') {
     .header-row {
+        position: relative;
+
+        z-index: 1;
+
         margin: 0 -($offset-x-m);
 
         &__container {

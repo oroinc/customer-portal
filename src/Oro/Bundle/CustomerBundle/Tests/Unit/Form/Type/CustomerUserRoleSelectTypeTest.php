@@ -60,13 +60,12 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
             'class' => self::ROLE_CLASS,
             'multiple' => true,
             'expanded' => true,
-            'required' => true,
+            'required' => false,
         ];
 
         $formOptions = $form->getConfig()->getOptions();
 
-        // @todo Uncomment when phpunit >=4.4.0
-        // $this->assertArraySubset($expectedOptions, $formOptions);
+        $this->assertArraySubset($expectedOptions, $formOptions);
         $this->assertArrayHasKey('choice_label', $formOptions);
         $this->assertInternalType('callable', $formOptions['choice_label']);
 

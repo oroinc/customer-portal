@@ -19,6 +19,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         street: '801 Scenic Hwy'
         city: 'Haines City'
         postalCode: '33844'
+        organization: '@organization'
     customerAddress2:
         region: 'US-NY'
         frontendOwner: '@customer1'
@@ -30,6 +31,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         street: '23400 Caldwell Road'
         city: 'Rochester'
         postalCode: '14608'
+        organization: '@organization'
     customerAddress3:
         region: 'US-IN'
         frontendOwner: '@customer1'
@@ -41,6 +43,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         street: '34500 Capitol Avenue'
         city: 'Romney'
         postalCode: '47981'
+        organization: '@organization'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
     customerAddress1ShippingDefault:

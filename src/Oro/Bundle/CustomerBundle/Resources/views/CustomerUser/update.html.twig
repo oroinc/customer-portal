@@ -88,21 +88,24 @@
         ]) %}
     {% endif %}
 
+    {% set subblocks = [{
+        'title': '',
+        'data': formRows
+    }] %}
+
+    {% if is_granted('oro_customer_customer_user_address_update') %}
+        {% set subblocks = subblocks|merge([{
+            'title': 'oro.customer.sections.addresses'|trans,
+            'data': [
+                form_widget(form.addresses),
+            ]
+        }]) %}
+    {% endif %}
+
     {% set dataBlocks = [{
             'title': 'oro.customer.sections.general'|trans,
             'class': 'active',
-            'subblocks': [
-                {
-                    'title': '',
-                    'data': formRows
-                },
-                {
-                    'title': 'oro.customer.sections.addresses'|trans,
-                    'data': [
-                        form_widget(form.addresses),
-                    ]
-                }
-            ]
+            'subblocks': subblocks
         }]
     %}
 
