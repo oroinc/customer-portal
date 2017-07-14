@@ -4,29 +4,36 @@
     border: 1px solid #e6e6e6 !important;
     background: #f8f8f8;
     border-radius: 4px;
-
-    .btn-remove-main-row {
-        position: absolute;
-        top: 5px;
-        right: 10px;
-    }
+    position: relative;
 
     .menu-user-agent-condition-wrap {
         div[data-validation-optional-group=""] {
             > .row-oro {
-                padding: 10px;
-                margin-bottom: 10px;
-                border-radius: 4px;
-                display: inline-block;
-                width: auto;
-                border: 1px solid #ddd;
-                background: #fff;
+                > .menu-user-agent-condition-item {
+                    padding: 10px 35px 10px 10px;
+                    border-radius: 4px;
+                    display: inline-block;
+                    width: auto;
+                    border: 1px solid #ddd;
+                    background: #fff;
+                }
+                .btn {
+                    position: absolute;
+                    right: 10px;
+                    top: 30px;
+                }
             }
         }
 
         .add-list-item {
             margin-left: auto;
         }
+    }
+
+    .btn-remove-main-row {
+        position: absolute;
+        top: 5px;
+        right: 10px;
     }
 }
 
