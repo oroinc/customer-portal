@@ -35,28 +35,33 @@ class AnonymousCustomerUserVoterTest extends \PHPUnit_Framework_TestCase
         $this->voter = new AnonymousCustomerUserVoter($this->configVoter, $this->tokenStorage);
     }
 
-    public function testVoteAbstain()
+    public function testVoteAbstainForAnotherFeature()
     {
         $vote = $this->voter->vote('some_feature');
         $this->assertEquals(VoterInterface::FEATURE_ABSTAIN, $vote);
     }
 
-    public function testVoteEnabledForLoggedUser()
+    public function testVoteAbstainForNotAnonymousUser()
     {
         $featureName = 'feature_name';
 
+        $token = new \stdClass();
         $scopeIdentifier = 1;
         $this->tokenStorage->expects($this->once())
             ->method('getToken')
-            ->willReturn(new \stdClass());
+            ->willReturn($token);
+        $this->configVoter->expects($this->never())
+            ->method('vote')
+            ->with($featureName, $scopeIdentifier)
+            ->willReturn(VoterInterface::FEATURE_ENABLED);
 
         $this->voter->setFeatureName($featureName);
 
         $vote = $this->voter->vote($featureName, $scopeIdentifier);
-        $this->assertEquals(VoterInterface::FEATURE_ENABLED, $vote);
+        $this->assertEquals(VoterInterface::FEATURE_ABSTAIN, $vote);
     }
 
-    public function testVoteEnabledForNotLoggedUser()
+    public function testVoteEnabled()
     {
         $featureName = 'feature_name';
 
@@ -76,7 +81,7 @@ class AnonymousCustomerUserVoterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(VoterInterface::FEATURE_ENABLED, $vote);
     }
 
-    public function testVoteDisabledForNotLoggedUser()
+    public function testVoteDisabled()
     {
         $featureName = 'feature_name';
 
