@@ -146,15 +146,41 @@ services:
             - '@oro_commerce_menu.expression_language.parsed_cache'
             - []
 
-    oro_commerce_menu.builder.menu_condition_builder:
-        public: false
-        class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuConditionBuilder'
-        arguments:
-            - "@oro_commerce_menu.expression_language"
-        tags:
-            - { name: oro_menu.builder, priority: 210 }
-
     oro_commerce_menu.builder.menu_display_builder:
         class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuDisplayBuilder'
         abstract: true
         public: false
+
+    oro_commerce_menu.menu.condition_evaluator.condition:
+        class: 'Oro\Bundle\CommerceMenuBundle\Menu\ConditionEvaluator\MenuConditionEvaluator'
+        public: false
+        arguments:
+            - '@oro_commerce_menu.expression_language'
+            - '@monolog.logger'
+
+    oro_commerce_menu.builder.menu_condition_builder:
+        parent: oro_commerce_menu.builder.menu_display_builder
+        arguments:
+            - '@oro_commerce_menu.menu.condition_evaluator.condition'
+        tags:
+            - { name: oro_menu.builder, priority: 210 }
+
+    oro_commerce_menu.builder.menu_screens_condition_builder:
+        public: false
+        class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuScreensConditionBuilder'
+        arguments:
+            - '@oro_frontend.provider.screens'
+        tags:
+            - { name: oro_menu.builder, priority: 225 }
+
+    oro_commerce_menu.user_agent_conditions_evaluator:
+        class: 'Oro\Bundle\CommerceMenuBundle\Menu\ConditionEvaluator\UserAgentConditionsEvaluator'
+        arguments:
+            - "@oro_ui.user_agent_provider"
+
+    oro_commerce_menu.builder.menu_user_agent_conditions_evaluator:
+        parent: oro_commerce_menu.builder.menu_display_builder
+        arguments:
+            - '@oro_commerce_menu.user_agent_conditions_evaluator'
+        tags:
+            - { name: oro_menu.builder, priority: 220 }

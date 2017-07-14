@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class MenuUserAgentCondition
 {
+    const OPERATION_CONTAINS = 'contains';
+    const OPERATION_DOES_NOT_CONTAIN = 'does_not_contain';
+    const OPERATION_MATCHES = 'matches';
+    const OPERATION_DOES_NOT_MATCHES = 'does_not_match';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer", name="id")

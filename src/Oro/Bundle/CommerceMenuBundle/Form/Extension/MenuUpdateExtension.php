@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CommerceMenuBundle\Form\Extension;
 
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
+use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuScreensConditionType;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionsCollectionType;
 use Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType;
 use Symfony\Component\Form\AbstractTypeExtension;
@@ -49,6 +50,15 @@ class MenuUpdateExtension extends AbstractTypeExtension
                                 'required' => false,
                                 'label' =>
                                     'oro.commercemenu.menuupdate.menu_user_agent_conditions_collection.label',
+                            ]
+                        )
+                        ->add(
+                            'screens',
+                            MenuScreensConditionType::class,
+                            [
+                                'required' => false,
+                                'label' =>
+                                    'oro.commercemenu.menuupdate.menu_screens_condition.label',
                             ]
                         );
                 }
