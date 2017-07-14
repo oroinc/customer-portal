@@ -7,5 +7,5 @@ use Symfony\Component\Validator\Constraint;
 class ScopeWithCustomerGroupAndCustomer extends Constraint
 {
     /** @var string */
-    public $message = 'Should be chosen only one field. Or Customer Group or Customer.';
+    public $message = 'oro.customer.message.scope_with_customer_and_group';
 }
