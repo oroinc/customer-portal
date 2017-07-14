@@ -14,8 +14,7 @@ define(function(require) {
         viewport: {
             maxScreenType: 'mobile-landscape'
         },
-        popupOptions: {},
-        templateSelector: '#frontend-column-manager-tpl'
+        popupOptions: {}
     }, config);
 
     FrontendColumnManagerView = ColumnManagerView.extend({
@@ -38,11 +37,6 @@ define(function(require) {
             popupLabel: _.__('oro_frontend.datagrid.manage_grid'),
             contentElement: null
         }, _.pick(config.popupOptions, 'popupBadge', 'popupIcon', 'popupLabel', 'popupCloseButton')),
-
-        /**
-         * @inheritDoc
-         */
-        templateSelector: config.templateSelector,
 
         /**
          * @inheritDoc

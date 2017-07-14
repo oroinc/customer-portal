@@ -67,4 +67,26 @@ class GridContext extends OroFeatureContext implements OroPageObjectAware
         $columnManager->checkColumnVisibility($columnName);
         $columnManager->close();
     }
+
+    /**
+     * @When /^(?:|I )go to next page in grid$/
+     * @When /^(?:|I )go to next page in "(?P<gridName>[\w\s]+)"$/
+     */
+    public function iGoToNextPageInGrid($gridName = null)
+    {
+        $grid = $this->getGrid($gridName);
+
+        $grid->getElement('FrontendGridNextPageButton')->click();
+    }
+
+    /**
+     * @When /^(?:|I )go to prev page in grid$/
+     * @When /^(?:|I )go to prev page in "(?P<gridName>[\w\s]+)"$/
+     */
+    public function iGoToPrevPageInGrid($gridName = null)
+    {
+        $grid = $this->getGrid($gridName);
+
+        $grid->getElement('FrontendGridPrevPageButton')->click();
+    }
 }

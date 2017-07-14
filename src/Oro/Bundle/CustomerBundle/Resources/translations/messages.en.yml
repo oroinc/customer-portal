@@ -242,6 +242,15 @@ oro.customer:
             save_label: 'Save'
             cancel_label: 'Cancel'
 
+        customer_frontend_address:
+            delete: 'Delete'
+            edit: 'Edit'
+            map:  'Map'
+
+        customer_user_frontend_address:
+            delete: 'Delete'
+            edit: 'Edit'
+
     sections:
         general: 'General Information'
         additional: 'Additional'
