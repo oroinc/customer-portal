@@ -80,6 +80,7 @@
                 }
             }
         });
+        require(['orofrontend/js/build-templates']);//@todo: remove hotfix
         (function() {
             var appModules = requirejs.s.contexts._.config.appmodules || [];
             var removeModules = ['oroemail/js/app/modules/views-module'];
