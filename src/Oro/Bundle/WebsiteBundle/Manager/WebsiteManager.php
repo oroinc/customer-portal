@@ -36,7 +36,7 @@ class WebsiteManager
     }
 
     /**
-     * @return Website
+     * @return Website|null
      */
     public function getCurrentWebsite()
     {
