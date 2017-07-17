@@ -7,9 +7,14 @@ define(function(require) {
     var CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
     var MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
 
-    FrontendCollectionFiltersManager = CollectionFiltersManager.extend({
-        templateSelector: '#filter-container',
+    var config = require('module').config();
+    config = $.extend(true, {
+        templateData: {
+            attributes: ''
+        }
+    }, config);
 
+    FrontendCollectionFiltersManager = CollectionFiltersManager.extend({
         /**
          * Select widget object
          *
@@ -32,6 +37,8 @@ define(function(require) {
         events: {
             'click [data-role="close-filters"]': '_onClose'
         },
+
+        templateData: config.templateData,
 
         /**
          * Set design for filter manager button
@@ -62,6 +69,12 @@ define(function(require) {
 
         _onClose: function() {
             this.selectWidget.multiselect('instance').button.trigger('click');
+        },
+
+        getTemplateData: function() {
+            var data = FrontendCollectionFiltersManager.__super__.getTemplateData.call(this);
+            data = $.extend(data, this.templateData || {});
+            return data;
         }
     });
 
