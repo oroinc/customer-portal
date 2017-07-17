@@ -7,7 +7,7 @@
     position: relative;
 
     .menu-user-agent-condition-wrap {
-        div[data-validation-optional-group=""] {
+        [data-validation-optional-group] {
             > .row-oro {
                 > .menu-user-agent-condition-item {
                     padding: 10px 35px 10px 10px;
@@ -17,10 +17,17 @@
                     border: 1px solid #ddd;
                     background: #fff;
                 }
+
                 .btn {
                     position: absolute;
                     right: 10px;
-                    top: 30px;
+                    bottom: 12px;
+                }
+            }
+
+            &:first-of-type {
+                .menu-user-agent-inner-condition-label {
+                    display: none;
                 }
             }
         }
@@ -34,6 +41,14 @@
         position: absolute;
         top: 5px;
         right: 10px;
+    }
+}
+
+.menu-user-agent-condition-container {
+    &:first-of-type {
+        .menu-user-agent-condition-label {
+            display: none;
+        }
     }
 }
 
