@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
+use Oro\Bundle\CustomerBundle\Model\ExtendCustomerUser;
 use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
@@ -56,7 +57,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolderInterface, CustomerUserIdentity
+class CustomerUser extends ExtendCustomerUser implements FullNameInterface, EmailHolderInterface, CustomerUserIdentity
 {
     const SECURITY_GROUP = 'commerce';
 

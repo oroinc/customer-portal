@@ -1,6 +1,7 @@
 {% import 'OroUIBundle::macros.html.twig' as UI %}
 {% import 'OroEmailBundle::actions.html.twig' as EmailActions %}
 {% import 'OroEmailBundle::macros.html.twig' as Email %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 
 <div class="widget-content">
     <div class="row-fluid form-horizontal">
@@ -46,6 +47,8 @@
             :
             'oro.customer.customeruser.is_guest_no.label'|trans
             ) }}
+
+            {{ entityConfig.renderDynamicFields(entity) }}
         </div>
     </div>
 </div>
