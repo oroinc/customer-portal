@@ -8,3 +8,4 @@ oro:
             circular_customer_reference: 'Circular reference detected. ''{{ parentName }}'' cannot be parent of ''{{ customerName }}'' because it''s his child'
             user_without_role: 'Please select at least one role before you enable the customer user'
             user_customer_exists: 'This email is already used.'
+            scope_with_customer_and_group: 'Should be chosen only one field. Customer Group or Customer.'
