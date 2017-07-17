@@ -30,6 +30,9 @@
                     placeholder: null,
                     labelPrefix: '{{ 'oro.ui.filter.by'|trans  }} '
                 },
+                'oro/filter/select-filter': {
+                    populateDefault: '{{ 'All'|trans  }}'
+                },
                 'oro/filter/text-filter': {notAlignCriteria: false},
                 'orofilter/js/filter-hint': {inline: false},
                 'orofilter/js/plugins/filters-toggle-plugin': {
@@ -92,8 +95,7 @@
             }
             appModules = appModules.concat([
                 'orofrontend/default/js/app/modules/input-widgets',
-                'orofrontend/default/js/app/modules/zoom-disable',
-                'orofrontend/default/js/app/modules/select-filter'
+                'orofrontend/default/js/app/modules/zoom-disable'
             ]);
             require({
                 appmodules: appModules
