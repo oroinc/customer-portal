@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\EventListener;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Event\ConfigSettingsUpdateEvent;
 use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
@@ -39,7 +38,9 @@ class SystemConfigListener
     {
         $settingsKey = implode(ConfigManager::SECTION_VIEW_SEPARATOR, [OroCustomerExtension::ALIAS, self::SETTING]);
         $settings = $event->getSettings();
-        if (is_array($settings) && array_key_exists($settingsKey, $settings)) {
+        if (is_array($settings)
+            && !empty($settings[$settingsKey]['value'])
+        ) {
             $settings[$settingsKey]['value'] = $this->registry
                 ->getManagerForClass($this->ownerClass)
                 ->find($this->ownerClass, $settings[$settingsKey]['value']);
