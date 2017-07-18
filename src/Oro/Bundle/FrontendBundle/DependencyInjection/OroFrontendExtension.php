@@ -3,7 +3,6 @@
 namespace Oro\Bundle\FrontendBundle\DependencyInjection;
 
 use Oro\Bundle\LayoutBundle\DependencyInjection\OroLayoutExtension;
-use Oro\Bundle\LocaleBundle\DependencyInjection\OroLocaleExtension;
 use Oro\Component\Config\CumulativeResourceInfo;
 use Oro\Component\Config\Loader\CumulativeConfigLoader;
 use Oro\Component\Config\Loader\FolderingCumulativeFileLoader;
@@ -42,8 +41,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $loader->load('form_type.yml');
         $loader->load('block_types.yml');
 
-        $this->addPhoneToAddress($container);
-
         $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
 
         $config = $this->processConfiguration($configuration, $configs);
@@ -70,28 +67,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     public function getAlias()
     {
         return self::ALIAS;
-    }
-
-    /**
-     * Add phone to address format configuration to all locales
-     *
-     * @param ContainerBuilder $container
-     */
-    protected function addPhoneToAddress(ContainerBuilder $container)
-    {
-        $formatAddressLocales = $container->getParameter(OroLocaleExtension::PARAMETER_ADDRESS_FORMATS);
-
-        foreach ($formatAddressLocales as &$locale) {
-            $searchResult = stripos($locale['format'], '%%phone%%');
-            if (false === $searchResult) {
-                $locale['format'] .= "\n%%phone%%";
-            }
-        }
-
-        $container->setParameter(
-            OroLocaleExtension::PARAMETER_ADDRESS_FORMATS,
-            $formatAddressLocales
-        );
     }
 
     /**

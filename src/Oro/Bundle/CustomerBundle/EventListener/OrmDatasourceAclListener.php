@@ -9,7 +9,7 @@ use Doctrine\ORM\Query\AST\Subselect;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Event\OrmResultBefore;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\SecurityBundle\Owner\Metadata\MetadataProviderInterface;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 
 class OrmDatasourceAclListener
@@ -17,16 +17,16 @@ class OrmDatasourceAclListener
     /** @var TokenAccessorInterface */
     protected $tokenAccessor;
 
-    /** @var MetadataProviderInterface */
+    /** @var OwnershipMetadataProviderInterface */
     protected $metadataProvider;
 
     /**
-     * @param TokenAccessorInterface    $tokenAccessor
-     * @param MetadataProviderInterface $metadataProvider
+     * @param TokenAccessorInterface             $tokenAccessor
+     * @param OwnershipMetadataProviderInterface $metadataProvider
      */
     public function __construct(
         TokenAccessorInterface $tokenAccessor,
-        MetadataProviderInterface $metadataProvider
+        OwnershipMetadataProviderInterface $metadataProvider
     ) {
         $this->tokenAccessor = $tokenAccessor;
         $this->metadataProvider = $metadataProvider;

@@ -4,11 +4,12 @@
 
     {# widget container and actions #}
     <div class="widget-actions">
-        {% if address_edit_acl_resource is not defined or is_granted(address_edit_acl_resource) %}
+        {% if options.acl.addressCreate is not defined or is_granted(options.acl.addressCreate) %}
             <button class="btn btn-mini btn-primary btn-uppercase" type="button" data-action-name="add_address"> + {{ 'oro.customer.address.add'|trans }}</button>
         {% endif %}
     </div>
 
     <div class="list-box map-box" id="address-book" data-page-component-module="orocustomer/js/app/components/customer-address-book-component"
-         data-page-component-options="{{ options|json_encode }}"></div>
+         data-page-component-options="{{ options|json_encode }}">
+    </div>
 </div>

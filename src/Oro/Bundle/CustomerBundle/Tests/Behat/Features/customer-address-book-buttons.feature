@@ -1,6 +1,6 @@
 @ticket-BB-8699
 @automatically-ticket-tagged
-@fixture-BuyerCustomerFixture.yml
+@fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 
 Feature: Add 'New Company Address' and 'New Address' buttons under datagrids
 

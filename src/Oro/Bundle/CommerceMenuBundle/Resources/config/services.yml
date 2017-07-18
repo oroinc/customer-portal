@@ -165,6 +165,13 @@ services:
         tags:
             - { name: oro_menu.builder, priority: 210 }
 
+    oro_commerce_menu.validator.menu_update_expression:
+        class: 'Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpressionValidator'
+        arguments:
+            - "@oro_commerce_menu.expression_language"
+        tags:
+            - { name: validator.constraint_validator, alias: oro_commerce_menu_update_expression_validator }
+
     oro_commerce_menu.builder.menu_screens_condition_builder:
         public: false
         class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuScreensConditionBuilder'

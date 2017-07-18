@@ -2,10 +2,51 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Element;
 
+use Behat\Mink\Element\NodeElement;
 use Oro\Bundle\DataGridBundle\Tests\Behat\Element\GridColumnManager;
 
 class FrontendGridColumnManager extends GridColumnManager
 {
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkColumnVisibility($title)
+    {
+        $this->ensureManagerVisible();
+
+        $visibilityCell = $this->getVisibilityCheckbox($title);
+
+        if ($visibilityCell->isChecked()) {
+            return;
+        }
+
+        $visibilityCell->getParent()->press();
+
+        self::assertTrue($visibilityCell->isChecked(), 'Can not check visibility checkbox for ' . $title . ' column');
+    }
+
+    /**
+     * @param string $title
+     */
+    public function uncheckColumnVisibility($title)
+    {
+        $this->ensureManagerVisible();
+
+        $visibilityCheckbox = $this->getVisibilityCheckbox($title);
+
+        if (!$visibilityCheckbox->isChecked()) {
+            return;
+        }
+
+        $visibilityCheckbox->getParent()->click();
+
+        self::assertFalse(
+            $visibilityCheckbox->isChecked(),
+            'Can not uncheck visibility checbox for ' . $title . ' column'
+        );
+    }
+
     protected function ensureManagerVisible()
     {
         if ($this->isVisible()) {
@@ -16,6 +57,38 @@ class FrontendGridColumnManager extends GridColumnManager
         $button->click();
 
         self::assertTrue($this->isVisible(), 'Can not open grid column manager dropdown');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hideAllColumns(array $exceptions = [])
+    {
+        $this->ensureManagerVisible();
+
+        $rows = $this->getDataGridManagerRows();
+        foreach ($rows as $row) {
+            $name = $row->find('css', '.custom-checkbox__text')->getText();
+
+            // Skip exceptions
+            if (in_array($name, $exceptions, true)) {
+                continue;
+            }
+
+            $this->uncheckColumnVisibility($name);
+        }
+    }
+
+    /**
+     * @return NodeElement[]
+     */
+    protected function getDataGridManagerRows()
+    {
+        $rows = $this->findAll('css', '[data-role="column-manager-table-wrapper"] table tbody tr');
+
+        self::assertNotNull($rows, 'Cannot find any table row!');
+
+        return $rows;
     }
 
     /**

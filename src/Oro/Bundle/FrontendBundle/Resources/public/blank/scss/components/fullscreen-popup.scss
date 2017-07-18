@@ -1,0 +1,96 @@
+.fullscreen-popup {
+    position: fixed;
+    z-index: z('popup') + 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    height: auto;
+    margin-left: 0;
+
+    background: $fullscreen-popup-bg;
+
+    &__header {
+        position: absolute;
+        z-index: z('base') + 1;
+        right: 0;
+        left: 0;
+
+        display: block;
+
+        height: $fullscreen-popup-header-height;
+        padding: $fullscreen-popup-header-offset;
+
+        line-height: $fullscreen-popup-header-height;
+        text-transform: $fullscreen-popup-text-transform;
+
+        background: $fullscreen-popup-header-height-bg;
+        border-bottom: $fullscreen-popup-header-height-border;
+    }
+
+    &__text {
+        display: inline-block;
+        vertical-align: top;
+
+        padding: $fullscreen-popup-text-offset;
+
+        font-size: $base-font-size--s;
+        font-weight: $fullscreen-popup-text-weight;
+        line-height: $fullscreen-popup-header-height;
+
+        cursor: pointer;
+
+        [class^="fa-"],
+        [class*=" fa-"] {
+            margin-right: $offset-x-s;
+
+            line-height: inherit;
+
+            vertical-align: top;
+        }
+    }
+
+    &__words {
+        vertical-align: middle;
+    }
+
+    &__badge {
+        margin-right: $offset-x-s;
+
+        @include badge($badge-bg: $fullscreen-popup-badge-bg);
+
+        vertical-align: baseline;
+    }
+
+    &__close {
+        position: absolute;
+        top: $fullscreen-popup-close-top;
+        right: $fullscreen-popup-close-right;
+
+        padding:  $fullscreen-popup-close-inner-offset;
+
+        font-size: $fullscreen-popup-close-font-size;
+
+        border: $fullscreen-popup-close-border;
+        background: $fullscreen-popup-close-bg;
+        color: $fullscreen-popup-close-color;
+
+        cursor: pointer;
+
+        @include fa-icon($fullscreen-popup-close-icon, after);
+    }
+
+    &__content {
+        height: 100%;
+
+        overflow: auto;
+
+        padding-top: $fullscreen-popup-header-height;
+    }
+
+    //TODO: Make corrent padding of popup conent for any content
+    .tab-content__wrapper {
+        padding: 20px;
+    }
+}

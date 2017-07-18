@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 use Doctrine\ORM\EntityManager;
 
@@ -46,6 +47,11 @@ class CustomerTypeTest extends FormIntegrationTestCase
      */
     protected $eventDispatcher;
 
+    /**
+     * @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $authorizationChecker;
+
 
     /**
      * {@inheritdoc}
@@ -54,7 +60,9 @@ class CustomerTypeTest extends FormIntegrationTestCase
     {
         parent::setUp();
 
-        $this->formType = new CustomerType($this->getEventDispatcher());
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+
+        $this->formType = new CustomerType($this->getEventDispatcher(), $this->authorizationChecker);
         $this->formType->setAddressClass('Oro\Bundle\CustomerBundle\Entity\CustomerAddress');
     }
 
@@ -128,14 +136,20 @@ class CustomerTypeTest extends FormIntegrationTestCase
      * @param array $viewData
      * @param array $submittedData
      * @param array $expectedData
+     * @param bool $addressGranted
      */
     public function testSubmit(
         array $options,
         array $defaultData,
         array $viewData,
         array $submittedData,
-        array $expectedData
+        array $expectedData,
+        $addressGranted = true
     ) {
+        $this->authorizationChecker->expects($this->any())
+            ->method('isGranted')
+            ->willReturn($addressGranted);
+
         $form = $this->factory->create($this->formType, $defaultData, $options);
 
         $formConfig = $form->getConfig();
@@ -256,6 +270,24 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'addresses' => [],
                     'salesRepresentatives' => [],
                 ]
+            ],
+            'address not granted' => [
+                'options' => [],
+                'defaultData' => [],
+                'viewData' => [],
+                'submittedData' => [
+                    'name' => 'customer_name',
+                    'group' => 1,
+                    'parent' => 2,
+                    'internal_rating' => []
+                ],
+                'expectedData' => [
+                    'name' => 'customer_name',
+                    'group' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
+                    'parent' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2),
+                    'salesRepresentatives' => [],
+                ],
+                'addressGranted' => false
             ],
         ];
     }

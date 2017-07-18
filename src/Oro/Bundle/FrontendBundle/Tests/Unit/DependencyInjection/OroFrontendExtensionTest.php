@@ -4,7 +4,6 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\FrontendBundle\Tests\Unit\Fixtures\Bundle\TestBundle1\TestBundle1;
-use Oro\Bundle\LocaleBundle\DependencyInjection\OroLocaleExtension;
 use Oro\Component\Config\CumulativeResourceManager;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,11 +21,6 @@ class OroFrontendExtensionTest extends \PHPUnit_Framework_TestCase
         $container->expects($this->once())
             ->method('prependExtensionConfig')
             ->with(OroFrontendExtension::ALIAS, $this->isType('array'));
-
-        $container->expects($this->once())
-            ->method('getParameter')
-            ->with(OroLocaleExtension::PARAMETER_ADDRESS_FORMATS)
-            ->willReturn([]);
 
         $routesExtractorDefinition = $this->createMock(Definition::class);
         $container->expects($this->once())

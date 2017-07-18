@@ -29,8 +29,6 @@ layout:
                     blockType: container
                 __datagrid_views_popup_footer:
                     blockType: container
-                __datagrid_views_label:
-                    blockType: container
             tree:
                 __root:
                     __datagrid_views:
@@ -45,4 +43,3 @@ layout:
                                     __datagrid_views_popup_list:
                                         __datagrid_views_popup_list_item: ~
                                     __datagrid_views_popup_footer: ~
-                    __datagrid_views_label: ~

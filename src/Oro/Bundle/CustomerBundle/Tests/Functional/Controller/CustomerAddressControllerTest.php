@@ -185,6 +185,7 @@ class CustomerAddressControllerTest extends WebTestCase
         $form['oro_customer_typed_address[street]'] = 'Street';
         $form['oro_customer_typed_address[city]'] = 'City';
         $form['oro_customer_typed_address[postalCode]'] = 'Zip code';
+        $form['oro_customer_typed_address[organization]'] = 'Test Org';
         $form['oro_customer_typed_address[types]'] = [AddressType::TYPE_BILLING];
         $form['oro_customer_typed_address[defaults][default]'] = [AddressType::TYPE_BILLING];
 

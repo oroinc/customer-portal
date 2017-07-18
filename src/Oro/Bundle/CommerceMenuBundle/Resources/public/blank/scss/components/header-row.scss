@@ -14,7 +14,7 @@
         display: block;
 
         margin: 0;
-        padding: 7px 20px;
+        padding: 7px 10px;
 
         background-color: get-color('additional', 'base');
         border: 0;
@@ -22,7 +22,7 @@
     }
 
     &__toggle {
-        background-color: get-color('additionl', 'ultra');
+        background-color: get-color('additional', 'ultra');
     }
 
     &.open {

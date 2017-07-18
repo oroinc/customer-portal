@@ -178,7 +178,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
         $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
         $this->assertFalse($user->isEnabled());
-
+        $this->assertNotEmpty($user->getRoles());
         $this->executeOperation($user, 'oro_customer_frontend_customeruser_enable');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 

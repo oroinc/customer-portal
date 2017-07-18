@@ -11,6 +11,7 @@ use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionType;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity\Stub\MenuUpdateStub;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type\Stub\ImageTypeStub;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type\Stub\MenuUpdateTypeStub;
+use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpressionValidator;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\FormBundle\Form\Extension\TooltipFormExtension;
 use Oro\Bundle\FormBundle\Form\Type\CollectionType as OroCollectionType;
@@ -125,14 +126,17 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
     {
         /* @var $factory \PHPUnit_Framework_MockObject_MockObject|ConstraintValidatorFactoryInterface */
         $factory = $this->createMock('Symfony\Component\Validator\ConstraintValidatorFactoryInterface');
+
+        $mockedValidators = [MaxNestedLevelValidator::class, MenuUpdateExpressionValidator::class];
+
         $factory->expects($this->any())
             ->method('getInstance')
             ->willReturnCallback(
-                function (Constraint $constraint) {
+                function (Constraint $constraint) use ($mockedValidators) {
                     $className = $constraint->validatedBy();
 
-                    if ($className === MaxNestedLevelValidator::class) {
-                        $this->validators[$className] = $this->getMockBuilder(MaxNestedLevelValidator::class)
+                    foreach ($mockedValidators as $mockedValidator) {
+                        $this->validators[$className] = $this->getMockBuilder($mockedValidator)
                             ->disableOriginalConstructor()
                             ->getMock();
                     }
@@ -149,7 +153,6 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
 
         return $factory;
     }
-
 
     /**
      * @param array $screensConfig

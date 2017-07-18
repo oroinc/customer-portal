@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Security;
 
+use Symfony\Component\Security\Acl\Domain\Entry;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\PermissionGrantingStrategy;
 use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
@@ -193,7 +194,22 @@ class CustomerUserProvider
         $extension = $this->aclManager->getExtensionSelector()->select($oid);
         foreach ($loggedUser->getRoles() as $role) {
             $sid = $this->aclManager->getSid($role);
-            $aces = $this->aclManager->getAces($sid, $oid);
+
+            $aces = array_filter(
+                $this->aclManager->getAces($sid, $oid),
+                function (Entry $ace) use ($extension, $requiredMask) {
+                    if ($extension->getServiceBits($requiredMask) !== $extension->getServiceBits($ace->getMask())) {
+                        return false;
+                    }
+
+                    if ($ace->getAcl()->getObjectIdentity()->getIdentifier() !== $extension->getExtensionKey()) {
+                        return false;
+                    }
+
+                    return true;
+                }
+            );
+
             if (!$aces && $oid->getType() !== ObjectIdentityFactory::ROOT_IDENTITY_TYPE) {
                 $rootOid = $this->aclManager->getRootOid($oid);
 
@@ -205,17 +221,9 @@ class CustomerUserProvider
             }
 
             foreach ($aces as $ace) {
-                if ($ace->getAcl()->getObjectIdentity()->getIdentifier() !== $extension->getExtensionKey()) {
-                    continue;
-                }
-
                 $aceMask = $ace->getMask();
                 if ($oid->getType() === ObjectIdentityFactory::ROOT_IDENTITY_TYPE) {
                     $aceMask = $extension->adaptRootMask($aceMask, new $class);
-                }
-
-                if ($extension->getServiceBits($requiredMask) !== $extension->getServiceBits($aceMask)) {
-                    continue;
                 }
 
                 $requiredMask = $extension->removeServiceBits($requiredMask);
