@@ -3,6 +3,9 @@
 // Desktop
 $popup-gallery-widget-overlay-bg: rgba(get-color('additional', 'dark'), .5) !default;
 
+$popup-gallery-widget-arrow-prev-icon: $fa-var-chevron-left !default;
+$popup-gallery-widget-arrow-next-icon: $fa-var-chevron-right !default;
+$popup-gallery-widget-arrow-icon-side-offset: 2px !default;
 $popup-gallery-widget-arrow-width: 37px !default;
 $popup-gallery-widget-arrow-height: 37px !default;
 $popup-gallery-widget-arrow-side-position: -($popup-gallery-widget-arrow-width + $offset-x-m) !default;
@@ -13,6 +16,7 @@ $popup-gallery-widget-arrow-icon-color: get-color('additional', 'ultra') !defaul
 $popup-gallery-widget-wrapper-max-width: 610px !default;
 $popup-gallery-widget-wrapper-max-height: 710px !default;
 
+$popup-gallery-widget-close-icon: $fa-var-close !default;
 $popup-gallery-widget-close-width: 30px !default;
 $popup-gallery-widget-close-height: 30px !default;
 $popup-gallery-widget-close-top-right-pos: -($popup-gallery-widget-close-width / 2) !default;

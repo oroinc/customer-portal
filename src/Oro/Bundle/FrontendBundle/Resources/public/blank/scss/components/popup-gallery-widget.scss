@@ -52,20 +52,20 @@
     .slick-prev {
         left: $popup-gallery-widget-arrow-side-position;
 
-        @include fa-icon($fa-var-chevron-left, after);
+        @include fa-icon($popup-gallery-widget-arrow-prev-icon, after);
 
         &:after {
-            margin-right: 2px;
+            margin-right: $popup-gallery-widget-arrow-icon-side-offset;
         }
     }
 
     .slick-next {
         right: $popup-gallery-widget-arrow-side-position;
 
-        @include fa-icon($fa-var-chevron-right);
+        @include fa-icon($popup-gallery-widget-arrow-next-icon);
 
         &:before {
-            margin-left: 2px;
+            margin-left: $popup-gallery-widget-arrow-icon-side-offset;
         }
     }
 
@@ -131,7 +131,7 @@
         border-radius: $popup-gallery-widget-close-border-radius;
         cursor: pointer;
 
-        @include fa-icon($fa-var-close);
+        @include fa-icon($popup-gallery-widget-close-icon);
 
         &:before {
             display: inline-block;
