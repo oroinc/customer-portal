@@ -1,33 +1,39 @@
 {% block oro_commerce_menu_user_agent_condition_widget %}
     {% spaceless %}
-        <div class="menu-user-agent-condition-item">
-            <table class="menu-user-agent-condition-item-container" data-layout="separate">
-                <tbody>
-                <tr>
-                    <td class="menu-user-agent-condition-operation">{{ form_widget(form.operation) }}</td>
-                    <td class="menu-user-agent-condition-value">{{ form_widget(form.value) }}</td>
-                </tr>
-                </tbody>
-            </table>
+        <span class="menu-user-agent-inner-condition-label">AND</span>
+        <div class="menu-user-agent-condition-item" data-layout="separate">
+            <div class="menu-user-agent-condition-item-container">
+                <div class="menu-user-agent-condition-operation">
+                    {{ form_widget(form.operation) }}
+                </div>
+                <div class="menu-user-agent-condition-value">
+                    {{ form_widget(form.value) }}
+                </div>
+            </div>
         </div>
     {% endspaceless %}
 {% endblock %}
 
 {% macro oro_collection_item_prototype(form, name, disabled, allow_delete, allow_add_after) %}
-    <div
-            data-content="{{ name }}"
-            data-validation-optional-group
-            {% if form.vars.attr['data-validation-optional-group-handler'] is defined %}
-                data-validation-optional-group-handler="{{ form.vars.attr['data-validation-optional-group-handler'] }}"
-            {% endif %}
+    <div class="menu-user-agent-condition-container"
+         data-content="{{ name }}"
+         data-validation-optional-group
+         {% if form.vars.attr['data-validation-optional-group-handler'] is defined %}
+            data-validation-optional-group-handler="{{ form.vars.attr['data-validation-optional-group-handler'] }}"
+         {% endif %}
     >
-        <div class="row-oro oro-multiselect-holder{% if not allow_delete %} not-removable{% endif %}">
-            {{ form_widget(form, {disabled: disabled}) }}
+        <span class="menu-user-agent-condition-label">OR</span>
+        <div class="menu-user-agent-condition">
+            <div class="menu-user-agent-condition-wrap oro-multiselect-holder{% if not allow_delete %} not-removable{% endif %}">
+                {{ form_widget(form, {disabled: disabled}) }}
+                {% if allow_add_after %}
+                    <button class="addAfterRow btn btn-action btn-link" type="button" data-related="{{ name }}">+</button>
+                {% endif %}
+            </div>
             {% if allow_delete %}
-                <button class="removeRow btn btn-action btn-link" type="button" data-related="{{ name }}">×</button>
-            {% endif %}
-            {% if allow_add_after %}
-                <button class="addAfterRow btn btn-action btn-link" type="button" data-related="{{ name }}">+</button>
+                <button class="removeRow btn btn-action btn-link btn-remove-main-row" type="button" data-related="{{ name }}">
+                    <span class="fa-close"></span>
+                </button>
             {% endif %}
         </div>
     </div>
