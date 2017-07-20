@@ -10,6 +10,7 @@ $popup-gallery-widget-arrow-width: 37px !default;
 $popup-gallery-widget-arrow-height: 37px !default;
 $popup-gallery-widget-arrow-side-position: -($popup-gallery-widget-arrow-width + $offset-x-m) !default;
 $popup-gallery-widget-arrow-bg: rgba(get-color('additional', 'darker'), .6) !default;
+$popup-gallery-widget-arrow-border-radius: 100% !default;
 $popup-gallery-widget-arrow-icon-size: 12px !default;
 $popup-gallery-widget-arrow-icon-color: get-color('additional', 'ultra') !default;
 
@@ -25,7 +26,7 @@ $popup-gallery-widget-close-border-radius: 50% !default;
 
 $popup-gallery-widget-close-icon-size: 15px !default;
 $popup-gallery-widget-close-icon-color: get-color('additional', 'ultra') !default;
-$popup-gallery-widget-close-icon-offset: -1px 0 0 1px !default;
+$popup-gallery-widget-close-icon-offset: 0 !default;
 
 $popup-gallery-widget-images-offset-bottom: $offset-y-m !default;
 $popup-gallery-widget-slick-list-border: 1px solid get-color('additional', 'middle') !default;

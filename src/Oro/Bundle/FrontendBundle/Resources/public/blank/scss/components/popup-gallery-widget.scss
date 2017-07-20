@@ -33,7 +33,7 @@
         text-align: center;
 
         border: none;
-        border-radius: 100%;
+        border-radius: $popup-gallery-widget-arrow-border-radius;
         color: transparent;
         background: $popup-gallery-widget-arrow-bg;
 
@@ -266,7 +266,7 @@
     }
 }
 
-@include breakpoint('tablet-small') {
+@media (max-height: 730px), (max-width: $breakpoint-tablet-small) {
     .popup-gallery-widget {
         &__thumbnails {
             display: none;
