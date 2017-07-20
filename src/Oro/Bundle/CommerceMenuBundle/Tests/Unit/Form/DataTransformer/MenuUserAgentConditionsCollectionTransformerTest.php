@@ -41,8 +41,8 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit_Framewor
     {
         $menuUserAgentConditionsArray = [
             $this->mockMenuUserAgentCondition(1),
-            $this->mockMenuUserAgentCondition(2),
-            $this->mockMenuUserAgentCondition(2),
+            $this->mockMenuUserAgentCondition(1),
+            $this->mockMenuUserAgentCondition(0),
         ];
 
         return [
@@ -61,8 +61,8 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit_Framewor
             'normal collection' => [
                 'menuUserAgentConditionsCollection' => new ArrayCollection($menuUserAgentConditionsArray),
                 'expectedGroupedConditionsArray' => [
-                    1 => [$menuUserAgentConditionsArray[0]],
-                    2 => [$menuUserAgentConditionsArray[1], $menuUserAgentConditionsArray[2]],
+                    0 => [$menuUserAgentConditionsArray[2]],
+                    1 => [$menuUserAgentConditionsArray[0], $menuUserAgentConditionsArray[1]],
                 ],
             ],
         ];
@@ -98,12 +98,12 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit_Framewor
     public function testReverseTransformDataProvider()
     {
         $groupedConditionsArray = [
+            0 => [
+                $this->mockMenuUserAgentCondition(0),
+            ],
             1 => [
                 $this->mockMenuUserAgentCondition(1),
-            ],
-            2 => [
-                $this->mockMenuUserAgentCondition(2),
-                $this->mockMenuUserAgentCondition(2),
+                $this->mockMenuUserAgentCondition(1),
             ],
         ];
 
@@ -117,15 +117,15 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit_Framewor
                 'expectedMenuUserAgentConditions' => [],
             ],
             'group is not an array' => [
-                'groupedConditionsArray' => [1 => 'not array'],
+                'groupedConditionsArray' => [0 => 'not array'],
                 'expectedMenuUserAgentConditions' => [],
             ],
             'normal array' => [
                 'groupedConditionsArray' => $groupedConditionsArray,
                 'expectedMenuUserAgentConditions' => [
+                    $groupedConditionsArray[0][0],
                     $groupedConditionsArray[1][0],
-                    $groupedConditionsArray[2][0],
-                    $groupedConditionsArray[2][1],
+                    $groupedConditionsArray[1][1],
                 ],
             ],
         ];
@@ -136,7 +136,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit_Framewor
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Conditions group was expected to contain only MenuUserAgentCondition');
 
-        $groupedConditionsArray = [1 => ['random string']];
+        $groupedConditionsArray = [0 => ['random string']];
         $this->transformer->reverseTransform($groupedConditionsArray);
     }
 

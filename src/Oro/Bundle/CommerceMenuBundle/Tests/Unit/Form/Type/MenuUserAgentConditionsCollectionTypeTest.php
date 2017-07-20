@@ -67,7 +67,7 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
         $menuUserAgentCondition
             ->setOperation('contains')
             ->setValue('sample condition')
-            ->setConditionGroupIdentifier(1);
+            ->setConditionGroupIdentifier(0);
 
         $form = $this->factory->create(MenuUserAgentConditionsCollectionType::class, []);
 

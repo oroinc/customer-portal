@@ -33,6 +33,8 @@ class MenuUserAgentConditionsCollectionTransformer implements DataTransformerInt
                 $menuUserAgentCondition;
         }
 
+        ksort($groupedConditionsArray);
+
         return $groupedConditionsArray;
     }
 
@@ -46,6 +48,7 @@ class MenuUserAgentConditionsCollectionTransformer implements DataTransformerInt
         }
 
         $menuUserAgentConditionsCollection = [];
+        $groupedConditionsArray = array_values($groupedConditionsArray);
         foreach ($groupedConditionsArray as $key => $conditionsGroup) {
             if (!is_array($conditionsGroup)) {
                 continue;

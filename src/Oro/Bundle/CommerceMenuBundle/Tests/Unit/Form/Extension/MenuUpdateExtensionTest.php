@@ -18,7 +18,6 @@ use Oro\Bundle\FormBundle\Form\Type\CollectionType as OroCollectionType;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 use Oro\Bundle\NavigationBundle\Validator\Constraints\MaxNestedLevelValidator;
 use Oro\Bundle\TranslationBundle\Translation\Translator;
-use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -83,7 +82,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         $menuUserAgentCondition
             ->setOperation('contains')
             ->setValue('sample condition')
-            ->setConditionGroupIdentifier(1);
+            ->setConditionGroupIdentifier(0);
 
         $screens = ['desktop', 'mobile'];
 
@@ -152,21 +151,5 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
             );
 
         return $factory;
-    }
-
-    /**
-     * @param array $screensConfig
-     *
-     * @return Theme|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createThemeMock(array $screensConfig)
-    {
-        $theme = $this->createMock(Theme::class);
-        $theme
-            ->expects(static::once())
-            ->method('getConfig')
-            ->willReturn(['screens' => $screensConfig]);
-
-        return $theme;
     }
 }
