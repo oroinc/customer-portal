@@ -4,7 +4,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Event\ConfigSettingsUpdateEvent;
 use Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener;
@@ -109,6 +108,22 @@ class SystemConfigListenerTest extends \PHPUnit_Framework_TestCase
         $this->listener->onFormPreSetData($event);
 
         $this->assertEquals([$key => ['value' => $user]], $event->getSettings());
+    }
+
+    public function testOnFormPreSetDataWithInvalidId()
+    {
+        $id = null;
+        $key = 'oro_customer___default_customer_owner';
+        $event = $this->getEvent([$key => ['value' => $id]]);
+        $manager = $this->getMockBuilder(ObjectManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $manager->expects($this->never())
+            ->method('find');
+        $this->registry->expects($this->never())
+            ->method('getManagerForClass');
+        $this->listener->onFormPreSetData($event);
+        $this->assertEquals([$key => ['value' => null]], $event->getSettings());
     }
 
     public function testOnSettingsSaveBefore()
