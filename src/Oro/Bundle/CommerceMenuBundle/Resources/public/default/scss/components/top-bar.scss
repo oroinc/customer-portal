@@ -53,6 +53,10 @@
     }
 }
 
+.topbar-navigation-wrap {
+    display: inline-block;
+}
+
 .topbar-navigation {
     &--has-sibling {
         margin-right: 10px;
