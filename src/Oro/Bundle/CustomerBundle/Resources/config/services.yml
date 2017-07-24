@@ -88,6 +88,14 @@ services:
             - '%oro_customer.entity.customer_group.class%'
             - "@doctrine.orm.entity_manager"
 
+    oro_customer.listener.search_listener:
+          class: 'Oro\Bundle\CustomerBundle\EventListener\FrontendSearchListener'
+          arguments:
+              - '@oro_customer.owner.frontend_ownership_metadata_provider'
+          tags:
+              - { name: kernel.event_listener, event: oro_search.prepare_entity_map, method: prepareEntityMapEvent }
+              - { name: kernel.event_listener, event: oro_search.search_mapping_collect, method: collectEntityMapEvent }
+
     oro_customer.form.autocomplete.customer_group.search_handler:
         public: false
         parent: oro_form.autocomplete.search_handler
