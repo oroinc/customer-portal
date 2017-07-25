@@ -914,13 +914,12 @@ services:
         lazy: true
 
     oro_customer.action.get_or_create_active_user:
-        class: Oro\Bundle\CustomerBundle\Action\GetOrCreateActiveUser
+        class: Oro\Bundle\CustomerBundle\Action\GetActiveUserOrNull
         arguments:
             - '@oro_action.expression.context_accessor'
             - '@security.token_storage'
-            - '@oro_customer.manager.guest_customer_user'
         tags:
-            - { name: oro_action.action, alias: get_or_create_active_user }
+            - { name: oro_action.action, alias: get_active_user_or_null }
 
     oro_customer.manager.guest_customer_user:
         class: Oro\Bundle\CustomerBundle\Entity\GuestCustomerUserManager
@@ -930,6 +929,7 @@ services:
             - '@oro_website.manager'
             - '@oro_customer_user.manager'
             - '@oro_customer.provider.customer_user_relations_provider'
+            - '@security.token_storage'
 
     oro_customer.voter.customer_user:
         class: 'Oro\Bundle\CustomerBundle\Voter\CustomerUserVoter'
