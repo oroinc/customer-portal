@@ -2,7 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
+use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
@@ -28,55 +32,49 @@ class GuestCustomerUserManager
      */
     protected $customerUserRelationsProvider;
 
+    /** @var TokenStorageInterface */
+    protected $tokenStorage;
+
     /**
-     * @param DoctrineHelper                $doctrineHelper
-     * @param WebsiteManager                $websiteManager
-     * @param CustomerUserManager           $customerUserManager
+     * @param DoctrineHelper $doctrineHelper
+     * @param WebsiteManager $websiteManager
+     * @param CustomerUserManager $customerUserManager
      * @param CustomerUserRelationsProvider $customerUserRelationsProvider
+     * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
         DoctrineHelper $doctrineHelper,
         WebsiteManager $websiteManager,
         CustomerUserManager $customerUserManager,
-        CustomerUserRelationsProvider $customerUserRelationsProvider
+        CustomerUserRelationsProvider $customerUserRelationsProvider,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->doctrineHelper                = $doctrineHelper;
         $this->websiteManager                = $websiteManager;
         $this->customerUserManager           = $customerUserManager;
         $this->customerUserRelationsProvider = $customerUserRelationsProvider;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
-     * @param CustomerVisitor $visitor
+     * @param string $email
+     * @param AbstractAddress $address
      *
      * @return CustomerUser
      */
-    public function getOrCreate(CustomerVisitor $visitor)
-    {
-        if ($visitor->getCustomerUser()) {
-            $customerUser = $visitor->getCustomerUser();
-        } else {
-            $customerUser = $this->create();
-            $visitor->setCustomerUser($customerUser);
-
-            $customerVisitorEntityManager = $this->doctrineHelper->getEntityManagerForClass(CustomerVisitor::class);
-            $customerVisitorEntityManager->persist($visitor);
-            $customerVisitorEntityManager->flush($visitor);
-        }
-
-        return $customerUser;
-    }
-
-    /**
-     * @return CustomerUser
-     */
-    public function create()
+    public function createFromAddress($email, AbstractAddress $address)
     {
         $customerUser = new CustomerUser();
         $customerUser->setIsGuest(true);
         $customerUser->setEnabled(false);
         $customerUser->setConfirmed(false);
-        $customerUser->setUsername($this->customerUserManager->generatePassword(15));
+        $customerUser->setEmail($email);
+        $customerUser->setNamePrefix($address->getNamePrefix());
+        $customerUser->setFirstName($address->getFirstName());
+        $customerUser->setMiddleName($address->getMiddleName());
+        $customerUser->setLastName($address->getLastName());
+        $customerUser->setNameSuffix($address->getNameSuffix());
+
         $generatedPassword = $this->customerUserManager->generatePassword(10);
         $customerUser->setPlainPassword($generatedPassword);
         $this->customerUserManager->updatePassword($customerUser);
@@ -84,12 +82,15 @@ class GuestCustomerUserManager
         $customerUser->setWebsite($website);
         $customerUser->setOrganization($website->getOrganization());
         $customerUser->createCustomer();
+
         $anonymousGroup = $this->customerUserRelationsProvider->getCustomerGroup();
         $customerUser->getCustomer()->setGroup($anonymousGroup);
 
-        $customerUserEntityManager = $this->doctrineHelper->getEntityManagerForClass(CustomerUser::class);
-        $customerUserEntityManager->persist($customerUser);
-        $customerUserEntityManager->flush($customerUser);
+        $token = $this->tokenStorage->getToken();
+        if ($token instanceof AnonymousCustomerUserToken) {
+            $visitor = $token->getVisitor();
+            $visitor->setCustomerUser($customerUser);
+        }
 
         return $customerUser;
     }
