@@ -6,6 +6,10 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         name: 'first customer'
         organization: '@organization'
         owner: '@admin'
+    customer4:
+        name: 'Wholesaler B'
+        organization: '@organization'
+        owner: '@admin'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     amanda:
@@ -34,5 +38,19 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         customer: '@customer1'
         organization: '@organization'
         role: ['@front_admin']
+        owner: '@admin'
+        website: '@website1'
+    marlene:
+        email: 'MarleneSBradley@example.com'
+        username: 'MarleneSBradley@example.com'
+        password: 'MrXo6V++SF8Gy/oa/QDQ1klz12WLxzajuGjxFm6o+8NZ+CDRZjtP/QTvp23vl50GdKI60eknJ2dToR6oiSpskg=='
+        salt: 'lwoufelaumo8skw4s00o8k4cck4wckw'
+        firstName: 'Marlene'
+        lastName: 'Bradley'
+        enabled: '1'
+        confirmed: '1'
+        customer: '@customer4'
+        organization: '@organization'
+        role: ['@buyer']
         owner: '@admin'
         website: '@website1'

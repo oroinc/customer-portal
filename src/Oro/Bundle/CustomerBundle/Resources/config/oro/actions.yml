@@ -390,6 +390,11 @@ operations:
             - Oro\Bundle\CustomerBundle\Entity\Customer
         datagrids:
             - customer-customers-grid
+        exclude_datagrids:
+            - customer-group-customers-grid-basic
+            - customer-group-customers-grid-create
+            - customer-group-customers-grid-update
+            - customer-group-customers-grid-view
         datagrid_options:
             mass_action:
                 entity_name: Oro\Bundle\CustomerBundle\Entity\Customer
