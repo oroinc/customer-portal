@@ -2,6 +2,7 @@ define(function(require) {
     'use strict';
 
     var FullscreenPopupView;
+    var template = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup.html');
     var BaseView = require('oroui/js/app/views/base/view');
     var tools = require('oroui/js/tools');
     var mediator = require('oroui/js/mediator');
@@ -20,7 +21,7 @@ define(function(require) {
             'popupCloseButton', 'popupIcon', 'popupBadge'
         ]),
 
-        templateSelector: '#fullscreen-popup-tpl',
+        template: template,
 
         popupLabel: _.__('Back'),
 

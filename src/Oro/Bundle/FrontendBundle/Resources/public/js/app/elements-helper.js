@@ -191,6 +191,22 @@ define(function(require) {
             }
         },
 
+        createElementByTemplate: function(element) {
+            var $element = this.getElement(element);
+            if ($element.length > 0) {
+                if ($element.is('script')) {
+                    $element = $($element.html());
+                }
+            } else if (typeof this.templates[element] === 'function') {
+                $element = $(this.templates[element]());
+            } else {
+                $element = _.template($(this.templates[element]).html());
+            }
+
+            this.$elements[element] = $element;
+            return $element;
+        },
+
         getElement: function(key, $default) {
             if (this.$elements[key] === undefined) {
                 this.$elements[key] = this._findElement(key) || $default || $([]);

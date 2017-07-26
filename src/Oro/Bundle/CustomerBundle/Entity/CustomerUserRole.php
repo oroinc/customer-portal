@@ -6,12 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Oro\Bundle\CustomerBundle\Model\ExtendCustomerUserRole;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
-use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
@@ -54,7 +54,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CustomerUserRole extends AbstractRole implements OrganizationAwareInterface, \Serializable
+class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwareInterface, \Serializable
 {
     const PREFIX_ROLE = 'ROLE_FRONTEND_';
 
@@ -173,6 +173,8 @@ class CustomerUserRole extends AbstractRole implements OrganizationAwareInterfac
 
         $this->websites = new ArrayCollection();
         $this->customerUsers = new ArrayCollection();
+
+        parent::__construct($this->getRole());
     }
 
     /**

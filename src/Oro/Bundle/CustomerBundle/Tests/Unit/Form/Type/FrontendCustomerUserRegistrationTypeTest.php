@@ -155,6 +155,24 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
                 'expectedData' => $expectedEntity,
                 'owner' => $owner,
                 'isValid' => true
+            ],
+            'new user with long company name' => [
+                'defaultData' => $entity,
+                'submittedData' => [
+                    'companyName' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                    'firstName' => 'John',
+                    'lastName' => 'Doe',
+                    'email' => 'johndoe@example.com',
+                    'plainPassword' => [
+                        'first' => '123456',
+                        'second' => '123456'
+                    ]
+                ],
+                'expectedData' => $expectedEntity,
+                'owner' => $owner,
+                'isValid' => false
             ]
         ];
     }

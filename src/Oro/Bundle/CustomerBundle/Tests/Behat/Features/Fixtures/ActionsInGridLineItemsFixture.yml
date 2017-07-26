@@ -1,0 +1,48 @@
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    company_A:
+        name: 'Acme Company'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    amanda:
+        email: 'AmandaRCole@example.org'
+        username: 'AmandaRCole@example.org'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        firstName: 'Amanda'
+        lastName: 'Cole'
+        enabled: '1'
+        confirmed: '1'
+        customer: '@company_A'
+        organization: '@organization'
+        role: ['@front_admin']
+        owner: '@admin'
+        website: '@website1'
+    customer_users{1..10}:
+        email: 'user_<current()>@example.org'
+        username: 'user_<current()>@example.org'
+        password: <sentence()>
+        salt: <sentence()>
+        firstName: 'FirstName_<current()>'
+        lastName: 'LastName_<current()>'
+        enabled: '1'
+        confirmed: '1'
+        customer: '@company_A'
+        organization: '@organization'
+        role: ['@buyer']
+        owner: '@admin'
+        website: '@website1'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    customerAddress1:
+        region: 'US-FL'
+        frontendOwner: '@company_A'
+        country: 'US'
+        owner: '@admin'
+        systemOrganization: '@organization'
+        primary: false
+        label: 'Company_Street_01'
+        street: 'Company_Street_01'
+        city: 'City_01'
+        postalCode: '1234'
