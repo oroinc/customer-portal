@@ -162,6 +162,7 @@ $breakpoint-tablet: $breakpoint-desktop - 1px;
 $breakpoint-tablet-small: 992px;
 $breakpoint-mobile-landscape: 640px;
 $breakpoint-mobile: 414px;
+$breakpoint-mobile-big: 767px;
 ````
 
 ## How to change Offsets
