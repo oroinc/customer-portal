@@ -7,6 +7,7 @@ use Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid as BaseGrid;
 class Grid extends BaseGrid
 {
     const DEFAULT_MAPPINGS = [
+        'GridRow' => 'FrontendGridRow',
         'GridToolbarPaginator' => 'FrontendGridToolbarPaginator',
         'MassActionHeadCheckbox' => 'FrontendMassActionHeadCheckbox',
         'GridColumnManager' => 'FrontendGridColumnManager',
@@ -39,5 +40,17 @@ class Grid extends BaseGrid
         $pageSizeElement->find('css', '.select2-choice')->click();
         $detachedSelect2Result = $this->elementFactory->createElement('DetachedSelect2Result');
         $detachedSelect2Result->find('css', 'div.select2-result-label:contains("' . $number . '")')->click();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function massCheck($title)
+    {
+        $massActionHeadCheckboxElementName = $this->getMappedChildElementName('MassActionHeadCheckbox');
+
+        $this->elementFactory->createElement($massActionHeadCheckboxElementName, $this)->clickForce();
+
+        $this->elementFactory->createElement('GridFloatingMenu')->clickLink($title);
     }
 }
