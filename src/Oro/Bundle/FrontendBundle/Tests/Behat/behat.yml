@@ -16,6 +16,9 @@ oro_behat_extension:
     Frontend Grid:
       selector: 'div.oro-datagrid'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+    FrontendGridRow:
+      selector: '.grid-row'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridRow
     FrontendGridToolbarPaginator:
       selector: '.oro-items-counter'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
