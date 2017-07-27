@@ -62,3 +62,5 @@ oro_behat_extension:
       selector: ".copyright"
     Fullscreen Popup:
       selector: ".fullscreen-popup"
+    Popup Gallery Widget:
+      selector: ".popup-gallery-widget"
