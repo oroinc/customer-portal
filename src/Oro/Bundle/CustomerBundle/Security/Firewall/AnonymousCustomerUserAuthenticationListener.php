@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Security\Firewall;
 
 use Psr\Log\LoggerInterface;
+
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -12,6 +13,8 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 
 class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
 {
@@ -36,26 +39,26 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     private $authenticationManager;
 
     /**
-     * @var integer
+     * @var ConfigManager
      */
-    private $cookieLifetime;
+    private $configManager;
 
     /**
-     * @param TokenStorageInterface          $tokenStorage
+     * @param TokenStorageInterface $tokenStorage
      * @param AuthenticationManagerInterface $authenticationManager
-     * @param LoggerInterface|null           $logger
-     * @param integer                        $cookieLifetime
+     * @param LoggerInterface|null $logger
+     * @param ConfigManager $configManager
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
         LoggerInterface $logger,
-        $cookieLifetime
+        ConfigManager $configManager
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
         $this->logger = $logger;
-        $this->cookieLifetime = $cookieLifetime;
+        $this->configManager = $configManager;
     }
 
     /**
@@ -87,6 +90,7 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     }
 
     /**
+     * @param Request $request
      * @return array
      */
     private function getCredentials(Request $request)
@@ -106,19 +110,23 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     }
 
     /**
-     * @param array   $credentials
-     * @param integer $lifetime
+     * @param Request $request
+     * @param AnonymousCustomerUserToken $token
      */
     private function saveCredentials(Request $request, AnonymousCustomerUserToken $token)
     {
         $visitor = $token->getVisitor();
+
+        $cookieLifetime = $this->configManager->get('oro_customer.customer_visitor_cookie_lifetime_days');
+
+        $cookieLifetime = $cookieLifetime * Configuration::SECONDS_IN_DAY;
 
         $request->attributes->set(
             self::COOKIE_ATTR_NAME,
             new Cookie(
                 self::COOKIE_NAME,
                 base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()])),
-                time() + $this->cookieLifetime
+                time() + $cookieLifetime
             )
         );
     }
