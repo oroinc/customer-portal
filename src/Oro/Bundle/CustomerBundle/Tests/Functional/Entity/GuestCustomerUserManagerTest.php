@@ -23,6 +23,7 @@ class GuestCustomerUserManagerTest extends WebTestCase
 
     public function testCreateFromAddress()
     {
+        $this->markTestSkipped('Will be updated in the BB-10797');
         // init tokens
         $this->client->request('GET', '/');
         $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
