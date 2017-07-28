@@ -38,7 +38,7 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     public function setGridViewAsDefault($gridName)
     {
         $grid = $this->getFrontendGrid($gridName);
-        $grid->checkField('is_default');
+        $grid->getElement('FrontendGridViewSetAsDefaultCheckbox')->click();
     }
 
     /**

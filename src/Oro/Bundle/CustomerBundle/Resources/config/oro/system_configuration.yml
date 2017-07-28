@@ -20,6 +20,13 @@ system_configuration:
                 label: oro.customer.system_configuration.fields.default_customer_owner.label
                 tooltip: oro.customer.system_configuration.fields.default_customer_owner.tooltip
                 required: true
+                configs:
+                    allowClear: false
+                    placeholder: 'oro.user.form.choose_user'
+                    result_template_twig: 'OroUserBundle:User:Autocomplete/result.html.twig'
+                    selection_template_twig: 'OroUserBundle:User:Autocomplete/selection.html.twig'
+                constraints:
+                    - NotBlank: ~
         oro_customer.registration_allowed:
             data_type: boolean
             type: oro_config_checkbox
