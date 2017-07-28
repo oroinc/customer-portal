@@ -11,5 +11,10 @@ Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate:
         uri:
             - NotBlank:
                 groups: [UserDefined]
-        condition:
-            - Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpression: ~
+
+Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition:
+    properties:
+        value:
+            - NotBlank: ~
+            - Length:
+                max: 255

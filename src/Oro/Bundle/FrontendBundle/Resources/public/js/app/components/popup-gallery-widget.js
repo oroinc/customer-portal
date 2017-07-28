@@ -20,7 +20,7 @@ define(function(require) {
          * @property {Object}
          */
         options: {
-            bindWithSlider: '.product-view-media__gallery',
+            bindWithSlider: '.product-view-media-gallery',
             galleryImages: [],
             ajaxMode: false,
             ajaxRoute: 'oro_product_frontend_ajax_images_by_id',
