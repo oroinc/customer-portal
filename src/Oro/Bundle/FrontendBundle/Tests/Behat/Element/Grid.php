@@ -7,6 +7,7 @@ use Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid as BaseGrid;
 class Grid extends BaseGrid
 {
     const DEFAULT_MAPPINGS = [
+        'GridRow' => 'FrontendGridRow',
         'GridToolbarPaginator' => 'FrontendGridToolbarPaginator',
         'MassActionHeadCheckbox' => 'FrontendMassActionHeadCheckbox',
         'GridColumnManager' => 'FrontendGridColumnManager',
@@ -28,5 +29,17 @@ class Grid extends BaseGrid
         }
 
         return parent::getMappedChildElementName($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function massCheck($title)
+    {
+        $massActionHeadCheckboxElementName = $this->getMappedChildElementName('MassActionHeadCheckbox');
+
+        $this->elementFactory->createElement($massActionHeadCheckboxElementName, $this)->clickForce();
+
+        $this->elementFactory->createElement('GridFloatingMenu')->clickLink($title);
     }
 }

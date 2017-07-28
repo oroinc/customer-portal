@@ -1,5 +1,4 @@
 @ticket-BB-8155
-@selenium-incompatible
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Update default grid views on page with more than one datagrids
