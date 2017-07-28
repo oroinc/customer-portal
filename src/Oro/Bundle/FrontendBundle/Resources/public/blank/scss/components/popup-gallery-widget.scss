@@ -1,4 +1,4 @@
-// @theme: blank
+// @theme: blank;
 
 .popup-gallery-widget {
     position: fixed;
@@ -93,7 +93,7 @@
     }
 
     //Gallery styles
-    &__bg {
+    &__overlay {
         position: absolute;
         top: 0;
         left: 0;
@@ -123,10 +123,12 @@
 
         width: $popup-gallery-widget-close-width;
         height: $popup-gallery-widget-close-height;
+        padding: 0;
 
         text-align: center;
 
         background: $popup-gallery-widget-close-bg;
+        border: $popup-gallery-widget-close-border;
 
         border-radius: $popup-gallery-widget-close-border-radius;
         cursor: pointer;
@@ -199,6 +201,13 @@
         img {
             width: 100%;
             height: 100%;
+        }
+
+        .slick-loading {
+            min-width: 200px;
+            min-height: 200px;
+
+            background: get-color('additional', 'ultra') url($popup-gallery-loader-url) no-repeat 50% 50%;
         }
     }
 

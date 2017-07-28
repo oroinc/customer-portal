@@ -1,7 +1,8 @@
-// @theme: blank
+// @theme: blank;
 
 // Desktop
 $popup-gallery-widget-overlay-bg: rgba(get-color('additional', 'dark'), .5) !default;
+$popup-gallery-loader-url: '#{$global-url}/orofrontend/blank/images/loader.gif' !default;
 
 $popup-gallery-widget-arrow-prev-icon: $fa-var-chevron-left !default;
 $popup-gallery-widget-arrow-next-icon: $fa-var-chevron-right !default;
@@ -22,6 +23,7 @@ $popup-gallery-widget-close-width: 30px !default;
 $popup-gallery-widget-close-height: 30px !default;
 $popup-gallery-widget-close-top-right-pos: -($popup-gallery-widget-close-width / 2) !default;
 $popup-gallery-widget-close-bg: get-color('additional', 'dark') !default;
+$popup-gallery-widget-close-border: none !default;
 $popup-gallery-widget-close-border-radius: 50% !default;
 
 $popup-gallery-widget-close-icon-size: 15px !default;
