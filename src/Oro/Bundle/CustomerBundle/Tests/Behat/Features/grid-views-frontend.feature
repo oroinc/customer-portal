@@ -1,4 +1,3 @@
-@selenium-incompatible
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 Feature: grid views management on datagrids
   In order to manage grid views on front store
