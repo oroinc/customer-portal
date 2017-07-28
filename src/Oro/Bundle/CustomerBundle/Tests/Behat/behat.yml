@@ -120,7 +120,7 @@ oro_behat_extension:
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     FrontendGridViewSetAsDefaultCheckbox:
-      selector: 'input[name="is_default"]+.custom-checkbox__icon'
+      selector: '.grid-views input[name="is_default"]+.custom-checkbox__icon'
 
     FrontendGridFilterManager:
       selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
