@@ -150,7 +150,7 @@ define(function(require) {
                             alt: this.options.alt
                         };
                         if (this.useThumb()) {
-                            image.thumb = item[this.options.thumbnailsFilter]
+                            image.thumb = item[this.options.thumbnailsFilter];
                         }
                         this.options.galleryImages.push(image);
                     }, this);
@@ -225,7 +225,6 @@ define(function(require) {
         },
 
         render: function() {
-            var self = this;
             if (!this.$galleryWidget) {
                 this.$galleryWidget = $(this.template({
                     images: this.options.galleryImages,
