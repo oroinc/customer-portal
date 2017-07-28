@@ -1,5 +1,4 @@
 @ticket-BB-8879
-@selenium-incompatible
 @fixture-OroCustomerBundle:MassActionsCustomerAddressFixture.yml
 Feature: Mass delete customer user addresses
   In order to decrease time needed to delete several records at once
