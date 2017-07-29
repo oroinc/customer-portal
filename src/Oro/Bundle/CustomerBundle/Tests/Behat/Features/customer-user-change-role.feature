@@ -1,4 +1,3 @@
-@selenium-incompatible
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Update customer user roles
 
