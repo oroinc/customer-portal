@@ -1,4 +1,3 @@
-@selenium-incompatible
 @fixture-OroCustomerBundle:FrontendGridViewsFixture.yml
 Feature: Frontend Grid Views
   #Implement frontend grid views.

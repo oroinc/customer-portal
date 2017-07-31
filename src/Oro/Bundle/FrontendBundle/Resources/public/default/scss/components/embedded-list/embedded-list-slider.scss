@@ -94,42 +94,13 @@
         opacity: .5;
     }
 
-    .slick-dots {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-
-        transform: translate(-50%);
-
-        text-align: center;
-
-        li {
-            display: inline-block;
-            vertical-align: top;
-
-            margin-left: $embedded-list-slider-dots-item-offset;
-
-            &:first-child {
-                margin-left: 0;
-            }
-        }
-
-        button {
-            width: $embedded-list-slider-dots-btn-size;
-            height: $embedded-list-slider-dots-btn-size;
-            padding: 0;
-
-            font-size: 0;
-
-            border: $embedded-list-slider-dots-btn-border;
-            border-radius: $embedded-list-slider-dots-btn-border-radius;
-            background: $embedded-list-slider-dots-btn-background;
-        }
-
-        .slick-active {
-            button {
-                background: $embedded-list-slider-dots-btn-active-background;
-            }
-        }
-    }
+    @include slick-dots(
+        $slick-dots-bottom-pos:    $offset-y-m,
+        $slick-dots-item-offset:   0 4px,
+        $slick-dots-button-bg:     transparent,
+        $slick-dots-button-border: 1px solid get-color('additional', 'ultra'),
+        $slick-dots-button-active-border: 1px solid get-color('additional', 'ultra'),
+        $slick-dots-button-active-bg: get-color('additional', 'ultra'),
+        $slick-dots-button-active-box-shadow: null
+    );
 }
