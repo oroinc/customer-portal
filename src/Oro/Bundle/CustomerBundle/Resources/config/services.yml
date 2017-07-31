@@ -921,15 +921,22 @@ services:
         tags:
             - { name: oro_action.action, alias: get_active_user_or_null }
 
+    oro_customer.action.get_active_visitor:
+        class: Oro\Bundle\CustomerBundle\Action\GetActiveVisitor
+        arguments:
+            - '@oro_action.expression.context_accessor'
+            - '@security.token_storage'
+        tags:
+            - { name: oro_action.action, alias: get_active_visitor }
+
     oro_customer.manager.guest_customer_user:
         class: Oro\Bundle\CustomerBundle\Entity\GuestCustomerUserManager
         lazy: true
         arguments:
-            - '@oro_entity.doctrine_helper'
             - '@oro_website.manager'
             - '@oro_customer_user.manager'
             - '@oro_customer.provider.customer_user_relations_provider'
-            - '@security.token_storage'
+            - '@property_accessor'
 
     oro_customer.voter.customer_user:
         class: 'Oro\Bundle\CustomerBundle\Voter\CustomerUserVoter'

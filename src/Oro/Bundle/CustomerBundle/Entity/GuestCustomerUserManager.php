@@ -2,21 +2,14 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 class GuestCustomerUserManager
 {
-    /**
-     * @var DoctrineHelper
-     */
-    protected $doctrineHelper;
-
     /**
      * @var WebsiteManager
      */
@@ -32,65 +25,67 @@ class GuestCustomerUserManager
      */
     protected $customerUserRelationsProvider;
 
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    /**
+     * @var PropertyAccessor
+     */
+    protected $propertyAccessor;
 
     /**
-     * @param DoctrineHelper $doctrineHelper
      * @param WebsiteManager $websiteManager
      * @param CustomerUserManager $customerUserManager
      * @param CustomerUserRelationsProvider $customerUserRelationsProvider
-     * @param TokenStorageInterface $tokenStorage
+     * @param PropertyAccessor $propertyAccessor
      */
     public function __construct(
-        DoctrineHelper $doctrineHelper,
         WebsiteManager $websiteManager,
         CustomerUserManager $customerUserManager,
         CustomerUserRelationsProvider $customerUserRelationsProvider,
-        TokenStorageInterface $tokenStorage
+        PropertyAccessor $propertyAccessor
     ) {
-        $this->doctrineHelper                = $doctrineHelper;
-        $this->websiteManager                = $websiteManager;
-        $this->customerUserManager           = $customerUserManager;
+        $this->websiteManager = $websiteManager;
+        $this->customerUserManager = $customerUserManager;
         $this->customerUserRelationsProvider = $customerUserRelationsProvider;
-        $this->tokenStorage = $tokenStorage;
+        $this->propertyAccessor = $propertyAccessor;
     }
 
     /**
-     * @param string $email
-     * @param AbstractAddress $address
+     * @param CustomerVisitor $visitor
+     * @param array $properties
      *
      * @return CustomerUser
      */
-    public function createFromAddress($email, AbstractAddress $address)
+    public function generateGuestCustomerUser(CustomerVisitor $visitor, array $properties = [])
     {
         $customerUser = new CustomerUser();
         $customerUser->setIsGuest(true);
         $customerUser->setEnabled(false);
         $customerUser->setConfirmed(false);
-        $customerUser->setEmail($email);
-        $customerUser->setNamePrefix($address->getNamePrefix());
-        $customerUser->setFirstName($address->getFirstName());
-        $customerUser->setMiddleName($address->getMiddleName());
-        $customerUser->setLastName($address->getLastName());
-        $customerUser->setNameSuffix($address->getNameSuffix());
+
+        foreach ($properties as $propertyPath => $value) {
+            if ($this->propertyAccessor->isWritable($customerUser, $propertyPath)) {
+                $this->propertyAccessor->setValue($customerUser, $propertyPath, $value);
+            }
+        }
 
         $generatedPassword = $this->customerUserManager->generatePassword(10);
         $customerUser->setPlainPassword($generatedPassword);
         $this->customerUserManager->updatePassword($customerUser);
+
         $website = $this->websiteManager->getCurrentWebsite();
         $customerUser->setWebsite($website);
+
+        // TODO move current organization to token storage BB-9269
         $customerUser->setOrganization($website->getOrganization());
-        $customerUser->createCustomer();
 
         $anonymousGroup = $this->customerUserRelationsProvider->getCustomerGroup();
+        // TODO owner should be fixed when current organization will be moved to token storage BB-9269
+        $customerUser->setOwner($anonymousGroup->getOwner());
+
+        $customerUser->createCustomer();
+
         $customerUser->getCustomer()->setGroup($anonymousGroup);
 
-        $token = $this->tokenStorage->getToken();
-        if ($token instanceof AnonymousCustomerUserToken) {
-            $visitor = $token->getVisitor();
-            $visitor->setCustomerUser($customerUser);
-        }
+        $visitor->setCustomerUser($customerUser);
 
         return $customerUser;
     }
