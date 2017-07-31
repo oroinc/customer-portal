@@ -24,6 +24,10 @@ class PageTemplateEntityFieldFallbackValueTransformer implements DataTransformer
      */
     public function transform($value)
     {
+        if (empty($value)) {
+            return;
+        }
+
         $arrValue = $value->getArrayValue();
 
         if ($arrValue) {
@@ -38,6 +42,10 @@ class PageTemplateEntityFieldFallbackValueTransformer implements DataTransformer
      */
     public function reverseTransform($value)
     {
+        if (empty($value)) {
+            return;
+        }
+
         if ($value instanceof EntityFieldFallbackValue) {
             $value->setArrayValue([$this->routeName => $value->getScalarValue()]);
             $value->setScalarValue(null);
