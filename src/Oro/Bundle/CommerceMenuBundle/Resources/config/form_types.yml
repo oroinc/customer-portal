@@ -1,0 +1,23 @@
+services:
+    oro_commerce_menu.form.data_transformer.menu_user_agent_conditions_collection:
+        class: 'Oro\Bundle\CommerceMenuBundle\Form\DataTransformer\MenuUserAgentConditionsCollectionTransformer'
+        shared: false
+
+    oro_commerce_menu.form.type.menu_user_agent_condition:
+        class: 'Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionType'
+        tags:
+            - { name: form.type, alias: 'oro_commerce_menu_user_agent_condition'}
+
+    oro_commerce_menu.form.type.menu_user_agent_conditions:
+        class: 'Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionsCollectionType'
+        arguments:
+            - '@oro_commerce_menu.form.data_transformer.menu_user_agent_conditions_collection'
+        tags:
+            - { name: form.type, alias: 'oro_commerce_menu_user_agent_conditions_collection'}
+
+    oro_commerce_menu.form.type.menu_screens_condition:
+        class: 'Oro\Bundle\CommerceMenuBundle\Form\Type\MenuScreensConditionType'
+        arguments:
+            - '@oro_frontend.provider.screens'
+        tags:
+            - { name: form.type, alias: 'oro_commerce_menu_screens_condition'}

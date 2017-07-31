@@ -35,10 +35,12 @@ class CustomerUserAddressController extends Controller
             throw new AccessDeniedException();
         }
 
+        $addressProvider = $this->get('oro_customer.provider.frontend.address');
+
         return [
             'entity_class' => $this->container->getParameter('oro_customer.entity.customer_user_address.class'),
-            'customer_user_address_count' => $this->getUser()->getAddresses()->count(),
-            'customer_address_count' => $this->getUser()->getCustomer()->getAddresses()->count(),
+            'customer_user_address_count' => count($addressProvider->getCurrentCustomerUserAddresses()),
+            'customer_address_count' => count($addressProvider->getCurrentCustomerAddresses()),
             'data' => [
                 'entity' => $this->getUser()
             ]
@@ -151,22 +153,28 @@ class CustomerUserAddressController extends Controller
 
     /**
      * @param CustomerUser $customerUser
-     * @param CustomerUserAddress $customerAddress
+     * @param CustomerUserAddress $customerUserAddress
      * @param Request $request
      */
-    private function prepareEntities(CustomerUser $customerUser, CustomerUserAddress $customerAddress, Request $request)
-    {
-        if ($request->getMethod() === 'GET' && !$customerAddress->getId()) {
-            $customerAddress->setFirstName($customerUser->getFirstName());
-            $customerAddress->setLastName($customerUser->getLastName());
+    private function prepareEntities(
+        CustomerUser $customerUser,
+        CustomerUserAddress $customerUserAddress,
+        Request $request
+    ) {
+        if ($request->getMethod() === 'GET' && !$customerUserAddress->getId()) {
+            $customerUserAddress->setFirstName($customerUser->getFirstName());
+            $customerUserAddress->setLastName($customerUser->getLastName());
             if (!$customerUser->getAddresses()->count()) {
-                $customerAddress->setPrimary(true);
+                $customerUserAddress->setPrimary(true);
             }
         }
 
-        if (!$customerAddress->getFrontendOwner()) {
-            $customerUser->addAddress($customerAddress);
-        } elseif ($customerAddress->getFrontendOwner()->getId() !== $customerUser->getId()) {
+        if (!$customerUserAddress->getFrontendOwner()) {
+            $customerUser->addAddress($customerUserAddress);
+        } elseif (!$this->get('oro_customer.provider.frontend.address')
+                ->isCurrentCustomerUserAddressesContain($customerUserAddress)
+            && $customerUserAddress->getFrontendOwner()->getId() !== $customerUser->getId()
+        ) {
             throw new BadRequestHttpException('Address must belong to CustomerUser');
         }
     }
