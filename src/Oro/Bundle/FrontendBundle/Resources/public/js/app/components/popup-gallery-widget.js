@@ -12,7 +12,7 @@ PopupGalleryWidget = AbstractWidget.extend({
          * @property {Object}
          */
         options: {
-            bindWithSlider: '.product-view-media__gallery',
+            bindWithSlider: '.product-view-media-gallery',
             imageOptions: {
                 fade: true,
                 slidesToShow: 1,

@@ -906,6 +906,14 @@ services:
         tags:
             - { name: 'oro_message_queue.client.message_processor', topicName: 'oro_customer.clear_lost_customer_users' }
 
+    oro_customer.provider.frontend.address:
+        class: 'Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider'
+        arguments:
+            - '@doctrine'
+            - '@oro_security.acl_helper'
+            - '%oro_customer.entity.customer_address.class%'
+            - '%oro_customer.entity.customer_user_address.class%'
+
     oro_customer.voter.anonymous_customer_user:
         class: 'Oro\Bundle\CustomerBundle\Voter\AnonymousCustomerUserVoter'
         arguments:

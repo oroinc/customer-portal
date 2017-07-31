@@ -58,7 +58,7 @@
     {% for item in currentItem.children %}
         {%- set itemAttributes = item.attributes|merge(child_attr) %}
         {%- set childrenAttributes = item.childrenAttributes %}
-        {%- set classes = itemAttributes.class is defined ? itemAttributes.class|split(' ') : [] %}
+        {%- set classes = (item.attributes.class|default('')~' '~child_attr.class|default(''))|split(' ') %}
         {%- set childrenClasses = childrenAttributes.class is defined ? childrenAttributes.class|split(' ') : [] %}
         {{ block('item') }}
     {% endfor %}
