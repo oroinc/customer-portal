@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -49,12 +48,11 @@ class GuestCustomerUserManager
     }
 
     /**
-     * @param CustomerVisitor $visitor
      * @param array $properties
      *
      * @return CustomerUser
      */
-    public function generateGuestCustomerUser(CustomerVisitor $visitor, array $properties = [])
+    public function generateGuestCustomerUser(array $properties = [])
     {
         $customerUser = new CustomerUser();
         $customerUser->setIsGuest(true);
@@ -84,8 +82,6 @@ class GuestCustomerUserManager
         $customerUser->createCustomer();
 
         $customerUser->getCustomer()->setGroup($anonymousGroup);
-
-        $visitor->setCustomerUser($customerUser);
 
         return $customerUser;
     }

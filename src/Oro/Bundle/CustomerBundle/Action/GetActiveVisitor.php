@@ -17,7 +17,7 @@ class GetActiveVisitor extends AssignActiveUser
         $visitor = null;
 
         $token = $this->tokenStorage->getToken();
-        if (null !== $token && $token instanceof AnonymousCustomerUserToken) {
+        if ($token instanceof AnonymousCustomerUserToken) {
             $visitor = $token->getVisitor();
         }
 
