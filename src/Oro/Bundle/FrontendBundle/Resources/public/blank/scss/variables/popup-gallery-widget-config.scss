@@ -6,7 +6,8 @@ $popup-gallery-loader-url: '#{$global-url}/orofrontend/blank/images/loader.gif' 
 
 $popup-gallery-widget-arrow-prev-icon: $fa-var-chevron-left !default;
 $popup-gallery-widget-arrow-next-icon: $fa-var-chevron-right !default;
-$popup-gallery-widget-arrow-icon-side-offset: 2px !default;
+$popup-gallery-widget-arrow-prev-icon-offset: 0 2px 0 0 !default;
+$popup-gallery-widget-arrow-next-icon-offset: 0 0 0 2px !default;
 $popup-gallery-widget-arrow-width: 37px !default;
 $popup-gallery-widget-arrow-height: 37px !default;
 $popup-gallery-widget-arrow-side-position: -($popup-gallery-widget-arrow-width + $offset-x-m) !default;
@@ -33,15 +34,6 @@ $popup-gallery-widget-close-icon-offset: 0 !default;
 $popup-gallery-widget-images-offset-bottom: $offset-y-m !default;
 $popup-gallery-widget-slick-list-border: 1px solid get-color('additional', 'middle') !default;
 $popup-gallery-widget-slick-list-bg: get-color('additional', 'ultra') !default;
-
-$popup-gallery-widget-slick-dots-position-bottom: $offset-y !default;
-$popup-gallery-widget-slick-dots-item-size: 10px !default;
-$popup-gallery-widget-slick-dots-item-offset: 0 $offset-x-s !default;
-$popup-gallery-widget-slick-dots-item-bg: get-color('additional', 'light') !default;
-$popup-gallery-widget-slick-dots-item-box-shadow: 0 0 3px get-color('additional', 'darker') !default;
-$popup-gallery-widget-slick-dots-item-border-radius: 50% !default;
-$popup-gallery-widget-slick-dots-item-active-bg: get-color('ui', 'focus') !default;
-$popup-gallery-widget-slick-dots-item-active-box-shadow: 0 0 7px get-color('ui', 'focus') !default;
 
 $popup-gallery-widget-thumbnails-offset-inner: 0 13px !default;
 $popup-gallery-widget-thumbnails-img-offset: 0 2px !default;

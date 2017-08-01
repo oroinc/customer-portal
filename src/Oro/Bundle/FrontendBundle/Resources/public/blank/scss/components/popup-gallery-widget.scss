@@ -14,60 +14,24 @@
     visibility: hidden;
 
     transition: .4s all;
-
+    
     //Slick slider customization
-    .slick-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-
-        display: block;
-
-        width: $popup-gallery-widget-arrow-width;
-        height: $popup-gallery-widget-arrow-height;
-        padding: 0;
-
-        outline: none;
-        font-size: 0;
-        line-height: 0;
-        text-align: center;
-
-        border: none;
-        border-radius: $popup-gallery-widget-arrow-border-radius;
-        color: transparent;
-        background: $popup-gallery-widget-arrow-bg;
-
-        cursor: pointer;
-
-        &:before,
-        &:after {
-            display: block;
-
-            font-size: $popup-gallery-widget-arrow-icon-size;
-
-            color: $popup-gallery-widget-arrow-icon-color;
-        }
-    }
-
-    .slick-prev {
-        left: $popup-gallery-widget-arrow-side-position;
-
-        @include fa-icon($popup-gallery-widget-arrow-prev-icon, after);
-
-        &:after {
-            margin-right: $popup-gallery-widget-arrow-icon-side-offset;
-        }
-    }
-
-    .slick-next {
-        right: $popup-gallery-widget-arrow-side-position;
-
-        @include fa-icon($popup-gallery-widget-arrow-next-icon);
-
-        &:before {
-            margin-left: $popup-gallery-widget-arrow-icon-side-offset;
-        }
-    }
+    @include slick-arrow(
+        $slick-arrow-width: $popup-gallery-widget-arrow-width,
+        $slick-arrow-height: $popup-gallery-widget-arrow-height,
+        $slick-arrow-outline: none,
+        $slick-arrow-border-radius: $popup-gallery-widget-arrow-border-radius,
+        $slick-arrow-background: $popup-gallery-widget-arrow-bg,
+        $slick-arrow-icon-size: $popup-gallery-widget-arrow-icon-size,
+        $slick-arrow-icon-color: $popup-gallery-widget-arrow-icon-color,
+        $slick-arrow-icon-hover-color: null,
+        $slick-arrow-prev-left: $popup-gallery-widget-arrow-side-position,
+        $slick-arrow-next-right: $popup-gallery-widget-arrow-side-position,
+        $slick-arrow-prev-icon: $popup-gallery-widget-arrow-prev-icon,
+        $slick-arrow-next-icon: $popup-gallery-widget-arrow-next-icon,
+        $slick-arrow-prev-icon-offset: $popup-gallery-widget-arrow-prev-icon-offset,
+        $slick-arrow-next-icon-offset: $popup-gallery-widget-arrow-next-icon-offset
+    );
 
     .slick-no-slide {
         max-width: $popup-gallery-widget-no-slide-max-width;
@@ -160,37 +124,10 @@
             box-sizing: border-box;
         }
 
+        @include slick-dots();
+
         .slick-dots {
-            position: absolute;
-            bottom: $popup-gallery-widget-slick-dots-position-bottom;
-
             display: none !important;
-
-            width: 100%;
-            margin: 0 auto;
-            padding: 0;
-
-            text-align: center;
-            vertical-align: bottom;
-
-            li {
-                display: inline-block;
-
-                width: $popup-gallery-widget-slick-dots-item-size;
-                height: $popup-gallery-widget-slick-dots-item-size;
-                margin: $popup-gallery-widget-slick-dots-item-offset;
-
-                text-indent: -9999px;
-
-                border-radius: $popup-gallery-widget-slick-dots-item-border-radius;
-                background: $popup-gallery-widget-slick-dots-item-bg;
-                box-shadow: $popup-gallery-widget-slick-dots-item-box-shadow;
-
-                &.slick-active {
-                    background: $popup-gallery-widget-slick-dots-item-active-bg;
-                    box-shadow: $popup-gallery-widget-slick-dots-item-active-box-shadow;
-                }
-            }
         }
     }
 
@@ -221,23 +158,13 @@
         opacity: 0;
         visibility: hidden;
 
-        .slick-arrow {
-            width: $popup-gallery-widget-thumbnail-arrow-width;
-            height: $popup-gallery-widget-thumbnail-arrow-height;
-
-            &:before,
-            &:after {
-                font-size: $popup-gallery-widget-thumbnail-arrow-icon-size;
-            }
-        }
-
-        .slick-prev {
-            left: $popup-gallery-widget-thumbnail-arrow-side-position;
-        }
-
-        .slick-next {
-            right: $popup-gallery-widget-thumbnail-arrow-side-position;
-        }
+        @include slick-arrow(
+            $slick-arrow-width: $popup-gallery-widget-thumbnail-arrow-width,
+            $slick-arrow-height: $popup-gallery-widget-thumbnail-arrow-height,
+            $slick-arrow-icon-size: $popup-gallery-widget-thumbnail-arrow-icon-size,
+            $slick-arrow-next-right: $popup-gallery-widget-thumbnail-arrow-side-position,
+            $slick-arrow-prev-left: $popup-gallery-widget-thumbnail-arrow-side-position
+        );
 
         &-img {
             margin: $popup-gallery-widget-thumbnails-img-offset;
