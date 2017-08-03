@@ -20,6 +20,22 @@ define(function(require) {
                 return (c.value === value.value);
             });
             return !_.isUndefined(choice) ? choice.label : null;
+        },
+
+        /**
+         * Set container for dropdown
+         * @return {jQuery}
+         */
+        _setDropdownContainer: function() {
+            var $container = null;
+
+            if (_.isMobile()) {
+                $container =  this.$el.find('.filter-criteria');
+            } else {
+                $container =  this.dropdownContainer;
+            }
+
+            return $container;
         }
     });
 });

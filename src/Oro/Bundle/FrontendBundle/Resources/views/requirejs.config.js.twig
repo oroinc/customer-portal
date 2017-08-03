@@ -24,6 +24,19 @@ require({
         },
         'oro/filter/text-filter': {
             notAlignCriteria: false
+        },
+        'oro/filter/date-filter': {
+            inputClass: 'input input--size-m date-visual-element'
+        },
+        'oro/filter/datetime-filter': {
+            inputClass: 'input input--size-m datetime-visual-element',
+            timeInputAttrs: {
+                'class': 'input input--size-m timepicker-input',
+                'placeholder': 'oro.form.choose_time'
+            }
+        },
+        'orofilter/js/filters-manager': {
+            dropdownContainer: '.filter-item'
         }
     },
     paths: {

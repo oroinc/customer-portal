@@ -24,6 +24,8 @@
 {% endblock %}
 
 {% block _require_js_config_widget %}
+    {% set bool =  not isMobileVersion() %}
+
     <script>
         require({
             config: {
@@ -52,7 +54,7 @@
                 },
                 'oro/filter/abstract-filter': {
                     placeholder: null,
-                    labelPrefix: '{{ 'oro.ui.filter.by'|trans  }} '
+                    labelPrefix: '{{ 'oro.ui.filter.by'|trans }} '
                 },
                 'orofilter/js/filter-hint': {inline: false},
                 'oroaddress/js/region/view': {switchState: 'disable'},
@@ -68,6 +70,9 @@
                 },
                 'oro/dialog-widget': {
                     messengerContainerClass: 'ui-dialog-messages'
+                },
+                'orofilter/js/multiselect-decorator': {
+                    additionalClass: !!'{{ bool }}'
                 }
             }
         });

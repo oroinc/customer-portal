@@ -24,6 +24,7 @@ placeholders:
                 template_datagrid_toolbar_pagination_input_frontend: ~
                 template_datagrid_toolbar_page_size_frontend: ~
                 filter_container: ~
+                filter_templates: ~
 
         install_additional_configuration_fields:
             items:
@@ -81,6 +82,10 @@ placeholders:
         template_datagrid_action_header_cell:
             applicable: "@oro_layout.helper->isTemplateRequest()"
 
-        # backend filters
+        # backend filters container
         filter_container:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
+
+        # backend filter templates
+        filter_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"

@@ -4,7 +4,6 @@ define(function(require) {
     var FrontendFiltersTogglePlugin;
     var _ = require('underscore');
     var __ = require('orotranslation/js/translator');
-
     var ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
     var FullScreenFiltersAction = require('orofrontend/js/app/datafilter/actions/fullscreen-filters-action');
     var FiltersTogglePlugin = require('orofilter/js/plugins/filters-toggle-plugin');
@@ -24,6 +23,7 @@ define(function(require) {
                 launcherOptions: launcherOptions,
                 order: config.order || 50
             };
+
 
             if (this.useFullScreenMode) {
                 toolbarOptions.addToolbarAction(new FullScreenFiltersAction(options));

@@ -66,8 +66,8 @@ define(function(require) {
         },
 
         prepareContent: function($container) {
-            $container.find('.filter-criteria-selector').removeClass('btn oro-drop-opener oro-dropdown-toggle');
-            $container.find('.filter-criteria').removeClass('dropdown-menu');
+            //$container.find('.filter-criteria-selector').removeClass('btn oro-drop-opener oro-dropdown-toggle');
+            //$container.find('.filter-criteria').removeClass('dropdown-menu');
         }
     });
 

@@ -45,8 +45,9 @@ define(function(require) {
          */
         _setButtonDesign: function($button) {
             $button
-                .addClass('btn btn--default btn--size-s')
-                .find('span').addClass('fa--no-offset fa-plus hide-text');
+                .addClass('filters-manager-trigger btn btn--default btn--size-s')
+                .find('span')
+                .addClass('fa--no-offset fa-plus hide-text');
         },
 
         /**

@@ -1,12 +1,4 @@
-// @theme: blank
-
-.ui-widget-overlay {
-    z-index: z('popup');
-
-    background: get-color('additional', 'darker');
-
-    opacity: .5;
-}
+// @theme: blank;
 
 .ui-dialog {
     position: fixed;
@@ -126,10 +118,10 @@
             padding: $dialog-notification-offset-inner;
         }
     }
-}
 
-.ui-widget-content {
-    border-radius: $dialog-widget-content-border-radius;
+    .ui-widget-content {
+        border-radius: $dialog-widget-content-border-radius;
+    }
 }
 
 @include breakpoint('mobile-landscape') {
