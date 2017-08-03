@@ -34,7 +34,5 @@ layout:
                         className: 'btn-group not-expand frontend-datagrid__panel'
                     itemsCounter:
                         className: 'datagrid-tool'
-                        themeOptions:
-                            templateSelector: '#datagrid-items-counter-template'
                     hideItemsCounter: false
                 filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'

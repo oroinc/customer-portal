@@ -88,6 +88,14 @@ services:
             - '%oro_customer.entity.customer_group.class%'
             - "@doctrine.orm.entity_manager"
 
+    oro_customer.listener.search_listener:
+          class: 'Oro\Bundle\CustomerBundle\EventListener\FrontendSearchListener'
+          arguments:
+              - '@oro_customer.owner.frontend_ownership_metadata_provider'
+          tags:
+              - { name: kernel.event_listener, event: oro_search.prepare_entity_map, method: prepareEntityMapEvent }
+              - { name: kernel.event_listener, event: oro_search.search_mapping_collect, method: collectEntityMapEvent }
+
     oro_customer.form.autocomplete.customer_group.search_handler:
         public: false
         parent: oro_form.autocomplete.search_handler
@@ -885,3 +893,10 @@ services:
         tags:
             - { name: 'oro_message_queue.client.message_processor', topicName: 'oro_customer.clear_lost_customer_users' }
 
+    oro_customer.provider.frontend.address:
+        class: 'Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider'
+        arguments:
+            - '@doctrine'
+            - '@oro_security.acl_helper'
+            - '%oro_customer.entity.customer_address.class%'
+            - '%oro_customer.entity.customer_user_address.class%'

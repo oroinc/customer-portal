@@ -4,6 +4,10 @@
     font-size: $top-bar-font-size;
 }
 
+.topbar-navigation-wrap {
+    display: inline-block;
+}
+
 .topbar-navigation {
     @include list-normalize();
     

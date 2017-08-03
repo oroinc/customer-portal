@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraint;
 
 use Oro\Bundle\AddressBundle\Form\EventListener\FixAddressesPrimarySubscriber;
 use Oro\Bundle\CustomerBundle\Form\EventListener\FixCustomerAddressesDefaultSubscriber;
@@ -67,6 +68,10 @@ class CustomerTypedAddressType extends AbstractType
                     'required' => false
                 ]
             );
+        $builder->get('city')->setRequired(true);
+        $builder->get('postalCode')->setRequired(true);
+        $builder->get('street')->setRequired(true);
+        $builder->get('region')->setRequired(true);
     }
 
     /**
@@ -79,7 +84,8 @@ class CustomerTypedAddressType extends AbstractType
                 'data_class' => $this->dataClass,
                 'single_form' => true,
                 'all_addresses_property_path' => 'frontendOwner.addresses',
-                'ownership_disabled' => true
+                'ownership_disabled' => true,
+                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequirePeriod'],
             ]
         );
     }

@@ -11,7 +11,7 @@ oro_behat_extension:
         - OroFormBundle::FormContext
         - OroCustomerBundle::CustomerUserContext
         - OroCustomerBundle::ACLContext
-        - OroCustomerBundle::GridContext
+        - OroCustomerBundle::FrontendGridContext
         - OroSecurityBundle::PermissionContext
         - OroCustomerBundle::RegistrationInstructionFeatureContext
         - OroImportExportBundle::ImportExportContext:
@@ -111,9 +111,16 @@ oro_behat_extension:
     Add Address Button Edit Page:
       selector: '.oro-address-collection a.add-list-item'
 
+    FrontendDatagrid:
+      selector: 'div.oro-datagrid'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+
     FrontendGridAddViewButton:
       selector: 'button[data-text="Add"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
+    FrontendGridViewSetAsDefaultCheckbox:
+      selector: '.grid-views input[name="is_default"]+.custom-checkbox__icon'
 
     FrontendGridFilterManager:
       selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'

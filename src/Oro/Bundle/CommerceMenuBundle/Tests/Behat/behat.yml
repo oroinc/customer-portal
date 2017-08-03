@@ -11,11 +11,34 @@ oro_behat_extension:
           Description: 'menu_update[descriptions][values][default]'
           Condition: 'menu_update[condition]'
           Image: 'menu_update[image][file]'
+          User Agent Contains Value: 'menu_update[menuUserAgentConditions][1][0][value]'
+          Matches Operation: 'menu_update[menuUserAgentConditions][1][2][operation]'
+          User Agent Matches Value: 'menu_update[menuUserAgentConditions][1][2][value]'
+          Does Not Contain Operation: 'menu_update[menuUserAgentConditions][2][0][operation]'
+          User Agent Does Not Contain Value: 'menu_update[menuUserAgentConditions][2][0][value]'
+          Does Not Match Operation: 'menu_update[menuUserAgentConditions][3][0][operation]'
+          User Agent Does Not Match Value: 'menu_update[menuUserAgentConditions][3][0][value]'
+          Exclude On Screens: 'menu_update[screens][]'
+
+    Information:
+      selector:
+        type: xpath
+        locator: '//h3[contains(@class, "information-nav__title")]'
 
     Main Menu Button:
       selector:
         type: xpath
         locator: '//div[contains(@class,"header-row")]//button[contains(@class, "header-row__trigger")]//span[contains(@class, "fa-navicon")]/ancestor::button'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
+    And User Agent Condition:
+      selector: '.control-group-collection .add-list-item'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
+    Add User Agent Condition:
+      selector:
+        type: xpath
+        locator: '(//a[contains(@class,"add-list-item")])[last()]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Main Menu Search Button:

@@ -8,9 +8,17 @@ oro_behat_extension:
       paths:
         - '@OroFrontendBundle/Tests/Behat/Features'
   elements:
+    FrontendMainMenu:
+      selector: '[data-main-menu-container]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\FrontendMainMenu
+    FrontendMainMenuDropdown:
+      selector: '.main-menu__item--ancestor'
     Frontend Grid:
       selector: 'div.oro-datagrid'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+    FrontendGridRow:
+      selector: '.grid-row'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridRow
     FrontendGridToolbarPaginator:
       selector: '.oro-items-counter'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\GridToolbarPaginator
@@ -57,3 +65,5 @@ oro_behat_extension:
       selector: ".copyright"
     Fullscreen Popup:
       selector: ".fullscreen-popup"
+    Popup Gallery Widget:
+      selector: ".popup-gallery-widget"

@@ -86,7 +86,9 @@ abstract class AbstractLoadAddressDemoData extends AbstractEntityReferenceFixtur
             ->setStreet($data['street'])
             ->setCity($data['city'])
             ->setRegion($region)
-            ->setPostalCode($data['zipCode']);
+            ->setPostalCode($data['zipCode'])
+            ->setFirstName($data['firstName'])
+            ->setLastName($data['lastName']);
 
         return $address;
     }

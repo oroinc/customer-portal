@@ -24,7 +24,6 @@
         padding: $dialog-widget-content-offset-inner;
 
         overflow-y: auto;
-        flex-shrink: 5;
     }
 
     .ui-dialog-title {
@@ -39,6 +38,8 @@
         border: $dialog-titlebar-border;
         background: $dialog-titlebar-background;
         color: $dialog-titlebar-color;
+
+        flex-shrink: 0;
 
         &.ui-draggable-handle {
             cursor: $dialog-draggable-handle-cursor;
@@ -96,6 +97,10 @@
 
     .ui-dialog-buttonpane {
         padding: $dialog-buttonpane-offset-inner;
+
+        flex-shrink: 0;
+
+        overflow: visible;
 
         .pull-right .action-wrapper {
             margin-left: $dialog-action-wrapper-side-offset;

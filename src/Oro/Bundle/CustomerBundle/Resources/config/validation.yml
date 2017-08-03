@@ -2,6 +2,8 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
     properties:
         name:
             - NotBlank: ~
+            - Length:
+                max: 255
         addresses:
             - Valid: ~
             - Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
@@ -12,6 +14,8 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     properties:
+        country:
+            - NotBlank: ~
         street:
             - NotBlank: ~
         city:
@@ -72,6 +76,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
     properties:
+        country:
+            - NotBlank: ~
         street:
             - NotBlank: ~
         city:

@@ -19,22 +19,10 @@ placeholders:
                 window_bundle_js:
                     order: 200
 
-        scripts_before:
-            items:
-                template_datagrid_toolbar_pagination_input_frontend: ~
-                template_datagrid_toolbar_page_size_frontend: ~
-                filter_container: ~
-                filter_templates: ~
-
         install_additional_configuration_fields:
             items:
                 web_settings:
                     order: 300
-
-        requirejs_config_extend:
-            items:
-                frontend_requirejs_config:
-                    order: 200
 
     items:
         logo:
@@ -60,32 +48,19 @@ placeholders:
             template: OroActivityListBundle:ActivityList:activities.html.twig
         web_settings:
             template: OroFrontendBundle:InstallConfiguration:web.html.twig
-        frontend_requirejs_config:
-            applicable: "@oro_frontend.placeholder.filter->isFrontendRoute()"
-            template: OroFrontendBundle::requirejs.config.js.twig
-
-        # frontend grid
-        template_datagrid_toolbar_pagination_input_frontend:
-            template: OroFrontendBundle:js:pagination-input.html.twig
-            applicable: "@oro_layout.helper->isLayoutRequest()"
-        template_datagrid_toolbar_page_size_frontend:
-            template: OroFrontendBundle:js:page-size.html.twig
-            applicable: "@oro_layout.helper->isLayoutRequest()"
-
-        # backend grid only
-        template_datagrid_toolbar_pagination_input:
+        filter_embedded_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
-        template_datagrid_toolbar_page_size:
+        template_audit_condition_type_select:
             applicable: "@oro_layout.helper->isTemplateRequest()"
-        template_datagrid_select_all_header_cell:
+        widget_filter_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
-        template_datagrid_action_header_cell:
+        orodashboard_widget_items_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
-
-        # backend filters container
-        filter_container:
+        email_filter_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
-
-        # backend filter templates
-        filter_templates:
+        dot_menu_js:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
+        pinbar_js:
+            applicable: "@oro_layout.helper->isTemplateRequest()"
+        oro_reminder_subscribe_script:
             applicable: "@oro_layout.helper->isTemplateRequest()"
