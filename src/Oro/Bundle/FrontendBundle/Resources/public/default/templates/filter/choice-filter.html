@@ -1,0 +1,25 @@
+<div class="choice-filter" data-choice-filter-template>
+    <div class="filter-trigger-wrapper">
+        <button class="btn btn--link dropdown-toggle" data-toggle="dropdown">
+            <%- selectedChoiceLabel %><span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <% _.each(choices, function (option) { %>
+            <li<% if (selectedChoice == option.value) { %> class="active"<% } %>>
+            <a class="dropdown-item choice-value" href="#" data-value="<%= option.value %>"><%- option.label %></a>
+            </li>
+            <% }); %>
+        </ul>
+    </div>
+    <div class="value-field-frame">
+        <input class="input input--size-m input--full" type="text" name="value" value="">
+        <input class="name_input" type="hidden" name="<%= name %>" id="<%= name %>" value="<%= selectedChoice %>"/>
+        <div class="filter-action-row">
+            <% if (_.isMobile()) { %>
+                <button type="button" class="btn btn--info btn--full filter-update"><%- _.__("Update") %></button>
+            <% } else { %>
+                <button type="button" class="btn btn--action filter-update"><%- _.__("Update") %></button>
+            <% } %>
+        </div>
+    </div>
+</div>

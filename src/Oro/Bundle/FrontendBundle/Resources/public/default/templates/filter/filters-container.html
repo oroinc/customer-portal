@@ -1,43 +1,52 @@
 <% if (!_.isEmpty(filters)) { %>
 <% if (_.isMobile()) { %>
-    <div class="filter-box oro-clearfix-width" <%= attributes %>>
-        <div class="dropdown">
-            <a href="javascript:void(0);" class="btn btn--default btn--size-s dropdown-toggle" data-name="filters-dropdown"><%= _.__('Filter Results') %></a>
-            <ul class="filter-box__dropdown dropdown-menu">
-                <li>
-                    <div class="filter-container">
-                        <a class="btn btn--default btn--size-s reset-filter-button" href="javascript:void(0);"><%= _.__('Reset') %></a>
-                        <select data-action="add-filter-select" multiple>
-                            <% _.each(filters, function (filter, name) { %>
-                            <% if (filter.visible) { %>
-                            <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
-                            <%- filter.label %>
-                            </option>
-                            <% } %>
-                            <% }); %>
-                        </select>
-                        <span class="filter-items"></span>
-                        <div class="filter-items-hint"></div>
-                    </div>
-                </li>
-            </ul>
+    <div class="filter-box toggle-mode" <%= attributes %>>
+        <div class="filter-container">
+            <div class="filter-items"></div>
+            <div class="filter-items-hint">
+                <button type="button"
+                        class="btn btn--link reset-filter-button"
+                >
+                    <span class="fa-close"></span>
+                    <%= _.__('oro.filter.reset.label') %>
+                </button>
+            </div>
+            <select data-action="add-filter-select" multiple data-skip-input-widgets>
+                <% _.each(filters, function (filter, name) { %>
+                    <% if (filter.visible) { %>
+                        <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
+                        <%- filter.label %>
+                        </option>
+                    <% } %>
+                <% }); %>
+            </select>
         </div>
     </div>
 <% } else { %>
-    <div class="filter-box oro-clearfix-width" <%= attributes %>>
+    <div class="filter-box dropdown-mode" <%= attributes %>>
         <div class="filter-container">
-            <select data-action="add-filter-select" multiple data-skip-input-widgets>
+            <select data-action="add-filter-select"
+                    multiple
+                    {% if isMobileVersion() %}
+                    data-skip-input-widgets
+                    {% endif %}
+            >
                 <% _.each(filters, function (filter, name) { %>
-                <% if (filter.visible) { %>
-                <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
-                <%- filter.label %>
-                </option>
-                <% } %>
+                    <% if (filter.visible) { %>
+                        <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
+                        <%- filter.label %>
+                        </option>
+                    <% } %>
                 <% }); %>
             </select>
-            <span class="filter-items"></span>
+            <div class="filter-items"></div>
             <div class="filter-items-hint">
-                <a class="reset-filter-button" href="javascript:void(0);"><%= _.__('oro.filter.reset.label') %></a>
+                <button type="button"
+                        class="btn btn--link reset-filter-button"
+                >
+                    <span class="fa-close"></span>
+                    <%= _.__('oro.filter.reset.label') %>
+                </button>
             </div>
         </div>
     </div>
