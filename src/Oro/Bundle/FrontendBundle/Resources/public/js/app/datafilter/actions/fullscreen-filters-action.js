@@ -28,6 +28,8 @@ define(function(require) {
             this.popupOptions = _.extend(this.popupOptions, options.popupOptions || {}, config.popupOptions);
 
             FrontendFullScreenFiltersAction.__super__.initialize.apply(this, arguments);
+
+            mediator.on('filterManager:selectedFilters:count:' + this.datagrid.name, this.onUpdateFiltersCount, this);
         },
 
         execute: function() {
@@ -56,6 +58,7 @@ define(function(require) {
             }, this);
 
             this.fullscreenView.show();
+            mediator.trigger('filterManager:selectedFilters:calculate:' + this.datagrid.name);
         },
 
         onFilterManagerModeChange: function(mode) {
@@ -68,6 +71,16 @@ define(function(require) {
         prepareContent: function($container) {
             //$container.find('.filter-criteria-selector').removeClass('btn oro-drop-opener oro-dropdown-toggle');
             //$container.find('.filter-criteria').removeClass('dropdown-menu');
+        },
+
+        onUpdateFiltersCount: function(count) {
+            if (this.fullscreenView) {
+                if (count) {
+                    this.fullscreenView.setPopupTitle(_.__('oro.filter.datagrid-toolbar.filters_count', {count: count}));
+                } else {
+                    this.fullscreenView.setPopupTitle(this.popupOptions.popupLabel);
+                }
+            }
         }
     });
 
