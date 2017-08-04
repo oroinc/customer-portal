@@ -10,6 +10,7 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/table-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/fullscreen-popup-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/ui/dialog-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/scroll-top-config.scss'
         - 'bundles/orofrontend/blank/scss/styles.scss'
 
 stylebook_styles:

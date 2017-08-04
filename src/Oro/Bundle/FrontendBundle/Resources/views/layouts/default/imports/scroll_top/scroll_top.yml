@@ -1,0 +1,9 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'scroll_top.html.twig'
+
+        - '@add':
+            id: __scroll_top
+            parentId: __root
+            blockType: scroll_top
