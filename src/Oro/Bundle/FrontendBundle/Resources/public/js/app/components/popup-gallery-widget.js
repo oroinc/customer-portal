@@ -84,7 +84,7 @@ define(function(require) {
             if (this.$galleryWidgetClose) {
                 this.$galleryWidgetClose.off('click');
             }
-            mediator.off('layout:reposition', this.refreshPositions, this);
+            mediator.off('layout:reposition', this.onResize, this);
         },
 
         onOpen: function(e) {
@@ -107,7 +107,8 @@ define(function(require) {
                     self.$gallery.slick('slickNext');
                 }
             });
-            mediator.on('layout:reposition', this.refreshPositions, this);
+            this.refreshPositions();
+            mediator.on('layout:reposition', this.onResize, this);
         },
 
         ajaxOpenDecorator: function(e) {
@@ -172,7 +173,7 @@ define(function(require) {
             this.$galleryWidget.removeClass('popup-gallery-widget--opened');
 
             $(document).off('keydown.popup-gallery-widget');
-            mediator.off('layout:reposition', this.refreshPositions, this);
+            mediator.off('layout:reposition', this.onResize, this);
         },
 
         renderImages: function() {
@@ -211,6 +212,11 @@ define(function(require) {
                     this.$thumbnails.removeClass('slick-no-slide');
                 }
             }
+        },
+
+        onResize: function() {
+            this.refreshPositions();
+            _.delay(_.bind(this.refreshPositions, this), 500);
         },
 
         refreshPositions: function() {
