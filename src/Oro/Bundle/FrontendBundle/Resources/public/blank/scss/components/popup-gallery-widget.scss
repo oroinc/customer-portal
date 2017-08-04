@@ -72,7 +72,7 @@
         position: relative;
         top: 50%;
         left: 50%;
-        transform: translateY(-50%) translate(-50%);
+        transform: translate(-50%, -50%);
 
         max-width: $popup-gallery-widget-wrapper-max-width;
         max-height: $popup-gallery-widget-wrapper-max-height;
@@ -214,10 +214,7 @@
         }
 
         &__images {
-            max-width: 100vh;
-
             .slick-list {
-                max-width: 100vh;
                 border: 0;
             }
 
@@ -230,9 +227,19 @@
             }
         }
 
+        &__image {
+            img {
+                width: auto;
+                height: auto;
+                max-width: 100%;
+                max-height: 100%;
+                margin: auto;
+            }
+        }
+
         &__wrapper {
-            max-width: 100vh;
-            max-height: 100%;
+            max-width: calc(90vw - #{abs($popup-gallery-widget-arrow-side-position)} * 2);
+            max-height: 90vh;
         }
     }
 }
