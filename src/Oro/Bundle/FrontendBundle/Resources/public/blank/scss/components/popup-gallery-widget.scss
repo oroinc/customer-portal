@@ -219,7 +219,8 @@
             }
 
             .slick-arrow {
-                display: none;
+                // break inline styles
+                display: none !important;
             }
 
             .slick-dots {
@@ -238,8 +239,9 @@
         }
 
         &__wrapper {
-            max-width: calc(90vw - #{abs($popup-gallery-widget-arrow-side-position)} * 2);
-            max-height: 90vh;
+            // square popup wrapper and compensation url bar on safari iOS
+            max-width: 75vmin;
+            max-height: 75vmin;
         }
     }
 }
