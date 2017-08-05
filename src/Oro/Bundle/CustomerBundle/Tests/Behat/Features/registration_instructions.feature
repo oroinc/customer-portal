@@ -1,3 +1,4 @@
+@regression
 Feature: Registration Instructions
   In order to let customers know about alternative account registration options
   As an Administrator
