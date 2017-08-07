@@ -40,6 +40,7 @@ class Configuration implements ConfigurationInterface
                     'value' => self::DEFAULT_REGISTRATION_INSTRUCTIONS_TEXT,
                 ],
                 'user_menu_show_items' => ['type' => 'string', 'value' => self::USER_MENU_SHOW_ITEMS_ALL_AT_ONCE],
+                'maps_enabled' => ['type' => 'boolean', 'value' => true],
             ]
         );
 

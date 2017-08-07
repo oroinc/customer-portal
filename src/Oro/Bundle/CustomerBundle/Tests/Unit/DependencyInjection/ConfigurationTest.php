@@ -74,6 +74,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'value' => 'all_at_once',
                             'scope' => 'app',
                         ],
+                        'maps_enabled' => [
+                            'value' => true,
+                            'scope' => 'app',
+                        ]
                     ]
                 ]
             ]
