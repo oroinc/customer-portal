@@ -23,7 +23,8 @@ define(function(require) {
             'currentAddresses': [],
             'useFormDialog': false,
             'template': '',
-            'manageAddressesLink': ''
+            'manageAddressesLink': '',
+            'enableMapPreview': true
         },
 
         /**
@@ -58,7 +59,8 @@ define(function(require) {
                 mapViewport: options.mapViewport,
                 allowToRemovePrimary: true,
                 confirmRemove: true,
-                confirmRemoveComponent: deleteConfirmation
+                confirmRemoveComponent: deleteConfirmation,
+                enableMapPreview: options.enableMapPreview
             });
 
             addressBook.getCollection().reset(JSON.parse(options.currentAddresses));

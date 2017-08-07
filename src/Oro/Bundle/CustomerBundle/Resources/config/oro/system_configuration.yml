@@ -78,16 +78,6 @@ system_configuration:
                 choices:
                     all_at_once: oro.customer.system_configuration.fields.user_menu_show_items.option.all_at_once.label
                     subitems_in_popup: oro.customer.system_configuration.fields.user_menu_show_items.option.subitems_in_popup.label
-        oro_customer.maps_enabled:
-            data_type: boolean
-            type: choice
-            priority: 40
-            options:
-                label: oro.customer.system_configuration.fields.maps_enabled.label
-                required: false
-                choices:
-                    true: oro.customer.system_configuration.fields.maps_enabled.option.yes.label
-                    false: oro.customer.system_configuration.fields.maps_enabled.option.no.label
     tree:
         system_configuration:
             commerce:
@@ -106,15 +96,7 @@ system_configuration:
                                             - oro_customer.send_password_in_welcome_email
                                             - oro_customer.registration_instructions_enabled
                                             - oro_customer.registration_instructions_text
-            platform:
-                children:
-                    general_setup:
-                        children:
-                            look_and_feel:
-                                children:
-                                    map_settings:
-                                        children:
-                                            - oro_customer.maps_enabled
+
                     design:
                         children:
                             theme:
@@ -122,23 +104,3 @@ system_configuration:
                                     menu_templates:
                                         children:
                                             - oro_customer.user_menu_show_items
-        website_configuration:
-            platform:
-                children:
-                    general_setup:
-                        children:
-                            look_and_feel:
-                                children:
-                                    map_settings:
-                                        children:
-                                            - oro_customer.maps_enabled
-        organization_configuration:
-            platform:
-                children:
-                    general_setup:
-                        children:
-                            look_and_feel:
-                                children:
-                                    map_settings:
-                                        children:
-                                            - oro_customer.maps_enabled

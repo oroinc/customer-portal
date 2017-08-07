@@ -51,7 +51,7 @@ define(function(require) {
 
         _checkMapVisibility: function(viewport) {
             this.showMap = viewport.isApplicable(this.mapViewport);
-            if (this.showMap) {
+            if (this.showMap && this.options.enableMapPreview) {
                 this.initializeMap();
             } else {
                 this.disposeMap();

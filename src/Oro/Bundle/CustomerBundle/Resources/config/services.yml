@@ -626,6 +626,7 @@ services:
         arguments:
             - '@router'
             - '@fragment.handler'
+            - '@oro_config.manager'
 
     oro_customer.layout.data_provider.customer_address_provider:
         parent: oro_customer.layout.data_provider.address_provider_abstract
@@ -900,3 +901,8 @@ services:
             - '@oro_security.acl_helper'
             - '%oro_customer.entity.customer_address.class%'
             - '%oro_customer.entity.customer_user_address.class%'
+
+    oro_customer.datagrid.frontend_customer_address.action_checker:
+        class: Oro\Bundle\CustomerBundle\Datagrid\FrontendCustomerAddressActionChecker
+        arguments:
+            - '@oro_config.manager'
