@@ -2,9 +2,9 @@
 
 .popup-gallery-widget {
     position: fixed;
-    z-index: z('popup');
     top: 0;
     left: 0;
+    z-index: z('popup');
 
     width: 100%;
     height: 100%;
@@ -15,7 +15,7 @@
 
     transition: .4s all;
     
-    //Slick slider customization
+    // Slick slider customization
     @include slick-arrow(
         $slick-arrow-width: $popup-gallery-widget-arrow-width,
         $slick-arrow-height: $popup-gallery-widget-arrow-height,
@@ -56,7 +56,7 @@
         }
     }
 
-    //Gallery styles
+    // Gallery styles
     &__overlay {
         position: absolute;
         top: 0;
@@ -202,7 +202,7 @@
     }
 }
 
-@media (max-height: 730px), (max-width: $breakpoint-tablet-small) {
+@include breakpoint('popup-gallery-tablet') {
     .popup-gallery-widget {
         &__thumbnails {
             display: none;
