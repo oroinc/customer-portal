@@ -99,7 +99,7 @@ define(function(require) {
                 this.moveContentElement(callback);
             } else if (this.contentSelector) {
                 this.renderSelectorContent(callback);
-            }else if (this.contentView) {
+            } else if (this.contentView) {
                 this.renderPopupView(callback);
             } else {
                 callback();
@@ -195,6 +195,15 @@ define(function(require) {
          */
         setPreviousClasses: function($el) {
             $el.attr('class', this.previousClass);
+        },
+
+        /**
+         * @param {String} title
+         */
+        setPopupTitle: function(title) {
+            if (this.$popup) {
+                this.$popup.find('[data-role="title"]').html(title);
+            }
         }
     });
 
