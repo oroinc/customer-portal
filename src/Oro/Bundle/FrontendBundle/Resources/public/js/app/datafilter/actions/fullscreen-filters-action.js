@@ -76,7 +76,9 @@ define(function(require) {
         onUpdateFiltersCount: function(count) {
             if (this.fullscreenView) {
                 if (count) {
-                    this.fullscreenView.setPopupTitle(_.__('oro.filter.datagrid-toolbar.filters_count', {count: count}));
+                    this.fullscreenView.setPopupTitle(
+                        _.__('oro.filter.datagrid-toolbar.filters_count', {count: count})
+                    );
                 } else {
                     this.fullscreenView.setPopupTitle(this.popupOptions.popupLabel);
                 }

@@ -198,7 +198,7 @@ define(function(require) {
         },
 
         /**
-         * @param String
+         * @param {String} title
          */
         setPopupTitle: function(title) {
             if (this.$popup) {
