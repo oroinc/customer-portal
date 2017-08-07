@@ -32,7 +32,9 @@ class GuestCustomerUserManager
      */
     protected $customerUserRelationsProvider;
 
-    /** @var TokenStorageInterface */
+    /**
+     * @var TokenStorageInterface
+     */
     protected $tokenStorage;
 
     /**
@@ -57,24 +59,28 @@ class GuestCustomerUserManager
     }
 
     /**
-     * @param string $email
-     * @param AbstractAddress $address
+     * @param string|null $userName
+     * @param AbstractAddress|null $address
      *
      * @return CustomerUser
      */
-    public function createFromAddress($email, AbstractAddress $address)
+    public function createFromAddress($userName = null, AbstractAddress $address = null)
     {
         $customerUser = new CustomerUser();
         $customerUser->setIsGuest(true);
         $customerUser->setEnabled(false);
         $customerUser->setConfirmed(false);
-        $customerUser->setEmail($email);
-        $customerUser->setNamePrefix($address->getNamePrefix());
-        $customerUser->setFirstName($address->getFirstName());
-        $customerUser->setMiddleName($address->getMiddleName());
-        $customerUser->setLastName($address->getLastName());
-        $customerUser->setNameSuffix($address->getNameSuffix());
-
+        if ($userName === null) {
+            $userName = $this->customerUserManager->generatePassword(10);
+        }
+        $customerUser->setUsername($userName);
+        if ($address) {
+            $customerUser->setNamePrefix($address->getNamePrefix());
+            $customerUser->setFirstName($address->getFirstName());
+            $customerUser->setMiddleName($address->getMiddleName());
+            $customerUser->setLastName($address->getLastName());
+            $customerUser->setNameSuffix($address->getNameSuffix());
+        }
         $generatedPassword = $this->customerUserManager->generatePassword(10);
         $customerUser->setPlainPassword($generatedPassword);
         $this->customerUserManager->updatePassword($customerUser);
@@ -91,6 +97,26 @@ class GuestCustomerUserManager
             $visitor = $token->getVisitor();
             $visitor->setCustomerUser($customerUser);
         }
+
+        return $customerUser;
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     * @param string $userName
+     * @param AbstractAddress $address
+     *
+     * @return CustomerUser
+     */
+    public function updateFromAddress(CustomerUser $customerUser, $userName, AbstractAddress $address)
+    {
+        $customerUser->setUsername($userName);
+        $customerUser->setNamePrefix($address->getNamePrefix());
+        $customerUser->setFirstName($address->getFirstName());
+        $customerUser->setMiddleName($address->getMiddleName());
+        $customerUser->setLastName($address->getLastName());
+        $customerUser->setNameSuffix($address->getNameSuffix());
+        $customerUser->fillCustomer();
 
         return $customerUser;
     }
