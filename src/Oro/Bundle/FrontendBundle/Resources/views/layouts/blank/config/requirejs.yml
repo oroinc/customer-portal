@@ -3,6 +3,24 @@ config:
         'slick':
             deps:
                 - 'jquery'
+    map:
+        '*':
+            'oroui/templates/modal-dialog.html': 'orofrontend/default/templates/ui/modal-dialog.html'
+            'oroui/templates/standart-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
+            'oroui/templates/delete-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
+            'oroui/templates/message-item.html': 'orofrontend/default/templates/ui/message-item.html'
+            'orodatagrid/templates/column-manager/column-manager-collection.html': 'orofrontend/default/templates/datagrid/column-manager-collection.html'
+            'orodatagrid/templates/column-manager/column-manager-item.html': 'orofrontend/default/templates/datagrid/column-manager-item.html'
+            'orodatagrid/templates/column-manager/column-manager-filter.html': 'orofrontend/default/templates/datagrid/column-manager-filter.html'
+            'orodatagrid/templates/column-manager/column-manager.html': 'orofrontend/default/templates/datagrid/column-manager.html'
+            'orodatagrid/templates/datagrid/pagination-input.html': 'orofrontend/default/templates/datagrid/pagination-input.html'
+            'orodatagrid/templates/datagrid/page-size.html': 'orofrontend/default/templates/datagrid/page-size.html'
+            'orodatagrid/templates/datagrid/visible-items-counter.html': 'orofrontend/default/templates/datagrid/visible-items-counter.html'
+            'orodatagrid/templates/datagrid/select-all-header-cell.html': 'orofrontend/default/templates/datagrid/select-all-header-cell.html'
+            'orodatagrid/templates/datagrid/select-row-cell.html': 'orofrontend/default/templates/datagrid/select-row-cell.html'
+            'orodatagrid/templates/datagrid/action-header-cell.html': 'orofrontend/default/templates/datagrid/action-header-cell.html'
+            'orodatagrid/templates/datagrid/grid-view-label.html': 'orofrontend/default/templates/datagrid/grid-view-label.html'
+            'orofilter/templates/filters-container.html': 'orofrontend/default/templates/filter/filters-container.html'
     paths:
         'orofrontend/js/app/components/widget-form-component': 'bundles/orofrontend/js/app/components/widget-form-component.js'
         'orofrontend/js/app/components/switchable-editable-view-component': 'bundles/orofrontend/js/app/components/switchable-editable-view-component.js'
@@ -39,7 +57,5 @@ config:
         'orofrontend/js/app/components/column-manager/frontend-column-manager-component': 'bundles/orofrontend/js/app/components/column-manager/frontend-column-manager-component.js'
         'orofrontend/js/app/views/column-manager/frontend-column-manager-view': 'bundles/orofrontend/js/app/views/column-manager/frontend-column-manager-view.js'
         'orofrontend/js/datagrid/grid-views/frontend-grid-views-view': 'bundles/orofrontend/js/datagrid/grid-views/frontend-grid-views-view.js'
-
-        'orofrontend/js/build-templates': 'bundles/orofrontend/js/build-templates.js'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
