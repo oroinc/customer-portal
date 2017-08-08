@@ -22,8 +22,6 @@ define(function(require) {
             contentElement: null
         },
 
-        lock: false,
-
         initialize: function(options) {
             this.popupOptions = _.extend(this.popupOptions, options.popupOptions || {}, config.popupOptions);
 
@@ -35,12 +33,6 @@ define(function(require) {
         execute: function() {
             this.$filters = this.datagrid.filterManager.$el;
             this.popupOptions.contentElement = this.$filters;
-
-            if (!this.lock) {
-                this.prepareContent(this.$filters);
-
-                this.lock = true;
-            }
 
             this.fullscreenView = new FullscreenPopupView(this.popupOptions);
 
@@ -58,7 +50,8 @@ define(function(require) {
             }, this);
 
             this.fullscreenView.show();
-            mediator.trigger('filterManager:selectedFilters:calculate:' + this.datagrid.name);
+
+            this.datagrid.filterManager._publishCountSelectedFilters();
         },
 
         onFilterManagerModeChange: function(mode) {
@@ -68,14 +61,9 @@ define(function(require) {
             mediator.trigger('layout:adjustHeight');
         },
 
-        prepareContent: function($container) {
-            //$container.find('.filter-criteria-selector').removeClass('btn oro-drop-opener oro-dropdown-toggle');
-            //$container.find('.filter-criteria').removeClass('dropdown-menu');
-        },
-
         onUpdateFiltersCount: function(count) {
             if (this.fullscreenView) {
-                if (count) {
+                if (_.isNumber(count) && count > 0) {
                     this.fullscreenView.setPopupTitle(
                         _.__('oro.filter.datagrid-toolbar.filters_count', {count: count})
                     );

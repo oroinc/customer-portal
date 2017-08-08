@@ -2,7 +2,6 @@ define(function(require) {
     'use strict';
 
     var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
     var SelectFilter = require('oro/filter/select-filter');
 
     _.extend(SelectFilter.prototype, {

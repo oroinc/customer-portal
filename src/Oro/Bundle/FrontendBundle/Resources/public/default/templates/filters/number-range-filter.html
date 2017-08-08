@@ -1,18 +1,26 @@
-<div class="choice-filter" data-choice-filter-template>
+<div class="choice-filter number-range-filter" data-number-range-filter-template>
     <div class="filter-trigger-wrapper">
         <button class="btn btn--link dropdown-toggle" data-toggle="dropdown">
             <%- selectedChoiceLabel %><span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
             <% _.each(choices, function (option) { %>
-            <li<% if (selectedChoice == option.value) { %> class="active"<% } %>>
-            <a class="dropdown-item choice-value" href="#" data-value="<%= option.value %>"><%- option.label %></a>
+            <li <% if (selectedChoice == option.value) { %>class="active"<% } %> >
+                <a class="dropdown-item choice-value" href="#" data-value="<%= option.value %>"><%- option.label %></a>
             </li>
             <% }); %>
         </ul>
     </div>
     <div class="value-field-frame">
-        <input class="input input--size-m input--full" type="text" name="value" value="">
+        <div class="filter-value">
+            <div class="filter-start">
+                <input class="input input--size-m input--full" type="text" class="" value="<%= value.value %>" name="value">
+            </div>
+            <span class="filter-separator">-</span>
+            <div class="filter-end">
+                <input class="input input--size-m input--full" type="text" value="<%= value.value_end %>" name="value_end">
+            </div>
+        </div>
         <input class="name_input" type="hidden" name="<%= name %>" id="<%= name %>" value="<%= selectedChoice %>"/>
         <div class="filter-action-row">
             <% if (_.isMobile()) { %>
