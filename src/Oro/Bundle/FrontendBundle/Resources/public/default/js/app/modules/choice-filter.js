@@ -10,6 +10,7 @@ define(function(require) {
             value: '[data-choice-filter-name]',
             type: '[data-choice-filter-type]'
         },
+
         events: {
             'keyup input': '_onReadCriteriaInputKey',
             'keydown [type="text"]': '_preventEnterProcessing',
@@ -19,6 +20,7 @@ define(function(require) {
             'click .choice-value': '_onClickChoiceValue',
             'change [data-choice-value-select]': '_onSelectChoiceValue'
         },
+
         /**
          * Set value for hidden field
          *
