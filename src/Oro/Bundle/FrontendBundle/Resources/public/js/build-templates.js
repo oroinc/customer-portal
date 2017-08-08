@@ -16,7 +16,7 @@ define(function(require) {
     require('text!orofrontend/default/templates/datagrid/grid-view-label.html');
     require('text!oropricing/templates/order/frontend/subtotals.html');
     require('text!oropricing/templates/order/frontend/totals.html');
-    require('text!orofrontend/default/templates/filter/filters-container.html');
+    require('text!orofrontend/default/templates/filters/filters-container.html');
 
     //@todo: remove hotfix
     require('tpl!orofrontend/default/templates/ui/modal-dialog.html');
@@ -34,5 +34,5 @@ define(function(require) {
     require('tpl!orofrontend/default/templates/datagrid/grid-view-label.html');
     require('tpl!oropricing/templates/order/frontend/subtotals.html');
     require('tpl!oropricing/templates/order/frontend/totals.html');
-    require('tpl!orofrontend/default/templates/filter/filters-container.html');
+    require('tpl!orofrontend/default/templates/filters/filters-container.html');
 });

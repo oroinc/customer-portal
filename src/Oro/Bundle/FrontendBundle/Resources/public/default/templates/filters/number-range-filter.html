@@ -1,14 +1,14 @@
 <div class="choice-filter number-range-filter" data-number-range-filter-template>
     <div class="filter-select-oro-wrapper">
         <select name="<%= name %>" data-choice-value-select
-            class="select select--size-m select--full">
+                class="select select--size-m select--full">
             <% _.each(choices, function (option) { %>
                 <option value="<%= option.value %>"
-                <% if (option.value == selectedChoice) { %>
-                selected="selected"
-                <% } %>
+                    <% if (option.value == selectedChoice) { %>
+                        selected="selected"
+                    <% } %>
                 >
-                <%- option.label %>
+                    <%- option.label %>
                 </option>
             <% }); %>
         </select>
@@ -23,8 +23,7 @@
                 <input class="input input--size-m input--full" type="text" value="<%= value.value_end %>" name="value_end">
             </div>
         </div>
-        <input type="hidden" name="<%= name %>" id="<%= name %>" value="<%= selectedChoice %>"
-               class="name_input" data-choice-filter-type>
+        <input class="name_input" type="hidden" name="<%= name %>" id="<%= name %>" value="<%= selectedChoice %>"/>
         <div class="filter-action-row">
             <% if (_.isMobile()) { %>
                 <button type="button" class="btn btn--info btn--full filter-update"><%- _.__("Update") %></button>

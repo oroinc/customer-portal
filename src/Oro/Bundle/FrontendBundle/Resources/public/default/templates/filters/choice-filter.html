@@ -1,0 +1,31 @@
+<div class="choice-filter" data-choice-filter-template>
+    <div class="filter-select-oro-wrapper">
+        <select name="<%= name %>" data-choice-value-select
+            <% if (typeof(dataName) !== "undefined") { %>
+                data-name="<%= dataName %>"
+            <% } %>
+                class="select select--size-m select--full">
+            <% _.each(choices, function (option) { %>
+                <option value="<%= option.value %>"
+                    <% if (option.value == selectedChoice) { %>
+                        selected="selected"
+                    <% } %>
+        >
+                    <%- option.label %>
+                </option>
+            <% }); %>
+        </select>
+    </div>
+    <div class="value-field-frame">
+        <input type="text" name="value" value="" class="input input--size-m input--full" data-choice-filter-name>
+        <input type="hidden" name="<%= name %>" id="<%= name %>" value="<%= selectedChoice %>"
+               class="name_input" data-choice-filter-type>
+        <div class="filter-action-row">
+            <% if (_.isMobile()) { %>
+            <button type="button" class="btn btn--info btn--full filter-update"><%- _.__("Update") %></button>
+            <% } else { %>
+            <button type="button" class="btn btn--action filter-update"><%- _.__("Update") %></button>
+            <% } %>
+        </div>
+    </div>
+</div>
