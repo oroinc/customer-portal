@@ -103,8 +103,14 @@ define(function(require) {
                 if (e.keyCode === 37) {
                     self.$gallery.slick('slickPrev');
                 }
+
                 if (e.keyCode === 39) {
                     self.$gallery.slick('slickNext');
+                }
+
+                // ESC
+                if (e.keyCode === 27) {
+                    self.$galleryWidgetClose.trigger('click');
                 }
             });
             this.refreshPositions();
