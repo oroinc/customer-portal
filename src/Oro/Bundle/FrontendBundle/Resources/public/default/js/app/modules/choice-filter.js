@@ -2,6 +2,7 @@ define(function(require) {
     'use strict';
 
     var _ = require('underscore');
+    var $ = require('jquery');
     var ChoiceFilter = require('oro/filter/choice-filter');
 
     _.extend(ChoiceFilter.prototype, {
