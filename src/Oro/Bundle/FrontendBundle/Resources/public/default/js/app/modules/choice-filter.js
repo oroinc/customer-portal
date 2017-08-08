@@ -28,6 +28,9 @@ define(function(require) {
         _onSelectChoiceValue: function(e) {
             var type = $(e.currentTarget).val();
             var $typeInput = this.$(this.criteriaValueSelectors.type);
+
+            e.preventDefault();
+
             $typeInput.each(function() {
                 var $input = $(this);
 
@@ -48,7 +51,6 @@ define(function(require) {
 
             this._handleEmptyFilter(type);
             this.trigger('onClickChoiceValue', this);
-            e.preventDefault();
         }
     });
 });
