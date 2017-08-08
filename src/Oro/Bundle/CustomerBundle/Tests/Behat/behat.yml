@@ -146,3 +146,35 @@ oro_behat_extension:
           Buyer Role:
            locator: '[id^="oro_customer_customer_user_roles_2-uid"]'
            type: css
+
+    Map Container:
+      selector: '.map-visual-frame'
+
+    Popup Map Container:
+      selector: '.map-visual'
+
+    Map Icon:
+      selector: '.item-map-button'
+
+    Default Addresses:
+      selector:
+        type: xpath
+        locator: '//h2[contains(., "Default addresses")]/..'
+
+    Map Button:
+      selector:
+        type: xpath
+        locator: '//*[contains(@class, "nav-pills")]/descendant::a[contains(@title, "Map")]'
+
+    Map Popover:
+      selector: '.map-popover'
+
+    Customer Company Addresses List:
+      selector:
+        type: xpath
+        locator: '//h2[contains(., "Company Addresses")]/ancestor::*[contains(concat(" ", normalize-space(@class), " "), " list-address-book ")] '
+
+    Customer Company User Addresses List:
+      selector:
+        type: xpath
+        locator: '//h2[contains(., "My Addresses")]/ancestor::*[contains(concat(" ", normalize-space(@class), " "), " list-address-book ")] '
