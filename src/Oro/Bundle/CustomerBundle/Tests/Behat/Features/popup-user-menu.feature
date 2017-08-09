@@ -1,3 +1,4 @@
+@regression
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 
 Feature: Popup user menu
