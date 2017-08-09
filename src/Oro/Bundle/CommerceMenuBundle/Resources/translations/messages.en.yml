@@ -20,11 +20,27 @@ oro:
             descriptions.label: Description
             icon.label: Icon
             scope.label: Scope
+            screens.label: Screens
             roots_plural_label: 'Frontend Menus'
             website_with_label: 'Website: %website%'
             reset_message: "Menu \"%menuKey%\" was successfully reset."
             saved_message: "Menu item saved successfully."
             deleted_message: "Menu item successfully deleted."
+            menu_user_agent_conditions_collection.label: "User Agent"
+            menu_screens_condition:
+                label: "Exclude on Screens"
+        menu_user_agent_conditions_collection:
+            add_label.label: "Add"
+        menu_user_agent_conditions_collection_group:
+            add_label.label: "And"
+        menu_user_agent_condition:
+            value.label: ""
+            operation:
+                label: ""
+                contains.label: "contains"
+                does_not_contain.label: "does not contain"
+                matches.label: "matches"
+                does_not_match.label: "does not match"
         customer_menu.label: Edit Frontend Menu
         customer_group_menu.label: Edit Frontend Menu
         default:

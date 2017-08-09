@@ -260,18 +260,15 @@ define(function(require) {
                 return;
             }
 
-            var validator = $element.closest('form').validate();
-            if (!validator || validator.element(element)) {
-                var options = {
-                    event: e,
-                    manually: this.isChangedManually(element, e)
-                };
+            var options = {
+                event: e,
+                manually: this.isChangedManually(element, e)
+            };
 
-                if (options.manually) {
-                    this.model.set(modelKey + '_changed_manually', true);
-                }
-                this.model.set(modelKey, value, options);
+            if (options.manually) {
+                this.model.set(modelKey + '_changed_manually', true);
             }
+            this.model.set(modelKey, value, options);
         },
 
         setElementValueFromModel: function(e, modelKey, elementKey) {

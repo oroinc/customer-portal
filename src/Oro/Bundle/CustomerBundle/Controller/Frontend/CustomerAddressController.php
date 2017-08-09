@@ -134,7 +134,10 @@ class CustomerAddressController extends Controller
 
         if (!$customerAddress->getFrontendOwner()) {
             $customer->addAddress($customerAddress);
-        } elseif ($customerAddress->getFrontendOwner()->getId() !== $customer->getId()) {
+        } elseif (!$this->get('oro_customer.provider.frontend.address')
+                ->isCurrentCustomerAddressesContain($customerAddress)
+            && $customerAddress->getFrontendOwner()->getId() !== $customer->getId()
+        ) {
             throw new BadRequestHttpException('Address must belong to Customer');
         }
     }

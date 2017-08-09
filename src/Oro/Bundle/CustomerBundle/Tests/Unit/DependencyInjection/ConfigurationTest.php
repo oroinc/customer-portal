@@ -74,6 +74,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'value' => 'all_at_once',
                             'scope' => 'app',
                         ],
+                        'customer_visitor_cookie_lifetime_days' => [
+                            'value' => 30,
+                            'scope' => 'app',
+                        ]
                     ]
                 ]
             ]

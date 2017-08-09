@@ -69,7 +69,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
         $result = [];
 
         if ($customer) {
-            $items = $customer->getAddresses();
+            $items = $this->getCustomerAddresses($customer);
 
             foreach ($items as $item) {
                 $result[] = $this->getPreparedItem($item);
@@ -98,7 +98,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
         $address = $this->getManager()->find($addressId);
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
-        if ($customer->getAddresses()->contains($address)) {
+        if ($this->get('oro_customer.provider.frontend.address')->isCurrentCustomerAddressesContain($address)) {
             $customer->removeAddress($address);
             return $this->handleDeleteRequest($addressId);
         } else {
@@ -227,5 +227,14 @@ class CommerceCustomerAddressController extends RestController implements ClassR
         unset($result['frontendOwner']);
 
         return $result;
+    }
+
+    /**
+     * @param Customer $customer
+     * @return array
+     */
+    protected function getCustomerAddresses(Customer $customer)
+    {
+        return $customer->getAddresses()->toArray();
     }
 }

@@ -38,9 +38,6 @@ class OroCustomerBundle implements
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        /** Tables modifications **/
-        $this->updateCustomerUserTable($schema);
-
         /** Tables generation **/
         $this->createCustomerVisitorTable($schema);
 
@@ -56,21 +53,11 @@ class OroCustomerBundle implements
         $entityConfig->set('is_extend', true);
         $entityConfig->set('state', ExtendScope::STATE_ACTIVE);
         $configManager->persist($entityConfig);
-    }
 
-    /**
-     * Update oro_customer_user table
-     *
-     * @param Schema $schema
-     */
-    private function updateCustomerUserTable(Schema $schema)
-    {
-        $table = $schema->getTable('oro_customer_user');
-        $table->addColumn('is_guest', 'boolean', []);
-
-        //remove uniq indices for name and email fields
-        $table->dropIndex('UNIQ_9511CEB5F85E0677');
-        $table->dropIndex('uniq_oro_customer_user_email');
+        // send migration message to queue. we should process this migration asynchronous because instances
+        // could have a lot of customer user in system.
+        $this->container->get('oro_message_queue.message_producer')
+            ->send(ClearLostCustomerUsers::TOPIC_NAME, '');
     }
 
     /**

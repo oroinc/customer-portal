@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
+use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
@@ -82,6 +83,48 @@ class GuestCustomerUserManager
         $customerUser->createCustomer();
 
         $customerUser->getCustomer()->setGroup($anonymousGroup);
+
+        return $customerUser;
+    }
+
+    /**
+     * @param string|null $userName
+     * @param AbstractAddress|null $address
+     *
+     * @return CustomerUser
+     */
+    public function createFromAddress($userName = null, AbstractAddress $address = null)
+    {
+        if ($userName === null) {
+            $userName = $this->customerUserManager->generatePassword(10);
+        }
+
+        return $this->generateGuestCustomerUser([
+            'username' => $userName,
+            'name_prefix' => $address->getNamePrefix(),
+            'first_name' => $address->getFirstName(),
+            'middle_name' => $address->getMiddleName(),
+            'last_name' => $address->getLastName(),
+            'name_suffix' => $address->getNameSuffix()
+        ]);
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     * @param string $userName
+     * @param AbstractAddress $address
+     *
+     * @return CustomerUser
+     */
+    public function updateFromAddress(CustomerUser $customerUser, $userName, AbstractAddress $address)
+    {
+        $customerUser->setUsername($userName);
+        $customerUser->setNamePrefix($address->getNamePrefix());
+        $customerUser->setFirstName($address->getFirstName());
+        $customerUser->setMiddleName($address->getMiddleName());
+        $customerUser->setLastName($address->getLastName());
+        $customerUser->setNameSuffix($address->getNameSuffix());
+        $customerUser->fillCustomer();
 
         return $customerUser;
     }

@@ -72,7 +72,8 @@ class CustomerUserAddressController extends RestController implements ClassResou
         $result  = [];
 
         if ($customerUser) {
-            $addresses = $customerUser->getAddresses();
+            $addresses = $this->getCustomerUserAddresses($customerUser);
+
             if ($request->query->get('default_only')) {
                 /** @var AbstractDefaultTypedAddress $address */
                 foreach ($addresses as $address) {
@@ -109,7 +110,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
         $address = $this->getManager()->find($addressId);
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getCustomerUserManager()->find($entityId);
-        if ($customerUser->getAddresses()->contains($address)) {
+        if ($this->get('oro_customer.provider.frontend.address')->isCurrentCustomerUserAddressesContain($address)) {
             $customerUser->removeAddress($address);
             return $this->handleDeleteRequest($addressId);
         } else {
@@ -238,5 +239,14 @@ class CustomerUserAddressController extends RestController implements ClassResou
         unset($result['frontendOwner']);
 
         return $result;
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     * @return array
+     */
+    protected function getCustomerUserAddresses(CustomerUser $customerUser)
+    {
+        return $customerUser->getAddresses()->toArray();
     }
 }
