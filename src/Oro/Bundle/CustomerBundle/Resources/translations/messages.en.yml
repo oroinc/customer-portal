@@ -395,6 +395,7 @@ oro.customer:
             customer_users.title: 'Customer Users'
             customer_users_registration.title: 'Customer Users Registration'
             menu_templates.title: 'Menu Templates'
+            customer_visitor_section.title: 'Customer Visitor'
         fields:
             default_customer_owner.label: 'Default Customer Owner'
             registration_allowed.label: 'Registration Allowed'
@@ -407,6 +408,8 @@ oro.customer:
                 option:
                     all_at_once.label: 'Show all items at once'
                     subitems_in_popup.label: 'Show subitems in a popup'
+            customer_visitor_cookie_lifetime_days.label: 'Customer visitor cookie lifetime (days)'
+            customer_visitor_cookie_lifetime_days.tooltip: 'Determines how many days customer visitor (anonymous user) session will be active till reset'
 
     security:
         permissions: 'Action Permissions'

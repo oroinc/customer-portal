@@ -2,6 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security\Firewall;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +22,6 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit_Framework
 {
     use EntityTrait;
 
-    const COOKIE_LIFETIME = 500;
     const VISITOR_CREDENTIALS = [4, 'someSessionId'];
 
     /**
@@ -43,16 +44,23 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit_Framework
      */
     protected $authenticationManager;
 
+    /**
+     * @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $configManager;
+
     protected function setUp()
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         $this->authenticationManager = $this->createMock(AuthenticationManagerInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->configManager = $this->createMock(ConfigManager::class);
+
         $this->listener = new AnonymousCustomerUserAuthenticationListener(
             $this->tokenStorage,
             $this->authenticationManager,
             $this->logger,
-            self::COOKIE_LIFETIME
+            $this->configManager
         );
     }
 
@@ -95,6 +103,11 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit_Framework
             ->method('info')
             ->with('Populated the TokenStorage with an Anonymous Customer User Token.');
 
+        $this->configManager->expects($this->once())
+            ->method('get')
+            ->with('oro_customer.customer_visitor_cookie_lifetime_days')
+            ->willReturn(30);
+
         $this->listener->handle($event);
 
         /** @var Cookie $resultCookie */
@@ -102,6 +115,9 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit_Framework
         $this->assertEquals(AnonymousCustomerUserAuthenticationListener::COOKIE_NAME, $resultCookie->getName());
     }
 
+    /**
+     * @return array
+     */
     public function handleDataProvider()
     {
         return [
