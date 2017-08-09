@@ -4,13 +4,21 @@
     <% if (_.isMobile()) { %>
         <div class="filter-date-range">
             <div class="filter-start-date">
-                <input type="text" class="<%= inputClass %>"
-                       value="<%= value.value.start %>" name="start" placeholder="<%- _.__('from') %>">
+                <input type="text"
+                       class="<%= inputClass %>"
+                       value="<%= value.value.start %>"
+                       name="start"
+                       placeholder="<%- _.__('from') %>"
+                >
             </div>
             <span class="filter-separator">-</span>
             <div class="filter-end-date">
-                <input type="text" class="<%= inputClass %>"
-                       value="<%= value.value.end %>" name="end" placeholder="<%- _.__('to') %>">
+                <input type="text"
+                       class="<%= inputClass %>"
+                       value="<%= value.value.end %>"
+                       name="end"
+                       placeholder="<%- _.__('to') %>"
+                >
             </div>
         </div>
         <div class="filter-action-row">
@@ -33,8 +41,9 @@
             <span class="filter-separator">-</span>
             <div class="filter-end-date">
                 <div class="datepicker-box">
-                                <span class="datepicker-box__icon">
-                                    <i class="fa-calendar"></i></span>
+                    <span class="datepicker-box__icon">
+                        <i class="fa-calendar"></i>
+                    </span>
                     <input type="text" class="<%= inputClass %>"
                            value="<%= value.value.end %>"
                            name="end"

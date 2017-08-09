@@ -1,15 +1,17 @@
 <div class="choice-filter number-range-filter" data-number-range-filter-template>
-    <div class="filter-trigger-wrapper">
-        <button class="btn btn--link dropdown-toggle" data-toggle="dropdown">
-            <%- selectedChoiceLabel %><span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
+    <div class="filter-select-oro-wrapper">
+        <select name="<%= name %>" data-choice-value-select
+                class="select select--size-m select--full">
             <% _.each(choices, function (option) { %>
-            <li <% if (selectedChoice == option.value) { %>class="active"<% } %> >
-                <a class="dropdown-item choice-value" href="#" data-value="<%= option.value %>"><%- option.label %></a>
-            </li>
+                <option value="<%= option.value %>"
+                    <% if (option.value == selectedChoice) { %>
+                        selected="selected"
+                    <% } %>
+                >
+                    <%- option.label %>
+                </option>
             <% }); %>
-        </ul>
+        </select>
     </div>
     <div class="value-field-frame">
         <div class="filter-value">
