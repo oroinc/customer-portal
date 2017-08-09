@@ -19,7 +19,10 @@ define(function(require) {
             popupBadge: true,
             popupIcon: 'fa-filter',
             popupLabel: _.__('oro.filter.datagrid-toolbar.filters'),
-            contentElement: null
+            contentElement: null,
+            popupFooter: true,
+            footerActionLabel: _.__('oro.filter.datagrid-toolbar.save_filters'),
+            footerActionBtnClass: 'btn btn--action btn--full btn--size-s'
         },
 
         initialize: function(options) {

@@ -37,3 +37,8 @@ oro_frontend:
         save_as_new: "Save As New"
         set_as_default: "Set as Default"
         placeholder: "Enter new list name"
+
+    fullscreen_popup:
+        actions:
+            labels:
+                close: Close

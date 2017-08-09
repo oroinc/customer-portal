@@ -23,5 +23,9 @@
 
     <div class="fullscreen-popup__content" data-role="content"></div>
 
-    <div class="fullscreen-popup__footer" data-role="footer"></div>
+    <% if (popupFooter) { %>
+        <div class="fullscreen-popup__footer" data-role="footer">
+            <button type="button" class="<%= footerActionBtnClass %>" data-role="footer-action"><%= footerActionLabel %></button>
+        </div>
+    <% } %>
 </div>

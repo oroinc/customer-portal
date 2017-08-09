@@ -18,7 +18,8 @@ define(function(require) {
             'content', 'contentSelector', 'contentView',
             'contentOptions', 'contentElement', 'contentAttributes',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
-            'popupCloseButton', 'popupIcon', 'popupBadge'
+            'popupCloseButton', 'popupIcon', 'popupBadge', 'popupFooter', 
+            'footerAction', 'footerActionLabel', 'footerActionBtnClass'
         ]),
 
         template: template,
@@ -54,6 +55,14 @@ define(function(require) {
         },
 
         $popup: null,
+
+        popupFooter: false,
+
+        footerAction: null,
+
+        footerActionLabel: _.__('oro_frontend.fullscreen_popup.actions.labels.close'),
+        
+        footerActionBtnClass: null,
 
         /**
          * @inheritDoc
@@ -141,6 +150,7 @@ define(function(require) {
 
         initPopupEvents: function() {
             this.$popup.on('click', '[data-role="close"]', _.bind(this.close, this));
+            this.$popup.on('click', '[data-role="footer-action"]', _.bind(this.setFooterAction, this));
             this.$popup.on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
         },
 
@@ -178,7 +188,10 @@ define(function(require) {
                 closeOnLabel: this.popupCloseOnLabel,
                 close: this.popupCloseButton,
                 icon: this.popupIcon,
-                badge: this.popupBadge
+                badge: this.popupBadge,
+                popupFooter: this.popupFooter,
+                footerActionLabel: this.footerActionLabel,
+                footerActionBtnClass: this.footerActionBtnClass
             });
             return data;
         },
@@ -203,6 +216,14 @@ define(function(require) {
         setPopupTitle: function(title) {
             if (this.$popup) {
                 this.$popup.find('[data-role="title"]').html(title);
+            }
+        },
+
+        setFooterAction: function () {
+            if (this.footerAction) {
+                return this.footerAction;
+            } else {
+                return this.close();
             }
         }
     });
