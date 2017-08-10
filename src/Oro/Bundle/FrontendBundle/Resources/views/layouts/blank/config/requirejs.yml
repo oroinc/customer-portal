@@ -57,5 +57,6 @@ config:
         'orofrontend/js/app/components/column-manager/frontend-column-manager-component': 'bundles/orofrontend/js/app/components/column-manager/frontend-column-manager-component.js'
         'orofrontend/js/app/views/column-manager/frontend-column-manager-view': 'bundles/orofrontend/js/app/views/column-manager/frontend-column-manager-view.js'
         'orofrontend/js/datagrid/grid-views/frontend-grid-views-view': 'bundles/orofrontend/js/datagrid/grid-views/frontend-grid-views-view.js'
+        'orofrontend/js/app/views/object-fit-polyfill-view': 'orofrontend/js/app/views/object-fit-polyfill-view.js'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
