@@ -392,7 +392,7 @@ oro.customer:
             customer_users_registration.title: 'Customer Users Registration'
             menu_templates.title: 'Menu Templates'
             customer_visitor_section.title: 'Customer Visitor'
-            map_settings.title: 'Maps'
+            map_settings.title: 'Map Settings'
         fields:
             default_customer_owner.label: 'Default Customer Owner'
             registration_allowed.label: 'Registration Allowed'
