@@ -30,7 +30,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
         $this->factory->create(
             $container,
             'fake_id',
-            ['update_latency' => 300, 'lifetime' => 400],
+            ['update_latency' => 300],
             'fake_user_provider',
             'fake_default_entry_point'
         );
@@ -67,13 +67,6 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
             $this->actualDefinitions['oro_customer.authentication.listener.anonymous_customer_user.fake_id']
                 ->getParent()
         );
-        $this->assertEquals(
-            [
-                'index_3' => 400,
-            ],
-            $this->actualDefinitions['oro_customer.authentication.listener.anonymous_customer_user.fake_id']
-                ->getArguments()
-        );
     }
 
     public function testGetPosition()
@@ -91,12 +84,13 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
         $config = new ArrayNodeDefinition('root');
         $this->factory->addConfiguration($config);
         $loadedNodes = $config->getNode()->getChildren();
-        $this->assertCount(2, $loadedNodes);
-
-        $this->assertInstanceOf(IntegerNode::class, $loadedNodes['lifetime']);
+        $this->assertCount(1, $loadedNodes);
         $this->assertInstanceOf(IntegerNode::class, $loadedNodes['update_latency']);
     }
 
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
     protected function getContainerMock()
     {
         $container = $this->createMock(ContainerBuilder::class);
