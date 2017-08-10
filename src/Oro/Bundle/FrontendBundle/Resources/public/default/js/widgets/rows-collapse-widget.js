@@ -31,7 +31,7 @@ define([
             if (this.options.animationSpeed) {
                 if (isOpen) {
                     this.$container.animate({
-                        height: this.getRowsHeight(this.options.rowsCount)
+                        height: this.getRowsHeight()
                     }, this.options.animationSpeed, _.bind(function() {
                         this.$container.css('overflow', 'visible');
                     }, this));
@@ -67,9 +67,10 @@ define([
         getRowsHeight: function(rows) {
             var $rows = this.$el.find('tbody tr');
             var height = this.$el.find('thead tr').height();
+            var rowsCount = rows || $rows.length;
 
             $rows.each(_.bind(function(index, row) {
-                if (index >= rows) {
+                if (index >= rowsCount) {
                     return;
                 }
                 height += $(row).height();
