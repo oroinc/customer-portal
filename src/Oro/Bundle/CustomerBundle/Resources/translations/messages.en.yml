@@ -115,6 +115,9 @@ oro.customer:
         website.label:               'Website'
         sales_representatives.label: 'Assigned Sales Representatives'
         contact_information.label:   'Contact Information'
+        is_guest.label:              'Guest'
+        is_guest_yes.label:          'Yes'
+        is_guest_no.label:           'No'
 
         profile:
             company_name: 'Company Name'
@@ -312,6 +315,7 @@ oro.customer:
         id.label: ID
         last_visit.label: Last Visit
         session_id.label: Session ID
+        customer_user.label: Customer User
 
     gridview:
         entity_label: Grid View

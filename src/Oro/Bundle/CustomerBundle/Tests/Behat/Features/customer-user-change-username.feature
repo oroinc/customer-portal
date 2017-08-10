@@ -8,6 +8,6 @@ Feature: Change customer user email to another customer user email
     And I fill form with:
       | Email Address | AmandaRCole@example.org |
     And I click "Save"
-    Then I should see "This value is already used."
+    Then I should see "This email is already used."
     And I click "Cancel"
     Then I should see "Signed in as: Nancy Sallee"

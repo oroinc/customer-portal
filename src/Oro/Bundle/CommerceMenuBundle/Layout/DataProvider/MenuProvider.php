@@ -26,7 +26,7 @@ class MenuProvider
      *
      * @return ItemInterface
      */
-    public function getMenu($menuName, array $options = ['check_access' => false])
+    public function getMenu($menuName, array $options = ['check_access_not_logged_in' => true])
     {
         return $this->provider->get($menuName, $options);
     }

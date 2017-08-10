@@ -727,6 +727,12 @@ services:
         arguments:
             - '%oro_customer.entity.customer.class%'
 
+    oro_customer.repository.customer_user:
+        class: 'Doctrine\ORM\EntityRepository'
+        parent: oro_entity.abstract_repository
+        arguments:
+            - '%oro_customer.entity.customer_user.class%'
+
     oro_user.provider.role_privilege_capability_provider_commerce:
         class: %oro_user.provider.role_privilege_capability_provider.class%
         arguments:
@@ -761,6 +767,13 @@ services:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRoleValidator
         tags:
             - { name: validator.constraint_validator }
+
+    oro_customer.customer_user.validator.unique_name_and_email:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmailValidator
+        arguments:
+            - '@oro_customer.repository.customer_user'
+        tags:
+            - { name: validator.constraint_validator, alias: oro_customer.customer_user.validator.unique_name_and_email }
 
     oro_customer.grid_view.manager.api:
         class: 'Oro\Bundle\DataGridBundle\Entity\Manager\GridViewApiEntityManager'
@@ -905,3 +918,34 @@ services:
         class: Oro\Bundle\CustomerBundle\Datagrid\FrontendCustomerAddressActionChecker
         arguments:
             - '@oro_config.manager'
+
+    oro_customer.voter.anonymous_customer_user:
+        class: 'Oro\Bundle\CustomerBundle\Voter\AnonymousCustomerUserVoter'
+        arguments:
+           - '@oro_featuretoggle.voter.config_voter'
+           - '@security.token_storage'
+        lazy: true
+
+    oro_customer.action.get_or_create_active_user:
+        class: Oro\Bundle\CustomerBundle\Action\GetActiveUserOrNull
+        arguments:
+            - '@oro_action.expression.context_accessor'
+            - '@security.token_storage'
+        tags:
+            - { name: oro_action.action, alias: get_active_user_or_null }
+
+    oro_customer.manager.guest_customer_user:
+        class: Oro\Bundle\CustomerBundle\Entity\GuestCustomerUserManager
+        lazy: true
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_website.manager'
+            - '@oro_customer_user.manager'
+            - '@oro_customer.provider.customer_user_relations_provider'
+            - '@security.token_storage'
+
+    oro_customer.voter.customer_user:
+        class: 'Oro\Bundle\CustomerBundle\Voter\CustomerUserVoter'
+        arguments:
+           - '@oro_security.token_accessor'
+        lazy: true

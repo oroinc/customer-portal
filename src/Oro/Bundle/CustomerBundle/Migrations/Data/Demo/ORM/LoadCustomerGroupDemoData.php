@@ -17,7 +17,8 @@ class LoadCustomerGroupDemoData extends AbstractFixture
     protected $customerGroups = [
         'All Customers',
         'Wholesale Customers',
-        'Partners'
+        'Partners',
+        'Non-Authenticated Visitors'
     ];
 
     /**
@@ -29,12 +30,18 @@ class LoadCustomerGroupDemoData extends AbstractFixture
         $customerOwner = $manager->getRepository('OroUserBundle:User')->findOneBy([]);
 
         foreach ($this->customerGroups as $groupName) {
-            $customerGroup = new CustomerGroup();
-            $customerGroup
-                ->setName($groupName)
-                ->setOrganization($customerOwner->getOrganization())
-                ->setOwner($customerOwner);
-            $manager->persist($customerGroup);
+            $customerGroup = $manager->getRepository('OroCustomerBundle:CustomerGroup')
+                ->findOneBy(['name' => $groupName]);
+
+            if (!$customerGroup) {
+                $customerGroup = new CustomerGroup();
+                $customerGroup
+                    ->setName($groupName)
+                    ->setOrganization($customerOwner->getOrganization())
+                    ->setOwner($customerOwner);
+                $manager->persist($customerGroup);
+            }
+
             $this->addReference(static::ACCOUNT_GROUP_REFERENCE_PREFIX . $customerGroup->getName(), $customerGroup);
         }
 
