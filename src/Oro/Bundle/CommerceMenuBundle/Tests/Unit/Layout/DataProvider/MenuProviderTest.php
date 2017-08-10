@@ -44,7 +44,7 @@ class MenuProviderTest extends \PHPUnit_Framework_TestCase
     public function testGetMenuWithDefaultOptions()
     {
         $menuName = 'menuName';
-        $options = ['check_access' => false];
+        $options = ['check_access_not_logged_in' => true];
 
         /** @var ItemInterface|\PHPUnit_Framework_MockObject_MockObject $item */
         $item = $this->getMockBuilder(ItemInterface::class)->getMock();

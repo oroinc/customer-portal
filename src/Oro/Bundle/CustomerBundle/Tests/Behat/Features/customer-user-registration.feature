@@ -26,7 +26,7 @@ Feature: Registration flow and error messages
       | Password         | RuthWMaxwell123          |
       | Confirm Password | RuthWMaxwell123          |
     When I press "Create An Account"
-    Then I should see that "Customer User Registration Error Container" contains "This value is already used."
+    Then I should see that "Customer User Registration Error Container" contains "This email is already used."
 
   Scenario: Error message has correct container and text when registration form has empty field
     Given I am on "customer/user/registration"
