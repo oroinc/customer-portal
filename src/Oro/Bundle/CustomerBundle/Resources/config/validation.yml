@@ -36,8 +36,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
+        - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmail: ~
         - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRole: ~
     properties:
         firstName:

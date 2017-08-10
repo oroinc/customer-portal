@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Provider;
 
 use Oro\Bundle\ActionBundle\Tests\Unit\Provider\CurrentApplicationProviderTest;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
 use Oro\Bundle\UserBundle\Entity\User;
 
@@ -108,5 +109,18 @@ class ActionCurrentApplicationProviderTest extends CurrentApplicationProviderTes
                 'expectedResult' => true
             ],
         ];
+    }
+
+    public function testGetCurrentApplicationForCustomerVisitor()
+    {
+        $token = $this->createMock(AnonymousCustomerUserToken::class);
+        $this->tokenStorage->expects($this->any())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->assertEquals(
+            ActionCurrentApplicationProvider::COMMERCE_APPLICATION,
+            $this->provider->getCurrentApplication()
+        );
     }
 }

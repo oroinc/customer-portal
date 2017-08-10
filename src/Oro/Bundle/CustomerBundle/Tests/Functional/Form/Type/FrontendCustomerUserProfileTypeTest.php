@@ -36,7 +36,7 @@ class FrontendCustomerUserProfileTypeTest extends WebTestCase
 
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains("This value is already used", $crawler->html());
+        $this->assertContains("This email is already used", $crawler->html());
         $this->assertNotContains("Customer User profile updated", $crawler->html());
 
         /** @var CustomerUser $expectedUser */

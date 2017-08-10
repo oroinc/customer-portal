@@ -95,6 +95,7 @@ class RestCustomerUserTest extends RestJsonApiTestCase
 
     public function testDeleteByFilterCustomerUser()
     {
+        $this->markTestSkipped('Should be clarified and fixed in #BB-10944');
         $userName = 'CustomerUserTest';
         $this->createCustomerUser($userName);
 
