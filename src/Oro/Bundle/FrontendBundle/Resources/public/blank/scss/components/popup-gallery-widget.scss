@@ -1,11 +1,10 @@
-// theme: blank;
+// @theme: blank;
 
-/* Popup Gallery Widget*/
 .popup-gallery-widget {
     position: fixed;
-    z-index: 9000;
     top: 0;
     left: 0;
+    z-index: z('popup');
 
     width: 100%;
     height: 100%;
@@ -15,64 +14,27 @@
     visibility: hidden;
 
     transition: .4s all;
-
-    //Slick slider customization
-    .slick-prev,
-    .slick-next {
-        position: absolute;
-        top: 50%;
-
-        display: block;
-
-        width: 37px;
-        height: 37px;
-        margin-top: -11px;
-        padding: 0;
-
-        outline: none;
-        font-size: 0;
-        line-height: 0;
-        text-align: center;
-
-        border: none;
-        border-radius: 100%;
-        color: transparent;
-        background: rgba(get-color('additional', 'darker'), .6);
-
-        cursor: pointer;
-
-        &:before,
-        &:after {
-            display: block;
-
-            font-size: 12px;
-
-            color: get-color('additional', 'ultra');
-        }
-    }
-
-    .slick-prev {
-        left: -45px;
-
-        @include fa-icon($fa-var-chevron-left, after);
-
-        &:after {
-            margin: 2px 0 0 -1px;
-        }
-    }
-
-    .slick-next {
-        right: -45px;
-
-        @include fa-icon($fa-var-chevron-right);
-
-        &:before {
-            margin: 2px 0 0 2px;
-        }
-    }
+    
+    // Slick slider customization
+    @include slick-arrow(
+        $slick-arrow-width: $popup-gallery-widget-arrow-width,
+        $slick-arrow-height: $popup-gallery-widget-arrow-height,
+        $slick-arrow-outline: none,
+        $slick-arrow-border-radius: $popup-gallery-widget-arrow-border-radius,
+        $slick-arrow-background: $popup-gallery-widget-arrow-bg,
+        $slick-arrow-icon-size: $popup-gallery-widget-arrow-icon-size,
+        $slick-arrow-icon-color: $popup-gallery-widget-arrow-icon-color,
+        $slick-arrow-icon-hover-color: null,
+        $slick-arrow-prev-left: $popup-gallery-widget-arrow-side-position,
+        $slick-arrow-next-right: $popup-gallery-widget-arrow-side-position,
+        $slick-arrow-prev-icon: $popup-gallery-widget-arrow-prev-icon,
+        $slick-arrow-next-icon: $popup-gallery-widget-arrow-next-icon,
+        $slick-arrow-prev-icon-offset: $popup-gallery-widget-arrow-prev-icon-offset,
+        $slick-arrow-next-icon-offset: $popup-gallery-widget-arrow-next-icon-offset
+    );
 
     .slick-no-slide {
-        max-width: 720px;
+        max-width: $popup-gallery-widget-no-slide-max-width;
         padding: 0;
 
         .slick-track {
@@ -89,124 +51,83 @@
         }
 
         .slick-list {
-            max-width: 620px;
+            max-width: $popup-gallery-widget-no-slide-list-max-width;
             padding: 0 !important;
         }
     }
 
-    //Gallery styles
-    &__bg {
+    // Gallery styles
+    &__overlay {
         position: absolute;
         top: 0;
         left: 0;
 
         width: 100%;
-        height: 150%;
+        height: 100%;
 
-        background: rgba(get-color('additional', 'dark'), .5);
+        background: $popup-gallery-widget-overlay-bg;
     }
 
     &__wrapper {
         position: relative;
         top: 50%;
         left: 50%;
+        transform: translate(-50%, -50%);
 
-        max-width: 610px;
-        max-height: 710px;
+        max-width: $popup-gallery-widget-wrapper-max-width;
+        max-height: $popup-gallery-widget-wrapper-max-height;
         padding: 0;
-
-        transform: translateY(-50%) translate(-50%);
     }
 
     &__close {
         position: absolute;
-        right: -13px;
+        right: $popup-gallery-widget-close-top-right-pos;
+        top: $popup-gallery-widget-close-top-right-pos;
+        z-index: z('base');
 
-        z-index: 1;
-
-        width: 30px;
-        height: 30px;
-        margin-top: -13px;
+        width: $popup-gallery-widget-close-width;
+        height: $popup-gallery-widget-close-height;
         padding: 0;
 
         text-align: center;
-        font-size: 15px;
 
-        background: get-color('additional', 'dark');
-        border: none;
-        border-radius: 100%;
+        background: $popup-gallery-widget-close-bg;
+        border: $popup-gallery-widget-close-border;
 
+        border-radius: $popup-gallery-widget-close-border-radius;
         cursor: pointer;
 
-        @include fa-icon($fa-var-close);
+        @include fa-icon($popup-gallery-widget-close-icon);
 
         &:before {
             display: inline-block;
-            margin: 0;
+            margin: $popup-gallery-widget-close-icon-offset;
 
-            font-size: 15px;
-            line-height: 30px;
+            font-size: $popup-gallery-widget-close-icon-size;
+            line-height: $popup-gallery-widget-close-height;
 
-            color: get-color('additional', 'ultra');
+            color: $popup-gallery-widget-close-icon-color;
         }
     }
 
     &__images {
-        width: 100%;
-        max-width: 610px;
-
-        margin-bottom: 10px;
+        margin-bottom: $popup-gallery-widget-images-offset-bottom;
 
         transition: all .4s;
-
         opacity: 0;
-
         visibility: hidden;
 
         .slick-list {
-            position: relative;
-
-            max-width: 610px;
-            min-height: 100%;
-
-            border: 1px solid get-color('additional', 'middle');
-            background: get-color('additional', 'ultra');
+            border: $popup-gallery-widget-slick-list-border;
+            background: $popup-gallery-widget-slick-list-bg;
 
             box-sizing: border-box;
         }
 
+        @include slick-dots();
+
         .slick-dots {
-            position: absolute;
-
             display: none !important;
-
-            width: 100%;
-            margin: 0 auto;
-            padding: 0;
-            bottom: 15px;
-
-            text-align: center;
-            vertical-align: bottom;
-
-            li {
-                display: inline-block;
-
-                width: 10px;
-                height: 10px;
-
-                margin: 0 5px;
-
-                text-indent: -9999px;
-
-                border-radius: 100%;
-                background: get-color('additional', 'light');
-                box-shadow: 0 0 3px get-color('additional', 'darker');
-
-                &.slick-active {
-                    background: get-color('ui', 'focus');
-                    box-shadow: 0 0 7px get-color('ui', 'focus');
-                }
-            }
         }
     }
 
@@ -218,60 +139,35 @@
             width: 100%;
             height: 100%;
         }
+
+        .slick-loading {
+            min-width: 200px;
+            min-height: 200px;
+
+            background: get-color('additional', 'ultra') url($popup-gallery-loader-url) no-repeat 50% 50%;
+        }
     }
 
     &__thumbnails {
         width: 100%;
-        max-width: 690px;
-        max-height: 80px;
 
-        margin-left: auto;
-        margin-right: auto;
-        padding: 0 13px;
+        padding: $popup-gallery-widget-thumbnails-offset-inner;
 
         text-align: center;
 
-        transition: all .4s;
-
         opacity: 0;
-
         visibility: hidden;
 
-        .slick-list {
-            max-width: 585px;
-
-            overflow: hidden;
-        }
-
-        .slick-track {
-            max-height: 80px;
-            margin-left: 2px;
-
-            overflow: hidden;
-        }
-
-        .slick-prev,
-        .slick-next {
-            width: 24px;
-            height: 24px;
-
-            &:before,
-            &:after {
-                font-size: 9px;
-            }
-        }
-
-        .slick-prev {
-            left: -20px;
-        }
-
-        .slick-next {
-            right: -20px;
-        }
+        @include slick-arrow(
+            $slick-arrow-width: $popup-gallery-widget-thumbnail-arrow-width,
+            $slick-arrow-height: $popup-gallery-widget-thumbnail-arrow-height,
+            $slick-arrow-icon-size: $popup-gallery-widget-thumbnail-arrow-icon-size,
+            $slick-arrow-next-right: $popup-gallery-widget-thumbnail-arrow-side-position,
+            $slick-arrow-prev-left: $popup-gallery-widget-thumbnail-arrow-side-position
+        );
 
         &-img {
-            width: 84px !important;
-            height: 84px;
+            margin: $popup-gallery-widget-thumbnails-img-offset;
 
             text-align: center;
 
@@ -280,12 +176,12 @@
             }
 
             img {
-                border: 1px solid get-color('additional', 'middle');
+                border: $popup-gallery-widget-thumbnails-img-border;
             }
 
             &.slick-current img {
                 box-sizing: border-box;
-                border: 2px solid get-color('ui', 'focus');
+                border: $popup-gallery-widget-thumbnails-img-active-border;
             }
         }
     }
@@ -306,28 +202,24 @@
     }
 }
 
-// Custom media
-@media (max-height: 730px) and (min-width: 993px), (max-width: 992px) {
+@include breakpoint('popup-gallery-tablet') {
     .popup-gallery-widget {
         &__thumbnails {
             display: none;
         }
 
         &__close {
-            right: 10px;
-
-            margin-top: 10px;
+            right: $popup-gallery-widget-close-top-right-pos-tablet-small;
+            top: $popup-gallery-widget-close-top-right-pos-tablet-small;
         }
 
         &__images {
-            max-width: 100vh;
-
             .slick-list {
-                max-width: 100vh;
                 border: 0;
             }
 
             .slick-arrow {
+                // break inline styles
                 display: none !important;
             }
 
@@ -336,9 +228,20 @@
             }
         }
 
+        &__image {
+            img {
+                width: auto;
+                height: auto;
+                max-width: 100%;
+                max-height: 100%;
+                margin: auto;
+            }
+        }
+
         &__wrapper {
-            max-width: 100vh;
-            max-height: 100%;
+            // square popup wrapper and compensation url bar on safari iOS
+            max-width: 75vmin;
+            max-height: 75vmin;
         }
     }
 }
