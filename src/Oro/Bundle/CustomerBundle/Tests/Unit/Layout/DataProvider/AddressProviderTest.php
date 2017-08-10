@@ -89,7 +89,7 @@ class AddressProviderTest extends \PHPUnit_Framework_TestCase
                 'addressUpdateRouteName' => 'oro_customer_frontend_customer_address_update',
                 'currentAddresses' => ['data'],
                 'addressDeleteRouteName' => 'oro_api_customer_frontend_delete_customer_address',
-                'enableMapPreview' => true,
+                'showMap' => true,
             ],
             $data
         );
@@ -140,7 +140,7 @@ class AddressProviderTest extends \PHPUnit_Framework_TestCase
                 'addressUpdateRouteName' => 'oro_customer_frontend_customer_address_update',
                 'currentAddresses' => ['data'],
                 'addressDeleteRouteName' => 'oro_api_customer_frontend_delete_customer_address',
-                'enableMapPreview' => true,
+                'showMap' => true,
             ],
             $data
         );
@@ -218,7 +218,7 @@ class AddressProviderTest extends \PHPUnit_Framework_TestCase
                 'addressUpdateRouteName' => 'oro_customer_frontend_customer_address_update',
                 'currentAddresses' => ['data'],
                 'addressDeleteRouteName' => 'oro_api_customer_frontend_delete_customer_address',
-                'enableMapPreview' => false,
+                'showMap' => false,
             ],
             $data
         );

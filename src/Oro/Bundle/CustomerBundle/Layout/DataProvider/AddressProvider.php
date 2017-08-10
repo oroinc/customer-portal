@@ -130,7 +130,7 @@ class AddressProvider
             'addressUpdateRouteName' => $this->updateRouteName,
             'currentAddresses' => $this->fragmentHandler->render($addressListUrl),
             'addressDeleteRouteName' => $this->deleteRouteName,
-            'enableMapPreview' => $this->configManager->get('oro_customer.maps_enabled'),
+            'showMap' => $this->configManager->get('oro_customer.maps_enabled'),
         ];
     }
 }

@@ -24,7 +24,7 @@ define(function(require) {
             'useFormDialog': false,
             'template': '',
             'manageAddressesLink': '',
-            'enableMapPreview': true
+            'showMap': true
         },
 
         /**
@@ -60,7 +60,7 @@ define(function(require) {
                 allowToRemovePrimary: true,
                 confirmRemove: true,
                 confirmRemoveComponent: deleteConfirmation,
-                enableMapPreview: options.enableMapPreview
+                showMap: options.showMap
             });
 
             addressBook.getCollection().reset(JSON.parse(options.currentAddresses));
