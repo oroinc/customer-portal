@@ -413,6 +413,7 @@ oro.customer:
             customer_visitor_cookie_lifetime_days.tooltip: 'Determines how many days customer visitor (anonymous user) session will be active till reset'
             maps_enabled:
                 label: 'Enable Map Preview'
+                tooltip: 'When the Map Preview is enabled, the addresses in the store frontend will be shown on the map.'
                 option:
                     yes.label: 'Yes'
                     no.label: 'No'

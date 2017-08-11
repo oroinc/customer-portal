@@ -97,6 +97,7 @@ system_configuration:
             priority: 40
             options:
                 label: oro.customer.system_configuration.fields.maps_enabled.label
+                tooltip: oro.customer.system_configuration.fields.maps_enabled.tooltip
                 required: false
                 choices:
                     true: oro.customer.system_configuration.fields.maps_enabled.option.yes.label
