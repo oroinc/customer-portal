@@ -35,7 +35,7 @@ Feature: Registration Instructions
     Given I proceed as the Admin
     And login as administrator
     And go to System/ Configuration
-    And I follow Commerce/Customer/Customer Users on configuration sidebar
+    And I follow "Commerce/Customer/Customer Users" on configuration sidebar
     And fill "Customer Users Registration form" with:
       |Show Registration Instructions Default|false|
       |Show Registration Instructions        |true |
@@ -101,7 +101,7 @@ Feature: Registration Instructions
 
   Scenario: Show Registration Instructions with default text (Site level)
     Given I proceed as the Admin
-    And I follow Commerce/Customer/Customer Users on configuration sidebar
+    And I follow "Commerce/Customer/Customer Users" on configuration sidebar
     And fill "Customer Users Registration form" with:
       |Show Registration Instructions Default|false|
       |Show Registration Instructions        |true |
@@ -149,7 +149,7 @@ Feature: Registration Instructions
     And I fill "Routing General form" with actual website
     And submit form
     And I should see "Configuration saved" flash message
-    And I follow Commerce/Customer/Customer Users on configuration sidebar
+    And I follow "Commerce/Customer/Customer Users" on configuration sidebar
 
   Scenario: Show Registration Instructions when Text is setted to default (Site level)
     Given I proceed as the Admin
