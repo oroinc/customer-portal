@@ -71,6 +71,7 @@
         form_widget(form.plainPassword, { 'attr': {'class': 'password'} }),
         customerForm,
         form_row(form.salesRepresentatives),
+        form_row(form.isGuest),
     ] %}
 
     {% if form.passwordGenerate is defined %}

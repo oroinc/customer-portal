@@ -310,6 +310,7 @@ datagrids:
                     - customerUser.email
                     - customerUser.enabled
                     - customerUser.confirmed
+                    - customerUser.isGuest
                 from:
                     - { table: %oro_customer.entity.customer_user.class%, alias: customerUser }
         columns:
@@ -324,6 +325,9 @@ datagrids:
                 frontend_type: boolean
             confirmed:
                 label: oro.customer.customeruser.confirmed.label
+                frontend_type: boolean
+            isGuest:
+                label: oro.customer.customeruser.is_guest.label
                 frontend_type: boolean
         properties:
             id: ~
@@ -343,7 +347,8 @@ datagrids:
                     data_name: customerUser.enabled
                 confirmed:
                     data_name: customerUser.confirmed
-
+                isGuest:
+                    data_name: customerUser.isGuest
     customer-customer-user-grid-base:
         extends: customer-customer-user-grid-no-filter-base
         filters:
@@ -405,6 +410,9 @@ datagrids:
                 confirmed:
                     type:      boolean
                     data_name: customerUser.confirmed
+                isGuest:
+                    type:      boolean
+                    data_name: customerUser.isGuest
         actions:
             view:
                 type:          navigate
@@ -887,6 +895,15 @@ datagrids:
     frontend-customer-customer-user-grid:
         acl_resource: oro_customer_frontend_customer_user_view
         extends: customer-customer-user-grid-base
+        source:
+            query:
+                where:
+                    and:
+                        - customerUser.isGuest = false
+        columns:
+            isGuest:
+                renderable: false
+                manageable: false
         properties:
             id: ~
             view_link:

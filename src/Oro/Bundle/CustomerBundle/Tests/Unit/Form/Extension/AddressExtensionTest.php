@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Oro\Bundle\CustomerBundle\Form\Extension\AddressExtension;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 
 class AddressExtensionTest extends AbstractCustomerUserAwareExtensionTest
 {
@@ -28,6 +29,24 @@ class AddressExtensionTest extends AbstractCustomerUserAwareExtensionTest
     public function testConfigureOptionsCustomerUser()
     {
         $this->assertCustomerUserTokenCall();
+
+        /** @var \PHPUnit_Framework_MockObject_MockObject|OptionsResolver $resolver */
+        $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $resolver->expects($this->once())
+            ->method('setDefault')
+            ->with('region_route', 'oro_api_frontend_country_get_regions');
+
+        $this->extension->configureOptions($resolver);
+    }
+
+    public function testConfigureOptionsCustomerVisitor()
+    {
+        $token = $this->createMock(AnonymousCustomerUserToken::class);
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->will($this->returnValue($token));
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|OptionsResolver $resolver */
         $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')

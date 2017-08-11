@@ -269,6 +269,12 @@ services:
             - '%fos_js_routing.cache_control%'
             - '%kernel.debug%'
 
+    oro_frontend.provider.screens:
+        class: 'Oro\Bundle\FrontendBundle\Provider\ScreensProvider'
+        arguments:
+            - '@oro_layout.theme_manager'
+            - '@oro.cache.memory_cache_chain'
+
     oro_frontend.form.configurator.theme:
         class: 'Oro\Bundle\FrontendBundle\Form\Configurator\ThemeConfigurator'
         arguments:

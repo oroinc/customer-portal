@@ -22,6 +22,11 @@ define(function(require) {
             this.sucsessMessage = options.sucsessMessage || __('item_deleted');
             this.okButtonClass = options.okButtonClass;
             this.cancelButtonClass = options.cancelButtonClass;
+            this.triggerData = options.triggerData || null;
+
+            if (_.isObject(this.triggerData) && this.triggerData.lineItemId) {
+                this.triggerData.lineItemId = parseInt(this.triggerData.lineItemId, 10);
+            }
 
             this.$elem.on('click', _.bind(this.deleteItem, this));
         },
@@ -81,7 +86,7 @@ define(function(require) {
 
         deleteWithoutRedirect: function(e) {
             mediator.execute('showMessage', 'success', this.sucsessMessage, {'flash': true});
-            mediator.trigger('shopping-list:refresh');
+            mediator.trigger('frontend:item:delete', this.triggerData || e);
         }
     });
 

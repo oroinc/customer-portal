@@ -165,6 +165,18 @@ $breakpoint-mobile: 414px;
 $breakpoint-mobile-big: 767px;
 ````
 
+To add, update media queries theme developer must create files with global-settings `your-theme/settings/global-settings.scss`
+and update list with custom breakpoints.
+
+````scss
+$custom-breakpoints: (
+    'my-custom-breakpoint': __your-rule__, //  add a new rule
+    'desktop': __your-rule__,              // update an existing rule
+);
+
+$breakpoints: map_merge($oro_breakpoints, $custom-breakpoints) !default;
+````
+
 ## How to change Offsets
 
 To update Offsets, change the next variables:
