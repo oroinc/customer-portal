@@ -86,7 +86,11 @@
 
         overflow: auto;
 
-        padding: $fullscreen-popup-header-height 0;
+        padding-top: $fullscreen-popup-header-height;
+
+        &--bottom-offset {
+            padding-bottom: $fullscreen-popup-footer-height;
+        }
     }
 
     &__footer {
@@ -96,6 +100,7 @@
         left: 0;
         bottom: 0;
 
+        height: $fullscreen-popup-footer-height;
         padding: $fullscreen-popup-footer-offset;
 
         background: $fullscreen-popup-footer-bg;

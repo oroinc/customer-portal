@@ -11,58 +11,122 @@ define(function(require) {
     var $ = require('jquery');
 
     FullscreenPopupView = BaseView.extend({
+        /**
+         * @property
+         */
         keepElement: true,
 
+        /**
+         * @property
+         */
         optionNames: BaseView.prototype.optionNames.concat([
             'template', 'templateSelector', 'templateData',
             'content', 'contentSelector', 'contentView',
             'contentOptions', 'contentElement', 'contentAttributes',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
-            'popupCloseButton', 'popupIcon', 'popupBadge', 'popupFooter', 
-            'footerAction', 'footerActionLabel', 'footerActionBtnClass'
+            'popupCloseButton', 'popupIcon', 'popupBadge', 'showFooter',
+            'publicActionCallback', 'publicActionLabel', 'publicActionBtnClass'
         ]),
 
+        /**
+         * @property
+         */
         template: template,
 
+        /**
+         * @property
+         */
         popupLabel: _.__('Back'),
 
+        /**
+         * @property
+         */
         popupCloseOnLabel: true,
 
+        /**
+         * @property
+         */
         popupCloseButton: true,
 
+        /**
+         * @property
+         */
         popupIcon: false,
 
+        /**
+         * @property
+         */
         popupBadge: false,
 
+        /**
+         * @property
+         */
         content: null,
 
+        /**
+         * @property
+         */
         contentElement: null,
 
+        /**
+         * @property
+         */
         contentElementPlaceholder: null,
 
+        /**
+         * @property
+         */
         previousClass: null,
 
+        /**
+         * @property
+         */
         contentSelector: null,
 
+        /**
+         * @property
+         */
         contentView: null,
 
+        /**
+         * @property
+         */
         contentOptions: null,
 
+        /**
+         * @property
+         */
         contentAttributes: {},
 
         events: {
             'click': 'show'
         },
 
+        /**
+         * @property
+         */
         $popup: null,
 
-        popupFooter: false,
+        /**
+         * Flag for render footer
+         * @property
+         */
+        showFooter: false,
 
-        footerAction: null,
+        /**
+         * @property
+         */
+        publicActionCallback: null,
 
-        footerActionLabel: _.__('oro_frontend.fullscreen_popup.actions.labels.close'),
-        
-        footerActionBtnClass: null,
+        /**
+         * @property
+         */
+        publicActionLabel: _.__('oro_frontend.fullscreen_popup.actions.labels.close'),
+
+        /**
+         * @property
+         */
+        publicActionBtnClass: 'btn btn--info btn--full btn--size-s',
 
         /**
          * @inheritDoc
@@ -150,7 +214,7 @@ define(function(require) {
 
         initPopupEvents: function() {
             this.$popup.on('click', '[data-role="close"]', _.bind(this.close, this));
-            this.$popup.on('click', '[data-role="footer-action"]', _.bind(this.setFooterAction, this));
+            this.$popup.on('click', '[data-role="public-action"]', _.bind(this.setPublicActionCallback, this));
             this.$popup.on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
         },
 
@@ -189,9 +253,9 @@ define(function(require) {
                 close: this.popupCloseButton,
                 icon: this.popupIcon,
                 badge: this.popupBadge,
-                popupFooter: this.popupFooter,
-                footerActionLabel: this.footerActionLabel,
-                footerActionBtnClass: this.footerActionBtnClass
+                showFooter: this.showFooter,
+                publicActionLabel: this.publicActionLabel,
+                publicActionBtnClass: this.publicActionBtnClass
             });
             return data;
         },
@@ -219,9 +283,9 @@ define(function(require) {
             }
         },
 
-        setFooterAction: function () {
-            if (this.footerAction) {
-                return this.footerAction;
+        setPublicActionCallback: function() {
+            if (_.isFunction(this.publicActionCallback)) {
+                return this.publicActionCallback;
             } else {
                 return this.close();
             }

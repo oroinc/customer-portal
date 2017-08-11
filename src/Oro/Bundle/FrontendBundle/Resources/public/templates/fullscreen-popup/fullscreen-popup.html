@@ -21,11 +21,11 @@
         <% } %>
     </div>
 
-    <div class="fullscreen-popup__content" data-role="content"></div>
+    <div class="fullscreen-popup__content <% if (showFooter) { %>fullscreen-popup__content--bottom-offset<% } %>" data-role="content"></div>
 
-    <% if (popupFooter) { %>
+    <% if (showFooter) { %>
         <div class="fullscreen-popup__footer" data-role="footer">
-            <button type="button" class="<%= footerActionBtnClass %>" data-role="footer-action"><%= footerActionLabel %></button>
+            <button type="button" class="<%= publicActionBtnClass %>" data-role="public-action"><%= publicActionLabel %></button>
         </div>
     <% } %>
 </div>
