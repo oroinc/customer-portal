@@ -7,6 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 
 class AddressExtension extends AbstractTypeExtension
 {
@@ -48,6 +49,6 @@ class AddressExtension extends AbstractTypeExtension
     {
         $token = $this->tokenStorage->getToken();
 
-        return $token && $token->getUser() instanceof CustomerUser;
+        return $token && ($token->getUser() instanceof CustomerUser || $token instanceof AnonymousCustomerUserToken);
     }
 }
