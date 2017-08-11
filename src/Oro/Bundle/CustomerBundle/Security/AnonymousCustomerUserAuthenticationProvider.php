@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 class AnonymousCustomerUserAuthenticationProvider implements AuthenticationProviderInterface
 {
@@ -16,19 +17,27 @@ class AnonymousCustomerUserAuthenticationProvider implements AuthenticationProvi
     private $visitorManager;
 
     /**
+     * @var WebsiteManager
+     */
+    private $websiteManager;
+
+    /**
      * @var integer
      */
     private $updateLatency;
 
     /**
      * @param CustomerVisitorManager $visitorManager
+     * @param WebsiteManager         $websiteManager
      * @param integer                $updateLatency
      */
     public function __construct(
         CustomerVisitorManager $visitorManager,
+        WebsiteManager $websiteManager,
         $updateLatency
     ) {
         $this->visitorManager = $visitorManager;
+        $this->websiteManager = $websiteManager;
         $this->updateLatency = $updateLatency;
     }
 
@@ -54,10 +63,17 @@ class AnonymousCustomerUserAuthenticationProvider implements AuthenticationProvi
 
         $this->visitorManager->updateLastVisitTime($visitor, $this->updateLatency);
 
+        $organization = null;
+        $website = $this->websiteManager->getCurrentWebsite();
+        if ($website !== null) {
+            $organization = $website->getOrganization();
+        }
+
         return new AnonymousCustomerUserToken(
             $token->getUser(),
             $token->getRoles(),
-            $visitor
+            $visitor,
+            $organization
         );
     }
 }

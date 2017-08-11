@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
+use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
+use Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener;
+use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
@@ -26,6 +29,11 @@ class GuestCustomerUserManager
     protected $customerUserRelationsProvider;
 
     /**
+     * @var DefaultUserProvider
+     */
+    protected $defaultUserProvider;
+
+    /**
      * @var PropertyAccessor
      */
     protected $propertyAccessor;
@@ -34,17 +42,20 @@ class GuestCustomerUserManager
      * @param WebsiteManager $websiteManager
      * @param CustomerUserManager $customerUserManager
      * @param CustomerUserRelationsProvider $customerUserRelationsProvider
+     * @param DefaultUserProvider $defaultUserProvider
      * @param PropertyAccessor $propertyAccessor
      */
     public function __construct(
         WebsiteManager $websiteManager,
         CustomerUserManager $customerUserManager,
         CustomerUserRelationsProvider $customerUserRelationsProvider,
+        DefaultUserProvider $defaultUserProvider,
         PropertyAccessor $propertyAccessor
     ) {
         $this->websiteManager = $websiteManager;
         $this->customerUserManager = $customerUserManager;
         $this->customerUserRelationsProvider = $customerUserRelationsProvider;
+        $this->defaultUserProvider = $defaultUserProvider;
         $this->propertyAccessor = $propertyAccessor;
     }
 
@@ -60,6 +71,17 @@ class GuestCustomerUserManager
         $customerUser->setEnabled(false);
         $customerUser->setConfirmed(false);
 
+        $owner = $this->defaultUserProvider->getDefaultUser(
+            OroCustomerExtension::ALIAS,
+            SystemConfigListener::SETTING
+        );
+        $customerUser->setOwner($owner);
+        $website = $this->websiteManager->getCurrentWebsite();
+        $customerUser->setWebsite($website);
+        if ($website && $website->getOrganization()) {
+            $customerUser->setOrganization($website->getOrganization());
+        }
+
         foreach ($properties as $propertyPath => $value) {
             if ($this->propertyAccessor->isWritable($customerUser, $propertyPath)) {
                 $this->propertyAccessor->setValue($customerUser, $propertyPath, $value);
@@ -70,18 +92,9 @@ class GuestCustomerUserManager
         $customerUser->setPlainPassword($generatedPassword);
         $this->customerUserManager->updatePassword($customerUser);
 
-        $website = $this->websiteManager->getCurrentWebsite();
-        $customerUser->setWebsite($website);
-
-        // TODO move current organization to token storage BB-9269
-        $customerUser->setOrganization($website->getOrganization());
-
-        $anonymousGroup = $this->customerUserRelationsProvider->getCustomerGroup();
-        // TODO owner should be fixed when current organization will be moved to token storage BB-9269
-        $customerUser->setOwner($anonymousGroup->getOwner());
-
         $customerUser->createCustomer();
 
+        $anonymousGroup = $this->customerUserRelationsProvider->getCustomerGroup();
         $customerUser->getCustomer()->setGroup($anonymousGroup);
 
         return $customerUser;

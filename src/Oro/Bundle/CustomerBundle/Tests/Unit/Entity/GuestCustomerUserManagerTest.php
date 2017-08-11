@@ -10,6 +10,7 @@ use Oro\Bundle\CustomerBundle\Entity\GuestCustomerUserManager;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
@@ -24,6 +25,9 @@ class GuestCustomerUserManagerTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerUserManager|\PHPUnit_Framework_MockObject_MockObject */
     private $customerUserManager;
 
+    /** @var DefaultUserProvider|\PHPUnit_Framework_MockObject_MockObject */
+    private $defaultUserProvider;
+
     /** @var CustomerUserRelationsProvider|\PHPUnit_Framework_MockObject_MockObject */
     private $relationsProvider;
 
@@ -35,11 +39,13 @@ class GuestCustomerUserManagerTest extends \PHPUnit_Framework_TestCase
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->customerUserManager = $this->createMock(CustomerUserManager::class);
         $this->relationsProvider = $this->createMock(CustomerUserRelationsProvider::class);
+        $this->defaultUserProvider = $this->createMock(DefaultUserProvider::class);
 
         $this->guestCustomerUserManager = new GuestCustomerUserManager(
             $this->websiteManager,
             $this->customerUserManager,
             $this->relationsProvider,
+            $this->defaultUserProvider,
             new PropertyAccessor()
         );
     }
@@ -52,9 +58,18 @@ class GuestCustomerUserManagerTest extends \PHPUnit_Framework_TestCase
             ->with(10)
             ->willReturn('1234567890');
 
+        $owner = new User();
+        $owner->setFirstName('owner name');
+
         $this->customerUserManager
             ->expects($this->once())
             ->method('updatePassword');
+
+        $this->defaultUserProvider
+            ->expects($this->once())
+            ->method('getDefaultUser')
+            ->with('oro_customer', 'default_customer_owner')
+            ->willReturn($owner);
 
         $website = new Website();
         $website->setName('Default Website');
@@ -86,5 +101,6 @@ class GuestCustomerUserManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($customerUser->isEnabled());
         $this->assertEquals('Default Website', $customerUser->getWebsite()->getName());
         $this->assertEquals('Default Group', $customerUser->getCustomer()->getGroup()->getName());
+        $this->assertEquals($owner->getFirstName(), $customerUser->getOwner()->getFirstName());
     }
 }

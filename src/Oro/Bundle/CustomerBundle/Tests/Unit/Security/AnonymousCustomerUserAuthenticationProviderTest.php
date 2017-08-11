@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security;
 
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
@@ -24,6 +27,11 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit_Framework
     protected $visitorManager;
 
     /**
+     * @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $websiteManager;
+
+    /**
      * @var AnonymousCustomerUserAuthenticationProvider
      */
     protected $provider;
@@ -34,8 +42,11 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit_Framework
         $this->visitorManager = $this->getMockBuilder(CustomerVisitorManager::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $this->websiteManager = $this->createMock(WebsiteManager::class);
+
         $this->provider = new AnonymousCustomerUserAuthenticationProvider(
             $this->visitorManager,
+            $this->websiteManager,
             self::UPDATE_LATENCY
         );
     }
@@ -79,11 +90,20 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit_Framework
             ->method('updateLastVisitTime')
             ->with($visitor, self::UPDATE_LATENCY);
 
+        $organization = new Organization();
+        $website = new Website();
+        $website->setOrganization($organization);
+
+        $this->websiteManager->expects($this->once())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
+
         $this->assertEquals(
             new AnonymousCustomerUserToken(
                 'User',
                 ['ROLE_FOO', 'ROLE_BAR'],
-                $visitor
+                $visitor,
+                $organization
             ),
             $this->provider->authenticate($token)
         );

@@ -236,6 +236,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticationProvider'
         arguments:
             - '@oro_customer.customer_visitor_manager'
+            - '@oro_website.manager'
             - '%oro_customer.anonymous_customer_user.update_latency%'
         abstract: true
         public: false
@@ -943,6 +944,7 @@ services:
             - '@oro_website.manager'
             - '@oro_customer_user.manager'
             - '@oro_customer.provider.customer_user_relations_provider'
+            - '@oro_user.provider.default_user'
             - '@property_accessor'
 
     oro_customer.voter.customer_user:
