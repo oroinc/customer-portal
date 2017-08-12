@@ -8,8 +8,7 @@ Feature: Configure usual and secure url
   Scenario: Set invalid URL
     Given I login as administrator
     And I go to System/Configuration
-    And I click "Websites" on configuration sidebar
-    And I click "Routing" on configuration sidebar
+    And I follow "System configuration/Websites/Routing" on configuration sidebar
     When I fill "Routing Settings Form" with:
       | URL | no-proper-url-value |
     And I click "Save settings"
