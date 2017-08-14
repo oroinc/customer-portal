@@ -28,15 +28,25 @@
                         {% set iconClass = 'fa-bolt' %}
                     {% endif %}
 
-                    <li class="quick-access__item">
-                        <a class="quick-access__link"  href="{{ child.uri }}">
+                    {% set dependant_features = constant('Oro\\Bundle\\ProductBundle\\Controller\\Frontend\\QuickAddController::DEPENDANT_FEATURES') %}
+                    {% set enable_guest_quick_acces = false %}
+                    {% for feature in dependant_features %}
+                        {% if feature_enabled(feature) %}
+                            {% set enable_guest_quick_acces = true %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if app.user or (child.name == 'quick_order_form' and feature_enabled('guest_quick_order_form') and enable_guest_quick_acces) %}
+                        <li class="quick-access__item">
+                            <a class="quick-access__link"  href="{{ child.uri }}">
                             <span class="quick-access__icon {{ badgeClass }}">
                                 <i class="{{ iconClass }}"></i>
                             </span>
-                            {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
-                            <span class="quick-access__text">{{ label }}</span>
-                        </a>
-                    </li>
+                                {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
+                                <span class="quick-access__text">{{ label }}</span>
+                            </a>
+                        </li>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </ul>
