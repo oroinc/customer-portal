@@ -54,6 +54,19 @@ services:
         tags:
             - { name: layout.block_type, alias: sticky_panel }
 
+    oro_frontend.block_type.scroll_top:
+        parent: oro_layout.block_type.abstract_configurable_container
+        calls:
+            -
+                - setOptionsConfig
+                -
+                    -
+                        enabled: {default: true}
+                        scroll_top_position: {default: 'bottom-left'}
+            - [setName, ['scroll_top']]
+        tags:
+            - { name: layout.block_type, alias: scroll_top }
+
     oro_layout.block_type.groups_menu_item:
         parent: oro_layout.block_type.abstract_configurable
         calls:
