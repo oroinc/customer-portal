@@ -13,7 +13,9 @@ define(function(require) {
 
     config = _.extend({
         filtersPopupOptions: {},
-        filtersManagerPopupOptions: {}
+        filtersManagerPopupOptions: {},
+        popupOptions: {},
+        hidePreviousOpenFilters: false
     }, config);
 
     FrontendFullScreenFiltersAction =  ToggleFiltersAction.extend({
@@ -45,6 +47,7 @@ define(function(require) {
         filterManagerClasses: ' datagrid-manager ui-widget-fullscreen',
 
         /**
+         * {@inheritdoc}
          * @param {object} options
          */
         initialize: function(options) {
@@ -64,6 +67,9 @@ define(function(require) {
             mediator.on('filterManager:selectedFilters:count:' + this.datagrid.name, this.onUpdateFiltersCount, this);
         },
 
+        /**
+         * {@inheritdoc}
+         */
         execute: function() {
             var filterManager = this.datagrid.filterManager;
 
@@ -71,6 +77,8 @@ define(function(require) {
             this.filtersPopupOptions.contentElement = this.$filters;
             this.fullscreenView = new FullScreenPopupView(this.filtersPopupOptions);
             this.fullscreenView.on('show', function() {
+                this.openNotEmptyFilters();
+
                 this.$filters.show();
             }, this);
             this.fullscreenView.on('close', function() {
@@ -145,11 +153,27 @@ define(function(require) {
             }
         },
 
+        /**
+         * {@inheritdoc}
+         */
         onFilterManagerModeChange: function(mode) {
             if (this.launcherInstanse) {
                 this.launcherInstanse.$el.toggleClass('pressed', mode === FiltersManager.MANAGE_VIEW_MODE);
             }
             mediator.trigger('layout:adjustHeight');
+        },
+
+        openNotEmptyFilters: function() {
+            var filters = this.datagrid.filterManager.filters;
+
+            this.datagrid.filterManager.hidePreviousOpenFilters = config.hidePreviousOpenFilters;
+
+            _.each(filters, function(filter) {
+                if ((filter.enabled && !_.isEqual(filter.emptyValue, filter.value)) &&
+                    _.isFunction(filter._onClickCriteriaSelector)) {
+                    filter._onClickCriteriaSelector($.Event('click'));
+                }
+            });
         },
 
         onUpdateFiltersCount: function(count) {
