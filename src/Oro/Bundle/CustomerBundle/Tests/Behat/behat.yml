@@ -56,7 +56,6 @@ oro_behat_extension:
     Customer User Registration Error Container:
       selector: ".form-row span.validation-failed"
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-
     Customer Users Registration form:
       selector: '[id^="customer_users-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -153,6 +152,9 @@ oro_behat_extension:
 
     Popup Map Container:
       selector: '.map-visual'
+
+    Address Item:
+      selector: '.address-list__address div'
 
     Map Icon:
       selector: '.item-map-button'
