@@ -37,3 +37,9 @@ oro_frontend:
         save_as_new: "Save As New"
         set_as_default: "Set as Default"
         placeholder: "Enter new list name"
+
+    rows_collapse:
+        trigger:
+            label:
+                normal: "Show Less Items"
+                truncated: "And {{ hiddenRows }} more items"

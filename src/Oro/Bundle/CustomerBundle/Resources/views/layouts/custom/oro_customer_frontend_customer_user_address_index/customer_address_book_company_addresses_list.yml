@@ -53,6 +53,6 @@ layout:
             id: customer_address_book_addresses
 
         - '@remove':
-            id: company_addresses_user_addresses_list_template__manage_addresse
+            id: company_addresses_user_addresses_list_template__manage_addresses
 
     conditions: 'context["customer_address_count"] <= 3'
