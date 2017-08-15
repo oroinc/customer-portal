@@ -18,6 +18,7 @@ oro_behat_extension:
             - '@oro_entity.entity_alias_resolver'
             - '@oro_importexport.processor.registry'
         - OroAddressBundle::AddressContext
+        - OroCustomerBundle::CustomerVisitorContext
       paths:
         - '@OroCustomerBundle/Tests/Behat/Features'
 
@@ -55,7 +56,6 @@ oro_behat_extension:
     Customer User Registration Error Container:
       selector: ".form-row span.validation-failed"
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-
     Customer Users Registration form:
       selector: '[id^="customer_users-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -146,3 +146,38 @@ oro_behat_extension:
           Buyer Role:
            locator: '[id^="oro_customer_customer_user_roles_2-uid"]'
            type: css
+
+    Map Container:
+      selector: '.map-visual-frame'
+
+    Popup Map Container:
+      selector: '.map-visual'
+
+    Address Item:
+      selector: '.address-list__address div'
+
+    Map Icon:
+      selector: '.item-map-button'
+
+    Default Addresses:
+      selector:
+        type: xpath
+        locator: '//h2[contains(., "Default addresses")]/..'
+
+    Map Button:
+      selector:
+        type: xpath
+        locator: '//*[contains(@class, "nav-pills")]/descendant::a[contains(@title, "Map")]'
+
+    Map Popover:
+      selector: '.map-popover'
+
+    Customer Company Addresses List:
+      selector:
+        type: xpath
+        locator: '//h2[contains(., "Company Addresses")]/ancestor::*[contains(concat(" ", normalize-space(@class), " "), " list-address-book ")] '
+
+    Customer Company User Addresses List:
+      selector:
+        type: xpath
+        locator: '//h2[contains(., "My Addresses")]/ancestor::*[contains(concat(" ", normalize-space(@class), " "), " list-address-book ")] '

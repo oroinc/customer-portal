@@ -93,7 +93,8 @@ class LoadCustomerUserDemoData extends AbstractFixture implements ContainerAware
                 ->setEnabled(true)
                 ->setOrganization($organization)
                 ->setLoginCount(0)
-                ->addRole($role);
+                ->addRole($role)
+                ->setIsGuest($row['isGuest']);
 
             $userManager->updateUser($customerUser, false);
 

@@ -26,7 +26,7 @@ class AnonymousCustomerUserFactory implements SecurityFactoryInterface
         $container->setDefinition(
             $listenerId,
             new DefinitionDecorator('oro_customer.authentication.listener.anonymous_customer_user')
-        )->replaceArgument(3, $config['lifetime']);
+        );
 
         return [$providerId, $listenerId, $defaultEntryPoint];
     }
@@ -54,10 +54,6 @@ class AnonymousCustomerUserFactory implements SecurityFactoryInterface
     {
         $builder
             ->children()
-                ->integerNode('lifetime')
-                    ->defaultValue('%oro_customer.anonymous_customer_user.lifetime%')
-                    ->info('How long to store cookie, in seconds.')
-                    ->end()
                 ->integerNode('update_latency')
                     ->defaultValue('%oro_customer.anonymous_customer_user.update_latency%')
                     ->info('Latency in seconds to update lastVisit datetime of AnonymousCustomerUser, ' .

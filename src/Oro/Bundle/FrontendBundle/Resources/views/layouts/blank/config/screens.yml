@@ -1,8 +1,4 @@
 screens:
-    #
-    # ATTENTION!
-    # TODO: REMOVE THIS FILE OR FILL IT WITH PROPER SCREENS INFORMATION BEFORE THE FEATURE IS MERGED!
-    #
     desktop:
         label: 'Laptops and desktops with 13 in. + screens'
         hidingCssClass: 'hide-on-desktop'

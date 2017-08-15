@@ -143,7 +143,7 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      * @ConfigField(
      *      defaultValues={
      *          "dataaudit"={
@@ -445,7 +445,7 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
@@ -455,6 +455,20 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
      * )
      */
     protected $username;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_guest", type="boolean")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=50
+     *          }
+     *      }
+     * )
+     */
+    protected $isGuest = false;
 
     /**
      * {@inheritdoc}
@@ -530,23 +544,36 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
 
     /**
      * @param string|null $companyName
+     *
+     * @return CustomerUser
      */
     public function createCustomer($companyName = null)
     {
         if (!$this->customer) {
             $this->customer = new Customer();
-            $this->customer->setOrganization($this->organization);
-
-            if (!$companyName) {
-                $companyName = sprintf('%s %s', $this->firstName, $this->lastName);
-            }
-
-            $this->customer->setName($companyName);
-
-            if ($this->getOwner() && !$this->customer->getOwner()) {
-                $this->customer->setOwner($this->getOwner(), false);
-            }
+            $this->fillCustomer($companyName);
         }
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $companyName
+     *
+     * @return CustomerUser
+     */
+    public function fillCustomer($companyName = null)
+    {
+        $this->customer->setOrganization($this->organization);
+        if (!$companyName) {
+            $companyName = sprintf('%s %s', $this->firstName, $this->lastName);
+        }
+        $this->customer->setName($companyName);
+        if ($this->getOwner() && !$this->customer->getOwner()) {
+            $this->customer->setOwner($this->getOwner(), false);
+        }
+
+        return $this;
     }
 
     /**
@@ -975,6 +1002,25 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
     public function setWebsite(Website $website = null)
     {
         $this->website = $website;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGuest()
+    {
+        return $this->isGuest;
+    }
+
+    /**
+     * @param bool $isGuest
+     * @return $this
+     */
+    public function setIsGuest($isGuest)
+    {
+        $this->isGuest = $isGuest;
 
         return $this;
     }

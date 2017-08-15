@@ -67,3 +67,5 @@ oro_behat_extension:
       selector: ".fullscreen-popup"
     Popup Gallery Widget:
       selector: ".popup-gallery-widget"
+    Popup Gallery Widget Close:
+      selector: ".popup-gallery-widget button[data-trigger-gallery-close]"
