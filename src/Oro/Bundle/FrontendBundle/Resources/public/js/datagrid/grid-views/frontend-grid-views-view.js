@@ -11,6 +11,10 @@ define(function(require) {
     var errorTemplate = require('tpl!orodatagrid/templates/datagrid/view-name-error-modal.html');
 
     FrontendGridViewsView = GridViewsView.extend({
+        attributes: {
+            'data-layout': 'separate'
+        },
+
         /** @property */
         templateSelector: '.js-frontend-datagrid-grid-views-tpl',
 
