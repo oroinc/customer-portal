@@ -84,6 +84,7 @@ define(function(require) {
          * @inheritDoc
          */
         render: function() {
+            this.applyAlwaysStickyElem();
             this.getElements();
             this.collectElements();
             return this;
@@ -92,7 +93,7 @@ define(function(require) {
         onAfterPageChange: function() {
             var oldElements = this.elements;
             this.getElements();
-            if (oldElements.length !== this.elements.length) {
+            if (!_.isEqual(oldElements, this.elements)) {
                 this.collectElements();
             }
         },
@@ -132,9 +133,12 @@ define(function(require) {
             this.$elements = this.elements.map(function(element) {
                 var $element = $(element);
 
+                if ($element.data('initialized')) {
+                    return $element;
+                }
+
                 var $elementPlaceholder = this.createPlaceholder()
                     .data('stickyElement', $element);
-
                 var options = _.defaults($element.data('sticky') || {}, {
                     $elementPlaceholder: $elementPlaceholder,
                     viewport: {},
@@ -149,22 +153,25 @@ define(function(require) {
                 options.currentState = false;
 
                 $element.data('sticky', options);
+                $element.data('initialized', true);
 
                 return $element;
             }, this);
-
-            this.$el.find('[data-sticky]').each(function() {
-                var $element = $(this);
-                var sticky = $element.data('sticky');
-                sticky.alwaysInSticky = true;
-                $element.data('sticky', sticky);
-            });
 
             if (this.$elements.length) {
                 this.delegateEvents();
             } else {
                 this.undelegateEvents();
             }
+        },
+
+        applyAlwaysStickyElem: function() {
+            this.$el.find('[data-sticky]').each(function() {
+                var $element = $(this);
+                var sticky = $element.data('sticky');
+                sticky.alwaysInSticky = true;
+                $element.data('sticky', sticky);
+            });
         },
 
         createPlaceholder: function() {
