@@ -168,6 +168,11 @@ define(function(require) {
 
             var filterManager = datagrid.filterManager;
             var openFilters = _.clone(filterManager.getOpenFilters());
+
+            if (!openFilters.length) {
+                return ;
+            }
+
             var firstOpenFilter = _.values(openFilters)[0];
             var filters = {};
 
