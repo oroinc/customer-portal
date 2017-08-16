@@ -40,8 +40,10 @@ config:
         'orofrontend/js/app/components/empty-items-component': 'bundles/orofrontend/js/app/components/empty-items-component.js'
         'orofrontend/default/js/widgets/expand-text-widget': 'bundles/orofrontend/default/js/widgets/expand-text-widget.js'
         'orofrontend/default/js/widgets/line-clamp-widget': 'bundles/orofrontend/default/js/widgets/line-clamp-widget.js'
+        'orofrontend/default/js/widgets/rows-collapse-widget': 'bundles/orofrontend/default/js/widgets/rows-collapse-widget.js'
         'orofrontend/default/js/app/views/footer-align-view': 'orofrontend/default/js/app/views/footer-align-view.js'
         'orofrontend/default/js/app/views/sticky-panel-view': 'orofrontend/default/js/app/views/sticky-panel-view.js'
+        'orofrontend/default/js/app/views/scroll-top-view': 'bundles/orofrontend/default/js/app/views/scroll-top-view.js'
         'orofrontend/blank/js/app/views/fullscreen-popup-view': 'orofrontend/blank/js/app/views/fullscreen-popup-view.js'
         'orofrontend/js/app/views/dom-relocation-view': 'orofrontend/js/app/views/dom-relocation-view.js'
         'orofrontend/js/app/views/style-book-elements-navigation-view': 'orofrontend/js/app/views/style-book-elements-navigation-view.js'
@@ -58,5 +60,8 @@ config:
         'orofrontend/js/app/views/column-manager/frontend-column-manager-view': 'bundles/orofrontend/js/app/views/column-manager/frontend-column-manager-view.js'
         'orofrontend/js/datagrid/grid-views/frontend-grid-views-view': 'bundles/orofrontend/js/datagrid/grid-views/frontend-grid-views-view.js'
         'orofrontend/js/app/views/object-fit-polyfill-view': 'orofrontend/js/app/views/object-fit-polyfill-view.js'
+
+        'orofrontend/js/app/modules/component-shortcuts-module': 'bundles/orofrontend/js/app/modules/component-shortcuts-module.js'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
+        - orofrontend/js/app/modules/component-shortcuts-module

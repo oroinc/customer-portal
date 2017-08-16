@@ -2,6 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Layout\DataProvider;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -12,6 +14,9 @@ class AddressProvider
 
     /** @var FragmentHandler */
     protected $fragmentHandler;
+
+    /** @var ConfigManager */
+    protected $configManager;
 
     /** @var string */
     protected $entityClass;
@@ -34,11 +39,16 @@ class AddressProvider
     /**
      * @param UrlGeneratorInterface $router
      * @param FragmentHandler $fragmentHandler
+     * @param ConfigManager $configManager
      */
-    public function __construct(UrlGeneratorInterface $router, FragmentHandler $fragmentHandler)
-    {
+    public function __construct(
+        UrlGeneratorInterface $router,
+        FragmentHandler $fragmentHandler,
+        ConfigManager $configManager
+    ) {
         $this->router = $router;
         $this->fragmentHandler = $fragmentHandler;
+        $this->configManager = $configManager;
     }
 
     /**
@@ -120,6 +130,7 @@ class AddressProvider
             'addressUpdateRouteName' => $this->updateRouteName,
             'currentAddresses' => $this->fragmentHandler->render($addressListUrl),
             'addressDeleteRouteName' => $this->deleteRouteName,
+            'showMap' => $this->configManager->get('oro_customer.maps_enabled'),
         ];
     }
 }

@@ -93,9 +93,12 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
             $role->setLabel($key);
 
             foreach ($items as $acls) {
-                $className = $this->container->getParameter($acls['class']);
-
-                $this->setRolePermissions($aclManager, $role, $className, $acls['acls']);
+                if (isset($acls['class'])) {
+                    $identity = $this->container->getParameter($acls['class']);
+                } else {
+                    $identity = $acls['oid'];
+                }
+                $this->setRolePermissions($aclManager, $role, $identity, $acls['acls']);
             }
 
             $manager->persist($role);
@@ -145,13 +148,13 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
     /**
      * @param AclManager $aclManager
      * @param CustomerUserRole $role
-     * @param string $className
+     * @param string|array $identity
      * @param array $allowedAcls
      */
     protected function setRolePermissions(
         AclManager $aclManager,
         CustomerUserRole $role,
-        $className,
+        $identity,
         array $allowedAcls
     ) {
         /* @var ChainOwnershipMetadataProvider $chainMetadataProvider */
@@ -163,7 +166,11 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
             foreach ($aclManager->getAllExtensions() as $extension) {
                 if ($extension instanceof EntityAclExtension) {
                     $chainMetadataProvider->startProviderEmulation(FrontendOwnershipMetadataProvider::ALIAS);
-                    $oid = $aclManager->getOid('entity:' . $className);
+                    if (is_array($identity)) {
+                        $oid = $aclManager->getOid(implode(':', $identity));
+                    } else {
+                        $oid = $aclManager->getOid('entity:' . $identity);
+                    }
                     $builder = $aclManager->getMaskBuilder($oid);
                     $mask = $builder->reset()->get();
                     foreach ($allowedAcls as $acl) {

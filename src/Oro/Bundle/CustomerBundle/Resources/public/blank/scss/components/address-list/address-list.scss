@@ -66,6 +66,10 @@
     .no-data {
         flex-grow: 1;
     }
+
+    .map-visual {
+        height: 320px;
+    }
 }
 
 .map-address-list {
@@ -83,15 +87,15 @@
     }
 }
 
+.map-visual {
+    height: 100%;
+}
+
 .map-visual-frame {
     height: 320px;
     margin-left: 2%;
 
     flex-basis: 54%;
-}
-
-.map-visual {
-    height: 320px;
 }
 
 @include breakpoint('tablet-small') {
@@ -111,9 +115,5 @@
     .map-visual-frame {
         height: auto;
         margin-left: 0;
-    }
-
-    .map-visual {
-        height: 100%;
     }
 }
