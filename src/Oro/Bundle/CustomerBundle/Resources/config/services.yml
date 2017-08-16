@@ -919,7 +919,7 @@ services:
         arguments:
            - '@oro_featuretoggle.voter.config_voter'
            - '@security.token_storage'
-        lazy: true
+        abstract: true
 
     oro_customer.action.get_or_create_active_user:
         class: Oro\Bundle\CustomerBundle\Action\GetActiveUserOrNull
@@ -951,4 +951,4 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Voter\CustomerUserVoter'
         arguments:
            - '@oro_security.token_accessor'
-        lazy: true
+        abstract: true
