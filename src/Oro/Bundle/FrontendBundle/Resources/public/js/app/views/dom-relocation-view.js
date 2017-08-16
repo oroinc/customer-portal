@@ -85,6 +85,7 @@ define(function(require) {
             if (!this.$elements.length) {
                 return;
             }
+            this.collectElementsData();
             _.each(this.$elements, function(el) {
                 var $el = $(el);
                 var options = this.checkTargetOptions(viewportData, $el.data('responsiveOptions'));
@@ -111,11 +112,9 @@ define(function(require) {
 
         collectElements: function() {
             this.$elements = $('[data-dom-relocation]');
+        },
 
-            if (!this.$elements.length) {
-                return ;
-            }
-
+        collectElementsData: function() {
             $.each(this.$elements, function(index, element) {
                 var $element = $(element);
                 $element.data('originalPosition', $element.parent());

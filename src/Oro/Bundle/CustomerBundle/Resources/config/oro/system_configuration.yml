@@ -10,6 +10,10 @@ system_configuration:
             icon: 'fa-user-plus'
         menu_templates:
             title: oro.customer.system_configuration.groups.menu_templates.title
+        customer_visitor_section:
+            title: oro.customer.system_configuration.groups.customer_visitor_section.title
+        map_settings:
+            title: oro.customer.system_configuration.groups.map_settings.title
     fields:
         oro_customer.default_customer_owner:
             ui_only: true
@@ -76,6 +80,28 @@ system_configuration:
                 choices:
                     all_at_once: oro.customer.system_configuration.fields.user_menu_show_items.option.all_at_once.label
                     subitems_in_popup: oro.customer.system_configuration.fields.user_menu_show_items.option.subitems_in_popup.label
+        oro_customer.customer_visitor_cookie_lifetime_days:
+            data_type: integer
+            type: integer
+            options:
+                required: false
+                label: oro.customer.system_configuration.fields.customer_visitor_cookie_lifetime_days.label
+                tooltip: oro.customer.system_configuration.fields.customer_visitor_cookie_lifetime_days.tooltip
+                constraints:
+                    - NotBlank: ~
+                    - Range:
+                        min: 1
+        oro_customer.maps_enabled:
+            data_type: boolean
+            type: choice
+            priority: 40
+            options:
+                label: oro.customer.system_configuration.fields.maps_enabled.label
+                tooltip: oro.customer.system_configuration.fields.maps_enabled.tooltip
+                required: false
+                choices:
+                    true: oro.customer.system_configuration.fields.maps_enabled.option.yes.label
+                    false: oro.customer.system_configuration.fields.maps_enabled.option.no.label
     tree:
         system_configuration:
             commerce:
@@ -94,6 +120,9 @@ system_configuration:
                                             - oro_customer.send_password_in_welcome_email
                                             - oro_customer.registration_instructions_enabled
                                             - oro_customer.registration_instructions_text
+                                    customer_visitor_section:
+                                        children:
+                                            - oro_customer.customer_visitor_cookie_lifetime_days
 
                     design:
                         children:
@@ -102,3 +131,32 @@ system_configuration:
                                     menu_templates:
                                         children:
                                             - oro_customer.user_menu_show_items
+            platform:
+                children:
+                    general_setup:
+                        children:
+                            look_and_feel:
+                                children:
+                                    map_settings:
+                                        children:
+                                            - oro_customer.maps_enabled
+        website_configuration:
+            platform:
+                children:
+                    general_setup:
+                        children:
+                            look_and_feel:
+                                children:
+                                    map_settings:
+                                        children:
+                                            - oro_customer.maps_enabled
+        organization_configuration:
+            platform:
+                children:
+                    general_setup:
+                        children:
+                            look_and_feel:
+                                children:
+                                    map_settings:
+                                        children:
+                                            - oro_customer.maps_enabled

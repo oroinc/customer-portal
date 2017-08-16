@@ -137,6 +137,7 @@ class CustomerUserTest extends AbstractUserTest
             ['updatedAt', new \DateTime()],
             ['website', new Website()],
             ['salt', md5('user')],
+            ['isGuest', true],
         ];
     }
 

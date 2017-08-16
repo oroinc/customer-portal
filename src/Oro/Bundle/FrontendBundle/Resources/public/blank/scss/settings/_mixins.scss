@@ -82,7 +82,7 @@
     $slick-arrow-width: auto,
     $slick-arrow-height: auto,
     $slick-arrow-display: null,
-    $slick-arrow-offset: 0,
+    $slick-arrow-inner-offset: 0,
 
     $slick-arrow-font-size: 0,
     $slick-arrow-line-height: 0,
@@ -91,8 +91,12 @@
     $slick-arrow-color: transparent,
 
     $slick-arrow-background: none,
+    $slick-arrow-hover-background: null,
     $slick-arrow-border: none,
     $slick-arrow-border-radius: null,
+
+    $slick-arrow-next-right: 0,
+    $slick-arrow-prev-left: 0,
 
     $slick-arrow-icon-size: $base-font-size,
     $slick-arrow-icon-color: get-color('additional', 'middle'),
@@ -102,8 +106,8 @@
     $slick-arrow-prev-icon: $fa-var-angle-left,
     $slick-arrow-next-icon: $fa-var-angle-right,
 
-    $slick-arrow-next-icon-right: 0,
-    $slick-arrow-prev-icon-left: 0
+    $slick-arrow-next-icon-offset: null,
+    $slick-arrow-prev-icon-offset: null
 ) {
     .slick-arrow {
         position: $slick-arrow-position;
@@ -114,7 +118,7 @@
         width: $slick-arrow-width;
         height: $slick-arrow-height;
         display: $slick-arrow-display;
-        padding: $slick-arrow-offset;
+        padding: $slick-arrow-inner-offset;
 
         outline: $slick-arrow-outline;
         font-size: $slick-arrow-font-size;
@@ -138,6 +142,8 @@
         }
 
         @include element-state('hover') {
+            background: $slick-arrow-hover-background;
+
             &:before,
             &:after {
                 color: $slick-arrow-icon-hover-color;
@@ -146,15 +152,23 @@
     }
 
     .slick-prev {
-        left: $slick-arrow-prev-icon-left;
+        left: $slick-arrow-prev-left;
 
-        @include fa-icon($slick-arrow-prev-icon, after);
+        @include fa-icon($slick-arrow-prev-icon);
+
+        &:before {
+            margin: $slick-arrow-prev-icon-offset;
+        }
     }
 
     .slick-next {
-        right: $slick-arrow-next-icon-right;
+        right: $slick-arrow-next-right;
 
-        @include fa-icon($slick-arrow-next-icon);
+        @include fa-icon($slick-arrow-next-icon, after);
+
+        &:after {
+            margin: $slick-arrow-next-icon-offset;
+        }
     }
 }
 

@@ -1,11 +1,13 @@
-"customer","email","firstName","lastName","role","street","city","state","zipCode","country","types","defaultTypes"
-"Company A",AmandaRCole@example.org,Amanda,Cole,Administrator,"801 Scenic Hwy","Haines City",FL,33844,US,"billing,shipping","billing,shipping"
-"Company A",BrandaJSanborn@example.org,Branda,"Sanborn",Buyer,"23400 Caldwell Road",Rochester,NY,14608,US,"billing,shipping","billing,shipping"
-"Company A",LoisLLessard@example.org,Lois,"Lessard",Buyer,"34500 Capitol Avenue",Romney,IN,47981,US,"billing,shipping","billing,shipping"
-"Company A - East Division",LonnieVTownsend@example.org,Lonnie,"Townsend",Administrator,"45600 Marion Drive","Winter Haven",FL,33830,US,"billing,shipping","billing,shipping"
-"Company A - East Division",JamesSWall@example.org,James,"Wall",Buyer,"56700 Sunburst Drive","Fort Myers",FL,33901,US,"billing,shipping","billing,shipping"
-"Company A - West Division",RuthWMaxwell@example.org,Ruth,"Maxwell",Administrator,"67800 Junkins Avenue",Albany,GA,31707,US,"billing,shipping","billing,shipping"
-"Company A - West Division",BrentLJohnson@example.org,Brent,"Johnson",Buyer,"78900 Patterson Road",Queens,NY,11418,US,"billing,shipping","billing,shipping"
-"Wholesaler B",NancyJSallee@example.com,Nancy,"Sallee",Administrator,"89100 Tenmile","Desert Center",CA,92239,US,"billing,shipping","billing,shipping"
-"Wholesaler B",MarleneSBradley@example.com,Marlene,"Bradley",Buyer,"91200 Warner Street",Casper,WY,82601,US,"billing,shipping","billing,shipping"
-"Partner C",JuanaPBrzezinski@example.net,Juana,"Brzezinski",Administrator,"19200 Canis Heights Drive","Los Angeles",CA,90071,US,"billing,shipping","billing,shipping"
+"customer","email","firstName","lastName","role","street","city","state","zipCode","country","types","defaultTypes","isGuest"
+"Company A",AmandaRCole@example.org,Amanda,Cole,Administrator,"801 Scenic Hwy","Haines City",FL,33844,US,"billing,shipping","billing,shipping",0
+"Company A",BrandaJSanborn@example.org,Branda,"Sanborn",Buyer,"23400 Caldwell Road",Rochester,NY,14608,US,"billing,shipping","billing,shipping",0
+"Company A",LoisLLessard@example.org,Lois,"Lessard",Buyer,"34500 Capitol Avenue",Romney,IN,47981,US,"billing,shipping","billing,shipping",0
+"Company A - East Division",LonnieVTownsend@example.org,Lonnie,"Townsend",Administrator,"45600 Marion Drive","Winter Haven",FL,33830,US,"billing,shipping","billing,shipping",0
+"Company A - East Division",JamesSWall@example.org,James,"Wall",Buyer,"56700 Sunburst Drive","Fort Myers",FL,33901,US,"billing,shipping","billing,shipping",0
+"Company A - West Division",RuthWMaxwell@example.org,Ruth,"Maxwell",Administrator,"67800 Junkins Avenue",Albany,GA,31707,US,"billing,shipping","billing,shipping",0
+"Company A - West Division",BrentLJohnson@example.org,Brent,"Johnson",Buyer,"78900 Patterson Road",Queens,NY,11418,US,"billing,shipping","billing,shipping",0
+"Wholesaler B",NancyJSallee@example.com,Nancy,"Sallee",Administrator,"89100 Tenmile","Desert Center",CA,92239,US,"billing,shipping","billing,shipping",0
+"Wholesaler B",MarleneSBradley@example.com,Marlene,"Bradley",Buyer,"91200 Warner Street",Casper,WY,82601,US,"billing,shipping","billing,shipping",0
+"Partner C",JuanaPBrzezinski@example.net,Juana,"Brzezinski",Administrator,"19200 Canis Heights Drive","Los Angeles",CA,90071,US,"billing,shipping","billing,shipping",0
+"Anonymous 1",IsabelMartin@example.org,Isabel,Martin,"Non-Authenticated Visitors","2022 Charmaine Lane",Wheatley,TX,79373,US,"billing,shipping","billing,shipping",1
+"Anonymous 2",ElbertMoore@example.org,Elbert,Moore,"Non-Authenticated Visitors","2827 Horner Street",Rochester,OH,44221,US,"billing,shipping","billing,shipping",1

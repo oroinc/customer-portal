@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-9559
 Feature: Unable and dislable menu item with different User Agent and screens rules.
 

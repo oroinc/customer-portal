@@ -22,6 +22,8 @@ define(function(require) {
 
         elements: null,
 
+        $elements: null,
+
         scrollState: null,
 
         viewport: null,
@@ -48,7 +50,6 @@ define(function(require) {
          */
         setElement: function(element) {
             this.$document = $(document);
-            this.elements = [];
             return StickyPanelView.__super__.setElement.call(this, element);
         },
 
@@ -64,7 +65,7 @@ define(function(require) {
             );
 
             mediator.on('layout:reposition',  _.debounce(this.onScroll, this.options.layoutTimeout), this);
-            mediator.on('page:afterChange', this.render, this);
+            mediator.on('page:afterChange', this.onAfterPageChange, this);
 
             return this;
         },
@@ -83,8 +84,18 @@ define(function(require) {
          * @inheritDoc
          */
         render: function() {
+            this.applyAlwaysStickyElem();
+            this.getElements();
             this.collectElements();
             return this;
+        },
+
+        onAfterPageChange: function() {
+            var oldElements = this.elements;
+            this.getElements();
+            if (!_.isEqual(oldElements, this.elements)) {
+                this.collectElements();
+            }
         },
 
         /**
@@ -95,7 +106,7 @@ define(function(require) {
                 return;
             }
 
-            _.each(this.elements, function($element) {
+            _.each(this.$elements, function($element) {
                 if ($element.hasClass(this.options.elementClass)) {
                     this.toggleElementState($element, false);
                 }
@@ -103,27 +114,31 @@ define(function(require) {
 
             this.undelegateEvents();
 
-            _.each(['$document', '$elements', 'scrollState', 'viewport'], function(key) {
+            _.each(['$document', 'elements', '$elements', 'scrollState', 'viewport'], function(key) {
                 delete this[key];
             }, this);
 
             return StickyPanelView.__super__.dispose.apply(this, arguments);
         },
 
-        collectElements: function() {
+        getElements: function() {
             var elementName = this.$el.data('sticky-name');
             var elSelector = elementName ? '[data-sticky-target="' + elementName + '"][data-sticky]' : '[data-sticky]';
-
             this.elements = $(elSelector).get();
+        },
+
+        collectElements: function() {
             var $placeholder = this.$el.children();
 
-            this.elements.forEach(function(element, i) {
+            this.$elements = this.elements.map(function(element) {
                 var $element = $(element);
-                this.elements[i] = $element;
+
+                if ($element.data('sticky.initialized')) {
+                    return $element;
+                }
 
                 var $elementPlaceholder = this.createPlaceholder()
                     .data('stickyElement', $element);
-
                 var options = _.defaults($element.data('sticky') || {}, {
                     $elementPlaceholder: $elementPlaceholder,
                     viewport: {},
@@ -138,20 +153,25 @@ define(function(require) {
                 options.currentState = false;
 
                 $element.data('sticky', options);
+                $element.data('sticky.initialized', true);
+
+                return $element;
             }, this);
 
+            if (this.$elements.length) {
+                this.delegateEvents();
+            } else {
+                this.undelegateEvents();
+            }
+        },
+
+        applyAlwaysStickyElem: function() {
             this.$el.find('[data-sticky]').each(function() {
                 var $element = $(this);
                 var sticky = $element.data('sticky');
                 sticky.alwaysInSticky = true;
                 $element.data('sticky', sticky);
             });
-
-            if (this.elements.length) {
-                this.delegateEvents();
-            } else {
-                this.undelegateEvents();
-            }
         },
 
         createPlaceholder: function() {
@@ -164,7 +184,7 @@ define(function(require) {
 
             var contentChanged = false;
 
-            this.elements.forEach(function($element) {
+            this.$elements.forEach(function($element) {
                 var newState = this.getNewElementState($element);
 
                 if (newState !== null) {
@@ -192,7 +212,8 @@ define(function(require) {
                         return false;
                     }
                 } else if (!isEmpty) {
-                    if (options.alwaysInSticky || (screenTypeState && !this.inViewport($element))) {
+                    if (options.alwaysInSticky ||
+                       (screenTypeState && !this.inViewport($element, null, options.ignoreWhenBelowViewport))) {
                         return true;
                     }
                 }
@@ -206,7 +227,7 @@ define(function(require) {
             this.viewport.bottom = this.viewport.top + $(window).height();
         },
 
-        inViewport: function($element, backMargin) {
+        inViewport: function($element, backMargin, ignoreWhenBelowViewport) {
             var elementTop = $element.offset().top;
             var elementHeight = $element.height();
             var backMarginValue = (backMargin ? elementHeight : 0);
@@ -225,6 +246,10 @@ define(function(require) {
                         break;
                 }
             });
+
+            if (ignoreWhenBelowViewport && elementBottom >= this.viewport.bottom) {
+                return true;
+            }
 
             return (
                 (elementBottom <= this.viewport.bottom - stickBottom + backMarginValue) &&

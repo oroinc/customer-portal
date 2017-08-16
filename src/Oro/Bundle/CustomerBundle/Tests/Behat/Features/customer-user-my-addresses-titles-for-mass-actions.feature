@@ -1,3 +1,4 @@
+@regression
 @ticket-BB-10060
 @fixture-OroCustomerBundle:MassActionsCustomerAddressFixture.yml
 

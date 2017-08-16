@@ -47,3 +47,9 @@ oro_frontend:
         actions:
             labels:
                 close: 'Close'
+
+    rows_collapse:
+        trigger:
+            label:
+                normal: "Show Less Items"
+                truncated: "And {{ hiddenRows }} more items"

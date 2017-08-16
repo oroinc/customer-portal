@@ -82,14 +82,18 @@
     }
 
     &__content {
-        height: 100%;
+        height: $fullscreen-popup-content-height;
 
-        overflow: auto;
+        overflow: $fullscreen-popup-content-overflow;
 
-        padding-top: $fullscreen-popup-header-height;
+        padding-top: $fullscreen-popup-content-padding-top;
 
         &--bottom-offset {
             padding-bottom: $fullscreen-popup-footer-height;
+        }
+
+        .alert {
+            margin: $fullscreen-popup-content-alert-offset-height;
         }
     }
 

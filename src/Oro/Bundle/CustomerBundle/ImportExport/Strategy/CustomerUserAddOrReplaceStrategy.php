@@ -28,6 +28,10 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
      */
     protected function findExistingEntity($entity, array $searchContext = [])
     {
+        if ($entity instanceof CustomerUser && $entity->isGuest()) {
+            $searchContext = [$entity];
+        }
+
         $existingEntity = parent::findExistingEntity($entity, $searchContext);
 
         // we need to initialize customer users because of issue with UoW which tries to load old data

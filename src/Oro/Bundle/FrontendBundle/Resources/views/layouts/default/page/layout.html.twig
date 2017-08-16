@@ -66,11 +66,10 @@
     }) %}
     <div{{ block('block_attributes') }}></div>
     <script type="text/javascript">
-        require(['jquery', 'oroui/js/messenger', 'tpl!oroui/templates/message-item.html'],
+        require(['jquery', 'oroui/js/messenger'],
             function($, messenger, template) {
                 messenger.setup({
-                    container: '#{{ attr.id }}',
-                    template: template
+                    container: '#{{ attr.id }}'
                 });
                 {% if app.session.flashbag.peekAll|length > 0 %}
                 $(function() {
