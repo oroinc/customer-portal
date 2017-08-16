@@ -12,23 +12,43 @@
         width: $map-popover-content-width;
         height: $map-popover-content-height;
         padding: $map-popover-content-inner-offset;
+
+        .loader-mask.shown {
+            display: $map-popover-content-loader-mask-shown-display;
+            position: $map-popover-content-loader-mask-shown-position;
+
+            height: $map-popover-content-loader-mask-shown-height;
+        }
+
+        .loader-frame {
+            padding: $map-popover-content-loader-frame-inner-offset;
+        }
+
+        .map-visual {
+            height: $map-popover-content-frame-visual-frame-height;
+        }
+
+        .alert + .map-visual {
+            height: $map-popover-content-frame-alert-visual-frame-height;
+        }
     }
-}
 
-.map-popover__frame {
-    width: $map-popover-frame-width;
-    height: $map-popover-frame-height;
+    &__frame {
+        width: $map-popover-frame-width;
+        height: $map-popover-frame-height;
 
-    .map-box,
-    .map-visual {
-        height: $map-popover-frame-map-box-height;
+        .map-box {
+            height: $map-popover-frame-map-box-height;
+        }
     }
 }
 
 @include breakpoint('tablet') {
-    .map-popover__frame {
-        .map-unknown {
-            padding: $map-popover-frame-map-unknown-inner-offset-tablet-small;
+    .map-popover {
+        &__frame {
+            .map-unknown {
+                padding: $map-popover-frame-map-unknown-inner-offset-tablet;
+            }
         }
     }
 }

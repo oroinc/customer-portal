@@ -68,6 +68,7 @@ class CustomerTypedAddressType extends AbstractType
                     'required' => false
                 ]
             );
+
         $builder->get('city')->setRequired(true);
         $builder->get('postalCode')->setRequired(true);
         $builder->get('street')->setRequired(true);

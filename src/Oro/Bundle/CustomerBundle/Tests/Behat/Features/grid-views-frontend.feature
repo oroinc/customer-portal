@@ -17,6 +17,8 @@ Feature: grid views management on datagrids
     Then I should see "View has been successfully created" flash message
     And I should see a "Customer Company User Addresses Grid View List" element
 
+  @skip
+  # Unskip after BB-10598 will be resolved
   Scenario: Gridview can be renamed few times
     Then I click "Rename"
     And I set "Test view 01" as grid view name for "Customer Company Addresses Grid" grid on frontend
