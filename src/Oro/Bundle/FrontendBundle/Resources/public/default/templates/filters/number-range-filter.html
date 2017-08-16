@@ -1,6 +1,10 @@
 <div class="choice-filter number-range-filter" data-number-range-filter-template>
     <div class="filter-select-oro-wrapper">
-        <select name="<%= name %>" data-choice-value-select
+        <select name="<%= name %>"
+                data-choice-value-select
+            <% if (_.isMobile()) { %>
+                data-skip-input-widgets
+            <% } %>
                 class="select select--size-m select--full">
             <% _.each(choices, function (option) { %>
                 <option value="<%= option.value %>"

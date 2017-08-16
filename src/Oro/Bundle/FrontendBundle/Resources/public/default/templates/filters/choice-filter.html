@@ -4,13 +4,17 @@
             <% if (typeof(dataName) !== "undefined") { %>
                 data-name="<%= dataName %>"
             <% } %>
-                class="select select--size-m select--full">
+            <% if (_.isMobile()) { %>
+                data-skip-input-widgets
+            <% } %>
+                class="select select--size-m select--full"
+        >
             <% _.each(choices, function (option) { %>
                 <option value="<%= option.value %>"
                     <% if (option.value == selectedChoice) { %>
                         selected="selected"
                     <% } %>
-        >
+                >
                     <%- option.label %>
                 </option>
             <% }); %>

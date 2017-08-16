@@ -1,7 +1,7 @@
 <div class="filter-item" data-select-filter-template>
     <div class="filter-select filter-criteria-selector <% if (isEmpty) { %>filter-default-value<% } %>">
         <% if (showLabel) { %><%- label %><% } %><span class="filter-item-hint"></span>
-        <select<% if (_.isMobile()) { %> data-skip-input-widgets<% } %>>
+        <select <% if (_.isMobile()) { %>data-skip-input-widgets<% } %> >
             <% _.each(options, function (option) { %>
             <option value="<%= option.value %>" title="<%- option.label %>"
                 <% if (option.value == selected.value) { %> selected="selected"<% } %>>

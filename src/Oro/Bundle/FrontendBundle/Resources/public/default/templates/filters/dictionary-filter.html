@@ -2,6 +2,9 @@
     <div class="filter-select-oro-wrapper">
         <select name="<%= name %>"
                 data-choice-value-select
+            <% if (_.isMobile()) { %>
+                data-skip-input-widgets
+            <% } %>
                 class="select select--size-m select--full"
         >
             <% _.each(choices, function (option) { %>

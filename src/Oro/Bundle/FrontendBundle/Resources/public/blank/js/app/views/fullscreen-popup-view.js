@@ -25,7 +25,8 @@ define(function(require) {
             'contentOptions', 'contentElement', 'contentAttributes',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
             'popupCloseButton', 'popupIcon', 'popupBadge', 'showFooter',
-            'publicActionCallback', 'publicActionLabel', 'publicActionBtnClass'
+            'publicActionLabel', 'publicActionBtnClass', 'stopEventsPropagation',
+            'stopEventsList'
         ]),
 
         /**
@@ -105,6 +106,16 @@ define(function(require) {
         /**
          * @property
          */
+        stopEventsPropagation: true,
+
+        /**
+         * @property
+         */
+        stopEventsList: 'click mousedown',
+
+        /**
+         * @property
+         */
         $popup: null,
 
         /**
@@ -112,11 +123,6 @@ define(function(require) {
          * @property
          */
         showFooter: false,
-
-        /**
-         * @property
-         */
-        publicActionCallback: null,
 
         /**
          * @property
@@ -213,9 +219,16 @@ define(function(require) {
         },
 
         initPopupEvents: function() {
-            this.$popup.on('click', '[data-role="close"]', _.bind(this.close, this));
-            this.$popup.on('click', '[data-role="public-action"]', _.bind(this.setPublicActionCallback, this));
-            this.$popup.on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
+            this.$popup
+                .on('click', '[data-role="close"]', _.bind(this.close, this))
+                .on('click', '[data-role="public-action"]', _.bind(this.extendableCallback, this))
+                .on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
+
+            if (this.stopEventsPropagation) {
+                this.$popup.on(this.stopEventsList, function(e) {
+                    e.stopPropagation();
+                });
+            }
         },
 
         close: function() {
@@ -283,12 +296,8 @@ define(function(require) {
             }
         },
 
-        setPublicActionCallback: function() {
-            if (_.isFunction(this.publicActionCallback)) {
-                return this.publicActionCallback;
-            } else {
-                return this.close();
-            }
+        extendableCallback: function() {
+            this.close();
         }
     });
 

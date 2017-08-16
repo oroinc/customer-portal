@@ -29,10 +29,11 @@ oro_frontend:
         label: "Add Filters"
         placeholder: "Search Filters"
         title: 'Filters Manager'
+        button_label: 'Manage Filters'
 
     filters:
         apply: 'Apply'
-        apply_all: 'Apply all'
+        apply_all: 'Apply All'
 
     datagrid_views:
         all: "All "

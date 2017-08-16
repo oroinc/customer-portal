@@ -1,6 +1,10 @@
 <div class="choice-filter" data-many-to-many-filter-template>
     <div class="filter-select-oro-wrapper">
-        <select name="<%= name %>" data-choice-value-select
+        <select name="<%= name %>"
+            <% if (_.isMobile()) { %>
+                data-skip-input-widgets
+            <% } %>
+                data-choice-value-select
                 class="select select--size-m select--full">
             <% _.each(choices, function (option) { %>
                 <option value="<%= option.value %>"

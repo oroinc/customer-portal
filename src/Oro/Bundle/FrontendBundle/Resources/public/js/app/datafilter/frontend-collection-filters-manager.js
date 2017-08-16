@@ -30,7 +30,8 @@ define(function(require) {
             checkAllText: __('oro_frontend.filter_manager.checkAll'),
             uncheckAllText: __('oro_frontend.filter_manager.unCheckAll'),
             height: 'auto',
-            menuWidth: 312
+            menuWidth: 312,
+            selectedText: __('oro_frontend.filter_manager.button_label')
         },
 
         /** @property */

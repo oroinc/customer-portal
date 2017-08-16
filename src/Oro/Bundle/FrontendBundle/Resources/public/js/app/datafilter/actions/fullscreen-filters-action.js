@@ -14,7 +14,6 @@ define(function(require) {
     config = _.extend({
         filtersPopupOptions: {},
         filtersManagerPopupOptions: {},
-        popupOptions: {},
         hidePreviousOpenFilters: false
     }, config);
 
@@ -71,16 +70,25 @@ define(function(require) {
          * {@inheritdoc}
          */
         execute: function() {
+            var self = this;
             var filterManager = this.datagrid.filterManager;
 
             this.$filters = filterManager.$el;
             this.filtersPopupOptions.contentElement = this.$filters;
             this.fullscreenView = new FullScreenPopupView(this.filtersPopupOptions);
+            this.fullscreenView.extendableCallback = _.wrap(this.fullscreenView.extendableCallback, function(original) {
+                self.applyAllFilter(self.datagrid);
+
+                // Call native method;
+                return original.call(self.fullscreenView);
+            });
+
             this.fullscreenView.on('show', function() {
                 this.openNotEmptyFilters();
 
                 this.$filters.show();
             }, this);
+
             this.fullscreenView.on('close', function() {
                 this.$filters.hide();
 
@@ -133,9 +141,6 @@ define(function(require) {
 
             this.$filterManagerButton.on('click.multiselect', handler);
             this.$filterManagerButtonContent.on('click.multiselect', handler);
-
-            // Remove handler for close filterManager drowpown when clicking on any other element/anywhere else on the page
-            $(document).off(filterManager.selectWidget.multiselect('instance')._namespaceID);
         },
 
         disposeFiltersManagerPopup: function() {
@@ -151,6 +156,29 @@ define(function(require) {
                 delete this.$filterManagerButton;
                 delete this.$filterManagerButtonContent;
             }
+        },
+
+        /**
+         * @param {object} datagrid
+         */
+        applyAllFilter: function(datagrid) {
+            if (!_.isObject(datagrid)) {
+                return ;
+            }
+
+            var filterManager = datagrid.filterManager;
+            var openFilters = _.clone(filterManager.getOpenFilters());
+            var firstOpenFilter = _.values(openFilters)[0];
+            var filters = {};
+
+            _.each(openFilters, function(filter) {
+                if (filter.enabled && !_.isEqual(filter.emptyValue, filter._readDOMValue())) {
+                    filters[filter.name] = filter._readDOMValue();
+                }
+            });
+
+            filterManager.trigger('updateState', {state: filters});
+            firstOpenFilter.trigger('update');
         },
 
         /**
