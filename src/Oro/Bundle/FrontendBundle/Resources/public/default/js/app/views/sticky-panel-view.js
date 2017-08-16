@@ -133,7 +133,7 @@ define(function(require) {
             this.$elements = this.elements.map(function(element) {
                 var $element = $(element);
 
-                if ($element.data('initialized')) {
+                if ($element.data('sticky.initialized')) {
                     return $element;
                 }
 
@@ -153,7 +153,7 @@ define(function(require) {
                 options.currentState = false;
 
                 $element.data('sticky', options);
-                $element.data('initialized', true);
+                $element.data('sticky.initialized', true);
 
                 return $element;
             }, this);
