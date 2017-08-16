@@ -6,7 +6,6 @@
                 'controllers/page-controller': {fullRedirect: true},
 
                 'oroui/js/app': {routeLinks: ''},
-                'oroui/js/app/modules/views-module': {showLoadingMaskOnStartup: false},
                 'oroui/js/error' : {loginRoute: 'oro_customer_customer_user_security_login'},
                 'oroui/js/modal': {defaults: {okButtonClass: 'btn btn--info ok'}},
 
@@ -76,59 +75,8 @@
                 {% else %}
                 'oro/routes': {{ asset('js/frontend_routes.js', 'routing')|json_encode|raw }}
                 {% endif %}
-            },
-            map: {
-                '*': {
-                    'oroui/templates/modal-dialog.html': 'orofrontend/default/templates/ui/modal-dialog.html',
-                    'oroui/templates/standart-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html',
-                    'oroui/templates/delete-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html',
-                    'oroui/templates/message-item.html': 'orofrontend/default/templates/ui/message-item.html',
-
-                    {# Column Manager templates #}
-                    'orodatagrid/templates/column-manager/column-manager-collection.html': 'orofrontend/default/templates/datagrid/column-manager-collection.html',
-                    'orodatagrid/templates/column-manager/column-manager-item.html': 'orofrontend/default/templates/datagrid/column-manager-item.html',
-                    'orodatagrid/templates/column-manager/column-manager-filter.html': 'orofrontend/default/templates/datagrid/column-manager-filter.html',
-                    'orodatagrid/templates/column-manager/column-manager.html': 'orofrontend/default/templates/datagrid/column-manager.html',
-                    {# Column Manager templates END #}
-
-                    {# Data Grid templates #}
-                    'orodatagrid/templates/datagrid/pagination-input.html': 'orofrontend/default/templates/datagrid/pagination-input.html',
-                    'orodatagrid/templates/datagrid/page-size.html': 'orofrontend/default/templates/datagrid/page-size.html',
-                    'orodatagrid/templates/datagrid/visible-items-counter.html': 'orofrontend/default/templates/datagrid/visible-items-counter.html',
-                    'orodatagrid/templates/datagrid/select-all-header-cell.html': 'orofrontend/default/templates/datagrid/select-all-header-cell.html',
-                    'orodatagrid/templates/datagrid/select-row-cell.html': 'orofrontend/default/templates/datagrid/select-row-cell.html',
-                    'orodatagrid/templates/datagrid/action-header-cell.html': 'orofrontend/default/templates/datagrid/action-header-cell.html',
-                    'orodatagrid/templates/datagrid/grid-view-label.html': 'orofrontend/default/templates/datagrid/grid-view-label.html',
-                    {# Data Grid templates END #}
-
-                    {# Pricing tamplates #}
-                    'oropricing/templates/order/subtotals.html': 'oropricing/templates/order/frontend/subtotals.html',
-                    'oropricing/templates/order/totals.html': 'oropricing/templates/order/frontend/totals.html',
-                    {# Pricing tamplates END #}
-
-                    {# Filters templates #}
-                    'orofilter/templates/filters-container.html': 'orofrontend/default/templates/filters/filters-container.html',
-                    'orofilter/templates/filter/filter-hint.html': 'orofrontend/default/templates/filters/filter-hint.html',
-                    'orofilter/templates/filter/filter-wrapper.html': 'orofrontend/default/templates/filters/filter-wrapper.html',
-                    'orofilter/templates/filter/choice-filter.html': 'orofrontend/default/templates/filters/choice-filter.html',
-                    'orofilter/templates/filter/number-range-filter.html': 'orofrontend/default/templates/filters/number-range-filter.html',
-                    'orofilter/templates/filter/many-to-many-filter.html': 'orofrontend/default/templates/filters/many-to-many-filter.html',
-                    'orofilter/templates/filter/dictionary-filter.html': 'orofrontend/default/templates/filters/dictionary-filter.html',
-                    'orofilter/templates/filter/select-filter.html': 'orofrontend/default/templates/filters/select-filter.html',
-                    'orofilter/templates/filter/embedded/simple-choice-filter.html': 'orofrontend/default/templates/filters/embedded/simple-choice-filter.html',
-                    'orofilter/templates/filter/choice-tree.html': 'orofrontend/default/templates/filters/choice-tree.html',
-                    'orofilter/templates/filter/date-filter.html': 'orofrontend/default/templates/filters/date-filter.html',
-                    'orofilter/templates/filter/date-filter-dropdown.html': 'orofrontend/default/templates/filters/date-filter-dropdown.html',
-                    'orofilter/templates/filter/date-picker.html': 'orofrontend/default/templates/filters/date-picker.html',
-                    'orofilter/templates/filter/multiselect-filter.html': 'orofrontend/default/templates/filters/multiselect-filter.html',
-                    'orofilter/templates/filter/none-filter.html': 'orofrontend/default/templates/filters/none-filter.html',
-                    'orofilter/templates/filter/select-field.html': 'orofrontend/default/templates/filters/select-field.html',
-                    'orofilter/templates/filter/text-filter.html': 'orofrontend/default/templates/filters/text-filter.html'
-                    {# Filters templates END #}
-                }
             }
         });
-        require(['orofrontend/js/build-templates']);//@todo: remove hotfix
         (function() {
             var appModules = requirejs.s.contexts._.config.appmodules || [];
             var removeModules = ['oroemail/js/app/modules/views-module'];

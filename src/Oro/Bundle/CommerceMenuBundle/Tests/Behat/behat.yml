@@ -1,7 +1,7 @@
 oro_behat_extension:
   elements:
     Commerce Menu Form:
-      selector: 'div#container'
+      selector: 'form[name="menu_update"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       options:
         mapping:

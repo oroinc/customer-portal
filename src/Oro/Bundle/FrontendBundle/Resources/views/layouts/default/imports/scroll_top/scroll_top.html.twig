@@ -1,0 +1,18 @@
+{% block __scroll_top__scroll_top_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-page-component-module': 'oroui/js/app/components/view-component',
+        'data-page-component-options': {
+            'view': 'orofrontend/default/js/app/views/scroll-top-view',
+            'viewport': {
+                'minScreenType': 'desktop'
+            }
+        },
+        'data-scroll-top': '',
+        '~class': ' scroll-top scroll-top--' ~ scroll_top_position
+    }) %}
+    {% if enabled is defined and enabled == true %}
+        <div {{ block('block_attributes') }}>
+            <i class="scroll-top__icon fa-arrow-circle-up"></i>
+        </div>
+    {% endif %}
+{% endblock %}

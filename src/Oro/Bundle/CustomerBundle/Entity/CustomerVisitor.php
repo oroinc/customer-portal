@@ -43,6 +43,14 @@ class CustomerVisitor extends ExtendCustomerVisitor
     private $sessionId;
 
     /**
+     * @var CustomerUser $customerUser
+     *
+     * @ORM\OneToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser")
+     * @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    private $customerUser;
+
+    /**
      * {@inheritdoc}
      */
     public function __construct()
@@ -105,5 +113,24 @@ class CustomerVisitor extends ExtendCustomerVisitor
     public function prePersist()
     {
         $this->sessionId = bin2hex(random_bytes(10));
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     * @return $this
+     */
+    public function setCustomerUser(CustomerUser $customerUser)
+    {
+        $this->customerUser = $customerUser;
+
+        return $this;
+    }
+
+    /**
+     * @return CustomerUser
+     */
+    public function getCustomerUser()
+    {
+        return $this->customerUser;
     }
 }
