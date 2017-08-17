@@ -27,7 +27,7 @@ define(function(require) {
             popupLabel: _.__('oro.filter.datagrid-toolbar.filters'),
             contentElement: null,
             showFooter: true,
-            publicActionLabel: _.__('oro_frontend.filters.apply_all')
+            actionBtnLabel: _.__('oro_frontend.filters.apply_all')
         },
 
         /**
@@ -205,8 +205,9 @@ define(function(require) {
 
             _.each(filters, function(filter) {
                 if ((filter.enabled && !_.isEqual(filter.emptyValue, filter.value)) &&
-                    _.isFunction(filter._onClickCriteriaSelector)) {
-                    filter._onClickCriteriaSelector($.Event('click'));
+                    _.isFunction(filter._showCriteria)) {
+                    filter.popupCriteriaShowed = false;
+                    filter._showCriteria();
                 }
             });
         },
