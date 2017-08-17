@@ -117,7 +117,7 @@ define(function(require) {
 
             var footerHeight = this.$document.find('[data-page-footer]').height();
             var windowHeight = this.$window.height();
-            var elementHeight = 0;
+            var elementHeight = this.$element.height() + this.options.bottomOffset;
             var scrollY = this.$document.height() - this.$window.scrollTop();
             var footerOffset = footerHeight + windowHeight + elementHeight;
             this.$element.toggleClass('scroll-top--landed', footerOffset >= scrollY);
