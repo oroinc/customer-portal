@@ -24,7 +24,6 @@ define(function(require) {
                 order: config.order || 50
             };
 
-
             if (this.useFullScreenMode) {
                 toolbarOptions.addToolbarAction(new FullScreenFiltersAction(options));
             } else {

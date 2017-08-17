@@ -23,8 +23,14 @@ define(function(require) {
     }, config);
 
     ScrollTopView = BaseView.extend({
+        /**
+         * @property {Boolean}
+         */
         autoRender: true,
 
+        /**
+         * @property {object}
+         */
         options: {
             togglePoint: config.togglePoint,
             duration: config.duration,
@@ -66,7 +72,7 @@ define(function(require) {
          * @inheritDoc
          */
         delegateEvents: function() {
-            this.$window.on('scroll', _.bind(this.toggle, this));
+            this.$window.on('scroll', _.debounce(_.bind(this.toggle, this), 5));
             this.$element.on('click', _.bind(this.scrollTop, this));
             mediator.on('viewport:change', this.render, this);
         },
@@ -108,10 +114,10 @@ define(function(require) {
             if (!this.options.allowLanding) {
                 return;
             }
-            var $footer = this.$element.closest('body').find('footer');
-            var footerHeight = $footer.height();
+
+            var footerHeight = this.$document.find('[data-page-footer]').height();
             var windowHeight = this.$window.height();
-            var elementHeight = this.$element.height() + this.options.bottomOffset;
+            var elementHeight = 0;
             var scrollY = this.$document.height() - this.$window.scrollTop();
             var footerOffset = footerHeight + windowHeight + elementHeight;
             this.$element.toggleClass('scroll-top--landed', footerOffset >= scrollY);
@@ -128,6 +134,8 @@ define(function(require) {
             this.undelegateEvents();
 
             delete this.$element;
+            delete this.$document;
+            delete this.$window;
 
             ScrollTopView.__super__.dispose.call(this);
         }

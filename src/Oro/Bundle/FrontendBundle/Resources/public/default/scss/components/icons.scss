@@ -21,6 +21,10 @@
         font-size: 20px;
     }
 
+    &--xxxl {
+        font-size: 48px;
+    }
+
     &--gray {
         color: lighten(get-color('additional', 'dark'), 17.5%);
     }

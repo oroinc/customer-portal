@@ -25,7 +25,7 @@ define(function(require) {
             'contentOptions', 'contentElement', 'contentAttributes',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
             'popupCloseButton', 'popupIcon', 'popupBadge', 'showFooter',
-            'publicActionLabel', 'publicActionBtnClass', 'stopEventsPropagation',
+            'actionBtnLabel', 'actionBtnClass', 'stopEventsPropagation',
             'stopEventsList'
         ]),
 
@@ -127,12 +127,12 @@ define(function(require) {
         /**
          * @property
          */
-        publicActionLabel: _.__('oro_frontend.fullscreen_popup.actions.labels.close'),
+        actionBtnLabel: _.__('oro_frontend.fullscreen_popup.actions.labels.close'),
 
         /**
          * @property
          */
-        publicActionBtnClass: 'btn btn--info btn--full btn--size-s',
+        actionBtnClass: 'btn btn--info btn--full btn--size-s',
 
         /**
          * @inheritDoc
@@ -267,8 +267,8 @@ define(function(require) {
                 icon: this.popupIcon,
                 badge: this.popupBadge,
                 showFooter: this.showFooter,
-                publicActionLabel: this.publicActionLabel,
-                publicActionBtnClass: this.publicActionBtnClass
+                actionBtnLabel: this.actionBtnLabel,
+                actionBtnClass: this.actionBtnClass
             });
             return data;
         },

@@ -97,11 +97,16 @@ define(function(require) {
                 delete this.fullscreenView;
 
                 this.disposeFiltersManagerPopup();
+
+                // Hide Filters Container
+                // STATE_VIEW_MODE = 1
+                filterManager.setViewMode(FiltersManager.STATE_VIEW_MODE);
             }, this);
 
             this.fullscreenView.show();
 
             filterManager._publishCountSelectedFilters();
+
             this.initFiltersManagerPopup(filterManager);
         },
 
@@ -190,10 +195,10 @@ define(function(require) {
          * {@inheritdoc}
          */
         onFilterManagerModeChange: function(mode) {
-            if (this.launcherInstanse) {
-                this.launcherInstanse.$el.toggleClass('pressed', mode === FiltersManager.MANAGE_VIEW_MODE);
-            }
-            mediator.trigger('layout:adjustHeight');
+            //if (this.launcherInstanse) {
+            //    this.launcherInstanse.$el.toggleClass('pressed', mode === FiltersManager.MANAGE_VIEW_MODE);
+            //}
+            //mediator.trigger('layout:adjustHeight');
         },
 
         openNotEmptyFilters: function() {

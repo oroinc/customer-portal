@@ -26,6 +26,7 @@
         <div class="filter-box dropdown-mode" <%= attributes %> >
             <div class="filter-container">
                 <select data-action="add-filter-select"
+                        data-skip-input-widgets
                         multiple
                 >
                     <% _.each(filters, function (filter, name) { %>

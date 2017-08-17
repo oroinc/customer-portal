@@ -1,5 +1,5 @@
 {% block _require_js_config_widget %}
-    {% set bool =  not isMobileVersion() %}
+    {% set NotMobileVersion =  not isMobileVersion() %}
     <script>
         require({
             config: {
@@ -56,7 +56,7 @@
                     order: 650
                 },
                 'orofilter/js/multiselect-decorator': {
-                    additionalClass: !!'{{ bool }}'
+                    additionalClass: !!'{{ NotMobileVersion }}'
                 },
                 'orofilter/js/datafilter-builder': {
                     FiltersManager: 'orofrontend/js/app/datafilter/frontend-collection-filters-manager',
