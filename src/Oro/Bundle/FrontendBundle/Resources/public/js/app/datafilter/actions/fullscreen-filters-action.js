@@ -195,10 +195,7 @@ define(function(require) {
          * {@inheritdoc}
          */
         onFilterManagerModeChange: function(mode) {
-            //if (this.launcherInstanse) {
-            //    this.launcherInstanse.$el.toggleClass('pressed', mode === FiltersManager.MANAGE_VIEW_MODE);
-            //}
-            //mediator.trigger('layout:adjustHeight');
+            // Must be empty, override original method
         },
 
         openNotEmptyFilters: function() {
