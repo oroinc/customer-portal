@@ -95,8 +95,3 @@ layout:
                         __login_form_target: ~
                         __login_form_csrf: ~
                     __login_form_end: ~
-
-#                login_form_remember_item:
-#                    blockType: container
-#
-#
