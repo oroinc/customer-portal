@@ -172,13 +172,6 @@ define(function(require) {
             }
 
             var filterManager = datagrid.filterManager;
-            var openFilters = _.clone(filterManager.getOpenFilters());
-
-            if (!openFilters.length) {
-                return ;
-            }
-
-            var firstOpenFilter = _.values(openFilters)[0];
             var filters = {};
 
             _.each(openFilters, function(filter) {
@@ -187,8 +180,10 @@ define(function(require) {
                 }
             });
 
-            filterManager.trigger('updateState', {state: filters});
-            firstOpenFilter.trigger('update');
+            _.extend(filterManager.collection.state.filters, filters);
+
+            filterManager.collection.trigger('updateState', filterManager.collection);
+            mediator.trigger('datagrid:doRefresh:' + filterManager.collection.inputName);
         },
 
         /**
