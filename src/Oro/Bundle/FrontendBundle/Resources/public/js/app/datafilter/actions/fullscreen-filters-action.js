@@ -173,6 +173,11 @@ define(function(require) {
 
             var filterManager = datagrid.filterManager;
             var filters = {};
+            var openFilters = _.clone(filterManager.getOpenFilters());
+
+            if (!openFilters.length) {
+                return ;
+            }
 
             _.each(openFilters, function(filter) {
                 if (filter.enabled && !_.isEqual(filter.emptyValue, filter._readDOMValue())) {
