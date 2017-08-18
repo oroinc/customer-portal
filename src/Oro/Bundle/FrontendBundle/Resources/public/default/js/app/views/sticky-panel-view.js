@@ -130,10 +130,10 @@ define(function(require) {
         collectElements: function() {
             var $placeholder = this.$el.children();
 
-            this.$elements = this.elements.map(function(element) {
+            this.$elements = _.map(this.elements, function(element) {
                 var $element = $(element);
 
-                if ($element.data('initialized')) {
+                if ($element.data('sticky.initialized')) {
                     return $element;
                 }
 
@@ -145,7 +145,8 @@ define(function(require) {
                     placeholderId: '',
                     toggleClass: '',
                     autoWidth: false,
-                    isSticky: true
+                    isSticky: true,
+                    affixed: false
                 });
                 options.$placeholder = options.placeholderId ? $('#' + options.placeholderId) : $placeholder;
                 options.toggleClass += ' ' + this.options.elementClass;
@@ -153,7 +154,7 @@ define(function(require) {
                 options.currentState = false;
 
                 $element.data('sticky', options);
-                $element.data('initialized', true);
+                $element.data('sticky.initialized', true);
 
                 return $element;
             }, this);
@@ -184,7 +185,7 @@ define(function(require) {
 
             var contentChanged = false;
 
-            this.$elements.forEach(function($element) {
+            _.each(this.$elements, function($element) {
                 var newState = this.getNewElementState($element);
 
                 if (newState !== null) {
@@ -201,19 +202,23 @@ define(function(require) {
         getNewElementState: function($element) {
             var options = $element.data('sticky');
             var isEmpty = $element.is(':empty');
+            var onBottom = options.affixed ? this.onBottom(options) : false;
 
             var screenTypeState = viewportManager.isApplicable(options.viewport);
 
             if (options.isSticky) {
                 if (options.currentState) {
-                    if (isEmpty) {
+                    if (isEmpty && !onBottom) {
                         return false;
-                    } else if (!options.alwaysInSticky && this.inViewport(options.$elementPlaceholder, true)) {
+                    } else if (!options.alwaysInSticky &&
+                               this.inViewport(options.$elementPlaceholder, true) && !onBottom) {
+                        return false;
+                    } else if (!options.alwaysInSticky && onBottom) {
                         return false;
                     }
                 } else if (!isEmpty) {
                     if (options.alwaysInSticky ||
-                       (screenTypeState && !this.inViewport($element, null, options.ignoreWhenBelowViewport))) {
+                       (screenTypeState && !this.inViewport($element, null, options.affixed) && !onBottom)) {
                         return true;
                     }
                 }
@@ -227,7 +232,13 @@ define(function(require) {
             this.viewport.bottom = this.viewport.top + $(window).height();
         },
 
-        inViewport: function($element, backMargin, ignoreWhenBelowViewport) {
+        onBottom: function(options) {
+            var documentHeight = this.$document.height();
+            var footerHeight = $('footer').outerHeight();
+            return (documentHeight - footerHeight) <= (this.scrollState.position + options.stickyHeight);
+        },
+
+        inViewport: function($element, backMargin, affixed) {
             var elementTop = $element.offset().top;
             var elementHeight = $element.height();
             var backMarginValue = (backMargin ? elementHeight : 0);
@@ -247,7 +258,7 @@ define(function(require) {
                 }
             });
 
-            if (ignoreWhenBelowViewport && elementBottom >= this.viewport.bottom) {
+            if (affixed && elementBottom >= this.viewport.bottom) {
                 return true;
             }
 
@@ -287,6 +298,9 @@ define(function(require) {
 
             $element.toggleClass(options.toggleClass, state);
             options.currentState = state;
+            if (options.affixed && state) {
+                options.stickyHeight = this.$el.outerHeight();
+            }
             $element.data('sticky', options);
 
             mediator.trigger('sticky-panel:toggle-state', {$element: $element, state: state});
@@ -297,8 +311,19 @@ define(function(require) {
                 display: $element.css('display'),
                 width: $element.data('sticky').autoWidth ? 'auto' : $element.outerWidth(),
                 height: $element.outerHeight(),
-                margin: $element.css('margin') || 0
+                margin: this.getElementMargin($element[0]) || 0
             });
+        },
+
+        /**
+         * Polyfill for Firefox which doesn't support jQuery '.css' method to get element margin
+         */
+        getElementMargin: function(element) {
+            var positions = ['top', 'right', 'bottom', 'left'];
+            var values = _.map(positions, function(pos) {
+                return window.getComputedStyle(element)['margin-' + pos];
+            });
+            return values.join(' ');
         }
     });
 
