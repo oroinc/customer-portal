@@ -168,21 +168,19 @@ define(function(require) {
          */
         applyAllFilter: function(datagrid) {
             if (!_.isObject(datagrid)) {
-                return ;
+                return;
             }
 
             var filterManager = datagrid.filterManager;
             var filters = {};
-            var openFilters = _.clone(filterManager.getOpenFilters());
+            var changedFilters = _.clone(filterManager.getChangedFilters());
 
-            if (!openFilters.length) {
-                return ;
+            if (!changedFilters.length) {
+                return;
             }
 
-            _.each(openFilters, function(filter) {
-                if (filter.enabled && !_.isEqual(filter.emptyValue, filter._readDOMValue())) {
-                    filters[filter.name] = filter._readDOMValue();
-                }
+            _.each(changedFilters, function(filter) {
+                filters[filter.name] = filter._readDOMValue();
             });
 
             _.extend(filterManager.collection.state.filters, filters);
