@@ -24,9 +24,8 @@ define(function(require) {
             'content', 'contentSelector', 'contentView',
             'contentOptions', 'contentElement', 'contentAttributes',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
-            'popupCloseButton', 'popupIcon', 'popupBadge', 'showFooter',
-            'actionBtnLabel', 'actionBtnClass', 'stopEventsPropagation',
-            'stopEventsList'
+            'popupCloseButton', 'popupIcon', 'popupBadge', 'footerContent',
+            'stopEventsPropagation', 'stopEventsList'
         ]),
 
         /**
@@ -119,20 +118,10 @@ define(function(require) {
         $popup: null,
 
         /**
-         * Flag for render footer
+         * Property for footer content
          * @property
          */
-        showFooter: false,
-
-        /**
-         * @property
-         */
-        actionBtnLabel: _.__('oro_frontend.fullscreen_popup.actions.labels.close'),
-
-        /**
-         * @property
-         */
-        actionBtnClass: 'btn btn--info btn--full btn--size-s',
+        footerContent: null,
 
         /**
          * @inheritDoc
@@ -221,7 +210,6 @@ define(function(require) {
         initPopupEvents: function() {
             this.$popup
                 .on('click', '[data-role="close"]', _.bind(this.close, this))
-                .on('click', '[data-role="public-action"]', _.bind(this.extendableCallback, this))
                 .on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
 
             if (this.stopEventsPropagation) {
@@ -266,9 +254,7 @@ define(function(require) {
                 close: this.popupCloseButton,
                 icon: this.popupIcon,
                 badge: this.popupBadge,
-                showFooter: this.showFooter,
-                actionBtnLabel: this.actionBtnLabel,
-                actionBtnClass: this.actionBtnClass
+                footerContent: this.footerContent
             });
             return data;
         },
@@ -294,10 +280,6 @@ define(function(require) {
             if (this.$popup) {
                 this.$popup.find('[data-role="title"]').html(title);
             }
-        },
-
-        extendableCallback: function() {
-            this.close();
         }
     });
 
