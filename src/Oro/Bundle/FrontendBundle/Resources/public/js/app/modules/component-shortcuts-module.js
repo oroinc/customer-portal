@@ -18,4 +18,12 @@ define(function(require) {
             widgetModule: 'orofrontend/default/js/widgets/line-clamp-widget'
         }
     });
+
+    ComponentShortcutsManager.add('elastic-area', {
+        moduleName: 'oroui/js/app/components/jquery-widget-component',
+        scalarOption: 'elasticArea',
+        options: {
+            widgetModule: 'orofrontend/default/js/widgets/elastic-area-widget'
+        }
+    });
 });
