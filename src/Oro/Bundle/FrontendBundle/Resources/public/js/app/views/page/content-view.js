@@ -13,7 +13,6 @@ define(function(require) {
          * is not active on purpose (autofocus attribute)
          */
         initFocus: function() {
-            console.log('initFocus - Frontend');
             if (tools.isMobile()) {
                 return; // disable feature on mobile devices
             }
