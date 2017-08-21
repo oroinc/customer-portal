@@ -25,7 +25,7 @@ define(function(require) {
             'contentOptions', 'contentElement', 'contentAttributes',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
             'popupCloseButton', 'popupIcon', 'popupBadge', 'footerContent',
-            'stopEventsPropagation', 'stopEventsList'
+            'footerContentOptions', 'stopEventsPropagation', 'stopEventsList'
         ]),
 
         /**
@@ -124,6 +124,11 @@ define(function(require) {
         footerContent: null,
 
         /**
+         * @property
+         */
+        footerContentOptions: null,
+
+        /**
          * @inheritDoc
          */
         initialize: function() {
@@ -148,6 +153,10 @@ define(function(require) {
                 el: this.$popup.find('[data-role="content"]').get(0)
             });
 
+            this.footerContentOptions = _.extend({}, this.footerContentOptions || {}, {
+                el: this.$popup.find('[data-role="footer"]').get(0)
+            });
+
             this.$popup.appendTo($('body'));
 
             this.renderPopupContent(_.bind(this.onShow, this));
@@ -161,6 +170,8 @@ define(function(require) {
         },
 
         renderPopupContent: function(callback) {
+            this.renderPopupFooterContent();
+
             if (this.content) {
                 this.renderContent(callback);
             } else if (this.contentElement) {
@@ -171,6 +182,12 @@ define(function(require) {
                 this.renderPopupView(callback);
             } else {
                 callback();
+            }
+        },
+
+        renderPopupFooterContent: function() {
+            if (this.footerContent) {
+                $(this.footerContentOptions.el).html(this.footerContent);
             }
         },
 

@@ -32,7 +32,7 @@ define(function(require) {
         /**
          * @property
          */
-        filtersPopupContentOptions: {
+        footerContentOptions: {
             actionBtnLabel: _.__('oro_frontend.filters.apply_all'),
             actionBtnClass: 'btn btn--info btn--full btn--size-s'
         },
@@ -53,23 +53,31 @@ define(function(require) {
         filterManagerClasses: ' datagrid-manager ui-widget-fullscreen',
 
         /**
+         * @property;
+         */
+        applyAllFiltersSelector: '[data-role="action"]',
+
+        /**
+         * @property;
+         */
+        applyAllFiltersBtn: null,
+
+        /**
          * {@inheritdoc}
          * @param {object} options
          */
         initialize: function(options) {
-            this.filtersPopupContentOptions = _.extend(
-                this.filtersPopupContentOptions,
-                options.filtersPopupContentOptions || {}
+            this.footerContentOptions = _.extend(
+                this.footerContentOptions,
+                options.footerContentOptions || {}
             );
-
-            this.filtersPopupContent = templateFooter(this.filtersPopupContentOptions);
 
             this.filtersPopupOptions = _.extend(
                 this.filtersPopupOptions,
                 options.filtersPopupOptions || {},
                 config.filtersPopupOptions,
                 {
-                    footerContent: this.filtersPopupContent
+                    footerContent: templateFooter(this.footerContentOptions)
                 }
             );
 
@@ -89,26 +97,17 @@ define(function(require) {
          */
         execute: function() {
             var filterManager = this.datagrid.filterManager;
-            var publicAction = null;
 
             this.$filters = filterManager.$el;
             this.filtersPopupOptions.contentElement = this.$filters;
             this.fullscreenView = new FullScreenPopupView(this.filtersPopupOptions);
 
             this.fullscreenView.on('show', function() {
-                publicAction = this.fullscreenView.$popup.find('[data-role="public-action"]');
-                publicAction.on({
-                    click: _.bind(function() {
-                        this.applyAllFilter(this.datagrid);
-                        this.fullscreenView.close();
-                    }, this)
-                });
+                this.applyAllFiltersBtn = this.fullscreenView.$popup.find(this.applyAllFiltersSelector);
 
-                if (!filterManager._calculateSelectedFilters()) {
-                    publicAction.attr({
-                        disabled: 'disabled'
-                    });
-                }
+                this.applyAllFiltersBtn.on('click', _.bind(this._onClickApplyAll, this));
+
+                this._toggleApplyAllBtn(!filterManager._calculateSelectedFilters());
 
                 this.openNotEmptyFilters();
 
@@ -120,9 +119,7 @@ define(function(require) {
             this.fullscreenView.on('close', function() {
                 this.$filters.hide();
 
-                if (publicAction) {
-                    publicAction.off();
-                }
+                this.applyAllFiltersBtn.off();
                 this.fullscreenView.off();
                 this.fullscreenView.dispose();
                 delete this.fullscreenView;
@@ -250,6 +247,19 @@ define(function(require) {
                 } else {
                     this.fullscreenView.setPopupTitle(this.filtersPopupOptions.popupLabel);
                 }
+            }
+        },
+
+        _onClickApplyAll: function(e) {
+            this.applyAllFilter(this.datagrid);
+            this.fullscreenView.close();
+        },
+
+        _toggleApplyAllBtn: function(state) {
+            if (this.applyAllFiltersBtn && this.applyAllFiltersBtn.length) {
+                this.applyAllFiltersBtn.attr({
+                    disabled: !!state
+                });
             }
         }
     });
