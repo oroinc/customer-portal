@@ -90,6 +90,7 @@ define(function(require) {
             FrontendFullScreenFiltersAction.__super__.initialize.apply(this, arguments);
 
             mediator.on('filterManager:selectedFilters:count:' + this.datagrid.name, this.onUpdateFiltersCount, this);
+            mediator.on('filterManager:changedFilters:count:' + this.datagrid.name, this.onChangeFiltersCount, this);
         },
 
         /**
@@ -244,10 +245,15 @@ define(function(require) {
                     this.fullscreenView.setPopupTitle(
                         _.__('oro.filter.datagrid-toolbar.filters_count', {count: count})
                     );
+                    this._toggleApplyAllBtn(!count);
                 } else {
                     this.fullscreenView.setPopupTitle(this.filtersPopupOptions.popupLabel);
                 }
             }
+        },
+
+        onChangeFiltersCount: function(count) {
+            this._toggleApplyAllBtn(!count);
         },
 
         _onClickApplyAll: function(e) {
