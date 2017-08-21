@@ -459,7 +459,7 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_guest", type="boolean")
+     * @ORM\Column(name="is_guest", type="boolean", options={"default"=false})
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
