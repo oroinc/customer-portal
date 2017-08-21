@@ -111,7 +111,7 @@ define(function(require) {
         /**
          * @property
          */
-        stopEventsList: 'click mousedown',
+        stopEventsList: 'mousedown',
 
         /**
          * @property

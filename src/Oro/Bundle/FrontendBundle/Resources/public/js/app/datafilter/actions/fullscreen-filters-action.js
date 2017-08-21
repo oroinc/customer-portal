@@ -46,6 +46,11 @@ define(function(require) {
         filterManagerClasses: ' datagrid-manager ui-widget-fullscreen',
 
         /**
+         * @property;
+         */
+        isLocked: false,
+
+        /**
          * {@inheritdoc}
          * @param {object} options
          */
@@ -84,12 +89,16 @@ define(function(require) {
             });
 
             this.fullscreenView.on('show', function() {
+                this.setMessengerContainer();
+
                 this.openNotEmptyFilters();
 
                 this.$filters.show();
             }, this);
 
             this.fullscreenView.on('close', function() {
+                this.removeMessengerContainer();
+
                 this.$filters.hide();
 
                 this.fullscreenView.off();
@@ -108,6 +117,35 @@ define(function(require) {
             filterManager._publishCountSelectedFilters();
 
             this.initFiltersManagerPopup(filterManager);
+
+            this.unbindCloseFiltersOnBody(filterManager);
+        },
+
+        setMessengerContainer: function() {
+            this.$filters.prepend(
+                $('<div></div>').attr('data-role', 'messenger-temporary-container')
+            );
+        },
+
+        removeMessengerContainer: function() {
+            this.$filters.find('[data-role=messenger-temporary-container]').remove();
+        },
+
+        /**
+         * @param {object} filterManager
+         */
+        unbindCloseFiltersOnBody: function(filterManager) {
+            if (!_.isObject(filterManager) || this.isLocked) {
+                return;
+            }
+
+            this.isLocked = true;
+
+            _.each(filterManager.filters, function(filter) {
+                if (_.isFunction(filter._eventNamespace)) {
+                    $('body').off('click' + filter._eventNamespace());
+                }
+            });
         },
 
         /**
