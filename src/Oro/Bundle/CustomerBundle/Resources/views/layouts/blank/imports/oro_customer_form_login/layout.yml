@@ -74,10 +74,7 @@ layout:
                           value: on
                           label: oro.customer.customeruser.profile.remember_me
                 __login_form_target:
-                      blockType: input
-                      options:
-                          type: hidden
-                          name: _target_path
+                      blockType: target_path
                 __login_form_csrf:
                       blockType: input
                       options:
