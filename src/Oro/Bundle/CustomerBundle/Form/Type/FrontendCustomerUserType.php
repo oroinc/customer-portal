@@ -118,6 +118,9 @@ class FrontendCustomerUserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => $this->customerUserClass,
             'ownership_disabled' => true,
+            'attr'=> array(
+                'class'=>'frontend_edit_form'
+            )
         ]);
     }
 }

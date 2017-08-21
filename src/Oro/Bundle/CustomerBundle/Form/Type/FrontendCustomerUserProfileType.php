@@ -124,6 +124,9 @@ class FrontendCustomerUserProfileType extends AbstractType
             [
                 'data_class' => $this->dataClass,
                 'intention' => 'frontend_customer_user',
+                'attr'=> array(
+                    'class'=>'frontend_edit_form'
+                )
             ]
         );
     }
