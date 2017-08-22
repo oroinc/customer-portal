@@ -1,7 +1,7 @@
 // @theme; default;
 
 $map-popover-width: 430px !default;
-$map-popover-height: 290px !default;
+$map-popover-height: auto !default;
 $map-popover-height-border: 0 !default;
 $map-popover-height-box-shadow: 0 2px 10px 0 rgba(0,0,0,.2) !default;
 
@@ -9,9 +9,18 @@ $map-popover-content-inner-offset: 20px 15px;
 $map-popover-content-width: 100% !default;
 $map-popover-content-height: 100% !default;
 
+$map-popover-content-frame-visual-frame-height: 250px !default;
+$map-popover-content-frame-alert-visual-frame-height: 0 !default;
+
+$map-popover-content-loader-mask-shown-display: block !default;
+$map-popover-content-loader-mask-shown-position: relative !default;
+$map-popover-content-loader-mask-shown-height: 66px !default;
+
+$map-popover-content-loader-frame-inner-offset: 10px 37px !default;
+
 $map-popover-frame-width: 100% !default;
 $map-popover-frame-height: 100% !default;
 
 $map-popover-frame-map-box-height: 100% !default;
 
-$map-popover-frame-map-unknown-inner-offset-tablet-small: $map-popover-content-inner-offset !default;
+$map-popover-frame-map-unknown-inner-offset-tablet: $map-popover-content-inner-offset !default;

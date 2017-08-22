@@ -55,7 +55,6 @@ class LoadWorkflowAcl extends AbstractFixture implements DependentFixtureInterfa
         }
 
         $roles = $this->getRoles($manager);
-        $this->addIsAuthenticatedAnonymouslyRole($roles);
         $rootOid = $securityManager->getRootOid(WorkflowAclExtension::NAME);
         foreach ($roles as $role) {
             $sid = $securityManager->getSid($role);
@@ -73,17 +72,5 @@ class LoadWorkflowAcl extends AbstractFixture implements DependentFixtureInterfa
     protected function getRoles(ObjectManager $manager)
     {
         return $manager->getRepository('OroCustomerBundle:CustomerUserRole')->findAll();
-    }
-
-    /**
-     * Add inbuilt IS_AUTHENTICATED_ANONYMOUSLY to the roles list.
-     * It should gain root permission along with frontend roles, because of it assigned to any user by Symfony,
-     * and this behaviour, availability of the root permission for any user, expected by the system.
-     *
-     * @param $roles
-     */
-    private function addIsAuthenticatedAnonymouslyRole(&$roles)
-    {
-        $roles[] = 'IS_AUTHENTICATED_ANONYMOUSLY';
     }
 }
