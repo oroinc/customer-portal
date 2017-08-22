@@ -24,13 +24,16 @@ class WebsiteRepositoryTest extends WebTestCase
     public function testGetAllWebsites(array $expectedData)
     {
         $websites = $this->getRepository()->getAllWebsites();
+        foreach ($websites as $key => $website) {
+            static::assertEquals($key, $website->getId());
+        }
         $websites = array_map(
             function (Website $website) {
                 return $website->getName();
             },
             $websites
         );
-        $this->assertEquals($expectedData, $websites);
+        $this->assertEquals($expectedData, array_values($websites));
     }
 
     /**
