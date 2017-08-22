@@ -2,17 +2,34 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Event\CustomerUserRegisterEvent;
+use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\FormHandlerTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
 class FrontendCustomerUserHandlerTest extends FormHandlerTestCase
 {
+    use EntityTrait;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|CustomerUserManager
      */
     protected $userManager;
+
+    /**
+     * @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $eventDispatcher;
+
+    /**
+     * @var CustomerUser
+     */
+    protected $entity;
 
     /**
      * {@inheritDoc}
@@ -21,18 +38,19 @@ class FrontendCustomerUserHandlerTest extends FormHandlerTestCase
     {
         parent::setUp();
 
-        $this->entity = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\CustomerUser')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        #$this->entity = $this->getEntity(CustomerUser::class, ['id' => 2]);
+        $this->entity = new CustomerUser();
         $this->userManager = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\CustomerUserManager')
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+
         $this->handler = new FrontendCustomerUserHandler(
             $this->form,
             $this->request,
-            $this->userManager
+            $this->userManager,
+            $this->eventDispatcher
         );
     }
 
@@ -70,16 +88,10 @@ class FrontendCustomerUserHandlerTest extends FormHandlerTestCase
      */
     public function testProcessValidData()
     {
-        $this->entity->expects($this->exactly(2))
-            ->method('getId')
-            ->will($this->returnValue(null));
         $this->request->setMethod('POST');
 
         $website = new Website();
         $this->request->attributes->set('current_website', $website);
-        $this->entity->expects($this->once())
-            ->method('setWebsite')
-            ->with($website);
 
         $this->form->expects($this->once())
             ->method('submit')
@@ -101,6 +113,11 @@ class FrontendCustomerUserHandlerTest extends FormHandlerTestCase
             ->method('reloadUser')
             ->with($this->entity);
 
+        $event = new CustomerUserRegisterEvent($this->entity);
+        $this->eventDispatcher->expects($this->once())
+            ->method('dispatch')
+            ->with(CustomerUserRegisterEvent::NAME, $event);
+
         $this->assertTrue($this->handler->process($this->entity));
     }
 
@@ -109,9 +126,7 @@ class FrontendCustomerUserHandlerTest extends FormHandlerTestCase
      */
     public function testProcessValidDataExistingUser()
     {
-        $this->entity->expects($this->exactly(2))
-            ->method('getId')
-            ->will($this->returnValue(42));
+        $this->entity = $this->getEntity(CustomerUser::class, ['id' => 42]);
         $this->request->setMethod('POST');
 
         $this->form->expects($this->once())
