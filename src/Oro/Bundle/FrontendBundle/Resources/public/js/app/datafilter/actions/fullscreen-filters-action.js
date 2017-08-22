@@ -8,7 +8,6 @@ define(function(require) {
     var FiltersManager = require('orofilter/js/filters-manager');
     var ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
-    var templateFooter = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-filters-action-footer.html');
     var module = require('module');
     var config = module.config();
 
@@ -26,15 +25,8 @@ define(function(require) {
             popupBadge: true,
             popupIcon: 'fa-filter',
             popupLabel: _.__('oro.filter.datagrid-toolbar.filters'),
-            contentElement: null
-        },
-
-        /**
-         * @property
-         */
-        footerContentOptions: {
-            actionBtnLabel: _.__('oro_frontend.filters.apply_all'),
-            actionBtnClass: 'btn btn--info btn--full btn--size-s'
+            contentElement: null,
+            footerContent: true
         },
 
         /**
@@ -67,18 +59,10 @@ define(function(require) {
          * @param {object} options
          */
         initialize: function(options) {
-            this.footerContentOptions = _.extend(
-                this.footerContentOptions,
-                options.footerContentOptions || {}
-            );
-
             this.filtersPopupOptions = _.extend(
                 this.filtersPopupOptions,
                 options.filtersPopupOptions || {},
-                config.filtersPopupOptions,
-                {
-                    footerContent: templateFooter(this.footerContentOptions)
-                }
+                config.filtersPopupOptions
             );
 
             this.filtersManagerPopupOptions = _.extend(
@@ -103,9 +87,12 @@ define(function(require) {
             this.fullscreenView = new FullScreenPopupView(this.filtersPopupOptions);
 
             this.fullscreenView.on('show', function() {
-                this.applyAllFiltersBtn = this.fullscreenView.$popup.find(this.applyAllFiltersSelector);
+                this.applyAllFiltersBtn = this.fullscreenView.$popupFooter.find(this.applyAllFiltersSelector);
 
-                this.applyAllFiltersBtn.on('click', _.bind(this._onClickApplyAll, this));
+                this.applyAllFiltersBtn.on('click', _.bind(function() {
+                    this.applyAllFilter(this.datagrid);
+                    this.fullscreenView.close();
+                }, this));
 
                 this._toggleApplyAllBtn(!filterManager._calculateSelectedFilters());
 
@@ -248,11 +235,6 @@ define(function(require) {
                     this.fullscreenView.setPopupTitle(this.filtersPopupOptions.popupLabel);
                 }
             }
-        },
-
-        _onClickApplyAll: function(e) {
-            this.applyAllFilter(this.datagrid);
-            this.fullscreenView.close();
         },
 
         _toggleApplyAllBtn: function(state) {

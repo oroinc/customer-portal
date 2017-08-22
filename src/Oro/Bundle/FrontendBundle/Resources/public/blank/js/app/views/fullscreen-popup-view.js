@@ -3,6 +3,7 @@ define(function(require) {
 
     var FullscreenPopupView;
     var template = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup.html');
+    var footerTemplate = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-footer.html');
     var BaseView = require('oroui/js/app/views/base/view');
     var tools = require('oroui/js/tools');
     var mediator = require('oroui/js/mediator');
@@ -20,7 +21,7 @@ define(function(require) {
          * @property
          */
         optionNames: BaseView.prototype.optionNames.concat([
-            'template', 'templateSelector', 'templateData',
+            'template', 'templateSelector', 'templateData', 'footerTemplate',
             'content', 'contentSelector', 'contentView',
             'contentOptions', 'contentElement', 'contentAttributes',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
@@ -126,12 +127,15 @@ define(function(require) {
         /**
          * @property
          */
-        footerContentOptions: null,
+        footerContentOptions: {
+            actionBtnLabel: _.__('oro_frontend.filters.apply_all'),
+            actionBtnClass: 'btn btn--info btn--full btn--size-s'
+        },
 
         /**
          * @inheritDoc
          */
-        initialize: function() {
+        initialize: function(options) {
             this.savePreviousClasses($(this.contentElement));
 
             FullscreenPopupView.__super__.initialize.apply(this, arguments);
@@ -153,9 +157,15 @@ define(function(require) {
                 el: this.$popup.find('[data-role="content"]').get(0)
             });
 
-            this.footerContentOptions = _.extend({}, this.footerContentOptions || {}, {
-                el: this.$popup.find('[data-role="footer"]').get(0)
-            });
+            if (this.footerContent) {
+                this.footerContentOptions = _.extend({},
+                    this.footerContentOptions,
+                    _.has(this.contentOptions, 'footerContentOptions') ? this.contentOptions.footerContentOptions : {}
+                );
+                this.contentOptions.footerEl = this.$popup.find('[data-role="footer"]').get(0);
+                this.$popupFooter = $(this.contentOptions.footerEl) || $([]);
+                this.renderPopupFooterContent();
+            }
 
             this.$popup.appendTo($('body'));
 
@@ -170,8 +180,6 @@ define(function(require) {
         },
 
         renderPopupContent: function(callback) {
-            this.renderPopupFooterContent();
-
             if (this.content) {
                 this.renderContent(callback);
             } else if (this.contentElement) {
@@ -186,9 +194,7 @@ define(function(require) {
         },
 
         renderPopupFooterContent: function() {
-            if (this.footerContent) {
-                $(this.footerContentOptions.el).html(this.footerContent);
-            }
+            $(this.$popupFooter).html(footerTemplate(this.footerContentOptions));
         },
 
         renderContent: function(callback) {
@@ -256,6 +262,9 @@ define(function(require) {
             this.$popup.remove();
 
             delete this.$popup;
+            if (this.footerContent) {
+                delete this.footerContent;
+            }
             this.removeSubview('contentView');
             this.trigger('close');
         },
