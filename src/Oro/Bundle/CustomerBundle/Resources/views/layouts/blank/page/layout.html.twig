@@ -1,0 +1,7 @@
+{% block target_path_widget %}
+    {% set value = null %}
+    {% if pathName %}
+        {% set value = url(pathName, pathParameters) %}
+    {% endif %}
+    {{ block_widget(block, {'value': value}) }}
+{% endblock %}

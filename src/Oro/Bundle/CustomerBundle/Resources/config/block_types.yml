@@ -31,3 +31,19 @@ services:
                         componentOptions: {required: true}
         tags:
              - { name: layout.block_type, alias: address_book }
+
+    oro_customer.layout.block_type.target_path:
+        parent: oro_layout.block_type.abstract_configurable
+        calls:
+            - [setParent, ['input']]
+            - [setName, ['target_path']]
+            -
+                - setOptionsConfig
+                -
+                    -
+                        pathName: {default: null}
+                        pathParameters: {default: []}
+                        name: {default: '_target_path'}
+                        type: {default: 'hidden'}
+        tags:
+             - { name: layout.block_type, alias: target_path }
