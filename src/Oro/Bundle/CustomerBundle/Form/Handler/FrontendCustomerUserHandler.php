@@ -2,12 +2,14 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\CustomerBundle\Event\CustomerUserRegisterEvent;
 
 class FrontendCustomerUserHandler
 {
@@ -20,19 +22,25 @@ class FrontendCustomerUserHandler
     /** @var CustomerUserManager */
     protected $userManager;
 
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
+
     /**
      * @param FormInterface $form
      * @param Request $request
      * @param CustomerUserManager $userManager
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         FormInterface $form,
         Request $request,
-        CustomerUserManager $userManager
+        CustomerUserManager $userManager,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->form = $form;
         $this->request = $request;
         $this->userManager = $userManager;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -44,6 +52,7 @@ class FrontendCustomerUserHandler
     public function process(CustomerUser $customerUser)
     {
         $isUpdated = false;
+        $isRegistered = false;
         if (in_array($this->request->getMethod(), ['POST', 'PUT'], true)) {
             $this->form->submit($this->request);
             if ($this->form->isValid()) {
@@ -53,9 +62,15 @@ class FrontendCustomerUserHandler
                         $customerUser->setWebsite($website);
                     }
                     $this->userManager->register($customerUser);
+                    $isRegistered = true;
                 }
 
                 $this->userManager->updateUser($customerUser);
+
+                if ($isRegistered) {
+                    $event = new CustomerUserRegisterEvent($customerUser);
+                    $this->eventDispatcher->dispatch(CustomerUserRegisterEvent::NAME, $event);
+                }
 
                 $isUpdated = true;
             }

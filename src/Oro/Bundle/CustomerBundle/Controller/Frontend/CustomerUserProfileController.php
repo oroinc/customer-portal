@@ -45,11 +45,16 @@ class CustomerUserProfileController extends Controller
         $customerUser = $this->getUser();
         $form = $this->get('oro_customer.provider.frontend_customer_user_form')
             ->getProfileForm($customerUser);
+
+        $eventDispatcher = $this->get('event_dispatcher');
+
         $handler = new FrontendCustomerUserHandler(
             $form,
             $request,
-            $this->get('oro_customer_user.manager')
+            $this->get('oro_customer_user.manager'),
+            $eventDispatcher
         );
+
         $resultHandler = $this->get('oro_form.model.update_handler')->handleUpdate(
             $customerUser,
             $form,

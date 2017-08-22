@@ -952,3 +952,9 @@ services:
         arguments:
            - '@oro_security.token_accessor'
         lazy: true
+
+    oro_customer.manager.login_manager:
+        class: 'Oro\Bundle\CustomerBundle\Manager\LoginManager'
+        arguments:
+           - '@oro_security.token_accessor'
+           - '@service_container'

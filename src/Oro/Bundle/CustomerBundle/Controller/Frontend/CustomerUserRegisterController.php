@@ -12,6 +12,7 @@ use Oro\Component\Layout\LayoutContext;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
+use Oro\Bundle\CustomerBundle\Event\BeforeCustomerUserRegisterEvent;
 
 class CustomerUserRegisterController extends Controller
 {
@@ -53,18 +54,24 @@ class CustomerUserRegisterController extends Controller
         $form = $this->get('oro_customer.provider.frontend_customer_user_registration_form')
             ->getRegisterForm();
         $userManager = $this->get('oro_customer_user.manager');
-        $handler = new FrontendCustomerUserHandler($form, $request, $userManager);
+        $eventDispatcher = $this->get('event_dispatcher');
+        $handler = new FrontendCustomerUserHandler($form, $request, $userManager, $eventDispatcher);
 
         if ($userManager->isConfirmationRequired()) {
             $registrationMessage = 'oro.customer.controller.customeruser.registered_with_confirmation.message';
         } else {
             $registrationMessage = 'oro.customer.controller.customeruser.registered.message';
         }
+
+        $event = new BeforeCustomerUserRegisterEvent();
+        $eventDispatcher->dispatch(BeforeCustomerUserRegisterEvent::NAME, $event);
+        $redirect = $event->getRedirect() ?: ['route' => 'oro_customer_customer_user_security_login'];
+
         $response = $this->get('oro_form.model.update_handler')->handleUpdate(
             $form->getData(),
             $form,
-            ['route' => 'oro_customer_customer_user_security_login'],
-            ['route' => 'oro_customer_customer_user_security_login'],
+            $redirect,
+            $redirect,
             $this->get('translator')->trans($registrationMessage),
             $handler
         );
