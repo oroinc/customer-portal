@@ -17,7 +17,7 @@ $fullscreen-popup-text-transform: uppercase !default;
 $fullscreen-popup-content-height: 100% !default;
 $fullscreen-popup-content-overflow: auto !default;
 $fullscreen-popup-content-padding-top: $fullscreen-popup-header-height !default;
-$fullscreen-popup-content-alert-offset-height: 15px !default;
+$fullscreen-popup-content-alert-offset-height: 0 $offset-y-m $offset-y-m !default;
 
 $fullscreen-popup-text-offset: null !default;
 $fullscreen-popup-text-weight: bold !default;
