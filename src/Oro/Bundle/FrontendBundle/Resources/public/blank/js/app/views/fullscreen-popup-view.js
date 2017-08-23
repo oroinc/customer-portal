@@ -3,6 +3,7 @@ define(function(require) {
 
     var FullscreenPopupView;
     var template = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup.html');
+    var footerTemplate = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-footer.html');
     var BaseView = require('oroui/js/app/views/base/view');
     var tools = require('oroui/js/tools');
     var mediator = require('oroui/js/mediator');
@@ -20,13 +21,12 @@ define(function(require) {
          * @property
          */
         optionNames: BaseView.prototype.optionNames.concat([
-            'template', 'templateSelector', 'templateData',
+            'template', 'templateSelector', 'templateData', 'footerTemplate',
             'content', 'contentSelector', 'contentView',
             'contentOptions', 'contentElement', 'contentAttributes',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
-            'popupCloseButton', 'popupIcon', 'popupBadge', 'showFooter',
-            'actionBtnLabel', 'actionBtnClass', 'stopEventsPropagation',
-            'stopEventsList'
+            'popupCloseButton', 'popupIcon', 'popupBadge', 'footerContent',
+            'footerContentOptions', 'stopEventsPropagation', 'stopEventsList'
         ]),
 
         /**
@@ -119,25 +119,28 @@ define(function(require) {
         $popup: null,
 
         /**
-         * Flag for render footer
+         * Property {boolean} for footer content
          * @property
          */
-        showFooter: false,
+        footerContent: true,
 
         /**
          * @property
          */
-        actionBtnLabel: _.__('oro_frontend.fullscreen_popup.actions.labels.close'),
+        footerContentOptions: {
+            actionBtnLabel: _.__('oro_frontend.filters.apply_all'),
+            actionBtnClass: 'btn btn--info btn--full btn--size-s'
+        },
 
         /**
          * @property
          */
-        actionBtnClass: 'btn btn--info btn--full btn--size-s',
+        footerTemplate: footerTemplate,
 
         /**
          * @inheritDoc
          */
-        initialize: function() {
+        initialize: function(options) {
             this.savePreviousClasses($(this.contentElement));
 
             FullscreenPopupView.__super__.initialize.apply(this, arguments);
@@ -158,6 +161,16 @@ define(function(require) {
             this.contentOptions = _.extend({}, this.contentOptions || {}, {
                 el: this.$popup.find('[data-role="content"]').get(0)
             });
+
+            if (this.footerContent) {
+                this.footerContentOptions = _.extend({},
+                    this.footerContentOptions,
+                    _.has(this.contentOptions, 'footerContentOptions') ? this.contentOptions.footerContentOptions : {}
+                );
+                this.contentOptions.footerEl = this.$popup.find('[data-role="footer"]').get(0);
+                this.$popupFooter = $(this.contentOptions.footerEl) || $([]);
+                this.renderPopupFooterContent();
+            }
 
             this.$popup.appendTo($('body'));
 
@@ -183,6 +196,10 @@ define(function(require) {
             } else {
                 callback();
             }
+        },
+
+        renderPopupFooterContent: function() {
+            $(this.$popupFooter).html(this.footerTemplate(this.footerContentOptions));
         },
 
         renderContent: function(callback) {
@@ -221,7 +238,6 @@ define(function(require) {
         initPopupEvents: function() {
             this.$popup
                 .on('click', '[data-role="close"]', _.bind(this.close, this))
-                .on('click', '[data-role="public-action"]', _.bind(this.extendableCallback, this))
                 .on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
 
             if (this.stopEventsPropagation) {
@@ -251,6 +267,11 @@ define(function(require) {
             this.$popup.remove();
 
             delete this.$popup;
+
+            if (this.footerContent) {
+                delete this.footerContent;
+            }
+
             this.removeSubview('contentView');
             this.trigger('close');
         },
@@ -266,9 +287,7 @@ define(function(require) {
                 close: this.popupCloseButton,
                 icon: this.popupIcon,
                 badge: this.popupBadge,
-                showFooter: this.showFooter,
-                actionBtnLabel: this.actionBtnLabel,
-                actionBtnClass: this.actionBtnClass
+                footerContent: this.footerContent
             });
             return data;
         },
@@ -294,10 +313,6 @@ define(function(require) {
             if (this.$popup) {
                 this.$popup.find('[data-role="title"]').html(title);
             }
-        },
-
-        extendableCallback: function() {
-            this.close();
         }
     });
 

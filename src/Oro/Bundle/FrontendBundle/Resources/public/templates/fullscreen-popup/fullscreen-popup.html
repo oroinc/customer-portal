@@ -21,11 +21,9 @@
         <% } %>
     </div>
 
-    <div class="fullscreen-popup__content <% if (showFooter) { %>fullscreen-popup__content--bottom-offset<% } %>" data-role="content"></div>
+    <div class="fullscreen-popup__content <% if (footerContent) { %>fullscreen-popup__content--bottom-offset<% } %>" data-role="content"></div>
 
-    <% if (showFooter) { %>
-        <div class="fullscreen-popup__footer" data-role="footer">
-            <button type="button" class="<%= actionBtnClass %>" data-role="public-action"><%= actionBtnLabel %></button>
-        </div>
+    <% if (footerContent) { %>
+        <div class="fullscreen-popup__footer" data-role="footer"></div>
     <% } %>
 </div>
