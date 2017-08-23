@@ -70,6 +70,18 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                                 'To register for a new account, contact a sales representative at 1 (800) 555-0123',
                             'scope' => 'app',
                         ],
+                        'user_menu_show_items' => [
+                            'value' => 'all_at_once',
+                            'scope' => 'app',
+                        ],
+                        'customer_visitor_cookie_lifetime_days' => [
+                            'value' => 30,
+                            'scope' => 'app',
+                        ],
+                        'maps_enabled' => [
+                            'value' => true,
+                            'scope' => 'app',
+                        ]
                     ]
                 ]
             ]

@@ -3,6 +3,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerType'
         arguments:
           - '@event_dispatcher'
+          - '@security.authorization_checker'
         calls:
             - [setAddressClass, ['%oro_customer.entity.customer_address.class%']]
         tags:
@@ -252,3 +253,10 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Form\Extension\CustomerGroupScopeExtension'
         tags:
             - { name: form.type_extension, extended_type: Oro\Bundle\ScopeBundle\Form\Type\ScopeType }
+
+    oro_customer.form.type.oro_customer_visitor_email_address:
+        class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerVisitorEmailAddressType'
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: form.type, alias: oro_customer_visitor_email_address }

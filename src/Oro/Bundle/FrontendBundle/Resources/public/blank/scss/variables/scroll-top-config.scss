@@ -1,0 +1,21 @@
+// @theme: blank;
+
+$scroll-top-position: fixed !default;
+$scroll-top-z-index: z('fixed') !default;
+$scroll-top-width: 42px !default;
+$scroll-top-height: 48px !default;
+$scroll-top-icon-font-size: $scroll-top-height !default;
+$scroll-top-icon-color: get-color('additional', 'light');
+
+// Bottom left
+$scroll-top-bl-left: 20px !default;
+$scroll-top-bl-bottom: 20px !default;
+
+// Bottom right
+$scroll-top-br-right: 20px !default;
+$scroll-top-br-bottom: 20px !default;
+
+// Center
+$scroll-top-c-left: 50% !default;
+$scroll-top-c-bottom: 20px !default;
+

@@ -56,7 +56,10 @@ class FrontendCustomerUserRegistrationType extends AbstractType
                     'required' => true,
                     'mapped' => false,
                     'label' => 'oro.customer.customeruser.profile.company_name',
-                    'constraints' => [new Assert\NotBlank()],
+                    'constraints' => [
+                        new Assert\NotBlank(),
+                        new Assert\Length(['max' => 255])
+                    ],
                     'attr' => ['placeholder' => 'oro.customer.customeruser.placeholder.company_name']
                 ]
             )

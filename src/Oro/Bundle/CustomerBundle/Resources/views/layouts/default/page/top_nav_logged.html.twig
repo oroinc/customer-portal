@@ -1,3 +1,28 @@
+{% block _top_nav_controls_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " pull-left"
+    }) %}
+    {% set dom_relocation_options =  {
+        responsive: [
+            {
+                viewport: {
+                    maxScreenType: 'tablet',
+                },
+                moveTo: '[data-main-menu-container]'
+            }
+        ]
+    }|json_encode %}
+
+    <div {{ block('block_attributes') }}>
+        <ul class="topbar-navigation topbar-navigation--controls"
+            data-dom-relocation
+            data-dom-relocation-options="{{ dom_relocation_options }}"
+        >
+            {{ block_widget(block) }}
+        </ul>
+    </div>
+{% endblock %}
+
 {% block _top_nav_logged_user_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' topbar-navigation__item topbar-navigation__item--user-name shown-on-desktop'
@@ -33,7 +58,18 @@
 {% block _top_nav_sign_out_link_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' topbar-navigation__link',
-        'href': path(route_name)
+        'href': path(route_name),
+        'data-dom-relocation': true,
+        'data-dom-relocation-options': {
+            responsive: [
+                {
+                    viewport: {
+                        maxScreenType: 'tablet'
+                    },
+                    moveTo: '[data-customer-menu-container]'
+                }
+            ]
+        }
     }) %}
 
     <a {{ block('block_attributes') }}>

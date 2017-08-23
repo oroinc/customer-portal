@@ -48,8 +48,6 @@ layout:
                                     className: 'btn-group not-expand frontend-datagrid__panel'
                                 itemsCounter:
                                     className: 'datagrid-tool'
-                                    themeOptions:
-                                        templateSelector: '#datagrid-items-counter-template'
                                     transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.users'
                                 hideItemsCounter: false
                             filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'

@@ -16,6 +16,10 @@
         bottom: 0;
     }
 
+    &--background-less {
+        background: transparent;
+    }
+
     &__content {
         width: $sticky-panel-width;
         margin: 0 auto;

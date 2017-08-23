@@ -148,6 +148,28 @@ class FrontendCustomerTypeAddressTypeTest extends CustomerTypedAddressTypeTest
         ];
     }
 
+    public function testSubmitWithoutPrimary()
+    {
+        $customerAddress1 = new CustomerAddress();
+        $customerAddress1
+            ->setTypes(new ArrayCollection([$this->billingType, $this->shippingType]));
+
+        $customer = $this->getCustomer();
+        $customer->addAddress($customerAddress1);
+
+        $submittedData = [
+            'types' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING],
+            'defaults' => ['default' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING]],
+            'frontendOwner' => $customer
+        ];
+
+        $form = $this->factory->create($this->formType, $customerAddress1, []);
+        $this->assertTrue($form->has('frontendOwner'));
+        $this->assertFalse($form->has('primary'));
+        $form->submit($submittedData);
+        $this->assertTrue($form->isValid());
+    }
+
     public function testGetName()
     {
         $this->assertInternalType('string', $this->formType->getName());

@@ -3,8 +3,8 @@
 namespace Oro\Bundle\CommerceMenuBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
 use Oro\Bundle\CommerceMenuBundle\Model\ExtendMenuUpdate;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
@@ -77,7 +77,9 @@ use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
 class MenuUpdate extends ExtendMenuUpdate implements
     MenuUpdateInterface
 {
-    use MenuUpdateTrait;
+    use MenuUpdateTrait {
+        MenuUpdateTrait::__construct as traitConstructor;
+    }
 
     /**
      * @var string
@@ -87,14 +89,33 @@ class MenuUpdate extends ExtendMenuUpdate implements
     protected $condition;
 
     /**
+     * @var Collection|MenuUserAgentCondition[]
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition",
+     *      mappedBy="menuUpdate",
+     *      cascade={"ALL"},
+     *      orphanRemoval=true
+     * )
+     */
+    protected $menuUserAgentConditions;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="screens", type="array")
+     */
+    protected $screens = [];
+
+    /**
      * {@inheritdoc}
      */
     public function __construct()
     {
         parent::__construct();
+        $this->traitConstructor();
 
-        $this->titles = new ArrayCollection();
-        $this->descriptions = new ArrayCollection();
+        $this->menuUserAgentConditions = new ArrayCollection();
     }
 
     /**
@@ -104,8 +125,10 @@ class MenuUpdate extends ExtendMenuUpdate implements
     {
         $extras = [
             'image' => $this->getImage(),
+            'screens' => $this->getScreens(),
             'condition' => $this->getCondition(),
             'divider' => $this->isDivider(),
+            'userAgentConditions' => $this->getMenuUserAgentConditions(),
             'translate_disabled' => $this->getId() ? true : false
         ];
 
@@ -135,6 +158,60 @@ class MenuUpdate extends ExtendMenuUpdate implements
     public function setCondition($condition)
     {
         $this->condition = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @return MenuUserAgentCondition[]|Collection
+     */
+    public function getMenuUserAgentConditions()
+    {
+        return $this->menuUserAgentConditions;
+    }
+
+    /**
+     * @param MenuUserAgentCondition $menuUserAgentCondition
+     * @return MenuUpdate
+     */
+    public function addMenuUserAgentCondition(MenuUserAgentCondition $menuUserAgentCondition)
+    {
+        if (!$this->menuUserAgentConditions->contains($menuUserAgentCondition)) {
+            $menuUserAgentCondition->setMenuUpdate($this);
+            $this->menuUserAgentConditions->add($menuUserAgentCondition);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param MenuUserAgentCondition $menuUserAgentCondition
+     * @return MenuUpdate
+     */
+    public function removeMenuUserAgentCondition(MenuUserAgentCondition $menuUserAgentCondition)
+    {
+        if ($this->menuUserAgentConditions->contains($menuUserAgentCondition)) {
+            $this->menuUserAgentConditions->removeElement($menuUserAgentCondition);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getScreens()
+    {
+        return $this->screens;
+    }
+
+    /**
+     * @param array $screens
+     * @return MenuUpdate
+     */
+    public function setScreens(array $screens)
+    {
+        $this->screens = $screens;
 
         return $this;
     }

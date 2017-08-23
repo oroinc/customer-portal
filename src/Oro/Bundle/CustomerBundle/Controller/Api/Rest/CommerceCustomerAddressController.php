@@ -31,7 +31,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      *      description="Get customer address",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_view")
+     * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
     public function getAction($entityId, $addressId)
@@ -57,7 +57,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      *      description="Get all addresses items",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_view")
+     * @AclAncestor("oro_customer_customer_address_view")
      * @param int $entityId
      *
      * @return JsonResponse
@@ -69,7 +69,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
         $result = [];
 
         if ($customer) {
-            $items = $customer->getAddresses();
+            $items = $this->getCustomerAddresses($customer);
 
             foreach ($items as $item) {
                 $result[] = $this->getPreparedItem($item);
@@ -86,7 +86,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      *      description="Delete address items",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_delete")
+     * @AclAncestor("oro_customer_customer_address_remove")
      * @param int $entityId
      * @param int $addressId
      *
@@ -98,7 +98,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
         $address = $this->getManager()->find($addressId);
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
-        if ($customer->getAddresses()->contains($address)) {
+        if ($this->get('oro_customer.provider.frontend.address')->isCurrentCustomerAddressesContain($address)) {
             $customer->removeAddress($address);
             return $this->handleDeleteRequest($addressId);
         } else {
@@ -116,7 +116,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      *      description="Get customer address by type",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_view")
+     * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
     public function getByTypeAction($entityId, $typeName)
@@ -144,7 +144,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      *      description="Get customer primary address",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_view")
+     * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
     public function getPrimaryAction($entityId)
@@ -227,5 +227,14 @@ class CommerceCustomerAddressController extends RestController implements ClassR
         unset($result['frontendOwner']);
 
         return $result;
+    }
+
+    /**
+     * @param Customer $customer
+     * @return array
+     */
+    protected function getCustomerAddresses(Customer $customer)
+    {
+        return $customer->getAddresses()->toArray();
     }
 }

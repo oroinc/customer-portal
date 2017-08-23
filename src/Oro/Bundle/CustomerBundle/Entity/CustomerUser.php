@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
+use Oro\Bundle\CustomerBundle\Model\ExtendCustomerUser;
 use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
@@ -56,7 +57,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolderInterface, CustomerUserIdentity
+class CustomerUser extends ExtendCustomerUser implements FullNameInterface, EmailHolderInterface, CustomerUserIdentity
 {
     const SECURITY_GROUP = 'commerce';
 
@@ -142,7 +143,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      * @ConfigField(
      *      defaultValues={
      *          "dataaudit"={
@@ -444,7 +445,7 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
@@ -454,6 +455,20 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
      * )
      */
     protected $username;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_guest", type="boolean", options={"default"=false})
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=50
+     *          }
+     *      }
+     * )
+     */
+    protected $isGuest = false;
 
     /**
      * {@inheritdoc}
@@ -529,23 +544,36 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
 
     /**
      * @param string|null $companyName
+     *
+     * @return CustomerUser
      */
     public function createCustomer($companyName = null)
     {
         if (!$this->customer) {
             $this->customer = new Customer();
-            $this->customer->setOrganization($this->organization);
-
-            if (!$companyName) {
-                $companyName = sprintf('%s %s', $this->firstName, $this->lastName);
-            }
-
-            $this->customer->setName($companyName);
-
-            if ($this->getOwner() && !$this->customer->getOwner()) {
-                $this->customer->setOwner($this->getOwner(), false);
-            }
+            $this->fillCustomer($companyName);
         }
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $companyName
+     *
+     * @return CustomerUser
+     */
+    public function fillCustomer($companyName = null)
+    {
+        $this->customer->setOrganization($this->organization);
+        if (!$companyName) {
+            $companyName = sprintf('%s %s', $this->firstName, $this->lastName);
+        }
+        $this->customer->setName($companyName);
+        if ($this->getOwner() && !$this->customer->getOwner()) {
+            $this->customer->setOwner($this->getOwner(), false);
+        }
+
+        return $this;
     }
 
     /**
@@ -974,6 +1002,25 @@ class CustomerUser extends AbstractUser implements FullNameInterface, EmailHolde
     public function setWebsite(Website $website = null)
     {
         $this->website = $website;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGuest()
+    {
+        return $this->isGuest;
+    }
+
+    /**
+     * @param bool $isGuest
+     * @return $this
+     */
+    public function setIsGuest($isGuest)
+    {
+        $this->isGuest = $isGuest;
 
         return $this;
     }

@@ -6,7 +6,8 @@ Feature: Update customer user roles
     And I click "Account"
     And I click "Users"
     And click Edit NancyJSallee@example.org in grid
-    And I check "Buyer"
+    And I fill form with:
+      | Buyer (Predefined) | true |
     And I click "Save"
     Then I should see "Customer User has been saved"
 

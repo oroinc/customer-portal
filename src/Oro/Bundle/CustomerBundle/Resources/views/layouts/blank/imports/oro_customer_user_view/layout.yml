@@ -9,6 +9,21 @@ layout:
             themes: 'layout.html.twig'
 
         - '@setOption':
+            id: customer_user_address_book
+            optionName: visible
+            optionValue: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_view")'
+
+        - '@setOption':
+            id: user_addresses_list_template_item_actions_edit
+            optionName: visible
+            optionValue: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_update")'
+
+        - '@setOption':
+            id: user_addresses_list_template_item_actions_remove
+            optionName: visible
+            optionValue: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_remove")'
+
+        - '@setOption':
             id: page_title
             optionName: defaultValue
             optionValue: 'oro.customer.frontend.title.customer_user.my_profile'

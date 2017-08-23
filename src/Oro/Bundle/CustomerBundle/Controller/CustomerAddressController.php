@@ -20,7 +20,7 @@ class CustomerAddressController extends Controller
     /**
      * @Route("/address-book/{id}", name="oro_customer_address_book", requirements={"id"="\d+"})
      * @Template("OroCustomerBundle:Address/widget:addressBook.html.twig")
-     * @AclAncestor("oro_customer_customer_view")
+     * @AclAncestor("oro_customer_customer_address_view")
      *
      * @param Customer $customer
      * @return array
@@ -29,7 +29,6 @@ class CustomerAddressController extends Controller
     {
         return [
             'entity' => $customer,
-            'address_edit_acl_resource' => 'oro_customer_customer_update',
             'options' => $this->getAddressBookOptions($customer)
         ];
     }
@@ -41,7 +40,7 @@ class CustomerAddressController extends Controller
      *      requirements={"entityId"="\d+"}
      * )
      * @Template("OroCustomerBundle:Address/widget:update.html.twig")
-     * @AclAncestor("oro_customer_customer_create")
+     * @AclAncestor("oro_customer_customer_address_create")
      * @ParamConverter("customer", options={"id" = "entityId"})
      *
      * @param Customer $customer
@@ -59,7 +58,7 @@ class CustomerAddressController extends Controller
      *      requirements={"entityId"="\d+","id"="\d+"},defaults={"id"=0}
      * )
      * @Template("OroCustomerBundle:Address/widget:update.html.twig")
-     * @AclAncestor("oro_customer_customer_update")
+     * @AclAncestor("oro_customer_customer_address_update")
      * @ParamConverter("customer", options={"id" = "entityId"})
      *
      * @param Customer        $customer
@@ -142,6 +141,19 @@ class CustomerAddressController extends Controller
             'addressUpdateRouteName' => 'oro_customer_address_update',
             'currentAddresses'       => $currentAddresses,
             'addressDeleteRouteName' => 'oro_api_customer_delete_commercecustomer_address',
+            'acl'                    => $this->getAclResources()
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getAclResources()
+    {
+        return [
+            'addressEdit' => 'oro_customer_customer_address_update',
+            'addressCreate' => 'oro_customer_customer_address_create',
+            'addressRemove' => 'oro_customer_customer_address_remove',
         ];
     }
 }

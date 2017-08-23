@@ -6,8 +6,21 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+
 abstract class AbstractDefaultTypedAddressRepository extends EntityRepository
 {
+    /**
+     * @param AclHelper $aclHelper
+     * @return array
+     */
+    public function getAddresses(AclHelper $aclHelper)
+    {
+        $query = $aclHelper->apply($this->createQueryBuilder('a'));
+
+        return $query->getResult();
+    }
+
     /**
      * @param object $frontendOwner
      * @param string $type

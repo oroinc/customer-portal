@@ -4,6 +4,9 @@ layout:
             id: sticky_panel
             root: page_container
             namespace: top
+        -
+            id: scroll_top
+            root: page_main
 
     actions:
         - '@setBlockTheme':
@@ -18,11 +21,6 @@ layout:
             id: notification
             parentId: page_container
             siblingId: page_header
-            blockType: block
-
-        - '@add':
-            id: require_js_config
-            parentId: require_js
             blockType: block
 
         - '@add':

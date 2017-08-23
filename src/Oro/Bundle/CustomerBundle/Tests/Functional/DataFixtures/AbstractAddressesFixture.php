@@ -44,7 +44,8 @@ abstract class AbstractAddressesFixture extends AbstractFixture
             ->setCity($addressData['city'])
             ->setPostalCode($addressData['postalCode'])
             ->setCountry($country)
-            ->setRegion($region);
+            ->setRegion($region)
+            ->setOrganization('Test Org');
 
         $manager->persist($address);
         $this->addReference($addressData['label'], $address);

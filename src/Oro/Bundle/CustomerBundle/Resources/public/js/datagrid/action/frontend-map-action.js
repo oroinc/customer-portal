@@ -26,9 +26,18 @@ define(function(require) {
          */
         initialize: function(options) {
             FrontendMapAction.__super__.initialize.apply(this, arguments);
+            this.mapView.on('mapRendered', _.bind(this.onMapRendered, this));
             this.listenTo(this.model, 'change:isDropdownActions', this.actionsDropdownListener);
         },
 
+        onMapRendered: function() {
+            var placement = this.getPopoverConfig().placement;
+            var $popoverTrigger = this.subviews[0].$el;
+            var $popoverData = $popoverTrigger.data('popover');
+            if ($popoverData) {
+                $popoverData.applyPlacement('', placement);
+            }
+        },
         /**
         * @inheritDoc
         */
@@ -38,6 +47,9 @@ define(function(require) {
                 this.handleFullScreenView();
             } else {
                 this.handlePopover(this.getPopoverConfig());
+                if (this.mapView.map) {
+                    this.mapView.map.setCenter(this.mapView.location);
+                }
             }
         },
 
@@ -52,7 +64,8 @@ define(function(require) {
             }
 
             this.fullscreenView = new FullscreenPopupView({
-                content: this.$mapContainerFrame
+                content: this.$mapContainerFrame,
+                popupIcon: 'fa-chevron-left'
             });
             this.fullscreenView.on('close', onClose);
             this.fullscreenView.show();
