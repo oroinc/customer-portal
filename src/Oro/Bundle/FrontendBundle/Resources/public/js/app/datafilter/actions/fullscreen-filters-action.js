@@ -5,7 +5,6 @@ define(function(require) {
     var _ = require('underscore');
     var $ = require('jquery');
     var mediator = require('oroui/js/mediator');
-    var FiltersManager = require('orofilter/js/filters-manager');
     var ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var module = require('module');
@@ -107,8 +106,6 @@ define(function(require) {
                 this.openNotEmptyFilters();
 
                 this.$filters.show();
-
-                filterManager.renderCriteria();
             }, this);
 
             this.fullscreenView.on('close', function() {
@@ -122,10 +119,6 @@ define(function(require) {
                 delete this.fullscreenView;
 
                 this.disposeFiltersManagerPopup();
-
-                // Hide Filters Container
-                // STATE_VIEW_MODE = 1
-                filterManager.setViewMode(FiltersManager.STATE_VIEW_MODE);
             }, this);
 
             this.fullscreenView.show();

@@ -118,7 +118,7 @@ define(function(require) {
          */
         $popup: null,
 
-        /**
+        /** ??
          * Property for footer content
          * @property
          */
@@ -131,6 +131,11 @@ define(function(require) {
             actionBtnLabel: _.__('oro_frontend.filters.apply_all'),
             actionBtnClass: 'btn btn--info btn--full btn--size-s'
         },
+
+        /**
+         * @property
+         */
+        footerTemplate: footerTemplate,
 
         /**
          * @inheritDoc
@@ -194,7 +199,7 @@ define(function(require) {
         },
 
         renderPopupFooterContent: function() {
-            $(this.$popupFooter).html(footerTemplate(this.footerContentOptions));
+            $(this.$popupFooter).html(this.footerTemplate(this.footerContentOptions));
         },
 
         renderContent: function(callback) {
@@ -262,9 +267,11 @@ define(function(require) {
             this.$popup.remove();
 
             delete this.$popup;
+
             if (this.footerContent) {
                 delete this.footerContent;
             }
+
             this.removeSubview('contentView');
             this.trigger('close');
         },
