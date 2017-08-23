@@ -6,11 +6,6 @@ define(function(require) {
     var ChoiceFilter = require('oro/filter/choice-filter');
 
     _.extend(ChoiceFilter.prototype, {
-        criteriaValueSelectors: {
-            value: '[data-choice-filter-name]',
-            type: '[data-choice-filter-type]'
-        },
-
         events: {
             'keyup input': '_onReadCriteriaInputKey',
             'keydown [type="text"]': '_preventEnterProcessing',
@@ -53,6 +48,8 @@ define(function(require) {
 
             this._handleEmptyFilter(type);
             this.trigger('onClickChoiceValue', this);
+
+            this._updateValueField();
         }
     });
 });
