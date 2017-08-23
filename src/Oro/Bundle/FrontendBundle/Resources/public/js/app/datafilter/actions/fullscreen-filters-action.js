@@ -191,8 +191,8 @@ define(function(require) {
                 this.filterManagerPopup.show();
             }, this);
 
-            this.$filterManagerButton.on('click.multiselect', handler);
-            this.$filterManagerButtonContent.on('click.multiselect', handler);
+            this.$filterManagerButton.on('click.multiselectfullscreen', handler);
+            this.$filterManagerButtonContent.on('click.multiselectfullscreen', handler);
         },
 
         disposeFiltersManagerPopup: function() {
@@ -203,8 +203,8 @@ define(function(require) {
             }
 
             if ((this.$filterManagerButton instanceof $) && (this.$filterManagerButtonContent instanceof $)) {
-                this.$filterManagerButton.off();
-                this.$filterManagerButtonContent.off();
+                this.$filterManagerButton.off('.multiselectfullscreen');
+                this.$filterManagerButtonContent.off('.multiselectfullscreen');
                 delete this.$filterManagerButton;
                 delete this.$filterManagerButtonContent;
             }
