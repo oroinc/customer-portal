@@ -118,11 +118,11 @@ define(function(require) {
          */
         $popup: null,
 
-        /** ??
-         * Property for footer content
+        /**
+         * Property {boolean} for footer content
          * @property
          */
-        footerContent: null,
+        footerContent: true,
 
         /**
          * @property
