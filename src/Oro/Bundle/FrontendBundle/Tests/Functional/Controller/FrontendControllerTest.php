@@ -16,7 +16,6 @@ class FrontendControllerTest extends WebTestCase
 
         $this->loadFixtures([
             'Oro\Bundle\ProductBundle\Tests\Functional\DataFixtures\LoadProductData',
-            'Oro\Bundle\ProductBundle\Tests\Functional\DataFixtures\LoadProductImageData',
         ]);
     }
 
