@@ -89,7 +89,7 @@
         padding-top: $fullscreen-popup-content-padding-top;
 
         &--bottom-offset {
-            padding-bottom: $fullscreen-popup-footer-height;
+            height: calc(100% - #{$fullscreen-popup-footer-height});
         }
 
         .alert {
