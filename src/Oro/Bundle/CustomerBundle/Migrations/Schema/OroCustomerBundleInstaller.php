@@ -177,7 +177,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('birthday', 'date', ['notnull' => false]);
         $table->addColumn('enabled', 'boolean', []);
         $table->addColumn('confirmed', 'boolean', []);
-        $table->addColumn('is_guest', 'boolean', []);
+        $table->addColumn('is_guest', 'boolean', ['default' => false]);
         $table->addColumn('salt', 'string', ['length' => 255]);
         $table->addColumn('password', 'string', ['length' => 255]);
         $table->addColumn('confirmation_token', 'string', ['notnull' => false, 'length' => 255]);
