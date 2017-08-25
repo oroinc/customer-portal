@@ -227,7 +227,15 @@ define(function(require) {
             }
 
             _.each(changedFilters, function(filter) {
-                filters[filter.name] = filter._readDOMValue();
+                switch (filter.type) {
+                    case 'date':
+                    case 'datetime':
+                        filter._updateRangeFilter(filter._readDOMValue(), false);
+                        filters[filter.name] = filter._formatRawValue(filter.value);
+                        break;
+                    default:
+                        filters[filter.name] = filter._readDOMValue();
+                }
             });
 
             _.extend(filterManager.collection.state.filters, filters);
@@ -240,7 +248,7 @@ define(function(require) {
          * {@inheritdoc}
          */
         onFilterManagerModeChange: function(mode) {
-            // Must be empty, override original method
+            // Must be empty, nothing to do
         },
 
         openNotEmptyFilters: function() {
