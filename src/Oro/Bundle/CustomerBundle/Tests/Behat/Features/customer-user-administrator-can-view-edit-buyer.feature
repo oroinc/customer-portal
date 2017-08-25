@@ -39,7 +39,7 @@ Feature: Customer User with administrator role should able to view and edit Cust
     And click "Account"
     And click "Users"
     And click "Create User"
-    And fill "Customer User Form" with:
+    And fill form with:
       | Email Address      | newuser@test.com |
       | First Name         | newFirst         |
       | Last Name          | newLast          |

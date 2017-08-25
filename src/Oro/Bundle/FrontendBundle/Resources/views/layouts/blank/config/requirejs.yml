@@ -41,6 +41,7 @@ config:
         'orofrontend/default/js/widgets/expand-text-widget': 'bundles/orofrontend/default/js/widgets/expand-text-widget.js'
         'orofrontend/default/js/widgets/line-clamp-widget': 'bundles/orofrontend/default/js/widgets/line-clamp-widget.js'
         'orofrontend/default/js/widgets/rows-collapse-widget': 'bundles/orofrontend/default/js/widgets/rows-collapse-widget.js'
+        'orofrontend/default/js/widgets/elastic-area-widget': 'bundles/orofrontend/default/js/widgets/elastic-area-widget.js'
         'orofrontend/default/js/app/views/footer-align-view': 'orofrontend/default/js/app/views/footer-align-view.js'
         'orofrontend/default/js/app/views/sticky-panel-view': 'orofrontend/default/js/app/views/sticky-panel-view.js'
         'orofrontend/default/js/app/views/scroll-top-view': 'bundles/orofrontend/default/js/app/views/scroll-top-view.js'
