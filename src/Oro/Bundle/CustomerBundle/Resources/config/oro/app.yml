@@ -7,10 +7,6 @@ security:
         Oro\Bundle\CustomerBundle\Entity\CustomerUser: sha512
 
     firewalls:
-        basic_user_operations:
-            pattern:                        ^/customer/(user/login|user/reset-request|user/send-email|user/check-email|user/registration|user/confirm-email|user/reset)$
-            provider:                       commerce_customer_user
-            anonymous_customer_user:        true
         frontend:
             # @todo: secure api BB-1206
             pattern:                        ^/

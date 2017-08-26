@@ -22,7 +22,6 @@ class CustomerUserAddressController extends Controller
 {
     /**
      * @Route("/", name="oro_customer_frontend_customer_user_address_index")
-     * @AclAncestor("oro_customer_frontend_customer_user_address_view")
      * @Layout(vars={"entity_class", "customer_address_count", "customer_user_address_count"})
      *
      * @return array
