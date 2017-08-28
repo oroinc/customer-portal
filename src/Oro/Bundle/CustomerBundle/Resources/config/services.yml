@@ -67,6 +67,12 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before, method: onBuildBeforeFrontendItems }
 
+    oro_customer.security.authentication.trust_resolver_decorator:
+        class: Oro\Bundle\CustomerBundle\Security\AuthenticationTrustResolver
+        decorates: security.authentication.trust_resolver
+        arguments: ['@oro_customer.security.authentication.trust_resolver_decorator.inner']
+        public: false
+
     oro_customer.customer_tree_handler:
         class: 'Oro\Bundle\CustomerBundle\JsTree\CustomerTreeHandler'
         arguments:

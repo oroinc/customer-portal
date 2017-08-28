@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Security\Token;
 
-use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
@@ -10,7 +10,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenTrait;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
 
-class AnonymousCustomerUserToken extends AbstractToken implements OrganizationContextTokenInterface
+class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationContextTokenInterface
 {
     use OrganizationContextTokenTrait;
 
@@ -40,7 +40,7 @@ class AnonymousCustomerUserToken extends AbstractToken implements OrganizationCo
             $this->setOrganizationContext($organizationContext);
         }
 
-        parent::__construct($roles);
+        parent::__construct('', $user, $roles);
 
         $this->setUser($user);
         $this->setVisitor($visitor);

@@ -45,7 +45,7 @@ class CustomerVisitor extends ExtendCustomerVisitor
     /**
      * @var CustomerUser $customerUser
      *
-     * @ORM\OneToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser")
+     * @ORM\OneToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser", cascade={"persist"})
      * @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $customerUser;
