@@ -1,11 +1,9 @@
 <div class="filter-item choice-tree-filter" data-choice-tree-template>
     <input type="hidden" name="value">
     <input type="hidden" name="type">
-    <div class="filter-action-row">
-        <% if (_.isMobile()) { %>
-            <button type="button" class="btn btn--info btn--full filter-update"><%- _.__("oro_frontend.filters.apply") %></button>
-        <% } else { %>
+    <% if (!_.isMobile()) { %>
+        <div class="filter-action-row">
             <button type="button" class="btn btn--action filter-update"><%- _.__("Update") %></button>
-        <% } %>
-    </div>
+        </div>
+    <% } %>
 </div>

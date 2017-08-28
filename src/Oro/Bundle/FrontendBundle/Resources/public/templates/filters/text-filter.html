@@ -1,10 +1,8 @@
 <div data-text-filter-template>
     <input class="input input--size-m input--full" type="text" name="value" value="" >
-    <div class="filter-action-row">
-        <% if (_.isMobile()) { %>
-            <button type="button" class="btn btn--info btn--full filter-update"><%- _.__("oro_frontend.filters.apply") %></button>
-        <% } else { %>
+    <% if (!_.isMobile()) { %>
+        <div class="filter-action-row">
             <button type="button" class="btn btn--action filter-update"><%- _.__("Update") %></button>
-        <% } %>
-    </div>
+        </div>
+    <% } %>
 </div>

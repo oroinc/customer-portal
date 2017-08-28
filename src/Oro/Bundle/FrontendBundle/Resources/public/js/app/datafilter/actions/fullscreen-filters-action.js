@@ -87,6 +87,10 @@ define(function(require) {
         execute: function() {
             var filterManager = this.datagrid.filterManager;
 
+            if (!filterManager) {
+                return;
+            }
+
             this.$filters = filterManager.$el;
             this.filtersPopupOptions.contentElement = this.$filters;
             this.fullscreenView = new FullScreenPopupView(this.filtersPopupOptions);
@@ -95,8 +99,16 @@ define(function(require) {
                 this.applyAllFiltersBtn = this.fullscreenView.$popupFooter.find(this.applyAllFiltersSelector);
 
                 this.applyAllFiltersBtn.on('click', _.bind(function() {
-                    this.applyAllFilter(this.datagrid);
-                    this.fullscreenView.close();
+                    var state = this.getChangedFiltersState(this.datagrid);
+
+                    if (state.errorsCount === 0) {
+                        _.extend(filterManager.collection.state.filters, state.filters);
+                        filterManager.collection.trigger('updateState', filterManager.collection);
+                        mediator.trigger('datagrid:doRefresh:' + filterManager.collection.inputName);
+
+                        this.fullscreenView.close();
+                    }
+
                 }, this));
 
                 this._toggleApplyAllBtn(!filterManager._calculateSelectedFilters());
@@ -127,7 +139,7 @@ define(function(require) {
 
             this.initFiltersManagerPopup(filterManager);
 
-            this.unbindCloseFiltersOnBody(filterManager);
+            this.unbindCloseFiltersEvent(filterManager);
         },
 
         setMessengerContainer: function() {
@@ -143,7 +155,7 @@ define(function(require) {
         /**
          * @param {object} filterManager
          */
-        unbindCloseFiltersOnBody: function(filterManager) {
+        unbindCloseFiltersEvent: function(filterManager) {
             if (!_.isObject(filterManager) || this.isLocked) {
                 return;
             }
@@ -154,6 +166,16 @@ define(function(require) {
                 if (_.isFunction(filter._eventNamespace)) {
                     $('body').off('click' + filter._eventNamespace());
                 }
+
+                //// If jquery multiselect widget
+                //if (_.isObject(filter.selectWidget) && _.isObject(filter.selectWidget.multiselect('instance'))) {
+                //    // multiselect single
+                //    if (!filter.selectWidget.multiselect('instance').options.multiple) {
+                //        this.selectWidget.multiselect('instance').beforeClose = function() {
+                //            return false;
+                //        };
+                //    }
+                //}
             });
         },
 
@@ -211,37 +233,58 @@ define(function(require) {
         },
 
         /**
+         *
          * @param {object} datagrid
+         * @returns {Object}
          */
-        applyAllFilter: function(datagrid) {
+        getChangedFiltersState: function(datagrid) {
+            var state = {
+                filters: {},
+                errorsCount: 0
+            };
+
             if (!_.isObject(datagrid)) {
-                return;
+                return state;
             }
 
             var filterManager = datagrid.filterManager;
-            var filters = {};
             var changedFilters = _.clone(filterManager.getChangedFilters());
 
             if (!changedFilters.length) {
-                return;
+                return state;
             }
 
             _.each(changedFilters, function(filter) {
+                var value ;
+                var isValid = true;
+
                 switch (filter.type) {
                     case 'date':
                     case 'datetime':
                         filter._updateRangeFilter(filter._readDOMValue(), false);
-                        filters[filter.name] = filter._formatRawValue(filter.value);
+                        value = filter._formatRawValue(filter.value);
+
+                        if (_.isObject(filter.dateValueHelper) && _.isFunction(filter.dateValueHelper.isValid)) {
+                            isValid = filter.dateValueHelper.isValid(value);
+                        }
+
                         break;
                     default:
-                        filters[filter.name] = filter._readDOMValue();
+                        value = filter._readDOMValue();
+
+                        if (_.isFunction(filter._isValid)) {
+                            isValid = filter._isValid();
+                        }
+                }
+
+                if (isValid) {
+                    state.filters[filter.name] = value;
+                } else {
+                    state.errorsCount += 1;
                 }
             });
 
-            _.extend(filterManager.collection.state.filters, filters);
-
-            filterManager.collection.trigger('updateState', filterManager.collection);
-            mediator.trigger('datagrid:doRefresh:' + filterManager.collection.inputName);
+            return state;
         },
 
         /**

@@ -28,7 +28,7 @@
 
                 'oro/filter/abstract-filter': {
                     placeholder: null,
-                    labelPrefix: '{{ 'oro.ui.filter.by'|trans }}'
+                    labelPrefix: !'{{ NotMobileVersion }}' ? '' : '{{ 'oro.ui.filter.by'|trans }}'
                 },
                 'oro/filter/select-filter': {
                     populateDefault: '{{ 'All'|trans  }}'

@@ -33,7 +33,7 @@ oro_frontend:
 
     filters:
         apply: 'Apply'
-        apply_all: 'Apply All'
+        apply_all: 'Apply Filters'
 
     datagrid_views:
         all: "All "

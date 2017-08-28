@@ -4,8 +4,11 @@
                 data-choice-value-select
             <% if (_.isMobile()) { %>
                 data-skip-input-widgets
+                class="select select--size-m select--full"
+            <% } else { %>
+                class="select select--size-m"
             <% } %>
-                class="select select--size-m select--full">
+        >
             <% _.each(choices, function (option) { %>
                 <option value="<%= option.value %>"
                     <% if (option.value == selectedChoice) { %>
@@ -28,12 +31,10 @@
             </div>
         </div>
         <input class="name_input" type="hidden" name="<%= name %>" id="<%= name %>" value="<%= selectedChoice %>"/>
-        <div class="filter-action-row">
-            <% if (_.isMobile()) { %>
-                <button type="button" class="btn btn--info btn--full filter-update"><%- _.__("oro_frontend.filters.apply") %></button>
-            <% } else { %>
+        <% if (!_.isMobile()) { %>
+            <div class="filter-action-row">
                 <button type="button" class="btn btn--action filter-update"><%- _.__("Update") %></button>
-            <% } %>
-        </div>
+            </div>
+        <% } %>
     </div>
 </div>
