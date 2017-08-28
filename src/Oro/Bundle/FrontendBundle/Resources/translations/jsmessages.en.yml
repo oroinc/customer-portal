@@ -22,6 +22,10 @@ oro_frontend:
                 orders: "{{ totalRecords }} Total Orders"
                 quotes: "{{ totalRecords }} Total Quotes"
         manage_grid: 'Manage grid'
+        requires:
+            data: 'Data attribute "data-server-render" must be defined'
+            options: 'Options for datagrid-component must be defined'
+
 
     filter_manager:
         checkAll: 'Select All'
@@ -37,3 +41,9 @@ oro_frontend:
         save_as_new: "Save As New"
         set_as_default: "Set as Default"
         placeholder: "Enter new list name"
+
+    rows_collapse:
+        trigger:
+            label:
+                normal: "Show Less Items"
+                truncated: "And {{ hiddenRows }} more items"

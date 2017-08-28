@@ -2,9 +2,11 @@ define(function(require) {
     'use strict';
 
     var FullscreenPopupView;
+    var template = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup.html');
     var BaseView = require('oroui/js/app/views/base/view');
     var tools = require('oroui/js/tools');
     var mediator = require('oroui/js/mediator');
+    var scrollHelper = require('oroui/js/tools/scroll-helper');
     var _ = require('underscore');
     var $ = require('jquery');
 
@@ -19,7 +21,7 @@ define(function(require) {
             'popupCloseButton', 'popupIcon', 'popupBadge'
         ]),
 
-        templateSelector: '#fullscreen-popup-tpl',
+        template: template,
 
         popupLabel: _.__('Back'),
 
@@ -57,8 +59,7 @@ define(function(require) {
          * @inheritDoc
          */
         initialize: function() {
-            this.contentElement = $(this.contentElement);
-            this.savePreviousClasses(this.contentElement);
+            this.savePreviousClasses($(this.contentElement));
 
             FullscreenPopupView.__super__.initialize.apply(this, arguments);
         },
@@ -87,6 +88,7 @@ define(function(require) {
         onShow: function() {
             this.initPopupEvents();
             mediator.trigger('layout:reposition');
+            scrollHelper.disableBodyTouchScroll();
             this.trigger('show');
         },
 
@@ -111,12 +113,11 @@ define(function(require) {
 
         moveContentElement: function(callback) {
             this.contentElementPlaceholder = $('<div/>');
-            this.contentElement.after(this.contentElementPlaceholder);
+            $(this.contentElement).after(this.contentElementPlaceholder);
             $(this.contentOptions.el)
                 .append(
-                    this.contentElement.attr(this.contentAttributes)
+                    $(this.contentElement).attr(this.contentAttributes)
                 );
-
             callback();
         },
 
@@ -140,6 +141,7 @@ define(function(require) {
 
         initPopupEvents: function() {
             this.$popup.on('click', '[data-role="close"]', _.bind(this.close, this));
+            this.$popup.on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
         },
 
         close: function() {
@@ -147,15 +149,18 @@ define(function(require) {
                 return;
             }
 
+            scrollHelper.enableBodyTouchScroll();
+
             if (this.contentElement && this.contentElementPlaceholder) {
-                this.contentElement.removeAttr(
+                $(this.contentElement).removeAttr(
                     _.keys(this.contentAttributes).join(' ')
                 );
-                this.setPreviousClasses(this.contentElement);
-                this.contentElementPlaceholder.after(this.contentElement);
+                this.setPreviousClasses($(this.contentElement));
+                this.contentElementPlaceholder.after($(this.contentElement));
                 this.contentElementPlaceholder.remove();
             }
 
+            this.$popup.find('[data-scroll="true"]').off('touchstart');
             this.$popup.remove();
 
             delete this.$popup;

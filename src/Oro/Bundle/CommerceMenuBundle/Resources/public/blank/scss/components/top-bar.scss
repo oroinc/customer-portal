@@ -1,7 +1,11 @@
-// @theme: blank
+// @theme: blank;
 
 .topbar {
     font-size: $top-bar-font-size;
+}
+
+.topbar-navigation-wrap {
+    display: inline-block;
 }
 
 .topbar-navigation {
@@ -23,10 +27,6 @@
             margin-right: 0;
         }
     }
-}
-
-.topbar-navigation-wrap {
-    display: inline-block;
 }
 
 @include breakpoint('tablet') {

@@ -8,16 +8,14 @@ define(function(require) {
     var __ = require('orotranslation/js/translator');
     var GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
     var DeleteConfirmation = require('oroui/js/delete-confirmation');
+    var errorTemplate = require('tpl!orodatagrid/templates/datagrid/view-name-error-modal.html');
 
     FrontendGridViewsView = GridViewsView.extend({
         /** @property */
-        template: '.js-frontend-datagrid-grid-views-tpl',
+        templateSelector: '.js-frontend-datagrid-grid-views-tpl',
 
         /** @property */
-        titleTemplate: '.js-frontend-datagrid-grid-view-label-tpl',
-
-        /** @property */
-        errorTemplate: '#template-datagrid-view-name-error-modal',
+        errorTemplate: errorTemplate,
 
         /** @property */
         defaultPrefix: __('oro_frontend.datagrid_views.all'),
@@ -113,13 +111,15 @@ define(function(require) {
          * @param options
          */
         initialize: function(options) {
-            var $selector = $(this.template).filter('[data-datagrid-views-name =' + options.gridName + ']');
-
-            if ($selector.length) {
-                this.template =  $selector.get(0);
+            //get template by datagrid name or first template on page
+            var $selector = $(this.templateSelector).filter('[data-datagrid-views-name =' + options.gridName + ']');
+            if (!$selector.length) {
+                $selector = $(this.templateSelector);
             }
+            this.template = _.template($selector.html());
+            this.templateSelector = null;
 
-            this.nameErrorTemplate = _.template($(this.errorTemplate).html());
+            this.errorTemplate = this.getTemplateFunction('errorTemplate');
 
             if (_.isObject(options.gridViewsOptions)) {
                 this.titleOptions = _.extend(
@@ -381,7 +381,7 @@ define(function(require) {
             this.clearValidation();
 
             if (error) {
-                error = this.nameErrorTemplate({
+                error = this.errorTemplate({
                     error: error
                 });
 

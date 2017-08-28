@@ -1,5 +1,6 @@
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 Feature: grid views management on datagrids
+  In order to manage grid views on front store
   As Frontend User
   I need to create and use grid view on some grid
 
@@ -13,22 +14,21 @@ Feature: grid views management on datagrids
     And I set "Test view" as grid view name for "Customer Company Addresses Grid" grid on frontend
     And I mark Set as Default on grid view for "Customer Company Addresses Grid" grid on frontend
     And I click "Add"
-    Then I should see "View has been successfully created" flash message
-    And I should see a "Customer Company User Addresses Grid View List" element
+    And I should see "View has been successfully created" flash message
+    And I click "Flash Message Close Button"
+    Then I should see a "Customer Company User Addresses Grid View List" element
 
-  @skip
-  # Unskip after BB-10598 will be resolved
-  Scenario: Make sure gridview can be renamed few times
-    When I click "Rename"
+  Scenario: Gridview can be renamed few times
+    When I click grid view list on "Customer Company Addresses Grid" grid
+    And I click "Rename"
     And I set "Test view 01" as grid view name for "Customer Company Addresses Grid" grid on frontend
     And I click "Save"
-    Then I should see "View has been successfully updated" flash message
-    When I click "Customer Company Addresses Grid View List Close Button"
+    And I should see "View has been successfully updated" flash message
+    And I click "Flash Message Close Button"
     Then I should see "Test view 01"
     When I click grid view list on "Customer Company Addresses Grid" grid
     And I click "Rename"
     And I set "Test view 02" as grid view name for "Customer Company Addresses Grid" grid on frontend
     And I click "Save"
-    Then I should see "View has been successfully updated" flash message
-    When I click "Customer Company Addresses Grid View List Close Button"
+    And I should see "View has been successfully updated" flash message
     Then I should see "Test view 02"

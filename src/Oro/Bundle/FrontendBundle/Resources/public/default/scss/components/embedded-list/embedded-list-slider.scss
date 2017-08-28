@@ -1,0 +1,106 @@
+// @theme: default;
+
+.embedded-list-slider {
+    // Hide content before slick slider is united
+    overflow: hidden;
+
+    font-size: 0;
+
+    white-space: nowrap;
+
+    &.slick-initialized {
+        // Show content after slick slider is inited
+        overflow: visible;
+
+        &:before {
+            display: block;
+        }
+    }
+
+    .embedded-list__item {
+        display: inline-block;
+
+        font-size: $base-font-size;
+
+        vertical-align: top;
+        white-space: normal;
+    }
+
+    .slick-arrow {
+        position: absolute;
+        top: $embedded-list-slider-btn-arrow-top-pos;
+        z-index: z('base') + 3;
+
+        overflow: hidden;
+
+        width: $embedded-list-slider-btn-arrow-width;
+        height: $embedded-list-slider-btn-arrow-height;
+
+        text-indent: -9999px;
+
+        color: get-color('additional', 'dark');
+        border: 0;
+        background: $embedded-list-slider-btn-arrow-background;
+        cursor: pointer;
+
+        transition: all .3s;
+
+        &:not(.slick-disabled):hover {
+            background: $embedded-list-slider-btn-arrow-hover-background;
+        }
+
+        &:before {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+
+            display: block;
+            width: $embedded-list-slider-arrow-size;
+            height: $embedded-list-slider-arrow-size;
+
+            border-top: $embedded-list-slider-arrow-border;
+
+            content: '';
+        }
+    }
+
+    .slick-prev {
+        left: $embedded-list-slider-btn-arrow-side-pos;
+
+        &:before {
+            margin-left: $embedded-list-slider-arrow-side-offset;
+
+            border-left: $embedded-list-slider-arrow-border;
+
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+    }
+
+    .slick-next {
+        right: $embedded-list-slider-btn-arrow-side-pos;
+
+        &:before {
+            margin-left: -$embedded-list-slider-arrow-side-offset;
+
+            border-right: $embedded-list-slider-arrow-border;
+
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+    }
+
+    .slick-disabled {
+        cursor: default;
+
+        opacity: .5;
+    }
+
+    @include slick-dots(
+        $slick-dots-bottom-pos:    $offset-y-m,
+        $slick-dots-item-offset:   0 4px,
+        $slick-dots-button-bg:     transparent,
+        $slick-dots-button-border: 1px solid get-color('additional', 'ultra'),
+        $slick-dots-button-active-border: 1px solid get-color('additional', 'ultra'),
+        $slick-dots-button-active-bg: get-color('additional', 'ultra'),
+        $slick-dots-button-active-box-shadow: null
+    );
+}

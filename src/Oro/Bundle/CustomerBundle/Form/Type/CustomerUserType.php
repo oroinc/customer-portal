@@ -169,29 +169,52 @@ class CustomerUserType extends AbstractType
                 ]
             )
             ->add(
-                'addresses',
-                AddressCollectionType::NAME,
-                [
-                    'label' => 'oro.customer.customeruser.addresses.label',
-                    'type' => CustomerUserTypedAddressType::NAME,
-                    'required' => false,
-                    'options' => [
-                        'data_class' => $this->addressClass,
-                        'single_form' => false
-                    ]
-                ]
-            )
-            ->add(
                 'salesRepresentatives',
                 UserMultiSelectType::NAME,
                 [
                     'label' => 'oro.customer.customer.sales_representatives.label',
                 ]
+            )
+            ->add(
+                'isGuest',
+                'checkbox',
+                [
+                    'required' => false,
+                    'label' => 'oro.customer.customeruser.is_guest.label',
+                ]
             );
+
 
         if ($this->authorizationChecker->isGranted('oro_customer_customer_user_role_view')) {
             $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'preSetData']);
             $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'preSubmit']);
+        }
+
+        if ($this->authorizationChecker->isGranted('oro_customer_customer_user_address_update')) {
+            $options = [
+                'label' => 'oro.customer.customeruser.addresses.label',
+                'type' => CustomerUserTypedAddressType::NAME,
+                'required' => false,
+                'options' => [
+                    'data_class' => $this->addressClass,
+                    'single_form' => false,
+                ],
+            ];
+
+            if (!$this->authorizationChecker->isGranted('oro_customer_customer_user_address_create')) {
+                $options['allow_add'] = false;
+            }
+
+            if (!$this->authorizationChecker->isGranted('oro_customer_customer_user_address_remove')) {
+                $options['allow_delete'] = false;
+            }
+
+            $builder
+                ->add(
+                    'addresses',
+                    AddressCollectionType::NAME,
+                    $options
+                );
         }
     }
 

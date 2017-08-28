@@ -20,12 +20,18 @@ services:
             - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 30}
 
     oro_commerce_menu.menu_update.builder.menu_frontend_visibility:
-        parent: oro_navigation.menu_update.builder.abstract
-        calls:
-          - [setClassName, ['%oro_commerce_menu.entity.menu_update.class%']]
-          - [setScopeType, ['%oro_commerce_menu.menu_update.scope_type%']]
+        class: 'Oro\Bundle\NavigationBundle\Builder\MenuUpdateBuilder'
+        arguments:
+            - '@oro_locale.helper.localization'
+            - '@oro_commerce_menu.provider.menu_update_provider'
         tags:
             - { name: oro_menu.builder, priority: 200 }
+
+    oro_commerce_menu.provider.menu_update_provider:
+        class: 'Oro\Bundle\NavigationBundle\Provider\MenuUpdateProvider'
+        arguments:
+            - '@oro_scope.scope_manager'
+            - '@oro_commerce_menu.manager.menu_update'
 
     oro_commerce_menu.manager.menu_update:
         class: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager
@@ -140,10 +146,48 @@ services:
             - '@oro_commerce_menu.expression_language.parsed_cache'
             - []
 
-    oro_commerce_menu.builder.menu_condition_builder:
+    oro_commerce_menu.builder.menu_display_builder:
+        class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuDisplayBuilder'
+        abstract: true
         public: false
-        class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuConditionBuilder'
+
+    oro_commerce_menu.menu.condition_evaluator.condition:
+        class: 'Oro\Bundle\CommerceMenuBundle\Menu\ConditionEvaluator\MenuConditionEvaluator'
+        public: false
+        arguments:
+            - '@oro_commerce_menu.expression_language'
+            - '@monolog.logger'
+
+    oro_commerce_menu.builder.menu_condition_builder:
+        parent: oro_commerce_menu.builder.menu_display_builder
+        arguments:
+            - '@oro_commerce_menu.menu.condition_evaluator.condition'
+        tags:
+            - { name: oro_menu.builder, priority: 210 }
+
+    oro_commerce_menu.validator.menu_update_expression:
+        class: 'Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpressionValidator'
         arguments:
             - "@oro_commerce_menu.expression_language"
         tags:
-            - { name: oro_menu.builder, priority: 210 }
+            - { name: validator.constraint_validator, alias: oro_commerce_menu_update_expression_validator }
+
+    oro_commerce_menu.builder.menu_screens_condition_builder:
+        public: false
+        class: 'Oro\Bundle\CommerceMenuBundle\Builder\MenuScreensConditionBuilder'
+        arguments:
+            - '@oro_frontend.provider.screens'
+        tags:
+            - { name: oro_menu.builder, priority: 225 }
+
+    oro_commerce_menu.user_agent_conditions_evaluator:
+        class: 'Oro\Bundle\CommerceMenuBundle\Menu\ConditionEvaluator\UserAgentConditionsEvaluator'
+        arguments:
+            - "@oro_ui.user_agent_provider"
+
+    oro_commerce_menu.builder.menu_user_agent_conditions_evaluator:
+        parent: oro_commerce_menu.builder.menu_display_builder
+        arguments:
+            - '@oro_commerce_menu.user_agent_conditions_evaluator'
+        tags:
+            - { name: oro_menu.builder, priority: 220 }

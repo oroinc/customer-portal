@@ -4,6 +4,7 @@ define(function(require) {
     var HeaderRowView;
     var BaseView = require('oroui/js/app/views/base/view');
     var viewportManager = require('oroui/js/viewport-manager');
+    var scrollHelper = require('oroui/js/tools/scroll-helper');
     var $ = require('jquery');
     var _ = require('underscore');
 
@@ -13,7 +14,7 @@ define(function(require) {
         ]),
 
         events: {
-            'touchstart .header-row__container': 'removeIOSRubberEffect',
+            'touchstart .header-row__container [data-scroll="true"]': 'onTouchScrollingContainer',
             'shown.bs.dropdown': 'onDropdownShow',
             'hide.bs.dropdown': 'onDropdownHide',
             'click [data-header-row-toggle]': 'onToggleClick'
@@ -45,20 +46,11 @@ define(function(require) {
             e.stopPropagation();
         },
 
-        removeIOSRubberEffect: function(e) {
+        onTouchScrollingContainer: function(e) {
             if (!this.isUseScroll) {
                 return;
             }
-            var element = e.currentTarget;
-            var top = element.scrollTop;
-            var totalScroll = element.scrollHeight;
-            var currentScroll = top + element.offsetHeight;
-
-            if (top === 0) {
-                element.scrollTop = 1;
-            } else if (currentScroll === totalScroll) {
-                element.scrollTop = top - 1;
-            }
+            scrollHelper.removeIOSRubberEffect(e);
         },
 
         onDropdownShow: function(e) {

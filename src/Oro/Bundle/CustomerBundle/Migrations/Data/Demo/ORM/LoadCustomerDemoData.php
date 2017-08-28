@@ -36,6 +36,12 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
         'Customer G' => [
             'group' => 'All Customers',
         ],
+        'Anonymous 1' => [
+            'group' => 'Non-Authenticated Visitors',
+        ],
+        'Anonymous 2' => [
+            'group' => 'Non-Authenticated Visitors',
+        ],
     ];
 
     /**

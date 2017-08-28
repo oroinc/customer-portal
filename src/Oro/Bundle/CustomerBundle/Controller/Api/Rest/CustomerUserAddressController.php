@@ -34,7 +34,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
      *      description="Get customer user address",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_user_view")
+     * @AclAncestor("oro_customer_customer_user_address_view")
      * @return Response
      */
     public function getAction($entityId, $addressId)
@@ -60,7 +60,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
      *      description="Get all addresses items",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_user_view")
+     * @AclAncestor("oro_customer_customer_user_address_view")
      * @param int $entityId
      * @param Request $request
      * @return JsonResponse
@@ -72,7 +72,8 @@ class CustomerUserAddressController extends RestController implements ClassResou
         $result  = [];
 
         if ($customerUser) {
-            $addresses = $customerUser->getAddresses();
+            $addresses = $this->getCustomerUserAddresses($customerUser);
+
             if ($request->query->get('default_only')) {
                 /** @var AbstractDefaultTypedAddress $address */
                 foreach ($addresses as $address) {
@@ -97,7 +98,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
      *      description="Delete address items",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_user_delete")
+     * @AclAncestor("oro_customer_customer_user_address_remove")
      * @param int $entityId
      * @param int $addressId
      *
@@ -109,7 +110,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
         $address = $this->getManager()->find($addressId);
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getCustomerUserManager()->find($entityId);
-        if ($customerUser->getAddresses()->contains($address)) {
+        if ($this->get('oro_customer.provider.frontend.address')->isCurrentCustomerUserAddressesContain($address)) {
             $customerUser->removeAddress($address);
             return $this->handleDeleteRequest($addressId);
         } else {
@@ -127,7 +128,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
      *      description="Get customer user address by type",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_user_view")
+     * @AclAncestor("oro_customer_customer_user_address_view")
      * @return Response
      */
     public function getByTypeAction($entityId, $typeName)
@@ -155,7 +156,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
      *      description="Get customer user primary address",
      *      resource=true
      * )
-     * @AclAncestor("oro_customer_customer_user_view")
+     * @AclAncestor("oro_customer_customer_user_address_view")
      * @return Response
      */
     public function getPrimaryAction($entityId)
@@ -238,5 +239,14 @@ class CustomerUserAddressController extends RestController implements ClassResou
         unset($result['frontendOwner']);
 
         return $result;
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     * @return array
+     */
+    protected function getCustomerUserAddresses(CustomerUser $customerUser)
+    {
+        return $customerUser->getAddresses()->toArray();
     }
 }

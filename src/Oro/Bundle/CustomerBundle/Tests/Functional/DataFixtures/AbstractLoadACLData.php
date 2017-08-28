@@ -15,6 +15,7 @@ use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Migrations\Data\ORM\LoadRolesData;
+use Oro\Bundle\WorkflowBundle\Acl\Extension\WorkflowMaskBuilder;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Role\RoleInterface;
@@ -257,6 +258,7 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
             $classnames = (array) $this->getAclResourceClassName();
             foreach ($classnames as $class) {
                 $this->setRolePermissions($role, $class, $permissions);
+                $this->setWorkflowPermissions($role);
             }
 
             $manager->persist($role);
@@ -265,6 +267,18 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
 
         $manager->flush();
         $this->container->get('oro_security.acl.manager')->flush();
+    }
+
+    /**
+     * @param CustomerUserRole $role
+     */
+    protected function setWorkflowPermissions(CustomerUserRole $role)
+    {
+        $aclManager = $this->container->get('oro_security.acl.manager');
+        $sid = $aclManager->getSid($role);
+        $oid = $aclManager->getOid('workflow:(root)');
+
+        $aclManager->setPermission($sid, $oid, WorkflowMaskBuilder::GROUP_SYSTEM);
     }
 
     /**
@@ -315,9 +329,10 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
     protected function getAdminUser(ObjectManager $manager)
     {
         if (null === $this->admin) {
-            $role = $manager->getRepository('OroUserBundle:Role')
-                ->findOneBy(['role' => LoadRolesData::ROLE_ADMINISTRATOR]);
-            $this->admin = $manager->getRepository('OroUserBundle:Role')->getFirstMatchedUser($role);
+            $repo = $manager->getRepository(Role::class);
+
+            $role = $repo->findOneBy(['role' => LoadRolesData::ROLE_ADMINISTRATOR]);
+            $this->admin = $repo->getFirstMatchedUser($role);
         }
 
         return $this->admin;

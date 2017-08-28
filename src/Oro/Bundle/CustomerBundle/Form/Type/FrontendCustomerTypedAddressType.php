@@ -2,6 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
+use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
+
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -26,9 +28,28 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
      */
     public function preSetData(FormEvent $event)
     {
-        $event->getForm()->add('frontendOwner', FrontendOwnerSelectType::NAME, [
+        $form = $event->getForm();
+        $address = $event->getData();
+
+        $form->add('frontendOwner', FrontendOwnerSelectType::NAME, [
             'label' => 'oro.customer.customer.entity_label',
-            'targetObject' => $event->getData()
+            'targetObject' => $address,
         ]);
+
+        if (is_a($address, AbstractDefaultTypedAddress::class)
+            && $form->has('primary')
+            && $this->isHidePrimaryAddress($address)
+        ) {
+            $form->remove('primary');
+        }
+    }
+
+    /**
+     * @param AbstractDefaultTypedAddress $address
+     * @return bool
+     */
+    protected function isHidePrimaryAddress($address)
+    {
+        return count($address->getFrontendOwner()->getAddresses()) <= 1;
     }
 }

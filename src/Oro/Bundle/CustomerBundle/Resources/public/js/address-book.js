@@ -6,6 +6,7 @@ define(function(require) {
     var AddressBook;
     var BaseAddressBook = require('oroaddress/js/address-book');
     var $ = require('jquery');
+    var _ = require('underscore');
     var mediator = require('oroui/js/mediator');
     var viewportManager = require('oroui/js/viewport-manager');
 
@@ -13,6 +14,8 @@ define(function(require) {
         optionNames: BaseAddressBook.prototype.optionNames.concat(['useFormDialog', 'mapViewport']),
 
         useFormDialog: true,
+
+        checkViewport: false,
 
         mapViewport: {},
 
@@ -24,7 +27,10 @@ define(function(require) {
          * @param {Object} options
          */
         initialize: function(options) {
-            this.showMap = viewportManager.isApplicable(this.mapViewport);
+            this.checkViewport = _.isUndefined(options.showMap) ? this.options.showMap : options.showMap;
+            if (this.checkViewport && !viewportManager.isApplicable(this.mapViewport)) {
+                options.showMap = false;
+            }
             AddressBook.__super__.initialize.call(this, options);
         },
 
@@ -50,8 +56,11 @@ define(function(require) {
         },
 
         _checkMapVisibility: function(viewport) {
-            this.showMap = viewport.isApplicable(this.mapViewport);
-            if (this.showMap) {
+            if (!this.checkViewport) {
+                return;
+            }
+            this.options.showMap = viewport.isApplicable(this.mapViewport);
+            if (this.options.showMap) {
                 this.initializeMap();
             } else {
                 this.disposeMap();

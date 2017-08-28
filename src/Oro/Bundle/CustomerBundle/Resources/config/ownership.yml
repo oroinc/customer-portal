@@ -35,6 +35,18 @@ services:
         tags:
            - { name: oro_security.owner.ownership_decision_maker, priority: 10 }
 
+    oro_customer.owner.anonymous_decision_maker:
+        public: false
+        class: 'Oro\Bundle\CustomerBundle\Owner\AnonymousOwnershipDecisionMaker'
+        arguments:
+            - '@oro_security.ownership_tree_provider.chain'
+            - '@oro_security.acl.object_id_accessor'
+            - '@oro_security.owner.entity_owner_accessor'
+            - '@oro_security.owner.metadata_provider.chain'
+            - '@oro_security.token_accessor'
+        tags:
+           - { name: oro_security.owner.ownership_decision_maker, priority: 20 }
+
     oro_customer.owner.tree_provider:
         public: false
         class: 'Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider'

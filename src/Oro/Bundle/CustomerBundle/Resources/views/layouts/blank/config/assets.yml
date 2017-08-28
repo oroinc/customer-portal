@@ -3,4 +3,5 @@ styles:
         - 'bundles/orocustomer/blank/scss/variables/single-form-page-config.scss'
         - 'bundles/orocustomer/blank/scss/variables/check-email-config.scss'
         - 'bundles/orocustomer/blank/scss/variables/registration-instructions-config.scss'
+        - 'bundles/orocustomer/blank/scss/variables/topbar-customer-menu-config.scss'
         - 'bundles/orocustomer/blank/scss/styles.scss'

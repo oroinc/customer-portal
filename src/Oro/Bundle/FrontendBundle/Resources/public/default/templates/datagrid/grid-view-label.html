@@ -1,0 +1,13 @@
+<h2 class="grid-views__title<% if (icon) { %> has-icon <% } %>">
+    <% if (icon) { %>
+        <span class="grid-views__piece">
+            <span class="badge <%= iconClass %>">
+                <i class="fa-<%= icon %>"></i>
+            </span>
+        </span>
+    <% } %>
+    <span class="grid-views__title-text">
+        <%- title %>
+        <i class="fa-angle-down"></i>
+    </span>
+</h2>
