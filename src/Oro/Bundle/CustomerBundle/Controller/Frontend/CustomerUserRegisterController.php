@@ -8,11 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use Oro\Component\Layout\LayoutContext;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
-use Oro\Bundle\CustomerBundle\Event\BeforeCustomerUserRegisterEvent;
 
 class CustomerUserRegisterController extends Controller
 {
@@ -47,34 +44,29 @@ class CustomerUserRegisterController extends Controller
 
     /**
      * @param Request $request
-     * @return LayoutContext|RedirectResponse
+     * @return array|RedirectResponse
      */
     protected function handleForm(Request $request)
     {
         $form = $this->get('oro_customer.provider.frontend_customer_user_registration_form')
             ->getRegisterForm();
         $userManager = $this->get('oro_customer_user.manager');
-        $eventDispatcher = $this->get('event_dispatcher');
-        $handler = new FrontendCustomerUserHandler($form, $request, $userManager, $eventDispatcher);
 
+        $registrationMessage = 'oro.customer.controller.customeruser.registered.message';
         if ($userManager->isConfirmationRequired()) {
             $registrationMessage = 'oro.customer.controller.customeruser.registered_with_confirmation.message';
-        } else {
-            $registrationMessage = 'oro.customer.controller.customeruser.registered.message';
         }
 
-        $event = new BeforeCustomerUserRegisterEvent();
-        $eventDispatcher->dispatch(BeforeCustomerUserRegisterEvent::NAME, $event);
-        $redirect = $event->getRedirect() ?: ['route' => 'oro_customer_customer_user_security_login'];
+        $handler = $this->get('oro_customer.handler.frontend_customer_user_handler');
 
-        $response = $this->get('oro_form.model.update_handler')->handleUpdate(
+        $response = $this->get('oro_form.update_handler')->update(
             $form->getData(),
             $form,
-            $redirect,
-            $redirect,
             $this->get('translator')->trans($registrationMessage),
+            $request,
             $handler
         );
+
         if ($response instanceof Response) {
             return $response;
         }

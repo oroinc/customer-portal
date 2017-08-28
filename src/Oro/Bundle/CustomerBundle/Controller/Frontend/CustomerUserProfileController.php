@@ -10,7 +10,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
 
 class CustomerUserProfileController extends Controller
 {
@@ -46,21 +45,12 @@ class CustomerUserProfileController extends Controller
         $form = $this->get('oro_customer.provider.frontend_customer_user_form')
             ->getProfileForm($customerUser);
 
-        $eventDispatcher = $this->get('event_dispatcher');
-
-        $handler = new FrontendCustomerUserHandler(
-            $form,
-            $request,
-            $this->get('oro_customer_user.manager'),
-            $eventDispatcher
-        );
-
-        $resultHandler = $this->get('oro_form.model.update_handler')->handleUpdate(
+        $handler = $this->get('oro_customer.handler.frontend_customer_user_handler');
+        $resultHandler = $this->get('oro_form.update_handler')->update(
             $customerUser,
             $form,
-            ['route' => 'oro_customer_frontend_customer_user_profile_update'],
-            ['route' => 'oro_customer_frontend_customer_user_profile'],
             $this->get('translator')->trans('oro.customer.controller.customeruser.profile_updated.message'),
+            $request,
             $handler
         );
 

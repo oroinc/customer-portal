@@ -958,3 +958,11 @@ services:
         arguments:
            - '@oro_security.token_accessor'
            - '@service_container'
+
+    oro_customer.handler.frontend_customer_user_handler:
+        class: Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler
+        arguments:
+            - '@oro_form.event.event_dispatcher'
+            - '@oro_entity.doctrine_helper'
+            - '@request_stack'
+            - '@oro_customer_user.manager'
