@@ -108,18 +108,18 @@ class GuestCustomerUserManager
      */
     public function createFromAddress($userName = null, AbstractAddress $address = null)
     {
-        if ($userName === null) {
-            $userName = $this->customerUserManager->generatePassword(10);
+        $properties = [
+            'username' => $userName ?? $this->customerUserManager->generatePassword(10)
+        ];
+        if (null !== $address) {
+            $properties['name_prefix'] = $address->getNamePrefix();
+            $properties['first_name'] = $address->getFirstName();
+            $properties['middle_name'] = $address->getMiddleName();
+            $properties['last_name'] = $address->getLastName();
+            $properties['name_suffix'] = $address->getNameSuffix();
         }
 
-        return $this->generateGuestCustomerUser([
-            'username' => $userName,
-            'name_prefix' => $address->getNamePrefix(),
-            'first_name' => $address->getFirstName(),
-            'middle_name' => $address->getMiddleName(),
-            'last_name' => $address->getLastName(),
-            'name_suffix' => $address->getNameSuffix()
-        ]);
+        return $this->generateGuestCustomerUser($properties);
     }
 
     /**

@@ -1,4 +1,6 @@
 @fixture-OroCustomerBundle:CustomerFixture.yml
+@skip
+# todo: OPI-131
 Feature: Delete customers
 
   Scenario: Delete customer without assigned customer users

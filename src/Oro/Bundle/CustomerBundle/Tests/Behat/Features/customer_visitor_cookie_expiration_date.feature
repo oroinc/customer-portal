@@ -13,7 +13,7 @@ Feature: Customer visitor cookie lifetime
     And I login as administrator
     And go to System/ Configuration
     And I follow "Commerce/Customer/Customer Users" on configuration sidebar
-    And uncheck Use Default for "Customer visitor cookie lifetime (days)" field
+    And uncheck "Use default" for "Customer visitor cookie lifetime (days)" field
     When I fill form with:
       | Customer visitor cookie lifetime (days) | 1 |
     And I save form

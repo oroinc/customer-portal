@@ -2,21 +2,35 @@ oro:
     customer:
         entity_label: 'Customer'
         entity_plural_label: 'Customers'
-        name.label: 'Name'
-        group.label: 'Group'
-        internal_rating.label: 'Internal rating'
-        children.label: 'Subsidiaries'
+        name:
+            label: 'Name'
+            description: 'The name of the customer'
+        group:
+            label: 'Group'
+            description: 'Customer group related to the current customer'
+        internal_rating:
+            label: 'Internal rating'
+            description: 'Internal rating'
+        children:
+            label: 'Subsidiaries'
+            description: 'Subsidiaries'
         id.label: 'Id'
-        parent.label: 'Parent Customer'
+        parent:
+            label: 'Parent Customer'
+            description: 'Parent Customer'
         organization.label: 'Organization'
         has_group.label: 'Has group'
-        users.label: 'Users'
+        users:
+            label: 'Users'
+            description: 'Users'
         addresses.label: 'Addresses'
         form.choose: 'Choose a customer...'
         form.choose_parent: 'Choose parent customer...'
         address_book.label: 'Address Book'
         owner.label: 'Owner'
-        sales_representatives.label: 'Assigned Sales Representatives'
+        sales_representatives:
+            label: 'Assigned Sales Representatives'
+            description: 'Assigned Sales Representatives'
 oro.customer:
     customer:
         entity_label: 'Customer'
@@ -66,9 +80,13 @@ oro.customer:
     customergroup:
         entity_label: 'Customer Group'
         entity_plural_label: 'Customer Groups'
-        name.label: 'Name'
+        name:
+            label: 'Name'
+            description: 'Customer Group name'
         id.label: 'Id'
-        customers.label: 'Customers'
+        customers:
+            label: 'Customers'
+            description: 'Customers related to the customer group'
         form.choose: 'Choose a customer group...'
         organization.label: 'Organization'
         owner.label: 'Owner'
@@ -396,6 +414,7 @@ oro.customer:
             customer_users_registration.title: 'Customer Users Registration'
             menu_templates.title: 'Menu Templates'
             customer_visitor_section.title: 'Customer Visitor'
+            map_settings.title: 'Map Settings'
         fields:
             default_customer_owner.label: 'Default Customer Owner'
             registration_allowed.label: 'Registration Allowed'
@@ -410,6 +429,12 @@ oro.customer:
                     subitems_in_popup.label: 'Show subitems in a popup'
             customer_visitor_cookie_lifetime_days.label: 'Customer visitor cookie lifetime (days)'
             customer_visitor_cookie_lifetime_days.tooltip: 'Determines how many days customer visitor (anonymous user) session will be active till reset'
+            maps_enabled:
+                label: 'Enable Map Preview'
+                tooltip: 'When the Map Preview is enabled, the addresses in the store frontend will be shown on the map.'
+                option:
+                    yes.label: 'Yes'
+                    no.label: 'No'
 
     security:
         permissions: 'Action Permissions'

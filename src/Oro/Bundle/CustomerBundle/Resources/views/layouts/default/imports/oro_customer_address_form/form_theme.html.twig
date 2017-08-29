@@ -1,11 +1,13 @@
 {% block oro_customer_frontend_typed_address_widget %}
     {% spaceless %}
         <div class="grid">
-            <div class="grid__row grid__row--offset-none">
-                <div class="grid__column grid__column--12 grid__column--offset-y">
-                    {{ form_row(form.primary, {'label' : 'oro.customer.frontend.address.form.label.primary'|trans }) }}
+            {% if form.primary is defined %}
+                <div class="grid__row grid__row--offset-none">
+                    <div class="grid__column grid__column--12 grid__column--offset-y">
+                        {{ form_row(form.primary, {'label' : 'oro.customer.frontend.address.form.label.primary'|trans }) }}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
             <div class="grid__row grid__row--offset-none">
                 <div class="grid__column grid__column--12">
                     {{ form_row(form.frontendOwner) }}
