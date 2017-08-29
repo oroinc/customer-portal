@@ -27,36 +27,32 @@ define(function(require) {
         applyMarkup: true,
 
         /**
-          * @inheritDoc
-          */
-        multiselectFilterParameters: {
-            label: __('oro_frontend.filter_manager.label'),
-            placeholder: __('oro_frontend.filter_manager.placeholder')
-        },
-
-        /**
          * Update Dropdown design
          * @private
          */
         _setDropdownDesign: function() {
-            var $widget = this.getWidget();
+            var widget = this.getWidget();
             var instance = this.multiselect('instance');
 
             if (this.applyMarkup) {
-                this.updateDropdownMarkup(instance);
+                this.setDropdownWidgetContainer(widget);
+                this.setDropdownHeaderDesign(instance);
+                this.setDropdownHeaderSearchDesign(instance);
                 this.applyMarkup = false;
             }
 
-            this.setCheckboxesDesign(instance);
+            if (instance.options.multiple) {
+                this.setCheckboxesDesign(instance);
+            }
 
-            $widget
-                .removeAttr('class')
-                .addClass('dropdown-menu ui-rewrite');
         },
 
         onOpenDropdown: function() {
             var instance = this.multiselect('instance');
-            this.setCheckboxesDesign(instance);
+            if (instance.options.multiple) {
+                this.setCheckboxesDesign(instance);
+            }
+
             return MultiselectDecorator.prototype.onOpenDropdown.apply(this, arguments);
         },
 
@@ -66,49 +62,9 @@ define(function(require) {
         onRefresh: function() {
             var instance = this.multiselect('instance');
             this.setDropdownHeaderDesign(instance);
-            this.setCheckboxesDesign(instance);
-            this.updateFooterPosition(instance);
-        },
-
-        /**
-         * Update Dropdown markup
-         * @param {object} instance
-         */
-        updateDropdownMarkup: function(instance) {
-            instance.menu
-                .wrap(
-                    $('<div/>', {'class': 'datagrid-manager'})
-                )
-                .find('.ui-multiselect-filter')
-                .removeAttr('class');
-
-            instance.header
-                .append(
-                    $('<span/>', {
-                        'class': 'close',
-                        'text': '×',
-                        'data-role': 'close-filters'
-                    })
-                )
-                .find('input')
-                .wrap(
-                    $('<div/>', {'class': 'datagrid-manager-search empty'})
-                );
-
-            instance.headerLinkContainer
-                .find('li')
-                .addClass('datagrid-manager__actions-item')
-                .filter(':first')
-                .after(
-                    $('<li/>', {
-                        'class': 'datagrid-manager__actions-item'
-                    }).append(
-                        $('<span/>', {
-                            'class': 'datagrid-manager__separator',
-                            'text': '|'
-                        })
-                    )
-                );
+            if (instance.options.multiple) {
+                this.setCheckboxesDesign(instance);
+            }
         },
 
         /**
@@ -124,38 +80,17 @@ define(function(require) {
         },
 
         /**
-         * Prepare design for Dropdown Header
-         * @param {object} instance
-         */
-        setDropdownHeaderDesign: function(instance) {
-            var checked = instance.getChecked().length;
-
-            instance.header
-                .removeAttr('class')
-                .addClass('datagrid-manager__header');
-
-            instance.header
-                .find('.ui-multiselect-none')
-                .toggleClass('disabled', checked === 0);
-
-            instance.header
-                .find('.ui-multiselect-all')
-                .toggleClass('disabled', checked === instance.inputs.length);
-
-            instance.headerLinkContainer.addClass('datagrid-manager__actions');
-        },
-
-        /**
          * Prepare design for checkboxes
          * @param {object} instance
          */
         setCheckboxesDesign: function(instance) {
             var $icon = instance.labels.find('.custom-checkbox__icon');
+
             instance.menu.children('.ui-multiselect-checkboxes')
                 .removeClass('ui-helper-reset')
-                .addClass('datagrid-manager__checkboxes ui-rewrite')
+                .addClass('filter-dropdown__options-list ui-rewrite')
                 .find('li')
-                .addClass('datagrid-manager__checkboxes-item');
+                .addClass('filter-dropdown__option');
 
             instance.labels
                 .addClass('custom-checkbox absolute')
@@ -170,16 +105,38 @@ define(function(require) {
         },
 
         /**
-         * Places footer to the end of menu content that is needed after refresh of widget since lib removes old list
-         * and appends new one to the end of content
+         * Prepare design for Dropdown Widget Container
+         * @param {object} widget
+         */
+        setDropdownWidgetContainer: function(widget) {
+            widget
+                .removeAttr('class')
+                .addClass('filter-dropdown dropdown-menu ui-rewrite');
+        },
+
+        /**
+         * Prepare design for Dropdown Header
          * @param {object} instance
          */
-        updateFooterPosition: function(instance) {
-            var $footerContainer = instance.menu.parent().find('.datagrid-manager__footer');
-            var $checkboxContainer = instance.menu.find('.ui-multiselect-checkboxes');
-            if ($footerContainer.length && $checkboxContainer.length) {
-                $checkboxContainer.after($footerContainer);
-            }
+        setDropdownHeaderDesign: function(instance) {
+            instance.header
+                .removeAttr('class')
+                .addClass('filter-dropdown__header');
+        },
+
+        /**
+         * Prepare design for Dropdown Header Search
+         * @param {object} instance
+         */
+        setDropdownHeaderSearchDesign: function(instance) {
+            instance.header
+                .find('input')
+                .wrap(
+                    $('<div/>', {'class': 'filter-dropdown__search empty'})
+                );
+            instance.header
+                .find('.ui-multiselect-filter')
+                .removeAttr('class');
         }
     });
 

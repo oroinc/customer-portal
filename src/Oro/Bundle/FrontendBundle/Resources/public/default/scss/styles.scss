@@ -42,7 +42,6 @@
 @import './components/tab-collection';
 @import "./components/uploader";
 @import './components/datagrid-manager';
-@import './components/datagrid-manager-search';
 @import './components/datagrid-manager-table';
 @import './components/controls-list';
 @import './components/items-count-widget';
@@ -59,3 +58,6 @@
 @import './components/search-widget';
 @import './components/uploader-widget';
 @import './components/loader-mask';
+@import './components/filter-dropdown/container';
+@import './components/filter-dropdown/search';
+@import './components/filter-dropdown/options';
