@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\UIBundle\Route\Router;
 
 class CustomerUserRegisterController extends Controller
 {
@@ -101,7 +102,15 @@ class CustomerUserRegisterController extends Controller
             $message = 'oro.customer.controller.customeruser.confirmed.message';
         }
 
+        if ($this->get('oro_config.manager')->get('oro_customer.auto_login_after_registration')) {
+            $this->get('oro_customer.manager.login_manager')->logInUser('frontend_secure', $customerUser);
+        }
+
         $this->get('session')->getFlashBag()->add($messageType, $message);
+
+        if ($request->get(Router::ACTION_PARAMETER)) {
+            return $this->get('oro_ui.router')->redirect($customerUser);
+        }
 
         return $this->redirect($this->generateUrl('oro_customer_customer_user_security_login'));
     }

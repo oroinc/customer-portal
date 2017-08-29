@@ -35,6 +35,7 @@ class Configuration implements ConfigurationInterface
                 'anonymous_customer_group' => ['type' => 'integer', 'value' => null],
                 'registration_allowed' => ['type' => 'boolean', 'value' => true],
                 'confirmation_required' => ['type' => 'boolean', 'value' => true],
+                'auto_login_after_registration' => ['type' => 'boolean', 'value' => false],
                 'send_password_in_welcome_email' => ['type' => 'boolean', 'value' => false],
                 'registration_instructions_enabled' => ['type' => 'boolean', 'value' => false],
                 'registration_instructions_text' => [

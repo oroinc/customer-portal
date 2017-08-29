@@ -19,7 +19,7 @@ system_configuration:
             ui_only: true
             data_type: string
             type: oro_user_select
-            priority: 110
+            priority: 120
             options:
                 label: oro.customer.system_configuration.fields.default_customer_owner.label
                 tooltip: oro.customer.system_configuration.fields.default_customer_owner.tooltip
@@ -34,7 +34,7 @@ system_configuration:
         oro_customer.registration_allowed:
             data_type: boolean
             type: oro_config_checkbox
-            priority: 100
+            priority: 110
             options:
                 label: oro.customer.system_configuration.fields.registration_allowed.label
                 tooltip: oro.customer.system_configuration.fields.registration_allowed.tooltip
@@ -42,10 +42,18 @@ system_configuration:
         oro_customer.confirmation_required:
             data_type: boolean
             type: oro_config_checkbox
-            priority: 90
+            priority: 100
             options:
                 label: oro.customer.system_configuration.fields.confirmation_required.label
                 tooltip: oro.customer.system_configuration.fields.confirmation_required.tooltip
+                required: false
+        oro_customer.auto_login_after_registration:
+            data_type: boolean
+            type: oro_config_checkbox
+            priority: 90
+            options:
+                label: oro.customer.system_configuration.fields.auto_login_after_registration.label
+                tooltip: oro.customer.system_configuration.fields.auto_login_after_registration.tooltip
                 required: false
         oro_customer.send_password_in_welcome_email:
             data_type: boolean
@@ -117,6 +125,7 @@ system_configuration:
                                             - oro_customer.default_customer_owner
                                             - oro_customer.registration_allowed
                                             - oro_customer.confirmation_required
+                                            - oro_customer.auto_login_after_registration
                                             - oro_customer.send_password_in_welcome_email
                                             - oro_customer.registration_instructions_enabled
                                             - oro_customer.registration_instructions_text

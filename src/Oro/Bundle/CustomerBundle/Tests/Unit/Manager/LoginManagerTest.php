@@ -40,6 +40,24 @@ class LoginManagerTest extends \PHPUnit_Framework_TestCase
         $this->loginManager = new LoginManager($this->tokenAccessor, $this->container);
     }
 
+    public function testLogInUserWhenUserIsLoggedIn()
+    {
+        $firewallName = 'firewall_name';
+        $customerUser = new CustomerUser();
+
+        $this->tokenAccessor->expects($this->once())
+            ->method('hasUser')
+            ->willReturn(true);
+
+        $this->tokenAccessor->expects($this->never())
+            ->method('setToken');
+
+        $this->container->expects($this->never())
+            ->method('get');
+
+        $this->loginManager->logInUser($firewallName, $customerUser);
+    }
+
     public function testLoginUser()
     {
         $firewallName = 'firewall_name';
@@ -54,6 +72,10 @@ class LoginManagerTest extends \PHPUnit_Framework_TestCase
             $organization,
             $customerUser->getRoles()
         );
+
+        $this->tokenAccessor->expects($this->once())
+            ->method('hasUser')
+            ->willReturn(false);
 
         $this->tokenAccessor->expects($this->once())
             ->method('setToken')

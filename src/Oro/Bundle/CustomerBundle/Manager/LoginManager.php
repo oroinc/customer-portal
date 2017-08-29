@@ -39,6 +39,10 @@ class LoginManager
      */
     public function logInUser($firewallName, CustomerUser $customerUser)
     {
+        if ($this->tokenAccessor->hasUser()) {
+            return;
+        }
+
         $token = $this->createToken($firewallName, $customerUser);
 
         $this->tokenAccessor->setToken($token);
