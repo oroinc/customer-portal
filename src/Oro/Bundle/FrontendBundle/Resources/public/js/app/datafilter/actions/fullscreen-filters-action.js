@@ -166,16 +166,6 @@ define(function(require) {
                 if (_.isFunction(filter._eventNamespace)) {
                     $('body').off('click' + filter._eventNamespace());
                 }
-
-                //// If jquery multiselect widget
-                //if (_.isObject(filter.selectWidget) && _.isObject(filter.selectWidget.multiselect('instance'))) {
-                //    // multiselect single
-                //    if (!filter.selectWidget.multiselect('instance').options.multiple) {
-                //        this.selectWidget.multiselect('instance').beforeClose = function() {
-                //            return false;
-                //        };
-                //    }
-                //}
             });
         },
 
@@ -261,8 +251,8 @@ define(function(require) {
                 switch (filter.type) {
                     case 'date':
                     case 'datetime':
-                        filter._updateRangeFilter(filter._readDOMValue(), false);
-                        value = filter._formatRawValue(filter.value);
+                        filter._updateRangeFilter(filter._readDOMValue(), true);
+                        value = filter._formatDisplayValue(filter.value);
 
                         if (_.isObject(filter.dateValueHelper) && _.isFunction(filter.dateValueHelper.isValid)) {
                             isValid = filter.dateValueHelper.isValid(value);
@@ -275,6 +265,7 @@ define(function(require) {
                         if (_.isFunction(filter._isValid)) {
                             isValid = filter._isValid();
                         }
+                        break;
                 }
 
                 if (isValid) {
