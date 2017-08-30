@@ -7,9 +7,9 @@
 
     input {
         @include base-ui-element(
-                $use-base-style: true,
-                $padding: 5px 9px,
-                $line-height: 1.43
+            $use-base-style: true,
+            $padding: 5px 9px,
+            $line-height: 1.43
         );
 
         @include element-state('hover') {
