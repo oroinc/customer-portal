@@ -89,9 +89,10 @@ define(function(require) {
          * @param {object} instance
          */
         setCheckboxesDesign: function(instance) {
+            // TOdo fix me
             instance.menu.children('.ui-multiselect-checkboxes')
                 .find('li')
-                .addClass('filter-dropdown__option--half-width');
+                .addClass('filter-dropdown_+_option--half-width');
 
             FrontendMultiselectDecorator.prototype.setCheckboxesDesign.apply(this, arguments);
         },
@@ -111,7 +112,7 @@ define(function(require) {
                         'data-role': 'close-filters'
                     })
                 );
-            
+
             instance.header
                 .removeAttr('class')
                 .addClass('datagrid-manager__header');

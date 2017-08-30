@@ -3,7 +3,6 @@ define(function(require) {
 
     var FrontendMultiselectDecorator;
     var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
     var $ = require('jquery');
     var MultiselectDecorator = require('orofilter/js/multiselect-decorator');
 
@@ -41,6 +40,7 @@ define(function(require) {
                 this.applyMarkup = false;
             }
 
+            // TODo fix me
             if (instance.options.multiple) {
                 this.setCheckboxesDesign(instance);
             }
@@ -49,6 +49,8 @@ define(function(require) {
 
         onOpenDropdown: function() {
             var instance = this.multiselect('instance');
+
+            // TODo fix me
             if (instance.options.multiple) {
                 this.setCheckboxesDesign(instance);
             }
@@ -62,6 +64,8 @@ define(function(require) {
         onRefresh: function() {
             var instance = this.multiselect('instance');
             this.setDropdownHeaderDesign(instance);
+
+            // TODo fix me
             if (instance.options.multiple) {
                 this.setCheckboxesDesign(instance);
             }
@@ -84,13 +88,15 @@ define(function(require) {
          * @param {object} instance
          */
         setCheckboxesDesign: function(instance) {
+            // TODo fix me
+
             var $icon = instance.labels.find('.custom-checkbox__icon');
 
             instance.menu.children('.ui-multiselect-checkboxes')
                 .removeClass('ui-helper-reset')
-                .addClass('filter-dropdown__options-list ui-rewrite')
+                .addClass('datagrid-manager__checkboxes ui-rewrite')
                 .find('li')
-                .addClass('filter-dropdown__option');
+                .addClass('datagrid-manager__checkboxes-item');
 
             instance.labels
                 .addClass('custom-checkbox absolute')
@@ -111,7 +117,7 @@ define(function(require) {
         setDropdownWidgetContainer: function(widget) {
             widget
                 .removeAttr('class')
-                .addClass('filter-dropdown dropdown-menu ui-rewrite');
+                .addClass('dropdown-menu ui-rewrite');
         },
 
         /**
@@ -119,6 +125,7 @@ define(function(require) {
          * @param {object} instance
          */
         setDropdownHeaderDesign: function(instance) {
+            // TODo fix me
             instance.header
                 .removeAttr('class')
                 .addClass('filter-dropdown__header');
@@ -129,6 +136,7 @@ define(function(require) {
          * @param {object} instance
          */
         setDropdownHeaderSearchDesign: function(instance) {
+            // TODo fix me
             instance.header
                 .find('input')
                 .wrap(
