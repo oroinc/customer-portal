@@ -245,31 +245,10 @@ define(function(require) {
             }
 
             _.each(changedFilters, function(filter) {
-                var value ;
-                var isValid = true;
-
-                switch (filter.type) {
-                    case 'date':
-                    case 'datetime':
-                        filter._updateRangeFilter(filter._readDOMValue(), true);
-                        value = filter._formatDisplayValue(filter.value);
-
-                        if (_.isObject(filter.dateValueHelper) && _.isFunction(filter.dateValueHelper.isValid)) {
-                            isValid = filter.dateValueHelper.isValid(value);
-                        }
-
-                        break;
-                    default:
-                        value = filter._readDOMValue();
-
-                        if (_.isFunction(filter._isValid)) {
-                            isValid = filter._isValid();
-                        }
-                        break;
-                }
+                var isValid = _.isFunction(filter._isValid) ? filter._isValid() : true;
 
                 if (isValid) {
-                    state.filters[filter.name] = value;
+                    state.filters[filter.name] = filter._formatRawValue(filter._readDOMValue());
                 } else {
                     state.errorsCount += 1;
                 }
