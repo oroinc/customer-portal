@@ -5,6 +5,16 @@ oro_behat_extension:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
         - OroConfigBundle::FeatureContext
         - OroFormBundle::FormContext
+        - OroApplicationBundle::CommerceMainContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\UserBundle\Tests\Behat\Context\FeatureContext
+        - OroDataGridBundle::GridContext
+        - OroCustomerBundle::CustomerUserContext
+        - OroCustomerBundle::ACLContext
+        - OroCustomerBundle::FrontendGridContext
+        - OroSecurityBundle::PermissionContext
+        - OroCustomerBundle::RegistrationInstructionFeatureContext
+        - OroCustomerBundle::CustomerVisitorContext
       paths:
         - '@OroFrontendBundle/Tests/Behat/Features'
   elements:
@@ -69,3 +79,23 @@ oro_behat_extension:
       selector: ".popup-gallery-widget"
     Popup Gallery Widget Close:
       selector: ".popup-gallery-widget button[data-trigger-gallery-close]"
+    Filter Settings Form:
+      selector: 'form[name="theme"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Use Default: 'theme[oro_frontend___filter_value_selectors][use_parent_scope_value]'
+          Value Selectors: 'theme[oro_frontend___filter_value_selectors][value]'
+    Filter By Step:
+      selector:
+        locator: '//div[@class="filter-item oro-drop"]/div[contains(text(), "Filter By Step")]'
+        type: 'xpath'
+    Filter Checkboxes:
+      selector: ".ui-multiselect-menu .ui-multiselect-checkboxes"
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Filters Dropdown:
+      selector: '[id^="grid-frontend-requests-grid"] a.action[title="Filters"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Requests For Quote Grid:
+      selector: '[id^="grid-frontend-requests-grid"]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
