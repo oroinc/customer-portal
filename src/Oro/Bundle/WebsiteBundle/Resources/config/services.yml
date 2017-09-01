@@ -121,3 +121,8 @@ services:
         parent: oro_entity.abstract_repository
         arguments:
             - '%oro_website.entity.website.class%'
+
+    oro_website.form_subscriber.default_website:
+        class: 'Oro\Bundle\WebsiteBundle\Form\EventSubscriber\DefaultWebsiteSubscriber'
+        arguments:
+            - '@oro_website.manager'
