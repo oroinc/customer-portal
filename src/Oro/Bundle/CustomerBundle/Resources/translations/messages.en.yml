@@ -436,6 +436,8 @@ oro.customer:
                 option:
                     yes.label: 'Yes'
                     no.label: 'No'
+            oro_customer_confirmation_required.label: 'Enables customer user email confirmation'
+            oro_customer_confirmation_required.description: 'Enables customer user email confirmation'
 
     security:
         permissions: 'Action Permissions'
