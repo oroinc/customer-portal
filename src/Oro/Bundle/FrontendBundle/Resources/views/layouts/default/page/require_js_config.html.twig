@@ -80,3 +80,16 @@
         })();
     </script>
 {% endblock %}
+
+{% block _require_js_multi_select_filter_config_widget %}
+    <script>
+        require({
+            config: {
+                'orofrontend/js/app/datafilter/frontend-multiselect-decorator': {
+                    hideHeader: false,
+                    themeName: 'all-at-once'
+                }
+            }
+        });
+    </script>
+{% endblock %}

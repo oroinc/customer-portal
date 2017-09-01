@@ -5,13 +5,19 @@ define(function(require) {
     var _ = require('underscore');
     var __ = require('orotranslation/js/translator');
     var $ = require('jquery');
-    var FrontendMultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
+    var FrontendMultiSelectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
+    var config = require('module').config();
+
+    config = $.extend(true, {
+        hideHeader: false,
+        themeName: 'default'
+    }, config);
 
     FrontendManageFiltersDecorator = function(options) {
-        FrontendMultiselectDecorator.apply(this, arguments);
+        FrontendMultiSelectDecorator.apply(this, arguments);
     };
 
-    FrontendManageFiltersDecorator.prototype = _.extend(Object.create(FrontendMultiselectDecorator.prototype), {
+    FrontendManageFiltersDecorator.prototype = _.extend(Object.create(FrontendMultiSelectDecorator.prototype), {
         /**
          * Save constructor after native extend
          *
@@ -25,6 +31,11 @@ define(function(require) {
          * @property {bool}
          */
         applyMarkup: true,
+
+        /**
+         * @inheritDoc
+         */
+        desingConfiguration: config,
 
         /**
          * @inheritDoc
@@ -45,7 +56,7 @@ define(function(require) {
                 this.updateDropdownMarkup(instance);
             }
 
-            FrontendMultiselectDecorator.prototype._setDropdownDesign.apply(this, arguments);
+            FrontendMultiSelectDecorator.prototype._setDropdownDesign.apply(this, arguments);
         },
 
         /**
@@ -55,7 +66,7 @@ define(function(require) {
             var instance = this.multiselect('instance');
             this.updateFooterPosition(instance);
 
-            FrontendMultiselectDecorator.prototype.onRefresh.apply(this, arguments);
+            FrontendMultiSelectDecorator.prototype.onRefresh.apply(this, arguments);
         },
 
         /**
@@ -63,11 +74,6 @@ define(function(require) {
          * @param {object} instance
          */
         updateDropdownMarkup: function(instance) {
-            instance.menu
-                .wrap(
-                    $('<div/>', {'class': 'datagrid-manager'})
-                );
-
             instance.headerLinkContainer
                 .find('li')
                 .addClass('datagrid-manager__actions-item')
@@ -82,19 +88,6 @@ define(function(require) {
                         })
                     )
                 );
-        },
-
-        /**
-         * Prepare design for checkboxes
-         * @param {object} instance
-         */
-        setCheckboxesDesign: function(instance) {
-            // TOdo fix me
-            instance.menu.children('.ui-multiselect-checkboxes')
-                .find('li')
-                .addClass('filter-dropdown_+_option--half-width');
-
-            FrontendMultiselectDecorator.prototype.setCheckboxesDesign.apply(this, arguments);
         },
 
         /**
@@ -139,6 +132,27 @@ define(function(require) {
             if ($footerContainer.length && $checkboxContainer.length) {
                 $checkboxContainer.after($footerContainer);
             }
+        },
+
+        /**
+         * Add Class for Dropdown Widget Container
+         * @param {object} widget
+         */
+        addAdditionalClassesForContainer: function(widget) {
+            FrontendMultiSelectDecorator.prototype.addAdditionalClassesForContainer.apply(this, arguments);
+
+            widget.addClass('ui-rewrite');
+        },
+
+        /**
+         * @param {object} instance
+         */
+        setDesignForCheckboxesDefaultTheme: function(instance) {
+            FrontendMultiSelectDecorator.prototype.setDesignForCheckboxesDefaultTheme.apply(this, arguments);
+
+            instance.menu
+                .find('.datagrid-manager__list-item')
+                .addClass('datagrid-manager__list-item--half');
         }
     });
 
