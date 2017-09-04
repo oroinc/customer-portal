@@ -25,8 +25,8 @@ Feature: Multi-select filter
 
   Scenario: Create different window session
     Given sessions active:
-      | User  |first_session |
-      | Admin |second_session|
+      | User  |first_session  |
+      | Admin |second_session |
 
   Scenario: Check default value "Drop-down" for multiselect filters on front store
     Given I proceed as the User
@@ -46,9 +46,9 @@ Feature: Multi-select filter
       | Use Default     | false       |
       | Value Selectors | All at once |
     And click "Save settings"
-    When I signed in as AmandaRCole@example.org on the store frontend
-    And I click "Account"
-    And I click "Requests For Quote"
+    When I proceed as the User
+    And I reload the page
+    And click "Filters Dropdown"
     And click "Filters Dropdown"
     And click "Filter By Step"
-    Then I should see an "Filter Checkboxes" element
+    Then I should see an "Filter Checkboxes All At Once" element

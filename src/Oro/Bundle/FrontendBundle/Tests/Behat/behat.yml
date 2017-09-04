@@ -91,7 +91,10 @@ oro_behat_extension:
         locator: '//div[@class="filter-item oro-drop"]/div[contains(text(), "Filter By Step")]'
         type: 'xpath'
     Filter Checkboxes:
-      selector: ".ui-multiselect-menu .ui-multiselect-checkboxes"
+      selector: ".datagrid-manager .ui-multiselect-checkboxes .datagrid-manager__list-item"
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Filter Checkboxes All At Once:
+      selector: ".datagrid-manager .ui-multiselect-checkboxes .filters-dropdown__items"
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Filters Dropdown:
       selector: '[id^="grid-frontend-requests-grid"] a.action[title="Filters"]'
