@@ -2,7 +2,7 @@
 
 .datagrid-manager {
     &__title {
-        margin-bottom: $offset-y-m;
+        margin-bottom: $datagrid-manager-title-offset;
     }
 
     &__actions {
@@ -14,9 +14,9 @@
     }
 
     &__separator {
-        padding: 0 2px;
+        padding: $datagrid-manager-separator-inner-offset;
 
-        color: darken(get-color('additional', 'light'), 12%);
+        color: $datagrid-manager-separator-color;
     }
 
     &__item {
@@ -27,18 +27,18 @@
         position: relative;
 
         display: flex;
-        padding: $offset-y-s 0;
-        margin: 0 -#{$offset-y-s};
+        padding:  $datagrid-manager-container-inner-offset;
+        margin: $datagrid-manager-container-offset;
 
         align-items: center;
 
         &:after {
-            right: 0;
-            bottom: 3px;
+            right: $datagrid-manager-after-position-r;
+            bottom: $datagrid-manager-after-position-b;
 
-            border-top: 8px solid transparent;
-            border-right: 8px solid get-color('additional', 'light');
-            border-left: 8px solid transparent;
+            border-top: $datagrid-manager-after-border--size solid transparent;
+            border-right: $datagrid-manager-after-border--size solid $datagrid-manager-after-border-color;
+            border-left: $datagrid-manager-after-border--size solid transparent;
 
             @include after();
         }
@@ -46,13 +46,13 @@
 
     &__handle {
         display: block;
-        width: 10px;
-        height: 33px;
-        margin-right: 8px;
+        width: $datagrid-manager-handle-width;
+        height: $datagrid-manager-handle-height;
+        margin-right: $datagrid-manager-handle-offset;
 
         flex: 0 0 auto;
 
-        border: 4px dotted get-color('additional', 'light');
+        border: $datagrid-manager-handle-border;
         border-top: 0;
         border-bottom: 0;
 
@@ -65,12 +65,13 @@
         flex: 1 1 auto;
     }
 
-    &__checkboxes {
+    &__list {
         display: flex;
         flex-wrap: wrap;
         width: 100%;
         height: auto !important;
-        margin-bottom: $offset-y-m + 2px;
+        margin-bottom: $offset-y-m;
+        padding-bottom: $offset-x-s;
 
         // Rewrite ui-* styles
         &.ui-rewrite {
@@ -78,10 +79,15 @@
         }
     }
 
-    &__checkboxes-item {
-        width: 50%;
+    &__list-item {
+        width: 100%;
+
         margin-top: $offset-y-s;
         padding-right: $offset-x-s;
+
+        &--half {
+            width: 50%;
+        }
     }
 
     &__footer {
@@ -103,13 +109,18 @@
     }
 
     .dropdown-menu {
-        width: 312px;
-        padding: 14px 18px 18px;
+        // Break inline styles
+        width: $datagrid-manager-dropdown-menu-width !important;
+        // Break inline styles
+        max-width: $datagrid-manager-dropdown-menu-width !important;
+        // Break inline styles
+        min-width: inherit !important;
+        padding: $datagrid-manager-dropdown-menu-inner-offset;
 
-        border: 1px solid darken(get-color('additional', light), 4%);
-        border-radius: 5px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
-        color: get-color('additional', 'dark');
+        border: $datagrid-manager-dropdown-menu-border;
+        border-radius: $datagrid-manager-dropdown-menu-border-radius;
+        box-shadow: $datagrid-manager-dropdown-menu-box-shadow;
+        color: $datagrid-manager-dropdown-menu-color;
 
         @extend .dropdown-menu-right;
 
@@ -120,33 +131,29 @@
 
             // Break inline styles
             width: 100% !important;
-            max-width: 312px;
-
-            // Break inline styles
-            min-width: inherit !important;
         }
     }
 
     .close {
         position: absolute;
-        top: 18px;
-        right: 9px;
+        top: $datagrid-manager-close-top;
+        right: $datagrid-manager-close-right;
 
-        font-size: $base-font-size--l;
-        text-align: center;
-        line-height: 0;
+        font-size: $datagrid-manager-close-font-size;
+        text-align: $datagrid-manager-close-text-align;
+        line-height: $datagrid-manager-close-line-height;
 
-        color: darken(get-color('additional', 'light'), 44%);
+        color: $datagrid-manager-close-color;
 
         cursor: pointer;
 
         @include element-state('hover') {
-            opacity: .7;
+            opacity: $datagrid-manager-close-color-hover-opacity;
         }
     }
 
     .disabled {
-        color: darken(get-color('additional', 'middle'), 7%);
+        color: $datagrid-manager-disabled-color;
 
         pointer-events: none;
 
@@ -175,17 +182,17 @@
 
                 &__reset-btn {
                     display: block;
-                    padding: 7px;
+                    padding: $datagrid-manager-fullscreen-reset-btn-inner-offset;
 
-                    text-align: center;
+                    text-align: $datagrid-manager-fullscreen-reset-btn-text-align;
 
-                    border: 1px solid get-color('additional', 'light');
+                    border: $datagrid-manager-fullscreen-reset-btn-border;
 
-                    border-radius: 5px;
+                    border-radius: $datagrid-manager-fullscreen-reset-btn-border-radius;
                 }
 
                 &__handle {
-                    margin-right: 12px;
+                    margin-right: $datagrid-manager-fullscreen-handle-offset;
                 }
 
                 &__header {
@@ -193,15 +200,83 @@
                 }
 
                 &__actions {
-                    padding: $offset-y $offset-x $offset-y-s;
+                    padding: $datagrid-manager-fullscreen-actions-inner-offset;
                 }
+
 
                 &-table {
-                    padding: 0 $offset-x-m 0 0;
+                    padding: $datagrid-manager-fullscreen-table-inner-offset;
                 }
 
+
                 &__footer {
-                    padding: $offset-y-s $offset-x-m;
+                    padding: $datagrid-manager-fullscreen-footer-inner-offset;
+                }
+            }
+        }
+    }
+
+    .filters-dropdown {
+        display: flex;
+        flex-wrap: wrap;
+
+        height: auto !important;
+
+        padding: $datagrid-manager-filters-dropdown-size 0 0 $datagrid-manager-filters-dropdown-size;
+
+        overflow: inherit !important;
+
+        &__items {
+            width: 100%;
+            flex-basis: 100%;
+
+            margin: -#{$datagrid-manager-filters-dropdown-size} 0 0 -#{$datagrid-manager-filters-dropdown-size};
+
+            border: $datagrid-manager-filters-dropdown-size solid $datagrid-manager-filters-dropdown-items-b-color;
+
+            &--pallet {
+                width: 50%;
+                flex-basis: 50%;
+            }
+        }
+
+        &__labels {
+            position: relative;
+
+            display: flex;
+            flex-wrap: wrap;
+            align-content: center;
+            height: 100%;
+
+            cursor: pointer;
+        }
+
+        span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            padding: $datagrid-manager-filters-dropdown-content-inner-offset;
+
+            line-height: $datagrid-manager-filters-dropdown-content-line-height;
+
+            word-break: break-all;
+
+            @include hover-focus() {
+                background-color: $datagrid-manager-filters-dropdown-content-hover-bg-color;
+            }
+        }
+
+        &__inputs {
+            position: absolute;
+
+            visibility: hidden;
+
+            &:checked {
+                + span {
+                    background-color: $datagrid-manager-filters-dropdown-content-checked-background-color;
+                    color: $datagrid-manager-filters-dropdown-content-checked-color;
                 }
             }
         }
