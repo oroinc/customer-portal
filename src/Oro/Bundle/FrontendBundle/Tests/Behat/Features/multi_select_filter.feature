@@ -33,8 +33,8 @@ Feature: Multi-select filter
     And I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account"
     And I click "Requests For Quote"
-    And click "Filters Dropdown"
-    When click "Filter By Step"
+    And I click "Filters Dropdown"
+    When I click "Filter By Step"
     Then I should see an "Filter Checkboxes" element
 
   Scenario: Check value "All at once" for multiselect filters on front store
@@ -48,7 +48,7 @@ Feature: Multi-select filter
     And click "Save settings"
     When I proceed as the User
     And I reload the page
-    And click "Filters Dropdown"
-    And click "Filters Dropdown"
-    And click "Filter By Step"
+    And I click "Filters Dropdown"
+    And I click "Filters Dropdown"
+    And I click "Filter By Step"
     Then I should see an "Filter Checkboxes All At Once" element
