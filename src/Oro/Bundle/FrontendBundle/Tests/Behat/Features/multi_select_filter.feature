@@ -23,8 +23,14 @@ Feature: Multi-select filter
   # Show how an adminstrator can modify the default filter template
   # Show how a frontend developer can specify a specific template for some product attibutes
 
+  Scenario: Create different window session
+    Given sessions active:
+      | User  |first_session |
+      | Admin |second_session|
+
   Scenario: Check default value "Drop-down" for multiselect filters on front store
-    Given I signed in as AmandaRCole@example.org on the store frontend
+    Given I proceed as the User
+    And I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account"
     And I click "Requests For Quote"
     And click "Filters Dropdown"
@@ -32,7 +38,8 @@ Feature: Multi-select filter
     Then I should see an "Filter Checkboxes" element
 
   Scenario: Check value "All at once" for multiselect filters on front store
-    Given I login as administrator
+    Given I proceed as the Admin
+    And I login as administrator
     And go to System / Configuration
     And I follow "Commerce/Design/Theme" on configuration sidebar
     And fill "Filter Settings Form" with:
