@@ -133,13 +133,11 @@ define(function(require) {
          * @param {object} instance
          */
         setDesignForCheckboxesAllToOnceTheme: function(instance) {
-            var className = instance.options.multiple ? 'filters-dropdown__items--pallet' : '';
-
             instance.menu
                 .children('.ui-multiselect-checkboxes')
                 .addClass('filters-dropdown')
                 .find('li')
-                .addClass('filters-dropdown__items ' + className);
+                .addClass('filters-dropdown__items filters-dropdown__items--pallet');
 
             instance.labels.addClass('filters-dropdown__labels');
             instance.inputs.addClass('filters-dropdown__inputs');

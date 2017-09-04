@@ -218,7 +218,6 @@
 
     .filters-dropdown {
         display: flex;
-        flex-direction: row;
         flex-wrap: wrap;
 
         height: auto !important;
@@ -231,7 +230,7 @@
             width: 100%;
             flex-basis: 100%;
 
-            margin: -#{$datagrid-manager-filters-dropdown-size} 0 0 #{-$datagrid-manager-filters-dropdown-size};
+            margin: -#{$datagrid-manager-filters-dropdown-size} 0 0 -#{$datagrid-manager-filters-dropdown-size};
 
             border: $datagrid-manager-filters-dropdown-size solid $datagrid-manager-filters-dropdown-items-b-color;
 
