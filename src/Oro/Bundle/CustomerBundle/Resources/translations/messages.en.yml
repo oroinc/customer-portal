@@ -144,6 +144,7 @@ oro.customer:
             register: 'Registration'
             register.description: 'Please register if you do not have an account. A sales representative will contact you shortly.'
             create_an_customer: 'Create An Account'
+            create_an_customer_and_continue: 'Create an Account and Continue'
             forgot_password: 'Forgot Your Password?'
             enter_password: 'Enter your password'
             reset_password:
@@ -151,6 +152,7 @@ oro.customer:
                 label: 'Create'
             remember_me: 'Remember Me'
             login: 'Sign In'
+            login_and_continue: 'Sign In and Continue'
             return_to_login: 'Return to Login'
             password_reset.message: 'Password was created successfully.'
             request_password.label: 'Request'
