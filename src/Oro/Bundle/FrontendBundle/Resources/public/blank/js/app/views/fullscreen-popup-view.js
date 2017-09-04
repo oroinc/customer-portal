@@ -122,7 +122,7 @@ define(function(require) {
          * Property {boolean} for footer content
          * @property
          */
-        footerContent: true,
+        footerContent: false,
 
         /**
          * @property
