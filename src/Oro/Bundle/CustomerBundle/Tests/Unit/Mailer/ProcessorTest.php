@@ -2,9 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Mailer;
 
+use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
 use Oro\Bundle\UserBundle\Tests\Unit\Mailer\AbstractProcessorTest;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ProcessorTest extends AbstractProcessorTest
 {
@@ -20,6 +22,11 @@ class ProcessorTest extends AbstractProcessorTest
      */
     protected $user;
 
+    /**
+     * @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $eventDispatcher;
+
     protected function setUp()
     {
         parent::setUp();
@@ -30,12 +37,15 @@ class ProcessorTest extends AbstractProcessorTest
             ->setPlainPassword(self::PASSWORD)
             ->setConfirmationToken($this->user->generateToken());
 
+        $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+
         $this->mailProcessor = new Processor(
             $this->managerRegistry,
             $this->configManager,
             $this->renderer,
             $this->emailHolderHelper,
-            $this->mailer
+            $this->mailer,
+            $this->eventDispatcher
         );
     }
 
@@ -46,12 +56,29 @@ class ProcessorTest extends AbstractProcessorTest
         unset($this->user);
     }
 
+    /**
+     * @param string $template
+     * @param array $params
+     */
+    private function assertEventDispatched($template, array $params)
+    {
+        $event = new CustomerUserEmailSendEvent($this->user, $template, $params);
+        $this->eventDispatcher->expects($this->once())
+            ->method('dispatch')
+            ->with(CustomerUserEmailSendEvent::NAME, $event);
+    }
+
     public function testSendWelcomeNotification()
     {
         $this->assertSendCalled(
             Processor::WELCOME_EMAIL_TEMPLATE_NAME,
             ['entity' => $this->user, 'password' => self::PASSWORD],
             $this->buildMessage($this->user->getEmail())
+        );
+
+        $this->assertEventDispatched(
+            Processor::WELCOME_EMAIL_TEMPLATE_NAME,
+            ['entity' => $this->user, 'password' => self::PASSWORD]
         );
 
         $this->mailProcessor->sendWelcomeNotification($this->user, self::PASSWORD);
@@ -65,6 +92,11 @@ class ProcessorTest extends AbstractProcessorTest
             $this->buildMessage($this->user->getEmail())
         );
 
+        $this->assertEventDispatched(
+            Processor::CONFIRMATION_EMAIL_TEMPLATE_NAME,
+            ['entity' => $this->user, 'token' => $this->user->getConfirmationToken()]
+        );
+
         $this->mailProcessor->sendConfirmationEmail($this->user);
     }
 
@@ -74,6 +106,11 @@ class ProcessorTest extends AbstractProcessorTest
             Processor::RESET_PASSWORD_EMAIL_TEMPLATE_NAME,
             ['entity' => $this->user],
             $this->buildMessage($this->user->getEmail())
+        );
+
+        $this->assertEventDispatched(
+            Processor::RESET_PASSWORD_EMAIL_TEMPLATE_NAME,
+            ['entity' => $this->user]
         );
 
         $this->mailProcessor->sendResetPasswordEmail($this->user);

@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
+use Oro\Bundle\CustomerBundle\Manager\LoginManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -102,7 +103,9 @@ class CustomerUserRegisterController extends Controller
             $message = 'oro.customer.controller.customeruser.confirmed.message';
         }
 
-        if ($this->get('oro_config.manager')->get('oro_customer.auto_login_after_registration')) {
+        if ($this->get('oro_config.manager')->get('oro_customer.auto_login_after_registration') ||
+            $request->get(LoginManager::AUTO_LOGIN_PARAM)
+        ) {
             $this->get('oro_customer.manager.login_manager')->logInUser('frontend_secure', $customerUser);
         }
 

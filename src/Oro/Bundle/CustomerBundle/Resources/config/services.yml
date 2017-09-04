@@ -193,6 +193,7 @@ services:
             - "@oro_email.email_renderer"
             - "@oro_email.email_holder_helper"
             - "@oro_email.direct_mailer"
+            - "@event_dispatcher"
 
     oro_customer_user.manager:
         class: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserManager'

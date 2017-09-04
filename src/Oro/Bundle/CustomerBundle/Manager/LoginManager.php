@@ -13,6 +13,8 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginManager
 {
+    const AUTO_LOGIN_PARAM = "_oro_customer_auto_login";
+
     /**
      * @var TokenAccessor
      */
