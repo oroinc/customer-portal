@@ -44,6 +44,7 @@ define(function(require) {
 
             if (this.applyMarkup) {
                 this.updateDropdownMarkup(instance);
+                this.applyMarkup = false;
             }
 
             this.setCheckboxesDesign(instance);
