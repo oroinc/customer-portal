@@ -3,10 +3,9 @@
 namespace Oro\Bundle\CustomerBundle\ImportExport\Converter;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\ImportExportBundle\Converter\ConfigurableTableDataConverter;
 use Oro\Bundle\UserBundle\Entity\User;
 
-class CustomerDataConverter extends ConfigurableTableDataConverter
+class CustomerDataConverter extends CommonCustomerDataConverter
 {
     /**
      * {@inheritdoc}
@@ -18,30 +17,6 @@ class CustomerDataConverter extends ConfigurableTableDataConverter
         $result = $this->addParentId($result);
 
         return $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getEntityRulesAndBackendHeaders(
-        $entityName,
-        $fullData = false,
-        $singleRelationDeepLevel = 0,
-        $multipleRelationDeepLevel = 0
-    ) {
-        if (!$fullData) {
-            $header = $this->getHeaderForRelatedClass($entityName);
-            if ($header) {
-                return $header;
-            }
-        }
-
-        return parent::getEntityRulesAndBackendHeaders(
-            $entityName,
-            $fullData,
-            $singleRelationDeepLevel,
-            $multipleRelationDeepLevel
-        );
     }
 
     /**
