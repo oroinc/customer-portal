@@ -10,15 +10,23 @@
             @extend %customer-form-grid;
 
             .grid__row:last-child {
-                .grid__column, .form-row{
+                .grid__column:last-child {
                     margin-bottom: 0;
                 }
             }
         }
     }
 
+    .form-row {
+        margin-bottom: 0;
+    }
+
     .form-buttons {
         padding-top: 28px;
+    }
+
+    .datepicker-box__input {
+        max-width: none;
     }
 }
 
