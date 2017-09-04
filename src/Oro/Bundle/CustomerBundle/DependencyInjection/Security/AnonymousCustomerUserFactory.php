@@ -20,7 +20,7 @@ class AnonymousCustomerUserFactory implements SecurityFactoryInterface
                 $providerId,
                 new DefinitionDecorator('oro_customer.authentication.provider.anonymous_customer_user')
             )
-            ->replaceArgument(1, $config['update_latency']);
+            ->replaceArgument(2, $config['update_latency']);
 
         $listenerId = 'oro_customer.authentication.listener.anonymous_customer_user.'.$id;
         $container->setDefinition(

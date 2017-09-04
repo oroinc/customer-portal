@@ -2,135 +2,105 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\GuestCustomerUserManager;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Bundle\OrderBundle\Entity\OrderAddress;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 class GuestCustomerUserManagerTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var DoctrineHelper|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $doctrineHelper;
+    /** @var GuestCustomerUserManager */
+    private $guestCustomerUserManager;
+
+    /** @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject */
+    private $websiteManager;
+
+    /** @var CustomerUserManager|\PHPUnit_Framework_MockObject_MockObject */
+    private $customerUserManager;
+
+    /** @var DefaultUserProvider|\PHPUnit_Framework_MockObject_MockObject */
+    private $defaultUserProvider;
+
+    /** @var CustomerUserRelationsProvider|\PHPUnit_Framework_MockObject_MockObject */
+    private $relationsProvider;
 
     /**
-     * @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject
+     * {@inheritdoc}
      */
-    protected $websiteManager;
-
-    /**
-     * @var CustomerUserManager|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $customerUserManager;
-
-    /**
-     * @var CustomerUserRelationsProvider|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $customerUserRelationsProvider;
-
-    /**
-     * @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $tokenStorage;
-
-    /**
-     * @var GuestCustomerUserManager|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $manager;
-
     protected function setUp()
     {
-        $this->doctrineHelper = $this->getMockBuilder(DoctrineHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->customerUserManager = $this->createMock(CustomerUserManager::class);
-        $this->customerUserRelationsProvider = $this->createMock(CustomerUserRelationsProvider::class);
-        $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $this->relationsProvider = $this->createMock(CustomerUserRelationsProvider::class);
+        $this->defaultUserProvider = $this->createMock(DefaultUserProvider::class);
 
-        $this->manager = new GuestCustomerUserManager(
-            $this->doctrineHelper,
+        $this->guestCustomerUserManager = new GuestCustomerUserManager(
             $this->websiteManager,
             $this->customerUserManager,
-            $this->customerUserRelationsProvider,
-            $this->tokenStorage
+            $this->relationsProvider,
+            $this->defaultUserProvider,
+            new PropertyAccessor()
         );
     }
 
-    public function testCreateFromAddressWithoutUsernameAddressToken()
+    public function testGenerateGuestCustomerUser()
     {
-        $this->websiteManager
-            ->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->will($this->returnValue(new Website()));
-        $userName = 'foo';
-        $this->customerUserManager
-            ->expects($this->exactly(2))
-            ->method('generatePassword')
-            ->with(10)
-            ->will($this->returnValue($userName));
-
-        $customerUser = $this->manager->createFromAddress();
-        $this->assertEquals($userName, $customerUser->getEmail());
-        $this->assertEquals($userName, $customerUser->getUsername());
-        $this->assertTrue($customerUser->isGuest());
-        $this->assertNull($customerUser->getFirstName());
-    }
-
-    public function testCreateFromAddressWithUsernameAddressToken()
-    {
-        $this->websiteManager
-            ->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->will($this->returnValue(new Website()));
         $this->customerUserManager
             ->expects($this->once())
             ->method('generatePassword')
             ->with(10)
-            ->will($this->returnValue('foo'));
+            ->willReturn('1234567890');
 
-        $userName = 'foo@bar.com';
-        $firstName = 'firstName';
-        $address = new OrderAddress();
-        $address->setFirstName($firstName);
-        $customerUser = $this->manager->createFromAddress($userName, $address);
-        $this->assertEquals($userName, $customerUser->getEmail());
-        $this->assertEquals($userName, $customerUser->getUsername());
+        $owner = new User();
+        $owner->setFirstName('owner name');
+
+        $this->customerUserManager
+            ->expects($this->once())
+            ->method('updatePassword');
+
+        $this->defaultUserProvider
+            ->expects($this->once())
+            ->method('getDefaultUser')
+            ->with('oro_customer', 'default_customer_owner')
+            ->willReturn($owner);
+
+        $website = new Website();
+        $website->setName('Default Website');
+        $website->setOrganization(new Organization());
+        $this->websiteManager
+            ->expects($this->once())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
+
+        $group = new CustomerGroup();
+        $group->setOwner(new User());
+        $group->setName('Default Group');
+        $this->relationsProvider
+            ->expects($this->once())
+            ->method('getCustomerGroup')
+            ->willReturn($group);
+
+        $customerUser = $this->guestCustomerUserManager->generateGuestCustomerUser([
+            'email' => 'test@example.com',
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+        ]);
+
+        $this->assertEquals('test@example.com', $customerUser->getEmail());
+        $this->assertEquals('First Name', $customerUser->getFirstName());
+        $this->assertEquals('Last Name', $customerUser->getLastName());
         $this->assertTrue($customerUser->isGuest());
-        $this->assertEquals($firstName, $customerUser->getFirstName());
-    }
-
-    public function testUpdateFromAddress()
-    {
-        $customerUser = new CustomerUser();
-        $customerUser->createCustomer();
-
-        $namePrefix = 'namePrefix';
-        $firstName  = 'firstName';
-        $middleName = 'middleName';
-        $lastName   = 'lastName';
-        $nameSuffix = 'nameSuffix';
-        $address    = new OrderAddress();
-
-        $address->setNamePrefix($namePrefix);
-        $address->setFirstName($firstName);
-        $address->setMiddleName($middleName);
-        $address->setLastName($lastName);
-        $address->setNameSuffix($nameSuffix);
-
-        $updatedCustomerUser = $this->manager->updateFromAddress($customerUser, 'foo@bar.com', $address);
-
-        $this->assertEquals($namePrefix, $updatedCustomerUser->getNamePrefix());
-        $this->assertEquals($firstName, $updatedCustomerUser->getFirstName());
-        $this->assertEquals($middleName, $updatedCustomerUser->getMiddleName());
-        $this->assertEquals($lastName, $updatedCustomerUser->getLastName());
-        $this->assertEquals($nameSuffix, $updatedCustomerUser->getNameSuffix());
+        $this->assertFalse($customerUser->isConfirmed());
+        $this->assertFalse($customerUser->isEnabled());
+        $this->assertEquals('Default Website', $customerUser->getWebsite()->getName());
+        $this->assertEquals('Default Group', $customerUser->getCustomer()->getGroup()->getName());
+        $this->assertEquals($owner->getFirstName(), $customerUser->getOwner()->getFirstName());
     }
 }

@@ -2,21 +2,17 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
+use Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener;
+use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 class GuestCustomerUserManager
 {
-    /**
-     * @var DoctrineHelper
-     */
-    protected $doctrineHelper;
-
     /**
      * @var WebsiteManager
      */
@@ -33,29 +29,75 @@ class GuestCustomerUserManager
     protected $customerUserRelationsProvider;
 
     /**
-     * @var TokenStorageInterface
+     * @var DefaultUserProvider
      */
-    protected $tokenStorage;
+    protected $defaultUserProvider;
 
     /**
-     * @param DoctrineHelper $doctrineHelper
+     * @var PropertyAccessor
+     */
+    protected $propertyAccessor;
+
+    /**
      * @param WebsiteManager $websiteManager
      * @param CustomerUserManager $customerUserManager
      * @param CustomerUserRelationsProvider $customerUserRelationsProvider
-     * @param TokenStorageInterface $tokenStorage
+     * @param DefaultUserProvider $defaultUserProvider
+     * @param PropertyAccessor $propertyAccessor
      */
     public function __construct(
-        DoctrineHelper $doctrineHelper,
         WebsiteManager $websiteManager,
         CustomerUserManager $customerUserManager,
         CustomerUserRelationsProvider $customerUserRelationsProvider,
-        TokenStorageInterface $tokenStorage
+        DefaultUserProvider $defaultUserProvider,
+        PropertyAccessor $propertyAccessor
     ) {
-        $this->doctrineHelper                = $doctrineHelper;
-        $this->websiteManager                = $websiteManager;
-        $this->customerUserManager           = $customerUserManager;
+        $this->websiteManager = $websiteManager;
+        $this->customerUserManager = $customerUserManager;
         $this->customerUserRelationsProvider = $customerUserRelationsProvider;
-        $this->tokenStorage = $tokenStorage;
+        $this->defaultUserProvider = $defaultUserProvider;
+        $this->propertyAccessor = $propertyAccessor;
+    }
+
+    /**
+     * @param array $properties
+     *
+     * @return CustomerUser
+     */
+    public function generateGuestCustomerUser(array $properties = [])
+    {
+        $customerUser = new CustomerUser();
+        $customerUser->setIsGuest(true);
+        $customerUser->setEnabled(false);
+        $customerUser->setConfirmed(false);
+
+        $owner = $this->defaultUserProvider->getDefaultUser(
+            OroCustomerExtension::ALIAS,
+            SystemConfigListener::SETTING
+        );
+        $customerUser->setOwner($owner);
+        $website = $this->websiteManager->getCurrentWebsite();
+        $customerUser->setWebsite($website);
+        if ($website && $website->getOrganization()) {
+            $customerUser->setOrganization($website->getOrganization());
+        }
+
+        foreach ($properties as $propertyPath => $value) {
+            if ($this->propertyAccessor->isWritable($customerUser, $propertyPath)) {
+                $this->propertyAccessor->setValue($customerUser, $propertyPath, $value);
+            }
+        }
+
+        $generatedPassword = $this->customerUserManager->generatePassword(10);
+        $customerUser->setPlainPassword($generatedPassword);
+        $this->customerUserManager->updatePassword($customerUser);
+
+        $customerUser->createCustomer();
+
+        $anonymousGroup = $this->customerUserRelationsProvider->getCustomerGroup();
+        $customerUser->getCustomer()->setGroup($anonymousGroup);
+
+        return $customerUser;
     }
 
     /**
@@ -66,39 +108,18 @@ class GuestCustomerUserManager
      */
     public function createFromAddress($userName = null, AbstractAddress $address = null)
     {
-        $customerUser = new CustomerUser();
-        $customerUser->setIsGuest(true);
-        $customerUser->setEnabled(false);
-        $customerUser->setConfirmed(false);
-        if ($userName === null) {
-            $userName = $this->customerUserManager->generatePassword(10);
-        }
-        $customerUser->setUsername($userName);
-        if ($address) {
-            $customerUser->setNamePrefix($address->getNamePrefix());
-            $customerUser->setFirstName($address->getFirstName());
-            $customerUser->setMiddleName($address->getMiddleName());
-            $customerUser->setLastName($address->getLastName());
-            $customerUser->setNameSuffix($address->getNameSuffix());
-        }
-        $generatedPassword = $this->customerUserManager->generatePassword(10);
-        $customerUser->setPlainPassword($generatedPassword);
-        $this->customerUserManager->updatePassword($customerUser);
-        $website = $this->websiteManager->getCurrentWebsite();
-        $customerUser->setWebsite($website);
-        $customerUser->setOrganization($website->getOrganization());
-        $customerUser->createCustomer();
-
-        $anonymousGroup = $this->customerUserRelationsProvider->getCustomerGroup();
-        $customerUser->getCustomer()->setGroup($anonymousGroup);
-
-        $token = $this->tokenStorage->getToken();
-        if ($token instanceof AnonymousCustomerUserToken) {
-            $visitor = $token->getVisitor();
-            $visitor->setCustomerUser($customerUser);
+        $properties = [
+            'username' => $userName ?? $this->customerUserManager->generatePassword(10)
+        ];
+        if (null !== $address) {
+            $properties['name_prefix'] = $address->getNamePrefix();
+            $properties['first_name'] = $address->getFirstName();
+            $properties['middle_name'] = $address->getMiddleName();
+            $properties['last_name'] = $address->getLastName();
+            $properties['name_suffix'] = $address->getNameSuffix();
         }
 
-        return $customerUser;
+        return $this->generateGuestCustomerUser($properties);
     }
 
     /**
