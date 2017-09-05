@@ -228,7 +228,6 @@
 
         &__items {
             width: 100%;
-            flex-basis: 100%;
 
             margin: -#{$datagrid-manager-filters-dropdown-size} 0 0 -#{$datagrid-manager-filters-dropdown-size};
 
@@ -236,7 +235,6 @@
 
             &--pallet {
                 width: 50%;
-                flex-basis: 50%;
             }
         }
 
