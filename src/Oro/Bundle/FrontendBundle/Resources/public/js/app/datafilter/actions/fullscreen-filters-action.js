@@ -177,7 +177,9 @@ define(function(require) {
                 return ;
             }
 
-            var $popupContent = filterManager.selectWidget.multiselect('getMenu');
+            var f = filterManager;
+            var $popupMenu = filterManager.selectWidget.multiselect('getMenu');
+            var $popupContent = filterManager.$el;
 
             this.$filterManagerButton = filterManager.selectWidget.multiselect('getButton');
             this.$filterManagerButtonContent = this.$filterManagerButton.find('span');
@@ -186,14 +188,16 @@ define(function(require) {
                 this.filtersManagerPopupOptions
             );
             this.filterManagerPopup.on('show', function() {
-                $popupContent
+                $popupContent.find('[data-filters-items]').hide();
+                $popupMenu
                     .removeAttr('style')
                     .removeClass('dropdown-menu')
                     .addClass(this.filterManagerClasses)
                     .show();
             }, this);
             this.filterManagerPopup.on('close', function() {
-                $popupContent
+                $popupContent.find('[data-filters-items]').show();
+                $popupMenu
                     .addClass('dropdown-menu')
                     .removeClass(this.filterManagerClasses)
                     .hide();
