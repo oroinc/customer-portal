@@ -18,3 +18,11 @@
         }
     }
 }
+
+@include breakpoint('tablet') {
+    .page-main {
+        &__header {
+            min-height: $page-main-header-min-height-tablet;
+        }
+    }
+}
