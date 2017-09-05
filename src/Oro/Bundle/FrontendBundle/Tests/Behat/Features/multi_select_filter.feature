@@ -48,7 +48,5 @@ Feature: Multi-select filter
     And click "Save settings"
     When I proceed as the User
     And I reload the page
-    And I click "Filters Dropdown"
-    And I click "Filters Dropdown"
     And I click "Filter By Step"
     Then I should see an "Filter Checkboxes All At Once" element
