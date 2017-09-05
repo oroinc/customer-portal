@@ -50,7 +50,7 @@
                 'orofilter/js/filter-hint': {inline: false},
                 'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin': {
                     launcherOptions: {
-                        className: 'btn btn--default btn--size-s caret',
+                        className: 'btn btn--default btn--size-s' + ('{{ NotMobileVersion }}' ? ' caret' : ''),
                         iconHideText: true
                     },
                     order: 650
