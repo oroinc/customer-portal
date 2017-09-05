@@ -4,7 +4,6 @@ define(function(require) {
     var ScrollTopView;
     var viewportManager = require('oroui/js/viewport-manager');
     var BaseView = require('oroui/js/app/views/base/view');
-    var mediator = require('oroui/js/mediator');
     var _ = require('underscore');
     var $ = require('jquery');
     var module = require('module');
@@ -23,14 +22,8 @@ define(function(require) {
     }, config);
 
     ScrollTopView = BaseView.extend({
-        /**
-         * @property {Boolean}
-         */
         autoRender: true,
 
-        /**
-         * @property {object}
-         */
         options: {
             togglePoint: config.togglePoint,
             duration: config.duration,
@@ -40,10 +33,13 @@ define(function(require) {
             props: config.props
         },
 
-        /**
-         * @property {jQuery.Element}
-         */
-        $element: null,
+        events: {
+            'click': 'scrollTop'
+        },
+
+        listen: {
+            'viewport:change mediator': 'render'
+        },
 
         /**
          * @property {Boolean}
@@ -64,7 +60,6 @@ define(function(require) {
         setElement: function(element) {
             this.$window = $(window);
             this.$document = $('html, body');
-            this.$element = $(element);
             return ScrollTopView.__super__.setElement.call(this, element);
         },
 
@@ -72,18 +67,16 @@ define(function(require) {
          * @inheritDoc
          */
         delegateEvents: function() {
-            this.$window.on('scroll', _.debounce(_.bind(this.toggle, this), 5));
-            this.$element.on('click', _.bind(this.scrollTop, this));
-            mediator.on('viewport:change', this.render, this);
+            ScrollTopView.__super__.delegateEvents.apply(this, arguments);
+            this.$window.on('scroll' + this.eventNamespace(), _.debounce(_.bind(this.toggle, this), 5));
         },
 
         /**
          * @inheritDoc
          */
         undelegateEvents: function() {
-            this.$window.off('scroll', this.toggle);
-            this.$element.off('click', this.scrollTop);
-            mediator.off(null, null, this);
+            this.$window.off(this.eventNamespace());
+            ScrollTopView.__super__.undelegateEvents.apply(this, arguments);
         },
 
         /**
@@ -97,10 +90,10 @@ define(function(require) {
         toggle: function() {
             if (this.isApplicable) {
                 var state = this.$window.scrollTop() > this.options.togglePoint;
-                this.$element.toggle(state);
+                this.$el.toggle(state);
                 this.land();
             } else {
-                this.$element.hide();
+                this.$el.hide();
             }
         },
 
@@ -114,13 +107,12 @@ define(function(require) {
             if (!this.options.allowLanding) {
                 return;
             }
-
             var footerHeight = this.$document.find('[data-page-footer]').height();
             var windowHeight = this.$window.height();
-            var elementHeight = this.$element.height() + this.options.bottomOffset;
+            var elementHeight = this.$el.height() + this.options.bottomOffset;
             var scrollY = this.$document.height() - this.$window.scrollTop();
             var footerOffset = footerHeight + windowHeight + elementHeight;
-            this.$element.toggleClass('scroll-top--landed', footerOffset >= scrollY);
+            this.$el.toggleClass('scroll-top--landed', footerOffset >= scrollY);
         },
 
         /**
@@ -132,10 +124,6 @@ define(function(require) {
             }
 
             this.undelegateEvents();
-
-            delete this.$element;
-            delete this.$document;
-            delete this.$window;
 
             ScrollTopView.__super__.dispose.call(this);
         }

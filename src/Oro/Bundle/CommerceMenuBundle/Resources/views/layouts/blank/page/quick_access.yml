@@ -15,5 +15,3 @@ layout:
                 middle_bar_right:
                     quick_access_container:
                         quick_access_menu: ~
-
-    conditions: 'context["is_logged_in"]'
