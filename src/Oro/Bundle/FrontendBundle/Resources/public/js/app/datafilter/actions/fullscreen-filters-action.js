@@ -177,7 +177,6 @@ define(function(require) {
                 return ;
             }
 
-            var f = filterManager;
             var $popupMenu = filterManager.selectWidget.multiselect('getMenu');
             var $popupContent = filterManager.$el;
 
