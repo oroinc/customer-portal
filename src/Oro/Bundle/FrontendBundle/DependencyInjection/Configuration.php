@@ -9,6 +9,9 @@ use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
 
 class Configuration implements ConfigurationInterface
 {
+    const FILTER_VALUE_SELECTORS_ALL_AT_ONCE = 'all_at_once';
+    const FILTER_VALUE_SELECTORS_DROPDOWN = 'dropdown';
+
     /**
      * {@inheritdoc}
      */
@@ -23,6 +26,7 @@ class Configuration implements ConfigurationInterface
                 'frontend_theme' => ['type' => 'string', 'value' => '%oro_layout.default_active_theme%'],
                 'page_templates' => ['type' => 'array', 'value' => []],
                 'guest_access_enabled' => ['type' => 'boolean', 'value' => true],
+                'filter_value_selectors' => ['type' => 'string', 'value' => self::FILTER_VALUE_SELECTORS_DROPDOWN],
             ]
         );
         $rootNode->children()
