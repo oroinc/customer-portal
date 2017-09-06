@@ -96,6 +96,8 @@ define(function(require) {
             this.fullscreenView = new FullScreenPopupView(this.filtersPopupOptions);
 
             this.fullscreenView.on('show', function() {
+                var enteredState = this.getChangedFiltersState(this.datagrid);
+
                 this.applyAllFiltersBtn = this.fullscreenView.$popupFooter.find(this.applyAllFiltersSelector);
 
                 this.applyAllFiltersBtn.on('click', _.bind(function() {
@@ -111,7 +113,7 @@ define(function(require) {
 
                 }, this));
 
-                this._toggleApplyAllBtn(!filterManager._calculateSelectedFilters());
+                this._toggleApplyAllBtn(!_.keys(enteredState.filters).length);
 
                 this.setMessengerContainer();
 
@@ -273,7 +275,8 @@ define(function(require) {
             this.datagrid.filterManager.hidePreviousOpenFilters = config.hidePreviousOpenFilters;
 
             _.each(filters, function(filter) {
-                if ((filter.enabled && !_.isEqual(filter.emptyValue, filter.value)) &&
+                if (filter.enabled &&
+                    !_.isEqual(filter.emptyValue, filter.value) &&
                     _.isFunction(filter._showCriteria)) {
                     filter.popupCriteriaShowed = false;
                     filter._showCriteria();
