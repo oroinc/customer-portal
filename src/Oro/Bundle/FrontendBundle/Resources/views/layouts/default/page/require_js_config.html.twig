@@ -1,5 +1,5 @@
 {% block _require_js_config_widget %}
-    {% set NotMobileVersion =  not isMobileVersion() %}
+    {% set NotMobileVersion = not isMobileVersion() %}
     <script>
         require({
             config: {
@@ -55,9 +55,6 @@
                     },
                     order: 650
                 },
-                'orofilter/js/multiselect-decorator': {
-                    additionalClass: !!'{{ NotMobileVersion }}'
-                },
                 'orofilter/js/datafilter-builder': {
                     FiltersManager: 'orofrontend/js/app/datafilter/frontend-collection-filters-manager',
                     enableToggleFilters: true
@@ -100,11 +97,13 @@
 {% endblock %}
 
 {% block _require_js_multi_select_filter_config_widget %}
+    {% set MobileVersion = isMobileVersion() %}
+
     <script>
         require({
             config: {
                 'orofrontend/js/app/datafilter/frontend-multiselect-decorator': {
-                    hideHeader: false,
+                    hideHeader: !!'{{ MobileVersion }}',
                     themeName: 'all-at-once'
                 }
             }

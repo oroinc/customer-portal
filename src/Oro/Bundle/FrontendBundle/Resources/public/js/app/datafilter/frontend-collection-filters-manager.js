@@ -3,6 +3,7 @@ define(function(require) {
 
     var FrontendCollectionFiltersManager;
     var $ = require('jquery');
+    var _ = require('underscore');
     var __ = require('orotranslation/js/translator');
     var CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
     var MultiselectDecorator = require('orofrontend/js/app/datafilter/fronend-manage-filters-decorator');
@@ -77,6 +78,15 @@ define(function(require) {
             var data = FrontendCollectionFiltersManager.__super__.getTemplateData.call(this);
             data = $.extend(data, this.templateData || {});
             return data;
+        },
+
+        /**
+         * @inheritDoc
+         */
+        _onCollectionReset: function(collection) {
+            if (!_.isMobile()) {
+                FrontendCollectionFiltersManager.__super__._onCollectionReset.apply(this, arguments);
+            }
         }
     });
 

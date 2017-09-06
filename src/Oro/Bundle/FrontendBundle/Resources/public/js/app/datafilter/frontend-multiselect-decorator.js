@@ -9,8 +9,9 @@ define(function(require) {
     var config = require('module').config();
 
     config = $.extend(true, {
-        hideHeader: false,
-        themeName: 'default'
+        hideHeader: _.isMobile(),
+        themeName: 'default',
+        additionalClass: !_.isMobile()
     }, config);
 
     FrontendMultiSelectDecorator = function(options) {
@@ -31,6 +32,11 @@ define(function(require) {
          * @property {bool}
          */
         applyMarkup: true,
+
+        /**
+         * @property {bool}
+         */
+        additionalClass: config.additionalClass,
 
         /**
          * @inheritDoc
@@ -178,9 +184,11 @@ define(function(require) {
          * @param {object} widget
          */
         addAdditionalClassesForContainer: function(widget) {
-            widget
-                .removeAttr('class')
-                .addClass('dropdown-menu');
+            if (this.additionalClass) {
+                widget
+                    .removeAttr('class')
+                    .addClass('dropdown-menu');
+            }
         },
 
         /**
