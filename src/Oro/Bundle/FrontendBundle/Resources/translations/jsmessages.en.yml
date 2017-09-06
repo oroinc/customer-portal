@@ -30,7 +30,7 @@ oro_frontend:
     filter_manager:
         checkAll: 'Select All'
         unCheckAll: 'Deselect All'
-        label: "Add Filters"
+        label: "Manage Filters"
         placeholder: "Search Filters"
         title: 'Filters Manager'
         button_label: 'Manage Filters'

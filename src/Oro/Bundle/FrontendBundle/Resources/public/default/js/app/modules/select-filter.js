@@ -3,9 +3,25 @@ define(function(require) {
 
     var _ = require('underscore');
     var SelectFilter = require('oro/filter/select-filter');
+    var MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
 
     _.extend(SelectFilter.prototype, {
         closeAfterChose: !_.isMobile(),
+
+        /**
+         * @property
+         */
+        MultiselectDecorator: MultiselectDecorator,
+
+        /**
+         * Select widget options
+         *
+         * @property
+         */
+        widgetOptions: {
+            multiple: false,
+            classes: 'select-filter-widget'
+        },
 
         /**
          * Selector for filter area
