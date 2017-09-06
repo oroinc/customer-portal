@@ -153,6 +153,8 @@ define(function(require) {
          * Action on multiselect widget refresh
          */
         onRefresh: function() {
+            var instance = this.multiselect('instance');
+            this.setDropdownHeaderDesign(instance);
             this._setDropdownDesign();
         },
 
