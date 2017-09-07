@@ -79,6 +79,7 @@ define(function(require) {
 
             mediator.on('filterManager:selectedFilters:count:' + this.datagrid.name, this.onUpdateFiltersCount, this);
             mediator.on('filterManager:changedFilters:count:' + this.datagrid.name, this.onChangeFiltersCount, this);
+            mediator.on('datagrid:doRefresh:' + this.datagrid.name, this._toggleApplyAllBtn, this);
         },
 
         /**
@@ -320,9 +321,10 @@ define(function(require) {
         },
 
         _toggleApplyAllBtn: function(state) {
+            var disable = _.isUndefined(state) ? true : state;
             if (this.applyAllFiltersBtn && this.applyAllFiltersBtn.length) {
                 this.applyAllFiltersBtn.attr({
-                    disabled: !!state
+                    disabled: disable
                 });
             }
         }
