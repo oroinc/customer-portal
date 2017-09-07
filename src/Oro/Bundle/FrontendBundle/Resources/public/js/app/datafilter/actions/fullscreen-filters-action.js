@@ -117,9 +117,11 @@ define(function(require) {
 
                 this.setMessengerContainer();
 
-                this.openNotEmptyFilters();
+                this.closeEmptyFilters();
 
                 this.$filters.show();
+
+                this.datagrid.filterManager.hidePreviousOpenFilters = config.hidePreviousOpenFilters;
             }, this);
 
             this.fullscreenView.on('close', function() {
@@ -179,10 +181,11 @@ define(function(require) {
                 return ;
             }
 
-            var $popupMenu = filterManager.selectWidget.multiselect('getMenu');
+            var selectWidget = filterManager.selectWidget;
+            var $popupMenu = selectWidget.multiselect('getMenu');
             var $popupContent = filterManager.$el;
 
-            this.$filterManagerButton = filterManager.selectWidget.multiselect('getButton');
+            this.$filterManagerButton = selectWidget.multiselect('getButton');
             this.$filterManagerButtonContent = this.$filterManagerButton.find('span');
             this.filtersManagerPopupOptions.contentElement = $popupContent;
             this.filterManagerPopup = new FullScreenPopupView(
@@ -207,6 +210,11 @@ define(function(require) {
             var handler = _.bind(function() {
                 this.filterManagerPopup.show();
             }, this);
+
+            // Don't close filter before open Filter Manager
+            selectWidget.multiselect('instance').options.beforeopen = function() {
+                selectWidget.onBeforeOpenDropdown();
+            };
 
             this.$filterManagerButton.on('click.multiselectfullscreen', handler);
             this.$filterManagerButtonContent.on('click.multiselectfullscreen', handler);
@@ -269,17 +277,14 @@ define(function(require) {
             // Must be empty, nothing to do
         },
 
-        openNotEmptyFilters: function() {
+        closeEmptyFilters: function() {
             var filters = this.datagrid.filterManager.filters;
-
-            this.datagrid.filterManager.hidePreviousOpenFilters = config.hidePreviousOpenFilters;
 
             _.each(filters, function(filter) {
                 if (filter.enabled &&
-                    !_.isEqual(filter.emptyValue, filter.value) &&
-                    _.isFunction(filter._showCriteria)) {
-                    filter.popupCriteriaShowed = false;
-                    filter._showCriteria();
+                    _.isEqual(filter.emptyValue, filter._readDOMValue()) &&
+                    _.isFunction(filter._hideCriteria)) {
+                    filter._hideCriteria();
                 }
             });
         },
