@@ -281,10 +281,23 @@ define(function(require) {
             var filters = this.datagrid.filterManager.filters;
 
             _.each(filters, function(filter) {
-                if (filter.enabled &&
-                    _.isEqual(filter.emptyValue, filter._readDOMValue()) &&
-                    _.isFunction(filter._hideCriteria)) {
-                    filter._hideCriteria();
+                if (filter.enabled && (filter.type === 'multichoice' ?
+                        filter._readDOMValue().value.length === 0 :
+                        _.isEqual(filter.emptyValue, filter._readDOMValue())
+                    )) {
+
+                    if (!_.isFunction(filter._onClickCriteriaSelector)) {
+                        return;
+                    }
+                    if (_.has(filter, 'selectDropdownOpened')) {
+                        filter.selectDropdownOpened = true;
+                    }
+
+                    if (_.has(filter, 'popupCriteriaShowed')) {
+                        filter.popupCriteriaShowed = true;
+                    }
+
+                    filter._onClickCriteriaSelector($.Event('click'));
                 }
             });
         },

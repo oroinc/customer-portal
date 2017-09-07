@@ -68,6 +68,10 @@ define(function(require) {
         _onClickCriteriaSelector: function(e) {
             e.stopPropagation();
 
+            this.toggleFilter();
+        },
+
+        toggleFilter: function() {
             if (!this.selectDropdownOpened) {
                 this._setButtonPressed(this.$(this.containerSelector), true);
                 setTimeout(_.bind(function() {
@@ -78,6 +82,18 @@ define(function(require) {
             }
 
             this.selectDropdownOpened = !this.selectDropdownOpened;
+        },
+
+        /**
+         * @inheritDoc
+         */
+        reset: function() {
+            SelectFilter.__super__.reset.apply(this, arguments);
+
+            if (_.isMobile()) {
+                this.selectDropdownOpened = true;
+                this.toggleFilter();
+            }
         }
     });
 });
