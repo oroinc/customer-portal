@@ -21,12 +21,19 @@ oro_frontend:
             page_templates.title: 'Page Templates'
             guests.title: 'Guests'
             website_access.title: 'Website Access'
+            filter_settings.title: 'Filter Settings'
         fields:
             frontend_theme.label: 'Theme'
             page_template_collection.label: 'Page Templates'
             no_page_template.label: 'Default template'
             page_template_routes.label: 'Page Template'
             guest_access_enabled.label: 'Enable Guest Access'
+            filter_value_selectors:
+                label: 'Value Selectors'
+                tooltip: 'The drop-down selector is better optimized for selecting from a long list of values.'
+                option:
+                    dropdown: 'Drop-down'
+                    all_at_once: 'All at once'
         messages:
             no_page_templates: 'No templates available.'
     copyright: '&copy; 2017 Oro Inc. All Rights Reserved.'

@@ -17,6 +17,8 @@ system_configuration:
             title: oro_frontend.system_configuration.groups.guests.title
         website_access:
             title: oro_frontend.system_configuration.groups.website_access.title
+        filter_settings:
+            title: oro_frontend.system_configuration.groups.filter_settings.title
 
     fields:
         oro_frontend.frontend_theme:
@@ -45,6 +47,18 @@ system_configuration:
                 tooltip: oro_frontend.system_configuration.fields.guest_access_enabled.tooltip
                 required: false
 
+        oro_frontend.filter_value_selectors:
+            data_type: string
+            type: choice
+            priority: 100
+            options:
+                required: false
+                label: oro_frontend.system_configuration.fields.filter_value_selectors.label
+                tooltip: oro_frontend.system_configuration.fields.filter_value_selectors.tooltip
+                choices:
+                    dropdown: oro_frontend.system_configuration.fields.filter_value_selectors.option.dropdown
+                    all_at_once: oro_frontend.system_configuration.fields.filter_value_selectors.option.all_at_once
+
     tree:
         system_configuration:
             commerce:
@@ -59,6 +73,9 @@ system_configuration:
                                             - oro_frontend.frontend_theme
                                     page_templates:
                                         children: []
+                                    filter_settings:
+                                        children:
+                                            - oro_frontend.filter_value_selectors
                     guests:
                         priority: 2000
                         children:
