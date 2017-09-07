@@ -86,8 +86,9 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
      * @return CustomerUser
      *
      * TODO: remove logic with creating new customer user from data provider
+     * in scope of #BB-11842
      */
-    private function createCustomerUser()
+    public function createCustomerUser()
     {
         $customerUser = new CustomerUser();
 
@@ -122,6 +123,7 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
         $customerUser
             ->setOwner($owner)
             ->setOrganization($organization)
+            ->setWebsite($website)
             ->addRole($defaultRole);
 
         return $customerUser;

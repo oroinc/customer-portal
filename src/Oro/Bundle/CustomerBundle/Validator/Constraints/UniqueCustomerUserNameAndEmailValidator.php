@@ -29,20 +29,27 @@ class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
      *
      * {@inheritdoc}
      */
-    public function validate($entity, Constraint $constraint)
+    public function validate($value, Constraint $constraint)
     {
-        /** @var CustomerUser $customerUser */
-        $customerUser = $entity;
+        $id = false;
+        if ($value instanceof CustomerUser) {
+            if ($value->isGuest()) {
+                return;
+            }
+
+            $id = $value->getId();
+            $value = $value->getEmail();
+        }
 
         /** @var CustomerUser $existingCustomerUser */
         $existingCustomerUser = $this->customerUserRepository->findOneBy(
             [
-                'email' => $customerUser->getEmail(),
+                'email' => $value,
                 'isGuest' => false
             ]
         );
 
-        if (!$entity->isGuest() && $existingCustomerUser && $entity->getId() !== $existingCustomerUser->getId()) {
+        if ($existingCustomerUser && $id !== $existingCustomerUser->getId()) {
             $this->context->buildViolation($constraint->message)
                 ->atPath('email')
                 ->setInvalidValue('email')

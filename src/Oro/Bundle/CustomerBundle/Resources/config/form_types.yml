@@ -260,3 +260,8 @@ services:
             - '@security.token_storage'
         tags:
             - { name: form.type, alias: oro_customer_visitor_email_address }
+
+    oro_customer.form.type.confirm_password:
+        class: 'Oro\Bundle\CustomerBundle\Form\Type\ConfirmPasswordType'
+        tags:
+            - { name: form.type }
