@@ -154,7 +154,7 @@ define(function(require) {
          */
         onRefresh: function() {
             var instance = this.multiselect('instance');
-            this.setDropdownHeaderDesign(instance);
+            this.setActionsState(instance);
             this._setDropdownDesign();
         },
 
