@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
+use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Doctrine\Common\Persistence\ObjectRepository;
 
@@ -49,6 +50,27 @@ class CustomerUserContext extends OroFeatureContext
     public function emailShouldContainsTheFollowingText($text)
     {
         //todo: to be implemented in scope of CRM-7599. Consulted with Serhii Polishchuk.
+    }
+
+    /**
+     * @When /^I restart the browser$/
+     */
+    public function iRestartTheBrowser()
+    {
+        /** @var Selenium2Driver $driver */
+        $driver = $this->getSession()->getDriver();
+        /** @var \WebDriver\Session $session */
+        $session = $driver->getWebDriverSession();
+        $cookies = $session->getAllCookies();
+
+        // emulate restart by deleting all Session cookies
+        foreach ($cookies as $cookie) {
+            if (!isset($cookie['expiry'])) {
+                $session->deleteCookie($cookie['name']);
+            }
+        }
+
+        $this->visitPath('/');
     }
 
     /**

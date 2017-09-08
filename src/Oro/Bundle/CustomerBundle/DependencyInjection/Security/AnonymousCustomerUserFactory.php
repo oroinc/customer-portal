@@ -36,7 +36,7 @@ class AnonymousCustomerUserFactory implements SecurityFactoryInterface
      */
     public function getPosition()
     {
-        return 'pre_auth';
+        return 'remember_me';
     }
 
     /**
