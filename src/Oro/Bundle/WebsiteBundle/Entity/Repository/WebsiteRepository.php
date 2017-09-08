@@ -19,10 +19,16 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
      */
     public function getAllWebsites()
     {
-        return $this->createQueryBuilder('website')
+        $websites = $this->createQueryBuilder('website')
             ->addOrderBy('website.id', 'ASC')
             ->getQuery()
             ->getResult();
+        $result = [];
+        foreach ($websites as $website) {
+            $result[$website->getId()] = $website;
+        }
+
+        return $result;
     }
 
     /**

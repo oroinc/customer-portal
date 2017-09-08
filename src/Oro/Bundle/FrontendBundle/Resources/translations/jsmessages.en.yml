@@ -22,11 +22,15 @@ oro_frontend:
                 orders: "{{ totalRecords }} Total Orders"
                 quotes: "{{ totalRecords }} Total Quotes"
         manage_grid: 'Manage grid'
+        requires:
+            data: 'Data attribute "data-server-render" must be defined'
+            options: 'Options for datagrid-component must be defined'
+
 
     filter_manager:
         checkAll: 'Select All'
         unCheckAll: 'Deselect All'
-        label: "Add Filters"
+        label: "Manage Filters"
         placeholder: "Search Filters"
 
     datagrid_views:

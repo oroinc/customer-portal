@@ -43,15 +43,6 @@ class CustomerUserContext extends OroFeatureContext
     }
 
     /**
-     * @Given /^Email should contains the following "([^"]*)" text$/
-     * @param string $text
-     */
-    public function emailShouldContainsTheFollowingText($text)
-    {
-        //todo: to be implemented in scope of CRM-7599. Consulted with Serhii Polishchuk.
-    }
-
-    /**
      * @param string $username
      * @return CustomerUser
      */

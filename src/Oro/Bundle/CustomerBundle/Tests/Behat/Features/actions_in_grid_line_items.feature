@@ -61,7 +61,7 @@ Feature: Checked actions in grid line items
         And I click "Account"
         And I click "Users"
         And I should see "11 Total Users"
-        And I should see a "Customer Create User Button" element
+        And I should see "Create User" button
         And I should see following elements in "Frontend Grid":
             | FrontendGridActionRefreshButton |
             | FrontendGridActionResetButton   |

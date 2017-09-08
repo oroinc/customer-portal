@@ -27,14 +27,14 @@ class AddressBookTest extends WebTestCase
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_profile')
         );
-        $this->assertEquals($this->client->getResponse()->getStatusCode(), Response::HTTP_FORBIDDEN);
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
         $this->assertFalse($this->isAddressBookMenuVisible($crawler));
 
         $this->client->request(
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_address_index')
         );
-        $this->assertEquals($this->client->getResponse()->getStatusCode(), Response::HTTP_FORBIDDEN);
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
         $this->assertFalse($this->isAddressBookMenuVisible($crawler));
     }
 
@@ -49,7 +49,7 @@ class AddressBookTest extends WebTestCase
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_address_index')
         );
-        $this->assertEquals($this->client->getResponse()->getStatusCode(), Response::HTTP_OK);
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
         $this->assertFalse($this->isAddUserAddressButtonVisible($crawler));
         $this->assertFalse($this->isAddCustomerAddressButtonVisible($crawler));
@@ -70,7 +70,7 @@ class AddressBookTest extends WebTestCase
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_address_index')
         );
-        $this->assertEquals($this->client->getResponse()->getStatusCode(), Response::HTTP_OK);
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertFalse($this->isAddUserAddressButtonVisible($crawler));
         $this->assertFalse($this->isAddCustomerAddressButtonVisible($crawler));
 
@@ -90,7 +90,7 @@ class AddressBookTest extends WebTestCase
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_address_index')
         );
-        $this->assertEquals($this->client->getResponse()->getStatusCode(), Response::HTTP_OK);
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
         $this->assertFalse($this->isAddUserAddressButtonVisible($crawler));
         $this->assertFalse($this->isAddCustomerAddressButtonVisible($crawler));
@@ -111,7 +111,7 @@ class AddressBookTest extends WebTestCase
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_address_index')
         );
-        $this->assertEquals($this->client->getResponse()->getStatusCode(), Response::HTTP_OK);
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
         $this->assertFalse($this->isAddUserAddressButtonVisible($crawler));
         $this->assertFalse($this->isCustomerUserAddressSectionVisible($crawler));
@@ -131,7 +131,7 @@ class AddressBookTest extends WebTestCase
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_address_index')
         );
-        $this->assertEquals($this->client->getResponse()->getStatusCode(), Response::HTTP_OK);
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
         $this->assertFalse($this->isCustomerAddressSectionVisible($crawler));
         $this->assertFalse($this->isAddCustomerAddressButtonVisible($crawler));

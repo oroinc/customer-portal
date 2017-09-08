@@ -71,11 +71,25 @@
             }
             appModules = appModules.concat([
                 'orofrontend/default/js/app/modules/input-widgets',
-                'orofrontend/default/js/app/modules/zoom-disable'
+                'orofrontend/default/js/app/modules/zoom-disable',
+                'orofrontend/default/js/app/modules/select-filter'
             ]);
             require({
                 appmodules: appModules
             });
         })();
+    </script>
+{% endblock %}
+
+{% block _require_js_multi_select_filter_config_widget %}
+    <script>
+        require({
+            config: {
+                'orofrontend/js/app/datafilter/frontend-multiselect-decorator': {
+                    hideHeader: false,
+                    themeName: 'all-at-once'
+                }
+            }
+        });
     </script>
 {% endblock %}
