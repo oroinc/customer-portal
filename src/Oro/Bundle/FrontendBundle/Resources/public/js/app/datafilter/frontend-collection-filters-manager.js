@@ -3,6 +3,7 @@ define(function(require) {
 
     var FrontendCollectionFiltersManager;
     var $ = require('jquery');
+    var _ = require('underscore');
     var __ = require('orotranslation/js/translator');
     var CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
     var MultiselectDecorator = require('orofrontend/js/app/datafilter/fronend-manage-filters-decorator');
@@ -30,7 +31,9 @@ define(function(require) {
             checkAllText: __('oro_frontend.filter_manager.checkAll'),
             uncheckAllText: __('oro_frontend.filter_manager.unCheckAll'),
             height: 'auto',
-            menuWidth: 312
+            menuWidth: 312,
+            selectedText: __('oro_frontend.filter_manager.button_label'),
+            noneSelectedText: __('oro_frontend.filter_manager.button_label')
         },
 
         /** @property */
@@ -47,8 +50,9 @@ define(function(require) {
          */
         _setButtonDesign: function($button) {
             $button
-                .addClass('btn btn--default btn--size-s')
-                .find('span').addClass('fa--no-offset fa-plus hide-text');
+                .addClass('filters-manager-trigger btn btn--default btn--size-s')
+                .find('span')
+                .addClass('fa--no-offset fa-plus hide-text');
         },
 
         /**
@@ -75,6 +79,15 @@ define(function(require) {
             var data = FrontendCollectionFiltersManager.__super__.getTemplateData.call(this);
             data = $.extend(data, this.templateData || {});
             return data;
+        },
+
+        /**
+         * @inheritDoc
+         */
+        _onCollectionReset: function(collection) {
+            if (!_.isMobile()) {
+                FrontendCollectionFiltersManager.__super__._onCollectionReset.apply(this, arguments);
+            }
         }
     });
 

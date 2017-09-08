@@ -7,3 +7,11 @@
 
     white-space: normal;
 }
+
+@include breakpoint('tablet') {
+    .dropdown-toggle--expanded {
+        &:after {
+            content: none;
+        }
+    }
+}

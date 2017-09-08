@@ -1,0 +1,14 @@
+<div class="filter-item" data-filter-wrapper-template>
+    <div class="filter-criteria-selector <% if (isEmpty) { %>filter-default-value<% } %>" data-zoom-disable>
+        <% if (showLabel) { %><%- label %><% } %><span class="filter-item-hint"></span>
+        <div class="filter-criteria-selector-icon-wrap">
+            <% if (_.isMobile()) { %>
+                <span class="filter-criteria-selector-icon fa-plus fa--large"></span>
+                <span class="filter-criteria-selector-icon fa-minus fa--large"></span>
+            <% } else { %>
+                <span class="filter-criteria-selector-icon fa-caret-down fa--large"></span>
+            <% } %>
+        </div>
+    </div>
+    <div class="filter-criteria <% if (!_.isMobile()) { %>dropdown-menu<% } %>"></div>
+</div>
