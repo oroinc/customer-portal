@@ -153,8 +153,11 @@ define(function(require) {
          * Action on multiselect widget refresh
          */
         onRefresh: function() {
-            var instance = this.multiselect('instance');
-            this.setActionsState(instance);
+            if (_.isFunction(this.setActionsState)) {
+                var instance = this.multiselect('instance');
+                this.setActionsState(instance);
+            }
+
             this._setDropdownDesign();
         },
 
