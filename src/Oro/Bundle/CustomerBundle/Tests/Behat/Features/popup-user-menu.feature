@@ -36,7 +36,6 @@ Feature: Popup user menu
       | User Menu    | Show subitems in a popup |
     And save form
     And click "Save settings"
-    And I click Logout in user menu
     Then I signed in as NancyJSallee@example.org on the store frontend
     When I click "Popup User Menu trigger"
     And I should see an "Popup User Menu" element
