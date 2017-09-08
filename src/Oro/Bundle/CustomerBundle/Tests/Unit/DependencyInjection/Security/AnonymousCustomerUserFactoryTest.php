@@ -71,7 +71,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
 
     public function testGetPosition()
     {
-        $this->assertEquals('pre_auth', $this->factory->getPosition());
+        $this->assertEquals('remember_me', $this->factory->getPosition());
     }
 
     public function testGetKey()
