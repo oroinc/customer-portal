@@ -11,10 +11,11 @@
     @include clearfix();
 
     &__container {
-        flex-basis: 210px;
+        flex-basis: $header-row-container-flex-basis;
 
         &--unstack {
             flex-grow: 4;
+            width: calc(100% - #{$header-row-container-flex-basis});
         }
 
         &.open {
