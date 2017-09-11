@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\Email;
@@ -33,14 +32,7 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
      */
     public function getParent()
     {
-        $type = HiddenType::class;
-
-        $token = $this->tokenStorage->getToken();
-        if ($token instanceof AnonymousCustomerUserToken) {
-            $type = EmailAddressType::class;
-        }
-
-        return $type;
+        return EmailAddressType::class;
     }
 
     /**
@@ -56,6 +48,11 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
                 'required' => true,
                 'multiple' => false,
                 'constraints' => [new NotBlank(), new Email()]
+            ]);
+        } else {
+            $resolver->setDefaults([
+               'multiple' => false,
+               'constraints' => [new Email()]
             ]);
         }
     }
