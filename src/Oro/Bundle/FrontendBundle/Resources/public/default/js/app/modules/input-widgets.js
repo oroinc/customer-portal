@@ -1,6 +1,7 @@
 define(function(require) {
     'use strict';
 
+    require('oroui/js/app/modules/input-widgets');
     var InputWidgetManager = require('oroui/js/input-widget-manager');
     var CheckboxInputWidget = require('orofrontend/default/js/app/views/input-widget/checkbox');
     var Select2InputWidget = require('oroui/js/app/views/input-widget/select2');

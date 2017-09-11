@@ -32,6 +32,12 @@ oro_frontend:
         unCheckAll: 'Deselect All'
         label: "Manage Filters"
         placeholder: "Search Filters"
+        title: 'Filters Manager'
+        button_label: 'Manage Filters'
+
+    filters:
+        apply: 'Apply'
+        apply_all: 'Apply Filters'
 
     datagrid_views:
         all: "All "
@@ -41,6 +47,11 @@ oro_frontend:
         save_as_new: "Save As New"
         set_as_default: "Set as Default"
         placeholder: "Enter new list name"
+
+    fullscreen_popup:
+        actions:
+            labels:
+                close: 'Close'
 
     rows_collapse:
         trigger:

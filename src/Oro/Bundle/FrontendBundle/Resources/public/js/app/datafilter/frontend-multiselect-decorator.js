@@ -9,8 +9,9 @@ define(function(require) {
     var config = require('module').config();
 
     config = $.extend(true, {
-        hideHeader: false,
-        themeName: 'default'
+        hideHeader: _.isMobile(),
+        themeName: 'default',
+        additionalClass: !_.isMobile()
     }, config);
 
     FrontendMultiSelectDecorator = function(options) {
@@ -31,6 +32,11 @@ define(function(require) {
          * @property {bool}
          */
         applyMarkup: true,
+
+        /**
+         * @property {bool}
+         */
+        additionalClass: config.additionalClass,
 
         /**
          * @inheritDoc
@@ -147,6 +153,11 @@ define(function(require) {
          * Action on multiselect widget refresh
          */
         onRefresh: function() {
+            if (_.isFunction(this.setActionsState)) {
+                var instance = this.multiselect('instance');
+                this.setActionsState(instance);
+            }
+
             this._setDropdownDesign();
         },
 
@@ -178,9 +189,11 @@ define(function(require) {
          * @param {object} widget
          */
         addAdditionalClassesForContainer: function(widget) {
-            widget
-                .removeAttr('class')
-                .addClass('dropdown-menu');
+            if (this.additionalClass) {
+                widget
+                    .removeAttr('class')
+                    .addClass('dropdown-menu');
+            }
         },
 
         /**

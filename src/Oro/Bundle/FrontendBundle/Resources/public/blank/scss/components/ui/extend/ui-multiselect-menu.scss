@@ -10,12 +10,6 @@
 
     background: $ui-multiselect-menu-bg;
 
-    .ui-multiselect-checkboxes {
-        li {
-            padding: $ui-multiselect-menu-checkboxes-offset-inner;
-        }
-    }
-
     .ui-multiselect-header {
         margin-bottom: $ui-multiselect-menu-header-offset-bottom;
 
@@ -54,11 +48,5 @@
             // Break inline styles
             width: 100% !important;
         }
-    }
-
-    label {
-        display: block;
-
-        cursor: pointer;
     }
 }

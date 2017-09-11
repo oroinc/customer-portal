@@ -3,6 +3,7 @@ define(function(require) {
 
     var FullscreenPopupView;
     var template = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup.html');
+    var footerTemplate = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-footer.html');
     var BaseView = require('oroui/js/app/views/base/view');
     var tools = require('oroui/js/tools');
     var mediator = require('oroui/js/mediator');
@@ -11,54 +12,135 @@ define(function(require) {
     var $ = require('jquery');
 
     FullscreenPopupView = BaseView.extend({
+        /**
+         * @property
+         */
         keepElement: true,
 
+        /**
+         * @property
+         */
         optionNames: BaseView.prototype.optionNames.concat([
-            'template', 'templateSelector', 'templateData',
+            'template', 'templateSelector', 'templateData', 'footerTemplate',
             'content', 'contentSelector', 'contentView',
             'contentOptions', 'contentElement', 'contentAttributes',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
-            'popupCloseButton', 'popupIcon', 'popupBadge'
+            'popupCloseButton', 'popupIcon', 'popupBadge', 'footerContent',
+            'footerContentOptions', 'stopEventsPropagation', 'stopEventsList'
         ]),
 
+        /**
+         * @property
+         */
         template: template,
 
+        /**
+         * @property
+         */
         popupLabel: _.__('Back'),
 
+        /**
+         * @property
+         */
         popupCloseOnLabel: true,
 
+        /**
+         * @property
+         */
         popupCloseButton: true,
 
+        /**
+         * @property
+         */
         popupIcon: false,
 
+        /**
+         * @property
+         */
         popupBadge: false,
 
+        /**
+         * @property
+         */
         content: null,
 
+        /**
+         * @property
+         */
         contentElement: null,
 
+        /**
+         * @property
+         */
         contentElementPlaceholder: null,
 
+        /**
+         * @property
+         */
         previousClass: null,
 
+        /**
+         * @property
+         */
         contentSelector: null,
 
+        /**
+         * @property
+         */
         contentView: null,
 
+        /**
+         * @property
+         */
         contentOptions: null,
 
+        /**
+         * @property
+         */
         contentAttributes: {},
 
         events: {
             'click': 'show'
         },
 
+        /**
+         * @property
+         */
+        stopEventsPropagation: true,
+
+        /**
+         * @property
+         */
+        stopEventsList: 'mousedown focusin',
+
+        /**
+         * @property
+         */
         $popup: null,
+
+        /**
+         * Property {boolean} for footer content
+         * @property
+         */
+        footerContent: false,
+
+        /**
+         * @property
+         */
+        footerContentOptions: {
+            actionBtnLabel: _.__('oro_frontend.filters.apply_all'),
+            actionBtnClass: 'btn btn--info btn--full btn--size-s'
+        },
+
+        /**
+         * @property
+         */
+        footerTemplate: footerTemplate,
 
         /**
          * @inheritDoc
          */
-        initialize: function() {
+        initialize: function(options) {
             this.savePreviousClasses($(this.contentElement));
 
             FullscreenPopupView.__super__.initialize.apply(this, arguments);
@@ -80,6 +162,16 @@ define(function(require) {
                 el: this.$popup.find('[data-role="content"]').get(0)
             });
 
+            if (this.footerContent) {
+                this.footerContentOptions = _.extend({},
+                    this.footerContentOptions,
+                    _.has(this.contentOptions, 'footerContentOptions') ? this.contentOptions.footerContentOptions : {}
+                );
+                this.contentOptions.footerEl = this.$popup.find('[data-role="footer"]').get(0);
+                this.$popupFooter = $(this.contentOptions.footerEl) || $([]);
+                this.renderPopupFooterContent();
+            }
+
             this.$popup.appendTo($('body'));
 
             this.renderPopupContent(_.bind(this.onShow, this));
@@ -99,11 +191,15 @@ define(function(require) {
                 this.moveContentElement(callback);
             } else if (this.contentSelector) {
                 this.renderSelectorContent(callback);
-            }else if (this.contentView) {
+            } else if (this.contentView) {
                 this.renderPopupView(callback);
             } else {
                 callback();
             }
+        },
+
+        renderPopupFooterContent: function() {
+            $(this.$popupFooter).html(this.footerTemplate(this.footerContentOptions));
         },
 
         renderContent: function(callback) {
@@ -140,8 +236,15 @@ define(function(require) {
         },
 
         initPopupEvents: function() {
-            this.$popup.on('click', '[data-role="close"]', _.bind(this.close, this));
-            this.$popup.on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
+            this.$popup
+                .on('click', '[data-role="close"]', _.bind(this.close, this))
+                .on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
+
+            if (this.stopEventsPropagation) {
+                this.$popup.on(this.stopEventsList, function(e) {
+                    e.stopPropagation();
+                });
+            }
         },
 
         close: function() {
@@ -164,6 +267,11 @@ define(function(require) {
             this.$popup.remove();
 
             delete this.$popup;
+
+            if (this.footerContent) {
+                delete this.footerContent;
+            }
+
             this.removeSubview('contentView');
             this.trigger('close');
         },
@@ -178,7 +286,8 @@ define(function(require) {
                 closeOnLabel: this.popupCloseOnLabel,
                 close: this.popupCloseButton,
                 icon: this.popupIcon,
-                badge: this.popupBadge
+                badge: this.popupBadge,
+                footerContent: this.footerContent
             });
             return data;
         },
@@ -195,6 +304,15 @@ define(function(require) {
          */
         setPreviousClasses: function($el) {
             $el.attr('class', this.previousClass);
+        },
+
+        /**
+         * @param {String} title
+         */
+        setPopupTitle: function(title) {
+            if (this.$popup) {
+                this.$popup.find('[data-role="title"]').html(title);
+            }
         }
     });
 
