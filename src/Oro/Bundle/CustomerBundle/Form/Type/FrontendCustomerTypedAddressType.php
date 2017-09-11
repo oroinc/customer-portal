@@ -7,7 +7,6 @@ use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
 {
@@ -52,21 +51,5 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
     protected function isHidePrimaryAddress($address)
     {
         return count($address->getFrontendOwner()->getAddresses()) <= 1;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        parent::configureOptions($resolver);
-
-        $resolver->setDefaults(
-            [
-                'attr'=> array(
-                    'class'=>'frontend_edit_form'
-                )
-            ]
-        );
     }
 }

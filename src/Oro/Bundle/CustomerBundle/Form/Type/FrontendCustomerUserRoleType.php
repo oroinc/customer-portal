@@ -151,10 +151,7 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
             [
                 'access_level_route' => 'oro_customer_frontend_acl_access_levels',
                 'predefined_role' => null,
-                'hide_self_managed' => true,
-                'attr'=> array(
-                    'class'=>'frontend_edit_form'
-                )
+                'hide_self_managed' => true
             ]
         );
     }
