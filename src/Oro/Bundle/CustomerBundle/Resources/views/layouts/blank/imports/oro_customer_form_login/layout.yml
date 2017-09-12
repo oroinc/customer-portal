@@ -75,6 +75,8 @@ layout:
                           label: oro.customer.customeruser.profile.remember_me
                 __login_form_target:
                       blockType: target_path
+                __login_form_failure:
+                      blockType: failure_path
                 __login_form_csrf:
                       blockType: input
                       options:
@@ -90,5 +92,6 @@ layout:
                         __login_form_password: ~
                         __login_form_remember: ~
                         __login_form_target: ~
+                        __login_form_failure: ~
                         __login_form_csrf: ~
                     __login_form_end: ~

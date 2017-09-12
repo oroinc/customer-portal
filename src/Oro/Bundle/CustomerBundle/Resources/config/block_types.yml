@@ -47,3 +47,19 @@ services:
                         type: {default: 'hidden'}
         tags:
              - { name: layout.block_type, alias: target_path }
+
+    oro_customer.layout.block_type.failure_path:
+        parent: oro_layout.block_type.abstract_configurable
+        calls:
+            - [setParent, ['input']]
+            - [setName, ['failure_path']]
+            -
+                - setOptionsConfig
+                -
+                    -
+                        pathName: {default: null}
+                        pathParameters: {default: []}
+                        name: {default: '_failure_path'}
+                        type: {default: 'hidden'}
+        tags:
+             - { name: layout.block_type, alias: failure_path }
