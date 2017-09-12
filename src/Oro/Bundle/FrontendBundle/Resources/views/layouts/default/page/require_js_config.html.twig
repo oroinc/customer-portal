@@ -68,10 +68,10 @@
                 }
             },
             paths: {
-                {% if app.debug %}
-                'oro/routes': '{{ path('oro_frontend_js_routing_js', {"callback": "fos.Router.setData"}) }}'
+                {% if app.debug and oro_frontend_debug_routes() %}
+                    'oro/routes': '{{ path('oro_frontend_js_routing_js', {"callback": "fos.Router.setData"}) }}'
                 {% else %}
-                'oro/routes': {{ asset('js/frontend_routes.js', 'routing')|json_encode|raw }}
+                    'oro/routes': '{{ asset_path('oro_frontend_js_routing_js') }}'
                 {% endif %}
             }
         });
