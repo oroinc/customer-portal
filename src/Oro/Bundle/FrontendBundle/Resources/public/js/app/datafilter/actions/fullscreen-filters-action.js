@@ -144,7 +144,7 @@ define(function(require) {
 
             this.initFiltersManagerPopup(filterManager);
 
-            this.unbindCloseFiltersEvent(filterManager);
+            this.unbindFiltersEvents(filterManager);
         },
 
         setMessengerContainer: function() {
@@ -160,7 +160,9 @@ define(function(require) {
         /**
          * @param {object} filterManager
          */
-        unbindCloseFiltersEvent: function(filterManager) {
+        unbindFiltersEvents: function(filterManager) {
+            var self = this;
+
             if (!_.isObject(filterManager) || this.isLocked) {
                 return;
             }
@@ -170,6 +172,12 @@ define(function(require) {
             _.each(filterManager.filters, function(filter) {
                 if (_.isFunction(filter._eventNamespace)) {
                     $('body').off('click' + filter._eventNamespace());
+                }
+
+                if (_.isObject(filter.subviewsByName.hint)) {
+                    filter.subviewsByName.hint.on('reset', function() {
+                        self._toggleApplyAllBtn(!this.$el.siblings('span').filter(':visible').length);
+                    });
                 }
             });
         },
