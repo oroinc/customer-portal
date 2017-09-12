@@ -95,8 +95,6 @@ define(function(require) {
          * @param {object} instance
          */
         setDropdownHeaderDesign: function(instance) {
-            var checked = instance.getChecked().length;
-
             instance.header
                 .append(
                     $('<span/>', {
@@ -110,6 +108,18 @@ define(function(require) {
                 .removeAttr('class')
                 .addClass('datagrid-manager__header');
 
+            this.setActionsState(instance);
+
+            instance.headerLinkContainer.addClass('datagrid-manager__actions');
+        },
+
+        /**
+         * Set enable/disable state for actions of filters manager
+         * @param {object} instance
+         */
+        setActionsState: function(instance) {
+            var checked = instance.getChecked().length;
+
             instance.header
                 .find('.ui-multiselect-none')
                 .toggleClass('disabled', checked === 0);
@@ -117,8 +127,6 @@ define(function(require) {
             instance.header
                 .find('.ui-multiselect-all')
                 .toggleClass('disabled', checked === instance.inputs.length);
-
-            instance.headerLinkContainer.addClass('datagrid-manager__actions');
         },
 
         /**

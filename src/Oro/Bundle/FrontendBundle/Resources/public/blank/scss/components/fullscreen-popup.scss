@@ -25,8 +25,8 @@
         line-height: $fullscreen-popup-header-height;
         text-transform: $fullscreen-popup-text-transform;
 
-        background: $fullscreen-popup-header-height-bg;
-        border-bottom: $fullscreen-popup-header-height-border;
+        background: $fullscreen-popup-header-bg;
+        border-bottom: $fullscreen-popup-header-border-bottom;
     }
 
     &__text {
@@ -88,9 +88,27 @@
 
         padding-top: $fullscreen-popup-content-padding-top;
 
+        &--bottom-offset {
+            height: calc(100% - #{$fullscreen-popup-footer-height});
+        }
+
         .alert {
             margin: $fullscreen-popup-content-alert-offset-height;
         }
+    }
+
+    &__footer {
+        position: absolute;
+        z-index: z('base') + 1;
+        right: 0;
+        left: 0;
+        bottom: 0;
+
+        height: $fullscreen-popup-footer-height;
+        padding: $fullscreen-popup-footer-offset;
+
+        background: $fullscreen-popup-footer-bg;
+        border-top: $fullscreen-popup-footer-border-top;
     }
 
     //TODO: Make corrent padding of popup conent for any content

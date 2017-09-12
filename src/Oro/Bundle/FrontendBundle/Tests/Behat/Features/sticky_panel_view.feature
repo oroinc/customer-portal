@@ -21,6 +21,7 @@ Feature: Sticky panel for main menu, product filters etc.
     And I set window size to 320x640
     And I am on "/product/?grid"
     Then I should not see an "Active Sticky Panel" element
+    And I click "GridFiltersButton"
     And I should see a "Product Filter Into Page Content" element
     When I click "Copyright"
     Then I should see an "Active Sticky Panel" element

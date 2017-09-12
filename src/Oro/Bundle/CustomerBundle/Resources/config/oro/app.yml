@@ -23,7 +23,7 @@ security:
             organization-remember-me:
                 key:                        %secret%
                 name:                       OROCOMMERCE
-                lifetime:                   1209600   # stay logged for two weeks
+                lifetime:                   2592000   # stay logged for 30 days
                 httponly:                   true
             anonymous_customer_user:        true
 
