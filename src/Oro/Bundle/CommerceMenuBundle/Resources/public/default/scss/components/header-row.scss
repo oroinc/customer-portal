@@ -1,4 +1,4 @@
-// @theme: default
+// @theme: default;
 
 .header-row {
     display: flex;
@@ -11,10 +11,11 @@
     @include clearfix();
 
     &__container {
-        flex-basis: 210px;
+        flex-basis: $header-row-container-flex-basis;
 
         &--unstack {
-            flex-grow: 4;
+            flex-grow: 1;
+            width: $header-row-unstack-width;
         }
 
         &.open {
