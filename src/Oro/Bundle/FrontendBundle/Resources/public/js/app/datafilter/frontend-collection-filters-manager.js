@@ -41,7 +41,23 @@ define(function(require) {
             'click [data-role="close-filters"]': '_onClose'
         },
 
+        /**
+         * @inheritDoc
+         */
         templateData: config.templateData,
+
+        /**
+         * @inheritDoc
+         */
+        filtersRenderMode: '',
+
+        /**
+         * @inheritDoc
+         */
+        initialize: function(options) {
+            this._updateRenderMode();
+            CollectionFiltersManager.__super__.initialize.apply(this, arguments);
+        },
 
         /**
          * Set design for filter manager button
@@ -75,6 +91,9 @@ define(function(require) {
             this.selectWidget.multiselect('instance').button.trigger('click');
         },
 
+        /**
+         * @inheritDoc
+         */
         getTemplateData: function() {
             var data = FrontendCollectionFiltersManager.__super__.getTemplateData.call(this);
             data = $.extend(data, this.templateData || {});
@@ -87,6 +106,15 @@ define(function(require) {
         _onCollectionReset: function(collection) {
             if (!_.isMobile()) {
                 FrontendCollectionFiltersManager.__super__._onCollectionReset.apply(this, arguments);
+            }
+        },
+
+        /**
+         * @private
+         */
+        _updateRenderMode: function() {
+            if (_.isMobile()) {
+                this.renderMode =  'toggle-mode';
             }
         }
     });

@@ -2,15 +2,18 @@
     <div class="filter-select-oro-wrapper">
         <select name="<%= name %>"
                 data-choice-value-select
-            <% if (_.isMobile()) { %>
+
+            <% if (renderMode === 'toggle-mode') { %>
                 data-skip-input-widgets
                 class="select select--size-m select--full"
             <% } else { %>
                 class="select select--size-m"
             <% } %>
+
         >
             <% _.each(choices, function (option) { %>
                 <option value="<%= option.value %>"
+
                     <% if (option.value == selectedChoice) { %>
                         selected="selected"
                     <% } %>
@@ -31,7 +34,8 @@
             </div>
         </div>
         <input class="name_input" type="hidden" name="<%= name %>" id="<%= name %>" value="<%= selectedChoice %>"/>
-        <% if (!_.isMobile()) { %>
+
+        <% if (!(renderMode === 'toggle-mode')) { %>
             <div class="filter-action-row">
                 <button type="button" class="btn btn--action filter-update"><%- _.__("Update") %></button>
             </div>
