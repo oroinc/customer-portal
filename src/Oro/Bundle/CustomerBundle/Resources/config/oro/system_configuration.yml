@@ -39,6 +39,14 @@ system_configuration:
                 label: oro.customer.system_configuration.fields.registration_allowed.label
                 tooltip: oro.customer.system_configuration.fields.registration_allowed.tooltip
                 required: false
+        oro_customer.registration_link_enabled:
+            data_type: boolean
+            type: oro_config_checkbox
+            priority: 95
+            options:
+                label: oro.customer.system_configuration.fields.registration_link_enabled.label
+                tooltip: oro.customer.system_configuration.fields.registration_link_enabled.tooltip
+                required: false
         oro_customer.confirmation_required:
             data_type: boolean
             type: oro_config_checkbox
@@ -116,6 +124,7 @@ system_configuration:
                                         children:
                                             - oro_customer.default_customer_owner
                                             - oro_customer.registration_allowed
+                                            - oro_customer.registration_link_enabled
                                             - oro_customer.confirmation_required
                                             - oro_customer.send_password_in_welcome_email
                                             - oro_customer.registration_instructions_enabled

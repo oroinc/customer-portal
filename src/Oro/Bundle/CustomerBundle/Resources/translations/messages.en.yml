@@ -420,6 +420,7 @@ oro.customer:
             default_customer_owner.label: 'Default Customer Owner'
             registration_allowed.label: 'Registration Allowed'
             confirmation_required.label: 'Confirmation Required'
+            registration_link_enabled.label: 'Show Registration Link'
             send_password_in_welcome_email.label: 'Send plain text password in welcome emails'
             registration_instructions_enabled.label: 'Show Registration Instructions'
             registration_instructions_text.label: 'Registration Instructions Text'
