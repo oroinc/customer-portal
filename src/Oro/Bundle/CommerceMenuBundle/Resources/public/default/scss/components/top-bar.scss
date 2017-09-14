@@ -77,6 +77,10 @@
 
         line-height: 16px;
     }
+
+    &__separator {
+        margin: $topbar-navigation-separator-offset;
+    }
 }
 
 @include breakpoint('desktop') {
