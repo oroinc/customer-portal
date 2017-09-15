@@ -88,6 +88,12 @@ define(function(require) {
             if (!_.isMobile()) {
                 FrontendCollectionFiltersManager.__super__._onCollectionReset.apply(this, arguments);
             }
+        },
+
+        finallyOfRender: function() {
+            if (this.$el.data('layout') === 'separate') {
+                this.initLayout();
+            }
         }
     });
 
