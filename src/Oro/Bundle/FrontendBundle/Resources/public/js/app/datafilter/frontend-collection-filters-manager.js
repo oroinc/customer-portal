@@ -9,7 +9,7 @@ define(function(require) {
     var MultiselectDecorator = require('orofrontend/js/app/datafilter/fronend-manage-filters-decorator');
 
     var config = require('module').config();
-    config = $.extend(true, {
+    config = _.extend({
         templateData: {
             attributes: ''
         }
