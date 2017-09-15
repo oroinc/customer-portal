@@ -1,9 +1,34 @@
 <% if (!_.isEmpty(filters)) { %>
-    <% if (_.isMobile()) { %>
+    <% if (renderMode === 'toggle-mode') { %>
+        <div class="filter-box toggle-mode" <%= attributes %>>
+            <div class="filter-container">
+                <div data-filters-items>
+                    <div class="filter-items-hint">
+                        <button type="button"
+                                class="btn btn--size-s btn--link reset-filter-button"
+                        >
+                            <span class="fa-close"></span>
+                            <%= _.__('oro.filter.reset.label') %>
+                        </button>
+                    </div>
+                    <div class="filter-items"></div>
+                    <select data-action="add-filter-select" multiple data-skip-input-widgets>
+                        <% _.each(filters, function (filter, name) { %>
+                            <% if (filter.visible) { %>
+                                <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
+                                    <%- filter.label %>
+                                </option>
+                            <% } %>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+        </div>
+    <% } else if (renderMode == 'collapse-mode') { %>
         <div class="filter-box collapse-mode" <%= attributes %> >
             <div class="filters-box-collapse"
-                data-page-component-module="oroui/js/app/components/jquery-widget-component"
-                data-page-component-options="{&quot;widgetModule&quot;:&quot;oroui/js/widget/collapse-widget&quot;,&quot;open&quot;:false}"
+                 data-page-component-module="oroui/js/app/components/jquery-widget-component"
+                 data-page-component-options="{&quot;widgetModule&quot;:&quot;oroui/js/widget/collapse-widget&quot;,&quot;open&quot;:false}"
             >
                 <div class="filters-box-collapse__trigger" data-collapse-trigger>
                     <%- _.__('oro.product.product_filters.collapse.label')  %>
@@ -13,24 +38,26 @@
                     </div>
                 </div>
                 <div class="filter-container">
-                    <div class="filters-box-collapse__container" data-collapse-container>
-                        <select data-action="add-filter-select"
-                                data-skip-input-widgets
-                                multiple
-                        >
-                            <% _.each(filters, function (filter, name) { %>
-                                <% if (filter.visible) { %>
-                                    <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
-                                    <%- filter.label %>
-                                    </option>
-                                <% } %>
-                            <% }); %>
-                        </select>
-                        <div class="filter-items"></div>
+                    <div class="dropdown-mode">
+                        <div class="filters-box-collapse__container" data-collapse-container>
+                            <select data-action="add-filter-select"
+                                    data-skip-input-widgets
+                                    multiple
+                            >
+                                <% _.each(filters, function (filter, name) { %>
+                                    <% if (filter.visible) { %>
+                                        <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
+                                            <%- filter.label %>
+                                        </option>
+                                    <% } %>
+                                <% }); %>
+                            </select>
+                            <div class="filter-items"></div>
+                        </div>
                     </div>
                     <div class="filter-items-hint">
                         <button type="button"
-                                class="btn btn--link reset-filter-button"
+                                class="btn btn--size-s btn--link reset-filter-button"
                         >
                             <span class="fa-close"></span>
                             <%= _.__('oro.filter.reset.label') %>
@@ -49,7 +76,7 @@
                     <% _.each(filters, function (filter, name) { %>
                         <% if (filter.visible) { %>
                             <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
-                            <%- filter.label %>
+                                <%- filter.label %>
                             </option>
                         <% } %>
                     <% }); %>

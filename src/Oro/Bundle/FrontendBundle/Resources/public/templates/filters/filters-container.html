@@ -24,31 +24,6 @@
                 </div>
             </div>
         </div>
-    <% } else if (renderMode == 'collapse-mode') { %>
-        <button class="btn btn--info btn--large">Collapse mode</button>
-        <div class="filter-container">
-            <select data-action="add-filter-select"
-                    data-skip-input-widgets
-                    multiple
-            >
-                <% _.each(filters, function (filter, name) { %>
-                    <% if (filter.visible) { %>
-                        <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
-                            <%- filter.label %>
-                        </option>
-                    <% } %>
-                <% }); %>
-            </select>
-
-            <div class="filter-items-hint">
-                <button type="button"
-                        class="btn btn--link reset-filter-button"
-                >
-                    <span class="fa-close"></span>
-                    <%= _.__('oro.filter.reset.label') %>
-                </button>
-            </div>
-        </div>
     <% } else { %>
         <div class="filter-box dropdown-mode" <%= attributes %> >
             <div class="filter-container">
