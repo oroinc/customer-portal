@@ -118,6 +118,12 @@ define(function(require) {
             if (_.isMobile()) {
                 this.renderMode =  'toggle-mode';
             }
+        },
+
+        finallyOfRender: function() {
+            if (this.$el.data('layout') === 'separate') {
+                this.initLayout();
+            }
         }
     });
 
