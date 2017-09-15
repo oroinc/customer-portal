@@ -1,8 +1,10 @@
 <div class="filter-item" data-multiselect-filter-template>
     <div class="filter-select filter-criteria-selector <% if (isEmpty) { %>filter-default-value<% } %>">
+
         <% if (showLabel) { %>
             <%- label %>
         <% } %>
+
         <span class="filter-item-hint"></span>
         <select multiple
                 data-skip-input-widgets
@@ -23,7 +25,7 @@
             <% }); %>
         </select>
         <div class="filter-criteria-selector-icon-wrap">
-            <% if (_.isMobile()) { %>
+            <% if (renderMode === 'toggle-mode') { %>
                 <span class="filter-criteria-selector-icon fa-plus fa--large"></span>
                 <span class="filter-criteria-selector-icon fa-minus fa--large"></span>
             <% } else { %>
@@ -31,7 +33,7 @@
             <% } %>
         </div>
     </div>
-    <% if (_.isMobile()) { %>
+    <% if (renderMode === 'toggle-mode') { %>
         <div class="filter-criteria"></div>
     <% } %>
 </div>
