@@ -110,7 +110,9 @@ define(function(require) {
         },
 
         /**
-         * @private
+         * Update render mode for filters manager
+         *
+         * @protected
          */
         _updateRenderMode: function() {
             if (_.isMobile()) {
