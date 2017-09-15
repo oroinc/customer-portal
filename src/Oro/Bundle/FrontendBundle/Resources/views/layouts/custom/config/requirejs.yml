@@ -1,5 +1,0 @@
-config:
-    map:
-        '*':
-            # Filters templates
-            'orofilter/templates/filters-container.html': 'orofrontend/custom/templates/filters/filters-container.html'
