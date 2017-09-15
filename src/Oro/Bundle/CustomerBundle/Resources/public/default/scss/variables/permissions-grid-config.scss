@@ -1,0 +1,19 @@
+// @theme: default
+
+$permissions-grid-first-header-cell-width: 155px !default;
+$permissions-grid-first-header-cell-offser-inner-left: $offset-x-m !default;
+$permissions-grid-first-entity-name-float: left !default;
+$permissions-grid-first-entity-name-width: $permissions-grid-first-header-cell-width !default;
+$permissions-grid-first-entity-name-font-weight: bold !default;
+$permissions-grid-first-entity-row-action-float: right !default;
+$permissions-grid-first-action-launcher-offser-inner-left: $offset-x-m !default;
+$permissions-grid-first-datagrid-offset-top: $offset-y !default;
+
+$permissions-grid-field-permission-container-offset-left: 40px !default;
+$permissions-grid-field-permission-container-offset-inner: $offset-x-s 0 !default;
+$permissions-grid-field-permission-container-border-top: 1px solid get-color('additional', 'light') !default;
+$permissions-grid-field-permission-container-first-child-border-top: 0 !default;
+$permissions-grid-field-permission-container-field-name-float: left !default;
+$permissions-grid-field-permission-container-field-name-width: 120px !default;
+$permissions-grid-field-permission-container-field-name-offset-inner-left: 10px !default;
+$permissions-grid-field-permission-container-action-permissions-offset-left: 120px !default;
