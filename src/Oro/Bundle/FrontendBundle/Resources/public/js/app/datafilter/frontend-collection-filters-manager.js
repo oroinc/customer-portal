@@ -56,7 +56,7 @@ define(function(require) {
          */
         initialize: function(options) {
             this._updateRenderMode();
-            CollectionFiltersManager.__super__.initialize.apply(this, arguments);
+            FrontendCollectionFiltersManager.__super__.initialize.apply(this, arguments);
         },
 
         /**
