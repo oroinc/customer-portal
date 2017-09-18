@@ -2,17 +2,6 @@
 
 .customer-user-role-edit {
     &__buttons-top {
-        position: relative;
-        top: $customer-user-role-edit-buttons-top-position-top;
-
         margin-top: $customer-user-role-edit-buttons-top-position-offset-top;
-    }
-}
-
-@include breakpoint('tablet') {
-    .customer-user-role-edit {
-        &__buttons-top {
-            margin-top: $customer-user-role-edit-buttons-top-position-offset-top-tablet;
-        }
     }
 }
