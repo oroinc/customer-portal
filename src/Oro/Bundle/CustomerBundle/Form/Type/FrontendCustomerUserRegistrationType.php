@@ -113,6 +113,14 @@ class FrontendCustomerUserRegistrationType extends AbstractType
             ]
         );
 
+        $this->addBuilderListeners($builder);
+    }
+
+    /**
+     * @param FormBuilderInterface $builder
+     */
+    protected function addBuilderListeners(FormBuilderInterface $builder)
+    {
         $builder->addEventListener(
             FormEvents::SUBMIT,
             function (FormEvent $event) {
