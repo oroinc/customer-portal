@@ -27,7 +27,7 @@
     <div class="value-field-frame">
         <input class="input input--size-m <% if (renderMode === 'toggle-mode') { %> input--full <% } %>" type="text" name="value" value="">
         <input class="name_input" type="hidden" name="<%= name %>" id="<%= name %>" value="<%= selectedChoice %>">
-        <% if (!(renderMode === 'toggle-mode')) { %>
+        <% if (renderMode !== 'toggle-mode') { %>
             <div class="filter-action-row">
                 <button type="button" class="btn btn--action filter-update"><%- _.__("Update") %></button>
             </div>
