@@ -183,6 +183,10 @@ define(function(require) {
             }
 
             var selectWidget = filterManager.selectWidget;
+
+            if (!_.isObject(selectWidget)) {
+                return ;
+            }
             var $popupMenu = selectWidget.multiselect('getMenu');
             var $popupContent = filterManager.$el;
 
