@@ -13,11 +13,6 @@
     &__container {
         flex-basis: $header-row-container-flex-basis;
 
-        &--unstack {
-            flex-grow: 1;
-            width: $header-row-unstack-width;
-        }
-
         &.open {
             .header-row__toggle {
                 visibility: inherit;
@@ -48,6 +43,11 @@
     .header-row {
         &__container {
             @extend %hidden-on-desktop;
+
+            &--unstack {
+                flex-grow: 1;
+                width: $header-row-unstack-width;
+            }
         }
 
         &__trigger {
@@ -75,10 +75,6 @@
 
             flex-grow: 1;
             flex-basis: auto;
-
-            &--unstack {
-                flex-grow: 1;
-            }
 
             &.open {
                 .header-row__trigger {
