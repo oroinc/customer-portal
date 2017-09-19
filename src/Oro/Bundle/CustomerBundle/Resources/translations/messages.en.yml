@@ -389,7 +389,6 @@ oro.customer:
             registered_with_confirmation.message: 'Please check your email to complete registration'
             confirmed.message: 'Confirmation successful'
             already_confirmed.message: 'Customer already confirmed'
-            confirmation_error.message: 'Customer not fount or incorrect confirmation token'
             saved.message:     'Customer User has been saved'
             enabled.message:   'Customer User has been enabled'
             disabled.message:  'Customer User has been disabled'

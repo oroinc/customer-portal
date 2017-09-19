@@ -2,13 +2,14 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
-use Oro\Bundle\CustomerBundle\Manager\LoginManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Oro\Bundle\CustomerBundle\CustomerUserEvents;
+use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\UIBundle\Route\Router;
@@ -70,6 +71,11 @@ class CustomerUserRegisterController extends Controller
         );
 
         if ($response instanceof Response) {
+            /** @var CustomerUser $customerUser */
+            $customerUser = $form->getData();
+            $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
+            $this->get('event_dispatcher')->dispatch(CustomerUserEvents::REGISTRATION_COMPLETED, $event);
+
             return $response;
         }
 
@@ -88,10 +94,7 @@ class CustomerUserRegisterController extends Controller
         $customerUser = $userManager->findUserByUsernameOrEmail($request->get('username'));
         $token = $request->get('token');
         if ($customerUser === null || empty($token) || $customerUser->getConfirmationToken() !== $token) {
-            throw $this->createNotFoundException(
-                $this->get('translator')
-                    ->trans('oro.customer.controller.customeruser.confirmation_error.message')
-            );
+            throw $this->createNotFoundException('CustomerUser not found or incorrect confirmation token');
         }
 
         $messageType = 'warn';
@@ -103,18 +106,17 @@ class CustomerUserRegisterController extends Controller
             $message = 'oro.customer.controller.customeruser.confirmed.message';
         }
 
-        if ($this->get('oro_config.manager')->get('oro_customer.auto_login_after_registration') ||
-            $request->get(LoginManager::AUTO_LOGIN_PARAM)
-        ) {
-            $this->get('oro_customer.manager.login_manager')->logInUser('frontend_secure', $customerUser);
-        }
-
         $this->get('session')->getFlashBag()->add($messageType, $message);
 
         if ($request->get(Router::ACTION_PARAMETER)) {
-            return $this->get('oro_ui.router')->redirect($customerUser);
+            $response = $this->get('oro_ui.router')->redirect($customerUser);
+        } else {
+            $response = $this->redirectToRoute('oro_customer_customer_user_security_login');
         }
 
-        return $this->redirect($this->generateUrl('oro_customer_customer_user_security_login'));
+        $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
+        $this->get('event_dispatcher')->dispatch(CustomerUserEvents::REGISTRATION_CONFIRMED, $event);
+
+        return $response;
     }
 }
