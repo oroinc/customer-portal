@@ -1,4 +1,4 @@
-// @theme: default
+// @theme: default;
 
 .header-row {
     display: flex;
@@ -11,11 +11,7 @@
     @include clearfix();
 
     &__container {
-        flex-basis: 210px;
-
-        &--unstack {
-            flex-grow: 4;
-        }
+        flex-basis: $header-row-container-flex-basis;
 
         &.open {
             .header-row__toggle {
@@ -47,6 +43,11 @@
     .header-row {
         &__container {
             @extend %hidden-on-desktop;
+
+            &--unstack {
+                flex-grow: 1;
+                width: $header-row-unstack-width;
+            }
         }
 
         &__trigger {
@@ -74,10 +75,6 @@
 
             flex-grow: 1;
             flex-basis: auto;
-
-            &--unstack {
-                flex-grow: 1;
-            }
 
             &.open {
                 .header-row__trigger {
