@@ -1,6 +1,9 @@
 @regression
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 Feature: Registration Link Visibility
+  In order to quickly register a new account to make purchases
+  As a Buyer
+  I want a clearly visible Register link at every Commerce page
 
   Scenario: Create different window session
     Given sessions active:
@@ -20,9 +23,8 @@ Feature: Registration Link Visibility
     And login as administrator
     And go to System/ Configuration
     And I follow "Commerce/Customer/Customer Users" on configuration sidebar
-    And fill "Customer Users Registration form" with:
-      | Show Registration Link Default | false |
-      | Show Registration Link         | false |
+    And uncheck "Use default" for "Show Registration Link" field
+    And fill in "Show Registration Link" with "false"
     And submit form
     And I should see "Configuration saved" flash message
     And I proceed as the User
@@ -31,10 +33,10 @@ Feature: Registration Link Visibility
 
   Scenario: Check that registration link is not visible after disable "Registration Allowed" option
     Given I proceed as the Admin
+    And uncheck "Use default" for "Registration Allowed" field
     And fill "Customer Users Registration form" with:
-      | Registration Allowed Default | false |
-      | Registration Allowed         | false |
-      | Show Registration Link       | true  |
+      | Registration Allowed   | false |
+      | Show Registration Link | true  |
     And submit form
     And I should see "Configuration saved" flash message
     And I proceed as the User
