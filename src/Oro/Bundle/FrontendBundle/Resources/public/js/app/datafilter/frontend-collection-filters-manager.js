@@ -60,6 +60,15 @@ define(function(require) {
         },
 
         /**
+         * @inheritDoc
+         */
+        render: function() {
+            FrontendCollectionFiltersManager.__super__.render.call(this);
+            this.finallyOfRender();
+            return this;
+        },
+
+        /**
          * Set design for filter manager button
          *
          * @protected
