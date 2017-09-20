@@ -1,0 +1,68 @@
+// @theme: default;
+
+.action-permissions {
+    margin-left: $action-permissions-offset-left;
+    margin-right: $action-permissions-offset-right;
+
+    &__item {
+        float: $action-permissions-item-float;
+        width: $action-permissions-item-width;
+        margin-right: $action-permissions-item-offset-right;
+    }
+
+    &__item-wrapper {
+        position: relative;
+
+        display: inline-block;
+        max-width: $action-permissions-item-wrapper-max-width;
+        padding-right: $action-permissions-item-wrapper-offset-inner-right;
+        box-sizing: content-box;
+
+        white-space: nowrap;
+
+        &.dropdown-toggle {
+            cursor: pointer;
+
+            &:after {
+                position: absolute;
+                right: $action-permissions-item-wrapper-toggle-icon-right;
+
+                margin-top: $action-permissions-item-wrapper-toggle-icon-offset-top;
+                margin-left: $action-permissions-item-wrapper-toggle-icon-offset-left;
+
+                vertical-align: top;
+            }
+        }
+
+        &--no-access {
+            opacity: $action-permissions-item-wrapper-no-access-opacity;
+        }
+
+        &_changed {
+            background: $action-permissions-item-wrapper-changed-background;
+            box-shadow: $action-permissions-item-wrapper-changed-box-shadow;
+        }
+    }
+}
+
+.dropdown-menu__role-permissions-action {
+    &.dropdown-menu {
+        top: $action-permissions-dropdown-menu-top;
+        right: $action-permissions-dropdown-menu-right;
+        left: $action-permissions-dropdown-menu-left;
+
+        padding: $action-permissions-dropdown-offset-inner;
+        min-width: $action-permissions-dropdown-min-width;
+
+        white-space: $action-permissions-dropdown-white-space;
+        z-index: $action-permissions-dropdown-z-index;
+    }
+}
+
+.dropdown-menu__permissions-item {
+    &.dropdown-menu {
+        padding: $action-permissions-dropdown-offset-inner;
+
+        z-index: $action-permissions-dropdown-z-index;
+    }
+}

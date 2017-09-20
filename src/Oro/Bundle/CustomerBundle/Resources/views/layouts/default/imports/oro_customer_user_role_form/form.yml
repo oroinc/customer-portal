@@ -56,6 +56,8 @@ layout:
                     blockType: form_end
                     options:
                         form: '=data["oro_customer_frontend_customer_user_role_form"].getRoleFormView(data["entity"])'
+                __customer_user_role_form_container:
+                    blockType: container
                 __customer_user_role_form_actions_top:
                     blockType: container
                 __customer_user_role_form_actions_update_top:
@@ -95,10 +97,11 @@ layout:
                     __customer_user_role_container:
                         __customer_user_role_form_errors: ~
                         __customer_user_role_form_start: ~
-                        __customer_user_role_form_actions_top:
-                            __customer_user_role_form_actions_update_top: ~
-                            __customer_user_role_form_actions_cancel_top: ~
-                        __customer_user_role_form_fields: ~
+                        __customer_user_role_form_container:
+                            __customer_user_role_form_fields: ~
+                            __customer_user_role_form_actions_top:
+                                __customer_user_role_form_actions_update_top: ~
+                                __customer_user_role_form_actions_cancel_top: ~
                         __customer_user_role_form_users: ~
                         __customer_user_role_form_actions_bottom:
                             __customer_user_role_form_actions_update_bottom: ~

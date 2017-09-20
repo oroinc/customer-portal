@@ -58,6 +58,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         ],
                     ],
                     'routes_to_expose' => [],
+                    'debug_routes' => true
                 ]
             ]
         ];

@@ -168,6 +168,22 @@
         top: 0;
     }
 
+    &.ui-widget-fullscreen {
+        padding: 0 $offset-y;
+
+        .datagrid-manager__header {
+            .close-filters,
+            .close,
+            > div {
+                display: none;
+            }
+        }
+
+        .datagrid-manager__actions {
+            padding: $offset-y 0 $offset-y-s;
+        }
+    }
+
     @at-root {
         .fullscreen {
             // Break inline styles

@@ -23,4 +23,4 @@ layout:
                 entity: '=data["entity"]'
         - '@move':
             id: customer_user_role_form_privileges_datagrid
-            siblingId: customer_user_role_form_fields
+            siblingId: customer_user_role_form_container

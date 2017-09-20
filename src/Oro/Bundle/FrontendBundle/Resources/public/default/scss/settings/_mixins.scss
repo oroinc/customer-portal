@@ -1,11 +1,5 @@
 // @theme: default;
 
-@mixin ellipsis() {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
 %direct-link {
     padding: 0 10px;
 

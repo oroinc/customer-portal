@@ -5,16 +5,9 @@
     z-index: $scroll-top-z-index;
 
     display: none;
-    width: $scroll-top-width;
     height: $scroll-top-height;
 
     cursor: pointer;
-
-    &__icon {
-        color: $scroll-top-icon-color;
-
-        font-size: $scroll-top-icon-font-size;
-    }
 
     &--bottom-left {
         left: $scroll-top-bl-left;
