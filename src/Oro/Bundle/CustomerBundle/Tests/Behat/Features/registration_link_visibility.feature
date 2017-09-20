@@ -55,3 +55,17 @@ Feature: Registration Link Visibility
     And I should see "Registration"
     Then I signed in as AmandaRCole@example.org on the store frontend
     And I should not see "Registration"
+
+  Scenario: Check that registration link is not visible when disabled in website configuration
+    Given I proceed as the Admin
+    And login as administrator
+    And go to System/ Websites
+    And click "Configuration" on row "Default" in grid
+    And I follow "Commerce/Customer/Customer Users" on configuration sidebar
+    And uncheck "Use System" for "Show Registration Link" field
+    And fill in "Show Registration Link" with "false"
+    And submit form
+    And I should see "Configuration saved" flash message
+    And I proceed as the User
+    Then I am on homepage
+    And I should not see "Registration"
