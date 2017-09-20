@@ -151,7 +151,7 @@ oro.customer:
                 label: 'Create'
             remember_me: 'Remember Me'
             login: 'Sign In'
-            registration: 'Registration'
+            registration: 'Register'
             return_to_login: 'Return to Login'
             password_reset.message: 'Password was created successfully.'
             request_password.label: 'Request'

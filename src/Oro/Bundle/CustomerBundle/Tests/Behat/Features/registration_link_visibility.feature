@@ -13,8 +13,8 @@ Feature: Registration Link Visibility
   Scenario: Check that registration link is visible by default
     Given I proceed as the User
     And I am on homepage
-    And I should see "Registration"
-    Then I click "Registration"
+    And I should see "Register"
+    Then I click "Register"
     And Page title equals to "Registration"
     And I should see a "Registration Form" element
 
@@ -29,7 +29,7 @@ Feature: Registration Link Visibility
     And I should see "Configuration saved" flash message
     And I proceed as the User
     Then I am on homepage
-    And I should not see "Registration"
+    And I should not see "Register"
 
   Scenario: Check that registration link is not visible after disable "Registration Allowed" option
     Given I proceed as the Admin
@@ -41,7 +41,7 @@ Feature: Registration Link Visibility
     And I should see "Configuration saved" flash message
     And I proceed as the User
     Then I reload the page
-    And I should not see "Registration"
+    And I should not see "Register"
 
   Scenario: Check that registration link is visible after enable all needed options
     Given I proceed as the Admin
@@ -52,9 +52,9 @@ Feature: Registration Link Visibility
     And I should see "Configuration saved" flash message
     And I proceed as the User
     Then I reload the page
-    And I should see "Registration"
+    And I should see "Register"
     Then I signed in as AmandaRCole@example.org on the store frontend
-    And I should not see "Registration"
+    And I should not see "Register"
 
   Scenario: Check that registration link is not visible when disabled in website configuration
     Given I proceed as the Admin
@@ -68,4 +68,4 @@ Feature: Registration Link Visibility
     And I should see "Configuration saved" flash message
     And I proceed as the User
     Then I am on homepage
-    And I should not see "Registration"
+    And I should not see "Register"
