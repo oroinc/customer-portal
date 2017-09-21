@@ -13,6 +13,7 @@
         "oro/platform-serialised-fields": "2.4.*",
         "oro/calendar-bundle": "2.4.*",
         "oro/marketing": "2.4.*",
+        "oro/commerce": "1.4.*",
         "leafo/scssphp": "0.6.3",
         "bower-asset/prism": "1.6.0"
     },
