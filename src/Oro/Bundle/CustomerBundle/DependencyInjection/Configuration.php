@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                 'default_customer_owner' => ['type' => 'string', 'value' => 1],
                 'anonymous_customer_group' => ['type' => 'integer', 'value' => null],
                 'registration_allowed' => ['type' => 'boolean', 'value' => true],
+                'registration_link_enabled' => ['type' => 'boolean', 'value' => true],
                 'confirmation_required' => ['type' => 'boolean', 'value' => true],
                 'send_password_in_welcome_email' => ['type' => 'boolean', 'value' => false],
                 'registration_instructions_enabled' => ['type' => 'boolean', 'value' => false],

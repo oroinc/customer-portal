@@ -53,6 +53,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'value' => true,
                             'scope' => 'app'
                         ],
+                        'registration_link_enabled' => [
+                            'value' => true,
+                            'scope' => 'app'
+                        ],
                         'confirmation_required' => [
                             'value' => true,
                             'scope' => 'app'
