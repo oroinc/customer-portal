@@ -84,6 +84,30 @@ navigation:
             help:
                 label: 'oro.commercemenu.frontend.navigation.items.help.label'
                 uri: '/help'
+            catalog:
+                label: 'oro.commercemenu.frontend.navigation.items.catalog.label'
+                route: oro_product_frontend_product_index
+                extras:
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+                    icon: fa-book
+            order_history:
+                label: 'oro.commercemenu.frontend.navigation.items.order_history.label'
+                uri: '/customer/order'
+                extras:
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+                    icon: fa-list-alt
+            new_arrivals:
+                label: 'oro.commercemenu.frontend.navigation.items.new_arrivals.label'
+                uri: '/new-arrivals'
+                extras:
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+                    icon: fa-gift
+            contact_us:
+                label: 'oro.commercemenu.frontend.navigation.items.contact_us.label'
+                uri: '/contact-us'
+                extras:
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+                    icon: fa-envelope
         tree:
             application_menu:
                 children:
@@ -140,6 +164,15 @@ navigation:
                             my_wishlist: ~
                             track_my_order: ~
                             help: ~
+
+            featured_menu:
+                type: featured_menu
+                scope_type: menu_frontend_visibility
+                children:
+                    catalog: ~
+                    order_history: ~
+                    new_arrivals: ~
+                    contact_us: ~
 
     titles:
         oro_commerce_menu_global_menu_index: 'Frontend Menus'
