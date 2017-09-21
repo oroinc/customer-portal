@@ -1,7 +1,7 @@
 <div class="data-filter-choice" data-date-filter-template>
     <%= parts.join('') %>
 
-    <% if (_.isMobile()) { %>
+    <% if (renderMode === 'toggle-mode') { %>
         <div class="filter-date-range">
             <div class="filter-start-date">
                 <input type="text"
