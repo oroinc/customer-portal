@@ -1,0 +1,4 @@
+// @theme: default;
+
+$header-row-container-flex-basis: 210px !default;
+$header-row-unstack-width: calc(100% - #{$header-row-container-flex-basis}) !default;

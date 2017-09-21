@@ -30,8 +30,21 @@ class FileExtension extends BaseFileExtension
                 'oro_frontend_image_view',
                 [$this, 'getImageView'],
                 ['is_safe' => ['html'], 'needs_environment' => true]
+            ),
+            new \Twig_SimpleFunction(
+                'oro_frontend_debug_routes',
+                [$this, 'getIsDebugRoutes'],
+                ['is_safe' => ['html'], 'needs_environment' => true]
             )
         ];
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsDebugRoutes()
+    {
+        return $this->container->getParameter('oro_frontend.debug_routes');
     }
 
     /**

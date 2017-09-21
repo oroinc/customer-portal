@@ -30,6 +30,9 @@ class Configuration implements ConfigurationInterface
             ]
         );
         $rootNode->children()
+            ->booleanNode('debug_routes')
+                ->defaultTrue()
+            ->end()
             ->arrayNode('routes_to_expose')
                 ->beforeNormalization()
                     ->ifTrue(function ($v) {

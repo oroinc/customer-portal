@@ -47,6 +47,8 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $container
             ->getDefinition('oro_frontend.extractor.frontend_exposed_routes_extractor')
             ->replaceArgument(1, $config['routes_to_expose']);
+
+        $container->setParameter('oro_frontend.debug_routes', $config['debug_routes']);
     }
 
     /**

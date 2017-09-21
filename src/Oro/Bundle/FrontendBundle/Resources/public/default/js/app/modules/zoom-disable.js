@@ -6,6 +6,7 @@ define(function(require) {
      * If you want to bind disable zoom component for particular element just set attr: [data-zoom-disable]
      */
     var ZoomDisable;
+    var _ = require('underscore');
     var tools = require('oroui/js/tools');
     var $ = require('jquery');
 
@@ -48,18 +49,20 @@ define(function(require) {
          */
         bindEvents: function() {
             var self = this;
-            var elements = this.$elements.targetElements;
-            var enableZoom = this.options.metaEnableZoom;
-            var disableZoom = this.options.metaDisableZoom;
 
             if (tools.isMobile()) {
-                $(document.body).on('touchstart', elements, function() {
-                    self.changeViewport(disableZoom);
-                }).on('touchend', elements, function() {
-                    setTimeout(function() {
-                        self.changeViewport(enableZoom);
-                    }, 500); //Timeout needed for correct behavior of select2
-                });
+                $(document).on({
+                    touchstart: function() {
+                        self.toggleZoom(false);
+                    },
+                    touchend: function() {
+                        self.toggleZoom(true);
+                    },
+                    // Disable zoom when user switch active input by 'tab' button (arrows on iOS)
+                    blur: function() {
+                        self.toggleZoom();
+                    }
+                }, this.$elements.targetElements);
             }
         },
 
@@ -71,7 +74,40 @@ define(function(require) {
         changeViewport: function(viewPort) {
             $(this.$elements.viewPort).remove();
             $(this.$elements.head).prepend(viewPort);
-        }
+        },
+
+        /**
+         * Toggle zoom on page
+         *
+         * @param {boolean} state
+         */
+        toggleZoom: function(state) {
+            var enableZoom = this.options.metaEnableZoom;
+            var disableZoom = this.options.metaDisableZoom;
+
+            if (_.isUndefined(state)) {
+                this.changeViewport(disableZoom);
+                // Timeout needed for correct behavior of select2
+                this.changeViewportDebounce(enableZoom);
+                return;
+            }
+
+            if (state) {
+                // Timeout needed for correct behavior of select2
+                this.changeViewportDebounce(enableZoom);
+            } else {
+                this.changeViewport(disableZoom);
+            }
+        },
+
+        /**
+         * Debounce wrapper for 'changeViewport' method with delay
+         *
+         * @param {string} viewPort
+         */
+        changeViewportDebounce: _.debounce(function(viewPort) {
+            this.changeViewport(viewPort);
+        }, 500)
     };
 
     return ZoomDisable.initialize();
