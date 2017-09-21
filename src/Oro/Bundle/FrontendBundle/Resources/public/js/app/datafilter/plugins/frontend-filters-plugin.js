@@ -17,14 +17,14 @@ define(function(require) {
 
     FrontendFiltersTogglePlugin = FiltersTogglePlugin.extend({
         /**
-         * Object
+         * {Object}
          */
         filtersActions: {
             tablet: FullScreenFiltersAction
         },
 
         /**
-         * {boolean}
+         * {Boolean}
          */
         considerMobileView: viewportManager.getViewport().isMobile,
 

@@ -49,7 +49,7 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        filtersRenderMode: '',
+        renderMode: '',
 
         /**
          * @inheritDoc
