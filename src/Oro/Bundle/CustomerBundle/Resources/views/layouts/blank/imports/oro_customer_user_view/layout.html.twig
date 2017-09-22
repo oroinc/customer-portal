@@ -97,7 +97,7 @@
             </div>
         {% endif %}
 
-        {% if customerUser.customer %}
+        {% if customerUser.customer and companyNameEnabled %}
             <div class="info-list__item">
                 <div class="info-list__name">
                     {{ 'oro.customer.customeruser.profile.company'|trans }}

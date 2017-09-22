@@ -55,6 +55,14 @@ system_configuration:
                 label: oro.customer.system_configuration.fields.confirmation_required.label
                 tooltip: oro.customer.system_configuration.fields.confirmation_required.tooltip
                 required: false
+        oro_customer.company_name_field_enabled:
+            data_type: boolean
+            type: oro_config_checkbox
+            priority: 85
+            options:
+                label: oro.customer.system_configuration.fields.company_name_field_enabled.label
+                tooltip: oro.customer.system_configuration.fields.company_name_field_enabled.tooltip
+                required: false
         oro_customer.send_password_in_welcome_email:
             data_type: boolean
             type: oro_config_checkbox
@@ -126,6 +134,7 @@ system_configuration:
                                             - oro_customer.registration_allowed
                                             - oro_customer.registration_link_enabled
                                             - oro_customer.confirmation_required
+                                            - oro_customer.company_name_field_enabled
                                             - oro_customer.send_password_in_welcome_email
                                             - oro_customer.registration_instructions_enabled
                                             - oro_customer.registration_instructions_text

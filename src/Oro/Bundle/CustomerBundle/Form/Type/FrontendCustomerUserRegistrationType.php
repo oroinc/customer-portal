@@ -48,8 +48,8 @@ class FrontendCustomerUserRegistrationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add(
+        if ($this->isCompanyNameFieldEnabled()) {
+            $builder->add(
                 'companyName',
                 'text',
                 [
@@ -62,7 +62,10 @@ class FrontendCustomerUserRegistrationType extends AbstractType
                     ],
                     'attr' => ['placeholder' => 'oro.customer.customeruser.placeholder.company_name']
                 ]
-            )
+            );
+        }
+
+        $builder
             ->add(
                 'firstName',
                 'text',
@@ -110,6 +113,14 @@ class FrontendCustomerUserRegistrationType extends AbstractType
             ]
         );
 
+        $this->addBuilderListeners($builder);
+    }
+
+    /**
+     * @param FormBuilderInterface $builder
+     */
+    protected function addBuilderListeners(FormBuilderInterface $builder)
+    {
         $builder->addEventListener(
             FormEvents::SUBMIT,
             function (FormEvent $event) {
@@ -136,7 +147,17 @@ class FrontendCustomerUserRegistrationType extends AbstractType
                 $customerUser = $event->getData();
                 if (!$customerUser->getCustomer()) {
                     $form = $event->getForm();
-                    $companyName = $form->get('companyName')->getData();
+
+                    if ($form->has('companyName')) {
+                        $companyName = $form->get('companyName')->getData();
+                    } else {
+                        $companyName = sprintf(
+                            '%s %s',
+                            $form->get('firstName')->getData(),
+                            $form->get('lastName')->getData()
+                        );
+                    }
+
                     $customerUser->createCustomer($companyName);
                 }
             },
@@ -182,5 +203,13 @@ class FrontendCustomerUserRegistrationType extends AbstractType
         $this->dataClass = $dataClass;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isCompanyNameFieldEnabled()
+    {
+        return (bool) $this->configManager->get('oro_customer.company_name_field_enabled');
     }
 }
