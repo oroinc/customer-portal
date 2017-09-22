@@ -426,6 +426,7 @@ oro.customer:
             send_password_in_welcome_email.label: 'Send plain text password in welcome emails'
             registration_instructions_enabled.label: 'Show Registration Instructions'
             registration_instructions_text.label: 'Registration Instructions Text'
+            company_name_field_enabled.label: 'Require company name'
             user_menu_show_items:
                 label: 'User Menu'
                 option:

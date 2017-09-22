@@ -9,7 +9,7 @@ define(function(require) {
     var MultiselectDecorator = require('orofrontend/js/app/datafilter/fronend-manage-filters-decorator');
 
     var config = require('module').config();
-    config = $.extend(true, {
+    config = _.extend({
         templateData: {
             attributes: ''
         }
@@ -41,7 +41,32 @@ define(function(require) {
             'click [data-role="close-filters"]': '_onClose'
         },
 
+        /**
+         * @inheritDoc
+         */
         templateData: config.templateData,
+
+        /**
+         * @inheritDoc
+         */
+        renderMode: '',
+
+        /**
+         * @inheritDoc
+         */
+        initialize: function(options) {
+            this._updateRenderMode();
+            FrontendCollectionFiltersManager.__super__.initialize.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
+        render: function() {
+            FrontendCollectionFiltersManager.__super__.render.call(this);
+            this.finallyOfRender();
+            return this;
+        },
 
         /**
          * Set design for filter manager button
@@ -75,6 +100,9 @@ define(function(require) {
             this.selectWidget.multiselect('instance').button.trigger('click');
         },
 
+        /**
+         * @inheritDoc
+         */
         getTemplateData: function() {
             var data = FrontendCollectionFiltersManager.__super__.getTemplateData.call(this);
             data = $.extend(data, this.templateData || {});
@@ -87,6 +115,23 @@ define(function(require) {
         _onCollectionReset: function(collection) {
             if (!_.isMobile()) {
                 FrontendCollectionFiltersManager.__super__._onCollectionReset.apply(this, arguments);
+            }
+        },
+
+        /**
+         * Update render mode for filters manager
+         *
+         * @protected
+         */
+        _updateRenderMode: function() {
+            if (_.isMobile()) {
+                this.renderMode =  'toggle-mode';
+            }
+        },
+
+        finallyOfRender: function() {
+            if (this.$el.data('layout') === 'separate') {
+                this.initLayout();
             }
         }
     });

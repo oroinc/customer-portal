@@ -5,3 +5,4 @@ oro.customer.system_configuration.fields.confirmation_required.tooltip: 'Send co
 oro.customer.system_configuration.fields.auto_login_after_registration.tooltip: 'Auto login customer user after registration or email confirmation'
 oro.customer.system_configuration.fields.send_password_in_welcome_email.tooltip: 'Allow to send plain text password in welcome emails, if it known'
 oro.customer.system_configuration.fields.registration_instructions_enabled.tooltip: 'When enabled, the registration instructions will be shown on the store frontend login page'
+oro.customer.system_configuration.fields.company_name_field_enabled.tooltip: 'With this option enabled, the Company Name field will be shown in the registration form in the frontend store'

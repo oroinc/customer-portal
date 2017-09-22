@@ -7,6 +7,7 @@ define(function(require) {
     var ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
     var FullScreenFiltersAction = require('orofrontend/js/app/datafilter/actions/fullscreen-filters-action');
     var FiltersTogglePlugin = require('orofilter/js/plugins/filters-toggle-plugin');
+    var viewportManager = require('oroui/js/viewport-manager');
     var config = require('module').config();
     var launcherOptions = _.extend({
         className: 'btn',
@@ -15,22 +16,47 @@ define(function(require) {
     }, config.launcherOptions || {});
 
     FrontendFiltersTogglePlugin = FiltersTogglePlugin.extend({
-        useFullScreenMode: _.isMobile(),
+        /**
+         * {Object}
+         */
+        filtersActions: {
+            tablet: FullScreenFiltersAction
+        },
+
+        /**
+         * {Boolean}
+         */
+        considerMobileView: viewportManager.getViewport().isMobile,
+
+        /**
+         * @returns {Function}
+         * @private
+         */
+        _getApplicableAction: function() {
+            var Action = this.filtersActions[viewportManager.getViewport().type];
+
+            if (_.isUndefined(Action)) {
+                Action = _.find(this.filtersActions, function(action, name) {
+                    if (viewportManager.isApplicable({maxScreenType: name})) {
+                        return action;
+                    }
+                });
+            }
+
+            return (this.considerMobileView && _.isFunction(Action)) ? Action : ToggleFiltersAction;
+        },
 
         onBeforeToolbarInit: function(toolbarOptions) {
+            var Action = this._getApplicableAction();
+
             var options = {
                 datagrid: this.main,
                 launcherOptions: launcherOptions,
                 order: config.order || 50
             };
 
-            if (this.useFullScreenMode) {
-                toolbarOptions.addToolbarAction(new FullScreenFiltersAction(options));
-            } else {
-                toolbarOptions.addToolbarAction(new ToggleFiltersAction(options));
-            }
+            toolbarOptions.addToolbarAction(new Action(options));
         }
     });
-
     return FrontendFiltersTogglePlugin;
 });
