@@ -16,7 +16,7 @@ $featured-menu-item-description-offset-bottom: $offset-y !default;
 
 $featured-menu-item-icon-offset-bottom: $offset-y-m !default;
 $featured-menu-item-icon-font-size: 90px !default;
-$featured-menu-item-icon-color: lighten(get-color('additional', 'dark'), 25%) !default;
+$featured-menu-item-icon-color: get-color('additional', 'middle') !default;
 
 // tablet small
 $featured-menu-item-offset-x-tablet-small: 10px !default;
