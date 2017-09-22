@@ -59,6 +59,14 @@ define(function(require) {
         applyAllFiltersBtn: null,
 
         /**
+         * @property;
+         */
+        launcherOptions: {
+            launcherCounter: true,
+            classNameCounter: 'badge badge--info badge--xs badge--offset-none'
+        },
+
+        /**
          * {@inheritdoc}
          * @param {object} options
          */
@@ -321,6 +329,10 @@ define(function(require) {
                 } else {
                     this.fullscreenView.setPopupTitle(this.filtersPopupOptions.popupLabel);
                 }
+            }
+
+            if (_.isNumber(count)) {
+                this.launcherInstanse.setCount(count);
             }
         },
 
