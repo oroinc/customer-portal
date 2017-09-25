@@ -31,11 +31,17 @@
 
     &__prev,
     &__next {
-        margin: 0 3px;
-
         i {
             margin: 0 2px;
         }
+    }
+
+    &__prev {
+        margin-right: 3px;
+    }
+
+    &__next {
+        margin-left: 3px;
     }
 }
 
@@ -47,7 +53,7 @@
     }
 }
 
-@include breakpoint('mobile') {
+@include breakpoint('mobile-landscape') {
     .oro-pagination {
         &__label {
             display: none;

@@ -27,7 +27,7 @@ class CustomerDeleteHandler extends DeleteHandler
     /**
      * {@inheritdoc}
      */
-    public function checkPermissions($entity, ObjectManager $em)
+    protected function checkPermissions($entity, ObjectManager $em)
     {
         /** @var Customer $entity */
         if ($this->customerAssignHelper->hasAssignments($entity)) {

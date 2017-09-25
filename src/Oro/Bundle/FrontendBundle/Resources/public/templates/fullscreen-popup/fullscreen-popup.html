@@ -12,7 +12,7 @@
                             <i class="<%= icon %>"></i>
                         <% } %>
                     <% } %>
-                    <span class="fullscreen-popup__words"><%= label %></span>
+                    <span class="fullscreen-popup__words" data-role="title"><%= label %></span>
                 </span>
             </div>
         <% } %>
@@ -21,7 +21,9 @@
         <% } %>
     </div>
 
-    <div class="fullscreen-popup__content" data-role="content"></div>
+    <div class="fullscreen-popup__content <% if (footerContent) { %>fullscreen-popup__content--bottom-offset<% } %>" data-role="content"></div>
 
-    <div class="fullscreen-popup__footer" data-role="footer"></div>
+    <% if (footerContent) { %>
+        <div class="fullscreen-popup__footer" data-role="footer"></div>
+    <% } %>
 </div>

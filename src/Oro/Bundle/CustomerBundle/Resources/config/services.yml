@@ -931,7 +931,7 @@ services:
         arguments:
            - '@oro_featuretoggle.voter.config_voter'
            - '@security.token_storage'
-        lazy: true
+        abstract: true
 
     oro_customer.action.get_or_create_active_user:
         class: Oro\Bundle\CustomerBundle\Action\GetActiveUserOrNull
@@ -949,6 +949,13 @@ services:
         tags:
             - { name: oro_action.action, alias: get_active_visitor }
 
+    oro_customer.condition.customer_has_assignments:
+        class: 'Oro\Bundle\CustomerBundle\Condition\CustomerHasAssignments'
+        arguments:
+            - '@oro_customer.customer.assign.helper'
+        tags:
+            - { name: oro_action.condition, alias: customer_has_assignments }
+
     oro_customer.manager.guest_customer_user:
         class: Oro\Bundle\CustomerBundle\Entity\GuestCustomerUserManager
         lazy: true
@@ -963,4 +970,4 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Voter\CustomerUserVoter'
         arguments:
            - '@oro_security.token_accessor'
-        lazy: true
+        abstract: true

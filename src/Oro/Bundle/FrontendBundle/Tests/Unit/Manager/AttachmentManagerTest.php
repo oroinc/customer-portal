@@ -46,7 +46,9 @@ class AttachmentManagerTest extends \PHPUnit_Framework_TestCase
         $this->attachmentManager = new AttachmentManager(
             $this->router,
             $fileIcons,
-            $this->associationManager
+            $this->associationManager,
+            true,
+            true
         );
     }
 

@@ -2,5 +2,3 @@ layout:
     actions:
         - '@setBlockTheme':
             themes: 'quick_access.html.twig'
-
-    conditions: 'context["is_logged_in"]'
