@@ -43,13 +43,11 @@
         margin: $featured-menu-offset-tablet-small;
         
         &__grid {
-            display: block;
-
-            font-size: 0;
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
 
         &__item {
-            display: inline-block;
             width: $featured-menu-item-width-tablet-small;
             margin: $featured-menu-item-offset-tablet-small;
             padding: $featured-menu-item-offset-inner-tablet-small;

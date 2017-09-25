@@ -1,8 +1,8 @@
 // @theme: blank;
 
-$featured-menu-item-offset-x: 20px !default;
-$featured-menu-offset: 30px -#{$featured-menu-item-offset-x} !default;
-$featured-menu-item-offset: 0 $featured-menu-item-offset-x !default;
+$featured-menu-item-offset-x: $offset-x * 2 !default;
+$featured-menu-offset: 30px 0 30px -#{$featured-menu-item-offset-x} !default;
+$featured-menu-item-offset: 0 0 0 $featured-menu-item-offset-x !default;
 $featured-menu-item-offset-inner: 30px !default;
 $featured-menu-item-text-align: center !default;
 $featured-menu-item-bg: get-color('additional', 'base') !default;
@@ -19,12 +19,15 @@ $featured-menu-item-icon-font-size: 90px !default;
 $featured-menu-item-icon-color: get-color('additional', 'middle') !default;
 
 // tablet small
-$featured-menu-item-offset-x-tablet-small: 10px !default;
-$featured-menu-item-width-tablet-small: calc(50% - #{$featured-menu-item-offset-x-tablet-small * 2}) !default;
-$featured-menu-offset-tablet-small: 15px -#{$featured-menu-item-offset-x-tablet-small} !default;
-$featured-menu-item-offset-tablet-small: $featured-menu-item-offset-x-tablet-small !default;
+$featured-menu-item-offset-x-tablet-small: $offset-x !default;
+$featured-menu-item-offset-y-tablet-small: $offset-y !default;
+
+$featured-menu-offset-tablet-small: $offset-y 0 !default;
+
+$featured-menu-item-width-tablet-small: calc(50% - #{$featured-menu-item-offset-x-tablet-small / 2}) !default;
+$featured-menu-item-offset-tablet-small: $featured-menu-item-offset-y-tablet-small 0 0 !default;
 $featured-menu-item-offset-inner-tablet-small: 20px 15px !default;
 $featured-menu-item-description-font-size-tablet-small: $base-font-size--large !default;
 
 // mobile
-$featured-menu-item-width-mobile: calc(100% - #{$featured-menu-item-offset-x-tablet-small * 2}) !default;
+$featured-menu-item-width-mobile: 100% !default;
