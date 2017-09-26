@@ -11,8 +11,6 @@ class CustomerImportExportConfigurationProvider implements ImportExportConfigura
 {
     /**
      * {@inheritDoc}
-     *
-     * @throws \InvalidArgumentException
      */
     public function get(): ImportExportConfigurationInterface
     {

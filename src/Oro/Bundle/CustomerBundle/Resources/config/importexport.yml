@@ -136,3 +136,8 @@ services:
         class: 'Oro\Bundle\CustomerBundle\ImportExport\Configuration\CustomerImportExportConfigurationProvider'
         tags:
             - { name: oro_importexport.configuration, alias: oro_customer }
+
+    oro_customer.importexport.configuration_provider.customer_user:
+        class: 'Oro\Bundle\CustomerBundle\ImportExport\Configuration\CustomerUserImportExportConfigurationProvider'
+        tags:
+            - { name: oro_importexport.configuration, alias: oro_customer_user }
