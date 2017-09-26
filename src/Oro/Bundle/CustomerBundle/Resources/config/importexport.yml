@@ -132,3 +132,7 @@ services:
         tags:
             - { name: oro_importexport.processor, type: export_template, entity: '%oro_customer.entity.customer.class%', alias: oro_customer_customer }
 
+    oro_customer.importexport.configuration_provider.customer:
+        class: 'Oro\Bundle\CustomerBundle\ImportExport\Configuration\CustomerImportExportConfigurationProvider'
+        tags:
+            - { name: oro_importexport.configuration, alias: oro_customer }
