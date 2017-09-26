@@ -2,17 +2,6 @@
 
 // TODO: Don't added code to this file!
 
-.well {
-    min-height: 20px;
-    padding: 19px;
-    margin-bottom: 20px;
-    background-color: get-color('additional', 'base');
-    border: 1px solid get-color('additional', 'base');;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
-}
-
 .pull-right {
     float: right !important;
 }
@@ -73,21 +62,6 @@
     }
 }
 
-.container-fluid {
-    width: 100%;
-    max-width: $site-width;
-    margin: 0 auto;
-    padding: 0 $offset-x-m;
-}
-
-.clearfix:after,
-.container:after,
-.container-fluid:after,
-.row:after {
-    display: table;
-    content: " ";
-    clear: both;
-}
 .col-sm-1, .col-md-1,  .col-md-3, .col-md-4, .col-sm-5, .col-md-5, .col-md-6, .col-sm-7, .col-md-7, .col-md-8, .col-md-10, .col-md-11, .col-sm-12, .col-md-12 {
     position: relative;
     min-height: 1px;
