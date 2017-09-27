@@ -65,3 +65,4 @@ api:
                             exclude: true
                         lastLogin:
                             exclude: true
+        Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress: ~
