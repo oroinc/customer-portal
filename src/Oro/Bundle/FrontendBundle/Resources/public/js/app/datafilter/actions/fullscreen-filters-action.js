@@ -25,7 +25,17 @@ define(function(require) {
             popupIcon: 'fa-filter',
             popupLabel: _.__('oro.filter.datagrid-toolbar.filters'),
             contentElement: null,
-            footerContent: true
+            footerContent: true,
+            footerContentOptions: {
+                buttons: [
+                    {
+                        type: 'button',
+                        class: 'btn btn--info btn--full btn--size-s',
+                        role: 'action',
+                        label: _.__('oro_frontend.filters.apply_all')
+                    }
+                ]
+            }
         },
 
         /**

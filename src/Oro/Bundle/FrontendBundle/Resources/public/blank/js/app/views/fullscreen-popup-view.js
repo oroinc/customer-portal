@@ -26,13 +26,20 @@ define(function(require) {
             'contentOptions', 'contentElement', 'contentAttributes',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
             'popupCloseButton', 'popupIcon', 'popupBadge', 'footerContent',
-            'footerContentOptions', 'stopEventsPropagation', 'stopEventsList'
+            'footerContentOptions', 'stopEventsPropagation', 'stopEventsList',
+            'keepAliveOnClose'
         ]),
 
         /**
          * @property
          */
         template: template,
+
+        /**
+         * @property
+         * @type {boolean}
+         */
+        keepAliveOnClose: true,
 
         /**
          * @property
@@ -126,14 +133,23 @@ define(function(require) {
 
         /**
          * @property
+         * @type {object}
          */
         footerContentOptions: {
-            actionBtnLabel: _.__('oro_frontend.filters.apply_all'),
-            actionBtnClass: 'btn btn--info btn--full btn--size-s'
+            buttons: [
+                // Data example for default template
+                // {
+                //     type: 'button',
+                //     class: 'btn btn--info btn--full btn--size-s',
+                //     role: 'action',
+                //     label: _.__('oro_frontend.filters.apply_all')
+                // }
+            ]
         },
 
         /**
          * @property
+         * @type {object}
          */
         footerTemplate: footerTemplate,
 
@@ -142,7 +158,6 @@ define(function(require) {
          */
         initialize: function(options) {
             this.savePreviousClasses($(this.contentElement));
-
             FullscreenPopupView.__super__.initialize.apply(this, arguments);
         },
 
@@ -150,6 +165,9 @@ define(function(require) {
          * @inheritDoc
          */
         dispose: function() {
+            if (this.disposed) {
+                return;
+            }
             this.close();
             FullscreenPopupView.__super__.dispose.apply(this, arguments);
         },
@@ -198,8 +216,14 @@ define(function(require) {
             }
         },
 
-        renderPopupFooterContent: function() {
-            $(this.$popupFooter).html(this.footerTemplate(this.footerContentOptions));
+        renderPopupFooterContent: function(content) {
+            if (content) {
+                $(this.$popupFooter).html(content);
+            } else {
+                $(this.$popupFooter).html(
+                    this.getTemplateFunction('footerTemplate')(this.footerContentOptions)
+                );
+            }
         },
 
         renderContent: function(callback) {
@@ -252,6 +276,7 @@ define(function(require) {
                 return;
             }
 
+            this.trigger('beforeClose');
             scrollHelper.enableBodyTouchScroll();
 
             if (this.contentElement && this.contentElementPlaceholder) {
@@ -274,6 +299,10 @@ define(function(require) {
 
             this.removeSubview('contentView');
             this.trigger('close');
+
+            if (!this.keepAliveOnClose) {
+                this.dispose();
+            }
         },
 
         /**

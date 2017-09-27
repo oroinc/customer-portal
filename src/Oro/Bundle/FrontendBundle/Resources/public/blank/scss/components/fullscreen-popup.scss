@@ -1,28 +1,32 @@
 .fullscreen-popup {
-    position: fixed;
-    z-index: z('popup') + 1;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    display: $fullscreen-popup-display;
+    flex-direction: $fullscreen-popup-flex-direction;
 
-    height: auto;
-    margin-left: 0;
+    position: $fullscreen-popup-position;
+    z-index: $fullscreen-popup-z-index;
+
+    top: $fullscreen-popup-top;
+    right: $fullscreen-popup-right;
+    bottom: $fullscreen-popup-bottom;
+    left: $fullscreen-popup-left;
+
+    height: $fullscreen-popup-height;
+    margin-left: $fullscreen-popup-margin-left;
 
     background: $fullscreen-popup-bg;
 
     &__header {
-        position: absolute;
-        z-index: z('base') + 1;
-        right: 0;
-        left: 0;
+        display: $fullscreen-popup-header-display;
 
-        display: block;
+        position: $fullscreen-popup-header-position;
+        z-index: $fullscreen-popup-header-z-index;
+        right: $fullscreen-popup-header-right;
+        left: $fullscreen-popup-header-left;
 
-        height: $fullscreen-popup-header-height;
+        min-height: $fullscreen-popup-header-min-height;
         padding: $fullscreen-popup-header-offset;
 
-        line-height: $fullscreen-popup-header-height;
+        line-height: $fullscreen-popup-header-min-height;
         text-transform: $fullscreen-popup-text-transform;
 
         background: $fullscreen-popup-header-bg;
@@ -30,29 +34,29 @@
     }
 
     &__text {
-        display: inline-block;
-        vertical-align: top;
+        display: $fullscreen-popup-text-display;
+        align-items: $fullscreen-popup-text-align-items;
 
         padding: $fullscreen-popup-text-offset;
 
         font-size: $base-font-size--s;
         font-weight: $fullscreen-popup-text-weight;
-        line-height: $fullscreen-popup-header-height;
+        line-height: $fullscreen-popup-header-min-height;
 
-        cursor: pointer;
+        cursor: $fullscreen-popup-text-cursor;
 
         [class^="fa-"],
         [class*=" fa-"] {
-            margin-right: $offset-x-s;
+            margin-right: $fullscreen-popup-text-fa-icon-margin-right;
 
-            line-height: inherit;
+            line-height: $fullscreen-popup-text-fa-icon-line-height;
 
-            vertical-align: top;
+            vertical-align: $fullscreen-popup-text-fa-icon-vertical-align;
         }
     }
 
     &__words {
-        vertical-align: middle;
+        vertical-align: $fullscreen-popup-words-vertical-align;
     }
 
     &__badge {
@@ -60,11 +64,11 @@
 
         @include badge($badge-bg: $fullscreen-popup-badge-bg);
 
-        vertical-align: baseline;
+        vertical-align: $fullscreen-popup-badge-vertical-align;
     }
 
     &__close {
-        position: absolute;
+        position: $fullscreen-popup-close-position;
         top: $fullscreen-popup-close-top;
         right: $fullscreen-popup-close-right;
 
@@ -76,7 +80,7 @@
         background: $fullscreen-popup-close-bg;
         color: $fullscreen-popup-close-color;
 
-        cursor: pointer;
+        cursor: $fullscreen-popup-close-cursor;
 
         @include fa-icon($fullscreen-popup-close-icon, after);
     }
@@ -86,29 +90,31 @@
 
         overflow: $fullscreen-popup-content-overflow;
 
-        padding-top: $fullscreen-popup-content-padding-top;
-
-        &--bottom-offset {
-            height: calc(100% - #{$fullscreen-popup-footer-height});
-        }
-
         .alert {
             margin: $fullscreen-popup-content-alert-offset-height;
         }
     }
 
     &__footer {
-        position: absolute;
-        z-index: z('base') + 1;
-        right: 0;
-        left: 0;
-        bottom: 0;
+        display: $fullscreen-popup-footer-display;
+        align-items: $fullscreen-popup-footer-align-items;
 
-        height: $fullscreen-popup-footer-height;
+        position: $fullscreen-popup-footer-position;
+        z-index: $fullscreen-popup-footer-z-index;
+
+        right: $fullscreen-popup-footer-right;
+        left: $fullscreen-popup-footer-left;
+        bottom: $fullscreen-popup-footer-bottom;
+
         padding: $fullscreen-popup-footer-offset;
 
         background: $fullscreen-popup-footer-bg;
         border-top: $fullscreen-popup-footer-border-top;
+
+        .btn {
+            width: $fullscreen-popup-footer-btn-width;
+            margin: $fullscreen-popup-footer-btn-offset;
+        }
     }
 
     //TODO: Make corrent padding of popup conent for any content
