@@ -1,13 +1,3 @@
-## 2.4.0 (Unreleased)
-[Show detailed list of changes](incompatibilities-2-4.md)
-### Changed
-#### FrontendBundle
-* some inline underscore templates were moved to separate .html file for each template.
-### Removed
-#### CustomerBundle
-* removed interface `ConstraintByValidationGroups`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.4.0/src/Oro/Bundle/OrderBundle/Validator/Constraints/ConstraintByValidationGroups.php "Oro\Bundle\OrderBundle\Validator\Constraints\ConstraintByValidationGroups")</sup>.
-* removed constraint class `OrderAddress`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.4.0/src/Oro/Bundle/OrderBundle/Validator/Constraints/OrderAddress.php "Oro\Bundle\OrderBundle\Validator\Constraints\OrderAddress")</sup>.
-* removed constraint validator `OrderAddressValidator`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.4.0/src/Oro/Bundle/OrderBundle/Validator/Constraints/OrderAddressValidator.php "Oro\Bundle\OrderBundle\Validator\Constraints\OrderAddressValidator")</sup>.
 ## 2.3.0 (2017-07-28)
 [Show detailed list of changes](incompatibilities-2-3.md)
 ### Changed
