@@ -9,7 +9,7 @@ define(function(require) {
          * @property
          */
         optionNames: BaseView.prototype.optionNames.concat([
-            'tagName', 'className', 'count'
+            'count'
         ]),
 
         /**
@@ -38,6 +38,7 @@ define(function(require) {
 
         /**
          * Count setter
+         * @param {String | Number} count
          */
         setCount: function(count) {
             this.$el
