@@ -36,7 +36,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_profile'));
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $positions = $crawler->filter('div.customer-oq__item__body div.control-group label.control-label');
+        $positions = $crawler->filter('.customer-info-grid .grid__row div.control-group label.control-label');
 
         /**
          * @var \DOMElement $position
