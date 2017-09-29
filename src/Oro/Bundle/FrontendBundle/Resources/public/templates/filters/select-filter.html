@@ -10,15 +10,18 @@
             <% }); %>
         </select>
         <div class="filter-criteria-selector-icon-wrap">
-            <% if (_.isMobile()) { %>
+
+            <% if (renderMode === 'toggle-mode') { %>
                 <span class="filter-criteria-selector-icon fa-plus fa--large"></span>
                 <span class="filter-criteria-selector-icon fa-minus fa--large"></span>
             <% } else { %>
                 <span class="filter-criteria-selector-icon fa-caret-down fa--large"></span>
             <% } %>
+
         </div>
     </div>
-    <% if (_.isMobile()) { %>
+
+    <% if (renderMode === 'toggle-mode') { %>
         <div class="filter-criteria"></div>
     <% } %>
 </div>

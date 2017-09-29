@@ -53,6 +53,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'value' => true,
                             'scope' => 'app'
                         ],
+                        'registration_link_enabled' => [
+                            'value' => true,
+                            'scope' => 'app'
+                        ],
                         'confirmation_required' => [
                             'value' => true,
                             'scope' => 'app'
@@ -69,6 +73,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'value' =>
                                 'To register for a new account, contact a sales representative at 1 (800) 555-0123',
                             'scope' => 'app',
+                        ],
+                        'company_name_field_enabled' => [
+                            'value' => true,
+                            'scope' => 'app'
                         ],
                         'user_menu_show_items' => [
                             'value' => 'all_at_once',
