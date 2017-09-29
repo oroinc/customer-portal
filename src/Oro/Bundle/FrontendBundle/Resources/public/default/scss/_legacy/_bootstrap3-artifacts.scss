@@ -13,45 +13,6 @@
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
 }
 
-.pull-right {
-    float: right !important;
-}
-.pull-left {
-    float: left !important;
-}
-.hide {
-    display: none !important;
-}
-.show {
-    display: block !important;
-}
-.invisible {
-    visibility: hidden;
-}
-.text-center {
-    text-align: center;
-}
-.text-left {
-    text-align: left;
-}
-.text-right {
-    text-align: right;
-}
-.text-justify {
-    text-align: justify;
-}
-.text-nowrap {
-    white-space: nowrap;
-}
-.text-lowercase {
-    text-transform: lowercase;
-}
-.text-uppercase {
-    text-transform: uppercase;
-}
-.text-capitalize {
-    text-transform: capitalize;
-}
 @media (max-width: 767px) {
     .hidden-xs {
         display: none !important;
