@@ -11,6 +11,7 @@ $customer-line-items-grid-cell--offset-l-none: 0 !default;
 $customer-line-items-grid-cell-last-text-align: right !default;
 $customer-line-items-grid-cell-last-notes-cell-offset-inner: 0 !default;
 $customer-line-items-grid-cell-last-notes-cell-text-align: left !default;
+$customer-line-items-sku-value-color: get-color('primary', 'dark') !default;
 
 // tablet-small
 $customer-line-items-title-offset-inner-bottom-tablet-small: $offset-y-m !default;
