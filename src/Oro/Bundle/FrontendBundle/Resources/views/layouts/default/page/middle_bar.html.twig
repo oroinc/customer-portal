@@ -4,13 +4,6 @@
     </div>
 {% endblock %}
 
-{% block _middle_bar_center_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': ' hidden-sm hidden-xs'
-    }) %}
-    {{ parent_block_widget(block) }}
-{% endblock %}
-
 {% block _middle_bar_search_widget %}
     {% set attr = attr|merge({
         class: attr.class|default('') ~ " search-widget-wrap"
