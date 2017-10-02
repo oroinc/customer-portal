@@ -12,7 +12,7 @@ Feature: Disable map previews on the store frontend by config option
     And I follow "System Configuration/General Setup/Display Settings" on configuration sidebar
     Then Enable Map Preview field should has Yes value
     And I go to System/User Management/Organizations
-    And I click on Oro in grid
+    And I click view "Oro" in grid
     And I press "Organization Configuration"
     And I follow "System Configuration/General Setup/Display Settings" on configuration sidebar
     Then Enable Map Preview field should has Yes value
@@ -72,7 +72,7 @@ Feature: Disable map previews on the store frontend by config option
   Scenario: Check that map previews are hidden when disabled in organization config in custom theme
     Given I operate as the Admin
     Given I go to System/User Management/Organizations
-    And I click on Oro in grid
+    And I click view "Oro" in grid
     And I press "Organization Configuration"
     And I follow "System Configuration/General Setup/Display Settings" on configuration sidebar
     And uncheck "Use System" for "Enable Map Preview" field
@@ -86,7 +86,7 @@ Feature: Disable map previews on the store frontend by config option
     And I should not see "Map Container" element inside "Customer Company User Addresses List" element
     Then I operate as the Admin
     And I go to System/User Management/Organizations
-    And I click on Oro in grid
+    And I click view "Oro" in grid
     And I press "Organization Configuration"
     And I follow "System Configuration/General Setup/Display Settings" on configuration sidebar
     And check "Use System" for "Enable Map Preview" field
@@ -138,7 +138,7 @@ Feature: Disable map previews on the store frontend by config option
 
   Scenario: Check that map previews are hidden when disabled in organization config in default theme
     Given I go to System/User Management/Organizations
-    And I click on Oro in grid
+    And I click view "Oro" in grid
     And I press "Organization Configuration"
     And I follow "System Configuration/General Setup/Display Settings" on configuration sidebar
     And uncheck "Use System" for "Enable Map Preview" field
@@ -152,7 +152,7 @@ Feature: Disable map previews on the store frontend by config option
     And I should not see "Map Button" element inside "Customer Company User Addresses Grid" element
     Then I operate as the Admin
     And I go to System/User Management/Organizations
-    And I click on Oro in grid
+    And I click view "Oro" in grid
     And I press "Organization Configuration"
     And I follow "System Configuration/General Setup/Display Settings" on configuration sidebar
     And check "Use System" for "Enable Map Preview" field

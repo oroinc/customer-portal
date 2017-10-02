@@ -1,41 +1,3 @@
-UPGRADE FROM 2.2 to 2.3
-========================
-
-Table of Contents
------------------
-
-- [General](#general)
-- [CommerceMenuBundle](#commercemenubundle)
-- [CustomerBundle](#customerbundle)
-- [FrontendBundle](#frontendbundle)
-
-General
--------
-
-### Important
-
-The class `Oro\Bundle\SecurityBundle\SecurityFacade`, services `oro_security.security_facade` and `oro_security.security_facade.link`, and TWIG function `resource_granted` were marked as deprecated.
-Use services `security.authorization_checker`, `security.token_storage`, `oro_security.token_accessor`, `oro_security.class_authorization_checker`, `oro_security.request_authorization_checker` and TWIG function `is_granted` instead.
-In controllers use `isGranted` method from `Symfony\Bundle\FrameworkBundle\Controller\Controller`.
-The usage of deprecated service `security.context` (interface `Symfony\Component\Security\Core\SecurityContextInterface`) was removed as well.
-All existing classes were updated to use new services instead of the `SecurityFacade` and `SecurityContext`:
-
-- service `security.authorization_checker`
-    - implements `Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface`
-    - the property name in classes that use this service is `authorizationChecker`
-- service `security.token_storage`
-    - implements `Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface`
-    - the property name in classes that use this service is `tokenStorage`
-- service `oro_security.token_accessor`
-    - implements `Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface`
-    - the property name in classes that use this service is `tokenAccessor`
-- service `oro_security.class_authorization_checker`
-    - implements `Oro\Bundle\SecurityBundle\Authorization\ClassAuthorizationChecker`
-    - the property name in classes that use this service is `classAuthorizationChecker`
-- service `oro_security.request_authorization_checker`
-    - implements `Oro\Bundle\SecurityBundle\Authorization\RequestAuthorizationChecker`
-    - the property name in classes that use this service is `requestAuthorizationChecker`
-
 CommerceMenuBundle
 ------------------
 * The `LoggedInExpressionLanguageProvider::__construct(ServiceLink $securityFacadeLink)`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CommerceMenuBundle/Menu/Condition/LoggedInExpressionLanguageProvider.php#L18 "Oro\Bundle\CommerceMenuBundle\Menu\Condition\LoggedInExpressionLanguageProvider")</sup> method was changed to `LoggedInExpressionLanguageProvider::__construct(TokenAccessorInterface $tokenAccessor)`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.3.0/src/Oro/Bundle/CommerceMenuBundle/Menu/Condition/LoggedInExpressionLanguageProvider.php#L18 "Oro\Bundle\CommerceMenuBundle\Menu\Condition\LoggedInExpressionLanguageProvider")</sup>
@@ -87,23 +49,18 @@ CustomerBundle
 * The `RoleTranslationPrefixResolver::$securityFacade`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Acl/Resolver/RoleTranslationPrefixResolver.php#L17 "Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver::$securityFacade")</sup> property was removed.
 * The `FrontendOwnerTreeProvider::fillTree(OwnerTreeInterface $tree)`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/FrontendOwnerTreeProvider.php#L69 "Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider")</sup> method was changed to `FrontendOwnerTreeProvider::fillTree(OwnerTreeBuilderInterface $tree)`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.3.0/src/Oro/Bundle/CustomerBundle/Owner/FrontendOwnerTreeProvider.php#L68 "Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider")</sup>
 * The following methods in class `FrontendOwnershipMetadata`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadata.php#L19 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata")</sup> were removed:
-   - `isLocalLevelOwned::isLocalLevelOwned`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadata.php#L19 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata::isLocalLevelOwned")</sup>
-   - `isBasicLevelOwned::isBasicLevelOwned`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadata.php#L27 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata::isBasicLevelOwned")</sup>
-   - `isGlobalLevelOwned::isGlobalLevelOwned`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadata.php#L35 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata::isGlobalLevelOwned")</sup>
+   - `isLocalLevelOwned`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadata.php#L19 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata::isLocalLevelOwned")</sup>
+   - `isBasicLevelOwned`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadata.php#L27 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata::isBasicLevelOwned")</sup>
+   - `isGlobalLevelOwned`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadata.php#L35 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata::isGlobalLevelOwned")</sup>
 * The `CustomerUserExtension::setContainer`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Datagrid/Extension/CustomerUserExtension.php#L23 "Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserExtension::setContainer")</sup> method was removed.
 * The following methods in class `FrontendOwnershipMetadataProvider`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadataProvider.php#L46 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider")</sup> were removed:
-   - `setAccessLevelClasses::setAccessLevelClasses`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadataProvider.php#L46 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider::setAccessLevelClasses")</sup>
-   - `getSecurityConfigProvider::getSecurityConfigProvider`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadataProvider.php#L61 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider::getSecurityConfigProvider")</sup>
+   - `setAccessLevelClasses`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadataProvider.php#L46 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider::setAccessLevelClasses")</sup>
+   - `getSecurityConfigProvider`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Owner/Metadata/FrontendOwnershipMetadataProvider.php#L61 "Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider::getSecurityConfigProvider")</sup>
 * The `RecordOwnerDataListener::getSecurityContext`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/EventListener/RecordOwnerDataListener.php#L81 "Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener::getSecurityContext")</sup> method was removed.
 * The `CustomerUserRoleController::getSecurityFacade`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Controller/Frontend/CustomerUserRoleController.php#L153 "Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserRoleController::getSecurityFacade")</sup> method was removed.
 * The `CustomerUserRoleVoter::getSecurityFacade`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Acl/Voter/CustomerUserRoleVoter.php#L134 "Oro\Bundle\CustomerBundle\Acl\Voter\CustomerUserRoleVoter::getSecurityFacade")</sup> method was removed.
 * The `CustomerVoter::getSecurityFacade`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Acl/Voter/CustomerVoter.php#L283 "Oro\Bundle\CustomerBundle\Acl\Voter\CustomerVoter::getSecurityFacade")</sup> method was removed.
 * The `AclGroupProvider::getSecurityFacade`<sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.2.0/src/Oro/Bundle/CustomerBundle/Acl/Group/AclGroupProvider.php#L37 "Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider::getSecurityFacade")</sup> method was removed.
-* Class `Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener`
-    - constant `OWNER_TYPE_ACCOUNT` was renamed to `OWNER_TYPE_CUSTOMER`
-* The DI container parameter `oro_customer.entity.owners` was changed
-    - the option `local_level` was renamed to `business_unit`
-    - the option `basic_level` was renamed to `user`
 
 FrontendBundle
 --------------
