@@ -118,27 +118,6 @@
     }
 }
 
-//Colors
-.red {
-    color: get-color('primary', 'dark');
-}
-
-.orange {
-    color: get-color('primary', 'base');
-}
-
-.base-color {
-    color: get-color('additional', 'dark') !important;
-}
-
-.gray {
-    color: get-color('additional', 'middle');
-}
-
-.blue {
-    color: get-color('ui', 'normal');
-}
-
 //Helpers
 .borderless {
     td, th {
@@ -167,11 +146,6 @@
 //Widths
 .w70 {
     width: 70px !important;
-}
-
-//Notifications colors
-.warning {
-    color: get-color('ui', 'warning');
 }
 
 //Alignments
