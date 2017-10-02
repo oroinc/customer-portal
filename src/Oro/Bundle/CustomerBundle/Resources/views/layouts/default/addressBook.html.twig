@@ -16,11 +16,9 @@
             <div class="title-item pull-left"><%= _.escape(label) %></div>
 
             <div class="row">
-                <div class="col-md-10">
-                    <address>
-                        <%= _.escape(formatted_address).replace(/\n/g, "<br/>") %>
-                    </address>
-                </div>
+                <address>
+                    <%= _.escape(formatted_address).replace(/\n/g, "<br/>") %>
+                </address>
             </div>
 
             <% if (primary || !_.isEmpty(types)) { %>
