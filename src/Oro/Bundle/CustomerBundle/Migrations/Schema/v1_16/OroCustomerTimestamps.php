@@ -40,6 +40,5 @@ class OroCustomerTimestamps implements Migration
         if ($table->hasIndex('idx_oro_customer_updated_at') === false) {
             $table->addIndex(['updated_at'], 'idx_oro_customer_updated_at', []);
         }
-
     }
 }
