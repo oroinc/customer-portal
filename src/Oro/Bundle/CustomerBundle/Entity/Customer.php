@@ -19,7 +19,9 @@ use Oro\Bundle\CustomerBundle\Model\ExtendCustomer;
  * @ORM\Table(
  *      name="oro_customer",
  *      indexes={
- *          @ORM\Index(name="oro_customer_name_idx", columns={"name"})
+ *          @ORM\Index(name="oro_customer_name_idx", columns={"name"}),
+ *          @ORM\Index(name="idx_oro_customer_created_at", columns={"created_at"}),
+ *          @ORM\Index(name="idx_oro_customer_updated_at", columns={"updated_at"}),
  *      }
  * )
  *
