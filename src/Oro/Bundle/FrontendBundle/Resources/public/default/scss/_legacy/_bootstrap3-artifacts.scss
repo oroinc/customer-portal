@@ -2,46 +2,6 @@
 
 // TODO: Don't added code to this file!
 
-.pull-right {
-    float: right !important;
-}
-.pull-left {
-    float: left !important;
-}
-.hide {
-    display: none !important;
-}
-.show {
-    display: block !important;
-}
-.invisible {
-    visibility: hidden;
-}
-.text-center {
-    text-align: center;
-}
-.text-left {
-    text-align: left;
-}
-.text-right {
-    text-align: right;
-}
-.text-justify {
-    text-align: justify;
-}
-.text-nowrap {
-    white-space: nowrap;
-}
-.text-lowercase {
-    text-transform: lowercase;
-}
-.text-uppercase {
-    text-transform: uppercase;
-}
-.text-capitalize {
-    text-transform: capitalize;
-}
-
 //Helpers
 .borderless {
     td, th {
@@ -85,14 +45,4 @@
     .va-t_md {
         vertical-align: top !important;
     }
-}
-
-//Elements displayings
-.inline {
-    display: inline-block;
-}
-
-//Text decorations
-.underlined {
-    text-decoration: underline;
 }
