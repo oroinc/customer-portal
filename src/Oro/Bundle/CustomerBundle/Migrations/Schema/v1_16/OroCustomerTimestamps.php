@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_16;
 
 use Doctrine\DBAL\Schema\Schema;
 
+use Oro\Bundle\EntityExtendBundle\Migration\OroOptions;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -17,21 +18,28 @@ class OroCustomerBundle implements Migration
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-//        $this->updateCustomerTable($schema);
+        $this->updateCustomerTable($schema);
     }
 
     /**
-     * Update oro_customer_user table
+     * Update oro_customer table
      *
      * @param Schema $schema
      */
     private function updateCustomerTable(Schema $schema)
     {
-        $table = $schema->getTable('oro_customer_user');
-        $table->addColumn('is_guest', 'boolean', ['default' => false]);
-
-        //remove uniq indices for name and email fields
-        $table->dropIndex('UNIQ_9511CEB5F85E0677');
-        $table->dropIndex('uniq_oro_customer_user_email');
+        $table = $schema->getTable('oro_customer');
+        if (!$table->hasColumn('created_at')) {
+            $table->addColumn('created_at', 'datetime', []);
+        }
+        if (!$table->hasIndex('idx_oro_customer_created_at')) {
+            $table->addIndex(['created_at'], 'idx_oro_customer_created_at', []);
+        }
+        if (!$table->hasColumn('updated_at')) {
+            $table->addColumn('updated_at', 'datetime', []);
+        }
+        if (!$table->hasIndex('idx_oro_customer_updated_at')) {
+            $table->addIndex(['updated_at'], 'idx_oro_customer_updated_at', []);
+        }
     }
 }
