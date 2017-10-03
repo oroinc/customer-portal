@@ -9,6 +9,7 @@
     }
 
     &__element-label {
+        padding: $customer-info-grid-element-label-offest-inner;
         min-width: $customer-info-grid-element-label-min-width;
 
         font-size: $customer-info-grid-element-label-font-size;
@@ -18,6 +19,7 @@
     }
 
     &__element-content {
+        padding: $customer-info-grid-element-content-offest-inner;
         line-height: $customer-info-grid-element-content-line-height;
         font-style: $customer-info-grid-element-content-font-style;
         word-wrap: $customer-info-grid-element-content-word-wrap;
@@ -27,10 +29,6 @@
         width: $customer-info-grid-table-width;
 
         table-layout: $customer-info-grid-table-layout;
-
-        .customer-info-grid__element-label {
-            padding-left: $customer-info-grid-element-label-offest-inner-left;
-        }
     }
 }
 
