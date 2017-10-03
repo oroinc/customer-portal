@@ -2,27 +2,6 @@
 
 // TODO: Don't added code to this file!
 
-@media (max-width: 767px) {
-    .hidden-xs {
-        display: none !important;
-    }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-    .hidden-sm {
-        display: none !important;
-    }
-}
-@media (min-width: 992px) and (max-width: 1199px) {
-    .hidden-md {
-        display: none !important;
-    }
-}
-@media (min-width: 1200px) {
-    .hidden-lg {
-        display: none !important;
-    }
-}
-
 .col-sm-1, .col-md-1,  .col-md-3, .col-md-4, .col-sm-5, .col-md-5, .col-md-6, .col-sm-7, .col-md-7, .col-md-8, .col-md-10, .col-md-11, .col-sm-12, .col-md-12 {
     position: relative;
     min-height: 1px;
@@ -79,27 +58,6 @@
     }
 }
 
-//Colors
-.red {
-    color: get-color('primary', 'dark');
-}
-
-.orange {
-    color: get-color('primary', 'base');
-}
-
-.base-color {
-    color: get-color('additional', 'dark') !important;
-}
-
-.gray {
-    color: get-color('additional', 'middle');
-}
-
-.blue {
-    color: get-color('ui', 'normal');
-}
-
 //Helpers
 .borderless {
     td, th {
@@ -128,11 +86,6 @@
 //Widths
 .w70 {
     width: 70px !important;
-}
-
-//Notifications colors
-.warning {
-    color: get-color('ui', 'warning');
 }
 
 //Alignments
