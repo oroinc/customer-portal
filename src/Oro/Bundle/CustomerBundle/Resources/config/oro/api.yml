@@ -68,4 +68,17 @@ api:
                             exclude: true
                         lastLogin:
                             exclude: true
-        Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress: ~
+        Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+            actions:
+                create:
+                    fields:
+                        created:
+                            exclude: true
+                        updated:
+                            exclude: true
+                update:
+                    fields:
+                        created:
+                            exclude: true
+                        updated:
+                            exclude: true
