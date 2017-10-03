@@ -62,8 +62,6 @@ use Oro\Bundle\CustomerBundle\Model\ExtendCustomer;
  */
 class Customer extends ExtendCustomer implements DatesAwareInterface
 {
-    use DatesAwareTrait;
-
     const INTERNAL_RATING_CODE = 'acc_internal_rating';
 
     /**
@@ -253,6 +251,46 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
      * )
      **/
     protected $salesRepresentatives;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "entity"={
+     *              "label"="oro.ui.created_at"
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "entity"={
+     *              "label"="oro.ui.created_at"
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $updatedAt;
+
+    /**
+     * @var bool
+     * @Serializer\Type("boolean")
+     */
+    protected $updatedAtSet;
 
     /**
      * Constructor
@@ -644,5 +682,57 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
     protected function hasUser(CustomerUser $customerUser)
     {
         return $this->users->contains($customerUser);
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     * @return $this
+     */
+    public function setCreatedAt(\DateTime $createdAt = null)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     *
+     * @return $this
+     */
+    public function setUpdatedAt(\DateTime $updatedAt = null)
+    {
+        $this->updatedAtSet = false;
+        if ($updatedAt !== null) {
+            $this->updatedAtSet = true;
+        }
+
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUpdatedAtSet()
+    {
+        return $this->updatedAtSet;
     }
 }
