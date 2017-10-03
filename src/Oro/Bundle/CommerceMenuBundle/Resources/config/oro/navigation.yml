@@ -92,7 +92,7 @@ navigation:
                     icon: fa-book
             order_history:
                 label: 'oro.commercemenu.frontend.navigation.items.order_history.label'
-                uri: '/customer/order'
+                route: oro_order_frontend_index
                 extras:
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
                     icon: fa-list-alt
@@ -104,7 +104,7 @@ navigation:
                     icon: fa-gift
             contact_us:
                 label: 'oro.commercemenu.frontend.navigation.items.contact_us.label'
-                uri: '/contact-us'
+                route: oro_contactus_bridge_contact_us_page
                 extras:
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
                     icon: fa-envelope
@@ -173,7 +173,6 @@ navigation:
                     order_history: ~
                     new_arrivals: ~
                     contact_us: ~
-
     titles:
         oro_commerce_menu_global_menu_index: 'Frontend Menus'
         oro_commerce_menu_global_menu_view: '%title% - Frontend Menus'
