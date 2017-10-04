@@ -1,11 +1,14 @@
 // @theme: blank;
 
-$featured-menu-item-offset-x: $offset-x * 2 !default;
-$featured-menu-offset: 30px 0 30px -#{$featured-menu-item-offset-x} !default;
+$featured-menu-offset: 30px (-$offset-x)  !default;
+
+$featured-menu-item-items-row: 4 !default;
+$featured-menu-item-offset-x: $offset-x !default;
 $featured-menu-item-offset: 0 0 0 $featured-menu-item-offset-x !default;
-$featured-menu-item-offset-inner: 30px !default;
-$featured-menu-item-text-align: center !default;
-$featured-menu-item-bg: get-color('additional', 'base') !default;
+
+$featured-menu-content-offset-inner: 30px !default;
+$featured-menu-content-text-align: center !default;
+$featured-menu-content-bg: get-color('additional', 'base') !default;
 
 $featured-menu-item-title-offset-bottom: $offset-y-m !default;
 $featured-menu-item-title-font-size: $base-font-size--large !default;
@@ -14,7 +17,7 @@ $featured-menu-item-title-text-transform: uppercase !default;
 
 $featured-menu-item-description-offset-bottom: $offset-y !default;
 
-$featured-menu-item-icon-offset-bottom: $offset-y-m !default;
+$featured-menu-item-img-wrap-offset-bottom: $offset-y-m !default;
 $featured-menu-item-icon-font-size: 90px !default;
 $featured-menu-item-icon-color: get-color('additional', 'middle') !default;
 
@@ -28,6 +31,8 @@ $featured-menu-item-width-tablet-small: calc(50% - #{$featured-menu-item-offset-
 $featured-menu-item-offset-tablet-small: $featured-menu-item-offset-y-tablet-small 0 0 !default;
 $featured-menu-item-offset-inner-tablet-small: 20px 15px !default;
 $featured-menu-item-description-font-size-tablet-small: $base-font-size--large !default;
+$featured-menu-item-description-font-size: $base-font-size !default;
+$featured-menu-item-description-line-height: $base-line-height !default;
 
 // mobile
 $featured-menu-item-width-mobile: 100% !default;

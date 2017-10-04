@@ -12,14 +12,20 @@
         {% for child in item.children %}
             {% if child.displayed and child.extras.isAllowed %}
                 <li class="featured-menu__item">
-                    {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
-                    {% if child.extras.image is defined and child.extras.image is not empty %}
-                        <img src="{{ resized_image_url(child.extras.image, 90, 90) }}" class="featured-menu__icon">
-                    {% elseif child.extras.icon is defined and child.extras.icon is not empty %}
-                        <span class="{{ child.extras.icon }} featured-menu__icon"></span>
-                    {% endif %}
-                    <h4 class="featured-menu__title">{{ label }}</h4>
-                    {% if child.extras.description is defined and child.extras.description is not empty %}
+                    <div class="featured-menu__content">
+                        <div class="featured-menu__img-wrap">
+                            {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
+                            {% if child.extras.image is defined and child.extras.image is not empty %}
+                                <img src="{{ resized_image_url(child.extras.image, 90, 90) }}" class="img-fluid">
+                            {% elseif child.extras.icon is defined and child.extras.icon is not empty %}
+                                <span class="{{ child.extras.icon }} featured-menu__icon"></span>
+                            {% else %}
+                                <svg width="90" height="90">
+                                    <rect width="90" height="90" fill="none"/>
+                                </svg>
+                            {% endif %}
+                        </div>
+                        <h4 class="featured-menu__title">{{ label }}</h4>
                         <div class="featured-menu__description"
                              data-page-component-module="oroui/js/app/components/viewport-component"
                              data-page-component-options="{{ {
@@ -27,12 +33,14 @@
                                  widgetModule: 'orofrontend/default/js/widgets/line-clamp-widget'
                              }|json_encode }}"
                         >
-                            {{ child.extras.description }}
+                            {% if child.extras.description is defined and child.extras.description is not empty %}
+                                {{ child.extras.description }}
+                            {% endif %}
                         </div>
-                    {% endif %}
-                    <a class="btn btn--info btn--size-s featured-menu__link" href="{{ child.uri }}">
-                        {{ 'oro.commercemenu.frontend.navigation.items.view.label'|trans ~ ' ' ~ label }}
-                    </a>
+                        <a class="btn btn--info btn--size-s featured-menu__link" href="{{ child.uri }}">
+                            {{ 'oro.commercemenu.frontend.navigation.items.view.label'|trans ~ ' ' ~ label }}
+                        </a>
+                    </div>
                 </li>
             {% endif %}
         {% endfor %}

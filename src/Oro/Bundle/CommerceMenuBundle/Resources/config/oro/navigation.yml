@@ -84,7 +84,6 @@ navigation:
             help:
                 label: 'oro.commercemenu.frontend.navigation.items.help.label'
                 uri: '/help'
-
         tree:
             application_menu:
                 children:

@@ -5,15 +5,27 @@
 
     &__grid {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     &__item {
-        margin: $featured-menu-item-offset;
-        padding: $featured-menu-item-offset-inner;
+        width: 100% / $featured-menu-item-items-row;
+        padding: 0 $featured-menu-item-offset-x;
 
-        text-align: $featured-menu-item-text-align;
+        &:nth-child(n+#{$featured-menu-item-items-row + 1}) {
+            margin-top: $featured-menu-item-offset-x * 2;
+        }
+    }
 
-        background: $featured-menu-item-bg;
+    &__content {
+        height: 100%;
+
+        padding: $featured-menu-content-offset-inner;
+
+        text-align: $featured-menu-content-text-align;
+
+        background: $featured-menu-content-bg;
     }
 
     &__title {
@@ -21,17 +33,22 @@
 
         font-size: $featured-menu-item-title-font-size;
         font-weight: $featured-menu-item-title-font-weight;
-
         text-transform: $featured-menu-item-title-text-transform;
     }
 
     &__description {
+        min-height: ($featured-menu-item-description-font-size * $featured-menu-item-description-line-height) * 2; // two rows
+        max-height: ($featured-menu-item-description-font-size * $featured-menu-item-description-line-height) * 2; // two rows
         margin-bottom: $featured-menu-item-description-offset-bottom;
+
+        overflow: hidden;
+    }
+
+    &__img-wrap {
+        margin-bottom: $featured-menu-item-img-wrap-offset-bottom;
     }
 
     &__icon {
-        margin-bottom: $featured-menu-item-icon-offset-bottom;
-
         font-size: $featured-menu-item-icon-font-size;
 
         color: $featured-menu-item-icon-color;
