@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                 'default_customer_owner' => ['type' => 'string', 'value' => 1],
                 'anonymous_customer_group' => ['type' => 'integer', 'value' => null],
                 'registration_allowed' => ['type' => 'boolean', 'value' => true],
+                'registration_link_enabled' => ['type' => 'boolean', 'value' => true],
                 'confirmation_required' => ['type' => 'boolean', 'value' => true],
                 'send_password_in_welcome_email' => ['type' => 'boolean', 'value' => false],
                 'registration_instructions_enabled' => ['type' => 'boolean', 'value' => false],
@@ -41,6 +42,7 @@ class Configuration implements ConfigurationInterface
                     'type' => 'textarea',
                     'value' => self::DEFAULT_REGISTRATION_INSTRUCTIONS_TEXT,
                 ],
+                'company_name_field_enabled' => ['type' => 'boolean', 'value' => true],
                 'user_menu_show_items' => ['type' => 'string', 'value' => self::USER_MENU_SHOW_ITEMS_ALL_AT_ONCE],
                 'customer_visitor_cookie_lifetime_days' => ['type' => 'integer', 'value' => 30],
                 'maps_enabled' => ['type' => 'boolean', 'value' => true]

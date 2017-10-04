@@ -949,6 +949,13 @@ services:
         tags:
             - { name: oro_action.action, alias: get_active_visitor }
 
+    oro_customer.condition.customer_has_assignments:
+        class: 'Oro\Bundle\CustomerBundle\Condition\CustomerHasAssignments'
+        arguments:
+            - '@oro_customer.customer.assign.helper'
+        tags:
+            - { name: oro_action.condition, alias: customer_has_assignments }
+
     oro_customer.manager.guest_customer_user:
         class: Oro\Bundle\CustomerBundle\Entity\GuestCustomerUserManager
         lazy: true
