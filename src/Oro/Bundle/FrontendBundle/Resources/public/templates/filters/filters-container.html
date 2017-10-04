@@ -1,5 +1,5 @@
 <% if (!_.isEmpty(filters)) { %>
-    <% if (_.isMobile()) { %>
+    <% if (renderMode === 'toggle-mode') { %>
         <div class="filter-box toggle-mode" <%= attributes %>>
             <div class="filter-container">
                 <div data-filters-items>
@@ -14,11 +14,11 @@
                     <div class="filter-items"></div>
                     <select data-action="add-filter-select" multiple data-skip-input-widgets>
                         <% _.each(filters, function (filter, name) { %>
-                        <% if (filter.visible) { %>
-                        <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
-                        <%- filter.label %>
-                        </option>
-                        <% } %>
+                            <% if (filter.visible) { %>
+                                <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
+                                    <%- filter.label %>
+                                </option>
+                            <% } %>
                         <% }); %>
                     </select>
                 </div>

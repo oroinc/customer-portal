@@ -73,6 +73,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
      *
      * @param CustomerUser $defaultData
      * @param array $submittedData
+     * @param bool $companyNameEnabled
      * @param CustomerUser $expectedData
      * @param User $owner
      * @param boolean $isValid
@@ -81,6 +82,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
     public function testSubmit(
         $defaultData,
         array $submittedData,
+        $companyNameEnabled,
         $expectedData,
         User $owner,
         $isValid,
@@ -88,8 +90,8 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
     ) {
         $this->configManager->expects($this->any())
             ->method('get')
-            ->with('oro_customer.default_customer_owner')
-            ->willReturn(42);
+            ->withConsecutive(['oro_customer.company_name_field_enabled'], ['oro_customer.default_customer_owner'])
+            ->willReturnOnConsecutiveCalls($companyNameEnabled, 42);
 
         $repository = $this->assertUserRepositoryCall();
         $repository->expects($this->any())
@@ -97,7 +99,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
             ->with(42)
             ->willReturn($owner);
 
-        $form = $this->factory->create($this->formType, $defaultData, $options);
+        $form = $this->factory->create($this->formType, clone $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
@@ -110,23 +112,31 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
      */
     public function submitProvider()
     {
-        $entity = new CustomerUser();
         $owner = new User();
 
-        $expectedEntity = new CustomerUser();
-        $expectedEntity
-            ->setFirstName('John')
-            ->setLastName('Doe')
-            ->setEmail('johndoe@example.com')
-            ->setOwner($owner)
-            ->setPlainPassword('123456')
-            ->createCustomer();
+        $userWithoutCompanyName = new CustomerUser();
+        $expectedUserWithoutCompanyName = $this->createCustomerUserWithDefaultData($owner);
+        $userWithoutCompanyName->setSalt($expectedUserWithoutCompanyName->getSalt());
 
-        $entity->setSalt($expectedEntity->getSalt());
+        $userWithCompanyName = new CustomerUser();
+        $expectedUserWithCompanyName = $this->createCustomerUserWithDefaultData($owner);
+        $expectedUserWithCompanyName->getCustomer()->setName('Test Company');
+        $userWithCompanyName->setSalt($expectedUserWithCompanyName->getSalt());
+
+        $userWithLongCompanyName = new CustomerUser();
+        $expectedUserWithLongCompanyName = $this->createCustomerUserWithDefaultData($owner);
+        // @codingStandardsIgnoreStart
+        $expectedUserWithLongCompanyName->getCustomer()->setName('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.');
+        // @codingStandardsIgnoreEnd
+        $userWithLongCompanyName->setSalt($expectedUserWithLongCompanyName->getSalt());
+
+        $userWithCompanyNameDisabled = new CustomerUser();
+        $expectedUserWithCompanyNameDisabled = $this->createCustomerUserWithDefaultData($owner);
+        $userWithCompanyNameDisabled->setSalt($expectedUserWithCompanyNameDisabled->getSalt());
 
         return [
-            'new user' => [
-                'defaultData' => $entity,
+            'new user without company name' => [
+                'defaultData' => $userWithoutCompanyName,
                 'submittedData' => [
                     'firstName' => 'John',
                     'lastName' => 'Doe',
@@ -136,12 +146,13 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
                         'second' => '123456'
                     ]
                 ],
-                'expectedData' => $expectedEntity,
+                'companyNameEnabled' => true,
+                'expectedData' => $expectedUserWithoutCompanyName,
                 'owner' => $owner,
                 'isValid' => false
             ],
             'new user with company name' => [
-                'defaultData' => $entity,
+                'defaultData' => $userWithCompanyName,
                 'submittedData' => [
                     'companyName' => 'Test Company',
                     'firstName' => 'John',
@@ -152,16 +163,17 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
                         'second' => '123456'
                     ]
                 ],
-                'expectedData' => $expectedEntity,
+                'companyNameEnabled' => true,
+                'expectedData' => $expectedUserWithCompanyName,
                 'owner' => $owner,
                 'isValid' => true
             ],
             'new user with long company name' => [
-                'defaultData' => $entity,
+                'defaultData' => $userWithLongCompanyName,
                 'submittedData' => [
-                    'companyName' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                    // @codingStandardsIgnoreStart
+                    'companyName' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                    // @codingStandardsIgnoreEnd
                     'firstName' => 'John',
                     'lastName' => 'Doe',
                     'email' => 'johndoe@example.com',
@@ -170,10 +182,27 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
                         'second' => '123456'
                     ]
                 ],
-                'expectedData' => $expectedEntity,
+                'companyNameEnabled' => true,
+                'expectedData' => $expectedUserWithLongCompanyName,
                 'owner' => $owner,
                 'isValid' => false
-            ]
+            ],
+            'new user with company name disabled' => [
+                'defaultData' => $userWithCompanyNameDisabled,
+                'submittedData' => [
+                    'firstName' => 'John',
+                    'lastName' => 'Doe',
+                    'email' => 'johndoe@example.com',
+                    'plainPassword' => [
+                        'first' => '123456',
+                        'second' => '123456'
+                    ]
+                ],
+                'companyNameEnabled' => false,
+                'expectedData' => $expectedUserWithCompanyNameDisabled,
+                'owner' => $owner,
+                'isValid' => true
+            ],
         ];
     }
 
@@ -212,5 +241,22 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
         $prop = $class->getProperty($property);
         $prop->setAccessible(true);
         $prop->setValue($existingCustomerUser, $value);
+    }
+
+    /**
+     * @param User $owner
+     * @return CustomerUser
+     */
+    protected function createCustomerUserWithDefaultData(User $owner)
+    {
+        $customerUser = new CustomerUser();
+
+        return $customerUser
+            ->setFirstName('John')
+            ->setLastName('Doe')
+            ->setEmail('johndoe@example.com')
+            ->setOwner($owner)
+            ->setPlainPassword('123456')
+            ->createCustomer();
     }
 }

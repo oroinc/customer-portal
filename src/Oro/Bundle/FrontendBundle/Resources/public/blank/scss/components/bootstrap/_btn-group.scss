@@ -4,6 +4,16 @@
     &:not(.not-expand) {
         @extend %base-transition;
 
+        .btn-group--loading {
+            width: 100%;
+
+            .btn {
+                //override bootstrap @include border-right-radius(0);
+                border-bottom-right-radius: $button-border-radius !important;
+                border-top-right-radius: $button-border-radius !important;
+            }
+        }
+
         &.full {
             width: 100%;
 

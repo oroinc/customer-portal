@@ -9,7 +9,16 @@
 
 {% block __oro_customer_user_role_form__customer_user_role_form_actions_top_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' pull-right customer_user_role_edit_buttons_top'
+        '~class': ' pull-right customer-user-role-edit__buttons-top'
+    }) %}
+    <div{{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __oro_customer_user_role_form__customer_user_role_form_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid__row'
     }) %}
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}

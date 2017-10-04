@@ -71,7 +71,7 @@ define(function(require) {
 
         /**
          * Set design for view
-         * @param {bool} apply
+         * @param {boolean} apply
          */
         setFullScreenViewDesign: function(apply) {
             if (apply) {

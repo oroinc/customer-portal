@@ -6,4 +6,7 @@ styles:
         - 'bundles/orocustomer/default/scss/variables/map-popover-config.scss'
         - 'bundles/orocustomer/default/scss/variables/registration-instructions-config.scss'
         - 'bundles/orocustomer/default/scss/variables/topbar-customer-menu-config.scss'
+        - 'bundles/orocustomer/default/scss/variables/permissions-grid-config.scss'
+        - 'bundles/orocustomer/default/scss/variables/action-permissions-config.scss'
+        - 'bundles/orocustomer/default/scss/variables/customer-user-role-edit-config.scss'
         - 'bundles/orocustomer/default/scss/styles.scss'
