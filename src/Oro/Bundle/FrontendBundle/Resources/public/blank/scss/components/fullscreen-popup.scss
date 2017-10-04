@@ -103,6 +103,10 @@
         .alert {
             margin: $fullscreen-popup-content-alert-offset-height;
         }
+
+        .loader-mask {
+            position: $fullscreen-popup-content-loader-position;
+        }
     }
 
     &__footer {
@@ -128,23 +132,23 @@
     }
 
     &__actions-wrapper {
-        width: 100%;
+        width: $fullscreen-popup-actions-wrapper-width;
 
         .widget-actions-section {
-            display: inline-flex;
-            width: 100%;
+            display: $fullscreen-popup-widget-actions-section-display;
+            width: $fullscreen-popup-widget-actions-section-width;
         }
 
         .action-wrapper {
-            width: 100%;
-            margin: 10px 5px;
+            width: $fullscreen-popup-actions-wrapper-width;
+            margin: $fullscreen-popup-actions-wrapper-offset;
 
             .btn {
-                width: 100%;
+                width: $fullscreen-popup-actions-wrapper-bnt-width;
             }
         }
     }
-
+    
     //TODO: Make corrent padding of popup conent for any content
     .tab-content__wrapper {
         padding: 20px;

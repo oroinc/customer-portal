@@ -30,7 +30,6 @@ $fullscreen-popup-header-content-img-height: 60px !default;
 $fullscreen-popup-header-content-img-offset: 25px 10px 20px -5px !default;
 $fullscreen-popup-header-content-img-border: 1px solid get-color('additional', 'base');
 
-
 $fullscreen-popup-footer-display: inline-flex !default;
 $fullscreen-popup-footer-align-items: center !default;
 $fullscreen-popup-footer-position: relative !default;
@@ -48,6 +47,7 @@ $fullscreen-popup-footer-btn-offset: 5px !default;
 $fullscreen-popup-content-height: 100% !default;
 $fullscreen-popup-content-overflow: auto !default;
 $fullscreen-popup-content-alert-offset-height: 0 $offset-y-m $offset-y-m !default;
+$fullscreen-popup-content-loader-position: fixed !default;
 
 $fullscreen-popup-label-display: inline-flex !default;
 
@@ -79,3 +79,9 @@ $fullscreen-popup-close-border: 0 solid transparent !default;
 $fullscreen-popup-close-bg: transparent !default;
 $fullscreen-popup-close-color: lighten(get-color('additional', 'dark'), 41%) !default;
 $fullscreen-popup-close-icon: $fa-var-close !default;
+
+$fullscreen-popup-actions-wrapper-width: 100% !default;
+$fullscreen-popup-actions-wrapper-offset: 10px 5px !default;
+$fullscreen-popup-actions-wrapper-bnt-width: 100% !default;
+$fullscreen-popup-widget-actions-section-display: inline-flex !default;
+$fullscreen-popup-widget-actions-section-width: 100% !default;
