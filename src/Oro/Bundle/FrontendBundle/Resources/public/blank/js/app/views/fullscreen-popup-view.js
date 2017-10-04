@@ -4,6 +4,7 @@ define(function(require) {
     var FullscreenPopupView;
     var template = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup.html');
     var footerTemplate = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-footer.html');
+    var headerTemplate = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-header.html');
     var BaseView = require('oroui/js/app/views/base/view');
     var tools = require('oroui/js/tools');
     var mediator = require('oroui/js/mediator');
@@ -22,12 +23,12 @@ define(function(require) {
          */
         optionNames: BaseView.prototype.optionNames.concat([
             'template', 'templateSelector', 'templateData', 'footerTemplate',
-            'content', 'contentSelector', 'contentView',
+            'headerTemplate','content', 'contentSelector', 'contentView',
             'contentOptions', 'contentElement', 'contentAttributes',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
-            'popupCloseButton', 'popupIcon', 'popupBadge', 'footerContent',
-            'footerContentOptions', 'stopEventsPropagation', 'stopEventsList',
-            'keepAliveOnClose'
+            'popupCloseButton', 'popupIcon', 'popupBadge', 'headerContentOptions',
+            'footerContent', 'footerContentOptions', 'stopEventsPropagation',
+            'stopEventsList', 'keepAliveOnClose'
         ]),
 
         /**
@@ -126,6 +127,12 @@ define(function(require) {
         $popup: null,
 
         /**
+         * @property
+         * @type {object}
+         */
+        headerContentOptions: null,
+
+        /**
          * Property {boolean} for footer content
          * @property
          */
@@ -153,6 +160,13 @@ define(function(require) {
          */
         footerTemplate: footerTemplate,
 
+
+        /**
+         * @property
+         * @type {object}
+         */
+        headerTemplate: headerTemplate,
+
         /**
          * @inheritDoc
          */
@@ -177,17 +191,18 @@ define(function(require) {
             this.$popup = $(this.getTemplateFunction()(this.getTemplateData()));
 
             this.contentOptions = _.extend({}, this.contentOptions || {}, {
-                el: this.$popup.find('[data-role="content"]').get(0)
+                el: this.$popup.find('[data-role="content"]').get(0),
+                headerEl: this.$popup.find('[data-role="header"]').get(0),
+                footerEl: this.$popup.find('[data-role="footer"]').get(0)
             });
 
-            if (this.footerContent) {
-                this.footerContentOptions = _.extend({},
-                    this.footerContentOptions,
-                    _.has(this.contentOptions, 'footerContentOptions') ? this.contentOptions.footerContentOptions : {}
-                );
-                this.contentOptions.footerEl = this.$popup.find('[data-role="footer"]').get(0);
-                this.$popupFooter = $(this.contentOptions.footerEl) || $([]);
+            if (this.footerContent && this.footerContentOptions) {
+                this.$popupFooter = $(this.contentOptions.footerEl);
                 this.renderPopupFooterContent();
+            }
+
+            if (this.headerContentOptions) {
+                this.renderPopupHeaderContent();
             }
 
             this.$popup.appendTo($('body'));
@@ -214,6 +229,12 @@ define(function(require) {
             } else {
                 callback();
             }
+        },
+
+        renderPopupHeaderContent: function(content) {
+            $(this.contentOptions.headerEl).html(
+                this.getTemplateFunction('headerTemplate')(this.headerContentOptions)
+            );
         },
 
         renderPopupFooterContent: function(content) {

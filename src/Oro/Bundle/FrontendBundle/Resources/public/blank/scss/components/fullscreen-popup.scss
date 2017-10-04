@@ -26,11 +26,20 @@
         min-height: $fullscreen-popup-header-min-height;
         padding: $fullscreen-popup-header-offset;
 
-        line-height: $fullscreen-popup-header-min-height;
-        text-transform: $fullscreen-popup-text-transform;
-
         background: $fullscreen-popup-header-bg;
         border-bottom: $fullscreen-popup-header-border-bottom;
+    }
+
+    &__header-content {
+        display: $fullscreen-popup-header-content-display;
+        align-items: $fullscreen-popup-header-content-align-items;
+
+        &-img {
+            width: $fullscreen-popup-header-content-img-width;
+            height: $fullscreen-popup-header-content-img-height;
+            margin: $fullscreen-popup-header-content-img-offset;
+            border: $fullscreen-popup-header-content-img-border;
+        }
     }
 
     &__text {
@@ -41,7 +50,7 @@
 
         font-size: $base-font-size--s;
         font-weight: $fullscreen-popup-text-weight;
-        line-height: $fullscreen-popup-header-min-height;
+        text-transform: $fullscreen-popup-text-text-transform;
 
         cursor: $fullscreen-popup-text-cursor;
 
@@ -55,8 +64,8 @@
         }
     }
 
-    &__words {
-        vertical-align: $fullscreen-popup-words-vertical-align;
+    &__label {
+        display: $fullscreen-popup-label-display;
     }
 
     &__badge {
@@ -69,6 +78,7 @@
 
     &__close {
         position: $fullscreen-popup-close-position;
+        z-index: $fullscreen-popup-close-z-index;
         top: $fullscreen-popup-close-top;
         right: $fullscreen-popup-close-right;
 
@@ -111,9 +121,27 @@
         background: $fullscreen-popup-footer-bg;
         border-top: $fullscreen-popup-footer-border-top;
 
-        .btn {
+        > .btn {
             width: $fullscreen-popup-footer-btn-width;
             margin: $fullscreen-popup-footer-btn-offset;
+        }
+    }
+
+    &__actions-wrapper {
+        width: 100%;
+
+        .widget-actions-section {
+            display: inline-flex;
+            width: 100%;
+        }
+
+        .action-wrapper {
+            width: 100%;
+            margin: 10px 5px;
+
+            .btn {
+                width: 100%;
+            }
         }
     }
 

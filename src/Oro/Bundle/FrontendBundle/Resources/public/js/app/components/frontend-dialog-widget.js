@@ -14,7 +14,7 @@ define(function(require) {
     FrontendDialogWidget = DialogWidget.extend({
 
         optionNames: DialogWidget.prototype.optionNames.concat([
-            'fullscreenView', 'fullscreenViewOptions', 'fullscreenDialogOptions'
+            'fullscreenView', 'fullscreenViewport', 'fullscreenViewOptions', 'fullscreenDialogOptions'
         ]),
 
         /**
@@ -31,10 +31,6 @@ define(function(require) {
          * @property {Object}
          */
         fullscreenViewOptions: {
-            popupBadge: true,
-            popupIcon: 'fa-gift',
-            popupLabel: 'product',
-            footerContent: true,
             keepAliveOnClose: false
         },
 
@@ -43,12 +39,15 @@ define(function(require) {
          * @property {Object}
          */
         fullscreenDialogOptions: {
-            'appendTo': '[data-role="content"]',
-            'modal': false,
-            'title': null,
-            'autoResize': false,
-            'resizable': false,
-            'width': 'auto'
+            appendTo: '[data-role="content"]',
+            modal: false,
+            title: null,
+            autoResize: false,
+            resizable: false,
+            draggable: false,
+            width: 'auto',
+            incrementalPosition: false,
+            position: null
         },
 
         /**
@@ -98,7 +97,7 @@ define(function(require) {
         },
 
         /**
-         * Extand main dialog class for fullscreen mode
+         * Extend main dialog class for fullscreen mode
          */
         setFullscreenDialogClass: function() {
             this.fullscreenDialogOptions.dialogClass = this.options.dialogOptions.dialogClass + '-fullscreen';
@@ -109,6 +108,17 @@ define(function(require) {
          */
         renderActionsContainer: function() {
             this.fullscreenView.renderPopupFooterContent(this.getActionsElement('fullscreen-popup__actions-wrapper'));
+        },
+
+        /**
+         * Should not reset position if fullscreenView rendered
+         *
+         * @override
+         */
+        resetDialogPosition: function () {
+            if (this.fullscreenView === null) {
+                return FrontendDialogWidget.__super__.resetDialogPosition.call(this);
+            }
         }
     });
 
