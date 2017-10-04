@@ -76,8 +76,4 @@ oro:
                     track_my_order.label: 'Track My Order'
                     help.label: 'Help'
                     sales.label: 'Sales Representative'
-                    catalog.label: 'Catalog'
-                    order_history.label: 'Order History'
-                    new_arrivals.label: 'New Arrivals'
-                    contact_us.label: 'Contact us'
                     view.label: 'View'
