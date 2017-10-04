@@ -1,11 +1,3 @@
-require({
-    config: {
-        'oroui/js/component-shortcuts-manager': {
-            reservedKeys: ['options', 'testOption']
-        }
-    }
-});
-
 define(function(require) {
     'use strict';
 
