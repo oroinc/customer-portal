@@ -61,6 +61,7 @@ use Oro\Bundle\CustomerBundle\Model\ExtendCustomer;
  *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class Customer extends ExtendCustomer implements DatesAwareInterface
 {
