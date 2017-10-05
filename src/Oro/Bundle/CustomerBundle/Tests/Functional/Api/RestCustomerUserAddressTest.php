@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Oro\Bundle\AddressBundle\Tests\Functional\DataFixtures\LoadCountryData;
 use Oro\Bundle\AddressBundle\Tests\Functional\DataFixtures\LoadRegionData;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
@@ -40,21 +41,70 @@ class RestCustomerUserAddressTest extends AbstractRestTest
         ]);
     }
 
-    public function testGetCustomerUserAddresses()
+    public function testGetCustomerUserAddress()
     {
-        $uri = $this->getUrl('oro_rest_api_cget', ['entity' => $this->getEntityType(CustomerUserAddress::class)]);
+        $repository = $this->getEntityManager()->getRepository(CustomerUserAddress::class);
+        $customerUserAddressId = (string)$repository
+            ->findOneBy(['label' => LoadCustomerUserAddresses::OTHER_USER_LABEL])
+            ->getId();
+
+        $uri = $this->getUrl('oro_rest_api_get', [
+            'entity' => $this->getEntityType(CustomerUserAddress::class),
+            'id' => $customerUserAddressId,
+        ]);
 
         $response = $this->request('GET', $uri, []);
-        $this->assertApiResponseStatusCodeEquals($response, Response::HTTP_OK, CustomerUserAddress::class, 'get list');
+        $this->assertApiResponseStatusCodeEquals(
+            $response,
+            Response::HTTP_OK,
+            CustomerUserAddress::class,
+            'get list'
+        );
         $content = json_decode($response->getContent(), true);
 
+        // there are only 5 fixtures added from LoadCustomerUserAddresses
+        $this->assertMatchesLastFixture($content['data']);
+    }
+
+    public function testGetInexistingCustomerUserAddress()
+    {
+        $uri = $this->getUrl('oro_rest_api_get', [
+            'entity' => $this->getEntityType(CustomerUserAddress::class),
+            'id' => '99999999999',
+        ]);
+
+        $response = $this->request('GET', $uri, []);
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    public function testGetCustomerUserAddresses()
+    {
+        $uri = $this->getUrl('oro_rest_api_cget', [
+            'entity' => $this->getEntityType(CustomerUserAddress::class)
+        ]);
+
+        $response = $this->request('GET', $uri, [
+            'sort' => '-id'
+        ]);
+
+        $this->assertApiResponseStatusCodeEquals(
+            $response,
+            Response::HTTP_OK,
+            CustomerUserAddress::class,
+            'get list'
+        );
+        $content = json_decode($response->getContent(), true);
+
+        // there are only 5 fixtures added from LoadCustomerUserAddresses
         $this->assertCount(5, $content['data']);
+        $this->assertMatchesLastFixture(reset($content['data']));
     }
 
     public function testCreateCustomerUserAddresses()
     {
         $response = $this->post(
-            ['entity' => 'customer_users_addresses'],
+            ['entity' => $this->getEntityType(CustomerUserAddress::class)],
             'create_customer_users_address.yml'
         );
 
@@ -98,16 +148,33 @@ class RestCustomerUserAddressTest extends AbstractRestTest
         );
     }
 
+    public function testUpdateWrongCustomerUserAddresses()
+    {
+        $uri = $this->getUrl('oro_rest_api_patch', [
+            'entity' => $this->getEntityType(CustomerUserAddress::class),
+            'id' => '99999999999',
+        ]);
+
+        $response = $this->request(
+            'PATCH',
+            $uri,
+            $this->getRequestData('update_customer_users_address.yml')
+        );
+
+        $this->assertEquals(Response::HTTP_CONFLICT, $response->getStatusCode());
+    }
+
     public function testUpdateCustomerUserAddresses()
     {
         $repository = $this->getEntityManager()->getRepository(CustomerUserAddress::class);
 
         $customerUserAddressId = (string)$repository
-            ->findOneBy(['street' => LoadCustomerUserAddresses::OTHER_USER_STREET])
+            ->findOneBy(['label' => LoadCustomerUserAddresses::OTHER_USER_LABEL])
             ->getId();
 
-        $response = $this->patch(
-            ['entity' => 'customer_users_addresses', 'id' => $customerUserAddressId],
+        $response = $this->patch([
+            'entity' => $this->getEntityType(CustomerUserAddress::class),
+            'id' => $customerUserAddressId],
             'update_customer_users_address.yml'
         );
         $responseContent = json_decode($response->getContent());
@@ -125,5 +192,69 @@ class RestCustomerUserAddressTest extends AbstractRestTest
         );
 
         $this->assertResponseContains('update_customer_users_address.yml', $response);
+    }
+
+    public function testDeleteCustomerUserAddresses()
+    {
+        $repository = $this->getEntityManager()->getRepository(CustomerUserAddress::class);
+        $customerUserAddressId = (string)$repository->findOneBy([])->getId();
+
+        // make the delete request
+        $uri = $this->getUrl(
+            'oro_rest_api_delete',
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => $customerUserAddressId,
+            ]
+        );
+
+        // check response confirms deletion
+        $response = $this->request('DELETE', $uri);
+        $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+
+        $uri = $this->getUrl(
+            'oro_rest_api_get',
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => $customerUserAddressId
+            ]
+        );
+
+        // verify it's not available anymore for GET requests
+        $response = $this->request('GET', $uri, []);
+        $this->assertSame(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    /**
+     * @param array $customerUserAddressData
+     */
+    private function assertMatchesLastFixture($customerUserAddressData)
+    {
+        $attributes = $customerUserAddressData['attributes'];
+        $this->assertNull($attributes['phone']);
+        $this->assertTrue($attributes['primary']);
+        $this->assertEquals('other.user@test.com.address_1', $attributes['label']);
+        $this->assertEquals('2849 Junkins Avenue', $attributes['street']);
+        $this->assertNull($attributes['street2']);
+        $this->assertEquals('Albany', $attributes['city']);
+        $this->assertEquals('31707', $attributes['postalCode']);
+        $this->assertEquals('Test Org', $attributes['organization']);
+        $this->assertNull($attributes['namePrefix']);
+        $this->assertNull($attributes['firstName']);
+        $this->assertNull($attributes['middleName']);
+        $this->assertNull($attributes['nameSuffix']);
+        $this->assertNotNull($attributes['created']);
+        $this->assertNotNull($attributes['updated']);
+
+        $customerUserRepository = $this->getEntityManager()->getRepository(CustomerUser::class);
+        $customerUser = $customerUserRepository->findOneBy(['email' => 'other.user@test.com']);
+
+        $relationships = $customerUserAddressData['relationships'];
+        $this->assertEquals('US', $relationships['country']['data']['id']);
+        $this->assertEquals('US-GA', $relationships['region']['data']['id']);
+        $this->assertEquals(
+            $customerUser->getId(),
+            $relationships['frontendOwner']['data']['id']
+        );
     }
 }
