@@ -16,7 +16,7 @@
                         <div class="featured-menu__img-wrap">
                             {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
                             {% if child.extras.image is defined and child.extras.image is not empty %}
-                                <img src="{{ resized_image_url(child.extras.image, 90, 90) }}" class="img-fluid">
+                                <img width="90" height="90" src="{{ resized_image_url(child.extras.image, 90, 90) }}" class="featured-menu__img img-fluid">
                             {% elseif child.extras.icon is defined and child.extras.icon is not empty %}
                                 <span class="{{ child.extras.icon }} featured-menu__icon"></span>
                             {% else %}

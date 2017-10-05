@@ -53,7 +53,7 @@ class LoadFeaturedMenuData extends AbstractFixture implements ContainerAwareInte
             'divider' => false,
             'custom' => true,
             'icon' => 'fa-list-alt',
-            'condition' => 'is_logged_in()',
+            'condition' => '',
             'screens' => [],
         ],
         [

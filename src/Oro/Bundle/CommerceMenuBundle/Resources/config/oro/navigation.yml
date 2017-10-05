@@ -144,6 +144,7 @@ navigation:
             featured_menu:
                 type: featured_menu
                 scope_type: menu_frontend_visibility
+                max_nesting_level: 1
                 children: []
 
     titles:

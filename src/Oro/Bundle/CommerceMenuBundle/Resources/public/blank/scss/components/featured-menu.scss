@@ -48,6 +48,11 @@
         margin-bottom: $featured-menu-item-img-wrap-offset-bottom;
     }
 
+    &__img {
+        width: $featured-menu-item-icon-font-size;
+        height: $featured-menu-item-icon-font-size;
+    }
+
     &__icon {
         font-size: $featured-menu-item-icon-font-size;
 
