@@ -23,24 +23,19 @@ define(function(require) {
          */
         optionNames: BaseView.prototype.optionNames.concat([
             'template', 'templateSelector', 'templateData', 'footerTemplate',
-            'headerTemplate','content', 'contentSelector', 'contentView',
+            'content', 'contentSelector', 'contentView',
             'contentOptions', 'contentElement', 'contentAttributes',
+            'footerContentOptions',
+            'headerTemplate', 'headerContentOptions',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
-            'popupCloseButton', 'popupIcon', 'popupBadge', 'headerContentOptions',
-            'footerContent', 'footerContentOptions', 'stopEventsPropagation',
-            'stopEventsList', 'keepAliveOnClose'
+            'popupCloseButton', 'popupIcon', 'popupBadge',
+            'stopEventsPropagation', 'stopEventsList'
         ]),
 
         /**
          * @property
          */
         template: template,
-
-        /**
-         * @property
-         * @type {boolean}
-         */
-        keepAliveOnClose: true,
 
         /**
          * @property
@@ -133,33 +128,24 @@ define(function(require) {
         headerContentOptions: null,
 
         /**
-         * Property {boolean} for footer content
-         * @property
-         */
-        footerContent: false,
-
-        /**
+         * Data example for default template
+         *  buttons: [{
+         *      type: 'button',
+         *      class: 'btn btn--info',
+         *      role: 'action',
+         *      label: 'Close'
+         *  }]
+         *
          * @property
          * @type {object}
          */
-        footerContentOptions: {
-            buttons: [
-                // Data example for default template
-                // {
-                //     type: 'button',
-                //     class: 'btn btn--info btn--full btn--size-s',
-                //     role: 'action',
-                //     label: _.__('oro_frontend.filters.apply_all')
-                // }
-            ]
-        },
+        footerContentOptions: null,
 
         /**
          * @property
          * @type {object}
          */
         footerTemplate: footerTemplate,
-
 
         /**
          * @property
@@ -196,8 +182,7 @@ define(function(require) {
                 footerEl: this.$popup.find('[data-role="footer"]').get(0)
             });
 
-            if (this.footerContent && this.footerContentOptions) {
-                this.$popupFooter = $(this.contentOptions.footerEl);
+            if (this.footerContentOptions) {
                 this.renderPopupFooterContent();
             }
 
@@ -231,20 +216,18 @@ define(function(require) {
             }
         },
 
-        renderPopupHeaderContent: function(content) {
+        renderPopupHeaderContent: function() {
             $(this.contentOptions.headerEl).html(
                 this.getTemplateFunction('headerTemplate')(this.headerContentOptions)
             );
         },
 
         renderPopupFooterContent: function(content) {
-            if (content) {
-                $(this.$popupFooter).html(content);
-            } else {
-                $(this.$popupFooter).html(
-                    this.getTemplateFunction('footerTemplate')(this.footerContentOptions)
-                );
+            content = content || '';
+            if (!content && !_.isEmpty(this.footerContentOptions)) {
+                content = this.getTemplateFunction('footerTemplate')(this.footerContentOptions);
             }
+            $(this.contentOptions.footerEl).html(content);
         },
 
         renderContent: function(callback) {
@@ -297,7 +280,6 @@ define(function(require) {
                 return;
             }
 
-            this.trigger('beforeClose');
             scrollHelper.enableBodyTouchScroll();
 
             if (this.contentElement && this.contentElementPlaceholder) {
@@ -314,16 +296,8 @@ define(function(require) {
 
             delete this.$popup;
 
-            if (this.footerContent) {
-                delete this.footerContent;
-            }
-
             this.removeSubview('contentView');
             this.trigger('close');
-
-            if (!this.keepAliveOnClose) {
-                this.dispose();
-            }
         },
 
         /**
@@ -337,7 +311,7 @@ define(function(require) {
                 close: this.popupCloseButton,
                 icon: this.popupIcon,
                 badge: this.popupBadge,
-                footerContent: this.footerContent
+                footerContentOptions: this.footerContentOptions
             });
             return data;
         },
