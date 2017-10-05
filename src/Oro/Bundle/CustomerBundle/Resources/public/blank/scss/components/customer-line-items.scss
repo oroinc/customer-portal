@@ -92,6 +92,12 @@
             }
         }
 
+        .grid-head {
+            width: $customer-line-items-grid-head-width-tablet-small;
+
+            padding: $customer-line-items-grid-head-inner-offset-tablet-small;
+        }
+
         .grid-cell {
             width: $customer-line-items-grid-cell-width-tablet-small;
 
@@ -99,6 +105,10 @@
 
             &:last-child {
                 text-align: $customer-line-items-grid-cell-last-text-align-tablet-small;
+            }
+
+            &--offset-none-mobile {
+                padding: $customer-line-items-grid-cell--offset-none-mobile;
             }
 
             &--offset-l-none-mobile {
