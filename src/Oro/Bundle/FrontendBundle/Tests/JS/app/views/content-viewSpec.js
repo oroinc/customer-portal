@@ -4,7 +4,7 @@ define(function(require) {
     var ContentView = require('orofrontend/js/app/views/page/content-view');
     var $ = require('jquery');
 
-    beforeEach(function () {
+    beforeEach(function() {
         window.ontouchstart = false;
     });
 
