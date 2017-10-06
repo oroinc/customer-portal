@@ -91,6 +91,8 @@ config:
 
         'orofrontend/js/app/modules/component-shortcuts-module': 'bundles/orofrontend/js/app/modules/component-shortcuts-module.js'
         'orofrontend/js/app/components/frontend-dialog-widget': 'bundles/orofrontend/js/app/components/frontend-dialog-widget.js'
+
+        'orofrontend/js/app/views/scroll-view': 'bundles/orofrontend/js/app/views/scroll-view.js'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
         - orofrontend/js/app/modules/component-shortcuts-module
