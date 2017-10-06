@@ -6,7 +6,7 @@ layout:
             namespace: top
         -
             id: sticky_panel
-            root: page_container
+            root: body
             namespace: bottom
         -
             id: scroll_top
