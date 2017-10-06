@@ -404,6 +404,10 @@ operations:
                 label: oro.grid.action.delete
                 link: delete_link
                 icon: trash-o
+        preconditions:
+            '@and':
+                - '@not':
+                    - '@customer_has_assignments': $.data
         actions:
             - '@run_action_group':
                 action_group: oro_customer_delete

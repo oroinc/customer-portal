@@ -295,7 +295,6 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
             ];
         }
         $this->setGetUsersExpectation($connection, $users);
-        $this->treeProvider->warmUpCache();
 
         return $this->treeProvider->getTree();
     }
