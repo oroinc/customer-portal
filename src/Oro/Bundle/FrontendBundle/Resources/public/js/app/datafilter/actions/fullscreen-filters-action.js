@@ -7,6 +7,7 @@ define(function(require) {
     var mediator = require('oroui/js/mediator');
     var ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+    var CounterBadgeView = require('orofrontend/js/app/views/counter-badge-view');
     var module = require('module');
     var config = module.config();
 
@@ -68,6 +69,11 @@ define(function(require) {
         applyAllFiltersBtn: null,
 
         /**
+         * @property;
+         */
+        counterBadgeView: CounterBadgeView,
+
+        /**
          * {@inheritdoc}
          * @param {object} options
          */
@@ -85,6 +91,8 @@ define(function(require) {
             );
 
             FrontendFullScreenFiltersAction.__super__.initialize.apply(this, arguments);
+
+            this.counterBadgeView = new this.counterBadgeView();
 
             mediator.on('filterManager:selectedFilters:count:' + this.datagrid.name, this.onUpdateFiltersCount, this);
             mediator.on('filterManager:changedFilters:count:' + this.datagrid.name, this.onChangeFiltersCount, this);
@@ -336,6 +344,10 @@ define(function(require) {
                     this.fullscreenView.setPopupTitle(this.filtersPopupOptions.popupLabel);
                 }
             }
+
+            if (_.isNumber(count)) {
+                this.counterBadgeView.setCount(count);
+            }
         },
 
         onChangeFiltersCount: function(count) {
@@ -349,6 +361,17 @@ define(function(require) {
                     disabled: disable
                 });
             }
+        },
+
+        createLauncher: function(options) {
+            var self = this;
+            var launcher = FrontendFullScreenFiltersAction.__super__.createLauncher.apply(this, arguments);
+
+            this.launcherInstanse.on('render', function() {
+                this.$el.prepend(self.counterBadgeView.$el);
+            });
+
+            return launcher;
         }
     });
 
