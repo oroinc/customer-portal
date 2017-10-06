@@ -38,6 +38,10 @@
                 &-icon {
                     transform: rotate(90deg);
                 }
+
+                &.hide-on-expand {
+                    display: none;
+                }
             }
 
             &__container {
