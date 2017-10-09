@@ -9,7 +9,8 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class GlobalMenuControllerTest extends WebTestCase
 {
-    const MENU_NAME = 'frontend_menu';
+    const FRONTEND_MENU_NAME = 'frontend_menu';
+    const FEATURED_MENU_NAME = 'featured_menu';
 
     /**
      * {@inheritdoc}
@@ -30,7 +31,7 @@ class GlobalMenuControllerTest extends WebTestCase
 
     public function testView()
     {
-        $url = $this->getUrl('oro_commerce_menu_global_menu_view', ['menuName' => self::MENU_NAME]);
+        $url = $this->getUrl('oro_commerce_menu_global_menu_view', ['menuName' => self::FRONTEND_MENU_NAME]);
         $crawler = $this->client->request('GET', $url);
         $result = $this->client->getResponse();
 
@@ -44,7 +45,7 @@ class GlobalMenuControllerTest extends WebTestCase
 
     public function testCreate()
     {
-        $url = $this->getUrl('oro_commerce_menu_global_menu_create', ['menuName' => self::MENU_NAME]);
+        $url = $this->getUrl('oro_commerce_menu_global_menu_create', ['menuName' => self::FRONTEND_MENU_NAME]);
         $crawler = $this->client->request('GET', $url);
         $result = $this->client->getResponse();
 
@@ -70,7 +71,7 @@ class GlobalMenuControllerTest extends WebTestCase
         $url = $this->getUrl(
             'oro_commerce_menu_global_menu_create',
             [
-                'menuName' => self::MENU_NAME,
+                'menuName' => self::FRONTEND_MENU_NAME,
                 'parentKey' => GlobalMenuUpdateData::MENU_UPDATE_1
             ]
         );
@@ -95,6 +96,38 @@ class GlobalMenuControllerTest extends WebTestCase
         $this->assertContains('Menu item saved successfully.', $crawler->html());
     }
 
+    public function testCreateInNotExistingMenu()
+    {
+        $url = $this->getUrl('oro_commerce_menu_global_menu_create', ['menuName' => 'not_existing_menu']);
+        $crawler = $this->client->request('GET', $url);
+        $result = $this->client->getResponse();
+
+        $this->assertHtmlResponseStatusCodeEquals($result, 404);
+    }
+
+    public function testCreateInMenuWithoutChildren()
+    {
+        $url = $this->getUrl('oro_commerce_menu_global_menu_create', ['menuName' => self::FEATURED_MENU_NAME]);
+        $crawler = $this->client->request('GET', $url);
+        $result = $this->client->getResponse();
+
+        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        $form = $crawler->selectButton('Save')->form();
+
+        $form['menu_update[titles][values][default]'] = 'menu_update.new.title.default';
+        $form['menu_update[descriptions][values][default]'] = 'menu_update.new.description.default';
+        $form['menu_update[uri]'] = '#menu_update.new';
+
+        $this->client->followRedirects(true);
+
+        $crawler = $this->client->submit($form);
+        $result = $this->client->getResponse();
+
+        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+
+        $this->assertContains('Menu item saved successfully.', $crawler->html());
+    }
+
     public function testUpdateCustom()
     {
         /** @var MenuUpdate $reference */
@@ -103,7 +136,7 @@ class GlobalMenuControllerTest extends WebTestCase
         $url = $this->getUrl(
             'oro_commerce_menu_global_menu_update',
             [
-                'menuName' => self::MENU_NAME,
+                'menuName' => self::FRONTEND_MENU_NAME,
                 'key' => $reference->getKey()
             ]
         );
@@ -134,7 +167,7 @@ class GlobalMenuControllerTest extends WebTestCase
         $url = $this->getUrl(
             'oro_commerce_menu_global_menu_update',
             [
-                'menuName' => self::MENU_NAME,
+                'menuName' => self::FRONTEND_MENU_NAME,
                 'key' => 'oro_customer_menu_customer_user_index'
             ]
         );
@@ -168,7 +201,7 @@ class GlobalMenuControllerTest extends WebTestCase
             'GET',
             $this->getUrl(
                 'oro_commerce_menu_global_menu_move',
-                ['menuName' => self::MENU_NAME]
+                ['menuName' => self::FRONTEND_MENU_NAME]
             ),
             [
                 'selected' => [
@@ -180,7 +213,7 @@ class GlobalMenuControllerTest extends WebTestCase
             $this->generateWsseAuthHeader()
         );
         $form = $crawler->selectButton('Save')->form();
-        $form['tree_move[target]'] = self::MENU_NAME;
+        $form['tree_move[target]'] = self::FRONTEND_MENU_NAME;
 
         $this->client->followRedirects(true);
 
