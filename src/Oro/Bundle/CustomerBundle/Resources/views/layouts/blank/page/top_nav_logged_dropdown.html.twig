@@ -51,26 +51,30 @@
     }) %}
 
     <ul {{ block('block_attributes') }}>
-        {% set requestUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
-        {% set found = false %}
-
-        {% for child in block if child.vars.visible %}
-            {% for menuItem in child.vars.item.children if menuItem.isDisplayed() %}
-                {% set currentUrl = menuItem.uri %}
-                {% set itemCurrentClass = '' %}
-                {% set linkCurrentClass = '' %}
-                {% if currentUrl in requestUrl and not found %}
-                    {% set itemCurrentClass = 'current' %}
-                    {% set linkCurrentClass = 'current' %}
-                {% endif %}
-
-                <li class="topbar-customer-menu-list__item {{ itemCurrentClass }}">
-                    <a href="{{ menuItem.uri }}" class="{{ ' topbar-customer-menu-list__link ' ~ linkCurrentClass }}">{{ menuItem.label|trans }}</a>
-                </li>
-                {% if currentUrl in requestUrl and not found %}
-                    {% set found = true %}
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
+        {{ block_widget(block) }}
     </ul>
+{% endblock %}
+
+{% block _top_nav_customer_menu_widget %}
+    {% set requestUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+    {% set found = false %}
+
+    {% for child in item.children if child.displayed and child.extras.isAllowed %}
+        {% set currentUrl = child.uri %}
+        {% set itemCurrentClass = '' %}
+        {% set linkCurrentClass = '' %}
+        {% if currentUrl in requestUrl and not found %}
+            {% set itemCurrentClass = 'current' %}
+            {% set linkCurrentClass = 'current' %}
+        {% endif %}
+
+        <li class="topbar-customer-menu-list__item {{ itemCurrentClass }}">
+            <a href="{{ child.uri }}" class="{{ ' topbar-customer-menu-list__link ' ~ linkCurrentClass }}">
+                {{- child.label|trans -}}
+            </a>
+        </li>
+        {% if currentUrl in requestUrl and not found %}
+            {% set found = true %}
+        {% endif %}
+    {% endfor %}
 {% endblock %}
