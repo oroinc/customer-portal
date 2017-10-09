@@ -93,6 +93,17 @@ oro_behat_extension:
     Popup User Menu:
       selector: '.topbar-customer-menu .topbar-customer-menu-list'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
+    Popup User Menu Link Users:
+      selector:
+        type: xpath
+        locator: '//*[contains(@class, "topbar-customer-menu-list__item")]/descendant::a[contains(., "Users")]'
+
+    Popup User Menu Link Roles:
+      selector:
+        type: xpath
+        locator: '//*[contains(@class, "topbar-customer-menu-list__item")]/descendant::a[contains(., "Roles")]'
+
     Configuration:
       selector: '[title="Organization Configuration"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
