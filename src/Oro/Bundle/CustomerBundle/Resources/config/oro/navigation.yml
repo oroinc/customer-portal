@@ -49,16 +49,16 @@ navigation:
                 uri: '#'
 
             customers_tab:
-                label:           'oro.customer.menu.customers_tab.label'
-                uri:             '#'
-                position:        200
+                label: 'oro.customer.menu.customers_tab.label'
+                uri: '#'
+                position: 200
                 extras:
-                    icon:        fa-user
+                    icon: fa-user
 
             customer_list:
-                label:           'oro.customer.customer.entity_plural_label'
-                route:           'oro_customer_customer_index'
-                position:        10
+                label: 'oro.customer.customer.entity_plural_label'
+                route: 'oro_customer_customer_index'
+                position: 10
                 extras:
                     routes:
                         - 'oro_customer_customer_index'
@@ -68,9 +68,9 @@ navigation:
                     description: 'oro.customer.menu.customer_list.description'
 
             customer_group_list:
-                label:           'oro.customer.customergroup.entity_plural_label'
-                route:           'oro_customer_customer_group_index'
-                position:        20
+                label: 'oro.customer.customergroup.entity_plural_label'
+                route: 'oro_customer_customer_group_index'
+                position: 20
                 extras:
                     routes:
                         - 'oro_customer_customer_group_index'
@@ -80,14 +80,14 @@ navigation:
                     description: 'oro.customer.menu.customer_group_list.description'
 
             shortcut_customer_list:
-                label:           'oro.customer.customer.entity_plural_label'
-                route:           'oro_customer_customer_index'
+                label: 'oro.customer.customer.entity_plural_label'
+                route: 'oro_customer_customer_index'
                 extras:
                     description: 'oro.customer.menu.shortcut_customer_list.description'
 
             shortcut_customer_group_list:
-                label:           'oro.customer.customergroup.entity_plural_label'
-                route:           'oro_customer_customer_group_index'
+                label: 'oro.customer.customergroup.entity_plural_label'
+                route: 'oro_customer_customer_group_index'
                 extras:
                     description: 'oro.customer.menu.shortcut_customer_list.description'
 
