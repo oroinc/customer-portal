@@ -77,6 +77,7 @@ define(function(require) {
             } else {
                 this.$galleryWidgetOpen.on('click', _.bind(this.onOpen, this));
             }
+            mediator.on('popupGalleryWidget:toggle', this.toggleGalleryTrigger, this);
         },
 
         unbindEvents: function() {
@@ -85,6 +86,11 @@ define(function(require) {
                 this.$galleryWidgetClose.off('click');
             }
             mediator.off('layout:reposition', this.onResize, this);
+            mediator.off('popupGalleryWidget:toggle', this.toggleGalleryTrigger, this);
+        },
+
+        toggleGalleryTrigger: function(state) {
+            this.$galleryWidgetOpen.toggleClass('hidden', !state);
         },
 
         onOpen: function(e) {
