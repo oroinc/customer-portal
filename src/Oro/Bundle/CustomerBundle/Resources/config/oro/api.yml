@@ -14,7 +14,7 @@ api:
            plural_alias: customer_users
         Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
            alias:        customer_user_address
-           plural_alias: customer_users_addresses
+           plural_alias: customer_user_addresses
     entities:
         Oro\Bundle\CustomerBundle\Entity\Customer:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer.md'
@@ -69,6 +69,7 @@ api:
                         lastLogin:
                             exclude: true
         Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user_address.md'
             actions:
                 create:
                     fields:

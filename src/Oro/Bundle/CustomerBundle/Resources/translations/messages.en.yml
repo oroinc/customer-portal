@@ -214,37 +214,96 @@ oro.customer:
             value.false.label:      'No'
 
     customeruseraddress:
-        city.label:                 City
-        country.label:              Country
         entity_description:         Represent customer user's address
         entity_label:               Customer User Address
         entity_plural_label:        Customer User Addresses
-        first_name.label:           First Name
-        id.label:                   Id
-        label.label:                Label
-        last_name.label:            Last Name
-        middle_name.label:          Middle Name
-        name_prefix.label:          Name Prefix
-        name_suffix.label:          Name Suffix
-        organization.label:         Organization
-        system_organization.label:  System Organization
-        frontend_owner.label:       Frontend Owner
-        owner.label:                Owner
-        postal_code.label:          Zip/Postal Code
-        primary.label:              Primary
-        region.label:               State
-        region_text.label:          State
-        street.label:               Street
-        street2.label:              Street 2
-        types.label:                Types
-        addresses_to_types.label:   Addresses to address types
-        phone.label:                Phone
-
-        country_name.label:         Country name
-        country_iso2_code.label:    Country ISO2 code
-        country_iso3_code.label:    Country ISO3 code
-        region_name.label:          State name
-        region_code.label:          State ISO code
+        city:
+            label: City
+            description: City
+        country:
+            label: Country
+            description: Country
+        first_name:
+            label: First Name
+            description: First Name
+        id:
+            label: Id
+            description: Id
+        label:
+            label: Label
+            description: Label
+        last_name:
+            label: Last Name
+            description: Last Name
+        middle_name:
+            label: Middle Name
+            description: Middle Name
+        name_prefix:
+            label: Name Prefix
+            description: Name Prefix
+        name_suffix:
+            label: Name Suffix
+            description: Name Suffix
+        organization:
+            label: Organization
+            description: Organization
+        system_organization:
+            label: System Organization
+            description: System Organization
+        frontend_owner:
+            label: Frontend Owner
+            description: Frontend Owner
+        owner:
+            label: Owner
+            description: Owner
+        postal_code:
+            label: Zip/Postal Code
+            description: Zip/Postal Code
+        primary:
+            label: Primary
+            description: Primary
+        region:
+            label: State
+            description: State
+        region_text:
+            label: State
+            description: State
+        street:
+            label: Street
+            description: Street
+        street2:
+            label: Street 2
+            description: Street 2
+        types:
+            label: Types
+            description: Types
+        addresses_to_types:
+            label: Addresses to address types
+            description: Addresses to address types
+        phone:
+            label: Phone
+            description: Phone
+        country_name:
+            label: Country name
+            description: Country name
+        country_iso2_code:
+            label: Country ISO2 code
+            description: Country ISO2 code
+        country_iso3_code:
+            label: Country ISO3 code
+            description: Country ISO3 code
+        region_name:
+            label: State name
+            description: State name
+        region_code:
+            label: State ISO code
+            description: State ISO code
+        created:
+            label: Created
+            description: The date and time of the customer user address record creation.
+        updated:
+            label: Updated
+            description: The date and time of the last update of the customer user address.
 
     action:
         customer_user:
