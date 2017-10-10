@@ -5,11 +5,10 @@ For example: move menu list from top bar to hamburger menu dropdown in cases whe
 
 ## How to Use
 
-To enable moving an element from one container to another on window resize add 'data-dom-relocation' and 'data-dom-relocation-options'
+To enable moving an element from one container to another on window resize add 'data-dom-relocation-options'
 attributes to corresponding element as it is showing below:
 ```html
     <div class="element-to-move"
-         data-dom-relocation
          data-dom-relocation-options="{
             responsive: [
                 {

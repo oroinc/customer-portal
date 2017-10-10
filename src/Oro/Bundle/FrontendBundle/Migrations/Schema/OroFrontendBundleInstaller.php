@@ -23,6 +23,8 @@ class OroFrontendBundleInstaller implements Installation, ContainerAwareInterfac
      */
     public function getMigrationVersion()
     {
+        // Migration version was increased without creating correct migration
+        // Use next version v1_2 in case of new migration and remove this comment
         return 'v1_1';
     }
 

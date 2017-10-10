@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 
+use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
+use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
@@ -17,7 +19,9 @@ use Oro\Bundle\CustomerBundle\Model\ExtendCustomer;
  * @ORM\Table(
  *      name="oro_customer",
  *      indexes={
- *          @ORM\Index(name="oro_customer_name_idx", columns={"name"})
+ *          @ORM\Index(name="oro_customer_name_idx", columns={"name"}),
+ *          @ORM\Index(name="idx_oro_customer_created_at", columns={"created_at"}),
+ *          @ORM\Index(name="idx_oro_customer_updated_at", columns={"updated_at"}),
  *      }
  * )
  *
@@ -57,9 +61,11 @@ use Oro\Bundle\CustomerBundle\Model\ExtendCustomer;
  *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
-class Customer extends ExtendCustomer
+class Customer extends ExtendCustomer implements DatesAwareInterface
 {
+    use DatesAwareTrait;
     const INTERNAL_RATING_CODE = 'acc_internal_rating';
 
     /**
@@ -251,6 +257,40 @@ class Customer extends ExtendCustomer
     protected $salesRepresentatives;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "entity"={
+     *              "label"="oro.ui.created_at"
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "entity"={
+     *              "label"="oro.ui.updated_at"
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $updatedAt;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -261,6 +301,27 @@ class Customer extends ExtendCustomer
         $this->addresses = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->salesRepresentatives = new ArrayCollection();
+    }
+
+    /**
+     * Pre persist event handler
+     *
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+    }
+
+    /**
+     * Pre update event handler
+     *
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
     /**

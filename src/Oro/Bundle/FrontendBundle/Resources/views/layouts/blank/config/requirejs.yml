@@ -9,6 +9,7 @@ config:
             'oroui/templates/standart-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/delete-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/message-item.html': 'orofrontend/default/templates/ui/message-item.html'
+            'oroui/templates/loading-mask-view.html': 'orofrontend/templates/ui/loading-mask-view.html'
             'orodatagrid/templates/column-manager/column-manager-collection.html': 'orofrontend/default/templates/datagrid/column-manager-collection.html'
             'orodatagrid/templates/column-manager/column-manager-item.html': 'orofrontend/default/templates/datagrid/column-manager-item.html'
             'orodatagrid/templates/column-manager/column-manager-filter.html': 'orofrontend/default/templates/datagrid/column-manager-filter.html'
@@ -87,6 +88,7 @@ config:
         'orofrontend/js/app/views/column-manager/frontend-column-manager-view': 'bundles/orofrontend/js/app/views/column-manager/frontend-column-manager-view.js'
         'orofrontend/js/datagrid/grid-views/frontend-grid-views-view': 'bundles/orofrontend/js/datagrid/grid-views/frontend-grid-views-view.js'
         'orofrontend/js/app/views/object-fit-polyfill-view': 'orofrontend/js/app/views/object-fit-polyfill-view.js'
+        'orofrontend/js/app/views/counter-badge-view': 'bundles/orofrontend/js/app/views/counter-badge-view.js'
 
         'orofrontend/js/app/modules/component-shortcuts-module': 'bundles/orofrontend/js/app/modules/component-shortcuts-module.js'
     appmodules:

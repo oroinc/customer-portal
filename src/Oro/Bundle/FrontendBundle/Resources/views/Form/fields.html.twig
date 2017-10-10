@@ -30,7 +30,7 @@
             {{ form_widget(form.value) }}
             {% if form.use_parent_scope_value is defined %}
                 <div class="parent-scope-checkbox oro-clearfix controls">
-                    {{ form_row(form.use_parent_scope_value) }}
+                    {{ form_row(form.use_parent_scope_value, { 'attr': {'data-role': 'changeUseDefault'} }) }}
                 </div>
             {% endif %}
         {% endif %}
