@@ -189,3 +189,119 @@ Example:
 }
 ```
 {@/request}
+
+### frontendOwner
+
+#### get_subresource
+
+Retrieve a record containing information about the frontend owner (of type customer_users) assigned to a specific customer user address.
+
+#### get_relationship
+
+Retrieve the id of the frontend owner (of type customer_users) assigned to a specific customer user address.
+
+#### update_relationship
+
+Replace the frontend owner (of type customer_users) of a specific customer user address record belongs to.
+
+{@request:json_api}
+Example:
+
+`</admin/api/customer_user_addresses/12/relationships/frontendOwner>`
+
+```JSON
+{
+  "data": {
+    "type": "customer_users",
+    "id": "11"
+  }
+}
+```
+{@/request}
+
+### owner
+
+#### get_subresource
+
+Retrieve a record containing information about the owner (of type users) assigned to a specific customer user address.
+
+#### get_relationship
+
+Retrieve the id of the owner (of type users) assigned to a specific customer user address.
+
+#### update_relationship
+
+Replace the owner (of type users) of a specific customer user address record belongs to.
+
+{@request:json_api}
+Example:
+
+`</admin/api/customer_user_addresses/12/relationships/owner>`
+
+```JSON
+{
+  "data": {
+    "type": "users",
+    "id": "2"
+  }
+}
+```
+{@/request}
+
+### region
+
+#### get_subresource
+
+Retrieve a record containing information about the region assigned to a specific customer user address.
+
+#### get_relationship
+
+Retrieve the id of the region assigned to a specific customer user address.
+
+#### update_relationship
+
+Replace the region of a specific customer user address record belongs to.
+
+{@request:json_api}
+Example:
+
+`</admin/api/customer_user_addresses/12/relationships/region>`
+
+```JSON
+{
+  "data": {
+    "type": "regions",
+    "id":"RO-MS"
+  }
+}
+```
+{@/request}
+
+### systemOrganization
+
+#### get_subresource
+
+Retrieve a record containing information about the organization assigned to a specific customer user address.
+
+#### get_relationship
+
+Retrieve the id of the organization assigned to a specific customer user address.
+
+#### update_relationship
+
+Replace the organization of a specific customer user address record belongs to.
+
+{@request:json_api}
+Example:
+
+`</admin/api/customer_user_addresses/12/relationships/systemOrganization>`
+
+```JSON
+{
+  "data": {
+    "type": "organizations",
+    "id": "2"
+  }
+}
+```
+{@/request}
