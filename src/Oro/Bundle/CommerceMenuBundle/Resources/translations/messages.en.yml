@@ -76,3 +76,4 @@ oro:
                     track_my_order.label: 'Track My Order'
                     help.label: 'Help'
                     sales.label: 'Sales Representative'
+                    view.label: 'VIEW'

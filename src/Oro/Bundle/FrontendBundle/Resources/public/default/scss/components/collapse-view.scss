@@ -22,7 +22,7 @@
             text-decoration: none;
         }
 
-        &.orange {
+        &-text {
             color: get-color('primary', 'base');
         }
     }
@@ -37,6 +37,10 @@
             &__trigger {
                 &-icon {
                     transform: rotate(90deg);
+                }
+
+                &.hide-on-expand {
+                    display: none;
                 }
             }
 
