@@ -68,6 +68,7 @@ config:
         'orofrontend/default/js/app/views/sticky-panel-view': 'orofrontend/default/js/app/views/sticky-panel-view.js'
         'orofrontend/default/js/app/views/scroll-top-view': 'bundles/orofrontend/default/js/app/views/scroll-top-view.js'
         'orofrontend/blank/js/app/views/fullscreen-popup-view': 'orofrontend/blank/js/app/views/fullscreen-popup-view.js'
+        'orofrontend/blank/js/widgets/print-page-widget': 'orofrontend/blank/js/widgets/print-page-widget.js'
         'orofrontend/js/app/views/dom-relocation-view': 'orofrontend/js/app/views/dom-relocation-view.js'
         'orofrontend/js/app/views/style-book-elements-navigation-view': 'orofrontend/js/app/views/style-book-elements-navigation-view.js'
         'orofrontend/default/js/app/modules/input-widgets': 'bundles/orofrontend/default/js/app/modules/input-widgets.js'
