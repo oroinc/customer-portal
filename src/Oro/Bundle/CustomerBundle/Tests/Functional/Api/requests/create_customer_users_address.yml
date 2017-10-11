@@ -1,5 +1,5 @@
 data:
-    type: customer_users_addresses
+    type: customer_user_addresses
     attributes:
         city: 'Test City'
         firstName: 'Testname'
