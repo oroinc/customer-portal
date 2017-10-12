@@ -252,10 +252,10 @@ oro.customer:
             description: Relationship with the system organization the customer user belongs to. 
         frontend_owner:
             label: Frontend Owner
-            description: A customer user that is assigned as a customer user address record owner in the front store.
+            description: A customer user who is assigned as a customer user address record owner in the front store.
         owner:
             label: Owner
-            description: A user that is assigned as a customer user address record owner in the management console.
+            description: A user who is assigned as a customer user address record owner in the management console.
         postal_code:
             label: Zip/Postal Code
             description: Zip/Postal Code for the billing or shipping address.
