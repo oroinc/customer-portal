@@ -4,17 +4,23 @@
 
 ### get
 
-Retrieve a specific customer user address record.
+Retrieve a specific <a href="https://www.orocommerce.com/documentation/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
+
+{@inheritdoc}
 
 ### get_list
 
-Retrieve a collection of customer user address records.
+Retrieve a collection of <a href="https://www.orocommerce.com/documentation/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> records.
+
+{@inheritdoc}
 
 The list of records that will be returned can be limited by filters.
 
 ### create
 
-Create a new customer user address record.
+Create a new <a href="https://www.orocommerce.com/documentation/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
+
+{@inheritdoc}
 
 The created record is returned in the response, with a 201 Created status code.
 
@@ -83,7 +89,11 @@ Example:
 
 ### update
 
-Update a specific customer user address record. The request can contain only the fields we wish to update.
+Update a specific <a href="https://www.orocommerce.com/documentation/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record. 
+
+{@inheritdoc}
+
+The request can contain only the fields we wish to update.
 
 The updated record is returned in the response.
 
@@ -151,11 +161,15 @@ Example:
 
 ### delete
 
-Delete a specific customer user address record.
+Delete a specific <a href="https://www.orocommerce.com/documentation/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
+
+{@inheritdoc}
 
 ### delete_list
 
-Delete a collection of customer user addresses records.
+Delete a collection of <a href="https://www.orocommerce.com/documentation/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> records.
+
+{@inheritdoc}
 
 The list of records that will be deleted must be limited by filters.
 
@@ -165,15 +179,15 @@ The list of records that will be deleted must be limited by filters.
 
 #### get_subresource
 
-Retrieve a record containing information about the country assigned to a specific customer user address.
+Retrieve a record that contains information about the country that is mentioned in the customer user address.
 
 #### get_relationship
 
-Retrieve the id of the country assigned to a specific customer user address.
+Retrieve the id of the country that is mentioned in the customer user address.
 
 #### update_relationship
 
-Replace the country of a specific customer user address record belongs to.
+Replace the country in the specific customer user address.
 
 {@request:json_api}
 Example:
@@ -194,15 +208,15 @@ Example:
 
 #### get_subresource
 
-Retrieve a record containing information about the frontend owner (of type customer_users) assigned to a specific customer user address.
+Retrieve a record that contains information about a customer user who is assigned as a customer user address record owner in the front store.
 
 #### get_relationship
 
-Retrieve the id of the frontend owner (of type customer_users) assigned to a specific customer user address.
+Retrieve the id of the customer user who is assigned as a customer user address record owner in the front store.
 
 #### update_relationship
 
-Replace the frontend owner (of type customer_users) of a specific customer user address record belongs to.
+Replace the frontend owner - a customer user who is assigned as a customer user address record owner in the front store.
 
 {@request:json_api}
 Example:
@@ -223,15 +237,15 @@ Example:
 
 #### get_subresource
 
-Retrieve a record containing information about the owner (of type users) assigned to a specific customer user address.
+Retrieve a record that contains information about the user who is assigned as a customer user address record owner in the management console.
 
 #### get_relationship
 
-Retrieve the id of the owner (of type users) assigned to a specific customer user address.
+Retrieve the id of the user who is assigned as a customer user address record owner in the management console.
 
 #### update_relationship
 
-Replace the owner (of type users) of a specific customer user address record belongs to.
+Replace the user who is assigned as a customer user address record owner in the management console.
 
 {@request:json_api}
 Example:
@@ -252,15 +266,15 @@ Example:
 
 #### get_subresource
 
-Retrieve a record containing information about the region assigned to a specific customer user address.
+Retrieve a record that contains information about the region mentioned in a specific customer user address.
 
 #### get_relationship
 
-Retrieve the id of the region assigned to a specific customer user address.
+Retrieve the id of the region mentioned in a specific customer user address.
 
 #### update_relationship
 
-Replace the region of a specific customer user address record belongs to.
+Replace the region mentioned in a specific customer user address.
 
 {@request:json_api}
 Example:
@@ -281,15 +295,15 @@ Example:
 
 #### get_subresource
 
-Retrieve a record containing information about the organization assigned to a specific customer user address.
+Retrieve a record that contains information about the organization that is linked to a specific customer user address record.
 
 #### get_relationship
 
-Retrieve the id of the organization assigned to a specific customer user address.
+Retrieve the id of the organization that is linked to a specific customer user address record.
 
 #### update_relationship
 
-Replace the organization of a specific customer user address record belongs to.
+Replace the organization that is linked to a specific customer user address record.
 
 {@request:json_api}
 Example:
