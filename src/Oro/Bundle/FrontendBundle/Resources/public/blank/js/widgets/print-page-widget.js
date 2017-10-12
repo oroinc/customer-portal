@@ -15,17 +15,18 @@ define(function(require) {
         },
 
         _initEvents: function() {
-            var $trigger = this.$el;
-
-            this._on($trigger, {
+            this._on(this.$el, {
                 'click': this._windowPrint
             });
         },
 
         _windowPrint: function (event) {
-            if (this.$el.is('[href]')) {
+            var $trigger = $(event.currentTarget);
+
+            if ($trigger.attr('href')) {
                 event.preventDefault();
             }
+
             window.print();
         }
     });
