@@ -1,0 +1,15 @@
+// @theme: blank;
+
+@include breakpoint('print') {
+    .page-header,
+    .page-footer,
+    .page-sidebar,
+    .breadcrumbs,
+    .sf-toolbar {
+        display: none !important;
+    }
+
+    .page-title {
+        text-align: center;
+    }
+}
