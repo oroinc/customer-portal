@@ -6,7 +6,9 @@
     .page-sidebar,
     .breadcrumbs,
     .scroll-top,
-    .sf-toolbar {
+    .sf-toolbar,
+    .datagrid-toolbar__base,
+    .datagrid-toolbar__rightside {
         display: none !important;
     }
 
