@@ -1,5 +1,5 @@
 data:
-    type: customer_users_addresses
+    type: customer_user_addresses
     id: '<toString(@other.user@test.com.address_1->id)>'
     attributes:
         city: 'Test City updated'

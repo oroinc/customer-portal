@@ -48,52 +48,42 @@ class RestCustomerUserAddressTest extends AbstractRestTest
             ->findOneBy(['label' => LoadCustomerUserAddresses::OTHER_USER_LABEL])
             ->getId();
 
-        $uri = $this->getUrl('oro_rest_api_get', [
-            'entity' => $this->getEntityType(CustomerUserAddress::class),
-            'id' => $customerUserAddressId,
-        ]);
-
-        $response = $this->request('GET', $uri, []);
-        $this->assertApiResponseStatusCodeEquals(
-            $response,
-            Response::HTTP_OK,
-            CustomerUserAddress::class,
-            'get list'
+        $response = $this->get(
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => $customerUserAddressId,
+            ]
         );
-        $content = json_decode($response->getContent(), true);
 
-        // there are only 5 fixtures added from LoadCustomerUserAddresses
-        $this->assertMatchesLastFixture($content['data']);
+        $this->assertResponseContains(__DIR__ . '/responses/get_customer_users_address.yml', $response);
     }
 
     public function testGetInexistingCustomerUserAddress()
     {
-        $uri = $this->getUrl('oro_rest_api_get', [
-            'entity' => $this->getEntityType(CustomerUserAddress::class),
-            'id' => '99999999999',
-        ]);
-
-        $response = $this->request('GET', $uri, []);
+        $response = $this->get(
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => '99999999999',
+            ],
+            [],
+            [],
+            false
+        );
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
     public function testGetCustomerUserAddresses()
     {
-        $uri = $this->getUrl('oro_rest_api_cget', [
-            'entity' => $this->getEntityType(CustomerUserAddress::class)
-        ]);
+        $response = $this->cget(
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+            ],
+            [
+                'sort' => '-id'
+            ],
+            [], false);
 
-        $response = $this->request('GET', $uri, [
-            'sort' => '-id'
-        ]);
-
-        $this->assertApiResponseStatusCodeEquals(
-            $response,
-            Response::HTTP_OK,
-            CustomerUserAddress::class,
-            'get list'
-        );
         $content = json_decode($response->getContent(), true);
 
         // there are only 5 fixtures added from LoadCustomerUserAddresses
@@ -150,15 +140,11 @@ class RestCustomerUserAddressTest extends AbstractRestTest
 
     public function testUpdateWrongCustomerUserAddresses()
     {
-        $uri = $this->getUrl('oro_rest_api_patch', [
+        $response = $this->patch([
             'entity' => $this->getEntityType(CustomerUserAddress::class),
-            'id' => '99999999999',
-        ]);
-
-        $response = $this->request(
-            'PATCH',
-            $uri,
-            $this->getRequestData('update_customer_users_address.yml')
+            'id' => '99999999999'],
+            'update_customer_users_address.yml',
+            [], false
         );
 
         $this->assertEquals(Response::HTTP_CONFLICT, $response->getStatusCode());
@@ -200,8 +186,7 @@ class RestCustomerUserAddressTest extends AbstractRestTest
         $customerUserAddressId = (string)$repository->findOneBy([])->getId();
 
         // make the delete request
-        $uri = $this->getUrl(
-            'oro_rest_api_delete',
+        $response = $this->delete(
             [
                 'entity' => $this->getEntityType(CustomerUserAddress::class),
                 'id' => $customerUserAddressId,
@@ -209,19 +194,16 @@ class RestCustomerUserAddressTest extends AbstractRestTest
         );
 
         // check response confirms deletion
-        $response = $this->request('DELETE', $uri);
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
 
-        $uri = $this->getUrl(
-            'oro_rest_api_get',
+        $response = $this->get(
             [
                 'entity' => $this->getEntityType(CustomerUserAddress::class),
                 'id' => $customerUserAddressId
-            ]
+            ], [], [], false
         );
 
         // verify it's not available anymore for GET requests
-        $response = $this->request('GET', $uri, []);
         $this->assertSame(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
