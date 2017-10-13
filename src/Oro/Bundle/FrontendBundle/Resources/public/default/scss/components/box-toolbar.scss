@@ -16,6 +16,17 @@
     }
 
     &__actions {
+        display: flex;
         flex: 0 0 auto;
+    }
+}
+
+@include breakpoint('tablet') {
+    .box-toolbar {
+        flex-direction: column;
+
+        &__actions {
+            flex-wrap: wrap;
+        }
     }
 }
