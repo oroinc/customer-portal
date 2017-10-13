@@ -177,6 +177,15 @@ $custom-breakpoints: (
 $breakpoints: map_merge($oro_breakpoints, $custom-breakpoints) !default;
 ````
 
+To disable some media query theme developer must set breakpoint to null
+````scss
+$custom-breakpoints: (
+    'desktop': null                        // disable an existing rule
+);
+
+$breakpoints: map_merge($oro_breakpoints, $custom-breakpoints) !default;
+````
+
 ## How to change Offsets
 
 To update Offsets, change the next variables:
