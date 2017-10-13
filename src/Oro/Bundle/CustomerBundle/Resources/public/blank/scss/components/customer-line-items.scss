@@ -1,6 +1,8 @@
 // @theme: blank;
 
 .customer-line-items {
+    margin-bottom: $customer-line-items-offset-bottom;
+
     &__title {
         margin-bottom: $customer-line-items-title-offset-bottom;
 
@@ -29,6 +31,8 @@
     }
 
     .grid-cell {
+        vertical-align: $customer-line-items-table-cell-vertical-align;
+
         &--offset-l-none {
             padding-left: $customer-line-items-grid-cell--offset-l-none;
         }

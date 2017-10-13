@@ -12,14 +12,13 @@
         padding: $customer-info-grid-element-label-offest-inner;
         min-width: $customer-info-grid-element-label-min-width;
 
-        font-size: $customer-info-grid-element-label-font-size;
+        font-weight: $customer-info-grid-element-label-font-weight;
 
         white-space: $customer-info-grid-element-label-white-space;
     }
 
     &__element-content {
         padding: $customer-info-grid-element-content-offest-inner;
-        font-style: $customer-info-grid-element-content-font-style;
         word-wrap: $customer-info-grid-element-content-word-wrap;
     }
 
