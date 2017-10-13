@@ -47,7 +47,7 @@
 @include breakpoint('print') {
     .customer-info-grid {
         .grid__column {
-            width: 50%;
+            width: $customer-info-grid-column-width;
         }
     }
 }
