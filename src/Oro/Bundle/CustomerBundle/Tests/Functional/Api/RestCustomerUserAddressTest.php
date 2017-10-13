@@ -48,20 +48,27 @@ class RestCustomerUserAddressTest extends AbstractRestTest
             ->findOneBy(['label' => LoadCustomerUserAddresses::OTHER_USER_LABEL])
             ->getId();
 
-        $response = $this->get([
-            'entity' => $this->getEntityType(CustomerUserAddress::class),
-            'id' => $customerUserAddressId,
-        ]);
+        $response = $this->get(
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => $customerUserAddressId,
+            ]
+        );
 
-        $this->assertResponseContains(__DIR__.'/responses/get_customer_users_address.yml', $response);
+        $this->assertResponseContains(__DIR__ . '/responses/get_customer_users_address.yml', $response);
     }
 
     public function testGetInexistingCustomerUserAddress()
     {
-        $response = $this->get([
-            'entity' => $this->getEntityType(CustomerUserAddress::class),
-            'id' => '99999999999',
-        ], [], [], false);
+        $response = $this->get(
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => '99999999999',
+            ],
+            [],
+            [],
+            false
+        );
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
