@@ -57,7 +57,7 @@
     }
 }
 
-@include breakpoint('tablet-small') {
+@include breakpoint('mobile-landscape') {
     .customer-line-items {
         &__title {
             padding-bottom: $customer-line-items-title-offset-inner-bottom-tablet-small;
@@ -122,6 +122,15 @@
             &.notes-cell {
                 width: $customer-line-items-notes-cell-width-tablet-small;
             }
+        }
+    }
+}
+
+@include breakpoint('print') {
+    .customer-line-items {
+        &__title {
+            float: $customer-line-items-title-float-print;
+            padding-top: $customer-line-items-title-offset-top-print;
         }
     }
 }

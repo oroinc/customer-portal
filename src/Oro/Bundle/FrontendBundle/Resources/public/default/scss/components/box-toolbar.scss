@@ -30,3 +30,11 @@
         }
     }
 }
+
+@include breakpoint('print') {
+    .box-toolbar {
+        &__actions {
+            display: none !important;
+        }
+    }
+}
