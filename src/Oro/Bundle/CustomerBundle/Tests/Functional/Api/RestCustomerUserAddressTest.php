@@ -15,11 +15,6 @@ use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
 
 /**
  * @group CommunityEdition
- *
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
- * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  */
 class RestCustomerUserAddressTest extends AbstractRestTest
 {
@@ -82,7 +77,9 @@ class RestCustomerUserAddressTest extends AbstractRestTest
             [
                 'sort' => '-id'
             ],
-            [], false);
+            [],
+            false
+        );
 
         $content = json_decode($response->getContent(), true);
 
@@ -140,11 +137,14 @@ class RestCustomerUserAddressTest extends AbstractRestTest
 
     public function testUpdateWrongCustomerUserAddresses()
     {
-        $response = $this->patch([
-            'entity' => $this->getEntityType(CustomerUserAddress::class),
-            'id' => '99999999999'],
+        $response = $this->patch(
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => '99999999999'
+            ],
             'update_customer_users_address.yml',
-            [], false
+            [],
+            false
         );
 
         $this->assertEquals(Response::HTTP_CONFLICT, $response->getStatusCode());
@@ -154,13 +154,18 @@ class RestCustomerUserAddressTest extends AbstractRestTest
     {
         $repository = $this->getEntityManager()->getRepository(CustomerUserAddress::class);
 
-        $customerUserAddressId = (string)$repository
-            ->findOneBy(['label' => LoadCustomerUserAddresses::OTHER_USER_LABEL])
+        $customerUserAddressId = (string)$repository->findOneBy(
+            [
+                'label' => LoadCustomerUserAddresses::OTHER_USER_LABEL
+            ]
+        )
             ->getId();
 
-        $response = $this->patch([
-            'entity' => $this->getEntityType(CustomerUserAddress::class),
-            'id' => $customerUserAddressId],
+        $response = $this->patch(
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => $customerUserAddressId
+            ],
             'update_customer_users_address.yml'
         );
         $responseContent = json_decode($response->getContent());
@@ -200,7 +205,10 @@ class RestCustomerUserAddressTest extends AbstractRestTest
             [
                 'entity' => $this->getEntityType(CustomerUserAddress::class),
                 'id' => $customerUserAddressId
-            ], [], [], false
+            ],
+            [],
+            [],
+            false
         );
 
         // verify it's not available anymore for GET requests
