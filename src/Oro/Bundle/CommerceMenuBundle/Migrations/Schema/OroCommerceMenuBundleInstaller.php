@@ -18,6 +18,7 @@ class OroCommerceMenuBundleInstaller implements
     const ORO_COMMERCE_MENU_UPDATE_TABLE_NAME = 'oro_commerce_menu_upd';
     const ORO_COMMERCE_MENU_UPDATE_TITLE_TABLE_NAME = 'oro_commerce_menu_upd_title';
     const ORO_COMMERCE_MENU_UPDATE_DESCRIPTION_TABLE_NAME = 'oro_commerce_menu_upd_descr';
+    const ORO_COMMERCE_MENU_UPDATE_IMAGE_FIELD_NAME = 'image';
 
     const MAX_MENU_UPDATE_IMAGE_SIZE_IN_MB = 10;
     const THUMBNAIL_WIDTH_SIZE_IN_PX = 100;
@@ -28,7 +29,7 @@ class OroCommerceMenuBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_3';
+        return 'v1_4';
     }
 
     /**
@@ -158,7 +159,7 @@ class OroCommerceMenuBundleInstaller implements
         $this->attachmentExtension->addImageRelation(
             $schema,
             self::ORO_COMMERCE_MENU_UPDATE_TABLE_NAME,
-            'image',
+            self::ORO_COMMERCE_MENU_UPDATE_IMAGE_FIELD_NAME,
             [],
             self::MAX_MENU_UPDATE_IMAGE_SIZE_IN_MB,
             self::THUMBNAIL_WIDTH_SIZE_IN_PX,
