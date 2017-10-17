@@ -23,7 +23,7 @@
 
     {% spaceless %}
         {% for child in item.children %}
-            {% if child.extras.isAllowed %}
+            {% if child.displayed and child.extras.isAllowed %}
                 <div class="information-nav information-nav--responsive">
                     <div class="collapse-view"
                         data-page-component-module="oroui/js/app/components/viewport-component"
