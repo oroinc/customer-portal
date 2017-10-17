@@ -19,6 +19,8 @@
 
     &__element-content {
         padding: $customer-info-grid-element-content-offest-inner;
+
+        font-style: $customer-info-grid-element-content-font-style;
         word-wrap: $customer-info-grid-element-content-word-wrap;
     }
 
