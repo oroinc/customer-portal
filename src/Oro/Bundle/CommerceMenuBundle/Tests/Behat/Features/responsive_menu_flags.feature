@@ -79,3 +79,27 @@ Feature: Unable and dislable menu item with different User Agent and screens rul
     And I am on homepage
     And I click on "Information"
     Then I should not see "Screens Menu Item"
+
+  Scenario: Hide footer menu items title
+    Given I proceed as the Admin
+    And I go to System/Frontend Menus
+    And click view "commerce_footer_links" in grid
+    And I click Information in menu tree
+    And I click "Hide"
+    And I save form
+    Then I should see "Menu item saved successfully." flash message
+    When I proceed as the User
+    And I am on the homepage
+    Then I should not see "Information"
+
+  Scenario: Show footer menu items title
+    Given I proceed as the Admin
+    And I go to System/Frontend Menus
+    And click view "commerce_footer_links" in grid
+    And I click Information in menu tree
+    And I click "Show"
+    And I save form
+    Then I should see "Menu item saved successfully." flash message
+    When I proceed as the User
+    And I am on the homepage
+    Then I should see "Information"
