@@ -20,7 +20,7 @@ define(function(require) {
             });
         },
 
-        _windowPrint: function (event) {
+        _windowPrint: function(event) {
             var $trigger = $(event.currentTarget);
 
             if ($trigger.attr('href')) {
