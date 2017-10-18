@@ -94,3 +94,7 @@ config:
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
         - orofrontend/js/app/modules/component-shortcuts-module
+        - orofrontend/default/js/app/modules/input-widgets
+        - orofrontend/default/js/app/modules/zoom-disable
+        - orofrontend/default/js/app/modules/choice-filter
+        - orofrontend/default/js/app/modules/select-filter
