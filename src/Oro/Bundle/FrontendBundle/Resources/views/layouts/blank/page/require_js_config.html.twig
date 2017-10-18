@@ -1,0 +1,21 @@
+{% block _require_js_config_widget %}
+    <script>
+        require({
+            config: {
+                'controllers/page-controller': {fullRedirect: true},
+
+                'oroui/js/app': {routeLinks: ''},
+                'oroui/js/error' : {loginRoute: 'oro_customer_customer_user_security_login'},
+
+                'orodatagrid/js/datagrid/grid-views/model': {route: 'oro_api_frontend_datagrid_gridview_post'}
+            },
+            paths: {
+                {% if app.debug and oro_frontend_debug_routes() %}
+                    'oro/routes': '{{ path('oro_frontend_js_routing_js', {"callback": "fos.Router.setData"}) }}'
+                {% else %}
+                    'oro/routes': '{{ asset_path('oro_frontend_js_routing_js') }}'
+                {% endif %}
+            }
+        });
+    </script>
+{% endblock %}

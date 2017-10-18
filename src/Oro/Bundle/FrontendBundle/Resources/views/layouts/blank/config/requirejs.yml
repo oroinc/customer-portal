@@ -9,6 +9,7 @@ config:
             'oroui/templates/standart-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/delete-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/message-item.html': 'orofrontend/default/templates/ui/message-item.html'
+            'oroui/templates/loading-mask-view.html': 'orofrontend/templates/ui/loading-mask-view.html'
             'orodatagrid/templates/column-manager/column-manager-collection.html': 'orofrontend/default/templates/datagrid/column-manager-collection.html'
             'orodatagrid/templates/column-manager/column-manager-item.html': 'orofrontend/default/templates/datagrid/column-manager-item.html'
             'orodatagrid/templates/column-manager/column-manager-filter.html': 'orofrontend/default/templates/datagrid/column-manager-filter.html'
@@ -93,3 +94,7 @@ config:
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
         - orofrontend/js/app/modules/component-shortcuts-module
+        - orofrontend/default/js/app/modules/input-widgets
+        - orofrontend/default/js/app/modules/zoom-disable
+        - orofrontend/default/js/app/modules/choice-filter
+        - orofrontend/default/js/app/modules/select-filter
