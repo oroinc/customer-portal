@@ -236,8 +236,8 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('group_id', 'integer', ['notnull' => false]);
         $table->addColumn('owner_id', 'integer', ['notnull' => false]);
         $table->addColumn('organization_id', 'integer', ['notnull' => false]);
-        $table->addColumn('created_at', 'datetime', []);
-        $table->addColumn('updated_at', 'datetime', []);
+        $table->addColumn('created_at', 'datetime', ['notnull' => true]);
+        $table->addColumn('updated_at', 'datetime', ['notnull' => true]);
 
         $table->setPrimaryKey(['id']);
 

@@ -31,7 +31,7 @@
 
     {% spaceless %}
         {% for child in item.children %}
-            {% if child.extras.isAllowed %}
+            {% if child.displayed and child.extras.isAllowed %}
                 <div class="information-nav information-nav--responsive">
                     {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
                     <h3 class="information-nav__title">{{ label }}</h3>
