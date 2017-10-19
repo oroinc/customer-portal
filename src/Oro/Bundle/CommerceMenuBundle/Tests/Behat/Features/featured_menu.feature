@@ -21,9 +21,9 @@ Feature: Featured menu, displayed on the main front page
   Scenario: Use new menu item on frontend
     Given I proceed as the Guest
     When I am on the homepage
-    Then I should see "VIEW Test Item"
-    When I scroll to text "VIEW Test Item"
-    And I click "VIEW Test Item"
+    Then I should see "VIEW TEST ITEM"
+    When I scroll to text "VIEW TEST ITEM"
+    And I click "VIEW TEST ITEM"
     Then I should be on "/about"
 
   Scenario: Edit already existing menu item
@@ -39,9 +39,9 @@ Feature: Featured menu, displayed on the main front page
   Scenario: Use edited menu item on frontend
     Given I proceed as the Guest
     When I am on the homepage
-    Then I should see "VIEW Featured Item_0"
-    When I scroll to text "VIEW Featured Item_0"
-    And I click "VIEW Featured Item_0"
+    Then I should see "VIEW FEATURED ITEM_0"
+    When I scroll to text "VIEW FEATURED ITEM_0"
+    And I click "VIEW FEATURED ITEM_0"
     Then I should be on "/about"
 
   Scenario: Change sequence of menu items
@@ -71,4 +71,4 @@ Feature: Featured menu, displayed on the main front page
   Scenario: Check visibility of menu item for unauthorized users
     Given I proceed as the Guest
     When I am on the homepage
-    Then I should not see "Featured Item_0"
+    Then I should not see "FEATURED ITEM_0"
