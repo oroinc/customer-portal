@@ -83,3 +83,14 @@ api:
                             exclude: true
                         updated:
                             exclude: true
+            subresources:
+                country:
+                    actions:
+                        update_relationship: false
+                        add_relationship: false
+                        delete_relationship: false
+                region:
+                    actions:
+                        update_relationship: false
+                        add_relationship: false
+                        delete_relationship: false
