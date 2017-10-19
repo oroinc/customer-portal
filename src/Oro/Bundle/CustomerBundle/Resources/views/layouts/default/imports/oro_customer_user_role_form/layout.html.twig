@@ -1,6 +1,15 @@
+{% block __oro_customer_user_role_form__customer_user_role_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-focusable': true,
+    }) %}
+    <div{{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
 {% block __oro_customer_user_role_form__customer_user_role_form_actions_top_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " pull-right customer-user-role-edit__buttons-top"
+        '~class': ' pull-right customer-user-role-edit__buttons-top'
     }) %}
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -9,7 +18,7 @@
 
 {% block __oro_customer_user_role_form__customer_user_role_form_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " grid__row"
+        '~class': ' grid__row'
     }) %}
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -26,7 +35,7 @@
 
 {% block __oro_customer_user_role_form__customer_user_role_form_actions_bottom_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " pull-right mt2-md"
+        '~class': ' pull-right mt2-md'
     }) %}
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}

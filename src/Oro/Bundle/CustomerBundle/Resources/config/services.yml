@@ -971,3 +971,8 @@ services:
         arguments:
            - '@oro_security.token_accessor'
         abstract: true
+
+    oro_customer.event_listener.navigation_items:
+        parent: oro_navigation.event_listener.navigation_items
+        tags:
+            - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }

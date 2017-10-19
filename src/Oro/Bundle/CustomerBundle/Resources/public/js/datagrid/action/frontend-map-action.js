@@ -43,13 +43,14 @@ define(function(require) {
         */
         onActionClick: function(e) {
             e.preventDefault();
+            if (this.mapView.map) {
+                this.mapView.map.setCenter(this.mapView.location);
+            }
+
             if (ViewportManager.isApplicable(this.viewport)) {
                 this.handleFullScreenView();
             } else {
                 this.handlePopover(this.getPopoverConfig());
-                if (this.mapView.map) {
-                    this.mapView.map.setCenter(this.mapView.location);
-                }
             }
         },
 
