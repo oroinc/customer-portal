@@ -3,10 +3,6 @@
     <script>
         require({
             config: {
-                'controllers/page-controller': {fullRedirect: true},
-
-                'oroui/js/app': {routeLinks: ''},
-                'oroui/js/error' : {loginRoute: 'oro_customer_customer_user_security_login'},
                 'oroui/js/modal': {defaults: {okButtonClass: 'btn btn--info ok'}},
 
                 'oro/datagrid/cell/action-cell': {showCloseButton: false},
@@ -23,7 +19,6 @@
                     dropdownClassName: 'oro-select2__dropdown'
                 },
                 'orodatagrid/js/grid-views-builder': {GridViewsView: 'orofrontend/js/datagrid/grid-views/frontend-grid-views-view'},
-                'orodatagrid/js/datagrid/grid-views/model': {route: 'oro_api_frontend_datagrid_gridview_post'},
                 'orodatagrid/js/app/views/column-manager/column-manager-collection-view': {fallbackSelector: '.datagrid-manager__no-columns'},
 
                 'oro/filter/abstract-filter': {
@@ -66,35 +61,10 @@
                 'oro/dialog-widget': {
                     messengerContainerClass: 'ui-dialog-messages'
                 }
-            },
-            paths: {
-                {% if app.debug and oro_frontend_debug_routes() %}
-                    'oro/routes': '{{ path('oro_frontend_js_routing_js', {"callback": "fos.Router.setData"}) }}'
-                {% else %}
-                    'oro/routes': '{{ asset_path('oro_frontend_js_routing_js') }}'
-                {% endif %}
             }
         });
-        (function() {
-            var appModules = requirejs.s.contexts._.config.appmodules || [];
-            var removeModules = ['oroemail/js/app/modules/views-module'];
-            for (var i = 0; i < removeModules.length; i++) {
-                var index = appModules.indexOf(removeModules[i]);
-                if (index !== -1) {
-                    appModules.splice(index, 1);
-                }
-            }
-            appModules = appModules.concat([
-                'orofrontend/default/js/app/modules/input-widgets',
-                'orofrontend/default/js/app/modules/zoom-disable',
-                'orofrontend/default/js/app/modules/choice-filter',
-                'orofrontend/default/js/app/modules/select-filter'
-            ]);
-            require({
-                appmodules: appModules
-            });
-        })();
     </script>
+    {{ parent_block_widget(block) }}
 {% endblock %}
 
 {% block _require_js_multi_select_filter_config_widget %}
