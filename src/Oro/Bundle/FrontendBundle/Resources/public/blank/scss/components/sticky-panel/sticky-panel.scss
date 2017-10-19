@@ -35,3 +35,9 @@
         display: block;
     }
 }
+
+@include breakpoint('print') {
+    .sticky-panel {
+        display: none;
+    }
+}
