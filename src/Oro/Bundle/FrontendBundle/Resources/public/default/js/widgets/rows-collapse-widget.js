@@ -66,14 +66,14 @@ define([
 
         getRowsHeight: function(rows) {
             var $rows = this.$el.find('tbody tr');
-            var height = this.$el.find('thead tr').height();
+            var height = this.$el.find('thead tr').outerHeight();
             var rowsCount = rows || $rows.length;
 
             $rows.each(_.bind(function(index, row) {
                 if (index >= rowsCount) {
                     return;
                 }
-                height += $(row).height();
+                height += $(row).outerHeight();
             }, this));
 
             return height;
