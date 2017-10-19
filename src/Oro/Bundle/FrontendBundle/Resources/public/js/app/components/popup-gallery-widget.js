@@ -61,8 +61,20 @@ define(function(require) {
         initialize: function(options) {
             this.options = _.defaults(options || {}, this.options);
             this.$el = options._sourceElement;
-
             this.$galleryWidgetOpen = this.$el.find('[data-trigger-gallery-open]');
+
+            if (_.has(options, 'productModel')) {
+                var o  = {};
+
+                options.productModel.on('backgrid:canSelected', _.bind(function(checked) {
+                    this.toggleGalleryTrigger(checked);
+                }, this));
+                options.productModel.trigger('backgrid:getVisibleState', o);
+
+                if (!_.isEmpty(o)) {
+                    this.toggleGalleryTrigger(o.visible);
+                }
+            }
 
             if (this.options.ajaxMode) {
                 this.options.galleryImages = [];
@@ -77,7 +89,6 @@ define(function(require) {
             } else {
                 this.$galleryWidgetOpen.on('click', _.bind(this.onOpen, this));
             }
-            mediator.on('popupGalleryWidget:toggle', this.toggleGalleryTrigger, this);
         },
 
         unbindEvents: function() {
@@ -86,11 +97,10 @@ define(function(require) {
                 this.$galleryWidgetClose.off('click');
             }
             mediator.off('layout:reposition', this.onResize, this);
-            mediator.off('popupGalleryWidget:toggle', this.toggleGalleryTrigger, this);
         },
 
         toggleGalleryTrigger: function(state) {
-            this.$galleryWidgetOpen.toggleClass('hidden', !state);
+            this.$galleryWidgetOpen.toggleClass('hidden', state);
         },
 
         onOpen: function(e) {
@@ -276,6 +286,7 @@ define(function(require) {
             }
 
             delete this.$galleryWidget;
+            delete this.$galleryWidgetOpen;
 
             PopupGalleryWidget.__super__.dispose.call(this);
         }
