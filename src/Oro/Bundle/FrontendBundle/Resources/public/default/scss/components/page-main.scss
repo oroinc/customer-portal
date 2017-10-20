@@ -14,3 +14,11 @@
         @include clearfix();
     }
 }
+
+@include breakpoint('print') {
+    .page-main {
+        &__content {
+            margin: 0;
+        }
+    }
+}
