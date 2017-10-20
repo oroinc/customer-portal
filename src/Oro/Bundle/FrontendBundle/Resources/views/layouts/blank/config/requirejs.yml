@@ -41,8 +41,11 @@ config:
             'orofilter/templates/filter/text-filter.html': 'orofrontend/templates/filters/text-filter.html'
             # Filters templates END
             'orofilter/js/plugins/filters-toggle-plugin': 'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin'
+            'oroui/js/app/views/page/content-view': 'orofrontend/js/app/views/page/content-view'
         'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin':
             'orofilter/js/plugins/filters-toggle-plugin': 'orofilter/js/plugins/filters-toggle-plugin'
+        'orofrontend/js/app/views/page/content-view':
+            'oroui/js/app/views/page/content-view': 'oroui/js/app/views/page/content-view'
     paths:
         'orofrontend/js/app/components/widget-form-component': 'bundles/orofrontend/js/app/components/widget-form-component.js'
         'orofrontend/js/app/components/switchable-editable-view-component': 'bundles/orofrontend/js/app/components/switchable-editable-view-component.js'
@@ -91,6 +94,7 @@ config:
         'orofrontend/js/app/views/counter-badge-view': 'bundles/orofrontend/js/app/views/counter-badge-view.js'
 
         'orofrontend/js/app/modules/component-shortcuts-module': 'bundles/orofrontend/js/app/modules/component-shortcuts-module.js'
+        'orofrontend/js/app/views/page/content-view': 'bundles/orofrontend/js/app/views/page/content-view.js'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
         - orofrontend/js/app/modules/component-shortcuts-module
