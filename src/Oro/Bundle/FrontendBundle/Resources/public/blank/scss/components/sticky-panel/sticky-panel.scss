@@ -38,6 +38,6 @@
 
 @include breakpoint('print') {
     .sticky-panel {
-        display: none;
+        display: none !important;
     }
 }
