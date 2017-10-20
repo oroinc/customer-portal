@@ -182,4 +182,14 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
             throw new \RuntimeException('Enabled customer has not default role');
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findUserBy(array $criteria)
+    {
+        $criteria = array_merge($criteria, ['isGuest' => false]);
+
+        return $this->getRepository()->findOneBy($criteria);
+    }
 }

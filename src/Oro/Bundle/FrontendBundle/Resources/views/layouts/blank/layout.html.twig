@@ -11,6 +11,13 @@
             id: form.vars.id
         }) %}
     {% endif %}
+
+    {%- for attrname, attrvalue in attr if attrvalue is iterable -%}
+        {% set attr = attr|merge({
+            (attrname): attrvalue|json_encode
+        }) %}
+    {%- endfor -%}
+
     {{ parent() }}
 {% endblock %}
 

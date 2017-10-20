@@ -149,6 +149,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
             $entity = new CustomerUser();
 
             $entity
+                ->setIsGuest(isset($user['isGuest']) ? $user['isGuest'] : false)
                 ->setCustomer($customer)
                 ->setOwner($owner)
                 ->setFirstName($user['first_name'])
@@ -158,7 +159,8 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
                 ->setOrganization($customer->getOrganization())
                 ->setConfirmationToken($user['confirmationToken'] ?? null)
                 ->addRole($role)
-                ->setPlainPassword($user['password']);
+                ->setPlainPassword($user['password'])
+                ->setConfirmed(isset($user['confirmed']) ? $user['confirmed'] : true);
 
             $this->setReference($entity->getEmail(), $entity);
 
