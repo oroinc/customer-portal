@@ -1,5 +1,9 @@
-## 2.4.0 (Unreleased)
+## 2.4.0 (2017-09-29)
 [Show detailed list of changes](incompatibilities-2-4.md)
+
+### Added
+#### ACL
+* In case when Customer Portal works together with CRM, the `Account Manager` role has full permissions for Account and Contact entities
 ### Changed
 #### FrontendBundle
 * some inline underscore templates were moved to separate .html file for each template.

@@ -8,6 +8,7 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserAndGuestWithSameUsername;
 
 class CustomerUserControllerRegisterTest extends WebTestCase
 {
@@ -23,6 +24,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $this->client->useHashNavigation(true);
         $this->configManager = $this->getContainer()->get('oro_config.manager');
         $this->loadFixtures([LoadCustomerUserData::class]);
+        $this->loadFixtures([LoadUserAndGuestWithSameUsername::class]);
     }
 
     /**
@@ -461,5 +463,37 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $crawler = $this->client->followRedirect();
 
         $this->assertEquals('Check Email', $crawler->filter('h2')->html());
+    }
+
+    public function testConfirmEmailSameUsernameForUserAndVisitor()
+    {
+        $user = $this->getCustomerUser(['email' => LoadUserAndGuestWithSameUsername::SAME_EMAIL, 'isGuest' => false]);
+        $this->assertNotEmpty($user);
+        $this->assertTrue($user->isEnabled());
+        $this->assertFalse($user->isConfirmed());
+        $this->assertNotNull($user->getConfirmationToken());
+
+        $this->client->followRedirects(true);
+
+        // Follow confirmation link
+        $this->client->request(
+            'GET',
+            $this->getUrl(
+                'oro_customer_frontend_customer_user_confirmation',
+                [
+                    'username' => $user->getUsername(),
+                    'token' => $user->getConfirmationToken()
+                ]
+            )
+        );
+
+        $result = $this->client->getResponse();
+        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+
+        $user = $this->getCustomerUser(['email' => LoadUserAndGuestWithSameUsername::SAME_EMAIL, 'isGuest' => false]);
+        $this->assertNotEmpty($user);
+        $this->assertTrue($user->isEnabled());
+        $this->assertTrue($user->isConfirmed());
+        $this->assertNull($user->getConfirmationToken());
     }
 }

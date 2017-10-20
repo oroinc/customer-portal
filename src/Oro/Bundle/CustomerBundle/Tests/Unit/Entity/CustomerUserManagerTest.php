@@ -282,4 +282,34 @@ class CustomerUserManagerTest extends \PHPUnit_Framework_TestCase
             [false]
         ];
     }
+
+    public function testFindUserBy()
+    {
+        $repository = $this->createMock('Doctrine\Common\Persistence\ObjectRepository');
+        $this->om
+            ->expects($this->any())
+            ->method('getRepository')
+            ->withAnyParameters()
+            ->will($this->returnValue($repository));
+
+        $class = $this->createMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
+        $this->om
+            ->expects($this->any())
+            ->method('getClassMetadata')
+            ->with($this->equalTo(static::USER_CLASS))
+            ->will($this->returnValue($class));
+
+        $this->registry->expects($this->any())
+            ->method('getManagerForClass')
+            ->will($this->returnValue($this->om));
+
+        $criteria = ['id' => 0];
+
+        $repository
+            ->expects($this->once())
+            ->method('findOneBy')
+            ->with($this->equalTo(array_merge($criteria, ['isGuest' => false])));
+
+        $this->userManager->findUserBy($criteria);
+    }
 }
