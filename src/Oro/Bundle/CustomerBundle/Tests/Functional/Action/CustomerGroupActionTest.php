@@ -22,18 +22,20 @@ class CustomerGroupActionTest extends WebTestCase
     {
         /** @var CustomerGroup $entity */
         $entity = $this->getReference('customer_group.group1');
-        $id = $entity->getId();
+        $operationName = 'oro_customer_groups_delete';
+        $entityId = $entity->getId();
+        $entityClass = $this->getContainer()->getParameter('oro_customer.entity.customer_group.class');
         $this->client->request(
-            'GET',
+            'POST',
             $this->getUrl(
                 'oro_action_operation_execute',
                 [
-                    'operationName' => 'oro_customer_groups_delete',
-                    'entityId[id]' => $id,
-                    'entityClass' => $this->getContainer()->getParameter('oro_customer.entity.customer_group.class'),
+                    'operationName' => $operationName,
+                    'entityId[id]' => $entityId,
+                    'entityClass' => $entityClass,
                 ]
             ),
-            [],
+            $this->getOperationExecuteParams($operationName, ['id' => $entityId], $entityClass),
             [],
             ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']
         );
@@ -45,32 +47,59 @@ class CustomerGroupActionTest extends WebTestCase
         $removedGroup = static::getContainer()
             ->get('doctrine')
             ->getRepository('OroCustomerBundle:CustomerGroup')
-            ->find($id);
+            ->find($entityId);
 
         static::assertNull($removedGroup);
     }
 
     public function testDeleteAnonymousUserGroup()
     {
-        $id = $this->getContainer()
+        $entityId = $this->getContainer()
             ->get('oro_config.global')
             ->get('oro_customer.anonymous_customer_group');
 
+        $operationName = 'oro_customer_groups_delete';
+        $entityClass   = $this->getContainer()->getParameter('oro_customer.entity.customer_group.class');
         $this->client->request(
-            'GET',
+            'POST',
             $this->getUrl(
                 'oro_action_operation_execute',
                 [
-                    'operationName' => 'oro_customer_groups_delete',
-                    'entityId[id]' => $id,
-                    'entityClass' => $this->getContainer()->getParameter('oro_customer.entity.customer_group.class'),
+                    'operationName' => $operationName,
+                    'entityId[id]' => $entityId,
+                    'entityClass' => $entityClass,
                 ]
             ),
-            [],
+            $this->getOperationExecuteParams($operationName, $entityId, $entityClass),
             [],
             ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']
         );
         $result = $this->client->getResponse();
         $this->assertSame(403, $result->getStatusCode());
+    }
+
+    /**
+     * @param $operationName
+     * @param $entityId
+     * @param $entityClass
+     *
+     * @return array
+     */
+    protected function getOperationExecuteParams($operationName, $entityId, $entityClass)
+    {
+        $actionContext = [
+            'entityId'    => $entityId,
+            'entityClass' => $entityClass
+        ];
+        $container = $this->getContainer();
+        $operation = $container->get('oro_action.operation_registry')->findByName($operationName);
+        $actionData = $container->get('oro_action.helper.context')->getActionData($actionContext);
+
+        $tokenData = $this->getContainer()
+            ->get('oro_action.operation.execution.form_provider')
+            ->createTokenData($operation, $actionData);
+        $container->get('session')->save();
+
+        return $tokenData;
     }
 }
