@@ -5,7 +5,6 @@ $customer-info-grid-title-font-size: $base-font-size--large !default;
 $customer-info-grid-title-text-transform: uppercase !default;
 
 $customer-info-grid-element-label-offest-inner: $offset-y-s $offset-y-m 2px 0 !default;
-$customer-info-grid-element-label-min-width: 120px !default;
 $customer-info-grid-element-label-font-weight: bold !default;
 
 $customer-info-grid-element-label-white-space: nowrap !default;
@@ -14,13 +13,12 @@ $customer-info-grid-element-content-offest-inner: $offset-y-s $offset-y-m 2px !d
 $customer-info-grid-element-content-font-style: italic !default;
 $customer-info-grid-element-content-word-wrap: break-word !default;
 
-$customer-info-grid-table-width: 100% !default;
-$customer-info-grid-table-layout: fixed !default;
 $customer-info-grid-table-line-height: 1.2 !default;
 
 // tablet-small
 $customer-info-grid-element-label-white-space-tablet-small: normal !default;
 $customer-info-grid-column-offset-inner-left: 0 !default;
+$customer-info-grid-element-label-width-tablet-small: 150px !default;
 
 // print
 $customer-info-grid-column-width: 50% !default;;

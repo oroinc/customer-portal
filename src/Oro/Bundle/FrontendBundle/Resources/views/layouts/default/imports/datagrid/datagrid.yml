@@ -13,7 +13,7 @@ layout:
             optionValue:
                 cssClass: 'frontend-datagrid'
                 enableFloatingHeaderPlugin: false
-                enableToggleFilters: true
+                enableToggleFilters: false
                 themeOptions:
                     actionsDropdown: 'auto'
                     actionOptions:
