@@ -1,6 +1,8 @@
 // @theme: blank;
 
 .customer-line-items {
+    margin-bottom: $customer-line-items-offset-bottom;
+
     &__title {
         margin-bottom: $customer-line-items-title-offset-bottom;
 
@@ -29,6 +31,8 @@
     }
 
     .grid-cell {
+        vertical-align: $customer-line-items-table-cell-vertical-align;
+
         &--offset-l-none {
             padding-left: $customer-line-items-grid-cell--offset-l-none;
         }
@@ -57,7 +61,7 @@
     }
 }
 
-@include breakpoint('tablet-small') {
+@include breakpoint('mobile-landscape') {
     .customer-line-items {
         &__title {
             padding-bottom: $customer-line-items-title-offset-inner-bottom-tablet-small;
@@ -122,6 +126,15 @@
             &.notes-cell {
                 width: $customer-line-items-notes-cell-width-tablet-small;
             }
+        }
+    }
+}
+
+@include breakpoint('print') {
+    .customer-line-items {
+        &__title {
+            float: $customer-line-items-title-float-print;
+            padding-top: $customer-line-items-title-offset-top-print;
         }
     }
 }
