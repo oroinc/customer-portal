@@ -133,20 +133,47 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
      */
     protected function executeOperation(CustomerUserRole $customerUserRole, $operationName)
     {
+        $entityClass = 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole';
+        $id = $customerUserRole->getId();
         $this->client->request(
-            'GET',
+            'POST',
             $this->getUrl(
                 'oro_frontend_action_operation_execute',
                 [
                     'operationName' => $operationName,
                     'route' => 'oro_customer_frontend_customer_user_role_view',
-                    'entityId' => $customerUserRole->getId(),
-                    'entityClass' => 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole'
+                    'entityId' => $id,
+                    'entityClass' => $entityClass
                 ]
             ),
-            [],
+            $this->getOperationExecuteParams($operationName, $id, $entityClass),
             [],
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
+    }
+
+    /**
+     * @param $operationName
+     * @param $entityId
+     * @param $entityClass
+     *
+     * @return array
+     */
+    protected function getOperationExecuteParams($operationName, $entityId, $entityClass)
+    {
+        $actionContext = [
+            'entityId'    => $entityId,
+            'entityClass' => $entityClass
+        ];
+        $container = self::getContainer();
+        $operation = $container->get('oro_action.operation_registry')->findByName($operationName);
+        $actionData = $container->get('oro_action.helper.context')->getActionData($actionContext);
+
+        $tokenData = $container
+            ->get('oro_action.operation.execution.form_provider')
+            ->createTokenData($operation, $actionData);
+        $container->get('session')->save();
+
+        return $tokenData;
     }
 }

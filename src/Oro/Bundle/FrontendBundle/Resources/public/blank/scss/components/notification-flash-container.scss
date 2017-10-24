@@ -9,3 +9,9 @@
         display: none;
     }
 }
+
+@include breakpoint('print') {
+    .notification-flash-container {
+        display: none !important;
+    }
+}
