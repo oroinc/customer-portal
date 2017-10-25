@@ -46,3 +46,9 @@
         position: static;
     }
 }
+
+@include breakpoint('print') {
+    .scroll-top {
+        display: none !important;
+    }
+}

@@ -41,8 +41,11 @@ config:
             'orofilter/templates/filter/text-filter.html': 'orofrontend/templates/filters/text-filter.html'
             # Filters templates END
             'orofilter/js/plugins/filters-toggle-plugin': 'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin'
+            'oroui/js/app/views/page/content-view': 'orofrontend/js/app/views/page/content-view'
         'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin':
             'orofilter/js/plugins/filters-toggle-plugin': 'orofilter/js/plugins/filters-toggle-plugin'
+        'orofrontend/js/app/views/page/content-view':
+            'oroui/js/app/views/page/content-view': 'oroui/js/app/views/page/content-view'
     paths:
         'orofrontend/js/app/components/widget-form-component': 'bundles/orofrontend/js/app/components/widget-form-component.js'
         'orofrontend/js/app/components/switchable-editable-view-component': 'bundles/orofrontend/js/app/components/switchable-editable-view-component.js'
@@ -68,6 +71,7 @@ config:
         'orofrontend/default/js/app/views/sticky-panel-view': 'orofrontend/default/js/app/views/sticky-panel-view.js'
         'orofrontend/default/js/app/views/scroll-top-view': 'bundles/orofrontend/default/js/app/views/scroll-top-view.js'
         'orofrontend/blank/js/app/views/fullscreen-popup-view': 'orofrontend/blank/js/app/views/fullscreen-popup-view.js'
+        'orofrontend/blank/js/widgets/print-page-widget': 'bundles/orofrontend/blank/js/widgets/print-page-widget.js'
         'orofrontend/js/app/views/dom-relocation-view': 'orofrontend/js/app/views/dom-relocation-view.js'
         'orofrontend/js/app/views/style-book-elements-navigation-view': 'orofrontend/js/app/views/style-book-elements-navigation-view.js'
         'orofrontend/default/js/app/modules/input-widgets': 'bundles/orofrontend/default/js/app/modules/input-widgets.js'
@@ -91,6 +95,10 @@ config:
         'orofrontend/js/app/views/counter-badge-view': 'bundles/orofrontend/js/app/views/counter-badge-view.js'
 
         'orofrontend/js/app/modules/component-shortcuts-module': 'bundles/orofrontend/js/app/modules/component-shortcuts-module.js'
+        'orofrontend/js/app/views/page/content-view': 'bundles/orofrontend/js/app/views/page/content-view.js'
+        'orofrontend/js/app/components/frontend-dialog-widget': 'bundles/orofrontend/js/app/components/frontend-dialog-widget.js'
+
+        'orofrontend/js/app/views/scroll-view': 'bundles/orofrontend/js/app/views/scroll-view.js'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
         - orofrontend/js/app/modules/component-shortcuts-module
