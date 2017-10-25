@@ -10,6 +10,8 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 
 class LoadCustomerUserAddresses extends AbstractAddressesFixture implements DependentFixtureInterface
 {
+    const OTHER_USER_LABEL = 'other.user@test.com.address_1';
+
     /**
      * @var array
      */
@@ -61,7 +63,7 @@ class LoadCustomerUserAddresses extends AbstractAddressesFixture implements Depe
         ],
         [
             'customer_user' => 'other.user@test.com',
-            'label' => 'other.user@test.com.address_1',
+            'label' => self::OTHER_USER_LABEL,
             'street' => '2849 Junkins Avenue',
             'city' => 'Albany',
             'postalCode' => '31707',

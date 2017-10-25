@@ -40,6 +40,7 @@ abstract class AbstractAddressesFixture extends AbstractFixture
 
         $address->setDefaults($defaults);
         $address->setPrimary($addressData['primary'])
+            ->setLabel($addressData['label'])
             ->setStreet($addressData['street'])
             ->setCity($addressData['city'])
             ->setPostalCode($addressData['postalCode'])

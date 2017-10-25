@@ -10,7 +10,9 @@ define([
         options: $.extend({}, $.oroui.collapseWidget.options, {
             rowsCount: 0,
             visibleRows: 3,
-            checkOverflow: true
+            checkOverflow: true,
+            rowSelector: 'tbody tr',
+            headerSelector: 'thead'
         }),
 
         _init: function() {
@@ -65,8 +67,9 @@ define([
         },
 
         getRowsHeight: function(rows) {
-            var $rows = this.$el.find('tbody tr');
-            var height = this.$el.find('thead tr').outerHeight();
+            var self = this;
+            var $rows = this.$el.find(self.options.rowSelector);
+            var height = this.$el.find(self.options.headerSelector).outerHeight();
             var rowsCount = rows || $rows.length;
 
             $rows.each(_.bind(function(index, row) {
