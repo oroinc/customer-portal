@@ -19,7 +19,7 @@ data:
         country:
             data:
                 type: countries
-                id: '<toString(@country.usa->iso2Code)>'
+                id: '<toString(@country.mexico->iso2Code)>'
         frontendOwner:
             data:
                 type: customer_users

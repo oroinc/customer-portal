@@ -150,6 +150,37 @@ class RestCustomerUserAddressTest extends AbstractRestTest
         $this->assertEquals(Response::HTTP_CONFLICT, $response->getStatusCode());
     }
 
+    public function testUpdateCustomerUserAddressesWrongRegion()
+    {
+        $repository = $this->getEntityManager()->getRepository(CustomerUserAddress::class);
+
+        $customerUserAddressId = (string)$repository->findOneBy(
+            [
+                'label' => LoadCustomerUserAddresses::OTHER_USER_LABEL
+            ]
+        )
+            ->getId();
+
+        $response = $this->patch(
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => $customerUserAddressId
+            ],
+            'update_customer_users_address_wrong_region.yml',
+            [],
+            false
+
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title' => 'callback constraint',
+                'detail' => 'Region New York does not belong to country Mexico'
+            ],
+            $response
+        );
+    }
+
     public function testUpdateCustomerUserAddresses()
     {
         $repository = $this->getEntityManager()->getRepository(CustomerUserAddress::class);
@@ -178,7 +209,7 @@ class RestCustomerUserAddressTest extends AbstractRestTest
             $customerUserAddress->getFrontendOwner()->getId()
         );
         $this->assertEquals(
-            $this->getReference('country.mexico')->getIso2Code(),
+            $this->getReference('country.usa')->getIso2Code(),
             $customerUserAddress->getCountryIso2()
         );
 
