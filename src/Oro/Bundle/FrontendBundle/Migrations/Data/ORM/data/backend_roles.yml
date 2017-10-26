@@ -1,8 +1,14 @@
 ROLE_ACCOUNT_MANAGER:
     label: Account Manager
+    permissions:
+        action|update_own_profile: [EXECUTE]
 
 ROLE_CATALOG_MANAGER:
     label: Catalog Manager
+    permissions:
+        action|update_own_profile: [EXECUTE]
 
 ROLE_SALES_ASSISTANT:
     label: Sales Assistant
+    permissions:
+        action|update_own_profile: [EXECUTE]
