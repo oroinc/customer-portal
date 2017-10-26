@@ -31,6 +31,11 @@ oro:
         sales_representatives:
             label: 'Assigned Sales Representatives'
             description: 'Assigned Sales Representatives'
+        action:
+            update_profile:
+                label: Update User Profile
+                description: Allows the Customer User to update their own profile regardless of Edit permissions for Customer User entity.
+
 oro.customer:
     customer:
         entity_label: 'Customer'

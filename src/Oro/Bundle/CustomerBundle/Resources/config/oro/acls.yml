@@ -150,3 +150,10 @@ acls:
         group_name: "commerce"
         bindings: ~
         category: "application"
+
+    oro_customer_frontend_update_own_profile:
+        type: action
+        label: oro.customer.action.update_profile.label
+        description: oro.customer.action.update_profile.description
+        group_name: "commerce"
+        category: "application"
