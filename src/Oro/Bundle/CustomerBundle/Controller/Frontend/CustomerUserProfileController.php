@@ -35,7 +35,7 @@ class CustomerUserProfileController extends Controller
      *
      * @Route("/update", name="oro_customer_frontend_customer_user_profile_update")
      * @Layout()
-     * @AclAncestor("oro_customer_frontend_profile_user")
+     * @AclAncestor("oro_customer_frontend_update_own_profile")
      *
      * @param Request $request
      * @return array|RedirectResponse
