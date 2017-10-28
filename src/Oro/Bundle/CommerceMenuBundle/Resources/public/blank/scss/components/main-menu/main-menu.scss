@@ -217,7 +217,7 @@
 
         &__sublist-container {
             position: absolute;
-            top: $fullscreen-popup-header-height - 1;
+            top: $fullscreen-popup-header-min-height - 1;
             left: 100%;
             z-index: z('base');
 

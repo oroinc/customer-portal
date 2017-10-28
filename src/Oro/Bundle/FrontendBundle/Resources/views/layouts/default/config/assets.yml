@@ -24,6 +24,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/embedded-list/embedded-list-slider-config.scss'
         - 'bundles/orofrontend/default/scss/variables/datagrid-manager-config.scss'
         - 'bundles/orofrontend/default/scss/variables/ui/dialog-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/badge-config.scss'
         - 'bundles/orofrontend/default/scss/styles.scss'
     output: 'css/layout/default/styles.css'
 

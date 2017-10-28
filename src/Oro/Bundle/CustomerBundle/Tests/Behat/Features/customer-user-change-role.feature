@@ -15,5 +15,5 @@ Feature: Update customer user roles
     Given I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account"
     And I click "Users"
-    And click Edit AmandaRCole@example.org in grid
-    And I should not see "Buyer"
+    And I should not see following actions for AmandaRCole@example.org in grid:
+      | Edit |

@@ -36,7 +36,7 @@ class CustomerUserProviderTest extends WebTestCase
             LoadCustomerUserRoles::ADMINISTRATOR,
             [true, true, true, true, true, true, true]
         );
-        $this->assertRoleHasPermission(LoadCustomerUserRoles::BUYER, [true, false, true, false, false, false, true]);
+        $this->assertRoleHasPermission(LoadCustomerUserRoles::BUYER, [true, false, true, false, false, false, false]);
 
         $roleName = 'DENIED';
         $role = new CustomerUserRole(CustomerUserRole::PREFIX_ROLE . $roleName);

@@ -216,37 +216,96 @@ oro.customer:
             value.false.label:      'No'
 
     customeruseraddress:
-        city.label:                 City
-        country.label:              Country
-        entity_description:         Represent customer user's address
+        entity_description:         A customer user address is an address created for customer user in their address book. Customer user address contains information about the customer user formal name and their postal address. Customer user address may be flagged as billing and/or shipping address, marked as default for billing and/or shipping, and/or marked as a primary address.
         entity_label:               Customer User Address
         entity_plural_label:        Customer User Addresses
-        first_name.label:           First Name
-        id.label:                   Id
-        label.label:                Label
-        last_name.label:            Last Name
-        middle_name.label:          Middle Name
-        name_prefix.label:          Name Prefix
-        name_suffix.label:          Name Suffix
-        organization.label:         Organization
-        system_organization.label:  System Organization
-        frontend_owner.label:       Frontend Owner
-        owner.label:                Owner
-        postal_code.label:          Zip/Postal Code
-        primary.label:              Primary
-        region.label:               State
-        region_text.label:          State
-        street.label:               Street
-        street2.label:              Street 2
-        types.label:                Types
-        addresses_to_types.label:   Addresses to address types
-        phone.label:                Phone
-
-        country_name.label:         Country name
-        country_iso2_code.label:    Country ISO2 code
-        country_iso3_code.label:    Country ISO3 code
-        region_name.label:          State name
-        region_code.label:          State ISO code
+        city:
+            label: City
+            description: City, a part of the customer user postal address.
+        country:
+            label: Country
+            description: Country, a part of the customer user postal address.
+        first_name:
+            label: First Name
+            description: First Name of the customer user for the billing or shipping address.
+        id:
+            label: Id
+            description: Id
+        label:
+            label: Label
+            description: Label that is used as human-readable identifier for the customer user address.
+        last_name:
+            label: Last Name
+            description: Last Name of the customer user for the billing or shipping address.
+        middle_name:
+            label: Middle Name
+            description: Middle Name of the customer user for the billing or shipping address.
+        name_prefix:
+            label: Name Prefix
+            description: Name Prefix of the customer user for the billing or shipping address. For example, Mr, Ms, or Mrs.
+        name_suffix:
+            label: Name Suffix
+            description: Name Suffix of the customer user for the billing or shipping address. For example, M.D., Jr., I, II, etc.
+        organization:
+            label: Organization
+            description: Name of customer user organization for the billing or shipping address. 
+        system_organization:
+            label: System Organization
+            description: Relationship with the system organization the customer user belongs to. 
+        frontend_owner:
+            label: Frontend Owner
+            description: A customer user who is assigned as a customer user address record owner in the front store.
+        owner:
+            label: Owner
+            description: A user who is assigned as a customer user address record owner in the management console.
+        postal_code:
+            label: Zip/Postal Code
+            description: Zip/Postal Code for the billing or shipping address.
+        primary:
+            label: Primary
+            description: A flag that marks for the customer user address as Primary.
+        region:
+            label: State
+            description: State, the part of the customer user postal address.
+        region_text:
+            label: State
+            description: State, the part of the customer user postal address.
+        street:
+            label: Street
+            description: Street, the part of the customer user postal address.
+        street2:
+            label: Street 2
+            description: Street 2, the part of the customer user postal address.
+        types:
+            label: Types
+            description: Customer user address types
+        addresses_to_types:
+            label: Addresses to address types
+            description: Addresses to address types
+        phone:
+            label: Phone
+            description: Customer user phone that may be used for shipping or payment related communication. 
+        country_name:
+            label: Country name
+            description: Country name, the part of the customer user postal address.
+        country_iso2_code:
+            label: Country ISO2 code
+            description: Country ISO2 code
+        country_iso3_code:
+            label: Country ISO3 code
+            description: Country ISO3 code
+        region_name:
+            label: State name
+            description: State name, the part of the customer user postal address.
+        region_code:
+            label: State ISO code
+            description: State ISO code
+        created:
+            label: Created
+            description: The date and time of the customer user address record creation.
+        updated:
+            label: Updated
+            description: The date and time of the last update of the customer user address.
 
     action:
         customer_user:
