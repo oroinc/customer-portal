@@ -69,6 +69,7 @@ define(function(require) {
                 options.productModel.on('backgrid:canSelected', _.bind(function(checked) {
                     this.toggleGalleryTrigger(checked);
                 }, this));
+
                 options.productModel.trigger('backgrid:getVisibleState', o);
 
                 if (!_.isEmpty(o)) {
