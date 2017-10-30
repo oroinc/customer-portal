@@ -14,3 +14,9 @@
         color: $breadcrumbs-link-color;
     }
 }
+
+@include breakpoint('print') {
+    .breadcrumbs {
+        display: none !important;
+    }
+}
