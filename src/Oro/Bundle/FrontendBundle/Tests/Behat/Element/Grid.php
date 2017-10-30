@@ -23,7 +23,7 @@ class Grid extends BaseGrid
             return $this->options['mapping'][$name];
         }
 
-        $mappings = static::DEFAULT_MAPPINGS;
+        $mappings = self::DEFAULT_MAPPINGS;
         if (isset($mappings[$name])) {
             return $mappings[$name];
         }
