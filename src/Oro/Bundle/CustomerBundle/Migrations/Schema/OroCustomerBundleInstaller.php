@@ -74,7 +74,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_15';
+        return 'v1_16';
     }
 
     /**
@@ -177,7 +177,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('birthday', 'date', ['notnull' => false]);
         $table->addColumn('enabled', 'boolean', []);
         $table->addColumn('confirmed', 'boolean', []);
-        $table->addColumn('is_guest', 'boolean', []);
+        $table->addColumn('is_guest', 'boolean', ['default' => false]);
         $table->addColumn('salt', 'string', ['length' => 255]);
         $table->addColumn('password', 'string', ['length' => 255]);
         $table->addColumn('confirmation_token', 'string', ['notnull' => false, 'length' => 255]);
@@ -236,10 +236,14 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('group_id', 'integer', ['notnull' => false]);
         $table->addColumn('owner_id', 'integer', ['notnull' => false]);
         $table->addColumn('organization_id', 'integer', ['notnull' => false]);
+        $table->addColumn('created_at', 'datetime', ['notnull' => true]);
+        $table->addColumn('updated_at', 'datetime', ['notnull' => true]);
 
         $table->setPrimaryKey(['id']);
 
         $table->addIndex(['name'], 'oro_customer_name_idx', []);
+        $table->addIndex(['created_at'], 'idx_oro_customer_created_at', []);
+        $table->addIndex(['updated_at'], 'idx_oro_customer_updated_at', []);
 
         $this->attachmentExtension->addAttachmentAssociation(
             $schema,

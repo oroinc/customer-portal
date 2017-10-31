@@ -30,30 +30,57 @@ class CustomerUserAddressActionTest extends WebTestCase
         /** @var CustomerUser customerUser */
         $customerUser = $this->getReference(LoadCustomerUserData::EMAIL);
         $id = $customerUser->getAddresses()->first()->getId();
+        $operationName = 'oro_customer_user_frontend_address_delete';
+        $entityClass = CustomerUserAddress::class;
         $this->client->request(
-            'GET',
+            'POST',
             $this->getUrl(
                 'oro_frontend_action_operation_execute',
                 [
-                    'operationName' => 'oro_customer_user_frontend_address_delete',
+                    'operationName' => $operationName,
                     'entityId' => $id,
-                    'entityClass' => CustomerUserAddress::class,
+                    'entityClass' => $entityClass,
                 ]
             ),
-            [],
+            $this->getOperationExecuteParams($operationName, $id, $entityClass),
             [],
             ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']
         );
 
         $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 200);
 
-        static::getContainer()->get('doctrine')->getManagerForClass(CustomerUserAddress::class)->clear();
+        self::getContainer()->get('doctrine')->getManagerForClass($entityClass)->clear();
 
-        $removedAddress = static::getContainer()
+        $removedAddress = self::getContainer()
             ->get('doctrine')
             ->getRepository('OroCustomerBundle:CustomerUserAddress')
             ->find($id);
 
         static::assertNull($removedAddress);
+    }
+
+    /**
+     * @param $operationName
+     * @param $entityId
+     * @param $entityClass
+     *
+     * @return array
+     */
+    protected function getOperationExecuteParams($operationName, $entityId, $entityClass)
+    {
+        $actionContext = [
+            'entityId'    => $entityId,
+            'entityClass' => $entityClass
+        ];
+        $container = self::getContainer();
+        $operation = $container->get('oro_action.operation_registry')->findByName($operationName);
+        $actionData = $container->get('oro_action.helper.context')->getActionData($actionContext);
+
+        $tokenData = $container
+            ->get('oro_action.operation.execution.form_provider')
+            ->createTokenData($operation, $actionData);
+        $container->get('session')->save();
+
+        return $tokenData;
     }
 }

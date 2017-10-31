@@ -2,7 +2,10 @@ layout:
     actions:
         - '@setBlockTheme':
             themes: 'require_js_config.html.twig'
+
         - '@add':
-            id: require_js_config
+            id: require_js_multi_select_filter_config
             parentId: require_js
             blockType: block
+            options:
+                visible: '=data["system_config_provider"].getValue("oro_frontend.filter_value_selectors")=="all_at_once"'

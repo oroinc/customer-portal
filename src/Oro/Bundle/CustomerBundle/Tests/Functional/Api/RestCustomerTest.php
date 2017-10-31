@@ -2,13 +2,14 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api;
 
+use Symfony\Component\HttpFoundation\Response;
+
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -41,6 +42,8 @@ class RestCustomerTest extends AbstractRestTest
     {
         $response = $this->cget(['entity' => $this->getEntityType(Customer::class)]);
         $this->assertResponseContains(__DIR__.'/responses/get_customers.yml', $response);
+        $this->assertContains('createdAt', $response->getContent());
+        $this->assertContains('updatedAt', $response->getContent());
     }
 
     public function testDeleteByFilterCustomer()
@@ -56,6 +59,81 @@ class RestCustomerTest extends AbstractRestTest
 
         $this->assertResponseStatusCodeEquals($response, Response::HTTP_NO_CONTENT);
         $this->assertNull($this->getManager()->getRepository(Customer::class)->findOneByName('customer to delete'));
+    }
+
+    public function testGetCustomersFilteredByCreatedAt()
+    {
+        $customer = $this->createCustomer('customer created now');
+        $this->getManager()->clear();
+
+        $uri = $this->getUrl(
+            'oro_rest_api_cget',
+            ['entity' => $this->getEntityType(Customer::class)]
+        );
+
+        $response = $this->request(
+            'GET',
+            $uri . '?filter[createdAt]>=' . urlencode($customer->getCreatedAt()->format('c'))
+        );
+
+        $this->assertResponseStatusCodeEquals($response, Response::HTTP_OK);
+        $this->assertContains('customer created now', $response->getContent());
+
+        $response = $this->request(
+            'GET',
+            $uri . '?filter[createdAt]<' . urlencode($customer->getCreatedAt()->format('c'))
+        );
+
+        $this->assertResponseStatusCodeEquals($response, Response::HTTP_OK);
+        $this->assertNotContains('customer created now', $response->getContent());
+
+        $this->deleteEntities([$customer]);
+    }
+
+    public function testGetCustomersFilteredByUpdatedAt()
+    {
+        $customer = $this->createCustomer('customer created now');
+        $this->getManager()->clear();
+
+        $uri = $this->getUrl(
+            'oro_rest_api_cget',
+            ['entity' => $this->getEntityType(Customer::class)]
+        );
+
+        $response = $this->request(
+            'GET',
+            $uri . '?filter[updatedAt]>' . urlencode($customer->getCreatedAt()->format('c'))
+        );
+
+        $this->assertResponseStatusCodeEquals($response, Response::HTTP_OK);
+        $this->assertNotContains('customer created now', $response->getContent());
+
+        $data = [
+            'data' => [
+                'type' => $this->getEntityType(Customer::class),
+                'id' => (string)$customer->getId(),
+                'attributes' => ['name' => 'customer created now and updated'],
+            ],
+        ];
+
+        $uri = $this->getUrl(
+            'oro_rest_api_patch',
+            [
+                'entity' => $this->getEntityType(Customer::class),
+                'id' => $customer->getId(),
+            ]
+        );
+        $this->request('PATCH', $uri, $data);
+
+        $response = $this->request(
+            'GET',
+            $uri . '?filter[updatedAt]>' . urlencode($customer->getCreatedAt()->format('c'))
+        );
+
+        $this->assertResponseStatusCodeEquals($response, Response::HTTP_OK);
+        $this->assertContains('customer created now and updated', $response->getContent());
+
+        $this->deleteEntities([$customer]);
     }
 
     public function testCreateCustomer()
@@ -78,6 +156,9 @@ class RestCustomerTest extends AbstractRestTest
         $this->assertSame($owner->getId(), $customer->getOwner()->getId());
         $this->assertSame('internal_rating.1 of 5', $customer->getInternalRating()->getName());
         $this->assertSame($group->getId(), $customer->getGroup()->getId());
+        $this->assertNotEmpty($customer->getCreatedAt());
+        $this->assertNotEmpty($customer->getUpdatedAt());
+        $this->assertEquals($customer->getUpdatedAt(), $customer->getCreatedAt());
 
         $this->deleteEntities([$customer]);
     }
@@ -92,6 +173,8 @@ class RestCustomerTest extends AbstractRestTest
             'id' => '<toString(@customer.1->id)>',
         ]);
         $this->assertResponseContains(__DIR__.'/responses/get_customer.yml', $response);
+        $this->assertContains('createdAt', $response->getContent());
+        $this->assertContains('updatedAt', $response->getContent());
     }
 
     public function testUpdateCustomer()
@@ -147,6 +230,41 @@ class RestCustomerTest extends AbstractRestTest
 
         $this->deleteEntities([$customer]);
     }
+
+    public function testUpdateCustomerFailsWhenTryingToChangeTimestamps()
+    {
+        $customer = $this->createCustomer(
+            'customer to update',
+            $this->getGroup(LoadGroups::GROUP1),
+            'internal_rating.1 of 5'
+        );
+        $data = [
+            'data' => [
+                'type' => $this->getEntityType(Customer::class),
+                'id' => (string)$customer->getId(),
+                'attributes' => [
+                    'name'      => 'customer updated',
+                    'createdAt' => new \DateTime(),
+                    'updatedAt' => new \DateTime()
+
+                ],
+            ],
+        ];
+
+        $uri = $this->getUrl(
+            'oro_rest_api_patch',
+            [
+                'entity' => $this->getEntityType(Customer::class),
+                'id' => $customer->getId(),
+            ]
+        );
+        $response = $this->request('PATCH', $uri, $data);
+
+        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+
+        $this->deleteEntities([$customer]);
+    }
+
 
     public function testGetGroupSubresource()
     {

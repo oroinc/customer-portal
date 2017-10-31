@@ -1,6 +1,7 @@
 {% block __oro_customer_address_form__container_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " address-form"
+        '~class': ' address-form',
+        'data-focusable': true,
     }) %}
 
     <div{{ block('block_attributes') }}>
@@ -10,7 +11,7 @@
 
 {% block __oro_customer_address_form__form_actions_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " address-form-actions"
+        '~class': ' address-form-actions'
     }) %}
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -19,7 +20,7 @@
 
 {% block __oro_customer_address_form__form_required_label_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " required-label"
+        '~class': ' required-label'
     }) %}
 
     <p {{ block('block_attributes') }}><sup>*</sup> {{ 'oro.customer.form.label.required'|trans }}</p>

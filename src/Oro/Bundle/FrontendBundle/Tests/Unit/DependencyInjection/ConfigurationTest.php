@@ -52,8 +52,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'value' => true,
                             'scope' => 'app',
                         ],
+                        'filter_value_selectors' => [
+                            'value' => 'dropdown',
+                            'scope' => 'app',
+                        ],
                     ],
                     'routes_to_expose' => [],
+                    'debug_routes' => true
                 ]
             ]
         ];

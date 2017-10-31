@@ -19,6 +19,7 @@ oro_behat_extension:
             - '@oro_importexport.processor.registry'
         - OroAddressBundle::AddressContext
         - OroCustomerBundle::CustomerVisitorContext
+        - OroEmailBundle::EmailContext
       paths:
         - '@OroCustomerBundle/Tests/Behat/Features'
 
@@ -50,9 +51,6 @@ oro_behat_extension:
     Customer Company Address Button:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views .grid-views__aditional .btn'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-    Customer Create User Button:
-      selector: '[id^="grid-frontend-customer-customer-user-grid"] .grid-views .grid-views__aditional .btn'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer User Registration Error Container:
       selector: ".form-row span.validation-failed"
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
@@ -65,6 +63,14 @@ oro_behat_extension:
           Show Registration Instructions: 'customer_users[oro_customer___registration_instructions_enabled][value]'
           Registration Instructions Text Default: 'customer_users[oro_customer___registration_instructions_text][use_parent_scope_value]'
           Registration Instructions Text: 'customer_users[oro_customer___registration_instructions_text][value]'
+    Customer Grid Settings Created At:
+      selector:
+        type: xpath
+        locator: '//label[contains(., "Created At")]/ancestor::td[contains(@class, "title-cell")]'
+    Customer Grid Settings Updated At:
+      selector:
+        type: xpath
+        locator: '//label[contains(., "Updated At")]/ancestor::td[contains(@class, "title-cell")]'
     Routing General form:
       selector: '[id^="routing-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -87,6 +93,17 @@ oro_behat_extension:
     Popup User Menu:
       selector: '.topbar-customer-menu .topbar-customer-menu-list'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
+    Popup User Menu Link Users:
+      selector:
+        type: xpath
+        locator: '//*[contains(@class, "topbar-customer-menu-list__item")]/descendant::a[contains(., "Users")]'
+
+    Popup User Menu Link Roles:
+      selector:
+        type: xpath
+        locator: '//*[contains(@class, "topbar-customer-menu-list__item")]/descendant::a[contains(., "Roles")]'
+
     Configuration:
       selector: '[title="Organization Configuration"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
@@ -126,15 +143,6 @@ oro_behat_extension:
       selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
 
-    Customer User Form:
-      selector: 'form[name="oro_customer_frontend_customer_user"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
-      options:
-        mapping:
-          Buyer (Predefined):
-            locator: '//input[@data-ftid="oro_customer_frontend_customer_user_roles_2"]/../span[@class="custom-checkbox__icon"]'
-            type: xpath
-            element: PrettyCheckbox
     Customer User Form Admin:
       selector: '[id^="oro_customer_customer_user-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -181,3 +189,26 @@ oro_behat_extension:
       selector:
         type: xpath
         locator: '//h2[contains(., "My Addresses")]/ancestor::*[contains(concat(" ", normalize-space(@class), " "), " list-address-book ")] '
+
+    Is Primary Address Checkbox:
+      selector: 'label[for*="oro_customer_frontend_typed_address_primary"]'
+
+    Create Address Form:
+      selector:
+        type: xpath
+        locator: '//h1[contains(., "Create Address")]/ancestor::section/descendant::form'
+
+    Edit Profile Button:
+      selector: 'div.customer-profile__controls a[title="Edit"]'
+
+    My Profile Menu Item:
+      selector: 'li.primary-menu__item a:contains("My Profile")'
+
+  pages:
+    Customer User Role View:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView
+      route: 'oro_customer_customer_user_role_view'
+
+    Customer User Profile Update:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserProfileUpdate
+      route: 'oro_customer_frontend_customer_user_profile_update'

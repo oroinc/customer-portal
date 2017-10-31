@@ -287,7 +287,7 @@ operations:
         applications: [commerce]
         routes:
             - oro_customer_frontend_customer_user_profile
-        acl_resource: [EDIT, $.data]
+        acl_resource: oro_customer_frontend_update_own_profile
         order: 5
         button_options:
             icon: fa-pencil
@@ -404,6 +404,10 @@ operations:
                 label: oro.grid.action.delete
                 link: delete_link
                 icon: trash-o
+        preconditions:
+            '@and':
+                - '@not':
+                    - '@customer_has_assignments': $.data
         actions:
             - '@run_action_group':
                 action_group: oro_customer_delete

@@ -1,6 +1,7 @@
 {% block _customer_user_page_widget %}
-    {% set attr = attr|merge({
-        class: attr.class|default('') ~ " customer_user_form"
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' customer_user_form',
+        'data-focusable': true,
     }) %}
     <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
 {% endblock %}
@@ -58,12 +59,13 @@
                 </div>
             {% endif %}
             <div class="grid__row grid__row--offset-none">
-                <div class="grid__column grid__column--6 grid__column--offset-y">
+                <div class="grid__column grid__column--4 grid__column--offset-y">
                     <div class="datepicker-box datepicker-box--form-mode">
                         <span class="datepicker-box__icon"><i class="fa-calendar"></i></span>
                         {{ form_row(form.birthday, {
                             'attr': {
-                                'class': 'datepicker-box__input input input--size-m'
+                                'class': 'datepicker-input input input--full',
+                                'max': 'now'|date('Y-m-d')
                             },
                             'parentClass': '',
                             'datePickerOptions': {
@@ -151,7 +153,7 @@
 
 {% block __oro_customer_user_form__customer_user_form_required_label_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " required-label"
+        '~class': ' required-label'
     }) %}
 
     <p {{ block('block_attributes') }}><sup>*</sup> {{ 'oro.customer.form.label.required'|trans }}</p>

@@ -1,0 +1,18 @@
+{% block __oro_customer_toolbar_actions__wrapper_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " box-toolbar box-toolbar--offset-none"
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __oro_customer_toolbar_actions__actions_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " box-toolbar__actions"
+    }) %}
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+

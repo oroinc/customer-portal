@@ -7,10 +7,9 @@ security:
         Oro\Bundle\CustomerBundle\Entity\CustomerUser: sha512
 
     firewalls:
-        frontend_secure:
-            # secure everything started with /customer/ except basic user operations
+        frontend:
             # @todo: secure api BB-1206
-            pattern:                        ^/api/rest.|/customer/(?!(user/login|user/reset-request|user/send-email|user/check-email|user/registration|user/confirm-email|user/reset)$).*$
+            pattern:                        ^/
             provider:                       commerce_customer_user
             context:                        customer_identity
             organization-form-login:
@@ -24,13 +23,8 @@ security:
             organization-remember-me:
                 key:                        %secret%
                 name:                       OROCOMMERCE
-                lifetime:                   1209600   # stay logged for two weeks
+                lifetime:                   2592000   # stay logged for 30 days
                 httponly:                   true
-            anonymous:                      false
-
-        frontend:
-            pattern:                        ^/
-            context:                        customer_identity
             anonymous_customer_user:        true
 
 doctrine:

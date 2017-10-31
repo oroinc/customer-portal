@@ -25,18 +25,50 @@ Feature: Popup user menu
   # Show how an administrator can change the template used for customer user menu
   # Show how the "popup" template works
 
-  Scenario: Popup user menu - is present on front store
-    Given I login as administrator
-    And go to System / Configuration
-    And I click "Commerce"
-    And I click "Design"
-    And I click "Theme"
+  Scenario: Create different window session
+    Given sessions active:
+      | Admin | first_session  |
+      | User  | second_session |
+
+  Scenario: Enable "Popup user menu"
+    Given I proceed as the Admin
+    And I login as administrator
+    And go to System/ Configuration
+    And I follow "Commerce/Design/Theme" on configuration sidebar
     And fill "Menu Templates Form" with:
-      | Use Default  | false                    |
-      | User Menu    | Show subitems in a popup |
-    And save form
-    And click "Save settings"
-    And I click Logout in user menu
-    Then I signed in as NancyJSallee@example.org on the store frontend
+      | Use Default | false                    |
+      | User Menu   | Show subitems in a popup |
+    When save form
+    Then I should see "Configuration saved" flash message
+
+  Scenario: Enable "Roles" page view for Buyer role
+    And go to Customers/ Customer User Roles
+    And I click Edit Buyer in grid
+    And select following permissions:
+      | Customer User Role | View:Department | Create:None | Edit:None |
+    And I save form
+    Then I should see "Customer User Role has been saved"
+
+  Scenario: "Popup user menu" is present on front store
+    Given I proceed as the User
+    And I signed in as AmandaRCole@example.org on the store frontend
     When I click "Popup User Menu trigger"
     And I should see an "Popup User Menu" element
+    And I should see an "Popup User Menu Link Users" element
+    And I should see an "Popup User Menu Link Roles" element
+    When I click on "Popup User Menu Link Roles"
+
+  Scenario: Deny "Roles" page view for Buyer role
+    Given I proceed as the Admin
+    And select following permissions:
+      | Customer User Role | View:None | Create:None | Edit:None |
+    And I save form
+    Then I should see "Customer User Role has been saved"
+
+  Scenario: Check that "Popup user menu" is present on front store and Roles link is not visible
+    Given I proceed as the User
+    When I reload the page
+    When I click "Popup User Menu trigger"
+    And I should see an "Popup User Menu" element
+    And I should see an "Popup User Menu Link Users" element
+    But I should not see an "Popup User Menu Link Roles" element

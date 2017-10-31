@@ -2,7 +2,7 @@
     <div class="fullscreen-popup__header" data-role="header">
         <% if (label) { %>
             <div class="fullscreen-popup__label">
-                <span class="fullscreen-popup__text"<% if (closeOnLabel) { %> data-role="close"<% } %>>
+                <span class="fullscreen-popup__text" <% if (closeOnLabel) { %> data-role="close"<% } %>>
                     <% if (icon) { %>
                         <% if (badge) { %>
                             <span class="fullscreen-popup__badge">
@@ -12,16 +12,19 @@
                             <i class="<%= icon %>"></i>
                         <% } %>
                     <% } %>
-                    <span class="fullscreen-popup__words"><%= label %></span>
+                    <span class="fullscreen-popup__words" data-role="title"><%= label %></span>
                 </span>
             </div>
         <% } %>
-        <% if (close) { %>
-            <buttom type="button" class="fullscreen-popup__close" data-role="close"></buttom>
-        <% } %>
     </div>
+
+    <% if (close) { %>
+        <buttom type="button" class="fullscreen-popup__close" data-role="close"></buttom>
+    <% } %>
 
     <div class="fullscreen-popup__content" data-role="content"></div>
 
-    <div class="fullscreen-popup__footer" data-role="footer"></div>
+    <% if (footerContentOptions) { %>
+        <div class="fullscreen-popup__footer" data-role="footer"></div>
+    <% } %>
 </div>

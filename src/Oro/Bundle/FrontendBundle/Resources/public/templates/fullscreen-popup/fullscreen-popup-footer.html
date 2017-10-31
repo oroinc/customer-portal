@@ -1,0 +1,5 @@
+<% if (!_.isUndefined(buttons)) { %>
+    <% _.each(buttons, function(button) { %>
+        <button type="<%- button.type %>" class="<%- button.class %>" data-role="<%- button.role %>"><%- button.label %></button>
+    <% }) %>
+<% } %>

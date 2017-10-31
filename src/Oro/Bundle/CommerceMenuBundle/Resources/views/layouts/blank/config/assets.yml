@@ -5,4 +5,5 @@ styles:
         - 'bundles/orocommercemenu/blank/scss/variables/top-bar-config.scss'
         - 'bundles/orocommercemenu/blank/scss/variables/information-nav-config.scss'
         - 'bundles/orocommercemenu/blank/scss/variables/quick-access-container-config.scss'
+        - 'bundles/orocommercemenu/blank/scss/variables/featured-menu-config.scss'
         - 'bundles/orocommercemenu/blank/scss/styles.scss'

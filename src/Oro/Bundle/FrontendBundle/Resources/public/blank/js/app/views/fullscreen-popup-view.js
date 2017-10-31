@@ -3,6 +3,8 @@ define(function(require) {
 
     var FullscreenPopupView;
     var template = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup.html');
+    var footerTemplate = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-footer.html');
+    var headerTemplate = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-header.html');
     var BaseView = require('oroui/js/app/views/base/view');
     var tools = require('oroui/js/tools');
     var mediator = require('oroui/js/mediator');
@@ -11,56 +13,151 @@ define(function(require) {
     var $ = require('jquery');
 
     FullscreenPopupView = BaseView.extend({
+        /**
+         * @property
+         */
         keepElement: true,
 
+        /**
+         * @property
+         */
         optionNames: BaseView.prototype.optionNames.concat([
-            'template', 'templateSelector', 'templateData',
+            'template', 'templateSelector', 'templateData', 'footerTemplate',
             'content', 'contentSelector', 'contentView',
             'contentOptions', 'contentElement', 'contentAttributes',
+            'footerContentOptions',
+            'headerTemplate', 'headerContentOptions',
             'previousClass', 'popupLabel', 'popupCloseOnLabel',
-            'popupCloseButton', 'popupIcon', 'popupBadge'
+            'popupCloseButton', 'popupIcon', 'popupBadge',
+            'stopEventsPropagation', 'stopEventsList'
         ]),
 
+        /**
+         * @property
+         */
         template: template,
 
+        /**
+         * @property
+         */
         popupLabel: _.__('Back'),
 
+        /**
+         * @property
+         */
         popupCloseOnLabel: true,
 
+        /**
+         * @property
+         */
         popupCloseButton: true,
 
+        /**
+         * @property
+         */
         popupIcon: false,
 
+        /**
+         * @property
+         */
         popupBadge: false,
 
+        /**
+         * @property
+         */
         content: null,
 
+        /**
+         * @property
+         */
         contentElement: null,
 
+        /**
+         * @property
+         */
         contentElementPlaceholder: null,
 
+        /**
+         * @property
+         */
         previousClass: null,
 
+        /**
+         * @property
+         */
         contentSelector: null,
 
+        /**
+         * @property
+         */
         contentView: null,
 
+        /**
+         * @property
+         */
         contentOptions: null,
 
+        /**
+         * @property
+         */
         contentAttributes: {},
 
         events: {
             'click': 'show'
         },
 
+        /**
+         * @property
+         */
+        stopEventsPropagation: true,
+
+        /**
+         * @property
+         */
+        stopEventsList: 'mousedown focusin',
+
+        /**
+         * @property
+         */
         $popup: null,
+
+        /**
+         * @property
+         * @type {object}
+         */
+        headerContentOptions: null,
+
+        /**
+         * Data example for default template
+         *  buttons: [{
+         *      type: 'button',
+         *      class: 'btn btn--info',
+         *      role: 'action',
+         *      label: 'Close'
+         *  }]
+         *
+         * @property
+         * @type {object}
+         */
+        footerContentOptions: null,
+
+        /**
+         * @property
+         * @type {object}
+         */
+        footerTemplate: footerTemplate,
+
+        /**
+         * @property
+         * @type {object}
+         */
+        headerTemplate: headerTemplate,
 
         /**
          * @inheritDoc
          */
-        initialize: function() {
+        initialize: function(options) {
             this.savePreviousClasses($(this.contentElement));
-
             FullscreenPopupView.__super__.initialize.apply(this, arguments);
         },
 
@@ -68,6 +165,9 @@ define(function(require) {
          * @inheritDoc
          */
         dispose: function() {
+            if (this.disposed) {
+                return;
+            }
             this.close();
             FullscreenPopupView.__super__.dispose.apply(this, arguments);
         },
@@ -77,8 +177,18 @@ define(function(require) {
             this.$popup = $(this.getTemplateFunction()(this.getTemplateData()));
 
             this.contentOptions = _.extend({}, this.contentOptions || {}, {
-                el: this.$popup.find('[data-role="content"]').get(0)
+                el: this.$popup.find('[data-role="content"]').get(0),
+                headerEl: this.$popup.find('[data-role="header"]').get(0),
+                footerEl: this.$popup.find('[data-role="footer"]').get(0)
             });
+
+            if (this.footerContentOptions) {
+                this.renderPopupFooterContent();
+            }
+
+            if (this.headerContentOptions) {
+                this.renderPopupHeaderContent();
+            }
 
             this.$popup.appendTo($('body'));
 
@@ -99,11 +209,25 @@ define(function(require) {
                 this.moveContentElement(callback);
             } else if (this.contentSelector) {
                 this.renderSelectorContent(callback);
-            }else if (this.contentView) {
+            } else if (this.contentView) {
                 this.renderPopupView(callback);
             } else {
                 callback();
             }
+        },
+
+        renderPopupHeaderContent: function() {
+            $(this.contentOptions.headerEl).html(
+                this.getTemplateFunction('headerTemplate')(this.headerContentOptions)
+            );
+        },
+
+        renderPopupFooterContent: function(content) {
+            content = content || '';
+            if (!content && !_.isEmpty(this.footerContentOptions)) {
+                content = this.getTemplateFunction('footerTemplate')(this.footerContentOptions);
+            }
+            $(this.contentOptions.footerEl).html(content);
         },
 
         renderContent: function(callback) {
@@ -140,8 +264,15 @@ define(function(require) {
         },
 
         initPopupEvents: function() {
-            this.$popup.on('click', '[data-role="close"]', _.bind(this.close, this));
-            this.$popup.on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
+            this.$popup
+                .on('click', '[data-role="close"]', _.bind(this.close, this))
+                .on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
+
+            if (this.stopEventsPropagation) {
+                this.$popup.on(this.stopEventsList, function(e) {
+                    e.stopPropagation();
+                });
+            }
         },
 
         close: function() {
@@ -164,6 +295,7 @@ define(function(require) {
             this.$popup.remove();
 
             delete this.$popup;
+
             this.removeSubview('contentView');
             this.trigger('close');
         },
@@ -178,7 +310,8 @@ define(function(require) {
                 closeOnLabel: this.popupCloseOnLabel,
                 close: this.popupCloseButton,
                 icon: this.popupIcon,
-                badge: this.popupBadge
+                badge: this.popupBadge,
+                footerContentOptions: this.footerContentOptions
             });
             return data;
         },
@@ -195,6 +328,15 @@ define(function(require) {
          */
         setPreviousClasses: function($el) {
             $el.attr('class', this.previousClass);
+        },
+
+        /**
+         * @param {String} title
+         */
+        setPopupTitle: function(title) {
+            if (this.$popup) {
+                this.$popup.find('[data-role="title"]').html(title);
+            }
         }
     });
 

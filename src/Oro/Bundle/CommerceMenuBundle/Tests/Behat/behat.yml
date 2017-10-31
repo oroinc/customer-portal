@@ -66,18 +66,6 @@ oro_behat_extension:
         locator: '//i[@class="fa-id-card-o"]/../../a[@href="/admin/config/system/commerce/sale_contact_info"]'
         type: xpath
 
-    UserContacts:
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-      selector:
-        locator: '//i[@class="fa-id-card-o"]/../../a[@href="/admin/config/user/2/commerce/sale_contact_info"]'
-        type: xpath
-
-    SiteContacts:
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
-      selector:
-        locator: '//i[@class="fa-id-card-o"]/../../a[@href="/admin/config/website/1/commerce/sale_contact_info"]'
-        type: xpath
-
     User Configuration:
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
       selector:

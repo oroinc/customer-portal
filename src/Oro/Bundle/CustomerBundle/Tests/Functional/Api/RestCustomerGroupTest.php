@@ -37,7 +37,10 @@ class RestCustomerGroupTest extends AbstractRestTest
         $customer1 = $this->createCustomer('customer1', $group);
         $customer2 = $this->createCustomer('customer2', $group);
 
-        $response = $this->cget(['entity' => $this->getEntityType(CustomerGroup::class)]);
+        $response = $this->cget(
+            ['entity' => $this->getEntityType(CustomerGroup::class)],
+            ['filter[name]' => 'test group']
+        );
 
         $expected = [
             'data' => [

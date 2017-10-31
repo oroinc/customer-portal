@@ -1,20 +1,25 @@
 // @theme: default;
 
 .page-main {
+    padding-top: 15px;
+
+    &.offset-none {
+        padding-top: 0;
+    }
+
     &__content {
         max-width: $page-main-max-width;
-        margin: 0 auto 70px;
+        margin: $page-main-content-offset;
 
         @include clearfix();
     }
+}
 
-    &__header {
-        min-height: $page-main-header-min-height;
-    }
-
-    &.offset-none {
-        .page-main__header {
-            min-height: 0;
+@include breakpoint('print') {
+    .page-main {
+        &__content {
+            display: block;
+            margin: 0;
         }
     }
 }

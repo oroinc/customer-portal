@@ -15,15 +15,13 @@
         '~class': ' primary-menu primary-menu--vertical'
     }) %}
     <ul {{ block('block_attributes') }}>
-        {% set requestUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
         {% set found = false %}
 
         {% for child in block if child.vars.visible %}
-            {% for menuItem in child.vars.item.children if menuItem.isDisplayed() %}
-                {% set currentUrl = menuItem.uri %}
+            {% for menuItem in child.vars.item.children if menuItem.displayed and menuItem.extras.isAllowed %}
                 {% set itemCurrentClass = '' %}
                 {% set linkCurrentClass = '' %}
-                {% if currentUrl in requestUrl and not found %}
+                {% if oro_commercemenu_is_current(menuItem) or oro_commercemenu_is_ancestor(menuItem) and not found %}
                     {% set itemCurrentClass = 'primary-menu__item--current' %}
                     {% set linkCurrentClass = 'primary-menu__link--current' %}
                 {% endif %}
@@ -31,7 +29,7 @@
                 <li class="primary-menu__item {{ itemCurrentClass }}">
                     <a href="{{ menuItem.uri }}" class="{{ ' primary-menu__link ' ~ linkCurrentClass }}">{{ menuItem.label|trans }}</a>
                 </li>
-                {% if currentUrl in requestUrl and not found %}
+                {% if oro_commercemenu_is_current(menuItem) or oro_commercemenu_is_ancestor(menuItem) and not found %}
                     {% set found = true %}
                 {% endif %}
             {% endfor %}

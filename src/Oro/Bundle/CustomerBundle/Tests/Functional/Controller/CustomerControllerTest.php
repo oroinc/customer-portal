@@ -31,6 +31,8 @@ class CustomerControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertContains('customer-customers-grid', $crawler->html());
         $this->assertContains('Export', $result->getContent());
+        $this->assertNotContains('Created at', $result->getContent());
+        $this->assertNotContains('Updated at', $result->getContent());
     }
 
     /**
@@ -56,6 +58,8 @@ class CustomerControllerTest extends WebTestCase
             ->getRepository('OroCustomerBundle:Customer')
             ->findOneBy(['name' => self::ACCOUNT_NAME]);
         $this->assertNotEmpty($customer);
+        $this->assertNotEmpty($customer->getCreatedAt());
+        $this->assertEquals($customer->getCreatedAt(), $customer->getUpdatedAt());
 
         return $customer->getId();
     }

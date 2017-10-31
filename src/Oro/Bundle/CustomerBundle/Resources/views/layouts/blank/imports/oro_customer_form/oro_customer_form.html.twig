@@ -1,4 +1,7 @@
 {% block __oro_customer_form__page_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-focusable': true
+    }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>

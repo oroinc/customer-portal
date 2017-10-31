@@ -52,7 +52,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
         );
         $this->assertEquals(
             [
-                'index_1' => 300,
+                'index_2' => 300,
             ],
             $this->actualDefinitions['oro_customer.authentication.provider.anonymous_customer_user.fake_id']
                 ->getArguments()
@@ -71,7 +71,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
 
     public function testGetPosition()
     {
-        $this->assertEquals('pre_auth', $this->factory->getPosition());
+        $this->assertEquals('remember_me', $this->factory->getPosition());
     }
 
     public function testGetKey()

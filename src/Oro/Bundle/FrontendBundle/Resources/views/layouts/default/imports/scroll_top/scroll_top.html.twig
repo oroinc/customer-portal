@@ -12,7 +12,9 @@
     }) %}
     {% if enabled is defined and enabled == true %}
         <div {{ block('block_attributes') }}>
-            <i class="scroll-top__icon fa-arrow-circle-up"></i>
+            <button type="button" class="btn btn--plain">
+                <i class="fa-arrow-circle-up fa--no-offset fa--xxxl"></i>
+            </button>
         </div>
     {% endif %}
 {% endblock %}

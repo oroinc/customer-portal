@@ -103,8 +103,37 @@ datagrids:
 
     customer-customers-grid:
         extends: customer-customers-select-grid
+        source:
+            query:
+                select:
+                    - customer.createdAt
+                    - customer.updatedAt
         options:
             entity_pagination: true
+        columns:
+            createdAt:
+                label:          oro.ui.created_at
+                frontend_type:  datetime
+                renderable:     false
+            updatedAt:
+                label:          oro.ui.updated_at
+                frontend_type:  datetime
+                renderable:     false
+        filters:
+            columns:
+                createdAt:
+                    type: datetime
+                    data_name: customer.createdAt
+                updatedAt:
+                    type: datetime
+                    data_name: customer.updatedAt
+        sorters:
+            columns:
+                createdAt:
+                    data_name: customer.createdAt
+                updatedAt:
+                    data_name: customer.updatedAt
+
         properties:
             view_link:
                 type:   url

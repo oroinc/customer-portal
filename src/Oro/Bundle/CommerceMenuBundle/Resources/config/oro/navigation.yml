@@ -141,6 +141,11 @@ navigation:
                             track_my_order: ~
                             help: ~
 
+            featured_menu:
+                scope_type: menu_frontend_visibility
+                max_nesting_level: 1
+                children: []
+
     titles:
         oro_commerce_menu_global_menu_index: 'Frontend Menus'
         oro_commerce_menu_global_menu_view: '%title% - Frontend Menus'

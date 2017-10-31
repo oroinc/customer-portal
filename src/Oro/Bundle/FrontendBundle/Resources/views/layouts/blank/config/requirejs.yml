@@ -9,6 +9,7 @@ config:
             'oroui/templates/standart-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/delete-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/message-item.html': 'orofrontend/default/templates/ui/message-item.html'
+            'oroui/templates/loading-mask-view.html': 'orofrontend/templates/ui/loading-mask-view.html'
             'orodatagrid/templates/column-manager/column-manager-collection.html': 'orofrontend/default/templates/datagrid/column-manager-collection.html'
             'orodatagrid/templates/column-manager/column-manager-item.html': 'orofrontend/default/templates/datagrid/column-manager-item.html'
             'orodatagrid/templates/column-manager/column-manager-filter.html': 'orofrontend/default/templates/datagrid/column-manager-filter.html'
@@ -20,7 +21,31 @@ config:
             'orodatagrid/templates/datagrid/select-row-cell.html': 'orofrontend/default/templates/datagrid/select-row-cell.html'
             'orodatagrid/templates/datagrid/action-header-cell.html': 'orofrontend/default/templates/datagrid/action-header-cell.html'
             'orodatagrid/templates/datagrid/grid-view-label.html': 'orofrontend/default/templates/datagrid/grid-view-label.html'
-            'orofilter/templates/filters-container.html': 'orofrontend/default/templates/filter/filters-container.html'
+            # Filters templates
+            'orofilter/templates/filters-container.html': 'orofrontend/templates/filters/filters-container.html'
+            'orofilter/templates/filter/filter-hint.html': 'orofrontend/templates/filters/filter-hint.html'
+            'orofilter/templates/filter/filter-wrapper.html': 'orofrontend/templates/filters/filter-wrapper.html'
+            'orofilter/templates/filter/choice-filter.html': 'orofrontend/templates/filters/choice-filter.html'
+            'orofilter/templates/filter/number-range-filter.html': 'orofrontend/templates/filters/number-range-filter.html'
+            'orofilter/templates/filter/many-to-many-filter.html': 'orofrontend/templates/filters/many-to-many-filter.html'
+            'orofilter/templates/filter/dictionary-filter.html': 'orofrontend/templates/filters/dictionary-filter.html'
+            'orofilter/templates/filter/select-filter.html': 'orofrontend/templates/filters/select-filter.html'
+            'orofilter/templates/filter/embedded/simple-choice-filter.html': 'orofrontend/templates/filters/embedded/simple-choice-filter.html'
+            'orofilter/templates/filter/choice-tree.html': 'orofrontend/templates/filters/choice-tree.html'
+            'orofilter/templates/filter/date-filter.html': 'orofrontend/templates/filters/date-filter.html'
+            'orofilter/templates/filter/date-filter-dropdown.html': 'orofrontend/templates/filters/date-filter-dropdown.html'
+            'orofilter/templates/filter/date-picker.html': 'orofrontend/templates/filters/date-picker.html'
+            'orofilter/templates/filter/multiselect-filter.html': 'orofrontend/templates/filters/multiselect-filter.html'
+            'orofilter/templates/filter/none-filter.html': 'orofrontend/templates/filters/none-filter.html'
+            'orofilter/templates/filter/select-field.html': 'orofrontend/templates/filters/select-field.html'
+            'orofilter/templates/filter/text-filter.html': 'orofrontend/templates/filters/text-filter.html'
+            # Filters templates END
+            'orofilter/js/plugins/filters-toggle-plugin': 'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin'
+            'oroui/js/app/views/page/content-view': 'orofrontend/js/app/views/page/content-view'
+        'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin':
+            'orofilter/js/plugins/filters-toggle-plugin': 'orofilter/js/plugins/filters-toggle-plugin'
+        'orofrontend/js/app/views/page/content-view':
+            'oroui/js/app/views/page/content-view': 'oroui/js/app/views/page/content-view'
     paths:
         'orofrontend/js/app/components/widget-form-component': 'bundles/orofrontend/js/app/components/widget-form-component.js'
         'orofrontend/js/app/components/switchable-editable-view-component': 'bundles/orofrontend/js/app/components/switchable-editable-view-component.js'
@@ -41,17 +66,24 @@ config:
         'orofrontend/default/js/widgets/expand-text-widget': 'bundles/orofrontend/default/js/widgets/expand-text-widget.js'
         'orofrontend/default/js/widgets/line-clamp-widget': 'bundles/orofrontend/default/js/widgets/line-clamp-widget.js'
         'orofrontend/default/js/widgets/rows-collapse-widget': 'bundles/orofrontend/default/js/widgets/rows-collapse-widget.js'
+        'orofrontend/default/js/widgets/elastic-area-widget': 'bundles/orofrontend/default/js/widgets/elastic-area-widget.js'
         'orofrontend/default/js/app/views/footer-align-view': 'orofrontend/default/js/app/views/footer-align-view.js'
         'orofrontend/default/js/app/views/sticky-panel-view': 'orofrontend/default/js/app/views/sticky-panel-view.js'
         'orofrontend/default/js/app/views/scroll-top-view': 'bundles/orofrontend/default/js/app/views/scroll-top-view.js'
         'orofrontend/blank/js/app/views/fullscreen-popup-view': 'orofrontend/blank/js/app/views/fullscreen-popup-view.js'
+        'orofrontend/blank/js/widgets/print-page-widget': 'bundles/orofrontend/blank/js/widgets/print-page-widget.js'
         'orofrontend/js/app/views/dom-relocation-view': 'orofrontend/js/app/views/dom-relocation-view.js'
         'orofrontend/js/app/views/style-book-elements-navigation-view': 'orofrontend/js/app/views/style-book-elements-navigation-view.js'
         'orofrontend/default/js/app/modules/input-widgets': 'bundles/orofrontend/default/js/app/modules/input-widgets.js'
         'orofrontend/default/js/app/modules/zoom-disable': 'bundles/orofrontend/default/js/app/modules/zoom-disable.js'
+        'orofrontend/default/js/app/modules/choice-filter': 'bundles/orofrontend/default/js/app/modules/choice-filter.js'
+        'orofrontend/default/js/app/modules/select-filter': 'bundles/orofrontend/default/js/app/modules/select-filter.js'
         'orofrontend/js/app/elements-helper': 'bundles/orofrontend/js/app/elements-helper.js'
         'orofrontend/js/app/datafilter/frontend-collection-filters-manager': 'bundles/orofrontend/js/app/datafilter/frontend-collection-filters-manager.js'
         'orofrontend/js/app/datafilter/frontend-multiselect-decorator': 'bundles/orofrontend/js/app/datafilter/frontend-multiselect-decorator.js'
+        'orofrontend/js/app/datafilter/fronend-manage-filters-decorator': 'bundles/orofrontend/js/app/datafilter/fronend-manage-filters-decorator.js'
+        'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin': 'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin.js'
+        'orofrontend/js/app/datafilter/actions/fullscreen-filters-action': 'orofrontend/js/app/datafilter/actions/fullscreen-filters-action.js'
 
         'slick': 'bundles/orofrontend/default/vendors/slick/slick.js'
         'orofrontend/js/app/components/list-slider-component': 'bundles/orofrontend/js/app/components/list-slider-component.js'
@@ -60,8 +92,17 @@ config:
         'orofrontend/js/app/views/column-manager/frontend-column-manager-view': 'bundles/orofrontend/js/app/views/column-manager/frontend-column-manager-view.js'
         'orofrontend/js/datagrid/grid-views/frontend-grid-views-view': 'bundles/orofrontend/js/datagrid/grid-views/frontend-grid-views-view.js'
         'orofrontend/js/app/views/object-fit-polyfill-view': 'orofrontend/js/app/views/object-fit-polyfill-view.js'
+        'orofrontend/js/app/views/counter-badge-view': 'bundles/orofrontend/js/app/views/counter-badge-view.js'
 
         'orofrontend/js/app/modules/component-shortcuts-module': 'bundles/orofrontend/js/app/modules/component-shortcuts-module.js'
+        'orofrontend/js/app/views/page/content-view': 'bundles/orofrontend/js/app/views/page/content-view.js'
+        'orofrontend/js/app/components/frontend-dialog-widget': 'bundles/orofrontend/js/app/components/frontend-dialog-widget.js'
+
+        'orofrontend/js/app/views/scroll-view': 'bundles/orofrontend/js/app/views/scroll-view.js'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
         - orofrontend/js/app/modules/component-shortcuts-module
+        - orofrontend/default/js/app/modules/input-widgets
+        - orofrontend/default/js/app/modules/zoom-disable
+        - orofrontend/default/js/app/modules/choice-filter
+        - orofrontend/default/js/app/modules/select-filter

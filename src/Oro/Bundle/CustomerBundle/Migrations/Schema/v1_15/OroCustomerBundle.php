@@ -61,7 +61,7 @@ class OroCustomerBundle implements Migration, ContainerAwareInterface
     private function updateCustomerUserTable(Schema $schema)
     {
         $table = $schema->getTable('oro_customer_user');
-        $table->addColumn('is_guest', 'boolean', []);
+        $table->addColumn('is_guest', 'boolean', ['default' => false]);
 
         //remove uniq indices for name and email fields
         $table->dropIndex('UNIQ_9511CEB5F85E0677');

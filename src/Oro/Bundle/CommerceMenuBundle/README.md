@@ -1,7 +1,9 @@
 CommerceMenuBundle
-===============
+==================
 
 The `CommerceMenuBundle` add ability to define frontend menus.
+
+## General
 
 Example usage:
 
@@ -31,3 +33,7 @@ navigation:
 ```
 
 Please see [documentation](https://github.com/orocrm/platform/tree/master/src/Oro/Bundle/NavigationBundle/README.md) for more details.
+
+## Sections:
+
+* [Responsive Menu Flags](https://github.com/oroinc/customer-portal/blob/master/src/Oro/Bundle/CommerceMenuBundle/Resources/doc/responsive-menu-flags.md)
