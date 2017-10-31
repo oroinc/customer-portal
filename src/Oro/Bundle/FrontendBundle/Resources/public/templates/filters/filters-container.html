@@ -14,11 +14,9 @@
                     <div class="filter-items"></div>
                     <select data-action="add-filter-select" multiple data-skip-input-widgets>
                         <% _.each(filters, function (filter, name) { %>
-                            <% if (filter.visible) { %>
-                                <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
-                                    <%- filter.label %>
-                                </option>
-                            <% } %>
+                            <option class="<%= filter.visible ? '' : 'hidden' %>" title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
+                                <%- filter.label %>
+                            </option>
                         <% }); %>
                     </select>
                 </div>
@@ -32,11 +30,9 @@
                         multiple
                 >
                     <% _.each(filters, function (filter, name) { %>
-                        <% if (filter.visible) { %>
-                            <option title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
-                            <%- filter.label %>
-                            </option>
-                        <% } %>
+                        <option class="<%= filter.visible ? '' : 'hidden' %>" title="<%- _.escape(filter.label) %>" value="<%- name %>" <% if (filter.enabled) { %>selected<% } %>>
+                        <%- filter.label %>
+                        </option>
                     <% }); %>
                 </select>
                 <div class="filter-items"></div>

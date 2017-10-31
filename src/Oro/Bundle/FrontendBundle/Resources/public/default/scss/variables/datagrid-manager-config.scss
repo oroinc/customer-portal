@@ -49,6 +49,7 @@ $datagrid-manager-fullscreen-footer-inner-offset: $offset-y-s $offset-x-m !defau
 
 // Datagrid Manager Filters
 $datagrid-manager-filters-dropdown-size: 1px !default;
+$datagrid-manager-filters-dropdown-max-height: 350px !default;
 
 $datagrid-manager-filters-dropdown-items-b-color:  get-color('additional', 'middle') !default;
 $datagrid-manager-filters-dropdown-content-inner-offset: $offset-y-m $offset-x-s !default;

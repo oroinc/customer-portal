@@ -70,6 +70,7 @@
         flex-wrap: wrap;
         width: 100%;
         height: auto !important;
+        max-height: $datagrid-manager-filters-dropdown-max-height;
         margin-bottom: $offset-y-m;
         padding-bottom: $offset-x-s;
 
@@ -237,10 +238,9 @@
         flex-wrap: wrap;
 
         height: auto !important;
+        max-height: $datagrid-manager-filters-dropdown-max-height;
 
         padding: $datagrid-manager-filters-dropdown-size 0 0 $datagrid-manager-filters-dropdown-size;
-
-        overflow: inherit !important;
 
         &__items {
             width: 100%;
