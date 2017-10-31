@@ -17,6 +17,7 @@ define(function(require) {
             this.$elem = options._sourceElement;
             this.url = options.url || routing.generate(options.route, options.routeParams || {});
             this.removeClass = options.removeClass;
+            this.requestMethod = options.requestMethod || 'DELETE';
             this.redirect = options.redirect;
             this.confirmMessage = options.confirmMessage;
             this.sucsessMessage = options.sucsessMessage || __('item_deleted');
@@ -61,10 +62,11 @@ define(function(require) {
             var self = this;
             $.ajax({
                 url: self.url,
-                type: 'DELETE',
+                type: this.requestMethod,
                 success: function() {
                     if (self.removeClass) {
-                        self.$elem.closest('.' + self.removeClass).remove();
+                        self.$elem.closest('.' + self.removeClass)
+                            .trigger('content:remove').remove();
                     }
 
                     if (self.redirect) {
