@@ -258,7 +258,7 @@ define(function(require) {
                 }
             });
 
-            if (affixed && elementBottom >= this.viewport.bottom) {
+            if ((affixed && elementBottom >= this.viewport.bottom) || this.scrollState.position < elementTop) {
                 return true;
             }
 
