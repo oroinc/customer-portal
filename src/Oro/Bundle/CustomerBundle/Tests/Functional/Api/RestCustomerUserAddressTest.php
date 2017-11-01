@@ -154,7 +154,7 @@ class RestCustomerUserAddressTest extends AbstractRestTest
     {
         $repository = $this->getEntityManager()->getRepository(CustomerUserAddress::class);
 
-        $customerUserAddressId = (string)$repository->findOneBy(
+        $customerUserAddressId = $repository->findOneBy(
             [
                 'label' => LoadCustomerUserAddresses::OTHER_USER_LABEL
             ]
@@ -164,7 +164,7 @@ class RestCustomerUserAddressTest extends AbstractRestTest
         $response = $this->patch(
             [
                 'entity' => $this->getEntityType(CustomerUserAddress::class),
-                'id' => $customerUserAddressId
+                'id' => (string)$customerUserAddressId
             ],
             'update_customer_users_address_wrong_region.yml',
             [],
