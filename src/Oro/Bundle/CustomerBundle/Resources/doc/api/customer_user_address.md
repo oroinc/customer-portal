@@ -73,16 +73,9 @@ Example:
             "type": "regions",
             "id": "US-NY"
           }
-        },
-        "systemOrganization": {
-          "data": {
-            "type": "organizations",
-            "id": "1"
-          }
         }
       }
     }
- 
 }
 ```
 {@/request}
@@ -132,12 +125,6 @@ Example:
          "owner":{
             "data":{
                "type":"users",
-               "id":"1"
-            }
-         },
-         "systemOrganization":{
-            "data":{
-               "type":"organizations",
                "id":"1"
             }
          },
@@ -300,22 +287,3 @@ Retrieve a record that contains information about the organization that is linke
 #### get_relationship
 
 Retrieve the id of the organization that is linked to a specific customer user address record.
-
-#### update_relationship
-
-Replace the organization that is linked to a specific customer user address record.
-
-{@request:json_api}
-Example:
-
-`</admin/api/customer_user_addresses/12/relationships/systemOrganization>`
-
-```JSON
-{
-  "data": {
-    "type": "organizations",
-    "id": "2"
-  }
-}
-```
-{@/request}
