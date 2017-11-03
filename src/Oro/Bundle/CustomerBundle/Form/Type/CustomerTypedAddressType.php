@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraint;
 
 use Oro\Bundle\AddressBundle\Form\EventListener\FixAddressesPrimarySubscriber;
 use Oro\Bundle\CustomerBundle\Form\EventListener\FixCustomerAddressesDefaultSubscriber;
+use Oro\Bundle\FormBundle\Form\Extension\StripTagsExtension;
 
 class CustomerTypedAddressType extends AbstractType
 {
@@ -39,7 +40,8 @@ class CustomerTypedAddressType extends AbstractType
                 'phone',
                 'text',
                 [
-                    'required' => false
+                    'required' => false,
+                    StripTagsExtension::OPTION_NAME => true,
                 ]
             )
             ->add(
