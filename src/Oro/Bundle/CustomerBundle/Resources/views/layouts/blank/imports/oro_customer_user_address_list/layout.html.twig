@@ -41,8 +41,8 @@
 {% block __oro_customer_user_address_list__user_addresses_list_template_item_address_widget %}
     {% set attr = layout_attr_defaults(attr, {'~class': " address-list__address"}) %}
     <div {{ block('block_attributes') }}>
-        <div><%= street %></div>
-        <div><%= city %>, <%= postalCode %>, <%= combinedCode %></div>
+        <div><%= _.escape(street) %></div>
+        <div><%= _.escape(city) %>, <%= _.escape(postalCode) %>, <%= _.escape(combinedCode) %></div>
     </div>
 {% endblock %}
 
