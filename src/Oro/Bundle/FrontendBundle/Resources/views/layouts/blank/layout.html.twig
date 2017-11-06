@@ -1,33 +1,9 @@
-{% extends 'OroLayoutBundle:Layout:div_layout.html.twig' %}
-
 {% block block_attributes_underscore %}
     {% import 'OroFrontendBundle:layouts/blank:utils.html.twig' as utils %}
     {{ utils.underscoreRaw(block('block_attributes_base')) }}
 {%- endblock %}
 
-{% block form_start_widget %}
-    {% if attr.id is not defined %}
-        {% set attr = attr|merge({
-            id: form.vars.id
-        }) %}
-    {% endif %}
-
-    {%- for attrname, attrvalue in attr if attrvalue is iterable -%}
-        {% set attr = attr|merge({
-            (attrname): attrvalue|json_encode
-        }) %}
-    {%- endfor -%}
-
-    {{ parent() }}
-{% endblock %}
-
-{% block form_end_widget %}
-    {{ parent() }}
-    {{ oro_form_js_validation(form, js_validation_options|default({})) }}
-{% endblock %}
-
 {#Action Buttons#}
-
 {% block action_line_buttons_widget %}
     {% import 'OroActionBundle:layouts/base:layout.html.twig' as _layout %}
     <ul{{ block('block_attributes') }}>
@@ -94,7 +70,6 @@
 {% endblock %}
 
 {#Buttons#}
-
 {% block line_buttons_widget %}
     {% import 'OroActionBundle:layouts/base:layout.html.twig' as _layout %}
     <ul{{ block('block_attributes') }}>
@@ -152,25 +127,6 @@
     {% endif %}
 {% endblock %}
 
-{% block button_widget %}
-    {% if style|default('') == 'auto' %}
-        {% if action == 'submit' %}
-            {% set style = 'btn--info' %}
-        {% else %}
-            {% set style = action == 'reset' ? 'btn--action' : '' %}
-        {% endif %}
-    {% endif %}
-    {% if style is not defined %}
-        {% set add_class = '' %}
-    {% else %}
-        {% set add_class = 'btn ' ~ style %}
-    {% endif %}
-    {% set attr = attr|merge({
-        class: attr.class|default('') ~ add_class
-    }) %}
-    {{ parent() }}
-{% endblock %}
-
 {% block icon_block -%}
     <i class="fa-{{ icon }}{% if icon_class is defined %} {{ icon_class }}{% endif %}"></i>
 {%- endblock %}
@@ -179,26 +135,6 @@
     <div class="order-builder-clear-btn">
         {{ block_widget(block) }}
     </div>
-{% endblock %}
-
-{% block input_widget %}
-    {% if type == 'checkbox' %}
-        {% set attr = layout_attr_defaults(attr, {
-        '~class': ' custom-checkbox__input'
-        }) %}
-
-        <label {% if attr.id is not empty %} for="{{ attr.id }}" {% endif %} class="custom-checkbox">
-            {{ parent() }}
-            <span class="custom-checkbox__icon"></span>
-            <span class="custom-checkbox__text">{{ label|block_text(translation_domain) }} </span>
-        </label>
-    {% else %}
-        {% set attr = layout_attr_defaults(attr, {
-        '~class': ' input'
-        }) %}
-
-        {{ parent() }}
-    {% endif %}
 {% endblock %}
 
 {% block embedded_list_widget %}

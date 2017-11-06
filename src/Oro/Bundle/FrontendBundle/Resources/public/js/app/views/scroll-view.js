@@ -39,8 +39,12 @@ define(function(require) {
         },
 
         updateFollowersPosition: function(element) {
-            this._transformFollowers('x', -element.scrollLeft);
-            this._transformFollowers('y', -element.scrollTop);
+            if (element) {
+                this._transformFollowers('x', -element.scrollLeft);
+            }
+            if (element) {
+                this._transformFollowers('y', -element.scrollTop);
+            }
         },
 
         setStartPosition: function() {
