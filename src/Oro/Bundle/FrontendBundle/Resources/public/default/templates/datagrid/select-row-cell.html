@@ -6,4 +6,7 @@
            <% if (checked) { %> checked="checked"<% } %>
     >
     <span class="custom-checkbox__icon"></span>
+    <% if (!_.isUndefined(obj.text)) { %>
+        <span class="custom-checkbox__text"><%- text %></span>
+    <% } %>
 </label>
