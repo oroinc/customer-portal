@@ -169,7 +169,6 @@ class RestCustomerUserAddressTest extends AbstractRestTest
             'update_customer_users_address_wrong_region.yml',
             [],
             false
-
         );
 
         $this->assertResponseValidationError(
