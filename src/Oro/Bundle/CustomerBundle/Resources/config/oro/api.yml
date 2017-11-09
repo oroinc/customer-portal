@@ -1,17 +1,17 @@
 api:
     entity_aliases:
         Extend\Entity\EV_Acc_Internal_Rating:
-           alias:        customer_rating
-           plural_alias: customer_rating
+            alias:        customer_rating
+            plural_alias: customer_rating
         Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
-           alias:        customer_group
-           plural_alias: customer_groups
+            alias:        customer_group
+            plural_alias: customer_groups
         Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
-           alias:        customer_user_role
-           plural_alias: customer_user_roles
+            alias:        customer_user_role
+            plural_alias: customer_user_roles
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:
-           alias:        customer_user
-           plural_alias: customer_users
+            alias:        customer_user
+            plural_alias: customer_users
         Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
            alias:        customer_user_address
            plural_alias: customer_user_addresses
@@ -41,6 +41,12 @@ api:
 
         Oro\Bundle\CustomerBundle\Entity\CustomerGroup: ~
         Oro\Bundle\CustomerBundle\Entity\CustomerUserRole: ~
+        Extend\Entity\EV_Acc_Internal_Rating:
+            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer.md'
+        Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
+            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_group.md'
+        Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
+            documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user_role.md'
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user.md'
             fields:
