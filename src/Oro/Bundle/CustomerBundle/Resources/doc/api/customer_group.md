@@ -272,7 +272,7 @@ Example:
 ```
 {@/request}
 
-### payment_term_7c4f1e8e
+### paymentTerm
 
 #### get_subresource
 
@@ -289,7 +289,7 @@ Replace the payment term assigned to a specific customer group record.
 {@request:json_api}
 Example:
 
-`</admin/api/customer_groups/1/relationships/payment_term_7c4f1e8e>`
+`</admin/api/customer_groups/1/relationships/paymentTerm>`
 
 ```JSON
 {
