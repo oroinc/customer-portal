@@ -18,12 +18,12 @@ This will help make code development and debugging easier and also solve some of
 Written like this, the name of the selector is clearly divided into logical parts.
 Selectors name  write in lower case and logical parts share a dash (**-**).
 
-##### Acceptable
+### Acceptable
 ```
 product-gallery-widget
 ```
 
-##### Unacceptable
+### Unacceptable
 ```
 productgallerywidget, productGalleryWidget, product_gallery_widget
 ```
@@ -120,6 +120,7 @@ Last - attributes with JSON content.
 
 ### The principles of CSS architecture
 
+```
 <dl>
     <dt>Predictability</dt>
     <dd>Predictability for CSS means that your rules are behaving in the expected.</dd>
@@ -136,6 +137,7 @@ Last - attributes with JSON content.
     <dt>Responsive</dt>
     <dd>We use CSS to resize, hide, shrink, enlarge, or move the content to make it look good on any screen.</dd>
 </dl>
+```
 
 ### SASS Code Standards
 
@@ -210,14 +212,14 @@ Add line break after each selector delimiter. Delimiter shouldn't have spaces be
 Unless necessary (for example with helper classes), do not use element names in conjunction with IDs or classes.
 Avoiding unnecessary ancestor selectors is useful for performance reasons.
 
-##### Acceptable
+### Acceptable
 ```scss
 .element {
     ...
 }
 ```
 
-##### Unacceptable
+### Unacceptable
 ```scss
 div.element {
     ...
@@ -228,18 +230,18 @@ div#element {
 }
 ```
 
-#### Combinator indents
+### Combinator indents
 
 Use spaces before and after combinators.
 
-##### Acceptable
+#### Acceptable
 ```scss
 .element1 + .element2 {
      color: $color;
 }
 ```
 
-##### Unacceptable
+#### Unacceptable
 ```scss
 .element1+.element2 {
     color: $color;
@@ -250,7 +252,7 @@ Use spaces before and after combinators.
 
 Use line break for each property declaration.
 
-##### Acceptable
+#### Acceptable
 ```scss
 .element {
      position: absolute;
@@ -259,7 +261,7 @@ Use line break for each property declaration.
 }
 ```
 
-##### Unacceptable
+#### Unacceptable
 ```scss
 .element {
     position: absolute; top: 0; left: 0;
@@ -270,14 +272,14 @@ Use line break for each property declaration.
 
 Use no space before property colon, and space after.
 
-##### Acceptable
+#### Acceptable
 ```scss
 .element {
     color: $color;
 }
 ```
 
-##### Unacceptable
+#### Unacceptable
 ```scss
 .element1 {
     color : $color;
@@ -296,7 +298,7 @@ Use no space before property colon, and space after.
 
 Each selector should be finished with new line
 
-##### Acceptable
+#### Acceptable
 ```scss
 .element1 {
     color: $color;
@@ -307,7 +309,7 @@ Each selector should be finished with new line
 }
 ```
 
-##### Unacceptable
+#### Unacceptable
 ```scss
 .element1 {
     color: $color;
@@ -340,14 +342,14 @@ If less, then:
 
 For fractional numbers do not add zero.
 
-##### Acceptable
+#### Acceptable
 ```scss
 .element {
     opacity: .5;
 }
 ```
 
-##### Unacceptable
+#### Unacceptable
 ```scss
 .element {
     opacity: 0.5;
@@ -358,14 +360,14 @@ For fractional numbers do not add zero.
 
 Omit the units for zero value.
 
-##### Acceptable
+#### Acceptable
 ```scss
 .element {
     margin: 0;
 }
 ```
 
-##### Unacceptable
+#### Unacceptable
 ```scss
 .element {
     margin: 0px;
@@ -376,14 +378,14 @@ Omit the units for zero value.
 
 Use 0 instead of none to specify that a style has no border.
 
-##### Acceptable
+#### Acceptable
 ```scss
 .element {
     border: 0;
 }
 ```
 
-##### Unacceptable
+#### Unacceptable
 ```scss
 .element {
    border: none;
@@ -395,9 +397,12 @@ Use 0 instead of none to specify that a style has no border.
 
 When selectors become this long, you're likely writing CSS that is:
 
-* strongly coupled to the HTML;
-* overly specific;
-* not reusable;
+* strongly coupled to the HTML
+* overly specific
+* not reusable.
+
+#### Selector Nesting
+
 
 Be careful with selectors nesting. In general try to use **2 nested levels** as max.
 
@@ -405,6 +410,7 @@ Exception are **pseudo elements** and **states**.
 
 
 ##### Acceptable
+
 ```scss
 .block {
     &__element {
@@ -420,6 +426,7 @@ Exception are **pseudo elements** and **states**.
 ```
 
 ##### Unacceptable
+
 ```scss
 .block {
     ...
@@ -435,6 +442,7 @@ Exception are **pseudo elements** and **states**.
     &.block--modifier {}
 }
 ```
+#### No Elements of Elements
 
 According to BEM methodology there are no elements of elements.
 It makes the elements be dependent on the block only. So, you can easily move them
@@ -477,7 +485,7 @@ All @media rules place at the end of file.
 The block applies only to the common styles for all devices. @media describes individual styles for each type of device.
 This allows us in the future to change or add styles only for a specific type of device.
 
-##### Acceptable
+#### Acceptable
 ```scss
 .block {
     width: 50%;
@@ -507,7 +515,7 @@ This allows us in the future to change or add styles only for a specific type of
 }
 ```
 
-##### Unacceptable
+#### Unacceptable
 ```scss
 .block {
     width: 50%;
@@ -575,7 +583,7 @@ After each group leaves behind an empty string.
 > In CSS we have a each of properties that can be treated in different groups depending on their use:
 `vertical-align`, `overflow`, `clear`, `resize`, `transform`. [List of all css properties](http://cssreference.io/).
 
-##### Acceptable
+#### Acceptable
 ```scss
 // variables
 $element-color: #000 !default;
@@ -617,7 +625,7 @@ $element-line-height: 1.2 !default;
 }
 ```
 
-##### Unacceptable
+#### Unacceptable
 
 ```scss
 .element {
@@ -639,7 +647,7 @@ $element-line-height: 1.2 !default;
 2. Helper class has maximum **5** rules.
 3. Helper class has abstract name and overall design style.
 
-##### Examples:
+#### Examples:
 ```scss
 $default-size: 400px !default;
 $default-offset: 10px auto !default;
@@ -678,7 +686,7 @@ $default-background: #dadada !default;
 
 Use the logical number of modifiers for the element.
 
-##### Acceptable
+#### Acceptable
 
 "Quiet classes"
 ```scss
@@ -706,7 +714,7 @@ Use the logical number of modifiers for the element.
 </div>
 ```
 
-##### Unacceptable
+#### Unacceptable
 ```html
 <div class="block">
     <div class="
