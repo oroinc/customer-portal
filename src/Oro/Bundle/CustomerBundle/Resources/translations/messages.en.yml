@@ -1,34 +1,49 @@
 oro:
     customer:
-        entity_label: 'Customer'
-        entity_plural_label: 'Customers'
+        entity_label:           'Customer'
+        entity_plural_label:    'Customers'
+        entity_description:     Customers are companies who buy products using OroCommerce store frontend. Customer record contains information about the company, their place in the corporate structure, assigned sales representative, and sales metrics. Customers may be linked to:<ul><li>Customer Users who act on behalf of the company</li><li>Customer Roles that define permissions and capabilities the Customer Users may have</li><li>Sales Representatives that are assigned to support company purchases</li><li>Parent customer or subsidiaries that define customer position in the global company organization structure</li>
         name:
-            label: 'Name'
-            description: 'The name of the customer'
+            label:              'Name'
+            description:        A human-readable name that identifies a customer.
         group:
-            label: 'Group'
-            description: 'Customer group related to the current customer'
+            label:              'Group'
+            description:        A customer group the customer is assigned to.<br>A customer group represents a virtual group of companies that share some configuration, payment and tax-related settings, and price lists among multiple customers, for example those with the same service level.<br>See <a href="https://www.orocommerce.com/documentation/current/customers/customer-groups">Managing Customer Groups</a> in OroCommerce documentation for more information.
         internal_rating:
-            label: 'Internal rating'
-            description: 'Internal rating'
+            label:              'Internal rating'
+            description:        An internal customer rating ("1 of 5", "5 of 5" ) may indicate potential profitability or any other internally agreed score or metrix.
         children:
-            label: 'Subsidiaries'
-            description: 'Subsidiaries'
+            label:              'Subsidiaries'
+            description:        Subsidiaries represent a set of customers (divisions) that report to the customer (a global organization).
         id.label: 'Id'
         parent:
-            label: 'Parent Customer'
-            description: 'Parent Customer'
-        organization.label: 'Organization'
-        has_group.label: 'Has group'
+            label:              'Parent Customer'
+            description:        Parent Customer represents a global organization the customer (division) reports to.
+        organization.label:     'Organization'
+        has_group.label:        'Has group'
         users:
-            label: 'Users'
-            description: 'Users'
-        addresses.label: 'Addresses'
-        form.choose: 'Choose a customer...'
-        form.choose_parent: 'Choose parent customer...'
-        address_book.label: 'Address Book'
-        owner.label: 'Owner'
+            label:              'Users'
+            description:        Customer Users represent people who act on behalf of the company to buy products using OroCommerce store frontend.
+        addresses.label:        'Addresses'
+        form.choose:            'Choose a customer...'
+        form.choose_parent:     'Choose parent customer...'
+        address_book.label:     'Address Book'
+        owner.label:            'Owner'
         sales_representatives:
+            label:              'Assigned Sales Representatives'
+            description:        Sales Representatives represent OroCommerce managment console users that were assigned to support the Customer's company purchase process.
+        lifetime:
+            label:              Lifetime Sales Value
+            description:        A service field that stores a prediction of how the selling organization may potentially benefit from a relationship with the customer in the long-term perspective. <br>When calculating a lifetime sales value, OroCommerce takes into account an average order amount, purchase frequency, and an average retention period.
+        vat_id:
+            label:              VAT Id
+            description:        A customer's value added tax identification number.<br>The third-party payment services may require VAT id to enable some of the payment methods (e.g. InfinitPay).
+        data_channel:
+            label:              Data Channel
+            description:        A service field.
+        previous_account:
+            label:              Previous Account
+            description:        A service field.
             label: 'Assigned Sales Representatives'
             description: 'Assigned Sales Representatives'
         action:
@@ -40,7 +55,7 @@ oro.customer:
     customer:
         entity_label: 'Customer'
         entity_plural_label: 'Customers'
-        name.label: 'Name'
+        name.label:          'Name'
         group.label: 'Group'
         internal_rating.label: 'Internal rating'
         children.label: 'Subsidiaries'
@@ -83,62 +98,106 @@ oro.customer:
         manage: 'Manage Addresses'
 
     customergroup:
-        entity_label: 'Customer Group'
-        entity_plural_label: 'Customer Groups'
+        entity_label:           'Customer Group'
+        entity_plural_label:    'Customer Groups'
+        entity_description:     Customers (companies who buy products using OroCommerce store frontend) may be organized into customer groups to simplify sharing configuration, payment and tax-related settings, and price lists among multiple customers, for example those with the same service level. See <a href="https://www.orocommerce.com/documentation/current/customers/customer-groups">Managing Customer Groups</a> in OroCommerce documentation for more information.
         name:
-            label: 'Name'
-            description: 'Customer Group name'
-        id.label: 'Id'
+            label:              'Name'
+            description:        A human-readable name that identifies a customer group.
+        id.label:               'Id'
         customers:
-            label: 'Customers'
-            description: 'Customers related to the customer group'
-        form.choose: 'Choose a customer group...'
-        organization.label: 'Organization'
-        owner.label: 'Owner'
+            label:              'Customers'
+            description:        Customers that are included into the customer group and are affected by the customer group configuration and use shared content enabed by the cusotmer group (like price lists, product visibility, etc.)
+        form.choose:            'Choose a customer group...'
+        organization.label:     'Organization'
+        owner.label:            'Owner'
 
     customeruser:
         full_name:                   %name_prefix% %first_name% %middle_name% %last_name% %name_suffix%
         entity_label:                'Customer User'
         entity_plural_label:         'Customer Users'
+        entity_description:          Customer User represents a person who acts on behalf of the company to buy products using OroCommerce store frontend.
         id.label:                    'ID'
-        first_name.label:            'First Name'
-        middle_name.label:           'Middle Name'
-        last_name.label:             'Last Name'
-        username.label:              'Email'
-        email.label:                 'Email Address'
-        password.label:              'Password'
+        first_name:
+            label:                   'First Name'
+            description:             First name of the customer user.
+        middle_name:
+            label:                   'Middle Name'
+            description:             Middle Name of the customer user.
+        last_name:
+            label:                   'Last Name'
+            description:             Last Name of the customer user.
+        username:
+            label:                   'Email'
+            description:             Email that serves as a username for the customer user account on the OroCommerce store frontend.  **This field is not represented in UI**
+        email:
+            label:                   'Email Address'
+            description:             Email of the customer user.
+        password:
+            label:                   'Password'
+            description:             Password that is used to log into the customer user account.
         new_password.label:          'New Password'
         current_password.label:      'Current Password'
         password_confirmation.label: 'Confirm Password'
-        enabled.label:               'Enabled'
-        confirmed.label:             'Confirmed'
+        enabled:
+            label:                   'Enabled'
+            description:              The flag that indicates that the customer user account is enabled. When a customer user is disabled, it is not possible to log into OroCommerce using customer user credentials.
+        confirmed:
+            label:                   'Confirmed'
+            description:             The flag that indicates whether the customer user completed an email confirmation step after the user registration.
         password_generate.label:     'Generate Password'
         send_email.label:            'Send Welcome Email'
         confirmation_token.label:    'Confirmation Token'
-        birthday.label:              'Birthday'
-        last_login.label:            'Last Login'
-        roles.label:                 'Roles'
+        birthday:
+            label:                   'Birthday'
+            description:             Birth date of the customer user.
+        last_login:
+            label:                   'Last Login'
+            description:             The latest date and time when the customer user logged into the OroCommerce store front.
+        roles:
+            label:                   'Roles'
+            description:             Customer user roles enabled for the customer user.
         role.label:                  'Role'
         settings.label:              'Settings'
         salt.label:                  'Salt'
         created_at.label:            'Created At'
         updated_at.label:            'Updated At'
-        login_count.label:           'Login Count'
-        name_prefix.label:           'Name Prefix'
-        name_suffix.label:           'Name Suffix'
-        password_changed_at.label:   'Password Changed At'
-        password_requested_at.label: 'Password Requested At'
-        customer.label:              'Customer'
+        login_count:
+            label:                   'Login Count'
+            description:             Number of times the customer user has logged into the OroCommmerce store front.
+        name_prefix:
+            label:                   'Name Prefix'
+            description:             Customer user name prefix (e.g., Mr, Ms, etc.)
+        name_suffix:
+            label:                   'Name Suffix'
+            description:             Cusomer user name suffix (e.g., PhD, MD, etc.)
+        password_changed_at:
+            label:                   'Password Changed At'
+            description:             The latest date and time when the customer user changed their password.
+        password_requested_at:
+            label:                   'Password Requested At'
+            description:             The latest date and time when the customer user requested a password reset via the '**Forgot Your Password?**' link.
+        customer:
+            label:                   'Customer'
+            description:             Customer represents a company on whose behalf the customer user buys products via OroCommerce store frontend.
         organization.label:          'Organization'
         has_role.label:              'Has Role'
         form.choose:                 'Choose a customer user...'
-        addresses.label:             'Addresses'
+        addresses:
+            label:                   'Addresses'
+            description:             Collection of customer user addresses: mailing, business, home, billing, etc.
         address_book.label:          'Address Book'
         owner.label:                 'Owner'
-        website.label:               'Website'
-        sales_representatives.label: 'Assigned Sales Representatives'
+        website:
+            label:                   'Website'
+            description:             A website the customer user should be enitled to access.
+        sales_representatives:
+            label:                   'Assigned Sales Representatives'
+            description:             Sales Representatives that were assigned to support the customer user's purchase process. Sales representatives are employees of the selling organization that manage their eCommerce activities using OroCommerce and OroCRM.
         contact_information.label:   'Contact Information'
-        is_guest.label:              'Guest'
+        is_guest:
+            label:                   'Guest'
+            description:             Identifies customer users either as registered on the frontstore, or guests.
         is_guest_yes.label:          'Yes'
         is_guest_no.label:           'No'
 
@@ -196,25 +255,38 @@ oro.customer:
     customeruserrole:
         entity_label:                    'Customer User Role'
         entity_plural_label:             'Customer User Roles'
+        entity_description:               Customer User Roles define the level of permissions and access to the actions and data in OroCommerce store frontend for the users of this role.
         id.label:                        'ID'
-        label.label:                     'Label'
-        role.label:                      'Role'
-        websites.label:                  'Websites'
-        customer.label:                   'Customer'
+        label:
+            label:                       'Label'
+            description:                 A human-readable label that identifies a customer user role.
+        role:
+            label:                       'Role'
+            description:                 A human-readable label that identifies a customer user role.
+        websites:
+            label:                       'Websites'
+            description:                 A website the customer user role should apply for.
+        customer:
+            label:                       'Customer'
+            description:                 Customer represents a company whose customer users access and permissions the customer user role controls.
         organization.label:              'Organization'
         type.label:                      'Type'
         type.predefined.label:           'Predefined'
         type.customizable.label:         'Customizable'
-        customer_users.label:             'Customer Users'
+        customer_users:
+            label:                       'Customer Users'
+            description:                 Customer users the customer user role is enabled for.
         frontend:
-            edit-predifined-role.message:   'Predefined roles cannot be edited directly. We copied all the original data so that you can save it as a new user role for your organization. All users will be moved from the original role to this new role after you click on "Save".'
+            edit-predifined-role.message:   'Predefined roles cannot be edited directly. We copied all the original data so that you can save it as a new user role for your organization. All users will be moved from the original role to this new role after you click "Save".'
             delete-role-with-users.message: 'This role cannot be deleted, please re-assign the assigned users to a different role before deletion.'
         self_managed:
             label:                  'Self Managed'
+            description:            The flag that indicates whether the customer user can manage their own roles configuration.
             value.true.label:       'Yes'
             value.false.label:      'No'
         public:
             label:                  'Public'
+            description:            The flag that indicates whether the customer user role may be used in other organizations.
             value.true.label:       'Yes'
             value.false.label:      'No'
 
@@ -452,7 +524,7 @@ oro.customer:
             registered_with_confirmation.message: 'Please check your email to complete registration'
             confirmed.message: 'Confirmation successful'
             already_confirmed.message: 'Customer already confirmed'
-            confirmation_error.message: 'Customer not fount or incorrect confirmation token'
+            confirmation_error.message: 'Customer not found or incorrect confirmation token'
             saved.message:     'Customer User has been saved'
             enabled.message:   'Customer User has been enabled'
             disabled.message:  'Customer User has been disabled'
@@ -495,7 +567,7 @@ oro.customer:
                     all_at_once.label: 'Show all items at once'
                     subitems_in_popup.label: 'Show subitems in a popup'
             customer_visitor_cookie_lifetime_days.label: 'Customer visitor cookie lifetime (days)'
-            customer_visitor_cookie_lifetime_days.tooltip: 'Determines how many days customer visitor (anonymous user) session will be active till reset'
+            customer_visitor_cookie_lifetime_days.tooltip: 'Determines how many days customer visitor (anonymous user) session will be active until reset'
             maps_enabled:
                 label: 'Enable Map Preview'
                 tooltip: 'When the Map Preview is enabled, the addresses in the store frontend will be shown on the map.'
@@ -636,6 +708,7 @@ oro.customer:
         organization.label: Audit organization
         user.label: Audit user
         customer_user.label: Customer user
+        additional_fields.label: Additional fields
 
     importexport:
         customer_user:

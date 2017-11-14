@@ -27,7 +27,7 @@ class OroCommerceMenuBundle implements Migration
     protected function updateOroCommerceMenuUpdateTable(Schema $schema)
     {
         $table = $schema->getTable('oro_commerce_menu_upd');
-        $table->addColumn('screens', 'array', ['comment' => '(DC2Type:array)']);
+        $table->addColumn('screens', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
     }
 
     /**

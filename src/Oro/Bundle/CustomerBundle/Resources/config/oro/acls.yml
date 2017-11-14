@@ -5,10 +5,18 @@ acls:
         class: OroCustomerBundle:Customer
         category: 'customer_management'
 
-    oro_customer_customer_user_delete:
+    oro_customer_frontend_customer_user_delete:
         type: entity
         permission: DELETE
         class: OroCustomerBundle:CustomerUser
+        group_name: "commerce"
+        category: 'customer_management'
+
+    oro_customer_frontend_customer_user_edit:
+        type: entity
+        permission: EDIT
+        class: OroCustomerBundle:CustomerUser
+        group_name: "commerce"
         category: 'customer_management'
 
     oro_customer_customer_address_view:
