@@ -103,7 +103,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
     /**
      * @var array
      *
-     * @ORM\Column(name="screens", type="array")
+     * @ORM\Column(name="screens", type="array", nullable=true)
      */
     protected $screens = [];
 
@@ -202,7 +202,7 @@ class MenuUpdate extends ExtendMenuUpdate implements
      */
     public function getScreens()
     {
-        return $this->screens;
+        return (array) $this->screens;
     }
 
     /**

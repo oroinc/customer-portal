@@ -1,27 +1,35 @@
 oro:
     website:
-        entity_label: Website
-        entity_plural_label: Websites
-        entity_description: Represents website information
-        id.label: Id
-        name.label: Name
-        url.label: URL
-        owner.label: Owner
-        organization.label: Organization
-        default_localization.label: Default Localization
-        enabled_localizations.label: Enabled Localizations
-        localizations.label: Localizations
-        inversed_websites.label: Inversed websites
-        related_websites.label: Related websites
-        default.label: Default
+        entity_label:                   Website
+        entity_plural_label:            Websites
+        entity_description:             In OroCommerce, you can create multiple websites that target a particular audience, geography, or that segments the goods and services your company is selling. Every website may have:<ul><li>A dedicated web catalog that defines the website content (products, categories, web pages, etc)</li><li>A set of price lists that may be isolated from the other websites</li><li>Unique configuration that may (but not necessarily should) override the default system configuration</li></ul>For more information see <a href="https://www.orocommerce.com/documentation/current/user-guide/system/websites">OroCommerce documentation</a>.
+        id.label:                       Id
+        name:
+            label:                      Name
+            description:                A human-readable name that identifies a website.
+        url.label:                      URL
+        owner.label:                    Owner
+        organization.label:             Organization
+        default_localization.label:     Default Localization
+        enabled_localizations.label:    Enabled Localizations
+        localizations.label:            Localizations
+        inversed_websites:
+            label:                      Inversed websites
+            description:                The list of IDs of the websites that have bidirectional relation with the current one.
+        related_websites:
+            label:                      Related websites
+            description:                The list of IDs of the related websites.
+        default:
+            label:                      Default
+            description:                The flag that indicates whether the website is used by default.
 
         system_configuration:
             groups:
-                webistes.title: Websites
-                routing.title: Routing
-                general.title: General
+                webistes.title:         Websites
+                routing.title:          Routing
+                general.title:          General
             fields:
-                url.label: URL
-                secure_url.label: Secure URL
+                url.label:              URL
+                secure_url.label:       Secure URL
     scope:
-        website.label: Website
+        website.label:                  Website

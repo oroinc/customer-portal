@@ -5,6 +5,12 @@ Feature: Mass delete customer users
   As a customer user
   I want to use mass delete functionality
 
+  Scenario: Delete mass action is disabled in Customer User grid for Buyer role
+    When I signed in as NancyJSallee@example.org on the store frontend
+    And I click "Account"
+    And I click "Users"
+    Then I shouldn't see Delete action in "Frontend Grid"
+
   Scenario: No records to delete selected
     Given I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account"
