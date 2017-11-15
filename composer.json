@@ -9,17 +9,17 @@
         }
     ],
     "require": {
-        "oro/platform": "2.x-dev",
-        "oro/platform-serialised-fields": "2.x-dev",
-        "oro/calendar-bundle": "2.x-dev",
-        "oro/marketing": "2.x-dev",
-        "oro/commerce": "1.x-dev",
+        "oro/platform": "2.5.*",
+        "oro/platform-serialised-fields": "2.5.*",
+        "oro/calendar-bundle": "2.5.*",
+        "oro/marketing": "2.5.*",
+        "oro/commerce": "1.5.*",
         "leafo/scssphp": "0.6.3",
         "bower-asset/prism": "1.6.0"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.x-dev"
+            "dev-master": "2.5.x-dev"
         }
     },
     "repositories": {
