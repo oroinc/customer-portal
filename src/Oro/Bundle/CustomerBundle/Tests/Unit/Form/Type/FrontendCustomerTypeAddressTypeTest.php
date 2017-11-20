@@ -12,6 +12,8 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\CustomerTypedAddressWith
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntityType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
+use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
+use Oro\Bundle\UIBundle\Tools\HtmlTagHelper;
 use Symfony\Component\Form\PreloadedExtension;
 
 class FrontendCustomerTypeAddressTypeTest extends CustomerTypedAddressTypeTest
@@ -68,7 +70,7 @@ class FrontendCustomerTypeAddressTypeTest extends CustomerTypedAddressTypeTest
                     $addressTypeStub->getName()  => $addressTypeStub,
                     'genemu_jqueryselect2_translatable_entity' => new Select2Type('translatable_entity'),
                 ],
-                []
+                ['form' => [new StripTagsExtensionStub($this->createMock(HtmlTagHelper::class))]]
             )
         ];
     }

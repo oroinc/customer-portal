@@ -2,15 +2,31 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
-use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
-
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization;
+use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 
 class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
 {
     const NAME = 'oro_customer_frontend_typed_address';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'constraints' => [new NameOrOrganization()],
+            ]
+        );
+
+        parent::configureOptions($resolver);
+    }
 
     /**
      * {@inheritdoc}

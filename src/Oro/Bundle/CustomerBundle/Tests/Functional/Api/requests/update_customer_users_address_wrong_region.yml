@@ -19,7 +19,7 @@ data:
         country:
             data:
                 type: countries
-                id: '<toString(@country.usa->iso2Code)>'
+                id: '<toString(@country.mexico->iso2Code)>'
         frontendOwner:
             data:
                 type: customer_users
@@ -32,3 +32,7 @@ data:
             data:
                 type: regions
                 id: '<toString(@region.usny->combinedCode)>'
+        systemOrganization:
+            data:
+                type: organizations
+                id: '<toString(@customer.1->organization->id)>'
