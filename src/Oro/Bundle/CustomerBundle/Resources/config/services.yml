@@ -906,7 +906,7 @@ services:
             - [addIgnoredRelation, ['Oro\Bundle\CustomerBundle\Entity\Customer', 'parent']]
 
     oro_customer.clear_lost_customer_users_processor:
-        class: Oro\Bundle\CustomerBundle\Migrations\Schema\v1_15\ClearLostCustomerUsers
+        class: Oro\Bundle\CustomerBundle\Migrations\Schema\v1_14\ClearLostCustomerUsers
         arguments:
             - '@oro_message_queue.message_producer'
             - '@oro_entity.orm.native_query_executor_helper'
