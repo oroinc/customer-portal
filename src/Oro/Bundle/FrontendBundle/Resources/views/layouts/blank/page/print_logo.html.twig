@@ -1,0 +1,11 @@
+{% block _print_logo_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' print-logo',
+        'src': '/bundles/orofrontend/blank/images/logo/logo-oroacem.svg',
+        'width': '190',
+        'height':  '35',
+        'alt': 'oro_frontend.logo.alt.label'|trans
+    }) %}
+
+    <img {{ block('block_attributes') }} />
+{% endblock %}

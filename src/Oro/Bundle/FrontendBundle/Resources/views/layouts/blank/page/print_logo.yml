@@ -1,0 +1,10 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'print_logo.html.twig'
+
+        - '@add':
+            id: print_logo
+            blockType: block
+            parentId: page_container
+            siblingId: page_header
