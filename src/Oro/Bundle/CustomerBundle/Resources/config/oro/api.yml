@@ -127,6 +127,7 @@ api:
                             exclude: true
             subresources:
                 systemOrganization:
+                    actions:
                         update_relationship: false
                         add_relationship: false
                         delete_relationship: false
