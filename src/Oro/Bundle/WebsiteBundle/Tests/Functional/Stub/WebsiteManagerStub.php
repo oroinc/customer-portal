@@ -7,19 +7,36 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 class WebsiteManagerStub extends WebsiteManager
 {
-    /**
-     * @var Website
-     */
-    protected $defaultWebsite;
+    /** @var WebsiteManager */
+    private $websiteManager;
+
+    /** @var bool */
+    private $enabled = false;
+
+    /** @var Website|null */
+    private $stubCurrentWebsite;
+
+    /** @var Website|null */
+    private $stubDefaultWebsite;
 
     /**
-     * @param Website $currentWebsite
-     * @param Website $defaultWebsite
+     * @param WebsiteManager $websiteManager
      */
-    public function __construct(Website $currentWebsite, Website $defaultWebsite)
+    public function __construct(WebsiteManager $websiteManager)
     {
-        $this->currentWebsite = $currentWebsite;
-        $this->defaultWebsite = $defaultWebsite;
+        $this->websiteManager = $websiteManager;
+    }
+
+    public function enableStub()
+    {
+        $this->enabled = true;
+    }
+
+    public function disableStub()
+    {
+        $this->enabled = false;
+        $this->stubCurrentWebsite = null;
+        $this->stubDefaultWebsite = null;
     }
 
     /**
@@ -27,7 +44,11 @@ class WebsiteManagerStub extends WebsiteManager
      */
     public function getCurrentWebsite()
     {
-        return $this->currentWebsite;
+        if ($this->enabled) {
+            return $this->stubCurrentWebsite;
+        }
+
+        return $this->websiteManager->getCurrentWebsite();
     }
 
     /**
@@ -35,6 +56,44 @@ class WebsiteManagerStub extends WebsiteManager
      */
     public function getDefaultWebsite()
     {
-        return $this->defaultWebsite;
+        if ($this->enabled) {
+            return $this->stubDefaultWebsite;
+        }
+
+        return $this->websiteManager->getDefaultWebsite();
+    }
+
+    /**
+     * @param Website|null $currentWebsite
+     */
+    public function setCurrentWebsiteStub(Website $currentWebsite = null)
+    {
+        if (!$this->enabled) {
+            $this->enableStub();
+        }
+        $this->stubCurrentWebsite = $currentWebsite;
+    }
+
+    /**
+     * @param Website|null $defaultWebsite
+     */
+    public function setDefaultWebsiteStub(Website $defaultWebsite = null)
+    {
+        if (!$this->enabled) {
+            $this->enableStub();
+        }
+        $this->stubDefaultWebsite = $defaultWebsite;
+    }
+
+
+    /**
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+        return call_user_func_array([$this->websiteManager, $method], $args);
     }
 }
