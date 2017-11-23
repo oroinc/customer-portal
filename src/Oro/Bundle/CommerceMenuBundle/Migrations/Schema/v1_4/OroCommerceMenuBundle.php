@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CommerceMenuBundle\Migrations\Schema\v1_5;
+namespace Oro\Bundle\CommerceMenuBundle\Migrations\Schema\v1_4;
 
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Schema;
