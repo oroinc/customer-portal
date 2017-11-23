@@ -1,6 +1,6 @@
 @regression
 @ticket-BB-9559
-Feature: Unable and dislable menu item with different User Agent and screens rules.
+Feature: Unable and dislable menu item with different User Agent and screens rules
 
   Scenario: Create different window session
     Given sessions active:

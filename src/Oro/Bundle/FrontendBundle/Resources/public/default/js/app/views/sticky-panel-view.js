@@ -87,9 +87,10 @@ define(function(require) {
          * @inheritDoc
          */
         render: function() {
-            this.applyAlwaysStickyElem();
             this.getElements();
             this.collectElements();
+            this.applyAlwaysStickyElem();
+            this.hasContent();
             return this;
         },
 
@@ -198,8 +199,12 @@ define(function(require) {
             }, this);
 
             if (contentChanged) {
-                this.$el.toggleClass('has-content', this.$el.find('.' + this.options.elementClass).length > 0);
+                this.hasContent();
             }
+        },
+
+        hasContent: function() {
+            this.$el.toggleClass('has-content', this.$el.find('.' + this.options.elementClass).length > 0);
         },
 
         getNewElementState: function($element) {
@@ -237,7 +242,7 @@ define(function(require) {
 
         onBottom: function(options) {
             var documentHeight = this.$document.height();
-            var footerHeight = $('footer').outerHeight();
+            var footerHeight = $('[data-page-footer]').outerHeight();
             return (documentHeight - footerHeight) <= (this.scrollState.position + options.stickyHeight);
         },
 

@@ -42,6 +42,10 @@ class LoadAccountAndContactToAccountManagerRole extends AbstractFixture implemen
      */
     public function load(ObjectManager $manager)
     {
+        if ($this->container->hasParameter('installed') && $this->container->getParameter('installed')) {
+            return;
+        }
+
         if (!class_exists(self::ACCOUNT_ENTITY) || !class_exists(self::CONTACT_ENTITY)) {
             return;
         }

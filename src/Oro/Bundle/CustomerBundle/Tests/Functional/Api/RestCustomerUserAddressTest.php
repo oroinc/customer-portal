@@ -150,6 +150,36 @@ class RestCustomerUserAddressTest extends AbstractRestTest
         $this->assertEquals(Response::HTTP_CONFLICT, $response->getStatusCode());
     }
 
+    public function testUpdateCustomerUserAddressesWrongRegion()
+    {
+        $repository = $this->getEntityManager()->getRepository(CustomerUserAddress::class);
+
+        $customerUserAddressId = $repository->findOneBy(
+            [
+                'label' => LoadCustomerUserAddresses::OTHER_USER_LABEL
+            ]
+        )
+            ->getId();
+
+        $response = $this->patch(
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => (string)$customerUserAddressId
+            ],
+            'update_customer_users_address_wrong_region.yml',
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title' => 'callback constraint',
+                'detail' => 'Region New York does not belong to country Mexico'
+            ],
+            $response
+        );
+    }
+
     public function testUpdateCustomerUserAddresses()
     {
         $repository = $this->getEntityManager()->getRepository(CustomerUserAddress::class);
@@ -178,7 +208,7 @@ class RestCustomerUserAddressTest extends AbstractRestTest
             $customerUserAddress->getFrontendOwner()->getId()
         );
         $this->assertEquals(
-            $this->getReference('country.mexico')->getIso2Code(),
+            $this->getReference('country.usa')->getIso2Code(),
             $customerUserAddress->getCountryIso2()
         );
 
@@ -213,6 +243,41 @@ class RestCustomerUserAddressTest extends AbstractRestTest
 
         // verify it's not available anymore for GET requests
         $this->assertSame(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    public function testUpdateSystemOrganization()
+    {
+        $repository = $this->getEntityManager()->getRepository(CustomerUserAddress::class);
+        $customerUserAddressId = (string)$repository->findOneBy([])->getId();
+        $response = $this->patch(
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => $customerUserAddressId,
+            ],
+            [
+                'data' => [
+                    'type' => $this->getEntityType(CustomerUserAddress::class),
+                    'id' => $customerUserAddressId,
+                    'relationships' => [
+                        'systemOrganization' => [
+                            'data' => [
+                                'type' => 'organizations',
+                                'id' => '1',
+                            ]
+                        ]
+                    ],
+                ],
+            ],
+            [],
+            false
+        );
+        $this->assertResponseValidationError(
+            [
+                'title' => 'extra fields constraint',
+                'detail' => 'This form should not contain extra fields: "systemOrganization"'
+            ],
+            $response
+        );
     }
 
     /**
