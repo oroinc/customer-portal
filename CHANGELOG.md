@@ -1,5 +1,5 @@
-## 2.5.0 (Unreleased)
-
+## 2.5.0 (2017-11-30)
+[Show detailed list of changes](incompatibilities-2-5.md)
 ### Added
 #### ACL
 * In case when Customer Portal is installed together with CRM, the `Account Manager` role has full permissions for Account and Contact entities. The permissions for the `Account Manager` is not changed if Customer Portal is added to already installed CRM.
