@@ -3,6 +3,9 @@ oro:
         category.commerce.label: 'Commerce'
 
 oro_frontend:
+    logo:
+        alt:
+            label: 'ORO Commerce'
     widget_form_component:
         save_flash_success: Saved successfully
     form:
