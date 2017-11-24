@@ -32,7 +32,3 @@ data:
             data:
                 type: regions
                 id: '<toString(@region.usny->combinedCode)>'
-        systemOrganization:
-            data:
-                type: organizations
-                id: '<toString(@customer.1->organization->id)>'
