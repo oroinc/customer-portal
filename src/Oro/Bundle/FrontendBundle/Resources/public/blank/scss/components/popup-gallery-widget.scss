@@ -120,8 +120,6 @@
         .slick-list {
             border: $popup-gallery-widget-slick-list-border;
             background: $popup-gallery-widget-slick-list-bg;
-
-            box-sizing: border-box;
         }
 
         @include slick-dots();
@@ -180,7 +178,6 @@
             }
 
             &.slick-current img {
-                box-sizing: border-box;
                 border: $popup-gallery-widget-thumbnails-img-active-border;
             }
         }

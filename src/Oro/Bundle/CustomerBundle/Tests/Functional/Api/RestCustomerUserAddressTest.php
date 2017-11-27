@@ -245,6 +245,41 @@ class RestCustomerUserAddressTest extends AbstractRestTest
         $this->assertSame(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    public function testUpdateSystemOrganization()
+    {
+        $repository = $this->getEntityManager()->getRepository(CustomerUserAddress::class);
+        $customerUserAddressId = (string)$repository->findOneBy([])->getId();
+        $response = $this->patch(
+            [
+                'entity' => $this->getEntityType(CustomerUserAddress::class),
+                'id' => $customerUserAddressId,
+            ],
+            [
+                'data' => [
+                    'type' => $this->getEntityType(CustomerUserAddress::class),
+                    'id' => $customerUserAddressId,
+                    'relationships' => [
+                        'systemOrganization' => [
+                            'data' => [
+                                'type' => 'organizations',
+                                'id' => '1',
+                            ]
+                        ]
+                    ],
+                ],
+            ],
+            [],
+            false
+        );
+        $this->assertResponseValidationError(
+            [
+                'title' => 'extra fields constraint',
+                'detail' => 'This form should not contain extra fields: "systemOrganization"'
+            ],
+            $response
+        );
+    }
+
     /**
      * @param array $customerUserAddressData
      */

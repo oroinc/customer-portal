@@ -26,6 +26,19 @@ $embedded-list-slider-arrow-size: 40px !default;
 $embedded-list-slider-arrow-side-offset: 3px !default;
 $embedded-list-slider-icon-color: lighten(get-color('additional', 'dark'), 16.5%) !default;
 
+$embedded-list-tiles-item-width: calc(25% - #{$offset-x / 2}) !default;
+$embedded-list-tiles-item-offset: 15px 0 10px !default;
+$embedded-list-tiles-item-text-align: center !default;
+
+// tablet-small
+$embedded-list-tiles-item-width-tablet-small: calc(33.33% - #{$offset-x / 2}) !default;
+$embedded-list-tiles-item-offset-bottom-tablet-small: 25px !default;
+
+// mobile-landscape
+$embedded-list-tiles-item-width-mobile-landscape: calc(50% - #{$offset-x / 2}) !default;
+$embedded-list-tiles-item-offset-bottom-mobile-landscape: 20px !default;
 
 // mobile
 $embedded-list-label-mobile-font-size: $base-font-size !default;
+$embedded-list-tiles-item-width-mobile: 100% !default;
+$embedded-list-tiles-item-offset-bottom-mobile: 15px !default;

@@ -44,6 +44,11 @@
         overflow: hidden;
     }
 
+    &__link {
+        line-height: $featured-menu-link-line-height;
+        white-space: $featured-menu-link-white-space;
+    }
+
     &__img-wrap {
         margin-bottom: $featured-menu-item-img-wrap-offset-bottom;
     }
@@ -57,6 +62,10 @@
         font-size: $featured-menu-item-icon-font-size;
 
         color: $featured-menu-item-icon-color;
+    }
+
+    .line-clamp-polyfill:after {
+        background: linear-gradient(to right, rgba($featured-menu-content-bg, 0), rgba($featured-menu-content-bg, 1) 50%);
     }
 }
 

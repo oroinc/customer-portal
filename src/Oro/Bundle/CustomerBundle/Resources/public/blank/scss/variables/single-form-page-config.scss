@@ -1,3 +1,5 @@
+// @theme: blank;
+
 $single-form-page-bg: get-color('additional', 'base') !default;
 $single-form-page-offset-outer: 0 auto;
 
@@ -19,7 +21,6 @@ $single-form-page-offset-inner-m-mobile-l: 35px 20px !default;
     padding: $single-form-page-offset-inner;
 
     background: $single-form-page-bg;
-    box-sizing: border-box;
 }
 
 %single-form-page--size-m {
