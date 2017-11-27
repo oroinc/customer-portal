@@ -63,6 +63,10 @@
 
         color: $featured-menu-item-icon-color;
     }
+
+    .line-clamp-polyfill:after {
+        background: linear-gradient(to right, rgba($featured-menu-content-bg, 0), rgba($featured-menu-content-bg, 1) 50%);
+    }
 }
 
 @include breakpoint('tablet-small') {
