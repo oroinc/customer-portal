@@ -1,0 +1,67 @@
+// @theme: blank;
+
+.embedded-list {
+    position: relative;
+
+    margin-bottom: $embedded-list-bottom-offset;
+
+    &__slider {
+        // Hide content before slick slider is united
+        overflow: hidden;
+
+        font-size: 0;
+
+        white-space: nowrap;
+
+        &.slick-initialized {
+            // Show content after slick slider is inited
+            overflow: visible;
+
+            &:before {
+                display: block;
+            }
+        }
+
+        &.embedded-arrows {
+            margin: 0 $embedded-list-slider-btn-arrow-width;
+        }
+
+        @include slick-arrow(
+            $slick-arrow-transform: $embedded-list-slider-btn-arrow-transform,
+            $slick-arrow-background: $embedded-list-slider-btn-arrow-background,
+            $slick-arrow-hover-background: $embedded-list-slider-btn-arrow-hover-background,
+            $slick-arrow-top: $embedded-list-slider-btn-arrow-top-pos,
+            $slick-arrow-width: $embedded-list-slider-btn-arrow-width,
+            $slick-arrow-height: $embedded-list-slider-btn-arrow-height,
+            $slick-arrow-next-right: $embedded-list-slider-btn-arrow-side-pos,
+            $slick-arrow-prev-left: $embedded-list-slider-btn-arrow-side-pos,
+            $slick-arrow-icon-size: $embedded-list-slider-arrow-size,
+            $slick-arrow-icon-color: $embedded-list-slider-icon-color
+        );
+    }
+
+    &__item {
+        display: inline-block;
+
+        padding: $embedded-list-item-offset-inner;
+
+        vertical-align: top;
+        white-space: normal;
+    }
+
+    &__label {
+        margin-bottom: $embedded-list-label-offset-bottom;
+
+        line-height: $embedded-list-label-line-height;
+
+        text-align: $embedded-list-label-text-align;
+    }
+}
+
+@include breakpoint('mobile') {
+    .embedded-list {
+        &__label-inner {
+            font-size: $embedded-list-label-mobile-font-size;
+        }
+    }
+}

@@ -1,16 +1,8 @@
 // @theme: default;
 
 .embedded-list {
-    position: relative;
-
     &__label {
         position: relative;
-
-        margin-top: $embedded-list-label-offset-top;
-
-        line-height: $embedded-list-label-line-height;
-
-        text-align: center;
 
         &:before {
             position: absolute;
@@ -40,18 +32,5 @@
         text-transform: uppercase;
 
         background: get-color('additional', 'ultra');
-    }
-}
-
-@include breakpoint('mobile') {
-    .embedded-list {
-        &__label {
-            margin: 0;
-            margin-top: $embedded-list-label-mobile-offset-top;
-        }
-
-        &__label-inner {
-            font-size: $embedded-list-label-mobile-font-size;
-        }
     }
 }
