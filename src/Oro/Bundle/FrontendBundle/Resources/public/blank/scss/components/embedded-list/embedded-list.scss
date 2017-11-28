@@ -65,9 +65,12 @@
         flex-wrap: wrap;
         justify-content: space-between;
 
+        margin: $embedded-list-tiles-offset;
+
         .embedded-list__item {
             width: $embedded-list-tiles-item-width;
             margin: $embedded-list-tiles-item-offset;
+            padding: $embedded-list-tiles-item-inner-offset;
 
             text-align: $embedded-list-tiles-item-text-align;
         }
