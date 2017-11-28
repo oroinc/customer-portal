@@ -54,6 +54,10 @@
         line-height: $embedded-list-label-line-height;
 
         text-align: $embedded-list-label-text-align;
+
+        &-inner {
+            font-size: $embedded-list-label-font-size;
+        }
     }
 
     &__tiles {
