@@ -34,7 +34,6 @@ Example:
   "data": {
     "type": "customers",
     "attributes": {
-      "lifetime": "37010.4337",
       "name": "Company AB"
     },
     "relationships": {     
@@ -93,7 +92,6 @@ Example:
     "type": "customers",
     "id": "1",
     "attributes": {
-      "lifetime": "37010.4337",
       "name": "Company AC"
     },
     "relationships": {     
@@ -244,36 +242,6 @@ Example:
 ```
 {@/request}
 
-### dataChannel
-
-#### get_subresource
-
-Retrieve the channel record to which a specific customer is assigned.
-
-#### get_relationship
-
-Retrieve the IDs of the channel records which a specific customer record is assigned to.
-
-#### update_relationship
-
-
-Replace the channel a specific customer record is assigned to.
-
-{@request:json_api}
-Example:
-
-`</admin/api/customers/1/relationships/dataChannel>`
-
-```JSON
-{
-  "data": {
-    "type": "channels",
-    "id": "1"
-  }
-}
-```
-{@/request}
-
 ### group
 
 #### get_subresource
@@ -414,35 +382,6 @@ Example:
   "data": {
     "type": "customers",
     "id": "4"
-  }
-}
-```
-{@/request}
-
-### previous_account 
-
-#### get_subresource
-
-Retrieve a record of previous account assigned to a specific customer record.
-
-#### get_relationship
-
-Retrieve the ID of the previous account record assigned to a specific customer record.
-
-#### update_relationship
-
-Replace the previous account assigned to a specific customer record
-
-{@request:json_api}
-Example:
-
-`</admin/api/customers/1/relationships/previous_account>`
-
-```JSON
-{
-  "data": {
-    "type": "accounts",
-    "id": "1"
   }
 }
 ```
