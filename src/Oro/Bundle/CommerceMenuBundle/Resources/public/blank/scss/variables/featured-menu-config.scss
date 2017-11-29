@@ -1,9 +1,9 @@
 // @theme: blank;
 
-$featured-menu-offset: 30px (-$offset-x)  !default;
+$featured-menu-offset: 30px (-$offset-x-m)  !default;
 
 $featured-menu-item-items-row: 4 !default;
-$featured-menu-item-offset-x: $offset-x !default;
+$featured-menu-item-offset-x: $offset-x-m !default;
 $featured-menu-item-offset: 0 0 0 $featured-menu-item-offset-x !default;
 
 $featured-menu-content-offset-inner: 30px !default;
