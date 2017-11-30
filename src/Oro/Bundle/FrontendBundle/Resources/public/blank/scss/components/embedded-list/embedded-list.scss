@@ -61,7 +61,7 @@
     &__tiles {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: $embedded-list-tiles-justify-content;
 
         margin: $embedded-list-tiles-offset;
 
@@ -81,11 +81,6 @@
             .embedded-list__item {
                 width: $embedded-list-tiles-item-width-tablet-small;
                 margin-bottom: $embedded-list-tiles-item-offset-bottom-tablet-small;
-
-                &:nth-last-child(2),
-                &:last-child {
-                    display: none;
-                }
             }
         }
     }
