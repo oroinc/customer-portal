@@ -53,7 +53,6 @@ config:
         'orofrontend/js/app/components/widget-form-component': 'bundles/orofrontend/js/app/components/widget-form-component.js'
         'orofrontend/js/app/components/switchable-editable-view-component': 'bundles/orofrontend/js/app/components/switchable-editable-view-component.js'
         'orofrontend/js/app/components/attached-editable-view-component': 'bundles/orofrontend/js/app/components/attached-editable-view-component.js'
-        'orofrontend/js/app/views/theme-select-view': 'bundles/orofrontend/js/app/views/theme-select-view.js'
 
         'orofrontend/js/app/views/viewer/title-view': 'bundles/orofrontend/js/app/views/viewer/title-view.js'
         'orofrontend/js/app/views/viewer/text-view': 'bundles/orofrontend/js/app/views/viewer/text-view.js'
