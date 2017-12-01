@@ -125,8 +125,8 @@ class CustomerAddressController extends Controller
     private function prepareEntities(Customer $customer, CustomerAddress $customerAddress, Request $request)
     {
         if ($request->getMethod() === 'GET' && !$customerAddress->getId()) {
-            $customerAddress->setFirstName($customer->getOwner()->getFirstName());
-            $customerAddress->setLastName($customer->getOwner()->getLastName());
+            $customerAddress->setFirstName($this->getUser()->getFirstName());
+            $customerAddress->setLastName($this->getUser()->getLastName());
             if (!$customer->getAddresses()->count()) {
                 $customerAddress->setPrimary(true);
             }
