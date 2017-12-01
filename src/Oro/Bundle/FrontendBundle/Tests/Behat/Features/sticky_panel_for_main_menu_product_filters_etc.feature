@@ -2,6 +2,7 @@
 @automatically-ticket-tagged
 @fixture-OroFrontendBundle:Products.yml
 Feature: Sticky panel for main menu, product filters etc
+  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Check is sticky panel visible and has main menu content (mobile version)
     Given here is the "User" under "320_session"

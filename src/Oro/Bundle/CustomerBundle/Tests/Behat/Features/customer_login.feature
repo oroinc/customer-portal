@@ -1,6 +1,7 @@
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
 
 Feature: Customer login
+  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Check successful login and logout of buyer
     Given I signed in as AmandaRCole@example.org on the store frontend
