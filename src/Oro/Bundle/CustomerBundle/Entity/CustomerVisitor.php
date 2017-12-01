@@ -119,7 +119,7 @@ class CustomerVisitor extends ExtendCustomerVisitor
      * @param CustomerUser $customerUser
      * @return $this
      */
-    public function setCustomerUser(CustomerUser $customerUser)
+    public function setCustomerUser(CustomerUser $customerUser = null)
     {
         $this->customerUser = $customerUser;
 

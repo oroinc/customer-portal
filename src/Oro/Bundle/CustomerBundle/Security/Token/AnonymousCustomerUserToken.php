@@ -48,7 +48,7 @@ class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationC
     }
 
     /**
-     * @return CustomerVisitor
+     * @return CustomerVisitor|null
      */
     public function getVisitor()
     {
@@ -56,7 +56,7 @@ class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationC
     }
 
     /**
-     * @param CustomerVisitor $visitor
+     * @param CustomerVisitor|null $visitor
      */
     public function setVisitor(CustomerVisitor $visitor = null)
     {

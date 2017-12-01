@@ -21,7 +21,7 @@ class GetActiveVisitor extends AssignActiveUser
             $visitor = $token->getVisitor();
         }
 
-        if (!$visitor) {
+        if (!$visitor && $this->options['exceptionOnNotFound']) {
             throw new ActionException('Can\'t extract active visitor');
         }
 

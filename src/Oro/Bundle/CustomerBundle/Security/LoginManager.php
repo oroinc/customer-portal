@@ -103,7 +103,6 @@ class LoginManager
 
             $event = new InteractiveLoginEvent($request, $token);
             $this->eventDispatcher->dispatch(SecurityEvents::INTERACTIVE_LOGIN, $event);
-
         } catch (AccountStatusException $exception) {
             // We simply do not authenticate users which do not pass the user
             // checker (not enabled, expired, etc.).
