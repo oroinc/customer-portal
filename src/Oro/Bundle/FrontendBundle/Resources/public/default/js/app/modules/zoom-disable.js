@@ -33,8 +33,8 @@ define(function(require) {
          * @property {Object}
          */
         options: {
-            metaEnableZoom: '<meta name="viewport" content="width=device-width, initial-scale=1" />',
-            metaDisableZoom: '<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />'
+            metaEnableZoom: '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />',
+            metaDisableZoom: '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=0" />'
         },
 
         /**
