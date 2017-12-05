@@ -1,3 +1,4 @@
+@regression
 @fixture-OroCustomerBundle:CustomerFixture.yml
 @ticket-BB-12096
 Feature: View and update customers timestamps
