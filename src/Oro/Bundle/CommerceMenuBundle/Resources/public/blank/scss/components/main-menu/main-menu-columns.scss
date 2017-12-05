@@ -3,10 +3,10 @@
 .main-menu-columns {
     display: flex;
 
-    padding: 30px 40px;
+    padding: $main-menu-columns-inner-offset;
 
     &--single {
-        padding: 14px 24px;
+        padding: $main-menu-columns-single-inner-offset;
     }
 }
 
@@ -14,6 +14,6 @@
     .main-menu-columns {
         display: block;
 
-        padding: 0;
+        @include safe-area-padding($main-menu-columns-inner-offset-tablet);
     }
 }

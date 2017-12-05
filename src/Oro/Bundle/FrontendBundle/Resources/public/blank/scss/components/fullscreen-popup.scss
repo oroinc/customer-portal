@@ -24,7 +24,7 @@
         left: $fullscreen-popup-header-left;
 
         min-height: $fullscreen-popup-header-min-height;
-        padding: $fullscreen-popup-header-offset;
+        @include safe-area-padding($fullscreen-popup-header-offset);
 
         background: $fullscreen-popup-header-bg;
         border-bottom: $fullscreen-popup-header-border-bottom;
@@ -80,7 +80,8 @@
         position: $fullscreen-popup-close-position;
         z-index: $fullscreen-popup-close-z-index;
         top: $fullscreen-popup-close-top;
-        right: $fullscreen-popup-close-right;
+
+        @include safe-area-property(right, $fullscreen-popup-close-right);
 
         padding:  $fullscreen-popup-close-inner-offset;
 
@@ -99,6 +100,8 @@
         height: $fullscreen-popup-content-height;
 
         overflow: $fullscreen-popup-content-overflow;
+
+        @include safe-area-padding($fullscreen-popup-content-offset);
 
         .alert {
             margin: $fullscreen-popup-content-alert-offset-height;
@@ -120,7 +123,7 @@
         left: $fullscreen-popup-footer-left;
         bottom: $fullscreen-popup-footer-bottom;
 
-        padding: $fullscreen-popup-footer-offset;
+        @include safe-area-padding($fullscreen-popup-footer-offset);
 
         background: $fullscreen-popup-footer-bg;
         border-top: $fullscreen-popup-footer-border-top;

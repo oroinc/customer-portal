@@ -75,7 +75,7 @@
         .main-menu__back-trigger {
             position: absolute;
             top: 0;
-            left: $offset-x;
+            @include safe-area-property(left, $offset-x);
             z-index: z('base') + 1;
 
             display: block;
