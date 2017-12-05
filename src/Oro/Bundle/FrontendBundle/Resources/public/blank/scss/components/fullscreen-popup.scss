@@ -24,7 +24,7 @@
         left: $fullscreen-popup-header-left;
 
         min-height: $fullscreen-popup-header-min-height;
-        @include safe-area-padding($fullscreen-popup-header-offset);
+        @include safe-area-offset(padding, $fullscreen-popup-header-offset);
 
         background: $fullscreen-popup-header-bg;
         border-bottom: $fullscreen-popup-header-border-bottom;
@@ -101,7 +101,7 @@
 
         overflow: $fullscreen-popup-content-overflow;
 
-        @include safe-area-padding($fullscreen-popup-content-offset);
+        @include safe-area-offset(padding, $fullscreen-popup-content-offset);
 
         .alert {
             margin: $fullscreen-popup-content-alert-offset-height;
@@ -123,7 +123,7 @@
         left: $fullscreen-popup-footer-left;
         bottom: $fullscreen-popup-footer-bottom;
 
-        @include safe-area-padding($fullscreen-popup-footer-offset);
+        @include safe-area-offset(padding, $fullscreen-popup-footer-offset);
 
         background: $fullscreen-popup-footer-bg;
         border-top: $fullscreen-popup-footer-border-top;

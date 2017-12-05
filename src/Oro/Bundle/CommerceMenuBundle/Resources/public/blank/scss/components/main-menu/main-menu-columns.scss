@@ -14,6 +14,6 @@
     .main-menu-columns {
         display: block;
 
-        @include safe-area-padding($main-menu-columns-inner-offset-tablet);
+        @include safe-area-offset(padding, $main-menu-columns-inner-offset-tablet);
     }
 }

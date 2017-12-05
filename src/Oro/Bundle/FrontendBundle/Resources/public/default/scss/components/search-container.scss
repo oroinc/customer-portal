@@ -1,5 +1,5 @@
 // @default;
 
 .search-container {
-    @include safe-area-padding($search-container-inner-offset);
+    @include safe-area-offset(padding, $search-container-inner-offset);
 }
