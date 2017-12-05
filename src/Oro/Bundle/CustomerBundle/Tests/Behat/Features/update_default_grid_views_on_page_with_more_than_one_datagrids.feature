@@ -3,6 +3,7 @@
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Update default grid views on page with more than one datagrids
+  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Edit create new default grid view
     Given I signed in as AmandaRCole@example.org on the store frontend

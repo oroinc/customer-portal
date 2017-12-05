@@ -14,11 +14,8 @@
             }) }}
         </div>
     {% endif %}
-    {% include 'OroImportExportBundle:ImportExport:buttons.html.twig' with {
-        entity_class: entity_class,
-        datagridName: gridName,
-        exportProcessor: 'oro_customer_customer',
-        exportTemplateProcessor: 'oro_customer_customer',
-        importProcessor: 'oro_customer_customer',
+    
+    {% include 'OroImportExportBundle:ImportExport:buttons_from_configuration.html.twig' with {
+        'alias': 'oro_customer'
     } %}
 {% endblock %}

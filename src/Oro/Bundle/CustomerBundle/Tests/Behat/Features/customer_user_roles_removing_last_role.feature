@@ -2,8 +2,8 @@
 @ticket-BB-7456
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
-Feature: Removing last role from the customer user
-  Regression test for BB-7456
+Feature: Customer user roles removing last role
+  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Customer user role create
     Given I login as administrator

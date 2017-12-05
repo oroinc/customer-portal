@@ -1,4 +1,5 @@
 Feature: Customer User with administrator role should able to view and edit Customer Users with buyer role
+  ToDo: BAP-16103 Add missing descriptions to the Behat features
   Scenario: Create different window session
     Given sessions active:
       | User  | first_session  |

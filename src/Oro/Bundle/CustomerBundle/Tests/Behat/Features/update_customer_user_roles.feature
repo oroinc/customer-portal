@@ -1,5 +1,6 @@
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Update customer user roles
+  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Customer user able to update his roles
     Given I signed in as NancyJSallee@example.org on the store frontend

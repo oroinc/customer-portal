@@ -83,3 +83,11 @@ Feature: Manage Customer addresses at front-store
     When I click view "Nancy" in grid
     Then I should see "alert(9)"
     And I should see "alert(11), alert(12),"
+
+  Scenario: First and Last name, default for current customer user's info, during company address addition
+    Given I click "Account"
+    And I click "Address Book"
+    And I click "New Company Address"
+    Then "OroForm" must contains values:
+      | First Name | Amanda  |
+      | Last Name  | Cole |

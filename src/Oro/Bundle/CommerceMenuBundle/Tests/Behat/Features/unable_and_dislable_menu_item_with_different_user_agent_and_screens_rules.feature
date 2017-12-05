@@ -1,6 +1,7 @@
 @regression
 @ticket-BB-9559
 Feature: Unable and dislable menu item with different User Agent and screens rules
+  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Create different window session
     Given sessions active:

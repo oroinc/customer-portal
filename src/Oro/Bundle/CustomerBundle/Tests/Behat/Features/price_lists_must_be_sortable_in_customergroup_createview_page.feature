@@ -3,6 +3,7 @@
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Price lists must be sortable in customerGroup create\view page
+  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Changing Price List Priorities In Customers
     Given I login as administrator

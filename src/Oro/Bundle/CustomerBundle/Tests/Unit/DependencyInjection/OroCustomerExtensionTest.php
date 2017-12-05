@@ -25,6 +25,8 @@ class OroCustomerExtensionTest extends AbstractPrependExtensionTest
         $expectedDefinitions = [
             'oro_customer.provider.fronted_customer_user_role_tab_options',
             'oro_customer.provider.fronted_customer_user_role_capability_set_options',
+            'oro_customer.importexport.configuration_provider.customer',
+            'oro_customer.importexport.configuration_provider.customer_user',
         ];
 
         $this->assertDefinitionsLoaded($expectedDefinitions);

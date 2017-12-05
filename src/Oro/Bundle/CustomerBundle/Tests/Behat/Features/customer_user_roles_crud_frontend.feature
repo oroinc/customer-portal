@@ -1,7 +1,7 @@
 @ticket-BB-8128
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
-Feature: Managing customer user roles
+Feature: Customer user roles crud frontend
   In order to control customer user permissions
   As an Buyer
   I want to be able to manage user roles

@@ -1,5 +1,6 @@
 @fixture-OroCustomerBundle:CustomerAddressFixture.yml
-Feature: Delete customer user default address
+Feature: Delete customer address
+  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Delete customer user default address
     Given I login as administrator

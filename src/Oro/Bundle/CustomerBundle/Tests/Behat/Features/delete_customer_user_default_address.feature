@@ -1,5 +1,6 @@
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 Feature: Delete customer user default address
+  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Delete customer user default address
     Given I signed in as AmandaRCole@example.org on the store frontend
