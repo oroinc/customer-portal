@@ -81,7 +81,7 @@
         z-index: $fullscreen-popup-close-z-index;
         top: $fullscreen-popup-close-top;
 
-        @include safe-area-property(right, $fullscreen-popup-close-right);
+        @include safe-area-property-right(right, $fullscreen-popup-close-right);
 
         padding:  $fullscreen-popup-close-inner-offset;
 
