@@ -37,7 +37,7 @@
                                 {{ child.extras.description }}
                             {% endif %}
                         </div>
-                        <a class="btn btn--info btn--size-s featured-menu__link" href="{{ child.uri }}">
+                        <a class="btn btn--info btn--size-s featured-menu__link" href="{{ oro_config_value('oro_ui.application_url') }}{{ child.uri }}">
                             {{ 'oro.commercemenu.frontend.navigation.items.view.label'|trans ~ ' ' ~ label|upper }}
                         </a>
                     </div>
