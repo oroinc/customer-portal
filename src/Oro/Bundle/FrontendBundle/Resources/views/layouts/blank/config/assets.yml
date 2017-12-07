@@ -16,9 +16,13 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/popup-gallery-widget-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/scroll-top-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/pagination-widget-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/embedded-list/embedded-list-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/embedded-list/embedded-list-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/embedded-list/embedded-list-slider-config.scss'
 
         - 'bundles/orofrontend/blank/scss/components/ui/jquery-ui.scss'
         - 'bundles/orofrontend/blank/scss/components/ui/datepicker.scss'
+        - 'bundles/orofrontend/blank/scss/components/embedded-list/embedded-list.scss'
         - 'bundles/orofrontend/blank/scss/styles.scss'
 
 stylebook_styles:
