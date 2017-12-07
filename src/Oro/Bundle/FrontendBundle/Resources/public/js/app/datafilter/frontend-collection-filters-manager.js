@@ -5,6 +5,7 @@ define(function(require) {
     var $ = require('jquery');
     var _ = require('underscore');
     var __ = require('orotranslation/js/translator');
+    var viewportManager = require('oroui/js/viewport-manager');
     var CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
     var MultiselectDecorator = require('orofrontend/js/app/datafilter/fronend-manage-filters-decorator');
 
@@ -124,8 +125,10 @@ define(function(require) {
          * @protected
          */
         _updateRenderMode: function() {
-            if (_.isMobile()) {
-                this.renderMode =  'toggle-mode';
+            var breakpoints = ['tablet', 'tablet-small', 'mobile-landscape', 'mobile'];
+
+            if (_.contains(breakpoints, viewportManager.getViewport().type)) {
+                this.renderMode = 'toggle-mode';
             }
         },
 
