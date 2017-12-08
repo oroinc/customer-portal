@@ -42,8 +42,6 @@ oro:
             label:              Data Channel
             description:        A service field.
         previous_account:
-            label:              Previous Account
-            description:        A service field.
             label: 'Assigned Sales Representatives'
             description: 'Assigned Sales Representatives'
         action:
@@ -113,7 +111,7 @@ oro.customer:
         owner.label:            'Owner'
 
     customeruser:
-        full_name:                   %name_prefix% %first_name% %middle_name% %last_name% %name_suffix%
+        full_name:                   '%name_prefix% %first_name% %middle_name% %last_name% %name_suffix%'
         entity_label:                'Customer User'
         entity_plural_label:         'Customer Users'
         entity_description:          Customer User represents a person who acts on behalf of the company to buy products using OroCommerce store frontend.
@@ -185,7 +183,7 @@ oro.customer:
         form.choose:                 'Choose a customer user...'
         addresses:
             label:                   'Addresses'
-            description:             Collection of customer user addresses: mailing, business, home, billing, etc.
+            description:             'Collection of customer user addresses: mailing, business, home, billing, etc.'
         address_book.label:          'Address Book'
         owner.label:                 'Owner'
         website:
@@ -528,7 +526,6 @@ oro.customer:
             saved.message:     'Customer User has been saved'
             enabled.message:   'Customer User has been enabled'
             disabled.message:  'Customer User has been disabled'
-            confirmed.message:  'Customer User has been confirmed'
             not_found.message: 'Customer User not found'
             profile_updated.message: 'Customer User profile updated'
             token_not_found.message: 'The user with "confirmation token" does not exist for value "%token%"'

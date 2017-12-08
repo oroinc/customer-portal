@@ -19,7 +19,6 @@ oro:
             divider.label: Is Divider
             descriptions.label: Description
             icon.label: Icon
-            scope.label: Scope
             screens.label: Screens
             roots_plural_label: 'Frontend Menus'
             website_with_label: 'Website: %website%'
