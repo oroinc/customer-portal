@@ -107,7 +107,10 @@
     $slick-arrow-next-icon: $fa-var-angle-right,
 
     $slick-arrow-next-icon-offset: null,
-    $slick-arrow-prev-icon-offset: null
+    $slick-arrow-prev-icon-offset: null,
+
+    $slick-arrow-disabled-opacity: .5,
+    $slick-arrow-disabled-cursor: default
 ) {
     .slick-arrow {
         position: $slick-arrow-position;
@@ -169,6 +172,12 @@
         &:after {
             margin: $slick-arrow-next-icon-offset;
         }
+    }
+
+    .slick-disabled {
+        cursor: $slick-arrow-disabled-cursor;
+
+        opacity: $slick-arrow-disabled-opacity;
     }
 }
 

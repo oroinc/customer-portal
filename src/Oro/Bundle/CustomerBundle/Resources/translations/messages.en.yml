@@ -8,7 +8,7 @@ oro:
             description:        A human-readable name that identifies a customer.
         group:
             label:              'Group'
-            description:        A customer group the customer is assigned to.<br>A customer group represents a virtual group of companies that share some configuration, payment and tax-related settings, and price lists among multiple customers, for example those with the same service level.<br>See <a href="https://www.orocommerce.com/documentation/current/customers/customer-groups">Managing Customer Groups</a> in OroCommerce documentation for more information.
+            description:        A customer group the customer is assigned to.<br>A customer group represents a virtual group of companies that share some configuration, payment and tax-related settings, and price lists among multiple customers, for example those with the same service level.<br>See <a href="https://www.oroinc.com/doc/orocommerce/current/customers/customer-groups">Managing Customer Groups</a> in OroCommerce documentation for more information.
         internal_rating:
             label:              'Internal rating'
             description:        An internal customer rating ("1 of 5", "5 of 5" ) may indicate potential profitability or any other internally agreed score or metrix.
@@ -100,7 +100,7 @@ oro.customer:
     customergroup:
         entity_label:           'Customer Group'
         entity_plural_label:    'Customer Groups'
-        entity_description:     Customers (companies who buy products using OroCommerce store frontend) may be organized into customer groups to simplify sharing configuration, payment and tax-related settings, and price lists among multiple customers, for example those with the same service level. See <a href="https://www.orocommerce.com/documentation/current/customers/customer-groups">Managing Customer Groups</a> in OroCommerce documentation for more information.
+        entity_description:     Customers (companies who buy products using OroCommerce store frontend) may be organized into customer groups to simplify sharing configuration, payment and tax-related settings, and price lists among multiple customers, for example those with the same service level. See <a href="https://www.oroinc.com/doc/orocommerce/current/customers/customer-groups">Managing Customer Groups</a> in OroCommerce documentation for more information.
         name:
             label:              'Name'
             description:        A human-readable name that identifies a customer group.

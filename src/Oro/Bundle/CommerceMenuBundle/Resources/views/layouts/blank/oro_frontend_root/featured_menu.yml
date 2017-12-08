@@ -6,7 +6,8 @@ layout:
             items:
                 featured_menu_container:
                     blockType: container
-                    siblingId: hero_promo_container
+                    siblingId: featured_products_container
+                    prepend: true
                 featured_menu:
                     blockType: menu
                     options:

@@ -12,7 +12,7 @@ Retrieve a specific customer record.
 
 Retrieve a collection of customer records.
 
-The list of records that will be returned, could be limited by <a href="https://www.orocommerce.com/documentation/current/dev-guide/integration#filters">filters</a>.
+The list of records that will be returned, could be limited by <a href="https://www.oroinc.com/doc/orocommerce/current/dev-guide/integration#filters">filters</a>.
 
 {@inheritdoc}
 
