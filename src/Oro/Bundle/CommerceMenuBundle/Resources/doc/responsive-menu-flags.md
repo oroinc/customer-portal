@@ -10,7 +10,7 @@ Menu items are not excluded from output and are rendered by backend all the same
 
 Screens which are listed in "Exclude on Screens" field are collected from all themes in application. Available screens and corresponding CSS classes can be defined by each theme in screens.yml file in config/ directory of theme. E.g.
 
-```code
+```yaml
 screens:
     # Machine name of screen.
     desktop:
