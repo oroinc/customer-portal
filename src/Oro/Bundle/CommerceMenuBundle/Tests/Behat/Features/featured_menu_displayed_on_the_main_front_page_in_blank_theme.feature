@@ -1,15 +1,23 @@
-@regression
-Feature: Featured menu, displayed on the main front page
+Feature: Featured menu, displayed on the main front page in blank theme
   ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Create different window session
     Given sessions active:
-      | Admin     |first_session |
-      | Guest     |second_session|
+      | Admin     |first_session  |
+      | Guest     |second_session |
+
+  Scenario: Switch to blank theme
+    Given I proceed as the Admin
+    When I login as administrator
+    And I go to System/Configuration
+    And I follow "Commerce/Design/Theme" on configuration sidebar
+    And fill "Theme Form" with:
+      | ThemeUseDefault | false       |
+      | Theme           | Blank theme |
+    And submit form
 
   Scenario: Create new menu item
     Given I proceed as the Admin
-    When I login as administrator
     And I go to System/Frontend Menus
     And click view "featured_menu" in grid
     And I click "Create Menu Item"
