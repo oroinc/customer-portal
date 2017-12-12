@@ -1,4 +1,10 @@
 layout:
+    imports:
+        -
+            id: sticky_panel
+            root: body
+            namespace: bottom
+
     actions:
         - '@setBlockTheme':
             themes: 'layout.html.twig'
@@ -7,6 +13,7 @@ layout:
             id: page_title_container
             parentId: page_content
             blockType: container
+
         - '@add':
             id: page_title
             parentId: page_title_container
@@ -15,3 +22,12 @@ layout:
                 defaultValue: ~
                 value: '=defaultValue'
 
+        - '@setOption':
+            id: bottom_sticky_panel
+            optionName: sticky_name
+            optionValue: bottom-sticky-panel
+
+        - '@setOption':
+            id: bottom_sticky_panel
+            optionName: stick_to
+            optionValue: bottom
