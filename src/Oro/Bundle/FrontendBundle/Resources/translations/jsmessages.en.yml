@@ -13,6 +13,7 @@ oro_frontend:
     datagrid:
         pagination:
             totalRecords:
+                totalRecordsShort: "{{ totalRecords }} items"
                 products: "{{ totalRecords }} Total Products"
                 companyAddresses: "{{ totalRecords }} Total Company Addresses"
                 addresses: "{{ totalRecords }} Total Addresses"
