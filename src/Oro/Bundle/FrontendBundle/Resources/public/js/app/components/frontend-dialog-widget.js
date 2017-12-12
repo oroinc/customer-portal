@@ -6,6 +6,7 @@ define(function(require) {
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var ViewportManager = require('oroui/js/viewport-manager');
     var _ = require('underscore');
+    var $ = require('jquery');
 
     FrontendDialogWidget = DialogWidget.extend({
 
@@ -21,9 +22,7 @@ define(function(require) {
         /**
          * @property {Object}
          */
-        fullscreenViewOptions: {
-            footerContentOptions: {}
-        },
+        fullscreenViewOptions: {},
 
         /**
          * Default options of fullscreen dialog for correct render
@@ -45,6 +44,8 @@ define(function(require) {
          * @property {boolean}
          */
         isApplicable: false,
+
+        $header: null,
 
         /**
          * @inheritDoc
@@ -77,18 +78,38 @@ define(function(require) {
         show: function(options) {
             FrontendDialogWidget.__super__.show.call(this, options);
             if (this.isApplicable) {
-                this.fullscreenViewOptions.contentElement = this.widget.dialog('instance').uiDialog.get(0);
-
-                this.subview('fullscreenView', new FullScreenPopupView(this.fullscreenViewOptions));
-                this.subview('fullscreenView').show();
-                this.subview('fullscreenView').on('close', function() {
-                    if (!this.disposeProcess) {
-                        this.remove();
-                    }
-                }, this);
-
-                this.renderActionsContainer();
+                this.showFullscreen();
             }
+        },
+
+        onWidgetRender: function(content) {
+            FrontendDialogWidget.__super__.onWidgetRender.call(this, content);
+            this._addHeader();
+        },
+
+        _addHeader: function() {
+            if (this.options.header) {
+                var $title = this.widget.dialog('instance').uiDialogTitlebar;
+                this.$header = $(this.options.header).prependTo($title);
+            }
+        },
+
+        showFullscreen: function() {
+            if (this.$header) {
+                this.fullscreenViewOptions.headerElement = this.$header;
+                this.fullscreenViewOptions.headerTemplate = null;
+            }
+            this.fullscreenViewOptions.contentElement = this.widget.dialog('instance').uiDialog.get(0);
+
+            this.subview('fullscreenView', new FullScreenPopupView(this.fullscreenViewOptions));
+            this.subview('fullscreenView').show();
+            this.subview('fullscreenView').on('close', function() {
+                if (!this.disposeProcess) {
+                    this.remove();
+                }
+            }, this);
+
+            this.renderActionsContainer();
         },
 
         /**
@@ -102,10 +123,11 @@ define(function(require) {
          * Render actions button into footer
          */
         renderActionsContainer: function() {
-            if (this.subview('fullscreenView')) {
-                var $actions = this.getActionsElement();
-                $actions.attr('class', 'fullscreen-popup__actions-wrapper');
-                this.subview('fullscreenView').renderPopupFooterContent($actions);
+            var fullscreen = this.subview('fullscreenView');
+            if (fullscreen) {
+                fullscreen.footer.Element = this.getActionsElement();
+                fullscreen.footer.attr = {class: 'fullscreen-popup__actions-wrapper'};
+                fullscreen.showSection('footer');
             }
         },
 
