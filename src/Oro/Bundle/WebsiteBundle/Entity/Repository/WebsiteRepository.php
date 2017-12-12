@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorInterface;
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorTrait;
-use Oro\Component\PhpUtils\ArrayUtil;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class WebsiteRepository extends EntityRepository implements BatchIteratorInterface
@@ -40,14 +39,16 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getWebsiteIdentifiers()
     {
-        $qb = $this->createQueryBuilder('website')
-            ->select('website.id');
+        $rows = $this->createQueryBuilder('website')
+            ->select('website.id')
+            ->getQuery()
+            ->getArrayResult();
 
-        return ArrayUtil::arrayColumn($qb->getQuery()->getArrayResult(), 'id');
+        return array_column($rows, 'id');
     }
 
     /**
