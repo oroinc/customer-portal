@@ -86,7 +86,7 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getLoggedUser();
 
-        $newRole = clone $role;
+        $newRole = $role->duplicate();
 
         $newRole
             ->setCustomer($customerUser->getCustomer())
