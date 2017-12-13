@@ -30,18 +30,6 @@
         border-bottom: $fullscreen-popup-header-border-bottom;
     }
 
-    &__header-content {
-        display: $fullscreen-popup-header-content-display;
-        align-items: $fullscreen-popup-header-content-align-items;
-
-        &-img {
-            width: $fullscreen-popup-header-content-img-width;
-            height: $fullscreen-popup-header-content-img-height;
-            margin: $fullscreen-popup-header-content-img-offset;
-            border: $fullscreen-popup-header-content-img-border;
-        }
-    }
-
     &__text {
         display: $fullscreen-popup-text-display;
         align-items: $fullscreen-popup-text-align-items;

@@ -17,7 +17,9 @@ define(function(require) {
         /**
          * @property {Object}
          */
-        fullscreenViewport: null,
+        fullscreenViewport: {
+            isMobile: true
+        },
 
         /**
          * @property {Object}
@@ -52,8 +54,8 @@ define(function(require) {
          */
         initialize: function(options) {
             FrontendDialogWidget.__super__.initialize.call(this, options);
-            this.isApplicable = this.options.fullscreenViewport ?
-                ViewportManager.isApplicable(this.options.fullscreenViewport) : null;
+            this.isApplicable = this.fullscreenViewport ?
+                ViewportManager.isApplicable(this.fullscreenViewport) : null;
 
             if (this.isApplicable) {
                 this.setFullscreenDialogClass();
