@@ -63,17 +63,17 @@ class MenuUpdateExpressionValidatorTest extends \PHPUnit_Framework_TestCase
             ],
             'non valid 1' => [
                 '=true',
-                'Unexpected character "=" around position 0.',
+                'Unexpected character "=" around position 0 for expression `=true`.',
                 false
             ],
             'non valid 2' => [
                 'some()',
-                'The function "some" does not exist around position 1.',
+                'The function "some" does not exist around position 1 for expression `some()`.',
                 false
             ],
             'non valid 3' => [
                 '1 + var',
-                'Variable "var" is not valid around position 5.',
+                'Variable "var" is not valid around position 5 for expression `1 + var`.',
                 false
             ],
         ];

@@ -302,9 +302,21 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
     public function __clone()
     {
         $this->id = null;
-        $this->setRole($this->getLabel());
-        $this->websites = new ArrayCollection();
-        $this->customerUsers = new ArrayCollection();
+    }
+
+    /**
+     * Clones this role and resets some of its properties that should not be shared between this and new role.
+     *
+     * @return static
+     */
+    public function duplicate()
+    {
+        $newRole = clone $this;
+        $newRole->setRole($newRole->getLabel());
+        $newRole->websites = new ArrayCollection();
+        $newRole->customerUsers = new ArrayCollection();
+
+        return $newRole;
     }
 
     /**

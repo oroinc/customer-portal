@@ -64,7 +64,7 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
                 $entity->setCustomer($customerUser->getCustomer());
             }
             $entity->setOrganization($customerUser->getOrganization());
-            $entityForDelete = clone $entity;
+            $entityForDelete = $entity->duplicate();
 
             //need to have role to get permission
             //role with users can't be deleted

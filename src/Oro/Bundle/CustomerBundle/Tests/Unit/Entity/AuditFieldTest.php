@@ -12,6 +12,7 @@ class AuditFieldTest extends EntityTestCase
     {
         $properties = [
             ['id', 2],
+            ['translationDomain', 'message']
         ];
 
         static::assertPropertyAccessors(new AuditField('field1', 'string', 'value', 'oldValue'), $properties);
@@ -22,12 +23,14 @@ class AuditFieldTest extends EntityTestCase
         $audit = new Audit();
         $auditField = new AuditField('field1', 'string', 'value', 'oldValue');
         $auditField->setAudit($audit);
+        $auditField->setTranslationDomain('message');
 
         $this->assertSame($audit, $auditField->getAudit());
         $this->assertSame('field1', $auditField->getField());
         $this->assertSame('text', $auditField->getDataType());
         $this->assertSame('value', $auditField->getNewValue());
         $this->assertSame('oldValue', $auditField->getOldValue());
+        $this->assertSame('message', $auditField->getTranslationDomain());
     }
 
     /**
