@@ -1,6 +1,7 @@
-#Oro Frontend Access
+# Frontend Access
 
-* [Close website for non-authenticated visitors](#close_website_for_non-authenticated_visitors)
+* [Close website for non-authenticated visitors](#close-website-for-non-authenticated-visitors)
+* [Frontend Datagrids](#frontend-datagrids)
 
 ## Close website for non-authenticated visitors
 
@@ -20,4 +21,15 @@ To create your own list of allowed URL patterns, you can decorate the `oro_front
     acme_frontend.guest_access.provider.guest_access_urls_provider:
         class: Acme\Bundle\MyFrontendBundle\GuestAccess\Provider\MyGuestAccessAllowedUrlsProvider
         decorates: oro_frontend.guest_access.provider.guest_access_urls_provider
+```
+## Frontend Datagrids
+
+In order to prevent displaying the management console datagrids on the store frontend, `frontend` option was added
+to datagrid configuration. By default it is suggested that all datagrids are intended to be used on the management
+console. To allow a datagrid to be visible on the store frontend the `frontend` option should be set to `true`.
+
+```yaml
+    acme_frontend.frontend_customers_users:
+        options:
+            frontend: true
 ```
