@@ -16,7 +16,7 @@ config:
             'orodatagrid/templates/column-manager/column-manager.html': 'orofrontend/default/templates/datagrid/column-manager.html'
             'orodatagrid/templates/datagrid/pagination-input.html': 'orofrontend/default/templates/datagrid/pagination-input.html'
             'orodatagrid/templates/datagrid/page-size.html': 'orofrontend/default/templates/datagrid/page-size.html'
-            'orodatagrid/templates/datagrid/visible-items-counter.html': 'orofrontend/default/templates/datagrid/visible-items-counter.html'
+            'orodatagrid/templates/datagrid/visible-items-counter.html': 'orofrontend/blank/templates/datagrid/visible-items-counter.html'
             'orodatagrid/templates/datagrid/select-all-header-cell.html': 'orofrontend/default/templates/datagrid/select-all-header-cell.html'
             'orodatagrid/templates/datagrid/select-row-cell.html': 'orofrontend/default/templates/datagrid/select-row-cell.html'
             'orodatagrid/templates/datagrid/action-header-cell.html': 'orofrontend/default/templates/datagrid/action-header-cell.html'
