@@ -13,6 +13,7 @@ datagrids:
             type: customer-role-frontend-permission-provider
         acl_resource: oro_customer_frontend_customer_user_role_update
         options:
+            frontend: true
             access_level_route: oro_customer_frontend_acl_access_levels
 
     customer-user-workflow-permission-grid:
@@ -641,6 +642,8 @@ datagrids:
                 order:         20
                 acl_resource:  oro_customer_frontend_customer_user_role_update
         action_configuration: ['@oro_customer.datagrid.action_permission_provider', "getCustomerUserRolePermission"]
+        options:
+            frontend: true
 
     customer-customer-users-grid-update-basic:
         extends: customer-customer-users-grid-basic
@@ -754,6 +757,7 @@ datagrids:
     frontend-customer-customer-users-grid-basic:
         entity_name: %oro_customer.entity.customer_user.class%
         options:
+            frontend: true
             entityHint: customer users
         acl_resource: oro_customer_frontend_customer_user_view
         source:
@@ -981,6 +985,8 @@ datagrids:
                     selected_message: oro.customer.mass_actions.delete_customers.confirm_content
                 messages:
                     success: oro.customer.mass_actions.delete_customers.success_message
+        options:
+            frontend: true
 
     audit-grid:
         source:
@@ -1135,6 +1141,8 @@ datagrids:
                     selected_message: oro.customer.mass_actions.delete_customer_addresses.confirm_content
                 messages:
                     success: oro.customer.mass_actions.delete_customer_addresses.success_message
+        options:
+            frontend: true
 
     frontend-customer-customer-address-grid:
         acl_resource: oro_customer_frontend_customer_address_view

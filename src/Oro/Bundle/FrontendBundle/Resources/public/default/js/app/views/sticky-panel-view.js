@@ -184,6 +184,10 @@ define(function(require) {
         },
 
         onScroll: function() {
+            if (this.disposed) {
+                return;
+            }
+
             this.updateScrollState();
             this.updateViewport();
 
