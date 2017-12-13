@@ -280,3 +280,10 @@ services:
         arguments:
             - '@oro_config.config_bag'
             - '@security.context'
+
+    oro_frontend.datagrid.extension.frontend_datagrid:
+        class: Oro\Bundle\FrontendBundle\Datagrid\Extension\FrontendDatagridExtension
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: oro_datagrid.extension }
