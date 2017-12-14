@@ -10,6 +10,7 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/notification-flash-container-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/table-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/fullscreen-popup-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/sorting-popup-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/ui/dialog-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/ui/datepicker-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/ui/extend/ui-multiselect-menu-config.scss'
