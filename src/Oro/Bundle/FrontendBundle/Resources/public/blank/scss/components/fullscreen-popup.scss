@@ -17,6 +17,7 @@
 
     &__header {
         display: $fullscreen-popup-header-display;
+        align-items: $fullscreen-popup-header-align-items;
 
         position: $fullscreen-popup-header-position;
         z-index: $fullscreen-popup-header-z-index;
