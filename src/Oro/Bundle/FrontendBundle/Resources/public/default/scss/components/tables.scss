@@ -15,7 +15,7 @@
         text-align: left;
 
         th {
-            padding: $offset-y-m ($offset-x-m + 2px);
+            padding: ($offset-y-m + $offset-y-s) ($offset-x-m + 2px);
 
             font-weight: 400;
 

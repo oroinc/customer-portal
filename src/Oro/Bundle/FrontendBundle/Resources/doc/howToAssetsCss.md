@@ -78,7 +78,7 @@ To add blocks to resulting ```styles.css``` file you should include them into ``
 ```
 
 To include configs in resulting ```styles.css``` file you should add them
-to ```assets.yml``` file witch is located in ```MyBundle/Resources/views/layouts/my-theme/config/```:
+to ```assets.yml``` file which is located in ```MyBundle/Resources/views/layouts/my-theme/config/```:
 ```
 styles:
     inputs:

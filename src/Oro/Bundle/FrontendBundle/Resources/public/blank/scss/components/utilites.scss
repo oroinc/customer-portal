@@ -1,10 +1,16 @@
-// @theme: default;
+// @theme: blank;
 
 // TODO: need refactor after removal less from frontend
 .hide-text {
-    &:after,
-    &:before {
+    &[class^="fa-"],
+    &[class*=" fa-"] {
+        font-family: $icon-font;
         color: inherit;
+
+        &:after,
+        &:before {
+            font-size: $base-font-size;
+        }
     }
 
     &.fa--small,
