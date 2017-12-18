@@ -24,11 +24,6 @@ define(function(require) {
         },
 
         /**
-         * {Boolean}
-         */
-        considerMobileView: viewportManager.getViewport().isMobile,
-
-        /**
          * @returns {Function}
          * @private
          */
@@ -43,7 +38,7 @@ define(function(require) {
                 });
             }
 
-            return (this.considerMobileView && _.isFunction(Action)) ? Action : ToggleFiltersAction;
+            return _.isFunction(Action) ? Action : ToggleFiltersAction;
         },
 
         onBeforeToolbarInit: function(toolbarOptions) {
