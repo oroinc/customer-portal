@@ -122,6 +122,16 @@ oro_behat_extension:
     Delete Address Button:
       selector: '#address-book .list-item.map-item button[title="Remove"]'
 
+    Item Edit Button:
+      selector:
+        type: xpath
+        locator: '//button[contains(@class, "item-edit-button")]'
+
+    Item Delete Button:
+      selector:
+        type: xpath
+        locator: '//button[contains(@class, "item-remove-button")]'
+
     Delete Address Button Edit Page:
       selector: '.oro-address-collection button.removeRow'
 
