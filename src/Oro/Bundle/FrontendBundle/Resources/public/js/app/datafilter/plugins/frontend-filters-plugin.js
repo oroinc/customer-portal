@@ -38,7 +38,7 @@ define(function(require) {
                 });
             }
 
-            return _.isFunction(Action) ? Action : ToggleFiltersAction;
+            return _.isMobile() && _.isFunction(Action) ? Action : ToggleFiltersAction;
         },
 
         onBeforeToolbarInit: function(toolbarOptions) {
