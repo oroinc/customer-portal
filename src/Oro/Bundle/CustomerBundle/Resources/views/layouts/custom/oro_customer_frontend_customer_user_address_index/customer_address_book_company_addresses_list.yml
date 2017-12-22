@@ -49,6 +49,16 @@ layout:
             optionName: icon
             optionValue: 'university'
 
+        - '@setOption':
+            id: company_addresses_user_addresses_list_template_item_actions_edit
+            optionName: visible
+            optionValue: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_update")'
+
+        - '@setOption':
+            id: company_addresses_user_addresses_list_template_item_actions_remove
+            optionName: visible
+            optionValue: '=data["acl"].isGranted("oro_customer_frontend_customer_user_address_remove")'
+
         - '@remove':
             id: customer_address_book_addresses
 

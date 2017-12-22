@@ -1,4 +1,6 @@
 @regression
+@skip
+@BB-13162
 Feature: Featured menu, displayed on the main front page
   ToDo: BAP-16103 Add missing descriptions to the Behat features
 
