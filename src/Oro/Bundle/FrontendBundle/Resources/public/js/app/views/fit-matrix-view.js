@@ -8,7 +8,7 @@ define(function(require) {
 
     FitMatrixView = BaseView.extend(_.extend({}, ElementsHelper, {
         elements: {
-            columns: '[data-column]',
+            row: '[data-row]',
             matrixContainer: '[data-matrix-grid-container]'
         },
 
@@ -48,10 +48,10 @@ define(function(require) {
          * @returns {boolean}
          */
         isFittedContainer: function() {
-            var itemWidth = this.getElement('columns').outerWidth();
-            var itemWidthSum = itemWidth * this.getElement('columns').length;
+            var rowWidth = this.getElement('row').outerWidth();
+            var containerWidth = this.getElement('matrixContainer').width();
 
-            return this.getElement('matrixContainer').width() < itemWidthSum;
+            return containerWidth < rowWidth;
         },
 
         /**
