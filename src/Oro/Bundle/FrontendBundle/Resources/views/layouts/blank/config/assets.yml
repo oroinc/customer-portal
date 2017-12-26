@@ -21,6 +21,7 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/embedded-list/embedded-list-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/embedded-list/embedded-list-slider-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/datagrid-manager-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/warning-list-config.scss'
 
         - 'bundles/orofrontend/blank/scss/components/ui/jquery-ui.scss'
         - 'bundles/orofrontend/blank/scss/components/ui/datepicker.scss'
