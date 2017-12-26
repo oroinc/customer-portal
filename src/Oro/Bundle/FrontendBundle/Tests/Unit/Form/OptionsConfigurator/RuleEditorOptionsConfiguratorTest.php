@@ -65,6 +65,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit_Framework_TestCase
             'pageComponent' => 'oroui/js/app/components/view-component',
             'pageComponentOptions' => [
                 'view' => 'oroform/js/app/views/expression-editor-view',
+                'autoRender' => true
             ],
             'dataSource' => [],
             'entities' => []

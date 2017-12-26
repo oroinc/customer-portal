@@ -18,6 +18,7 @@ class RuleEditorOptionsConfigurator
         $resolver->setDefault('pageComponent', 'oroui/js/app/components/view-component');
         $resolver->setDefault('pageComponentOptions', [
             'view' => 'oroform/js/app/views/expression-editor-view',
+            'autoRender' => true
         ]);
         $resolver->setDefault('dataSource', []);
 
