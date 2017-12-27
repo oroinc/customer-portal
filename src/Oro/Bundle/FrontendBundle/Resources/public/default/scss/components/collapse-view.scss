@@ -92,7 +92,9 @@
                 max-height: $collapse-view-container-max-height;
                 overflow: hidden;
             }
+        }
 
+        &.expanded, &.collapsed {
             .collapse-view__trigger {
                 display: block;
             }

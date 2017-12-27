@@ -1,4 +1,4 @@
-// @theme: default
+// @theme: default;
 
 @import 'base/base';
 
@@ -13,8 +13,6 @@
 @import './components/section-title';
 @import './components/link';
 @import './components/embedded-list/embedded-list';
-@import './components/embedded-list/embedded-list-slider';
-@import './components/embedded-list/embedded-list-tiles';
 @import './components/title';
 @import './components/copyright';
 @import './components/grid';
@@ -37,19 +35,15 @@
 @import './components/middlebar';
 @import './components/tab-collection';
 @import "./components/uploader";
-@import './components/datagrid-manager';
 @import './components/datagrid-manager-search';
-@import './components/datagrid-manager-table';
 @import './components/controls-list';
 @import './components/items-count-widget';
 @import './components/frontend-datagrid';
 @import './components/box-toolbar';
-@import './components/logo';
 @import './components/icons';
-@import './components/utilites';
 @import './components/dropdown-menu-calendar';
 @import './components/tables';
-@import './components/pagination-widget';
 @import './components/search-widget';
+@import './components/search-container';
 @import './components/uploader-widget';
 @import './components/loader-mask';

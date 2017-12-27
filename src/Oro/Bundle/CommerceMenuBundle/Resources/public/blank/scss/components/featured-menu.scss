@@ -37,11 +37,18 @@
     }
 
     &__description {
-        min-height: ($featured-menu-item-description-font-size * $featured-menu-item-description-line-height) * 2; // two rows
-        max-height: ($featured-menu-item-description-font-size * $featured-menu-item-description-line-height) * 2; // two rows
+        // two rows
+        min-height: ceil(($featured-menu-item-description-font-size * $featured-menu-item-description-line-height) * 2);
+        // two rows
+        max-height: ceil(($featured-menu-item-description-font-size * $featured-menu-item-description-line-height) * 2);
         margin-bottom: $featured-menu-item-description-offset-bottom;
 
         overflow: hidden;
+    }
+
+    &__link {
+        line-height: $featured-menu-link-line-height;
+        white-space: $featured-menu-link-white-space;
     }
 
     &__img-wrap {
@@ -57,6 +64,12 @@
         font-size: $featured-menu-item-icon-font-size;
 
         color: $featured-menu-item-icon-color;
+    }
+
+    .line-clamp-polyfill:after {
+        height: ceil($featured-menu-item-description-font-size * $featured-menu-item-description-line-height);
+
+        background: linear-gradient(to right, rgba($featured-menu-content-bg, 0), rgba($featured-menu-content-bg, 1) 50%);
     }
 }
 
@@ -76,7 +89,16 @@
         }
 
         &__description {
+            // two rows
+            min-height: ceil(($featured-menu-item-description-font-size-tablet-small * $featured-menu-item-description-line-height) * 2);
+            // two rows
+            max-height: ceil(($featured-menu-item-description-font-size-tablet-small * $featured-menu-item-description-line-height) * 2);
+
             font-size: $featured-menu-item-description-font-size-tablet-small;
+        }
+
+        .line-clamp-polyfill:after {
+            height: ceil($featured-menu-item-description-font-size-tablet-small * $featured-menu-item-description-line-height);
         }
     }
 }

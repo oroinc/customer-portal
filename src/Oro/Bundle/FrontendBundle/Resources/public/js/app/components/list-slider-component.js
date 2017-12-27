@@ -22,7 +22,7 @@ define(function(require) {
             arrows: !tools.isMobile(),
             dots: false,
             infinite: false,
-            additionalClass: 'embedded-list-slider',
+            additionalClass: 'embedded-list__slider',
             embeddedArrowsClass: 'embedded-arrows'
         },
 

@@ -25,6 +25,8 @@ api:
                         exclude: false
                     updatedAt:
                         exclude: false
+                    lifetime:
+                        exclude: false
             actions:
                 create:
                     fields:
@@ -32,13 +34,21 @@ api:
                             exclude: true
                         updatedAt:
                             exclude: true
+                        lifetime:
+                            exclude: true
                 update:
                     fields:
                         createdAt:
                             exclude: true
                         updatedAt:
                             exclude: true
-
+                        lifetime:
+                            exclude: true
+            fields:
+                dataChannel:
+                    exclude: true
+                previous_account:
+                    exclude: true
         Oro\Bundle\CustomerBundle\Entity\CustomerGroup: ~
         Oro\Bundle\CustomerBundle\Entity\CustomerUserRole: ~
         Extend\Entity\EV_Acc_Internal_Rating:
@@ -103,9 +113,29 @@ api:
                             exclude: true
                         updated:
                             exclude: true
+                        systemOrganization:
+                            exclude: true
                 update:
                     fields:
                         created:
                             exclude: true
                         updated:
                             exclude: true
+                        systemOrganization:
+                            exclude: true
+            subresources:
+                systemOrganization:
+                    actions:
+                        update_relationship: false
+                        add_relationship: false
+                        delete_relationship: false
+                country:
+                    actions:
+                        update_relationship: false
+                        add_relationship: false
+                        delete_relationship: false
+                region:
+                    actions:
+                        update_relationship: false
+                        add_relationship: false
+                        delete_relationship: false

@@ -10,14 +10,27 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/notification-flash-container-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/table-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/fullscreen-popup-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/sorting-popup-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/ui/dialog-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/ui/datepicker-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/ui/extend/ui-multiselect-menu-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/popup-gallery-widget-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/scroll-top-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/pagination-widget-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/embedded-list/embedded-list-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/embedded-list/embedded-list-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/embedded-list/embedded-list-slider-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/datagrid-manager-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/warning-list-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/tiny-container-config.scss'
 
         - 'bundles/orofrontend/blank/scss/components/ui/jquery-ui.scss'
         - 'bundles/orofrontend/blank/scss/components/ui/datepicker.scss'
+        - 'bundles/orofrontend/blank/scss/components/embedded-list/embedded-list.scss'
+        - 'bundles/orofrontend/blank/scss/components/datagrid-manager.scss'
+        - 'bundles/orofrontend/blank/scss/components/datagrid-manager-search.scss'
+        - 'bundles/orofrontend/blank/scss/components/datagrid-manager-table.scss'
+
         - 'bundles/orofrontend/blank/scss/styles.scss'
 
 stylebook_styles:
