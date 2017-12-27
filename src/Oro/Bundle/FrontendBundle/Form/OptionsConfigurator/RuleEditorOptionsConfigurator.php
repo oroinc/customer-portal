@@ -15,11 +15,8 @@ class RuleEditorOptionsConfigurator
         $resolver->setRequired(['entities']);
         $resolver->setDefined(['allowedOperations', 'dataSource', 'pageComponent', 'attr']);
 
-        $resolver->setDefault('pageComponent', 'oroui/js/app/components/view-component');
-        $resolver->setDefault('pageComponentOptions', [
-            'view' => 'oroform/js/app/views/expression-editor-view',
-            'autoRender' => true
-        ]);
+        $resolver->setDefault('pageComponent', 'oroform/js/app/components/expression-editor-component');
+        $resolver->setDefault('pageComponentOptions', ['filterPreset' => 'pricerule']);
         $resolver->setDefault('dataSource', []);
 
         $resolver->setAllowedTypes('allowedOperations', 'array');
