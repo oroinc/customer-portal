@@ -67,7 +67,7 @@ class ClassMigration
         /** @var Connection $defaultConnection */
         $defaultConnection = $this->managerRegistry->getConnection();
 
-        if (!$this->isUpdateRequired($defaultConnection, $from, $to)) {
+        if (!$this->isUpdateRequired($defaultConnection, $from)) {
             return; // all data already was migrated
         }
 
@@ -110,15 +110,15 @@ class ClassMigration
     /**
      * @param Connection $defaultConnection
      * @param string $from
-     * @param string $to
      * @return bool
      */
-    protected function isUpdateRequired(Connection $defaultConnection, $from, $to)
+    protected function isUpdateRequired(Connection $defaultConnection, $from)
     {
         try {
             $preparedFrom = $this->prepareFrom($defaultConnection, $from);
             $configCheck = $defaultConnection->fetchColumn(
-                "SELECT id FROM oro_entity_config WHERE class_name LIKE '%$preparedFrom%' LIMIT 1"
+                'SELECT id FROM oro_entity_config WHERE class_name LIKE :preparedFrom LIMIT 1',
+                ['preparedFrom' => "%$preparedFrom%"]
             );
         } catch (\Exception $e) {
             return false;
@@ -221,7 +221,10 @@ class ClassMigration
     protected function migrateTableColumn(Connection $connection, $table, $column, $from, $to)
     {
         $preparedFrom = $this->prepareFrom($connection, $from);
-        $rows = $connection->fetchAll("SELECT id, $column FROM $table WHERE $column LIKE '%$preparedFrom%'");
+        $rows = $connection->fetchAll(
+            "SELECT id, $column FROM $table WHERE $column LIKE :preparedFrom",
+            ['preparedFrom' => "%$preparedFrom%"]
+        );
         foreach ($rows as $row) {
             $id = $row['id'];
             $originalValue = $row[$column];
