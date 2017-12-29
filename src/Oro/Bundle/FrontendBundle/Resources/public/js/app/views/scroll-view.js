@@ -24,6 +24,7 @@ define(function(require) {
             ScrollView.__super__.initialize.apply(this, options);
             this.initializeElements(options);
             this.initScrollContainer();
+            this.setScrollStatus();
         },
 
         /**
@@ -35,6 +36,7 @@ define(function(require) {
             this.getElement('scrollableContainer').on('scroll mousewheel', _.bind(function(e) {
                 e.stopPropagation();
                 this.updateFollowersPosition(e.currentTarget);
+                this.setScrollStatus();
             }, this));
         },
 
@@ -49,6 +51,21 @@ define(function(require) {
 
         setStartPosition: function() {
             this.updateFollowersPosition(this.getElement('scrollableContainer').get(0));
+        },
+
+        setScrollStatus: function() {
+            var scroll = this.hasScroll(this.getElement('scrollableContainer').get(0));
+
+            this.$el
+                .toggleClass('has-x-scroll', scroll.x)
+                .toggleClass('has-y-scroll', scroll.y);
+        },
+
+        hasScroll: function(element) {
+            return {
+                x: element.scrollWidth > element.clientWidth,
+                y: element.scrollHeight > element.clientHeight
+            };
         },
 
         _transformFollowers: function(direction, value) {
