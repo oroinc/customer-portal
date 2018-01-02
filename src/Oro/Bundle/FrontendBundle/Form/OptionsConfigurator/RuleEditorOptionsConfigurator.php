@@ -13,12 +13,13 @@ class RuleEditorOptionsConfigurator
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired(['entities']);
-        $resolver->setDefined(['allowedOperations', 'dataSource', 'pageComponent', 'attr']);
+        $resolver->setDefined(['dataProviderConfig', 'allowedOperations', 'dataSource', 'pageComponent', 'attr']);
 
         $resolver->setDefault('pageComponent', 'oroform/js/app/components/expression-editor-component');
-        $resolver->setDefault('pageComponentOptions', ['filterPreset' => 'pricerule']);
+        $resolver->setDefault('pageComponentOptions', []);
         $resolver->setDefault('dataSource', []);
 
+        $resolver->setAllowedTypes('dataProviderConfig', 'array');
         $resolver->setAllowedTypes('allowedOperations', 'array');
         $resolver->setAllowedTypes('dataSource', 'array');
         $resolver->setAllowedTypes('entities', 'array');
@@ -33,6 +34,9 @@ class RuleEditorOptionsConfigurator
             }
             if (isset($options['allowedOperations'])) {
                 $pageComponentOptions['allowedOperations'] = $options['allowedOperations'];
+            }
+            if (isset($options['dataProviderConfig'])) {
+                $pageComponentOptions['dataProviderConfig'] = $options['dataProviderConfig'];
             }
             $attr['data-page-component-options'] = json_encode($pageComponentOptions);
             $attr['data-page-component-module'] = $options['pageComponent'];

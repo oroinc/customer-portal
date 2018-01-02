@@ -63,9 +63,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             'pageComponent' => 'oroform/js/app/components/expression-editor-component',
-            'pageComponentOptions' => [
-                'filterPreset' => 'pricerule'
-            ],
+            'pageComponentOptions' => [],
             'dataSource' => [],
             'entities' => []
         ];
