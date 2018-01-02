@@ -29,11 +29,10 @@
 {#Action Buttons#}
 
 {% block action_line_buttons_widget %}
-    {% import 'OroActionBundle:layouts/base:layout.html.twig' as _layout %}
     <ul{{ block('block_attributes') }}>
         {% for action in actions %}
             <li>
-                <a {{ _layout.get_action_attributes(action, entityClass, entityId) }}>
+                <a>
                     {% if action.icon is not empty %}
                         <i class="{{ action.icon }} {{ action.buttonOptions.iCss|default('') }}"></i>
                     {% endif %}
@@ -47,7 +46,6 @@
 {% block action_combined_buttons_widget %}
     {% set actionsCount = actions|length %}
     {% if actionsCount > 0 %}
-        {% import 'OroActionBundle:layouts/base:layout.html.twig' as _layout %}
         {% set hasVariants = actionsCount > 1 %}
         {% set additionalCss = "btn" %}
         {% if block.parent.vars.class_prefix == 'datagrid_toolbar_button_container' %}
@@ -70,14 +68,14 @@
             } %}
 
             <div{{ block('block_attributes') }}>
-                <a class="btn btn--info btn--size-l" {{ _layout.get_action_attributes(action, entityClass, entityId, primaryButtonCss) }}>
+                <a class="btn btn--info btn--size-l">
                     {{ action.label|trim }}
                 </a>
                 <a class="btn btn--info btn--size-l dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
                 <ul class="dropdown-menu" data-options={{ dropdownMenuOptions|json_encode }}>
                     {% for action in actions|slice(1) %}
                     <li>
-                        <a class="dropdown-item" {{ _layout.get_action_attributes(action, entityClass, entityId, '') }}>
+                        <a class="dropdown-item">
                             {{ action.label|trim }}
                         </a>
                     </li>
@@ -85,7 +83,7 @@
                 </ul>
             </div>
         {% else %}
-            <a {{ _layout.get_action_attributes(action, entityClass, entityId, primaryButtonCss) }}>
+            <a>
                 {{ action.label|trim }}
             </a>
         {% endif %}
@@ -96,7 +94,6 @@
 {#Buttons#}
 
 {% block line_buttons_widget %}
-    {% import 'OroActionBundle:layouts/base:layout.html.twig' as _layout %}
     <ul{{ block('block_attributes') }}>
         {% for button in buttons %}
             <li>
@@ -114,7 +111,6 @@
 
     {% set buttonsCount = buttons|length %}
     {% if buttonsCount > 0 %}
-        {% import 'OroActionBundle:layouts/base:layout.html.twig' as _layout %}
         {% set hasVariants = buttonsCount > 1 %}
 
         {% set button = buttons|first %}

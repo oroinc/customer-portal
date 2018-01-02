@@ -49,7 +49,7 @@ define(function(require) {
          * Hide image Element
          */
         hideImageElement: function() {
-            this.getImageElement().addClass('invisible');
+            this.getImageElement().addClass('hidden');
         },
 
         /**
