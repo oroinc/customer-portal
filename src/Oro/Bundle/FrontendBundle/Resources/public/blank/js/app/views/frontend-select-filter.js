@@ -1,11 +1,12 @@
 define(function(require) {
     'use strict';
 
+    var FrontendSelectFilter;
     var _ = require('underscore');
     var SelectFilter = require('oro/filter/select-filter');
     var MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
 
-    _.extend(SelectFilter.prototype, {
+    FrontendSelectFilter = SelectFilter.extend({
         closeAfterChose: !_.isMobile(),
 
         /**
@@ -31,19 +32,6 @@ define(function(require) {
         containerSelector: '.filter-criteria-selector',
 
         /**
-         * Filter events
-         *
-         * @property
-         */
-        events: {
-            'keydown select': '_preventEnterProcessing',
-            'click .filter-select': '_onClickFilterArea',
-            'click .disable-filter': '_onClickDisableFilter',
-            'change select': '_onSelectChange',
-            'click .filter-criteria-selector': '_onClickCriteriaSelector'
-        },
-
-        /**
          * Set container for dropdown
          * @return {jQuery}
          */
@@ -65,30 +53,33 @@ define(function(require) {
          * @param {Event} e
          * @protected
          */
-        _onClickCriteriaSelector: function(e) {
+        _onClickFilterArea: function(e) {
             e.stopPropagation();
 
-            this.toggleFilter();
+            if (_.isMobile()) {
+                this.toggleFilter();
+            } else {
+                FrontendSelectFilter.__super__._onClickFilterArea.apply(this, arguments);
+            }
+
         },
 
         toggleFilter: function() {
             if (!this.selectDropdownOpened) {
                 this._setButtonPressed(this.$(this.containerSelector), true);
-                setTimeout(_.bind(function() {
-                    this.selectWidget.multiselect('open');
-                }, this), 50);
+                this.selectWidget.multiselect('open');
+                this.selectDropdownOpened = true;
             } else {
                 this._setButtonPressed(this.$(this.containerSelector), false);
+                this.selectDropdownOpened = false;
             }
-
-            this.selectDropdownOpened = !this.selectDropdownOpened;
         },
 
         /**
          * @inheritDoc
          */
         reset: function() {
-            SelectFilter.__super__.reset.apply(this, arguments);
+            FrontendSelectFilter.__super__.reset.apply(this, arguments);
 
             if (_.isMobile()) {
                 this.selectDropdownOpened = true;
@@ -96,4 +87,6 @@ define(function(require) {
             }
         }
     });
+
+    return FrontendSelectFilter;
 });
