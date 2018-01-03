@@ -5,9 +5,24 @@ define(function(require) {
     var _ = require('underscore');
     var SelectFilter = require('oro/filter/select-filter');
     var MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
+    var module = require('module');
+    var config = module.config();
+
+    config = _.extend({
+        closeAfterChose: !_.isMobile(),
+        toggleMode: _.isMobile()
+    }, config);
 
     FrontendSelectFilter = SelectFilter.extend({
-        closeAfterChose: !_.isMobile(),
+        /**
+         * @property
+         */
+        closeAfterChose: config.closeAfterChose,
+
+        /**
+         * @property
+         */
+        toggleMode: config.toggleMode,
 
         /**
          * @property
@@ -38,7 +53,7 @@ define(function(require) {
         _setDropdownContainer: function() {
             var $container = null;
 
-            if (_.isMobile()) {
+            if (this.toggleMode) {
                 $container =  this.$el.find('.filter-criteria');
             } else {
                 $container =  this.dropdownContainer;
@@ -56,7 +71,7 @@ define(function(require) {
         _onClickFilterArea: function(e) {
             e.stopPropagation();
 
-            if (_.isMobile()) {
+            if (this.toggleMode) {
                 this.toggleFilter();
             } else {
                 FrontendSelectFilter.__super__._onClickFilterArea.apply(this, arguments);
@@ -81,7 +96,7 @@ define(function(require) {
         reset: function() {
             FrontendSelectFilter.__super__.reset.apply(this, arguments);
 
-            if (_.isMobile()) {
+            if (this.toggleMode) {
                 this.selectDropdownOpened = true;
                 this.toggleFilter();
             }
