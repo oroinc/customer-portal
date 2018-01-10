@@ -50,6 +50,7 @@ system_configuration:
         oro_frontend.filter_value_selectors:
             data_type: string
             type: choice
+            search_type: choice
             priority: 100
             options:
                 required: false

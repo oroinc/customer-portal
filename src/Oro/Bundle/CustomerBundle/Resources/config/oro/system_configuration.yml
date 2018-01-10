@@ -82,6 +82,7 @@ system_configuration:
         oro_customer.registration_instructions_text:
             data_type: string
             type: textarea
+            search_type: text
             priority: 60
             options:
                 label: oro.customer.system_configuration.fields.registration_instructions_text.label
@@ -89,6 +90,7 @@ system_configuration:
         oro_customer.user_menu_show_items:
             data_type: string
             type: choice
+            search_type: choice
             priority: 50
             options:
                 label: oro.customer.system_configuration.fields.user_menu_show_items.label
@@ -99,6 +101,7 @@ system_configuration:
         oro_customer.customer_visitor_cookie_lifetime_days:
             data_type: integer
             type: integer
+            search_type: text
             options:
                 required: false
                 label: oro.customer.system_configuration.fields.customer_visitor_cookie_lifetime_days.label
@@ -110,6 +113,7 @@ system_configuration:
         oro_customer.maps_enabled:
             data_type: boolean
             type: choice
+            search_type: choice
             priority: 40
             options:
                 label: oro.customer.system_configuration.fields.maps_enabled.label
