@@ -18,7 +18,7 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit_Framework_TestCase
         $configurator->configureOptions($resolver);
 
         $this->expectException(MissingOptionsException::class);
-        $this->expectExceptionMessage('The required option "entities" is missing.');
+        $this->expectExceptionMessage('The required option "rootEntities" is missing.');
 
         $resolver->resolve([]);
     }
@@ -44,17 +44,17 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit_Framework_TestCase
     public function invalidOptionsDataProvider()
     {
         return [
-            'entities type' => [['entities' => true]],
-            'allowedOperations type' => [['entities' => [], 'allowedOperations' => false]],
-            'dataSource type' => [['entities' => [], 'dataSource' => 'source']],
-            'pageComponent type' => [['entities' => [], 'pageComponent' => []]],
+            'rootEntities type' => [['rootEntities' => true]],
+            'allowedOperations type' => [['rootEntities' => [], 'allowedOperations' => false]],
+            'dataSource type' => [['rootEntities' => [], 'dataSource' => 'source']],
+            'pageComponent type' => [['rootEntities' => [], 'pageComponent' => []]],
         ];
     }
 
     public function testConfigureOptionsMinimal()
     {
         $options = [
-            'entities' => []
+            'rootEntities' => []
         ];
 
         $resolver = new OptionsResolver();
@@ -64,8 +64,8 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit_Framework_TestCase
         $expected = [
             'pageComponent' => 'oroform/js/app/components/expression-editor-component',
             'pageComponentOptions' => [],
+            'rootEntities' => [],
             'dataSource' => [],
-            'entities' => []
         ];
         $this->assertEquals($expected, $resolver->resolve($options));
     }
@@ -73,10 +73,11 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit_Framework_TestCase
     public function testConfigureOptionsFull()
     {
         $options = [
-            'entities' => [
-                AutocompleteFieldsProviderInterface::ROOT_ENTITIES_KEY => [PriceList::class => 'price_list']
-            ],
+            'rootEntities' => ['price_list'],
             'dataSource' => ['price_list' => 'test'],
+            'dataProviderConfig' => [
+                'optionsFilter' =>  ['exclude' => false, 'unidirectional' => false]
+            ],
             'pageComponent' => 'custom-component',
             'pageComponentOptions' => [
                 'view' => 'custom-view',
@@ -94,10 +95,11 @@ class RuleEditorOptionsConfiguratorTest extends \PHPUnit_Framework_TestCase
                 'view' => 'custom-view',
             ],
             'dataSource' => ['price_list' => 'test'],
-            'entities' => [
-                AutocompleteFieldsProviderInterface::ROOT_ENTITIES_KEY => [PriceList::class => 'price_list']
-            ],
-            'allowedOperations' => ['math']
+            'rootEntities' => ['price_list'],
+            'allowedOperations' => ['math'],
+            'dataProviderConfig' => [
+                'optionsFilter' =>  ['exclude' => false, 'unidirectional' => false]
+            ]
         ];
         $this->assertEquals($expected, $resolver->resolve($options));
     }
