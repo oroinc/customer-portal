@@ -86,12 +86,15 @@ define(function(require) {
 
         onWidgetRender: function(content) {
             FrontendDialogWidget.__super__.onWidgetRender.call(this, content);
-            this._addHeader();
+            this._setHeader();
         },
 
-        _addHeader: function() {
+        _setHeader: function() {
             if (this.options.header) {
                 var $title = this.widget.dialog('instance').uiDialogTitlebar;
+                if (this.$header) {
+                    this.$header.remove();
+                }
                 this.$header = $(this.options.header).prependTo($title);
             }
         },
