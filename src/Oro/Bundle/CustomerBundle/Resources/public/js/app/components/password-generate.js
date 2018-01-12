@@ -10,8 +10,8 @@ define(function(require) {
 
     PasswordGenerateComponent = BaseComponent.extend({
         initialize: function(options) {
-            this.$el = $('.' + options.class);
-            this.passwordInput = $('.' + options.targetClass + ' input');
+            this.$el = $(options.checkbox);
+            this.passwordInput = $(options.passwordInput);
 
             this.togglePassword();
 
