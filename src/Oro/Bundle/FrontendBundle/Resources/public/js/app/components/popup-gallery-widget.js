@@ -195,26 +195,26 @@ define(function(require) {
             this.$galleryWidget.one('transitionend', _.bind(function() {
                 this.setDependentSlide();
                 this.$galleryWidget.detach();
+                $('html').css('margin-right', '');
+                $('body').removeClass('gallery-popup-opened');
             }, this));
 
             $(document).off('keydown.popup-gallery-widget');
             mediator.off('layout:reposition', this.onResize, this);
 
-            $('html').css('margin-right', '');
-            $('body').removeClass('gallery-popup-opened');
             this.$galleryWidget.removeClass('popup-gallery-widget--opened');
         },
 
         renderImages: function() {
             this.$gallery.not('.slick-initialized').slick(
-              this.options.imageOptions
+                this.options.imageOptions
             );
         },
 
         renderThumbnails: function() {
             if (this.$thumbnails) {
                 this.$thumbnails.not('.slick-initialized').slick(
-                  this.options.navOptions
+                    this.options.navOptions
                 );
                 this.checkSlickNoSlide();
             }
