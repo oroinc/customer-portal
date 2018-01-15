@@ -7,8 +7,11 @@ define(function(require) {
     var _ = require('underscore');
     var mediator = require('oroui/js/mediator');
     var routing = require('routing');
+    var tools = require('oroui/js/tools');
     var error = require('oroui/js/error');
     require('slick');
+
+    var BROWSER_SCROLL_SIZE = tools.getScrollbarSize();
 
     PopupGalleryWidget = AbstractWidget.extend({
         /**
@@ -107,14 +110,16 @@ define(function(require) {
         onOpen: function(e) {
             e.preventDefault();
             var self = this;
+
             this.render();
+            $('html').css('margin-right', BROWSER_SCROLL_SIZE);
+            $('body').addClass('gallery-popup-opened');
+            this.$galleryWidget.addClass('popup-gallery-widget--opened');
             this.renderImages();
             if (this.useThumb()) {
                 this.renderThumbnails();
             }
             this.setDependentSlide();
-            $('body').addClass('gallery-popup-opened');
-            this.$galleryWidget.addClass('popup-gallery-widget--opened');
 
             $(document).on('keydown.popup-gallery-widget', function(e) {
                 if (e.keyCode === 37) {
@@ -192,11 +197,12 @@ define(function(require) {
                 this.$galleryWidget.detach();
             }, this));
 
-            $('body').removeClass('gallery-popup-opened');
-            this.$galleryWidget.removeClass('popup-gallery-widget--opened');
-
             $(document).off('keydown.popup-gallery-widget');
             mediator.off('layout:reposition', this.onResize, this);
+
+            $('html').css('margin-right', '');
+            $('body').removeClass('gallery-popup-opened');
+            this.$galleryWidget.removeClass('popup-gallery-widget--opened');
         },
 
         renderImages: function() {
