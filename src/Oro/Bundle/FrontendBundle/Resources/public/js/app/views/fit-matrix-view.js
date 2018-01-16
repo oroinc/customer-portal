@@ -3,14 +3,18 @@ define(function(require) {
 
     var FitMatrixView;
     var BaseView = require('oroui/js/app/views/base/view');
-    var ElementsHelper = require('orofrontend/js/app/elements-helper');
     var _ = require('underscore');
 
-    FitMatrixView = BaseView.extend(_.extend({}, ElementsHelper, {
-        elements: {
-            row: '[data-row]',
-            matrixContainer: '[data-matrix-grid-container]'
-        },
+    FitMatrixView = BaseView.extend({
+        /**
+         * @property {jQuery}
+         */
+        $matrixContainer: null,
+
+        /**
+         * @property {jQuery}
+         */
+        $row: null,
 
         listen: {
             'layout:reposition mediator': 'fitMatrix'
@@ -20,7 +24,10 @@ define(function(require) {
 
         initialize: function(options) {
             FitMatrixView.__super__.initialize.apply(this, arguments);
-            this.initializeElements(options);
+
+            this.$matrixContainer = this.find('[data-matrix-grid-container]');
+            this.$row = this.find('[data-row]');
+
             this.fitMatrix();
 
             this.fitMatrix = _.debounce(this.fitMatrix, 100).bind(this);
@@ -38,7 +45,7 @@ define(function(require) {
                 }
 
                 this.resetState();
-                this.getElement('matrixContainer').addClass(this.states[i]);
+                this.$matrixContainer.addClass(this.states[i]);
             }
         },
 
@@ -48,19 +55,27 @@ define(function(require) {
          * @returns {boolean}
          */
         isFittedContainer: function() {
-            var rowWidth = this.getElement('row').outerWidth();
-            var containerWidth = this.getElement('matrixContainer').width();
-
-            return containerWidth < rowWidth;
+            return this.$matrixContainer.width() < this.$row.outerWidth();
         },
 
         /**
          * Reset matrix view state
          */
         resetState: function() {
-            this.getElement('matrixContainer').removeClass(this.states.join(' '));
+            this.$matrixContainer.removeClass(this.states.join(' '));
+        },
+
+        dispose: function() {
+            if (this.disposed) {
+                return;
+            }
+
+            delete this.$matrixContainer;
+            delete this.$row;
+
+            FitMatrixView.__super__.dispose.call(this);
         }
-    }));
+    });
 
     return FitMatrixView;
 });
