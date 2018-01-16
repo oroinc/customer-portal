@@ -7,11 +7,10 @@ define(function(require) {
     var _ = require('underscore');
     var mediator = require('oroui/js/mediator');
     var routing = require('routing');
-    var tools = require('oroui/js/tools');
     var error = require('oroui/js/error');
     require('slick');
 
-    var BROWSER_SCROLL_SIZE = tools.getScrollbarSize();
+    var BROWSER_SCROLL_SIZE = mediator.execute('layout:scrollbarWidth');
 
     PopupGalleryWidget = AbstractWidget.extend({
         /**
