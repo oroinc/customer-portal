@@ -1,6 +1,4 @@
 @regression
-@skip
-@BB-13162
 Feature: Featured menu, displayed on the main front page
   ToDo: BAP-16103 Add missing descriptions to the Behat features
 
@@ -16,19 +14,17 @@ Feature: Featured menu, displayed on the main front page
     And click view "featured_menu" in grid
     And I click "Create Menu Item"
     When I fill "Commerce Menu Form" with:
-      | Title       | Test Item        |
-      | URI         | /about           |
-      | Description | test description |
+      | Title       | Test Item               |
+      | URI         | /test_featured_menu_url |
+      | Description | test description        |
     And I save form
     Then I should see "Menu item saved successfully." flash message
 
   Scenario: Use new menu item on frontend
     Given I proceed as the Guest
     When I am on the homepage
-    Then I should see "VIEW TEST ITEM"
-    When I scroll to text "VIEW TEST ITEM"
-    And I click "VIEW TEST ITEM"
-    Then I should be on "/about"
+    Then I should see "VIEW TEST ITEM" button with attributes:
+        | href | /test_featured_menu_url |
 
   Scenario: Edit already existing menu item
     Given I proceed as the Admin
@@ -43,10 +39,8 @@ Feature: Featured menu, displayed on the main front page
   Scenario: Use edited menu item on frontend
     Given I proceed as the Guest
     When I am on the homepage
-    Then I should see "VIEW FEATURED ITEM_0"
-    When I scroll to text "VIEW FEATURED ITEM_0"
-    And I click "VIEW FEATURED ITEM_0"
-    Then I should be on "/about"
+    Then I should see "VIEW FEATURED ITEM_0" button with attributes:
+      | href | /test_featured_menu_url |
 
   Scenario: Change sequence of menu items
     Given I proceed as the Admin
