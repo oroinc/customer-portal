@@ -1,7 +1,6 @@
 config:
     paths:
         'orocustomer/js/app/components/customer-user-component': 'bundles/orocustomer/js/app/components/customer-user-component.js'
-        'orocustomer/js/app/components/password-generate': 'bundles/orocustomer/js/app/components/password-generate.js'
         'orocustomer/js/app/components/customer-address-component': 'bundles/orocustomer/js/app/components/customer-address-component.js'
         'orocustomer/js/app/components/customer-address-book-component': 'bundles/orocustomer/js/app/components/customer-address-book-component.js'
         'orocustomer/js/app/components/customer-user-role-component': 'bundles/orocustomer/js/app/components/customer-user-role-component.js'

@@ -139,7 +139,8 @@ system_configuration:
                                             - oro_customer.registration_link_enabled
                                             - oro_customer.confirmation_required
                                             - oro_customer.company_name_field_enabled
-                                            - oro_customer.send_password_in_welcome_email
+                                            # The backend user should not be able to enable this option in the UI
+                                            #- oro_customer.send_password_in_welcome_email
                                             - oro_customer.registration_instructions_enabled
                                             - oro_customer.registration_instructions_text
                                     customer_visitor_section:
