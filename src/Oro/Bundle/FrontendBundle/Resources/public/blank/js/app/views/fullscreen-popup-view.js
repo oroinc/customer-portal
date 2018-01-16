@@ -196,7 +196,7 @@ define(function(require) {
 
         _initializeSection: function(options, section) {
             var sectionOptions = this[section] = _.extend({}, this[section] || {});
-            sectionOptions.options = _.extend(sectionOptions.options || {}, options[section + 'Options'] || {});
+            sectionOptions.options = _.extend({}, sectionOptions.options || {}, options[section + 'Options'] || {});
             sectionOptions.attr = options[section + 'Attributes'] || {};
 
             this.sectionOptionVariants = _.map(this.sectionOptionVariants, function(variant) {
