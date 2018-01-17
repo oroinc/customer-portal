@@ -249,10 +249,14 @@ define(function(require) {
             if (_.isString(View)) {
                 tools.loadModules(View, _.bind(function(View) {
                     sectionOptions.View = View;
-                    this._renderSectionView(deferred, section, View);
+                    this._renderSectionView(deferred, section, sectionOptions, option, View);
                 }, this));
             } else {
-                this.subview(section, new View(this[section].options));
+                this.subview(section, new View(
+                    _.extend(this[section].options, {
+                        el: sectionOptions.$el.get()
+                    })
+                ));
                 deferred.resolve();
             }
         },
