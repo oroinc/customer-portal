@@ -81,7 +81,7 @@ define(function(require) {
          */
         onCustomerUserChanged: function(e) {
             var customerId = this.$customerSelect.val();
-            var customerUserId = _.first($(e.target).val());
+            var customerUserId = $(e.target).val();
 
             if (customerId || !customerUserId) {
                 this.triggerChangeCustomerUserEvent();
