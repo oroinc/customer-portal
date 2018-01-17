@@ -25,8 +25,8 @@ define(function(require) {
         initialize: function(options) {
             FitMatrixView.__super__.initialize.apply(this, arguments);
 
-            this.$matrixContainer = this.find('[data-matrix-grid-container]');
-            this.$row = this.find('[data-row]');
+            this.$matrixContainer = this.$('[data-matrix-grid-container]');
+            this.$row = this.$('[data-row]');
 
             this.fitMatrix();
 
