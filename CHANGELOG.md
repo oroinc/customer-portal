@@ -1,9 +1,14 @@
+## 2.7.0 (Unreleased)
+
+### Changed
+#### FrontendBundle
+* Changed format of options that prepares `RuleEditorOptionsConfigurator` <sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.7.0/src/Oro/Bundle/FrontendBundle/Form/OptionsConfigurator/RuleEditorOptionsConfigurator.php)</sup> , removed `entities` field and added `rootEntities` and `entityDataProvider`
+
 ## 2.6.0 (Unreleased)
 
 ### Changed
 #### FrontendBundle
 * Added `frontend` option for datagrids. This option should be set to `true` for all datagrids are used in the store frontend. For details see [Frontend Datagrids](./src/Oro/Bundle/FrontendBundle/Resources/doc/frontend-access.md#frontend-datagrids)
-* Changed format of options that prepares `RuleEditorOptionsConfigurator` <sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.6.0/src/Oro/Bundle/FrontendBundle/Form/OptionsConfigurator/RuleEditorOptionsConfigurator.php)</sup> , removed `entities` field and added `rootEntities` and `entityDataProvider` 
 
 ## 2.5.0 (2017-11-30)
 [Show detailed list of changes](incompatibilities-2-5.md)
