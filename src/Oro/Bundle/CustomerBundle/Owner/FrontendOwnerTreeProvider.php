@@ -150,9 +150,10 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider
     protected function executeQuery(Connection $connection, Query $query)
     {
         $parsedQuery = QueryUtil::parseQuery($query);
+        $executableQuery = QueryUtil::getExecutableSql($query, $parsedQuery);
 
         return [
-            $connection->executeQuery(QueryUtil::getExecutableSql($query, $parsedQuery)),
+            $connection->executeQuery($executableQuery),
             array_flip($parsedQuery->getResultSetMapping()->scalarMappings)
         ];
     }
