@@ -26,15 +26,17 @@ define(function(require) {
             popupIcon: 'fa-filter',
             popupLabel: _.__('oro.filter.datagrid-toolbar.filters'),
             contentElement: null,
-            footerContentOptions: {
-                buttons: [
-                    {
-                        type: 'button',
-                        class: 'btn btn--info btn--full btn--size-s',
-                        role: 'action',
-                        label: _.__('oro_frontend.filters.apply_all')
-                    }
-                ]
+            footerOptions: {
+                templateData: {
+                    buttons: [
+                        {
+                            type: 'button',
+                            class: 'btn btn--info btn--full btn--size-s',
+                            role: 'action',
+                            label: _.__('oro_frontend.filters.apply_all')
+                        }
+                    ]
+                }
             }
         },
 
@@ -74,8 +76,7 @@ define(function(require) {
         counterBadgeView: CounterBadgeView,
 
         /**
-         * {@inheritdoc}
-         * @param {object} options
+         * @inheritDoc
          */
         initialize: function(options) {
             this.filtersPopupOptions = _.extend(
@@ -116,8 +117,7 @@ define(function(require) {
             this.fullscreenView.on('show', function() {
                 var enteredState = this.getChangedFiltersState(this.datagrid);
 
-                this.applyAllFiltersBtn = $(this.fullscreenView.contentOptions.footerEl)
-                    .find(this.applyAllFiltersSelector);
+                this.applyAllFiltersBtn = this.fullscreenView.footer.$el.find(this.applyAllFiltersSelector);
 
                 this.applyAllFiltersBtn.on('click', _.bind(function() {
                     var state = this.getChangedFiltersState(this.datagrid);

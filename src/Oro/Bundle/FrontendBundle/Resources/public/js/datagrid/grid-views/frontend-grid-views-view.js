@@ -11,6 +11,9 @@ define(function(require) {
     var errorTemplate = require('tpl!orodatagrid/templates/datagrid/view-name-error-modal.html');
 
     FrontendGridViewsView = GridViewsView.extend({
+        /**
+         * @inheritDoc
+         */
         attributes: {
             'data-layout': 'separate'
         },
@@ -24,6 +27,9 @@ define(function(require) {
         /** @property */
         defaultPrefix: __('oro_frontend.datagrid_views.all'),
 
+        /**
+         * @inheritDoc
+         */
         route: 'oro_api_frontend_datagrid_gridview_default',
 
         /** @property */
@@ -44,6 +50,11 @@ define(function(require) {
 
         /** @property */
         DeleteConfirmation: DeleteConfirmation,
+
+        /**
+         * @inheritDoc
+         */
+        adjustDocumentTitle: false,
 
         /** @property */
         defaults: {
@@ -107,11 +118,13 @@ define(function(require) {
         },
 
         /** @property */
-        hideTitle: $([]),
+        hideTitle: null,
 
         /** @property */
         showErrorMessage: false,
+
         /**
+         * @inheritDoc
          * @param options
          */
         initialize: function(options) {
@@ -145,6 +158,10 @@ define(function(require) {
             FrontendGridViewsView.__super__.initialize.call(this, options);
         },
 
+        /**
+         * @inheritDoc
+         * @returns {FrontendGridViewsView}
+         */
         render: function() {
             FrontendGridViewsView.__super__.render.apply(this, arguments);
 
@@ -165,7 +182,9 @@ define(function(require) {
                 icon: this.titleOptions.icon
             });
         },
-
+        /**
+         * @inheritDoc
+         */
         dispose: function() {
             if (this.disposed) {
                 return;
@@ -181,7 +200,7 @@ define(function(require) {
         },
 
         /**
-         * @doc inherit
+         * @inheritDoc
          */
         _bindEventListeners: function() {
             var self = this;
@@ -321,7 +340,7 @@ define(function(require) {
         },
 
         /**
-         * @doc inherit
+         * @inheritDoc
          */
         onChange: function(e) {
             var $this = $(e.target);
@@ -364,7 +383,7 @@ define(function(require) {
         },
 
         /**
-         * {DocInherit}
+         * @inheritDoc
          */
         onGridViewsModelInvalid: function(errors) {
             this.setNameError(_.first(errors));
@@ -394,7 +413,7 @@ define(function(require) {
         },
 
         /**
-         * @param {HTML} element
+         * @param {HTMLElement} element
          * @returns {*}
          * @private
          */
@@ -407,7 +426,7 @@ define(function(require) {
         },
 
         /**
-         * @param {HTMl} element
+         * @param {HTMLElement} element
          * @returns {*}
          * @private
          */
@@ -520,9 +539,9 @@ define(function(require) {
          * @param state
          */
         togglePageTitles: function(state) {
-            state = _.isUndefined(state) ? false : state;
-
-            this.hideTitle.toggleClass('hidden', state);
+            if (this.hideTitle) {
+                this.hideTitle.toggleClass('hidden', _.isUndefined(state) ? false : state);
+            }
         }
     });
 

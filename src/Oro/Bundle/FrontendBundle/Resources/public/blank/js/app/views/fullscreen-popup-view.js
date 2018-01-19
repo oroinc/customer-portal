@@ -22,15 +22,26 @@ define(function(require) {
          * @property
          */
         optionNames: BaseView.prototype.optionNames.concat([
-            'template', 'templateSelector', 'templateData', 'footerTemplate',
-            'content', 'contentSelector', 'contentView',
-            'contentOptions', 'contentElement', 'contentAttributes',
-            'footerContentOptions',
-            'headerTemplate', 'headerContentOptions',
-            'previousClass', 'popupLabel', 'popupCloseOnLabel',
+            'template', 'templateSelector', 'templateData',
+            'popupLabel', 'popupCloseOnLabel',
             'popupCloseButton', 'popupIcon', 'popupBadge',
             'stopEventsPropagation', 'stopEventsList'
         ]),
+
+        sections: ['header', 'content', 'footer'],
+
+        sectionOptionVariants: ['', 'Selector', 'View', 'Element', 'Template'],
+
+        header: {
+            Template: headerTemplate,
+            options: {
+                templateData: {}
+            }
+        },
+
+        footer: {
+            Template: footerTemplate
+        },
 
         /**
          * @property
@@ -65,42 +76,7 @@ define(function(require) {
         /**
          * @property
          */
-        content: null,
-
-        /**
-         * @property
-         */
-        contentElement: null,
-
-        /**
-         * @property
-         */
-        contentElementPlaceholder: null,
-
-        /**
-         * @property
-         */
         previousClass: null,
-
-        /**
-         * @property
-         */
-        contentSelector: null,
-
-        /**
-         * @property
-         */
-        contentView: null,
-
-        /**
-         * @property
-         */
-        contentOptions: null,
-
-        /**
-         * @property
-         */
-        contentAttributes: {},
 
         events: {
             'click': 'show'
@@ -122,43 +98,11 @@ define(function(require) {
         $popup: null,
 
         /**
-         * @property
-         * @type {object}
-         */
-        headerContentOptions: null,
-
-        /**
-         * Data example for default template
-         *  buttons: [{
-         *      type: 'button',
-         *      class: 'btn btn--info',
-         *      role: 'action',
-         *      label: 'Close'
-         *  }]
-         *
-         * @property
-         * @type {object}
-         */
-        footerContentOptions: null,
-
-        /**
-         * @property
-         * @type {object}
-         */
-        footerTemplate: footerTemplate,
-
-        /**
-         * @property
-         * @type {object}
-         */
-        headerTemplate: headerTemplate,
-
-        /**
          * @inheritDoc
          */
         initialize: function(options) {
-            this.savePreviousClasses($(this.contentElement));
-            FullscreenPopupView.__super__.initialize.apply(this, arguments);
+            _.each(this.sections, this._initializeSection.bind(this, options));
+            return FullscreenPopupView.__super__.initialize.apply(this, arguments);
         },
 
         /**
@@ -176,94 +120,174 @@ define(function(require) {
             this.close();
             this.$popup = $(this.getTemplateFunction()(this.getTemplateData()));
 
-            this.contentOptions = _.extend({}, this.contentOptions || {}, {
-                el: this.$popup.find('[data-role="content"]').get(0),
-                headerEl: this.$popup.find('[data-role="header"]').get(0),
-                footerEl: this.$popup.find('[data-role="footer"]').get(0)
-            });
-
-            if (this.footerContentOptions) {
-                this.renderPopupFooterContent();
-            }
-
-            if (this.headerContentOptions) {
-                this.renderPopupHeaderContent();
-            }
-
             this.$popup.appendTo($('body'));
 
-            this.renderPopupContent(_.bind(this.onShow, this));
+            var promises = _.map(this.sections, this.showSection, this);
+            $.when.apply($, promises).then(this._onShow.bind(this));
         },
 
-        onShow: function() {
-            this.initPopupEvents();
+        showSection: function(section) {
+            var deferred = $.Deferred();
+            this[section].$el = this.$popup.find('[data-role="' + section + '"]');
+            if (false === this._eachSectionVariant(section, '_renderSection', deferred)) {
+                deferred.resolve();
+            }
+            return deferred.promise();
+        },
+
+        /**
+         * @inheritDoc
+         */
+        getTemplateData: function() {
+            var data = FullscreenPopupView.__super__.getTemplateData.apply(this, arguments);
+            data = _.extend({}, data, {
+                close: this.popupCloseButton
+            });
+            return data;
+        },
+
+        /**
+         * @param {String} title
+         */
+        setPopupTitle: function(title) {
+            if (this.$popup) {
+                this.$popup.find('[data-role="title"]').html(title);
+            }
+        },
+
+        close: function() {
+            if (!this.$popup) {
+                return;
+            }
+
+            scrollHelper.enableBodyTouchScroll();
+
+            _.each(this.sections, this.closeSection, this);
+
+            this.$popup.find('[data-scroll="true"]').off('touchstart');
+            this.$popup.remove();
+            delete this.$popup;
+
+            this.trigger('close');
+        },
+
+        closeSection: function(section) {
+            this._eachSectionVariant(section, '_closeSection');
+        },
+
+        _eachSectionVariant: function(section, callback) {
+            var args = _.rest(arguments, 2);
+            var sectionOptions = this[section];
+            var variant;
+            for (var i = 0; i < this.sectionOptionVariants.length; i++) {
+                variant = this.sectionOptionVariants[i];
+                var func = callback + variant;
+                var variantValue = sectionOptions[variant];
+                if (this[func] && variantValue !== null) {
+                    return this[func].apply(this, args.concat([
+                        section,
+                        sectionOptions,
+                        variant,
+                        variantValue
+                    ]));
+                }
+            }
+        },
+
+        _initializeSection: function(options, section) {
+            var sectionOptions = this[section] = _.extend({}, this[section] || {});
+            sectionOptions.options = _.extend({}, sectionOptions.options || {}, options[section + 'Options'] || {});
+            sectionOptions.attr = options[section + 'Attributes'] || {};
+
+            this.sectionOptionVariants = _.map(this.sectionOptionVariants, function(variant) {
+                var value = options[section + variant];
+                variant = variant || 'Content';
+                sectionOptions[variant] = value !== undefined ? value : (sectionOptions[variant] || null);
+
+                return variant;
+            }, this);
+
+            if (section === 'header' && _.isObject(sectionOptions.options.templateData)) {
+                sectionOptions.options.templateData = _.extend({
+                    label: this.popupLabel,
+                    closeOnLabel: this.popupCloseOnLabel,
+                    icon: this.popupIcon,
+                    badge: this.popupBadge
+                }, sectionOptions.options.templateData);
+            }
+        },
+
+        _onShow: function() {
+            this._initPopupEvents();
             mediator.trigger('layout:reposition');
             scrollHelper.disableBodyTouchScroll();
             this.trigger('show');
         },
 
-        renderPopupContent: function(callback) {
-            if (this.content) {
-                this.renderContent(callback);
-            } else if (this.contentElement) {
-                this.moveContentElement(callback);
-            } else if (this.contentSelector) {
-                this.renderSelectorContent(callback);
-            } else if (this.contentView) {
-                this.renderPopupView(callback);
-            } else {
-                callback();
-            }
+        _renderSectionContent: function(deferred, section, sectionOptions, option, content) {
+            sectionOptions.$el.html(content);
+            deferred.resolve();
         },
 
-        renderPopupHeaderContent: function() {
-            $(this.contentOptions.headerEl).html(
-                this.getTemplateFunction('headerTemplate')(this.headerContentOptions)
-            );
+        _renderSectionElement: function(deferred, section, sectionOptions, option, element) {
+            var $element = $(element);
+            sectionOptions.$placeholder = $('<div/>');
+
+            this._savePreviousClasses($element);
+            $element.after(sectionOptions.$placeholder)
+                .attr(sectionOptions.attr);
+            sectionOptions.$el.append($element);
+
+            deferred.resolve();
         },
 
-        renderPopupFooterContent: function(content) {
-            content = content || '';
-            if (!content && !_.isEmpty(this.footerContentOptions)) {
-                content = this.getTemplateFunction('footerTemplate')(this.footerContentOptions);
-            }
-            $(this.contentOptions.footerEl).html(content);
+        _renderSectionSelector: function(deferred, section, sectionOptions, option, selector) {
+            return this._renderSectionContent(deferred, section, sectionOptions, option, $(selector).html());
         },
 
-        renderContent: function(callback) {
-            $(this.contentOptions.el).html(this.content);
-            callback();
-        },
-
-        moveContentElement: function(callback) {
-            this.contentElementPlaceholder = $('<div/>');
-            $(this.contentElement).after(this.contentElementPlaceholder);
-            $(this.contentOptions.el)
-                .append(
-                    $(this.contentElement).attr(this.contentAttributes)
-                );
-            callback();
-        },
-
-        renderSelectorContent: function(callback) {
-            var content = $(this.contentSelector).html();
-            $(this.contentOptions.el).html(content);
-            callback();
-        },
-
-        renderPopupView: function(callback) {
-            if (_.isString(this.contentView)) {
-                tools.loadModules(this.contentView, _.bind(function(View) {
-                    this.contentView = View;
-                    this.renderPopupView(callback);
+        _renderSectionView: function(deferred, section, sectionOptions, option, View) {
+            if (_.isString(View)) {
+                tools.loadModules(View, _.bind(function(View) {
+                    sectionOptions.View = View;
+                    this._renderSectionView(deferred, section, sectionOptions, option, View);
                 }, this));
             } else {
-                this.subview('contentView', new this.contentView(this.contentOptions));
-                callback();
+                this.subview(section, new View(
+                    _.extend(this[section].options, {
+                        el: sectionOptions.$el.get()
+                    })
+                ));
+                deferred.resolve();
             }
         },
 
-        initPopupEvents: function() {
+        _renderSectionTemplate: function(deferred, section, sectionOptions, option, template) {
+            var templateData = sectionOptions.options.templateData;
+            if (!templateData) {
+                return false;
+            }
+            return this._renderSectionContent(deferred, section, sectionOptions, option, template(templateData));
+        },
+
+        _closeSectionElement: function(section, sectionOptions, option, element) {
+            if (!sectionOptions.$placeholder) {
+                return;
+            }
+            var $element = $(element);
+
+            sectionOptions.$placeholder
+                .after($element)
+                .remove();
+
+            $element.removeAttr(_.keys(sectionOptions.attr).join(' '));
+            this._setPreviousClasses($element);
+        },
+
+        _closeSectionView: function(section, sectionOptions, option, View) {
+            this.removeSubview(section);
+        },
+
+        _initPopupEvents: function() {
             this.$popup
                 .on('click', '[data-role="close"]', _.bind(this.close, this))
                 .on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
@@ -275,68 +299,18 @@ define(function(require) {
             }
         },
 
-        close: function() {
-            if (!this.$popup) {
-                return;
-            }
-
-            scrollHelper.enableBodyTouchScroll();
-
-            if (this.contentElement && this.contentElementPlaceholder) {
-                $(this.contentElement).removeAttr(
-                    _.keys(this.contentAttributes).join(' ')
-                );
-                this.setPreviousClasses($(this.contentElement));
-                this.contentElementPlaceholder.after($(this.contentElement));
-                this.contentElementPlaceholder.remove();
-            }
-
-            this.$popup.find('[data-scroll="true"]').off('touchstart');
-            this.$popup.remove();
-
-            delete this.$popup;
-
-            this.removeSubview('contentView');
-            this.trigger('close');
-        },
-
-        /**
-         * @inheritDoc
-         */
-        getTemplateData: function() {
-            var data = FullscreenPopupView.__super__.getTemplateData.apply(this, arguments);
-            data = _.extend({}, data, {
-                label: this.popupLabel,
-                closeOnLabel: this.popupCloseOnLabel,
-                close: this.popupCloseButton,
-                icon: this.popupIcon,
-                badge: this.popupBadge,
-                footerContentOptions: this.footerContentOptions
-            });
-            return data;
-        },
-
         /**
          * @param {jQuery} $el
          */
-        savePreviousClasses: function($el) {
+        _savePreviousClasses: function($el) {
             this.previousClass = $el.attr('class');
         },
 
         /**
          * @param {jQuery} $el
          */
-        setPreviousClasses: function($el) {
+        _setPreviousClasses: function($el) {
             $el.attr('class', this.previousClass);
-        },
-
-        /**
-         * @param {String} title
-         */
-        setPopupTitle: function(title) {
-            if (this.$popup) {
-                this.$popup.find('[data-role="title"]').html(title);
-            }
         }
     });
 
