@@ -14,7 +14,7 @@ define(function(require) {
         /**
          * @property {jQuery}
          */
-        $row: null,
+        $scrollView: null,
 
         listen: {
             'layout:reposition mediator': 'fitMatrix'
@@ -26,7 +26,7 @@ define(function(require) {
             FitMatrixView.__super__.initialize.apply(this, arguments);
 
             this.$matrixContainer = this.$('[data-matrix-grid-container]');
-            this.$row = this.$('[data-row]');
+            this.$scrollView = this.$('[data-scroll-view]');
 
             this.fitMatrix();
 
@@ -55,7 +55,9 @@ define(function(require) {
          * @returns {boolean}
          */
         isFittedContainer: function() {
-            return this.$matrixContainer.width() < this.$row.outerWidth();
+            var scrollView = this.$scrollView.get(0);
+
+            return scrollView.clientWidth < scrollView.scrollWidth;
         },
 
         /**
