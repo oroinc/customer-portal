@@ -33,7 +33,7 @@ define(function(require) {
          */
         delegateEvents: function() {
             FooterAlignView.__super__.delegateEvents.apply(this, arguments);
-            mediator.on('layout:reposition',  _.debounce(this.alignFooter, this.timeout), this);
+            mediator.on('layout:reposition', _.debounce(this.alignFooter, this.timeout), this);
             return this;
         },
 

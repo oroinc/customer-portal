@@ -63,7 +63,7 @@ define(function(require) {
             this.hideImageElement();
 
             return this;
-        },
+        }
     });
 
     return ObjectFitPolyfillView;

@@ -18,7 +18,7 @@ define(function(require) {
 
         _initEvents: function() {
             this._on(this.$el, {
-                'input': this.resize
+                input: this.resize
             });
         },
 

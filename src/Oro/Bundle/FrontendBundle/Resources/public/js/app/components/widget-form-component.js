@@ -1,5 +1,3 @@
-/*jslint nomen:true*/
-/*global define*/
 define(
     ['oroui/js/widget-manager', 'oroui/js/messenger', 'oroui/js/mediator', 'orotranslation/js/translator', 'jquery'],
     function(widgetManager, messenger, mediator, __, $) {
@@ -20,8 +18,8 @@ define(
                         widget.trigger('formSave', options.savedId);
                         widget.remove();
                         widget.on('renderComplete', function() {
-                            //workaround for conflict between jquery-ui and bootstrap
-                            //that caused close button not to show on popup
+                            // workaround for conflict between jquery-ui and bootstrap
+                            // that caused close button not to show on popup
                             $.fn.bootstrapBtn = $.fn.button.noConflict();
                         });
                     }

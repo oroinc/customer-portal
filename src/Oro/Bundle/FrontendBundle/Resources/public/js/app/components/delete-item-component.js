@@ -1,5 +1,3 @@
-/*jslint nomen:true*/
-/*global define*/
 define(function(require) {
     'use strict';
 
@@ -17,9 +15,10 @@ define(function(require) {
             this.$elem = options._sourceElement;
             this.url = options.url || routing.generate(options.route, options.routeParams || {});
             this.removeClass = options.removeClass;
+            this.requestMethod = options.requestMethod || 'DELETE';
             this.redirect = options.redirect;
             this.confirmMessage = options.confirmMessage;
-            this.sucsessMessage = options.sucsessMessage || __('item_deleted');
+            this.successMessage = options.successMessage || __('item_deleted');
             this.okButtonClass = options.okButtonClass;
             this.cancelButtonClass = options.cancelButtonClass;
             this.triggerData = options.triggerData || null;
@@ -45,11 +44,11 @@ define(function(require) {
             };
 
             if (this.okButtonClass) {
-                options = _.extend(options, {'okButtonClass': this.okButtonClass});
+                options = _.extend(options, {okButtonClass: this.okButtonClass});
             }
 
             if (this.cancelButtonClass) {
-                options = _.extend(options, {'cancelButtonClass': this.cancelButtonClass});
+                options = _.extend(options, {cancelButtonClass: this.cancelButtonClass});
             }
 
             var confirm = new DeleteConfirmation(options);
@@ -61,16 +60,17 @@ define(function(require) {
             var self = this;
             $.ajax({
                 url: self.url,
-                type: 'DELETE',
+                type: this.requestMethod,
                 success: function() {
-                    if (self.removeClass) {
-                        self.$elem.closest('.' + self.removeClass).remove();
-                    }
-
                     if (self.redirect) {
                         self.deleteWithRedirect(e);
                     } else {
                         self.deleteWithoutRedirect(e);
+                    }
+
+                    if (self.removeClass) {
+                        self.$elem.closest('.' + self.removeClass)
+                            .trigger('content:remove').remove();
                     }
                 },
                 error: function() {
@@ -80,12 +80,12 @@ define(function(require) {
         },
 
         deleteWithRedirect: function(e) {
-            mediator.execute('showFlashMessage', 'success', this.sucsessMessage);
+            mediator.execute('showFlashMessage', 'success', this.successMessage);
             mediator.execute('redirectTo', {url: this.redirect}, {redirect: true});
         },
 
         deleteWithoutRedirect: function(e) {
-            mediator.execute('showMessage', 'success', this.sucsessMessage, {'flash': true});
+            mediator.execute('showMessage', 'success', this.successMessage, {flash: true});
             mediator.trigger('frontend:item:delete', this.triggerData || e);
         }
     });

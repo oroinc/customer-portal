@@ -1,5 +1,3 @@
-/*jslint nomen:true*/
-/*global define*/
 define(function(require) {
     'use strict';
 
@@ -15,16 +13,16 @@ define(function(require) {
          * @property {Object}
          */
         defaultOptions: {
-            'entityId': null,
-            'addressListUrl': null,
-            'addressCreateUrl': null,
-            'addressUpdateRouteName': null,
-            'addressDeleteRouteName': null,
-            'currentAddresses': [],
-            'useFormDialog': false,
-            'template': '',
-            'manageAddressesLink': '',
-            'showMap': true
+            entityId: null,
+            addressListUrl: null,
+            addressCreateUrl: null,
+            addressUpdateRouteName: null,
+            addressDeleteRouteName: null,
+            currentAddresses: [],
+            useFormDialog: false,
+            template: '',
+            manageAddressesLink: '',
+            showMap: true
         },
 
         /**
@@ -44,17 +42,17 @@ define(function(require) {
                     var address = arguments[0];
                     return routing.generate(
                         options.addressUpdateRouteName,
-                        {'id': address.get('id'), 'entityId': options.entityId}
+                        {id: address.get('id'), entityId: options.entityId}
                     );
                 },
                 addressDeleteUrl: function() {
                     var address = arguments[0];
                     return routing.generate(
                         options.addressDeleteRouteName,
-                        {'addressId': address.get('id'), 'entityId': options.entityId}
+                        {addressId: address.get('id'), entityId: options.entityId}
                     );
                 },
-                addressMapOptions: {'phone': 'phone'},
+                addressMapOptions: {phone: 'phone'},
                 useFormDialog: options.useFormDialog,
                 mapViewport: options.mapViewport,
                 allowToRemovePrimary: true,
