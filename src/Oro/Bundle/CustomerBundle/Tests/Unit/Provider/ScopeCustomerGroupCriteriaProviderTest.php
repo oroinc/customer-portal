@@ -2,108 +2,114 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Provider;
 
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider;
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class ScopeCustomerGroupCriteriaProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var ScopeCustomerGroupCriteriaProvider
-     */
-    private $provider;
-
-    /**
      * @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $tokenStorage;
+    protected $tokenStorage;
 
     /**
-     * @var CustomerUserRelationsProvider
+     * @var CustomerUserRelationsProvider|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerUserProvider;
+    protected $customerUserRelationsProvider;
+
+    /**
+     * @var ScopeCustomerGroupCriteriaProvider
+     */
+    protected $scopeCustomerGroupCriteriaProvider;
 
     protected function setUp()
     {
-        $this->tokenStorage = $this->getMockBuilder(TokenStorageInterface::class)->getMock();
-        $configManager = $this->getMockBuilder(ConfigManager::class)->disableOriginalConstructor()->getMock();
-        $doctrineHelper = $this->getMockBuilder(DoctrineHelper::class)->disableOriginalConstructor()->getMock();
-        $this->customerUserProvider = new CustomerUserRelationsProvider($configManager, $doctrineHelper);
-        $this->provider = new ScopeCustomerGroupCriteriaProvider($this->tokenStorage, $this->customerUserProvider);
+        $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $this->customerUserRelationsProvider = $this->createMock(CustomerUserRelationsProvider::class);
+        $this->scopeCustomerGroupCriteriaProvider = new ScopeCustomerGroupCriteriaProvider(
+            $this->tokenStorage,
+            $this->customerUserRelationsProvider
+        );
     }
 
-    public function testGetCriteriaForCurrentScope()
+    public function testGetCriteriaField()
     {
-        $accGroup = new CustomerGroup();
-        $accUser = new CustomerUser();
-        $customer = new Customer();
-        $accUser->setCustomer($customer);
-        $customer->setGroup($accGroup);
+        $this->assertEquals('customerGroup', $this->scopeCustomerGroupCriteriaProvider->getCriteriaField());
+    }
 
+    public function testGetCriteriaForCurrentScopeWhenNoToken()
+    {
+        $this->tokenStorage
+            ->expects($this->once())
+            ->method('getToken')
+            ->willReturn(null);
+
+        $anonymousGroup = new CustomerGroup();
+        $this->customerUserRelationsProvider
+            ->expects($this->once())
+            ->method('getCustomerGroup')
+            ->with(null)
+            ->willReturn($anonymousGroup);
+
+        $expectedCriteria = ['customerGroup' => $anonymousGroup];
+        $this->assertEquals($expectedCriteria, $this->scopeCustomerGroupCriteriaProvider->getCriteriaForCurrentScope());
+    }
+
+    public function testGetCriteriaForCurrentScopeWhenNoCustomerUser()
+    {
         $token = $this->createMock(TokenInterface::class);
-        $accUser->setCustomer($customer);
-
-        $token->expects($this->once())
+        $token
+            ->expects($this->any())
             ->method('getUser')
-            ->willReturn($accUser);
+            ->willReturn(null);
 
         $this->tokenStorage
             ->expects($this->once())
             ->method('getToken')
             ->willReturn($token);
-        $actual = $this->provider->getCriteriaForCurrentScope();
-        $this->assertEquals(['customerGroup' => $accGroup], $actual);
+
+        $anonymousGroup = new CustomerGroup();
+        $this->customerUserRelationsProvider
+            ->expects($this->once())
+            ->method('getCustomerGroup')
+            ->with(null)
+            ->willReturn($anonymousGroup);
+
+        $expectedCriteria = ['customerGroup' => $anonymousGroup];
+        $this->assertEquals($expectedCriteria, $this->scopeCustomerGroupCriteriaProvider->getCriteriaForCurrentScope());
     }
 
-    /**
-     * @dataProvider contextDataProvider
-     *
-     * @param mixed $context
-     * @param array $criteria
-     */
-    public function testGetCriteria($context, array $criteria)
+    public function testGetCriteriaForCurrentScopeWhenCustomerUser()
     {
-        $actual = $this->provider->getCriteriaByContext($context);
-        $this->assertEquals($criteria, $actual);
-    }
+        $customerUser = new CustomerUser();
+        $token = $this->createMock(TokenInterface::class);
+        $token
+            ->expects($this->any())
+            ->method('getUser')
+            ->willReturn($customerUser);
 
-    /**
-     * @return array
-     */
-    public function contextDataProvider()
-    {
-        $customerGroup = new CustomerGroup();
-        $customerGroupAware = new \stdClass();
-        $customerGroupAware->customerGroup = $customerGroup;
+        $this->tokenStorage
+            ->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
 
-        return [
-            'array_context_with_customer_group_key' => [
-                'context' => ['customerGroup' => $customerGroup],
-                'criteria' => ['customerGroup' => $customerGroup],
-            ],
-            'array_context_without_customer_group_key' => [
-                'context' => [],
-                'criteria' => [],
-            ],
-            'object_context_customer_group_aware' => [
-                'context' => $customerGroupAware,
-                'criteria' => ['customerGroup' => $customerGroup],
-            ],
-            'object_context_not_customer_group_aware' => [
-                'context' => new \stdClass(),
-                'criteria' => [],
-            ],
-        ];
+        $customerUserGroup = new CustomerGroup();
+        $this->customerUserRelationsProvider
+            ->expects($this->once())
+            ->method('getCustomerGroup')
+            ->with($customerUser)
+            ->willReturn($customerUserGroup);
+
+        $expectedCriteria = ['customerGroup' => $customerUserGroup];
+        $this->assertEquals($expectedCriteria, $this->scopeCustomerGroupCriteriaProvider->getCriteriaForCurrentScope());
     }
 
     public function testGetCriteriaValueType()
     {
-        $this->assertEquals(CustomerGroup::class, $this->provider->getCriteriaValueType());
+        $this->assertEquals(CustomerGroup::class, $this->scopeCustomerGroupCriteriaProvider->getCriteriaValueType());
     }
 }
