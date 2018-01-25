@@ -42,13 +42,10 @@ class ScopeCustomerGroupCriteriaProvider extends AbstractScopeCriteriaProvider
      */
     public function getCriteriaForCurrentScope()
     {
+        $loggedUser = null;
         $token = $this->tokenStorage->getToken();
-        if (!$token) {
-            return [];
-        }
-        $loggedUser = $token->getUser();
-        if (!($loggedUser instanceof CustomerUser)) {
-            $loggedUser = null;
+        if ($token && $token->getUser() instanceof CustomerUser) {
+            $loggedUser = $token->getUser();
         }
 
         return [$this->getCriteriaField() => $this->customerUserProvider->getCustomerGroup($loggedUser)];
