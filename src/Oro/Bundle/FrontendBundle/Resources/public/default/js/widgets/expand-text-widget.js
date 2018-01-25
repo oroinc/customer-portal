@@ -54,7 +54,7 @@ define(['jquery', 'jquery-ui'], function($) {
             var $trigger = this.$el.find('.' + this.triggerClass);
 
             this._on($trigger, {
-                'click': this._onClick
+                click: this._onClick
             });
         },
 

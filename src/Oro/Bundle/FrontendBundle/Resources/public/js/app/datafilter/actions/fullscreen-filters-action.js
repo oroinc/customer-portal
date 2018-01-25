@@ -17,7 +17,7 @@ define(function(require) {
         hidePreviousOpenFilters: false
     }, config);
 
-    FrontendFullScreenFiltersAction =  ToggleFiltersAction.extend({
+    FrontendFullScreenFiltersAction = ToggleFiltersAction.extend({
         /**
          * @property;
          */
@@ -30,10 +30,10 @@ define(function(require) {
                 templateData: {
                     buttons: [
                         {
-                            type: 'button',
-                            class: 'btn btn--info btn--full btn--size-s',
-                            role: 'action',
-                            label: _.__('oro_frontend.filters.apply_all')
+                            'type': 'button',
+                            'class': 'btn btn--info btn--full btn--size-s',
+                            'role': 'action',
+                            'label': _.__('oro_frontend.filters.apply_all')
                         }
                     ]
                 }
@@ -129,7 +129,6 @@ define(function(require) {
 
                         this.fullscreenView.close();
                     }
-
                 }, this));
 
                 this._toggleApplyAllBtn(!_.keys(enteredState.filters).length);
@@ -205,13 +204,13 @@ define(function(require) {
          */
         initFiltersManagerPopup: function(filterManager) {
             if (!_.isObject(filterManager)) {
-                return ;
+                return;
             }
 
             var selectWidget = filterManager.selectWidget;
 
             if (!_.isObject(selectWidget)) {
-                return ;
+                return;
             }
             var $popupMenu = selectWidget.multiselect('getMenu');
             var $popupContent = filterManager.$el;
@@ -312,11 +311,11 @@ define(function(require) {
             var filters = this.datagrid.filterManager.filters;
 
             _.each(filters, function(filter) {
-                if (filter.enabled && (filter.type === 'multichoice' ?
+                if (
+                    filter.enabled && (filter.type === 'multichoice' ?
                         filter._readDOMValue().value.length === 0 :
-                        _.isEqual(filter.emptyValue, filter._readDOMValue())
-                    )) {
-
+                        _.isEqual(filter.emptyValue, filter._readDOMValue()))
+                ) {
                     if (!_.isFunction(filter._onClickCriteriaSelector)) {
                         return;
                     }

@@ -1,4 +1,3 @@
-/** @lends AttachedEditableViewComponent */
 define(function(require) {
     'use strict';
 
@@ -11,7 +10,7 @@ define(function(require) {
     var frontendTypeMap = require('oroform/js/tools/frontend-type-map');
     var _ = require('underscore');
 
-    AttachedEditableViewComponent = InlineEditableViewComponent.extend(/** @exports AttachedEditableViewComponent.prototype */{
+    AttachedEditableViewComponent = InlineEditableViewComponent.extend(/** @lends AttachedEditableViewComponent.prototype */{
         /**
          * @constructor
          * @param {Object} options
