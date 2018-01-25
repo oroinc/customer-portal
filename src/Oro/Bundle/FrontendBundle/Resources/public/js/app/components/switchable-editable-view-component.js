@@ -1,4 +1,3 @@
-/** @lends SwitchableEditableViewComponent */
 define(function(require) {
     'use strict';
 
@@ -6,7 +5,7 @@ define(function(require) {
     var AttachedEditableViewComponent = require('orofrontend/js/app/components/attached-editable-view-component');
     var _ = require('underscore');
 
-    SwitchableEditableViewComponent = AttachedEditableViewComponent.extend(/** @exports SwitchableEditableViewComponent.prototype */{
+    SwitchableEditableViewComponent = AttachedEditableViewComponent.extend(/** @lends SwitchableEditableViewComponent.prototype */{
         /**
          * @constructor
          * @param {Object} options

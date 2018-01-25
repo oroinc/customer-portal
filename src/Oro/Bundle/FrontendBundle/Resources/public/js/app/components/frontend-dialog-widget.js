@@ -131,7 +131,7 @@ define(function(require) {
             var fullscreen = this.subview('fullscreenView');
             if (fullscreen) {
                 fullscreen.footer.Element = this.getActionsElement();
-                fullscreen.footer.attr = {class: 'fullscreen-popup__actions-wrapper'};
+                fullscreen.footer.attr = {'class': 'fullscreen-popup__actions-wrapper'};
                 fullscreen.showSection('footer');
             }
         },

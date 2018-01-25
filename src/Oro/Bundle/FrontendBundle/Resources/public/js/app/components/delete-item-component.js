@@ -1,5 +1,3 @@
-/*jslint nomen:true*/
-/*global define*/
 define(function(require) {
     'use strict';
 
@@ -46,11 +44,11 @@ define(function(require) {
             };
 
             if (this.okButtonClass) {
-                options = _.extend(options, {'okButtonClass': this.okButtonClass});
+                options = _.extend(options, {okButtonClass: this.okButtonClass});
             }
 
             if (this.cancelButtonClass) {
-                options = _.extend(options, {'cancelButtonClass': this.cancelButtonClass});
+                options = _.extend(options, {cancelButtonClass: this.cancelButtonClass});
             }
 
             var confirm = new DeleteConfirmation(options);
@@ -87,7 +85,7 @@ define(function(require) {
         },
 
         deleteWithoutRedirect: function(e) {
-            mediator.execute('showMessage', 'success', this.successMessage, {'flash': true});
+            mediator.execute('showMessage', 'success', this.successMessage, {flash: true});
             mediator.trigger('frontend:item:delete', this.triggerData || e);
         }
     });

@@ -26,7 +26,7 @@ define(function(require) {
                 '.select2-result',
                 '.select2-container',
                 '.column-manager.dropdown'
-            ].join(', ') //Target DOM elements to disable zoom
+            ].join(', ') // Target DOM elements to disable zoom
         },
 
         /**
@@ -34,7 +34,7 @@ define(function(require) {
          */
         options: {
             metaEnableZoomContent: 'width=device-width, initial-scale=1, viewport-fit=cover',
-            metaDisableZoomContent: 'width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=0',
+            metaDisableZoomContent: 'width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=0'
         },
 
         metaEnableZoom: '',

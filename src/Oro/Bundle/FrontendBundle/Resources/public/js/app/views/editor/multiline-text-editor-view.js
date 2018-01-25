@@ -1,4 +1,3 @@
-/** @lends MultilineTextEditorView */
 define(function(require) {
     'use strict';
 
@@ -49,7 +48,7 @@ define(function(require) {
     var MultilineTextEditorView;
     var TextEditorView = require('oroform/js/app/views/editor/text-editor-view');
 
-    MultilineTextEditorView = TextEditorView.extend(/** @exports MultilineTextEditorView.prototype */{
+    MultilineTextEditorView = TextEditorView.extend(/** @lends MultilineTextEditorView.prototype */{
         /**
          * Generic keydown handler, which handles ENTER
          *
