@@ -1,4 +1,3 @@
-/** @lends TitleEditorView */
 define(function(require) {
     'use strict';
 
@@ -11,7 +10,7 @@ define(function(require) {
     var TitleEditorView;
     var TextEditorView = require('oroform/js/app/views/editor/text-editor-view');
 
-    TitleEditorView = TextEditorView.extend(/** @exports TitleEditorView.prototype */{
+    TitleEditorView = TextEditorView.extend(/** @lends TitleEditorView.prototype */{
         template: require('tpl!../../../../templates/editor/title-editor.html'),
         className: 'inline-view-editor'
     });

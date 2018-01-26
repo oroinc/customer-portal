@@ -63,7 +63,7 @@ define(function(require) {
             }
 
             if (!_.isObject(instance)) {
-                return ;
+                return;
             }
 
             switch (this.desingConfiguration.themeName) {

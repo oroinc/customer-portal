@@ -187,7 +187,7 @@ define(function(require) {
             }
 
             if (this.model) {
-                this.model.off(null, null, this);//off all events with this context.
+                this.model.off(null, null, this);// off all events with this context.
             }
         },
 
@@ -234,10 +234,10 @@ define(function(require) {
 
             var $context;
             if (!_.isArray(selector)) {
-                //selector = '[data-name="element"]'
+                // selector = '[data-name="element"]'
                 $context = this.getElement('$el');
             } else {
-                //selector = ['$el', '[data-name="element"]']
+                // selector = ['$el', '[data-name="element"]']
                 $context = this.getElement(selector[0]);
                 selector = selector[1] || null;
             }
