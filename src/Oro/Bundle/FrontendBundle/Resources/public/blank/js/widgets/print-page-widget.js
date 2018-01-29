@@ -16,7 +16,7 @@ define(function(require) {
 
         _initEvents: function() {
             this._on(this.$el, {
-                'click': this._windowPrint
+                click: this._windowPrint
             });
         },
 

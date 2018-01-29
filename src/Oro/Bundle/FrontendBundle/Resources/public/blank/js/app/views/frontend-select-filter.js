@@ -54,9 +54,9 @@ define(function(require) {
             var $container = null;
 
             if (this.toggleMode) {
-                $container =  this.$el.find('.filter-criteria');
+                $container = this.$el.find('.filter-criteria');
             } else {
-                $container =  this.dropdownContainer;
+                $container = this.dropdownContainer;
             }
 
             return $container;
@@ -76,7 +76,6 @@ define(function(require) {
             } else {
                 FrontendSelectFilter.__super__._onClickFilterArea.apply(this, arguments);
             }
-
         },
 
         toggleFilter: function() {

@@ -36,7 +36,7 @@ define(function(require) {
 
         _checkNativeSupportLineClamp: function() {
             // Now native support only webkit browsers
-            this.nativeSupport =  '-webkit-line-clamp' in document.body.style;
+            this.nativeSupport = '-webkit-line-clamp' in document.body.style;
         },
 
         _getCountLines: function() {

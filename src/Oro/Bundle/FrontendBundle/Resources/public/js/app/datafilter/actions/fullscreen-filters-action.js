@@ -17,7 +17,7 @@ define(function(require) {
         hidePreviousOpenFilters: false
     }, config);
 
-    FrontendFullScreenFiltersAction =  ToggleFiltersAction.extend({
+    FrontendFullScreenFiltersAction = ToggleFiltersAction.extend({
         /**
          * @property;
          */
@@ -26,15 +26,17 @@ define(function(require) {
             popupIcon: 'fa-filter',
             popupLabel: _.__('oro.filter.datagrid-toolbar.filters'),
             contentElement: null,
-            footerContentOptions: {
-                buttons: [
-                    {
-                        type: 'button',
-                        class: 'btn btn--info btn--full btn--size-s',
-                        role: 'action',
-                        label: _.__('oro_frontend.filters.apply_all')
-                    }
-                ]
+            footerOptions: {
+                templateData: {
+                    buttons: [
+                        {
+                            'type': 'button',
+                            'class': 'btn btn--info btn--full btn--size-s',
+                            'role': 'action',
+                            'label': _.__('oro_frontend.filters.apply_all')
+                        }
+                    ]
+                }
             }
         },
 
@@ -74,8 +76,7 @@ define(function(require) {
         counterBadgeView: CounterBadgeView,
 
         /**
-         * {@inheritdoc}
-         * @param {object} options
+         * @inheritDoc
          */
         initialize: function(options) {
             this.filtersPopupOptions = _.extend(
@@ -116,8 +117,7 @@ define(function(require) {
             this.fullscreenView.on('show', function() {
                 var enteredState = this.getChangedFiltersState(this.datagrid);
 
-                this.applyAllFiltersBtn = $(this.fullscreenView.contentOptions.footerEl)
-                    .find(this.applyAllFiltersSelector);
+                this.applyAllFiltersBtn = this.fullscreenView.footer.$el.find(this.applyAllFiltersSelector);
 
                 this.applyAllFiltersBtn.on('click', _.bind(function() {
                     var state = this.getChangedFiltersState(this.datagrid);
@@ -129,7 +129,6 @@ define(function(require) {
 
                         this.fullscreenView.close();
                     }
-
                 }, this));
 
                 this._toggleApplyAllBtn(!_.keys(enteredState.filters).length);
@@ -205,13 +204,13 @@ define(function(require) {
          */
         initFiltersManagerPopup: function(filterManager) {
             if (!_.isObject(filterManager)) {
-                return ;
+                return;
             }
 
             var selectWidget = filterManager.selectWidget;
 
             if (!_.isObject(selectWidget)) {
-                return ;
+                return;
             }
             var $popupMenu = selectWidget.multiselect('getMenu');
             var $popupContent = filterManager.$el;
@@ -312,11 +311,11 @@ define(function(require) {
             var filters = this.datagrid.filterManager.filters;
 
             _.each(filters, function(filter) {
-                if (filter.enabled && (filter.type === 'multichoice' ?
+                if (
+                    filter.enabled && (filter.type === 'multichoice' ?
                         filter._readDOMValue().value.length === 0 :
-                        _.isEqual(filter.emptyValue, filter._readDOMValue())
-                    )) {
-
+                        _.isEqual(filter.emptyValue, filter._readDOMValue()))
+                ) {
                     if (!_.isFunction(filter._onClickCriteriaSelector)) {
                         return;
                     }
