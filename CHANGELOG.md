@@ -1,4 +1,4 @@
-## 2.6.0 (Unreleased)
+## 2.6.0 (2018-01-29)
 
 ### Changed
 #### FrontendBundle
