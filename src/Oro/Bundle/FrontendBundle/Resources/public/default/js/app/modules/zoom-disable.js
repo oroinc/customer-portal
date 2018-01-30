@@ -26,21 +26,26 @@ define(function(require) {
                 '.select2-result',
                 '.select2-container',
                 '.column-manager.dropdown'
-            ].join(', ') //Target DOM elements to disable zoom
+            ].join(', ') // Target DOM elements to disable zoom
         },
 
         /**
          * @property {Object}
          */
         options: {
-            metaEnableZoom: '<meta name="viewport" content="width=device-width, initial-scale=1" />',
-            metaDisableZoom: '<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />'
+            metaEnableZoomContent: 'width=device-width, initial-scale=1, viewport-fit=cover',
+            metaDisableZoomContent: 'width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=0'
         },
+
+        metaEnableZoom: '',
+        metaDisableZoom: '',
 
         /**
          * @constructor
          */
         initialize: function() {
+            this.metaEnableZoom = '<meta name="viewport" content="' + this.options.metaEnableZoomContent + '" />';
+            this.metaDisableZoom = '<meta name="viewport" content="' + this.options.metaDisableZoomContent + '" />';
             this.bindEvents();
         },
 
@@ -82,8 +87,8 @@ define(function(require) {
          * @param {boolean} state
          */
         toggleZoom: function(state) {
-            var enableZoom = this.options.metaEnableZoom;
-            var disableZoom = this.options.metaDisableZoom;
+            var enableZoom = this.metaEnableZoom;
+            var disableZoom = this.metaDisableZoom;
 
             if (_.isUndefined(state)) {
                 this.changeViewport(disableZoom);

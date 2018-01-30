@@ -53,6 +53,12 @@ define(function(require) {
             return StickyPanelView.__super__.setElement.call(this, element);
         },
 
+        delegateListeners: function() {
+            StickyPanelView.__super__.delegateListeners.call(this);
+            this.listenTo(mediator, 'layout:reposition', _.debounce(this.onScroll, this.options.layoutTimeout));
+            this.listenTo(mediator, 'page:afterChange', this.onAfterPageChange);
+        },
+
         /**
          * @inheritDoc
          */
@@ -64,9 +70,6 @@ define(function(require) {
                 _.throttle(_.bind(this.onScroll, this), this.options.scrollTimeout)
             );
 
-            mediator.on('layout:reposition',  _.debounce(this.onScroll, this.options.layoutTimeout), this);
-            mediator.on('page:afterChange', this.onAfterPageChange, this);
-
             return this;
         },
 
@@ -74,9 +77,9 @@ define(function(require) {
          * @inheritDoc
          */
         undelegateEvents: function() {
-            this.$document.off(this.eventNamespace());
-            mediator.off(null, null, this);
-
+            if (this.$document) {
+                this.$document.off(this.eventNamespace());
+            }
             return StickyPanelView.__super__.undelegateEvents.apply(this, arguments);
         },
 

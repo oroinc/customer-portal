@@ -1,4 +1,3 @@
-/** @lends TitleView */
 define(function(require) {
     'use strict';
     var BaseView = require('oroui/js/app/views/base/view');
@@ -22,7 +21,7 @@ define(function(require) {
      * @augments BaseView
      * @exports TitleView
      */
-    var TitleView = BaseView.extend(/** @exports TitleView.prototype */{
+    var TitleView = BaseView.extend(/** @lends TitleView.prototype */{
         showDefault: true,
         template: require('tpl!orofrontend/templates/viewer/title-view.html'),
 

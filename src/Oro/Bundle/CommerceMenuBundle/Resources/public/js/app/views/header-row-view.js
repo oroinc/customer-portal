@@ -42,7 +42,7 @@ define(function(require) {
         },
 
         onToggleClick: function(e) {
-            //prevent to close Bootstrap dropdowns
+            // prevent to close Bootstrap dropdowns
             e.stopPropagation();
         },
 

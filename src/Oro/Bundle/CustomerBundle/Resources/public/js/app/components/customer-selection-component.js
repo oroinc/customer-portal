@@ -60,7 +60,7 @@ define(function(require) {
                 .on('change', this.options.customerUserMultiSelect, _.bind(this.onCustomerUserChanged, this))
             ;
 
-            this.updateCustomerUserSelectData({'customer_id': this.$customerSelect.val()});
+            this.updateCustomerUserSelectData({customer_id: this.$customerSelect.val()});
         },
 
         /**
@@ -70,7 +70,7 @@ define(function(require) {
             this.$customerUserSelect.inputWidget('val', '');
             this.$customerUserMultiSelect.inputWidget('val', '');
 
-            this.updateCustomerUserSelectData({'customer_id': this.$customerSelect.val()});
+            this.updateCustomerUserSelectData({customer_id: this.$customerSelect.val()});
             this.triggerChangeCustomerUserEvent();
         },
 
@@ -81,7 +81,7 @@ define(function(require) {
          */
         onCustomerUserChanged: function(e) {
             var customerId = this.$customerSelect.val();
-            var customerUserId = _.first($(e.target).val());
+            var customerUserId = $(e.target).val();
 
             if (customerId || !customerUserId) {
                 this.triggerChangeCustomerUserEvent();
@@ -91,7 +91,7 @@ define(function(require) {
 
             var self = this;
             $.ajax({
-                url: routing.generate(this.options.customerRoute, {'id': customerUserId}),
+                url: routing.generate(this.options.customerRoute, {id: customerUserId}),
                 type: 'GET',
                 beforeSend: function() {
                     self.loadingMask.show();
@@ -99,7 +99,7 @@ define(function(require) {
                 success: function(response) {
                     self.$customerSelect.inputWidget('val', response.customerId || '');
 
-                    self.updateCustomerUserSelectData({'customer_id': response.customerId});
+                    self.updateCustomerUserSelectData({customer_id: response.customerId});
                     self.triggerChangeCustomerUserEvent();
                 },
                 complete: function() {

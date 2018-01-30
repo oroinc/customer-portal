@@ -110,10 +110,27 @@
         '~class': ' custom-radio__control'
     }) %}
 
+    {% set label_attr = layout_attr_defaults(label_attr, {
+        '~class': ' custom-radio',
+        'data-radio': true,
+        'tabindex': 0,
+        'for': id
+    }) %}
+
+    {% if form.vars.checked %}
+        {% set label_attr = layout_attr_defaults(label_attr, {
+            '~class': ' checked'
+        }) %}
+    {% endif %}
+
     {%- if label is empty -%}
         {% set label = id|humanize %}
     {%- endif -%}
-    <label class="custom-radio {% if form.vars.checked %}checked{% endif %}" data-radio tabindex="0">
+
+    {% set widget_attr = attr %}
+    {% set attr = label_attr %}
+    <label {{ block('attributes') }}>
+        {% set attr = widget_attr %}
         {{- parent() -}}
         <span class="custom-radio__text">{{ label|block_text(translation_domain) }}</span>
     </label>

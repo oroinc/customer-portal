@@ -34,7 +34,7 @@ define(function(require) {
         },
 
         events: {
-            'click': 'scrollTop'
+            click: 'scrollTop'
         },
 
         listen: {
@@ -75,7 +75,9 @@ define(function(require) {
          * @inheritDoc
          */
         undelegateEvents: function() {
-            this.$window.off(this.eventNamespace());
+            if (this.$window) {
+                this.$window.off(this.eventNamespace());
+            }
             ScrollTopView.__super__.undelegateEvents.apply(this, arguments);
         },
 
@@ -123,6 +125,8 @@ define(function(require) {
                 return;
             }
 
+            delete this.$window;
+            delete this.$document;
             this.undelegateEvents();
 
             ScrollTopView.__super__.dispose.call(this);

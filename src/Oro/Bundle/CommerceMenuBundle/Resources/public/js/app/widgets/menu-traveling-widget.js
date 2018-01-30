@@ -22,13 +22,13 @@ define(function(require) {
         nestingLevel: 0,
 
         /** @property */
-        $travelingTrigger: $([]),
+        $travelingTrigger: null,
 
         /** @property */
-        $relatedTrigger: $([]),
+        $relatedTrigger: null,
 
         /** @property */
-        $relatedContainer: $([]),
+        $relatedContainer: null,
 
         /** @property */
         consideringTopPosition: 40,
@@ -51,7 +51,7 @@ define(function(require) {
 
         bindEvents: function() {
             this.$travelingTrigger.on('click.nsMenuTravelingWidget', _.bind(this.goToSection, this));
-            mediator.on('layout:reposition',  _.debounce(this.updateHeight, 50), this);
+            mediator.on('layout:reposition', _.debounce(this.updateHeight, 50), this);
         },
 
         /**
@@ -72,9 +72,9 @@ define(function(require) {
 
                 // Find "next" button in a section one level higher
                 this.$relatedTrigger = this.$relatedTrigger
-                                           .parents(this.options.sectionSelector)
-                                           .eq(this.nestingLevel)
-                                           .find(this.options.triggerSelector);
+                    .parents(this.options.sectionSelector)
+                    .eq(this.nestingLevel)
+                    .find(this.options.triggerSelector);
             }
 
             this.$relatedContainer = this.$relatedTrigger.next();
@@ -132,7 +132,7 @@ define(function(require) {
             var containerHeight = 0;
 
             if ($container.length) {
-                containerHeight  = $container.height();
+                containerHeight = $container.height();
             }
 
             if (this.consideringTopPosition > 0) {
@@ -141,7 +141,7 @@ define(function(require) {
 
             if (containerHeight > 0) {
                 this.$relatedContainer.css({
-                    'height': containerHeight
+                    height: containerHeight
                 });
             }
         },

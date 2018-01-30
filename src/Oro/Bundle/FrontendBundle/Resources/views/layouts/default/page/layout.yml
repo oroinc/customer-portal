@@ -5,10 +5,6 @@ layout:
             root: page_container
             namespace: top
         -
-            id: sticky_panel
-            root: body
-            namespace: bottom
-        -
             id: scroll_top
             root: page_main
 
@@ -21,15 +17,15 @@ layout:
             optionName: sticky_name
             optionValue: top-sticky-panel
 
-        - '@setOption':
-            id: bottom_sticky_panel
-            optionName: sticky_name
-            optionValue: bottom-sticky-panel
+        - '@add':
+            id: scripts_before
+            blockType: container
+            parentId: head
 
-        - '@setOption':
-            id: bottom_sticky_panel
-            optionName: stick_to
-            optionValue: bottom
+        - '@add':
+            id: requirejs_scripts_after
+            blockType: container
+            parentId: require_js
 
         - '@add':
             id: notification

@@ -49,7 +49,7 @@ define(function(require) {
          * Hide image Element
          */
         hideImageElement: function() {
-            this.getImageElement().addClass('invisible');
+            this.getImageElement().addClass('hidden');
         },
 
         /**
@@ -63,7 +63,7 @@ define(function(require) {
             this.hideImageElement();
 
             return this;
-        },
+        }
     });
 
     return ObjectFitPolyfillView;

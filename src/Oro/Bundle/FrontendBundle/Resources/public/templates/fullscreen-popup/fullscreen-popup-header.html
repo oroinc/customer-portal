@@ -1,9 +1,16 @@
-<div class="fullscreen-popup__header-content" style="display: inline-flex">
-    <picture>
-        <img src="<%= imageUrl %>" alt="<%= title %>" class="fullscreen-popup__header-content-img">
-    </picture>
-    <section>
-        <h4><%= title %></h4>
-        <p><%= subtitle %></p>
-    </section>
-</div>
+<% if (label) { %>
+    <div class="fullscreen-popup__label">
+        <span class="fullscreen-popup__text" <% if (closeOnLabel) { %> data-role="close"<% } %>>
+            <% if (icon) { %>
+                <% if (badge) { %>
+                    <span class="fullscreen-popup__badge">
+                        <i class="<%= icon %>"></i>
+                    </span>
+                <% } else { %>
+                    <i class="<%= icon %>"></i>
+                <% } %>
+            <% } %>
+            <span class="fullscreen-popup__words" data-role="title"><%= label %></span>
+        </span>
+    </div>
+<% } %>

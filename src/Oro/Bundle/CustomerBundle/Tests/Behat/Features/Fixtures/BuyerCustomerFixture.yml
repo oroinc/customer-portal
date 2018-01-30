@@ -1,5 +1,5 @@
 include:
-    - ../../../../../../../../../commerce/src/Oro/Bundle/PricingBundle/Tests/Behat/Features/Fixtures/Pricelists.yml
+    - '@OroPricingBundle:Pricelists.yml'
 
 Oro\Bundle\CustomerBundle\Entity\Customer:
     customer1:
