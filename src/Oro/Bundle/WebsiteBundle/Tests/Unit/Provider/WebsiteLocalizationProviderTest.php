@@ -65,8 +65,8 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
 
         $this->websiteRepository
             ->expects($this->once())
-            ->method('findOneBy')
-            ->with(['id' => 42])
+            ->method('find')
+            ->with(42)
             ->willReturn(new Website());
 
         $this->websiteRepository
@@ -86,7 +86,7 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
 
         $this->websiteRepository
             ->expects($this->never())
-            ->method('findOneBy');
+            ->method('find');
 
         $this->websiteRepository
             ->expects($this->once())
@@ -106,8 +106,8 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
 
         $this->websiteRepository
             ->expects($this->once())
-            ->method('findOneBy')
-            ->with(['id' => 123])
+            ->method('find')
+            ->with(123)
             ->willReturn(null);
 
         $this->websiteRepository
@@ -128,7 +128,7 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
 
         $this->websiteRepository
             ->expects($this->never())
-            ->method('findOneBy');
+            ->method('find');
 
         $this->websiteRepository
             ->expects($this->once())
