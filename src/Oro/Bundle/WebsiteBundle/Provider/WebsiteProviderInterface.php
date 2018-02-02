@@ -10,4 +10,9 @@ interface WebsiteProviderInterface
      * @return Website[]
      */
     public function getWebsites();
+
+    /**
+     * @return int[]
+     */
+    public function getWebsiteIds();
 }

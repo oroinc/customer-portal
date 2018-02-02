@@ -1,5 +1,3 @@
-/*jslint nomen:true*/
-/*global define*/
 define(function(require) {
     'use strict';
 
@@ -22,17 +20,17 @@ define(function(require) {
                         var address = arguments[0];
                         return routing.generate(
                             options.addressUpdateRouteName,
-                            {'id': address.get('id'), 'entityId': options.entityId}
+                            {id: address.get('id'), entityId: options.entityId}
                         );
                     },
                     addressDeleteUrl: function() {
                         var address = arguments[0];
                         return routing.generate(
                             options.addressDeleteRouteName,
-                            {'addressId': address.get('id'), 'entityId': options.entityId}
+                            {addressId: address.get('id'), entityId: options.entityId}
                         );
                     },
-                    addressMapOptions: {'phone': 'phone'}
+                    addressMapOptions: {phone: 'phone'}
                 });
                 widget.getAction('add_address', 'adopted', function(action) {
                     action.on('click', _.bind(addressBook.createAddress, addressBook));

@@ -1,4 +1,3 @@
-/** @lends TextView */
 define(function(require) {
     'use strict';
     var BaseView = require('oroui/js/app/views/base/view');
@@ -22,7 +21,7 @@ define(function(require) {
      * @augments BaseView
      * @exports TextView
      */
-    var TextView = BaseView.extend(/** @exports TextView.prototype */{
+    var TextView = BaseView.extend(/** @lends TextView.prototype */{
         showDefault: true,
         template: require('tpl!orofrontend/templates/viewer/text-view.html'),
 

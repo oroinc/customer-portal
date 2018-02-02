@@ -27,6 +27,10 @@ class CustomerUserExtension extends AbstractExtension
      */
     public function isApplicable(DatagridConfiguration $config)
     {
+        if (!parent::isApplicable($config)) {
+            return false;
+        }
+
         $user = $this->tokenAccessor->getUser();
 
         return null === $user || $user instanceof CustomerUser;

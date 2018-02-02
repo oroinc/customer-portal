@@ -73,7 +73,7 @@ abstract class AbstractWebsiteLocalizationProvider
     {
         $website = null;
         if ($websiteId && filter_var($websiteId, FILTER_VALIDATE_INT)) {
-            $website = $this->getWebsiteRepository()->findOneBy(['id' => (int)$websiteId]);
+            $website = $this->getWebsiteRepository()->find((int)$websiteId);
         }
 
         if (!$website) {

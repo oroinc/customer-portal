@@ -104,7 +104,7 @@ define(function(require) {
         },
 
         collectElements: function() {
-            //data-dom-relocation deprecated, keep fo BC
+            // data-dom-relocation deprecated, keep fo BC
             this.$elements = $('[data-dom-relocation], [data-dom-relocation-options]');
             _.each(this.$elements, function(el) {
                 var $el = $(el);

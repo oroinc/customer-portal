@@ -66,7 +66,7 @@ define(function(require) {
             this.$galleryWidgetOpen = this.$el.find('[data-trigger-gallery-open]');
 
             if (_.has(options, 'productModel')) {
-                var o  = {};
+                var o = {};
 
                 options.productModel.on('backgrid:canSelected', _.bind(function(checked) {
                     this.toggleGalleryTrigger(checked);

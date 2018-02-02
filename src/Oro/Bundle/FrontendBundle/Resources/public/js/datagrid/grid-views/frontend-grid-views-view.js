@@ -128,7 +128,7 @@ define(function(require) {
          * @param options
          */
         initialize: function(options) {
-            //get template by datagrid name or first template on page
+            // get template by datagrid name or first template on page
             var $selector = $(this.templateSelector).filter('[data-datagrid-views-name =' + options.gridName + ']');
             if (!$selector.length) {
                 $selector = $(this.templateSelector);
@@ -490,7 +490,7 @@ define(function(require) {
             actionsOptions = actionsOptions || {};
 
             _.each(actions, function(item, iterate) {
-                var currentOptions = _.find(actionsOptions, {'name': item.name}) || {};
+                var currentOptions = _.find(actionsOptions, {name: item.name}) || {};
                 var filteredOptions = _.omit(currentOptions, 'name'); // skip 'name'
 
                 _.extend(item, filteredOptions || {});

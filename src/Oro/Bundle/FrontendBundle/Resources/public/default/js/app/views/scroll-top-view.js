@@ -34,7 +34,7 @@ define(function(require) {
         },
 
         events: {
-            'click': 'scrollTop'
+            click: 'scrollTop'
         },
 
         listen: {

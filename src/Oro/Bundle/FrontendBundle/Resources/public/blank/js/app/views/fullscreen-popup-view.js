@@ -79,7 +79,7 @@ define(function(require) {
         previousClass: null,
 
         events: {
-            'click': 'show'
+            click: 'show'
         },
 
         /**
