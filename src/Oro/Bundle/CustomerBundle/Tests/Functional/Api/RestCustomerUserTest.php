@@ -36,11 +36,9 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getReference(LoadCustomerUserData::EMAIL);
 
-        $uri = $this->getUrl('oro_rest_api_cget', ['entity' => $this->getEntityType(CustomerUser::class)]);
-        $response = $this->request('GET', $uri, []);
-        $this->assertApiResponseStatusCodeEquals($response, Response::HTTP_OK, CustomerUser::class, 'get list');
-        $content = json_decode($response->getContent(), true);
+        $response = $this->cget(['entity' => $this->getEntityType(CustomerUser::class)]);
 
+        $content = self::jsonToArray($response->getContent());
         $expected = $this->getExpectedData($customerUser);
         $this->assertCount(8, $content['data']);
         $actualCustomerUser = $content['data'][1];
@@ -52,16 +50,12 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getReference(LoadCustomerUserData::EMAIL);
         $expected = $this->getExpectedData($customerUser);
-        $uri = $this->getUrl(
-            'oro_rest_api_get',
-            [
-                'entity' => $this->getEntityType(CustomerUser::class),
-                'id' => $customerUser->getId()
-            ]
+
+        $response = $this->get(
+            ['entity' => $this->getEntityType(CustomerUser::class), 'id' => $customerUser->getId()]
         );
-        $response = $this->request('GET', $uri, []);
-        $this->assertApiResponseStatusCodeEquals($response, Response::HTTP_OK, CustomerUser::class, 'get list');
-        $content = json_decode($response->getContent(), true);
+
+        $content = self::jsonToArray($response->getContent());
         $this->assertArrayContains($expected, $content['data']);
     }
 
@@ -78,17 +72,13 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         ];
 
         foreach ($relations as $relation) {
-            $uri = $this->getUrl(
-                'oro_rest_api_get_relationship',
-                [
-                    'entity' => $this->getEntityType(CustomerUser::class),
-                    'id' => $customerUser->getId(),
-                    'association' => $relation
-                ]
-            );
-            $response = $this->request('GET', $uri, []);
-            $this->assertApiResponseStatusCodeEquals($response, Response::HTTP_OK, CustomerUser::class, 'get list');
-            $content = json_decode($response->getContent(), true);
+            $response = $this->getRelationship([
+                'entity' => $this->getEntityType(CustomerUser::class),
+                'id' => $customerUser->getId(),
+                'association' => $relation
+            ]);
+
+            $content = self::jsonToArray($response->getContent());
             $this->assertEquals($expectedData['relationships'][$relation], $content);
         }
     }
@@ -99,13 +89,11 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         $userName = 'CustomerUserTest';
         $this->createCustomerUser($userName);
 
-        $uri = $this->getUrl(
-            'oro_rest_api_cget',
-            ['entity' => $this->getEntityType(CustomerUser::class)]
+        $this->cdelete(
+            ['entity' => $this->getEntityType(CustomerUser::class)],
+            ['filter' => ['username' => 'CustomerUserTest']]
         );
-        $response = $this->request('DELETE', $uri, ['filter' => ['username' => 'CustomerUserTest']]);
 
-        $this->assertResponseStatusCodeEquals($response, Response::HTTP_NO_CONTENT);
         $customerUser = $this->getManager()->getRepository(CustomerUser::class)->findOneBy(['username' => $userName]);
         $this->assertNull($customerUser);
     }
@@ -118,41 +106,33 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         $owner = $customerUser->getOwner();
         $organization = $customerUser->getOrganization();
         $role = $this->getContainer()->get('doctrine')->getRepository(CustomerUserRole::class)->find(1);
-        $data = [
-            'data' => [
-                'type' => $this->getEntityType(CustomerUser::class),
-                'attributes' => [
-                    'username' => 'test2341@test.com',
-                    'password' => '123123123123',
-                    'email' => 'test2341@test.com',
-                    'firstName' => 'Customer user',
-                    'lastName' => 'Customer user',
-                ],
-                'relationships' => [
-                    'customer' => [
-                        'data' => [
-                            'type' => 'customers',
-                            'id' => (string)$customer->getId(),
-                        ],
-                    ],
-                    'roles' => [
-                        'data' => [
-                            [
-                                'type' => 'customer_user_roles',
-                                'id' => (string)$role->getId(),
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ];
 
-        $uri = $this->getUrl(
-            'oro_rest_api_post',
-            ['entity' => $this->getEntityType(CustomerUser::class)]
+        $this->post(
+            ['entity' => $this->getEntityType(CustomerUser::class)],
+            [
+                'data' => [
+                    'type' => $this->getEntityType(CustomerUser::class),
+                    'attributes' => [
+                        'username' => 'test2341@test.com',
+                        'password' => '123123123123',
+                        'email' => 'test2341@test.com',
+                        'firstName' => 'Customer user',
+                        'lastName' => 'Customer user'
+                    ],
+                    'relationships' => [
+                        'customer' => [
+                            'data' => ['type' => 'customers', 'id' => (string)$customer->getId()]
+                        ],
+                        'roles' => [
+                            'data' => [
+                                ['type' => 'customer_user_roles', 'id' => (string)$role->getId()]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
         );
-        $response = $this->request('POST', $uri, $data);
-        $this->assertSame(Response::HTTP_CREATED, $response->getStatusCode());
+
         $customerUser2 = $this->getManager()
             ->getRepository(CustomerUser::class)
             ->findOneBy(['email' => 'test2341@test.com']);
@@ -168,26 +148,21 @@ class RestCustomerUserTest extends RestJsonApiTestCase
     {
         $customerUser = $this->createCustomerUser('testuser');
         $newFirstName = 'new first name';
-        $data = [
-            'data' => [
-                'type' => $this->getEntityType(CustomerUser::class),
-                'id' => (string)$customerUser->getId(),
-                'attributes' => [
-                    'firstName' => $newFirstName,
-                ],
-            ]
-        ];
-        $uri = $this->getUrl(
-            'oro_rest_api_patch',
+
+        $this->patch(
+            ['entity' => $this->getEntityType(CustomerUser::class), 'id' => $customerUser->getId()],
             [
-                'entity' => $this->getEntityType(CustomerUser::class),
-                'id' => $customerUser->getId(),
+                'data' => [
+                    'type' => $this->getEntityType(CustomerUser::class),
+                    'id' => (string)$customerUser->getId(),
+                    'attributes' => [
+                        'firstName' => $newFirstName,
+                    ]
+                ]
             ]
         );
-        $response = $this->request('PATCH', $uri, $data);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $customerUser = $this->getManager()->find(CustomerUser::class, $customerUser->getId());
 
+        $customerUser = $this->getManager()->find(CustomerUser::class, $customerUser->getId());
         $this->assertEquals($newFirstName, $customerUser->getFirstName());
         $this->getManager()->remove($customerUser);
         $this->getManager()->flush();
@@ -196,23 +171,16 @@ class RestCustomerUserTest extends RestJsonApiTestCase
     public function testDeleteCustomerUser()
     {
         $customerUser = $this->createCustomerUser('testuser');
-        $uri = $this->getUrl(
-            'oro_rest_api_delete',
-            [
-                'entity' => $this->getEntityType(CustomerUser::class),
-                'id' => $customerUser->getId(),
-            ]
+
+        $this->delete(
+            ['entity' => $this->getEntityType(CustomerUser::class), 'id' => $customerUser->getId()]
         );
-        $response = $this->request('DELETE', $uri);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
-        $uri = $this->getUrl(
-            'oro_rest_api_get',
-            [
-                'entity' => $this->getEntityType(CustomerUser::class),
-                'id' => $customerUser->getId()
-            ]
+        $response = $this->get(
+            ['entity' => $this->getEntityType(CustomerUser::class), 'id' => $customerUser->getId()],
+            [],
+            [],
+            false
         );
-        $response = $this->request('GET', $uri, []);
         $this->assertSame(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
@@ -221,31 +189,22 @@ class RestCustomerUserTest extends RestJsonApiTestCase
         $customerUser = $this->createCustomerUser('testuser');
         $customer = $this->getReference('customer.level_1.1');
 
-        $data = [
-            'data' => [
-                'type' => $this->getEntityType(CustomerUser::class),
-                'id' => (string)$customerUser->getId(),
-                'relationships' => [
-                    'customer' => [
-                        'data' => [
-                            'type' => 'customers',
-                            'id' => (string)$customer->getId(),
-                        ],
-                    ]
-                ],
-            ]
-        ];
-        $uri = $this->getUrl(
-            'oro_rest_api_patch',
+        $this->patch(
+            ['entity' => $this->getEntityType(CustomerUser::class), 'id' => $customerUser->getId()],
             [
-                'entity' => $this->getEntityType(CustomerUser::class),
-                'id' => $customerUser->getId(),
+                'data' => [
+                    'type' => $this->getEntityType(CustomerUser::class),
+                    'id' => (string)$customerUser->getId(),
+                    'relationships' => [
+                        'customer' => [
+                            'data' => ['type' => 'customers', 'id' => (string)$customer->getId()]
+                        ]
+                    ]
+                ]
             ]
         );
-        $response = $this->request('PATCH', $uri, $data);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $customerUser = $this->getManager()->find(CustomerUser::class, $customerUser->getId());
 
+        $customerUser = $this->getManager()->find(CustomerUser::class, $customerUser->getId());
         $this->assertEquals($customer->getId(), $customerUser->getCustomer()->getId());
         $this->getManager()->remove($customerUser);
         $this->getManager()->flush();
@@ -258,24 +217,19 @@ class RestCustomerUserTest extends RestJsonApiTestCase
             ->getRepository(CustomerUserRole::class)
             ->findOneBy(['role' => 'ROLE_FRONTEND_BUYER']);
 
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customer_user_roles',
-                    'id' => (string)$customerUserRole->getId()
-                ]
-            ]
-        ];
-        $uri = $this->getUrl(
-            'oro_rest_api_patch_relationship',
+        $this->patchRelationship(
             [
                 'entity' => $this->getEntityType(CustomerUser::class),
                 'id' => $customerUser->getId(),
                 'association' => 'roles'
+            ],
+            [
+                'data' => [
+                    ['type' => 'customer_user_roles', 'id' => (string)$customerUserRole->getId()]
+                ]
             ]
         );
-        $response = $this->request('PATCH', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+
         $customerUser = $this->getManager()->find(CustomerUser::class, $customerUser->getId());
         $this->assertNotNull($customerUser->getRole('ROLE_FRONTEND_BUYER'));
         $this->getManager()->remove($customerUser);
@@ -289,24 +243,19 @@ class RestCustomerUserTest extends RestJsonApiTestCase
             ->getRepository(CustomerUserRole::class)
             ->findOneBy(['role' => 'ROLE_FRONTEND_BUYER']);
 
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customer_user_roles',
-                    'id' => (string)$customerUserRole->getId()
-                ]
-            ]
-        ];
-        $uri = $this->getUrl(
-            'oro_rest_api_post_relationship',
+        $this->postRelationship(
             [
                 'entity' => $this->getEntityType(CustomerUser::class),
                 'id' => $customerUser->getId(),
                 'association' => 'roles'
+            ],
+            [
+                'data' => [
+                    ['type' => 'customer_user_roles', 'id' => (string)$customerUserRole->getId()]
+                ]
             ]
         );
-        $response = $this->request('POST', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+
         $customerUser = $this->getManager()->find(CustomerUser::class, $customerUser->getId());
         $this->assertNotNull($customerUser->getRole('ROLE_FRONTEND_BUYER'));
         $this->getManager()->remove($customerUser);
@@ -323,47 +272,33 @@ class RestCustomerUserTest extends RestJsonApiTestCase
             ->getRepository(CustomerUserRole::class)
             ->findOneBy(['role' => 'ROLE_FRONTEND_BUYER']);
 
-
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customer_user_roles',
-                    'id' => (string)$roleAdmin->getId()
-                ],
-                [
-                    'type' => 'customer_user_roles',
-                    'id' => (string)$roleBuyer->getId()
-                ]
-            ]
-        ];
-        $uri = $this->getUrl(
-            'oro_rest_api_post_relationship',
+        $this->postRelationship(
             [
                 'entity' => $this->getEntityType(CustomerUser::class),
                 'id' => $customerUser->getId(),
                 'association' => 'roles'
-            ]
-        );
-        $this->request('POST', $uri, $data);
-
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customer_user_roles',
-                    'id' => (string)$roleBuyer->getId()
+            ],
+            [
+                'data' => [
+                    ['type' => 'customer_user_roles', 'id' => (string)$roleAdmin->getId()],
+                    ['type' => 'customer_user_roles', 'id' => (string)$roleBuyer->getId()]
                 ]
             ]
-        ];
-        $uri = $this->getUrl(
-            'oro_rest_api_delete_relationship',
+        );
+
+        $this->deleteRelationship(
             [
                 'entity' => $this->getEntityType(CustomerUser::class),
                 'id' => $customerUser->getId(),
                 'association' => 'roles'
+            ],
+            [
+                'data' => [
+                    ['type' => 'customer_user_roles', 'id' => (string)$roleBuyer->getId()]
+                ]
             ]
         );
-        $response = $this->request('DELETE', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+
         $customerUser = $this->getManager()->find(CustomerUser::class, $customerUser->getId());
         $this->assertNull($customerUser->getRole('ROLE_FRONTEND_BUYER'));
         $this->getManager()->remove($customerUser);
