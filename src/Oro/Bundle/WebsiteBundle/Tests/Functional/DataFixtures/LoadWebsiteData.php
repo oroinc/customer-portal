@@ -2,16 +2,22 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Functional\DataFixtures;
 
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
+use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
+use Oro\Component\Testing\Doctrine\Events;
 
-class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterface
+class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
     use UserUtilityTrait;
+    use ContainerAwareTrait;
 
     const WEBSITE1 = 'US';
     const WEBSITE2 = 'Canada';
@@ -60,5 +66,19 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
 
         $manager->flush();
         $manager->clear();
+
+        $manager->getConnection()
+            ->getEventManager()
+            ->addEventListener(Events::ON_AFTER_TEST_TRANSACTION_ROLLBACK, $this);
+    }
+
+    /**
+     * Will be executed when (if) this fixture will be rolled back
+     */
+    public function onAfterTestTransactionRollback(ConnectionEventArgs $args)
+    {
+        /** @var CacheableWebsiteProvider $provider */
+        $provider = $this->container->get('oro_website.cacheable_website_provider');
+        $provider->clearCache();
     }
 }

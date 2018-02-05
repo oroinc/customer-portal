@@ -37,6 +37,27 @@ services:
         arguments:
             - "@doctrine"
 
+    oro_website.cache.website:
+        parent: oro.cache.abstract
+        calls:
+            - [ setNamespace, [ 'oro_website' ] ]
+
+    oro_website.cacheable_website_provider:
+        class: 'Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider'
+        decorates: 'oro_website.website.provider'
+        decoration_priority: -255 # the cacheable provider should be at the top of the decoration chain
+        arguments:
+            - '@oro_website.cacheable_website_provider.inner'
+            - '@oro_website.cache.website'
+            - '@oro_entity.doctrine_helper'
+
+    oro_website.event_listener.website:
+        class: 'Oro\Bundle\WebsiteBundle\EventListener\WebsiteListener'
+        arguments:
+            - '@oro_website.cacheable_website_provider'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush, priority: -255 }
+
     oro_website.model.action.assign_current_website:
         class: 'Oro\Bundle\WebsiteBundle\Model\Action\AssignCurrentWebsite'
         public: false

@@ -24,15 +24,11 @@ abstract class AbstractWebsiteLocalizationProviderTest extends \PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->configManager = $this->getMockBuilder(ConfigManager::class)->disableOriginalConstructor()->getMock();
+        $this->configManager = $this->createMock(ConfigManager::class);
 
-        $this->localizationManager = $this->getMockBuilder(LocalizationManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->localizationManager = $this->createMock(LocalizationManager::class);
 
-        $this->doctrineHelper = $this->getMockBuilder(DoctrineHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
     }
 
     /**
