@@ -52,7 +52,9 @@ class CustomerUserByCustomerExtension extends AbstractExtension
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        return !$this->applied
+        return
+            parent::isApplicable($config)
+            && !$this->applied
             && static::SUPPORTED_GRID === $config->getName()
             && $request
             && $request->get(self::ACCOUNT_KEY);

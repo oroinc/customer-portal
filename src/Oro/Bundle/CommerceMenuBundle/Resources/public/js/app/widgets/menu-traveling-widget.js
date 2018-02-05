@@ -22,13 +22,13 @@ define(function(require) {
         nestingLevel: 0,
 
         /** @property */
-        $travelingTrigger: $([]),
+        $travelingTrigger: null,
 
         /** @property */
-        $relatedTrigger: $([]),
+        $relatedTrigger: null,
 
         /** @property */
-        $relatedContainer: $([]),
+        $relatedContainer: null,
 
         /** @property */
         consideringTopPosition: 40,
