@@ -3,12 +3,14 @@ define(function(require) {
 
     var LazyInirializeView;
     var $ = require('jquery');
+    var _ = require('underscore');
     var BaseView = require('oroui/js/app/views/base/view');
     var mediator = require('oroui/js/mediator');
 
     LazyInirializeView = BaseView.extend({
         optionNames: BaseView.prototype.optionNames.concat(['lazy']),
 
+        options: null,
         /**
          * Can by "scroll", "page-init"
          * @property String
@@ -22,6 +24,8 @@ define(function(require) {
         },
 
         initialize: function(options) {
+            this.options = options;
+
             if (!this.lazy) {
                 this._onPageAfterChange();
             }
@@ -29,6 +33,7 @@ define(function(require) {
             if (this.lazy === 'scroll') {
                 this.$window = $(window);
                 this.$window.on('scroll' + this.eventNamespace(), _.bind(this._onScrollDemand, this));
+                this._onScrollDemand();
             }
 
             if (this.lazy === 'page-init') {
@@ -38,9 +43,9 @@ define(function(require) {
             return LazyInirializeView.__super__.initialize.apply(this, arguments);
         },
 
-        _onScrollDemand: function(event) {
+        _onScrollDemand: function() {
             if (this.$el.offset().top < (window.scrollY + window.innerHeight)) {
-                this.initLayout();
+                this.initLayout(this.options);
                 this.$window.off('scroll' + this.eventNamespace());
             }
         },
@@ -50,7 +55,7 @@ define(function(require) {
                 this._onScrollDemand();
             }
             if (this.lazy === 'page-init') {
-                this.initLayout();
+                this.initLayout(this.options);
             }
         }
     });
