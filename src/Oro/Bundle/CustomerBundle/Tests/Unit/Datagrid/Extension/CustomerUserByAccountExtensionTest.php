@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid\Extension;
 
+use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -35,6 +36,7 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit_Framework_TestCase
         $requestStack = $this->createMock('Symfony\Component\HttpFoundation\RequestStack');
         $requestStack->expects($this->any())->method('getCurrentRequest')->willReturn($this->request);
         $this->extension->setRequestStack($requestStack);
+        $this->extension->setParameters(new ParameterBag());
     }
 
     /**
