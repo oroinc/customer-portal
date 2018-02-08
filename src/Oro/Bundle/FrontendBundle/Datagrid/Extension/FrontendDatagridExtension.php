@@ -38,7 +38,9 @@ class FrontendDatagridExtension extends AbstractExtension
      */
     public function isApplicable(DatagridConfiguration $config)
     {
-        return !$this->isFrontendGrid($config);
+        return
+            parent::isApplicable($config)
+            && !$this->isFrontendGrid($config);
     }
 
     /**
