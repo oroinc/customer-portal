@@ -10,29 +10,17 @@
             {{ UI.renderProperty('oro.ui.updated_at'|trans, entity.updatedAt ? entity.updatedAt|oro_format_datetime : 'N/A') }}
 
             {% if entity.group %}
-                {% if is_granted('VIEW', entity.group) %}
-                    {% set groupData %}
-                    <a href="{{ path('oro_customer_customer_group_view', {id: entity.group.id}) }}">
-                        {{ entity.group.name }}
-                    </a>
-                    {% endset %}
-                    {{ UI.renderHtmlProperty('oro.customer.customer.group.label'|trans, groupData) }}
-                {% else %}
-                    {{ UI.renderProperty('oro.customer.customer.group.label'|trans, entity.group.name) }}
-                {% endif %}
+                {{ UI.renderHtmlProperty(
+                    'oro.customer.customer.group.label'|trans,
+                    UI.entityViewLink(entity.group, entity.group.name, 'oro_customer_customer_group_view')
+                ) }}
             {% endif %}
 
             {% if entity.parent %}
-                {% if is_granted('VIEW', entity.parent) %}
-                    {% set parentData %}
-                        <a href="{{ path('oro_customer_customer_view', {id: entity.parent.id}) }}">
-                            {{ entity.parent.name }}
-                        </a>
-                    {% endset %}
-                    {{ UI.renderHtmlProperty('oro.customer.customer.parent.label'|trans, parentData) }}
-                {% else %}
-                    {{ UI.renderProperty('oro.customer.customer.parent.label'|trans, entity.parent.name) }}
-                {% endif %}
+                {{ UI.renderHtmlProperty(
+                    'oro.customer.customer.parent.label'|trans,
+                    UI.entityViewLink(entity.parent, entity.parent.name, 'oro_customer_customer_view')
+                ) }}
             {% endif %}
 
             {% if entity.users | length %}
