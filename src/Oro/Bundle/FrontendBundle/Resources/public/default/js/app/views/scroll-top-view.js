@@ -125,9 +125,10 @@ define(function(require) {
                 return;
             }
 
+            this.undelegateEvents();
+
             delete this.$window;
             delete this.$document;
-            this.undelegateEvents();
 
             ScrollTopView.__super__.dispose.call(this);
         }

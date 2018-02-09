@@ -20,7 +20,14 @@
     {% set attr = layout_attr_defaults(attr, {
         'id': 'form-login',
         'action': path('oro_customer_customer_user_security_check'),
-        'method': 'post'
+        'method': 'post',
+        'data-page-component-module': 'oroui/js/app/components/view-component',
+        '~data-page-component-options': {
+            view: 'oroform/js/app/views/form-validate-view',
+            validationOptions: {
+                onfocusout: false
+            }
+        },
     }) %}
     <form {{ block('block_attributes') }}>
         <div class="grid">
@@ -31,14 +38,6 @@
             {{ block_widget(block) }}
         </div>
     </form>
-    <script type="text/javascript">
-        require(['jquery', 'jquery.validate'],
-            function ($) {
-                $('#form-login').validate({
-                    onfocusout: false
-                });
-            });
-    </script>
 {% endblock %}
 
 {% block _login_form_notifications_widget %}
