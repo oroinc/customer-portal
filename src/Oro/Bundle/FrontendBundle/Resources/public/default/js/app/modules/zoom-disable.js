@@ -7,7 +7,6 @@ define(function(require) {
      */
     var ZoomDisable;
     var _ = require('underscore');
-    var tools = require('oroui/js/tools');
     var $ = require('jquery');
 
     ZoomDisable = {
@@ -55,7 +54,7 @@ define(function(require) {
         bindEvents: function() {
             var self = this;
 
-            if (tools.isMobile()) {
+            if (_.isMobile()) {
                 $(document).on({
                     touchstart: function() {
                         self.toggleZoom(false);
