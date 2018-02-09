@@ -12,7 +12,7 @@ define(function(require) {
 
         options: null,
         /**
-         * Can by "scroll", "page-init"
+         * Can be "scroll", "page-init"
          * @property String
          */
         lazy: 'scroll',
@@ -34,6 +34,10 @@ define(function(require) {
                 this.$window = $(window);
                 this.$window.on('scroll' + this.eventNamespace(), _.bind(this._onScrollDemand, this));
                 this._onScrollDemand();
+                this.listenToOnce(this.collection, {
+                    'reset': this.dispose,
+                    'backgrid:selectAllVisible': this.initLazyView
+                });
             }
 
             if (this.lazy === 'page-init') {
@@ -43,9 +47,13 @@ define(function(require) {
             return LazyInirializeView.__super__.initialize.apply(this, arguments);
         },
 
+        initLazyView: function() {
+            this.initLayout(this.options);
+        },
+
         _onScrollDemand: function() {
-            if (this.$el.offset().top < (window.scrollY + window.innerHeight)) {
-                this.initLayout(this.options);
+            if (this.$el.offset().top / 2 < (window.scrollY + window.innerHeight)) {
+                this.initLazyView();
                 this.$window.off('scroll' + this.eventNamespace());
             }
         },
@@ -55,8 +63,19 @@ define(function(require) {
                 this._onScrollDemand();
             }
             if (this.lazy === 'page-init') {
-                this.initLayout(this.options);
+                this.initLazyView();
             }
+        },
+
+        _unbindEvents: function() {
+            this.$window.off('scroll' + this.eventNamespace());
+            this.stopListening();
+        },
+
+        dispose: function() {
+            this._unbindEvents();
+            delete this.options;
+            delete this.$el;
         }
     });
 
