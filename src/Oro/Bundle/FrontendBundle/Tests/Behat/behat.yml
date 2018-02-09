@@ -102,3 +102,8 @@ oro_behat_extension:
     Requests For Quote Grid:
       selector: '[id^="grid-frontend-requests-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+    Second Save Button:
+      selector:
+        type: xpath
+        # when should be clicked second button on the page, because it visible after changes on page
+        locator: '(//button[contains(text(), "Save") or contains(text(), "Create")])[2]'
