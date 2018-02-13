@@ -49,7 +49,7 @@ class CustomerTypedAddressType extends AbstractType
                 'translatable_entity',
                 [
                     'class'    => $this->addressTypeDataClass,
-                    'property' => 'label',
+                    'choice_label' => 'label',
                     'required' => false,
                     'multiple' => true,
                     'expanded' => true
