@@ -12,9 +12,9 @@ Feature: Customer user roles removing last role frontend
     And I click Edit Buyer in grid
     And I fill form with:
       | Role Title | New Buyer Role |
-    And I save form
+    And I click on "Second Save Button"
     And I click "Roles"
     When I click Edit New Buyer Role in grid
     And I uncheck AmandaRCole@example.org record in grid
-    And click "Save"
+    And I click on "Second Save Button"
     Then I should see "You cannot remove last role from Amanda Cole"
