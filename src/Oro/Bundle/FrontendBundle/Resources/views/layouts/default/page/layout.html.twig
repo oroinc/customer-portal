@@ -67,6 +67,8 @@
 {% endblock %}
 
 {% block _notification_widget %}
+    {% import 'OroUIBundle::macros.html.twig' as UI %}
+
     {% set attr = layout_attr_defaults(attr, {
         'id': 'flash-messages',
         '~class': ' notification-flash-container',
@@ -76,24 +78,27 @@
             placeholderId: 'sticky-element-notification'
         }
     }) %}
-    <div{{ block('block_attributes') }}></div>
-    <script type="text/javascript">
-        require(['jquery', 'oroui/js/messenger'],
-            function($, messenger, template) {
-                messenger.setup({
-                    container: '#{{ attr.id }}'
-                });
-                {% if app.session.flashbag.peekAll|length > 0 %}
-                $(function() {
-                    {% for type, messages in app.session.flashbag.all %}
-                        {% for message in messages %}
-                            messenger.notificationFlashMessage({{ type|json_encode|raw }}, {{ message|trans|json_encode|raw }});
-                        {% endfor %}
-                    {% endfor %}
-                });
-                {% endif %}
-            });
-    </script>
+
+    {% set flashMessages = [] %}
+
+    {% if app.session.flashbag.peekAll|length > 0 %}
+        {% for type, messages in app.session.flashbag.all %}
+            {% for message in messages %}
+                {% set flashMessages = flashMessages|merge([{ type: type, message: message|trans}]) %}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    {% set flashMessageViewOptions = {
+        view: 'oroui/js/app/views/flash-message-view',
+        options: {
+            container: '#' ~ attr.id,
+            initializeMessenger: true,
+            messages: flashMessages
+        }
+    } %}
+
+    <div{{ block('block_attributes') }} {{ UI.renderPageComponentAttributes(flashMessageViewOptions) }}></div>
 {% endblock %}
 
 {% block _sticky_element_notification_widget %}
