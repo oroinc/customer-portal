@@ -7,9 +7,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\WebsiteSearchBundle\Placeholder\AbstractPlaceholder;
 
-class CustomerIdPlaceholder extends AbstractPlaceholder
+class CustomerUserIdPlaceholder extends AbstractPlaceholder
 {
-    const NAME = 'CUSTOMER_ID';
+    const NAME = 'CUSTOMER_USER_ID';
 
     /**
      * @var TokenStorageInterface
@@ -42,9 +42,7 @@ class CustomerIdPlaceholder extends AbstractPlaceholder
         if ($token && $token->getUser() instanceof CustomerUser) {
             /** @var CustomerUser $user */
             $user = $token->getUser();
-            $customer = $user->getCustomer();
-
-            return $customer ? $customer->getId() : null;
+            return $user->getId();
         }
 
         return null;
