@@ -1,15 +1,18 @@
-<div class="widget-content" data-page-component-module="orocustomer/js/app/components/customer-address-component"
+{% if saved %}
+    {% set widgetResponse = {
+        widget: {
+            trigger: [{
+                eventBroker: 'widget',
+                name: 'formSave',
+                args: [form.vars.value.id],
+            }],
+        }
+    } %}
+
+    {{ widgetResponse|json_encode|raw }}
+{% else %}
+    <div class="widget-content" data-page-component-module="orocustomer/js/app/components/customer-address-component"
      data-page-component-options="{{ {disableDefaultWithoutType: true}|json_encode }}">
-    {% if saved %}
-        <script type="text/javascript">
-        require(['oroui/js/widget-manager'],
-        function(widgetManager) {
-            widgetManager.getWidgetInstance({{ app.request.get('_wid')|json_encode|raw }}, function(widget) {
-                widget.trigger('formSave', {{ form.vars.value.id|json_encode|raw }});
-            });
-        });
-        </script>
-    {% else %}
         {% if not form.vars.valid and form_errors(form) %}
         <div class="alert alert-error" style="margin:0">
             <div class="message">
@@ -33,5 +36,5 @@
             </fieldset>
         </form>
         {{ oro_form_js_validation(form) }}
-    {% endif %}
-</div>
+    </div>
+{% endif %}
