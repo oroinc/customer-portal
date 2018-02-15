@@ -85,7 +85,7 @@ datagrids:
                     type:      entity
                     data_name: customer_group.id
                     options:
-                        field_type: entity
+                        field_type: Symfony\Bridge\Doctrine\Form\Type\EntityType
                         field_options:
                             class:    %oro_customer.entity.customer_group.class%
                             property: name
