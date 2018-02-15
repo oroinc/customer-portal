@@ -36,61 +36,61 @@
     <div class="info-list">
         <div class="info-list__item">
             <div class="info-list__name">
-                {{ 'oro.customer.frontend.customer_user.full_name.label'|trans }}
+                {{- 'oro.customer.frontend.customer_user.full_name.label'|trans -}}
             </div>
             <div class="info-list__desc">
-                {{ 'oro.customer.customeruser.full_name'|trans({
+                {{- 'oro.customer.customeruser.full_name'|trans({
                     '%name_prefix%': customerUser.namePrefix,
                     '%first_name%': customerUser.firstName,
                     '%middle_name%': customerUser.middleName,
                     '%last_name%': customerUser.lastName,
                     '%name_suffix%': customerUser.nameSuffix
                 })|e
-                }}
+                -}}
             </div>
         </div>
 
         {% if customerUser.birthday is not empty %}
             {% set birthday_string %}
-                {{ customerUser.birthday|oro_format_date }}
-                ({{ customerUser.birthday|age_string({'default': 'N/A'}) }})
+                {{- customerUser.birthday|oro_format_date -}}
+                ({{- customerUser.birthday|age_string({'default': 'N/A'}) -}})
             {% endset %}
 
             <div class="info-list__item">
                 <div class="info-list__name">
-                    {{ 'oro.customer.customeruser.birthday.label'|trans }}
+                    {{- 'oro.customer.customeruser.birthday.label'|trans -}}
                 </div>
                 <div class="info-list__desc">
-                    {{ birthday_string }}
+                    {{- birthday_string -}}
                 </div>
             </div>
         {% endif %}
 
         <div class="info-list__item">
             <div class="info-list__name">
-                {{ 'oro.customer.customeruser.username.label'|trans }}
+                {{- 'oro.customer.customeruser.username.label'|trans -}}
             </div>
             <div class="info-list__desc">
-                {{ Email.email_address_simple(customerUser.email) }}
+                {{- Email.email_address_simple(customerUser.email) -}}
             </div>
         </div>
 
         {% if is_granted('oro_customer_frontend_customer_user_role_view') %}
             <div class="info-list__item">
                 <div class="info-list__name">
-                    {% if customerUser.roles|length == 1 %}
-                        {{ 'oro.customer.customeruser.role.label'|trans }}
-                    {% else %}
-                        {{ 'oro.customer.customeruser.roles.label'|trans }}
-                    {% endif %}
+                    {%- if customerUser.roles|length == 1 -%}
+                        {{- 'oro.customer.customeruser.role.label'|trans -}}
+                    {%- else -%}
+                        {{- 'oro.customer.customeruser.roles.label'|trans -}}
+                    {%- endif -%}
                 </div>
                 <div class="info-list__desc info-list__desc--roles">
                     {% for customerUserRole in customerUser.roles %}
-                        {{ UI.link({
+                        {{- UI.link({
                             'path': path('oro_customer_frontend_customer_user_role_view', {id: customerUserRole.id}),
                             'label': customerUserRole.label,
                             'class': 'info-list__link'
-                        }) }}
+                        }) -}}
                         <br>
                     {% endfor %}
                 </div>
@@ -100,40 +100,40 @@
         {% if customerUser.customer and companyNameEnabled %}
             <div class="info-list__item">
                 <div class="info-list__name">
-                    {{ 'oro.customer.customeruser.profile.company'|trans }}
+                    {{- 'oro.customer.customeruser.profile.company'|trans -}}
                 </div>
                 <div class="info-list__desc">
-                    {{ customerUser.customer.name }}
+                    {{- customerUser.customer.name -}}
                 </div>
             </div>
         {% endif %}
 
         <div class="info-list__item">
             <div class="info-list__name">
-                {{ 'oro.customer.customeruser.profile.status.label'|trans }}
+                {{- 'oro.customer.customeruser.profile.status.label'|trans -}}
             </div>
             <div class="info-list__desc">
                 {% if customerUser.enabled == true %}
                     <div class="info-list-status">
                         <i class="fa fa-check"></i>
-                        {{ 'oro.customer.customeruser.profile.statuses.active'|trans }}
+                        {{- 'oro.customer.customeruser.profile.statuses.active'|trans -}}
                     </div>
                 {% else %}
                     <div class="info-list-status info-list-status--disabled">
                         <i class="fa fa-ban"></i>
-                        {{ 'oro.customer.customeruser.profile.statuses.inactive'|trans }}
+                        {{- 'oro.customer.customeruser.profile.statuses.inactive'|trans -}}
                     </div>
                 {% endif %}
 
                 {% if customerUser.confirmed == true %}
                     <div class="info-list-status">
                         <i class="fa fa-check"></i>
-                        {{ 'oro.customer.customeruser.profile.statuses.confirmed'|trans }}
+                        {{- 'oro.customer.customeruser.profile.statuses.confirmed'|trans -}}
                     </div>
                 {% else %}
                     <div class="info-list-status info-list-status--disabled">
                         <i class="fa fa-ban"></i>
-                        {{ 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans }}
+                        {{- 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans -}}
                     </div>
                 {% endif %}
             </div>
@@ -142,10 +142,10 @@
         {% if customerUser.salesRepresentatives | length %}
             <div class="info-list__item">
                 <div class="info-list__name">
-                    {{ 'oro.customer.customeruser.sales_representatives.label'|trans }}
+                    {{- 'oro.customer.customeruser.sales_representatives.label'|trans -}}
                 </div>
                 <div class="info-list__desc">
-                    {{ UI.entityViewLinks(customerUser.salesRepresentatives, 'fullName', 'oro_user_view') }}
+                    {{- UI.entityViewLinks(customerUser.salesRepresentatives, 'fullName') -}}
                 </div>
             </div>
         {% endif %}
