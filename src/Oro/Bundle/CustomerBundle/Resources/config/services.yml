@@ -764,6 +764,14 @@ services:
         tags:
             - { name: website_search.placeholder }
 
+    oro_customer.customer_user_id.placeholder:
+        class: 'Oro\Bundle\CustomerBundle\Placeholder\CustomerUserIdPlaceholder'
+        public: false
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: website_search.placeholder }
+
     oro_customer.validator.customer_without_role:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRoleValidator
         parent: oro_user.validator.user_without_role
