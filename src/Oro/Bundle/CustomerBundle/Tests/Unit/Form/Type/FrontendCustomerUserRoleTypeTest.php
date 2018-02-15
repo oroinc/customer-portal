@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Validation;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as CustomerSelectTypeStub;
 
-use Genemu\Bundle\FormBundle\Form\JQuery\Type\Select2Type;
+use Oro\Bundle\FormBundle\Form\Type\Select2Type;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -53,7 +53,11 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
                     'oro_acl_collection' => new PrivilegeCollectionType(),
                     AclPriviledgeTypeStub::NAME => new AclPriviledgeTypeStub(),
                     FrontendOwnerSelectTypeStub::NAME => new FrontendOwnerSelectTypeStub(),
-                    'genemu_jqueryselect2_translatable_entity' => new Select2Type('translatable_entity'),
+                    'oro_select2_translatable_entity' => new Select2Type(
+                        'Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType',
+                        'oro_select2_translatable_entity'
+
+                    ),
                     'translatable_entity' => $translatableEntity,
                 ],
                 []

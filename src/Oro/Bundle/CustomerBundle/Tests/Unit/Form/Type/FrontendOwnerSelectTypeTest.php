@@ -49,7 +49,7 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
 
     public function testGetParent()
     {
-        $this->assertEquals('genemu_jqueryselect2_translatable_entity', $this->formType->getParent());
+        $this->assertEquals('oro_select2_translatable_entity', $this->formType->getParent());
     }
 
     /**
