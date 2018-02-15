@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension\Stub;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Oro\Bundle\FormBundle\Form\Type\OroRichTextType;
 
@@ -26,7 +26,7 @@ class OroRichTextTypeStub extends OroRichTextType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $defaultWysiwygOptions = [
             'statusbar' => '',

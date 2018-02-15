@@ -6,8 +6,6 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
-use Oro\Bundle\EntityConfigBundle\Config\Config;
-use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
@@ -55,9 +53,9 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * Test setDefaultOptions
+     * Test configureOptions
      */
-    public function testSetDefaultOptions()
+    public function testConfigureOptions()
     {
         /** @var \PHPUnit_Framework_MockObject_MockObject|OptionsResolver $resolver */
         $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
@@ -114,7 +112,7 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
             ->with($this->isType('array'))
             ->willReturnCallback([$this, 'assertDefaults']);
 
-        $this->formType->setDefaultOptions($resolver);
+        $this->formType->configureOptions($resolver);
     }
 
     /**
