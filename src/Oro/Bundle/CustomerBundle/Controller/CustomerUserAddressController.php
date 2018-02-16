@@ -103,7 +103,7 @@ class CustomerUserAddressController extends Controller
             $this->container->getParameter('oro_customer.entity.customer_user_address.class')
         );
 
-        $handler = new AddressHandler($form, $this->getRequest(), $manager);
+        $handler = new AddressHandler($form, $this->get('request_stack'), $manager);
 
         if ($handler->process($address)) {
             $this->getDoctrine()->getManager()->flush();
