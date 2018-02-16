@@ -117,6 +117,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.menu-update-edit, method: onEdit }
 
+    oro_commerce_menu.event_listener.frontend_menu_item_listener:
+        class: Oro\Bundle\CommerceMenuBundle\EventListener\MenuListFrontendItemNavigationListener
+        arguments:
+            - '@security.authorization_checker'
+            - '@oro_security.token_accessor'
+        tags:
+            - { name: kernel.event_listener, event: oro_menu.configure.application_menu, method: onNavigationConfigure }
+
     oro_commerce_menu.form.extension.menu_update_type:
         class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateExtension'
         arguments:
