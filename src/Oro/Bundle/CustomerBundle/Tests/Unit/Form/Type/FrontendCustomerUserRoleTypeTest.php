@@ -56,7 +56,6 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
                     'oro_select2_translatable_entity' => new Select2Type(
                         'Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType',
                         'oro_select2_translatable_entity'
-
                     ),
                     'translatable_entity' => $translatableEntity,
                 ],
