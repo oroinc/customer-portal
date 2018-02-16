@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AclPriviledgeTypeStub extends AbstractType
 {
@@ -28,7 +28,7 @@ class AclPriviledgeTypeStub extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['privileges_config' => []]);
     }

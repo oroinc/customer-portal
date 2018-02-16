@@ -31,7 +31,7 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
         unset($this->formType);
     }
 
-    public function testSetDefaultOptions()
+    public function testConfigureOptions()
     {
         /* @var $resolver \PHPUnit_Framework_MockObject_MockObject|OptionsResolver */
         $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
@@ -51,7 +51,7 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
                 ]
             );
 
-        $this->formType->setDefaultOptions($resolver);
+        $this->formType->configureOptions($resolver);
     }
 
     public function testGetParent()
