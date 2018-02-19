@@ -151,7 +151,7 @@ services:
     oro_customer.form.handler.update_customer_user_role:
         parent: oro_user.form.handler.abstract.acl_role
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateHandler'
-        scope: prototype
+        shared: false
         calls:
             - [setRequestStack, ['@request_stack']]
             - [setOwnershipConfigProvider, ['@oro_entity_config.provider.ownership']]
@@ -164,7 +164,7 @@ services:
     oro_customer.form.handler.update_customer_user_role_frontend:
         parent: oro_customer.form.handler.update_customer_user_role
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler'
-        scope: prototype
+        shared: false
         calls:
             - [setTokenStorage, ['@security.token_storage']]
             - [setConfigurableName, ['commerce_frontend']]

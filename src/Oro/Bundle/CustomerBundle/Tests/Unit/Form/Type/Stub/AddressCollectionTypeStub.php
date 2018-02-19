@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressType;
@@ -12,7 +12,7 @@ class AddressCollectionTypeStub extends AddressCollectionType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'type'     => CustomerTypedAddressType::NAME,
@@ -20,7 +20,7 @@ class AddressCollectionTypeStub extends AddressCollectionType
             'multiple' => true,
         ]);
 
-        parent::setDefaultOptions($resolver);
+        parent::configureOptions($resolver);
     }
 
     /**

@@ -53,9 +53,9 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * Test setDefaultOptions
+     * Test configureOptions
      */
-    public function testSetDefaultOptions()
+    public function testConfigureOptions()
     {
         /** @var \PHPUnit_Framework_MockObject_MockObject|OptionsResolver $resolver */
         $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
@@ -112,7 +112,7 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
             ->with($this->isType('array'))
             ->willReturnCallback([$this, 'assertDefaults']);
 
-        $this->formType->setDefaultOptions($resolver);
+        $this->formType->configureOptions($resolver);
     }
 
     /**

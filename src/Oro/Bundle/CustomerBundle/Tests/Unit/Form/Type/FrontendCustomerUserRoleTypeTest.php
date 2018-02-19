@@ -42,7 +42,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|TranslatableEntityType $registry */
         $translatableEntity = $this->getMockBuilder('Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType')
-            ->setMethods(['setDefaultOptions', 'buildForm'])
+            ->setMethods(['configureOptions', 'buildForm'])
             ->disableOriginalConstructor()
             ->getMock();
         return [
@@ -56,7 +56,6 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
                     'oro_select2_translatable_entity' => new Select2Type(
                         'Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType',
                         'oro_select2_translatable_entity'
-
                     ),
                     'translatable_entity' => $translatableEntity,
                 ],
