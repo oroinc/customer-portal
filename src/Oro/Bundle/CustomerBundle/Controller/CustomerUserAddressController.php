@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -21,15 +22,15 @@ class CustomerUserAddressController extends Controller
      * @Route("/address-book/{id}", name="oro_customer_customer_user_address_book", requirements={"id"="\d+"})
      * @Template("OroCustomerBundle:Address/widget:addressBook.html.twig")
      * @AclAncestor("oro_customer_customer_user_address_view")
-     *
+     * @param Request $request
      * @param CustomerUser $customerUser
      * @return array
      */
-    public function addressBookAction(CustomerUser $customerUser)
+    public function addressBookAction(Request $request, CustomerUser $customerUser)
     {
         return [
             'entity' => $customerUser,
-            'options' => $this->getAddressBookOptions($customerUser)
+            'options' => $this->getAddressBookOptions($request, $customerUser)
         ];
     }
 
@@ -42,13 +43,13 @@ class CustomerUserAddressController extends Controller
      * @Template("OroCustomerBundle:Address/widget:update.html.twig")
      * @AclAncestor("oro_customer_customer_user_address_create")
      * @ParamConverter("customerUser", options={"id" = "entityId"})
-     *
+     * @param Request $request
      * @param CustomerUser $customerUser
      * @return array
      */
-    public function createAction(CustomerUser $customerUser)
+    public function createAction(Request $request, CustomerUser $customerUser)
     {
-        return $this->update($customerUser, new CustomerUserAddress());
+        return $this->update($request, $customerUser, new CustomerUserAddress());
     }
 
     /**
@@ -60,30 +61,31 @@ class CustomerUserAddressController extends Controller
      * @Template("OroCustomerBundle:Address/widget:update.html.twig")
      * @AclAncestor("oro_customer_customer_user_address_update")
      * @ParamConverter("customerUser", options={"id" = "entityId"})
-     *
+     * @param Request $request
      * @param CustomerUser        $customerUser
      * @param CustomerUserAddress $address
      * @return array
      */
-    public function updateAction(CustomerUser $customerUser, CustomerUserAddress $address)
+    public function updateAction(Request $request, CustomerUser $customerUser, CustomerUserAddress $address)
     {
-        return $this->update($customerUser, $address);
+        return $this->update($request, $customerUser, $address);
     }
 
     /**
+     * @param Request $request
      * @param CustomerUser $customerUser
      * @param CustomerUserAddress $address
      * @return array
      * @throws BadRequestHttpException
      */
-    protected function update(CustomerUser $customerUser, CustomerUserAddress $address)
+    protected function update(Request $request, CustomerUser $customerUser, CustomerUserAddress $address)
     {
         $responseData = [
             'saved' => false,
             'entity' => $customerUser
         ];
 
-        if ($this->getRequest()->getMethod() === 'GET' && !$address->getId()) {
+        if ($request->getMethod() === 'GET' && !$address->getId()) {
             $address->setFirstName($customerUser->getFirstName());
             $address->setLastName($customerUser->getLastName());
             if (!$customerUser->getAddresses()->count()) {
@@ -120,10 +122,11 @@ class CustomerUserAddressController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param CustomerUser $entity
      * @return array
      */
-    protected function getAddressBookOptions($entity)
+    protected function getAddressBookOptions(Request $request, CustomerUser $entity)
     {
         $addressListUrl = $this->generateUrl('oro_api_customer_get_customeruser_addresses', [
             'entityId' => $entity->getId()
@@ -136,7 +139,7 @@ class CustomerUserAddressController extends Controller
         $currentAddresses = $this->get('fragment.handler')->render($addressListUrl);
 
         return [
-            'wid'                    => $this->getRequest()->get('_wid'),
+            'wid'                    => $request->get('_wid'),
             'entityId'               => $entity->getId(),
             'addressListUrl'         => $addressListUrl,
             'addressCreateUrl'       => $addressCreateUrl,
