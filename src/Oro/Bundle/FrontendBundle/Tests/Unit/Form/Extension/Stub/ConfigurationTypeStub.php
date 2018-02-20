@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Extension\Stub;
 
-use Symfony\Component\Form\FormBuilderInterface;
-
 use Oro\Bundle\InstallerBundle\Form\Type\ConfigurationType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class ConfigurationTypeStub extends ConfigurationType
 {

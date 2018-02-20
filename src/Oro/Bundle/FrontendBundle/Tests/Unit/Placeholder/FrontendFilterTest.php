@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Placeholder;
 
+use Oro\Bundle\FrontendBundle\Placeholder\FrontendFilter;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-
-use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendBundle\Placeholder\FrontendFilter;
 
 class FrontendFilterTest extends \PHPUnit_Framework_TestCase
 {

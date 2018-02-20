@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
 use Oro\Bundle\ConfigBundle\Config\ConfigBag;
 use Oro\Bundle\FrontendBundle\Form\Configurator\ThemeConfigurator;
 use Oro\Bundle\FrontendBundle\Form\Type\PageTemplateFormFieldType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ThemeConfiguratorTest extends \PHPUnit_Framework_TestCase
 {

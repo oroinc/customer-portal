@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional;
 
-use Symfony\Component\DependencyInjection\Container;
-
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\Container;
 
 class DependencyInjectionContainerTest extends WebTestCase
 {

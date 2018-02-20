@@ -4,7 +4,6 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Extension;
 
 use Oro\Bundle\FrontendBundle\Extension\FrontendStartTransitionButtonProviderExtension;
 use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
-
 use Oro\Bundle\WorkflowBundle\Tests\Unit\Extension\StartTransitionButtonProviderExtensionTestCase;
 
 class FrontendStartTransitionButtonProviderExtensionTest extends StartTransitionButtonProviderExtensionTestCase

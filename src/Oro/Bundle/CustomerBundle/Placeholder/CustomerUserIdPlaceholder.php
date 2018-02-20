@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Placeholder;
 
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\WebsiteSearchBundle\Placeholder\AbstractPlaceholder;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CustomerUserIdPlaceholder extends AbstractPlaceholder
 {

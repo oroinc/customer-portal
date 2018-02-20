@@ -2,14 +2,12 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\EventListener;
 
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
 use Knp\Menu\MenuFactory;
 use Knp\Menu\MenuItem;
-
 use Oro\Bundle\CommerceMenuBundle\EventListener\MenuListFrontendItemNavigationListener;
 use Oro\Bundle\NavigationBundle\Event\ConfigureMenuEvent;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class MenuListFrontendItemNavigationListenerTest extends \PHPUnit_Framework_TestCase
 {

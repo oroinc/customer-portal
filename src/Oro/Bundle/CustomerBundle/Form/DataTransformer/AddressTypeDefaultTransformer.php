@@ -3,10 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Form\DataTransformer;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
-use Symfony\Component\Form\DataTransformerInterface;
-
 use Oro\Bundle\AddressBundle\Entity\AddressType;
+use Symfony\Component\Form\DataTransformerInterface;
 
 class AddressTypeDefaultTransformer implements DataTransformerInterface
 {

@@ -4,12 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Controller\Api\Rest;
 
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Routing\ClassResourceInterface;
-
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
-
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;

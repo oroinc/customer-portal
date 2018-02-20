@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\WebsiteBundle\Translation\Strategy;
 
-use Oro\Bundle\TranslationBundle\Strategy\TranslationStrategyInterface;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\TranslationBundle\Strategy\TranslationStrategyInterface;
 
 class FrontendFallbackStrategy implements TranslationStrategyInterface
 {

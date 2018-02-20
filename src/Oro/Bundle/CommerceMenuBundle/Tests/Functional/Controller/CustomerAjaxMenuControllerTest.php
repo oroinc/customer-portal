@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Functional\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
-
 use Oro\Bundle\CommerceMenuBundle\Tests\Functional\DataFixtures\CustomerMenuUpdateData;
 use Oro\Bundle\CommerceMenuBundle\Tests\Functional\DataFixtures\GlobalMenuUpdateData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
-use Oro\Bundle\WebsiteBundle\Tests\Functional\DataFixtures\LoadWebsiteData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Bundle\WebsiteBundle\Tests\Functional\DataFixtures\LoadWebsiteData;
+use Symfony\Component\HttpFoundation\Response;
 
 class CustomerAjaxMenuControllerTest extends WebTestCase
 {

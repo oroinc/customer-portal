@@ -3,7 +3,6 @@
 namespace Oro\Bundle\WebsiteBundle\Provider;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class WebsiteProvider implements WebsiteProviderInterface

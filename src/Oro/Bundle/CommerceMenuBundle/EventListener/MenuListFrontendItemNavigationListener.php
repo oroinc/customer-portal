@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\EventListener;
 
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
 use Oro\Bundle\NavigationBundle\Event\ConfigureMenuEvent;
 use Oro\Bundle\NavigationBundle\Utils\MenuUpdateUtils;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Menu listener that checks permissions for "menu_list_frontend" menu item.
@@ -44,7 +43,8 @@ class MenuListFrontendItemNavigationListener
 
         $menuListFrontendItem = MenuUpdateUtils::findMenuItem($event->getMenu(), 'menu_list_frontend');
         if (null !== $menuListFrontendItem
-            && (!$this->authorizationChecker->isGranted('oro_config_system')
+            && (
+                !$this->authorizationChecker->isGranted('oro_config_system')
                 || !$this->authorizationChecker->isGranted('oro_navigation_manage_menus')
             )
         ) {

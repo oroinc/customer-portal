@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Menu\Condition;
 
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
-
-use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class LoggedInExpressionLanguageProvider implements ExpressionFunctionProviderInterface
 {

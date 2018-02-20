@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy;
 
 use Doctrine\ORM\PersistentCollection;
-
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;

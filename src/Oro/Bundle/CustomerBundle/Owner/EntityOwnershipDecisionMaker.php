@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Owner;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;

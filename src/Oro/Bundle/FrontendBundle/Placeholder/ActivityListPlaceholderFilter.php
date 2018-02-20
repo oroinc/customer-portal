@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\FrontendBundle\Placeholder;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-
 use Oro\Bundle\ActivityListBundle\Placeholder\PlaceholderFilter;
-use Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ActivityListPlaceholderFilter
 {

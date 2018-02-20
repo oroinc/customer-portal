@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
+use Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
+use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-
-use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
-use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
-use Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver;
 
 class CustomerAclAccessLevelTextType extends AbstractType
 {

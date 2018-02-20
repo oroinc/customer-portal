@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Twig;
 
-use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
-
 use Oro\Bundle\AsseticBundle\AssetsConfiguration;
-use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
 use Oro\Bundle\FrontendBundle\Twig\DemoThemeExtension;
 use Oro\Bundle\FrontendBundle\Twig\FrontendAsseticTokenParser;
+use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
+use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
 
 class DemoThemeExtensionTest extends \PHPUnit_Framework_TestCase
 {

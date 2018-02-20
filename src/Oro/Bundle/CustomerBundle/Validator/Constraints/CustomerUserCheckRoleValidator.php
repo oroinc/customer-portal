@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;

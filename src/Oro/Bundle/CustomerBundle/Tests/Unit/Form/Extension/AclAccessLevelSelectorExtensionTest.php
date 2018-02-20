@@ -2,14 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
-
-use Oro\Bundle\SecurityBundle\Form\Type\AclAccessLevelSelectorType;
 use Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver;
 use Oro\Bundle\CustomerBundle\Form\Extension\AclAccessLevelSelectorExtension;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType;
+use Oro\Bundle\SecurityBundle\Form\Type\AclAccessLevelSelectorType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
 class AclAccessLevelSelectorExtensionTest extends \PHPUnit_Framework_TestCase
 {

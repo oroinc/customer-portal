@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Model;
 
-use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
 
 /**
  * @method AbstractEnumValue getInternalRating()

@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest;
 
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
-
 use Oro\Bundle\CustomerBundle\Controller\Api\Rest\CommerceCustomerAddressController as BaseCustomerAddressController;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 

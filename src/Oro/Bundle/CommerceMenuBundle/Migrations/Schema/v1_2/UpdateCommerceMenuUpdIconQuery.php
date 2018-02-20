@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Migrations\Schema\v1_2;
 
-use Psr\Log\LoggerInterface;
-
 use Oro\Bundle\MigrationBundle\Migration\ArrayLogger;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
+use Psr\Log\LoggerInterface;
 
 class UpdateCommerceMenuUpdIconQuery extends ParametrizedMigrationQuery
 {

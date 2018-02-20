@@ -5,7 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 
 class LoadCustomerAddresses extends AbstractAddressesFixture implements DependentFixtureInterface

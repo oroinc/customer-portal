@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Symfony\Component\Form\FormView;
-
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
+use Symfony\Component\Form\FormView;
 
 class ParentCustomerSelectTypeTest extends \PHPUnit_Framework_TestCase
 {

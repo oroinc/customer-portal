@@ -2,10 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy\EventListener;
 
-use Symfony\Component\Translation\TranslatorInterface;
-
 use Doctrine\Common\Persistence\ManagerRegistry;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -13,6 +10,7 @@ use Oro\Bundle\ImportExportBundle\Context\ContextInterface;
 use Oro\Bundle\ImportExportBundle\Event\StrategyEvent;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ImportStrategyHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class ImportCustomerUserListener
 {

@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Oro\Bundle\ProductBundle\Form\Type\ProductSelectType;
 use Oro\Bundle\CustomerBundle\Form\Extension\FrontendProductSelectExtension;
+use Oro\Bundle\ProductBundle\Form\Type\ProductSelectType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FrontendProductSelectExtensionTest extends AbstractCustomerUserAwareExtensionTest
 {

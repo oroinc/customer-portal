@@ -2,15 +2,14 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Extension;
 
-use Symfony\Component\Form\PreloadedExtension;
-use Symfony\Component\Validator\Validation;
-use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\Test\FormIntegrationTestCase;
-
-use Oro\Bundle\InstallerBundle\Form\Type\ConfigurationType;
 use Oro\Bundle\FrontendBundle\Form\Extension\ConfigurationTypeExtension;
 use Oro\Bundle\FrontendBundle\Form\Type\Configuration\WebType;
 use Oro\Bundle\FrontendBundle\Tests\Unit\Form\Extension\Stub\ConfigurationTypeStub;
+use Oro\Bundle\InstallerBundle\Form\Type\ConfigurationType;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
+use Symfony\Component\Form\PreloadedExtension;
+use Symfony\Component\Form\Test\FormIntegrationTestCase;
+use Symfony\Component\Validator\Validation;
 
 class ConfigurationTypeExtensionTest extends FormIntegrationTestCase
 {

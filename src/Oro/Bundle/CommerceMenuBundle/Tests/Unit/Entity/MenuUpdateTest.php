@@ -6,7 +6,6 @@ use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity\Stub\MenuUpdateStub;
-
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
 class MenuUpdateTest extends \PHPUnit_Framework_TestCase

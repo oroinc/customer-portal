@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\FrontendBundle\Form\Type;
 
+use Oro\Bundle\AddressBundle\Form\Type\RegionType as BaseCountryType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-
-use Oro\Bundle\AddressBundle\Form\Type\RegionType as BaseCountryType;
 
 class RegionType extends BaseCountryType
 {

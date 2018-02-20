@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserSelectType;
 use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
-use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserSelectType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerUserSelectTypeTest extends FormIntegrationTestCase
 {

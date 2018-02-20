@@ -4,13 +4,10 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest;
 
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
-use Symfony\Component\HttpFoundation\Response;
-
-use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Controller\Api\Rest\CountryRegionsController as BaseController;
+use Oro\Bundle\AddressBundle\Entity\Country;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @RouteResource("country/regions")

@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\FrontendBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
-
 use Oro\Bundle\ConfigBundle\Form\Type\FormFieldType;
+use Symfony\Component\Form\AbstractType;
 
 class PageTemplateFormFieldType extends AbstractType
 {

@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_12;
 
+use Doctrine\DBAL\Types\Type;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Psr\Log\LoggerInterface;
-use Doctrine\DBAL\Types\Type;
 
 class UpdateCustomerUserACLQuery extends ParametrizedMigrationQuery
 {

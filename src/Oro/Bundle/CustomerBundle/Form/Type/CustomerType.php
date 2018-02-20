@@ -2,6 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
+use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Event\CustomerEvent;
+use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -9,11 +13,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
-use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
-use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
-use Oro\Bundle\CustomerBundle\Event\CustomerEvent;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 class CustomerType extends AbstractType
 {

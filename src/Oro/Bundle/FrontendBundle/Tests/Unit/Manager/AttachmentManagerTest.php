@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Manager;
 
-use Symfony\Component\Routing\RouterInterface;
-
 use Oro\Bundle\AttachmentBundle\Tests\Unit\Fixtures\TestAttachment;
 use Oro\Bundle\AttachmentBundle\Tests\Unit\Fixtures\TestClass;
 use Oro\Bundle\EntityExtendBundle\Entity\Manager\AssociationManager;
 use Oro\Bundle\FrontendBundle\Manager\AttachmentManager;
+use Symfony\Component\Routing\RouterInterface;
 
 class AttachmentManagerTest extends \PHPUnit_Framework_TestCase
 {

@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Security;
 
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver as BaseAuthenticationTrustResolver;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 
 /**
  * Make AuthenticationTrustResolver behave the same as Anonymous token

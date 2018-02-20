@@ -3,9 +3,9 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
 use Oro\Bundle\AddressBundle\Entity\AddressType;
-use Oro\Component\Testing\Unit\EntityTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType;
+use Oro\Component\Testing\Unit\EntityTestCase;
 
 class CustomerAddressToAddressTypeTest extends EntityTestCase
 {

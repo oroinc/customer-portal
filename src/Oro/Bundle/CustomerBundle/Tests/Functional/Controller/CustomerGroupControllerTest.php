@@ -3,13 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 
 use Doctrine\ORM\EntityManager;
-
-use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadAnonymousCustomerGroup;
-use Symfony\Component\DomCrawler\Crawler;
-
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadAnonymousCustomerGroup;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 
 class CustomerGroupControllerTest extends WebTestCase
 {

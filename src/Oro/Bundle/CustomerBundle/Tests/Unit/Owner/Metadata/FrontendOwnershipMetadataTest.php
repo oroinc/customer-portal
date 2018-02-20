@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Metadata;
 
-use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 
 class FrontendOwnershipMetadataTest extends \PHPUnit_Framework_TestCase
 {

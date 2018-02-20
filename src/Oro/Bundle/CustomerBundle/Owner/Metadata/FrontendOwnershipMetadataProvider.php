@@ -3,14 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Owner\Metadata;
 
 use Doctrine\Common\Cache\CacheProvider;
-
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityBundle\ORM\EntityClassResolver;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\AbstractOwnershipMetadataProvider;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvider
 {

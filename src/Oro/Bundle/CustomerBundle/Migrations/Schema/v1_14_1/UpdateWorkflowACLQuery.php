@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_14_1;
 
+use Doctrine\DBAL\Types\Type;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Oro\Bundle\WorkflowBundle\Acl\Extension\WorkflowMaskBuilder;
-use Doctrine\DBAL\Types\Type;
 use Psr\Log\LoggerInterface;
 
 class UpdateWorkflowACLQuery extends ParametrizedMigrationQuery

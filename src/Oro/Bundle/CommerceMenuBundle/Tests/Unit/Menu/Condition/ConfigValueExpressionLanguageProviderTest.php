@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Menu\Condition;
 
-use Symfony\Component\ExpressionLanguage\ExpressionFunction;
-
 use Oro\Bundle\CommerceMenuBundle\Menu\Condition\ConfigValueExpressionLanguageProvider;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 
 class ConfigValueExpressionLanguageProviderTest extends \PHPUnit_Framework_TestCase
 {

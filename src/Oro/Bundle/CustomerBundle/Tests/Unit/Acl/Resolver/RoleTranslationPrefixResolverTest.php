@@ -2,11 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Resolver;
 
+use Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
-use Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 class RoleTranslationPrefixResolverTest extends \PHPUnit_Framework_TestCase
 {
