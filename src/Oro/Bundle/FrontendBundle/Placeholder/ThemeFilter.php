@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\FrontendBundle\Placeholder;
 
-use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
 use Oro\Bundle\FrontendBundle\EventListener\ThemeListener;
+use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
 
 class ThemeFilter
 {

@@ -3,11 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Provider;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 
 class CustomerUserRelationsProviderTest extends \PHPUnit_Framework_TestCase
 {

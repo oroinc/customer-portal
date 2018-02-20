@@ -2,14 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
+use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
 use Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener;
-use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
-
-use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
+use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class GuestCustomerUserManager
 {

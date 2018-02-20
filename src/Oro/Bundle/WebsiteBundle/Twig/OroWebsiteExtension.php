@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\WebsiteBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class OroWebsiteExtension extends \Twig_Extension
 {

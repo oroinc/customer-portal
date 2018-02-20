@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Twig;
 
-use Oro\Bundle\CustomerBundle\Twig\CustomerExtension;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
+use Oro\Bundle\CustomerBundle\Twig\CustomerExtension;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 
 class CustomerExtensionTest extends \PHPUnit_Framework_TestCase

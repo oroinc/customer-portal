@@ -4,12 +4,10 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Doctrine;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\FilterCollection;
-
-use Symfony\Bridge\Doctrine\RegistryInterface;
-
 use Oro\Bundle\CustomerBundle\Doctrine\DoctrineFiltersListener;
-use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableFilter;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class DoctrineFiltersListenerTest extends \PHPUnit_Framework_TestCase
 {

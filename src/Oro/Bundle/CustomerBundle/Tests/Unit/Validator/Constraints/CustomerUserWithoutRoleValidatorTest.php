@@ -3,12 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
 use Doctrine\Common\Collections\ArrayCollection;
-
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRole;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRoleValidator;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class CustomerUserWithoutRoleValidatorTest extends \PHPUnit_Framework_TestCase
 {

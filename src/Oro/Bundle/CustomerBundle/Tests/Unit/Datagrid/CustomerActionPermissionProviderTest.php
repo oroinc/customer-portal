@@ -4,11 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
-use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
 use Oro\Bundle\CustomerBundle\Datagrid\CustomerActionPermissionProvider;
+use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class CustomerActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
 {

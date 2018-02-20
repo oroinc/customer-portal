@@ -5,14 +5,12 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Data\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\WorkflowBundle\Acl\Extension\WorkflowAclExtension;
 use Oro\Bundle\WorkflowBundle\Acl\Extension\WorkflowMaskBuilder;
-use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * This fixture adds root permissions to all existing frontend roles.

@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
-use Oro\Bundle\EntityExtendBundle\Migration\Fixture\AbstractEnumFixture;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\EntityExtendBundle\Migration\Fixture\AbstractEnumFixture;
 
 class LoadCustomerInternalRatingDemoData extends AbstractEnumFixture
 {

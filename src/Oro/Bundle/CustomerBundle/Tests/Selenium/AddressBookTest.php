@@ -3,13 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Selenium;
 
 use Oro\Bundle\CustomerBundle\Tests\Selenium\Cache\AddressBookCache;
+use Oro\Bundle\CustomerBundle\Tests\Selenium\Entity\SeleniumAddress;
 use Oro\Bundle\CustomerBundle\Tests\Selenium\Entity\SeleniumCustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Selenium\Entity\SeleniumCustomerUserTestRole;
-use Oro\Bundle\CustomerBundle\Tests\Selenium\Entity\SeleniumAddress;
-use Oro\Bundle\CustomerBundle\Tests\Selenium\Pages\AdminCustomerAddressPages;
-use Oro\Bundle\CustomerBundle\Tests\Selenium\Pages\CustomerAdminPages;
 use Oro\Bundle\CustomerBundle\Tests\Selenium\Pages\AddAddressPage;
 use Oro\Bundle\CustomerBundle\Tests\Selenium\Pages\AddressBookTestPage;
+use Oro\Bundle\CustomerBundle\Tests\Selenium\Pages\AdminCustomerAddressPages;
+use Oro\Bundle\CustomerBundle\Tests\Selenium\Pages\CustomerAdminPages;
 use Oro\Bundle\TestFrameworkBundle\Pages\AbstractPage;
 use Oro\Bundle\TestFrameworkBundle\Test\Selenium2TestCase;
 

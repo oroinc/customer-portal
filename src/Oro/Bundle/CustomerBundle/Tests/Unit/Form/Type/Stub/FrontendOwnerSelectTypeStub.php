@@ -2,7 +2,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FrontendOwnerSelectTypeStub extends AbstractType
 {
@@ -19,7 +19,7 @@ class FrontendOwnerSelectTypeStub extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [

@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Oro\Bundle\CustomerBundle\Form\Extension\AddressExtension;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddressExtensionTest extends AbstractCustomerUserAwareExtensionTest
 {

@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Autocomplete;
 
-use Oro\Bundle\FormBundle\Autocomplete\SearchHandler;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
+use Oro\Bundle\FormBundle\Autocomplete\SearchHandler;
 
 class ParentCustomerSearchHandler extends SearchHandler
 {

@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Security\Token;
 
-use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
-use Symfony\Component\Security\Core\Role\RoleInterface;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenTrait;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
+use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenTrait;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Role\RoleInterface;
 
 class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationContextTokenInterface
 {
@@ -48,7 +47,7 @@ class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationC
     }
 
     /**
-     * @return CustomerVisitor
+     * @return CustomerVisitor|null
      */
     public function getVisitor()
     {

@@ -3,11 +3,10 @@
 namespace Oro\Bundle\FrontendBundle\Twig;
 
 use Assetic\Factory\AssetFactory;
-
 use Oro\Bundle\AsseticBundle\AssetsConfiguration;
 use Oro\Bundle\AsseticBundle\Twig\AsseticTokenParser;
-use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
 use Oro\Bundle\FrontendBundle\EventListener\ThemeListener;
+use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
 
 class FrontendAsseticTokenParser extends AsseticTokenParser
 {

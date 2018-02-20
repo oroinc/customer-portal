@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\FrontendBundle\Twig;
 
-use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
-
 use Oro\Bundle\AsseticBundle\AssetsConfiguration;
 use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
+use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
 
 class DemoThemeExtension extends \Twig_Extension
 {

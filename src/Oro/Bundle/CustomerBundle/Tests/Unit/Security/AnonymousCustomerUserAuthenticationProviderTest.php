@@ -2,16 +2,15 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security;
 
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager;
 use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticationProvider;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\EntityTrait;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 {

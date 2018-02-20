@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Layout\DataProvider;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

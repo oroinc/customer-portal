@@ -2,19 +2,17 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Doctrine\Common\Util\ClassUtils;
-
+use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\CustomerBundle\Form\Handler\CustomerGroupHandler;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
-use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
-use Oro\Bundle\CustomerBundle\Form\Handler\CustomerGroupHandler;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class CustomerGroupController extends Controller
 {
@@ -62,12 +60,12 @@ class CustomerGroupController extends Controller
      *      class="OroCustomerBundle:CustomerGroup",
      *      permission="CREATE"
      * )
-     *
+     * @param Request $request
      * @return array
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
-        return $this->update(new CustomerGroup());
+        return $this->update($request, new CustomerGroup());
     }
 
     /**
@@ -79,25 +77,26 @@ class CustomerGroupController extends Controller
      *      class="OroCustomerBundle:CustomerGroup",
      *      permission="EDIT"
      * )
-     *
+     * @param Request $request
      * @param CustomerGroup $group
      * @return array
      */
-    public function updateAction(CustomerGroup $group)
+    public function updateAction(Request $request, CustomerGroup $group)
     {
-        return $this->update($group);
+        return $this->update($request, $group);
     }
 
     /**
+     * @param Request $request
      * @param CustomerGroup $group
      * @return array|RedirectResponse
      */
-    protected function update(CustomerGroup $group)
+    protected function update(Request $request, CustomerGroup $group)
     {
         $form = $this->createForm(CustomerGroupType::NAME, $group);
         $handler = new CustomerGroupHandler(
             $form,
-            $this->getRequest(),
+            $request,
             $this->getDoctrine()->getManagerForClass(ClassUtils::getClass($group)),
             $this->get('event_dispatcher')
         );

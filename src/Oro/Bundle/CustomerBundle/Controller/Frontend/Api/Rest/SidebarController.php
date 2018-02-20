@@ -4,7 +4,6 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest;
 
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-
 use Oro\Bundle\SidebarBundle\Controller\Api\Rest\SidebarController as BaseController;
 
 /**

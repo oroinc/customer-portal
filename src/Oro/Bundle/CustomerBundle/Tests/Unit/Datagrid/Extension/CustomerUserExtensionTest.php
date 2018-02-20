@@ -2,12 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid\Extension;
 
+use Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserExtension;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserExtension;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 class CustomerUserExtensionTest extends \PHPUnit_Framework_TestCase
 {

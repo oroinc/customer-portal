@@ -3,11 +3,9 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_11;
 
 use Doctrine\DBAL\Types\Type;
-
-use Psr\Log\LoggerInterface;
-
 use Oro\Bundle\MigrationBundle\Migration\ArrayLogger;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
+use Psr\Log\LoggerInterface;
 
 class AddFrontendAnonymousUserRoleQuery extends ParametrizedMigrationQuery
 {

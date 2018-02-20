@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity\Ownership;
 
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 trait AuditableFrontendCustomerAwareTrait
 {

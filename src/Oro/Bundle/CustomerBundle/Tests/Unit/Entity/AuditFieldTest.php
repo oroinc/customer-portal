@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
+use Oro\Bundle\CustomerBundle\Entity\Audit;
 use Oro\Bundle\DataAuditBundle\Entity\AuditField;
 use Oro\Component\Testing\Unit\EntityTestCase;
-use Oro\Bundle\CustomerBundle\Entity\Audit;
 
 class AuditFieldTest extends EntityTestCase
 {

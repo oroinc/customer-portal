@@ -2,18 +2,21 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 
-use Symfony\Component\Form\FormView;
-use Symfony\Component\HttpFoundation\Request;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\EventListener\CustomerRolePageListener;
 use Oro\Bundle\UIBundle\Event\BeforeFormRenderEvent;
 use Oro\Bundle\UIBundle\Event\BeforeViewRenderEvent;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CustomerRolePageListenerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var CustomerRolePageListener */
     protected $listener;
+
+    /** @var RequestStack */
+    private $requestStack;
 
     protected function setUp()
     {
@@ -24,7 +27,8 @@ class CustomerRolePageListenerTest extends \PHPUnit_Framework_TestCase
                 return 'translated: ' . $value;
             });
 
-        $this->listener = new CustomerRolePageListener($translator);
+        $this->requestStack = new RequestStack();
+        $this->listener = new CustomerRolePageListener($translator, $this->requestStack);
     }
 
     public function testOnUpdatePageRenderWithoutRequest()
@@ -50,7 +54,7 @@ class CustomerRolePageListenerTest extends \PHPUnit_Framework_TestCase
             null
         );
 
-        $this->listener->setRequest(new Request([], [], ['_route' => 'some_route']));
+        $this->requestStack->push(new Request([], [], ['_route' => 'some_route']));
 
         $this->listener->onUpdatePageRender($event);
 
@@ -66,7 +70,7 @@ class CustomerRolePageListenerTest extends \PHPUnit_Framework_TestCase
             null
         );
 
-        $this->listener->setRequest(
+        $this->requestStack->push(
             new Request(
                 [],
                 [],
@@ -115,7 +119,7 @@ class CustomerRolePageListenerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($renderedHtml);
 
 
-        $this->listener->setRequest(new Request([], [], ['_route' => $routeName]));
+        $this->requestStack->push(new Request([], [], ['_route' => $routeName]));
 
         $this->listener->onUpdatePageRender($event);
 
@@ -161,7 +165,7 @@ class CustomerRolePageListenerTest extends \PHPUnit_Framework_TestCase
             new \stdClass()
         );
 
-        $this->listener->setRequest(new Request([], [], ['_route' => 'some_route']));
+        $this->requestStack->push(new Request([], [], ['_route' => 'some_route']));
 
         $this->listener->onViewPageRender($event);
 
@@ -198,7 +202,7 @@ class CustomerRolePageListenerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($renderedHtml);
 
 
-        $this->listener->setRequest(new Request([], [], ['_route' => 'oro_customer_customer_user_role_view']));
+        $this->requestStack->push(new Request([], [], ['_route' => 'oro_customer_customer_user_role_view']));
 
         $this->listener->onViewPageRender($event);
 

@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Type;
 
-use Symfony\Component\Validator\Validation;
+use Oro\Bundle\FrontendBundle\Form\Type\Configuration\WebType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
-
-use Oro\Bundle\FrontendBundle\Form\Type\Configuration\WebType;
+use Symfony\Component\Validator\Validation;
 
 class WebTypeTest extends FormIntegrationTestCase
 {

@@ -5,10 +5,9 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Autocomplete;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-
+use Oro\Bundle\CustomerBundle\Autocomplete\ParentCustomerSearchHandler;
 use Oro\Bundle\SearchBundle\Engine\Indexer;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
-use Oro\Bundle\CustomerBundle\Autocomplete\ParentCustomerSearchHandler;
 
 class ParentCustomerSearchHandlerTest extends \PHPUnit_Framework_TestCase
 {

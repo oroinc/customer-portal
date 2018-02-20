@@ -8,7 +8,6 @@ use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionsCollectionTyp
 use Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
-
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 

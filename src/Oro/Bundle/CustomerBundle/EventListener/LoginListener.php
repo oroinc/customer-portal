@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\EventListener;
 
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginListener
 {

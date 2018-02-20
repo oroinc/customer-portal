@@ -2,14 +2,14 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener\Datagrid;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
+use Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerDatagridListener;
+use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerDatagridListener;
-use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Component\Testing\Unit\EntityTrait;
 
 class CustomerDatagridListenerTest extends \PHPUnit_Framework_TestCase

@@ -3,15 +3,15 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Genemu\Bundle\FormBundle\Form\JQuery\Type\Select2Type;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerTypedAddressType;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\CustomerTypedAddressWithDefaultTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressTypeStub;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\CustomerTypedAddressWithDefaultTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntityType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
+use Oro\Bundle\FormBundle\Form\Type\Select2Type;
 use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
 use Oro\Bundle\UIBundle\Tools\HtmlTagHelper;
 use Symfony\Component\Form\PreloadedExtension;
@@ -68,7 +68,10 @@ class FrontendCustomerTypeAddressTypeTest extends CustomerTypedAddressTypeTest
                     ], $this->em),
                     FrontendOwnerSelectTypeStub::NAME => new FrontendOwnerSelectTypeStub(),
                     $addressTypeStub->getName()  => $addressTypeStub,
-                    'genemu_jqueryselect2_translatable_entity' => new Select2Type('translatable_entity'),
+                    'oro_select2_translatable_entity' => new Select2Type(
+                        'Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType',
+                        'oro_select2_translatable_entity'
+                    ),
                 ],
                 ['form' => [new StripTagsExtensionStub($this->createMock(HtmlTagHelper::class))]]
             )

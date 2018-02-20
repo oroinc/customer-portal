@@ -2,18 +2,16 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
-
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
-use Oro\Bundle\MigrationBundle\Fixture\AbstractEntityReferenceFixture;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
+use Oro\Bundle\MigrationBundle\Fixture\AbstractEntityReferenceFixture;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 abstract class AbstractLoadAddressDemoData extends AbstractEntityReferenceFixture implements ContainerAwareInterface
 {

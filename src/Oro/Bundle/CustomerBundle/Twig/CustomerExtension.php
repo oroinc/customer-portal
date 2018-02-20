@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CustomerExtension extends \Twig_Extension
 {

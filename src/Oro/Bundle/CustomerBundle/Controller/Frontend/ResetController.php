@@ -2,17 +2,16 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler;
+use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class ResetController extends Controller
 {
@@ -75,12 +74,13 @@ class ResetController extends Controller
      * @Layout
      * @Route("/reset", name="oro_customer_frontend_customer_user_password_reset")
      * @Method({"GET", "POST"})
+     * @param Request $request
      * @return array|RedirectResponse
      */
-    public function resetAction()
+    public function resetAction(Request $request)
     {
-        $token = $this->getRequest()->get('token');
-        $username = $this->getRequest()->get('username');
+        $token = $request->get('token');
+        $username = $request->get('username');
         /** @var CustomerUser $user */
         $user = $this->getUserManager()->findUserByUsernameOrEmail($username);
         if (!$token || null === $user || $user->getConfirmationToken() !== $token) {
@@ -108,7 +108,7 @@ class ResetController extends Controller
         $form = $this->get('oro_customer.provider.frontend_customer_user_form')
             ->getResetPasswordForm($user);
 
-        if ($handler->process($form, $this->getRequest())) {
+        if ($handler->process($form, $request)) {
             // force user logout
             $session->invalidate();
             $this->get('security.token_storage')->setToken(null);

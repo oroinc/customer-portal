@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid\Extension;
 
+use Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserByCustomerExtension;
+use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
+use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-
-use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
-use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource;
-use Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserByCustomerExtension;
 
 class CustomerUserByAccountExtensionTest extends \PHPUnit_Framework_TestCase
 {

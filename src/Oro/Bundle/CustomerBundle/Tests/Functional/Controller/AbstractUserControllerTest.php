@@ -4,9 +4,8 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
-
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 abstract class AbstractUserControllerTest extends WebTestCase
 {

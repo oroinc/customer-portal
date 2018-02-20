@@ -2,27 +2,25 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntityType;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
+use Oro\Bundle\FormBundle\Form\Type\OroDateType;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as CustomerSelectTypeStub;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
-use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as CustomerSelectTypeStub;
-
-use Oro\Bundle\FormBundle\Form\Type\OroDateType;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
-use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
-use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType;
-use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntityType;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
-use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
 {

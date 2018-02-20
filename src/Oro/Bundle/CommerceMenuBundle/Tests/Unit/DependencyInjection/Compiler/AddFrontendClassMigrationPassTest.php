@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\DependencyInjection\Compiler;
 
+use Oro\Bundle\CommerceMenuBundle\DependencyInjection\Compiler\AddFrontendClassMigrationPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-
-use Oro\Bundle\CommerceMenuBundle\DependencyInjection\Compiler\AddFrontendClassMigrationPass;
 
 class AddFrontendClassMigrationPassTest extends \PHPUnit_Framework_TestCase
 {

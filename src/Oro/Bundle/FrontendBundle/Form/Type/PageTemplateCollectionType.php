@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\FrontendBundle\Form\Type;
 
+use Oro\Component\Layout\Extension\Theme\Manager\PageTemplatesManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
-use Oro\Component\Layout\Extension\Theme\Manager\PageTemplatesManager;
 
 class PageTemplateCollectionType extends AbstractType
 {

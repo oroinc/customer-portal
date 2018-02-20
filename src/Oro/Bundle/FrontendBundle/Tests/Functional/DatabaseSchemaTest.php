@@ -7,7 +7,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
-
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class DatabaseSchemaTest extends WebTestCase

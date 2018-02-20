@@ -4,13 +4,12 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Doctrine;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Component\Testing\QueryTracker;
 use Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableFilter;
 use Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableInterface;
 use Oro\Bundle\RFPBundle\Entity\Request;
 use Oro\Bundle\RFPBundle\Tests\Functional\DataFixtures\LoadRequestData;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Component\Testing\QueryTracker;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods).

@@ -588,7 +588,7 @@ services:
 
     oro_customer.provider.fronted_customer_user_role_tab_options:
         class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleTabOptionsProvider'
-        scope: prototype
+        shared: false
         arguments:
             - '@oro_user.provider.role_privilege_category_provider'
             - '@translator'
@@ -710,8 +710,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\EventListener\CustomerRolePageListener'
         arguments:
             - '@translator'
-        calls:
-            - [setRequest, ['@?request=']]
+            - '@request_stack'
         tags:
             - { name: kernel.event_listener, event: entity_form.render.before, method: onUpdatePageRender }
             - { name: kernel.event_listener, event: entity_view.render.before, method: onViewPageRender }
@@ -758,6 +757,14 @@ services:
 
     oro_customer.customer_id.placeholder:
         class: 'Oro\Bundle\CustomerBundle\Placeholder\CustomerIdPlaceholder'
+        public: false
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: website_search.placeholder }
+
+    oro_customer.customer_user_id.placeholder:
+        class: 'Oro\Bundle\CustomerBundle\Placeholder\CustomerUserIdPlaceholder'
         public: false
         arguments:
             - '@security.token_storage'

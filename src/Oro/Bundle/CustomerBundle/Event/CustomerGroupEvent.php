@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Event;
 
-use Symfony\Component\Form\FormInterface;
-
-use Oro\Bundle\FormBundle\Event\FormHandler\AfterFormProcessEvent;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\FormBundle\Event\FormHandler\AfterFormProcessEvent;
+use Symfony\Component\Form\FormInterface;
 
 class CustomerGroupEvent extends AfterFormProcessEvent
 {

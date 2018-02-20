@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\WebsiteBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class WebsitePathExtension extends \Twig_Extension
 {

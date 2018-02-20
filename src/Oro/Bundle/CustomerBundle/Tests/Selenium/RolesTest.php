@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Selenium;
 
+use Oro\Bundle\CustomerBundle\Tests\Selenium\Pages\Roles;
 use Oro\Bundle\TestFrameworkBundle\Test\Selenium2TestCase;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Bundle\CustomerBundle\Tests\Selenium\Pages\Roles;
 
 class RolesTest extends Selenium2TestCase
 {

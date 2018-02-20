@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\FrontendBundle\Form\Type\ThemeSelectType;
+use Oro\Component\Layout\Extension\Theme\Model\Theme;
+use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Oro\Component\Layout\Extension\Theme\Model\Theme;
-use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
-use Oro\Bundle\FrontendBundle\Form\Type\ThemeSelectType;
 
 class ThemeSelectTypeTest extends \PHPUnit_Framework_TestCase
 {

@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\DependencyInjection\Compiler;
 
+use Oro\Bundle\CommerceMenuBundle\DependencyInjection\Compiler\ConditionExpressionLanguageProvidersCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-
-use Oro\Bundle\CommerceMenuBundle\DependencyInjection\Compiler\ConditionExpressionLanguageProvidersCompilerPass;
 
 class ConditionExpressionLanguageProvidersCompilerPassTest extends \PHPUnit_Framework_TestCase
 {

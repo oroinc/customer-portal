@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Entity\Repository;
 
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerAddressRepository;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerAddressRepositoryTest extends WebTestCase
 {

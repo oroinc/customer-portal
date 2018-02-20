@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Twig;
 
+use Oro\Bundle\AttachmentBundle\Tests\Unit\Fixtures\TestAttachment;
 use Oro\Bundle\AttachmentBundle\Tests\Unit\Fixtures\TestClass;
 use Oro\Bundle\AttachmentBundle\Tests\Unit\Fixtures\TestTemplate;
-use Oro\Bundle\AttachmentBundle\Tests\Unit\Fixtures\TestAttachment;
 use Oro\Bundle\FrontendBundle\Manager\AttachmentManager;
 use Oro\Bundle\FrontendBundle\Twig\FileExtension;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;

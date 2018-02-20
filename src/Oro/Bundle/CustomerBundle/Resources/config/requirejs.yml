@@ -6,7 +6,4 @@ config:
         'orocustomer/js/app/components/customer-user-role-component': 'bundles/orocustomer/js/app/components/customer-user-role-component.js'
         'orocustomer/js/app/components/customer-selection-component': 'bundles/orocustomer/js/app/components/customer-selection-component.js'
         'oro/select2-autocomplete-customeruser-component': 'bundles/orocustomer/js/app/components/select2-autocomplete-customeruser-component.js'
-        'orocustomer/js/app/modules/views-module': 'bundles/orocustomer/js/app/modules/views-module.js'
         'orocustomer/js/app/views/customer-role-view': 'bundles/orocustomer/js/app/views/customer-role-view.js'
-    appmodules:
-        - orocustomer/js/app/modules/views-module

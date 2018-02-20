@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 class CustomerUserPasswordResetHandler extends AbstractCustomerUserPasswordHandler
 {

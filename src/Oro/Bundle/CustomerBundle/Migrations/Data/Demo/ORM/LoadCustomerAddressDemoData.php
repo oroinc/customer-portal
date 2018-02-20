@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 class LoadCustomerAddressDemoData extends AbstractLoadAddressDemoData implements DependentFixtureInterface
 {

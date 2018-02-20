@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
-use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
 class CustomerUserSettingsTest extends \PHPUnit_Framework_TestCase
 {
