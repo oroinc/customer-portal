@@ -85,6 +85,7 @@ class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterfa
 
     /**
      * {@inheritdoc}
+     * TODO: change public to protected in scope of BAP-15236
      */
     public function supportsClass($class)
     {
@@ -110,6 +111,9 @@ class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterfa
 
         // both entity and identity objects are supported
         $class = $this->getEntityClass($object);
+        if (!$this->supportsClass($class)) {
+            return self::ACCESS_ABSTAIN;
+        }
 
         try {
             $identifier = $this->getEntityIdentifier($object);
