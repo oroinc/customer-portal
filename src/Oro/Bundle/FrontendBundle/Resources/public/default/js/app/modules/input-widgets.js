@@ -23,7 +23,6 @@ define(function(require) {
 
     InputWidgetManager.addWidget('number', {
         selector: 'input[type="number"]',
-        allowZero: false,
         Widget: FrontendNumberInputWidget
     });
 });
