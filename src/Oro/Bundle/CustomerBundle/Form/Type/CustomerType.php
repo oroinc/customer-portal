@@ -173,7 +173,7 @@ class CustomerType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'intention' => 'customer',
+                'csrf_token_id' => 'customer',
             ]
         );
     }

@@ -304,7 +304,7 @@ class CustomerUserType extends AbstractType
 
         $resolver->setDefaults([
             'data_class' => $this->dataClass,
-            'intention' => 'customer_user',
+            'csrf_token_id' => 'customer_user',
         ]);
     }
 
