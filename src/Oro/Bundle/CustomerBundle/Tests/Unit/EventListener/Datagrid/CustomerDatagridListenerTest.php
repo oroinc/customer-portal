@@ -11,6 +11,8 @@ use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 
 class CustomerDatagridListenerTest extends \PHPUnit_Framework_TestCase
 {
+    private const COLUMN_NAME = 'testColumnName';
+
     /**
      * @var CustomerDatagridListener
      */
@@ -39,7 +41,7 @@ class CustomerDatagridListenerTest extends \PHPUnit_Framework_TestCase
         $this->securityProvider = $this->createMock(CustomerUserProvider::class);
         $this->datagrid = $this->createMock(DatagridInterface::class);
 
-        $this->listener = new CustomerDatagridListener($this->securityProvider);
+        $this->listener = new CustomerDatagridListener($this->securityProvider, [self::COLUMN_NAME]);
     }
 
     /**
@@ -156,9 +158,9 @@ class CustomerDatagridListenerTest extends \PHPUnit_Framework_TestCase
         }
 
         if (!$empty) {
-            $config['columns']['customerUserName'] = true;
-            $config['sorters']['columns']['customerUserName'] = true;
-            $config['filters']['columns']['customerUserName'] = true;
+            $config['columns'][self::COLUMN_NAME] = true;
+            $config['sorters']['columns'][self::COLUMN_NAME] = true;
+            $config['filters']['columns'][self::COLUMN_NAME] = true;
         }
 
         return $config;
