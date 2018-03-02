@@ -2,42 +2,61 @@
 
 namespace Oro\Bundle\CustomerBundle\EventListener\Datagrid;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
+use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
-use Oro\Bundle\DataGridBundle\Extension\Action\ActionExtension;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 
+/**
+ * Removes columns from datagrid when front user is able to see only entities which owned by him.
+ * List of the columns which should be removed can be specified by setter.
+ * By default it will be column with name equals to `customerUserName`.
+ */
 class CustomerDatagridListener
 {
+    /**
+     * @deprecated Will be removed in 2.0 version
+     */
     const ROOT_OPTIONS = '[options][customerUserOwner]';
+    /**
+     * @deprecated Will be removed in 2.0 version
+     */
     const ACCOUNT_USER_COLUMN = '[options][customerUserOwner][customerUserColumn]';
 
     /**
      * @var string
+     *
+     * @deprecated Will be removed in 2.0 version
      */
     protected $entityClass;
 
     /**
      * @var string
+     *
+     * @deprecated Will be removed in 2.0 version
      */
     protected $entityAlias;
 
-    /**
-     * @var CustomerUserProvider
-     */
+    /** @var CustomerUserProvider */
     protected $securityProvider;
 
     /**
      * @var CustomerRepository
+     *
+     * @deprecated Will be removed in 2.0 version
      */
     protected $repository;
 
     /**
      * @var array
+     *
+     * @deprecated Will be removed in 2.0 version
      */
     protected $actionCallback;
+
+    /** @var array */
+    protected $columns = ['customerUserName'];
 
     /**
      * @param CustomerUserProvider $securityProvider
@@ -55,6 +74,14 @@ class CustomerDatagridListener
     }
 
     /**
+     * @param array $columns
+     */
+    public function setColumns(array $columns)
+    {
+        $this->columns = $columns;
+    }
+
+    /**
      * @param BuildBefore $event
      */
     public function onBuildBeforeFrontendItems(BuildBefore $event)
@@ -65,25 +92,19 @@ class CustomerDatagridListener
 
         $config = $event->getConfig();
 
-        if (null === $config->offsetGetByPath(self::ROOT_OPTIONS)) {
+        if (!$config->isOrmDatasource()) {
             return;
         }
 
         $entityClass = $config->getOrmQuery()->getRootEntity();
-        if (!$entityClass) {
-            return;
-        }
-        $entityAlias = $config->getOrmQuery()->getRootAlias();
-        if (!$entityAlias) {
-            return;
-        }
 
-        if (!$config->offsetGetByPath(ActionExtension::ACTION_CONFIGURATION_KEY)) {
-            $config->offsetSetByPath(ActionExtension::ACTION_CONFIGURATION_KEY, $this->actionCallback);
-        }
-
+        // left it there only for BC reasons, will be removed in 2.0 version
         $this->entityClass = $entityClass;
-        $this->entityAlias = $entityAlias;
+        $this->entityAlias = $config->getOrmQuery()->getRootAlias();
+
+        if (!$entityClass || $this->securityProvider->isGrantedViewCustomerUser($entityClass)) {
+            return;
+        }
 
         $this->updateConfiguration($config);
     }
@@ -93,22 +114,16 @@ class CustomerDatagridListener
      */
     protected function updateConfiguration(DatagridConfiguration $config)
     {
-        if ($this->permissionShowAllCustomerItems()) {
-            $this->showAllCustomerItems($config);
-        } elseif ($this->permissionShowAllCustomerItemsForChild()) {
-            $this->showAllCustomerItems($config, true);
-        }
-
-        if (null !== ($customerUserColumn = $config->offsetGetByPath(self::ACCOUNT_USER_COLUMN))) {
-            if (!$this->permissionShowCustomerUserColumn()) {
-                $this->removeCustomerUserColumn($config, $customerUserColumn);
-            }
+        foreach ($this->columns as $column) {
+            $this->removeCustomerUserColumn($config, $column);
         }
     }
 
     /**
      * @param DatagridConfiguration $config
      * @param bool $withChildCustomers
+     *
+     * @deprecated Will be removed in 2.0 version
      */
     protected function showAllCustomerItems(DatagridConfiguration $config, $withChildCustomers = false)
     {
@@ -146,7 +161,7 @@ class CustomerDatagridListener
     }
 
     /**
-     * @return CustomerUser
+     * @return null|CustomerUser
      */
     protected function getUser()
     {
@@ -155,6 +170,8 @@ class CustomerDatagridListener
 
     /**
      * @return boolean
+     *
+     * @deprecated Will be removed in 2.0 version
      */
     protected function permissionShowAllCustomerItems()
     {
@@ -163,6 +180,8 @@ class CustomerDatagridListener
 
     /**
      * @return boolean
+     *
+     * @deprecated Will be removed in 2.0 version
      */
     protected function permissionShowAllCustomerItemsForChild()
     {
@@ -172,6 +191,8 @@ class CustomerDatagridListener
 
     /**
      * @return boolean
+     *
+     * @deprecated Will be removed in 2.0 version
      */
     protected function permissionShowCustomerUserColumn()
     {

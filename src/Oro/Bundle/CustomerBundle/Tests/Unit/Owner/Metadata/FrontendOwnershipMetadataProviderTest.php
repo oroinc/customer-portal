@@ -103,7 +103,9 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
         $config
             ->set('frontend_owner_type', 'USER')
             ->set('frontend_owner_field_name', 'test_field')
-            ->set('frontend_owner_column_name', 'test_column');
+            ->set('frontend_owner_column_name', 'test_column')
+            ->set('frontend_customer_field_name', 'customer')
+            ->set('frontend_customer_column_name', 'customer_id');
 
         $this->configManager->expects($this->once())
             ->method('hasConfig')
@@ -116,10 +118,11 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->cache = null;
 
-        $this->assertEquals(
-            new FrontendOwnershipMetadata('USER', 'test_field', 'test_column'),
-            $this->provider->getMetadata(\stdClass::class)
-        );
+        $metadata = new FrontendOwnershipMetadata('USER', 'test_field', 'test_column', '', '');
+        $metadata->setCustomerFieldName('customer');
+        $metadata->setCustomerColumnName('customer_id');
+
+        $this->assertEquals($metadata, $this->provider->getMetadata(\stdClass::class));
     }
 
     public function testGetMetadataUndefinedClassWithCache()

@@ -168,6 +168,7 @@ services:
         arguments:
             - "@security.authorization_checker"
             - "@doctrine"
+        deprecated: 'The "%service_id%" service is deprecated since 1.3, will be removed in 2.0'
 
     oro_customer.datagrid.extension.accoun_user:
         class: 'Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserExtension'
@@ -976,3 +977,16 @@ services:
         parent: oro_navigation.event_listener.navigation_items
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
+
+    oro_customer.security.orm.ownership_sql_walker_builder:
+        class: 'Oro\Bundle\CustomerBundle\ORM\Walker\CustomerOwnershipConditionDataBuilder'
+        decorates: 'oro_security.orm.ownership_sql_walker_builder'
+        decoration_priority: -20
+        arguments:
+            - '@security.authorization_checker'
+            - '@security.token_storage'
+            - '@oro_security.owner.metadata_provider.chain'
+            - '@oro_security.ownership_tree_provider.chain'
+            - '@?security.acl.voter.basic_permissions'
+            - '@oro_customer.security.orm.ownership_sql_walker_builder.inner'
+            - '@oro_security.acl.group_provider.chain'
