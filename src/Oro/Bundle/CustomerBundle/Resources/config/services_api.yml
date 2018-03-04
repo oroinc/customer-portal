@@ -1,4 +1,21 @@
 services:
+    oro_customer_user.api_doc.security_context:
+        class: Oro\Bundle\CustomerBundle\Api\ApiDoc\SecurityContext
+        public: false
+        decorates: oro_api.api_doc.security_context
+        arguments:
+            - '@oro_customer_user.api_doc.security_context.inner'
+            - '@security.token_storage'
+
+    oro_customer.api.sign_in_target_path_provider:
+        class: Oro\Bundle\CustomerBundle\Api\ApiDoc\SignInTargetPathProvider
+        public: false
+        decorates: oro_customer.provider.sign_in.target_path
+        arguments:
+            - '@oro_customer.api.sign_in_target_path_provider.inner'
+            - '@request_stack'
+            - '@oro_api.rest.doc_url_generator'
+
     oro_customer_user.api.create.save_entity:
         class: Oro\Bundle\CustomerBundle\Api\Processor\Create\SaveCustomerUser
         arguments:

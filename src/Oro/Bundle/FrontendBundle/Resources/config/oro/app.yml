@@ -1,3 +1,19 @@
+oro_api:
+    config_files:
+        frontend:
+            file_name: api_frontend.yml
+            request_type: ['frontend']
+    api_doc_views:
+        frontend_rest_json_api:
+            label: JSON.API
+            default: true
+            headers:
+                Content-Type: application/vnd.api+json
+            request_type: ['rest', 'json_api', 'frontend']
+
+oro_frontend:
+    frontend_api_doc_views: [frontend_rest_json_api]
+
 twig:
     globals:
         commerce:

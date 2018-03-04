@@ -7,11 +7,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
+/**
+ * The data provider for "sign in" form.
+ */
 class SignInProvider
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $options = [];
 
     /** @var RequestStack */
@@ -23,19 +24,25 @@ class SignInProvider
     /** @var CsrfTokenManagerInterface */
     protected $csrfTokenManager;
 
+    /** @var SignInTargetPathProviderInterface */
+    private $targetPathProvider;
+
     /**
-     * @param RequestStack              $requestStack
-     * @param TokenAccessorInterface    $tokenAccessor
-     * @param CsrfTokenManagerInterface $csrfTokenManager
+     * @param RequestStack                      $requestStack
+     * @param TokenAccessorInterface            $tokenAccessor
+     * @param CsrfTokenManagerInterface         $csrfTokenManager
+     * @param SignInTargetPathProviderInterface $targetPathProvider
      */
     public function __construct(
         RequestStack $requestStack,
         TokenAccessorInterface $tokenAccessor,
-        CsrfTokenManagerInterface $csrfTokenManager
+        CsrfTokenManagerInterface $csrfTokenManager,
+        SignInTargetPathProviderInterface $targetPathProvider
     ) {
         $this->requestStack = $requestStack;
         $this->tokenAccessor = $tokenAccessor;
         $this->csrfTokenManager = $csrfTokenManager;
+        $this->targetPathProvider = $targetPathProvider;
     }
 
     /**
@@ -102,5 +109,13 @@ class SignInProvider
     public function getLoggedUser()
     {
         return $this->tokenAccessor->getUser();
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTargetPath(): ?string
+    {
+        return $this->targetPathProvider->getTargetPath();
     }
 }

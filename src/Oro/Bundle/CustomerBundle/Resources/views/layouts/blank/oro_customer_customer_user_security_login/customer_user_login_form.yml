@@ -87,6 +87,7 @@ layout:
                     options:
                         type: hidden
                         name: _target_path
+                        value: '=data["oro_customer_sign_in"].getTargetPath()'
                 login_form_csrf:
                     blockType: input
                     options:

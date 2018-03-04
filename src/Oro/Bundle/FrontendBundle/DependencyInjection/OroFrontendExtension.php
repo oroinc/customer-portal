@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\DependencyInjection;
 
+use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
 use Oro\Bundle\LayoutBundle\DependencyInjection\OroLayoutExtension;
 use Oro\Component\Config\CumulativeResourceInfo;
 use Oro\Component\Config\Loader\CumulativeConfigLoader;
@@ -10,6 +11,7 @@ use Oro\Component\Config\Loader\YamlCumulativeFileLoader;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -17,6 +19,8 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class OroFrontendExtension extends Extension implements PrependExtensionInterface
 {
     const ALIAS = 'oro_frontend';
+
+    const API_DOC_VIEWS_PARAMETER_NAME = 'oro_frontend.api_doc.views';
 
     /**
      * @internal
@@ -38,6 +42,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        $loader->load('services_api.yml');
         $loader->load('form_type.yml');
         $loader->load('block_types.yml');
 
@@ -49,6 +54,10 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
             ->replaceArgument(1, $config['routes_to_expose']);
 
         $container->setParameter('oro_frontend.debug_routes', $config['debug_routes']);
+
+        $frontendApiDocViews = $config['frontend_api_doc_views'];
+        $container->setParameter(self::API_DOC_VIEWS_PARAMETER_NAME, $frontendApiDocViews);
+        $this->setDefaultHtmlFormatterForFrontendApiViews($container, $frontendApiDocViews);
     }
 
     /**
@@ -142,12 +151,19 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         foreach ($configs as $configKey => $config) {
             if (isset($config['format_listener']['rules']) && is_array($config['format_listener']['rules'])) {
                 foreach ($config['format_listener']['rules'] as $key => $rule) {
-                    // add backend prefix to API format listener route
                     if (!empty($rule['path']) && $rule['path'] === '^/api/(?!(rest|doc)(/|$)+)') {
-                        $backendPrefix = $container->getParameter('web_backend_prefix');
-                        $rule['path'] = str_replace('/api/', $backendPrefix . '/api/', $rule['path']);
-                        $config['format_listener']['rules'][$key] = $rule;
-                        $configs[$configKey] = $config;
+                        $rules = $config['format_listener']['rules'];
+                        // make a a copy of the backend REST API rule
+                        $frontendRule = $rule;
+                        // add backend prefix to the path of the backend REST API rule
+                        $backendPrefix = trim(trim($container->getParameter('web_backend_prefix')), '/');
+                        $rule['path'] = str_replace('/api/', '/' . $backendPrefix . '/api/', $rule['path']);
+                        $rules[$key] = $rule;
+                        // add the frontend REST API rule
+                        array_unshift($rules, $frontendRule);
+                        // save updated rules
+                        $configs[$configKey]['format_listener']['rules'] = $rules;
+
                         break 2;
                     }
                 }
@@ -155,5 +171,31 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         }
 
         $container->setExtensionConfig('fos_rest', $configs);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string[]         $frontendViewNames
+     */
+    private function setDefaultHtmlFormatterForFrontendApiViews(ContainerBuilder $container, array $frontendViewNames)
+    {
+        $config = DependencyInjectionUtil::getConfig($container);
+        $views = $config['api_doc_views'];
+        foreach ($frontendViewNames as $name) {
+            if (!array_key_exists($name, $views)) {
+                throw new LogicException(sprintf(
+                    'The view "%s" defined in %s.frontend_api_doc_views is unknown.'
+                    . ' Check that it is configured in oro_api.api_doc_views.',
+                    $name,
+                    self::ALIAS
+                ));
+            }
+            if (empty($views[$name]['html_formatter'])
+                || 'oro_api.api_doc.formatter.html_formatter' === $views[$name]['html_formatter']
+            ) {
+                $config['api_doc_views'][$name]['html_formatter'] = 'oro_frontend.api_doc.formatter.html_formatter';
+            }
+        }
+        DependencyInjectionUtil::setConfig($container, $config);
     }
 }

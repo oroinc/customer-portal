@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Layout\DataProvider;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInProvider;
+use Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInTargetPathProviderInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +35,9 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
     /** @var CsrfTokenManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $csrfTokenManager;
 
+    /** @var SignInTargetPathProviderInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $targetPathProvider;
+
     protected function setUp()
     {
         $this->parameterBag = $this->createMock(ParameterBag::class);
@@ -49,8 +53,14 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->csrfTokenManager = $this->createMock(CsrfTokenManagerInterface::class);
+        $this->targetPathProvider = $this->createMock(SignInTargetPathProviderInterface::class);
 
-        $this->dataProvider = new SignInProvider($this->requestStack, $this->tokenAccessor, $this->csrfTokenManager);
+        $this->dataProvider = new SignInProvider(
+            $this->requestStack,
+            $this->tokenAccessor,
+            $this->csrfTokenManager,
+            $this->targetPathProvider
+        );
     }
 
     public function testGetLastNameWithSession()
@@ -74,10 +84,9 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLastNameWithoutSession()
     {
-        $dataProvider = new SignInProvider($this->requestStack, $this->tokenAccessor, $this->csrfTokenManager);
-        $this->assertEquals('', $dataProvider->getLastName());
+        $this->assertEquals('', $this->dataProvider->getLastName());
         /** test local cache */
-        $this->assertEquals('', $dataProvider->getLastName());
+        $this->assertEquals('', $this->dataProvider->getLastName());
     }
 
     public function testGetErrorWithSession()
@@ -113,16 +122,13 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
             ->method('getSession')
             ->will($this->returnValue($session));
 
-        $dataProvider = new SignInProvider($this->requestStack, $this->tokenAccessor, $this->csrfTokenManager);
-        $this->assertEquals('', $dataProvider->getError());
+        $this->assertEquals('', $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals('', $dataProvider->getError());
+        $this->assertEquals('', $this->dataProvider->getError());
     }
 
     public function testGetErrorFromRequestAttributes()
     {
-        $dataProvider = new SignInProvider($this->requestStack, $this->tokenAccessor, $this->csrfTokenManager);
-
         /** @var SessionInterface|\PHPUnit_Framework_MockObject_MockObject $session */
         $session = $this->createMock(SessionInterface::class);
         $this->request
@@ -142,9 +148,9 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
             ->with(Security::AUTHENTICATION_ERROR)
             ->will($this->returnValue(new AuthenticationException('error')));
 
-        $this->assertEquals('error', $dataProvider->getError());
+        $this->assertEquals('error', $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals('error', $dataProvider->getError());
+        $this->assertEquals('error', $this->dataProvider->getError());
     }
 
     public function testGetCSRFToken()
@@ -175,5 +181,25 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($customerUser));
 
         $this->assertEquals($customerUser, $this->dataProvider->getLoggedUser());
+    }
+
+    public function testGetTargetPath()
+    {
+        $targetPath = 'test';
+
+        $this->targetPathProvider->expects($this->once())
+            ->method('getTargetPath')
+            ->willReturn($targetPath);
+
+        $this->assertEquals($targetPath, $this->dataProvider->getTargetPath());
+    }
+
+    public function testGetTargetPathShouldAllowNullPath()
+    {
+        $this->targetPathProvider->expects($this->once())
+            ->method('getTargetPath')
+            ->willReturn(null);
+
+        $this->assertNull($this->dataProvider->getTargetPath());
     }
 }
