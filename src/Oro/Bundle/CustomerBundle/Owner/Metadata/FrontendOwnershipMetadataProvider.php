@@ -11,6 +11,9 @@ use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\AbstractOwnershipMetadataProvider;
 
+/**
+ * Provides metadata for entities with frontend ownership type
+ */
 class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvider
 {
     const ALIAS = 'frontend_ownership';
@@ -163,13 +166,17 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
         $ownerColumnName = $config->get('frontend_owner_column_name');
         $organizationFieldName = $config->get('organization_field_name');
         $organizationColumnName = $config->get('organization_column_name');
+        $customerFieldName = $config->get('frontend_customer_field_name');
+        $customerColumnName = $config->get('frontend_customer_column_name');
 
         return new FrontendOwnershipMetadata(
             $ownerType,
             $ownerFieldName,
             $ownerColumnName,
             $organizationFieldName,
-            $organizationColumnName
+            $organizationColumnName,
+            $customerFieldName,
+            $customerColumnName
         );
     }
 

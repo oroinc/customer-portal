@@ -40,8 +40,12 @@ class Configuration implements ConfigurationInterface
                     ->then(function ($v) {
                         return [$v];
                     })
-                    ->end()
-                ->prototype('scalar')
+                ->end()
+                ->prototype('scalar')->end()
+            ->end()
+            ->arrayNode('frontend_api_doc_views')
+                ->info('The API views that are available for the store frontend.')
+                ->prototype('scalar')->end()
             ->end();
 
         return $treeBuilder;

@@ -97,9 +97,9 @@ class CustomerType extends AbstractType
         if ($this->authorizationChecker->isGranted('oro_customer_customer_address_update')) {
             $options = [
                 'label' => 'oro.customer.customer.addresses.label',
-                'type' => CustomerTypedAddressType::NAME,
+                'entry_type' => CustomerTypedAddressType::NAME,
                 'required' => true,
-                'options' => [
+                'entry_options' => [
                     'data_class' => $this->addressClass,
                     'single_form' => false
                 ]
@@ -173,7 +173,7 @@ class CustomerType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'intention' => 'customer',
+                'csrf_token_id' => 'customer',
             ]
         );
     }

@@ -51,7 +51,7 @@ class CustomerUserPasswordResetType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => $this->dataClass,
-            'intention'  => 'customer_user_reset',
+            'csrf_token_id' => 'customer_user_reset',
             'dynamic_fields_disabled' => true
         ]);
     }

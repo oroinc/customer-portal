@@ -26,8 +26,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
             - Length:
                 max: 255
     constraints:
-        - Callback:
-            methods: [isRegionValid]
+        - Callback: isRegionValid
 
 Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
     properties:
@@ -87,8 +86,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
             - Length:
                 max: 255
     constraints:
-        - Callback:
-            methods: [isRegionValid]
+        - Callback: isRegionValid
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
     constraints:

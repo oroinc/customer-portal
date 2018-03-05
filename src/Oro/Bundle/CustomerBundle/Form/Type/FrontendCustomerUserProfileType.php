@@ -122,7 +122,7 @@ class FrontendCustomerUserProfileType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => $this->dataClass,
-                'intention' => 'frontend_customer_user',
+                'csrf_token_id' => 'frontend_customer_user',
             ]
         );
     }

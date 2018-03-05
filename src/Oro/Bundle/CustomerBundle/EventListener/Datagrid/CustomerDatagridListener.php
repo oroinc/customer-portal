@@ -3,87 +3,48 @@
 namespace Oro\Bundle\CustomerBundle\EventListener\Datagrid;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
-use Oro\Bundle\DataGridBundle\Extension\Action\ActionExtension;
 
+/**
+ * Removes columns from datagrid when front user is able to see only entities which owned by him.
+ * List of the columns which should be removed can be passed by class constructor.
+ * By default it will be column with name equals to `customerUserName`.
+ */
 class CustomerDatagridListener
 {
-    const ROOT_OPTIONS = '[options][customerUserOwner]';
-    const ACCOUNT_USER_COLUMN = '[options][customerUserOwner][customerUserColumn]';
-
-    /**
-     * @var string
-     */
-    protected $entityClass;
-
-    /**
-     * @var string
-     */
-    protected $entityAlias;
-
-    /**
-     * @var CustomerUserProvider
-     */
+    /** @var CustomerUserProvider */
     protected $securityProvider;
 
-    /**
-     * @var CustomerRepository
-     */
-    protected $repository;
-
-    /**
-     * @var array
-     */
-    protected $actionCallback;
+    /** @var array */
+    protected $columns;
 
     /**
      * @param CustomerUserProvider $securityProvider
-     * @param CustomerRepository $repository
-     * @param array $actionCallback
+     * @param array $columns
      */
-    public function __construct(
-        CustomerUserProvider $securityProvider,
-        CustomerRepository $repository,
-        array $actionCallback = null
-    ) {
+    public function __construct(CustomerUserProvider $securityProvider, array $columns = ['customerUserName'])
+    {
         $this->securityProvider = $securityProvider;
-        $this->repository = $repository;
-        $this->actionCallback = $actionCallback;
+        $this->columns = $columns;
     }
 
     /**
      * @param BuildBefore $event
      */
-    public function onBuildBeforeFrontendItems(BuildBefore $event)
+    public function onBuildBefore(BuildBefore $event)
     {
-        if (!$this->getUser() instanceof CustomerUser) {
-            return;
-        }
-
         $config = $event->getConfig();
 
-        if (null === $config->offsetGetByPath(self::ROOT_OPTIONS)) {
+        if (!$config->isOrmDatasource() || !$this->getUser() instanceof CustomerUser) {
             return;
         }
 
         $entityClass = $config->getOrmQuery()->getRootEntity();
-        if (!$entityClass) {
+        if (!$entityClass || $this->securityProvider->isGrantedViewCustomerUser($entityClass)) {
             return;
         }
-        $entityAlias = $config->getOrmQuery()->getRootAlias();
-        if (!$entityAlias) {
-            return;
-        }
-
-        if (!$config->offsetGetByPath(ActionExtension::ACTION_CONFIGURATION_KEY)) {
-            $config->offsetSetByPath(ActionExtension::ACTION_CONFIGURATION_KEY, $this->actionCallback);
-        }
-
-        $this->entityClass = $entityClass;
-        $this->entityAlias = $entityAlias;
 
         $this->updateConfiguration($config);
     }
@@ -93,51 +54,16 @@ class CustomerDatagridListener
      */
     protected function updateConfiguration(DatagridConfiguration $config)
     {
-        if ($this->permissionShowAllCustomerItems()) {
-            $this->showAllCustomerItems($config);
-        } elseif ($this->permissionShowAllCustomerItemsForChild()) {
-            $this->showAllCustomerItems($config, true);
+        foreach ($this->columns as $column) {
+            $this->removeCustomerUserColumn($config, $column);
         }
-
-        if (null !== ($customerUserColumn = $config->offsetGetByPath(self::ACCOUNT_USER_COLUMN))) {
-            if (!$this->permissionShowCustomerUserColumn()) {
-                $this->removeCustomerUserColumn($config, $customerUserColumn);
-            }
-        }
-    }
-
-    /**
-     * @param DatagridConfiguration $config
-     * @param bool $withChildCustomers
-     */
-    protected function showAllCustomerItems(DatagridConfiguration $config, $withChildCustomers = false)
-    {
-        $config->offsetSetByPath(DatagridConfiguration::DATASOURCE_SKIP_ACL_APPLY_PATH, true);
-
-        $user = $this->getUser();
-        $customerId = $user->getCustomer()->getId();
-        $ids = [$customerId];
-
-        if ($withChildCustomers) {
-            $ids = array_merge($ids, $this->repository->getChildrenIds($customerId));
-        }
-
-        $config->getOrmQuery()->addAndWhere(
-            sprintf(
-                '(%s.customer IN (%s) OR %s.customerUser = %d)',
-                $this->entityAlias,
-                implode(',', $ids),
-                $this->entityAlias,
-                $user->getId()
-            )
-        );
     }
 
     /**
      * @param DatagridConfiguration $config
      * @param string $column
      */
-    protected function removeCustomerUserColumn(DatagridConfiguration $config, $column)
+    protected function removeCustomerUserColumn(DatagridConfiguration $config, string $column)
     {
         $config
             ->offsetUnsetByPath(sprintf('[columns][%s]', $column))
@@ -146,35 +72,10 @@ class CustomerDatagridListener
     }
 
     /**
-     * @return CustomerUser
+     * @return null|CustomerUser
      */
     protected function getUser()
     {
         return $this->securityProvider->getLoggedUser();
-    }
-
-    /**
-     * @return boolean
-     */
-    protected function permissionShowAllCustomerItems()
-    {
-        return $this->securityProvider->isGrantedViewLocal($this->entityClass);
-    }
-
-    /**
-     * @return boolean
-     */
-    protected function permissionShowAllCustomerItemsForChild()
-    {
-        return $this->securityProvider->isGrantedViewDeep($this->entityClass) ||
-            $this->securityProvider->isGrantedViewSystem($this->entityClass);
-    }
-
-    /**
-     * @return boolean
-     */
-    protected function permissionShowCustomerUserColumn()
-    {
-        return $this->securityProvider->isGrantedViewCustomerUser($this->entityClass);
     }
 }

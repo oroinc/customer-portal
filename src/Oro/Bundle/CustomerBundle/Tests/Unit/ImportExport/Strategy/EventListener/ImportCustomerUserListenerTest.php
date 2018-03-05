@@ -19,6 +19,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+// TODO: change to Symfony\Component\Validator\Validator\ValidatorInterface in scope of BAP-15236
 use Symfony\Component\Validator\ValidatorInterface;
 
 class ImportCustomerUserListenerTest extends \PHPUnit_Framework_TestCase
