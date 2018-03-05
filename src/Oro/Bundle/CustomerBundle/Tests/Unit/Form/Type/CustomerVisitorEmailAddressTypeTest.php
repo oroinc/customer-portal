@@ -61,7 +61,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
         $form->submit($submittedData);
         $this->assertFalse($form->isValid());
-        $this->assertContains($expectedError, $form->getErrorsAsString());
+        $this->assertContains($expectedError, (string)$form->getErrors(true, false));
     }
 
     /**

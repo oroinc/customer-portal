@@ -10,11 +10,10 @@ use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntityType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
 use Oro\Bundle\FormBundle\Form\Type\OroDateType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as CustomerSelectTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\PreloadedExtension;
@@ -68,7 +67,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
             new CustomerUserRoleSelectType($this->createTranslator())
         );
         $addressEntityType = new EntityType($this->getAddresses(), 'test_address_entity');
-        $customerSelectType = new CustomerSelectTypeStub($this->getCustomers(), 'oro_customer_customer_select');
+        $customerSelectType = new EntityType($this->getCustomers(), 'oro_customer_customer_select');
 
         $customerUserType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
         $customerUserType->setDataClass(self::DATA_CLASS);
