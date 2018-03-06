@@ -26,6 +26,6 @@ Feature: Create customer user address
     Then I should see "Organization or First Name and Last Name should not be blank."
     When I fill form with:
       | Organization | Test Organization |
-    And I press "Save"
+    And I click "Save"
     Then I should see "Address saved" flash message
     And I should see "Test billing address"
