@@ -32,27 +32,27 @@ security:
 
         # override pattern
         wsse_secured:
-            pattern:                        ^%web_backend_prefix%/api/rest.*
+            pattern:                        '^%web_backend_prefix%/api/rest.*'
 
         # override pattern
         api_wsse_secured:
-            pattern:                        ^%web_backend_prefix%/api/(?!(doc|rest))($|.*)
+            pattern:                        '^%web_backend_prefix%/api/(?!(doc|rest))($|.*)'
 
         # override pattern
         login:
-            pattern:                        ^%web_backend_prefix%/user/(login|reset-request|send-email|check-email)$
+            pattern:                        '^%web_backend_prefix%/user/(login|reset-request|send-email|check-email)$'
 
         # override pattern
         reset_password:
-            pattern:                        ^%web_backend_prefix%/user/reset/*
+            pattern:                        '^%web_backend_prefix%/user/reset/*'
 
         # override pattern
         embedded_form:
-            pattern:                        ^%web_backend_prefix%/embedded-form/(submit|success)
+            pattern:                        '^%web_backend_prefix%/embedded-form/(submit|success)'
 
         # override pattern and config
         main:
-            pattern:                        ^%web_backend_prefix%/
+            pattern:                        '^%web_backend_prefix%/'
             organization-form-login:
                 default_target_path:        oro_default
             logout:
@@ -64,7 +64,7 @@ oro_layout:
 assetic:
     filters:
         scssphp:
-            file: %kernel.root_dir%/../vendor/leafo/scssphp/scss.inc.php
+            file: '%kernel.root_dir%/../vendor/leafo/scssphp/scss.inc.php'
             apply_to: '\.scss$'
             import_paths: ["%kernel.root_dir%/../web/bundles"]
 

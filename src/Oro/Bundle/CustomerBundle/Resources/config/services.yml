@@ -593,7 +593,7 @@ services:
             - { name: layout.data_provider, alias: oro_customer_fronted_customer_user_role_tab_options }
 
     oro_customer.provider.role_privilege_capability_provider:
-        class: %oro_user.provider.role_privilege_capability_provider.class%
+        class: '%oro_user.provider.role_privilege_capability_provider.class%'
         arguments:
             - '@translator'
             - '@oro_user.provider.role_privilege_category_provider'
@@ -736,14 +736,14 @@ services:
             - '%oro_customer.entity.customer_user.class%'
 
     oro_user.provider.role_privilege_capability_provider_commerce:
-        class: %oro_user.provider.role_privilege_capability_provider.class%
+        class: '%oro_user.provider.role_privilege_capability_provider.class%'
         arguments:
             - '@translator'
             - '@oro_user.provider.role_privilege_category_provider'
             - '@oro_customer.form.handler.acl_role.commerce='
 
     oro_customer.provider.role_privilege_capability_provider.decorator:
-        class: %oro_user.provider.role_privilege_capability_provider.class%
+        class: '%oro_user.provider.role_privilege_capability_provider.class%'
         decorates: oro_user.provider.role_privilege_capability_provider
         arguments:
             - '@translator'
