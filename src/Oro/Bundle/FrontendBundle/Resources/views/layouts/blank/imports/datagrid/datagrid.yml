@@ -35,4 +35,4 @@ layout:
                     itemsCounter:
                         className: 'datagrid-tool'
                     hideItemsCounter: false
-                filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'
+                filterContainerSelector: '[data-grid-toolbar="top"] [data-role="filter-container"]'
