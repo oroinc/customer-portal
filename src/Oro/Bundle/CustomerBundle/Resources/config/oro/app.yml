@@ -21,7 +21,7 @@ security:
                 path:                       oro_customer_customer_user_security_logout
                 invalidate_session:         false
             organization-remember-me:
-                key:                        '%secret%'
+                secret:                     '%secret%'
                 name:                       OROCOMMERCE
                 lifetime:                   2592000   # stay logged for 30 days
                 httponly:                   true
