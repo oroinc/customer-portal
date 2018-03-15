@@ -34,3 +34,23 @@
         }
     }
 }
+
+@include breakpoint('tablet') {
+    .frontend-datagrid {
+        .grid {
+            &-header {
+                display: none;
+            }
+
+            &-row {
+                display: block;
+                @include mosaic-grid();
+            }
+
+            &-body-cell {
+                display: block;
+                padding: 0;
+            }
+        }
+    }
+}
