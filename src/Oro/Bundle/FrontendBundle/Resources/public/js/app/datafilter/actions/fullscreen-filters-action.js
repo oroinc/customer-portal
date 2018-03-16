@@ -312,9 +312,9 @@ define(function(require) {
 
             _.each(filters, function(filter) {
                 if (
-                    filter.enabled && (filter.type === 'multichoice' ?
-                        filter._readDOMValue().value.length === 0 :
-                        _.isEqual(filter.emptyValue, filter._readDOMValue()))
+                    filter.enabled && (filter.type === 'multichoice'
+                        ? filter._readDOMValue().value.length === 0
+                        : _.isEqual(filter.emptyValue, filter._readDOMValue()))
                 ) {
                     if (!_.isFunction(filter._onClickCriteriaSelector)) {
                         return;
