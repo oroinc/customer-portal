@@ -1,4 +1,4 @@
-// @theme: default
+// @theme: default;
 
 .frontend-datagrid {
     &__filter {
@@ -43,13 +43,38 @@
             }
 
             &-row {
+                column-count: 3;
+                min-height: 60px;
                 display: block;
-                @include mosaic-grid();
+                padding: 5px 65px 5px 25px;
+                position: relative;
+
+                &:not(:first-child) {
+                    border-top: 1px solid #eceeef;
+                }
             }
 
             &-body-cell {
+                @include mosaic-grid-break-inside();
+
                 display: block;
+                border: none;
+                margin: 5px 0;
                 padding: 0;
+
+                &.grid-body-cell-massAction {
+                    position: absolute;
+                    top: 5px;
+                    left: 0;
+                }
+
+                &.action-cell {
+                    width: 65px;
+                    text-align: left;
+                    position: absolute;
+                    top: 5px;
+                    right: 0;
+                }
             }
         }
     }
