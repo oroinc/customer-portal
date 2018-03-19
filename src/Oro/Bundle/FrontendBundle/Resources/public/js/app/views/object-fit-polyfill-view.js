@@ -8,6 +8,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function ObjectFitPolyfillView() {
+            ObjectFitPolyfillView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             if (!this.isSupportObjectFit()) {
                 this.setImageElement();

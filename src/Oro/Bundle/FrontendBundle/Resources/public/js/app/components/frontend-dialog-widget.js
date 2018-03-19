@@ -9,7 +9,6 @@ define(function(require) {
     var $ = require('jquery');
 
     FrontendDialogWidget = DialogWidget.extend({
-
         optionNames: DialogWidget.prototype.optionNames.concat([
             'fullscreenViewport', 'fullscreenViewOptions', 'fullscreenDialogOptions'
         ]),
@@ -48,6 +47,13 @@ define(function(require) {
         isApplicable: false,
 
         $header: null,
+
+        /**
+         * @inheritDoc
+         */
+        constructor: function FrontendDialogWidget() {
+            FrontendDialogWidget.__super__.constructor.apply(this, arguments);
+        },
 
         /**
          * @inheritDoc

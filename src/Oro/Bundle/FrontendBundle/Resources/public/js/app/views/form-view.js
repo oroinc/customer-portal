@@ -16,7 +16,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        initialize: function(options) {
+        constructor: function FormView() {
+            FormView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */lize: function(options) {
             this.options = _.defaults(options || {}, this.options);
             _.each(this.options.selectors, function(selector, key) {
                 var $root = this.options._sourceElement || this.$el;

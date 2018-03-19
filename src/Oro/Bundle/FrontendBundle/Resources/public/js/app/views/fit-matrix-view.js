@@ -22,6 +22,16 @@ define(function(require) {
 
         states: ['state-labels-above', 'state-multiline'],
 
+        /**
+         * @inheritDoc
+         */
+        constructor: function FitMatrixView() {
+            FitMatrixView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             FitMatrixView.__super__.initialize.apply(this, arguments);
 
