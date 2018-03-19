@@ -5,6 +5,9 @@ namespace Oro\Bundle\FrontendBundle\Form\OptionsConfigurator;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Rule Editor Options Configurator
+ */
 class RuleEditorOptionsConfigurator
 {
     /**
@@ -12,14 +15,14 @@ class RuleEditorOptionsConfigurator
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(['rootEntities']);
+        $resolver->setRequired(['supportedNames']);
         $resolver->setDefined(['dataProviderConfig', 'dataSource', 'allowedOperations', 'pageComponent', 'attr']);
 
         $resolver->setDefault('pageComponent', 'oroform/js/app/components/expression-editor-component');
         $resolver->setDefault('pageComponentOptions', []);
         $resolver->setDefault('dataSource', []);
 
-        $resolver->setAllowedTypes('rootEntities', 'array');
+        $resolver->setAllowedTypes('supportedNames', 'array');
         $resolver->setAllowedTypes('dataProviderConfig', 'array');
         $resolver->setAllowedTypes('dataSource', 'array');
         $resolver->setAllowedTypes('allowedOperations', 'array');
@@ -27,7 +30,7 @@ class RuleEditorOptionsConfigurator
 
         $resolver->setNormalizer('attr', function (Options $options, $attr) {
             $pageComponentOptions = $options['pageComponentOptions'] + [
-                'rootEntities' => $options['rootEntities'],
+                'supportedNames' => $options['supportedNames'],
             ];
             if (isset($options['dataProviderConfig'])) {
                 $pageComponentOptions['dataProviderConfig'] = $options['dataProviderConfig'];

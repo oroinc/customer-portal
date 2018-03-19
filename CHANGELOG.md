@@ -2,7 +2,7 @@
 
 ### Changed
 #### FrontendBundle
-* Changed format of options that prepares `RuleEditorOptionsConfigurator` <sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.7.0/src/Oro/Bundle/FrontendBundle/Form/OptionsConfigurator/RuleEditorOptionsConfigurator.php)</sup> , removed `entities` field and added `rootEntities` and `entityDataProvider`
+* Changed format of options that prepares `RuleEditorOptionsConfigurator` <sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.7.0/src/Oro/Bundle/FrontendBundle/Form/OptionsConfigurator/RuleEditorOptionsConfigurator.php)</sup> , removed `entities` field and added `supportedNames` and `entityDataProvider`
 
 ## 2.6.0 (Unreleased)
 
