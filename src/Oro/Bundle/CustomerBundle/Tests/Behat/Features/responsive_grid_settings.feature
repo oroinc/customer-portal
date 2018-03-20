@@ -26,7 +26,7 @@ Feature: Responsive Grid Settings
     And I login as administrator
     And go to System / Configuration
     And I follow "Commerce/Design/Theme" on configuration sidebar
-    And I uncheck "Use default" for "Responsive grids" field
+    And uncheck "Use default" for "Responsive grids" field
     And I uncheck "Responsive grids"
     And click "Save settings"
     When I proceed as the User
