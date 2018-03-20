@@ -1,0 +1,32 @@
+// @theme: default;
+
+$frontend-datagrid-responsive-grid-tablet-display: block !default;
+$frontend-datagrid-responsive-header-tablet-display: none !default;
+$frontend-datagrid-responsive-body-tablet-display: block !default;
+
+$frontend-datagrid-responsive-row-tablet-column-count: 3 !default;
+$frontend-datagrid-responsive-row-tablet-column-width: 200px !default;
+$frontend-datagrid-responsive-row-tablet-min-height: 60px !default;
+$frontend-datagrid-responsive-row-tablet-display: block !default;
+$frontend-datagrid-responsive-row-tablet-inner-offset: 5px 105px 5px 25px !default;
+$frontend-datagrid-responsive-row-tablet-position: relative !default;
+$frontend-datagrid-responsive-row-tablet-border-top: 1px solid #eceeef !default;
+
+$frontend-datagrid-responsive-body-cell-tablet-display: block !default;
+$frontend-datagrid-responsive-body-cell-tablet-border: none !default;
+$frontend-datagrid-responsive-body-cell-tablet-offset: 5px 0 !default;
+$frontend-datagrid-responsive-body-cell-tablet-inner-offset: 0 !default;
+
+$frontend-datagrid-responsive-body-cell-before-tablet-content: attr(data-column-label) ': ' !default;
+$frontend-datagrid-responsive-body-cell-before-tablet-display: none !default;
+
+$frontend-datagrid-responsive-boolean-cell-before-tablet-display: inline !default;
+
+$frontend-datagrid-responsive-select-row-cell-tablet-position: absolute !default;
+$frontend-datagrid-responsive-select-row-cell-tablet-top: 5px !default;
+$frontend-datagrid-responsive-select-row-cell-tablet-left: 0 !default;
+
+$frontend-datagrid-responsive-action-cell-tablet-width: 100px !default;
+$frontend-datagrid-responsive-action-cell-tablet-position: absolute !default;
+$frontend-datagrid-responsive-action-cell-tablet-top: 5px !default;
+$frontend-datagrid-responsive-action-cell-tablet-right: 5px !default;

@@ -39,60 +39,59 @@
     .frontend-datagrid {
         &--responsive {
             .grid {
-                display: block;
+                display: $frontend-datagrid-responsive-grid-tablet-display;
 
                 &-header {
-                    display: none;
+                    display: $frontend-datagrid-responsive-header-tablet-display;
                 }
 
                 &-body {
-                    display: block;
+                    display: $frontend-datagrid-responsive-body-tablet-display;
                 }
 
                 &-row {
-                    column-count: 3;
-                    column-width: 200px;
-                    min-height: 60px;
-                    display: block;
-                    padding: 5px 105px 5px 25px;
-                    position: relative;
+                    column-count: $frontend-datagrid-responsive-row-tablet-column-count;
+                    column-width: $frontend-datagrid-responsive-row-tablet-column-width;
+                    min-height: $frontend-datagrid-responsive-row-tablet-min-height;
+                    display: $frontend-datagrid-responsive-row-tablet-display;
+                    padding: $frontend-datagrid-responsive-row-tablet-inner-offset;
+                    position: $frontend-datagrid-responsive-row-tablet-position;
 
                     &:not(:first-child) {
-                        border-top: 1px solid #eceeef;
+                        border-top: $frontend-datagrid-responsive-row-tablet-border-top;
                     }
                 }
 
                 &-body-cell {
                     @include mosaic-grid-break-inside();
 
-                    display: block;
-                    border: none;
-                    margin: 5px 0;
-                    padding: 0;
+                    display: $frontend-datagrid-responsive-body-cell-tablet-display;
+                    border: $frontend-datagrid-responsive-body-cell-tablet-border;
+                    margin: $frontend-datagrid-responsive-body-cell-tablet-offset;
+                    padding: $frontend-datagrid-responsive-body-cell-tablet-inner-offset;
 
                     &:before {
-                        content: attr(data-column-label) ': ';
-                        display: none;
+                        content: $frontend-datagrid-responsive-body-cell-before-tablet-content;
+                        display: $frontend-datagrid-responsive-body-cell-before-tablet-display;
                     }
 
                     &.boolean-cell {
                         &:before {
-                            display: inline;
+                            display: $frontend-datagrid-responsive-boolean-cell-before-tablet-display;
                         }
                     }
 
                     &.select-row-cell {
-                        position: absolute;
-                        top: 5px;
-                        left: 0;
+                        position: $frontend-datagrid-responsive-select-row-cell-tablet-position;
+                        top: $frontend-datagrid-responsive-select-row-cell-tablet-top;
+                        left: $frontend-datagrid-responsive-select-row-cell-tablet-left;
                     }
 
                     &.action-cell {
-                        width: 100px;
-                        text-align: left;
-                        position: absolute;
-                        top: 5px;
-                        right: 0;
+                        width: $frontend-datagrid-responsive-action-cell-tablet-width;
+                        position: $frontend-datagrid-responsive-action-cell-tablet-position;
+                        top: $frontend-datagrid-responsive-action-cell-tablet-top;
+                        right: $frontend-datagrid-responsive-action-cell-tablet-right;
                     }
                 }
             }
