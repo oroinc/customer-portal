@@ -11,6 +11,16 @@ define(function(require) {
     var $ = require('jquery');
 
     DeleteItemComponent = BaseComponent.extend({
+        /**
+         * @inheritDoc
+         */
+        constructor: function DeleteItemComponent() {
+            DeleteItemComponent.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.$elem = options._sourceElement;
             this.url = options.url || routing.generate(options.route, options.routeParams || {});

@@ -39,6 +39,13 @@ define(function(require) {
         keepElement: true,
 
         /**
+         * @inheritDoc
+         */
+        constructor: function MenuTravelingWidget() {
+            MenuTravelingWidget.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
          * @param {Object} options
          */
         initialize: function(options) {

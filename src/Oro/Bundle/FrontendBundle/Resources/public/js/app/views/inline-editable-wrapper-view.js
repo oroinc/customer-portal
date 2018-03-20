@@ -12,6 +12,13 @@ define(function(require) {
             'click [data-role="start-editing"]': 'onInlineEditingStart'
         },
 
+        /**
+         * @inheritDoc
+         */
+        constructor: function InlineEditorWrapperView() {
+            InlineEditorWrapperView.__super__.constructor.apply(this, arguments);
+        },
+
         onInlineEditingStart: function() {
             this.trigger('start-editing');
         },

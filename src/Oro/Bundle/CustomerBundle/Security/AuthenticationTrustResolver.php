@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * Extends the original AuthenticationTrustResolver because the
  * ACL security bundle depends on that class instead of using the interface.
- *
  */
 class AuthenticationTrustResolver extends BaseAuthenticationTrustResolver
 {
@@ -22,7 +21,6 @@ class AuthenticationTrustResolver extends BaseAuthenticationTrustResolver
     private $decoratedResolver;
 
     /**
-     * AuthenticationTrustResolver constructor.
      * @param AuthenticationTrustResolverInterface $decoratedResolver
      */
     public function __construct(AuthenticationTrustResolverInterface $decoratedResolver)

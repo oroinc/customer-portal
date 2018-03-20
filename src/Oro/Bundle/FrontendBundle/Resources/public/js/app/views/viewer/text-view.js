@@ -23,12 +23,23 @@ define(function(require) {
      */
     var TextView = BaseView.extend(/** @lends TextView.prototype */{
         showDefault: true,
+
         template: require('tpl!orofrontend/templates/viewer/text-view.html'),
 
         listen: {
             'change model': 'render'
         },
 
+        /**
+         * @inheritDoc
+         */
+        constructor: function TextView() {
+            TextView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.fieldName = _.result(options, 'fieldName', 'value');
             return TextView.__super__.initialize.apply(this, arguments);

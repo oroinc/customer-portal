@@ -12,7 +12,15 @@ define(function(require) {
 
     TitleEditorView = TextEditorView.extend(/** @lends TitleEditorView.prototype */{
         template: require('tpl!../../../../templates/editor/title-editor.html'),
-        className: 'inline-view-editor'
+
+        className: 'inline-view-editor',
+
+        /**
+         * @inheritDoc
+         */
+        constructor: function TitleEditorView() {
+            TitleEditorView.__super__.constructor.apply(this, arguments);
+        }
     });
 
     return TitleEditorView;

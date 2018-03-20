@@ -23,6 +23,13 @@ define(function(require) {
         $followYAxis: null,
 
         /**
+         * @inheritDoc
+         */
+        constructor: function ScrollView() {
+            ScrollView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
          * Initialize
          *
          * @param {Object} options

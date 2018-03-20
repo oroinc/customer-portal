@@ -7,6 +7,13 @@ define(function(require) {
 
     SwitchableEditableViewComponent = AttachedEditableViewComponent.extend(/** @lends SwitchableEditableViewComponent.prototype */{
         /**
+         * @inheritDoc
+         */
+        constructor: function SwitchableEditableViewComponent() {
+            SwitchableEditableViewComponent.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
          * @constructor
          * @param {Object} options
          */

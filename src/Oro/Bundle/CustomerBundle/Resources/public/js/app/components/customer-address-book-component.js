@@ -9,6 +9,16 @@ define(function(require) {
     var widgetManager = require('oroui/js/widget-manager');
 
     CustomerAddressBook = BaseComponent.extend({
+        /**
+         * @inheritDoc
+         */
+        constructor: function CustomerAddressBook() {
+            CustomerAddressBook.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             widgetManager.getWidgetInstance(options.wid, function(widget) {
                 /** @type oroaddress.AddressBook */
