@@ -27,11 +27,10 @@
 }
 
 @mixin mosaic-grid(
-    $mosaic-grid-columns: 3
+    $mosaic-grid-column-width: auto,
+    $mosaic-grid-column-count: 3
 ) {
-    -webkit-columns: $mosaic-grid-columns;
-    -moz-columns: $mosaic-grid-columns;
-    columns: $mosaic-grid-columns;
+    columns: $mosaic-grid-column-width $mosaic-grid-column-count;
 }
 
 @mixin mosaic-grid-break-inside(

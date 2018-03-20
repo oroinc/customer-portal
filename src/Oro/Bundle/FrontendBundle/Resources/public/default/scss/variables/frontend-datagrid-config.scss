@@ -8,9 +8,12 @@ $frontend-datagrid-responsive-row-tablet-column-count: 3 !default;
 $frontend-datagrid-responsive-row-tablet-column-width: 200px !default;
 $frontend-datagrid-responsive-row-tablet-min-height: 60px !default;
 $frontend-datagrid-responsive-row-tablet-display: block !default;
-$frontend-datagrid-responsive-row-tablet-inner-offset: 5px 105px 5px 25px !default;
+$frontend-datagrid-responsive-row-tablet-inner-offset: 5px 0 !default;
 $frontend-datagrid-responsive-row-tablet-position: relative !default;
 $frontend-datagrid-responsive-row-tablet-border-top: 1px solid #eceeef !default;
+
+$frontend-datagrid-responsive-row-has-select-action-tablet-inner-offset-left: 25px !default;
+$frontend-datagrid-responsive-row-has-actions-tablet-inner-offset-right: 105px !default;
 
 $frontend-datagrid-responsive-body-cell-tablet-display: block !default;
 $frontend-datagrid-responsive-body-cell-tablet-border: none !default;

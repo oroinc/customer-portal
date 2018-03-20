@@ -14,7 +14,10 @@ layout:
                 cssClass: '=data["system_config_provider"].getValue("oro_customer.enable_responsive_grids") ? "frontend-datagrid frontend-datagrid--responsive" : "frontend-datagrid"'
                 enableFloatingHeaderPlugin: false
                 enableToggleFilters: true
-                enableResponsiveGrids: '=data["system_config_provider"].getValue("oro_customer.enable_responsive_grids")'
+                responsiveGrids:
+                    enable: '=data["system_config_provider"].getValue("oro_customer.enable_responsive_grids")'
+                    viewport:
+                        minScreenType: 'tablet'
                 themeOptions:
                     actionsDropdown: 'auto'
                     actionOptions:

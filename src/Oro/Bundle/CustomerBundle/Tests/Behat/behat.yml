@@ -90,13 +90,6 @@ oro_behat_extension:
         mapping:
           Use Default: 'theme[oro_customer___user_menu_show_items][use_parent_scope_value]'
           User Menu: 'theme[oro_customer___user_menu_show_items][value]'
-    Grid Settings Form:
-      selector: 'form[name="theme"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
-      options:
-        mapping:
-          Use Default: 'theme[oro_customer___enable_responsive_grids][use_parent_scope_value]'
-          Responsive Grids: 'theme[oro_customer___enable_responsive_grids][value]'
     Popup User Menu trigger:
       selector: '.topbar-customer-menu .topbar-customer-menu__trigger'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
