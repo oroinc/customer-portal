@@ -19,6 +19,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function FooterAlignView() {
+            FooterAlignView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             if (options.timeout) {
                 this.timeout = options.timeout;

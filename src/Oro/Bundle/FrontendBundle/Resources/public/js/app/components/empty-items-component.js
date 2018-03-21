@@ -17,6 +17,12 @@ define(function(require) {
             hiddenClass: 'hidden'
         },
         /**
+         * @inheritDoc
+         */
+        constructor: function EmptyItemsComponent() {
+            EmptyItemsComponent.__super__.constructor.apply(this, arguments);
+        },
+        /**
          * @param {Object} options
          */
         initialize: function(options) {

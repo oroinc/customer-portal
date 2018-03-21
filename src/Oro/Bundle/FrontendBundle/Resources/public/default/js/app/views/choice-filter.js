@@ -14,6 +14,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function ChoiceFilter() {
+            ChoiceFilter.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         _onClickChoiceValue: function(e) {
             var type = e.currentTarget.value;
             this._onClickChoiceValueSetType(type);

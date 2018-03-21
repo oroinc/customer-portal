@@ -100,6 +100,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function FullscreenPopupView() {
+            FullscreenPopupView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             _.each(this.sections, this._initializeSection.bind(this, options));
             return FullscreenPopupView.__super__.initialize.apply(this, arguments);

@@ -11,6 +11,16 @@ define(function(require) {
          */
         targetElement: null,
 
+        /**
+         * @inheritDoc
+         */
+        constructor: function CustomerAddressComponent() {
+            CustomerAddressComponent.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.targetElement = $(options._sourceElement);
             if (options.disableDefaultWithoutType) {

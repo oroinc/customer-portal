@@ -55,6 +55,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function FrontendCollectionFiltersManager() {
+            FrontendCollectionFiltersManager.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this._updateRenderMode();
             FrontendCollectionFiltersManager.__super__.initialize.apply(this, arguments);

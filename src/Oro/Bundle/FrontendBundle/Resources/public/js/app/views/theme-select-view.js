@@ -23,6 +23,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function ThemeSelectView() {
+            ThemeSelectView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options);
             this.$selector = this.$el.find(this.options.selectSelector);

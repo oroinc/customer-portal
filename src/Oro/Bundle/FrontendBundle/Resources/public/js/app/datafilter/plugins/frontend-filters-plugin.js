@@ -24,6 +24,13 @@ define(function(require) {
         },
 
         /**
+         * @inheritDoc
+         */
+        constructor: function FrontendFiltersTogglePlugin() {
+            FrontendFiltersTogglePlugin.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
          * @returns {Function}
          * @private
          */
