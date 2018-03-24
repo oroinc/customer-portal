@@ -47,6 +47,7 @@
 
                 &-body {
                     display: $frontend-datagrid-responsive-body-tablet-display;
+                    overflow: hidden;
                 }
 
                 &-row {
@@ -70,6 +71,11 @@
 
                     &.has-actions {
                         padding-right: $frontend-datagrid-responsive-row-has-actions-tablet-inner-offset-right;
+                        margin-right: -$frontend-datagrid-responsive-row-has-actions-tablet-inner-offset-right;
+                    }
+
+                    &.swipe-active {
+                        background-color: #F5F5F5;
                     }
                 }
 
@@ -103,6 +109,21 @@
                         position: $frontend-datagrid-responsive-action-cell-tablet-position;
                         top: $frontend-datagrid-responsive-action-cell-tablet-top;
                         right: $frontend-datagrid-responsive-action-cell-tablet-right;
+                        bottom: $frontend-datagrid-responsive-action-cell-tablet-bottom;
+                        background: $frontend-datagrid-responsive-action-cell-tablet-bg-color;
+                        margin: 0;
+
+                        .action {
+                            color: $frontend-datagrid-responsive-action-cell-tablet-icon-color;
+
+                            &-row {
+                                @include grid-cell-align();
+                            }
+
+                            &.mode-icon-only:first-child [class^="fa-"] {
+                                padding-left: 0;
+                            }
+                        }
                     }
                 }
             }

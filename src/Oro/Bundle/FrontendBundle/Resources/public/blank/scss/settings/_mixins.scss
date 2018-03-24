@@ -41,6 +41,13 @@
     break-inside: $break-inside-value;
 }
 
+@mixin grid-cell-align() {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 @mixin badge(
     $badge-size:        26px,
     $badge-f-size:      14px,
