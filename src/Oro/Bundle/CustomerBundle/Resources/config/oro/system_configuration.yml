@@ -108,6 +108,14 @@ system_configuration:
                 label: oro.customer.system_configuration.fields.enable_responsive_grids.label
                 tooltip: oro.customer.system_configuration.fields.enable_responsive_grids.tooltip
                 required: false
+        oro_customer.enable_swipe_actions_grids:
+            data_type: boolean
+            type: oro_config_checkbox
+            priority: 40
+            options:
+                label: oro.customer.system_configuration.fields.enable_swipe_actions_grids.label
+                tooltip: oro.customer.system_configuration.fields.enable_swipe_actions_grids.tooltip
+                required: false
         oro_customer.customer_visitor_cookie_lifetime_days:
             data_type: integer
             type: integer
@@ -167,6 +175,7 @@ system_configuration:
                                     responsive_grid_settings:
                                         children:
                                             - oro_customer.enable_responsive_grids
+                                            - oro_customer.enable_swipe_actions_grids
             platform:
                 children:
                     general_setup:
