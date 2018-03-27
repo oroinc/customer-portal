@@ -93,6 +93,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         'enable_responsive_grids' => [
                             'value' => true,
                             'scope' => 'app',
+                        ],
+                        'enable_swipe_actions_grids' => [
+                            'value' => true,
+                            'scope' => 'app',
                         ]
                     ]
                 ]
