@@ -105,19 +105,35 @@
                     }
 
                     &.action-cell {
-                        width: $frontend-datagrid-responsive-action-cell-tablet-width;
+                        width: auto;
+                        max-width: $frontend-datagrid-responsive-action-cell-tablet-width;
                         position: $frontend-datagrid-responsive-action-cell-tablet-position;
                         top: $frontend-datagrid-responsive-action-cell-tablet-top;
                         right: $frontend-datagrid-responsive-action-cell-tablet-right;
                         bottom: $frontend-datagrid-responsive-action-cell-tablet-bottom;
                         background: $frontend-datagrid-responsive-action-cell-tablet-bg-color;
                         margin: 0;
+                        padding: 0 8px;
 
                         .action {
                             color: $frontend-datagrid-responsive-action-cell-tablet-icon-color;
 
                             &-row {
-                                @include grid-cell-align();
+                                display: flex;
+                                height: 100%;
+                                align-items: center;
+                                .launchers-list {
+                                    display: inline-flex;
+                                    flex-wrap: wrap;
+
+                                    .launcher-item {
+                                        &:not(.mode-icon-only) {
+                                            margin: 0;
+                                            width: 50%;
+                                            padding: 0 5px;
+                                        }
+                                    }
+                                }
                             }
 
                             &.mode-icon-only:first-child [class^="fa-"] {

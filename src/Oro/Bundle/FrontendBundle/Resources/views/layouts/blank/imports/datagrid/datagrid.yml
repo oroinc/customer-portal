@@ -21,7 +21,7 @@ layout:
                 swipeActionsGrid:
                     enable: '=data["system_config_provider"].getValue("oro_customer.enable_swipe_actions_grids")'
                     viewport:
-                        minScreenType: 'tablet'
+                        maxScreenType: 'tablet'
                 themeOptions:
                     actionsDropdown: 'auto'
                     actionOptions:
