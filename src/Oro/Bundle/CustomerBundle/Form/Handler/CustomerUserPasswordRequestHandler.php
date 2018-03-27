@@ -16,7 +16,7 @@ class CustomerUserPasswordRequestHandler extends AbstractCustomerUserPasswordHan
     public function process(FormInterface $form, Request $request)
     {
         if ($request->isMethod('POST')) {
-            $form->submit($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $emailForm = $form->get('email');
                 $email = $emailForm->getData();
