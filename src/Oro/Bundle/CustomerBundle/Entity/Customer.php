@@ -14,6 +14,8 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
+ * Entity represents Customer and handles all related mappings
+ *
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository")
  * @ORM\Table(
  *      name="oro_customer",
@@ -160,7 +162,7 @@ class Customer extends ExtendCustomer implements DatesAwareInterface
     /**
      * @var CustomerGroup
      *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerGroup", inversedBy="customers")
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerGroup")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="SET NULL")
      * @ConfigField(
      *      defaultValues={

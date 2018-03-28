@@ -86,6 +86,24 @@ class FrontendRestApiController extends Controller
     }
 
     /**
+     * Handle an entity without identifier
+     *
+     * @param Request $request
+     *
+     * @ApiDoc(
+     *     description="Handle an entity without identifier",
+     *     resource=true,
+     *     views={"frontend_rest_json_api"}
+     * )
+     *
+     * @return Response
+     */
+    public function itemWithoutIdAction(Request $request): Response
+    {
+        return $this->getHandler()->handleItemWithoutId($request);
+    }
+
+    /**
      * @return RequestHandler
      */
     private function getHandler(): RequestHandler

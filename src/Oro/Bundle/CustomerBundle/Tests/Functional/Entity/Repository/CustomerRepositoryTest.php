@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Entity\Repository;
 
 use Oro\Bundle\CatalogBundle\Tests\Functional\DataFixtures\LoadCategoryData;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadDuplicatedCustomer;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
@@ -186,5 +187,25 @@ class CustomerRepositoryTest extends WebTestCase
 
         $this->assertEquals($customersQuantity, $iteratorQuantity);
         $this->assertEmpty($customers);
+    }
+
+    public function testGetIdsByCustomerGroup()
+    {
+        /** @var CustomerGroup $customerGroup */
+        $customerGroup = $this->getReference('customer_group.group3');
+
+        /** @var Customer $customer131 */
+        $customer131 = $this->getReference('customer.level_1.3.1');
+        /** @var Customer $customer1311 */
+        $customer1311 = $this->getReference('customer.level_1.3.1.1');
+        /** @var Customer $customer14 */
+        $customer14 = $this->getReference('customer.level_1.4');
+
+        $actual = $this->repository->getIdsByCustomerGroup($customerGroup);
+
+        $this->assertCount(3, $actual);
+        $this->assertContains($customer131->getId(), $actual);
+        $this->assertContains($customer1311->getId(), $actual);
+        $this->assertContains($customer14->getId(), $actual);
     }
 }

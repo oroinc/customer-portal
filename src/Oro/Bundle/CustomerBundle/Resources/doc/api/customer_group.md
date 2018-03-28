@@ -35,20 +35,6 @@ Example:
     "type": "customer_groups",
     "attributes": {
       "name": "Guests"
-    },
-    "relationships": {
-      "customers": {
-        "data": [
-          {
-            "type": "customers",
-            "id": "1"
-          },
-          {
-            "type": "customers",
-            "id": "2"
-          }
-        ]
-      }
     }
   }
 }
@@ -75,20 +61,6 @@ Example:
     "id": "1",
     "attributes": {
       "name": "Guests"
-    },
-    "relationships": {
-      "customers": {
-        "data": [
-          {
-            "type": "customers",
-            "id": "1"
-          },
-          {
-            "type": "customers",
-            "id": "2"
-          }
-        ]
-      }
     }
   }
 }
@@ -128,91 +100,6 @@ The list of records that will be deleted, could be limited by filters.
 *This field is **required** and must remain defined.*
 
 ## SUBRESOURCES
-
-### customers
-
-#### get_subresource
-
-Retrieve the customer records assigned to a specific customer group record.
-
-#### get_relationship
-
-Retrieve the IDs of customer records assigned to a specific customer group record.
-
-#### update_relationship
-
-Replace the list of customers assigned to a specific customer group record.
-
-{@request:json_api}
-Example:
-
-`</admin/api/customer_groups/1/relationships/customers>`
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customers",
-      "id": "1"
-    },
-    {
-      "type": "customers",
-      "id": "2"
-    }
-  ]
-}
-```
-{@/request}
-
-#### add_relationship
-
-Set customer records for a specific customer group record.
-
-{@request:json_api}
-Example:
-
-`</admin/api/customer_groups/1/relationships/customers>`
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customers",
-      "id": "1"
-    },
-    {
-      "type": "customers",
-      "id": "2"
-    }
-  ]
-}
-```
-{@/request}
-
-#### delete_relationship
-
-Remove customer records from a specific customer group record.
-
-{@request:json_api}
-Example:
-
-`</admin/api/customer_groups/1/relationships/customers>`
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customers",
-      "id": "1"
-    },
-    {
-      "type": "customers",
-      "id": "2"
-    }
-  ]
-}
-```
-{@/request}
 
 ### organization
 
