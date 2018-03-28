@@ -20,34 +20,6 @@ class CustomerGroupTest extends EntityTestCase
     }
 
     /**
-     * Test customers
-     */
-    public function testCustomerCollection()
-    {
-        $customerGroup = $this->createCustomerGroupEntity();
-
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $customerGroup->getCustomers());
-        $this->assertCount(0, $customerGroup->getCustomers());
-
-        $customer = $this->createCustomerEntity();
-
-        $this->assertInstanceOf(
-            'Oro\Bundle\CustomerBundle\Entity\CustomerGroup',
-            $customerGroup->addCustomer($customer)
-        );
-
-        $this->assertCount(1, $customerGroup->getCustomers());
-
-        $customerGroup->addCustomer($customer);
-
-        $this->assertCount(1, $customerGroup->getCustomers());
-
-        $customerGroup->removeCustomer($customer);
-
-        $this->assertCount(0, $customerGroup->getCustomers());
-    }
-
-    /**
      * @return CustomerGroup
      */
     protected function createCustomerGroupEntity()

@@ -226,20 +226,6 @@ class RestCustomerTest extends AbstractRestTest
         $this->deleteEntities([$customer]);
     }
 
-
-    public function testGetGroupSubresource()
-    {
-        /** @var Customer $customer */
-        $customer = $this->getReference('customer.1');
-
-        $response = $this->getSubresource([
-            'entity' => $this->getEntityType(Customer::class),
-            'id' => $customer->getId(),
-            'association' => 'group'
-        ]);
-        $this->assertResponseContains(__DIR__.'/responses/get_group_sub_resourse.yml', $response);
-    }
-
     public function testGetGroupRelationship()
     {
         /** @var Customer $customer */
