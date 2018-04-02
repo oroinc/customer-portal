@@ -12,8 +12,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\RequestStack
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class FrontendCustomerUserHandler extends FormHandler
 {
