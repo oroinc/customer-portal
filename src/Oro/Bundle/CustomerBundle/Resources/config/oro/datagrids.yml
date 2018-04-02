@@ -88,7 +88,7 @@ datagrids:
                         field_type: Symfony\Bridge\Doctrine\Form\Type\EntityType
                         field_options:
                             class:    '%oro_customer.entity.customer_group.class%'
-                            property: name
+                            choice_label: name
                 parent_name:
                     type:      string
                     data_name: parent.name
