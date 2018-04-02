@@ -2,15 +2,15 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Translation\TranslatorInterface;
-
-use Oro\Component\Testing\Unit\FormIntegrationTestCase;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
-use Oro\Component\Testing\Unit\PreloadedExtension;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
+use Oro\Component\Testing\Unit\FormIntegrationTestCase;
+use Oro\Component\Testing\Unit\PreloadedExtension;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\PreloadedExtension;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 {

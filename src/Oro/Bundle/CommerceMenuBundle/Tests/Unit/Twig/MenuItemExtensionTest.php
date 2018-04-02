@@ -4,12 +4,10 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Twig;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\MatcherInterface;
-
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
-
 use Oro\Bundle\CommerceMenuBundle\Twig\MenuExtension;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class MenuItemExtensionTest extends \PHPUnit_Framework_TestCase
 {

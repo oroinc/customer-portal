@@ -31,6 +31,7 @@ Feature: Manage Customer addresses at front-store
   Scenario: Verify HTML tags on create new address
     Given I click "New Address"
     When I fill form with:
+      | User             | Nancy Sallee               |
       | Label            | <script>alert(1)</script>  |
       | Name prefix      | <script>alert(2)</script>  |
       | First Name       | <script>alert(3)</script>  |

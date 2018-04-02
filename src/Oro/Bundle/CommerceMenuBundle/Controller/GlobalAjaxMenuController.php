@@ -2,12 +2,10 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-
-use Symfony\Component\HttpFoundation\Request;
-
 use Oro\Bundle\NavigationBundle\Controller\AbstractAjaxMenuController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/menu/frontend/global")

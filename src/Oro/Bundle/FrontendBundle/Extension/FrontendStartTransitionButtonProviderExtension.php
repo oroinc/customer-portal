@@ -3,7 +3,6 @@
 namespace Oro\Bundle\FrontendBundle\Extension;
 
 use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
-
 use Oro\Bundle\WorkflowBundle\Extension\StartTransitionButtonProviderExtension;
 
 class FrontendStartTransitionButtonProviderExtension extends StartTransitionButtonProviderExtension

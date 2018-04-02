@@ -1,0 +1,56 @@
+parameters:
+    # The names of API views that are available for the store frontend
+    # they are set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+    oro_frontend.api_doc.views: []
+
+services:
+    oro_frontend.api.rest.request_handler:
+        class: Oro\Bundle\ApiBundle\Request\Rest\RequestHandler
+        arguments:
+            - '@oro_frontend.api.rest.request_action_handler'
+
+    oro_frontend.api.rest.request_action_handler:
+        parent: oro_api.rest.request_action_handler
+        arguments:
+            index_0: ['rest', 'frontend']
+
+    oro_frontend.api.rest.routing_options_resolver:
+        parent: oro_api.rest.routing_options_resolver
+        arguments:
+            index_0: 'frontend_rest_api'
+            index_1: '@oro_frontend.api.rest.action_mapper'
+        tags:
+            - { name: oro_api.routing_options_resolver, view: frontend_rest_json_api }
+
+    oro_frontend.api.rest.doc_handler:
+        parent: oro_api.rest.doc_handler
+        arguments:
+            index_0: 'frontend_rest_api'
+        tags:
+            - { name: nelmio_api_doc.extractor.handler }
+
+    oro_frontend.api.rest.action_mapper:
+        class: Oro\Bundle\ApiBundle\ApiDoc\RestActionMapper
+        public: false
+        arguments:
+            - 'oro_frontend_rest_api_item'
+            - 'oro_frontend_rest_api_list'
+            - 'oro_frontend_rest_api_subresource'
+            - 'oro_frontend_rest_api_relationship'
+
+    oro_frontend.api.rest.doc_url_generator:
+        class: Oro\Bundle\FrontendBundle\Api\ApiDoc\RestDocUrlGenerator
+        public: false
+        decorates: oro_api.rest.doc_url_generator
+        arguments:
+            - '@oro_frontend.api.rest.doc_url_generator.inner'
+            - '@router'
+            - '%oro_frontend.api_doc.views%'
+            - ~ # default view; it is set by Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\RestDocUrlGeneratorCompilerPass
+
+    # default HTML formatter for frontend API views
+    # it should be a separate instance because the lists of frontend and backend API views are different
+    # see Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiDocPass
+    # and Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension::setDefaultHtmlFormatterForFrontendApiViews
+    oro_frontend.api_doc.formatter.html_formatter:
+        parent: oro_api.api_doc.formatter.html_formatter

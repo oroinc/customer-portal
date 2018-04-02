@@ -17,6 +17,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function HeaderRowComponent() {
+            HeaderRowComponent.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.$el = $(options._sourceElement);
             this.$mainMenuDropdown = this.$el.find('[data-header-row-toggle]');

@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
+use Oro\Bundle\CustomerBundle\Entity\Audit;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\DataAuditBundle\Entity\AuditField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\Audit;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
 class AuditTest extends \PHPUnit_Framework_TestCase

@@ -3,12 +3,10 @@
 namespace Oro\Bundle\FrontendBundle\Migration;
 
 use Doctrine\DBAL\Types\Type;
-
-use Psr\Log\LoggerInterface;
-
+use Oro\Bundle\EntityConfigBundle\Config\Id\FieldConfigId;
 use Oro\Bundle\MigrationBundle\Migration\ArrayLogger;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
-use Oro\Bundle\EntityConfigBundle\Config\Id\FieldConfigId;
+use Psr\Log\LoggerInterface;
 
 class UpdateExtendRelationQuery extends ParametrizedMigrationQuery
 {

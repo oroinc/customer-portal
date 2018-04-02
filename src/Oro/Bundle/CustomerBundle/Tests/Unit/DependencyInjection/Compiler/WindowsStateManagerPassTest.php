@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\WindowsStateManagerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class WindowsStateManagerPassTest extends \PHPUnit_Framework_TestCase
 {

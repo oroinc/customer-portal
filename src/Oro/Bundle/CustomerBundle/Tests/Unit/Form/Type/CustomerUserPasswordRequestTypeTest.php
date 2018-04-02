@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserPasswordRequestType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
-
-use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserPasswordRequestType;
 
 class CustomerUserPasswordRequestTypeTest extends FormIntegrationTestCase
 {

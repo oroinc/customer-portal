@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 class CustomerUserPasswordRequestHandler extends AbstractCustomerUserPasswordHandler
 {
@@ -17,7 +16,7 @@ class CustomerUserPasswordRequestHandler extends AbstractCustomerUserPasswordHan
     public function process(FormInterface $form, Request $request)
     {
         if ($request->isMethod('POST')) {
-            $form->submit($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $emailForm = $form->get('email');
                 $email = $emailForm->getData();

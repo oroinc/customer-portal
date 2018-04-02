@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
-use Oro\Component\Testing\Unit\FormHandlerTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Component\Testing\Unit\FormHandlerTestCase;
 
 class FrontendCustomerUserHandlerTest extends FormHandlerTestCase
 {

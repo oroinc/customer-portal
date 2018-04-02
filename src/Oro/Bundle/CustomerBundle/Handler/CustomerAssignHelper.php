@@ -6,7 +6,6 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 /**
@@ -106,7 +105,8 @@ class CustomerAssignHelper
         }
 
         // skip association if if configured to cascade delete
-        if (($association['type'] === ClassMetadataInfo::MANY_TO_ONE
+        if ((
+            $association['type'] === ClassMetadataInfo::MANY_TO_ONE
                 && $association['joinColumns'][0]['onDelete'] === 'CASCADE'
             )
             || ($association['type'] === ClassMetadataInfo::MANY_TO_MANY

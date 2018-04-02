@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\FrontendBundle\Layout\DataProvider;
 
-use Symfony\Component\Form\FormView;
-
 use Oro\Bundle\LayoutBundle\Layout\DataProvider\AbstractFormProvider;
+use Symfony\Component\Form\FormView;
 
 class StyleBookFormProvider extends AbstractFormProvider
 {

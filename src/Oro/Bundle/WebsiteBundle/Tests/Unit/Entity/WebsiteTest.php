@@ -4,8 +4,8 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Entity;
 
 use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
 class WebsiteTest extends \PHPUnit_Framework_TestCase
 {

@@ -3,17 +3,15 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Persistence\ObjectRepository;
-
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;
+use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\UserBundle\Entity\UserManager;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
-
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Entity\UserManager;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
 {

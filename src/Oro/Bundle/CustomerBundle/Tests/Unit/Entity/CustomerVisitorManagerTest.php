@@ -4,7 +4,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManager;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;

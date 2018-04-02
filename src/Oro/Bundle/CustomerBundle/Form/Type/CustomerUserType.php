@@ -2,18 +2,17 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
+use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
-use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
-use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 
 class CustomerUserType extends AbstractType
 {
@@ -193,9 +192,9 @@ class CustomerUserType extends AbstractType
         if ($this->authorizationChecker->isGranted('oro_customer_customer_user_address_update')) {
             $options = [
                 'label' => 'oro.customer.customeruser.addresses.label',
-                'type' => CustomerUserTypedAddressType::NAME,
+                'entry_type' => CustomerUserTypedAddressType::NAME,
                 'required' => false,
-                'options' => [
+                'entry_options' => [
                     'data_class' => $this->addressClass,
                     'single_form' => false,
                 ],
@@ -305,7 +304,7 @@ class CustomerUserType extends AbstractType
 
         $resolver->setDefaults([
             'data_class' => $this->dataClass,
-            'intention' => 'customer_user',
+            'csrf_token_id' => 'customer_user',
         ]);
     }
 

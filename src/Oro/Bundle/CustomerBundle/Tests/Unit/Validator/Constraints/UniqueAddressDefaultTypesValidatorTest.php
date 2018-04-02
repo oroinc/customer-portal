@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypesValidator;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit_Framework_TestCase
 {

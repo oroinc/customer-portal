@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Resolver;
 
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
+use Oro\Component\Testing\Unit\EntityTrait;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class WebsiteUrlResolverTest extends \PHPUnit_Framework_TestCase
 {

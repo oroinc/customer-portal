@@ -3,11 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
 use Oro\Bundle\EntityExtendBundle\Migration\Fixture\AbstractEnumFixture;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 class LoadInternalRating extends AbstractEnumFixture
 {

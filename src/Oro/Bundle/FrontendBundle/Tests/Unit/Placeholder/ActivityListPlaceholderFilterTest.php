@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Placeholder;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-
 use Oro\Bundle\ActivityListBundle\Placeholder\PlaceholderFilter;
-use Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent;
 use Oro\Bundle\FrontendBundle\Placeholder\ActivityListPlaceholderFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ActivityListPlaceholderFilterTest extends \PHPUnit_Framework_TestCase
 {

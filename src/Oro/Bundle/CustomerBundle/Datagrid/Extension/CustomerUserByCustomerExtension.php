@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Datagrid\Extension;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datasource\DatasourceInterface;
 use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource;
 use Oro\Bundle\DataGridBundle\Extension\AbstractExtension;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CustomerUserByCustomerExtension extends AbstractExtension
 {

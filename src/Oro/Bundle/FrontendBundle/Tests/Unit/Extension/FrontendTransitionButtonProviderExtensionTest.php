@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Extension;
 
-use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
 use Oro\Bundle\FrontendBundle\Extension\FrontendTransitionButtonProviderExtension;
-
+use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
 use Oro\Bundle\WorkflowBundle\Tests\Unit\Extension\TransitionButtonProviderExtensionTestCase;
 
 class FrontendTransitionButtonProviderExtensionTest extends TransitionButtonProviderExtensionTestCase

@@ -2,14 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-
 use Oro\Bundle\SecurityBundle\DependencyInjection\Extension\SecurityExtensionHelper;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroCustomerExtension extends Extension implements PrependExtensionInterface
 {

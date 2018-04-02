@@ -3,13 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
 use Doctrine\Common\Collections\ArrayCollection;
-
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRole;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRoleValidator;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class CustomerUserCheckRoleValidatorTest extends \PHPUnit_Framework_TestCase
 {

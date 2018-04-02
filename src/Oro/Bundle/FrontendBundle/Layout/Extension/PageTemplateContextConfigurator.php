@@ -2,13 +2,11 @@
 
 namespace Oro\Bundle\FrontendBundle\Layout\Extension;
 
-use Symfony\Component\OptionsResolver\Options;
-
-use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-
+use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Component\Layout\ContextConfiguratorInterface;
 use Oro\Component\Layout\ContextInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 class PageTemplateContextConfigurator implements ContextConfiguratorInterface
 {
@@ -48,6 +46,6 @@ class PageTemplateContextConfigurator implements ContextConfiguratorInterface
                     }
                 ]
             )
-            ->setAllowedTypes(['page_template' => ['string', 'null']]);
+            ->setAllowedTypes('page_template', ['string', 'null']);
     }
 }

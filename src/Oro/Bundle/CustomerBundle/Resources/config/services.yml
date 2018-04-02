@@ -62,10 +62,8 @@ services:
         class: 'Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerDatagridListener'
         arguments:
             - "@oro_customer.security.customer_user_provider"
-            - "@oro_customer.repository.customer"
-            - ["@oro_customer.datagrid.customer_action_permission_provider", "getActions"]
         tags:
-            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before, method: onBuildBeforeFrontendItems }
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before, method: onBuildBefore }
 
     oro_customer.security.authentication.trust_resolver_decorator:
         class: Oro\Bundle\CustomerBundle\Security\AuthenticationTrustResolver
@@ -161,13 +159,6 @@ services:
         arguments:
             - "@security.authorization_checker"
             - "@oro_security.token_accessor"
-
-    oro_customer.datagrid.customer_action_permission_provider:
-        class: 'Oro\Bundle\CustomerBundle\Datagrid\CustomerActionPermissionProvider'
-        public: false
-        arguments:
-            - "@security.authorization_checker"
-            - "@doctrine"
 
     oro_customer.datagrid.extension.accoun_user:
         class: 'Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserExtension'
@@ -528,8 +519,13 @@ services:
             - "@request_stack"
             - "@oro_security.token_accessor"
             - "@security.csrf.token_manager"
+            - "@oro_customer.provider.sign_in.target_path"
         tags:
             - { name: layout.data_provider, alias: oro_customer_sign_in }
+
+    oro_customer.provider.sign_in.target_path:
+        class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInTargetPathProvider'
+        public: false
 
     oro_customer.doctrine.filters_listener:
         class: 'Oro\Bundle\CustomerBundle\Doctrine\DoctrineFiltersListener'
@@ -597,7 +593,7 @@ services:
             - { name: layout.data_provider, alias: oro_customer_fronted_customer_user_role_tab_options }
 
     oro_customer.provider.role_privilege_capability_provider:
-        class: %oro_user.provider.role_privilege_capability_provider.class%
+        class: '%oro_user.provider.role_privilege_capability_provider.class%'
         arguments:
             - '@translator'
             - '@oro_user.provider.role_privilege_category_provider'
@@ -740,14 +736,14 @@ services:
             - '%oro_customer.entity.customer_user.class%'
 
     oro_user.provider.role_privilege_capability_provider_commerce:
-        class: %oro_user.provider.role_privilege_capability_provider.class%
+        class: '%oro_user.provider.role_privilege_capability_provider.class%'
         arguments:
             - '@translator'
             - '@oro_user.provider.role_privilege_category_provider'
             - '@oro_customer.form.handler.acl_role.commerce='
 
     oro_customer.provider.role_privilege_capability_provider.decorator:
-        class: %oro_user.provider.role_privilege_capability_provider.class%
+        class: '%oro_user.provider.role_privilege_capability_provider.class%'
         decorates: oro_user.provider.role_privilege_capability_provider
         arguments:
             - '@translator'
@@ -983,3 +979,16 @@ services:
         parent: oro_navigation.event_listener.navigation_items
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
+
+    oro_customer.security.orm.ownership_sql_walker_builder:
+        class: 'Oro\Bundle\CustomerBundle\ORM\Walker\CustomerOwnershipConditionDataBuilder'
+        decorates: 'oro_security.orm.ownership_sql_walker_builder'
+        decoration_priority: -20
+        arguments:
+            - '@security.authorization_checker'
+            - '@security.token_storage'
+            - '@oro_security.owner.metadata_provider.chain'
+            - '@oro_security.ownership_tree_provider.chain'
+            - '@?security.acl.voter.basic_permissions'
+            - '@oro_customer.security.orm.ownership_sql_walker_builder.inner'
+            - '@oro_security.acl.group_provider.chain'

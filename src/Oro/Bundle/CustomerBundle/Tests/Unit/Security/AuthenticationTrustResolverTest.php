@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security;
 
+use Oro\Bundle\CustomerBundle\Security\AuthenticationTrustResolver;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver as BaseAuthenticationTrustResolver;
 use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-
-use Oro\Bundle\CustomerBundle\Security\AuthenticationTrustResolver;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 
 class AuthenticationTrustResolverTest extends \PHPUnit_Framework_TestCase
 {

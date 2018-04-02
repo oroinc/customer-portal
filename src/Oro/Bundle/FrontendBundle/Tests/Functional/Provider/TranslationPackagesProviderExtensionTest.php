@@ -21,4 +21,12 @@ class TranslationPackagesProviderExtensionTest extends TranslationPackagesProvid
             'fileToLocate' => 'Oro/Bundle/FrontendBundle/OroFrontendBundle.php'
         ];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getPackageName()
+    {
+        return 'customer-portal';
+    }
 }

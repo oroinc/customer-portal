@@ -3,9 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid;
 
 use Doctrine\Common\Collections\ArrayCollection;
-
-use Symfony\Component\Translation\TranslatorInterface;
-
+use Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver;
+use Oro\Bundle\CustomerBundle\Datagrid\RolePermissionDatasource;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecord;
@@ -20,8 +19,7 @@ use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
 use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
-use Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver;
-use Oro\Bundle\CustomerBundle\Datagrid\RolePermissionDatasource;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class RolePermissionDatasourceTest extends \PHPUnit_Framework_TestCase
 {

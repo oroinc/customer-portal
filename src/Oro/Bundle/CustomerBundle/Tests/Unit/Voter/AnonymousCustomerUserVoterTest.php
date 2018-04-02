@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Voter;
 
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
-use Oro\Bundle\CustomerBundle\Voter\AnonymousCustomerUserVoter;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\CustomerBundle\Voter\AnonymousCustomerUserVoter;
 use Oro\Bundle\FeatureToggleBundle\Checker\Voter\VoterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AnonymousCustomerUserVoterTest extends \PHPUnit_Framework_TestCase
 {

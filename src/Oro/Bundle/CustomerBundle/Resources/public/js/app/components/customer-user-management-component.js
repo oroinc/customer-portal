@@ -7,6 +7,16 @@ define(function(require) {
     var $ = require('jquery');
 
     CustomerUserManagementComponent = BaseComponent.extend({
+        /**
+         * @inheritDoc
+         */
+        constructor: function CustomerUserManagementComponent() {
+            CustomerUserManagementComponent.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             options._sourceElement.find('a').on('click', function(e) {
                 e.preventDefault();

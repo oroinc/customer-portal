@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Translation\Strategy;
 
-use Oro\Bundle\TranslationBundle\Strategy\DefaultTranslationStrategy;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\TranslationBundle\Strategy\DefaultTranslationStrategy;
 use Oro\Bundle\WebsiteBundle\Translation\Strategy\FrontendFallbackStrategy;
 
 class FrontendFallbackStrategyTest extends \PHPUnit_Framework_TestCase

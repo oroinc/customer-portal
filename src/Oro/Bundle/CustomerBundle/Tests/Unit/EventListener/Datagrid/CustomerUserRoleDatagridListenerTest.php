@@ -4,12 +4,11 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener\Datagrid;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserRoleDatagridListener;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
 use Oro\Bundle\DataGridBundle\Event\BuildAfter;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
-use Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserRoleDatagridListener;
 
 class CustomerUserRoleDatagridListenerTest extends \PHPUnit_Framework_TestCase
 {

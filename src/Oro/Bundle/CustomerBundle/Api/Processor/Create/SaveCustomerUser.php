@@ -2,11 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Api\Processor\Create;
 
+use Oro\Bundle\ApiBundle\Processor\Create\CreateContext;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Component\ChainProcessor\ContextInterface;
 use Oro\Component\ChainProcessor\ProcessorInterface;
-use Oro\Bundle\ApiBundle\Processor\Create\CreateContext;
 
 class SaveCustomerUser implements ProcessorInterface
 {

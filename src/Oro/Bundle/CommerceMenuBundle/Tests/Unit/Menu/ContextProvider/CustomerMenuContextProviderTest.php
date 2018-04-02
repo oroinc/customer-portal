@@ -6,7 +6,6 @@ use Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvid
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-
 use Oro\Component\Testing\Unit\EntityTrait;
 
 class CustomerMenuContextProviderTest extends \PHPUnit_Framework_TestCase

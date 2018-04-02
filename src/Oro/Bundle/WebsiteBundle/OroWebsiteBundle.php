@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\WebsiteBundle;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
 use Oro\Bundle\WebsiteBundle\DependencyInjection\CompilerPass\TwigSandboxConfigurationPass;
 use Oro\Bundle\WebsiteBundle\DependencyInjection\OroWebsiteExtension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class OroWebsiteBundle extends Bundle
 {

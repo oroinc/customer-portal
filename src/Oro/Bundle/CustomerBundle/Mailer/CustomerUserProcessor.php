@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Mailer;
 
-use Oro\Bundle\UserBundle\Mailer\BaseProcessor;
-use Oro\Bundle\UserBundle\Entity\UserInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\UserBundle\Entity\UserInterface;
+use Oro\Bundle\UserBundle\Mailer\BaseProcessor;
 
 class CustomerUserProcessor extends BaseProcessor
 {

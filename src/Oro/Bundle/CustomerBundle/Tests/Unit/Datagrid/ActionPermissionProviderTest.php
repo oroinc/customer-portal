@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid;
 
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
+use Oro\Bundle\CustomerBundle\Datagrid\ActionPermissionProvider;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\CustomerBundle\Datagrid\ActionPermissionProvider;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
 {

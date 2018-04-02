@@ -2,14 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
+use Oro\Bundle\AddressBundle\Form\EventListener\FixAddressesPrimarySubscriber;
+use Oro\Bundle\CustomerBundle\Form\EventListener\FixCustomerAddressesDefaultSubscriber;
+use Oro\Bundle\FormBundle\Form\Extension\StripTagsExtension;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraint;
-
-use Oro\Bundle\AddressBundle\Form\EventListener\FixAddressesPrimarySubscriber;
-use Oro\Bundle\CustomerBundle\Form\EventListener\FixCustomerAddressesDefaultSubscriber;
-use Oro\Bundle\FormBundle\Form\Extension\StripTagsExtension;
 
 class CustomerTypedAddressType extends AbstractType
 {

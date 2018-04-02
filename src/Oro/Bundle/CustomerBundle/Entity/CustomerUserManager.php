@@ -2,16 +2,14 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
-use Psr\Log\LoggerInterface;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\CustomerBundle\Mailer\Processor;
+use Oro\Bundle\UserBundle\Entity\BaseUserManager;
+use Oro\Bundle\UserBundle\Entity\UserInterface;
 use Psr\Log\LoggerAwareInterface;
-
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\UserBundle\Entity\BaseUserManager;
-use Oro\Bundle\CustomerBundle\Mailer\Processor;
-use Oro\Bundle\UserBundle\Entity\UserInterface;
 
 class CustomerUserManager extends BaseUserManager implements ContainerAwareInterface, LoggerAwareInterface
 {

@@ -2,23 +2,21 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Form\PreloadedExtension;
-use Symfony\Component\Form\Test\FormIntegrationTestCase;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
 use Doctrine\ORM\EntityManager;
-
-use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
-use Oro\Component\Testing\Unit\Entity\Stub\StubEnumValue;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EnumSelectType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerType;
 use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
+use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
+use Oro\Component\Testing\Unit\Entity\Stub\StubEnumValue;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EnumSelectType;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\PreloadedExtension;
+use Symfony\Component\Form\Test\FormIntegrationTestCase;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class CustomerTypeTest extends FormIntegrationTestCase
 {

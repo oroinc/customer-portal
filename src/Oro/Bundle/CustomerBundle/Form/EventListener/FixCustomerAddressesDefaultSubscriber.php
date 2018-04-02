@@ -3,16 +3,14 @@
 namespace Oro\Bundle\CustomerBundle\Form\EventListener;
 
 use Doctrine\Common\Collections\Collection;
-
+use Oro\Bundle\AddressBundle\Entity\AddressType;
+use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
+use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
-use Oro\Bundle\AddressBundle\Entity\AddressType;
-use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
-use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 
 /**
  * When address is created/updated from single form, it will ensure the rules of one address has default mark per type

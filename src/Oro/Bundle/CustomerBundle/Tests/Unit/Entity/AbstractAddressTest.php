@@ -3,13 +3,12 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-
 use Oro\Bundle\AddressBundle\Entity\AddressType;
+use Oro\Bundle\CustomerBundle\Entity\AbstractAddressToAddressType;
+use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
-use Oro\Bundle\CustomerBundle\Entity\AbstractAddressToAddressType;
-use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)

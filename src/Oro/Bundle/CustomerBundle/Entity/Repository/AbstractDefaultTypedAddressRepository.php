@@ -5,7 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
 abstract class AbstractDefaultTypedAddressRepository extends EntityRepository

@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 
 class CircularCustomerReferenceValidator extends ConstraintValidator
 {

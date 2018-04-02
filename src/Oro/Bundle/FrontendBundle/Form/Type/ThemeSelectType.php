@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\FrontendBundle\Form\Type;
 
+use Oro\Component\Layout\Extension\Theme\Model\Theme;
+use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Oro\Component\Layout\Extension\Theme\Model\Theme;
-use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 
 class ThemeSelectType extends AbstractType
 {

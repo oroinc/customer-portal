@@ -25,14 +25,14 @@ datagrids:
             access_level_route: oro_customer_acl_access_levels
 
     customer-customers-select-grid:
-        extended_entity_name: %oro_customer.entity.customer.class%
+        extended_entity_name: '%oro_customer.entity.customer.class%'
         acl_resource: oro_customer_customer_view
         options:
             entityHint:        customers
         inline_editing:
             enable: true
             behaviour: enable_selected
-            entity_name: %oro_customer.entity.customer.class%
+            entity_name: '%oro_customer.entity.customer.class%'
         source:
             type:         orm
             query:
@@ -44,7 +44,7 @@ datagrids:
                     - internalRating.name as internal_rating_name
                     - internalRating.id as internal_rating_id
                 from:
-                    - { table: %oro_customer.entity.customer.class%, alias: customer }
+                    - { table: '%oro_customer.entity.customer.class%', alias: customer }
                 join:
                     left:
                         - { join: customer.group, alias: customer_group }
@@ -75,7 +75,7 @@ datagrids:
                 internal_rating_name:
                     data_name: internal_rating_name
             default:
-                name: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC
+                name: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC'
         filters:
             columns:
                 name:
@@ -87,7 +87,7 @@ datagrids:
                     options:
                         field_type: Symfony\Bridge\Doctrine\Form\Type\EntityType
                         field_options:
-                            class:    %oro_customer.entity.customer_group.class%
+                            class:    '%oro_customer.entity.customer_group.class%'
                             property: name
                 parent_name:
                     type:      string
@@ -150,7 +150,7 @@ datagrids:
                 rowAction:    true
 
     customer-groups-select-grid:
-        extended_entity_name: %oro_customer.entity.customer_group.class%
+        extended_entity_name: '%oro_customer.entity.customer_group.class%'
         acl_resource: oro_customer_customer_group_view
         options:
             entityHint:        customer groups
@@ -161,7 +161,7 @@ datagrids:
                     - customer_group.id
                     - customer_group.name
                 from:
-                    - { table: %oro_customer.entity.customer_group.class%, alias: customer_group }
+                    - { table: '%oro_customer.entity.customer_group.class%', alias: customer_group }
         columns:
             name:
                 label: oro.customer.customergroup.name.label
@@ -172,7 +172,7 @@ datagrids:
                 name:
                     data_name: customer_group.name
             default:
-                name: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC
+                name: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC'
         filters:
             columns:
                 name:
@@ -218,7 +218,7 @@ datagrids:
                     - customer.name
                     - parent.name as parent_name
                 from:
-                    - { table: %oro_customer.entity.customer.class%, alias: customer }
+                    - { table: '%oro_customer.entity.customer.class%', alias: customer }
                 join:
                     left:
                         - { join: customer.parent, alias: parent }
@@ -268,7 +268,7 @@ datagrids:
                 label: oro.customer.customer.parent.label
         sorters:
             default:
-                name: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC
+                name: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC'
         actions:
             view:
                 rowAction: true
@@ -294,7 +294,7 @@ datagrids:
                 hasGroup:
                     data_name: hasGroup
             default:
-                hasGroup: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC
+                hasGroup: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC'
         options:
             rowSelection:
                 dataField: id
@@ -342,7 +342,7 @@ datagrids:
                     - customerUser.confirmed
                     - customerUser.isGuest
                 from:
-                    - { table: %oro_customer.entity.customer_user.class%, alias: customerUser }
+                    - { table: '%oro_customer.entity.customer_user.class%', alias: customerUser }
         columns:
             firstName:
                 label: oro.customer.customeruser.first_name.label
@@ -548,7 +548,7 @@ datagrids:
                 isRolePredefined:
                     data_name: isRolePredefined
             default:
-                label: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC
+                label: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC'
         filters:
             columns:
                 label:
@@ -668,7 +668,7 @@ datagrids:
                 hasRole:
                     data_name: hasRole
             default:
-                hasRole: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC
+                hasRole: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC'
         options:
             entityHint: users
             rowSelection:
@@ -689,7 +689,7 @@ datagrids:
                     - user.lastName
                     - user.email
                 from:
-                    - { table: %oro_customer.entity.customer_user.class%, alias: user }
+                    - { table: '%oro_customer.entity.customer_user.class%', alias: user }
         properties:
             id: ~
         filters:
@@ -755,7 +755,7 @@ datagrids:
                     data_name: customerName
 
     frontend-customer-customer-users-grid-basic:
-        entity_name: %oro_customer.entity.customer_user.class%
+        entity_name: '%oro_customer.entity.customer_user.class%'
         options:
             frontend: true
             entityHint: customer users
@@ -769,7 +769,7 @@ datagrids:
                     - user.email
                     - CASE WHEN user.enabled = true AND user.confirmed = true THEN true ELSE false END AS status
                 from:
-                    - { table: %oro_customer.entity.customer_user.class%, alias: user }
+                    - { table: '%oro_customer.entity.customer_user.class%', alias: user }
         sorters:
             columns:
                 fullName:
@@ -915,7 +915,7 @@ datagrids:
                 hasRole:
                     data_name: hasRole
             default:
-                hasRole: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC
+                hasRole: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC'
         options:
             entityHint: users
             rowSelection:
@@ -1151,7 +1151,7 @@ datagrids:
             type: orm
             query:
                 from:
-                    - { table: %oro_customer.entity.customer_address.class%, alias: address }
+                    - { table: '%oro_customer.entity.customer_address.class%', alias: address }
         properties:
             update_link:
                 type: url
@@ -1173,7 +1173,7 @@ datagrids:
             type: orm
             query:
                 from:
-                    - { table: %oro_customer.entity.customer_user_address.class%, alias: address }
+                    - { table: '%oro_customer.entity.customer_user_address.class%', alias: address }
         properties:
             update_link:
                 type: url

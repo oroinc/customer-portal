@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Request;
 
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-
-use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
 class FrontendHelperTest extends \PHPUnit_Framework_TestCase
 {

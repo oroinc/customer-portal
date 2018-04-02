@@ -9,7 +9,7 @@ define(function(require) {
     var $ = require('jquery');
 
     StickyPanelView = BaseView.extend({
-        autoRender: true,
+        autoRender: false,
 
         options: {
             placeholderClass: 'moved-to-sticky',
@@ -31,6 +31,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function StickyPanelView() {
+            StickyPanelView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options || {});
             StickyPanelView.__super__.initialize.apply(this, arguments);
@@ -43,6 +50,8 @@ define(function(require) {
                 top: 0,
                 bottom: 0
             };
+
+            this.listenToOnce(mediator, 'page:afterChange', this.render);
         },
 
         /**

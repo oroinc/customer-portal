@@ -3,13 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub;
 
 use Doctrine\ORM\EntityManager;
-
+use Oro\Bundle\AddressBundle\Entity\AddressType;
+use Oro\Bundle\CustomerBundle\Form\DataTransformer\AddressTypeDefaultTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Oro\Bundle\AddressBundle\Entity\AddressType;
-use Oro\Bundle\CustomerBundle\Form\DataTransformer\AddressTypeDefaultTransformer;
 
 class CustomerTypedAddressWithDefaultTypeStub extends AbstractType
 {

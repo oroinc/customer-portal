@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Validator\Constraints;
 
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-
 use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpression;
 use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpressionValidator;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class MenuUpdateExpressionValidatorTest extends \PHPUnit_Framework_TestCase
 {

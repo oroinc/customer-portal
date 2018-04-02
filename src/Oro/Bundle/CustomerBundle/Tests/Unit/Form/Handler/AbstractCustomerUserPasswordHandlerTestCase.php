@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
+use Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserPasswordHandler;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
-
-use Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserPasswordHandler;
 
 abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -77,7 +76,7 @@ abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Fram
             ->with('POST')
             ->will($this->returnValue(false));
         $this->form->expects($this->never())
-            ->method('submit');
+            ->method('handleRequest');
 
         $this->assertFalse($this->handler->process($this->form, $this->request));
     }
@@ -89,7 +88,7 @@ abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Fram
             ->with('POST')
             ->will($this->returnValue(true));
         $this->form->expects($this->once())
-            ->method('submit')
+            ->method('handleRequest')
             ->with($this->request);
         $this->form->expects($this->once())
             ->method('isValid')
@@ -105,7 +104,7 @@ abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Fram
             ->with('POST')
             ->will($this->returnValue(true));
         $this->form->expects($this->once())
-            ->method('submit')
+            ->method('handleRequest')
             ->with($this->request);
         $this->form->expects($this->once())
             ->method('isValid')

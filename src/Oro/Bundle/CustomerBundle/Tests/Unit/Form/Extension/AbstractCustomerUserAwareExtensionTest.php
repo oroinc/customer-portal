@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 abstract class AbstractCustomerUserAwareExtensionTest extends \PHPUnit_Framework_TestCase
 {

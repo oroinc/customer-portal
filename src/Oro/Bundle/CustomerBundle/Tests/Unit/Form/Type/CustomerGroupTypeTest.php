@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
-
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType;
-use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
-use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 
 class CustomerGroupTypeTest extends FormIntegrationTestCase
 {

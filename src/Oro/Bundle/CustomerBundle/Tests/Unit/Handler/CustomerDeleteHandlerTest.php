@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Handler;
 
 use Doctrine\ORM\EntityManager;
-
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Handler\CustomerAssignHelper;

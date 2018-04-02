@@ -4,7 +4,6 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Layout\DataProvider;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
-
 use Oro\Bundle\CommerceMenuBundle\Layout\DataProvider\MenuProvider;
 
 class MenuProviderTest extends \PHPUnit_Framework_TestCase

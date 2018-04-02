@@ -2,17 +2,16 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerVisitorEmailAddressType;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\EmailBundle\Form\Type\EmailAddressType;
+use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Validator\Validation;
-
-use Oro\Bundle\CustomerBundle\Form\Type\CustomerVisitorEmailAddressType;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-use Oro\Bundle\EmailBundle\Form\Type\EmailAddressType;
-use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 
 class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
 {
@@ -62,7 +61,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
         $form->submit($submittedData);
         $this->assertFalse($form->isValid());
-        $this->assertContains($expectedError, $form->getErrorsAsString());
+        $this->assertContains($expectedError, (string)$form->getErrors(true, false));
     }
 
     /**

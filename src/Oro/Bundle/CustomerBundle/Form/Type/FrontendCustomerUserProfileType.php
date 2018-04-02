@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
+use Oro\Bundle\UserBundle\Form\Type\ChangePasswordType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Oro\Bundle\UserBundle\Form\Type\ChangePasswordType;
 
 class FrontendCustomerUserProfileType extends AbstractType
 {
@@ -123,7 +122,7 @@ class FrontendCustomerUserProfileType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => $this->dataClass,
-                'intention' => 'frontend_customer_user',
+                'csrf_token_id' => 'frontend_customer_user',
             ]
         );
     }

@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
-use Symfony\Component\Routing\Annotation\Route;
-
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\CustomerBundle\Controller\AbstractAjaxCustomerUserController;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Symfony\Component\Routing\Annotation\Route;
 
 class AjaxCustomerUserController extends AbstractAjaxCustomerUserController
 {

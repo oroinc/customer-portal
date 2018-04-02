@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Functional\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
-
 use Oro\Bundle\CommerceMenuBundle\Tests\Functional\DataFixtures\GlobalMenuUpdateData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class GlobalAjaxMenuControllerTest extends WebTestCase
 {

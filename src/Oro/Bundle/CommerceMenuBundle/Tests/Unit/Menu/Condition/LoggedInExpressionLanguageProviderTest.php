@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Menu\Condition;
 
-use Symfony\Component\ExpressionLanguage\ExpressionFunction;
-
 use Oro\Bundle\CommerceMenuBundle\Menu\Condition\LoggedInExpressionLanguageProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 
 class LoggedInExpressionLanguageProviderTest extends \PHPUnit_Framework_TestCase
 {

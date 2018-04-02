@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\FrontendBundle\EventListener;
 
-use Symfony\Component\Routing\Route;
-
 use Oro\Bundle\ApiBundle\ApiDoc\RestRouteOptionsResolver;
 use Oro\Bundle\DistributionBundle\Event\RouteCollectionEvent;
+use Symfony\Component\Routing\Route;
 
 class RouteCollectionListener
 {

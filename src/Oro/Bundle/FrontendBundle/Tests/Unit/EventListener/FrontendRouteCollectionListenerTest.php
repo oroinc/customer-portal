@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
-
 use Oro\Bundle\DistributionBundle\Event\RouteCollectionEvent;
 use Oro\Bundle\FrontendBundle\EventListener\FrontendRouteCollectionListener;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 
 class FrontendRouteCollectionListenerTest extends \PHPUnit_Framework_TestCase
 {

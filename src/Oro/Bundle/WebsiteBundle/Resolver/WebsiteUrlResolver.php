@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\WebsiteBundle\Resolver;
 
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Component\Website\WebsiteInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class WebsiteUrlResolver
 {

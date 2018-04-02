@@ -12,6 +12,13 @@ define(function(require) {
 
     AttachedEditableViewComponent = InlineEditableViewComponent.extend(/** @lends AttachedEditableViewComponent.prototype */{
         /**
+         * @inheritDoc
+         */
+        constructor: function AttachedEditableViewComponent() {
+            AttachedEditableViewComponent.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
          * @constructor
          * @param {Object} options
          */

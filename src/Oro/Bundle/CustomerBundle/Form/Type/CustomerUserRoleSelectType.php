@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
-
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 
 class CustomerUserRoleSelectType extends AbstractType
 {

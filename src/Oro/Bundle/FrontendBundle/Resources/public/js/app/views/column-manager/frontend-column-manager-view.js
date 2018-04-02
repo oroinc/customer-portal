@@ -41,6 +41,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function FrontendColumnManagerView() {
+            FrontendColumnManagerView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.viewport = _.extend(this.viewport, options.viewport || {});
             this.popupOptions.contentElement = this.$el;

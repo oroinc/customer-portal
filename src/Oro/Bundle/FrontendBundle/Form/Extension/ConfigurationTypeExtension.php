@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\FrontendBundle\Form\Extension;
 
+use Oro\Bundle\FrontendBundle\Form\Type\Configuration\WebType;
+use Oro\Bundle\InstallerBundle\Form\Type\ConfigurationType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
-use Oro\Bundle\InstallerBundle\Form\Type\ConfigurationType;
-use Oro\Bundle\FrontendBundle\Form\Type\Configuration\WebType;
 
 class ConfigurationTypeExtension extends AbstractTypeExtension
 {

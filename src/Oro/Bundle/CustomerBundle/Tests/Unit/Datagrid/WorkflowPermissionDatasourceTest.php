@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid;
 
 use Doctrine\Common\Collections\ArrayCollection;
-
 use Oro\Bundle\CustomerBundle\Datagrid\WorkflowPermissionDatasource;
 use Oro\Bundle\DataGridBundle\Datagrid\Datagrid;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;

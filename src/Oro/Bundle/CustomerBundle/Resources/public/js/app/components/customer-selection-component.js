@@ -45,6 +45,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function CustomerSelectionComponent() {
+            CustomerSelectionComponent.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.options = _.defaults(options || {}, this.options);
             this.$el = options._sourceElement;

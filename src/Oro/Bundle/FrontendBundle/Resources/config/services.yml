@@ -279,7 +279,7 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Form\Configurator\ThemeConfigurator'
         arguments:
             - '@oro_config.config_bag'
-            - '@security.context'
+            - '@security.authorization_checker'
 
     oro_frontend.datagrid.extension.frontend_datagrid:
         class: Oro\Bundle\FrontendBundle\Datagrid\Extension\FrontendDatagridExtension
