@@ -11,3 +11,4 @@ to REST API resources for the store frontend, but there are several differences:
 - for configuration files use `Resources/config/oro/api_frontend.yml`, not `Resources/config/oro/api.yml`
 - for documentation files use `Resources/doc/api_frontend` folder, not `Resources/doc/api`
 - for API processors use `frontend` request type
+- for API routes use `frontend_rest_api` group instead of `rest_api`, and set `frontend` option to `true`

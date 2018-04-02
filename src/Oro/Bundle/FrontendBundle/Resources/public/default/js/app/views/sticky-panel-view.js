@@ -9,7 +9,7 @@ define(function(require) {
     var $ = require('jquery');
 
     StickyPanelView = BaseView.extend({
-        autoRender: true,
+        autoRender: false,
 
         options: {
             placeholderClass: 'moved-to-sticky',
@@ -50,6 +50,8 @@ define(function(require) {
                 top: 0,
                 bottom: 0
             };
+
+            this.listenToOnce(mediator, 'page:afterChange', this.render);
         },
 
         /**

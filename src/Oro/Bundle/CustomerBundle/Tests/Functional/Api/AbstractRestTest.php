@@ -62,9 +62,6 @@ abstract class AbstractRestTest extends RestJsonApiTestCase
         if ($ratingId) {
             $customer->setInternalRating($this->getRating($ratingId));
         }
-        if ($group) {
-            $group->addCustomer($customer);
-        }
 
         $manager->persist($customer);
         $manager->flush();
