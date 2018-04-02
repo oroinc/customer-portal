@@ -4,8 +4,8 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Acl;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleACLData;
-use Oro\Bundle\UserBundle\Tests\Functional\Acl\AbstractPermissionConfigurableTestCase;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData as OroLoadCustomerUserData;
+use Oro\Bundle\UserBundle\Tests\Functional\Acl\AbstractPermissionConfigurableTestCase;
 
 class FrontendPermissionConfigurableTest extends AbstractPermissionConfigurableTestCase
 {

@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_8;
 
 use Doctrine\DBAL\Schema\Schema;
-
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\NoteBundle\Migration\UpdateNoteAssociationKindForRenamedEntitiesMigration;
 

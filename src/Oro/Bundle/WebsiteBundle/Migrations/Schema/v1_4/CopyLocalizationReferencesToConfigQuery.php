@@ -3,11 +3,9 @@
 namespace Oro\Bundle\WebsiteBundle\Migrations\Schema\v1_4;
 
 use Doctrine\DBAL\Driver\Statement;
-
-use Psr\Log\LoggerInterface;
-
 use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
+use Psr\Log\LoggerInterface;
 
 class CopyLocalizationReferencesToConfigQuery extends ParametrizedMigrationQuery
 {

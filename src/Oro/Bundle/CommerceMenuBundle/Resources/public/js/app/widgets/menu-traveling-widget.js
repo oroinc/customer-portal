@@ -39,6 +39,13 @@ define(function(require) {
         keepElement: true,
 
         /**
+         * @inheritDoc
+         */
+        constructor: function MenuTravelingWidget() {
+            MenuTravelingWidget.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
          * @param {Object} options
          */
         initialize: function(options) {
@@ -139,7 +146,7 @@ define(function(require) {
                 containerHeight -= this.consideringTopPosition;
             }
 
-            if (containerHeight > 0) {
+            if (containerHeight > 0 && this.$relatedContainer) {
                 this.$relatedContainer.css({
                     height: containerHeight
                 });

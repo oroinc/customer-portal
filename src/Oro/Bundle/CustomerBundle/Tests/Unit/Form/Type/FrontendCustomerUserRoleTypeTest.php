@@ -2,25 +2,22 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\PreloadedExtension;
-use Symfony\Component\Validator\Validation;
-
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as CustomerSelectTypeStub;
-
-use Genemu\Bundle\FormBundle\Form\JQuery\Type\Select2Type;
-
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AclPriviledgeTypeStub;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
+use Oro\Bundle\FormBundle\Form\Type\Select2Type;
 use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType;
 use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as CustomerSelectTypeStub;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\PreloadedExtension;
+use Symfony\Component\Validator\Validation;
 
 class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
 {
@@ -42,7 +39,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|TranslatableEntityType $registry */
         $translatableEntity = $this->getMockBuilder('Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType')
-            ->setMethods(['setDefaultOptions', 'buildForm'])
+            ->setMethods(['configureOptions', 'buildForm'])
             ->disableOriginalConstructor()
             ->getMock();
         return [
@@ -53,7 +50,10 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
                     'oro_acl_collection' => new PrivilegeCollectionType(),
                     AclPriviledgeTypeStub::NAME => new AclPriviledgeTypeStub(),
                     FrontendOwnerSelectTypeStub::NAME => new FrontendOwnerSelectTypeStub(),
-                    'genemu_jqueryselect2_translatable_entity' => new Select2Type('translatable_entity'),
+                    'oro_select2_translatable_entity' => new Select2Type(
+                        'Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType',
+                        'oro_select2_translatable_entity'
+                    ),
                     'translatable_entity' => $translatableEntity,
                 ],
                 []

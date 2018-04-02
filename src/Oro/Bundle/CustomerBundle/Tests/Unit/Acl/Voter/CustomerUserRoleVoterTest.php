@@ -2,17 +2,16 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Voter;
 
+use Oro\Bundle\CustomerBundle\Acl\Voter\CustomerUserRoleVoter;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
-
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Bundle\CustomerBundle\Acl\Voter\CustomerUserRoleVoter;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -49,56 +48,6 @@ class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         unset($this->voter, $this->doctrineHelper, $this->container);
-    }
-
-    /**
-     * @param string $class
-     * @param string $actualClass
-     * @param bool   $expected
-     *
-     * @dataProvider supportsClassDataProvider
-     */
-    public function testSupportsClass($class, $actualClass, $expected)
-    {
-        $this->voter->setClassName($actualClass);
-        $this->assertEquals($expected, $this->voter->supportsClass($class));
-    }
-
-    /**
-     * @return array
-     */
-    public function supportsClassDataProvider()
-    {
-        return [
-            'supported class'     => ['stdClass', 'stdClass', true],
-            'not supported class' => ['NotSupportedClass', 'stdClass', false],
-        ];
-    }
-
-    /**
-     * @param string $attribute
-     * @param bool   $expected
-     *
-     * @dataProvider supportsAttributeDataProvider
-     */
-    public function testSupportsAttribute($attribute, $expected)
-    {
-        $this->assertEquals($expected, $this->voter->supportsAttribute($attribute));
-    }
-
-    /**
-     * @return array
-     */
-    public function supportsAttributeDataProvider()
-    {
-        return [
-            'VIEW'                         => ['VIEW', false],
-            'CREATE'                       => ['CREATE', false],
-            'EDIT'                         => ['EDIT', false],
-            'DELETE'                       => [CustomerUserRoleVoter::ATTRIBUTE_DELETE, true],
-            'FRONTEND ACCOUNT ROLE UPDATE' => [CustomerUserRoleVoter::ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_UPDATE, true],
-            'FRONTEND ACCOUNT ROLE VIEW'   => [CustomerUserRoleVoter::ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_VIEW, true],
-        ];
     }
 
     /**

@@ -2,14 +2,13 @@
 
 namespace Oro\Bundle\FrontendBundle\EventListener;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\NavigationBundle\Event\ResponseHashnavListener;
+use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\NavigationBundle\Event\ResponseHashnavListener;
-use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
-use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
 class ThemeListener
 {

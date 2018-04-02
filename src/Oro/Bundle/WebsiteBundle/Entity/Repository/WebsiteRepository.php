@@ -4,7 +4,6 @@ namespace Oro\Bundle\WebsiteBundle\Entity\Repository;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository;
-
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorInterface;
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorTrait;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -57,15 +56,7 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
      */
     public function checkWebsiteExists($websiteId)
     {
-        $qb = $this->createQueryBuilder('website');
-
-        $result = $qb->select('website.id')
-            ->where($qb->expr()->eq('website.id', ':websiteId'))
-            ->setParameter('websiteId', (int)$websiteId)
-            ->getQuery()
-            ->getArrayResult();
-
-        return (bool)$result;
+        return $this->find($websiteId) instanceof Website;
     }
 
     /**

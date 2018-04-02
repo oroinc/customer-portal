@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
+use Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserPasswordHandler;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
-
-use Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserPasswordHandler;
 
 abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Framework_TestCase
 {

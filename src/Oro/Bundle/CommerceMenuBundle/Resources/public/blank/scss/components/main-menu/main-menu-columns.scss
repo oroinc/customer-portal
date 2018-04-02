@@ -1,7 +1,7 @@
 // @theme: blank;
 
 .main-menu-columns {
-    display: flex;
+    display: $main-menu-columns-display;
 
     padding: $main-menu-columns-inner-offset;
 
@@ -12,7 +12,7 @@
 
 @include breakpoint('tablet') {
     .main-menu-columns {
-        display: block;
+        display: $main-menu-columns-display-tablet;
 
         @include safe-area-offset(padding, $main-menu-columns-inner-offset-tablet);
     }

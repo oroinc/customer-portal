@@ -2,17 +2,15 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Layout\DataProvider;
 
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\Test\FormInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-use Oro\Component\Testing\Unit\EntityTrait;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserTypedAddressType;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserAddressFormProvider;
+use Oro\Component\Testing\Unit\EntityTrait;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\Test\FormInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit_Framework_TestCase
 {

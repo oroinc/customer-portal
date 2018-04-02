@@ -3,14 +3,18 @@ define(function(require) {
 
     var FitMatrixView;
     var BaseView = require('oroui/js/app/views/base/view');
-    var ElementsHelper = require('orofrontend/js/app/elements-helper');
     var _ = require('underscore');
 
-    FitMatrixView = BaseView.extend(_.extend({}, ElementsHelper, {
-        elements: {
-            scrollView: '[data-scroll-view]',
-            matrixContainer: '[data-matrix-grid-container]'
-        },
+    FitMatrixView = BaseView.extend({
+        /**
+         * @property {jQuery}
+         */
+        $matrixContainer: null,
+
+        /**
+         * @property {jQuery}
+         */
+        $scrollView: null,
 
         listen: {
             'layout:reposition mediator': 'fitMatrix'
@@ -18,9 +22,22 @@ define(function(require) {
 
         states: ['state-labels-above', 'state-multiline'],
 
+        /**
+         * @inheritDoc
+         */
+        constructor: function FitMatrixView() {
+            FitMatrixView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             FitMatrixView.__super__.initialize.apply(this, arguments);
-            this.initializeElements(options);
+
+            this.$matrixContainer = this.$('[data-matrix-grid-container]');
+            this.$scrollView = this.$('[data-scroll-view]');
+
             this.fitMatrix();
 
             this.fitMatrix = _.debounce(this.fitMatrix, 100).bind(this);
@@ -38,7 +55,7 @@ define(function(require) {
                 }
 
                 this.resetState();
-                this.getElement('matrixContainer').addClass(this.states[i]);
+                this.$matrixContainer.addClass(this.states[i]);
             }
         },
 
@@ -48,7 +65,7 @@ define(function(require) {
          * @returns {boolean}
          */
         isFittedContainer: function() {
-            var scrollView = this.getElement('scrollView').get(0);
+            var scrollView = this.$scrollView.get(0);
 
             return scrollView.clientWidth < scrollView.scrollWidth;
         },
@@ -57,9 +74,20 @@ define(function(require) {
          * Reset matrix view state
          */
         resetState: function() {
-            this.getElement('matrixContainer').removeClass(this.states.join(' '));
+            this.$matrixContainer.removeClass(this.states.join(' '));
+        },
+
+        dispose: function() {
+            if (this.disposed) {
+                return;
+            }
+
+            delete this.$matrixContainer;
+            delete this.$row;
+
+            FitMatrixView.__super__.dispose.call(this);
         }
-    }));
+    });
 
     return FitMatrixView;
 });

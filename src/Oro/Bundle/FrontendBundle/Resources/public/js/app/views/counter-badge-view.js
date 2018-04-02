@@ -30,6 +30,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function CounterBadgeView() {
+            CounterBadgeView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.setCount(this.count);
 

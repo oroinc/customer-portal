@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
-
+use Doctrine\ORM\Mapping as ORM;
+use Oro\Bundle\CustomerBundle\Model\ExtendCustomerAddress;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-use Oro\Bundle\CustomerBundle\Model\ExtendCustomerAddress;
 
 /**
  * @ORM\Table("oro_customer_address")

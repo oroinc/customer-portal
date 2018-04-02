@@ -2,12 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Security;
 
-use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadCustomerUserRoles;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)

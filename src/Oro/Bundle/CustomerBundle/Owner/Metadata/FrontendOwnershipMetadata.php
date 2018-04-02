@@ -13,6 +13,36 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
     const OWNER_TYPE_FRONTEND_USER = 4;
     const OWNER_TYPE_FRONTEND_CUSTOMER = 5;
 
+    /** @var string */
+    protected $customerFieldName;
+
+    /** @var string */
+    protected $customerColumnName;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __construct(
+        $ownerType = null,
+        $ownerFieldName = '',
+        $ownerColumnName = '',
+        $organizationFieldName = '',
+        $organizationColumnName = '',
+        $customerFieldName = '',
+        $customerColumnName = ''
+    ) {
+        $this->customerFieldName = $customerFieldName;
+        $this->customerColumnName = $customerColumnName;
+
+        parent::__construct(
+            $ownerType,
+            $ownerFieldName,
+            $ownerColumnName,
+            $organizationFieldName,
+            $organizationColumnName
+        );
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -60,5 +90,55 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
         }
 
         return AccessLevel::getAccessLevelNames($minLevel, $maxLevel);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustomerFieldName()
+    {
+        return $this->customerFieldName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustomerColumnName()
+    {
+        return $this->customerColumnName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return serialize(
+            [
+                $this->ownerType,
+                $this->ownerFieldName,
+                $this->ownerColumnName,
+                $this->organizationFieldName,
+                $this->organizationColumnName,
+                $this->customerFieldName,
+                $this->customerColumnName
+            ]
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->ownerType,
+            $this->ownerFieldName,
+            $this->ownerColumnName,
+            $this->organizationFieldName,
+            $this->organizationColumnName,
+            $this->customerFieldName,
+            $this->customerColumnName
+        ) = unserialize($serialized);
     }
 }

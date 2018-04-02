@@ -17,6 +17,13 @@ define([
         },
 
         /**
+         * @inheritDoc
+         */
+        constructor: function CustomerRoleView() {
+            CustomerRoleView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
          * Initialize
          *
          * @param {Object} options

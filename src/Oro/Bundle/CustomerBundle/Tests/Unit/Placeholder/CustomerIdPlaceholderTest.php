@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Placeholder;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Placeholder\CustomerIdPlaceholder;
-
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -62,20 +62,18 @@ class CustomerIdPlaceholderTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->placeholder->getDefaultValue());
     }
 
-    public function testGetValueWhenCustomerUserIsGiven()
+    public function testGetValueWithNoCustomer()
     {
-        $customerUserId = 7;
         $customerUser = $this->getMockBuilder(CustomerUser::class)
             ->getMock();
-
         $customerUser
             ->expects($this->once())
-            ->method('getId')
-            ->willReturn($customerUserId);
+            ->method('getCustomer')
+            ->willReturn(null);
 
         $token = $this->createMock(TokenInterface::class);
         $token
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getUser')
             ->willReturn($customerUser);
 
@@ -84,14 +82,46 @@ class CustomerIdPlaceholderTest extends \PHPUnit_Framework_TestCase
             ->method('getToken')
             ->willReturn($token);
 
-        $this->assertEquals($customerUserId, $this->placeholder->getDefaultValue());
+        $this->assertNull($this->placeholder->getDefaultValue());
+    }
+
+    public function testGetValueWithValidCustomer()
+    {
+        $customerId = 5;
+
+        $customer = $this->getMockBuilder(Customer::class)
+            ->getMock();
+        $customer
+            ->expects($this->once())
+            ->method('getId')
+            ->willReturn($customerId);
+
+        $customerUser = $this->getMockBuilder(CustomerUser::class)
+            ->getMock();
+        $customerUser
+            ->expects($this->once())
+            ->method('getCustomer')
+            ->willReturn($customer);
+
+        $token = $this->createMock(TokenInterface::class);
+        $token
+            ->expects($this->any())
+            ->method('getUser')
+            ->willReturn($customerUser);
+
+        $this->tokenStorage
+            ->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->assertEquals($customerId, $this->placeholder->getDefaultValue());
     }
 
     public function testReplace()
     {
         $this->assertEquals(
-            'visibility_customer_1',
-            $this->placeholder->replace('visibility_customer_CUSTOMER_ID', [CustomerIdPlaceholder::NAME => 1])
+            'test_field_1',
+            $this->placeholder->replace('test_field_CUSTOMER_ID', [CustomerIdPlaceholder::NAME => 1])
         );
     }
 }

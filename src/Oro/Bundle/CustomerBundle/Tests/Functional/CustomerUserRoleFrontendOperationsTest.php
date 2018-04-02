@@ -3,12 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional;
 
 use Doctrine\Common\Persistence\ObjectRepository;
-
-use Symfony\Component\HttpFoundation\Response;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleACLData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class CustomerUserRoleFrontendOperationsTest extends WebTestCase
 {

@@ -3,10 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Provider;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 
 class CustomerUserRelationsProvider
 {

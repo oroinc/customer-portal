@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Menu\Condition;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
-
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 
 class ConfigValueExpressionLanguageProvider implements ExpressionFunctionProviderInterface
 {

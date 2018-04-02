@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Metadata;
 
-use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 
 class FrontendOwnershipMetadataTest extends \PHPUnit_Framework_TestCase
 {
@@ -113,7 +113,15 @@ class FrontendOwnershipMetadataTest extends \PHPUnit_Framework_TestCase
 
     public function testSerialization()
     {
-        $metadata = new FrontendOwnershipMetadata('FRONTEND_USER', 'customer_user', 'customer_user_id');
+        $metadata = new FrontendOwnershipMetadata(
+            'FRONTEND_USER',
+            'customerUser',
+            'customer_user_id',
+            'organization',
+            'organization_id',
+            'customer',
+            'customer_id'
+        );
         $data = serialize($metadata);
 
         $metadata = new FrontendOwnershipMetadata();
@@ -125,8 +133,12 @@ class FrontendOwnershipMetadataTest extends \PHPUnit_Framework_TestCase
         $metadata = unserialize($data);
         $this->assertTrue($metadata->isUserOwned());
         $this->assertFalse($metadata->isBusinessUnitOwned());
-        $this->assertEquals('customer_user', $metadata->getOwnerFieldName());
+        $this->assertEquals('customerUser', $metadata->getOwnerFieldName());
         $this->assertEquals('customer_user_id', $metadata->getOwnerColumnName());
+        $this->assertEquals('organization', $metadata->getOrganizationFieldName());
+        $this->assertEquals('organization_id', $metadata->getOrganizationColumnName());
+        $this->assertEquals('customer', $metadata->getCustomerFieldName());
+        $this->assertEquals('customer_id', $metadata->getCustomerColumnName());
     }
 
     public function testIsOrganizationOwned()

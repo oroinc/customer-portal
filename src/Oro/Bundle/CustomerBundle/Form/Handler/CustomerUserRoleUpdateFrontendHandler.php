@@ -3,16 +3,14 @@
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
 use Doctrine\Common\Collections\ArrayCollection;
-
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
-use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory;
-use Oro\Bundle\UserBundle\Entity\AbstractRole;
-use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType;
+use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory;
+use Oro\Bundle\UserBundle\Entity\AbstractRole;
+use Oro\Bundle\UserBundle\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHandler
 {

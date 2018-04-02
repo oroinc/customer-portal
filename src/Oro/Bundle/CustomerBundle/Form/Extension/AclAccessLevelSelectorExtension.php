@@ -2,14 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Extension;
 
+use Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType;
+use Oro\Bundle\SecurityBundle\Form\Type\AclAccessLevelSelectorType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-
-use Oro\Bundle\SecurityBundle\Form\Type\AclAccessLevelSelectorType;
-use Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver;
-use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType;
-use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 
 class AclAccessLevelSelectorExtension extends AbstractTypeExtension
 {

@@ -47,3 +47,8 @@ layout:
             id: top_sticky_panel
             parentId: page_container
             siblingId: page_header
+
+        - '@setOption':
+            id: root
+            optionName: languageCode
+            optionValue: '=data["frontend_localization"].getCurrentLanguageCode()'

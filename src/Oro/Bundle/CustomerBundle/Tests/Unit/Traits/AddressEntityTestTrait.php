@@ -3,10 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Traits;
 
 use Oro\Bundle\AddressBundle\Entity\AddressType;
-use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
 trait AddressEntityTestTrait
 {

@@ -2,14 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Doctrine\ORM\EntityManager;
+use Oro\Bundle\AddressBundle\Entity\AddressType;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressWithDefaultType;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Translation\TranslatorInterface;
-
-use Doctrine\ORM\EntityManager;
-
-use Oro\Bundle\AddressBundle\Entity\AddressType;
-use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressWithDefaultType;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)

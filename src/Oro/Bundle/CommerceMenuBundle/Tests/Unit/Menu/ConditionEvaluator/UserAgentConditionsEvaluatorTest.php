@@ -9,9 +9,9 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\PersistentCollection;
 use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
+use Oro\Bundle\CommerceMenuBundle\Menu\ConditionEvaluator\UserAgentConditionsEvaluator;
 use Oro\Bundle\UIBundle\Provider\UserAgentInterface;
 use Oro\Bundle\UIBundle\Provider\UserAgentProviderInterface;
-use Oro\Bundle\CommerceMenuBundle\Menu\ConditionEvaluator\UserAgentConditionsEvaluator;
 
 class UserAgentConditionsEvaluatorTest extends \PHPUnit_Framework_TestCase
 {

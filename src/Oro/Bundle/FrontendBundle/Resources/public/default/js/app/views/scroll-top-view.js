@@ -49,6 +49,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function ScrollTopView() {
+            ScrollTopView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options || {});
             ScrollTopView.__super__.initialize.apply(this, arguments);
@@ -125,9 +132,10 @@ define(function(require) {
                 return;
             }
 
+            this.undelegateEvents();
+
             delete this.$window;
             delete this.$document;
-            this.undelegateEvents();
 
             ScrollTopView.__super__.dispose.call(this);
         }

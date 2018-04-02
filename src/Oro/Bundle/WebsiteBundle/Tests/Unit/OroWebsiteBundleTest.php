@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 use Oro\Bundle\WebsiteBundle\OroWebsiteBundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class OroWebsiteBundleTest extends \PHPUnit_Framework_TestCase
 {

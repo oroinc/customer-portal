@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class AjaxCustomerUserControllerTest extends WebTestCase
 {

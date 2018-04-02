@@ -4,7 +4,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\DataTransformer;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Form\DataTransformer\AddressTypeDefaultTransformer;
 

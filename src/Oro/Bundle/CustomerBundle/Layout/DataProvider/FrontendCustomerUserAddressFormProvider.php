@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Layout\DataProvider;
 
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserTypedAddressType;
 use Oro\Bundle\LayoutBundle\Layout\DataProvider\AbstractFormProvider;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
 class FrontendCustomerUserAddressFormProvider extends AbstractFormProvider
 {

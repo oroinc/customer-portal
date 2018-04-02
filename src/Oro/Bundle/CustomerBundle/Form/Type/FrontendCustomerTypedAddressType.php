@@ -2,14 +2,16 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
+use Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization;
+use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization;
-use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
-
+/**
+ * Allows to create customer address entity on front store and mark this address as shipping or billing type
+ */
 class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
 {
     const NAME = 'oro_customer_frontend_typed_address';
@@ -22,6 +24,7 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
         $resolver->setDefaults(
             [
                 'constraints' => [new NameOrOrganization()],
+                'owner_field_label' => 'oro.customer.frontend.customer.entity_label'
             ]
         );
 
@@ -48,7 +51,7 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
         $address = $event->getData();
 
         $form->add('frontendOwner', FrontendOwnerSelectType::NAME, [
-            'label' => 'oro.customer.customer.entity_label',
+            'label' => $form->getConfig()->getOption('owner_field_label'),
             'targetObject' => $address,
         ]);
 

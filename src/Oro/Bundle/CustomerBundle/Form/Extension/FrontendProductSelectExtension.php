@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Extension;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\ProductBundle\Form\Type\ProductSelectType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\ProductBundle\Form\Type\ProductSelectType;
 
 class FrontendProductSelectExtension extends AbstractTypeExtension
 {

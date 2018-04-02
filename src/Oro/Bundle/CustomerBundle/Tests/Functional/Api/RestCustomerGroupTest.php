@@ -4,71 +4,53 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
- * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  * @dbIsolationPerTest
  */
 class RestCustomerGroupTest extends AbstractRestTest
 {
     /**
-     * {@inheritdoc}
+     * @var CustomerGroup
      */
+    private $customerGroup;
+
     protected function setUp()
     {
         parent::setUp();
-        $this->loadFixtures(
-            [
-                LoadUserData::class,
-            ]
-        );
+        $this->loadFixtures([LoadUserData::class]);
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     */
+    protected function tearDown()
+    {
+        if ($this->customerGroup) {
+            $this->deleteEntities([$this->customerGroup]);
+        }
+    }
+
     public function testGetCustomerGroups()
     {
-        $group = $this->createCustomerGroup('test group');
-        $customer1 = $this->createCustomer('customer1', $group);
-        $customer2 = $this->createCustomer('customer2', $group);
+        $this->customerGroup = $this->createCustomerGroup('test group');
 
         $response = $this->cget(
             ['entity' => $this->getEntityType(CustomerGroup::class)],
             ['filter[name]' => 'test group']
         );
 
-        $expected = [
-            'data' => [
-                [
-                    'type' => 'customer_groups',
-                    'id' => (string)$group->getId(),
-                    'attributes' => [
-                        'name' => 'test group',
-                    ],
-                    'relationships' => [
-                        'customers' => [
-                            'data' => [
-                                [
-                                    'type' => 'customers',
-                                    'id' => (string)$customer1->getId(),
-                                ],
-                                [
-                                    'type' => 'customers',
-                                    'id' => (string)$customer2->getId(),
-                                ],
-                            ],
+        $this->assertResponseContains(
+            [
+                'data' => [
+                    [
+                        'type' => 'customer_groups',
+                        'id' => (string)$this->customerGroup->getId(),
+                        'attributes' => [
+                            'name' => 'test group'
                         ],
-                    ],
-                ],
+                    ]
+                ]
             ],
-        ];
-        $this->assertResponseContains($expected, $response);
-        $this->deleteEntities([$group, $customer1, $customer2]);
+            $response
+        );
     }
 
     public function testDeleteByFilterCustomerGroup()
@@ -76,284 +58,77 @@ class RestCustomerGroupTest extends AbstractRestTest
         $this->createCustomerGroup('group to delete');
         $this->getManager()->clear();
 
-        $uri = $this->getUrl('oro_rest_api_cget', ['entity' => $this->getEntityType(CustomerGroup::class)]);
-        $response = $this->request('DELETE', $uri, ['filter' => ['name' => 'group to delete']]);
+        $this->cdelete(
+            ['entity' => $this->getEntityType(CustomerGroup::class)],
+            ['filter[name]' => 'group to delete']
+        );
 
-        $this->assertResponseStatusCodeEquals($response, Response::HTTP_NO_CONTENT);
         $this->assertNull($this->getManager()->getRepository(CustomerGroup::class)->findOneByName('group to delete'));
     }
 
     public function testCreateCustomerGroup()
     {
-        $customer1 = $this->createCustomer('customer1');
-        $customer2 = $this->createCustomer('customer2');
+        $this->post(
+            ['entity' => $this->getEntityType(CustomerGroup::class)],
+            [
+                'data' => [
+                    'type' => 'customer_groups',
+                    'attributes' => [
+                        'name' => 'new group'
+                    ]
+                ]
+            ]
+        );
 
-        $data = [
-            'data' => [
-                'type' => 'customer_groups',
-                'attributes' => [
-                    'name' => 'new group',
-                ],
-                'relationships' => [
-                    'customers' => [
-                        'data' => [
-                            [
-                                'type' => 'customers',
-                                'id' => (string)$customer1->getId(),
-                            ],
-                            [
-                                'type' => 'customers',
-                                'id' => (string)$customer2->getId(),
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ];
+        $this->customerGroup = $this->getManager()->getRepository(CustomerGroup::class)->findOneByName('new group');
 
-        $uri = $this->getUrl('oro_rest_api_post', ['entity' => $this->getEntityType(CustomerGroup::class)]);
-        $response = $this->request('POST', $uri, $data);
-
-        $this->assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        $group = $this->getManager()->getRepository(CustomerGroup::class)->findOneByName('new group');
-
-        $this->assertCount(2, $group->getCustomers());
-        $this->assertContainsById($customer1, $group->getCustomers());
-        $this->assertContainsById($customer2, $group->getCustomers());
-
-        $this->deleteEntities([$customer1, $customer2, $group]);
+        $this->assertNotNull($this->customerGroup);
     }
 
     public function testGetCustomerGroup()
     {
-        $group = $this->createCustomerGroup('test group');
-        $customer1 = $this->createCustomer('customer1', $group);
-        $customer2 = $this->createCustomer('customer2', $group);
+        $this->customerGroup = $this->createCustomerGroup('test group');
 
         $response = $this->get([
             'entity' => $this->getEntityType(CustomerGroup::class),
-            'id' => (string)$group->getId(),
+            'id' => (string)$this->customerGroup->getId(),
         ]);
 
-        $expected = [
-            'data' => [
-                'type' => 'customer_groups',
-                'id' => (string)$group->getId(),
-                'attributes' => [
-                    'name' => 'test group',
-                ],
-                'relationships' => [
-                    'customers' => [
-                        'data' => [
-                            [
-                                'type' => 'customers',
-                                'id' => (string)$customer1->getId(),
-                            ],
-                            [
-                                'type' => 'customers',
-                                'id' => (string)$customer2->getId(),
-                            ],
-                        ],
-                    ],
-                ],
+        $this->assertResponseContains(
+            [
+                'data' => [
+                    'type' => 'customer_groups',
+                    'id' => (string)$this->customerGroup->getId(),
+                    'attributes' => [
+                        'name' => 'test group'
+                    ]
+                ]
             ],
-        ];
-        $this->assertResponseContains($expected, $response);
-        $this->deleteEntities([$group, $customer1, $customer2]);
+            $response
+        );
     }
 
     public function testUpdateCustomerGroup()
     {
-        $group = $this->createCustomerGroup('group to update');
-        $customer1 = $this->createCustomer('customer1', $group);
-        $customer2 = $this->createCustomer('customer2');
-        $data = [
-            'data' => [
-                'type' => 'customer_groups',
-                'id' => (string)$group->getId(),
-                'attributes' => [
-                    'name' => 'updated group',
-                ],
-                'relationships' => [
-                    'customers' => [
-                        'data' => [
-                            [
-                                'type' => 'customers',
-                                'id' => (string)$customer2->getId(),
-                            ],
-                        ],
-                    ],
-                ],
+        $this->customerGroup = $this->createCustomerGroup('group to update');
+
+        $this->patch(
+            [
+                'entity' => $this->getEntityType(CustomerGroup::class),
+                'id' => $this->customerGroup->getId()
             ],
-        ];
-
-        $uri = $this->getUrl(
-            'oro_rest_api_patch',
             [
-                'entity' => $this->getEntityType(CustomerGroup::class),
-                'id' => $group->getId(),
-            ]
-        );
-        $response = $this->request('PATCH', $uri, $data);
-
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $group = $this->getGroup('updated group');
-        $this->assertCount(1, $group->getCustomers());
-        $this->assertContainsById($customer2, $group->getCustomers());
-
-        $this->deleteEntities([$customer1, $customer2, $group]);
-    }
-
-    public function testGetCustomersSubresource()
-    {
-        $group = $this->createCustomerGroup('new group');
-        $customer = $this->createCustomer('customer', $group);
-
-        $uri = $this->getUrl(
-            'oro_rest_api_get_subresource',
-            [
-                'entity' => $this->getEntityType(CustomerGroup::class),
-                'id' => $group->getId(),
-                'association' => 'customers',
-            ]
-        );
-        $response = $this->request('GET', $uri);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $customers = json_decode($response->getContent(), true)['data'];
-
-        $this->assertCount(1, $customers);
-        $this->assertEquals(reset($customers)['id'], $customer->getId());
-        $this->deleteEntities([$group, $customer]);
-    }
-
-    public function testGetCustomersRelationship()
-    {
-        $group = $this->createCustomerGroup('test group');
-        $customer1 = $this->createCustomer('customer1', $group);
-        $customer2 = $this->createCustomer('customer2', $group);
-
-        $uri = $this->getUrl(
-            'oro_rest_api_get_relationship',
-            [
-                'entity' => $this->getEntityType(CustomerGroup::class),
-                'id' => $group->getId(),
-                'association' => 'customers',
+                'data' => [
+                    'type' => 'customer_groups',
+                    'id' => (string)$this->customerGroup->getId(),
+                    'attributes' => [
+                        'name' => 'updated group'
+                    ]
+                ]
             ]
         );
 
-        $response = $this->request('GET', $uri);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $content = json_decode($response->getContent(), true);
-        $expected = [
-            'data' => [
-                [
-                    'type' => 'customers',
-                    'id' => (string)$customer1->getId(),
-                ],
-                [
-                    'type' => 'customers',
-                    'id' => (string)$customer2->getId(),
-                ],
-            ],
-        ];
-        $this->assertEquals($expected, $content);
-        $this->deleteEntities([$customer1, $customer2, $group]);
-    }
-
-    public function testAddChildrenRelationship()
-    {
-        $group = $this->createCustomerGroup('test group');
-        $customer1 = $this->createCustomer('customer1', $group);
-        $customer2 = $this->createCustomer('customer2');
-
-        $uri = $this->getUrl(
-            'oro_rest_api_post_relationship',
-            [
-                'entity' => $this->getEntityType(CustomerGroup::class),
-                'id' => $group->getId(),
-                'association' => 'customers',
-            ]
-        );
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customers',
-                    'id' => (string)$customer2->getId(),
-                ],
-            ],
-        ];
-        $response = $this->request('POST', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
-
-        $group = $this->getGroup('test group');
-        $this->assertCount(2, $group->getCustomers());
-        $this->assertContainsById($customer1, $group->getCustomers());
-        $this->assertContainsById($customer2, $group->getCustomers());
-
-        $this->deleteEntities([$customer1, $customer2, $group]);
-    }
-
-    public function testPatchChildrenRelationship()
-    {
-        $group = $this->createCustomerGroup('test group');
-        $customer1 = $this->createCustomer('customer1', $group);
-        $customer2 = $this->createCustomer('customer2');
-
-        $uri = $this->getUrl(
-            'oro_rest_api_patch_relationship',
-            [
-                'entity' => $this->getEntityType(CustomerGroup::class),
-                'id' => (string)$group->getId(),
-                'association' => 'customers',
-            ]
-        );
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customers',
-                    'id' => (string)$customer2->getId(),
-                ],
-            ],
-        ];
-        $response = $this->request('PATCH', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
-
-        $group = $this->getGroup('test group');
-        $this->assertCount(1, $group->getCustomers());
-        $this->assertContainsById($customer2, $group->getCustomers());
-
-        $this->deleteEntities([$customer1, $customer2, $group]);
-    }
-
-    public function testDeleteChildrenRelationship()
-    {
-        $group = $this->createCustomerGroup('test group');
-        $customer1 = $this->createCustomer('customer1', $group);
-        $customer2 = $this->createCustomer('customer2', $group);
-
-        $uri = $this->getUrl(
-            'oro_rest_api_delete_relationship',
-            [
-                'entity' => $this->getEntityType(CustomerGroup::class),
-                'id' => (string)$group->getId(),
-                'association' => 'customers',
-            ]
-        );
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customers',
-                    'id' => (string)$customer1->getId(),
-                ],
-            ],
-        ];
-        $response = $this->request('DELETE', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
-
-        $group = $this->getGroup('test group');
-        $this->assertCount(1, $group->getCustomers());
-        $this->assertContainsById($customer2, $group->getCustomers());
-
-        $this->deleteEntities([$customer1, $customer2, $group]);
+        $this->customerGroup = $this->getGroup('updated group');
+        $this->assertNotNull($this->customerGroup);
     }
 }

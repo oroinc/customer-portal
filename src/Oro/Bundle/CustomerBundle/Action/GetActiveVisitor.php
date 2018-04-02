@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Action;
 
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-
 use Oro\Component\Action\Action\AssignActiveUser;
 use Oro\Component\Action\Exception\ActionException;
 

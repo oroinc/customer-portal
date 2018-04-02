@@ -3,14 +3,12 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
 use Doctrine\ORM\EntityRepository;
-
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmail;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmailValidator;
 use Oro\Component\Testing\Unit\EntityTrait;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_TestCase
 {

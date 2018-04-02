@@ -3,9 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Doctrine;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Bridge\Doctrine\RegistryInterface;
-
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class DoctrineFiltersListener
 {

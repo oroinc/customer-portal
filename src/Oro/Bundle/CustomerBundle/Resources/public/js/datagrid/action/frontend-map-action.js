@@ -24,6 +24,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function FrontendMapAction() {
+            FrontendMapAction.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             FrontendMapAction.__super__.initialize.apply(this, arguments);
             this.mapView.on('mapRendered', _.bind(this.onMapRendered, this));

@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupSelectType;
+use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 
 class CustomerGroupSelectTypeTest extends \PHPUnit_Framework_TestCase
 {

@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener\Datagrid;
 
+use Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserDatagridListener;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\DataGridBundle\Event\PreBuild;
-use Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserDatagridListener;
 
 class CustomerUserDatagridListenerTest extends \PHPUnit_Framework_TestCase
 {

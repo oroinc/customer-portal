@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type\Frontend;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserMultiSelectType as BaseCustomerUserMultiSelectType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerUserMultiSelectType extends BaseCustomerUserMultiSelectType
 {

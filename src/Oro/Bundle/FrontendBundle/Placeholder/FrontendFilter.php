@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\FrontendBundle\Placeholder;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class FrontendFilter
 {

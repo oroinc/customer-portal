@@ -4,10 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
-
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData as LoadLoginCustomerUserData;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData as LoadLoginCustomerUserData;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class AjaxCustomerUserControllerTest extends WebTestCase
 {

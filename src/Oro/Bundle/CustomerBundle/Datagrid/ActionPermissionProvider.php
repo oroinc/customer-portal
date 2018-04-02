@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Datagrid;
 
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
-use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ActionPermissionProvider
 {

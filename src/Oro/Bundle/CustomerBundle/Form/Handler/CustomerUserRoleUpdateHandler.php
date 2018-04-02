@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
-use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
+use Oro\Bundle\UserBundle\Entity\AbstractRole;
 
 class CustomerUserRoleUpdateHandler extends AbstractCustomerUserRoleHandler
 {

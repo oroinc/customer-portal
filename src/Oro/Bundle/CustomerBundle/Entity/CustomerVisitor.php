@@ -4,7 +4,6 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
-
 use Oro\Bundle\CustomerBundle\Model\ExtendCustomerVisitor;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 

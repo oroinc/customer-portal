@@ -2,27 +2,25 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
-use Symfony\Component\Form\FormFactory;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Acl\Model\AclCacheInterface;
-
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ManagerRegistry;
-
-use Oro\Component\Testing\Unit\EntityTrait;
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
-use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
-use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
-use Oro\Bundle\SecurityBundle\Acl\Persistence\AclPrivilegeRepository;
-use Oro\Bundle\SecurityBundle\Filter\AclPrivilegeConfigurableFilter;
+use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserRoleHandler;
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
+use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
+use Oro\Bundle\SecurityBundle\Acl\Persistence\AclPrivilegeRepository;
+use Oro\Bundle\SecurityBundle\Filter\AclPrivilegeConfigurableFilter;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
+use Oro\Component\Testing\Unit\EntityTrait;
+use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Acl\Model\AclCacheInterface;
 
 abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit_Framework_TestCase
 {

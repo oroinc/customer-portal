@@ -3,14 +3,12 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_14;
 
 use Doctrine\DBAL\Connection;
-
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\EntityBundle\ORM\NativeQueryExecutorHelper;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Transport\MessageInterface;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
-
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\EntityBundle\ORM\NativeQueryExecutorHelper;
 
 /**
  * Deletes customer users without assigned customer

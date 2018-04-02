@@ -9,3 +9,4 @@ OroFrontendBundle
 - [DOM Relocation View](./Resources/doc/components/dom-relocation-view.md)
 - [Setup Datagrid Mass Action on Front Store](./Resources/doc/mass-action-grid-setup.md)
 - [Frontend Access](./Resources/doc/frontend-access.md)
+- [REST API](./Resources/doc/frontend-api.md)

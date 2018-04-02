@@ -2,13 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\ORM;
 
-use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
 use Oro\Bundle\FrontendBundle\Migrations\Data\ORM\AbstractRolesData;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
 
 class LoadCustomerUserRoles extends AbstractRolesData
 {

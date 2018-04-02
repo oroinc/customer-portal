@@ -10,6 +10,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function PageContentView() {
+            PageContentView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initFocus: function() {
             var activeElement = document.activeElement;
             if (tools.isMobile() || tools.isTouchDevice() || $(activeElement).is('[autofocus]')) {

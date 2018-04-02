@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\EventListener;
 
-use Symfony\Component\Form\FormView;
-
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\EventListener\MenuUpdateFormViewListener;
 use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 use Oro\Bundle\UIBundle\View\ScrollData;
+use Symfony\Component\Form\FormView;
 
 class MenuUpdateFormViewListenerTest extends \PHPUnit_Framework_TestCase
 {

@@ -2,11 +2,9 @@
 
 namespace Oro\Bundle\FrontendBundle\Command;
 
+use FOS\JsRoutingBundle\Command\DumpCommand;
 use FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractorInterface;
 use Oro\Bundle\UIBundle\Command\JsRoutingDumpCommand;
-
-use FOS\JsRoutingBundle\Command\DumpCommand;
-
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

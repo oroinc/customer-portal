@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CommerceMenuBundle\Migrations\Schema\v1_4;
 
 use Doctrine\DBAL\Schema\Schema;
-
 use Oro\Bundle\AttachmentBundle\Migration\GlobalAppendAllowedMimeTypesForImageQuery;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;

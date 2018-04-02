@@ -22,6 +22,13 @@ define(function(require) {
         },
 
         /**
+         * @inheritDoc
+         */
+        constructor: function AddressBook() {
+            AddressBook.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
          * @param {Object} options
          */
         initialize: function(options) {

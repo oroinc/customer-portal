@@ -3,11 +3,9 @@
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
 use Doctrine\ORM\EntityRepository;
-
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
 {

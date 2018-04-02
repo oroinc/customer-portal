@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
-
 use Oro\Bundle\DistributionBundle\Event\RouteCollectionEvent;
 use Oro\Bundle\FrontendBundle\EventListener\RouteCollectionListener;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 
 class RouteCollectionListenerTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,6 +62,11 @@ class RouteCollectionListenerTest extends \PHPUnit_Framework_TestCase
                 $this->getCollection(['route1' => new Route('/route1-prefix')]),
                 ['route1' => new Route('/prefix/route1-prefix')]
             ],
+            'first chars of route path equal to prefix' => [
+                'admin',
+                $this->getCollection(['route1' => new Route('/administration/route1')]),
+                ['route1' => new Route('/admin/administration/route1')]
+            ],
             'frontend route skip prefix' => [
                 ' /prefix/ ',
                 $this->getCollection(
@@ -82,6 +86,31 @@ class RouteCollectionListenerTest extends \PHPUnit_Framework_TestCase
                     'frontend2' => (new Route('/frontend2'))->setOption('frontend', true),
                     'frontend3' => (new Route('/prefix/frontend3-prefix'))->setOption('frontend', false),
                     'frontend4' => (new Route('/frontend4-prefix'))->setOption('frontend', true),
+                ]
+            ],
+            'with override_path option' => [
+                'prefix',
+                $this->getCollection(
+                    [
+                        'route1' => (new Route('/path1'))
+                            ->setOption('override_path', '/api/route1'),
+                        'route2' => (new Route('path2'))
+                            ->setOption('override_path', 'api/route1'),
+                        'frontend_route1' => (new Route('/path1'))
+                            ->addOptions(['frontend' =>true, 'override_path' => '/api/route1']),
+                        'frontend_route2' => (new Route('path2'))
+                            ->addOptions(['frontend' =>true, 'override_path' => 'api/route1']),
+                    ]
+                ),
+                [
+                    'route1' => (new Route('/prefix/path1'))
+                        ->setOption('override_path', '/prefix/api/route1'),
+                    'route2' => (new Route('/prefix/path2'))
+                        ->setOption('override_path', 'prefix/api/route1'),
+                    'frontend_route1' => (new Route('/path1'))
+                        ->addOptions(['frontend' =>true, 'override_path' => '/api/route1']),
+                    'frontend_route2' => (new Route('path2'))
+                        ->addOptions(['frontend' =>true, 'override_path' => 'api/route1']),
                 ]
             ],
         ];

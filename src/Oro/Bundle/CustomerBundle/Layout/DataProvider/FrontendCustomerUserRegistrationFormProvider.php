@@ -3,20 +3,18 @@
 namespace Oro\Bundle\CustomerBundle\Layout\DataProvider;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;
 use Oro\Bundle\LayoutBundle\Layout\DataProvider\AbstractFormProvider;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Entity\UserManager;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
 {

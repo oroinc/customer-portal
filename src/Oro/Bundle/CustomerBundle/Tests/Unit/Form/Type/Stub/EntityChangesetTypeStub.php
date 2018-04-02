@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub;
 
-use Symfony\Component\Form\FormBuilderInterface;
-
 use Oro\Bundle\FormBundle\Form\Type\EntityChangesetType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class EntityChangesetTypeStub extends EntityChangesetType
 {

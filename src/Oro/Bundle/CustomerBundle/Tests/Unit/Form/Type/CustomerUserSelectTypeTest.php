@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserSelectType;
 use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
-use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserSelectType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerUserSelectTypeTest extends FormIntegrationTestCase
 {
@@ -33,7 +32,7 @@ class CustomerUserSelectTypeTest extends FormIntegrationTestCase
         $this->assertEquals(OroEntitySelectOrCreateInlineType::NAME, $this->formType->getParent());
     }
 
-    public function testSetDefaultOptions()
+    public function testConfigureOptions()
     {
         /* @var $resolver OptionsResolver|\PHPUnit_Framework_MockObject_MockObject */
         $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
@@ -57,6 +56,6 @@ class CustomerUserSelectTypeTest extends FormIntegrationTestCase
                 }
             );
 
-        $this->formType->setDefaultOptions($resolver);
+        $this->formType->configureOptions($resolver);
     }
 }

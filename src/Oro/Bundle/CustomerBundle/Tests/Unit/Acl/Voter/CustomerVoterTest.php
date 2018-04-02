@@ -91,28 +91,6 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
         $this->voter->setContainer($container);
     }
 
-    /**
-     * @param string $class
-     * @param bool $supports
-     *
-     * @dataProvider supportsClassProvider
-     */
-    public function testSupportsClass($class, $supports)
-    {
-        $this->assertEquals($supports, $this->voter->supportsClass($class));
-    }
-
-    /**
-     * @param string $attribute
-     * @param bool $expected
-     *
-     * @dataProvider supportsAttributeProvider
-     */
-    public function testSupportsAttribute($attribute, $expected)
-    {
-        $this->assertEquals($expected, $this->voter->supportsAttribute($attribute));
-    }
-
     public function testNotManageableEntityException()
     {
         $object = new \stdClass();
@@ -202,39 +180,6 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @return array
-     */
-    public function supportsClassProvider()
-    {
-        return [
-            'supported class'  => [
-                $this->createMock('Oro\Bundle\CustomerBundle\Entity\CustomerOwnerAwareInterface'),
-                true,
-            ],
-            'not supported class'  => [
-                'stdClass',
-                false,
-            ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function supportsAttributeProvider()
-    {
-        return [
-            'ACCOUNT_VIEW'  => ['ACCOUNT_VIEW', true],
-            'ACCOUNT_EDIT'  => ['ACCOUNT_EDIT', true],
-            'VIEW'          => ['VIEW', false],
-            'CREATE'        => ['CREATE', false],
-            'EDIT'          => ['EDIT', false],
-            'DELETE'        => ['DELETE', false],
-            'ASSIGN'        => ['ASSIGN', false]
-        ];
-    }
-
-    /**
-     * @return array
      *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
@@ -279,6 +224,23 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
                 'input' => [
                     'objectId'      => null,
                     'object'        => 'string',
+                    'initObjectParams'  => null,
+                    'user'          => $this->getCustomerUser(1),
+                    'attributes'    => [],
+                    'grantedViewBasic' => null,
+                    'grantedViewLocal' => null,
+                    'grantedEditBasic' => null,
+                    'grantedEditLocal' => null,
+                    'isGranted'        => null,
+                    'isGrantedAttr'    => null,
+                    'isGrantedDescr'   => null,
+                ],
+                'expected' => CustomerVoter::ACCESS_ABSTAIN,
+            ],
+            'Entity is not supported' => [
+                'input' => [
+                    'objectId'      => null,
+                    'object'        => new \stdClass(),
                     'initObjectParams'  => null,
                     'user'          => $this->getCustomerUser(1),
                     'attributes'    => [],

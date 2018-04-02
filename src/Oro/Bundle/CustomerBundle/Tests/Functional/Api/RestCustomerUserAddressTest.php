@@ -2,16 +2,15 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api;
 
-use Symfony\Component\HttpFoundation\Response;
-
 use Oro\Bundle\AddressBundle\Tests\Functional\DataFixtures\LoadCountryData;
 use Oro\Bundle\AddressBundle\Tests\Functional\DataFixtures\LoadRegionData;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
-use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserAddresses;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\UserBundle\DataFixtures\UserUtilityTrait;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @group CommunityEdition

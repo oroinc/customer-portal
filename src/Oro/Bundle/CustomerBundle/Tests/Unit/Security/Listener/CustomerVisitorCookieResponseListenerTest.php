@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security\Listener;
 
+use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
+use Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseListener;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-
-use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
-use Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseListener;
 
 class CustomerVisitorCookieResponseListenerTest extends \PHPUnit_Framework_TestCase
 {

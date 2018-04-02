@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Voter;
 
-use Oro\Bundle\CustomerBundle\Voter\CustomerUserVoter;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Voter\CustomerUserVoter;
 use Oro\Bundle\FeatureToggleBundle\Checker\Voter\VoterInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 

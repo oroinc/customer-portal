@@ -2,8 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api;
 
-use Symfony\Component\HttpFoundation\Response;
-
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
@@ -25,12 +23,10 @@ class RestCustomerTest extends AbstractRestTest
     protected function setUp()
     {
         parent::setUp();
-        $this->loadFixtures(
-            [
-                LoadCustomerData::class,
-                LoadUserData::class,
-            ]
-        );
+        $this->loadFixtures([
+            LoadCustomerData::class,
+            LoadUserData::class
+        ]);
         $this->getReferenceRepository()->setReference('default_customer', $this->getDefaultCustomer());
     }
 
@@ -51,13 +47,11 @@ class RestCustomerTest extends AbstractRestTest
         $this->createCustomer('customer to delete');
         $this->getManager()->clear();
 
-        $uri = $this->getUrl(
-            'oro_rest_api_cget',
-            ['entity' => $this->getEntityType(Customer::class)]
+        $this->cdelete(
+            ['entity' => $this->getEntityType(Customer::class)],
+            ['filter' => ['name' => 'customer to delete']]
         );
-        $response = $this->request('DELETE', $uri, ['filter' => ['name' => 'customer to delete']]);
 
-        $this->assertResponseStatusCodeEquals($response, Response::HTTP_NO_CONTENT);
         $this->assertNull($this->getManager()->getRepository(Customer::class)->findOneByName('customer to delete'));
     }
 
@@ -66,25 +60,16 @@ class RestCustomerTest extends AbstractRestTest
         $customer = $this->createCustomer('customer created now');
         $this->getManager()->clear();
 
-        $uri = $this->getUrl(
-            'oro_rest_api_cget',
-            ['entity' => $this->getEntityType(Customer::class)]
+        $response = $this->cget(
+            ['entity' => $this->getEntityType(Customer::class)],
+            ['filter[createdAt][gte]' => $customer->getCreatedAt()->format('c')]
         );
-
-        $response = $this->request(
-            'GET',
-            $uri . '?filter[createdAt]>=' . urlencode($customer->getCreatedAt()->format('c'))
-        );
-
-        $this->assertResponseStatusCodeEquals($response, Response::HTTP_OK);
         $this->assertContains('customer created now', $response->getContent());
 
-        $response = $this->request(
-            'GET',
-            $uri . '?filter[createdAt]<' . urlencode($customer->getCreatedAt()->format('c'))
+        $response = $this->cget(
+            ['entity' => $this->getEntityType(Customer::class)],
+            ['filter[createdAt][lt]' => $customer->getCreatedAt()->format('c')]
         );
-
-        $this->assertResponseStatusCodeEquals($response, Response::HTTP_OK);
         $this->assertNotContains('customer created now', $response->getContent());
 
         $this->deleteEntities([$customer]);
@@ -95,42 +80,28 @@ class RestCustomerTest extends AbstractRestTest
         $customer = $this->createCustomer('customer created now');
         $this->getManager()->clear();
 
-        $uri = $this->getUrl(
-            'oro_rest_api_cget',
-            ['entity' => $this->getEntityType(Customer::class)]
+        $response = $this->cget(
+            ['entity' => $this->getEntityType(Customer::class)],
+            ['filter[updatedAt][lt]' => $customer->getCreatedAt()->format('c')]
         );
-
-        $response = $this->request(
-            'GET',
-            $uri . '?filter[updatedAt]>' . urlencode($customer->getCreatedAt()->format('c'))
-        );
-
-        $this->assertResponseStatusCodeEquals($response, Response::HTTP_OK);
         $this->assertNotContains('customer created now', $response->getContent());
 
-        $data = [
-            'data' => [
-                'type' => $this->getEntityType(Customer::class),
-                'id' => (string)$customer->getId(),
-                'attributes' => ['name' => 'customer created now and updated'],
-            ],
-        ];
-
-        $uri = $this->getUrl(
-            'oro_rest_api_patch',
+        $this->patch(
+            ['entity' => $this->getEntityType(Customer::class), 'id' => $customer->getId()],
             [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
+                'data' => [
+                    'type' => $this->getEntityType(Customer::class),
+                    'id' => (string)$customer->getId(),
+                    'attributes' => [
+                        'name' => 'customer created now and updated'
+                    ]
+                ]
             ]
         );
-        $this->request('PATCH', $uri, $data);
-
-        $response = $this->request(
-            'GET',
-            $uri . '?filter[updatedAt]>' . urlencode($customer->getCreatedAt()->format('c'))
+        $response = $this->cget(
+            ['entity' => $this->getEntityType(Customer::class)],
+            ['filter[updatedAt][gte]' => $customer->getCreatedAt()->format('c')]
         );
-
-        $this->assertResponseStatusCodeEquals($response, Response::HTTP_OK);
         $this->assertContains('customer created now and updated', $response->getContent());
 
         $this->deleteEntities([$customer]);
@@ -170,7 +141,7 @@ class RestCustomerTest extends AbstractRestTest
     {
         $response = $this->get([
             'entity' => $this->getEntityType(Customer::class),
-            'id' => '<toString(@customer.1->id)>',
+            'id' => '<toString(@customer.1->id)>'
         ]);
         $this->assertResponseContains(__DIR__.'/responses/get_customer.yml', $response);
         $this->assertContains('createdAt', $response->getContent());
@@ -185,44 +156,32 @@ class RestCustomerTest extends AbstractRestTest
             'internal_rating.1 of 5'
         );
         $parentCustomer = $this->getReference('customer.1');
-        $data = [
-            'data' => [
-                'type' => $this->getEntityType(Customer::class),
-                'id' => (string)$customer->getId(),
-                'attributes' => ['name' => 'customer updated'],
-                'relationships' => [
-                    'parent' => [
-                        'data' => [
-                            'type' => 'customers',
-                            'id' => (string)$parentCustomer->getId(),
-                        ],
-                    ],
-                    'internal_rating' => [
-                        'data' => [
-                            'type' => 'customer_rating',
-                            'id' => 'internal_rating.2_of_5',
-                        ],
-                    ],
-                    'group' => [
-                        'data' => [
-                            'type' => 'customer_groups',
-                            'id' => (string)$this->getGroup(LoadGroups::GROUP2)->getId(),
-                        ],
-                    ],
-                ],
-            ],
-        ];
 
-        $uri = $this->getUrl(
-            'oro_rest_api_patch',
+        $this->patch(
+            ['entity' => $this->getEntityType(Customer::class), 'id' => $customer->getId()],
             [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
+                'data' => [
+                    'type' => $this->getEntityType(Customer::class),
+                    'id' => (string)$customer->getId(),
+                    'attributes' => ['name' => 'customer updated'],
+                    'relationships' => [
+                        'parent' => [
+                            'data' => ['type' => 'customers', 'id' => (string)$parentCustomer->getId()]
+                        ],
+                        'internal_rating' => [
+                            'data' => ['type' => 'customer_rating', 'id' => 'internal_rating.2_of_5']
+                        ],
+                        'group' => [
+                            'data' => [
+                                'type' => 'customer_groups',
+                                'id' => (string)$this->getGroup(LoadGroups::GROUP2)->getId()
+                            ]
+                        ]
+                    ]
+                ]
             ]
         );
-        $response = $this->request('PATCH', $uri, $data);
 
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $customer = $this->getManager()->getRepository(Customer::class)->findOneByName('customer updated');
         $this->assertSame($parentCustomer->getId(), $customer->getParent()->getId());
         $this->assertSame('internal_rating.2 of 5', $customer->getInternalRating()->getName());
@@ -238,50 +197,33 @@ class RestCustomerTest extends AbstractRestTest
             $this->getGroup(LoadGroups::GROUP1),
             'internal_rating.1 of 5'
         );
-        $data = [
-            'data' => [
-                'type' => $this->getEntityType(Customer::class),
-                'id' => (string)$customer->getId(),
-                'attributes' => [
-                    'name'      => 'customer updated',
-                    'createdAt' => new \DateTime(),
-                    'updatedAt' => new \DateTime()
 
-                ],
-            ],
-        ];
-
-        $uri = $this->getUrl(
-            'oro_rest_api_patch',
+        $response = $this->patch(
+            ['entity' => $this->getEntityType(Customer::class), 'id' => $customer->getId()],
             [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-            ]
-        );
-        $response = $this->request('PATCH', $uri, $data);
+                'data' => [
+                    'type' => $this->getEntityType(Customer::class),
+                    'id' => (string)$customer->getId(),
+                    'attributes' => [
+                        'name'      => 'customer updated',
+                        'createdAt' => new \DateTime(),
+                        'updatedAt' => new \DateTime()
 
-        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+                    ]
+                ]
+            ],
+            [],
+            false
+        );
+        $this->assertResponseValidationError(
+            [
+                'title' => 'extra fields constraint',
+                'detail' => 'This form should not contain extra fields: "createdAt", "updatedAt"'
+            ],
+            $response
+        );
 
         $this->deleteEntities([$customer]);
-    }
-
-
-    public function testGetGroupSubresource()
-    {
-        /** @var Customer $customer */
-        $customer = $this->getReference('customer.1');
-
-        $uri = $this->getUrl(
-            'oro_rest_api_get_subresource',
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-                'association' => 'group',
-            ]
-        );
-        $response = $this->request('GET', $uri, []);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertResponseContains(__DIR__.'/responses/get_group_sub_resourse.yml', $response);
     }
 
     public function testGetGroupRelationship()
@@ -289,46 +231,34 @@ class RestCustomerTest extends AbstractRestTest
         /** @var Customer $customer */
         $customer = $this->getReference('customer.1');
 
-        $uri = $this->getUrl(
-            'oro_rest_api_get_relationship',
+        $response = $this->getRelationship([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => $customer->getId(),
+            'association' => 'group'
+        ]);
+        $this->assertResponseContains(
             [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-                'association' => 'group',
-            ]
-        );
-        $response = $this->request('GET', $uri, []);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $expected = [
-            'data' => [
-                'type' => 'customer_groups',
-                'id' => '<toString(@customer.1->getGroup()->getId())>',
+                'data' => ['type' => 'customer_groups', 'id' => '<toString(@customer.1->getGroup()->getId())>']
             ],
-        ];
-        $this->assertResponseContains($expected, $response);
+            $response
+        );
     }
 
     public function testUpdateGroupRelationship()
     {
         $customer = $this->createCustomer('customer to update group', $this->getGroup(LoadGroups::GROUP1));
 
-        $uri = $this->getUrl(
-            'oro_rest_api_patch_relationship',
+        $this->patchRelationship(
             [
                 'entity' => $this->getEntityType(Customer::class),
                 'id' => $customer->getId(),
-                'association' => 'group',
+                'association' => 'group'
+            ],
+            [
+                'data' => ['type' => 'customer_groups', 'id' => (string)$this->getGroup(LoadGroups::GROUP2)->getId()]
             ]
         );
-        $data = [
-            'data' => [
-                'type' => 'customer_groups',
-                'id' => (string)$this->getGroup(LoadGroups::GROUP2)->getId(),
-            ],
-        ];
-        $response = $this->request('PATCH', $uri, $data);
 
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
         $customer = $this->getManager()->getRepository(Customer::class)->findOneByName('customer to update group');
         $this->assertSame($this->getGroup(LoadGroups::GROUP2)->getId(), $customer->getGroup()->getId());
 
@@ -340,29 +270,25 @@ class RestCustomerTest extends AbstractRestTest
         /** @var Customer $customer */
         $customer = $this->getReference('customer.1');
 
-        $uri = $this->getUrl(
-            'oro_rest_api_get_subresource',
+        $response = $this->getSubresource([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => $customer->getId(),
+            'association' => 'internal_rating'
+        ]);
+        $this->assertResponseContains(
             [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-                'association' => 'internal_rating',
-            ]
-        );
-        $response = $this->request('GET', $uri, []);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $content = json_decode($response->getContent(), true);
-        $expected = [
-            'data' => [
-                'type' => 'customer_rating',
-                'id' => 'internal_rating.1_of_5',
-                'attributes' => [
-                    'name' => 'internal_rating.1 of 5',
-                    'priority' => 1,
-                    'default' => false,
-                ],
+                'data' => [
+                    'type' => 'customer_rating',
+                    'id' => 'internal_rating.1_of_5',
+                    'attributes' => [
+                        'name' => 'internal_rating.1 of 5',
+                        'priority' => 1,
+                        'default' => false
+                    ]
+                ]
             ],
-        ];
-        $this->assertSame($expected, $content);
+            $response
+        );
     }
 
     public function testGetRatingRelationship()
@@ -370,47 +296,34 @@ class RestCustomerTest extends AbstractRestTest
         /** @var Customer $customer */
         $customer = $this->getReference('customer.1');
 
-        $uri = $this->getUrl(
-            'oro_rest_api_get_relationship',
+        $response = $this->getRelationship([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => $customer->getId(),
+            'association' => 'internal_rating'
+        ]);
+        $this->assertResponseContains(
             [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-                'association' => 'internal_rating',
-            ]
-        );
-        $response = $this->request('GET', $uri, []);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $content = json_decode($response->getContent(), true);
-        $expected = [
-            'data' => [
-                'type' => 'customer_rating',
-                'id' => 'internal_rating.1_of_5',
+                'data' => ['type' => 'customer_rating', 'id' => 'internal_rating.1_of_5']
             ],
-        ];
-        $this->assertEquals($expected, $content);
+            $response
+        );
     }
 
     public function testUpdateRatingRelationship()
     {
         $customer = $this->createCustomer('customer to update rating');
 
-        $uri = $this->getUrl(
-            'oro_rest_api_patch_relationship',
+        $this->patchRelationship(
             [
                 'entity' => $this->getEntityType(Customer::class),
                 'id' => $customer->getId(),
-                'association' => 'internal_rating',
+                'association' => 'internal_rating'
+            ],
+            [
+                'data' => ['type' => 'customer_rating', 'id' => 'internal_rating.2_of_5']
             ]
         );
-        $data = [
-            'data' => [
-                'type' => 'customer_rating',
-                'id' => 'internal_rating.2_of_5',
-            ],
-        ];
-        $response = $this->request('PATCH', $uri, $data);
 
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
         $customer = $this->getManager()->getRepository(Customer::class)->findOneByName('customer to update rating');
         $this->assertSame('internal_rating.2 of 5', $customer->getInternalRating()->getName());
 
@@ -423,19 +336,17 @@ class RestCustomerTest extends AbstractRestTest
         $customer = $this->getReference('customer.1');
         $organization = $customer->getOrganization();
 
-        $uri = $this->getUrl(
-            'oro_rest_api_get_subresource',
+        $response = $this->getSubresource([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => $customer->getId(),
+            'association' => 'organization'
+        ]);
+        $this->assertResponseContains(
             [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-                'association' => 'organization',
-            ]
+                'data' => ['type' => 'organizations', 'id' => (string)$organization->getId()]
+            ],
+            $response
         );
-        $response = $this->request('GET', $uri, []);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $content = json_decode($response->getContent(), true);
-        $this->assertSame($content['data']['type'], 'organizations');
-        $this->assertSame($content['data']['id'], (string)$organization->getId());
     }
 
     public function testGetOrganizationRelationship()
@@ -444,24 +355,17 @@ class RestCustomerTest extends AbstractRestTest
         $customer = $this->getReference('customer.1');
         $organization = $customer->getOrganization();
 
-        $uri = $this->getUrl(
-            'oro_rest_api_get_relationship',
+        $response = $this->getRelationship([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => $customer->getId(),
+            'association' => 'organization',
+        ]);
+        $this->assertResponseContains(
             [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-                'association' => 'organization',
-            ]
-        );
-        $response = $this->request('GET', $uri, []);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $content = json_decode($response->getContent(), true);
-        $expected = [
-            'data' => [
-                'type' => 'organizations',
-                'id' => (string)$organization->getId(),
+                'data' => ['type' => 'organizations', 'id' => (string)$organization->getId()]
             ],
-        ];
-        $this->assertEquals($expected, $content);
+            $response
+        );
     }
 
     public function testUpdateOrganizationRelationship()
@@ -473,23 +377,17 @@ class RestCustomerTest extends AbstractRestTest
         $this->getManager()->persist($organization);
         $this->getManager()->flush();
 
-        $uri = $this->getUrl(
-            'oro_rest_api_patch_relationship',
+        $this->patchRelationship(
             [
                 'entity' => $this->getEntityType(Customer::class),
                 'id' => $customer->getId(),
-                'association' => 'organization',
+                'association' => 'organization'
+            ],
+            [
+                'data' => ['type' => 'organizations', 'id' => (string)$organization->getId()]
             ]
         );
-        $data = [
-            'data' => [
-                'type' => 'organizations',
-                'id' => (string)$organization->getId(),
-            ],
-        ];
-        $response = $this->request('PATCH', $uri, $data);
 
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
         $customer = $this->getManager()->getRepository(Customer::class)
             ->findOneByName('customer to update organization');
         $this->assertSame($organization->getId(), $customer->getOrganization()->getId());
@@ -503,20 +401,17 @@ class RestCustomerTest extends AbstractRestTest
         $customer = $this->getReference('customer.1');
         $owner = $customer->getOwner();
 
-        $uri = $this->getUrl(
-            'oro_rest_api_get_subresource',
+        $response = $this->getSubresource([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => $customer->getId(),
+            'association' => 'owner'
+        ]);
+        $this->assertResponseContains(
             [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-                'association' => 'owner',
-            ]
+                'data' => ['type' => 'users', 'id' => (string)$owner->getId()]
+            ],
+            $response
         );
-        $response = $this->request('GET', $uri, []);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $content = json_decode($response->getContent(), true);
-
-        $this->assertSame($content['data']['type'], 'users');
-        $this->assertSame($content['data']['id'], (string)$owner->getId());
     }
 
     public function testGetOwnerRelationship()
@@ -525,24 +420,17 @@ class RestCustomerTest extends AbstractRestTest
         $customer = $this->getReference('customer.1');
         $owner = $customer->getOwner();
 
-        $uri = $this->getUrl(
-            'oro_rest_api_get_relationship',
+        $response = $this->getRelationship([
+            'entity' => $this->getEntityType(Customer::class),
+            'id' => $customer->getId(),
+            'association' => 'owner'
+        ]);
+        $this->assertResponseContains(
             [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-                'association' => 'owner',
-            ]
-        );
-        $response = $this->request('GET', $uri, []);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $content = json_decode($response->getContent(), true);
-        $expected = [
-            'data' => [
-                'type' => 'users',
-                'id' => (string)$owner->getId(),
+                'data' => ['type' => 'users', 'id' => (string)$owner->getId()]
             ],
-        ];
-        $this->assertEquals($expected, $content);
+            $response
+        );
     }
 
     public function testUpdateOwnerRelationship()
@@ -551,23 +439,17 @@ class RestCustomerTest extends AbstractRestTest
         /** @var User $user */
         $user = $this->getReference(LoadUserData::SIMPLE_USER);
 
-        $uri = $this->getUrl(
-            'oro_rest_api_patch_relationship',
+        $this->patchRelationship(
             [
                 'entity' => $this->getEntityType(Customer::class),
                 'id' => $customer->getId(),
-                'association' => 'owner',
+                'association' => 'owner'
+            ],
+            [
+                'data' => ['type' => 'users', 'id' => (string)$user->getId()]
             ]
         );
-        $data = [
-            'data' => [
-                'type' => 'users',
-                'id' => (string)$user->getId(),
-            ],
-        ];
-        $response = $this->request('PATCH', $uri, $data);
 
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
         $customer = $this->getManager()->getRepository(Customer::class)
             ->findOneByName('customer to update owner');
         $this->assertSame($user->getId(), $customer->getOwner()->getId());
@@ -583,7 +465,7 @@ class RestCustomerTest extends AbstractRestTest
         $response = $this->getSubresource([
             'entity' => $this->getEntityType(Customer::class),
             'id' => '@customer.1->id',
-            'association' => 'parent',
+            'association' => 'parent'
         ]);
         $this->assertResponseContains(__DIR__.'/responses/get_parent_sub_resource.yml', $response);
     }
@@ -593,15 +475,14 @@ class RestCustomerTest extends AbstractRestTest
         $response = $this->getRelationship([
             'entity' => $this->getEntityType(Customer::class),
             'id' => '@customer.1->id',
-            'association' => 'parent',
+            'association' => 'parent'
         ]);
-        $expected = [
-            'data' => [
-                'type' => 'customers',
-                'id' => '<toString(@customer.1->getParent()->id)>',
+        $this->assertResponseContains(
+            [
+                'data' => ['type' => 'customers', 'id' => '<toString(@customer.1->getParent()->id)>']
             ],
-        ];
-        $this->assertResponseContains($expected, $response);
+            $response
+        );
     }
 
     public function testUpdateParentRelationship()
@@ -609,23 +490,17 @@ class RestCustomerTest extends AbstractRestTest
         $customer = $this->createCustomer('customer to update parent');
         $parent = $this->getReference('customer.1');
 
-        $uri = $this->getUrl(
-            'oro_rest_api_patch_relationship',
+        $this->patchRelationship(
             [
                 'entity' => $this->getEntityType(Customer::class),
                 'id' => $customer->getId(),
-                'association' => 'parent',
+                'association' => 'parent'
+            ],
+            [
+                'data' => ['type' => 'customers', 'id' => (string)$parent->getId()]
             ]
         );
-        $data = [
-            'data' => [
-                'type' => 'customers',
-                'id' => (string)$parent->getId(),
-            ],
-        ];
-        $response = $this->request('PATCH', $uri, $data);
 
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
         $customer = $this->getManager()->getRepository(Customer::class)
             ->findOneByName('customer to update parent');
         $this->assertSame($parent->getId(), $customer->getParent()->getId());
@@ -641,7 +516,7 @@ class RestCustomerTest extends AbstractRestTest
         $response = $this->getSubresource([
             'entity' => $this->getEntityType(Customer::class),
             'id' => '@default_customer->id',
-            'association' => 'children',
+            'association' => 'children'
         ]);
         $this->assertResponseContains(__DIR__.'/responses/get_children_sub_resource.yml', $response);
     }
@@ -651,17 +526,16 @@ class RestCustomerTest extends AbstractRestTest
         $response = $this->getRelationship([
             'entity' => $this->getEntityType(Customer::class),
             'id' => '<toString(@default_customer->id)>',
-            'association' => 'children',
+            'association' => 'children'
         ]);
-        $expected = [
-            'data' => [
-                [
-                    'type' => 'customers',
-                    'id' => '<toString(@default_customer->getChildren()->first()->id)>',
-                ],
+        $this->assertResponseContains(
+            [
+                'data' => [
+                    ['type' => 'customers', 'id' => '<toString(@default_customer->getChildren()->first()->id)>']
+                ]
             ],
-        ];
-        $this->assertResponseContains($expected, $response);
+            $response
+        );
     }
 
     public function testAddChildrenRelationship()
@@ -673,24 +547,18 @@ class RestCustomerTest extends AbstractRestTest
 
         $additionalChild = $this->createCustomer('additional customer');
 
-        $uri = $this->getUrl(
-            'oro_rest_api_post_relationship',
+        $this->postRelationship(
             [
                 'entity' => $this->getEntityType(Customer::class),
                 'id' => $customer->getId(),
-                'association' => 'children',
+                'association' => 'children'
+            ],
+            [
+                'data' => [
+                    ['type' => 'customers', 'id' => (string)$additionalChild->getId()]
+                ]
             ]
         );
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customers',
-                    'id' => (string)$additionalChild->getId(),
-                ],
-            ],
-        ];
-        $response = $this->request('POST', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
 
         $customer = $this->getManager()->getRepository(Customer::class)->findOneByName('new customer');
         $this->assertCount(2, $customer->getChildren());
@@ -708,24 +576,18 @@ class RestCustomerTest extends AbstractRestTest
 
         $newChild = $this->createCustomer('new child customer');
 
-        $uri = $this->getUrl(
-            'oro_rest_api_patch_relationship',
+        $this->patchRelationship(
             [
                 'entity' => $this->getEntityType(Customer::class),
                 'id' => $customer->getId(),
-                'association' => 'children',
+                'association' => 'children'
+            ],
+            [
+                'data' => [
+                    ['type' => 'customers', 'id' => (string)$newChild->getId()]
+                ]
             ]
         );
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customers',
-                    'id' => (string)$newChild->getId(),
-                ],
-            ],
-        ];
-        $response = $this->request('PATCH', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
 
         $customer = $this->getManager()->getRepository(Customer::class)->findOneByName('new customer');
         $this->assertCount(1, $customer->getChildren());
@@ -743,24 +605,19 @@ class RestCustomerTest extends AbstractRestTest
         $customer->addChild($child2);
 
         $this->getManager()->flush();
-        $uri = $this->getUrl(
-            'oro_rest_api_delete_relationship',
+
+        $this->deleteRelationship(
             [
                 'entity' => $this->getEntityType(Customer::class),
                 'id' => $customer->getId(),
-                'association' => 'children',
+                'association' => 'children'
+            ],
+            [
+                'data' => [
+                    ['type' => 'customers', 'id' => (string)$child1->getId()]
+                ]
             ]
         );
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customers',
-                    'id' => (string)$child1->getId(),
-                ],
-            ],
-        ];
-        $response = $this->request('DELETE', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
 
         $customer = $this->getManager()->getRepository(Customer::class)->findOneByName('new customer');
         $this->assertCount(1, $customer->getChildren());
@@ -774,7 +631,7 @@ class RestCustomerTest extends AbstractRestTest
         $response = $this->getSubresource([
             'entity' => $this->getEntityType(Customer::class),
             'id' => '<toString(@default_customer->id)>',
-            'association' => 'users',
+            'association' => 'users'
         ]);
         $this->assertResponseContains(__DIR__.'/responses/get_users_sub_resource.yml', $response);
     }
@@ -784,17 +641,16 @@ class RestCustomerTest extends AbstractRestTest
         $response = $this->getRelationship([
             'entity' => $this->getEntityType(Customer::class),
             'id' => '<toString(@default_customer->id)>',
-            'association' => 'users',
+            'association' => 'users'
         ]);
-        $expected = [
-            'data' => [
-                [
-                    'type' => 'customer_users',
-                    'id' => '<toString(@default_customer->getUsers()->first()->id)>',
-                ],
+        $this->assertResponseContains(
+            [
+                'data' => [
+                    ['type' => 'customer_users', 'id' => '<toString(@default_customer->getUsers()->first()->id)>']
+                ]
             ],
-        ];
-        $this->assertResponseContains($expected, $response);
+            $response
+        );
     }
 
     public function testAddUsersRelationship()
@@ -803,24 +659,18 @@ class RestCustomerTest extends AbstractRestTest
         $user1 = $this->createCustomerUser('user1@oroinc.com', $customer);
         $user2 = $this->createCustomerUser('user2@oroinc.com');
 
-        $uri = $this->getUrl(
-            'oro_rest_api_post_relationship',
+        $this->postRelationship(
             [
                 'entity' => $this->getEntityType(Customer::class),
                 'id' => $customer->getId(),
-                'association' => 'users',
+                'association' => 'users'
+            ],
+            [
+                'data' => [
+                    ['type' => 'customer_users', 'id' => (string)$user2->getId()]
+                ]
             ]
         );
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customer_users',
-                    'id' => (string)$user2->getId(),
-                ],
-            ],
-        ];
-        $response = $this->request('POST', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
 
         $customer = $this->getManager()->getRepository(Customer::class)->findOneByName('new customer');
         $this->assertCount(2, $customer->getUsers());
@@ -836,24 +686,18 @@ class RestCustomerTest extends AbstractRestTest
         $user1 = $this->createCustomerUser('user1@oroinc.com', $customer);
         $user2 = $this->createCustomerUser('user2@oroinc.com');
 
-        $uri = $this->getUrl(
-            'oro_rest_api_patch_relationship',
+        $this->patchRelationship(
             [
                 'entity' => $this->getEntityType(Customer::class),
                 'id' => $customer->getId(),
-                'association' => 'users',
+                'association' => 'users'
+            ],
+            [
+                'data' => [
+                    ['type' => 'customer_users', 'id' => (string)$user2->getId()]
+                ]
             ]
         );
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customer_users',
-                    'id' => (string)$user2->getId(),
-                ],
-            ],
-        ];
-        $response = $this->request('PATCH', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
 
         $customer = $this->getManager()->getRepository(Customer::class)->findOneByName('new customer');
         $this->assertCount(1, $customer->getUsers());
@@ -868,24 +712,18 @@ class RestCustomerTest extends AbstractRestTest
         $user1 = $this->createCustomerUser('user1@oroinc.com', $customer);
         $user2 = $this->createCustomerUser('user2@oroinc.com', $customer);
 
-        $uri = $this->getUrl(
-            'oro_rest_api_delete_relationship',
+        $this->deleteRelationship(
             [
                 'entity' => $this->getEntityType(Customer::class),
                 'id' => $customer->getId(),
-                'association' => 'users',
+                'association' => 'users'
+            ],
+            [
+                'data' => [
+                    ['type' => 'customer_users', 'id' => (string)$user1->getId()]
+                ]
             ]
         );
-        $data = [
-            'data' => [
-                [
-                    'type' => 'customer_users',
-                    'id' => (string)$user1->getId(),
-                ],
-            ],
-        ];
-        $response = $this->request('DELETE', $uri, $data);
-        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
 
         $customer = $this->getManager()->getRepository(Customer::class)->findOneByName('new customer');
         $this->assertCount(1, $customer->getUsers());

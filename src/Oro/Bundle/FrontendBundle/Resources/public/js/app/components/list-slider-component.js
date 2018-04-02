@@ -27,6 +27,13 @@ define(function(require) {
         },
 
         /**
+         * @inheritDoc
+         */
+        constructor: function ContentSliderComponent() {
+            ContentSliderComponent.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
          *
          * @param options
          */

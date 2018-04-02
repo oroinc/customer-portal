@@ -13,7 +13,7 @@ security:
             provider:                       commerce_customer_user
             context:                        customer_identity
             organization-form-login:
-                csrf_provider:              form.csrf_provider
+                csrf_token_generator:       security.csrf.token_manager
                 check_path:                 oro_customer_customer_user_security_check
                 login_path:                 oro_customer_customer_user_security_login
                 default_target_path:        oro_frontend_root
@@ -21,7 +21,7 @@ security:
                 path:                       oro_customer_customer_user_security_logout
                 invalidate_session:         false
             organization-remember-me:
-                key:                        %secret%
+                secret:                     '%secret%'
                 name:                       OROCOMMERCE
                 lifetime:                   2592000   # stay logged for 30 days
                 httponly:                   true

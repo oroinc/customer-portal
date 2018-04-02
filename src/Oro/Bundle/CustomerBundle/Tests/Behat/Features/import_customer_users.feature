@@ -176,8 +176,6 @@ Feature: Import Customer Users
       | Edit   | User                   | Global |
     And user has following entity permissions enabled
         | Import Entity Records |
-    # @todo remove step from scenario and step implementation in scope of BAP-14637
-    And I restart message consumer
     And I login to dashboard as "userWithoutAssign1" user
     And go to Customers/ Customer Users
     And number of records should be 4
@@ -194,8 +192,6 @@ Feature: Import Customer Users
   Scenario: Import new Customer Users by user with "Assign" permission but not admin
     And user has following permissions
       | Assign | Customer User          | Global  |
-    # @todo remove step from scenario and step implementation in scope of BAP-14637
-    And I restart message consumer
     And I login to dashboard as "userWithAssign1" user
     And go to Customers/ Customer Users
     And I download "Customer Users" Data Template file

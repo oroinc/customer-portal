@@ -2,12 +2,6 @@ parameters:
     oro_website.entity.website.class: Oro\Bundle\WebsiteBundle\Entity\Website
 
 services:
-    oro_website.repository.website:
-        class: Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository
-        parent: oro_entity.abstract_repository
-        arguments:
-            - '%oro_website.entity.website.class%'
-
     oro_website.manager:
         class: 'Oro\Bundle\WebsiteBundle\Manager\WebsiteManager'
         public: true
@@ -36,6 +30,27 @@ services:
         class: 'Oro\Bundle\WebsiteBundle\Provider\WebsiteProvider'
         arguments:
             - "@doctrine"
+
+    oro_website.cache.website:
+        parent: oro.cache.abstract
+        calls:
+            - [ setNamespace, [ 'oro_website' ] ]
+
+    oro_website.cacheable_website_provider:
+        class: 'Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider'
+        decorates: 'oro_website.website.provider'
+        decoration_priority: -255 # the cacheable provider should be at the top of the decoration chain
+        arguments:
+            - '@oro_website.cacheable_website_provider.inner'
+            - '@oro_website.cache.website'
+            - '@oro_entity.doctrine_helper'
+
+    oro_website.event_listener.website:
+        class: 'Oro\Bundle\WebsiteBundle\EventListener\WebsiteListener'
+        arguments:
+            - '@oro_website.cacheable_website_provider'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush, priority: -255 }
 
     oro_website.model.action.assign_current_website:
         class: 'Oro\Bundle\WebsiteBundle\Model\Action\AssignCurrentWebsite'
@@ -96,13 +111,6 @@ services:
             - '@oro_config.manager'
             - '@oro_locale.manager.localization'
             - '@oro_entity.doctrine_helper'
-
-    oro_website.repository.website:
-        class: 'Doctrine\ORM\EntityRepository'
-        public: false
-        factory:  ["@oro_entity.doctrine_helper", getEntityRepository]
-        arguments:
-            - '%oro_website.entity.website.class%'
 
     oro_website.assetic_context:
         class: 'Oro\Bundle\WebsiteBundle\Asset\AssetsContext'

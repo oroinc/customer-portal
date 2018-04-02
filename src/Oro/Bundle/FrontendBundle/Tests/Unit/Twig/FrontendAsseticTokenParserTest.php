@@ -2,15 +2,13 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Twig;
 
-use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
-
 use Assetic\Asset\AssetCollection;
-
 use Oro\Bundle\AsseticBundle\AssetsConfiguration;
 use Oro\Bundle\AsseticBundle\Twig\AsseticTokenParser;
-use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
 use Oro\Bundle\FrontendBundle\EventListener\ThemeListener;
 use Oro\Bundle\FrontendBundle\Twig\FrontendAsseticTokenParser;
+use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
+use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
 
 class FrontendAsseticTokenParserTest extends \PHPUnit_Framework_TestCase
 {

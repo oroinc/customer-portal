@@ -3,7 +3,6 @@
 namespace Oro\Bundle\WebsiteBundle\Provider;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class WebsiteProvider implements WebsiteProviderInterface
@@ -22,15 +21,32 @@ class WebsiteProvider implements WebsiteProviderInterface
     }
 
     /**
-     * @return Website[]
+     * {@inheritdoc}
      */
     public function getWebsites()
     {
-        $websites = [];
-        $websites[] = $this->registry->getManagerForClass('OroWebsiteBundle:Website')
+        $website = $this->getDefaultWebsite();
+        
+        return $website ? [$website->getId() => $website] : [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWebsiteIds()
+    {
+        $website = $this->getDefaultWebsite();
+
+        return $website ? [$website->getId()] : [];
+    }
+
+    /**
+     * @return Website|null
+     */
+    protected function getDefaultWebsite()
+    {
+        return $this->registry->getManagerForClass('OroWebsiteBundle:Website')
             ->getRepository('OroWebsiteBundle:Website')
             ->getDefaultWebsite();
-        
-        return $websites;
     }
 }

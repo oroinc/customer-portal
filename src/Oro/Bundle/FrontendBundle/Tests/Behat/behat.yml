@@ -102,3 +102,23 @@ oro_behat_extension:
     Requests For Quote Grid:
       selector: '[id^="grid-frontend-requests-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+    Second Save Button:
+      selector:
+        type: xpath
+        # when should be clicked second button on the page, because it visible after changes on page
+        locator: '(//button[contains(text(), "Save") or contains(text(), "Create")])[2]'
+    Sticky Filters Dropdown:
+      selector: '[data-sticky-name="top-sticky-panel"] a.action[title="Filters"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Mass Actions Into Sticky Panel:
+      selector: '.sticky-panel.sticky-panel--top.has-content [data-mass-actions-container]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Pegination Into Sticky Panel:
+      selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-pagesize]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Sorting Into Sticky Panel:
+      selector: '.sticky-panel.sticky-panel--top.has-content [data-grid-sorting]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Catalog Switcher Into Sticky Panel:
+      selector: '.sticky-panel.sticky-panel--top.has-content .catalog-switcher'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element

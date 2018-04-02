@@ -632,8 +632,12 @@ oro.customer:
                 GLOBAL: 'Not supported'
                 SYSTEM: 'Full'
                 NONE: 'None'
+        customer:
+            entity_label: Customer
+            entity_plural_label: Customers
         customer_user:
             role.entity_plural_label: Roles
+            entity_label: User
             entity_plural_label: Users
             profile.label: Profile
             address.label: Address Book

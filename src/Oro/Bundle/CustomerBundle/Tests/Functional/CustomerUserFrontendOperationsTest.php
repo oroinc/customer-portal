@@ -3,12 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional;
 
 use Doctrine\ORM\EntityManagerInterface;
-
-use Symfony\Component\HttpFoundation\Response;
-
-use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class CustomerUserFrontendOperationsTest extends WebTestCase
 {

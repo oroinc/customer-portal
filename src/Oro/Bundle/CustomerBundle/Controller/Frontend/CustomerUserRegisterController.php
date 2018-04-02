@@ -2,17 +2,18 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
+use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Component\Layout\LayoutContext;
+use Oro\Bundle\CustomerBundle\CustomerUserEvents;
+use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
+use Oro\Bundle\UIBundle\Route\Router;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Oro\Bundle\CustomerBundle\CustomerUserEvents;
-use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\UIBundle\Route\Router;
 
 class CustomerUserRegisterController extends Controller
 {

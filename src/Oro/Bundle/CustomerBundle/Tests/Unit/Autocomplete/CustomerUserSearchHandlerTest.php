@@ -6,15 +6,14 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
-
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
+use Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler;
 use Oro\Bundle\SearchBundle\Engine\Indexer;
 use Oro\Bundle\SearchBundle\Query\Result;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
-use Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler;
 
 class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
 {

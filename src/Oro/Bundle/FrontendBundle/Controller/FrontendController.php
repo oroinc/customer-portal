@@ -2,12 +2,10 @@
 
 namespace Oro\Bundle\FrontendBundle\Controller;
 
+use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
 
 class FrontendController extends Controller
 {

@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Acl\Group;
 
-use Oro\Bundle\SecurityBundle\Acl\Group\AclGroupProviderInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\SecurityBundle\Acl\Group\AclGroupProviderInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class AclGroupProvider implements AclGroupProviderInterface

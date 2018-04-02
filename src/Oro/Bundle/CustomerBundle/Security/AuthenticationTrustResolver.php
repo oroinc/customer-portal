@@ -2,18 +2,16 @@
 
 namespace Oro\Bundle\CustomerBundle\Security;
 
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver as BaseAuthenticationTrustResolver;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 
 /**
  * Make AuthenticationTrustResolver behave the same as Anonymous token
  *
  * Extends the original AuthenticationTrustResolver because the
  * ACL security bundle depends on that class instead of using the interface.
- *
  */
 class AuthenticationTrustResolver extends BaseAuthenticationTrustResolver
 {
@@ -23,7 +21,6 @@ class AuthenticationTrustResolver extends BaseAuthenticationTrustResolver
     private $decoratedResolver;
 
     /**
-     * AuthenticationTrustResolver constructor.
      * @param AuthenticationTrustResolverInterface $decoratedResolver
      */
     public function __construct(AuthenticationTrustResolverInterface $decoratedResolver)

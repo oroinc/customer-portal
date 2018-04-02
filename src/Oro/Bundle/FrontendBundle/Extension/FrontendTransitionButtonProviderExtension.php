@@ -3,9 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\Extension;
 
 use Oro\Bundle\ActionBundle\Button\ButtonSearchContext;
-
 use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
-
 use Oro\Bundle\WorkflowBundle\Extension\TransitionButtonProviderExtension;
 use Oro\Bundle\WorkflowBundle\Model\Transition;
 use Oro\Bundle\WorkflowBundle\Model\Workflow;

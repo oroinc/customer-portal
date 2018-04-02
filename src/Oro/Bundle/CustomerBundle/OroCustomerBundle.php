@@ -2,15 +2,15 @@
 
 namespace Oro\Bundle\CustomerBundle;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\LoginManagerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Security\AnonymousCustomerUserFactory;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappingPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\OwnerTreeListenerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\WindowsStateManagerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Security\AnonymousCustomerUserFactory;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class OroCustomerBundle extends Bundle
 {

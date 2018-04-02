@@ -2,14 +2,13 @@
 
 namespace Oro\Bundle\FrontendBundle\Form\Configurator;
 
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
 use Oro\Bundle\ConfigBundle\Config\ConfigBag;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\ConfigBundle\Config\Tree\FieldNodeDefinition;
 use Oro\Bundle\ConfigBundle\Exception\ItemNotFoundException;
 use Oro\Bundle\FrontendBundle\Form\Type\PageTemplateFormFieldType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ThemeConfigurator
 {

@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Datagrid\Extension;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datasource\DatasourceInterface;
 use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource;
 use Oro\Bundle\DataGridBundle\Extension\AbstractExtension;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CustomerUserByCustomerExtension extends AbstractExtension
 {
@@ -52,7 +51,9 @@ class CustomerUserByCustomerExtension extends AbstractExtension
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        return !$this->applied
+        return
+            parent::isApplicable($config)
+            && !$this->applied
             && static::SUPPORTED_GRID === $config->getName()
             && $request
             && $request->get(self::ACCOUNT_KEY);

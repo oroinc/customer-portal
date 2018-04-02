@@ -2,13 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller;
 
+use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
 
 class SecurityController extends Controller
 {

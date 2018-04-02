@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Security\Listener;
 
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-
 use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class CustomerVisitorCookieResponseListener
 {

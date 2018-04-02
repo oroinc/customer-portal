@@ -2,8 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
+use Oro\Bundle\AddressBundle\Form\Handler\AddressHandler;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
+use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,12 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
-use Oro\Bundle\AddressBundle\Form\Handler\AddressHandler;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 
 class CustomerUserAddressController extends Controller
 {
@@ -106,7 +104,7 @@ class CustomerUserAddressController extends Controller
             $this->container->getParameter('oro_customer.entity.customer_user_address.class')
         );
 
-        $handler = new AddressHandler($form, $request, $manager);
+        $handler = new AddressHandler($form, $this->get('request_stack'), $manager);
 
         $result = $this->get('oro_form.model.update_handler')->handleUpdate(
             $form->getData(),
