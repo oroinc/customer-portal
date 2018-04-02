@@ -4,7 +4,6 @@ namespace Oro\Bundle\CustomerBundle\Security;
 
 use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationTokenFactoryInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
-
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;

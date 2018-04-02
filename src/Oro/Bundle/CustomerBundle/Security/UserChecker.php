@@ -4,7 +4,6 @@ namespace Oro\Bundle\CustomerBundle\Security;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Exception\GuestCustomerUserLoginException;
-
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

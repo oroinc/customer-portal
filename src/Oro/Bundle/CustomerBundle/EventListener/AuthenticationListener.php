@@ -6,7 +6,6 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\CustomerUserEvents;
 use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
 use Oro\Bundle\CustomerBundle\Security\LoginManager;
-
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class AuthenticationListener implements EventSubscriberInterface

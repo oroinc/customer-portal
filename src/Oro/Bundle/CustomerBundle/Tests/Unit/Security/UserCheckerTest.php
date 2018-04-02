@@ -5,7 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Security;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Security\UserChecker;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
-
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 
 class UserCheckerTest extends \PHPUnit_Framework_TestCase

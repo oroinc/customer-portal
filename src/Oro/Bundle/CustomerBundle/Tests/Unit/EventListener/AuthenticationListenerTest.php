@@ -2,12 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
 
-use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
 use Oro\Bundle\CustomerBundle\EventListener\AuthenticationListener;
 use Oro\Bundle\CustomerBundle\Security\LoginManager;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

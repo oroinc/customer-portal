@@ -2,11 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Mailer;
 
-use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
-use Oro\Bundle\UserBundle\Tests\Unit\Mailer\AbstractProcessorTest;
-use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
+use Oro\Bundle\CustomerBundle\Mailer\Processor;
+use Oro\Bundle\UserBundle\Tests\Unit\Mailer\AbstractProcessorTest;
 use Oro\Bundle\UserBundle\Tests\Unit\Mailer\AbstractProcessorTest;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

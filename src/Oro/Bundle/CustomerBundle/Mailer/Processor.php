@@ -3,14 +3,12 @@
 namespace Oro\Bundle\CustomerBundle\Mailer;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
-use Oro\Bundle\UserBundle\Entity\UserInterface;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EmailBundle\Provider\EmailRenderer;
 use Oro\Bundle\EmailBundle\Tools\EmailHolderHelper;
-
+use Oro\Bundle\UserBundle\Entity\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Processor extends CustomerUserProcessor
