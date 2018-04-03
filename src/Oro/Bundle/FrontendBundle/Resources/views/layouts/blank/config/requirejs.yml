@@ -100,13 +100,10 @@ config:
 
         'orofrontend/default/js/app/views/input-widget/number': 'bundles/orofrontend/default/js/app/views/input-widget/number.js'
 
-        'orofrontend/js/swipe-action-manager': 'bundles/orofrontend/js/swipe-action-manager.js'
         'orofrontend/js/app/plugins/plugin-elastic-swipe-actions': 'bundles/orofrontend/js/app/plugins/plugin-elastic-swipe-actions.js'
-        'orofrontend/js/app/modules/swipe-actions-module': 'bundles/orofrontend/js/app/modules/swipe-actions-module.js'
 
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
         - orofrontend/js/app/modules/component-shortcuts-module
         - orofrontend/default/js/app/modules/input-widgets
         - orofrontend/default/js/app/modules/zoom-disable
-        - orofrontend/js/app/modules/swipe-actions-module

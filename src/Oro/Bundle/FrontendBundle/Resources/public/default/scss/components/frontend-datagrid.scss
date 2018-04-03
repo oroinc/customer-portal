@@ -112,33 +112,33 @@
                         right: $frontend-datagrid-responsive-action-cell-tablet-right;
                         bottom: $frontend-datagrid-responsive-action-cell-tablet-bottom;
                         background: $frontend-datagrid-responsive-action-cell-tablet-bg-color;
-                        margin: 0;
-                        padding: 0 $frontend-datagrid-responsive-action-cell-tablet-inner-offset;
+                        margin: $frontend-datagrid-responsive-action-cell-tablet-outer-offset;
+                        padding: $frontend-datagrid-responsive-action-cell-tablet-inner-offset;
 
                         .action {
                             color: $frontend-datagrid-responsive-action-cell-tablet-icon-color;
 
                             &-row {
-                                display: flex;
+                                display: $frontend-datagrid-responsive-action-cell-tablet-row-display;
                                 height: $frontend-datagrid-responsive-action-cell-tablet-row-height;
-                                align-items: center;
+                                align-items: $frontend-datagrid-responsive-action-cell-tablet-row-align-items;
 
                                 .launchers-list {
-                                    display: inline-flex;
-                                    flex-wrap: wrap;
+                                    display: $frontend-datagrid-responsive-action-cell-tablet-launchers-list-display;
+                                    flex-wrap: $frontend-datagrid-responsive-action-cell-tablet-launchers-list-flex-wrap;
 
                                     .launcher-item {
                                         &:not(.mode-icon-only) {
-                                            margin: 0;
+                                            margin: $frontend-datagrid-responsive-action-cell-tablet-column-outer-offset;
                                             width: $frontend-datagrid-responsive-action-cell-tablet-column-width;
-                                            padding: 0 $frontend-datagrid-responsive-action-cell-tablet-column-inner-offset;
+                                            padding: $frontend-datagrid-responsive-action-cell-tablet-column-inner-offset;
                                         }
                                     }
                                 }
                             }
 
                             &.mode-icon-only:first-child [class^="fa-"] {
-                                padding-left: 0;
+                                padding-left: $frontend-datagrid-responsive-action-cell-tablet-left-inner-offset;
                             }
                         }
                     }

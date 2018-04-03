@@ -16,7 +16,10 @@ define(function(require) {
         combineGridOptions: function() {
             var options = FrontendDataGridComponent.__super__.combineGridOptions.apply(this, arguments);
 
-            if (this.metadata.swipeActionsGrid && this.metadata.swipeActionsGrid.enable) {
+            if (
+                (this.metadata.responsiveGrids && this.metadata.responsiveGrids.enable) &&
+                (this.metadata.swipeActionsGrid && this.metadata.swipeActionsGrid.enable)
+            ) {
                 options.plugins.push({
                     constructor: ElasticSwipeActionsPlugin,
                     options: {
