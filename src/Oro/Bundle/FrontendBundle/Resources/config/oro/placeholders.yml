@@ -65,4 +65,6 @@ placeholders:
         oro_reminder_subscribe_script:
             applicable: "@oro_layout.helper->isTemplateRequest()"
         sync_js:
-            applicable: "@oro_layout.helper->isTemplateRequest()"
+            applicable:
+                - "@oro_security.token_accessor->hasUser()"
+                - "@oro_layout.helper->isTemplateRequest()"
