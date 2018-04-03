@@ -38,7 +38,7 @@ define(function(require) {
          * Limit of end point
          * @property {Number}
          */
-        maxLimit: 175,
+        maxLimit: 125,
 
         /**
          * On done CSS classname
@@ -125,6 +125,10 @@ define(function(require) {
          * Disable swipe handler
          */
         disable: function() {
+            if (!this.enabled) {
+                return;
+            }
+
             this._revertState();
             this._unbindEvents();
 
@@ -175,7 +179,7 @@ define(function(require) {
             var size = container.find(this.sizerSelector).outerWidth();
 
             this.maxLimit = size;
-            this.breakPointPosition = size / 2;
+            this.breakPointPosition = size * 0.3;
             container.css({
                 paddingRight: size,
                 marginRight: -size
@@ -299,7 +303,7 @@ define(function(require) {
          * @private
          */
         _revertState: function() {
-            if (!this.enabled) {
+            if (!this.enabled || !this.currentSwipedContainer) {
                 return;
             }
 
