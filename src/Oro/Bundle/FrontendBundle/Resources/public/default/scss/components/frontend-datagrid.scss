@@ -113,15 +113,16 @@
                         bottom: $frontend-datagrid-responsive-action-cell-tablet-bottom;
                         background: $frontend-datagrid-responsive-action-cell-tablet-bg-color;
                         margin: 0;
-                        padding: 0 8px;
+                        padding: 0 $frontend-datagrid-responsive-action-cell-tablet-inner-offset;
 
                         .action {
                             color: $frontend-datagrid-responsive-action-cell-tablet-icon-color;
 
                             &-row {
                                 display: flex;
-                                height: 100%;
+                                height: $frontend-datagrid-responsive-action-cell-tablet-row-height;
                                 align-items: center;
+
                                 .launchers-list {
                                     display: inline-flex;
                                     flex-wrap: wrap;
@@ -129,8 +130,8 @@
                                     .launcher-item {
                                         &:not(.mode-icon-only) {
                                             margin: 0;
-                                            width: 50%;
-                                            padding: 0 5px;
+                                            width: $frontend-datagrid-responsive-action-cell-tablet-column-width;
+                                            padding: 0 $frontend-datagrid-responsive-action-cell-tablet-column-inner-offset;
                                         }
                                     }
                                 }
