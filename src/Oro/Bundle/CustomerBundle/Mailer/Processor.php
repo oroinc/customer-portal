@@ -11,6 +11,9 @@ use Oro\Bundle\EmailBundle\Tools\EmailHolderHelper;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Handles CustomerUser email sending logic
+ */
 class Processor extends CustomerUserProcessor
 {
     const WELCOME_EMAIL_TEMPLATE_NAME = 'customer_user_welcome_email';

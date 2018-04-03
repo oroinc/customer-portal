@@ -16,6 +16,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Returns CustomerUser register form
+ */
 class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
 {
     const ACCOUNT_USER_REGISTER_ROUTE_NAME = 'oro_customer_frontend_customer_user_register';

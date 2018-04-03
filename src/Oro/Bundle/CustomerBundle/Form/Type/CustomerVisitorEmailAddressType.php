@@ -10,6 +10,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Email form for visitor
+ */
 class CustomerVisitorEmailAddressType extends EmailAddressType
 {
     const NAME = 'oro_customer_visitor_email_address';

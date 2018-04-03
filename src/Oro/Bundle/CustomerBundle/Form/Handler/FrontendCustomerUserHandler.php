@@ -14,6 +14,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Registers and updates customer user
+ */
 class FrontendCustomerUserHandler extends FormHandler
 {
     /** @var RequestStack */

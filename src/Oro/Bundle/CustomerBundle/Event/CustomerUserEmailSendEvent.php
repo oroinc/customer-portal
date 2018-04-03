@@ -6,6 +6,9 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Represents email send event
+ */
 class CustomerUserEmailSendEvent extends Event
 {
     const NAME = 'oro_customer.customer_user_email_send_event';

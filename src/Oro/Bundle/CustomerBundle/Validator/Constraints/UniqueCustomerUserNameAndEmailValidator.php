@@ -7,6 +7,9 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Validates uniqness of CustomerUser email depending on guest flag
+ */
 class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
 {
     /**

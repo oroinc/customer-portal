@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle;
 
+/**
+ * Represents CustomerUser registration events
+ */
 class CustomerUserEvents
 {
     /**

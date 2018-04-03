@@ -16,6 +16,9 @@ use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
 use Symfony\Component\Security\Http\SecurityEvents;
 use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
 
+/**
+ * Logins CustomerUser if authentication checks passed
+ */
 class LoginManager
 {
     /**
@@ -82,6 +85,11 @@ class LoginManager
         $this->rememberMeService = $rememberMeService;
     }
 
+    /**
+     * @param $firewallName
+     * @param AbstractUser $user
+     * @param Response|null $response
+     */
     public function logInUser($firewallName, AbstractUser $user, Response $response = null)
     {
         try {

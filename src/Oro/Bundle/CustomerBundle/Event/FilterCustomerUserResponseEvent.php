@@ -7,6 +7,9 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * FilterCustomerUserResponseEvent event which is fired after registration
+ */
 class FilterCustomerUserResponseEvent extends Event
 {
     /**

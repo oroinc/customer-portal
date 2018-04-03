@@ -8,6 +8,9 @@ use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
 use Oro\Bundle\CustomerBundle\Security\LoginManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Authenticates CustomerUser depending on response param or config settings
+ */
 class AuthenticationListener implements EventSubscriberInterface
 {
     const AUTO_LOGIN_PARAM = "_oro_customer_auto_login";
@@ -47,6 +50,9 @@ class AuthenticationListener implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param FilterCustomerUserResponseEvent $event
+     */
     public function authenticate(FilterCustomerUserResponseEvent $event)
     {
         $request = $event->getRequest();

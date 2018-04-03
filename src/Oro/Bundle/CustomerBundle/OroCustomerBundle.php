@@ -11,6 +11,9 @@ use Oro\Bundle\CustomerBundle\DependencyInjection\Security\AnonymousCustomerUser
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * Loads needed extensions
+ */
 class OroCustomerBundle extends Bundle
 {
     /**

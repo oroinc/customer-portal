@@ -7,6 +7,9 @@ use Oro\Bundle\CustomerBundle\Exception\GuestCustomerUserLoginException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * Checks CustomerUser before auth
+ */
 class UserChecker implements UserCheckerInterface
 {
     /**

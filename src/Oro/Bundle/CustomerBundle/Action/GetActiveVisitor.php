@@ -6,6 +6,9 @@ use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Component\Action\Action\AssignActiveUser;
 use Oro\Component\Action\Exception\ActionException;
 
+/**
+ * Returns active Visitor instance (which represents guest)
+ */
 class GetActiveVisitor extends AssignActiveUser
 {
     /**

@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Handles Customer user profile view and update actions
+ */
 class CustomerUserProfileController extends Controller
 {
     /**

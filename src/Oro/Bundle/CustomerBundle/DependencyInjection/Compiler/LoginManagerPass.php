@@ -6,6 +6,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * Extends firewall settings to make possible to work with guest users
+ */
 class LoginManagerPass implements CompilerPassInterface
 {
     /**

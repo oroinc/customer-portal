@@ -12,7 +12,6 @@ use Oro\Bundle\FormBundle\Event\FormHandler\Events;
 use Oro\Bundle\FormBundle\Event\FormHandler\FormProcessEvent;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Component\Testing\Unit\EntityTrait;
-use Oro\Component\Testing\Unit\FormHandlerTestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;

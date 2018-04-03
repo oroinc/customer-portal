@@ -9,6 +9,10 @@ use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenTrait
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
+/**
+ * AnonymousCustomerUserToken which represents authenticated CustomerUser
+ *
+ */
 class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationContextTokenInterface
 {
     use OrganizationContextTokenTrait;
