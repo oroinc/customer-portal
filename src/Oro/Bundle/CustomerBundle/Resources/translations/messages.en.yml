@@ -268,7 +268,7 @@ oro.customer:
             description:                 A website the customer user role should apply for.
         customer:
             label:                       'Customer'
-            description:                 Customer represents a company whose customer users access and permissions the customer user role controls.
+            description:                 Customer that has exclusive permission to use this role for their customer users. If the value is not provided, the role is available for all customers.
         organization.label:              'Organization'
         type.label:                      'Type'
         type.predefined.label:           'Predefined'
