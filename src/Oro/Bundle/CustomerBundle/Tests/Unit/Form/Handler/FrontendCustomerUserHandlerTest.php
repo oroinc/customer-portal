@@ -91,7 +91,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit_Framework_TestCase
             ->with($entity);
         $this->form->expects($this->once())
             ->method('submit')
-            ->with($this->request);
+            ->with([], true);
         $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(true));
@@ -142,7 +142,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit_Framework_TestCase
             ->with($entity);
         $this->form->expects($this->once())
             ->method('submit')
-            ->with($this->request);
+            ->with([], true);
         $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(true));
@@ -185,7 +185,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit_Framework_TestCase
             ->with($entity);
         $this->form->expects($this->once())
             ->method('submit')
-            ->with($this->request);
+            ->with([], true);
         $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(true));
