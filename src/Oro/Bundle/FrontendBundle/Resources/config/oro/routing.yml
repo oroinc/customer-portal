@@ -17,6 +17,9 @@ oro_frontend_style_book:
     options:
         frontend: true
 
+oro_frontend_api:
+    resource: "@OroFrontendBundle/Resources/config/oro/routing_api.yml"
+
 oro_installer:
     resource: "@OroInstallerBundle/Resources/config/oro/routing.yml"
     options:
