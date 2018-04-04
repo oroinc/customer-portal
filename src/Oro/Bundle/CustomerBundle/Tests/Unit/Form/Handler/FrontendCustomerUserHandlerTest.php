@@ -56,11 +56,12 @@ class FrontendCustomerUserHandlerTest extends FormHandlerTestCase
             ->method('isValid')
             ->will($this->returnValue($isValid));
 
+        $this->request->initialize([], self::FORM_DATA);
         $this->request->setMethod($method);
 
         $this->form->expects($this->once())
             ->method('submit')
-            ->with($this->request);
+            ->with(self::FORM_DATA);
 
         $this->assertEquals($isProcessed, $this->handler->process($this->entity));
     }
@@ -73,6 +74,7 @@ class FrontendCustomerUserHandlerTest extends FormHandlerTestCase
         $this->entity->expects($this->exactly(2))
             ->method('getId')
             ->will($this->returnValue(null));
+        $this->request->initialize([], self::FORM_DATA);
         $this->request->setMethod('POST');
 
         $website = new Website();
@@ -83,7 +85,7 @@ class FrontendCustomerUserHandlerTest extends FormHandlerTestCase
 
         $this->form->expects($this->once())
             ->method('submit')
-            ->with($this->request);
+            ->with(self::FORM_DATA);
 
         $this->form->expects($this->once())
             ->method('isValid')
@@ -112,11 +114,13 @@ class FrontendCustomerUserHandlerTest extends FormHandlerTestCase
         $this->entity->expects($this->exactly(2))
             ->method('getId')
             ->will($this->returnValue(42));
+
+        $this->request->initialize([], self::FORM_DATA);
         $this->request->setMethod('POST');
 
         $this->form->expects($this->once())
             ->method('submit')
-            ->with($this->request);
+            ->with(self::FORM_DATA);
 
         $this->form->expects($this->once())
             ->method('isValid')

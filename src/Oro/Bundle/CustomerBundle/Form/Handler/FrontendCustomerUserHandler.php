@@ -4,12 +4,15 @@ namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\FormBundle\Form\Handler\RequestHandlerTrait;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class FrontendCustomerUserHandler
 {
+    use RequestHandlerTrait;
+
     /** @var FormInterface */
     protected $form;
 
@@ -44,7 +47,7 @@ class FrontendCustomerUserHandler
     {
         $isUpdated = false;
         if (in_array($this->request->getMethod(), ['POST', 'PUT'], true)) {
-            $this->form->submit($this->request);
+            $this->submitPostPutRequest($this->form, $this->request);
             if ($this->form->isValid()) {
                 if (!$customerUser->getId()) {
                     $website = $this->request->attributes->get('current_website');
