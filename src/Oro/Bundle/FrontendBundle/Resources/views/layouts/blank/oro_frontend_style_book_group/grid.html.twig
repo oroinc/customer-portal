@@ -128,3 +128,70 @@
         </div>
     </div>
 {% endblock %}
+
+{% block _style_book_js_component_modal_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'oroui/js/modal',
+            renderAfter: 'onaction',
+            viewOptions: {
+                content: 'Content'
+            },
+            props: {
+                title: {
+                    label: 'Title',
+                    value: 'Confirmation'
+                },
+                okText: 'OK',
+                cancelText: 'Cancel',
+                okButtonClass: 'btn ok btn--info',
+                cancelButtonClass: 'btn cancel',
+                handleClose: false,
+                allowCancel: true,
+                allowOk: true,
+                content: {
+                    type: 'textarea',
+                    value: 'Hello'
+                }
+            }
+        }
+    }) %}
+
+    <h2 class="style-book-title">Modal widget</h2>
+    <div {{ block('block_attributes') }}>
+        <button class="btn btn--info" data-action="click open">Open Modal</button>
+    </div>
+{% endblock %}
+
+
+{% block _style_book_js_component_googlemap_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'oroaddress/js/mapservice/googlemaps',
+            viewOptions: {
+                apiKey: 'AIzaSyBB80MFGd4b9as7Tv3jyY5onECcM7L5MME',
+                address: {
+                    address: '78900 Patterson Road Queens, 11418, US-NY'
+                }
+            },
+            props: {
+                apiKey: 'AIzaSyBB80MFGd4b9as7Tv3jyY5onECcM7L5MME',
+                'address.address': {
+                    value: '78900 Patterson Road Queens, 11418, US-NY'
+                },
+                'mapOptions.zoom': '17',
+                'mapOptions.mapTypeControl': true,
+                'mapOptions.panControl': false,
+                'mapOptions.zoomControl': true,
+                'mapOptions.mapTypeControlOptions.style': '2'
+            }
+        }
+    }) %}
+
+    <h2 class="style-book-title">Google Map widget</h2>
+    <div {{ block('block_attributes') }}></div>
+{% endblock %}

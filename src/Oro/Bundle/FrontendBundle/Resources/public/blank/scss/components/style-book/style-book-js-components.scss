@@ -1,0 +1,19 @@
+// @theme: blank;
+
+.playground {
+  &-view {
+    min-height: 300px;
+
+    .map-visual {
+      min-height: 300px;
+    }
+  }
+}
+.js-component-container {
+  width: 100%;
+  position: relative;
+
+  .modal-dialog {
+
+  }
+}

@@ -81,24 +81,30 @@ layout:
                         description: oro_frontend_style_book.groups.grid.description_clear
                 style_book_grid_element_clear:
                     blockType: block
+                style_book_js_component_modal:
+                    blockType: block
+                style_book_js_component_googlemap:
+                    blockType: block
             tree:
                 style_book_content:
-                    group_element_grid_view:
-                        group_element_item_grid:
-                            style_book_grid_element_grid: ~
-                    group_element_grid_view_row:
-                        group_element_item_grid_offset_row:
-                            style_book_grid_element_offset_row: ~
-                    group_element_grid_view_columns:
-                        group_element_item_offset_holder:
-                            style_book_grid_element_offset: ~
-                        group_element_item_offset_bottom_holder:
-                            style_book_grid_element_offset_bottom: ~
-                    group_element_grid_view_columns_equal:
-                        group_element_item_half_holder:
-                            style_book_grid_element_half: ~
-                    group_element_grid_view_clear:
-                        group_element_item_clear_holder:
-                            style_book_grid_element_clear: ~
+                    style_book_js_component_modal: ~
+                    style_book_js_component_googlemap: ~
+#                    group_element_grid_view:
+#                        group_element_item_grid:
+#                            style_book_grid_element_grid: ~
+#                    group_element_grid_view_row:
+#                        group_element_item_grid_offset_row:
+#                            style_book_grid_element_offset_row: ~
+#                    group_element_grid_view_columns:
+#                        group_element_item_offset_holder:
+#                            style_book_grid_element_offset: ~
+#                        group_element_item_offset_bottom_holder:
+#                            style_book_grid_element_offset_bottom: ~
+#                    group_element_grid_view_columns_equal:
+#                        group_element_item_half_holder:
+#                            style_book_grid_element_half: ~
+#                    group_element_grid_view_clear:
+#                        group_element_item_clear_holder:
+#                            style_book_grid_element_clear: ~
 
     conditions: 'context["group"]=="grid"'
