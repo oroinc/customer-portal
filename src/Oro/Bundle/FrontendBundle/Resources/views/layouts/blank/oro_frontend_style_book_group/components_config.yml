@@ -4,7 +4,7 @@ layout:
             themes: 'components_config.html.twig'
 
         - '@setOption':
-            id: page_title
+            id: style_book_page_title
             optionName: defaultValue
             optionValue: 'oro_frontend_style_book.groups.configs.title'
 

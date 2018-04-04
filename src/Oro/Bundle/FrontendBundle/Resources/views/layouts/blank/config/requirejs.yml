@@ -89,6 +89,9 @@ config:
         'orofrontend/js/app/views/fit-matrix-view': 'bundles/orofrontend/js/app/views/fit-matrix-view.js'
         'orofrontend/js/app/views/lazy-init-view': 'bundles/orofrontend/js/app/views/lazy-init-view.js'
 
+        'orofrontend/blank/js/app/views/sticky-sidebar-view': 'bundles/orofrontend/blank/js/app/views/sticky-sidebar-view.js'
+        'orofrontend/blank/js/app/views/toggle-action-view': 'bundles/orofrontend/blank/js/app/views/toggle-action-view.js'
+
         'orofrontend/default/js/app/views/input-widget/number': 'bundles/orofrontend/default/js/app/views/input-widget/number.js'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module

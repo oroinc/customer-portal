@@ -1,5 +1,7 @@
 layout:
     imports:
         -
-            id: style-book
+            id: style_book
+            root: body
+            namespace: style_book
     actions: []

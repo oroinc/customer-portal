@@ -1,0 +1,16 @@
+// @theme: blank;
+
+.style-book {
+    &__header-menu-container {
+        display: none;
+    }
+}
+
+@include breakpoint('tablet') {
+    .style-book {
+        &__header-menu-container {
+            display: block;
+            margin: $style-book-header-menu-container-offset;
+        }
+    }
+}

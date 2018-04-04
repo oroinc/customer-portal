@@ -67,6 +67,7 @@ oro_frontend_style_book:
           text_content_third: 'The elements from the UI Library may be easily reused in your custom forms and pages in Oro application. You can also use the library as a preview of the updated styles when customizing the application look and feel (see <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/frontendStylesArchitecture.md">Oro Styles Architecture</a> and <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/howToAssetsCss.md">Styles Organization and Customization</a> for more information on the UI customization)'
     nav:
         title: Elements
+        header_menu_title: Category
     groups:
         forms:
             title: 'Form Elements'

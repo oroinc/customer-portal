@@ -16,7 +16,7 @@
 
     &__sidebar {
         position: absolute;
-        right: $style-book-sticky-sidebar-right;
+        left: $style-book-sticky-sidebar-left;
 
         width: $style-book-sticky-sidebar-width;
         max-height: 100vh;
