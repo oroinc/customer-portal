@@ -39,7 +39,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  *              "organization_column_name"="organization_id"
  *          },
  *          "form"={
- *              "form_type"="oro_customer_customer_user_select",
+ *              "form_type"="Oro\Bundle\CustomerBundle\Form\Type\CustomerUserSelectType",
  *              "grid_name"="customer-customer-user-select-grid"
  *          },
  *          "security"={
