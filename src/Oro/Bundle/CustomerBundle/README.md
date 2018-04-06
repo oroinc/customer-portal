@@ -1,15 +1,10 @@
-OroCustomerBundle
-====================
+# OroCustomerBundle
 
-Description:
-------------
+OroCustomerBundle enables B2B-customer-related features in Oro applications and provides UI to manage B2B customers, customers groups, customer users and customer user roles in the management console and the storefront UI.
 
-Bundle provides functionality used to manage B2B customer, customer groups and customer user entities.
-This bundle also should contain any code used to handle associations between accounts and
-similar customer related functionality.
+The bundle also allows management console administrators to configure B2B-customer-related settings in the system configuration UI for the entire system, individual organizations, and websites.
 
-Bundle responsibilities:
-------------------------
+## Bundle responsibilities:
 
 - Customer User CRUD.
 - Possibility to assign Roles to Customer Users.
@@ -17,12 +12,7 @@ Bundle responsibilities:
 - Send welcome email.
 - Password edit and automatic password generation for new Customer User.
 
-Expected dependencies:
-----------------------
-
-
-ACL:
-----
+## ACL:
 
 The `OroCustomerBundle` extends security model of `OroSecurityBundle` for entities which should be accessible for Customer Users on front store.
 It adds few new fields to ownership configuration of entities.
