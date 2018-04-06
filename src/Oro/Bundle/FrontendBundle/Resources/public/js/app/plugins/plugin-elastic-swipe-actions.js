@@ -112,15 +112,6 @@ define(function(require) {
             ));
 
             mediator.on('viewport:change', this.onViewportChange, this);
-            mediator.on('datagrid:doRefresh:' + grid.name, function() {
-                grid.on('shown', function() {
-                    console.log(this.main)
-                    grid.$(this.containerSelector).each(_.bind(function(index, container) {
-                        console.log(container)
-                        this._applyDynamicOffset($(container));
-                    }, this));
-                }, this);
-            }, this);
             return ElasticSwipeActions.__super__.initialize.apply(this, arguments);
         },
 

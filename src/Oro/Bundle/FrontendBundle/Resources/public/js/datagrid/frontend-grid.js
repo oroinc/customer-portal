@@ -24,9 +24,12 @@ define(function(require) {
          */
         initialize: function() {
             FrontendGrid.__super__.initialize.apply(this, arguments);
-            this.collection.on('reset', function() {
-                this.body.render();
-            }, this);
+
+            if (this.body) {
+                this.collection.on('reset', function() {
+                    this.body.render();
+                }, this);
+            }
         },
 
         /**
