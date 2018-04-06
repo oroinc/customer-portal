@@ -4,6 +4,7 @@ define(function(require) {
     var FrontendDataGridComponent;
     var DataGridComponent = require('orodatagrid/js/app/components/datagrid-component');
     var ElasticSwipeActionsPlugin = require('orofrontend/js/app/plugins/plugin-elastic-swipe-actions');
+    var _ = require('underscore');
 
     FrontendDataGridComponent = DataGridComponent.extend({
         options: {
