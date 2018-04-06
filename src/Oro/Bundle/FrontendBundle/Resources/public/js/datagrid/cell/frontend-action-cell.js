@@ -5,7 +5,6 @@ define(function(require) {
     var ActionCell = require('oro/datagrid/cell/action-cell');
     var _ = require('underscore');
     var module = require('module');
-
     var config = module.config();
 
     FrontendActionCell = ActionCell.extend({

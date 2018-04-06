@@ -5,8 +5,23 @@ define(function(require) {
     var Grid = require('orodatagrid/js/datagrid/grid');
 
     FrontendGrid = Grid.extend({
+        /**
+         * Frontend currently grid options
+         *
+         * @property {Object}
+         */
         gridOptions: null,
 
+        /**
+         * @constructor
+         */
+        constructor: function FrontendGrid() {
+            FrontendGrid.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @initialze
+         */
         initialize: function() {
             FrontendGrid.__super__.initialize.apply(this, arguments);
             this.collection.on('reset', function() {
@@ -14,6 +29,12 @@ define(function(require) {
             }, this);
         },
 
+        /**
+         * Update row class names for frontend grid
+         *
+         * @param {Object} options
+         * @private
+         */
         _initColumns: function(options) {
             this.gridOptions = options;
             this.updateRowClassNames();
@@ -21,6 +42,9 @@ define(function(require) {
             FrontendGrid.__super__._initColumns.apply(this, arguments);
         },
 
+        /**
+         * Update and concat row class names
+         */
         updateRowClassNames: function() {
             if (Object.keys(this.rowActions).length > 0) {
                 if (this.gridOptions.rowClassName) {

@@ -35,6 +35,13 @@ define(function(require) {
         breakPointPosition: 50,
 
         /**
+         * Dynamic breakpoint factor
+         *
+         * @property {Number}
+         */
+        breakFactor: 0.3,
+
+        /**
          * Limit of end point
          * @property {Number}
          */
@@ -78,8 +85,17 @@ define(function(require) {
             minScreenType: 'any'
         },
 
+        /**
+         * @property {Boolean}
+         */
         enabled: false,
 
+        /**
+         * @Constructor
+         */
+        constructor: function ElasticSwipeActions() {
+            ElasticSwipeActions.__super__.constructor.apply(this, arguments);
+        },
         /**
          * @Initialize
          *
@@ -111,7 +127,7 @@ define(function(require) {
         /**
          * Is applicable viewport
          *
-         * @param viewport
+         * @param {Object} viewport
          */
         isApplicable: function(viewport) {
             return viewport.isApplicable(this.viewport);
@@ -188,7 +204,7 @@ define(function(require) {
             var size = container.find(this.sizerSelector).outerWidth();
 
             this.maxLimit = size;
-            this.breakPointPosition = size * 0.3;
+            this.breakPointPosition = size * this.breakFactor;
             container.css({
                 paddingRight: size,
                 marginRight: -size
@@ -259,8 +275,7 @@ define(function(require) {
         _onMove: function(data) {
             var xAxe = data.x - this.storedPos;
 
-            if (
-                !this.elastic &&
+            if (!this.elastic &&
                 (
                     (data.direction === 'left' && Math.abs(xAxe) > this.maxLimit) ||
                     (data.direction === 'right' && xAxe > 0)
@@ -287,7 +302,10 @@ define(function(require) {
                 xAxe = 0;
             }
 
-            if (Math.abs(xAxe) < this.breakPointPosition) {
+            if (
+                (data.direction === 'left' && Math.abs(xAxe) < this.breakPointPosition) ||
+                (data.direction === 'right' && Math.abs(xAxe) < (this.maxLimit - this.breakPointPosition))
+            ) {
                 this._revertState();
                 return;
             }

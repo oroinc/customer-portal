@@ -56,7 +56,6 @@ oro_behat_extension:
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer User Responsive Datagrid:
       selector: ".frontend-datagrid--responsive"
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer Users Registration form:
       selector: '[id^="customer_users-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
