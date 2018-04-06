@@ -6,6 +6,10 @@ define(function(require) {
     var ElasticSwipeActionsPlugin = require('orofrontend/js/app/plugins/plugin-elastic-swipe-actions');
 
     FrontendDataGridComponent = DataGridComponent.extend({
+        options: {
+            rowActionsClass: 'has-actions',
+            rowSelectClass: 'has-select-action'
+        },
         /**
          * @inheritDoc
          */
@@ -15,6 +19,8 @@ define(function(require) {
 
         combineGridOptions: function() {
             var options = FrontendDataGridComponent.__super__.combineGridOptions.apply(this, arguments);
+
+            _.extend(options, this.options);
 
             if (
                 (this.metadata.responsiveGrids && this.metadata.responsiveGrids.enable) &&

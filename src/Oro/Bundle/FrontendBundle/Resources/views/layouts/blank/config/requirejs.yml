@@ -27,6 +27,7 @@ config:
             'oro/filter/choice-filter': 'orofrontend/default/js/app/views/choice-filter'
             'oro/filter/select-filter': 'orofrontend/js/app/views/frontend-select-filter'
             'orodatagrid/js/app/components/datagrid-component': 'orofrontend/js/app/components/frontend-datagrid-component'
+            'orodatagrid/js/datagrid/grid': 'orofrontend/js/datagrid/frontend-grid'
             'oro/datagrid/cell/action-cell': 'orofrontend/js/datagrid/cell/frontend-action-cell'
 
         'orofrontend/js/app/views/frontend-select-filter':
@@ -39,6 +40,8 @@ config:
             'oro/filter/choice-filter': 'oro/filter/choice-filter'
         'orofrontend/js/app/components/frontend-datagrid-component':
             'orodatagrid/js/app/components/datagrid-component': 'orodatagrid/js/app/components/datagrid-component'
+        'orofrontend/js/datagrid/frontend-grid':
+            'orodatagrid/js/datagrid/grid': 'orodatagrid/js/datagrid/grid'
         'orofrontend/js/datagrid/cell/frontend-action-cell':
             'oro/datagrid/cell/action-cell': 'oro/datagrid/cell/action-cell'
     paths:
@@ -92,6 +95,7 @@ config:
         'orofrontend/js/app/views/page/content-view': 'bundles/orofrontend/js/app/views/page/content-view.js'
         'orofrontend/js/app/components/frontend-dialog-widget': 'bundles/orofrontend/js/app/components/frontend-dialog-widget.js'
         'orofrontend/js/app/components/frontend-datagrid-component': 'bundles/orofrontend/js/app/components/frontend-datagrid-component.js'
+        'orofrontend/js/datagrid/frontend-grid': 'bundles/orofrontend/js/datagrid/frontend-grid.js'
         'orofrontend/js/datagrid/cell/frontend-action-cell': 'bundles/orofrontend/js/datagrid/cell/frontend-action-cell.js'
 
         'orofrontend/js/app/views/scroll-view': 'bundles/orofrontend/js/app/views/scroll-view.js'

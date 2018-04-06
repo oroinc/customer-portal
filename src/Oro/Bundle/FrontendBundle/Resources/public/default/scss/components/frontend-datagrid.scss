@@ -42,7 +42,15 @@
                 display: $frontend-datagrid-responsive-grid-tablet-display;
 
                 &-header {
-                    display: $frontend-datagrid-responsive-header-tablet-display;
+                    .string-cell {
+                        display: $frontend-datagrid-responsive-header-tablet-display;
+                    }
+
+                    &-cell {
+                        &.action-column {
+                            width: $frontend-datagrid-responsive-action-cell-tablet-action-width;
+                        }
+                    }
                 }
 
                 &-body {

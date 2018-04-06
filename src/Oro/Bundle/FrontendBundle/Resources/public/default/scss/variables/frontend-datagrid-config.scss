@@ -38,6 +38,8 @@ $frontend-datagrid-responsive-action-cell-tablet-bg-color: darken(get-color('add
 $frontend-datagrid-responsive-action-cell-tablet-icon-color: lighten(get-color('additional', 'dark'), 21.96) !default;
 $frontend-datagrid-responsive-action-cell-tablet-left-inner-offset: 0 !default;
 
+$frontend-datagrid-responsive-action-cell-tablet-action-width: 100% !default;
+
 $frontend-datagrid-responsive-action-cell-tablet-inner-offset: 0 8px !default;
 $frontend-datagrid-responsive-action-cell-tablet-outer-offset: 0 !default;
 $frontend-datagrid-responsive-action-cell-tablet-row-height: 100% !default;

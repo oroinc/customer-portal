@@ -95,9 +95,16 @@ define(function(require) {
                 ]
             ));
 
-            this.grid = grid;
             mediator.on('viewport:change', this.onViewportChange, this);
-
+            mediator.on('datagrid:doRefresh:' + grid.name, function() {
+                grid.on('shown', function() {
+                    console.log(this.main)
+                    grid.$(this.containerSelector).each(_.bind(function(index, container) {
+                        console.log(container)
+                        this._applyDynamicOffset($(container));
+                    }, this));
+                }, this);
+            }, this);
             return ElasticSwipeActions.__super__.initialize.apply(this, arguments);
         },
 
@@ -119,6 +126,7 @@ define(function(require) {
             }
 
             this._bindEvents();
+
             return ElasticSwipeActions.__super__.enable.apply(this, arguments);
         },
         /**
@@ -133,6 +141,7 @@ define(function(require) {
             this._unbindEvents();
 
             delete this.currentSwipedContainer;
+            delete this.storedPos;
 
             return ElasticSwipeActions.__super__.disable.apply(this, arguments);
         },
@@ -274,15 +283,16 @@ define(function(require) {
          */
         _onEnd: function(data) {
             var xAxe = data.x - this.storedPos;
+            if (data.direction === 'right' && xAxe > 0) {
+                xAxe = 0;
+            }
+
             if (Math.abs(xAxe) < this.breakPointPosition) {
                 this._revertState();
                 return;
             }
 
-            if (
-                (data.direction === 'left' && Math.abs(xAxe) > this.breakPointPosition) ||
-                (data.direction === 'right' && Math.abs(xAxe) > this.breakPointPosition && this.storedPos > 0)
-            ) {
+            if (Math.abs(xAxe) > this.breakPointPosition) {
                 this.currentSwipedContainer.data('offset', this.maxLimit);
                 this.currentSwipedContainer.css({
                     transform: 'translateX(-' + this.maxLimit + 'px)',
