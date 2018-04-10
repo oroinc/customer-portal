@@ -74,6 +74,7 @@ define(function(require) {
          */
         initialize: function(options) {
             this.viewOptions = _.extend({}, this.viewOptions);
+            this.prepearProps(options.props);
             StyleBookPlayground.__super__.initialize.apply(this, arguments);
 
             tools.loadModules([this.viewConstructor], this.createView, this);
@@ -90,16 +91,25 @@ define(function(require) {
             this.constructorName = View.name;
             this.subview(this.constructorName, new View(this.viewOptions));
 
-            if (this.renderAfter === 'ondemand') {
+            if (this.renderAfter === 'demand') {
                 this.subview(this.constructorName).render();
                 this.subview(this.constructorName).$el.appendTo(this.$el.find(this.viewPreviewSelector));
             }
 
-            if (this.renderAfter === 'onaction') {
+            if (this.renderAfter === 'action') {
                 var actionEl = this.$('[data-action]');
                 var actions = actionEl.data('action').split(' ');
                 actionEl.on(actions[0], _.bind(this.renderViewViaMethod, this, actions[1]));
             }
+        },
+
+        prepearProps: function(props) {
+            _.each(props, function(prop, key) {
+                if (_.isObject(prop)) {
+                    prop = _.has(prop, 'value') ? prop.value : _.omit('label', 'type');
+                }
+                this._setBindOption(key.split('.'), prop, this.viewOptions);
+            }, this);
         },
 
         /**
@@ -155,10 +165,7 @@ define(function(require) {
                 if (!prop.label) {
                     prop['label'] = key;
                 }
-                if (!prop.bind) {
-                    prop['bind'] = key;
-                }
-                console.log(prop)
+
                 return prop;
             });
         },
@@ -187,6 +194,11 @@ define(function(require) {
             var $target = $(event.target);
             var name = $target.data('name');
             var value = $target.is(':checkbox') ? $target.is(':checked') : $target.val();
+
+            if ($target.attr('type') === 'number') {
+                value = parseFloat(value);
+            }
+
             this._setBindOption(name.split('.'), value, this.viewOptions);
 
             this.disposeView();
@@ -196,6 +208,14 @@ define(function(require) {
 
         _setBindOption: function(names, value, options) {
             var index = _.first(names);
+            if (names.length === 1) {
+                options[index] = value;
+                return;
+            }
+            if (_.isUndefined(options[index])) {
+                options[index] = {};
+            }
+
             var _rest = _.rest(names);
             var option = options[index];
 
@@ -203,7 +223,7 @@ define(function(require) {
                 return this._setBindOption(_rest, value, option);
             }
 
-            option[_.first(_rest)] = _.isNaN(parseFloat(value)) ? value : parseFloat(value);
+            option[_.first(_rest)] = value;
         }
     });
 

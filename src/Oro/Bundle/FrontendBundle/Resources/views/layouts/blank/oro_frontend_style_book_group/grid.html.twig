@@ -116,7 +116,7 @@
 
 {% block _style_book_grid_element_clear_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     <div {{ block('block_attributes') }}>
@@ -135,10 +135,7 @@
         'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'oroui/js/modal',
-            renderAfter: 'onaction',
-            viewOptions: {
-                content: 'Content'
-            },
+            renderAfter: 'action',
             props: {
                 title: {
                     label: 'Title',
@@ -165,29 +162,22 @@
     </div>
 {% endblock %}
 
-
 {% block _style_book_js_component_googlemap_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' js-component-container',
         'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'oroaddress/js/mapservice/googlemaps',
-            viewOptions: {
-                apiKey: 'AIzaSyBB80MFGd4b9as7Tv3jyY5onECcM7L5MME',
-                address: {
-                    address: '78900 Patterson Road Queens, 11418, US-NY'
-                }
-            },
             props: {
                 apiKey: 'AIzaSyBB80MFGd4b9as7Tv3jyY5onECcM7L5MME',
                 'address.address': {
                     value: '78900 Patterson Road Queens, 11418, US-NY'
                 },
-                'mapOptions.zoom': '17',
+                'mapOptions.zoom': 17,
                 'mapOptions.mapTypeControl': true,
                 'mapOptions.panControl': false,
                 'mapOptions.zoomControl': true,
-                'mapOptions.mapTypeControlOptions.style': '2'
+                'mapOptions.mapTypeControlOptions.style': 2
             }
         }
     }) %}
