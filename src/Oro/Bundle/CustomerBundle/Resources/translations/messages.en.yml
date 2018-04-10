@@ -549,6 +549,7 @@ oro.customer:
             menu_templates.title: 'Menu Templates'
             customer_visitor_section.title: 'Customer Visitor'
             map_settings.title: 'Map Settings'
+            responsive_grid_settings.title: 'Grid Settings'
         fields:
             default_customer_owner.label: 'Default Customer Owner'
             registration_allowed.label: 'Registration Allowed'
@@ -563,6 +564,12 @@ oro.customer:
                 option:
                     all_at_once.label: 'Show all items at once'
                     subitems_in_popup.label: 'Show subitems in a popup'
+            enable_responsive_grids:
+                label: 'Responsive grids'
+                tooltip: 'This option makes frontend grids responsible, realigning row cells to fit various screen sizes.'
+            enable_swipe_actions_grids:
+                label: 'Swipe actions grids'
+                tooltip: 'This option makes frontend swipe actions grids on mobile devices'
             customer_visitor_cookie_lifetime_days.label: 'Customer visitor cookie lifetime (days)'
             customer_visitor_cookie_lifetime_days.tooltip: 'Determines how many days customer visitor (anonymous user) session will be active until reset'
             maps_enabled:
