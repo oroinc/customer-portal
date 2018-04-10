@@ -27,6 +27,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/ui/dialog-config.scss'
         - 'bundles/orofrontend/default/scss/variables/badge-config.scss'
         - 'bundles/orofrontend/default/scss/variables/search-container-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/frontend-datagrid-config.scss'
 
         - 'bundles/orofrontend/default/scss/components/custom-icons.scss'
         - 'bundles/orofrontend/default/scss/styles.scss'
