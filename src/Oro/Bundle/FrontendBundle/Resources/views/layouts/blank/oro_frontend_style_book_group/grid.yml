@@ -81,14 +81,8 @@ layout:
                         description: oro_frontend_style_book.groups.grid.description_clear
                 style_book_grid_element_clear:
                     blockType: block
-                style_book_js_component_modal:
-                    blockType: block
-                style_book_js_component_googlemap:
-                    blockType: block
             tree:
                 style_book_content:
-                    style_book_js_component_modal: ~
-                    style_book_js_component_googlemap: ~
                     group_element_grid_view:
                         group_element_item_grid:
                             style_book_grid_element_grid: ~
