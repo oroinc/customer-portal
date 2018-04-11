@@ -13,55 +13,59 @@ define(function(require) {
      */
     StyleBookPlayground = BaseView.extend({
         /**
-         * @property
+         * @inheritDoc
+         * @property {Array}
          */
         optionNames: BaseView.prototype.optionNames.concat(
             ['props', 'viewConstructor', 'viewOptions', 'renderAfter']
         ),
 
         /**
-         * @property
+         * @property {Constructor}
          */
         viewConstructor: null,
 
         /**
-         * @property
+         * @property {Object}
          */
         viewOptions: {},
 
         /**
-         * @property
+         * @property {Object}
          */
         props: {},
 
         /**
-         * @property
+         * @inheritDoc
+         * @property {Object}
          */
         events: {
             'change [data-name]': '_onChangeProps'
         },
 
         /**
-         * @property
+         * @property {Function}
          */
         template: styleBookPlaygroundTemplate,
 
         /**
-         * @property
+         * @property {String}
          */
         configPreviewSelector: '[data-config]',
 
         /**
-         * @property
+         * @property {String}
          */
         viewPreviewSelector: '[data-playground-view]',
 
         /**
-         * @property
+         * @property {String}
          */
         renderAfter: 'demand',
+
         /**
          * @Constructor
+         * @inheritDoc
          * @returns {*}
          */
         constructor: function StyleBookPlayground() {
@@ -70,7 +74,8 @@ define(function(require) {
 
         /**
          * @Initialize
-         * @param options
+         * @inheritDoc
+         * @param {Object} options
          */
         initialize: function(options) {
             this.viewOptions = _.extend({}, this.viewOptions);
@@ -84,7 +89,7 @@ define(function(require) {
 
         /**
          * @createView
-         * @param View
+         * @param {Constructor} View
          */
         createView: function(View) {
             this.viewConstructor = View;
@@ -103,6 +108,10 @@ define(function(require) {
             }
         },
 
+        /**
+         * Resolve and prepear props for playground
+         * @param {Object} props
+         */
         prepearProps: function(props) {
             _.each(props, function(prop, key) {
                 if (_.isObject(prop)) {
@@ -120,7 +129,7 @@ define(function(require) {
         },
 
         /**
-         * @updateConfigPreview
+         * @updateConfigPreview Update text preview of configuration array
          */
         updateConfigPreview: function() {
             this.configPreview.text(JSON.stringify(this.viewOptions, null, '\t'));
@@ -135,7 +144,7 @@ define(function(require) {
         },
 
         /**
-         * @createPlayground
+         * @createPlayground Create playground view
          */
         createPlayground: function() {
             this.$el.append(this.template({
@@ -171,11 +180,11 @@ define(function(require) {
         },
 
         /**
-         * @_getViewOptions
+         * @_getViewOptions Get resolved options
          * @private
          */
         _getViewOptions: function(options) {
-            options = _.mapObject(_.clone(options), function(prop, key) {
+            options = _.mapObject(_.clone(options), function(prop) {
                 if (_.isObject(prop)) {
                     prop = prop.value;
                 }
@@ -186,8 +195,9 @@ define(function(require) {
         },
 
         /**
-         * @_onChangeProps
-         * @param event
+         * @_onChangeProps Handled change field of view options
+         *
+         * @param {jQuery.Event} event
          * @private
          */
         _onChangeProps: function(event) {
@@ -206,6 +216,15 @@ define(function(require) {
             this.updateConfigPreview();
         },
 
+        /**
+         * @_setBindOption set or create nested options values
+         *
+         * @param {Array} names
+         * @param {*} value
+         * @param {Object} options
+         * @returns {*}
+         * @private
+         */
         _setBindOption: function(names, value, options) {
             var index = _.first(names);
             if (names.length === 1) {
