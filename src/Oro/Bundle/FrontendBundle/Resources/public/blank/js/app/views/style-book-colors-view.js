@@ -13,13 +13,6 @@ define(function(require) {
         /**
          * @property
          */
-        optionNames: BaseView.prototype.optionNames.concat([
-            
-        ]),
-
-        /**
-         * @property
-         */
         template: template,
 
         /**
@@ -32,14 +25,6 @@ define(function(require) {
          */
         constructor: function StyleBookColorsView() {
             StyleBookColorsView.__super__.constructor.apply(this, arguments);
-        },
-
-        /**
-         * @inheritDoc
-         */
-        initialize: function(options) {
-
-            StyleBookColorsView.__super__.initialize.apply(this, arguments);
         },
 
         getTemplateData: function() {
