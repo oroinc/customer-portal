@@ -1,9 +1,52 @@
 // @theme: blank;
 
+.tab-collection {
+    border: $tab-content-border;
+    border-radius: $nav-tabs-border-radius;
+    margin-bottom: $tab-content-bottom-outer-offset;
+}
+
 .nav-tabs {
+    display: $nav-tabs-display;
+    flex-wrap: $nav-tabs-flex-wrap;
+    justify-content: $nav-tabs-justify-content;
+    border-bottom: $nav-tabs-border;
+
+    .nav-item {
+        flex: $nav-tabs-item-flex;
+        text-align: $nav-tabs-item-text-align;
+
+        & + .nav-item {
+            margin: $nav-tabs-item-outer-offset;
+        }
+
+        .nav-link {
+            border: $nav-tabs-border;
+        }
+    }
+
+    .tab {
+        &:first-of-type {
+            .nav-link {
+                border-top-left-radius: $nav-tabs-border-radius;
+            }
+        }
+
+        &:last-of-type {
+            .nav-link {
+                border-top-right-radius: $nav-tabs-border-radius;
+            }
+        }
+    }
+
     .nav-link {
+        color: $nav-tabs-link-color;
+        border-radius: $nav-tabs-link-color-border-radius;
+        background-color: $nav-tabs-link-bg;
+        text-transform: $nav-tabs-link-text-transform;
+
         @include hover-focus {
-            background-color: get-color('additional', 'light');
+            background-color: $nav-tabs-link-bg;
         }
     }
 
@@ -16,4 +59,8 @@
             }
         }
     }
+}
+
+.tab-content {
+    padding: $tab-content-inner-offset;
 }

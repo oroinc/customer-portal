@@ -124,32 +124,8 @@ layout:
                     options:
                         form: '=data["style_book_form"].getStyleBookFormView()["multiselect"]'
 
-
-                group_tabs_example:
-                    blockType: group_tabs
-                group_tabs_example_item_1:
-                    blockType: group_tabs_item
-                    options:
-                        anchor: 'tab-1'
-                        label: 'Tab 1'
-                        active: true
-                group_tabs_example_item_2:
-                    blockType: group_tabs_item
-                    options:
-                        anchor: 'tab-2'
-                        label: 'Tab 2'
-                group_tabs_example_item_3:
-                    blockType: group_tabs_item
-                    options:
-                        anchor: 'tab-3'
-                        label: 'Tab 3'
-
             tree:
                 style_book_content:
-                    group_tabs_example:
-                        group_tabs_example_item_1: ~
-                        group_tabs_example_item_2: ~
-                        group_tabs_example_item_3: ~
 
                     group_element_form_text:
                         group_element_item_form_text:
