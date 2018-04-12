@@ -89,6 +89,10 @@ config:
         'orofrontend/js/app/views/fit-matrix-view': 'bundles/orofrontend/js/app/views/fit-matrix-view.js'
         'orofrontend/js/app/views/lazy-init-view': 'bundles/orofrontend/js/app/views/lazy-init-view.js'
 
+        'prismjs': 'bundles/bowerassets/prism/prism.js'
+        'prismjs-scss': 'bundles/bowerassets/prism/components/prism-scss.js'
+        'orofrontend/blank/js/app/views/style-book-colors-view': 'bundles/orofrontend/blank/js/app/views/style-book-colors-view.js'
+
         'orofrontend/default/js/app/views/input-widget/number': 'bundles/orofrontend/default/js/app/views/input-widget/number.js'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module

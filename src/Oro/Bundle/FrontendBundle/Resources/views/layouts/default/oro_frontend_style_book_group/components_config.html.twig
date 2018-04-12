@@ -2,7 +2,7 @@
     get-color('{{ palette_name|default('') }}', '{{ palette_key|default('') }}');
 {% endmacro %}
 
-{% block _style_book_components_color_widget %}
+{# block _style_book_components_color_widget %}
     {% set palette_key_title, color_key_title, function_key = 'oro_frontend_style_book.groups.configs.color_palette'|trans, 'oro_frontend_style_book.groups.configs.color_key'|trans, 'oro_frontend_style_book.groups.configs.function_key'|trans %}
     <div class="color-palette">
         {% with %}
@@ -382,7 +382,7 @@
             </div>
         </div>
     {% endwith %}
-{% endblock %}
+{% endblock #}
 
 {% block _style_book_components_typography_widget %}
     <p class="example-typography base-font">{{ 'oro_frontend_style_book.groups.configs.text_typography_font'|trans }}</p>

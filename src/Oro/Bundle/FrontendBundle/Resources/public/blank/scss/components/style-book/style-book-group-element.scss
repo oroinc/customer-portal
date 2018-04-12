@@ -126,196 +126,34 @@
                 font-weight: bold;
             }
 
-            &--primary-main {
-                background: get-color('primary', 'main');
-
-                &:before {
-                    content: "#{get-color('primary', 'main')}";
-                }
-            }
-
-            &--primary-base {
-                background: get-color('primary', 'base');
-
-                &:before {
-                    content: "#{get-color('primary', 'base')}";
-                }
-            }
-
-            &--primary-light {
-                background: get-color('primary', 'light');
-
-                &:before {
-                    content: "#{get-color('primary', 'light')}";
-                }
-            }
-
-            &--primary-dark {
-                background: get-color('primary', 'dark');
-
-                &:before {
-                    content: "#{get-color('primary', 'dark')}";
-                }
-            }
-
-            &--secondary-base {
-                background: get-color('secondary', 'base');
-
-                &:before {
-                    content: "#{get-color('secondary', 'base')}";
-                }
-            }
-
-            &--secondary-lighten {
-                background: get-color('secondary', 'lighten');
-
-                &:before {
-                    content: "#{get-color('secondary', 'lighten')}";
-                }
-            }
-
-            &--secondary-light {
-                background: get-color('secondary', 'light');
-
-                &:before {
-                    content: "#{get-color('secondary', 'light')}";
-                }
-            }
-
-            &--secondary-dark {
-                background: get-color('secondary', 'dark');
-
-                &:before {
-                    content: "#{get-color('secondary', 'dark')}";
-                }
-            }
-
             &--additional-ultra {
-                background: get-color('additional', 'ultra');
-
                 color: get-color('primary', 'main');
 
                 border: 1px solid get-color('additional', 'middle');
-
-                &:before {
-                    content: "#{get-color('additional', 'ultra')}";
-                }
             }
 
             &--additional-base {
-                background: get-color('additional', 'base');
-
                 color: get-color('primary', 'main');
-
-                &:before {
-                    content: "#{get-color('additional', 'base')}";
-                }
             }
 
             &--additional-light {
-                background: get-color('additional', 'light');
-
                 color: get-color('primary', 'main');
-
-                &:before {
-                    content: "#{get-color('additional', 'light')}";
-                }
             }
 
             &--additional-middle {
-                background: get-color('additional', 'middle');
-
                 color: get-color('primary', 'main');
-
-                &:before {
-                    content: "#{get-color('additional', 'middle')}";
-                }
-            }
-
-            &--additional-dark {
-                background: get-color('additional', 'dark');
-
-                &:before {
-                    content: "#{get-color('additional', 'dark')}";
-                }
-            }
-
-            &--additional-darker {
-                background: get-color('additional', 'darker');
-
-                &:before {
-                    content: "#{get-color('additional', 'darker')}";
-                }
             }
 
             &--ui-error {
-                background: get-color('ui', 'error');
-
                 color: get-color('primary', 'main');
-
-                &:before {
-                    content: "#{get-color('ui', 'error')}";
-                }
-            }
-
-            &--ui-error-dark {
-                background: get-color('ui', 'error-dark');
-
-                &:before {
-                    content: "#{get-color('ui', 'error-dark')}";
-                }
             }
 
             &--ui-success {
-                background: get-color('ui', 'success');
-
                 color: get-color('primary', 'main');
-
-                &:before {
-                    content: "#{get-color('ui', 'success')}";
-                }
-            }
-
-            &--ui-success-dark {
-                background: get-color('ui', 'success-dark');
-
-                &:before {
-                    content: "#{get-color('ui', 'success-dark')}";
-                }
             }
 
             &--ui-warning {
-                background: get-color('ui', 'warning');
-
                 color: get-color('primary', 'main');
-
-                &:before {
-                    content: "#{get-color('ui', 'warning')}";
-                }
-            }
-
-            &--ui-warning-dark {
-                background: get-color('ui', 'warning-dark');
-
-                &:before {
-                    content: "#{get-color('ui', 'warning-dark')}";
-                }
-            }
-
-            &--ui-normal {
-                background: get-color('ui', 'normal');
-
-                &:before {
-                    content: "#{get-color('ui', 'normal')}";
-                }
-            }
-
-            &--ui-focus {
-                background: get-color('ui', 'focus');
-
-                &:before {
-                    content: "#{get-color('ui', 'focus')}";
-                }
             }
         }
     }

@@ -2,18 +2,6 @@
 
 .style-book-group-element {
     &__preview {
-        .color-palette {
-            &__name {
-                &--secondary-main {
-                    background: get-color('secondary', 'main');
-
-                    &:before {
-                        content: "#{get-color('secondary', 'main')}";
-                    }
-                }
-            }
-        }
-
         .base-font-minor {
             &:after {
                 content:'#{$base-font-minor}';
