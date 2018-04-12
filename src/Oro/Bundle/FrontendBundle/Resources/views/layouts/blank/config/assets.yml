@@ -36,6 +36,7 @@ stylebook_styles:
         - 'bundles/bowerassets/prism/themes/prism-coy.css'
         - 'bundles/orofrontend/blank/scss/variables/style-book/style-book-sticky-elements-nav-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/style-book/style-book-title-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/style-book/style-book-tabs-config.scss'
         - 'bundles/orofrontend/blank/scss/style-book.scss'
     filters: ['cssrewrite', 'cssmin']
     output: 'css/layout/blank/stylebook.css'
