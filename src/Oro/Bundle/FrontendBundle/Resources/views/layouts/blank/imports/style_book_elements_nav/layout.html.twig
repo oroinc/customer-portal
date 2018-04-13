@@ -1,12 +1,10 @@
 {% block __style_book_elements_nav__container_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' style-book-menu-container',
-        'data-page-component-module': "oroui/js/app/components/viewport-component",
-        '~data-page-component-options': {
+        'data-page-component-viewport': {
             viewport: {
                 minScreenType: 'desktop',
             },
-            component: 'oroui/js/app/components/view-component',
             view: 'orofrontend/blank/js/app/views/sticky-sidebar-view',
             excludeTarget: '.style-book-header',
             offsetTop: 26,

@@ -86,12 +86,10 @@
 
 {% block __style_book__mobile_menu_action_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        'data-page-component-module': "oroui/js/app/components/viewport-component",
-        '~data-page-component-options': {
+        'data-page-component-viewport': {
             viewport: {
                 maxScreenType: 'tablet',
             },
-            component: 'oroui/js/app/components/view-component',
             view: 'orofrontend/blank/js/app/views/toggle-action-view',
             target: '[data-role=style-book-sidebar]'
         }
