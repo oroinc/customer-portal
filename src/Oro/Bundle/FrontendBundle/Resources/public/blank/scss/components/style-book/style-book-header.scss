@@ -23,7 +23,7 @@
     }
 
     &__mobile_actions {
-        display: none;
+        display: $style-book-header-mobile-actions-display;
     }
 }
 
@@ -40,12 +40,12 @@
             flex-grow: $style-book-header-base-tablet-flex-grow;
 
             .style-book-menu--main {
-                display: none;
+                display: $style-book-header-side-base-tablet-display;
             }
         }
 
         &__mobile_actions {
-            display: block;
+            display: $style-book-header-tablet-actions-display;
         }
     }
 }

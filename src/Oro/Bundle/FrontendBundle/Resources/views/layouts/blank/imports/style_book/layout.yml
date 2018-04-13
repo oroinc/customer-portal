@@ -27,7 +27,6 @@ layout:
             items:
                 __wrapper:
                     blockType: container
-                    # prepend: true
                 __container:
                     blockType: container
                 __header:

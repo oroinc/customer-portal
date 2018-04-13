@@ -2,14 +2,14 @@
 
 .style-book {
     &__header-menu-container {
-        display: none;
+        display: $style-book-header-menu-display;
     }
 }
 
 @include breakpoint('tablet') {
     .style-book {
         &__header-menu-container {
-            display: block;
+            display: $style-book-header-menu-tablet-display;
             margin: $style-book-header-menu-container-offset;
         }
     }

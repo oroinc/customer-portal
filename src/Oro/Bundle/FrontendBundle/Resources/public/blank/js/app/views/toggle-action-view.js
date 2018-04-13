@@ -10,17 +10,23 @@ define(function(require) {
         /**
          * @property
          */
+        optionNames: BaseView.prototype.optionNames.concat([
+            'toggleClass', 'target'
+        ]),
+
+        /**
+         * @property
+         */
         keepElement: true,
 
         /**
          * @property
          */
-        optionNames: BaseView.prototype.optionNames.concat([
-            'toggleClass', 'target'
-        ]),
-
         toggleClass: 'open',
 
+        /**
+         * @property
+         */
         target: null,
 
         /**
@@ -61,7 +67,7 @@ define(function(require) {
             if (this.$document) {
                 this.$document.off(this.eventNamespace());
             }
-            
+
             ToggleActionView.__super__.undelegateEvents.apply(this, arguments);
         },
 
@@ -70,8 +76,8 @@ define(function(require) {
         },
 
         onClickOverlay: function(event) {
-            if (!$(event.target).closest(this.$el).length
-                && !$(event.target).closest(this.target).length) {
+            if (!$(event.target).closest(this.$el).length &&
+                !$(event.target).closest(this.target).length) {
                 this.toggle(false);
             }
         },

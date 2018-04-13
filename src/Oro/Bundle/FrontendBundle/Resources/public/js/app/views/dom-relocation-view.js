@@ -4,7 +4,6 @@ define(function(require) {
     var DomRelocationView;
     var viewportManager = require('oroui/js/viewport-manager');
     var BaseView = require('oroui/js/app/views/base/view');
-    var mediator = require('oroui/js/mediator');
     var _ = require('underscore');
     var $ = require('jquery');
     var module = require('module');

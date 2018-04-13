@@ -10,8 +10,8 @@
 
     &.sticked {
         width: $style-book-menu-container-sticked-width;
-        position: fixed;
-        overflow: auto;
+        position: $style-book-menu-container-sticked-position;
+        overflow: $style-book-menu-container-sticked-overflow;
     }
 }
 

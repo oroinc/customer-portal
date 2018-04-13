@@ -24,7 +24,7 @@
         padding: $style-book-menu-item-inner-offset;
 
         .style-book-menu {
-            display: none;
+            display: $style-book-menu-item-menu-display;
         }
 
         &--current,
@@ -45,7 +45,7 @@
             }
 
             > .style-book-menu {
-                display: block;
+                display: $style-book-menu-item-active-menu-display;
             }
         }
     }
