@@ -1,17 +1,14 @@
 // @theme: blank;
 
 .playground {
-  &-view {
-    .map-visual {
-      min-height: 300px;
+    &-view {
+        .map-visual {
+            min-height: 300px;
+        }
     }
-  }
 }
+
 .js-component-container {
-  width: 100%;
-  position: relative;
-
-  .modal-dialog {
-
-  }
+    width: 100%;
+    position: relative;
 }
