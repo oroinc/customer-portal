@@ -60,7 +60,7 @@ class RestCustomerGroupTest extends AbstractRestTest
 
         $this->cdelete(
             ['entity' => $this->getEntityType(CustomerGroup::class)],
-            ['filter[name]' => 'group to delete']
+            ['filter' => ['name' => 'group to delete']]
         );
 
         $this->assertNull($this->getManager()->getRepository(CustomerGroup::class)->findOneByName('group to delete'));

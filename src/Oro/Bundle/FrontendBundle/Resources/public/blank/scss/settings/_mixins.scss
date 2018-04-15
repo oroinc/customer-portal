@@ -27,11 +27,10 @@
 }
 
 @mixin mosaic-grid(
-    $mosaic-grid-columns: 3
+    $mosaic-grid-column-width: auto,
+    $mosaic-grid-column-count: 3
 ) {
-    -webkit-columns: $mosaic-grid-columns;
-    -moz-columns: $mosaic-grid-columns;
-    columns: $mosaic-grid-columns;
+    columns: $mosaic-grid-column-width $mosaic-grid-column-count;
 }
 
 @mixin mosaic-grid-break-inside(
@@ -40,6 +39,13 @@
     -webkit-column-break-inside: $break-inside-value;
     page-break-inside: $break-inside-value;
     break-inside: $break-inside-value;
+}
+
+@mixin grid-cell-align() {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 @mixin badge(
