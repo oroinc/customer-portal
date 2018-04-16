@@ -21,27 +21,41 @@ define(function(require) {
         prefix: '--style-book-color',
 
         /**
+         * @property
+         */
+        separator: '-',
+
+        /**
+         * @property
+         */
+        computedStyle: null,
+
+        /**
          * @inheritDoc
          */
         constructor: function StyleBookColorsView() {
+            this.computedStyle = getComputedStyle(document.documentElement);
+
             StyleBookColorsView.__super__.constructor.apply(this, arguments);
         },
 
+        /**
+         * @inheritDoc
+         * @returns {{colorPalette: {}}}
+         */
         getTemplateData: function() {
-            var computedStyle = getComputedStyle(document.documentElement);
             var colorPalette = {};
             var paletteIndex = 0;
+            var paletteName = this._getProperty(['palette', paletteIndex]);
 
-            while(computedStyle.getPropertyValue(this.prefix + '-palette-' + paletteIndex).length) {
+            while (paletteName.length) {
                 var keyIndex = 0;
-                var paletteName = computedStyle.getPropertyValue(this.prefix + '-palette-' + paletteIndex);
+                paletteName = this._getProperty(['palette', paletteIndex]);
                 colorPalette[paletteName] = {};
 
-                while(computedStyle.getPropertyValue(this.prefix + '-' + paletteName + '-' + keyIndex).length) {
-                    var key = computedStyle.getPropertyValue(this.prefix + '-' + paletteName + '-' + keyIndex);
-                    var color = computedStyle.getPropertyValue(this.prefix + '-' + paletteName + '-' + key);
-
-                    colorPalette[paletteName][key] = color;
+                while (this._getProperty([paletteName, keyIndex]).length) {
+                    var key = this._getProperty([paletteName, keyIndex]);
+                    colorPalette[paletteName][key] = this._getProperty([paletteName, key]);
 
                     keyIndex++;
                 }
@@ -54,12 +68,32 @@ define(function(require) {
             };
         },
 
+        /**
+         * @inheritDoc
+         */
         render: function() {
             StyleBookColorsView.__super__.render.apply(this, arguments);
 
             this.$el.find('code[class*="language-"]').each(function() {
                 Prism.highlightElement(this, true);
             });
+        },
+
+        /**
+         * Get CSS property from concat name
+         *
+         * @param props
+         * @returns {string}
+         * @private
+         */
+        _getProperty: function(props) {
+            if (!_.isArray(props)) {
+                props = [props];
+            }
+
+            props.unshift(this.prefix);
+
+            return this.computedStyle.getPropertyValue(props.join(this.separator));
         }
     });
 
