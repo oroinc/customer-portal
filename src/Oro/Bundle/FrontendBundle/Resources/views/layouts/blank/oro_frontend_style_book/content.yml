@@ -7,7 +7,6 @@ layout:
             items:
                 style_book_main_content:
                     blockType: block
-
             tree:
                 style_book_content:
                     style_book_main_content: ~

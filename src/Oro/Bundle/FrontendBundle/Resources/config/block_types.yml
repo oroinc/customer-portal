@@ -85,27 +85,48 @@ services:
              - { name: layout.block_type, alias: groups_menu_item }
 
     oro_layout.block_type.group_element:
-            parent: oro_layout.block_type.abstract_configurable_container
-            calls:
-                - [setOptionsConfig, [anchor: {required: true}, label: {required: true}]]
-                - [setName, ['group_element']]
-            tags:
-                 - { name: layout.block_type, alias: group_element }
+        parent: oro_layout.block_type.abstract_configurable_container
+        calls:
+            - [setOptionsConfig, [anchor: {required: true}, label: {required: true}]]
+            - [setName, ['group_element']]
+        tags:
+             - { name: layout.block_type, alias: group_element }
 
     oro_layout.block_type.group_element_item:
-            parent: oro_layout.block_type.abstract_configurable_container
-            calls:
+        parent: oro_layout.block_type.abstract_configurable_container
+        calls:
+            -
+                - setOptionsConfig
                 -
-                    - setOptionsConfig
                     -
-                        -
-                            description: {default: ''}
-                            anchor: {default: ''}
-                            label: {default: ''}
-                            subTreeLvl: {default: 1}
-                            preview: {default: true}
-                            source: {default: true}
-                            source_language: {default: markup}
-                - [setName, ['group_element_item']]
-            tags:
-                 - { name: layout.block_type, alias: group_element_item }
+                        description: {default: ''}
+                        anchor: {default: ''}
+                        label: {default: ''}
+                        subTreeLvl: {default: 1}
+                        preview: {default: true}
+                        source: {default: true}
+                        source_language: {default: markup}
+            - [setName, ['group_element_item']]
+        tags:
+             - { name: layout.block_type, alias: group_element_item }
+
+    oro_layout.block_type.group_tabs:
+        parent: oro_layout.block_type.abstract_configurable_container
+        calls:
+            - [setName, ['group_tabs']]
+        tags:
+             - { name: layout.block_type, alias: group_tabs }
+
+    oro_layout.block_type.group_tabs_item:
+        parent: oro_layout.block_type.abstract_configurable_container
+        calls:
+            -
+                - setOptionsConfig
+                -
+                    -
+                        active: {default: false}
+                        anchor: {required: true}
+                        label: {required: true}
+            - [setName, ['group_tabs_item']]
+        tags:
+             - { name: layout.block_type, alias: group_tabs_item }

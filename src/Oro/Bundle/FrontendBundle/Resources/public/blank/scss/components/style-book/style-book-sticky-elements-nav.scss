@@ -1,26 +1,26 @@
 // @theme: blank;
 
 .style-book-sticky-elements-nav {
-    position: relative;
+    position: $style-book-sticky-position;
 
-    display: flex;
-    justify-content: flex-end;
+    display: $style-book-sticky-display;
+    justify-content: $style-book-sticky-justify-content;
 
     max-width: $style-book-sticky-max-width;
-    margin: 0 auto;
+    margin: $style-book-sticky-outer-offset;
     padding: $style-book-sticky-inner-offset;
 
     &:empty {
-        display: none;
+        display: $style-book-sticky-empty-display;
     }
 
     &__sidebar {
-        position: absolute;
-        right: $style-book-sticky-sidebar-right;
+        position: $style-book-sticky-sidebar-position;
+        left: $style-book-sticky-sidebar-left;
 
         width: $style-book-sticky-sidebar-width;
-        max-height: 100vh;
+        max-height: $style-book-sticky-sidebar-max-height;
 
-        overflow-y: auto;
+        overflow-y: $style-book-sticky-sidebar-overflow-y;
     }
 }
