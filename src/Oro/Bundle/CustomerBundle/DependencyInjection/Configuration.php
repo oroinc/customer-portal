@@ -43,6 +43,8 @@ class Configuration implements ConfigurationInterface
                 ],
                 'company_name_field_enabled' => ['type' => 'boolean', 'value' => true],
                 'user_menu_show_items' => ['type' => 'string', 'value' => self::USER_MENU_SHOW_ITEMS_ALL_AT_ONCE],
+                'enable_responsive_grids' => ['type' => 'boolean', 'value' => true],
+                'enable_swipe_actions_grids' => ['type' => 'boolean', 'value' => true],
                 'customer_visitor_cookie_lifetime_days' => ['type' => 'integer', 'value' => 30],
                 'maps_enabled' => ['type' => 'boolean', 'value' => true]
             ]

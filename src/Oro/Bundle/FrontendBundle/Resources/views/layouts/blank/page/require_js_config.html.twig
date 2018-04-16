@@ -12,7 +12,7 @@
 
                 'oroui/js/modal': {defaults: {okButtonClass: 'btn btn--info ok'}},
 
-                'oro/datagrid/cell/action-cell': {showCloseButton: false},
+                'orofrontend/js/datagrid/cell/frontend-action-cell': {showCloseButton: false, actionsHideCount: !'{{ NotMobileVersion }}' ? 99 : 3},
                 'orodatagrid/js/app/plugins/grid/column-manager-plugin': {
                     icon: 'gear',
                     wrapperClassName: 'datagrid-manager btn-group ',
