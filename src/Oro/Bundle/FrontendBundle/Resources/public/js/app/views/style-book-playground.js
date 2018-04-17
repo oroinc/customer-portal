@@ -61,6 +61,11 @@ define(function(require) {
         /**
          * @property {String}
          */
+        playgroundPropsSelector: '[data-props]',
+
+        /**
+         * @property {String}
+         */
         renderAfter: 'demand',
 
         /**
@@ -147,7 +152,7 @@ define(function(require) {
          * @createPlayground Create playground view
          */
         createPlayground: function() {
-            this.$el.append(this.template({
+            this.$el.find(this.playgroundPropsSelector).append(this.template({
                 props: this._resolvePropsFormat(this.props)
             }));
 

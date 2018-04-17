@@ -113,6 +113,7 @@ services:
     oro_layout.block_type.group_tabs:
         parent: oro_layout.block_type.abstract_configurable_container
         calls:
+            - [setOptionsConfig, [{tabs: {default: []}}]]
             - [setName, ['group_tabs']]
         tags:
              - { name: layout.block_type, alias: group_tabs }
@@ -127,6 +128,25 @@ services:
                         active: {default: false}
                         anchor: {required: true}
                         label: {required: true}
+                        content: {default: ''}
             - [setName, ['group_tabs_item']]
         tags:
              - { name: layout.block_type, alias: group_tabs_item }
+
+    oro_layout.block_type.group_js_element_item:
+            parent: oro_layout.block_type.abstract_configurable_container
+            calls:
+                -
+                    - setOptionsConfig
+                    -
+                        -
+                            description: {default: ''}
+                            anchor: {default: ''}
+                            label: {default: ''}
+                            subTreeLvl: {default: 1}
+                            preview: {default: true}
+                            source: {default: true}
+                            source_language: {default: markup}
+                - [setName, ['group_js_element_item']]
+            tags:
+                 - { name: layout.block_type, alias: group_js_element_item }

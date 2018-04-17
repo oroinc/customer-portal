@@ -290,12 +290,12 @@
         'data-page-component-options': options
     }) %}
 
-    {% if block.children|length %}
+    {% if tabs|length %}
         <div {{ block('block_attributes') }}>
             <ul class="nav nav-tabs nav-tabs-dropdown">
-                {% for item in block.children %}
-                    <li class="nav-item tab{{ item.vars.active ? ' active' : ''}}">
-                        <a href="#{{ item.vars.anchor }}" class="nav-link" data-toggle="tab">{{ item.vars.label }}</a>
+                {% for item in tabs %}
+                    <li class="nav-item tab{{ item.active ? ' active' : ''}}">
+                        <a href="#{{ item.anchor }}" class="nav-link" data-toggle="tab">{{ item.label|trans|raw }}</a>
                     </li>
                 {% endfor %}
 
@@ -310,19 +310,53 @@
             </ul>
 
             <div class="tab-content" id="tab-container">
-                {{ block_widget(block) }}
+                {% for item in tabs %}
+                    <div id="{{ item.anchor }}" class="tab-pane{{ item.active ? ' active' : '' }}">
+                        {{ block('_' ~ item.widget ~ '_widget') }}
+                    </div>
+                {% endfor %}
             </div>
         </div>
     {% endif %}
 {% endblock %}
 
-{% block group_tabs_item_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        'id': anchor,
-        '~class': ' tab-pane' ~ (active ? ' active' : '')
-    }) %}
+{% block group_js_element_item_widget %}
+    <div class="style-book-group-element__item">
+        {% if label and anchor %}
+            {% set attr = layout_attr_defaults(attr, {
+                'id': anchor,
+                '~class': ' style-book-group-element__title',
+                'data-style-book-element': {
+                    id: anchor,
+                    label: label,
+                    subTreeLvl: subTreeLvl
+                }
+            }) %}
+            <h3 {{ block('block_attributes') }}>{{ label }}</h3>
+        {% endif %}
+        {% if description %}
+            <div class="style-book-group-element__description">
+                {{ description|trans|raw }}
+            </div>
+        {% endif %}
 
-    <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
+        {% set content = block_widget(block) %}
+
+        {% if source == true %}
+            <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-{{ source_language }}">
+                    {%- spaceless -%}
+                        {{ content|trim|escape }}
+                    {%- endspaceless -%}
+                </code>
+            </pre>
+            </div>
+        {% endif %}
+
+        {% if preview == true %}
+            {{ content|raw }}
+        {% endif %}
     </div>
 {% endblock %}
+
