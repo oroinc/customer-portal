@@ -67,26 +67,11 @@ layout:
                     options:
                         anchor: mixins
                         label: Mixins
-                group_element_components_mixins:
-                    blockType: group_element_item
+                style_book_scss_mixins:
+                    blockType: group_list_autogenerate
                     options:
-                        preview: false
-                        source_language: scss
-                style_book_components_mixins:
-                    blockType: block
-
-                group_element_components_mixins_components_view:
-                    blockType: group_element
-                    options:
-                        anchor: mixins-components
-                        label: Mixins for Components
-                group_element_components_mixins_components:
-                    blockType: group_element_item
-                    options:
-                        preview: false
-                        source_language: scss
-                style_book_components_mixins_components:
-                    blockType: block
+                        vars:
+                            achorPrefix: 'mixins-'
 
                 group_element_components_animation_view:
                     blockType: group_element
@@ -115,11 +100,7 @@ layout:
                         group_element_components_functions:
                             style_book_components_functions: ~
                     group_element_components_mixins_view:
-                        group_element_components_mixins:
-                            style_book_components_mixins: ~
-                    group_element_components_mixins_components_view:
-                        group_element_components_mixins_components:
-                            style_book_components_mixins_components: ~
+                        style_book_scss_mixins: ~
                     group_element_components_animation_view:
                         group_element_components_animation:
                             style_book_components_animation: ~
