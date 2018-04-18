@@ -38,14 +38,6 @@ define(function(require) {
             this.state = true;
         },
 
-        dispose: function() {
-            if (this.disposed) {
-                return;
-            }
-
-            LoadingMaskPlaygroundView.__super__.dispose.call(this);
-        },
-
         toggle: function() {
             if (this.state) {
                 this.subview('loadingMask').hide();

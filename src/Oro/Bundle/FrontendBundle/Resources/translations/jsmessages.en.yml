@@ -59,3 +59,11 @@ oro_frontend:
             label:
                 normal: "Show Less Items"
                 truncated: "And {{ hiddenRows }} more items"
+
+oro_frontend_style_book:
+    groups:
+        modal:
+            title: 'Modal'
+
+        loading_mask:
+            title: 'Loading Mask'

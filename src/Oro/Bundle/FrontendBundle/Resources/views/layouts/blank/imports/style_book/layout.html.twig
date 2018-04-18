@@ -219,7 +219,7 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <h2 id="{{ anchor }}" class="style-book-title">{{ label }}</h2>
+        <h2 id="{{ anchor }}" class="style-book-title">{{ label|trans|raw }}</h2>
         {{ block_widget(block) }}
     </div>
 {% endblock %}
@@ -236,7 +236,7 @@
                 subTreeLvl: subTreeLvl
             }
         }) %}
-        <h3 {{ block('block_attributes') }}>{{ label }}</h3>
+        <h3 {{ block('block_attributes') }}>{{ label|trans|raw }}</h3>
     {% endif %}
     {% if description %}
         <div class="style-book-group-element__description">
@@ -272,7 +272,7 @@
     }) %}
     <li {{ block('block_attributes') }}>
         <a href="{{ path('oro_frontend_style_book_group', {group: group}) }}" class="style-book-menu__link">
-            <span class="style-book-menu__text">{{ label|trans }}</span>
+            <span class="style-book-menu__text">{{ label|trans|raw }}</span>
         </a>
     </li>
 {% endblock %}
