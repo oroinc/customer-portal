@@ -150,3 +150,16 @@ services:
                 - [setName, ['group_js_element_item']]
             tags:
                  - { name: layout.block_type, alias: group_js_element_item }
+
+    oro_layout.block_type.group_list_autogenerate:
+        parent: oro_layout.block_type.abstract_configurable_container
+        calls:
+            -
+                - setOptionsConfig
+                -
+                    -
+                        anchorPrefix: {default: ''}
+                        list: {default: []}
+            - [setName, ['group_list_autogenerate']]
+        tags:
+             - { name: layout.block_type, alias: group_list_autogenerate }

@@ -360,3 +360,52 @@
     </div>
 {% endblock %}
 
+{% block group_list_autogenerate_widget %}
+    {% set achorPrefix = achorPrefix|default('') %}
+    {% set list = list|default([]) %}
+
+    {% for url in list %}
+        {% set context = url|split('/')|slice(0, -1)|join('/') ~ '/' %}
+        {% set content = source(url, ignore_missing = true) %}
+
+        {% if content %}
+            {% set contentDirtArray = content|
+                trim|
+                oro_preg_replace('/\\/\\/.*/', '')|
+                oro_preg_replace('/\\/\\*.*\\*\\//', '')|
+                trim|
+                split('\n')
+            %}
+            
+            {% for item in contentDirtArray %}
+                {% set item = item|trim|oro_preg_replace('/@import\\s+[\'\"](\\S+)[\'\"];/', '$1') %}
+                {% set title = item|split('/')|slice(-1)[0] %}
+                {% set source = source(context ~ item ~ '.scss', ignore_missing = true) %}
+
+                {% if source %}
+                    <div class="style-book-group-element__item">
+                        <h3 
+                            id="{{ achorPrefix ~ title }}"
+                            class="style-book-group-element__title"
+                            data-style-book-element="{{ {
+                                id: achorPrefix ~ title,
+                                label: title,
+                                subTreeLvl: 1
+                            }|json_encode }}"
+                        >{{ title }}</h3>
+
+                        <div class="style-book-group-element__source">
+                            <pre>
+                                <code class="style-book-group-element__code language-scss">
+                                    {%- spaceless -%}
+                                        {{ source|trim|escape }}
+                                    {%- endspaceless -%}
+                                </code>
+                            </pre>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
