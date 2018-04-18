@@ -1,9 +1,5 @@
 {% block _style_book_grid_element_modal_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid'
-    }) %}
-
-    {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container',
         'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
         'data-page-component-options': {
@@ -11,22 +7,22 @@
             renderAfter: 'action',
             props: {
                 title: {
-                    label: 'Title',
-                    value: 'Confirmation'
-                },
-                okText: 'OK',
-                cancelText: 'Cancel',
-                okButtonClass: 'btn ok btn--info',
-                cancelButtonClass: 'btn cancel',
-                handleClose: false,
-                allowCancel: true,
-                allowOk: true,
-                content: {
-                    type: 'textarea',
-                    value: 'Hello'
-                }
+                label: 'Title',
+                value: 'Confirmation'
+            },
+            okText: 'OK',
+            cancelText: 'Cancel',
+            okButtonClass: 'btn ok btn--info',
+            cancelButtonClass: 'btn cancel',
+            handleClose: false,
+            allowCancel: true,
+            allowOk: true,
+            content: {
+                type: 'textarea',
+                value: 'Hello'
             }
         }
+    }
     }) %}
 
     <div {{ block('block_attributes') }}>
@@ -165,4 +161,134 @@
     </div>
 {% endblock %}
 
+{% block _style_book_grid_element_loading_mask_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orofrontend/js/style-book-views/loading-mask-playground-view',
+            props: {
+                hideDelay: -1,
+                loadingHint: 'Loading...'
+            }
+        }
+    }) %}
 
+    <div {{ block('block_attributes') }}>
+        <div data-example-view>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn--info" data-toggle>Toggle Loading</button>
+                <button type="button" class="btn btn--info" data-toggle-full-page>Execute full-page loading</button>
+            </div>
+            <div class="view-container" data-loading-container></div>
+        </div>
+
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_loading_mask_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_loading_mask_js_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+    define(function(require) {
+        'use strict';
+
+        var SomeExampleView;
+        var BaseView = require('oroui/js/app/views/base/view');
+        var LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
+
+        SomeExampleView = BaseView.extend({
+            events: {
+                'click [show-loading]': 'showLoading',
+                'click [hide-loading]': 'hideLoading'
+            },
+
+            initialize: function() {
+                SomeExampleView.__super__.initialize.apply(this);
+
+                this.subview('loadingMask', new LoadingMaskView({
+                    container: this.$('selector')
+                }));
+            },
+
+            showLoading: function() {
+                // Show loading mask on container after some action
+                this.subview('loadingMask').show();
+            },
+
+            hideLoading: function() {
+                // Hide loading mask on container after some action
+                this.subview('loadingMask').hide();
+            }
+        });
+
+        return SomeExampleView;
+    });
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_loading_mask_mediator_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        define(function(require) {
+            'use strict';
+
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var mediator = require('oroui/js/mediator');
+
+            SomeExampleView = BaseView.extend({
+                events: {
+                    'click [show-loading]': 'showLoading',
+                    'click [hide-loading]': 'hideLoading'
+                },
+
+                showLoading: function() {
+                    // Show loading mask on container after some action
+                    mediator.execute('showLoading');
+                },
+
+                hideLoading: function() {
+                    // Hide loading mask on container after some action
+                    mediator.execute('hideLoading');
+                }
+            });
+
+            return SomeExampleView;
+        });
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}

@@ -99,6 +99,7 @@ config:
         'orofrontend/default/js/app/views/input-widget/number': 'bundles/orofrontend/default/js/app/views/input-widget/number.js'
 
         'orofrontend/js/app/views/style-book-playground': 'bundles/orofrontend/js/app/views/style-book-playground.js'
+        'orofrontend/js/style-book-views/loading-mask-playground-view': 'bundles/orofrontend/js/style-book-views/loading-mask-playground-view.js'
 
         'orofrontend/templates/style-book/style-book-playground.html': 'bundles/orofrontend/templates/style-book/style-book-playground.html'
     appmodules:

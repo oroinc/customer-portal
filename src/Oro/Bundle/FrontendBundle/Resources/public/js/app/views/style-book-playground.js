@@ -69,6 +69,11 @@ define(function(require) {
         renderAfter: 'demand',
 
         /**
+         * @property
+         */
+        subviewContainer: '[data-example-view]',
+
+        /**
          * @Constructor
          * @inheritDoc
          * @returns {*}
@@ -99,6 +104,13 @@ define(function(require) {
         createView: function(View) {
             this.viewConstructor = View;
             this.constructorName = View.name;
+
+            if (this.$el.find(this.subviewContainer).length) {
+                _.extend(this.viewOptions, {
+                    el: this.$el.find(this.subviewContainer).get()
+                });
+            }
+
             this.subview(this.constructorName, new View(this.viewOptions));
 
             if (this.renderAfter === 'demand') {
@@ -137,7 +149,7 @@ define(function(require) {
          * @updateConfigPreview Update text preview of configuration array
          */
         updateConfigPreview: function() {
-            this.configPreview.text(JSON.stringify(this.viewOptions, null, '\t'));
+            this.configPreview.text(JSON.stringify(_.omit(this.viewOptions, ['el']), null, '\t'));
         },
 
         /**
