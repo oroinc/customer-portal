@@ -6,6 +6,9 @@ use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Component\Action\Action\AssignActiveUser;
 use Oro\Component\Action\Exception\ActionException;
 
+/**
+ * Returns active Visitor instance (which represents guest)
+ */
 class GetActiveVisitor extends AssignActiveUser
 {
     /**
@@ -20,7 +23,7 @@ class GetActiveVisitor extends AssignActiveUser
             $visitor = $token->getVisitor();
         }
 
-        if (!$visitor) {
+        if (!$visitor && $this->options['exceptionOnNotFound']) {
             throw new ActionException('Can\'t extract active visitor');
         }
 

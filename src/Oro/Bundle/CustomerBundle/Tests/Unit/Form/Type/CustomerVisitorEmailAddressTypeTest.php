@@ -34,7 +34,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         /** @var AnonymousCustomerUserToken|\PHPUnit_Framework_MockObject_MockObject $token */
         $token = $this->createMock(AnonymousCustomerUserToken::class);
 
-        $this->tokenStorage->expects($this->exactly(2))
+        $this->tokenStorage->expects($this->once())
             ->method('getToken')
             ->will($this->returnValue($token));
 
@@ -54,7 +54,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         /** @var AnonymousCustomerUserToken|\PHPUnit_Framework_MockObject_MockObject $token */
         $token = $this->createMock(AnonymousCustomerUserToken::class);
 
-        $this->tokenStorage->expects($this->exactly(2))
+        $this->tokenStorage->expects($this->once())
             ->method('getToken')
             ->will($this->returnValue($token));
 
@@ -86,12 +86,48 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         /** @var TokenInterface|\PHPUnit_Framework_MockObject_MockObject $token */
         $token = $this->createMock(TokenInterface::class);
 
-        $this->tokenStorage->expects($this->exactly(2))
+        $this->tokenStorage->expects($this->once())
             ->method('getToken')
             ->will($this->returnValue($token));
 
         $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
-        $this->assertInstanceOf(HiddenType::class, $form->getConfig()->getType()->getParent()->getInnerType());
+        $this->assertInstanceOf(EmailAddressType::class, $form->getConfig()->getType()->getParent()->getInnerType());
+    }
+
+    /**
+     * @dataProvider getNotValidEmailForCustomerUser
+     *
+     * @param string $submittedData
+     * @param string $expectedError
+     */
+    public function testSubmitNotValidEmailByCustomerUser($submittedData, $expectedError)
+    {
+        /** @var TokenInterface|\PHPUnit_Framework_MockObject_MockObject $token */
+        $token = $this->createMock(TokenInterface::class);
+
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->will($this->returnValue($token));
+
+        $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
+        $form->submit($submittedData);
+        $this->assertFalse($form->isValid());
+        $errors = $form->getErrors(true, false);
+
+        $this->assertContains($expectedError, $errors->current()->getMessage());
+    }
+
+    /**
+     * @return array
+     */
+    public function getNotValidEmailForCustomerUser()
+    {
+        return [
+            'not email string' => [
+                'submittedData' => 'email',
+                'expectedError' => 'This value is not a valid email address'
+            ],
+        ];
     }
 
     /**

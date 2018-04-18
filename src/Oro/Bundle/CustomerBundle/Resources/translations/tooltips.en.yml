@@ -5,3 +5,4 @@ oro.customer.system_configuration.fields.confirmation_required.tooltip: 'This op
 oro.customer.system_configuration.fields.send_password_in_welcome_email.tooltip: 'This option defines whether or not the password is sent in a plain text in the welcome email. Always keep it disabled in production.'
 oro.customer.system_configuration.fields.registration_instructions_enabled.tooltip: 'This option defines whether or not the registration instructions are shown on the OroCommerce website login page'
 oro.customer.system_configuration.fields.company_name_field_enabled.tooltip: 'This option defines whether or not the Company Name field is displayed in the registration form on the OroCommerce website'
+oro.customer.system_configuration.fields.auto_login_after_registration.tooltip: 'Auto login customer user after registration or email confirmation'
