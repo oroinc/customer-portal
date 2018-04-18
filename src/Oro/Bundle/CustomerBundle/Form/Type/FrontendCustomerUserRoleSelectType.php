@@ -8,7 +8,6 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
-use Symfony\Bridge\Doctrine\Form\ChoiceList\ORMQueryBuilderLoader;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -82,26 +81,28 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
             return;
         }
 
-        $resolver->setNormalizer('loader', function () use ($loggedUser) {
-            /** @var $repo CustomerUserRoleRepository */
-            $repo = $this->registry->getManagerForClass($this->roleClass)
-                ->getRepository($this->roleClass);
-            $criteria = new Criteria();
-            $qb = $repo->createQueryBuilder('customer');
-            $this->aclHelper->applyAclToCriteria(
-                $this->roleClass,
-                $criteria,
-                'ASSIGN',
-                ['customer' => 'customer.customer', 'organization' => 'customer.organization']
-            );
-            $qb->addCriteria($criteria);
-            $qb->orWhere(
-                'customer.selfManaged = :isActive AND customer.public = :isActive AND customer.customer is NULL'
-            );
-            $qb->setParameter('isActive', true, \PDO::PARAM_BOOL);
+        $resolver->setDefaults([
+            'query_builder' => function () use ($loggedUser) {
+                /** @var $repo CustomerUserRoleRepository */
+                $repo = $this->registry->getManagerForClass($this->roleClass)
+                    ->getRepository($this->roleClass);
+                $criteria = new Criteria();
+                $qb = $repo->createQueryBuilder('customer');
+                $this->aclHelper->applyAclToCriteria(
+                    $this->roleClass,
+                    $criteria,
+                    'ASSIGN',
+                    ['customer' => 'customer.customer', 'organization' => 'customer.organization']
+                );
+                $qb->addCriteria($criteria);
+                $qb->orWhere(
+                    'customer.selfManaged = :isActive AND customer.public = :isActive AND customer.customer is NULL'
+                );
+                $qb->setParameter('isActive', true, \PDO::PARAM_BOOL);
 
-            return new ORMQueryBuilderLoader($qb);
-        });
+                return $qb;
+            }
+        ]);
     }
 
     /**
