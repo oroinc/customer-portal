@@ -700,7 +700,10 @@ services:
 
     oro_customer.entity_ownership.listener:
         class: Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener
-        arguments: ["@security.token_storage", "@oro_entity_config.provider.ownership"]
+        arguments:
+            - "@security.token_storage"
+            - "@oro_entity_config.provider.ownership"
+            - "@property_accessor"
         tags:
              - { name: doctrine.event_listener, event: prePersist }
 

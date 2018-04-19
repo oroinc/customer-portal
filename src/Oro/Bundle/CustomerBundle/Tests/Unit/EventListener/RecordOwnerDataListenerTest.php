@@ -11,6 +11,7 @@ use Oro\Bundle\EntityConfigBundle\Config\Config;
 use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\OrganizationBundle\Tests\Unit\Fixture\Entity\Entity;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -30,7 +31,11 @@ class RecordOwnerDataListenerTest extends \PHPUnit_Framework_TestCase
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         $this->configProvider = $this->createMock(ConfigProvider::class);
 
-        $this->listener = new RecordOwnerDataListener($this->tokenStorage, $this->configProvider);
+        $this->listener = new RecordOwnerDataListener(
+            $this->tokenStorage,
+            $this->configProvider,
+            PropertyAccess::createPropertyAccessor()
+        );
     }
 
     /**
