@@ -97,12 +97,6 @@ config:
         'orofrontend/blank/js/app/views/toggle-action-view': 'bundles/orofrontend/blank/js/app/views/toggle-action-view.js'
 
         'orofrontend/default/js/app/views/input-widget/number': 'bundles/orofrontend/default/js/app/views/input-widget/number.js'
-
-        'orofrontend/js/app/views/style-book-playground': 'bundles/orofrontend/js/app/views/style-book-playground.js'
-        'orofrontend/js/style-book-views/loading-mask-playground-view': 'bundles/orofrontend/js/style-book-views/loading-mask-playground-view.js'
-        'orofrontend/js/style-book-views/style-book-dialog-widget': 'bundles/orofrontend/js/style-book-views/style-book-dialog-widget.js'
-
-        'orofrontend/templates/style-book/style-book-playground.html': 'bundles/orofrontend/templates/style-book/style-book-playground.html'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
         - orofrontend/js/app/modules/component-shortcuts-module

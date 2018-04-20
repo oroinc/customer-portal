@@ -163,6 +163,7 @@ define(function(require) {
          * @updateConfigPreview Update text preview of configuration array
          */
         updateConfigPreview: function() {
+
             this.configPreview.text(JSON.stringify(_.omit(this.viewOptions, ['el']), null, '\t'));
         },
 
@@ -240,8 +241,13 @@ define(function(require) {
                 value = parseFloat(value);
             }
 
+            if ($target.data('template')) {
+                value = _.template(value);
+            }
+
             this._setBindOption(name.split('.'), value, this.viewOptions);
 
+            console.log(this.viewOptions)
             this.disposeView();
             this.createView(this.viewConstructor);
             this.updateConfigPreview();

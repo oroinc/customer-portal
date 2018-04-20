@@ -445,19 +445,20 @@
         '~class': ' js-component-container',
         'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
         'data-page-component-options': {
-            viewConstructor: 'orofrontend/blank/js/app/views/fullscreen-popup-view',
+            viewConstructor: 'orofrontend/js/style-book-views/fullscreen-popup-demo-view',
             renderAfter: 'action',
             props: {
                 popupIcon: 'fa-cog',
                 popupBadge: true,
-                popupLabel: 'Fullscreen popup'
+                popupLabel: 'Fullscreen popup',
+                contentTemplate: '<div><h1>Hello</h1></div>'
             }
         }
     }) %}
 
     <div {{ block('block_attributes') }}>
         <div class="style-book-group-element__preview">
-            <button class="btn btn--info" data-action="click show">Open Fullscreen Popup</button>
+            <button class="btn btn--info" data-action="click render">Open Fullscreen Popup</button>
         </div>
 
         {{ block_widget(block) }}
