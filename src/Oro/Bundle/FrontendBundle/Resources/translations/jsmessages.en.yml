@@ -67,3 +67,6 @@ oro_frontend_style_book:
 
         loading_mask:
             title: 'Loading Mask'
+
+        fullscreen_popup_view:
+            title: 'Fullscreen Popup View'

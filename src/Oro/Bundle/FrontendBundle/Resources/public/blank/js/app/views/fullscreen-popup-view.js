@@ -137,6 +137,7 @@ define(function(require) {
             var deferred = $.Deferred();
             this[section].$el = this.$popup.find('[data-role="' + section + '"]');
             if (false === this._eachSectionVariant(section, '_renderSection', deferred)) {
+                console.log(section);
                 deferred.resolve();
             }
             return deferred.promise();

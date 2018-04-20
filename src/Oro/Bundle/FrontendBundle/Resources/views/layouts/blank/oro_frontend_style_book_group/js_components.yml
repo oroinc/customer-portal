@@ -50,6 +50,26 @@ layout:
                             - { anchor: 'loading_mask-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_loading_mask_js'}
                             - { anchor: 'loading_mask-mediator', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.mediator, active: false, widget: 'style_book_grid_element_loading_mask_mediator'}
 
+                # Fullscreen popup view
+                group_element_fullscreen_popup_view:
+                    blockType: group_element
+                    options:
+                        anchor: fullscreen_popup_view
+                        label: oro_frontend_style_book.groups.fullscreen_popup_view.title
+                group_element_item_fullscreen_popup_view:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        description: oro_frontend_style_book.groups.fullscreen_popup_view.description
+                style_book_fullscreen_popup_view:
+                    blockType: container
+                group_tabs_fullscreen_popup_view:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'config-fullscreen_popup_view', label: oro_frontend_style_book.groups.fullscreen_popup_view.tabs.config, active: true, widget: 'style_book_fullscreen_popup_view_config'}
+                            # - { anchor: 'loading_mask-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_loading_mask_js'}
+                            # - { anchor: 'loading_mask-mediator', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.mediator, active: false, widget: 'style_book_grid_element_loading_mask_mediator'}
 
             tree:
                 style_book_content:
@@ -62,5 +82,10 @@ layout:
                         group_element_item_loading_mask:
                             style_book_grid_element_loading_mask:
                                 group_tabs_loading_mask: ~
+
+                    group_element_fullscreen_popup_view:
+                        group_element_item_fullscreen_popup_view:
+                            style_book_fullscreen_popup_view:
+                                group_tabs_fullscreen_popup_view: ~
 
     conditions: 'context["group"]=="jscomponents"'
