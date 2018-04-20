@@ -1,5 +1,3 @@
-{# Modal View #}
-
 {% block _style_book_grid_element_modal_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container',
@@ -9,22 +7,22 @@
             renderAfter: 'action',
             props: {
                 title: {
-                label: 'Title',
-                value: 'Confirmation'
-            },
-            okText: 'OK',
-            cancelText: 'Cancel',
-            okButtonClass: 'btn ok btn--info',
-            cancelButtonClass: 'btn cancel',
-            handleClose: false,
-            allowCancel: true,
-            allowOk: true,
-            content: {
-                type: 'textarea',
-                value: 'Hello'
+                    label: 'Title',
+                    value: 'Confirmation'
+                },
+                okText: 'OK',
+                cancelText: 'Cancel',
+                okButtonClass: 'btn ok btn--info',
+                cancelButtonClass: 'btn cancel',
+                handleClose: false,
+                allowCancel: true,
+                allowOk: true,
+                content: {
+                    type: 'textarea',
+                    value: 'Hello'
+                }
             }
         }
-    }
     }) %}
 
     <div {{ block('block_attributes') }}>
@@ -440,4 +438,36 @@
             </pre>
         </div>
     </div>
+{% endblock %}
+
+{% block _style_book_fullscreen_popup_view_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' js-component-container',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orofrontend/blank/js/app/views/fullscreen-popup-view',
+            renderAfter: 'action',
+            props: {
+                popupIcon: 'fa-cog',
+                popupBadge: true,
+                popupLabel: 'Fullscreen popup'
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__preview">
+            <button class="btn btn--info" data-action="click show">Open Fullscreen Popup</button>
+        </div>
+
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_fullscreen_popup_view_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props" data-props></div>
 {% endblock %}
