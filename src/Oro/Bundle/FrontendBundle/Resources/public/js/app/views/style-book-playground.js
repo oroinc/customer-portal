@@ -103,26 +103,34 @@ define(function(require) {
          */
         createView: function(View) {
             this.viewConstructor = View;
-            this.constructorName = View.name;
 
-            if (this.$el.find(this.subviewContainer).length) {
-                _.extend(this.viewOptions, {
-                    el: this.$el.find(this.subviewContainer).get()
-                });
+            if (_.isString(this.viewConstructor)) {
+                this.$el[this.viewConstructor](this.viewOptions);
             }
 
-            this.subview(this.constructorName, new View(this.viewOptions));
+            if (_.isFunction(this.viewConstructor)) {
+                this.constructorName = View.name;
 
-            if (this.renderAfter === 'demand') {
-                this.subview(this.constructorName).render();
-                this.subview(this.constructorName).$el.appendTo(this.$el.find(this.viewPreviewSelector));
+                if (this.$el.find(this.subviewContainer).length) {
+                    _.extend(this.viewOptions, {
+                        el: this.$el.find(this.subviewContainer).get()
+                    });
+                }
+
+                this.subview(this.constructorName, new View(this.viewOptions));
+
+                if (this.renderAfter === 'demand') {
+                    this.subview(this.constructorName).render();
+                    this.subview(this.constructorName).$el.appendTo(this.$el.find(this.viewPreviewSelector));
+                }
+
+                if (this.renderAfter === 'action') {
+                    var actionEl = this.$('[data-action]');
+                    var actions = actionEl.data('action').split(' ');
+                    actionEl.on(actions[0], _.bind(this.renderViewViaMethod, this, actions[1]));
+                }
             }
 
-            if (this.renderAfter === 'action') {
-                var actionEl = this.$('[data-action]');
-                var actions = actionEl.data('action').split(' ');
-                actionEl.on(actions[0], _.bind(this.renderViewViaMethod, this, actions[1]));
-            }
         },
 
         /**
@@ -142,7 +150,13 @@ define(function(require) {
          * @disposeView
          */
         disposeView: function() {
-            this.subview(this.constructorName).dispose();
+            if (_.isString(this.viewConstructor)) {
+                this.$el[this.viewConstructor]('destroy');
+            }
+
+            if (_.isFunction(this.viewConstructor)) {
+                this.subview(this.constructorName).dispose();
+            }
         },
 
         /**

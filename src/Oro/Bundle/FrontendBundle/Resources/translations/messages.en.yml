@@ -75,20 +75,26 @@ oro_frontend_style_book:
             title: 'JS Components'
             tabs:
                 howtouse:
+                    config: 'Config'
                     html: 'How to add in HTML?'
                     js: 'How to add in JS?'
                     mediator: 'Use with mediator'
         modal:
             title: 'Modal'
             description: 'Modal view component'
-            tabs:
-                config: 'Config'
 
         loading_mask:
             title: 'Loading Mask'
             description: 'Loading mask view'
-            tabs:
-                config: 'Config'
+
+        dialog_widget:
+            title: 'Dialog Widget'
+            description: 'Dialog widget'
+
+        collapse_widget:
+            title: 'Collapse Widget'
+            description: 'Collapse widget'
+
         grid:
             title: 'Grid Elements'
             text_content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'

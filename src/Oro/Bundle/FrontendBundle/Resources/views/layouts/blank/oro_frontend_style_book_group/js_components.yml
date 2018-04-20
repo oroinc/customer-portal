@@ -10,6 +10,7 @@ layout:
 
         - '@addTree':
             items:
+                # Modal View
                 group_element_grid_view_modal:
                     blockType: group_element
                     options:
@@ -26,10 +27,11 @@ layout:
                     blockType: group_tabs
                     options:
                         tabs:
-                            - { anchor: 'config-1', label: oro_frontend_style_book.groups.modal.tabs.config, active: true, widget: 'style_book_grid_element_config'}
+                            - { anchor: 'config-1', label: oro_frontend_style_book.groups.jscomponent.tabs.config, active: true, widget: 'style_book_grid_element_config'}
                             - { anchor: 'add-in-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_modal_html'}
                             - { anchor: 'add-in-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_modal_js'}
 
+                # Loading Mask View
                 group_element_grid_view_loading_mask:
                     blockType: group_element
                     options:
@@ -46,10 +48,49 @@ layout:
                     blockType: group_tabs
                     options:
                         tabs:
-                            - { anchor: 'config-loading_mask', label: oro_frontend_style_book.groups.loading_mask.tabs.config, active: true, widget: 'style_book_grid_element_loading_mask_config'}
+                            - { anchor: 'config-loading_mask', label: oro_frontend_style_book.groups.jscomponent.tabs.config, active: true, widget: 'style_book_grid_element_loading_mask_config'}
                             - { anchor: 'loading_mask-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_loading_mask_js'}
                             - { anchor: 'loading_mask-mediator', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.mediator, active: false, widget: 'style_book_grid_element_loading_mask_mediator'}
 
+                # Dialog Widget
+                group_element_grid_view_dialog_widget:
+                    blockType: group_element
+                    options:
+                        anchor: loading_mask
+                        label: oro_frontend_style_book.groups.dialog_widget.title
+                group_element_item_dialog_widget:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        description: oro_frontend_style_book.groups.dialog_widget.description
+                style_book_grid_element_dialog_widget:
+                    blockType: container
+                group_tabs_dialog_widget:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'config-dialog_widget', label: oro_frontend_style_book.groups.jscomponent.tabs.config, active: true, widget: 'style_book_grid_element_dialog_widget_config'}
+
+                # Collapse Widget
+                group_element_grid_view_collapse_widget:
+                    blockType: group_element
+                    options:
+                        anchor: loading_mask
+                        label: oro_frontend_style_book.groups.collapse_widget.title
+                group_element_item_collapse_widget:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        description: oro_frontend_style_book.groups.collapse_widget.description
+                style_book_grid_element_collapse_widget:
+                    blockType: container
+                group_tabs_collapse_widget:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'config-collapse_widget', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_collapse_widget_config'}
+                            - { anchor: 'collapse_widget-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_collapse_widget_html'}
+                            - { anchor: 'collapse_widget-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_collapse_widget_js'}
 
             tree:
                 style_book_content:
@@ -62,5 +103,15 @@ layout:
                         group_element_item_loading_mask:
                             style_book_grid_element_loading_mask:
                                 group_tabs_loading_mask: ~
+
+                    group_element_grid_view_dialog_widget:
+                        group_element_item_dialog_widget:
+                            style_book_grid_element_dialog_widget:
+                                group_tabs_dialog_widget: ~
+
+                    group_element_grid_view_collapse_widget:
+                        group_element_item_collapse_widget:
+                            style_book_grid_element_collapse_widget:
+                                group_tabs_collapse_widget: ~
 
     conditions: 'context["group"]=="jscomponents"'

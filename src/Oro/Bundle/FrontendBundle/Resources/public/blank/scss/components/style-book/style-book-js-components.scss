@@ -1,5 +1,16 @@
 // @theme: blank;
 
+$collapse-preview-offset: 12px !default;
+$collapse-preview-outer-offset: 15px !default;
+$collapse-preview-width: 100% / 3 !default;
+
+$collapse-preview-title-offset: 0 0 16px !default;
+$collapse-preview-title-font-size: null !default;
+$collapse-preview-title-line-height: null !default;
+$collapse-preview-item-offset: 3px 0 !default;
+$collapse-preview-item-content-color: get-color('ui', 'normal') !default;
+$collapse-preview-item-content-color-hover: get-color('ui', 'focus') !default;
+
 .playground {
     &-view {
         .map-visual {
@@ -16,4 +27,45 @@
 .view-container {
     margin: 30px 0;
     min-height: 300px;
+}
+
+
+.collapse-preview {
+    padding: $collapse-preview-offset;
+    margin-bottom: $collapse-preview-outer-offset;
+    border: 1px solid get-color('additional', 'light');
+    border-radius: 5px;
+
+    &--responsive {
+        display: inline-block;
+        vertical-align: top;
+        width: $collapse-preview-width;
+    }
+
+    &__title {
+        font-size: $collapse-preview-title-font-size;
+        line-height: $collapse-preview-title-line-height;
+        margin: $collapse-preview-title-offset;
+    }
+
+    &__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    &__item {
+        &:not(:first-child) {
+            margin: $collapse-preview-item-offset;
+        }
+
+
+        &-content {
+            color: $collapse-preview-item-content-color;
+
+            &:hover {
+                color: $collapse-preview-item-content-color-hover;
+            }
+        }
+    }
 }
