@@ -11,6 +11,9 @@ use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * Listener which automatically assign owner fields to new created instance of entity with enabled ownership policy.
+ */
 class RecordOwnerDataListener
 {
     const OWNER_TYPE_USER = 'FRONTEND_USER';
@@ -78,7 +81,7 @@ class RecordOwnerDataListener
      * @param CustomerUser $user
      * @param string $ownerFieldName
      */
-    protected function setOwner($ownerType, $entity, $user, $ownerFieldName)
+    private function setOwner($ownerType, $entity, $user, $ownerFieldName)
     {
         $owner = null;
         if ($ownerType === self::OWNER_TYPE_USER) {
@@ -95,7 +98,7 @@ class RecordOwnerDataListener
      * @param ConfigInterface $config
      * @param object $entity
      */
-    protected function setDefaultCustomer(CustomerUser $user, ConfigInterface $config, $entity)
+    private function setDefaultCustomer(CustomerUser $user, ConfigInterface $config, $entity)
     {
         if ($user->getCustomer() && $config->has('frontend_customer_field_name')) {
             $fieldName = $config->get('frontend_customer_field_name');
@@ -109,7 +112,7 @@ class RecordOwnerDataListener
     /**
      * @return CustomerUser|null
      */
-    protected function getLoggedCustomerUser()
+    private function getLoggedCustomerUser()
     {
         $token = $this->tokenStorage->getToken();
         if (!$token) {
