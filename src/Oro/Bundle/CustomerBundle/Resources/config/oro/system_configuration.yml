@@ -59,7 +59,7 @@ system_configuration:
                 required: false
         oro_customer.auto_login_after_registration:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             priority: 90
             options:
                 label: oro.customer.system_configuration.fields.auto_login_after_registration.label
