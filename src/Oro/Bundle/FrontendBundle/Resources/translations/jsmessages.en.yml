@@ -70,3 +70,5 @@ oro_frontend_style_book:
             title: 'Dialog Widget'
         collapse_widget:
             title: 'Collapse Widget'
+        fullscreen_popup_view:
+            title: 'Fullscreen Popup View'
