@@ -94,6 +94,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'value' => true,
                             'scope' => 'app',
                         ],
+                        'api_key_generation_enabled' => [
+                            'value' => true,
+                            'scope' => 'app',
+                        ],
                         'enable_responsive_grids' => [
                             'value' => true,
                             'scope' => 'app',
