@@ -74,7 +74,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_16';
+        return 'v1_16_1';
     }
 
     /**
@@ -97,6 +97,7 @@ class OroCustomerBundleInstaller implements
         $this->createOroCustomerUserRoleTable($schema);
         $this->createOroCustomerUserAccessCustomerUserRoleTable($schema);
         $this->createOroCustomerUserRoleToWebsiteTable($schema);
+        $this->createOroCustomerUserApiTable($schema);
         $this->createOroCustomerTable($schema);
         $this->createOroCustomerGroupTable($schema);
         $this->createOroCustomerAddressTable($schema);
@@ -127,6 +128,7 @@ class OroCustomerBundleInstaller implements
         $this->addOroCustomerUserAccessCustomerUserRoleForeignKeys($schema);
         $this->addOroCustomerUserRoleForeignKeys($schema);
         $this->addOroCustomerUserRoleToWebsiteForeignKeys($schema);
+        $this->addOroCustomerUserApiForeignKeys($schema);
         $this->addOroCustomerForeignKeys($schema);
         $this->addOroCustomerAddressForeignKeys($schema);
         $this->addOroCustomerAdrAdrTypeForeignKeys($schema);
@@ -375,6 +377,22 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('website_id', 'integer', []);
         $table->setPrimaryKey(['customer_user_role_id', 'website_id']);
         $table->addUniqueIndex(['website_id']);
+    }
+
+    /**
+     * Create oro_customer_user_api table
+     *
+     * @param Schema $schema
+     */
+    protected function createOroCustomerUserApiTable(Schema $schema)
+    {
+        $table = $schema->createTable('oro_customer_user_api');
+        $table->addColumn('id', 'integer', ['autoincrement' => true]);
+        $table->addColumn('user_id', 'integer', []);
+        $table->addColumn('api_key', 'crypted_string', ['length' => 255]);
+        $table->setPrimaryKey(['id']);
+        $table->addUniqueIndex(['api_key'], 'UNIQ_824F80CCC912ED9D');
+        $table->addIndex(['user_id'], 'IDX_824F80CCA76ED395', []);
     }
 
     /**
@@ -712,6 +730,22 @@ class OroCustomerBundleInstaller implements
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_customer_user_role'),
             ['customer_user_role_id'],
+            ['id'],
+            ['onDelete' => 'CASCADE', 'onUpdate' => null]
+        );
+    }
+
+    /**
+     * Add oro_customer_user_api foreign keys.
+     *
+     * @param Schema $schema
+     */
+    protected function addOroCustomerUserApiForeignKeys(Schema $schema)
+    {
+        $table = $schema->getTable('oro_customer_user_api');
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_customer_user'),
+            ['user_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );

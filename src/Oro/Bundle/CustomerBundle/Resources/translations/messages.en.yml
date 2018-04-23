@@ -549,6 +549,7 @@ oro.customer:
             menu_templates.title: 'Menu Templates'
             customer_visitor_section.title: 'Customer Visitor'
             map_settings.title: 'Map Settings'
+            rest_api.title: 'REST API'
         fields:
             default_customer_owner.label: 'Default Customer Owner'
             registration_allowed.label: 'Registration Allowed'
@@ -571,6 +572,7 @@ oro.customer:
                 option:
                     yes.label: 'Yes'
                     no.label: 'No'
+            api_key_generation_enabled.label: 'Enable API key generation'
 
     security:
         permissions: 'Action Permissions'

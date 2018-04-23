@@ -89,6 +89,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         'maps_enabled' => [
                             'value' => true,
                             'scope' => 'app',
+                        ],
+                        'api_key_generation_enabled' => [
+                            'value' => true,
+                            'scope' => 'app',
                         ]
                     ]
                 ]

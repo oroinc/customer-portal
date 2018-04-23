@@ -45,7 +45,8 @@ class Configuration implements ConfigurationInterface
                 'company_name_field_enabled' => ['type' => 'boolean', 'value' => true],
                 'user_menu_show_items' => ['type' => 'string', 'value' => self::USER_MENU_SHOW_ITEMS_ALL_AT_ONCE],
                 'customer_visitor_cookie_lifetime_days' => ['type' => 'integer', 'value' => 30],
-                'maps_enabled' => ['type' => 'boolean', 'value' => true]
+                'maps_enabled' => ['type' => 'boolean', 'value' => true],
+                'api_key_generation_enabled' => ['type' => 'boolean', 'value' => true]
             ]
         );
 

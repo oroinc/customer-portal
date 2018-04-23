@@ -287,3 +287,14 @@ services:
             - '@security.token_storage'
         tags:
             - { name: oro_datagrid.extension }
+
+    oro_frontend.api.create.rest.set_location_header:
+        class: Oro\Bundle\ApiBundle\Processor\Create\Rest\SetLocationHeader
+        arguments:
+            - '@router'
+            - '@oro_api.value_normalizer'
+            - '@oro_api.rest.entity_id_transformer'
+        calls:
+            - ['setGetRouteName', ['oro_frontend_rest_api_get']]
+        tags:
+            - { name: oro.api.processor, action: create, group: finalize, requestType: frontend&rest, priority: -9 }
