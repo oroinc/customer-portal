@@ -19,6 +19,7 @@ parameters:
     oro_customer.entity.customer_visitor.class: Oro\Bundle\CustomerBundle\Entity\CustomerVisitor
 
     oro_customer.anonymous_customer_user.update_latency: 600 # 10 minutes in seconds
+    oro_customer.firewall_name: frontend
 
 services:
     oro_customer.deprecated_rest_api_route_options_resolver:
@@ -184,6 +185,7 @@ services:
             - "@oro_email.email_renderer"
             - "@oro_email.email_holder_helper"
             - "@oro_email.direct_mailer"
+            - "@event_dispatcher"
 
     oro_customer_user.manager:
         class: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserManager'
@@ -979,6 +981,42 @@ services:
         parent: oro_navigation.event_listener.navigation_items
         tags:
             - { name: kernel.event_listener, event: oro_menu.configure.oro_customer_menu, method: onNavigationConfigure }
+
+    oro_customer.security.login_manager:
+        class: Oro\Bundle\CustomerBundle\Security\LoginManager
+        arguments:
+           - '@security.token_storage'
+           - '@security.user_checker'
+           - '@security.authentication.session_strategy'
+           - '@request_stack'
+           - '@oro_security.token.factory.username_password_organization'
+           - '@event_dispatcher'
+           - null # remember-me services
+
+    oro_customer.security.user_checker.decorator:
+        decorates: security.user_checker
+        class: Oro\Bundle\CustomerBundle\Security\UserChecker
+        public: false
+        arguments:
+            - '@oro_customer.security.user_checker.decorator.inner'
+
+    oro_customer.handler.frontend_customer_user_handler:
+        class: 'Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler'
+        arguments:
+            - '@oro_form.event.event_dispatcher'
+            - '@oro_entity.doctrine_helper'
+            - '@request_stack'
+            - '@oro_customer_user.manager'
+
+    oro_customer.event_listener.auto_login:
+        class: Oro\Bundle\CustomerBundle\EventListener\AuthenticationListener
+        arguments:
+            - '@oro_customer.security.login_manager'
+            - '@oro_config.manager'
+            - '%oro_customer.firewall_name%'
+        lazy: true
+        tags:
+            - { name: kernel.event_subscriber}
 
     oro_customer.security.orm.ownership_sql_walker_builder:
         class: 'Oro\Bundle\CustomerBundle\ORM\Walker\CustomerOwnershipConditionDataBuilder'

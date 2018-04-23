@@ -1,0 +1,10 @@
+features:
+    oro_customer_confirmation_required:
+        label: oro.customer.system_configuration.fields.oro_customer_confirmation_required.label
+        description: oro.customer.system_configuration.fields.oro_customer_confirmation_required.description
+        toggle: oro_customer.confirmation_required
+
+    oro_customer_registration_allowed:
+        label: oro.customer.system_configuration.fields.registration_allowed.label
+        description: oro.customer.system_configuration.fields.registration_allowed.label
+        toggle: oro_customer.registration_allowed

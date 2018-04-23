@@ -4,64 +4,65 @@ namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\FormBundle\Event\FormHandler\AfterFormProcessEvent;
+use Oro\Bundle\FormBundle\Event\FormHandler\Events;
+use Oro\Bundle\FormBundle\Form\Handler\FormHandler;
 use Oro\Bundle\FormBundle\Form\Handler\RequestHandlerTrait;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class FrontendCustomerUserHandler
+/**
+ * Registers and updates customer user
+ */
+class FrontendCustomerUserHandler extends FormHandler
 {
     use RequestHandlerTrait;
 
-    /** @var FormInterface */
-    protected $form;
-
-    /** @var Request */
-    protected $request;
+    /** @var RequestStack */
+    private $requestStack;
 
     /** @var CustomerUserManager */
-    protected $userManager;
+    private $userManager;
 
     /**
-     * @param FormInterface $form
-     * @param Request $request
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param DoctrineHelper $doctrineHelper
+     * @param RequestStack $requestStack
      * @param CustomerUserManager $userManager
      */
     public function __construct(
-        FormInterface $form,
-        Request $request,
+        EventDispatcherInterface $eventDispatcher,
+        DoctrineHelper $doctrineHelper,
+        RequestStack $requestStack,
         CustomerUserManager $userManager
     ) {
-        $this->form = $form;
-        $this->request = $request;
+        parent::__construct($eventDispatcher, $doctrineHelper);
+
+        $this->requestStack = $requestStack;
         $this->userManager = $userManager;
     }
 
     /**
-     * Process form
-     *
-     * @param CustomerUser $customerUser
-     * @return bool True on successful processing, false otherwise
+     * {@inheritdoc}
      */
-    public function process(CustomerUser $customerUser)
+    public function process($data, FormInterface $form, Request $request)
     {
-        $isUpdated = false;
-        if (in_array($this->request->getMethod(), ['POST', 'PUT'], true)) {
-            $this->submitPostPutRequest($this->form, $this->request);
-            if ($this->form->isValid()) {
-                if (!$customerUser->getId()) {
-                    $website = $this->request->attributes->get('current_website');
-                    if ($website instanceof Website) {
-                        $customerUser->setWebsite($website);
-                    }
-                    $this->userManager->register($customerUser);
-                }
+        $customerUser = $data;
 
-                $this->userManager->updateUser($customerUser);
-
-                $isUpdated = true;
-            }
+        if (!$customerUser instanceof CustomerUser) {
+            throw new \InvalidArgumentException(sprintf(
+                'Data should be instance of %s, but %s is given',
+                CustomerUser::class,
+                gettype($customerUser) === 'object' ? get_class($customerUser) : gettype($customerUser)
+            ));
         }
+
+        $isUpdated = parent::process($customerUser, $form, $request);
+
         // Reloads the user to reset its username. This is needed when the
         // username or password have been changed to avoid issues with the
         // security layer.
@@ -70,5 +71,30 @@ class FrontendCustomerUserHandler
         }
 
         return $isUpdated;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function saveData($data, FormInterface $form)
+    {
+        /** @var CustomerUser $customerUser */
+        $customerUser = $data;
+
+        $this->eventDispatcher->dispatch(Events::BEFORE_FLUSH, new AfterFormProcessEvent($form, $customerUser));
+
+        if (!$customerUser->getId()) {
+            $request = $this->requestStack->getMasterRequest();
+            $website = $request->attributes->get('current_website');
+            if ($website instanceof Website) {
+                $customerUser->setWebsite($website);
+            }
+
+            $this->userManager->register($customerUser);
+        }
+
+        $this->userManager->updateUser($customerUser);
+
+        $this->eventDispatcher->dispatch(Events::AFTER_FLUSH, new AfterFormProcessEvent($form, $customerUser));
     }
 }
