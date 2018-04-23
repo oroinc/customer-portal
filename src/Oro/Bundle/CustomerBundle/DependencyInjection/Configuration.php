@@ -47,7 +47,8 @@ class Configuration implements ConfigurationInterface
                 'enable_responsive_grids' => ['type' => 'boolean', 'value' => true],
                 'enable_swipe_actions_grids' => ['type' => 'boolean', 'value' => true],
                 'customer_visitor_cookie_lifetime_days' => ['type' => 'integer', 'value' => 30],
-                'maps_enabled' => ['type' => 'boolean', 'value' => true]
+                'maps_enabled' => ['type' => 'boolean', 'value' => true],
+                'api_key_generation_enabled' => ['type' => 'boolean', 'value' => true]
             ]
         );
 

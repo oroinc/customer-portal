@@ -16,6 +16,8 @@ system_configuration:
             title: oro.customer.system_configuration.groups.map_settings.title
         responsive_grid_settings:
             title: oro.customer.system_configuration.groups.responsive_grid_settings.title
+        rest_api:
+            title: oro.customer.system_configuration.groups.rest_api.title
     fields:
         oro_customer.default_customer_owner:
             ui_only: true
@@ -147,6 +149,13 @@ system_configuration:
                 choices:
                     true: oro.customer.system_configuration.fields.maps_enabled.option.yes.label
                     false: oro.customer.system_configuration.fields.maps_enabled.option.no.label
+        oro_customer.api_key_generation_enabled:
+            data_type: boolean
+            type: oro_config_checkbox
+            options:
+                label: oro.customer.system_configuration.fields.api_key_generation_enabled.label
+                tooltip: oro.customer.system_configuration.fields.api_key_generation_enabled.tooltip
+                required: false
     tree:
         system_configuration:
             commerce:
@@ -172,6 +181,9 @@ system_configuration:
                                     customer_visitor_section:
                                         children:
                                             - oro_customer.customer_visitor_cookie_lifetime_days
+                                    rest_api:
+                                        children:
+                                            - oro_customer.api_key_generation_enabled
 
                     design:
                         children:
