@@ -98,8 +98,11 @@ oro_frontend_style_book:
         fullscreen_popup_view:
             title: 'Fullscreen Popup View'
             description: 'Fullscreen Popup View'
-            tabs:
-                config: 'Config'
+
+        scroll_view:
+            title: 'Scroll View'
+            description: 'Scroll View'
+
         grid:
             title: 'Grid Elements'
             text_content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'

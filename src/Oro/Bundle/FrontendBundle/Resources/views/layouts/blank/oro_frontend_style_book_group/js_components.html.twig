@@ -472,3 +472,184 @@
 
     <div class="playground-props" data-props></div>
 {% endblock %}
+
+{% block _style_book_grid_element_fullscreen_popup_view_js_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        define(function(require) {
+            'use strict';
+
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var FullscreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+
+            SomeExampleView = BaseView.extend({
+                events: {
+                    'click [show-popup]': 'showPopup',
+                    'click [hide-popup]': 'hidePopup'
+                },
+
+                initialize: function(options) {
+                    SomeExampleView.__super__.initialize.apply(this, arguments);
+
+                    this.subview('fullscreenPopup', new FullscreenPopupView( {
+                        contentSelector: '.selector' // is required or use 'contentElement', 'contentView'
+                        // options...
+                    } ))
+                },
+
+                showPopup: function() {
+                    // Show loading mask on container after some action
+                    this.subview('fullscreenPopup').show();
+                },
+
+                hidePopup: function() {
+                    // Hide loading mask on container after some action
+                    this.subview('fullscreenPopup').close();
+                }
+            });
+
+            return SomeExampleView;
+        });
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# ScrollView #}
+
+{% block _style_book_scroll_view_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orofrontend/js/app/views/scroll-view',
+            props: {}
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="scroll-view" data-example-view>
+            <div class="scroll-view__header">
+                <div class="scroll-view__header--scrollable" data-scroll-view-follow="x">
+                {% for i in 0..20 %}
+                    <div class="scroll-view__head">Column - {{ i }}</div>
+                {% endfor %}
+                </div>
+            </div>
+            <div class="scroll-view__side">
+                <div class="view__side--scrollable" data-scroll-view-follow="y">
+                {% for i in 0..20 %}
+                    <div class="scroll-view__side-head">Row - {{ i }}</div>
+                {% endfor %}
+                </div>
+            </div>
+            <div class="scroll-view__body" data-scroll-view>
+                {% for i in 0..10%}
+                <div class="scroll-view__row">
+                    {% for j in 0..20 %}
+                        <div class="scroll-view__cell">Cell - {{ i }}-{{ j }}</div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_scroll_view_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_scroll_view_html_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <div data-page-component-view="orofrontend/js/app/views/scroll-view">
+            <div class="scroll-view">
+                <div class="scroll-view__header">
+                    <div class="scroll-view__header--scrollable" data-scroll-view-follow="x">
+                        <!-- Some columns in the header -->
+                    </div>
+                </div>
+                <div class="scroll-view__side">
+                    <div class="view__side--scrollable" data-scroll-view-follow="y">
+                        <!-- Some columns in side -->
+                    </div>
+                </div>
+                <div class="scroll-view__body" data-scroll-view>
+                    <!-- Some scrollable content -->
+                </div>
+            </div>
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_scroll_view_js_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <script>
+            define(function(require) {
+                'use strict';
+
+                var SomeExampleView;
+                var BaseView = require('oroui/js/app/views/base/view');
+                var ScrollView = require('orofrontend/js/app/views/scroll-view');
+
+                SomeExampleView = BaseView.extend({
+                    initialize: function() {
+                        SomeExampleView.__super__.initialize.apply(this);
+
+                        this.subview('scrollView', new ScrollView({
+                            el: this.el
+                        }));
+                    }
+                });
+
+                return SomeExampleView;
+            });
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}

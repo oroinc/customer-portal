@@ -69,3 +69,54 @@ $collapse-preview-item-content-color-hover: get-color('ui', 'focus') !default;
         }
     }
 }
+
+.scroll-view {
+    position: relative;
+    margin-bottom: 20px;
+
+    &__header {
+        overflow: hidden;
+        margin-left: 150px;
+
+        &--scrollable {
+            display: flex;
+        }
+    }
+
+    &__side {
+        width: 150px;
+        position: absolute;
+        top: 30px;
+        left: 0;
+        bottom: 0;
+        overflow: hidden;
+    }
+
+    &__body {
+        display: flex;
+        overflow: auto;
+        margin-left: 150px;
+        max-height: 300px;
+    }
+
+    &__cell {
+        width: 150px;
+        height: 30px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    &__head {
+        min-width: 150px;
+        height: 30px;
+        text-align: center;
+        background-color: get-color('additional', 'base');
+    }
+
+    &__side-head {
+        width: 150px;
+        height: 30px;
+        text-align: center;
+        background-color: get-color('additional', 'base');
+    }
+}
