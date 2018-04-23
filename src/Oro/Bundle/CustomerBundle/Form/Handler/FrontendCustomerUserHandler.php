@@ -8,7 +8,6 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FormBundle\Event\FormHandler\AfterFormProcessEvent;
 use Oro\Bundle\FormBundle\Event\FormHandler\Events;
 use Oro\Bundle\FormBundle\Form\Handler\FormHandler;
-use Oro\Bundle\FormBundle\Form\Handler\RequestHandlerTrait;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
@@ -20,8 +19,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class FrontendCustomerUserHandler extends FormHandler
 {
-    use RequestHandlerTrait;
-
     /** @var RequestStack */
     private $requestStack;
 
