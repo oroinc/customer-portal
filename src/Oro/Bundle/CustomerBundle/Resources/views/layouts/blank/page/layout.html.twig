@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block login_form_path_widget %}
-    {% set value = null %}
+    {% set value = value|default(null) %}
     {% if pathName %}
         {% set value = url(pathName, pathParameters) %}
     {% endif %}
