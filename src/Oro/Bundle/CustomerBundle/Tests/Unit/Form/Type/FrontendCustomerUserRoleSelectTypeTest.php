@@ -91,14 +91,9 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $this->assertEquals($this->formType->getRegistry(), $this->registry);
     }
 
-    public function testGetName()
-    {
-        $this->assertEquals(FrontendCustomerUserRoleSelectType::NAME, $this->formType->getName());
-    }
-
     public function testGetParent()
     {
-        $this->assertEquals(CustomerUserRoleSelectType::NAME, $this->formType->getParent());
+        $this->assertEquals(CustomerUserRoleSelectType::class, $this->formType->getParent());
     }
 
     public function testConfigureOptions()

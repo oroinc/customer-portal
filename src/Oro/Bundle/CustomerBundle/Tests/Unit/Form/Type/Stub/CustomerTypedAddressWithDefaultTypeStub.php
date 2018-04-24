@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Form\DataTransformer\AddressTypeDefaultTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -44,7 +45,7 @@ class CustomerTypedAddressWithDefaultTypeStub extends AbstractType
             $choices[$type->getName()] = 'Default' . $type->getName();
         }
 
-        $builder->add('default', 'choice', [
+        $builder->add('default', ChoiceType::class, [
             'choices'  => $choices,
             'multiple' => true,
             'expanded' => true,
@@ -71,7 +72,7 @@ class CustomerTypedAddressWithDefaultTypeStub extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return self::NAME;
     }

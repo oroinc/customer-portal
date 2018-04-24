@@ -5,9 +5,11 @@ namespace Oro\Bundle\CustomerBundle\Form\Type;
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Event\CustomerEvent;
+use Oro\Bundle\EntityExtendBundle\Form\Type\EnumSelectType;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -55,10 +57,10 @@ class CustomerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', ['label' => 'oro.customer.customer.name.label'])
+            ->add('name', TextType::class, ['label' => 'oro.customer.customer.name.label'])
             ->add(
                 self::GROUP_FIELD,
-                CustomerGroupSelectType::NAME,
+                CustomerGroupSelectType::class,
                 [
                     'label' => 'oro.customer.customer.group.label',
                     'required' => false
@@ -66,7 +68,7 @@ class CustomerType extends AbstractType
             )
             ->add(
                 'parent',
-                ParentCustomerSelectType::NAME,
+                ParentCustomerSelectType::class,
                 [
                     'label' => 'oro.customer.customer.parent.label',
                     'required' => false
@@ -74,7 +76,7 @@ class CustomerType extends AbstractType
             )
             ->add(
                 'internal_rating',
-                'oro_enum_select',
+                EnumSelectType::class,
                 [
                     'label' => 'oro.customer.customer.internal_rating.label',
                     'enum_code' => Customer::INTERNAL_RATING_CODE,
@@ -86,7 +88,7 @@ class CustomerType extends AbstractType
             )
             ->add(
                 'salesRepresentatives',
-                UserMultiSelectType::NAME,
+                UserMultiSelectType::class,
                 [
                     'label' => 'oro.customer.customer.sales_representatives.label',
                 ]
@@ -97,7 +99,7 @@ class CustomerType extends AbstractType
         if ($this->authorizationChecker->isGranted('oro_customer_customer_address_update')) {
             $options = [
                 'label' => 'oro.customer.customer.addresses.label',
-                'entry_type' => CustomerTypedAddressType::NAME,
+                'entry_type' => CustomerTypedAddressType::class,
                 'required' => true,
                 'entry_options' => [
                     'data_class' => $this->addressClass,
@@ -116,7 +118,7 @@ class CustomerType extends AbstractType
             $builder
                 ->add(
                     'addresses',
-                    AddressCollectionType::NAME,
+                    AddressCollectionType::class,
                     $options
                 );
         }

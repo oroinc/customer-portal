@@ -9,6 +9,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Entity\UserManager;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
@@ -37,8 +38,6 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
 
     protected function setUp()
     {
-        parent::setUp();
-
         $this->configManager = $this->getMockBuilder('Oro\Bundle\ConfigBundle\Config\ConfigManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -49,6 +48,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
 
         $this->formType = new FrontendCustomerUserRegistrationType($this->configManager, $this->userManager);
         $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerUser');
+        parent::setUp();
     }
 
     protected function tearDown()
@@ -62,6 +62,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
     protected function getExtensions()
     {
         return [
+            new PreloadedExtension([$this->formType], []),
             new ValidatorExtension(Validation::createValidator())
         ];
     }
@@ -97,7 +98,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
             ->with(42)
             ->willReturn($owner);
 
-        $form = $this->factory->create($this->formType, clone $defaultData, $options);
+        $form = $this->factory->create(FrontendCustomerUserRegistrationType::class, clone $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
@@ -218,14 +219,6 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
             ->willReturn($repository);
 
         return $repository;
-    }
-
-    /**
-     * Test getName
-     */
-    public function testGetName()
-    {
-        $this->assertEquals(FrontendCustomerUserRegistrationType::NAME, $this->formType->getName());
     }
 
     /**
