@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Oro\Bundle\TranslationBundle\Form\Type\Select2TranslatableEntityType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -42,14 +43,9 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
         $this->formType = new FrontendOwnerSelectType($this->aclHelper, $this->registry, $this->configProvider);
     }
 
-    public function testGetName()
-    {
-        $this->assertEquals(FrontendOwnerSelectType::NAME, $this->formType->getName());
-    }
-
     public function testGetParent()
     {
-        $this->assertEquals('oro_select2_translatable_entity', $this->formType->getParent());
+        $this->assertEquals(Select2TranslatableEntityType::class, $this->formType->getParent());
     }
 
     /**

@@ -206,6 +206,7 @@ oro.customer:
             register: 'Registration'
             register.description: 'Please register if you do not have an account. A sales representative will contact you shortly.'
             create_an_customer: 'Create An Account'
+            create_an_customer_and_continue: 'Create an Account and Continue'
             forgot_password: 'Forgot Your Password?'
             enter_password: 'Enter your password'
             reset_password:
@@ -213,6 +214,7 @@ oro.customer:
                 label: 'Create'
             remember_me: 'Remember Me'
             login: 'Sign In'
+            login_and_continue: 'Sign In and Continue'
             registration: 'Register'
             return_to_login: 'Return to Login'
             password_reset.message: 'Password was created successfully.'
@@ -549,10 +551,13 @@ oro.customer:
             menu_templates.title: 'Menu Templates'
             customer_visitor_section.title: 'Customer Visitor'
             map_settings.title: 'Map Settings'
+            responsive_grid_settings.title: 'Grid Settings'
+            rest_api.title: 'REST API'
         fields:
             default_customer_owner.label: 'Default Customer Owner'
             registration_allowed.label: 'Registration Allowed'
             confirmation_required.label: 'Confirmation Required'
+            auto_login_after_registration.label: 'Auto login'
             registration_link_enabled.label: 'Show Registration Link'
             send_password_in_welcome_email.label: 'Send plain text password in welcome emails'
             registration_instructions_enabled.label: 'Show Registration Instructions'
@@ -563,6 +568,12 @@ oro.customer:
                 option:
                     all_at_once.label: 'Show all items at once'
                     subitems_in_popup.label: 'Show subitems in a popup'
+            enable_responsive_grids:
+                label: 'Responsive grids'
+                tooltip: 'This option makes frontend grids responsible, realigning row cells to fit various screen sizes.'
+            enable_swipe_actions_grids:
+                label: 'Swipe actions grids'
+                tooltip: 'This option makes frontend swipe actions grids on mobile devices'
             customer_visitor_cookie_lifetime_days.label: 'Customer visitor cookie lifetime (days)'
             customer_visitor_cookie_lifetime_days.tooltip: 'Determines how many days customer visitor (anonymous user) session will be active until reset'
             maps_enabled:
@@ -571,6 +582,9 @@ oro.customer:
                 option:
                     yes.label: 'Yes'
                     no.label: 'No'
+            api_key_generation_enabled.label: 'Enable API key generation'
+            oro_customer_confirmation_required.label: 'Enables customer user email confirmation'
+            oro_customer_confirmation_required.description: 'Enables customer user email confirmation'
 
     security:
         permissions: 'Action Permissions'

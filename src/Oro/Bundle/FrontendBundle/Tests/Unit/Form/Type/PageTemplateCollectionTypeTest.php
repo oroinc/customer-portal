@@ -7,7 +7,8 @@ use Oro\Bundle\FrontendBundle\Form\Type\PageTemplateCollectionType;
 use Oro\Bundle\FrontendBundle\Form\Type\PageTemplateType;
 use Oro\Component\Layout\Extension\Theme\Manager\PageTemplatesManager;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
-use Symfony\Component\Form\PreloadedExtension;
+use Oro\Component\Testing\Unit\PreloadedExtension;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
 {
@@ -26,14 +27,8 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        parent::setUp();
-
         $this->formType = new PageTemplateCollectionType($this->pageTemplatesManagerMock);
-    }
-
-    public function testGetName()
-    {
-        $this->assertEquals(PageTemplateCollectionType::NAME, $this->formType->getName());
+        parent::setUp();
     }
 
     public function testSubmit()
@@ -50,7 +45,7 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
                 ]
             ]);
 
-        $form = $this->factory->create($this->formType, []);
+        $form = $this->factory->create(PageTemplateCollectionType::class, []);
         $submittedData = ['route_name_1' => 'some_key2'];
 
         $form->submit($submittedData);
@@ -68,9 +63,10 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
+                    PageTemplateCollectionType::class => $this->formType,
                     PageTemplateType::class => new PageTemplateType($this->pageTemplatesManagerMock),
                 ],
-                ['form' => [new AdditionalAttrExtension()]]
+                [FormType::class => [new AdditionalAttrExtension()]]
             )
         ];
     }

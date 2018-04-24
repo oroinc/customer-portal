@@ -54,3 +54,10 @@ services:
     # and Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension::setDefaultHtmlFormatterForFrontendApiViews
     oro_frontend.api_doc.formatter.html_formatter:
         parent: oro_api.api_doc.formatter.html_formatter
+
+    oro_frontend.api.create.rest.set_location_header:
+        parent: oro_api.create.rest.set_location_header
+        arguments:
+            index_0: 'oro_frontend_rest_api_item'
+        tags:
+            - { name: oro.api.processor, action: create, group: finalize, requestType: frontend&rest, priority: -9 }

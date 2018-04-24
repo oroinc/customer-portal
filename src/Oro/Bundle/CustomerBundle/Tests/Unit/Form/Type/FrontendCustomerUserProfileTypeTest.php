@@ -5,11 +5,12 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfileType;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
-use Oro\Bundle\FormBundle\Form\Type\OroDateType;
+use Oro\Bundle\UserBundle\Form\Type\ChangePasswordType;
 use Oro\Bundle\UserBundle\Tests\Unit\Stub\ChangePasswordTypeStub;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
 
@@ -30,10 +31,9 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-        parent::setUp();
-
         $this->formType = new FrontendCustomerUserProfileType();
         $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerUser');
+        parent::setUp();
     }
 
     /**
@@ -55,9 +55,9 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    OroDateType::NAME => new OroDateType(),
-                    FrontendOwnerSelectTypeStub::NAME => new FrontendOwnerSelectTypeStub(),
-                    ChangePasswordTypeStub::NAME => new ChangePasswordTypeStub()
+                    $this->formType,
+                    FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub(),
+                    ChangePasswordType::class => new ChangePasswordTypeStub()
                 ],
                 []
             ),
@@ -73,7 +73,7 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
      */
     public function testSubmit($defaultData, array $submittedData, $expectedData)
     {
-        $form = $this->factory->create($this->formType, $defaultData, []);
+        $form = $this->factory->create(FrontendCustomerUserProfileType::class, $defaultData, []);
 
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
@@ -120,14 +120,6 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
                 'expectedData' => $updatedEntity
             ]
         ];
-    }
-
-    /**
-     * Test getName
-     */
-    public function testGetName()
-    {
-        $this->assertEquals(FrontendCustomerUserProfileType::NAME, $this->formType->getName());
     }
 
     /**

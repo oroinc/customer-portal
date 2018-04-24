@@ -2,16 +2,20 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
+use Oro\Bundle\CustomerBundle\CustomerUserEvents;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
+use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Oro\Component\Layout\LayoutContext;
+use Oro\Bundle\UIBundle\Route\Router;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Handles CustomerUser registration logic
+ */
 class CustomerUserRegisterController extends Controller
 {
     /**
@@ -45,29 +49,35 @@ class CustomerUserRegisterController extends Controller
 
     /**
      * @param Request $request
-     * @return LayoutContext|RedirectResponse
+     * @return array|RedirectResponse
      */
     protected function handleForm(Request $request)
     {
         $form = $this->get('oro_customer.provider.frontend_customer_user_registration_form')
             ->getRegisterForm();
         $userManager = $this->get('oro_customer_user.manager');
-        $handler = new FrontendCustomerUserHandler($form, $request, $userManager);
 
+        $registrationMessage = 'oro.customer.controller.customeruser.registered.message';
         if ($userManager->isConfirmationRequired()) {
             $registrationMessage = 'oro.customer.controller.customeruser.registered_with_confirmation.message';
-        } else {
-            $registrationMessage = 'oro.customer.controller.customeruser.registered.message';
         }
-        $response = $this->get('oro_form.model.update_handler')->handleUpdate(
+
+        $handler = $this->get('oro_customer.handler.frontend_customer_user_handler');
+
+        $response = $this->get('oro_form.update_handler')->update(
             $form->getData(),
             $form,
-            ['route' => 'oro_customer_customer_user_security_login'],
-            ['route' => 'oro_customer_customer_user_security_login'],
             $this->get('translator')->trans($registrationMessage),
+            $request,
             $handler
         );
+
         if ($response instanceof Response) {
+            /** @var CustomerUser $customerUser */
+            $customerUser = $form->getData();
+            $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
+            $this->get('event_dispatcher')->dispatch(CustomerUserEvents::REGISTRATION_COMPLETED, $event);
+
             return $response;
         }
 
@@ -86,10 +96,7 @@ class CustomerUserRegisterController extends Controller
         $customerUser = $userManager->findUserByUsernameOrEmail($request->get('username'));
         $token = $request->get('token');
         if ($customerUser === null || empty($token) || $customerUser->getConfirmationToken() !== $token) {
-            throw $this->createNotFoundException(
-                $this->get('translator')
-                    ->trans('oro.customer.controller.customeruser.confirmation_error.message')
-            );
+            throw $this->createNotFoundException('CustomerUser not found or incorrect confirmation token');
         }
 
         $messageType = 'warn';
@@ -103,6 +110,15 @@ class CustomerUserRegisterController extends Controller
 
         $this->get('session')->getFlashBag()->add($messageType, $message);
 
-        return $this->redirect($this->generateUrl('oro_customer_customer_user_security_login'));
+        if ($request->get(Router::ACTION_PARAMETER)) {
+            $response = $this->get('oro_ui.router')->redirect($customerUser);
+        } else {
+            $response = $this->redirectToRoute('oro_customer_customer_user_security_login');
+        }
+
+        $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
+        $this->get('event_dispatcher')->dispatch(CustomerUserEvents::REGISTRATION_CONFIRMED, $event);
+
+        return $response;
     }
 }

@@ -3,6 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,9 +24,9 @@ class CustomerUserPasswordResetType extends AbstractType
     {
         $builder->add(
             'plainPassword',
-            'repeated',
+            RepeatedType::class,
             [
-                'type' => 'password',
+                'type' => PasswordType::class,
                 'first_options' => [
                     'label' => 'oro.customer.customeruser.password.label',
                     'attr' => [

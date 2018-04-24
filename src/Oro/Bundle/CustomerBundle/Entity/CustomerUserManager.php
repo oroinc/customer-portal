@@ -11,23 +11,21 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Provides a set of methods to simplify manage of the CustomerUser entity.
+ */
 class CustomerUserManager extends BaseUserManager implements ContainerAwareInterface, LoggerAwareInterface
 {
-    /**
-     * @var ConfigManager
-     */
+    /** @var ConfigManager */
     protected $configManager;
 
-    /**
-     * @var Processor
-     */
+    /** @var Processor */
     protected $emailProcessor;
 
     /** @var LoggerInterface */
     protected $logger;
-    /**
-     * @var ContainerInterface
-     */
+
+    /** @var ContainerInterface */
     protected $container;
 
     /**
@@ -186,8 +184,6 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
      */
     public function findUserBy(array $criteria)
     {
-        $criteria = array_merge($criteria, ['isGuest' => false]);
-
-        return $this->getRepository()->findOneBy($criteria);
+        return parent::findUserBy(array_merge($criteria, ['isGuest' => false]));
     }
 }
