@@ -11,12 +11,9 @@ $collapse-preview-item-offset: 3px 0 !default;
 $collapse-preview-item-content-color: get-color('ui', 'normal') !default;
 $collapse-preview-item-content-color-hover: get-color('ui', 'focus') !default;
 
-.playground {
-    &-view {
-        .map-visual {
-            min-height: 300px;
-        }
-    }
+.map-visual {
+    min-height: 300px;
+    margin-bottom: 20px;
 }
 
 .js-component-container {
@@ -118,5 +115,34 @@ $collapse-preview-item-content-color-hover: get-color('ui', 'focus') !default;
         height: 30px;
         text-align: center;
         background-color: get-color('additional', 'base');
+    }
+}
+
+.promo-slider {
+    margin: 0 36px 20px;
+
+    @include slick-arrow(
+        $slick-arrow-width: 37px,
+        $slick-arrow-height: 37px,
+        $slick-arrow-outline: none,
+        $slick-arrow-border-radius: 100%,
+        $slick-arrow-background: rgba(get-color('additional', 'darker'), .6),
+        $slick-arrow-icon-size: 12px,
+        $slick-arrow-icon-color: get-color('additional', 'ultra'),
+        $slick-arrow-icon-hover-color: null,
+        $slick-arrow-prev-left: -36px,
+        $slick-arrow-next-right: 36px,
+        $slick-arrow-prev-icon: $fa-var-chevron-left,
+        $slick-arrow-next-icon: $fa-var-chevron-right,
+        $slick-arrow-prev-icon-offset: 0 2px 0 0,
+        $slick-arrow-next-icon-offset: 0 0 0 2px
+    );
+
+    .slick-prev {
+        left: -36px;
+    }
+
+    .slick-next {
+        right: -36px;
     }
 }

@@ -112,7 +112,9 @@ define(function(require) {
                 this.constructorName = View.name;
 
                 if (this.$el.find(this.subviewContainer).length) {
+                    console.log(this.$el.find(this.subviewContainer))
                     _.extend(this.viewOptions, {
+                        _sourceElement: this.$el.find(this.subviewContainer),
                         el: this.$el.find(this.subviewContainer).get()
                     });
                 }
@@ -120,7 +122,9 @@ define(function(require) {
                 this.subview(this.constructorName, new View(this.viewOptions));
 
                 if (this.renderAfter === 'demand') {
-                    this.subview(this.constructorName).render();
+                    if (!/Component$/.test('ContentSliderComponent')) {
+                        this.subview(this.constructorName).render();
+                    }
                     this.subview(this.constructorName).$el.appendTo(this.$el.find(this.viewPreviewSelector));
                 }
 
@@ -247,7 +251,6 @@ define(function(require) {
 
             this._setBindOption(name.split('.'), value, this.viewOptions);
 
-            console.log(this.viewOptions)
             this.disposeView();
             this.createView(this.viewConstructor);
             this.updateConfigPreview();

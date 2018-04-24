@@ -103,6 +103,14 @@ oro_frontend_style_book:
             title: 'Scroll View'
             description: 'Scroll View'
 
+        googlemaps_view:
+            title: 'Google Map View'
+            description: 'Google Map View'
+
+        list_slider:
+            title: 'List Slider Component'
+            description: 'List Slider Component'
+
         grid:
             title: 'Grid Elements'
             text_content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'

@@ -74,3 +74,7 @@ oro_frontend_style_book:
             title: 'Fullscreen Popup View'
         scroll_view:
             title: 'Scroll View'
+        googlemaps_view:
+            title: 'Google Map View'
+        list_slider:
+            title: 'List Slider Component'

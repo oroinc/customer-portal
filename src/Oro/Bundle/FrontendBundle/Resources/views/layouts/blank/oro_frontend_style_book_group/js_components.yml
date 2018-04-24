@@ -133,36 +133,88 @@ layout:
                             - { anchor: 'scroll_view-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: true, widget: 'style_book_grid_element_scroll_view_html'}
                             - { anchor: 'scroll_view-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_scroll_view_js'}
 
+                # GoogleMapView
+                group_element_googlemaps_view:
+                    blockType: group_element
+                    options:
+                        anchor: googlemaps_view
+                        label: oro_frontend_style_book.groups.googlemaps_view.title
+                group_element_item_googlemaps_view:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        description: oro_frontend_style_book.groups.googlemaps_view.description
+                style_book_googlemaps_view:
+                    blockType: container
+                group_tabs_googlemaps_view:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'config-googlemaps_view', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_googlemaps_view_config'}
+                            - { anchor: 'googlemaps_view-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_googlemaps_view_html'}
+                            - { anchor: 'googlemaps_view-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_googlemaps_view_js'}
+
+                # List Slider Component
+                group_element_list_slider:
+                    blockType: group_element
+                    options:
+                        anchor: list_slider
+                        label: oro_frontend_style_book.groups.list_slider.title
+                group_element_item_list_slider:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        description: oro_frontend_style_book.groups.list_slider.description
+                style_book_list_slider:
+                    blockType: container
+                group_tabs_list_slider:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'config-list_slider', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_list_slider_config'}
+                            - { anchor: 'list_slider-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_list_slider_html'}
+                            - { anchor: 'list_slider-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_list_slider_js'}
+
             tree:
                 style_book_content:
-                    group_element_grid_view_modal:
-                        group_element_item_modal:
-                            style_book_grid_element_modal:
-                                group_tabs_js_components: ~
+#                    group_element_grid_view_modal:
+#                        group_element_item_modal:
+#                            style_book_grid_element_modal:
+#                                group_tabs_js_components: ~
+#
+#                    group_element_grid_view_loading_mask:
+#                        group_element_item_loading_mask:
+#                            style_book_grid_element_loading_mask:
+#                                group_tabs_loading_mask: ~
+#
+#                    group_element_grid_view_dialog_widget:
+#                        group_element_item_dialog_widget:
+#                            style_book_grid_element_dialog_widget:
+#                                group_tabs_dialog_widget: ~
+#
+#                    group_element_grid_view_collapse_widget:
+#                        group_element_item_collapse_widget:
+#                            style_book_grid_element_collapse_widget:
+#                                group_tabs_collapse_widget: ~
+#
+#                    group_element_fullscreen_popup_view:
+#                        group_element_item_fullscreen_popup_view:
+#                            style_book_fullscreen_popup_view:
+#                                group_tabs_fullscreen_popup_view: ~
+#
+#                    group_element_scroll_view:
+#                        group_element_item_scroll_view:
+#                            style_book_scroll_view:
+#                                group_tabs_scroll_view: ~
 
-                    group_element_grid_view_loading_mask:
-                        group_element_item_loading_mask:
-                            style_book_grid_element_loading_mask:
-                                group_tabs_loading_mask: ~
+                    group_element_googlemaps_view:
+                        group_element_item_googlemaps_view:
+                            style_book_googlemaps_view:
+                                group_tabs_googlemaps_view: ~
 
-                    group_element_grid_view_dialog_widget:
-                        group_element_item_dialog_widget:
-                            style_book_grid_element_dialog_widget:
-                                group_tabs_dialog_widget: ~
-
-                    group_element_grid_view_collapse_widget:
-                        group_element_item_collapse_widget:
-                            style_book_grid_element_collapse_widget:
-                                group_tabs_collapse_widget: ~
-
-                    group_element_fullscreen_popup_view:
-                        group_element_item_fullscreen_popup_view:
-                            style_book_fullscreen_popup_view:
-                                group_tabs_fullscreen_popup_view: ~
-
-                    group_element_scroll_view:
-                        group_element_item_scroll_view:
-                            style_book_scroll_view:
-                                group_tabs_scroll_view: ~
+                    group_element_list_slider:
+                        group_element_item_list_slider:
+                            style_book_list_slider:
+                                group_tabs_list_slider: ~
 
     conditions: 'context["group"]=="jscomponents"'
