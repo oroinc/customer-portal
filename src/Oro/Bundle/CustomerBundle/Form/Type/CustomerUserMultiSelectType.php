@@ -15,7 +15,7 @@ class CustomerUserMultiSelectType extends AbstractType
      */
     public function getParent()
     {
-        return UserMultiSelectType::NAME;
+        return UserMultiSelectType::class;
     }
 
     /**
@@ -25,7 +25,7 @@ class CustomerUserMultiSelectType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'autocomplete_alias' => 'oro_customer_customer_user',
+                'autocomplete_alias' => CustomerUserType::class,
                 'configs' => [
                     'multiple' => true,
                     'component' => 'autocomplete-customeruser',

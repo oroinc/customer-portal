@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Extension;
 
+use Oro\Bundle\AddressBundle\Form\Type\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Symfony\Component\Form\AbstractTypeExtension;
@@ -38,7 +39,7 @@ class AddressExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return 'oro_address';
+        return AddressType::class;
     }
 
     /**

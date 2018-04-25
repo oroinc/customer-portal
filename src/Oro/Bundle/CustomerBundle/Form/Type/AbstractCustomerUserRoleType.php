@@ -3,8 +3,12 @@
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
 use Oro\Bundle\UserBundle\Form\EventListener\ChangeRoleSubscriber;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -36,7 +40,7 @@ abstract class AbstractCustomerUserRoleType extends AbstractType
         $builder
             ->add(
                 'label',
-                'text',
+                TextType::class,
                 [
                     'label' => 'oro.customer.customeruserrole.role.label',
                     'required' => true,
@@ -45,7 +49,7 @@ abstract class AbstractCustomerUserRoleType extends AbstractType
             )
             ->add(
                 'appendUsers',
-                'oro_entity_identifier',
+                EntityIdentifierType::class,
                 [
                     'class'    => 'Oro\Bundle\CustomerBundle\Entity\CustomerUser',
                     'required' => false,
@@ -55,7 +59,7 @@ abstract class AbstractCustomerUserRoleType extends AbstractType
             )
             ->add(
                 'removeUsers',
-                'oro_entity_identifier',
+                EntityIdentifierType::class,
                 [
                     'class'    => 'Oro\Bundle\CustomerBundle\Entity\CustomerUser',
                     'required' => false,
@@ -66,7 +70,7 @@ abstract class AbstractCustomerUserRoleType extends AbstractType
         if (!$options['hide_self_managed']) {
             $builder->add(
                 'selfManaged',
-                'checkbox',
+                CheckboxType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruserrole.self_managed.label'
@@ -75,7 +79,7 @@ abstract class AbstractCustomerUserRoleType extends AbstractType
         }
         $builder->add(
             'privileges',
-            'hidden',
+            HiddenType::class,
             [
                 'mapped' => false,
             ]

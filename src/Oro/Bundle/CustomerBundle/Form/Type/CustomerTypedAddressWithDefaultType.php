@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Form\DataTransformer\AddressTypeDefaultTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -67,7 +68,7 @@ class CustomerTypedAddressWithDefaultType extends AbstractType
             );
         }
 
-        $builder->add('default', 'choice', [
+        $builder->add('default', ChoiceType::class, [
             'choices'  => $choiceLabels,
             'multiple' => true,
             'expanded' => true,

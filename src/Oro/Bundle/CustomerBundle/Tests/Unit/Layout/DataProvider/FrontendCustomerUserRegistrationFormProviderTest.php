@@ -351,7 +351,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
             $this->formFactory
                 ->expects($this->once())
                 ->method('create')
-                ->with(FrontendCustomerUserRegistrationType::NAME)
+                ->with(FrontendCustomerUserRegistrationType::class)
                 ->willReturn($formToCreate);
         }
     }

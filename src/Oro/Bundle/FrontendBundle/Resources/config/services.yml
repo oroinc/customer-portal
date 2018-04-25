@@ -111,7 +111,7 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Form\Extension\ConfigurationTypeExtension'
         public: true
         tags:
-            - { name: form.type_extension, alias: oro_installer_configuration }
+            - { name: form.type_extension, alias: oro_installer_configuration, extended_type: Oro\Bundle\InstallerBundle\Form\Type\ConfigurationType }
 
     oro_frontend.listener.datagrid.bottom_toolbar:
         class: 'Oro\Bundle\FrontendBundle\EventListener\DatagridBottomToolbarListener'

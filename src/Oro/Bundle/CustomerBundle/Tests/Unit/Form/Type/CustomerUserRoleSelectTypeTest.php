@@ -5,9 +5,10 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
-use Symfony\Component\Form\PreloadedExtension;
+use Oro\Component\Testing\Unit\PreloadedExtension;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
@@ -22,10 +23,10 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
     public function setUp()
     {
-        parent::setUp();
         $translator = $this->createTranslator();
         $this->formType = new CustomerUserRoleSelectType($translator);
         $this->formType->setRoleClass(self::ROLE_CLASS);
+        parent::setUp();
     }
 
     public function tearDown()
@@ -39,12 +40,13 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
      */
     protected function getExtensions()
     {
-        $entityType = new EntityType([]);
+        $entityType = new EntityTypeStub([]);
 
         return [
             new PreloadedExtension(
                 [
-                    $entityType->getName() => $entityType
+                    CustomerUserRoleSelectType::class => $this->formType,
+                    EntityType::class => $entityType
                 ],
                 []
             )
@@ -53,7 +55,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
     public function testDefaultOptions()
     {
-        $form = $this->factory->create($this->formType);
+        $form = $this->factory->create(CustomerUserRoleSelectType::class);
 
         $expectedOptions = [
             'class' => self::ROLE_CLASS,

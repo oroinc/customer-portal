@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserSelectType;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,14 +23,9 @@ class CustomerUserSelectTypeTest extends FormIntegrationTestCase
         $this->formType = new CustomerUserSelectType();
     }
 
-    public function testGetName()
-    {
-        $this->assertEquals(CustomerUserSelectType::NAME, $this->formType->getName());
-    }
-
     public function testGetParent()
     {
-        $this->assertEquals(OroEntitySelectOrCreateInlineType::NAME, $this->formType->getParent());
+        $this->assertEquals(OroEntitySelectOrCreateInlineType::class, $this->formType->getParent());
     }
 
     public function testConfigureOptions()
@@ -44,7 +40,7 @@ class CustomerUserSelectTypeTest extends FormIntegrationTestCase
                     $this->assertArrayHasKey('autocomplete_alias', $options);
                     $this->assertArrayHasKey('create_form_route', $options);
                     $this->assertArrayHasKey('configs', $options);
-                    $this->assertEquals('oro_customer_customer_user', $options['autocomplete_alias']);
+                    $this->assertEquals(CustomerUserType::class, $options['autocomplete_alias']);
                     $this->assertEquals('oro_customer_customer_user_create', $options['create_form_route']);
                     $this->assertEquals(
                         [
