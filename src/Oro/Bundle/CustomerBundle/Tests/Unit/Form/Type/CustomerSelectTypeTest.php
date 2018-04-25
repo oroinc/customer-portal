@@ -20,14 +20,9 @@ class CustomerSelectTypeTest extends \PHPUnit_Framework_TestCase
         $this->type = new CustomerSelectType();
     }
 
-    public function testGetName()
-    {
-        $this->assertEquals(CustomerSelectType::NAME, $this->type->getName());
-    }
-
     public function testGetParent()
     {
-        $this->assertEquals(OroEntitySelectOrCreateInlineType::NAME, $this->type->getParent());
+        $this->assertEquals(OroEntitySelectOrCreateInlineType::class, $this->type->getParent());
     }
 
     public function testConfigureOptions()

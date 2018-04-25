@@ -96,7 +96,7 @@ class CustomerAddressController extends Controller
             throw new BadRequestHttpException('Address must belong to Customer');
         }
 
-        $form = $this->createForm(CustomerTypedAddressType::NAME, $address);
+        $form = $this->createForm(CustomerTypedAddressType::class, $address);
 
         $handler = new AddressHandler(
             $form,

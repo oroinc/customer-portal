@@ -17,7 +17,7 @@ class CustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         array $submittedData,
         $expectedData
     ) {
-        $form = $this->factory->create($this->formType, $defaultData, $options);
+        $form = $this->factory->create(CustomerUserRoleType::class, $defaultData, $options);
 
         $this->assertTrue($form->has('appendUsers'));
         $this->assertTrue($form->has('removeUsers'));
@@ -43,14 +43,6 @@ class CustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         } else {
             $this->assertNotEmpty($actualData->getRole());
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function testGetName()
-    {
-        $this->assertEquals(CustomerUserRoleType::NAME, $this->formType->getName());
     }
 
     /**

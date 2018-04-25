@@ -82,7 +82,7 @@ class MenuUserAgentConditionsCollectionType extends AbstractType
      */
     public function getParent()
     {
-        return OroCollectionType::NAME;
+        return OroCollectionType::class;
     }
 
     /**

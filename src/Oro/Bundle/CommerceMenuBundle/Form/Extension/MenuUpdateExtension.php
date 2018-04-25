@@ -2,11 +2,13 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Form\Extension;
 
+use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuScreensConditionType;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionsCollectionType;
 use Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -27,7 +29,7 @@ class MenuUpdateExtension extends AbstractTypeExtension
                     $form
                         ->add(
                             'image',
-                            'oro_image',
+                            ImageType::class,
                             [
                                 'label' => 'oro.commercemenu.menuupdate.image.label',
                                 'required' => false
@@ -35,7 +37,7 @@ class MenuUpdateExtension extends AbstractTypeExtension
                         )
                         ->add(
                             'condition',
-                            'text',
+                            TextType::class,
                             [
                                 'required' => false,
                                 'label' => 'oro.commercemenu.menuupdate.condition.label',

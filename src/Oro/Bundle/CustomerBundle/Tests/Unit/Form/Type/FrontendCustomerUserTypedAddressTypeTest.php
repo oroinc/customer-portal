@@ -6,6 +6,7 @@ use Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserTypedAddressType;
+use Symfony\Component\Form\Forms;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddressTypeTest
@@ -19,15 +20,16 @@ class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddr
     protected function setUp()
     {
         parent::setUp();
-
         $this->formType = new FrontendCustomerUserTypedAddressType();
         $this->formType->setAddressTypeDataClass('Oro\Bundle\AddressBundle\Entity\AddressType');
         $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerAddress');
+        $this->factory = Forms::createFormFactoryBuilder()
+            ->addExtensions($this->getExtensions())
+            ->getFormFactory();
     }
 
     public function testGetName()
     {
-        $this->assertInternalType('string', $this->formType->getName());
         $this->assertEquals('oro_customer_frontend_customer_user_typed_address', $this->formType->getName());
     }
 
@@ -55,6 +57,14 @@ class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddr
             ],
             $optionsResolver->resolve()
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTypeClass(): string
+    {
+        return FrontendCustomerUserTypedAddressType::class;
     }
 
     /**

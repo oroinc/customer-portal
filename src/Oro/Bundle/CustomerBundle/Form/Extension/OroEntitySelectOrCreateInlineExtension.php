@@ -53,7 +53,7 @@ class OroEntitySelectOrCreateInlineExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return OroEntitySelectOrCreateInlineType::NAME;
+        return OroEntitySelectOrCreateInlineType::class;
     }
 
     /**

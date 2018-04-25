@@ -61,6 +61,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'value' => true,
                             'scope' => 'app'
                         ],
+                        'auto_login_after_registration' => [
+                            'value' => false,
+                            'scope' => 'app'
+                        ],
                         'send_password_in_welcome_email' => [
                             'value' => false,
                             'scope' => 'app'
@@ -87,6 +91,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'scope' => 'app',
                         ],
                         'maps_enabled' => [
+                            'value' => true,
+                            'scope' => 'app',
+                        ],
+                        'api_key_generation_enabled' => [
                             'value' => true,
                             'scope' => 'app',
                         ],

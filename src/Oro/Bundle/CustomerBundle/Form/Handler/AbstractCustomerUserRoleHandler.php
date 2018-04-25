@@ -79,7 +79,7 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
     protected function createRoleFormInstance(AbstractRole $role, array $privilegeConfig)
     {
         return $this->formFactory->create(
-            CustomerUserRoleType::NAME,
+            CustomerUserRoleType::class,
             $role,
             ['privilege_config' => $privilegeConfig]
         );

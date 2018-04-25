@@ -23,10 +23,10 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
     public function setUp()
     {
-        parent::setUp();
         $translator = $this->createTranslator();
         $this->formType = new CustomerUserRoleSelectType($translator);
         $this->formType->setRoleClass(self::ROLE_CLASS);
+        parent::setUp();
     }
 
     public function tearDown()
@@ -45,6 +45,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
+                    CustomerUserRoleSelectType::class => $this->formType,
                     EntityType::class => $entityType
                 ],
                 []
@@ -54,7 +55,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
     public function testDefaultOptions()
     {
-        $form = $this->factory->create($this->formType);
+        $form = $this->factory->create(CustomerUserRoleSelectType::class);
 
         $expectedOptions = [
             'class' => self::ROLE_CLASS,

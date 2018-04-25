@@ -9,18 +9,6 @@ use Symfony\Component\Validator\Validation;
 
 class WebTypeTest extends FormIntegrationTestCase
 {
-    /** @var WebType */
-    protected $formType;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->formType = new WebType();
-    }
-
     /**
      * @param bool $isValid
      * @param mixed $defaultData
@@ -31,7 +19,7 @@ class WebTypeTest extends FormIntegrationTestCase
      */
     public function testSubmit($isValid, $defaultData, $submittedData, $expectedData, array $options = [])
     {
-        $form = $this->factory->create($this->formType, $defaultData, $options);
+        $form = $this->factory->create(WebType::class, $defaultData, $options);
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
         $this->assertEquals($isValid, $form->isValid());
@@ -79,10 +67,5 @@ class WebTypeTest extends FormIntegrationTestCase
         return [
             new ValidatorExtension(Validation::createValidator()),
         ];
-    }
-
-    public function testGetName()
-    {
-        $this->assertEquals(WebType::NAME, $this->formType->getName());
     }
 }
