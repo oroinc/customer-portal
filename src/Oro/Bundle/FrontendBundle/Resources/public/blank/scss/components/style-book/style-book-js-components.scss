@@ -176,3 +176,15 @@ $collapse-preview-item-content-color-hover: get-color('ui', 'focus') !default;
         text-align: center;
     }
 }
+
+.sticky-panel-example {
+    margin-bottom: 20px;
+}
+
+.sticky-panel-box {
+    margin-top: 20px;
+    background-color: get-color('additional', 'light');
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}

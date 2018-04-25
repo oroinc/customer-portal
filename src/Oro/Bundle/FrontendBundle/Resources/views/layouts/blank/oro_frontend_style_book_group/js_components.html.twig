@@ -974,12 +974,65 @@
     </div>
 {% endblock %}
 
+{# Sticky Panel View #}
+
+{% block _style_book_sticky_panel_view_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container ',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orofrontend/js/style-book-views/style-book-sticky-panel-view',
+            props: {}
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="sticky-panel-example" data-example-view>
+            <button class="btn btn--info" data-toggle>On sticky</button>
+            <div class="sticky-panel-box" data-move-to-sticky>
+                That content will be move to sticky panel...
+            </div>
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_sticky_panel_view_html_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <!-- Define data attribute for sticky element -->
+        'data-sticky': {
+        'autoWidth': true,
+        'toggleClass': 'sticked',
+        'placeholderId': 'style-book-sticky-header'
+        },
+        'data-sticky-target': 'top-sticky-panel'
+
+        <div class="some-box">
+            Content that should be sticky
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
 {# Input Widget Number #}
 
 {% block _style_book_input_widget_number_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container ',
-        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground0-widgets',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground-widgets',
         'data-page-component-options': {
             viewConstructor: 'oroui/js/app/views/input-widget/number',
             props: {
@@ -1081,7 +1134,7 @@
 {% block _style_book_input_widget_select2_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container ',
-        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground0-widgets',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground-widgets',
         'data-page-component-options': {
             viewConstructor: 'oroui/js/app/views/input-widget/select2',
             props: {}

@@ -218,7 +218,7 @@ layout:
                 group_element_dom_relocation:
                     blockType: group_element
                     options:
-                        anchor: list_slider
+                        anchor: dom_relocation
                         label: oro_frontend_style_book.groups.dom_relocation.title
                 group_element_item_dom_relocation:
                     blockType: group_js_element_item
@@ -232,6 +232,25 @@ layout:
                     options:
                         tabs:
                             - { anchor: 'dom_relocation-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: true, widget: 'style_book_grid_element_dom_relocation_html'}
+
+                # Sticky Panel View
+                group_element_sticky_panel_view:
+                    blockType: group_element
+                    options:
+                        anchor: sticky_panel_view
+                        label: oro_frontend_style_book.groups.sticky_panel_view.title
+                group_element_item_sticky_panel_view:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        description: oro_frontend_style_book.groups.sticky_panel_view.description
+                style_book_sticky_panel_view:
+                    blockType: container
+                group_tabs_sticky_panel_view:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'dom_relocation-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_sticky_panel_view_html'}
             tree:
                 style_book_content:
                     group_element_grid_view_modal:
@@ -258,6 +277,11 @@ layout:
                         group_element_item_fullscreen_popup_view:
                             style_book_fullscreen_popup_view:
                                 group_tabs_fullscreen_popup_view: ~
+
+                    group_element_sticky_panel_view:
+                        group_element_item_sticky_panel_view:
+                            style_book_sticky_panel_view:
+                                group_tabs_sticky_panel_view: ~
 
                     group_element_scroll_view:
                         group_element_item_scroll_view:
