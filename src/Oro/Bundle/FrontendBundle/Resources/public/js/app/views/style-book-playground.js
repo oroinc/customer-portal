@@ -112,7 +112,6 @@ define(function(require) {
                 this.constructorName = View.name;
 
                 if (this.$el.find(this.subviewContainer).length) {
-                    console.log(this.$el.find(this.subviewContainer))
                     _.extend(this.viewOptions, {
                         _sourceElement: this.$el.find(this.subviewContainer),
                         el: this.$el.find(this.subviewContainer).get()

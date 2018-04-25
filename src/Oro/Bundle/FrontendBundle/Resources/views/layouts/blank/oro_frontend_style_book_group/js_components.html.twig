@@ -902,3 +902,277 @@
         </div>
     </div>
 {% endblock %}
+
+{# DOM Relocation View #}
+
+{% block _style_book_dom_relocation_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container ',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orofrontend/js/style-book-views/style-book-dom-relocation',
+            props: {}
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="dom-relocation-example" data-example-view>
+            <button data-relocation-trigger class="btn btn--info">Trigger Move</button>
+
+            <div class="dom-relocation">
+                <div class="dom-relocation-point">
+                    <div data-relocate>Relocated Element</div>
+                </div>
+                <div class="dom-relocation-target"></div>
+            </div>
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_dom_relocation_html_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <!-- Add view somewhere on page -->
+        <div data-page-component-view="orofrontend/js/app/views/dom-relocation-view"></div>
+
+        <!-- Define moved element options -->
+        {% set attr =  layout_attr_defaults(attr, {
+            '~class': ' some-element',
+            'data-dom-relocation-options': {
+                responsive: [
+                    {
+                        viewport: {
+                            maxScreenType: 'tablet',
+                        },
+                        moveTo: '[data-target-container]'
+                    }
+                ]
+            }
+        }) %}
+
+        <div class="some-element" data-dom-relocation-options='{"responsive":[{"viewport":{"maxScreenType":"tablet"},"moveTo":"[data-target-container]"}]}'>Some content...</div>
+
+        <!-- Define target element -->
+
+        <div data-target-container>
+            <!-- The item will be moved inside this container -->
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Input Widget Number #}
+
+{% block _style_book_input_widget_number_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container ',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground0-widgets',
+        'data-page-component-options': {
+            viewConstructor: 'oroui/js/app/views/input-widget/number',
+            props: {
+                precision: 2
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="form-row" >
+            <label class="label label--full required" for="form_text-uid-5adf2ac1ce4e4">Number Widget field</label>
+            <input data-example-view type="number" id="form_text-uid-5adf2ac1ce4e4" name="form[text]" required="required" data-ftid="form_text" data-name="field__text" class=" form-field-text input input--full" placeholder="" />
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_input_widget_number_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_input_widget_number_html_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <!-- Use shortcut manager data attribute -->
+
+        <div class="collapse-preview" data-page-component-collapse="{ options... }">
+            <h3 class="collapse-preview__title" data-collapse-trigger>
+                <span class="collapse-preview__icon">
+                    <i class="collapse-view__trigger-icon fa-caret-right"></i>
+                </span>
+                Toggle Title
+            </h3>
+
+            <div class="collapse-preview__content" data-collapse-container>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
+            </div>
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_input_widget_number_js_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <script>
+            define(function(require) {
+                'use strict';
+
+                var SomeExampleView;
+                var BaseView = require('oroui/js/app/views/base/view');
+                require('oroui/js/widget/collapse-widget');
+
+                SomeExampleView = BaseView.extend({
+                    render: function() {
+                        this.$el.collapseWidget({
+                            // Options
+                        });
+                    }
+                });
+
+                return SomeExampleView;
+            });
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Select2 Widget Number #}
+
+{% block _style_book_input_widget_select2_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container ',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground0-widgets',
+        'data-page-component-options': {
+            viewConstructor: 'oroui/js/app/views/input-widget/select2',
+            props: {}
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="form-row" >
+            <label class="label label--full required" for="form_select-uid-5adf3b753b83b">Select2 Widget Number</label>
+
+            <select data-example-view id="form_select-uid-5adf3b753b83b" name="form[select]" class="select select--full" data-ftid="form_select" data-name="field__select" placeholder="" ><option value="0">Dine In</option><option value="1">To Go</option></select>
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_input_widget_select2_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_input_widget_select2_html_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <!-- Use shortcut manager data attribute -->
+
+        <div class="collapse-preview" data-page-component-collapse="{ options... }">
+            <h3 class="collapse-preview__title" data-collapse-trigger>
+                <span class="collapse-preview__icon">
+                    <i class="collapse-view__trigger-icon fa-caret-right"></i>
+                </span>
+                Toggle Title
+            </h3>
+
+            <div class="collapse-preview__content" data-collapse-container>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
+            </div>
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_input_widget_select2_js_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <script>
+            define(function(require) {
+                'use strict';
+
+                var SomeExampleView;
+                var BaseView = require('oroui/js/app/views/base/view');
+                require('oroui/js/widget/collapse-widget');
+
+                SomeExampleView = BaseView.extend({
+                    render: function() {
+                        this.$el.collapseWidget({
+                            // Options
+                        });
+                    }
+                });
+
+                return SomeExampleView;
+            });
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}

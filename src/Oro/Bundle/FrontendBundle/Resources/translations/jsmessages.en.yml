@@ -78,3 +78,8 @@ oro_frontend_style_book:
             title: 'Google Map View'
         list_slider:
             title: 'List Slider Component'
+        input_widgets:
+            number:
+                title: 'Input Number Widget'
+            select2:
+                title: 'Select2 Widget'

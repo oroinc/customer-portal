@@ -111,6 +111,19 @@ oro_frontend_style_book:
             title: 'List Slider Component'
             description: 'List Slider Component'
 
+        dom_relocation:
+            title: 'DOM relocation view'
+            description: 'DOM relocation view'
+
+        input_widgets:
+            title: 'Input Widgets'
+            number:
+                label: 'Input Number Widget'
+                description: 'Input Number Widget'
+            select2:
+                label: 'Select2 Widget'
+                description: 'Select2 Widget'
+
         grid:
             title: 'Grid Elements'
             text_content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'

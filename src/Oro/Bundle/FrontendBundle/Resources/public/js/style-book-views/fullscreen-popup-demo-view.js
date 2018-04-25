@@ -13,7 +13,6 @@ define(function(require) {
 
         initialize: function(options) {
             FullscreenPopupDemoView.__super__.initialize.apply(this, arguments);
-            console.log(_.template(options.contentTemplate))
             this.subview('fullscreenView', new FullscreenPopupView({
                 disposeOnClose: true,
                 contentElement: $(_.template(options.contentTemplate)())
