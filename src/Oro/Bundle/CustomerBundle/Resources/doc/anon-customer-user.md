@@ -159,7 +159,7 @@ system_configuration:
         guest_product_owner:
             ui_only: true
             data_type: string
-            type: oro_user_select
+            type: Oro\Bundle\UserBundle\Form\Type\UserSelectType
             options:
                 label: some.title
                 tooltip: some.tooltip
