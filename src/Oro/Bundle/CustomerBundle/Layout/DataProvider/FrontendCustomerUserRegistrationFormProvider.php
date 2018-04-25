@@ -68,7 +68,7 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
 
         $options['action'] = $this->generateUrl(self::ACCOUNT_USER_REGISTER_ROUTE_NAME);
 
-        return $this->getFormView(FrontendCustomerUserRegistrationType::NAME, $customerUser, $options);
+        return $this->getFormView(FrontendCustomerUserRegistrationType::class, $customerUser, $options);
     }
 
     /**
@@ -80,7 +80,7 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
 
         $options['action'] = $this->generateUrl(self::ACCOUNT_USER_REGISTER_ROUTE_NAME);
 
-        return $this->getForm(FrontendCustomerUserRegistrationType::NAME, $customerUser, $options);
+        return $this->getForm(FrontendCustomerUserRegistrationType::class, $customerUser, $options);
     }
 
     /**

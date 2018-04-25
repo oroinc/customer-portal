@@ -26,7 +26,7 @@ class FrontendCustomerUserAddressFormProvider extends AbstractFormProvider
     {
         $options = $this->getFormOptions($customerUserAddress, $customerUser);
 
-        return $this->getFormView(FrontendCustomerUserTypedAddressType::NAME, $customerUserAddress, $options);
+        return $this->getFormView(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, $options);
     }
 
     /**
@@ -41,7 +41,7 @@ class FrontendCustomerUserAddressFormProvider extends AbstractFormProvider
     {
         $options = $this->getFormOptions($customerUserAddress, $customerUser);
 
-        return $this->getForm(FrontendCustomerUserTypedAddressType::NAME, $customerUserAddress, $options);
+        return $this->getForm(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, $options);
     }
 
     /**

@@ -24,7 +24,7 @@ class CustomerScopeExtension extends AbstractTypeExtension
         if (array_key_exists(self::SCOPE_FIELD, $options['scope_fields'])) {
             $builder->add(
                 self::SCOPE_FIELD,
-                CustomerSelectType::NAME,
+                CustomerSelectType::class,
                 [
                     'label' => 'oro.customer.customer.entity_label',
                     'create_form_route' => null,

@@ -2,7 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
+use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -44,7 +46,7 @@ class CustomerGroupType extends AbstractType
         $builder
             ->add(
                 'name',
-                'text',
+                TextType::class,
                 [
                     'label' => 'oro.customer.customergroup.name.label',
                     'required' => true
@@ -52,7 +54,7 @@ class CustomerGroupType extends AbstractType
             )
             ->add(
                 'appendCustomers',
-                'oro_entity_identifier',
+                EntityIdentifierType::class,
                 [
                     'class'    => $this->customerClass,
                     'required' => false,
@@ -62,7 +64,7 @@ class CustomerGroupType extends AbstractType
             )
             ->add(
                 'removeCustomers',
-                'oro_entity_identifier',
+                EntityIdentifierType::class,
                 [
                     'class'    => $this->customerClass,
                     'required' => false,

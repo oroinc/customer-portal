@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\FormBundle\Form\Handler\RequestHandlerTrait;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class CustomerUserHandler
 {
+    use RequestHandlerTrait;
+
     /** @var FormInterface */
     protected $form;
 
@@ -66,7 +69,7 @@ class CustomerUserHandler
     {
         $isUpdated = false;
         if (in_array($this->request->getMethod(), ['POST', 'PUT'], true)) {
-            $this->form->submit($this->request);
+            $this->submitPostPutRequest($this->form, $this->request);
 
             if ($this->form->isValid()) {
                 if (!$customerUser->getId()) {

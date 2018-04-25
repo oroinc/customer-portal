@@ -136,7 +136,7 @@ services:
             - '%oro_customer.entity.customer_user.class%'
             - ["firstname", "lastname"]
         tags:
-            - { name: oro_form.autocomplete.search_handler, alias: oro_customer_customer_user, acl_resource: oro_customer_customer_user_view }
+            - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType, acl_resource: oro_customer_customer_user_view }
 
     oro_customer.frontend_form.autocomplete.customer_user_customer.search_handler:
         public: false
@@ -146,7 +146,7 @@ services:
             - '%oro_customer.entity.customer_user.class%'
             - ["firstname", "lastname"]
         tags:
-            - { name: oro_form.autocomplete.search_handler, alias: oro_customer_frontend_customer_user, acl_resource: oro_customer_frontend_customer_user_view }
+            - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType, acl_resource: oro_customer_frontend_customer_user_view }
 
     oro_customer.customer_user.manager.api:
         class: 'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'

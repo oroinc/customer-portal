@@ -5,8 +5,8 @@ namespace Oro\Bundle\CustomerMenuBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuUserAgentConditionTypeTest extends FormIntegrationTestCase
@@ -59,11 +59,6 @@ class MenuUserAgentConditionTypeTest extends FormIntegrationTestCase
 
         $this->assertFormIsValid($form);
         $this->assertEquals($expectedMenuUserAgentCondition, $form->getData());
-    }
-
-    public function testGetName()
-    {
-        static::assertEquals('oro_commerce_menu_user_agent_condition', $this->formType->getName());
     }
 
     public function testGetBlockPrefix()

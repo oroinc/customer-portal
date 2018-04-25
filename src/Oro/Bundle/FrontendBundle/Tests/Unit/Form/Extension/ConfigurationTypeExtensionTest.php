@@ -6,8 +6,8 @@ use Oro\Bundle\FrontendBundle\Form\Extension\ConfigurationTypeExtension;
 use Oro\Bundle\FrontendBundle\Form\Type\Configuration\WebType;
 use Oro\Bundle\FrontendBundle\Tests\Unit\Form\Extension\Stub\ConfigurationTypeStub;
 use Oro\Bundle\InstallerBundle\Form\Type\ConfigurationType;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
 
@@ -35,7 +35,7 @@ class ConfigurationTypeExtensionTest extends FormIntegrationTestCase
      */
     public function testSubmit($isValid, $defaultData, $submittedData, $expectedData, array $options = [])
     {
-        $form = $this->factory->create(ConfigurationType::NAME, $defaultData, $options);
+        $form = $this->factory->create(ConfigurationType::class, $defaultData, $options);
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
         $this->assertEquals($isValid, $form->isValid());
@@ -93,11 +93,11 @@ class ConfigurationTypeExtensionTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    WebType::NAME => new WebType(),
-                    ConfigurationType::NAME => new ConfigurationTypeStub(),
+                    WebType::class => new WebType(),
+                    ConfigurationType::class => new ConfigurationTypeStub(),
                 ],
                 [
-                    ConfigurationType::NAME => [$this->configurationTypeExtension],
+                    ConfigurationTypeStub::class => [$this->configurationTypeExtension],
                 ]
             ),
             new ValidatorExtension(Validation::createValidator())
@@ -109,6 +109,6 @@ class ConfigurationTypeExtensionTest extends FormIntegrationTestCase
      */
     public function testGetExtendedType()
     {
-        $this->assertEquals(ConfigurationType::NAME, $this->configurationTypeExtension->getExtendedType());
+        $this->assertEquals(ConfigurationType::class, $this->configurationTypeExtension->getExtendedType());
     }
 }

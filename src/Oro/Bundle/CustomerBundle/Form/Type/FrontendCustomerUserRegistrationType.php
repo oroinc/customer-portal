@@ -7,6 +7,10 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Entity\UserManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -50,7 +54,7 @@ class FrontendCustomerUserRegistrationType extends AbstractType
         if ($this->isCompanyNameFieldEnabled()) {
             $builder->add(
                 'companyName',
-                'text',
+                TextType::class,
                 [
                     'required' => true,
                     'mapped' => false,
@@ -67,7 +71,7 @@ class FrontendCustomerUserRegistrationType extends AbstractType
         $builder
             ->add(
                 'firstName',
-                'text',
+                TextType::class,
                 [
                     'required' => true,
                     'label' => 'oro.customer.customeruser.first_name.label',
@@ -76,7 +80,7 @@ class FrontendCustomerUserRegistrationType extends AbstractType
             )
             ->add(
                 'lastName',
-                'text',
+                TextType::class,
                 [
                     'required' => true,
                     'label' => 'oro.customer.customeruser.last_name.label',
@@ -85,7 +89,7 @@ class FrontendCustomerUserRegistrationType extends AbstractType
             )
             ->add(
                 'email',
-                'email',
+                EmailType::class,
                 [
                     'required' => true,
                     'label' => 'oro.customer.customeruser.email.label',
@@ -95,9 +99,9 @@ class FrontendCustomerUserRegistrationType extends AbstractType
 
         $builder->add(
             'plainPassword',
-            'repeated',
+            RepeatedType::class,
             [
-                'type' => 'password',
+                'type' => PasswordType::class,
                 'first_options' => [
                     'label' => 'oro.customer.customeruser.password.label',
                     'attr' => ['placeholder' => 'oro.customer.customeruser.placeholder.password']
