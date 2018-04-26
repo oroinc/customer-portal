@@ -56,9 +56,11 @@ system_configuration:
                 required: false
                 label: oro_frontend.system_configuration.fields.filter_value_selectors.label
                 tooltip: oro_frontend.system_configuration.fields.filter_value_selectors.tooltip
+                # TODO: remove 'choices_as_values' option below in scope of BAP-15236
+                choices_as_values: true
                 choices:
-                    dropdown: oro_frontend.system_configuration.fields.filter_value_selectors.option.dropdown
-                    all_at_once: oro_frontend.system_configuration.fields.filter_value_selectors.option.all_at_once
+                    oro_frontend.system_configuration.fields.filter_value_selectors.option.dropdown: dropdown
+                    oro_frontend.system_configuration.fields.filter_value_selectors.option.all_at_once: all_at_once
 
     tree:
         system_configuration:

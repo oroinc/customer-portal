@@ -106,9 +106,11 @@ system_configuration:
             options:
                 label: oro.customer.system_configuration.fields.user_menu_show_items.label
                 required: true
+                # TODO: remove 'choices_as_values' option below in scope of BAP-15236
+                choices_as_values: true
                 choices:
-                    all_at_once: oro.customer.system_configuration.fields.user_menu_show_items.option.all_at_once.label
-                    subitems_in_popup: oro.customer.system_configuration.fields.user_menu_show_items.option.subitems_in_popup.label
+                    oro.customer.system_configuration.fields.user_menu_show_items.option.all_at_once.label: all_at_once
+                    oro.customer.system_configuration.fields.user_menu_show_items.option.subitems_in_popup.label: subitems_in_popup
         oro_customer.enable_responsive_grids:
             data_type: boolean
             type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
@@ -146,9 +148,11 @@ system_configuration:
                 label: oro.customer.system_configuration.fields.maps_enabled.label
                 tooltip: oro.customer.system_configuration.fields.maps_enabled.tooltip
                 required: false
+                # TODO: remove 'choices_as_values' option below in scope of BAP-15236
+                choices_as_values: true
                 choices:
-                    true: oro.customer.system_configuration.fields.maps_enabled.option.yes.label
-                    false: oro.customer.system_configuration.fields.maps_enabled.option.no.label
+                    oro.customer.system_configuration.fields.maps_enabled.option.yes.label: 1
+                    oro.customer.system_configuration.fields.maps_enabled.option.no.label: 0
         oro_customer.api_key_generation_enabled:
             data_type: boolean
             type: oro_config_checkbox
