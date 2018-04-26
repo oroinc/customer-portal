@@ -48,8 +48,8 @@ class ThemeSelectTypeTest extends \PHPUnit_Framework_TestCase
         ];
 
         $expectedChoices = [
-            'theme1' => 'label1',
-            'theme2' => 'label2'
+            'label1' => 'theme1',
+            'label2' => 'theme2',
         ];
 
         $this->themeManager->expects($this->once())
@@ -62,8 +62,11 @@ class ThemeSelectTypeTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $resolver->expects($this->once())
-            ->method('setDefault')
-            ->with('choices', $expectedChoices);
+            ->method('setDefaults')
+            ->with([
+                'choices_as_values' => true,
+                'choices' => $expectedChoices,
+            ]);
 
         $this->type->configureOptions($resolver);
     }

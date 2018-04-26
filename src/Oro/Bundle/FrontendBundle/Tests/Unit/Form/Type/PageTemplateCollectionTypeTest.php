@@ -39,8 +39,8 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
                 'route_name_1' => [
                     'label' => 'Route title 1',
                     'choices' => [
-                        'some_key1' => 'Page template 1',
-                        'some_key2' => 'Page template 2'
+                        'Page template 1' => 'some_key1',
+                        'Page template 2' => 'some_key2',
                     ]
                 ]
             ]);

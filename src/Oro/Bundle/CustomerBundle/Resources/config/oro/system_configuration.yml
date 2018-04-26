@@ -22,7 +22,7 @@ system_configuration:
         oro_customer.default_customer_owner:
             ui_only: true
             data_type: string
-            type: oro_user_select
+            type: Oro\Bundle\UserBundle\Form\Type\UserSelectType
             priority: 120
             options:
                 label: oro.customer.system_configuration.fields.default_customer_owner.label
@@ -37,7 +37,7 @@ system_configuration:
                     - NotBlank: ~
         oro_customer.registration_allowed:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             priority: 110
             options:
                 label: oro.customer.system_configuration.fields.registration_allowed.label
@@ -45,7 +45,7 @@ system_configuration:
                 required: false
         oro_customer.registration_link_enabled:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             priority: 95
             options:
                 label: oro.customer.system_configuration.fields.registration_link_enabled.label
@@ -53,7 +53,7 @@ system_configuration:
                 required: false
         oro_customer.confirmation_required:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             priority: 100
             options:
                 label: oro.customer.system_configuration.fields.confirmation_required.label
@@ -68,7 +68,7 @@ system_configuration:
                 tooltip: oro.customer.system_configuration.fields.auto_login_after_registration.tooltip
         oro_customer.company_name_field_enabled:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             priority: 85
             options:
                 label: oro.customer.system_configuration.fields.company_name_field_enabled.label
@@ -76,7 +76,7 @@ system_configuration:
                 required: false
         oro_customer.send_password_in_welcome_email:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             priority: 80
             options:
                 label: oro.customer.system_configuration.fields.send_password_in_welcome_email.label
@@ -84,7 +84,7 @@ system_configuration:
                 required: false
         oro_customer.registration_instructions_enabled:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             priority: 70
             options:
                 label: oro.customer.system_configuration.fields.registration_instructions_enabled.label
@@ -92,7 +92,7 @@ system_configuration:
                 required: false
         oro_customer.registration_instructions_text:
             data_type: string
-            type: textarea
+            type: Symfony\Component\Form\Extension\Core\Type\TextareaType
             search_type: text
             priority: 60
             options:
@@ -100,18 +100,20 @@ system_configuration:
                 required: false
         oro_customer.user_menu_show_items:
             data_type: string
-            type: choice
+            type: Symfony\Component\Form\Extension\Core\Type\ChoiceType
             search_type: choice
             priority: 50
             options:
                 label: oro.customer.system_configuration.fields.user_menu_show_items.label
                 required: true
+                # TODO: remove 'choices_as_values' option below in scope of BAP-15236
+                choices_as_values: true
                 choices:
-                    all_at_once: oro.customer.system_configuration.fields.user_menu_show_items.option.all_at_once.label
-                    subitems_in_popup: oro.customer.system_configuration.fields.user_menu_show_items.option.subitems_in_popup.label
+                    oro.customer.system_configuration.fields.user_menu_show_items.option.all_at_once.label: all_at_once
+                    oro.customer.system_configuration.fields.user_menu_show_items.option.subitems_in_popup.label: subitems_in_popup
         oro_customer.enable_responsive_grids:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             priority: 45
             options:
                 label: oro.customer.system_configuration.fields.enable_responsive_grids.label
@@ -119,7 +121,7 @@ system_configuration:
                 required: false
         oro_customer.enable_swipe_actions_grids:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             priority: 40
             options:
                 label: oro.customer.system_configuration.fields.enable_swipe_actions_grids.label
@@ -127,7 +129,7 @@ system_configuration:
                 required: false
         oro_customer.customer_visitor_cookie_lifetime_days:
             data_type: integer
-            type: integer
+            type: Symfony\Component\Form\Extension\Core\Type\IntegerType
             search_type: text
             options:
                 required: false
@@ -139,16 +141,18 @@ system_configuration:
                         min: 1
         oro_customer.maps_enabled:
             data_type: boolean
-            type: choice
+            type: Symfony\Component\Form\Extension\Core\Type\ChoiceType
             search_type: choice
             priority: 40
             options:
                 label: oro.customer.system_configuration.fields.maps_enabled.label
                 tooltip: oro.customer.system_configuration.fields.maps_enabled.tooltip
                 required: false
+                # TODO: remove 'choices_as_values' option below in scope of BAP-15236
+                choices_as_values: true
                 choices:
-                    true: oro.customer.system_configuration.fields.maps_enabled.option.yes.label
-                    false: oro.customer.system_configuration.fields.maps_enabled.option.no.label
+                    oro.customer.system_configuration.fields.maps_enabled.option.yes.label: 1
+                    oro.customer.system_configuration.fields.maps_enabled.option.no.label: 0
         oro_customer.api_key_generation_enabled:
             data_type: boolean
             type: oro_config_checkbox
