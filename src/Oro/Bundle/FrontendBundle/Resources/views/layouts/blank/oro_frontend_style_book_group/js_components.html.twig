@@ -453,7 +453,10 @@
                 popupIcon: 'fa-cog',
                 popupBadge: true,
                 popupLabel: 'Fullscreen popup',
-                contentTemplate: '<div><h1>Hello</h1></div>'
+                contentTemplate: {
+                    type: 'textarea',
+                    value: '<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id turpis quam. Sed sodales metus ac leo scelerisque eleifend. Suspendisse ullamcorper libero mauris, a imperdiet risus consequat eu. Donec imperdiet id quam id hendrerit. Ut sed bibendum massa, vitae venenatis mi. Aliquam tellus risus, faucibus vitae quam id, consectetur accumsan ipsum. Sed at venenatis mauris. Donec finibus mollis libero, eu elementum enim tempus suscipit. Praesent in consectetur mauris. Aenean tristique tellus vitae ligula tristique tincidunt. Donec aliquam dapibus imperdiet. Vestibulum sagittis libero in ipsum semper ullamcorper. Nulla vitae convallis sapien. Nulla vitae est id neque fermentum molestie vulputate ut orci.Nulla eget tellus eget mi aliquam porta. Aliquam commodo tortor sed lacinia maximus. Mauris leo odio, vestibulum ut tortor et, malesuada eleifend sapien. Vivamus efficitur sem in urna viverra porta. Cras egestas mauris eget tristique fringilla. Phasellus a molestie ante. Suspendisse vel rhoncus nisi, ut varius leo. Quisque neque dolor, ullamcorper ut sem in, venenatis iaculis purus. In at lobortis tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel nisi id ante efficitur hendrerit bibendum porta augue. Cras ultricies bibendum lacus, non sollicitudin tellus ultricies nec. Vestibulum eget est leo. Proin non imperdiet ipsum, cursus gravida lorem. Aenean justo urna, fringilla ut pretium quis, pharetra nec velit.</div>'
+                }
             }
         }
     }) %}
@@ -1216,6 +1219,184 @@
 
                 return SomeExampleView;
             });
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Mediator #}
+
+{% block _style_book_grid_element_mediator_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_mediator_common_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <script>
+            // Call execute to show loading
+            mediator.execute('showLoading');
+
+            // Call execute to hide loading
+            mediator.execute('hideLoading');
+
+            // Call execute to redirect url
+            mediator.execute('redirectTo',
+                {
+                    url: 'route_url' // URL
+                },
+                {
+                    redirect: true // true/false
+                }
+            );
+
+            // Refresh page
+            mediator.execute('refreshPage');
+
+            mediator.execute('layout:enablePageScroll');
+            mediator.execute('layout:disablePageScroll', $someElement);
+
+            mediator.execute('adjustTitle', 'Page title', true);
+
+            mediator.trigger('page:afterChange');
+            mediator.trigger('page:beforeChange');
+
+            // Layouts
+            mediator.trigger('layout:adjustHeight');
+            mediator.trigger('layout:reposition');
+
+            // Shopping lists
+            mediator.trigger('checkout:shipping-method:rendered');
+            mediator.trigger('shopping-list:refresh');
+            mediator.on('shopping-list:line-items:update-response', callback(model, response));
+
+            // Line Items
+            mediator.on('line-items-totals:update', callback(), context);
+            mediator.on('order:totals:get:current', callback(totalsData));
+            mediator.on('line-items-init', callback(lineItems));
+
+            // Checkout
+            mediator.on('checkout:payment:method:refresh', callback());
+            mediator.on('checkout:payment:validate:change', callback(state));
+            mediator.on('checkout:payment:validate:get-value', callback(validateValueObject));
+            mediator.on('checkout:payment:save-for-later:change', callback());
+
+            // Pricing
+            mediator.on('totals:update', callback(totals));
+            mediator.on('line-items-totals:update', callback());
+            mediator.on('pricing:collect:line-items', callback(items));
+            mediator.on('pricing:load:products-tier-prices', callback(productId, cb));
+
+            // Product
+            mediator.on('autocomplete:productFound', callback(item));
+            mediator.on('autocomplete:productNotFound', callback(item));
+            mediator.on('product:precision:add', callback(data));
+            mediator.on('product:precision:remove', callback(data));
+
+            mediator.on('layout-subtree:update:product', callback({layoutSubtreeUrl, layoutSubtreeCallback}));
+            mediator.on('unitChanged', callback());
+
+            mediator.on('product:quantity-unit:update', callback(value));
+
+            // Widgets
+            mediator.on('widget_success:' + widgetAlias, callback(options));
+            mediator.trigger('widget:doRefresh:' + widgetAlias);
+
+            mediator.on('widget_dialog:close', callback(context));
+            mediator.on('widget_dialog:open', callback(context));
+            mediator.on('widget_dialog:stateChange', callback(context, data));
+
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_mediator_grid_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <script>
+            mediator.trigger('datagrid:doRefresh' + datagridName);
+            mediator.on('datagrid:doRefresh' + datagridName,  callback(ignoreVisibility));
+
+            mediator.trigger('datagrid:setParam:' + datagridName, 'someValueKey', 'someValue');
+            mediator.on('datagrid:setParam:' + datagridName, callback(param, value));
+
+            mediator.trigger('datagrid:removeParam:' + datagridName, 'someValueKey');
+            mediator.on('datagrid:removeParam:' + datagridName, callback(param));
+
+            mediator.trigger('datagrid:rendered', gridInstanse);
+            mediator.trigger('datagrid:doReset:' + datagridName);
+
+            mediator.trigger('datagrid:beforeRemoveRow:' + datagridName, model);
+            mediator.on('datagrid:beforeRemoveRow:' + datagridName, callback(model));
+            mediator.trigger('datagrid:afterRemoveRow:' + datagridName);
+            mediator.on('datagrid:afterRemoveRow:' + datagridName, callback());
+
+            mediator.trigger('datagrid:afterMassRemoveRow:' + datagridName);
+
+            mediator.on('change:' + datagridName, callback(appendedIds, removedIds));
+            // Frontend mass actions execute
+            mediator.trigger('datagrid:mass:frontend:execute:' + datagridName);
+            mediator.trigger('get-selected-products-mass-action-run:' + datagridName);
+        </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_mediator_message_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <script>
+            /**
+             * Execute to show info message
+             * @type 'error', 'success', 'info'
+             */
+            mediator.execute('showFlashMessage', 'type', 'Text message');
+            // or
+            mediator.execute('showMessage', 'type', 'Text message');
+
         </script>
     {% endset %}
 

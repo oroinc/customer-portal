@@ -80,6 +80,8 @@ oro_frontend_style_book:
             title: 'List Slider Component'
         sticky_panel_view:
             title: 'Sticky Panel View'
+        mediator:
+            title: 'Mediator'
         input_widgets:
             number:
                 title: 'Input Number Widget'

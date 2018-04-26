@@ -79,6 +79,10 @@ oro_frontend_style_book:
                     html: 'How to add in HTML?'
                     js: 'How to add in JS?'
                     mediator: 'Use with mediator'
+                mediator:
+                    common: 'Common'
+                    grid: 'Grid'
+                    message: 'Message'
         modal:
             title: 'Modal'
             description: 'Modal view component'
@@ -118,6 +122,10 @@ oro_frontend_style_book:
         sticky_panel_view:
             title: 'Sticky Panel View'
             description: 'Sticky Panel View'
+
+        mediator:
+            title: 'Mediator'
+            description: 'Mediator'
 
         input_widgets:
             title: 'Input Widgets'

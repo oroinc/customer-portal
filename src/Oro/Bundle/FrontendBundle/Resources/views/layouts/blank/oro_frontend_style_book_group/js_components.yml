@@ -251,6 +251,26 @@ layout:
                     options:
                         tabs:
                             - { anchor: 'dom_relocation-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_sticky_panel_view_html'}
+
+                group_element_mediator:
+                    blockType: group_element
+                    options:
+                        anchor: grid
+                        label: oro_frontend_style_book.groups.mediator.title
+                group_element_item_mediator:
+                    blockType: group_element_item
+                    options:
+                        source: false
+                        description: oro_frontend_style_book.groups.mediator.title.description
+                style_book_grid_element_mediator:
+                    blockType: container
+                group_tabs_mediator:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'mediator-common', label: oro_frontend_style_book.groups.jscomponent.tabs.mediator.common, active: true, widget: 'style_book_mediator_common'}
+                            - { anchor: 'mediator-grid', label: oro_frontend_style_book.groups.jscomponent.tabs.mediator.grid, active: false, widget: 'style_book_mediator_grid'}
+                            - { anchor: 'mediator-message', label: oro_frontend_style_book.groups.jscomponent.tabs.mediator.message, active: false, widget: 'style_book_mediator_message'}
             tree:
                 style_book_content:
                     group_element_grid_view_modal:
@@ -311,5 +331,10 @@ layout:
                         group_element_item_dom_relocation:
                             style_book_dom_relocation:
                                 group_tabs_dom_relocation: ~
+
+                    group_element_mediator:
+                        group_element_item_mediator:
+                            style_book_grid_element_mediator:
+                                group_tabs_mediator: ~
 
     conditions: 'context["group"]=="jscomponents"'
