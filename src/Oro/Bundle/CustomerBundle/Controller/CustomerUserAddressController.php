@@ -97,7 +97,7 @@ class CustomerUserAddressController extends Controller
             throw new BadRequestHttpException('Address must belong to CustomerUser');
         }
 
-        $form = $this->createForm(CustomerUserTypedAddressType::NAME, $address);
+        $form = $this->createForm(CustomerUserTypedAddressType::class, $address);
 
         $manager = $this->getDoctrine()->getManagerForClass(
             $this->container->getParameter('oro_customer.entity.customer_user_address.class')

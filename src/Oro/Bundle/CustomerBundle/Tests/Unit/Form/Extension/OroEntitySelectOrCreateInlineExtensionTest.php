@@ -20,7 +20,7 @@ class OroEntitySelectOrCreateInlineExtensionTest extends AbstractCustomerUserAwa
 
     public function testGetExtendedType()
     {
-        $this->assertEquals(OroEntitySelectOrCreateInlineType::NAME, $this->extension->getExtendedType());
+        $this->assertEquals(OroEntitySelectOrCreateInlineType::class, $this->extension->getExtendedType());
     }
 
     public function testConfigureOptionsNonCustomerUser()

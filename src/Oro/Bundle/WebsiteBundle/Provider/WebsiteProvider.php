@@ -41,6 +41,16 @@ class WebsiteProvider implements WebsiteProviderInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getWebsiteChoices()
+    {
+        $website = $this->getDefaultWebsite();
+
+        return $website ? [$website->getName() => $website->getId()] : [];
+    }
+
+    /**
      * @return Website|null
      */
     protected function getDefaultWebsite()

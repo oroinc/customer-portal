@@ -68,7 +68,7 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
      */
     public function getParent()
     {
-        return CustomerUserRoleSelectType::NAME;
+        return CustomerUserRoleSelectType::class;
     }
 
     /**

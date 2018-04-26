@@ -97,6 +97,10 @@ define(function(require) {
         },
 
         toggle: function() {
+            if (this.disposed) {
+                return;
+            }
+
             if (this.isApplicable) {
                 var state = this.$window.scrollTop() > this.options.togglePoint;
                 this.$el.toggle(state);

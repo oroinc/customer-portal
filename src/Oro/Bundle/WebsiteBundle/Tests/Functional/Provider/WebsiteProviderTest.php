@@ -4,6 +4,7 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Functional\Provider;
 
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Migrations\Data\ORM\LoadWebsiteData as LoadDefaultWebsiteData;
 use Oro\Bundle\WebsiteBundle\Tests\Functional\DataFixtures\LoadWebsiteData;
 
 /**
@@ -36,5 +37,12 @@ class WebsiteProviderTest extends WebTestCase
         $expected = $repository->findOneBy(['default' => true]);
 
         $this->assertEquals([$expected->getId()], $websiteIds);
+    }
+
+    public function testGetWebsiteChoices()
+    {
+        $websiteChoices = $this->getContainer()->get('oro_website.website.provider')->getWebsiteChoices();
+        $this->assertCount(1, $websiteChoices);
+        $this->assertArrayHasKey(LoadDefaultWebsiteData::DEFAULT_WEBSITE_NAME, $websiteChoices);
     }
 }

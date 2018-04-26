@@ -27,11 +27,6 @@ class RuleEditorTextareaTypeTest extends \PHPUnit_Framework_TestCase
         $this->type = new RuleEditorTextareaType($this->optionsConfigurator);
     }
 
-    public function testGetName()
-    {
-        $this->assertEquals(RuleEditorTextareaType::NAME, $this->type->getName());
-    }
-
     public function testGetBlockPrefix()
     {
         $this->assertEquals(RuleEditorTextareaType::NAME, $this->type->getBlockPrefix());

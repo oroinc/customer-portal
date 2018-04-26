@@ -93,7 +93,7 @@ class CustomerGroupController extends Controller
      */
     protected function update(Request $request, CustomerGroup $group)
     {
-        $form = $this->createForm(CustomerGroupType::NAME, $group);
+        $form = $this->createForm(CustomerGroupType::class, $group);
         $handler = new CustomerGroupHandler(
             $form,
             $request,

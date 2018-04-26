@@ -3,18 +3,20 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Doctrine\ORM\EntityManager;
+use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerType;
 use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
+use Oro\Bundle\EntityExtendBundle\Form\Type\EnumSelectType;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Component\Testing\Unit\Entity\Stub\StubEnumValue;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EnumSelectType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EnumSelectType as EnumSelectTypeStub;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -56,12 +58,12 @@ class CustomerTypeTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-        parent::setUp();
-
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
 
         $this->formType = new CustomerType($this->getEventDispatcher(), $this->authorizationChecker);
         $this->formType->setAddressClass('Oro\Bundle\CustomerBundle\Entity\CustomerAddress');
+
+        parent::setUp();
     }
 
     /**
@@ -93,9 +95,9 @@ class CustomerTypeTest extends FormIntegrationTestCase
             ParentCustomerSelectType::NAME
         );
 
-        $addressEntityType = new EntityType($this->getAddresses(), 'test_address_entity');
+        $addressEntityType = new EntityType($this->getAddresses(), EntityType::class);
 
-        $internalRatingEnumSelect = new EnumSelectType(
+        $internalRatingEnumSelect = new EnumSelectTypeStub(
             [
                 new StubEnumValue('1_of_5', '1 of 5'),
                 new StubEnumValue('2_of_5', '2 of 5')
@@ -114,12 +116,13 @@ class CustomerTypeTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    CustomerGroupSelectType::NAME => $customerGroupSelectType,
-                    ParentCustomerSelectType::NAME => $parentCustomerSelectType,
-                    'oro_address_collection' => new AddressCollectionTypeStub(),
-                    $addressEntityType->getName() => $addressEntityType,
-                    EnumSelectType::NAME => $internalRatingEnumSelect,
-                    $userMultiSelectType->getName() => $userMultiSelectType,
+                    CustomerType::class => $this->formType,
+                    CustomerGroupSelectType::class => $customerGroupSelectType,
+                    ParentCustomerSelectType::class => $parentCustomerSelectType,
+                    AddressCollectionType::class => new AddressCollectionTypeStub(),
+                    EntityType::class => $addressEntityType,
+                    EnumSelectType::class => $internalRatingEnumSelect,
+                    UserMultiSelectType::class => $userMultiSelectType,
                 ],
                 []
             )
@@ -148,7 +151,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
             ->method('isGranted')
             ->willReturn($addressGranted);
 
-        $form = $this->factory->create($this->formType, $defaultData, $options);
+        $form = $this->factory->create(CustomerType::class, $defaultData, $options);
 
         $formConfig = $form->getConfig();
         $this->assertNull($formConfig->getOption('data_class'));
@@ -288,12 +291,6 @@ class CustomerTypeTest extends FormIntegrationTestCase
                 'addressGranted' => false
             ],
         ];
-    }
-
-    public function testGetName()
-    {
-        $this->assertInternalType('string', $this->formType->getName());
-        $this->assertEquals('oro_customer_type', $this->formType->getName());
     }
 
     /**

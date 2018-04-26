@@ -74,7 +74,7 @@ class FrontendCustomerAddressFormProviderTest extends \PHPUnit_Framework_TestCas
 
         $this->mockFormFactory->expects($this->once())
             ->method('create')
-            ->with(FrontendCustomerTypedAddressType::NAME, $mockCustomerUserAddress)
+            ->with(FrontendCustomerTypedAddressType::class, $mockCustomerUserAddress)
             ->willReturn($mockForm);
 
         $form = $this->provider->getAddressFormView($mockCustomerUserAddress, $mockCustomerUser);

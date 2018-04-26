@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 
+use Oro\Bundle\AddressBundle\Form\Type\AddressType;
 use Oro\Bundle\CustomerBundle\Form\Extension\AddressExtension;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +18,7 @@ class AddressExtensionTest extends AbstractCustomerUserAwareExtensionTest
 
     public function testGetExtendedType()
     {
-        $this->assertEquals('oro_address', $this->extension->getExtendedType());
+        $this->assertEquals(AddressType::class, $this->extension->getExtendedType());
     }
 
     public function testConfigureOptionsNonCustomerUser()

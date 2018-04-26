@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Doctrine\ORM\EntityManager;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressWithDefaultType;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -52,11 +53,25 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-        parent::setUp();
-
         $translator = $this->createTranslatorMock();
         $this->formType = new CustomerTypedAddressWithDefaultType($translator);
         $this->formType->setRegistry($this->registry);
+        parent::setUp();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getExtensions()
+    {
+        return [
+            new PreloadedExtension(
+                [
+                    CustomerTypedAddressWithDefaultType::class => $this->formType
+                ],
+                []
+            ),
+        ];
     }
 
     /**
@@ -82,7 +97,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
         $submittedData,
         $expectedData
     ) {
-        $form = $this->factory->create($this->formType, $defaultData, $options);
+        $form = $this->factory->create(CustomerTypedAddressWithDefaultType::class, $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
         $this->assertEquals($viewData, $form->getViewData());
@@ -146,12 +161,6 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
                 'expectedData'  => [$this->shippingType],
             ],
         ];
-    }
-
-    public function testGetName()
-    {
-        $this->assertInternalType('string', $this->formType->getName());
-        $this->assertEquals('oro_customer_typed_address_with_default', $this->formType->getName());
     }
 
     /**

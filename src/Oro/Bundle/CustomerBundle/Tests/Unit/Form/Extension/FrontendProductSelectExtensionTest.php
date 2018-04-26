@@ -17,7 +17,7 @@ class FrontendProductSelectExtensionTest extends AbstractCustomerUserAwareExtens
 
     public function testGetExtendedType()
     {
-        $this->assertEquals(ProductSelectType::NAME, $this->extension->getExtendedType());
+        $this->assertEquals(ProductSelectType::class, $this->extension->getExtendedType());
     }
 
     public function testConfigureOptionsNonCustomerUser()

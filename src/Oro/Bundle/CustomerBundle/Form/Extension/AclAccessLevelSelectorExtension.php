@@ -30,7 +30,7 @@ class AclAccessLevelSelectorExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return AclAccessLevelSelectorType::NAME;
+        return AclAccessLevelSelectorType::class;
     }
 
     /**
@@ -63,9 +63,10 @@ class AclAccessLevelSelectorExtension extends AbstractTypeExtension
             return;
         }
 
-        if (in_array(
-            $roleForm->getConfig()->getType()->getName(),
-            [CustomerUserRoleType::NAME, FrontendCustomerUserRoleType::NAME]
+        $formType = $roleForm->getConfig()->getType()->getInnerType();
+        if (is_object($formType) && in_array(
+            get_class($formType),
+            [CustomerUserRoleType::class, FrontendCustomerUserRoleType::class]
         )) {
             //uses on edit page for rendering preloaded string (role permission name)
             $view->vars['translation_prefix'] = $this->roleTranslationPrefixResolver->getPrefix();
