@@ -789,37 +789,37 @@
         <div class="promo-slider" data-example-view>
             <div class="promo-slider__item">
                 <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="http://localhost:3040/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
+                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
                 </div>
             </div>
 
             <div class="promo-slider__item">
                 <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="http://localhost:3040/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg" alt="Image 1" />
+                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg" alt="Image 1" />
                 </div>
             </div>
 
             <div class="promo-slider__item">
                 <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="http://localhost:3040/bundles/orocatalog/images/promo-slider/promo-slider-small-3.jpg" alt="Image 1" />
+                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-3.jpg" alt="Image 1" />
                 </div>
             </div>
 
             <div class="promo-slider__item">
                 <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="http://localhost:3040/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
+                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
                 </div>
             </div>
 
             <div class="promo-slider__item">
                 <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="http://localhost:3040/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg" alt="Image 1" />
+                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg" alt="Image 1" />
                 </div>
             </div>
 
             <div class="promo-slider__item">
                 <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="http://localhost:3040/bundles/orocatalog/images/promo-slider/promo-slider-small-3.jpg" alt="Image 1" />
+                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-3.jpg" alt="Image 1" />
                 </div>
             </div>
         </div>
@@ -1398,6 +1398,174 @@
             mediator.execute('showMessage', 'type', 'Text message');
 
         </script>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{# Popup Gallery Widget #}
+
+{% block _style_book_grid_element_popup_gallery_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container ',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orofrontend/js/style-book-views/style-book-popup-gallery-widget',
+            props: {
+                use_thumb: true,
+                'imageOptions.slidesToShow': 1,
+                'imageOptions.slidesToScroll': 1,
+                'imageOptions.fade': true,
+                'imageOptions.arrows': true,
+                'imageOptions.asNavFor': '.popup-gallery-widget__thumbnails',
+                'imageOptions.lazyLoad': 'progressive',
+                'imageOptions.infinite': false,
+                'navOptions.slidesToShow': 4,
+                'navOptions.slidesToScroll': 1,
+                'navOptions.asNavFor': '.popup-gallery-widget__images',
+                'navOptions.focusOnSelect': true,
+                'navOptions.infinite': false,
+                'navOptions.arrows': true
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div data-example-view>
+            <div class="popup-gallery" data-trigger-gallery-open>
+                <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
+            </div>
+        </div>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_popup_gallery_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_popup_gallery_html_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <!--
+        set options = {
+            use_thumb: true,
+            galleryImages: [{
+                src: 'src_to_original_image',
+                thumb: 'src_to_thumbnail_image',
+                alt: 'Image alt text'
+            }],
+            imageOptions: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                fade: true,
+                arrows: false,
+                asNavFor: '.product-view-media-gallery__nav',
+                lazyLoad: 'progressive',
+                infinite: false,
+                relatedComponent: 'zoom'
+            },
+            navOptions: {
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                asNavFor: '.product-view-media-gallery',
+                focusOnSelect: true,
+                infinite: false,
+                arrows: true
+            }
+        }
+
+        set popupGalleryAttr = {
+            'data-page-component-module': 'orofrontend/js/app/components/popup-gallery-widget',
+            'data-page-component-options': options|json_encode,
+        }
+
+        --->
+        <div class="popup-gallery" >
+            <div data-trigger-gallery-open data-page-component-module="orofrontend/js/app/components/popup-gallery-widget" data-page-component-options="options|json_encode">
+                <img src="url_path" alt="Alt">
+            </div>
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-html">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _style_book_grid_element_popup_gallery_js_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        define(function(require) {
+            'use strict';
+
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var PopupGalleryWidget = require('orofrontend/js/app/components/popup-gallery-widget');
+
+            SomeExampleView = BaseView.extend({
+                popupGallery: {
+                    use_thumb: true,
+                    galleryImages: [
+                        {
+                            thumb: 'url_to_image_thumbnail',
+                            src: 'url_to_image_original',
+                            alt: 'Image alt text'
+                        },
+                        ...
+                    ],
+                    imageOptions: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        fade: true,
+                        arrows: true,
+                        asNavFor: '.popup-gallery-widget__thumbnails',
+                        lazyLoad: 'progressive',
+                        infinite: false
+                    },
+                    navOptions: {
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        asNavFor: '.popup-gallery-widget__images',
+                        focusOnSelect: true,
+                        infinite: false,
+                        arrows: true
+                    }
+                },
+
+                initialize: function(options) {
+                    SomeExampleView.__super__.initialize.apply(this, arguments);
+
+                    this.subview('popupGallery', new PopupGalleryWidget(this.popupOptions))
+                }
+            });
+
+            return SomeExampleView;
+        });
     {% endset %}
 
     <div {{ block('block_attributes') }}>

@@ -188,3 +188,13 @@ $collapse-preview-item-content-color-hover: get-color('ui', 'focus') !default;
     line-height: 50px;
     text-align: center;
 }
+
+.popup-gallery {
+    max-width: 250px;
+    margin-bottom: 20px;
+}
+
+.popup-gallery-widget__wrapper {
+    max-width: 910px;
+    background-color: get-color('additional', 'ultra');
+}

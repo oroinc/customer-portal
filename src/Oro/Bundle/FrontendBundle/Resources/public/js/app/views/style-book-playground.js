@@ -166,8 +166,7 @@ define(function(require) {
          * @updateConfigPreview Update text preview of configuration array
          */
         updateConfigPreview: function() {
-
-            this.configPreview.text(JSON.stringify(_.omit(this.viewOptions, ['el']), null, '\t'));
+            this.configPreview.text(JSON.stringify(_.omit(this.viewOptions, ['el', '_sourceElement']), null, '\t'));
         },
 
         /**

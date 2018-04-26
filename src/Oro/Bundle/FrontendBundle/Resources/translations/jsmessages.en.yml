@@ -82,6 +82,10 @@ oro_frontend_style_book:
             title: 'Sticky Panel View'
         mediator:
             title: 'Mediator'
+        dom_relocation:
+            title: 'DOM Relocation'
+        popup_gallery:
+            title: 'Popup Gallery'
         input_widgets:
             number:
                 title: 'Input Number Widget'
