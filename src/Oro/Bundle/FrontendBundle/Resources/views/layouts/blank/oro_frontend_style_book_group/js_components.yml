@@ -292,6 +292,45 @@ layout:
                             - { anchor: 'config-popup_gallery', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_popup_gallery_config'}
                             - { anchor: 'popup_gallery-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_popup_gallery_html'}
                             - { anchor: 'popup_gallery-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_popup_gallery_js'}
+
+                # viewportManager
+                group_element_viewport_manager:
+                    blockType: group_element
+                    options:
+                        anchor: viewport_manager
+                        label: oro_frontend_style_book.groups.viewport_manager.title
+                group_element_item_viewport_manager:
+                    blockType: group_element_item
+                    options:
+                        source: false
+                        description: oro_frontend_style_book.groups.viewport_manager.description
+                style_book_grid_element_viewport_manager:
+                    blockType: container
+                group_tabs_viewport_manager:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'viewport_manager-require', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.require, active: true, widget: 'style_book_grid_element_viewport_manager_require'}
+                            - { anchor: 'viewport_manager-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_viewport_manager_js'}
+
+                # LazyInitView
+                group_element_lazy_init:
+                    blockType: group_element
+                    options:
+                        anchor: lazy_init
+                        label: oro_frontend_style_book.groups.lazy_init.title
+                group_element_item_lazy_init:
+                    blockType: group_element_item
+                    options:
+                        source: false
+                        description: oro_frontend_style_book.groups.lazy_init.description
+                style_book_grid_element_lazy_init:
+                    blockType: container
+                group_tabs_lazy_init:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'lazy_init-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: true, widget: 'style_book_grid_element_lazy_init_html'}
             tree:
                 style_book_content:
                     group_element_grid_view_modal:
@@ -362,5 +401,15 @@ layout:
                         group_element_item_popup_gallery:
                             style_book_grid_element_popup_gallery:
                                 group_tabs_popup_gallery: ~
+
+                    group_element_viewport_manager:
+                        group_element_item_viewport_manager:
+                            style_book_grid_element_viewport_manager:
+                                group_tabs_viewport_manager: ~
+
+                    group_element_lazy_init:
+                        group_element_item_lazy_init:
+                            style_book_grid_element_lazy_init:
+                                group_tabs_lazy_init: ~
 
     conditions: 'context["group"]=="jscomponents"'

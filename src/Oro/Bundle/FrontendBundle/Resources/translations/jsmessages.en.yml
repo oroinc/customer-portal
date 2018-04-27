@@ -86,6 +86,10 @@ oro_frontend_style_book:
             title: 'DOM Relocation'
         popup_gallery:
             title: 'Popup Gallery'
+        popup_gallery:
+            title: 'Viewport Manager'
+        lazy_init:
+            title: 'Lazy Init View'
         input_widgets:
             number:
                 title: 'Input Number Widget'
