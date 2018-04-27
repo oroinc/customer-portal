@@ -30,6 +30,7 @@ api:
                                     - NotBlank: ~
                         password:
                             direction: input-only
+                            form_type: Symfony\Component\Form\Extension\Core\Type\PasswordType
                             form_options:
                                 constraints:
                                     - NotBlank: ~
