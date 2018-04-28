@@ -151,7 +151,7 @@ system_configuration:
                     oro.customer.system_configuration.fields.maps_enabled.option.no.label: 0
         oro_customer.api_key_generation_enabled:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             options:
                 label: oro.customer.system_configuration.fields.api_key_generation_enabled.label
                 tooltip: oro.customer.system_configuration.fields.api_key_generation_enabled.tooltip
