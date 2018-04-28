@@ -16,7 +16,7 @@ class ConfigurationTypeExtension extends AbstractTypeExtension
     {
         $builder->add(
             'web',
-            WebType::NAME,
+            WebType::class,
             [
                 'label' => 'oro_frontend.form.install_configuration.web.header'
             ]
@@ -28,6 +28,6 @@ class ConfigurationTypeExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return ConfigurationType::NAME;
+        return ConfigurationType::class;
     }
 }

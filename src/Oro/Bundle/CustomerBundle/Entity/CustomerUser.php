@@ -14,9 +14,13 @@ use Oro\Bundle\LocaleBundle\Model\FullNameInterface;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\UserBundle\Security\AdvancedApiUserInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
+ * The entity that represents a person who acts on behalf of the company
+ * to buy products using OroCommerce store frontend.
+ *
  * @ORM\Entity()
  * @ORM\Table(name="oro_customer_user")
  * @ORM\HasLifecycleCallbacks()
@@ -39,7 +43,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  *              "organization_column_name"="organization_id"
  *          },
  *          "form"={
- *              "form_type"="oro_customer_customer_user_select",
+ *              "form_type"="Oro\Bundle\CustomerBundle\Form\Type\CustomerUserSelectType",
  *              "grid_name"="customer-customer-user-select-grid"
  *          },
  *          "security"={
@@ -53,10 +57,15 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  * )
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class CustomerUser extends ExtendCustomerUser implements FullNameInterface, EmailHolderInterface, CustomerUserIdentity
+class CustomerUser extends ExtendCustomerUser implements
+    FullNameInterface,
+    EmailHolderInterface,
+    CustomerUserIdentity,
+    AdvancedApiUserInterface
 {
     const SECURITY_GROUP = 'commerce';
 
@@ -311,6 +320,29 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
     protected $owner;
 
     /**
+     * @var CustomerUserApi[]|Collection
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="CustomerUserApi",
+     *     mappedBy="user",
+     *     cascade={"persist", "remove"},
+     *     orphanRemoval=true,
+     *     fetch="EXTRA_LAZY"
+     * )
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          },
+     *          "email"={
+     *              "available_in_template"=false
+     *          }
+     *      }
+     * )
+     */
+    protected $apiKeys;
+
+    /**
      * @var Collection|User[]
      *
      * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
@@ -477,6 +509,7 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
         $this->addresses = new ArrayCollection();
         $this->salesRepresentatives = new ArrayCollection();
         $this->settings = new ArrayCollection();
+        $this->apiKeys = new ArrayCollection();
         parent::__construct();
     }
 
@@ -861,6 +894,47 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
 
         foreach ($this->addresses as $customerUserAddress) {
             $customerUserAddress->setOwner($owner);
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getApiKeys()
+    {
+        return $this->apiKeys;
+    }
+
+    /**
+     * Adds API key to this customer user.
+     *
+     * @param CustomerUserApi $apiKey
+     *
+     * @return CustomerUser
+     */
+    public function addApiKey(CustomerUserApi $apiKey)
+    {
+        if (!$this->apiKeys->contains($apiKey)) {
+            $this->apiKeys->add($apiKey);
+            $apiKey->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Removes API key from this customer user.
+     *
+     * @param CustomerUserApi $apiKey
+     *
+     * @return CustomerUser
+     */
+    public function removeApiKey(CustomerUserApi $apiKey)
+    {
+        if ($this->apiKeys->contains($apiKey)) {
+            $this->apiKeys->removeElement($apiKey);
         }
 
         return $this;
