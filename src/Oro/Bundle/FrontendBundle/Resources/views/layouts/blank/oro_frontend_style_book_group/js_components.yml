@@ -52,6 +52,26 @@ layout:
                             - { anchor: 'loading_mask-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_loading_mask_js'}
                             - { anchor: 'loading_mask-mediator', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.mediator, active: false, widget: 'style_book_grid_element_loading_mask_mediator'}
 
+                # Zoom Widget View
+                group_element_grid_zoom_widget:
+                    blockType: group_element
+                    options:
+                        anchor: zoom_widget
+                        label: oro_frontend_style_book.groups.loading_mask.title
+                group_element_item_zoom_widget:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        description: oro_frontend_style_book.groups.loading_mask.description
+                style_book_grid_element_zoom_widget:
+                    blockType: container
+                group_tabs_zoom_widget:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+#                            - { anchor: 'config-zoom-widget', label: oro_frontend_style_book.groups.jscomponent.tabs.config, active: true, widget: ''}
+                            - { anchor: 'zoom-widget-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: true, widget: 'style_book_grid_element_zoom_widget_html'}
+
                 # Dialog Widget
                 group_element_grid_view_dialog_widget:
                     blockType: group_element
@@ -413,5 +433,10 @@ layout:
                         group_element_input_widget_select2:
                             style_book_input_widget_select2:
                                 group_tabs_input_widget_select2: ~
+
+                    group_element_grid_zoom_widget:
+                        group_element_item_zoom_widget:
+                            style_book_grid_element_zoom_widget:
+                                group_tabs_zoom_widget: ~
 
     conditions: 'context["group"]=="jscomponents"'
