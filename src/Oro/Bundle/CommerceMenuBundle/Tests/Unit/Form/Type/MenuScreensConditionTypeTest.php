@@ -28,8 +28,8 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
      * @internal
      */
     const SCREENS_CHOICES = [
-        'desktop' => 'Sample desktop label',
-        'mobile' => 'Sample mobile label',
+        'Sample desktop label' => 'desktop',
+        'Sample mobile label' => 'mobile',
     ];
 
     /**

@@ -70,6 +70,6 @@ class MenuScreensConditionType extends AbstractType
             return $screen['label'];
         }, $screens);
 
-        return $choices;
+        return array_flip($choices);
     }
 }
