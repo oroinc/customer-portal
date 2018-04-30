@@ -48,7 +48,7 @@ layout:
                     blockType: group_tabs
                     options:
                         tabs:
-                            - { anchor: 'config-loading_mask', label: oro_frontend_style_book.groups.jscomponent.tabs.config, active: true, widget: 'style_book_grid_element_loading_mask_config'}
+                            - { anchor: 'config-loading_mask', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_loading_mask_config'}
                             - { anchor: 'loading_mask-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_loading_mask_js'}
                             - { anchor: 'loading_mask-mediator', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.mediator, active: false, widget: 'style_book_grid_element_loading_mask_mediator'}
 
@@ -69,7 +69,7 @@ layout:
                     blockType: group_tabs
                     options:
                         tabs:
-                            - { anchor: 'config-dialog_widget', label: oro_frontend_style_book.groups.jscomponent.tabs.config, active: true, widget: 'style_book_grid_element_dialog_widget_config'}
+                            - { anchor: 'config-dialog_widget', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_dialog_widget_config'}
 
                 # Collapse Widget
                 group_element_grid_view_collapse_widget:
@@ -174,45 +174,6 @@ layout:
                             - { anchor: 'config-list_slider', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_list_slider_config'}
                             - { anchor: 'list_slider-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_list_slider_html'}
                             - { anchor: 'list_slider-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_list_slider_js'}
-
-                # Input Widgets
-                group_element_input_widgets:
-                    blockType: group_element
-                    options:
-                        anchor: input_widgets
-                        label: oro_frontend_style_book.groups.input_widgets.title
-                # Number
-                group_element_input_widget_number:
-                    blockType: group_js_element_item
-                    options:
-                        source: false
-                        description: oro_frontend_style_book.groups.input_widgets.number.description
-                        label: oro_frontend_style_book.groups.input_widgets.number.label
-                style_book_input_widget_number:
-                    blockType: container
-                group_tabs_input_widget_number:
-                    blockType: group_tabs
-                    options:
-                        tabs:
-                            - { anchor: 'config-input_widget_number', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_input_widget_number_config'}
-                            - { anchor: 'input_widget_number-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_input_widget_number_html'}
-                            - { anchor: 'input_widget_number-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_input_widget_number_js'}
-
-                group_element_input_widget_select2:
-                    blockType: group_js_element_item
-                    options:
-                        source: false
-                        description: oro_frontend_style_book.groups.input_widgets.select2.description
-                        label: oro_frontend_style_book.groups.input_widgets.select2.label
-                style_book_input_widget_select2:
-                    blockType: container
-                group_tabs_input_widget_select2:
-                    blockType: group_tabs
-                    options:
-                        tabs:
-                            - { anchor: 'config-input_widget_number', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_input_widget_select2_config'}
-                            - { anchor: 'input_widget_number-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_input_widget_select2_html'}
-                            - { anchor: 'input_widget_number-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_input_widget_select2_js'}
 
                 # DOM relocation view
                 group_element_dom_relocation:
@@ -331,6 +292,47 @@ layout:
                     options:
                         tabs:
                             - { anchor: 'lazy_init-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: true, widget: 'style_book_grid_element_lazy_init_html'}
+
+                # Input Widgets
+                group_element_input_widgets:
+                    blockType: group_element
+                    options:
+                        anchor: input_widgets
+                        label: oro_frontend_style_book.groups.input_widgets.title
+                # Number
+                group_element_input_widget_number:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        anchor: input_widget_number
+                        description: oro_frontend_style_book.groups.input_widgets.number.description
+                        label: oro_frontend_style_book.groups.input_widgets.number.label
+                style_book_input_widget_number:
+                    blockType: container
+                group_tabs_input_widget_number:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'input_widget_number-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: true, widget: 'style_book_grid_element_input_widget_number_html'}
+                            - { anchor: 'input_widget_number-js', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.js, active: false, widget: 'style_book_grid_element_input_widget_number_js'}
+
+                # Select2
+                group_element_input_widget_select2:
+                    blockType: group_js_element_item
+                    options:
+                        source: false
+                        anchor: input_widget_select2
+                        description: oro_frontend_style_book.groups.input_widgets.select2.description
+                        label: oro_frontend_style_book.groups.input_widgets.select2.label
+                style_book_input_widget_select2:
+                    blockType: container
+                group_tabs_input_widget_select2:
+                    blockType: group_tabs
+                    options:
+                        tabs:
+                            - { anchor: 'config-input_widget_select2', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_grid_element_input_widget_select2_config'}
+                            - { anchor: 'input_widget_select2-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_input_widget_select2_html'}
+
             tree:
                 style_book_content:
                     group_element_grid_view_modal:
@@ -378,15 +380,6 @@ layout:
                             style_book_list_slider:
                                 group_tabs_list_slider: ~
 
-#                    group_element_input_widgets:
-#                        group_element_input_widget_number:
-#                            style_book_input_widget_number:
-#                                group_tabs_input_widget_number: ~
-#
-#                        group_element_input_widget_select2:
-#                            style_book_input_widget_select2:
-#                                group_tabs_input_widget_select2: ~
-
                     group_element_dom_relocation:
                         group_element_item_dom_relocation:
                             style_book_dom_relocation:
@@ -411,5 +404,14 @@ layout:
                         group_element_item_lazy_init:
                             style_book_grid_element_lazy_init:
                                 group_tabs_lazy_init: ~
+
+                    group_element_input_widgets:
+                        group_element_input_widget_number:
+                            style_book_input_widget_number:
+                                group_tabs_input_widget_number: ~
+
+                        group_element_input_widget_select2:
+                            style_book_input_widget_select2:
+                                group_tabs_input_widget_select2: ~
 
     conditions: 'context["group"]=="jscomponents"'

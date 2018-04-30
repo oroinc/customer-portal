@@ -148,6 +148,9 @@ oro_frontend_style_book:
             select2:
                 label: 'Select2 Widget'
                 description: 'Select2 Widget'
+            datepicker:
+                label: 'Datepicker Widget'
+                description: 'Datepicker Widget'
 
         grid:
             title: 'Grid Elements'

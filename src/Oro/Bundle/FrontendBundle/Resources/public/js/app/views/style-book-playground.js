@@ -17,7 +17,7 @@ define(function(require) {
          * @property {Array}
          */
         optionNames: BaseView.prototype.optionNames.concat(
-            ['props', 'viewConstructor', 'viewOptions', 'renderAfter']
+            ['props', 'viewConstructor', 'viewOptions', 'renderAfter', 'widget']
         ),
 
         /**
@@ -72,6 +72,11 @@ define(function(require) {
          * @property
          */
         subviewContainer: '[data-example-view]',
+
+        /**
+         * @property
+         */
+        widget: false,
 
         /**
          * @Constructor
@@ -134,6 +139,9 @@ define(function(require) {
                 }
             }
 
+            if (this.widget) {
+                this.$el.inputWidget('seekAndCreate');
+            }
         },
 
         /**
