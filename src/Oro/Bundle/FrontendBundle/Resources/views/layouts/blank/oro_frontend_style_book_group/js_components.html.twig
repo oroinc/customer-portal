@@ -305,7 +305,10 @@
             viewConstructor: 'orofrontend/js/style-book-views/style-book-dialog-widget',
             renderAfter: 'action',
             props: {
-                content: 'dwadawda',
+                content: {
+                    type: 'textarea',
+                    value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis egestas purus a congue. Praesent non velit orci. Donec sed iaculis ipsum, id dictum sapien. Donec sollicitudin auctor magna sit amet volutpat. Nulla gravida euismod ante, at varius nisl aliquet sit amet. Vestibulum varius libero lorem, quis condimentum purus malesuada sed. Suspendisse potenti. Nam ac dolor eget mauris volutpat pretium at eu turpis. Sed ac diam a turpis fringilla luctus eu ut ipsum. Sed tempus tincidunt mauris, eu dignissim ipsum fermentum quis.'
+                },
                 'dialogOptions.title': 'Title'
             }
         }
@@ -1527,15 +1530,15 @@
 
 {% block _style_book_input_widget_number_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid js-component-container ',
-    'data-page-component-view': 'orofrontend/js/app/views/style-book-playground-widgets',
-    'data-page-component-options': {
-    viewConstructor: 'oroui/js/app/views/input-widget/number',
-    widget: true,
-    props: {
-    precision: 2
-    }
-    }
+        '~class': ' grid js-component-container ',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground-widgets',
+        'data-page-component-options': {
+            viewConstructor: 'oroui/js/app/views/input-widget/number',
+            widget: true,
+            props: {
+                precision: 2
+            }
+        }
     }) %}
 
     <div {{ block('block_attributes') }}>
@@ -1680,25 +1683,40 @@
 {% endblock %}
 
 {% block _style_book_grid_element_zoom_widget_widget %}
-   {% set zoomOptions = {
-        viewport: {
-            minScreenType: 'desktop'
-        },
-        component: 'oroui/js/app/components/jquery-widget-component',
-        widgetModule: 'oroproduct/js/widget/zoom-widget'
-    } %}
 
-   <div {{ block('block_attributes') }} style="position: relative;">
-       <img class="product-view-media-gallery__image"
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container style-book-zoom',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-playground-widgets',
+        'data-page-component-options': {
+            viewConstructor: 'orofrontend/js/style-book-views/style-book-zoom-widget-view',
+            props: {
+                scrollZoom: true,
+                zoomWindowPosition: 'zoom-container',
+                minZoomWindowWidth: 376,
+                maxZoomWindowWidth: 700,
+                zoomWindowWidth: 376,
+                zoomWindowHeight: 376,
+                zoomWindowFadeIn: 400,
+                zoomLevel: 0.4,
+                maxZoomLevel: 0.8,
+                borderSize: 1,
+                borderColour: '#ebebeb',
+                lensBorderColour: '#7d7d7d',
+                lensColour: '#000',
+                lensOpacity: 0.22
+            }
+        }
+    }) %}
+
+   <div {{ block('block_attributes') }}>
+       <img data-example-view class="product-view-media-gallery__image"
             alt="Image"
             data-zoom-image="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg"
             src="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg"
-            data-page-component-module="oroui/js/app/components/viewport-component"
-            data-page-component-options="{{ zoomOptions|json_encode }}"
             itemprop="image"
             data-lazy="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg"
             />
-       <div id="zoom-container" style="left: 50%"></div>
+       <div id="zoom-container"></div>
        {{ block_widget(block) }}
    </div>
 {% endblock %}
@@ -1711,28 +1729,27 @@
     {% set source_code %}
         <!-- Use shortcut manager data attribute -->
 
-        <code>
-            {% set zoomOptions = {
-                viewport: {
-                    minScreenType: 'desktop'
-                },
-                component: 'oroui/js/app/components/jquery-widget-component',
-                widgetModule: 'oroproduct/js/widget/zoom-widget'
-            } %}
-        </code>
+        <!--
+        set options = {
+            viewport: {
+                minScreenType: 'desktop'
+            },
+            widgetModule: 'oroproduct/js/widget/zoom-widget',
 
-       <div {{ block('block_attributes') }} style="position: relative;">
+            ... options
+        } %}
+        -->
+
+       <div>
            <img class="product-view-media-gallery__image"
                 alt="Image"
-                data-zoom-image="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg"
-                src="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg"
-                data-page-component-module="oroui/js/app/components/viewport-component"
-                data-page-component-options="{{ zoomOptions|json_encode }}"
+                data-zoom-image="path/to/zoomimg/image"
+                src="path/to/origin/image"
+                data-page-component-viewport="<!-- options|json_encode -->"
                 itemprop="image"
-                data-lazy="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg"
+                data-lazy="path/to/lazy/image"
                 />
-           <div id="zoom-container" style="left: 50%"></div>
-           {{ block_widget(block) }}
+           <div id="zoom-container"></div>
        </div>
     {% endset %}
 

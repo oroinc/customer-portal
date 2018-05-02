@@ -198,3 +198,11 @@ $collapse-preview-item-content-color-hover: get-color('ui', 'focus') !default;
     max-width: 910px;
     background-color: get-color('additional', 'ultra');
 }
+
+.style-book-zoom {
+    position: relative;
+
+    #zoom-container {
+        left: 50%;
+    }
+}

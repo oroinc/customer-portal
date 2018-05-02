@@ -57,20 +57,20 @@ layout:
                     blockType: group_element
                     options:
                         anchor: zoom_widget
-                        label: oro_frontend_style_book.groups.loading_mask.title
+                        label: oro_frontend_style_book.groups.zoom_widget.title
                 group_element_item_zoom_widget:
                     blockType: group_js_element_item
                     options:
                         source: false
-                        description: oro_frontend_style_book.groups.loading_mask.description
+                        description: oro_frontend_style_book.groups.zoom_widget.description
                 style_book_grid_element_zoom_widget:
                     blockType: container
                 group_tabs_zoom_widget:
                     blockType: group_tabs
                     options:
                         tabs:
-#                            - { anchor: 'config-zoom-widget', label: oro_frontend_style_book.groups.jscomponent.tabs.config, active: true, widget: ''}
-                            - { anchor: 'zoom-widget-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: true, widget: 'style_book_grid_element_zoom_widget_html'}
+                            - { anchor: 'config-zoom-widget', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.config, active: true, widget: 'style_book_zooo_widget_config'}
+                            - { anchor: 'zoom-widget-html', label: oro_frontend_style_book.groups.jscomponent.tabs.howtouse.html, active: false, widget: 'style_book_grid_element_zoom_widget_html'}
 
                 # Dialog Widget
                 group_element_grid_view_dialog_widget:
@@ -425,6 +425,11 @@ layout:
                             style_book_grid_element_lazy_init:
                                 group_tabs_lazy_init: ~
 
+                    group_element_grid_zoom_widget:
+                        group_element_item_zoom_widget:
+                            style_book_grid_element_zoom_widget:
+                                group_tabs_zoom_widget: ~
+
                     group_element_input_widgets:
                         group_element_input_widget_number:
                             style_book_input_widget_number:
@@ -433,10 +438,5 @@ layout:
                         group_element_input_widget_select2:
                             style_book_input_widget_select2:
                                 group_tabs_input_widget_select2: ~
-
-                    group_element_grid_zoom_widget:
-                        group_element_item_zoom_widget:
-                            style_book_grid_element_zoom_widget:
-                                group_tabs_zoom_widget: ~
 
     conditions: 'context["group"]=="jscomponents"'
