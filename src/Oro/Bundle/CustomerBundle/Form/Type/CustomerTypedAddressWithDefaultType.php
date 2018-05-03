@@ -48,7 +48,7 @@ class CustomerTypedAddressWithDefaultType extends AbstractType
         $classMetadata   = $em->getClassMetadata($options['class']);
         $identifierField = $classMetadata->getSingleIdentifierFieldName();
 
-        $choiceLabels = [];
+        $choices = [];
 
         /** @var AddressType $entity */
         foreach ($entitiesIterator as $entity) {
@@ -60,16 +60,18 @@ class CustomerTypedAddressWithDefaultType extends AbstractType
                 $value = (string)$entity;
             }
 
-            $choiceLabels[$pkValue] = $this->translator->trans(
+            $label = $this->translator->trans(
                 'oro.customer.customer_typed_address_with_default_type.choice.default_text',
                 [
                     '%type_name%' => $value
                 ]
             );
+            $choices[$label] = $pkValue;
         }
 
         $builder->add('default', ChoiceType::class, [
-            'choices'  => $choiceLabels,
+            'choices_as_values' => true,
+            'choices'  => $choices,
             'multiple' => true,
             'expanded' => true,
             'label'    => false,

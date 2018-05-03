@@ -233,4 +233,42 @@ class LoginTest extends FrontendWebTestCase
             $content
         );
     }
+
+    public function testLoginWithWhitespacesInPasswordBeginAndEnd()
+    {
+        $password = ' test password ';
+
+        /** @var CustomerUser $user */
+        $user = $this->getEntityManager()->find(
+            CustomerUser::class,
+            $this->getReference(LoadCustomerUserData::EMAIL)->getId()
+        );
+        $user->setPlainPassword($password);
+
+        $userManager = self::getContainer()->get('oro_customer_user.manager');
+        $userManager->updatePassword($user);
+        $userManager->updateUser($user);
+
+        $response = $this->sendLoginRequest(LoadCustomerUserData::EMAIL, $password);
+
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
+
+        /** @var CustomerUser $user */
+        $user = $this->getEntityManager()->find(
+            CustomerUser::class,
+            $this->getReference(LoadCustomerUserData::EMAIL)->getId()
+        );
+        self::assertCount(1, $user->getApiKeys());
+
+        $content = json_decode($response->getContent(), true);
+        self::assertEquals(
+            [
+                'meta' => [
+                    'apiKey' => $user->getApiKeys()->first()->getApiKey()
+                ]
+            ],
+            $content
+        );
+        self::assertFalse($response->headers->has('Location'), 'Location header');
+    }
 }

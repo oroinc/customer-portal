@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\FrontendBundle\DependencyInjection\Compiler;
+namespace Oro\Bundle\CustomerBundle\DependencyInjection\Compiler;
 
 use Oro\Bundle\FrontendBundle\Api\FrontendApiDependencyInjectionUtil;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -18,11 +18,7 @@ class FrontendApiPass implements CompilerPassInterface
     {
         FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
             $container,
-            'oro_api.collect_resources.load_dictionaries'
-        );
-        FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
-            $container,
-            'oro_api.collect_resources.load_custom_entities'
+            'oro_organization.api.config.add_owner_validator'
         );
     }
 }

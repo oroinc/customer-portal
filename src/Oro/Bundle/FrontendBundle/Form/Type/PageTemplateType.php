@@ -29,6 +29,8 @@ class PageTemplateType extends AbstractType
         $resolver
             ->setRequired(['route_name'])
             ->setDefaults([
+                // TODO: remove 'choices_as_values' option below in scope of BAP-15236
+                'choices_as_values' => true,
                 'choices' => function (Options $options) {
                     return $this->getPageTemplatesByRouteName($options['route_name']);
                 },
