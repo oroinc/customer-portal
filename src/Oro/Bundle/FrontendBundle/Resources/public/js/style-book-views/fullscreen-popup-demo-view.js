@@ -13,10 +13,10 @@ define(function(require) {
 
         initialize: function(options) {
             FullscreenPopupDemoView.__super__.initialize.apply(this, arguments);
-            this.subview('fullscreenView', new FullscreenPopupView({
+            this.subview('fullscreenView', new FullscreenPopupView(_.extend({}, options, {
                 disposeOnClose: true,
                 contentElement: $(_.template(options.contentTemplate)())
-            }));
+            })));
         },
 
         render: function() {
