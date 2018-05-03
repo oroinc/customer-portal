@@ -326,7 +326,7 @@ layout:
                         source: false
                         anchor: input_widget_number
                         description: oro_frontend_style_book.groups.input_widgets.number.description
-                        label: oro_frontend_style_book.groups.input_widgets.number.label
+                        label: oro_frontend_style_book.groups.input_widgets.number.title
                 style_book_input_widget_number:
                     blockType: container
                 group_tabs_input_widget_number:
@@ -343,7 +343,7 @@ layout:
                         source: false
                         anchor: input_widget_select2
                         description: oro_frontend_style_book.groups.input_widgets.select2.description
-                        label: oro_frontend_style_book.groups.input_widgets.select2.label
+                        label: oro_frontend_style_book.groups.input_widgets.select2.title
                 style_book_input_widget_select2:
                     blockType: container
                 group_tabs_input_widget_select2:

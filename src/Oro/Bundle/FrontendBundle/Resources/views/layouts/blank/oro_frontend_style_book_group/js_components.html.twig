@@ -309,7 +309,10 @@
                     type: 'textarea',
                     value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis egestas purus a congue. Praesent non velit orci. Donec sed iaculis ipsum, id dictum sapien. Donec sollicitudin auctor magna sit amet volutpat. Nulla gravida euismod ante, at varius nisl aliquet sit amet. Vestibulum varius libero lorem, quis condimentum purus malesuada sed. Suspendisse potenti. Nam ac dolor eget mauris volutpat pretium at eu turpis. Sed ac diam a turpis fringilla luctus eu ut ipsum. Sed tempus tincidunt mauris, eu dignissim ipsum fermentum quis.'
                 },
-                'dialogOptions.title': 'Title'
+                'dialogOptions.title': 'Title',
+                'dialogOptions.modal': true,
+                'dialogOptions.minWidth': 320,
+                'dialogOptions.minHeight': 150
             }
         }
     }) %}
@@ -669,9 +672,12 @@
         '~class': ' grid js-component-container',
         'data-page-component-view': 'orofrontend/js/app/views/style-book-playground',
         'data-page-component-options': {
-            viewConstructor: 'oroaddress/js/mapservice/googlemaps',
+            viewConstructor: 'orofrontend/js/style-book-views/style-book-googlemaps-view',
             props: {
-                apiKey: 'AIzaSyBB80MFGd4b9as7Tv3jyY5onECcM7L5MME',
+                apiKey: {
+                    value: 'AIzaSyBB80MFGd4b9as7Tv3jyY5onECcM7L5MME',
+                    label: 'Google API key (required)'
+                },
                 'address.address': '67800 Junkins Avenue Albany, 31707, US-GA',
                 sensor: false,
                 showWeather: true,
@@ -844,18 +850,37 @@
     }) %}
 
     {% set source_code %}
-        <!-- Use shortcut manager data attribute -->
+        <!-- Use twig -->
 
-        <div class="collapse-preview" data-page-component-collapse="{ options... }">
-            <h3 class="collapse-preview__title" data-collapse-trigger>
-                <span class="collapse-preview__icon">
-                    <i class="collapse-view__trigger-icon fa-caret-right"></i>
-                </span>
-                Toggle Title
-            </h3>
+        <--
+        set imageListOptions = {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            fade: true,
+            arrows: false,
+            asNavFor: '.product-view-media-gallery__nav',
+            lazyLoad: 'progressive',
+            infinite: false,
+            relatedComponent: 'zoom'
+        }
+        -->
+        <div class="promo-slider" data-page-component-module="orofrontend/js/app/components/list-slider-component" data-page-component-options="<!-- imageListOptions|json_encode -->">
+            <div class="promo-slider__item">
+                <div class="promo-slider__picture">
+                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
+                </div>
+            </div>
 
-            <div class="collapse-preview__content" data-collapse-container>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
+            <div class="promo-slider__item">
+                <div class="promo-slider__picture">
+                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg" alt="Image 2" />
+                </div>
+            </div>
+
+            <div class="promo-slider__item">
+                <div class="promo-slider__picture">
+                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-3.jpg" alt="Image 3" />
+                </div>
             </div>
         </div>
     {% endset %}
@@ -877,25 +902,36 @@
     }) %}
 
     {% set source_code %}
-        <script>
-            define(function(require) {
-                'use strict';
+        define(function(require) {
+            'use strict';
 
-                var SomeExampleView;
-                var BaseView = require('oroui/js/app/views/base/view');
-                require('oroui/js/widget/collapse-widget');
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var ListSliderComponent = require('orofrontend/js/app/components/list-slider-component');
+            require('oroui/js/widget/collapse-widget');
 
-                SomeExampleView = BaseView.extend({
-                    render: function() {
-                        this.$el.collapseWidget({
-                            // Options
-                        });
-                    }
-                });
+            SomeExampleView = BaseView.extend({
+                sliderOptions: {
+                    mobileEnabled: true,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    autoplay: false,
+                    autoplaySpeed: 2000,
+                    dots: false,
+                    infinite: false,
+                    additionalClass: 'embedded-list__slider',
+                    embeddedArrowsClass: 'embedded-arrows'
+                },
 
-                return SomeExampleView;
+                render: function() {
+                    new ListSliderComponent(_.extend({}, {
+                        _sourceElement: this.$el
+                    }, this.sliderOptions);
+                }
             });
-        </script>
+
+            return SomeExampleView;
+        });
     {% endset %}
 
     <div {{ block('block_attributes') }}>

@@ -332,7 +332,7 @@
                     subTreeLvl: subTreeLvl
                 }
             }) %}
-            <h3 {{ block('block_attributes') }}>{{ label }}</h3>
+            <h3 {{ block('block_attributes') }}>{{ label|trans|raw }}</h3>
         {% endif %}
         {% if description %}
             <div class="style-book-group-element__description">

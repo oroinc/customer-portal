@@ -15,7 +15,7 @@ define(function(require) {
         },
 
         initialize: function(options) {
-            options.url = '/about';
+            options.url = '';
 
             this.content = options.content;
 
@@ -32,6 +32,12 @@ define(function(require) {
             content.find('.widget-actions').append('<button class="btn btn--info">Accept</button>');
             content = content.parent().html();
             return StyleBookDialogWidget.__super__._onContentLoad.call(this, content);
+        },
+
+        closeHandler: function(onClose) {
+            if (_.isFunction(onClose)) {
+                onClose();
+            }
         }
     });
 
