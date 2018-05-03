@@ -59,3 +59,10 @@ oro_frontend:
             label:
                 normal: "Show Less Items"
                 truncated: "And {{ hiddenRows }} more items"
+
+oro_frontend_style_book:
+    groups:
+        modal:
+            title: 'Modal'
+        datagrid:
+            title: 'Datagrid'

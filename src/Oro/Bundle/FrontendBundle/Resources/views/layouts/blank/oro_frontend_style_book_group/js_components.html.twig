@@ -165,4 +165,110 @@
     </div>
 {% endblock %}
 
+{# Datagrid #}
+{% block _style_book_grid_element_datagrid_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid'
+    }) %}
+
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid js-component-container',
+        'data-page-component-view': 'orofrontend/js/app/views/style-book-datagrid-playground',
+        'data-page-component-options': {
+            viewConstructor: 'orodatagrid/js/app/components/datagrid-component',
+            props: {
+
+            }
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div data-example-view id="grid-frontend-customer-customer-address-grid"></div>
+        {{ block_widget(block) }}
+    </div>
+
+    <script type="text/html" id="template-customer-address-book-addresses-grid-toolbar">
+        <div class="datagrid-toolbar extended datagrid-toolbar--offset-s">    <% if (toolbarPosition !== 'bottom') { %>
+            <div class="datagrid-toolbar__side" data-section="left-side">
+
+                <div class=" pull-left form-horizontal" data-grid-items-counter=""></div>
+
+            </div>
+            <% } %>
+            <div class="datagrid-toolbar__base" data-section="base-side">
+                <div class="datagrid-tool oro-pagination">
+                    <div class="" data-grid-pagination=""></div>
+                </div>
+
+            </div>
+            <% if (toolbarPosition !== 'bottom') { %>
+            <div class="datagrid-toolbar__rightside" data-section="right-side">
+                <div class="datagrid-tool">
+                    <div class=" page-size pull-right form-horizontal" data-grid-pagesize=""></div>
+                </div>
+                <div class="datagrid-tool">
+                    <div class=" actions-panel pull-right form-horizontal" data-grid-actions-panel=""></div>
+                </div>
+
+            </div>
+            <% } %>
+
+            <div class=" frontend-datagrid__filter" data-role="filter-container"></div>
+
+        </div>
+    </script>
+{% endblock %}
+
+{% block _style_book_grid_element_datagrid_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props" data-props></div>
+{% endblock %}
+
+{% block _style_book_grid_element_datagrid_html_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+    '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        <!-- Use dataGrid.renderGrid macros in twig -->
+        <!-- gridName is required -->
+        <!-- params: additional parameters for url -->
+        <!-- renderParams: parameters for grid UI -->
+
+        <!-- renderParams = {
+                themeOptions,
+                toolbarOptions,
+                gridViewsOptions,
+                gridBuildersOptions,
+                enableViews,
+                filterContainerSelector,
+                filtersStateElement,
+
+            }
+     -->
+
+        <!-- dataGrid.renderGrid(gridName, params|default({}), renderParams) -->
+
+        <!-- Grid base markup example -->
+        <div id="{ gridId }"
+             data-page-component-module="{ renderParams.datagridComponent|default('orodatagrid/js/app/components/datagrid-component') }>"
+             data-page-component-name="{ options.gridName }"
+             data-page-component-options="{ options|json_encode }">
+        </div>
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-markup">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
 
