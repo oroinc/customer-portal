@@ -36,7 +36,7 @@ class FrontendRestApiSubresourceController extends AbstractRestApiSubresourceCon
         $processor = $this->getProcessor($request);
         /** @var GetSubresourceContext $context */
         $context = $this->getContext($processor, $request);
-        $context->setFilterValues(new RestFilterValueAccessor($request));
+        $context->setFilterValues($this->getFilterValueAccessor($request));
 
         $processor->process($context);
 
