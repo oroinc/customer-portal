@@ -20,23 +20,40 @@ class UpdateEntitiesFormTypes implements Migration
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        $queries->addPostQuery($this->createUpdateEntityQuery(Customer::class, CustomerSelectType::class));
-        $queries->addPostQuery($this->createUpdateEntityQuery(CustomerGroup::class, CustomerGroupSelectType::class));
-        $queries->addPostQuery($this->createUpdateEntityQuery(CustomerUser::class, CustomerUserSelectType::class));
+        $queries->addPostQuery($this->createUpdateEntityQuery(
+            Customer::class,
+            CustomerSelectType::class,
+            'oro_customer_customer_select'
+        ));
+        $queries->addPostQuery($this->createUpdateEntityQuery(
+            CustomerGroup::class,
+            CustomerGroupSelectType::class,
+            'oro_customer_customer_group_select'
+        ));
+        $queries->addPostQuery($this->createUpdateEntityQuery(
+            CustomerUser::class,
+            CustomerUserSelectType::class,
+            'oro_customer_customer_user_select'
+        ));
     }
 
     /**
      * @param string $entityClass
      * @param string $formType
+     * @param string $replaceValue
      * @return UpdateEntityConfigEntityValueQuery
      */
-    private function createUpdateEntityQuery(string $entityClass, string $formType): UpdateEntityConfigEntityValueQuery
-    {
+    private function createUpdateEntityQuery(
+        string $entityClass,
+        string $formType,
+        string $replaceValue
+    ): UpdateEntityConfigEntityValueQuery {
         return new UpdateEntityConfigEntityValueQuery(
             $entityClass,
             'form',
             'form_type',
-            $formType
+            $formType,
+            $replaceValue
         );
     }
 }
