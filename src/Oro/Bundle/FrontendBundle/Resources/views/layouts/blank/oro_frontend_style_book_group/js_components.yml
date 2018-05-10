@@ -394,7 +394,7 @@ layout:
                         group_element_item_googlemaps_view:
                             style_book_googlemaps_view:
                                 group_tabs_googlemaps_view: ~
-
+#
                     group_element_list_slider:
                         group_element_item_list_slider:
                             style_book_list_slider:

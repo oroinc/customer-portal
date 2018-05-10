@@ -1,0 +1,4 @@
+stylebook_styles:
+    inputs:
+        - 'bundles/orofrontend/default/scss/style-book.scss'
+    output: 'css/layout/default/stylebook.css'
