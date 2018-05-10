@@ -78,14 +78,82 @@ oro_frontend_style_book:
                     config: 'Config'
                     html: 'How to add in HTML?'
                     js: 'How to add in JS?'
-
+                    mediator: 'Use with mediator'
+                    require: 'RequireJS config'
+                mediator:
+                    common: 'Common'
+                    grid: 'Grid'
+                    message: 'Message'
         modal:
             title: 'Modal'
             description: 'Modal view component'
-
         datagrid:
             title: 'Datagrid'
             description: 'Datagrid'
+        loading_mask:
+            title: 'Loading Mask'
+            description: 'Loading mask view'
+
+        dialog_widget:
+            title: 'Dialog Widget'
+            description: 'Dialog widget'
+
+        collapse_widget:
+            title: 'Collapse Widget'
+            description: 'Collapse widget'
+
+        fullscreen_popup_view:
+            title: 'Fullscreen Popup View'
+            description: 'Fullscreen Popup View'
+
+        scroll_view:
+            title: 'Scroll View'
+            description: 'Scroll View'
+
+        googlemaps_view:
+            title: 'Google Map View'
+            description: 'Google Map View'
+
+        list_slider:
+            title: 'List Slider Component'
+            description: 'List Slider Component'
+
+        dom_relocation:
+            title: 'DOM relocation view'
+            description: 'DOM relocation view'
+
+        sticky_panel_view:
+            title: 'Sticky Panel View'
+            description: 'Sticky Panel View'
+
+        mediator:
+            title: 'Mediator'
+            description: 'Mediator'
+
+        popup_gallery:
+            title: 'Popup Gallery Widget'
+            description: 'Popup Gallery Widget'
+
+        viewport_manager:
+            title: 'Viewport Manager'
+            description: 'Viewport Manager'
+
+        lazy_init:
+            title: 'Lazy Init View'
+            description: 'Lazy Init View'
+
+        zoom_widget:
+            title: 'Zoom Widget'
+            description: 'Zoom Widget'
+
+        input_widgets:
+            title: 'Input Widgets'
+            number:
+                title: 'Input Number Widget'
+                description: 'Input Number Widget'
+            select2:
+                title: 'Select2 Widget'
+                description: 'Select2 Widget'
 
         grid:
             title: 'Grid Elements'

@@ -20,9 +20,9 @@
     <% } %>
     <% } %>
 
-    <% if (prop.type === 'textarea') { %>
+    <% if (prop.type === 'textarea' || prop.type === 'template') { %>
     <label class="label label--full required" for="form_textarea-<%= key %>"><%= prop.label %></label>
-    <textarea id="form_textarea-<%= key %>" name="form[<%= key %>]" data-ftid="form_textarea" data-name="<%= key %>" class=" form-field-textarea textarea textarea--full" rows="3" data-bind="<%= prop.bind %>"><%= prop.value %></textarea>
+    <textarea id="form_textarea-<%= key %>" <%= prop.type === 'template' ? 'data-template="true"' : '' %> name="form[<%= key %>]" data-ftid="form_textarea" data-name="<%= key %>" class=" form-field-textarea textarea textarea--full" rows="3" data-bind="<%= prop.bind %>"><%= prop.value %></textarea>
     <% } %>
 </div>
 <% }) %>

@@ -17,7 +17,7 @@ define(function(require) {
          * @property {Array}
          */
         optionNames: BaseView.prototype.optionNames.concat(
-            ['props', 'viewConstructor', 'viewOptions', 'renderAfter']
+            ['props', 'viewConstructor', 'viewOptions', 'renderAfter', 'widget']
         ),
 
         /**
@@ -69,6 +69,16 @@ define(function(require) {
         renderAfter: 'demand',
 
         /**
+         * @property
+         */
+        subviewContainer: '[data-example-view]',
+
+        /**
+         * @property
+         */
+        widget: false,
+
+        /**
          * @Constructor
          * @inheritDoc
          * @returns {*}
@@ -98,18 +108,39 @@ define(function(require) {
          */
         createView: function(View) {
             this.viewConstructor = View;
-            this.constructorName = View.name;
-            this.subview(this.constructorName, new View(this.viewOptions));
 
-            if (this.renderAfter === 'demand') {
-                this.subview(this.constructorName).render();
-                this.subview(this.constructorName).$el.appendTo(this.$el.find(this.viewPreviewSelector));
+            if (_.isString(this.viewConstructor)) {
+                this.$el[this.viewConstructor](this.viewOptions);
             }
 
-            if (this.renderAfter === 'action') {
-                var actionEl = this.$('[data-action]');
-                var actions = actionEl.data('action').split(' ');
-                actionEl.on(actions[0], _.bind(this.renderViewViaMethod, this, actions[1]));
+            if (_.isFunction(this.viewConstructor)) {
+                this.constructorName = View.name;
+
+                if (this.$el.find(this.subviewContainer).length) {
+                    _.extend(this.viewOptions, {
+                        _sourceElement: this.$el.find(this.subviewContainer),
+                        el: this.$el.find(this.subviewContainer).get()
+                    });
+                }
+
+                this.subview(this.constructorName, new View(this.viewOptions));
+
+                if (this.renderAfter === 'demand') {
+                    if (!/Component$/.test('ContentSliderComponent')) {
+                        this.subview(this.constructorName).render();
+                    }
+                    this.subview(this.constructorName).$el.appendTo(this.$el.find(this.viewPreviewSelector));
+                }
+
+                if (this.renderAfter === 'action') {
+                    var actionEl = this.$('[data-action]');
+                    var actions = actionEl.data('action').split(' ');
+                    actionEl.on(actions[0], _.bind(this.renderViewViaMethod, this, actions[1]));
+                }
+            }
+
+            if (this.widget) {
+                this.$el.inputWidget('seekAndCreate');
             }
         },
 
@@ -130,14 +161,20 @@ define(function(require) {
          * @disposeView
          */
         disposeView: function() {
-            this.subview(this.constructorName).dispose();
+            if (_.isString(this.viewConstructor)) {
+                this.$el[this.viewConstructor]('destroy');
+            }
+
+            if (_.isFunction(this.viewConstructor)) {
+                this.subview(this.constructorName).dispose();
+            }
         },
 
         /**
          * @updateConfigPreview Update text preview of configuration array
          */
         updateConfigPreview: function() {
-            this.configPreview.text(JSON.stringify(this.viewOptions, null, '\t'));
+            this.configPreview.text(JSON.stringify(_.omit(this.viewOptions, ['el', '_sourceElement']), null, '\t'));
         },
 
         /**
@@ -212,6 +249,10 @@ define(function(require) {
 
             if ($target.attr('type') === 'number') {
                 value = parseFloat(value);
+            }
+
+            if ($target.data('template')) {
+                value = _.template(value);
             }
 
             this._setBindOption(name.split('.'), value, this.viewOptions);

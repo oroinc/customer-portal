@@ -97,8 +97,6 @@ config:
         'orofrontend/blank/js/app/views/toggle-action-view': 'bundles/orofrontend/blank/js/app/views/toggle-action-view.js'
 
         'orofrontend/default/js/app/views/input-widget/number': 'bundles/orofrontend/default/js/app/views/input-widget/number.js'
-
-        'orofrontend/js/app/views/style-book-playground': 'bundles/orofrontend/js/app/views/style-book-playground.js'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
         - orofrontend/js/app/modules/component-shortcuts-module
