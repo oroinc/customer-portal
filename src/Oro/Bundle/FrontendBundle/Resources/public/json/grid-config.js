@@ -15,7 +15,7 @@ define(function() {
                 'orosync\/js\/content\/grid-builder',
                 'orodatagrid\/js\/totals-builder'
             ],
-            options:  {
+            options: {
                 gridName: 'frontend-customer-customer-address-grid',
                 frontend: true,
                 additional_fields: [],
@@ -43,11 +43,11 @@ define(function() {
                         hide: false,
                         onePage: false
                     },
-                    addSorting:  false,
-                    disableNotSelectedOption:  false
+                    addSorting: false,
+                    disableNotSelectedOption: false
                 },
                 urlParams: {
-                    originalRoute:  'oro_customer_frontend_customer_user_address_index'
+                    originalRoute: 'oro_customer_frontend_customer_user_address_index'
                 },
                 route: 'oro_frontend_datagrid_index',
                 contentTags: [
@@ -944,7 +944,7 @@ define(function() {
                     }
                 }
             },
-            customModules:  {
+            customModules: {
                 columnManagerComponent: 'orofrontend\/js\/app\/components\/' +
                 'column-manager\/frontend-column-manager-component'
             },
@@ -968,6 +968,6 @@ define(function() {
             text: 'oro.customer.customer_address_book.customer_addresses',
             icon: 'map-marker'
         },
-        gridBuildersOptions:  []
+        gridBuildersOptions: []
     };
 });

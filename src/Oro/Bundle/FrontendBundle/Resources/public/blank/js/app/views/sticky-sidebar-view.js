@@ -90,7 +90,7 @@ define(function(require) {
             if (this.$document) {
                 this.$document.off(this.eventNamespace());
             }
-            
+
             StickySidebarView.__super__.undelegateEvents.apply(this, arguments);
         },
 
