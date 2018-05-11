@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\IntegerNode;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 
 class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
 {
@@ -41,7 +41,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
             ]
         );
         $this->assertInstanceOf(
-            DefinitionDecorator::class,
+            ChildDefinition::class,
             $this->actualDefinitions['oro_customer.authentication.provider.anonymous_customer_user.fake_id']
         );
         $this->assertEquals(
@@ -58,7 +58,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
         );
 
         $this->assertInstanceOf(
-            DefinitionDecorator::class,
+            ChildDefinition::class,
             $this->actualDefinitions['oro_customer.authentication.listener.anonymous_customer_user.fake_id']
         );
         $this->assertEquals(
