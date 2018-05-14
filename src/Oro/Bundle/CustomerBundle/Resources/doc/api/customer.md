@@ -161,15 +161,15 @@ The list of records that will be deleted, could be limited by filters.
 
 #### get_subresource
 
-Retrieve a set of records of children customers assigned to a specific customer record.
+Retrieve a set of records of child customers assigned to a specific customer record.
 
 #### get_relationship
 
-Retrieve IDs of children customers records assigned to a specific customer record.
+Retrieve IDs of child customers records assigned to a specific customer record.
 
 #### update_relationship
 
-Replace the list of children customers assigned to a specific customer record.
+Replace the list of child customers assigned to a specific customer record.
 
 {@request:json_api}
 Example:
@@ -194,7 +194,7 @@ Example:
 
 #### add_relationship
 
-Set children customers records for a specific customer record.
+Set child customers records for a specific customer record.
 
 {@request:json_api}
 Example:
@@ -219,7 +219,7 @@ Example:
 
 #### delete_relationship
 
-Remove children customers records from a specific customer record.
+Remove child customers records from a specific customer record.
 
 {@request:json_api}
 Example:
@@ -362,11 +362,11 @@ Example:
 
 #### get_subresource
 
-Retrieve a parent customers assigned to a specific customer record.
+Retrieve the parent customer assigned to a specific customer record.
 
 #### get_relationship
 
-Retrieve the IDs of the parent customers records assigned to a specific customer record.
+Retrieve the ID of the parent customer record assigned to a specific customer record.
 
 #### update_relationship
 
