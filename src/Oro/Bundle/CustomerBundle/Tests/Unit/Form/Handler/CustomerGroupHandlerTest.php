@@ -78,6 +78,9 @@ class CustomerGroupHandlerTest extends \PHPUnit_Framework_TestCase
         $this->request->setMethod('POST');
 
         $this->form->expects($this->once())
+            ->method('isSubmitted')
+            ->will($this->returnValue(true));
+        $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(true));
 
@@ -87,7 +90,7 @@ class CustomerGroupHandlerTest extends \PHPUnit_Framework_TestCase
         $appendForm->expects($this->once())
             ->method('getData')
             ->will($this->returnValue([$appendedCustomer]));
-        $this->form->expects($this->at(3))
+        $this->form->expects($this->at(4))
             ->method('get')
             ->with('appendCustomers')
             ->will($this->returnValue($appendForm));
@@ -98,7 +101,7 @@ class CustomerGroupHandlerTest extends \PHPUnit_Framework_TestCase
         $removeForm->expects($this->once())
             ->method('getData')
             ->will($this->returnValue([$removedCustomer]));
-        $this->form->expects($this->at(4))
+        $this->form->expects($this->at(5))
             ->method('get')
             ->with('removeCustomers')
             ->will($this->returnValue($removeForm));
@@ -136,6 +139,9 @@ class CustomerGroupHandlerTest extends \PHPUnit_Framework_TestCase
         $this->form->expects($this->once())
             ->method('setData')
             ->with($this->entity);
+        $this->form->expects($this->once())
+            ->method('isSubmitted')
+            ->will($this->returnValue(true));
         $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(false));
