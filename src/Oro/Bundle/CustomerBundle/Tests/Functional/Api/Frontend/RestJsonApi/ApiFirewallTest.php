@@ -11,7 +11,6 @@ class ApiFirewallTest extends FrontendRestJsonApiTestCase
 {
     protected function setUp()
     {
-        $this->markTestSkipped('TODO: BAP-17065');
         $this->initClient();
         $this->setCurrentWebsite();
         $this->loadFixtures(
