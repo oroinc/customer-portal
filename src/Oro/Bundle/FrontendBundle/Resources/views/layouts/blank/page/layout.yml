@@ -7,7 +7,7 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'layout.html.twig'
+            themes: 'OroFrontendBundle:layouts:blank/page/layout.html.twig'
 
         - '@add':
             id: page_title_container
