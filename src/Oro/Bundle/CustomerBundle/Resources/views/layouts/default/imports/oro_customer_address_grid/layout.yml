@@ -7,7 +7,7 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'layout.html.twig'
+            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_address_grid/layout.html.twig'
 
         - '@addTree':
             items:

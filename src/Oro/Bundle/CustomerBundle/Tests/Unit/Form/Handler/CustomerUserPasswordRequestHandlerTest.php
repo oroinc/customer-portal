@@ -127,6 +127,9 @@ class CustomerUserPasswordRequestHandlerTest extends AbstractCustomerUserPasswor
             ->method('handleRequest')
             ->with($this->request);
         $this->form->expects($this->once())
+            ->method('isSubmitted')
+            ->will($this->returnValue(true));
+        $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(true));
 
