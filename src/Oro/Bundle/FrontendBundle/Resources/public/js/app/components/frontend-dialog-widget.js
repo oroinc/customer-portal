@@ -5,13 +5,36 @@ define(function(require) {
     var DialogWidget = require('oro/dialog-widget');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var ViewportManager = require('oroui/js/viewport-manager');
+    var actionsTemplate = require('tpl!orofrontend/templates/frontend-dialog-widget/frontend-dialog-widget-actions.html');
     var _ = require('underscore');
     var $ = require('jquery');
 
     FrontendDialogWidget = DialogWidget.extend({
         optionNames: DialogWidget.prototype.optionNames.concat([
-            'fullscreenViewport', 'fullscreenViewOptions', 'fullscreenDialogOptions'
+            'fullscreenViewport', 'fullscreenViewOptions', 'fullscreenDialogOptions',
+            'actionsTemplate', 'simpleActionTemplate', 'contentElement',
+            'renderActionsFromTemplate'
         ]),
+
+        /**
+         * @property {String}
+         */
+        actionsTemplate: actionsTemplate,
+
+        /**
+         * @property {Boolean}
+         */
+        simpleActionTemplate: false,
+
+        /**
+         * @property {String}
+         */
+        contentElement: 'section.page-content',
+
+        /**
+         * @property {Boolean}
+         */
+        renderActionsFromTemplate: false,
 
         /**
          * @property {Object}
@@ -47,6 +70,8 @@ define(function(require) {
         isApplicable: false,
 
         $header: null,
+
+        useDialog: false,
 
         /**
          * @inheritDoc
@@ -149,6 +174,20 @@ define(function(require) {
             if (!this.subview('fullscreenView')) {
                 return FrontendDialogWidget.__super__.resetDialogPosition.call(this);
             }
+        },
+
+        _onContentLoad: function(content) {
+            if (this.renderActionsFromTemplate) {
+                content = $(content).find(this.contentElement).addClass('widget-content');
+
+                content.append(this.actionsTemplate({
+                    simpleActionTemplate: this.simpleActionTemplate
+                }));
+
+                content = content.parent().html();
+            }
+
+            return FrontendDialogWidget.__super__._onContentLoad.call(this, content);
         }
     });
 
