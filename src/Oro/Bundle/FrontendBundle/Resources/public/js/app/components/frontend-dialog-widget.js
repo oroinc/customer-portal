@@ -5,7 +5,7 @@ define(function(require) {
     var DialogWidget = require('oro/dialog-widget');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var ViewportManager = require('oroui/js/viewport-manager');
-    var actionsTemplate = require('tpl!orofrontend/templates/frontend-dialog-widget/frontend-dialog-widget-actions.html');
+    var actionsTemplate = require('tpl!orofrontend/templates/frontend-dialog/dialog-actions.html');
     var _ = require('underscore');
     var $ = require('jquery');
 
