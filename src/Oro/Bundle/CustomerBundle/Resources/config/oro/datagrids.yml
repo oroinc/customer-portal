@@ -559,8 +559,6 @@ datagrids:
                     data_name: CAST(isRolePredefined as int)
                     options:
                         field_options:
-                            # TODO: remove 'choices_as_values' option below in scope of BAP-15236
-                            choices_as_values: true
                             choices:
                                 oro.customer.customeruserrole.type.predefined.label: 1
                                 oro.customer.customeruserrole.type.customizable.label: 0
@@ -838,8 +836,6 @@ datagrids:
                     data_name: CAST(status as int)
                     options:
                         field_options:
-                            # TODO: remove 'choices_as_values' option below in scope of BAP-15236
-                            choices_as_values: true
                             choices:
                                 oro.customer.frontend.customer_user.status_active.label: 1
                                 oro.customer.frontend.customer_user.status_inactive.label: 0
@@ -911,8 +907,6 @@ datagrids:
                     data_name: CAST(status as int)
                     options:
                         field_options:
-                            # TODO: remove 'choices_as_values' option below in scope of BAP-15236
-                            choices_as_values: true
                             choices:
                                 oro.customer.frontend.customer_user.status_active.label: 1
                                 oro.customer.frontend.customer_user.status_inactive.label: 0

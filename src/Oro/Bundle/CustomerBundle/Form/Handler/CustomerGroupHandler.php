@@ -55,7 +55,7 @@ class CustomerGroupHandler
         if ($this->request->isMethod('POST')) {
             $this->form->handleRequest($this->request);
 
-            if ($this->form->isValid()) {
+            if ($this->form->isSubmitted() && $this->form->isValid()) {
                 $this->onSuccess(
                     $entity,
                     $this->form->get('appendCustomers')->getData(),

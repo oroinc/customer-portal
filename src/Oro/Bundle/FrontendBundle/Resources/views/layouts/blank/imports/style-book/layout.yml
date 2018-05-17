@@ -4,7 +4,7 @@ layout:
             id: style-book-menu
     actions:
         - '@setBlockTheme':
-            themes: 'layout.html.twig'
+            themes: 'OroFrontendBundle:layouts:blank/imports/style-book/layout.html.twig'
 
         - '@remove':
             id: wrapper

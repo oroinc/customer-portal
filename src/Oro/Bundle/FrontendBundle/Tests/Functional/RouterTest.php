@@ -18,7 +18,7 @@ class RouterTest extends WebTestCase
     {
         $router = $this->getContainer()->get('router.default');
         $generator = $router->getGenerator();
-        $this->assertInstanceOf('\appTestProjectContainerUrlGenerator', $generator);
+        $this->assertInstanceOf('\srcTestProjectContainerUrlGenerator', $generator);
 
         $declaredRoutesProperty = new \ReflectionProperty(get_class($generator), 'declaredRoutes');
         $declaredRoutesProperty->setAccessible(true);

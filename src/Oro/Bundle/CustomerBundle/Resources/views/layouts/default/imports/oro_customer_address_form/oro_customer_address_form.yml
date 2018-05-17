@@ -1,9 +1,9 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'oro_customer_address_form.html.twig'
+            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_address_form/oro_customer_address_form.html.twig'
         - '@setFormTheme':
-            themes: 'form_theme.html.twig'
+            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_address_form/form_theme.html.twig'
         - '@addTree':
             items:
                 __container:
