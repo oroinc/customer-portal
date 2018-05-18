@@ -1,1 +1,3 @@
 icon: bundles/orofrontend/default/images/favicon.ico
+styles:
+    - bundles/orofrontend/themes/demo/style.css
