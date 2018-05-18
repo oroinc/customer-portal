@@ -1,11 +1,11 @@
 oro_stylebook:
     main_content:
-          sub_title_main: 'Oro StyleBook: UI Component Library'
-          sub_title: 'Oro UI Library Structure and Navigation'
-          text_content: 'The Oro UI Library is a display of the UI elements with their source code.'
-          text_content_first: 'Most of the UI elements that are involved in OroCommerce Management Console and Front Store UI, are included in the Oro UI Library and are grouped into categories (e.g. Form Elements, Grid Elements) tabbed at the top of the page.'
-          text_content_second: 'When on the Category tab, use the elements navigation tree (on the right) to jump to the element`s description, preview and code sample.'
-          text_content_third: 'The elements from the UI Library may be easily reused in your custom forms and pages in Oro application. You can also use the library as a preview of the updated styles when customizing the application look and feel (see <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/frontendStylesArchitecture.md">Oro Styles Architecture</a> and <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/howToAssetsCss.md">Styles Organization and Customization</a> for more information on the UI customization)'
+          sub_title_main: 'Oro StyleBook'
+          sub_title: 'UI Library Structure and Navigation'
+          text_content: 'Oro StyleBook is a UI elements and components library that helps developers and designers use the recommended templates to build or customize the Oro application pages. For every UI element, library provides a source code sample that may be copied to reproduce a similar component and a preview of this sample in the current UI theme. <br><br>The following color-coding is used to simplify orientation in the library: <div class="style-book-group-element__description">The optional description of the UI element or design component may be highlighted with a red ribbon on the left.</div><div class="style-book-group-element__item">The code samples are marked with a blue ribbon.</div><div class="style-book-group-element__preview">The UI element preview is rendered in a light-gray box.</div><br>The information in the UI library may be used in two different ways:'
+          text_content_first: '<ul><li>* <b>When you modify your Oro application layout</b>, you can copy the element`s source code to your custom form or page in the Oro application to preserve the overall look and feel consistency.</li><li>* <b>After you have modified your Oro application styles or layout</b>, you can use the StyleBook to check how updated styles affect the UI elements (see <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/frontendStylesArchitecture.md">Oro Styles Architecture</a> and <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/howToAssetsCss.md">Styles Organization and Customization</a> for more information on the UI customization).</li></ul>'
+          text_content_second: 'Most of the OroCommerce Management Console and Front Store UI elements are included and grouped into the following categories: <ul><li>* <a href="configs/">General Look and Feel</a></li><li>* <a href="forms/">Form Elements</a></li><li>* <a href="grid/">Grid Elements</a></li><li>* <a href="jscomponents/">JS Components</a></li></ul>Use the tabs at the top of the page to switch between the categories.'
+          text_content_third: 'When on the Category tab, use the elements navigation tree (on the right) to jump to the element`s description, preview and code sample.'
     nav:
         title: Elements
         header_menu_title: Category
@@ -199,7 +199,7 @@ oro_stylebook:
                 title: Multi-Line Row
                 description: 'To forced the column to move to a new line, use the <code class="language-html">grid__column</code> with <code class="language-html">--both</code> prefix.'
         configs:
-            title: 'Components config'
+            title: 'General Look and Feel'
             colors:
                 title: Colors
                 description: 'To use color for some element you should use <code class="language-markup">get-color</code> function. Example and usage of this function are described in <strong>Functions</strong> section. Example of usage certain color in code is given under every color preview'
