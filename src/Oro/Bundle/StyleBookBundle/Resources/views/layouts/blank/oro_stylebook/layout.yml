@@ -1,0 +1,7 @@
+layout:
+    imports:
+        -
+            id: style_book
+            root: body
+            namespace: style_book
+    actions: []

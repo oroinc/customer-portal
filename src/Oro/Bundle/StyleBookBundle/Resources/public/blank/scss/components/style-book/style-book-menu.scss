@@ -1,0 +1,94 @@
+// @theme: blank;
+
+.style-book-menu {
+    display: $style-book-menu-display;
+
+    &__link {
+        color: $style-book-menu-link-color;
+
+        @include element-state('hover') {
+            color: $style-book-menu-link-color-hover;
+        }
+
+        &--current {
+            color: $style-book-menu-link-color-current;
+
+            @include element-state('hover') {
+                color: $style-book-menu-link-color-current;
+            }
+        }
+    }
+
+    &__item {
+        position: $style-book-menu-item-position;
+        padding: $style-book-menu-item-inner-offset;
+
+        .style-book-menu {
+            display: $style-book-menu-item-menu-display;
+        }
+
+        &--current,
+        &.active {
+            &:before {
+                top: $style-book-menu-item-current-before-top;
+                left: $style-book-menu-item-current-before-left;
+                width: $style-book-menu-item-current-before-width;
+                height: $style-book-menu-item-current-before-height;
+                border-radius: $style-book-menu-item-current-before-border-radius;
+                background: $style-book-menu-item-current-before-background;
+
+                @include after();
+            }
+
+            > .style-book-menu__link {
+                font-weight: $style-book-menu-link-font-weight-current;
+            }
+
+            > .style-book-menu {
+                display: $style-book-menu-item-active-menu-display;
+            }
+        }
+    }
+}
+
+@include breakpoint('desktop') {
+    .style-book-menu {
+        $root: '.style-book-menu';
+
+        &--main {
+            display: $style-book-menu-main-display;
+
+            #{$root}__item {
+                padding: $style-book-menu-main-item-inner-offset;
+                text-transform: $style-book-menu-main-item-text-transform;
+
+                @include element-state('hover') {
+                    background: $style-book-menu-main-item-background-hover;
+                }
+
+                &--current,
+                &.active {
+                    background: $style-book-menu-main-item-current-background;
+
+                    &:before {
+                        content: $style-book-menu-main-item-current-before-content;
+                    }
+
+                    > #{$root}__link {
+                        font-weight: $style-book-menu-main-link-font-weight-current;
+                    }
+                }
+            }
+
+            #{$root}__link {
+                display: $style-book-menu-main-link-display;
+                padding: $style-book-menu-main-link-inner-offset;
+
+                @include element-state('hover') {
+                    color: $style-book-menu-main-link-color-hover;
+                    text-decoration: $style-book-menu-main-link-text-decoration-hover;
+                }
+            }
+        }
+    }
+}
