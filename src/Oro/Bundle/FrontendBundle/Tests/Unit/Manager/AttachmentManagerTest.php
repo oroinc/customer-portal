@@ -69,7 +69,7 @@ class AttachmentManagerTest extends \PHPUnit_Framework_TestCase
                     'codedString' => $expectsString,
                     'extension' => 'txt'
                 ],
-                true
+                RouterInterface::ABSOLUTE_URL
             );
         $this->attachmentManager->getFileUrl($parentEntity, $fieldName, $this->attachment, 'download', true);
     }
