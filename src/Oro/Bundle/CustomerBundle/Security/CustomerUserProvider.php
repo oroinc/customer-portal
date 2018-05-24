@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Security;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
@@ -66,6 +67,26 @@ class CustomerUserProvider
         }
 
         return null;
+    }
+
+    /**
+     * @return CustomerUser|null
+     */
+    public function getLoggedUserIncludingGuest()
+    {
+        $user = $this->getLoggedUser();
+
+        if (!$user) {
+            $token = $this->tokenAccessor->getToken();
+            if ($token instanceof AnonymousCustomerUserToken) {
+                $visitor = $token->getVisitor();
+                if ($visitor) {
+                    $user = $visitor->getCustomerUser();
+                }
+            }
+        }
+
+        return $user;
     }
 
     /**

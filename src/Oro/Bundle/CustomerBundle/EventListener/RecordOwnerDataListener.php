@@ -5,11 +5,10 @@ namespace Oro\Bundle\CustomerBundle\EventListener;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Listener which automatically assign owner fields to new created instance of entity with enabled ownership policy.
@@ -19,8 +18,8 @@ class RecordOwnerDataListener
     const OWNER_TYPE_USER = 'FRONTEND_USER';
     const OWNER_TYPE_CUSTOMER = 'FRONTEND_CUSTOMER';
 
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    /** @var CustomerUserProvider */
+    protected $customerUserProvider;
 
     /** @var ConfigProvider */
     protected $configProvider;
@@ -29,16 +28,16 @@ class RecordOwnerDataListener
     protected $propertyAccessor;
 
     /**
-     * @param TokenStorageInterface $tokenStorage
+     * @param CustomerUserProvider $customerUserProvider
      * @param ConfigProvider $configProvider
      * @param PropertyAccessor $propertyAccessor
      */
     public function __construct(
-        TokenStorageInterface $tokenStorage,
+        CustomerUserProvider $customerUserProvider,
         ConfigProvider $configProvider,
         PropertyAccessor $propertyAccessor
     ) {
-        $this->tokenStorage = $tokenStorage;
+        $this->customerUserProvider = $customerUserProvider;
         $this->configProvider = $configProvider;
         $this->propertyAccessor = $propertyAccessor;
     }
@@ -51,7 +50,7 @@ class RecordOwnerDataListener
      */
     public function prePersist(LifecycleEventArgs $args)
     {
-        $user = $this->getLoggedCustomerUser();
+        $user = $this->customerUserProvider->getLoggedUserIncludingGuest();
         if (!$user) {
             return;
         }
@@ -107,28 +106,5 @@ class RecordOwnerDataListener
                 $this->propertyAccessor->setValue($entity, $fieldName, $user->getCustomer());
             }
         }
-    }
-
-    /**
-     * @return CustomerUser|null
-     */
-    private function getLoggedCustomerUser()
-    {
-        $token = $this->tokenStorage->getToken();
-        if (!$token) {
-            return null;
-        }
-
-        $user = $token->getUser();
-
-        if ($user instanceof CustomerUser) {
-            return $user;
-        }
-
-        if ($token instanceof AnonymousCustomerUserToken && $token->getVisitor()) {
-            return $token->getVisitor()->getCustomerUser();
-        }
-
-        return null;
     }
 }

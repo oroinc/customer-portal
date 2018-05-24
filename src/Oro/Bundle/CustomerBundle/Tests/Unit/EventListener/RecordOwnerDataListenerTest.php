@@ -6,13 +6,13 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener;
+use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Fixtures\Entity\User;
 use Oro\Bundle\EntityConfigBundle\Config\Config;
 use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\OrganizationBundle\Tests\Unit\Fixture\Entity\Entity;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class RecordOwnerDataListenerTest extends \PHPUnit_Framework_TestCase
@@ -20,37 +20,37 @@ class RecordOwnerDataListenerTest extends \PHPUnit_Framework_TestCase
     /**  @var RecordOwnerDataListener */
     protected $listener;
 
-    /** @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $tokenStorage;
+    /** @var CustomerUserProvider|\PHPUnit_Framework_MockObject_MockObject */
+    protected $customerUserProvider;
 
     /** @var ConfigProvider|\PHPUnit_Framework_MockObject_MockObject */
     protected $configProvider;
 
     protected function setUp()
     {
-        $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $this->customerUserProvider = $this->createMock(CustomerUserProvider::class);
         $this->configProvider = $this->createMock(ConfigProvider::class);
 
         $this->listener = new RecordOwnerDataListener(
-            $this->tokenStorage,
+            $this->customerUserProvider,
             $this->configProvider,
             PropertyAccess::createPropertyAccessor()
         );
     }
 
     /**
-     * @param $token
+     * @param $user
      * @param $securityConfig
      * @param $expect
      *
      * @dataProvider preSetData
      */
-    public function testPrePersistUser($token, $securityConfig, $expect)
+    public function testPrePersistUser($user, $securityConfig, $expect)
     {
         $entity = new Entity();
-        $this->tokenStorage->expects($this->once())
-            ->method('getToken')
-            ->will($this->returnValue($token));
+        $this->customerUserProvider->expects($this->once())
+            ->method('getLoggedUserIncludingGuest')
+            ->will($this->returnValue($user));
 
         $args = new LifecycleEventArgs($entity, $this->createMock(ObjectManager::class));
         $this->configProvider->expects($this->once())
@@ -110,18 +110,18 @@ class RecordOwnerDataListenerTest extends \PHPUnit_Framework_TestCase
         );
 
         return [
-            'OwnershipType User with UsernamePasswordToken' => [
-                new UsernamePasswordToken($user, 'admin', 'key'),
+            'OwnershipType User' => [
+                $user,
                 $userConfig,
                 ['owner' => $user]
             ],
-            'OwnershipType Customer with UsernamePasswordToken' => [
-                new UsernamePasswordToken($user, 'admin', 'key'),
+            'OwnershipType Customer' => [
+                $user,
                 $buConfig,
                 ['owner' => $customer]
             ],
-            'OwnershipType Organization with UsernamePasswordToken' => [
-                new UsernamePasswordToken($user, 'admin', 'key'),
+            'OwnershipType Organization' => [
+                $user,
                 $organizationConfig,
                 []
             ],

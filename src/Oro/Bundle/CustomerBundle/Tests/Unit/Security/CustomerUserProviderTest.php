@@ -3,6 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Security;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\SecurityBundle\Acl\Extension\AclExtensionSelector;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
@@ -43,6 +45,30 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
             $this->tokenAccessor,
             $this->aclManager
         );
+    }
+
+    public function testGetLoggedUserIncludingGuest()
+    {
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn(null);
+
+        $token = $this->createMock(AnonymousCustomerUserToken::class);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $visitor = $this->createMock(CustomerVisitor::class);
+        $token->expects($this->once())
+            ->method('getVisitor')
+            ->willReturn($visitor);
+
+        $guestUser = $this->createMock(CustomerUser::class);
+        $visitor->expects($this->once())
+            ->method('getCustomerUser')
+            ->willReturn($guestUser);
+
+        $this->assertSame($guestUser, $this->provider->getLoggedUserIncludingGuest());
     }
 
     public function testIsGrantedOidMaskAcesFilteredOrNotPresent()
