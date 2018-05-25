@@ -1033,3 +1033,12 @@ services:
             - '@?security.acl.voter.basic_permissions'
             - '@oro_customer.security.orm.ownership_sql_walker_builder.inner'
             - '@oro_security.acl.group_provider.chain'
+
+    oro_customer.handler.customer_registration_handler:
+        class: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler
+        arguments:
+            - '@oro_customer.provider.frontend_customer_user_registration_form'
+            - '@oro_customer_user.manager'
+            - '@oro_customer.handler.frontend_customer_user_handler'
+            - '@oro_form.update_handler'
+            - '@translator'
