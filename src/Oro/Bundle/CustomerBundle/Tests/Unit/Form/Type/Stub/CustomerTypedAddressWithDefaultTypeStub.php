@@ -42,7 +42,8 @@ class CustomerTypedAddressWithDefaultTypeStub extends AbstractType
         $choices = [];
         /** @var AddressType $type */
         foreach ($this->types as $type) {
-            $choices[$type->getName()] = 'Default' . $type->getName();
+            $typeName = $type->getName();
+            $choices['Default' . $typeName] = $typeName;
         }
 
         $builder->add('default', ChoiceType::class, [

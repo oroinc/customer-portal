@@ -152,7 +152,7 @@ system_configuration:
     fields:
         guest_product:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             options:
                 label: some.title
                 tooltip: some.tooltip

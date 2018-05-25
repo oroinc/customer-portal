@@ -16,13 +16,13 @@ use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Component\Testing\Unit\EntityTrait;
-use Symfony\Bridge\Doctrine\Form\ChoiceList\ORMQueryBuilderLoader;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 {
     use EntityTrait;
+
     /**
      * @var FrontendCustomerUserRoleSelectType
      */
@@ -101,18 +101,13 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         /** @var $resolver OptionsResolver|\PHPUnit_Framework_MockObject_MockObject */
         $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
 
-        $qb = new ORMQueryBuilderLoader($this->qb);
-
         $resolver->expects($this->once())
-            ->method('setNormalizer')
-            ->with($this->isType('string'), $this->isInstanceOf('\Closure'))
+            ->method('setDefaults')
+            ->with($this->isType('array'))
             ->willReturnCallback(
-                function ($type, $closure) use ($qb) {
-                    $this->assertEquals('loader', $type);
-                    $this->assertEquals(
-                        $closure(),
-                        $qb
-                    );
+                function (array $options) {
+                    $this->assertArrayHasKey('query_builder', $options);
+                    $this->assertInstanceOf('\Closure', $options['query_builder']);
                 }
             );
         $this->formType->configureOptions($resolver);
@@ -120,6 +115,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
     public function testEmptyUser()
     {
+        /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject $tokenAccessor */
         $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $tokenAccessor->expects($this->once())->method('getUser')->willReturn(null);
         /** @var $resolver OptionsResolver|\PHPUnit_Framework_MockObject_MockObject */

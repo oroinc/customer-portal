@@ -6,7 +6,7 @@ layout:
             root: page_content
     actions:
         - '@setBlockTheme':
-            themes: 'customer_user_register_form.html.twig'
+            themes: 'OroCustomerBundle:layouts:blank/oro_customer_frontend_customer_user_register/customer_user_register_form.html.twig'
         - '@setOption':
             id: registration_label
             optionName: text

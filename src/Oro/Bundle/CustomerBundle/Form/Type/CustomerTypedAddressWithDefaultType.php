@@ -70,7 +70,6 @@ class CustomerTypedAddressWithDefaultType extends AbstractType
         }
 
         $builder->add('default', ChoiceType::class, [
-            'choices_as_values' => true,
             'choices'  => $choices,
             'multiple' => true,
             'expanded' => true,
