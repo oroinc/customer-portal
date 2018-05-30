@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRegistrationFormProvider;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -73,7 +74,7 @@ class CustomerRegistrationHandler
      */
     public function handleRegistration(Request $request)
     {
-        $this->form = $this->formProvider->getRegisterForm();
+        $form = $this->getForm();
 
         $registrationMessage = 'oro.customer.controller.customeruser.registered.message';
         if ($this->customerUserManager->isConfirmationRequired()) {
@@ -81,8 +82,8 @@ class CustomerRegistrationHandler
         }
 
         return $this->updateHandler->update(
-            $this->form->getData(),
-            $this->form,
+            $form->getData(),
+            $form,
             $this->translator->trans($registrationMessage),
             $request,
             $this->customerUserHandler
@@ -94,6 +95,10 @@ class CustomerRegistrationHandler
      */
     public function getForm()
     {
+        if (null === $this->form) {
+            $this->form = $this->formProvider->getRegisterForm();
+        }
+
         return $this->form;
     }
 }
