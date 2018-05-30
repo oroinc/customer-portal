@@ -216,6 +216,9 @@ oro_behat_extension:
     My Profile Menu Item:
       selector: 'li.primary-menu__item a:contains("My Profile")'
 
+    Account link:
+      selector: 'li.topbar-navigation__item a:contains("Account")'
+
   pages:
     Customer User Role View:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView
