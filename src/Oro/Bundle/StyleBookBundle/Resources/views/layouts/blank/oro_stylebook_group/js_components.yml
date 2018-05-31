@@ -9,12 +9,22 @@ layout:
             optionValue: 'oro_stylebook.groups.jscomponent.title'
 
         - '@setOption':
+            id: style_book_page_title
+            optionName: defaultValue
+            optionValue: 'oro_stylebook.groups.jscomponent.title'
+
+        - '@setOption':
+            id: style_book_page_description
+            optionName: defaultValue
+            optionValue: 'oro_stylebook.groups.jscomponent.description'
+
+        - '@setOption':
             id: style_book_grid_element_datagrid
             optionName: vars.gridExample
             optionValue: '=data["oro_product_datagrid_row_view"]'
 
         - '@addTree':
-            items:
+            items:  
                 # Modal View
                 group_element_grid_view_modal:
                     blockType: group_element
