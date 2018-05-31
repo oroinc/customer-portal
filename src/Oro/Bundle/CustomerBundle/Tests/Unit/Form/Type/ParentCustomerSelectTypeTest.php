@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
+use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType;
 use Symfony\Component\Form\FormView;
 
 class ParentCustomerSelectTypeTest extends \PHPUnit_Framework_TestCase
@@ -18,14 +19,9 @@ class ParentCustomerSelectTypeTest extends \PHPUnit_Framework_TestCase
         $this->type = new ParentCustomerSelectType();
     }
 
-    public function testGetName()
-    {
-        $this->assertEquals(ParentCustomerSelectType::NAME, $this->type->getName());
-    }
-
     public function testGetParent()
     {
-        $this->assertEquals('oro_jqueryselect2_hidden', $this->type->getParent());
+        $this->assertEquals(OroJquerySelect2HiddenType::class, $this->type->getParent());
     }
 
     public function testConfigureOptions()

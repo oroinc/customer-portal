@@ -16,6 +16,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Returns CustomerUser register form
+ */
 class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
 {
     const ACCOUNT_USER_REGISTER_ROUTE_NAME = 'oro_customer_frontend_customer_user_register';
@@ -65,7 +68,7 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
 
         $options['action'] = $this->generateUrl(self::ACCOUNT_USER_REGISTER_ROUTE_NAME);
 
-        return $this->getFormView(FrontendCustomerUserRegistrationType::NAME, $customerUser, $options);
+        return $this->getFormView(FrontendCustomerUserRegistrationType::class, $customerUser, $options);
     }
 
     /**
@@ -77,15 +80,16 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
 
         $options['action'] = $this->generateUrl(self::ACCOUNT_USER_REGISTER_ROUTE_NAME);
 
-        return $this->getForm(FrontendCustomerUserRegistrationType::NAME, $customerUser, $options);
+        return $this->getForm(FrontendCustomerUserRegistrationType::class, $customerUser, $options);
     }
 
     /**
      * @return CustomerUser
      *
      * TODO: remove logic with creating new customer user from data provider
+     * in scope of #BB-11842
      */
-    private function createCustomerUser()
+    public function createCustomerUser()
     {
         $customerUser = new CustomerUser();
 
@@ -120,6 +124,7 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
         $customerUser
             ->setOwner($owner)
             ->setOrganization($organization)
+            ->setWebsite($website)
             ->addRole($defaultRole);
 
         return $customerUser;

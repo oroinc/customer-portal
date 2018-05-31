@@ -8,8 +8,8 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension\Stub\CustomerGroupSelectTypeStub;
 use Oro\Bundle\ScopeBundle\Form\Type\ScopeType;
 use Oro\Bundle\ScopeBundle\Manager\ScopeManager;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
 
@@ -40,7 +40,7 @@ class CustomerGroupScopeExtensionTest extends FormIntegrationTestCase
             ->willReturn(['customerGroup' => CustomerGroup::class]);
 
         $form = $this->factory->create(
-            ScopeType::NAME,
+            ScopeType::class,
             null,
             [ScopeType::SCOPE_TYPE_OPTION => 'web_content']
         );
@@ -65,11 +65,11 @@ class CustomerGroupScopeExtensionTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    ScopeType::NAME => new ScopeType($this->scopeManager),
-                    CustomerGroupSelectType::NAME => new CustomerGroupSelectTypeStub(),
+                    ScopeType::class => new ScopeType($this->scopeManager),
+                    CustomerGroupSelectType::class => new CustomerGroupSelectTypeStub(),
                 ],
                 [
-                    ScopeType::NAME => [$this->customerGroupScopeExtension],
+                    ScopeType::class => [$this->customerGroupScopeExtension],
                 ]
             ),
             new ValidatorExtension(Validation::createValidator()),

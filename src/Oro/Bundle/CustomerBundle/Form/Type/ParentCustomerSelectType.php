@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -46,7 +47,7 @@ class ParentCustomerSelectType extends AbstractType
      */
     public function getParent()
     {
-        return 'oro_jqueryselect2_hidden';
+        return OroJquerySelect2HiddenType::class;
     }
 
     /**

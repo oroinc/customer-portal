@@ -16,8 +16,8 @@ class CustomerUserPasswordResetHandler extends AbstractCustomerUserPasswordHandl
     public function process(FormInterface $form, Request $request)
     {
         if ($request->isMethod('POST')) {
-            $form->submit($request);
-            if ($form->isValid()) {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
                 /** @var CustomerUser $user */
                 $user = $form->getData();
 

@@ -14,8 +14,6 @@ Retrieve a collection of <a href="https://www.oroinc.com/doc/orocommerce/current
 
 {@inheritdoc}
 
-The list of records that will be returned can be limited by filters.
-
 ### create
 
 Create a new <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
@@ -26,8 +24,6 @@ The created record is returned in the response, with a 201 Created status code.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customer_user_addresses>`
 
 ```JSON
 {
@@ -82,7 +78,7 @@ Example:
 
 ### update
 
-Update a specific <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
+Edit a specific <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
 
 {@inheritdoc}
 
@@ -92,8 +88,6 @@ The updated record is returned in the response.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customer_user_addresses/17>`
 
 ```JSON
 {
@@ -158,8 +152,6 @@ Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/u
 
 {@inheritdoc}
 
-The list of records that will be deleted must be limited by filters.
-
 ## SUBRESOURCES
 
 ### country
@@ -178,8 +170,6 @@ Replace the country in the specific customer user address.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customer_user_addresses/12/relationships/country>`
 
 ```JSON
 {
@@ -208,8 +198,6 @@ Replace the frontend owner - a customer user who is assigned as a customer user 
 {@request:json_api}
 Example:
 
-`</admin/api/customer_user_addresses/12/relationships/frontendOwner>`
-
 ```JSON
 {
   "data": {
@@ -237,8 +225,6 @@ Replace the user who is assigned as a customer user address record owner in the 
 {@request:json_api}
 Example:
 
-`</admin/api/customer_user_addresses/12/relationships/owner>`
-
 ```JSON
 {
   "data": {
@@ -265,8 +251,6 @@ Replace the region mentioned in a specific customer user address.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customer_user_addresses/12/relationships/region>`
 
 ```JSON
 {

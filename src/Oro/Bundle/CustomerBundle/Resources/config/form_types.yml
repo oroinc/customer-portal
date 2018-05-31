@@ -221,28 +221,28 @@ services:
         arguments:
             - '@oro_customer.acl.resolver.role_translation_prefix'
         tags:
-            - { name: form.type_extension, alias: oro_acl_access_level_selector }
+            - { name: form.type_extension, alias: oro_acl_access_level_selector, extended_type: Oro\Bundle\SecurityBundle\Form\Type\AclAccessLevelSelectorType }
 
     oro_customer.form.extension.select_or_create_inline:
         class: 'Oro\Bundle\CustomerBundle\Form\Extension\OroEntitySelectOrCreateInlineExtension'
         arguments:
             - '@security.token_storage'
         tags:
-            - { name: form.type_extension, alias: "oro_entity_create_or_select_inline" }
+            - { name: form.type_extension, alias: "oro_entity_create_or_select_inline", extended_type: Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType }
 
     oro_customer.form.extension.frontend_product_select:
         class: 'Oro\Bundle\CustomerBundle\Form\Extension\FrontendProductSelectExtension'
         arguments:
             - '@security.token_storage'
         tags:
-            - { name: form.type_extension, alias: oro_product_select }
+            - { name: form.type_extension, alias: oro_product_select, extended_type: Oro\Bundle\ProductBundle\Form\Type\ProductSelectType }
 
     oro_customer.form.extension.address:
         class: 'Oro\Bundle\CustomerBundle\Form\Extension\AddressExtension'
         arguments:
             - '@security.token_storage'
         tags:
-            - { name: form.type_extension, alias: "oro_address" }
+            - { name: form.type_extension, alias: "oro_address", extended_type: Oro\Bundle\AddressBundle\Form\Type\AddressType }
 
     oro_customer.form.extension.customer_scope:
         class: 'Oro\Bundle\CustomerBundle\Form\Extension\CustomerScopeExtension'
@@ -260,3 +260,8 @@ services:
             - '@security.token_storage'
         tags:
             - { name: form.type, alias: oro_customer_visitor_email_address }
+
+    oro_customer.form.type.confirm_password:
+        class: 'Oro\Bundle\CustomerBundle\Form\Type\ConfirmPasswordType'
+        tags:
+            - { name: form.type }

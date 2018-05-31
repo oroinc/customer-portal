@@ -6,7 +6,7 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'layout.html.twig'
+            themes: 'OroCustomerBundle:layouts:blank/imports/oro_customer_user_view/layout.html.twig'
 
         - '@setOption':
             id: customer_user_address_book

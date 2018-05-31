@@ -3,6 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\Form\Type;
 
 use Oro\Bundle\AddressBundle\Form\Type\CountryType as BaseCountryType;
+use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
 
 class CountryType extends BaseCountryType
 {
@@ -27,6 +28,6 @@ class CountryType extends BaseCountryType
      */
     public function getParent()
     {
-        return 'translatable_entity';
+        return TranslatableEntityType::class;
     }
 }

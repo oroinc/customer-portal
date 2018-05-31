@@ -4,8 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType;
-use Symfony\Component\Form\PreloadedExtension;
+use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType as EntityIdentifierTypeStub;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class CustomerGroupTypeTest extends FormIntegrationTestCase
@@ -23,11 +24,11 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-        parent::setUp();
-
         $this->formType = new CustomerGroupType();
         $this->formType->setDataClass(self::DATA_CLASS);
         $this->formType->setCustomerClass(self::ACCOUNT_CLASS);
+
+        parent::setUp();
     }
 
     /**
@@ -43,12 +44,13 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
      */
     protected function getExtensions()
     {
-        $entityIdentifierType = new EntityIdentifierType([]);
+        $entityIdentifierType = new EntityIdentifierTypeStub([]);
 
         return [
             new PreloadedExtension(
                 [
-                    $entityIdentifierType->getName() => $entityIdentifierType
+                    CustomerGroupType::class => $this->formType,
+                    EntityIdentifierType::class => $entityIdentifierType
                 ],
                 []
             )
@@ -70,7 +72,7 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
         $submittedData,
         $expectedData
     ) {
-        $form = $this->factory->create($this->formType, $defaultData, $options);
+        $form = $this->factory->create(CustomerGroupType::class, $defaultData, $options);
 
         $this->assertTrue($form->has('appendCustomers'));
         $this->assertTrue($form->has('removeCustomers'));
@@ -124,11 +126,6 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
                 'expectedData' => $existingGroupAfter
             ]
         ];
-    }
-
-    public function testGetName()
-    {
-        $this->assertEquals(CustomerGroupType::NAME, $this->formType->getName());
     }
 
     /**

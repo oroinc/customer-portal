@@ -55,7 +55,7 @@ class FrontendCustomerUserType extends AbstractType
         if ($this->authorizationChecker->isGranted('oro_customer_frontend_customer_user_role_view')) {
             $builder->add(
                 'roles',
-                FrontendCustomerUserRoleSelectType::NAME,
+                FrontendCustomerUserRoleSelectType::class,
                 [
                     'label' => 'oro.customer.customeruser.roles.label',
                 ]
@@ -77,7 +77,7 @@ class FrontendCustomerUserType extends AbstractType
         /** @var CustomerUser $data */
         $data = $event->getData();
 
-        $event->getForm()->add('customer', FrontendOwnerSelectType::NAME, [
+        $event->getForm()->add('customer', FrontendOwnerSelectType::class, [
             'label' => 'oro.customer.customer.entity_label',
             'targetObject' => $data
         ]);
@@ -90,7 +90,7 @@ class FrontendCustomerUserType extends AbstractType
      */
     public function getParent()
     {
-        return CustomerUserType::NAME;
+        return CustomerUserType::class;
     }
 
     /**

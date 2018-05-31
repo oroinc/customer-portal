@@ -1,0 +1,15 @@
+{% block target_path_widget %}
+    {{ block('login_form_path_widget') }}
+{% endblock %}
+
+{% block failure_path_widget %}
+    {{ block('login_form_path_widget') }}
+{% endblock %}
+
+{% block login_form_path_widget %}
+    {% set value = value|default(null) %}
+    {% if pathName %}
+        {% set value = url(pathName, pathParameters) %}
+    {% endif %}
+    {{ block_widget(block, {'value': value}) }}
+{% endblock %}

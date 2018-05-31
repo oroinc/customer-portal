@@ -79,7 +79,7 @@ All files should be sorted by priority: there are files with **settings folder**
 
 Example:
 
-*application/commerce/web/css/layout/base/styles.scss*
+*application/commerce/public/css/layout/base/styles.scss*
 ```
 @import "../bundles/oroui/blank/scss/settings/global-settings.scss";
 @import "../bundles/oroui/blank/scss/variables/base-config.scss";
@@ -189,7 +189,7 @@ assets.yml/
 
 In the main file for default theme we have:
 
-*application/commerce/web/css/layout/default/styles.css.scss*
+*application/commerce/public/css/layout/default/styles.css.scss*
 
 ```
 @import "../bundles/oroui/**blank**/scss/**settings**/global-settings.scss";

@@ -101,18 +101,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro.ui.grouping_chain_widget.before, method: isAllowedButton, priority: 10 }
 
-    oro_frontend.form.type.install_configuration.web:
-        class: 'Oro\Bundle\FrontendBundle\Form\Type\Configuration\WebType'
-        public: true
-        tags:
-            - { name: form.type, alias: oro_frontend_install_configuration_web }
-
-    oro_frontend.form.type.extension.configuration.web:
-        class: 'Oro\Bundle\FrontendBundle\Form\Extension\ConfigurationTypeExtension'
-        public: true
-        tags:
-            - { name: form.type_extension, alias: oro_installer_configuration }
-
     oro_frontend.listener.datagrid.bottom_toolbar:
         class: 'Oro\Bundle\FrontendBundle\EventListener\DatagridBottomToolbarListener'
         arguments:

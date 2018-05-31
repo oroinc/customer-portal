@@ -107,7 +107,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(CustomerUserPasswordRequestType::NAME)
+            ->with(CustomerUserPasswordRequestType::class)
             ->willReturn($expectedForm);
 
         // Get form without existing data in locale cache
@@ -125,7 +125,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(CustomerUserPasswordRequestType::NAME)
+            ->with(CustomerUserPasswordRequestType::class)
             ->willReturn($expectedForm);
 
         // Get form without existing data in locale cache
@@ -148,7 +148,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(CustomerUserPasswordResetType::NAME)
+            ->with(CustomerUserPasswordResetType::class)
             ->willReturn($expectedForm);
 
         // Get form without existing data in locale cache
@@ -166,7 +166,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(CustomerUserPasswordResetType::NAME)
+            ->with(CustomerUserPasswordResetType::class)
             ->willReturn($expectedForm);
 
         // Get form without existing data in locale cache
@@ -191,7 +191,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
         $selectedCustomerUser = new CustomerUser();
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(FrontendOwnerSelectType::NAME, $selectedCustomerUser, ['targetObject' => $target])
+            ->with(FrontendOwnerSelectType::class, $selectedCustomerUser, ['targetObject' => $target])
             ->willReturn($form);
         $this->assertSame($view, $this->provider->getCustomerUserSelectFormView($selectedCustomerUser, $target));
     }

@@ -103,7 +103,7 @@ class CustomerUserController extends Controller
         }
         $customerUser->setCustomer($customer);
 
-        $form = $this->createForm(CustomerUserType::NAME, $customerUser);
+        $form = $this->createForm(CustomerUserType::class, $customerUser);
 
         if (($error = $request->get('error', false)) && $form->has('roles')) {
             $form
@@ -160,7 +160,7 @@ class CustomerUserController extends Controller
      */
     protected function update(CustomerUser $customerUser, Request $request)
     {
-        $form = $this->createForm(CustomerUserType::NAME, $customerUser);
+        $form = $this->createForm(CustomerUserType::class, $customerUser);
         $handler = new CustomerUserHandler(
             $form,
             $request,
