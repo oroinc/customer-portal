@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroFrontendBundle:layouts:default/oro_frontend_style_book_group/notifications.twig'
+            themes: 'OroStyleBookBundle:layouts:default/oro_stylebook_group/notifications.html.twig'
 
         - '@addTree':
             items:

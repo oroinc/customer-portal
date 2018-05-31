@@ -62,6 +62,12 @@ oro_stylebook:
             title: slick-arrow
         mixins-slick-dots:
             title: slick-dots
+        mixins-block-substrate:
+            title: block-substrate
+        mixins-keyframe:
+            title: keyframe
+        mixins-grid-cell-align:
+            title: grid-cell-align
     groups:
         forms:
             form_text:
