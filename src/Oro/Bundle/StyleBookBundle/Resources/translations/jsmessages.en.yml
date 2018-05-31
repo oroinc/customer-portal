@@ -189,7 +189,7 @@ oro_stylebook:
             collapse_widget:
                 title: 'Collapse Widget'
             fullscreen_popup_view:
-                title: 'Fullscreen Popup View'
+                title: 'Fullscreen Pop-up Page'
             scroll_view:
                 title: 'Scroll View'
             googlemaps_view:
@@ -197,7 +197,7 @@ oro_stylebook:
             list_slider:
                 title: 'List Slider Component'
             sticky_panel_view:
-                title: 'Sticky Panel View'
+                title: 'Sticky Panel'
             mediator:
                 title: 'Mediator'
             dom_relocation:
