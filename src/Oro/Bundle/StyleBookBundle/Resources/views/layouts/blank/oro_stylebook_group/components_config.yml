@@ -47,7 +47,7 @@ layout:
                         preview: false
                         source_language: scss
                 style_book_components_sizes:
-                    blockType: block
+                    blockType: file_printer
 
                 group_element_components_functions_view:
                     blockType: group_element
@@ -60,7 +60,7 @@ layout:
                       preview: false
                       source_language: scss
                 style_book_components_functions:
-                    blockType: block
+                    blockType: file_printer
 
                 group_element_components_mixins_view:
                     blockType: group_element

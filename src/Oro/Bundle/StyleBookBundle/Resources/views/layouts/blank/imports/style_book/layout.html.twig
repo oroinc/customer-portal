@@ -409,3 +409,12 @@
         {% endif %}
     {% endfor %}
 {% endblock %}
+
+{% block file_printer_widget %}
+    {% if sourcePath is defined %}
+        {% set source = source(sourcePath, ignore_missing = true) %}
+        {%- spaceless -%}
+            {{ source|trim|raw }}
+        {%- endspaceless -%}
+    {% endif %}
+{% endblock %}
