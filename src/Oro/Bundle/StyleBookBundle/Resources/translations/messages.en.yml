@@ -7,7 +7,7 @@ oro_stylebook:
           text_content: '<p>Oro StyleBook is a UI elements and components library that helps developers and designers use the recommended templates to build or customize the Oro application pages. The information in the UI library may be used in two different ways.<br><p style="padding-left: 20px;"><i class="fas fa-caret-right"></i> <strong>When you modify your Oro application layout</strong>, you can copy the element`s source code to your custom form or page in the Oro application to preserve the overall look and feel consistency.<br><i class="fas fa-caret-right"></i> <strong>After you have modified your Oro application styles or layout</strong>, you can use the StyleBook to check how updated styles affect the UI elements (see <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/frontendStylesArchitecture.md">Oro Styles Architecture</a> and <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/howToAssetsCss.md">Styles Organization and Customization</a> for more information on the UI customization).</p>'
           text_content_first: 'For every UI element, library provides a short description, a source code sample that may be copied to reproduce a similar component, and a preview of the sample in the current UI theme. The following color-coding is used to simplify orientation in the library:<div class="style-book-group-element__description">The optional description of the UI element or design component may be highlighted with a red ribbon on the left.</div><div class="playground-source"><pre class="language-markup"><code class="style-book-group-element__code  language-scss"><span class="token comment" spellcheck="true">// The code samples are marked with a blue ribbon.</span></code></pre></div><div class="style-book-group-element__preview">The UI element preview is rendered in a light-gray box.</br></div>'
           text_content_second: 'Most of the OroCommerce Management Console and Front Store UI elements are included and grouped into the following categories: <br><p style="padding-left: 20px;"><i class="fas fa-caret-right"></i> <a href="configs/">General Look and Feel</a><br><i class="fas fa-caret-right"></i> <a href="forms/">Form Elements</a><br><i class="fas fa-caret-right"></i> <a href="grid/">Grid Elements</a><br><i class="fas fa-caret-right"></i> <a href="jscomponents/">JS Components</a></p>Use the tabs at the top of the page to switch between the categories.<br>In the category, use the elements navigation tree on the left to jump to the element`s description, preview and code sample.'
-          text_content_third: '<div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3">General Look and Feel</div><div class="grid__column grid__column--3">Form Elements</div><div class="grid__column grid__column--3">Grid Elements</div><div class="grid__column grid__column--3">JS Components</div></div></div>'
+          text_content_third: '<div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><strong>General Look and Feel</strong></div><div class="grid__column grid__column--3">Form Elements</div><div class="grid__column grid__column--3"><strong>Grid Elements</strong></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#colors">Colors</a></div><div class="grid__column grid__column--3"><a href="forms/#form_text">Text Input</a></div><div class="grid__column grid__column--3"><a href="grid/#grid">Column Size</a></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#typography">Typography</a></div><div class="grid__column grid__column--3"><a href="forms/#form_datetime">Date and Time Picker</a></div><div class="grid__column grid__column--3"><a href="grid/#row_offset">Row Spacing</a></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#sizes">Sizes</a></div><div class="grid__column grid__column--3"><a href="forms/#form_select">Single Option Select</a></div><div class="grid__column grid__column--3"><a href="grid/#columns_offset">Column Spacing</a></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#functions">Functions</a></div><div class="grid__column grid__column--3"><a href="forms/#form_checkboxes">Multiple Option Select</a></div><div class="grid__column grid__column--3"><a href="grid/#columns_equal">Two Symmetric Columns</a></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#mixins">Mixins</a></div><div class="grid__column grid__column--3"><a href="forms/#buttons">Buttons</a></div><div class="grid__column grid__column--3"><a href="grid/#multi_line_row">Multi-Line Row</a></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#animation">Animation</a></div><div class="grid__column grid__column--3"><a href="forms/#buttonsgroup">Buttons Group</a></div><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3"><a href="forms/#notifications">Notifications</a></div><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3"><a href="forms/#notification_message">Notification Message</a></div><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3"><a href="forms/#callout_info">Inline Сallout Information</a></div><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3">JS Components</div></div></div>'
     nav:
         title: Elements
         header_menu_title: Category
@@ -125,7 +125,7 @@ oro_stylebook:
                     grid: 'Grid'
                     message: 'Message'            
             modal:
-                title: 'Modal Box'
+                title: 'Modal'
                 description: 'The modal box component helps you configure the modal dialog UI view and behaviour. This component is recommended for the short messages and alerts that require user to explicitly confirm the action. For a preview, configure the dialog in the Config tab and click Open Modal button to see it in action.'
             datagrid:
                 title: 'Datagrid'
@@ -140,23 +140,23 @@ oro_stylebook:
                 title: 'Collapse Widget'
                 description: 'The collapse widget renders an inline collapsible text. If `hideSibling` is enabled, expanding the text hides the content that precceeds the widget if they reside on the same level. When `Open` option is enabled, the text is expanded by default.'
             fullscreen_popup_view:
-                title: 'Fullscreen Pop-up Page'
+                title: 'Fullscreen Pop-up View'
                 description: 'The fullscreen Pop-up page helps you show the rendered html content in a fullscreen pop-up. The page header renders with an icon specified as a `popupIcon`, the `popupLabel` as a title, and the Close button. The `contentTemplate` may contain raw html that you would expect inside the body tag.'
             scroll_view:
                 title: 'Scroll View'
-                description: 'Scroll View'
+                description: 'Preview of the horizontal and vertical scroll.'
             googlemaps_view:
                 title: 'Google Map View'
-                description: 'Google Map View'
+                description: 'Preview of the Google Map embedded into the Oro application content. Note: The valid API key is necessary for the preview to render. '
             list_slider:
                 title: 'List Slider Component'
                 description: 'List Slider Component'
             dom_relocation:
-                title: 'DOM relocation view'
-                description: 'DOM relocation view'
+                title: 'DOM Relocation View'
+                description: 'DOM relocation View'
             sticky_panel_view:
-                title: 'Sticky Panel'
-                description: 'The sticky panel helps you pin the content block to the top of the page whenever it moves outside the visible area. Click ``'
+                title: 'Sticky Panel View'
+                description: 'The sticky panel helps you pin the content block to the top of the page whenever it moves outside the visible area. Click the button to preview the sticky effect.'
             mediator:
                 title: 'Mediator'
                 description: 'Mediator'
@@ -219,6 +219,7 @@ oro_stylebook:
                 title: Functions
             mixins:
                 title: Mixins
+                description: 'SCSS mixins group reusable css properties that may be applied to multiple css selectors (classes or ids) via the @include mixin_name() directive.'
             animation:
                 title: Animation
                 description: 'Add one of the following classes to the element you want to animate: <code class="language-markup">fade-in</code>, <code class="language-markup">fade-out</code>, <code class="language-markup">fade-in-down</code>, <code class="language-markup">fade-in-up</code>, <code class="language-markup">slide-in-down</code>, <code class="language-markup">slide-in-up</code>'
