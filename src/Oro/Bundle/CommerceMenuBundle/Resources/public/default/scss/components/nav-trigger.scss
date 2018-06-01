@@ -95,7 +95,7 @@
 
             color: get-color('additional', 'ultra');
             border-radius: 16px;
-            background-color: transparentize(get-color('additional', 'dark'), 27%);
+            background-color: transparentize(get-color('additional', 'dark'), .27);
         }
     }
 }

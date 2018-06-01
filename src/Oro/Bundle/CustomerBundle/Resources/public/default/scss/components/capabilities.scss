@@ -1,64 +1,80 @@
 /* @theme: default; */
 
 .role-capability-set {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
 }
+
 .role-capability {
-  margin: 16px 0;
-  h5 {
-    text-transform: uppercase;
-    padding-bottom: 16px;
-  }
-  &__group-own-title{
-    display:inline
-  }
-  &__group-common-title {
-    display: none;
-  }
-  &__select-all {
-    float: right;
-    &.disabled {
-      pointer-events: none;
-      color: transparentize(get-color('additional', 'middle'), 14%);
+    margin: 16px 0;
+
+    h5 {
+        text-transform: uppercase;
+        padding-bottom: 16px;
     }
-  }
-  &__items {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  & &__empty-items {
-    opacity: 0.4;
-  }
-  &__item {
-    display: inline-block;
-    width: 30%;
-    padding: 0 30px 10px 0;
-    input[type="checkbox"] {
-      vertical-align: top;
-      margin: 3px 0 0 -15px;
+
+    &__group-own-title {
+        display: inline;
     }
-  }
-  &__item-label {
-    padding-right: 8px;
-  }
-  & label&__item-label {
-    padding-left: 23px;
-    margin: 0 0 0 -8px;
-    display: inline-block;
-  }
-  &__item-label--no-access {
-    opacity: 0.4;
-  }
-  &__item-label_changed {
-    background-color: get-color('additional', 'base');
-    box-shadow: 0 0 0 3px get-color('additional', 'base');
-  }
+
+    &__group-common-title {
+        display: none;
+    }
+
+    &__select-all {
+        float: right;
+
+        &.disabled {
+            pointer-events: none;
+            color: transparentize(get-color('additional', 'middle'), .14);
+        }
+    }
+
+    &__items {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    & &__empty-items {
+        opacity: .4;
+    }
+
+    &__item {
+        display: inline-block;
+        width: 30%;
+        padding: 0 30px 10px 0;
+
+        input[type="checkbox"] {
+            vertical-align: top;
+            margin: 3px 0 0 -15px;
+        }
+    }
+
+    &__item-label {
+        padding-right: 8px;
+    }
+
+    & label.role-capability__item-label {
+        padding-left: 23px;
+        margin: 0 0 0 -8px;
+        display: inline-block;
+    }
+
+    &__item-label--no-access {
+        opacity: .4;
+    }
+
+    &__item-label_changed {
+        background-color: get-color('additional', 'base');
+        box-shadow: 0 0 0 3px get-color('additional', 'base');
+    }
 }
+
 .role-capabilities_single-group {
-  .role-capability__group-own-title{
-    display:none
-  }
-  .role-capability__group-common-title {
-    display: inline;
-  }
+    .role-capability__group-own-title {
+        display: none;
+    }
+
+    .role-capability__group-common-title {
+        display: inline;
+    }
 }
