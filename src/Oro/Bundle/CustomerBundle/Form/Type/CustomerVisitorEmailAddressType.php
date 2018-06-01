@@ -10,6 +10,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Email form for visitor
+ */
 class CustomerVisitorEmailAddressType extends EmailAddressType
 {
     const NAME = 'oro_customer_visitor_email_address';
@@ -32,14 +35,7 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
      */
     public function getParent()
     {
-        $type = HiddenType::class;
-
-        $token = $this->tokenStorage->getToken();
-        if ($token instanceof AnonymousCustomerUserToken) {
-            $type = EmailAddressType::class;
-        }
-
-        return $type;
+        return EmailAddressType::class;
     }
 
     /**
@@ -55,6 +51,11 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
                 'required' => true,
                 'multiple' => false,
                 'constraints' => [new NotBlank(), new Email()]
+            ]);
+        } else {
+            $resolver->setDefaults([
+               'multiple' => false,
+               'constraints' => [new Email()]
             ]);
         }
     }

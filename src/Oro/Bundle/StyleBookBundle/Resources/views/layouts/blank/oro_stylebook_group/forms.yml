@@ -5,6 +5,11 @@ layout:
             optionName: defaultValue
             optionValue: 'oro_stylebook.groups.forms.title'
 
+        - '@setOption':
+            id: style_book_page_content
+            optionName: defaultValue
+            optionValue: 'oro_stylebook.groups.forms.content'
+
         - '@addTree':
             items:
                 group_element_form_text:

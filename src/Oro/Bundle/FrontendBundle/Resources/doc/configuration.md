@@ -20,5 +20,5 @@ oro_frontend:
 If you turned off routes generation you must do it manually by executing following command:
 
 ```bash
-php app/console fos:js-routing:dump
+php bin/console fos:js-routing:dump
 ```

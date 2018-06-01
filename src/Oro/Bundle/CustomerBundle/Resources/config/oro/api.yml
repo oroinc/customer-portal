@@ -49,8 +49,6 @@ api:
                     exclude: true
                 previous_account:
                     exclude: true
-        Oro\Bundle\CustomerBundle\Entity\CustomerGroup: ~
-        Oro\Bundle\CustomerBundle\Entity\CustomerUserRole: ~
         Extend\Entity\EV_Acc_Internal_Rating:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer.md'
         Oro\Bundle\CustomerBundle\Entity\CustomerGroup:

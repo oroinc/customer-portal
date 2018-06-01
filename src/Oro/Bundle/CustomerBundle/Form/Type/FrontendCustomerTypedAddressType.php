@@ -50,7 +50,7 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
         $form = $event->getForm();
         $address = $event->getData();
 
-        $form->add('frontendOwner', FrontendOwnerSelectType::NAME, [
+        $form->add('frontendOwner', FrontendOwnerSelectType::class, [
             'label' => $form->getConfig()->getOption('owner_field_label'),
             'targetObject' => $address,
         ]);

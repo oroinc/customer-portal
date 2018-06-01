@@ -28,7 +28,7 @@ use Oro\Bundle\UserBundle\Entity\Ownership\UserAwareTrait;
  *              "icon"="fa-users"
  *          },
  *          "form"={
- *              "form_type"="oro_customer_customer_group_select",
+ *              "form_type"="Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupSelectType",
  *              "grid_name"="customer-groups-select-grid",
  *          },
  *          "ownership"={

@@ -64,9 +64,9 @@ oro_layout:
 assetic:
     filters:
         scssphp:
-            file: '%kernel.root_dir%/../vendor/leafo/scssphp/scss.inc.php'
+            file: '%kernel.project_dir%/vendor/leafo/scssphp/scss.inc.php'
             apply_to: '\.scss$'
-            import_paths: ["%kernel.root_dir%/../web/bundles"]
+            import_paths: ["%kernel.project_dir%/public/bundles"]
 
 fos_rest:
     exception:

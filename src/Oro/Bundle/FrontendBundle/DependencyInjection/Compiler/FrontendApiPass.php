@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\DependencyInjection\Compiler;
 
-use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
+use Oro\Bundle\FrontendBundle\Api\FrontendApiDependencyInjectionUtil;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -16,16 +16,13 @@ class FrontendApiPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $this->disableApiProcessor($container, 'oro_api.collect_resources.load_dictionaries');
-        $this->disableApiProcessor($container, 'oro_api.collect_resources.load_custom_entities');
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $processorServiceId
-     */
-    private function disableApiProcessor(ContainerBuilder $container, string $processorServiceId)
-    {
-        DependencyInjectionUtil::disableApiProcessor($container, $processorServiceId, 'frontend');
+        FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
+            $container,
+            'oro_api.collect_resources.load_dictionaries'
+        );
+        FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
+            $container,
+            'oro_api.collect_resources.load_custom_entities'
+        );
     }
 }

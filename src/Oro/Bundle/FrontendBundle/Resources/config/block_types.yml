@@ -163,3 +163,15 @@ services:
             - [setName, ['group_list_autogenerate']]
         tags:
              - { name: layout.block_type, alias: group_list_autogenerate }
+
+    oro_layout.block_type.file_printer:
+        parent: oro_layout.block_type.abstract_configurable_container
+        calls:
+            -
+                - setOptionsConfig
+                -
+                    -
+                        sourcePath: ~
+            - [setName, ['file_printer']]
+        tags:
+             - { name: layout.block_type, alias: file_printer }

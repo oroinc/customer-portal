@@ -1,4 +1,4 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'menu.html.twig'
+            themes: 'OroCommerceMenuBundle:layouts:blank/menu.html.twig'

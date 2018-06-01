@@ -29,7 +29,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     {
         $options = $this->getCustomerUserFormOptions($customerUser);
 
-        return $this->getFormView(FrontendCustomerUserType::NAME, $customerUser, $options);
+        return $this->getFormView(FrontendCustomerUserType::class, $customerUser, $options);
     }
 
     /**
@@ -41,7 +41,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     {
         $options = $this->getCustomerUserFormOptions($customerUser);
 
-        return $this->getForm(FrontendCustomerUserType::NAME, $customerUser, $options);
+        return $this->getForm(FrontendCustomerUserType::class, $customerUser, $options);
     }
 
     /**
@@ -53,7 +53,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     {
         $options['action'] = $this->generateUrl(self::ACCOUNT_USER_RESET_REQUEST_ROUTE_NAME);
 
-        return $this->getFormView(CustomerUserPasswordRequestType::NAME, null, $options);
+        return $this->getFormView(CustomerUserPasswordRequestType::class, null, $options);
     }
 
     /**
@@ -65,7 +65,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     {
         $options['action'] = $this->generateUrl(self::ACCOUNT_USER_RESET_REQUEST_ROUTE_NAME);
 
-        return $this->getForm(CustomerUserPasswordRequestType::NAME, null, $options);
+        return $this->getForm(CustomerUserPasswordRequestType::class, null, $options);
     }
 
     /**
@@ -77,7 +77,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     {
         $options['action'] = $this->generateUrl(self::ACCOUNT_USER_PASSWORD_RESET_ROUTE_NAME);
 
-        return $this->getFormView(CustomerUserPasswordResetType::NAME, $customerUser, $options);
+        return $this->getFormView(CustomerUserPasswordResetType::class, $customerUser, $options);
     }
 
     /**
@@ -89,7 +89,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     {
         $options['action'] = $this->generateUrl(self::ACCOUNT_USER_PASSWORD_RESET_ROUTE_NAME);
 
-        return $this->getForm(CustomerUserPasswordResetType::NAME, $customerUser, $options);
+        return $this->getForm(CustomerUserPasswordResetType::class, $customerUser, $options);
     }
 
     /**
@@ -101,7 +101,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     {
         $options = $this->getProfilerFormOptions($customerUser);
 
-        return $this->getFormView(FrontendCustomerUserProfileType::NAME, $customerUser, $options);
+        return $this->getFormView(FrontendCustomerUserProfileType::class, $customerUser, $options);
     }
 
     /**
@@ -113,7 +113,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     {
         $options = $this->getProfilerFormOptions($customerUser);
 
-        return $this->getForm(FrontendCustomerUserProfileType::NAME, $customerUser, $options);
+        return $this->getForm(FrontendCustomerUserProfileType::class, $customerUser, $options);
     }
 
     /**
@@ -172,7 +172,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     public function getCustomerUserSelectFormView(CustomerUser $customerUser, $target)
     {
         return $this->getFormView(
-            FrontendOwnerSelectType::NAME,
+            FrontendOwnerSelectType::class,
             $customerUser,
             ['targetObject' => $target]
         );

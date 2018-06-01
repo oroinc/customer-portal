@@ -204,6 +204,17 @@
     {% endif %}
 {% endblock %}
 
+{% block __style_book__page_content_container_widget %}
+    {% set content = block_widget(block)|trim %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-page-content'
+    }) %}
+
+    {% if content|length %}
+        <p{{ block('block_attributes') }}>{{ content|raw }}</p>
+    {% endif %}
+{% endblock %}
+
 {% block __style_book__page_title_widget %}
     {{ block_widget(block) }}
 {% endblock %}
@@ -408,4 +419,13 @@
             {% endfor %}
         {% endif %}
     {% endfor %}
+{% endblock %}
+
+{% block file_printer_widget %}
+    {% if sourcePath is defined %}
+        {% set source = source(sourcePath, ignore_missing = true) %}
+        {%- spaceless -%}
+            {{ source|trim|raw }}
+        {%- endspaceless -%}
+    {% endif %}
 {% endblock %}

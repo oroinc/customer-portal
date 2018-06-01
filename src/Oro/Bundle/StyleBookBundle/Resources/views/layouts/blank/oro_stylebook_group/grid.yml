@@ -1,12 +1,17 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'grid.html.twig'
+            themes: 'OroStyleBookBundle:layouts:blank/oro_stylebook_group/grid.html.twig'
 
         - '@setOption':
             id: style_book_page_title
             optionName: defaultValue
             optionValue: 'oro_stylebook.groups.grid.title'
+
+        - '@setOption':
+            id: style_book_page_content
+            optionName: defaultValue
+            optionValue: 'oro_stylebook.groups.grid.content'
 
         - '@addTree':
             items:

@@ -5,6 +5,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\FrontendBundle\Form\Type\ThemeSelectType;
 use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -34,14 +35,9 @@ class ThemeSelectTypeTest extends \PHPUnit_Framework_TestCase
         unset($this->type, $this->themeManager);
     }
 
-    public function testGetName()
-    {
-        $this->assertEquals('oro_frontend_theme_select', $this->type->getName());
-    }
-
     public function testGetParent()
     {
-        $this->assertEquals('choice', $this->type->getParent());
+        $this->assertEquals(ChoiceType::class, $this->type->getParent());
     }
 
     public function testConfigureOptions()
@@ -52,8 +48,8 @@ class ThemeSelectTypeTest extends \PHPUnit_Framework_TestCase
         ];
 
         $expectedChoices = [
-            'theme1' => 'label1',
-            'theme2' => 'label2'
+            'label1' => 'theme1',
+            'label2' => 'theme2',
         ];
 
         $this->themeManager->expects($this->once())
@@ -66,8 +62,10 @@ class ThemeSelectTypeTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $resolver->expects($this->once())
-            ->method('setDefault')
-            ->with('choices', $expectedChoices);
+            ->method('setDefaults')
+            ->with([
+                'choices' => $expectedChoices,
+            ]);
 
         $this->type->configureOptions($resolver);
     }

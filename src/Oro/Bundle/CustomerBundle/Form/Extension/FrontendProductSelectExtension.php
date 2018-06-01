@@ -39,6 +39,6 @@ class FrontendProductSelectExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return ProductSelectType::NAME;
+        return ProductSelectType::class;
     }
 }

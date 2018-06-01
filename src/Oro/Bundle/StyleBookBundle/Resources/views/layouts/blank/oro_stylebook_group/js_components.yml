@@ -1,12 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'js_components.html.twig'
-
-        - '@setOption':
-            id: page_title
-            optionName: defaultValue
-            optionValue: 'oro_stylebook.groups.jscomponent.title'
+            themes: 'OroStyleBookBundle:layouts:blank/oro_stylebook_group/js_components.html.twig'
 
         - '@setOption':
             id: style_book_page_title
@@ -17,6 +12,11 @@ layout:
             id: style_book_page_description
             optionName: defaultValue
             optionValue: 'oro_stylebook.groups.jscomponent.description'
+
+        - '@setOption':
+            id: style_book_page_content
+            optionName: defaultValue
+            optionValue: 'oro_stylebook.groups.jscomponent.content'
 
         - '@setOption':
             id: style_book_grid_element_datagrid
@@ -257,7 +257,7 @@ layout:
                     blockType: group_element_item
                     options:
                         source: false
-                        description: oro_stylebook.groups.jscomponent.mediator.title.description
+                        description: oro_stylebook.groups.jscomponent.mediator.description
                 style_book_grid_element_mediator:
                     blockType: container
                 group_tabs_mediator:

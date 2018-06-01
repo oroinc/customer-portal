@@ -9,10 +9,10 @@ use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionType;
 use Oro\Bundle\FormBundle\Form\Type\CollectionType as OroCollectionType;
 use Oro\Bundle\NavigationBundle\Validator\Constraints\MaxNestedLevelValidator;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidatorFactoryInterface;
@@ -106,11 +106,6 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
             });
 
         $this->formType->buildForm($builder, []);
-    }
-
-    public function testGetName()
-    {
-        static::assertEquals('oro_commerce_menu_user_agent_conditions_collection', $this->formType->getName());
     }
 
     public function testGetBlockPrefix()

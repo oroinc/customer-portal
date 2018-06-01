@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserPasswordResetType;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
@@ -17,10 +18,9 @@ class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
 
     protected function setUp()
     {
-        parent::setUp();
-
         $this->formType = new CustomerUserPasswordResetType();
         $this->formType->setDataClass(self::DATA_CLASS);
+        parent::setUp();
     }
 
     protected function tearDown()
@@ -34,6 +34,9 @@ class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
     protected function getExtensions()
     {
         return [
+            new PreloadedExtension([
+                CustomerUserPasswordResetType::class => $this->formType
+            ], []),
             new ValidatorExtension(Validation::createValidator())
         ];
     }
@@ -47,7 +50,7 @@ class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
      */
     public function testSubmit($defaultData, array $submittedData, $expectedData)
     {
-        $form = $this->factory->create($this->formType, $defaultData, []);
+        $form = $this->factory->create(CustomerUserPasswordResetType::class, $defaultData, []);
 
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
@@ -77,10 +80,5 @@ class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
                 'expectedData' => $expectedEntity
             ]
         ];
-    }
-
-    public function testGetName()
-    {
-        $this->assertEquals(CustomerUserPasswordResetType::NAME, $this->formType->getName());
     }
 }

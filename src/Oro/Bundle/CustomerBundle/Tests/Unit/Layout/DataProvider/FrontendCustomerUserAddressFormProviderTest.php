@@ -50,7 +50,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit_Framework_Tes
         $this->mockFormFactory
             ->expects($this->once())
             ->method('create')
-            ->with(FrontendCustomerUserTypedAddressType::NAME, $customerUserAddress, ['action' => $action])
+            ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
         $this->router
@@ -82,7 +82,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit_Framework_Tes
         $this->mockFormFactory
             ->expects($this->once())
             ->method('create')
-            ->with(FrontendCustomerUserTypedAddressType::NAME, $customerUserAddress, ['action' => $action])
+            ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
         $this->router
@@ -119,7 +119,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit_Framework_Tes
         $this->mockFormFactory
             ->expects($this->once())
             ->method('create')
-            ->with(FrontendCustomerUserTypedAddressType::NAME, $customerUserAddress, ['action' => $action])
+            ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
         $this->router
@@ -151,7 +151,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit_Framework_Tes
         $this->mockFormFactory
             ->expects($this->once())
             ->method('create')
-            ->with(FrontendCustomerUserTypedAddressType::NAME, $customerUserAddress, ['action' => $action])
+            ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
         $this->router

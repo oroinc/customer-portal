@@ -76,7 +76,7 @@ abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Fram
             ->with('POST')
             ->will($this->returnValue(false));
         $this->form->expects($this->never())
-            ->method('submit');
+            ->method('handleRequest');
 
         $this->assertFalse($this->handler->process($this->form, $this->request));
     }
@@ -88,8 +88,11 @@ abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Fram
             ->with('POST')
             ->will($this->returnValue(true));
         $this->form->expects($this->once())
-            ->method('submit')
+            ->method('handleRequest')
             ->with($this->request);
+        $this->form->expects($this->once())
+            ->method('isSubmitted')
+            ->will($this->returnValue(true));
         $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(false));
@@ -104,8 +107,11 @@ abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Fram
             ->with('POST')
             ->will($this->returnValue(true));
         $this->form->expects($this->once())
-            ->method('submit')
+            ->method('handleRequest')
             ->with($this->request);
+        $this->form->expects($this->once())
+            ->method('isSubmitted')
+            ->will($this->returnValue(true));
         $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(true));

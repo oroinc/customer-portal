@@ -11,6 +11,6 @@
 ```
 * For upgrade from **1.0** use the command:
 ```bash
-php app/console oro:platform:update --env=prod --force
+php bin/console oro:platform:update --env=prod --force
 ```
 

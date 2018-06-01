@@ -1,12 +1,17 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'components_config.html.twig'
+            themes: 'OroStyleBookBundle:layouts:blank/oro_stylebook_group/components_config.html.twig'
 
         - '@setOption':
             id: style_book_page_title
             optionName: defaultValue
             optionValue: 'oro_stylebook.groups.configs.title'
+
+        - '@setOption':
+            id: style_book_page_content
+            optionName: defaultValue
+            optionValue: 'oro_stylebook.groups.configs.content'
 
         - '@addTree':
             items:
@@ -47,7 +52,7 @@ layout:
                         preview: false
                         source_language: scss
                 style_book_components_sizes:
-                    blockType: block
+                    blockType: file_printer
 
                 group_element_components_functions_view:
                     blockType: group_element
@@ -60,7 +65,7 @@ layout:
                       preview: false
                       source_language: scss
                 style_book_components_functions:
-                    blockType: block
+                    blockType: file_printer
 
                 group_element_components_mixins_view:
                     blockType: group_element
