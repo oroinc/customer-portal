@@ -166,8 +166,8 @@ oro_stylebook:
                 title: 'Mediator'
                 description: 'This section prThe mediators are handlers for event triggers that help inform the related processes of the changes or the events. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/mediator-handlers.md">Oro bundle documentation</a>'
             popup_gallery:
-                title: 'Pop-up Gallery Widget'
-                description: 'Pop-up Gallery Widget'
+                title: 'Popup Gallery Widget'
+                description: 'The popup gallery widget helps you display the set of images as a gallery. See <a href="https://oroinc.com/b2b-ecommerce/doc/current/admin-guide/landing-commerce/product/products/global-gallery#sys-commerce-product-product-images-gallery-slider-global">image gallery configuration</a> as a sample usecase.'
             viewport_manager:
                 title: 'Viewport Manager'
                 description: 'The viewport manager. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/client-side/viewport-manager.md">Oro bundle documentation</a>.'
