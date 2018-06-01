@@ -4,6 +4,7 @@ define(function(require) {
     var StyleBookStickyPanel;
     var BaseView = require('oroui/js/app/views/base/view');
     var mediator = require('oroui/js/mediator');
+    var _ = require('underscore');
 
     StyleBookStickyPanel = BaseView.extend({
         events: {
@@ -29,6 +30,8 @@ define(function(require) {
                         placeholderId: 'style-book-sticky-header',
                         alwaysInSticky: true
                     }));
+
+                this.$('[data-move-to-sticky]').find('[data-toggle]').on('click', _.bind(this.stickyOff, this));
             } else {
                 this.$el.find('[data-move-to-sticky]')
                     .removeAttr('data-sticky-target')
@@ -37,7 +40,11 @@ define(function(require) {
 
             this.moved = !this.moved;
 
-            this.$('[data-toggle]').text(this.moved ? 'Off sticky' : 'On sticky');
+            this.$('[data-toggle]').text(
+                this.moved
+                    ? _.__('oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_on')
+                    : _.__('oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_off')
+            );
 
             mediator.trigger('page:afterChange');
         }

@@ -204,6 +204,9 @@ oro_stylebook:
                 title: 'List Slider Component'
             sticky_panel_view:
                 title: 'Sticky Panel View'
+                button:
+                    sticky_on: 'Off sticky'
+                    sticky_off: 'On sticky'
             mediator:
                 title: 'Mediator'
             dom_relocation:

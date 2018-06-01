@@ -12,6 +12,7 @@ oro_stylebook:
     groups:
         forms:
             title: 'Form Elements'
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pulvinar, tellus aliquet blandit sodales, enim elit molestie turpis, quis vestibulum urna turpis at lacus. Nam id dui nibh. Morbi condimentum nisl vitae pretium viverra. Fusce et arcu ipsum. Phasellus sapien eros, tempor non erat in, lobortis bibendum elit. Pellentesque nec risus justo. Etiam bibendum sed ligula eget mattis. Aenean sed turpis pellentesque est fringilla rhoncus nec nec dolor. Mauris semper pretium tellus. Nunc maximus cursus lacus non tincidunt. Vivamus a nulla elit. Quisque libero metus, blandit sed sem ac, suscipit convallis enim. Nulla facilisi.'
             form_text:
                 title: Text Input
                 one_line:
@@ -107,6 +108,7 @@ oro_stylebook:
 
         jscomponent:
             title: 'JS Components'
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pulvinar, tellus aliquet blandit sodales, enim elit molestie turpis, quis vestibulum urna turpis at lacus. Nam id dui nibh. Morbi condimentum nisl vitae pretium viverra. Fusce et arcu ipsum. Phasellus sapien eros, tempor non erat in, lobortis bibendum elit. Pellentesque nec risus justo. Etiam bibendum sed ligula eget mattis. Aenean sed turpis pellentesque est fringilla rhoncus nec nec dolor. Mauris semper pretium tellus. Nunc maximus cursus lacus non tincidunt. Vivamus a nulla elit. Quisque libero metus, blandit sed sem ac, suscipit convallis enim. Nulla facilisi.'
             tabs:
                 howtouse:
                     config: 'Config'
@@ -151,6 +153,9 @@ oro_stylebook:
             sticky_panel_view:
                 title: 'Sticky Panel View'
                 description: 'Sticky Panel View'
+                button:
+                    sticky_on: 'Off sticky'
+                    sticky_off: 'On sticky'
             mediator:
                 title: 'Mediator'
                 description: 'Mediator'
@@ -176,6 +181,7 @@ oro_stylebook:
                     description: 'Select2 Widget'
         grid:
             title: 'Grid Elements'
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pulvinar, tellus aliquet blandit sodales, enim elit molestie turpis, quis vestibulum urna turpis at lacus. Nam id dui nibh. Morbi condimentum nisl vitae pretium viverra. Fusce et arcu ipsum. Phasellus sapien eros, tempor non erat in, lobortis bibendum elit. Pellentesque nec risus justo. Etiam bibendum sed ligula eget mattis. Aenean sed turpis pellentesque est fringilla rhoncus nec nec dolor. Mauris semper pretium tellus. Nunc maximus cursus lacus non tincidunt. Vivamus a nulla elit. Quisque libero metus, blandit sed sem ac, suscipit convallis enim. Nulla facilisi.'
             text_content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'
             text_content_first: 'When UI and layout customization affects these elements, the preview dynamically updates after you refresh the page and clear the Oro application cache.'
             column_size:
@@ -200,6 +206,7 @@ oro_stylebook:
                 description: 'To forced the column to move to a new line, use the <code class="language-html">grid__column</code> with <code class="language-html">--both</code> prefix.'
         configs:
             title: 'Components config'
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pulvinar, tellus aliquet blandit sodales, enim elit molestie turpis, quis vestibulum urna turpis at lacus. Nam id dui nibh. Morbi condimentum nisl vitae pretium viverra.'
             colors:
                 title: Colors
                 description: 'To use color for some element you should use <code class="language-markup">get-color</code> function. Example and usage of this function are described in <strong>Functions</strong> section. Example of usage certain color in code is given under every color preview'

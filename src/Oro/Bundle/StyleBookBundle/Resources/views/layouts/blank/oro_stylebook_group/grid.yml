@@ -8,6 +8,11 @@ layout:
             optionName: defaultValue
             optionValue: 'oro_stylebook.groups.grid.title'
 
+        - '@setOption':
+            id: style_book_page_content
+            optionName: defaultValue
+            optionValue: 'oro_stylebook.groups.grid.content'
+
         - '@addTree':
             items:
                 group_element_grid_view:

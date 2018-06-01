@@ -314,7 +314,8 @@
                 'dialogOptions.title': 'Title',
                 'dialogOptions.modal': true,
                 'dialogOptions.minWidth': 320,
-                'dialogOptions.minHeight': 150
+                'dialogOptions.minHeight': 150,
+                'messengerContainerClass': 'ui-dialog-messages'
             }
         }
     }) %}
@@ -1032,8 +1033,9 @@
 
     <div {{ block('block_attributes') }}>
         <div class="sticky-panel-example" data-example-view>
-            <button class="btn btn--info" data-toggle>On sticky</button>
+            <button class="btn btn--info" data-toggle>{{ 'oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_off'|trans }}</button>
             <div class="sticky-panel-box" data-move-to-sticky>
+                <button class="btn btn--info" data-toggle>{{ 'oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_on'|trans }}</button>
                 That content will be move to sticky panel...
             </div>
         </div>

@@ -64,10 +64,18 @@ layout:
                     blockType: container
                 __content:
                     blockType: container
+                __page_content_container:
+                    blockType: container
+                    prepend: true
                 __page_title_container:
                     blockType: container
                     prepend: true
                 __page_title:
+                    blockType: page_title
+                    options:
+                        defaultValue: ~
+                        value: '=defaultValue'
+                __page_content:
                     blockType: page_title
                     options:
                         defaultValue: ~
@@ -91,5 +99,7 @@ layout:
                                         __sticky_element_sidebar: ~
                             __main:
                                 __content:
+                                    __page_content_container:
+                                        __page_content: ~
                                     __page_title_container:
                                         __page_title: ~

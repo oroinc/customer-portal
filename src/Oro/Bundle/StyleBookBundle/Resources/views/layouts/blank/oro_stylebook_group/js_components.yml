@@ -4,9 +4,14 @@ layout:
             themes: 'OroStyleBookBundle:layouts:blank/oro_stylebook_group/js_components.html.twig'
 
         - '@setOption':
-            id: page_title
+            id: style_book_page_title
             optionName: defaultValue
             optionValue: 'oro_stylebook.groups.jscomponent.title'
+
+        - '@setOption':
+            id: style_book_page_content
+            optionName: defaultValue
+            optionValue: 'oro_stylebook.groups.jscomponent.content'
 
         - '@setOption':
             id: style_book_grid_element_datagrid
