@@ -164,10 +164,10 @@ oro_stylebook:
                     sticky_off: 'Enable sticky mode'
             mediator:
                 title: 'Mediator'
-                description: 'This section prThe mediators are handlers for event triggers that help inform the related processes of the changes or the events. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/mediator-handlers.md">Oro bundle documentation</a>'
+                description: 'This section previews the existing mediators. The mediators are handlers for event triggers that help inform the related processes of the changes or the events. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/mediator-handlers.md">Oro bundle documentation</a>'
             popup_gallery:
                 title: 'Popup Gallery Widget'
-                description: 'The popup gallery widget helps you display the set of images as a gallery. See <a href="https://oroinc.com/b2b-ecommerce/doc/current/admin-guide/landing-commerce/product/products/global-gallery#sys-commerce-product-product-images-gallery-slider-global">image gallery configuration</a> as a sample usecase.'
+                description: 'The popup gallery widget helps you display the set of images as a gallery. See <a href="https://oroinc.com/b2b-ecommerce/doc/current/admin-guide/landing-commerce/product/products/global-gallery#sys-commerce-product-product-images-gallery-slider-global">image gallery configuration</a> as a sample use case.'
             viewport_manager:
                 title: 'Viewport Manager'
                 description: 'The viewport manager previews available screen types that can be used in Oro application styles. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/client-side/viewport-manager.md">Oro bundle documentation</a>.'
@@ -200,26 +200,26 @@ oro_stylebook:
                 title: Column Spacing
                 right:
                     title: Right
-                    description: 'A spare space between columns may be controlled using the <code class="language-html">grid_column--<offset-mode></code> class that modifies the right margin of the cell container. Supported offset modes are <code class="language-html">--offset-l</code> (20px), <code class="language-html">--offset-m</code> (10px), <code class="language-html">--offset-s</code> (5px). The default offset for the <code class="language-html">grid__column</code> class is 0px.'
+                    description: 'Spare space between columns may be controlled using the <code class="language-html">grid_column--<offset-mode></code> class that modifies the right margin of the cell container. Supported offset modes are <code class="language-html">--offset-l</code> (20px), <code class="language-html">--offset-m</code> (10px), <code class="language-html">--offset-s</code> (5px). The default offset for the <code class="language-html">grid__column</code> class is 0px.'
                 bottom:
                     title: Bottom
-                    description: 'The <code class="language-html">grid__column--offset-y</code> class modifies the bottom margin of the cell that is applied when the gird/table columns do not fit the screen width, and overflow to the next line (Default theme).'
+                    description: 'The <code class="language-html">grid__column--offset-y</code> class modifies the bottom margin of the cell that is applied when the grid/table columns do not fit the screen width, and overflow to the next line (Default theme).'
             columns_equal:
                 title: Two Symmetric Columns
                 description: 'To quickly design the layout (grid/table) with two equally sized columns, use the <code class="language-html">grid__column-half</code> class.'
             multi_line_row:
                 title: Multi-Line Row
-                description: 'To forced the column to move to a new line, use the <code class="language-html">grid__column</code> with <code class="language-html">--both</code> prefix.'
+                description: 'To force the column to move to a new line, use the <code class="language-html">grid__column</code> with <code class="language-html">--both</code> prefix.'
         configs:
             title: 'General Look and Feel'
             text_content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'            
             content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'
             colors:
                 title: Colors
-                description: 'To use color for some element you should use <code class="language-markup">get-color</code> function. Example and usage of this function are described in <strong>Functions</strong> section. Example of usage certain color in code is given under every color preview'
+                description: 'To use color for some element you should use <code class="language-markup">get-color</code> function. Example and usage of this function are described in <strong>Functions</strong> section. The example of using a certain color in the code is given under every color preview.'
             typography:
                 title: Typography
-                description: 'For all text elements by default set <code class="language-markup">font-family: $base-font</code> with <code class="language-markup">font-size: $base-font-size</code> and <code class="language-markup">line-height: $base-line-height</code>. Graphic elements such as icons, are made by iconic font which set as <code class="language-markup">font-family: $icon-font</code>. You can find recommended parameters for those variables below'
+                description: 'This section provides a preview for the text-based elements with the existing typography properties applied. The following settings apply to all text elements: <code class="language-markup">font-family: $base-font</code>, <code class="language-markup">font-size: $base-font-size</code>, and <code class="language-markup">line-height: $base-line-height</code>. The iconic font (<code class="language-markup">font-family: $icon-font</code>) is used for rendering graphic elements, like icons. The default and recommended parameters are shown in the preview.'
             sizes:
                 title: Sizes
                 description: 'This section provides a preview of the scss properties related to the common screen sizes and offsets used in Oro application.'
