@@ -131,10 +131,10 @@ oro_stylebook:
                 description: 'The modal component helps you configure the modal dialog UI view and behaviour. This component is recommended for the short messages and alerts that require user to explicitly confirm the action. For a preview, configure the dialog in the Config tab and click Open Modal button to see it in action.'
             datagrid:
                 title: 'Datagrid'
-                description: 'The datagrid helps you embed the datagrid with related controls (filters, view configuration, line ans mass actions) in the custom location in Oro application.'
+                description: 'The datagrid helps you embed the datagrid with related controls (filters, view configuration, line ans mass actions) in the custom location in Oro application. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/DataGridBundle/Resources/doc/frontend/datagrid.md">Oro bundle documentation</a>.'
             loading_mask:
                 title: 'Loading Mask'
-                description: 'With this JS component, you can preview the Loading mask for the inline element and a full-page loading. Test the hideDelay option by changing the value and clicking Toggle Loading or Execute fuill-page loading.'
+                description: 'With this JS component, you can preview the Loading mask for the inline element and a full-page loading. Test the hideDelay option by changing the value and clicking Toggle Loading or Execute fuill-page loading. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/client-side/loading-mask-view.md">Oro bundle documentation</a>.'
             dialog_widget:
                 title: 'Dialog Widget'
                 description: 'The dialog widget provides more felxible configuration of the pop-up panel. You can optionally make the dialog modal to restrict interaction with the background page while the dialog is open. You can  control the text shown in the dialog, and the size.'
@@ -155,22 +155,22 @@ oro_stylebook:
                 description: 'The promo image slider helps you embed and configure the responsive carousel in the Oro application. It the carousel you may display a set of blocks with html content (e.g. images, landing pages, banners).'
             dom_relocation:
                 title: 'DOM Relocation View'
-                description: 'DOM relocation View'
+                description: 'DOM relocation view helps you move the DOM element between containers when the browser window is resized. For example, you can move the menu from the top into the hamburger menu. For more information, see the <a href="https://github.com/oroinc/customer-portal/blob/master/src/Oro/Bundle/FrontendBundle/Resources/doc/components/dom-relocation-view.md">Oro bundle documentation</a>.'
             sticky_panel_view:
                 title: 'Sticky Panel View'
-                description: 'The sticky panel helps you pin the content block to the top of the page whenever it moves outside the visible area. Click the button to preview the sticky effect.'
+                description: 'The sticky panel helps you pin the content block to the top of the page whenever it moves outside the visible area. Click the button to preview the sticky effect. For more information, see the <a href="https://github.com/oroinc/customer-portal/blob/master/src/Oro/Bundle/FrontendBundle/Resources/doc/components/sticky-panel-view.md">Oro bundle documentation</a>'
                 button:
                     sticky_on: 'Disable sticky mode'
                     sticky_off: 'Enable sticky mode'
             mediator:
                 title: 'Mediator'
-                description: 'Mediator'
+                description: 'Mediator. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/mediator-handlers.md">Oro bundle documentation</a>'
             popup_gallery:
                 title: 'Popup Gallery Widget'
                 description: 'Popup Gallery Widget'
             viewport_manager:
                 title: 'Viewport Manager'
-                description: 'Viewport Manager'
+                description: 'Viewport Manager. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/client-side/viewport-manager.md">Oro bundle documentation</a>.'
             lazy_init:
                 title: 'Lazy Init View'
                 description: 'Lazy Init View'
