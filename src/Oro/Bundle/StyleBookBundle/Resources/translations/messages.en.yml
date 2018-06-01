@@ -128,19 +128,19 @@ oro_stylebook:
                     message: 'Message'            
             modal:
                 title: 'Modal'
-                description: 'The modal component helps you configure the modal dialog UI view and behaviour. This component is recommended for the short messages and alerts that require user to explicitly confirm the action. For a preview, configure the dialog in the Config tab and click Open Modal button to see it in action.'
+                description: 'The modal component helps you configure the modal dialog UI view and behavior. This component is recommended for the short messages and alerts that require a user to explicitly confirm the action. For a preview, configure the dialog in the Config tab and click the Open Modal button to see it in action.'
             datagrid:
                 title: 'Datagrid'
-                description: 'The datagrid helps you embed the datagrid with related controls (filters, view configuration, line ans mass actions) in the custom location in Oro application. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/DataGridBundle/Resources/doc/frontend/datagrid.md">Oro bundle documentation</a>.'
+                description: 'The datagrid helps you embed the datagrid with related controls (filters, view configuration, line and mass actions) in the custom location in Oro application. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/DataGridBundle/Resources/doc/frontend/datagrid.md">Oro bundle documentation</a>.'
             loading_mask:
                 title: 'Loading Mask'
-                description: 'With this JS component, you can preview the Loading mask for the inline element and a full-page loading. Test the hideDelay option by changing the value and clicking Toggle Loading or Execute fuill-page loading. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/client-side/loading-mask-view.md">Oro bundle documentation</a>.'
+                description: 'With this JS component, you can preview the Loading mask for the inline element and a full-page loading. Test the hideDelay option by changing the value and clicking Toggle Loading or Execute full-page loading. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/client-side/loading-mask-view.md">Oro bundle documentation</a>.'
             dialog_widget:
                 title: 'Dialog Widget'
-                description: 'The dialog widget provides more felxible configuration of the pop-up panel. You can optionally make the dialog modal to restrict interaction with the background page while the dialog is open. You can  control the text shown in the dialog, and the size.'
+                description: 'The dialog widget provides more flexible configuration of the pop-up panel. You can optionally make the dialog modal to restrict interaction with the background page while the dialog is open. You can  control the text shown in the dialog, and the size.'
             collapse_widget:
                 title: 'Collapse Widget'
-                description: 'The collapse widget renders an inline collapsible content area. If `hideSibling` is enabled, expanding the collapsed area hides the area that precceeds the widget if they reside on the same level. When `Open` option is enabled, the content area is expanded by default.'
+                description: 'The collapse widget renders an inline collapsible content area. If `hideSibling` is enabled, expanding the collapsed area hides the area that preceeds the widget if they reside on the same level. When the `Open` option is enabled, the content area is expanded by default.'
             fullscreen_popup_view:
                 title: 'Fullscreen Popup View'
                 description: 'The fullscreen popup view helps you show the rendered html content, view, and selector in a fullscreen pop-up. The page header renders with an icon specified as a `popupIcon`, the `popupLabel` as a title, and the Close button. The `contentTemplate` may contain raw html that you would expect inside the body tag.'
