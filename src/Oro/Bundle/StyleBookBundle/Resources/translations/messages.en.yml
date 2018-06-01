@@ -1,18 +1,22 @@
 oro_stylebook:
     main_content:
-          sub_title_main: 'Oro StyleBook: UI Component Library'
-          sub_title: 'Oro UI Library Structure and Navigation'
-          text_content: 'The Oro UI Library is a display of the UI elements with their source code.'
-          text_content_first: 'Most of the UI elements that are involved in OroCommerce Management Console and Front Store UI, are included in the Oro UI Library and are grouped into categories (e.g. Form Elements, Grid Elements) tabbed at the top of the page.'
-          text_content_second: 'When on the Category tab, use the elements navigation tree (on the right) to jump to the element`s description, preview and code sample.'
-          text_content_third: 'The elements from the UI Library may be easily reused in your custom forms and pages in Oro application. You can also use the library as a preview of the updated styles when customizing the application look and feel (see <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/frontendStylesArchitecture.md">Oro Styles Architecture</a> and <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/howToAssetsCss.md">Styles Organization and Customization</a> for more information on the UI customization)'
+          sub_title_main: 'Oro StyleBook'
+          sub_title_one: 'Color Coding'
+          sub_title_two: 'UI Library Structure and Navigation'
+          sub_title_three: 'Reference'
+          text_content: '<p>Oro StyleBook is a UI elements and components library that helps developers and designers use the recommended templates to build or customize the Oro application pages. The information in the UI library may be used in two different ways.<br><p style="padding-left: 20px;"><i class="fas fa-caret-right"></i> <strong>When you modify your Oro application layout</strong>, you can copy the element`s source code to your custom form or page in the Oro application to preserve the overall look and feel consistency.<br><i class="fas fa-caret-right"></i> <strong>After you have modified your Oro application styles or layout</strong>, you can use the StyleBook to check how updated styles affect the UI elements (see <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/frontendStylesArchitecture.md">Oro Styles Architecture</a> and <a href="https://github.com/orocommerce/orocommerce/tree/master/src/Oro/Bundle/FrontendBundle/Resources/doc/howToAssetsCss.md">Styles Organization and Customization</a> for more information on the UI customization).</p>'
+          text_content_first: 'For every UI element, library provides a short description, a source code sample that may be copied to reproduce a similar component, and a preview of the sample in the current UI theme. The following color-coding is used to simplify orientation in the library:<div class="style-book-group-element__description">The optional description of the UI element or design component may be highlighted with a red ribbon on the left.</div><div class="playground-source"><pre class="language-markup"><code class="style-book-group-element__code  language-scss"><span class="token comment" spellcheck="true">// The code samples are marked with a blue ribbon.</span></code></pre></div><div class="style-book-group-element__preview">The UI element preview is rendered in a light-gray box.</br></div>'
+          text_content_second: 'Most of the OroCommerce management console and storefront UI elements are included and grouped into the following categories: <br><p style="padding-left: 20px;"><i class="fas fa-caret-right"></i> <a href="configs/">General Look and Feel</a><br><i class="fas fa-caret-right"></i> <a href="forms/">Form Elements</a><br><i class="fas fa-caret-right"></i> <a href="grid/">Grid Elements</a><br><i class="fas fa-caret-right"></i> <a href="jscomponents/">JS Components</a></p>Use the tabs at the top of the page to switch between the categories.<br>In the category, use the elements navigation tree on the left to jump to the element`s description, preview and code sample.'
+          text_content_third: '<div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><strong>General Look and Feel</strong></div><div class="grid__column grid__column--3">Form Elements</div><div class="grid__column grid__column--3"><strong>Grid Elements</strong></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#colors">Colors</a></div><div class="grid__column grid__column--3"><a href="forms/#form_text">Text Input</a></div><div class="grid__column grid__column--3"><a href="grid/#grid">Column Size</a></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#typography">Typography</a></div><div class="grid__column grid__column--3"><a href="forms/#form_datetime">Date and Time Picker</a></div><div class="grid__column grid__column--3"><a href="grid/#row_offset">Row Spacing</a></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#sizes">Sizes</a></div><div class="grid__column grid__column--3"><a href="forms/#form_select">Single Option Select</a></div><div class="grid__column grid__column--3"><a href="grid/#columns_offset">Column Spacing</a></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#functions">Functions</a></div><div class="grid__column grid__column--3"><a href="forms/#form_checkboxes">Multiple Option Select</a></div><div class="grid__column grid__column--3"><a href="grid/#columns_equal">Two Symmetric Columns</a></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#mixins">Mixins</a></div><div class="grid__column grid__column--3"><a href="forms/#buttons">Buttons</a></div><div class="grid__column grid__column--3"><a href="grid/#multi_line_row">Multi-Line Row</a></div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3"><a href="configs/#animation">Animation</a></div><div class="grid__column grid__column--3"><a href="forms/#buttonsgroup">Buttons Group</a></div><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3"><a href="forms/#notifications">Notifications</a></div><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3"><a href="forms/#notification_message">Notification Message</a></div><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3">JS Components</div></div></div><div class=" grid"><div class="grid__row grid__row--offset-m"><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3"><a href="forms/#callout_info">Inline Сallout Information</a></div><div class="grid__column grid__column--3">&nbsp;</div><div class="grid__column grid__column--3">JS Components</div></div></div>'
     nav:
         title: Elements
         header_menu_title: Category
     groups:
         forms:
             title: 'Form Elements'
-            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pulvinar, tellus aliquet blandit sodales, enim elit molestie turpis, quis vestibulum urna turpis at lacus. Nam id dui nibh. Morbi condimentum nisl vitae pretium viverra. Fusce et arcu ipsum. Phasellus sapien eros, tempor non erat in, lobortis bibendum elit. Pellentesque nec risus justo. Etiam bibendum sed ligula eget mattis. Aenean sed turpis pellentesque est fringilla rhoncus nec nec dolor. Mauris semper pretium tellus. Nunc maximus cursus lacus non tincidunt. Vivamus a nulla elit. Quisque libero metus, blandit sed sem ac, suscipit convallis enim. Nulla facilisi.'
+            text_content: 'This section provides a preview and code sample for every form element that is available out-of-the box in your Oro application. Preview is autogenerated and takes into account the current theme and layout configuration. The preview dynamically updates after you refresh the page and clear the Oro application cache.'
+            text_content_first: ''
+            content: 'This section provides a preview and code sample for every form element that is available out-of-the box in your Oro application. Preview is autogenerated and takes into account the current theme and layout configuration. The preview dynamically updates after you refresh the page and clear the Oro application cache.'
             form_text:
                 title: Text Input
                 one_line:
@@ -108,7 +112,9 @@ oro_stylebook:
 
         jscomponent:
             title: 'JS Components'
-            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pulvinar, tellus aliquet blandit sodales, enim elit molestie turpis, quis vestibulum urna turpis at lacus. Nam id dui nibh. Morbi condimentum nisl vitae pretium viverra. Fusce et arcu ipsum. Phasellus sapien eros, tempor non erat in, lobortis bibendum elit. Pellentesque nec risus justo. Etiam bibendum sed ligula eget mattis. Aenean sed turpis pellentesque est fringilla rhoncus nec nec dolor. Mauris semper pretium tellus. Nunc maximus cursus lacus non tincidunt. Vivamus a nulla elit. Quisque libero metus, blandit sed sem ac, suscipit convallis enim. Nulla facilisi.'
+            text_content: 'This section lists main javascript components that are available out-of-the box in your Oro application. 1. Customize generic parts of the component in the CONFIG tab. 2. Test your customized component in the preview sandbox. 3. Copy the html and/or js code sample of what you have configured from the How to add in HTML/JS? tabs. <br><br>Note: Preview is autogenerated and takes into account current theme and layout configuration. The preview dynamically updates after you refresh the page and clear the Oro application cache.'
+            text_content_first: ''
+            content: 'This section lists main javascript components that are available out-of-the box in your Oro application. 1. Customize generic parts of the component in the CONFIG tab. 2. Test your customized component in the preview sandbox. 3. Copy the html and/or js code sample of what you have configured from the How to add in HTML/JS? tabs. <br><br>Note: Preview is autogenerated and takes into account current theme and layout configuration. The preview dynamically updates after you refresh the page and clear the Oro application cache.'
             tabs:
                 howtouse:
                     config: 'Config'
@@ -119,69 +125,69 @@ oro_stylebook:
                 mediator:
                     common: 'Common'
                     grid: 'Grid'
-                    message: 'Message'
+                    message: 'Message'            
             modal:
                 title: 'Modal'
-                description: 'Modal view component'
+                description: 'The modal component helps you configure the modal dialog UI view and behavior. This component is recommended for the short messages and alerts that require a user to explicitly confirm the action. For a preview, configure the dialog in the Config tab and click the Open Modal button to see it in action.'
             datagrid:
                 title: 'Datagrid'
-                description: 'Datagrid'
+                description: 'The datagrid helps you embed the datagrid with related controls (filters, view configuration, line and mass actions) in the custom location in Oro application. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/DataGridBundle/Resources/doc/frontend/datagrid.md">Oro bundle documentation</a>.'
             loading_mask:
                 title: 'Loading Mask'
-                description: 'Loading mask view'
+                description: 'With this JS component, you can preview the Loading mask for the inline element and a full-page loading. Test the hideDelay option by changing the value and clicking Toggle Loading or Execute full-page loading. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/client-side/loading-mask-view.md">Oro bundle documentation</a>.'
             dialog_widget:
                 title: 'Dialog Widget'
-                description: 'Dialog widget'
+                description: 'The dialog widget provides more flexible configuration of the pop-up panel. You can optionally make the dialog modal to restrict interaction with the background page while the dialog is open. You can  control the text shown in the dialog, and the size.'
             collapse_widget:
                 title: 'Collapse Widget'
-                description: 'Collapse widget'
+                description: 'The collapse widget renders an inline collapsible content area. If `hideSibling` is enabled, expanding the collapsed area hides the area that preceeds the widget if they reside on the same level. When the `Open` option is enabled, the content area is expanded by default.'
             fullscreen_popup_view:
                 title: 'Fullscreen Popup View'
-                description: 'Fullscreen Popup View'
+                description: 'The fullscreen popup view helps you show the rendered html content, view, and selector in a fullscreen pop-up. The page header renders with an icon specified as a `popupIcon`, the `popupLabel` as a title, and the Close button. The `contentTemplate` may contain raw html that you would expect inside the body tag.'
             scroll_view:
                 title: 'Scroll View'
-                description: 'Scroll View'
+                description: 'Preview of the horizontal and vertical scroll.'
             googlemaps_view:
                 title: 'Google Map View'
-                description: 'Google Map View'
+                description: 'Preview of the Google Map embedded into the Oro application content. Note: The valid API key is necessary for the preview to render. Ensure you have generated and provided the Google API key in the <a href="https://oroinc.com/b2b-ecommerce/doc/current/admin-guide/integrations/google-integration-settings">Google integartion settings</a> in Oro application configuration.'
             list_slider:
                 title: 'List Slider Component'
-                description: 'List Slider Component'
+                description: 'The promo image slider helps you embed and configure the responsive carousel in the Oro application. It the carousel you may display a set of blocks with html content (e.g. images, landing pages, banners).'
             dom_relocation:
-                title: 'DOM relocation view'
-                description: 'DOM relocation view'
+                title: 'DOM Relocation View'
+                description: 'DOM relocation view helps you move the DOM element between containers when the browser window is resized. For example, you can move the menu from the top into the hamburger menu. For more information, see the <a href="https://github.com/oroinc/customer-portal/blob/master/src/Oro/Bundle/FrontendBundle/Resources/doc/components/dom-relocation-view.md">Oro bundle documentation</a>.'
             sticky_panel_view:
                 title: 'Sticky Panel View'
-                description: 'Sticky Panel View'
+                description: 'The sticky panel helps you pin the content block to the top of the page whenever it moves outside the visible area. Click the button to preview the sticky effect. For more information, see the <a href="https://github.com/oroinc/customer-portal/blob/master/src/Oro/Bundle/FrontendBundle/Resources/doc/components/sticky-panel-view.md">Oro bundle documentation</a>'
                 button:
-                    sticky_on: 'Off sticky'
-                    sticky_off: 'On sticky'
+                    sticky_on: 'Disable sticky mode'
+                    sticky_off: 'Enable sticky mode'
             mediator:
                 title: 'Mediator'
-                description: 'Mediator'
+                description: 'This section previews the existing mediators. The mediators are handlers for event triggers that help inform the related processes of the changes or the events. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/mediator-handlers.md">Oro bundle documentation</a>'
             popup_gallery:
                 title: 'Popup Gallery Widget'
-                description: 'Popup Gallery Widget'
+                description: 'The popup gallery widget helps you display the set of images as a gallery. See <a href="https://oroinc.com/b2b-ecommerce/doc/current/admin-guide/landing-commerce/product/products/global-gallery#sys-commerce-product-product-images-gallery-slider-global">image gallery configuration</a> as a sample use case.'
             viewport_manager:
                 title: 'Viewport Manager'
-                description: 'Viewport Manager'
+                description: 'The viewport manager previews available screen types that can be used in Oro application styles. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/client-side/viewport-manager.md">Oro bundle documentation</a>.'
             lazy_init:
                 title: 'Lazy Init View'
-                description: 'Lazy Init View'
+                description: 'With lazy init view, you can postpone the content loading until it reaches the visible area.'
             zoom_widget:
                 title: 'Zoom Widget'
-                description: 'Zoom Widget'
+                description: 'The zoom widget helps you embed the image and the zoomed preview next to the image.'
             input_widgets:
                 title: 'Input Widgets'
                 number:
                     title: 'Input Number Widget'
-                    description: 'Input Number Widget'
+                    description: 'The input number widget captures the positive numbers in a mobile-friendly way via the numeric on-screen keyboard.'
                 select2:
                     title: 'Select2 Widget'
-                    description: 'Select2 Widget'
+                    description: 'The select2 widget helps you embed the select2 boxes to enable flexible and user-frienldy controls for chosing from multiple options.'
         grid:
             title: 'Grid Elements'
-            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pulvinar, tellus aliquet blandit sodales, enim elit molestie turpis, quis vestibulum urna turpis at lacus. Nam id dui nibh. Morbi condimentum nisl vitae pretium viverra. Fusce et arcu ipsum. Phasellus sapien eros, tempor non erat in, lobortis bibendum elit. Pellentesque nec risus justo. Etiam bibendum sed ligula eget mattis. Aenean sed turpis pellentesque est fringilla rhoncus nec nec dolor. Mauris semper pretium tellus. Nunc maximus cursus lacus non tincidunt. Vivamus a nulla elit. Quisque libero metus, blandit sed sem ac, suscipit convallis enim. Nulla facilisi.'
+            content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application. When UI and layout customization affects these elements, the preview dynamically updates after you refresh the page and clear the Oro application cache.'
             text_content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'
             text_content_first: 'When UI and layout customization affects these elements, the preview dynamically updates after you refresh the page and clear the Oro application cache.'
             column_size:
@@ -194,31 +200,35 @@ oro_stylebook:
                 title: Column Spacing
                 right:
                     title: Right
-                    description: 'A spare space between columns may be controlled using the <code class="language-html">grid_column--<offset-mode></code> class that modifies the right margin of the cell container. Supported offset modes are <code class="language-html">--offset-l</code> (20px), <code class="language-html">--offset-m</code> (10px), <code class="language-html">--offset-s</code> (5px). The default offset for the <code class="language-html">grid__column</code> class is 0px.'
+                    description: 'Spare space between columns may be controlled using the <code class="language-html">grid_column--<offset-mode></code> class that modifies the right margin of the cell container. Supported offset modes are <code class="language-html">--offset-l</code> (20px), <code class="language-html">--offset-m</code> (10px), <code class="language-html">--offset-s</code> (5px). The default offset for the <code class="language-html">grid__column</code> class is 0px.'
                 bottom:
                     title: Bottom
-                    description: 'The <code class="language-html">grid__column--offset-y</code> class modifies the bottom margin of the cell that is applied when the gird/table columns do not fit the screen width, and overflow to the next line (Default theme).'
+                    description: 'The <code class="language-html">grid__column--offset-y</code> class modifies the bottom margin of the cell that is applied when the grid/table columns do not fit the screen width, and overflow to the next line (Default theme).'
             columns_equal:
                 title: Two Symmetric Columns
                 description: 'To quickly design the layout (grid/table) with two equally sized columns, use the <code class="language-html">grid__column-half</code> class.'
             multi_line_row:
                 title: Multi-Line Row
-                description: 'To forced the column to move to a new line, use the <code class="language-html">grid__column</code> with <code class="language-html">--both</code> prefix.'
+                description: 'To force the column to move to a new line, use the <code class="language-html">grid__column</code> with <code class="language-html">--both</code> prefix.'
         configs:
-            title: 'Components config'
-            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pulvinar, tellus aliquet blandit sodales, enim elit molestie turpis, quis vestibulum urna turpis at lacus. Nam id dui nibh. Morbi condimentum nisl vitae pretium viverra.'
+            title: 'General Look and Feel'
+            text_content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'            
+            content: 'This section provides a preview and code sample for every UI element that is available out-of-the box in your Oro application.'
             colors:
                 title: Colors
-                description: 'To use color for some element you should use <code class="language-markup">get-color</code> function. Example and usage of this function are described in <strong>Functions</strong> section. Example of usage certain color in code is given under every color preview'
+                description: 'To use color for some element you should use <code class="language-markup">get-color</code> function. Example and usage of this function are described in <strong>Functions</strong> section. The example of using a certain color in the code is given under every color preview.'
             typography:
                 title: Typography
-                description: 'For all text elements by default set <code class="language-markup">font-family: $base-font</code> with <code class="language-markup">font-size: $base-font-size</code> and <code class="language-markup">line-height: $base-line-height</code>. Graphic elements such as icons, are made by iconic font which set as <code class="language-markup">font-family: $icon-font</code>. You can find recommended parameters for those variables below'
+                description: 'This section provides a preview for the text-based elements with the existing typography properties applied. The following settings apply to all text elements: <code class="language-markup">font-family: $base-font</code>, <code class="language-markup">font-size: $base-font-size</code>, and <code class="language-markup">line-height: $base-line-height</code>. The iconic font (<code class="language-markup">font-family: $icon-font</code>) is used for rendering graphic elements, like icons. The default and recommended parameters are shown in the preview.'
             sizes:
                 title: Sizes
+                description: 'This section provides a preview of the scss properties related to the common screen sizes and offsets used in Oro application.'
             functions:
                 title: Functions
+                description: 'This section provides a preview of the scss functions that may be used in Oro application styles.'
             mixins:
                 title: Mixins
+                description: 'SCSS mixins group reusable css properties that may be applied to multiple css selectors (classes or ids) via the @include mixin_name() directive.'
             animation:
                 title: Animation
                 description: 'Add one of the following classes to the element you want to animate: <code class="language-markup">fade-in</code>, <code class="language-markup">fade-out</code>, <code class="language-markup">fade-in-down</code>, <code class="language-markup">fade-in-up</code>, <code class="language-markup">slide-in-down</code>, <code class="language-markup">slide-in-up</code>'
