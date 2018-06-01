@@ -128,7 +128,7 @@ oro_stylebook:
                     message: 'Message'            
             modal:
                 title: 'Modal'
-                description: 'The modal box component helps you configure the modal dialog UI view and behaviour. This component is recommended for the short messages and alerts that require user to explicitly confirm the action. For a preview, configure the dialog in the Config tab and click Open Modal button to see it in action.'
+                description: 'The modal component helps you configure the modal dialog UI view and behaviour. This component is recommended for the short messages and alerts that require user to explicitly confirm the action. For a preview, configure the dialog in the Config tab and click Open Modal button to see it in action.'
             datagrid:
                 title: 'Datagrid'
                 description: 'The datagrid helps you embed the datagrid with related controls (filters, view configuration, line ans mass actions) in the custom location in Oro application.'
@@ -137,22 +137,22 @@ oro_stylebook:
                 description: 'With this JS component, you can preview the Loading mask for the inline element and a full-page loading. Test the hideDelay option by changing the value and clicking Toggle Loading or Execute fuill-page loading.'
             dialog_widget:
                 title: 'Dialog Widget'
-                description: 'The dialog widget provides more felxible configuration of the pop-up panel. This component is recommended for the information that requires user to opt-in. You can optionally make the dialog modal to restrict interaction with the background page while the dialog is open. You can  control the text shown in the dialog, and the size.'
+                description: 'The dialog widget provides more felxible configuration of the pop-up panel. You can optionally make the dialog modal to restrict interaction with the background page while the dialog is open. You can  control the text shown in the dialog, and the size.'
             collapse_widget:
                 title: 'Collapse Widget'
-                description: 'The collapse widget renders an inline collapsible text. If `hideSibling` is enabled, expanding the text hides the content that precceeds the widget if they reside on the same level. When `Open` option is enabled, the text is expanded by default.'
+                description: 'The collapse widget renders an inline collapsible content area. If `hideSibling` is enabled, expanding the collapsed area hides the area that precceeds the widget if they reside on the same level. When `Open` option is enabled, the content area is expanded by default.'
             fullscreen_popup_view:
                 title: 'Fullscreen Pop-up View'
-                description: 'The fullscreen pop-up view helps you show the rendered html content in a fullscreen pop-up. The page header renders with an icon specified as a `popupIcon`, the `popupLabel` as a title, and the Close button. The `contentTemplate` may contain raw html that you would expect inside the body tag.'
+                description: 'The fullscreen pop-up view helps you show the rendered html content, view, and selector in a fullscreen pop-up. The page header renders with an icon specified as a `popupIcon`, the `popupLabel` as a title, and the Close button. The `contentTemplate` may contain raw html that you would expect inside the body tag.'
             scroll_view:
                 title: 'Scroll View'
                 description: 'Preview of the horizontal and vertical scroll.'
             googlemaps_view:
                 title: 'Google Map View'
-                description: 'Preview of the Google Map embedded into the Oro application content. Note: The valid API key is necessary for the preview to render. '
+                description: 'Preview of the Google Map embedded into the Oro application content. Note: The valid API key is necessary for the preview to render. Ensure you have generated and provided the Google API key in the <a href="https://oroinc.com/b2b-ecommerce/doc/current/admin-guide/integrations/google-integration-settings">Google integartion settings</a> in Oro application configuration.'
             list_slider:
                 title: 'List Slider Component'
-                description: 'List Slider Component'
+                description: 'The promo image slider helps you embed and configure the responsive carousel in the Oro application. It the carousel you may display a set of blocks with html content (e.g. images, landing pages, banners).'
             dom_relocation:
                 title: 'DOM Relocation View'
                 description: 'DOM relocation View'
