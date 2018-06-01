@@ -195,7 +195,7 @@ oro_stylebook:
             collapse_widget:
                 title: 'Collapse Widget'
             fullscreen_popup_view:
-                title: 'Fullscreen Pop-up View'
+                title: 'Fullscreen Popup View'
             scroll_view:
                 title: 'Scroll View'
             googlemaps_view:
