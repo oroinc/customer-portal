@@ -215,8 +215,10 @@ oro_stylebook:
                 description: 'For all text elements by default set <code class="language-markup">font-family: $base-font</code> with <code class="language-markup">font-size: $base-font-size</code> and <code class="language-markup">line-height: $base-line-height</code>. Graphic elements such as icons, are made by iconic font which set as <code class="language-markup">font-family: $icon-font</code>. You can find recommended parameters for those variables below'
             sizes:
                 title: Sizes
+                description: 'This section provides a preview of the scss properties related to the common screen sizes and offsets used in Oro application.'
             functions:
                 title: Functions
+                description: 'This section provides a preview of the scss functions that may be used in Oro application styles.'
             mixins:
                 title: Mixins
                 description: 'SCSS mixins group reusable css properties that may be applied to multiple css selectors (classes or ids) via the @include mixin_name() directive.'
