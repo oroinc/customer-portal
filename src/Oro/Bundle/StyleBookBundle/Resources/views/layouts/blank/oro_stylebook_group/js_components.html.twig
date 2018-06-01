@@ -16,13 +16,13 @@
                 cancelText: 'Cancel',
                 okButtonClass: 'btn ok btn--info',
                 cancelButtonClass: 'btn cancel',
-                handleClose: false,
-                allowCancel: true,
-                allowOk: true,
                 content: {
                     type: 'textarea',
                     value: 'Hello'
-                }
+                },
+                handleClose: false,
+                allowCancel: true,
+                allowOk: true
             }
         }
     }) %}
@@ -312,10 +312,10 @@
                     value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis egestas purus a congue. Praesent non velit orci. Donec sed iaculis ipsum, id dictum sapien. Donec sollicitudin auctor magna sit amet volutpat. Nulla gravida euismod ante, at varius nisl aliquet sit amet. Vestibulum varius libero lorem, quis condimentum purus malesuada sed. Suspendisse potenti. Nam ac dolor eget mauris volutpat pretium at eu turpis. Sed ac diam a turpis fringilla luctus eu ut ipsum. Sed tempus tincidunt mauris, eu dignissim ipsum fermentum quis.'
                 },
                 'dialogOptions.title': 'Title',
-                'dialogOptions.modal': true,
                 'dialogOptions.minWidth': 320,
                 'dialogOptions.minHeight': 150,
                 'messengerContainerClass': 'ui-dialog-messages',
+                'dialogOptions.modal': true,
                 loadingMaskEnabled: true,
                 preventModelRemoval: false,
                 elementFirst: true,
@@ -342,6 +342,66 @@
     <div class="playground-props" data-props></div>
 {% endblock %}
 
+{% block _style_book_grid_element_dialog_widget_js_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' grid'
+    }) %}
+
+    {% set source_code %}
+        define(function(require) {
+            'use strict';
+
+            var SomeExampleView;
+            var BaseView = require('oroui/js/app/views/base/view');
+            var _ = require('underscore');
+
+            SomeExampleView = BaseView.extend({
+                widget: null,
+
+                events: {
+                    'click [toggle-dialog]': 'openDialog'
+                },
+
+                initialize: function() {
+                    SomeExampleView.__super__.initialize.apply(this);
+
+                    this.widget = new DialogWidget({
+                        title: 'Dialog title',
+                        el: this.$el,
+                        stateEnabled: false,
+                        incrementalPosition: false,
+                        dialogOptions: {
+                            close: _.bind(this.onCancel, this),
+                            width: 800,
+                            modal: true
+                        }
+                    });
+                },
+
+                openDialog: function() {
+                    this.widget.render();
+                },
+
+                onCancel: function() {
+                    // Close handler
+                }
+            });
+
+            return SomeExampleView;
+        });
+    {% endset %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="style-book-group-element__source">
+            <pre>
+                <code class="style-book-group-element__code language-javascript">
+                    {{ source_code|trim|escape }}
+                </code>
+            </pre>
+        </div>
+    </div>
+{% endblock %}
+
 {# Collapse Widget #}
 
 {% block _style_book_grid_element_collapse_widget_widget %}
@@ -351,8 +411,8 @@
         'data-page-component-options': {
             viewConstructor: 'oroui/js/widget/collapse-widget',
             props: {
-                hideSibling: false,
                 animationSpeed: 250,
+                hideSibling: false,
                 open: true
             }
         }
@@ -466,13 +526,13 @@
             renderAfter: 'action',
             props: {
                 popupIcon: 'fa-cog',
-                popupBadge: true,
                 popupLabel: 'Fullscreen popup',
                 contentTemplate: {
                     type: 'textarea',
                     value: '<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id turpis quam. Sed sodales metus ac leo scelerisque eleifend. Suspendisse ullamcorper libero mauris, a imperdiet risus consequat eu. Donec imperdiet id quam id hendrerit. Ut sed bibendum massa, vitae venenatis mi. Aliquam tellus risus, faucibus vitae quam id, consectetur accumsan ipsum. Sed at venenatis mauris. Donec finibus mollis libero, eu elementum enim tempus suscipit. Praesent in consectetur mauris. Aenean tristique tellus vitae ligula tristique tincidunt. Donec aliquam dapibus imperdiet. Vestibulum sagittis libero in ipsum semper ullamcorper. Nulla vitae convallis sapien. Nulla vitae est id neque fermentum molestie vulputate ut orci.Nulla eget tellus eget mi aliquam porta. Aliquam commodo tortor sed lacinia maximus. Mauris leo odio, vestibulum ut tortor et, malesuada eleifend sapien. Vivamus efficitur sem in urna viverra porta. Cras egestas mauris eget tristique fringilla. Phasellus a molestie ante. Suspendisse vel rhoncus nisi, ut varius leo. Quisque neque dolor, ullamcorper ut sem in, venenatis iaculis purus. In at lobortis tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel nisi id ante efficitur hendrerit bibendum porta augue. Cras ultricies bibendum lacus, non sollicitudin tellus ultricies nec. Vestibulum eget est leo. Proin non imperdiet ipsum, cursus gravida lorem. Aenean justo urna, fringilla ut pretium quis, pharetra nec velit.</div>'
                 },
                 stopEventsList: 'mousedown focusin',
+                popupBadge: true,
                 stopEventsPropagation: true,
                 keepElement: true
             }
@@ -706,9 +766,9 @@
                     label: 'Google API key (required)'
                 },
                 'address.address': '67800 Junkins Avenue Albany, 31707, US-GA',
+                'mapOptions.zoom': 17,
                 sensor: false,
                 showWeather: true,
-                'mapOptions.zoom': 17,
                 'mapOptions.mapTypeControl': true,
                 'mapOptions.panControl': false,
                 'mapOptions.zoomControl': true,
@@ -1520,17 +1580,17 @@
         'data-page-component-options': {
             viewConstructor: 'orostylebook/js/style-book-views/style-book-popup-gallery-widget',
             props: {
-                use_thumb: true,
                 'imageOptions.slidesToShow': 1,
                 'imageOptions.slidesToScroll': 1,
-                'imageOptions.fade': true,
-                'imageOptions.arrows': true,
                 'imageOptions.asNavFor': '.popup-gallery-widget__thumbnails',
                 'imageOptions.lazyLoad': 'progressive',
-                'imageOptions.infinite': false,
                 'navOptions.slidesToShow': 4,
                 'navOptions.slidesToScroll': 1,
                 'navOptions.asNavFor': '.popup-gallery-widget__images',
+                use_thumb: true,
+                'imageOptions.fade': true,
+                'imageOptions.arrows': true,
+                'imageOptions.infinite': false,
                 'navOptions.focusOnSelect': true,
                 'navOptions.infinite': false,
                 'navOptions.arrows': true
@@ -1558,11 +1618,13 @@
 
 {% block _style_book_grid_element_popup_gallery_html_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
-    {% set options = "{%
+    {% set options = "
+    {%
         set viewOptions = {
+            widget: 'orofrontend/js/app/components/popup-gallery-widget',
             use_thumb: true,
             galleryImages: [{
                 src: 'src_to_original_image',
@@ -1588,18 +1650,13 @@
                 arrows: true
             }
         }
-
-        set popupGalleryAttr = {
-            'data-page-component-module': 'orofrontend/js/app/components/popup-gallery-widget',
-            'data-page-component-options': options|json_encode,
-        }
     %}" %}
 
     {% set source_code %}
         {{ options|raw }}
 
         <div class="popup-gallery" >
-            <div data-trigger-gallery-open data-page-component-module="orofrontend/js/app/components/popup-gallery-widget" data-page-component-options="{{ "{{  viewOptions|json_encode }}"|raw }}">
+            <div data-trigger-gallery-open data-page-component-widget="{{ "{{  viewOptions|json_encode }}"|raw }}">
                 <img src="url_path" alt="Alt">
             </div>
         </div>
@@ -1793,7 +1850,6 @@
 {# Lazy Init View #}
 
 {% block _style_book_grid_element_lazy_init_widget %}
-
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
@@ -1801,7 +1857,7 @@
 
 {% block _style_book_grid_element_lazy_init_html_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
@@ -1984,6 +2040,8 @@
     </div>
 {% endblock %}
 
+{# Zoom Widget #}
+
 {% block _style_book_grid_element_zoom_widget_widget %}
 
     {% set attr = layout_attr_defaults(attr, {
@@ -1992,7 +2050,6 @@
         'data-page-component-options': {
             viewConstructor: 'orostylebook/js/style-book-views/style-book-zoom-widget-view',
             props: {
-                scrollZoom: true,
                 zoomWindowPosition: 'zoom-container',
                 minZoomWindowWidth: 376,
                 maxZoomWindowWidth: 700,
@@ -2005,7 +2062,8 @@
                 borderColour: '#ebebeb',
                 lensBorderColour: '#7d7d7d',
                 lensColour: '#000',
-                lensOpacity: 0.22
+                lensOpacity: 0.22,
+                scrollZoom: true,
             }
         }
     }) %}

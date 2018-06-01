@@ -58,6 +58,7 @@ define(function(require) {
         onSwitchClick: function(e) {
             this.$el.find(this.options.itemSelector).removeClass(this.options.activeClass);
             $(e.target).parents().filter(this.options.itemSelector).addClass(this.options.activeClass);
+            console.log(this);
         },
 
         /**
