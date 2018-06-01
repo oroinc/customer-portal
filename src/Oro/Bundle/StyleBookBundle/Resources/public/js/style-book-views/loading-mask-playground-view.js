@@ -5,6 +5,7 @@ define(function(require) {
     var BaseView = require('oroui/js/app/views/base/view');
     var LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
     var mediator = require('oroui/js/mediator');
+    var _ = require('underscore');
 
     LoadingMaskPlaygroundView = BaseView.extend({
         optionNames: BaseView.prototype.optionNames.concat(['el', 'loadingContainerSelector']),

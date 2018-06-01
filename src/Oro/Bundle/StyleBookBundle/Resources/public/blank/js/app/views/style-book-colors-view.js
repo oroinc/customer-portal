@@ -4,6 +4,7 @@ define(function(require) {
     var StyleBookColorsView;
     var template = require('tpl!orostylebook/templates/style-book/style-book-colors-view.html');
     var BaseView = require('oroui/js/app/views/base/view');
+    var _ = require('underscore');
     require('prismjs');
     require('prismjs-scss');
 

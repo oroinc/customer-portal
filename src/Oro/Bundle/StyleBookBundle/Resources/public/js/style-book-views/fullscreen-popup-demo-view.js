@@ -5,6 +5,7 @@ define(function(require) {
     var BaseView = require('oroui/js/app/views/base/view');
     var FullscreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var _ = require('underscore');
+    var $ = require('jquery');
 
     FullscreenPopupDemoView = BaseView.extend({
         constructor: function FullscreenPopupDemoView() {

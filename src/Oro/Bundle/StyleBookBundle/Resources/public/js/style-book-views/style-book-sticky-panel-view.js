@@ -30,8 +30,6 @@ define(function(require) {
                         placeholderId: 'style-book-sticky-header',
                         alwaysInSticky: true
                     }));
-
-                this.$('[data-move-to-sticky]').find('[data-toggle]').on('click', _.bind(this.stickyOff, this));
             } else {
                 this.$el.find('[data-move-to-sticky]')
                     .removeAttr('data-sticky-target')

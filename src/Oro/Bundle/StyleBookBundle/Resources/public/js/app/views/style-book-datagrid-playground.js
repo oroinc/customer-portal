@@ -4,6 +4,7 @@ define(function(require) {
     var StyleBookDatagridPlayground;
     var StyleBookPlayground = require('orostylebook/js/app/views/style-book-playground');
     var datagridData = require('orofrontend/json/grid-config');
+    var _ = require('underscore');
 
     StyleBookDatagridPlayground = StyleBookPlayground.extend({
         subviewContainer: '[data-example-view]',

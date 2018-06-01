@@ -4,6 +4,7 @@ define(function(require) {
     var StyleBookDialogWidget;
     var DialogWidget = require('oro/dialog-widget');
     var $ = require('jquery');
+    var _ = require('underscore');
 
     StyleBookDialogWidget = DialogWidget.extend({
         content: null,

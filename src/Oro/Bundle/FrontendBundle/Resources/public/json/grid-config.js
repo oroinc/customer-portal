@@ -19,6 +19,7 @@ define(function() {
                 gridName: 'frontend-customer-customer-address-grid',
                 frontend: true,
                 additional_fields: [],
+                inputName: false,
                 toolbarOptions: {
                     placement: {
                         bottom: true,
@@ -30,14 +31,6 @@ define(function() {
                     addColumnManager: true,
                     turnOffToolbarRecordsNumber: 0,
                     pageSize: {
-                        hide: false,
-                        default_per_page: 25,
-                        items: [
-                            10,
-                            25,
-                            50,
-                            100
-                        ]
                     },
                     pagination: {
                         hide: false,
@@ -54,9 +47,7 @@ define(function() {
                     'Oro_Bundle_CustomerBundle_Entity_CustomerAddress_type_collection'
                 ],
                 multipleSorting: false,
-                url: '\/datagrid\/frontend-customer-customer-address-grid?' +
-                'frontend-customer-customer-address-grid%5BoriginalRoute%5D=' +
-                'oro_customer_frontend_customer_user_address_index'
+                url: ''
             },
             lazy: true,
             massActions: {
@@ -160,82 +151,8 @@ define(function() {
                     }
                 }
             },
-            initialState: {
-                gridView: '__all__',
-                filters: [
-
-                ],
-                columns: {
-                    street: {
-                        order: 0,
-                        renderable: true
-                    },
-                    city: {
-                        order: 1,
-                        renderable: true
-                    },
-                    state: {
-                        order: 2,
-                        renderable: true
-                    },
-                    zip: {
-                        order: 3,
-                        renderable: true
-                    },
-                    countryName: {
-                        order: 4,
-                        renderable: true
-                    },
-                    types: {
-                        order: 5,
-                        renderable: true
-                    }
-                },
-                currentPage: 1,
-                pageSize: 25,
-                totals: null,
-                sorters: [
-
-                ]
-            },
-            state: {
-                gridView: '__all__',
-                filters: [
-
-                ],
-                columns: {
-                    street: {
-                        order: 0,
-                        renderable: true
-                    },
-                    city: {
-                        order: 1,
-                        renderable: true
-                    },
-                    state: {
-                        order: 2,
-                        renderable: true
-                    },
-                    zip: {
-                        order: 3,
-                        renderable: true
-                    },
-                    countryName: {
-                        order: 4,
-                        renderable: true
-                    },
-                    types: {
-                        order: 5,
-                        renderable: true
-                    }
-                },
-                currentPage: '1',
-                pageSize: '25',
-                totals: null,
-                sorters: {
-                    street: 'ASC'
-                }
-            },
+            initialState: {},
+            state: {},
             gridViews: {
                 views: [
                     {
@@ -781,10 +698,7 @@ define(function() {
                     renderable: true
                 }
             ],
-            gridParams: {
-                originalRoute: 'oro_customer_frontend_customer_user_address_index',
-                c: 'street1.city1.state1.zip1.countryName1.types1'
-            },
+            gridParams: {},
             enableFloatingHeaderPlugin: false
         },
         data: {
@@ -925,7 +839,7 @@ define(function() {
         enableViews: true,
         showViewsInNavbar: false,
         showViewsInCustomElement: false,
-        inputName: 'frontend-customer-customer-address-grid',
+        inputName: false,
         themeOptions: {
             actionsDropdown: 'auto',
             actionOptions: {

@@ -315,7 +315,12 @@
                 'dialogOptions.modal': true,
                 'dialogOptions.minWidth': 320,
                 'dialogOptions.minHeight': 150,
-                'messengerContainerClass': 'ui-dialog-messages'
+                'messengerContainerClass': 'ui-dialog-messages',
+                loadingMaskEnabled: true,
+                preventModelRemoval: false,
+                elementFirst: true,
+                stateEnabled: false,
+                incrementalPosition: true
             }
         }
     }) %}
@@ -338,6 +343,7 @@
 {% endblock %}
 
 {# Collapse Widget #}
+
 {% block _style_book_grid_element_collapse_widget_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container collapse-view expanded',
@@ -465,7 +471,10 @@
                 contentTemplate: {
                     type: 'textarea',
                     value: '<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id turpis quam. Sed sodales metus ac leo scelerisque eleifend. Suspendisse ullamcorper libero mauris, a imperdiet risus consequat eu. Donec imperdiet id quam id hendrerit. Ut sed bibendum massa, vitae venenatis mi. Aliquam tellus risus, faucibus vitae quam id, consectetur accumsan ipsum. Sed at venenatis mauris. Donec finibus mollis libero, eu elementum enim tempus suscipit. Praesent in consectetur mauris. Aenean tristique tellus vitae ligula tristique tincidunt. Donec aliquam dapibus imperdiet. Vestibulum sagittis libero in ipsum semper ullamcorper. Nulla vitae convallis sapien. Nulla vitae est id neque fermentum molestie vulputate ut orci.Nulla eget tellus eget mi aliquam porta. Aliquam commodo tortor sed lacinia maximus. Mauris leo odio, vestibulum ut tortor et, malesuada eleifend sapien. Vivamus efficitur sem in urna viverra porta. Cras egestas mauris eget tristique fringilla. Phasellus a molestie ante. Suspendisse vel rhoncus nisi, ut varius leo. Quisque neque dolor, ullamcorper ut sem in, venenatis iaculis purus. In at lobortis tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel nisi id ante efficitur hendrerit bibendum porta augue. Cras ultricies bibendum lacus, non sollicitudin tellus ultricies nec. Vestibulum eget est leo. Proin non imperdiet ipsum, cursus gravida lorem. Aenean justo urna, fringilla ut pretium quis, pharetra nec velit.</div>'
-                }
+                },
+                stopEventsList: 'mousedown focusin',
+                stopEventsPropagation: true,
+                keepElement: true
             }
         }
     }) %}
@@ -493,6 +502,7 @@
     }) %}
 
     {% set source_code %}
+        <script>
         define(function(require) {
             'use strict';
 
@@ -510,7 +520,20 @@
                     SomeExampleView.__super__.initialize.apply(this, arguments);
 
                     this.subview('fullscreenPopup', new FullscreenPopupView( {
-                        contentSelector: '.selector' // is required or use 'contentElement', 'contentView'
+                        contentSelector: '.selector', // is required or use 'contentElement', 'contentView'
+                        contentView: SomeViewConstructor, // or
+                        contentElement: $('#get-some-element-on-page'),
+                        contentTemplate: '<div><%= can use some underscore template %></div>',
+
+                        headerSelector: '.header-content', // or
+                        headerView: SomeViewConstructor, // or
+                        headerElement: $('#get-some-element-on-page'), // or
+                        headerTemplate: '<div><%= can use some underscore template %></div>',
+
+                        footerSelector: '.header-content', // or
+                        footerView: SomeViewConstructor, // or
+                        footerElement: $('#get-some-element-on-page'), // or
+                        footerTemplate: '<div><%= can use some underscore template %></div>'
                         // options...
                     } ))
                 },
@@ -528,6 +551,7 @@
 
             return SomeExampleView;
         });
+        </script>
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -711,21 +735,30 @@
     '~class': ' grid'
     }) %}
 
+    {% set options = "{%
+        set viewOptions = layout_attr_defaults(attr, {
+            view: 'oroaddress/js/mapservice/googlemaps',
+            mapOptions: {
+                zoom: 17,
+                mapTypeControl: true,
+                panControl: false,
+                zoomControl: true
+            },
+            address: {
+                'address': '67800 Junkins Avenue Albany, 31707, US-GA'
+            },
+            apiVersion: '3.exp',
+            sensor: false,
+            apiKey: null,
+            showWeather: true
+        })
+    %}"|raw %}
+
     {% set source_code %}
         <!-- Use shortcut manager data attribute -->
+        {{ options|raw }}
 
-        <div class="collapse-preview" data-page-component-collapse="{ options... }">
-            <h3 class="collapse-preview__title" data-collapse-trigger>
-                <span class="collapse-preview__icon">
-                    <i class="collapse-view__trigger-icon fa-caret-right"></i>
-                </span>
-                Toggle Title
-            </h3>
-
-            <div class="collapse-preview__content" data-collapse-container>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
-            </div>
-        </div>
+        <div class="collapse-preview" data-page-component-view="{{ "{{ viewOptions|json_encode }}"|raw }}"></div>
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -751,13 +784,28 @@
 
                 var SomeExampleView;
                 var BaseView = require('oroui/js/app/views/base/view');
-                require('oroui/js/widget/collapse-widget');
+                var GooglemapsView = require('oroaddress/js/mapservice/googlemaps');
+                var options = {
+                    mapOptions: {
+                        zoom: 17,
+                        mapTypeControl: true,
+                        panControl: false,
+                        zoomControl: true
+                    },
+                    address: {
+                        'address': '67800 Junkins Avenue Albany, 31707, US-GA'
+                    },
+                    apiVersion: '3.exp',
+                    sensor: false,
+                    apiKey: null,
+                    showWeather: true
+                };
 
                 SomeExampleView = BaseView.extend({
-                    render: function() {
-                        this.$el.collapseWidget({
-                            // Options
-                        });
+                    initialize: function(options) {
+                        SomeExampleView.__super__.initialize.apply(this, arguments);
+
+                        this.subview('googleMapView', new GooglemapsView(options));
                     }
                 });
 
@@ -790,9 +838,12 @@
                 slidesToScroll: 1,
                 autoplay: false,
                 autoplaySpeed: 2000,
+                additionalClass: "embedded-list__slider",
+                embeddedArrowsClass: "embedded-arrows",
                 arrows: true,
                 dots: false,
-                infinite: false
+                infinite: false,
+                mobileEnabled: true,
             }
         }
     }) %}
@@ -852,11 +903,8 @@
     '~class': ' grid'
     }) %}
 
-    {% set source_code %}
-        <!-- Use twig -->
-
-        <--
-        set imageListOptions = {
+    {% set options = "{% set imageListOptions = {
+            component: 'orofrontend/js/app/components/list-slider-component',
             slidesToShow: 1,
             slidesToScroll: 1,
             fade: true,
@@ -865,9 +913,14 @@
             lazyLoad: 'progressive',
             infinite: false,
             relatedComponent: 'zoom'
-        }
-        -->
-        <div class="promo-slider" data-page-component-module="orofrontend/js/app/components/list-slider-component" data-page-component-options="<!-- imageListOptions|json_encode -->">
+        } %}" %}
+
+    {% set source_code %}
+        <!-- Use twig -->
+
+        {{ options|raw }}
+
+        <div class="promo-slider" data-page-component-module="{{ '{{ imageListOptions|json_encode }}'|raw }}">
             <div class="promo-slider__item">
                 <div class="promo-slider__picture">
                     <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
@@ -911,7 +964,6 @@
             var SomeExampleView;
             var BaseView = require('oroui/js/app/views/base/view');
             var ListSliderComponent = require('orofrontend/js/app/components/list-slider-component');
-            require('oroui/js/widget/collapse-widget');
 
             SomeExampleView = BaseView.extend({
                 sliderOptions: {
@@ -1035,7 +1087,6 @@
         <div class="sticky-panel-example" data-example-view>
             <button class="btn btn--info" data-toggle>{{ 'oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_off'|trans }}</button>
             <div class="sticky-panel-box" data-move-to-sticky>
-                <button class="btn btn--info" data-toggle>{{ 'oro_stylebook.groups.jscomponent.sticky_panel_view.button.sticky_on'|trans }}</button>
                 That content will be move to sticky panel...
             </div>
         </div>
@@ -1048,18 +1099,24 @@
         '~class': ' grid'
     }) %}
 
-    {% set source_code %}
-        <!-- Define data attribute for sticky element -->
+    {% set options = "
+    {% import 'OroUIBundle::macros.html.twig' as UI %}
+
+    {% set attributes = {
         'data-sticky': {
-        'autoWidth': true,
-        'toggleClass': 'sticked',
-        'placeholderId': 'style-book-sticky-header'
+            'autoWidth': true,
+            'toggleClass': 'sticked',
+            'placeholderId': 'style-book-sticky-header'
         },
         'data-sticky-target': 'top-sticky-panel'
+    } %}" %}
 
-        <div class="some-box">
-            Content that should be sticky
-        </div>
+    {% set source_code %}
+        {{ options|raw }}
+
+    <div class="some-box" {{ "{{ UI.renderPageComponentAttributes(attributes) }}"|raw }}>
+        Content that should be sticky
+    </div>
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -1098,16 +1155,23 @@
             // Call execute to hide loading
             mediator.execute('hideLoading');
 
+            /**
+             * allows to detect if controller is in action (period of time between 'page:beforeChange' and 'page:afterChange' events)
+             */
+            mediator.execute('isInAction');
+
             // Call execute to redirect url
             /**
-             *
+             * perform redirect to a new location, accepts two parameters: object with location information and navigation options
+             * @param {String} URL string
+             * @param {Boolean} redirect
              */
             mediator.execute('redirectTo',
                 {
-                    url: 'route_url' // URL
+                    url: String // URL
                 },
                 {
-                    redirect: true // true/false
+                    redirect: Boolean // true/false
                 }
             );
 
@@ -1115,6 +1179,21 @@
             mediator.execute('refreshPage');
 
             mediator.execute('layout:enablePageScroll');
+
+            mediator.on('layout:init', function() {});
+            mediator.on('layout:dispose', function() {});
+
+            /**
+             * performs submit form action via save call for a model, accepts options object with packed in data
+             * @param {String} Url string
+             * @param {String} method 'GET', 'POST', 'PUT', 'DELETE' etc.
+             * @param {Object} data
+             */
+            mediator.execute('submitPage', {
+                url: String,
+                type: String,
+                data: Object
+            });
 
             /**
              * @param {jQuery.Element} $element
@@ -1298,6 +1377,18 @@
              */
             mediator.on('widget_dialog:stateChange', function(context, data) {});
 
+            /**
+             * asynchronously fetches widget instance by widget id
+             * @param {widget.id} widgetId
+             */
+            mediator.execute('widgets:getByIdAsync', widgetId, function(widget) {});
+
+            /**
+             * asynchronously fetches widget instance its alias
+             * @param {widget.alias} widgetAlias
+             */
+            mediator.execute('widgets:getByAliasAsync', widgetAlias, function(widget) {});
+
         </script>
     {% endset %}
 
@@ -1399,6 +1490,13 @@
             // or
             mediator.execute('showMessage', 'type', 'Text message');
 
+            mediator.execute('addMessage', 'type', 'Text message');
+
+            /**
+             * Show certainly error message
+             */
+            mediator.execute('showErrorMessage', 'Text message');
+
         </script>
     {% endset %}
 
@@ -1463,9 +1561,8 @@
     '~class': ' grid'
     }) %}
 
-    {% set source_code %}
-        <!--
-        set options = {
+    {% set options = "{%
+        set viewOptions = {
             use_thumb: true,
             galleryImages: [{
                 src: 'src_to_original_image',
@@ -1496,10 +1593,13 @@
             'data-page-component-module': 'orofrontend/js/app/components/popup-gallery-widget',
             'data-page-component-options': options|json_encode,
         }
+    %}" %}
 
-        --->
+    {% set source_code %}
+        {{ options|raw }}
+
         <div class="popup-gallery" >
-            <div data-trigger-gallery-open data-page-component-module="orofrontend/js/app/components/popup-gallery-widget" data-page-component-options="options|json_encode">
+            <div data-trigger-gallery-open data-page-component-module="orofrontend/js/app/components/popup-gallery-widget" data-page-component-options="{{ "{{  viewOptions|json_encode }}"|raw }}">
                 <img src="url_path" alt="Alt">
             </div>
         </div>
@@ -1641,7 +1741,7 @@
 
 {% block _style_book_grid_element_viewport_manager_js_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
@@ -1975,6 +2075,7 @@
 {% endblock %}
 
 {# Datagrid #}
+
 {% block _style_book_grid_element_datagrid_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid'
@@ -2041,13 +2142,8 @@
     '~class': ' grid'
     }) %}
 
-    {% set source_code %}
-        <!-- Use dataGrid.renderGrid macros in twig -->
-        <!-- gridName is required -->
-        <!-- params: additional parameters for url -->
-        <!-- renderParams: parameters for grid UI -->
-
-        <!-- renderParams = {
+    {% set options = "{% set gridParams = {
+                gridName: 'some-grid-name',
                 themeOptions,
                 toolbarOptions,
                 gridViewsOptions,
@@ -2055,18 +2151,22 @@
                 enableViews,
                 filterContainerSelector,
                 filtersStateElement,
+            } %}" %}
+    {% set marcros = "
+        {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
 
-            }
-     -->
+        {{ dataGrid.renderGrid(gridName, gridParams) }}
+    " %}
 
-        <!-- dataGrid.renderGrid(gridName, params|default({}), renderParams) -->
+    {% set source_code %}
+        <!-- Use dataGrid.renderGrid macros in twig -->
+        <!-- gridName is required -->
+        <!-- params: additional parameters for url -->
+        <!-- renderParams: parameters for grid UI -->
 
-        <!-- Grid base markup example -->
-        <div id="{ gridId }"
-             data-page-component-module="{ renderParams.datagridComponent|default('orodatagrid/js/app/components/datagrid-component') }>"
-             data-page-component-name="{ options.gridName }"
-             data-page-component-options="{ options|json_encode }">
-        </div>
+        {{ options|raw }}
+
+        {{ marcros|raw }}
     {% endset %}
 
     <div {{ block('block_attributes') }}>
