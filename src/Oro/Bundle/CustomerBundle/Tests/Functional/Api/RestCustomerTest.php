@@ -5,7 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
 
@@ -366,33 +365,6 @@ class RestCustomerTest extends AbstractRestTest
             ],
             $response
         );
-    }
-
-    public function testUpdateOrganizationRelationship()
-    {
-        $customer = $this->createCustomer('customer to update organization');
-        $organization = new Organization();
-        $organization->setName('org name')
-            ->setEnabled(true);
-        $this->getManager()->persist($organization);
-        $this->getManager()->flush();
-
-        $this->patchRelationship(
-            [
-                'entity' => $this->getEntityType(Customer::class),
-                'id' => $customer->getId(),
-                'association' => 'organization'
-            ],
-            [
-                'data' => ['type' => 'organizations', 'id' => (string)$organization->getId()]
-            ]
-        );
-
-        $customer = $this->getManager()->getRepository(Customer::class)
-            ->findOneByName('customer to update organization');
-        $this->assertSame($organization->getId(), $customer->getOrganization()->getId());
-
-        $this->deleteEntities([$customer]);
     }
 
     public function testGetOwnerSubresource()
