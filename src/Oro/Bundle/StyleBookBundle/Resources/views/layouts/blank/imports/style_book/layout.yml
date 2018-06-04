@@ -20,7 +20,8 @@ layout:
 
         - '@add':
             id: __init_code_highlighter
-            parentId: head
+            parentId: body
+            prepend: false
             blockType: block
 
         - '@addTree':

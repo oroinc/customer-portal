@@ -3,7 +3,7 @@
 <ul class="style-book-menu nav">
     <% for (i = 0; i < items.length; i++) { %>
         <% if (i + 1 < items.length) { var nextItmTreeLvl = (items[i + 1].subTreeLvl || 0); } %>
-        <li class="style-book-menu__item" data-offset="112" data-style-book-element-item>
+        <li class="style-book-menu__item" data-style-book-element-item>
             <a href="#<%= items[i].id %>" class="style-book-menu__link" data-style-book-element-switch><%= _.__(items[i].label) %></a>
         <% if (i + 1 < items.length && subTreeLvl < nextItmTreeLvl) { %>
             <% subTreeLvl = subTreeLvl + 1; %>

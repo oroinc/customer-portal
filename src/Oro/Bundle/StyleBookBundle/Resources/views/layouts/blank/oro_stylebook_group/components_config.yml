@@ -72,6 +72,11 @@ layout:
                     options:
                         anchor: mixins
                         label: oro_stylebook.groups.configs.mixins.title
+                group_element_components_mixins:
+                    blockType: group_element_item
+                    options:
+                        description: oro_stylebook.groups.configs.mixins.description
+                        source: false
                 style_book_scss_mixins:
                     blockType: group_list_autogenerate
                     options:
@@ -105,7 +110,8 @@ layout:
                         group_element_components_functions:
                             style_book_components_functions: ~
                     group_element_components_mixins_view:
-                        style_book_scss_mixins: ~
+                        group_element_components_mixins:
+                            style_book_scss_mixins: ~
                     group_element_components_animation_view:
                         group_element_components_animation:
                             style_book_components_animation: ~

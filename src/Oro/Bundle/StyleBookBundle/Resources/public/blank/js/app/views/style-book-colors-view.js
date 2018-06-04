@@ -5,8 +5,6 @@ define(function(require) {
     var template = require('tpl!orostylebook/templates/style-book/style-book-colors-view.html');
     var BaseView = require('oroui/js/app/views/base/view');
     var _ = require('underscore');
-    require('prismjs');
-    require('prismjs-scss');
 
     StyleBookColorsView = BaseView.extend({
         autoRender: true,
@@ -67,17 +65,6 @@ define(function(require) {
             return {
                 colorPalette: colorPalette
             };
-        },
-
-        /**
-         * @inheritDoc
-         */
-        render: function() {
-            StyleBookColorsView.__super__.render.apply(this, arguments);
-
-            this.$el.find('code[class*="language-"]').each(function() {
-                Prism.highlightElement(this, true);
-            });
         },
 
         /**

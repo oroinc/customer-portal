@@ -230,7 +230,7 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <h2 id="{{ anchor }}" class="style-book-title" data-offset="112">{{ label|trans|raw }}</h2>
+        <h2 id="{{ anchor }}" class="style-book-title">{{ label|trans|raw }}</h2>
         {{ block_widget(block) }}
     </div>
 {% endblock %}
