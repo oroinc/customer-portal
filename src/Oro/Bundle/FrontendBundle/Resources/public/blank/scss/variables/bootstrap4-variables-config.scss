@@ -1,4 +1,4 @@
-// @theme: blank
+/* @theme: blank; */
 
 // Original variables
 @import "../vendors/bootstrap4/scss/variables";
@@ -18,31 +18,23 @@ $brand-info:    update-default($brand-info, get-color('ui', 'success-dark'));
 $brand-warning: update-default($brand-warning, get-color('ui', 'warning-dark'));
 $brand-danger:  update-default($brand-danger, get-color('ui', 'error-dark'));
 
-
 // Options
 $enable-shadows: update-default($enable-shadows, true);
 
-
 // Spacing
-$spacer: update-default($spacer,  1px);
-
+$spacer: update-default($spacer, 1px);
 
 // Body
-
 
 // Links
 $link-color:       update-default($link-color, get-color('ui', 'normal'));
 $link-hover-color: update-default($link-hover-color, get-color('ui', 'focus'));
 
-
 // Grid breakpoints
-
 
 // Grid containers
 
-
 // Grid columns
-
 
 // Fonts
 $font-family-sans-serif: update-default($font-family-sans-serif, $base-font);
@@ -79,9 +71,7 @@ $dropdown-box-shadow:     update-default($dropdown-box-shadow, 0 6px 12px rgba(0
 
 $dropdown-item-padding-x: update-default($dropdown-item-padding-x, 20px);
 
-
 // Z-index master list
-
 $zindex-dropdown-backdrop: update-default($zindex-dropdown-backdrop, z('dropdown'));
 $zindex-navbar:            update-default($zindex-navbar, z('dropdown') + 1);
 $zindex-dropdown:          update-default($zindex-dropdown, z('dropdown') + 1);
@@ -93,12 +83,10 @@ $zindex-modal-bg:          update-default($zindex-modal-bg, z('popup'));
 $zindex-modal:             update-default($zindex-modal, z('popup') + 1);
 
 // Tooltips
-
 $tooltip-max-width: update-default($tooltip-max-width, 320px);
 $tooltip-text-align: left;
 
 // Popovers
-
 $popover-content-padding-x: update-default($popover-content-padding-x, 14px);
 $popover-content-padding-y: update-default($popover-content-padding-y, 9px);
 
@@ -130,7 +118,6 @@ $nav-link-padding:       update-default($nav-link-padding, 10px 15px);
 $nav-tabs-border-radius: update-default($nav-tabs-border-radius, 4px);
 
 $nav-tabs-link-hover-border-color: update-default($nav-tabs-link-hover-border-color, transparent);
-
 
 // Modals
 
