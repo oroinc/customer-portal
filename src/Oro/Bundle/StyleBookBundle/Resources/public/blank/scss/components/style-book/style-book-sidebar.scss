@@ -4,6 +4,10 @@
     width: $style-book-sidebar-width;
     flex: $style-book-sidebar-flex;
     order: $style-book-sidebar-order;
+
+    &--main {
+        display: $style-book-sidebar-main-display;
+    }
 }
 
 @include breakpoint('tablet') {
@@ -14,6 +18,10 @@
         transition: $style-book-sidebar-tablet-transition;
         overflow: $style-book-sidebar-tablet-overflow;
         z-index: $style-book-sidebar-tablet-z-index;
+
+        &--main {
+            display: $style-book-sidebar-main-tablet-display;
+        }
 
         &.open {
             transform: $style-book-sidebar-open-tablet-transform;
