@@ -49,7 +49,6 @@ define(function(require) {
 
             while (paletteName.length) {
                 var keyIndex = 0;
-                paletteName = this._getProperty(['palette', paletteIndex]);
                 colorPalette[paletteName] = {};
 
                 while (this._getProperty([paletteName, keyIndex]).length) {
@@ -60,6 +59,7 @@ define(function(require) {
                 }
 
                 paletteIndex++;
+                paletteName = this._getProperty(['palette', paletteIndex]);
             }
 
             return {
