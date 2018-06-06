@@ -10,12 +10,12 @@ layout:
 
         - '@setOption':
             id: style_book_page_description
-            optionName: defaultValue
+            optionName: vars.description
             optionValue: 'oro_stylebook.groups.jscomponent.description'
 
         - '@setOption':
-            id: style_book_page_content
-            optionName: defaultValue
+            id: style_book_page_description
+            optionName: vars.description
             optionValue: 'oro_stylebook.groups.jscomponent.content'
 
         - '@setOption':

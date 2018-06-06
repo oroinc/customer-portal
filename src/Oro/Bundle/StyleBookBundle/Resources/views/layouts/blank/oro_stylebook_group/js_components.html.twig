@@ -3,7 +3,7 @@
 {% block _style_book_grid_element_modal_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'oroui/js/modal',
             renderAfter: 'action',
@@ -168,9 +168,9 @@
 {% block _style_book_grid_element_loading_mask_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
-            viewConstructor: 'orostylebook/js/style-book-views/loading-mask-playground-view',
+            viewConstructor: 'orostylebook/js/style-book/loading-mask-playground-view',
             props: {
                 hideDelay: -1,
                 loadingHint: 'Loading...'
@@ -302,9 +302,9 @@
 {% block _style_book_grid_element_dialog_widget_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
-            viewConstructor: 'orostylebook/js/style-book-views/style-book-dialog-widget',
+            viewConstructor: 'orostylebook/js/style-book/style-book-dialog-widget',
             renderAfter: 'action',
             props: {
                 content: {
@@ -404,10 +404,25 @@
 
 {# Collapse Widget #}
 
+{% block _style_book_grid_element_collapse_widget_template_widget %}
+<div class="collapse-preview" data-page-component-collapse="{}">
+    <h3 class="collapse-preview__title" data-collapse-trigger>
+        <span class="collapse-preview__icon">
+            <i class="collapse-view__trigger-icon fa-caret-right"></i>
+        </span>
+        Toggle Title
+    </h3>
+
+    <div class="collapse-preview__content" data-collapse-container>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
+    </div>
+</div>
+{% endblock %}
+
 {% block _style_book_grid_element_collapse_widget_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container collapse-view expanded',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'oroui/js/widget/collapse-widget',
             props: {
@@ -419,19 +434,7 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <div class="collapse-preview">
-            <h3 class="collapse-preview__title" data-collapse-trigger>
-                <span class="collapse-preview__icon">
-                    <i class="collapse-view__trigger-icon fa-caret-right"></i>
-                </span>
-                Toggle Title
-            </h3>
-
-            <div class="collapse-preview__content" data-collapse-container>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
-            </div>
-        </div>
-
+        {{ block('_style_book_grid_element_collapse_widget_template_widget') }}
         {{ block_widget(block) }}
     </div>
 {% endblock %}
@@ -450,20 +453,8 @@
     }) %}
 
     {% set source_code %}
-        <!-- Use shortcut manager data attribute -->
-
-        <div class="collapse-preview" data-page-component-collapse="{ options... }">
-            <h3 class="collapse-preview__title" data-collapse-trigger>
-                <span class="collapse-preview__icon">
-                    <i class="collapse-view__trigger-icon fa-caret-right"></i>
-                </span>
-                Toggle Title
-            </h3>
-
-            <div class="collapse-preview__content" data-collapse-container>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec laoreet nisl. Suspendisse et tincidunt libero. Aenean pulvinar quam vitae sapien porttitor, non tempor orci dictum. Mauris nisl diam, fringilla eu lectus sed, accumsan congue tellus. Cras quis dui eget dui fermentum gravida non et erat. Proin id fringilla nunc. Ut ullamcorper pulvinar ligula eu pulvinar. Nullam egestas cursus magna placerat bibendum. Nam iaculis elit ac massa bibendum, id dapibus nisl mattis.
-            </div>
-        </div>
+    <!-- Use shortcut manager data attribute -->
+    {{ block('_style_book_grid_element_collapse_widget_template_widget') }}
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -520,9 +511,9 @@
 {% block _style_book_fullscreen_popup_view_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' js-component-container',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
-            viewConstructor: 'orostylebook/js/style-book-views/fullscreen-popup-demo-view',
+            viewConstructor: 'orostylebook/js/style-book/fullscreen-popup-demo-view',
             renderAfter: 'action',
             props: {
                 popupIcon: 'fa-cog',
@@ -630,7 +621,7 @@
 {% block _style_book_scroll_view_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'orofrontend/js/app/views/scroll-view',
             props: {}
@@ -757,9 +748,9 @@
 {% block _style_book_googlemaps_view_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
-            viewConstructor: 'orostylebook/js/style-book-views/style-book-googlemaps-view',
+            viewConstructor: 'orostylebook/js/style-book/style-book-googlemaps-view',
             props: {
                 apiKey: {
                     value: '',
@@ -792,33 +783,32 @@
 
 {% block _style_book_grid_element_googlemaps_view_html_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
-    {% set options = "{%
-        set viewOptions = layout_attr_defaults(attr, {
-            view: 'oroaddress/js/mapservice/googlemaps',
-            mapOptions: {
-                zoom: 17,
-                mapTypeControl: true,
-                panControl: false,
-                zoomControl: true
-            },
-            address: {
-                'address': '67800 Junkins Avenue Albany, 31707, US-GA'
-            },
-            apiVersion: '3.exp',
-            sensor: false,
-            apiKey: null,
-            showWeather: true
-        })
-    %}"|raw %}
+    {% set options = "
+    {% set viewOptions = layout_attr_defaults(attr, {
+        view: 'oroaddress/js/mapservice/googlemaps',
+        mapOptions: {
+            zoom: 17,
+            mapTypeControl: true,
+            panControl: false,
+            zoomControl: true
+        },
+        address: {
+            'address': '67800 Junkins Avenue Albany, 31707, US-GA'
+        },
+        apiVersion: '3.exp',
+        sensor: false,
+        apiKey: null,
+        showWeather: true
+    })%}
+    "|raw %}
 
     {% set source_code %}
-        <!-- Use shortcut manager data attribute -->
-        {{ options|raw }}
-
-        <div class="collapse-preview" data-page-component-view="{{ "{{ viewOptions|json_encode }}"|raw }}"></div>
+    <!-- Use shortcut manager data attribute -->
+    {{ options|raw }}
+    <div class="collapse-preview" data-page-component-view="{{ "{{ viewOptions|json_encode }}"|raw }}"></div>
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -834,7 +824,7 @@
 
 {% block _style_book_grid_element_googlemaps_view_js_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
@@ -890,9 +880,9 @@
 {% block _style_book_list_slider_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container ',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
-            viewConstructor: 'orofrontend/js/style-book-views/style-book-list-slider-view',
+            viewConstructor: 'orostylebook/js/style-book/style-book-list-slider-view',
             props: {
                 slidesToShow: 4,
                 slidesToScroll: 1,
@@ -960,7 +950,7 @@
 
 {% block _style_book_grid_element_list_slider_html_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set options = "{% set imageListOptions = {
@@ -1014,7 +1004,7 @@
 
 {% block _style_book_grid_element_list_slider_js_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
@@ -1065,9 +1055,9 @@
 {% block _style_book_dom_relocation_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container ',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
-            viewConstructor: 'orostylebook/js/style-book-views/style-book-dom-relocation',
+            viewConstructor: 'orostylebook/js/style-book/style-book-dom-relocation',
             props: {}
         }
     }) %}
@@ -1136,9 +1126,9 @@
 {% block _style_book_sticky_panel_view_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container ',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
-            viewConstructor: 'orostylebook/js/style-book-views/style-book-sticky-panel-view',
+            viewConstructor: 'orostylebook/js/style-book/style-book-sticky-panel-view',
             props: {}
         }
     }) %}
@@ -1204,7 +1194,7 @@
 
 {% block _style_book_mediator_common_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
@@ -1465,7 +1455,7 @@
 
 {% block _style_book_mediator_grid_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
@@ -1537,7 +1527,7 @@
 
 {% block _style_book_mediator_message_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
@@ -1576,9 +1566,9 @@
 {% block _style_book_grid_element_popup_gallery_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container ',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
-            viewConstructor: 'orostylebook/js/style-book-views/style-book-popup-gallery-widget',
+            viewConstructor: 'orostylebook/js/style-book/style-book-popup-gallery-widget',
             props: {
                 'imageOptions.slidesToShow': 1,
                 'imageOptions.slidesToScroll': 1,
@@ -1622,44 +1612,42 @@
     }) %}
 
     {% set options = "
-    {%
-        set viewOptions = {
-            widget: 'orofrontend/js/app/components/popup-gallery-widget',
-            use_thumb: true,
-            galleryImages: [{
-                src: 'src_to_original_image',
-                thumb: 'src_to_thumbnail_image',
-                alt: 'Image alt text'
-            }],
-            imageOptions: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                fade: true,
-                arrows: false,
-                asNavFor: '.product-view-media-gallery__nav',
-                lazyLoad: 'progressive',
-                infinite: false,
-                relatedComponent: 'zoom'
-            },
-            navOptions: {
-                slidesToShow: 4,
-                slidesToScroll: 1,
-                asNavFor: '.product-view-media-gallery',
-                focusOnSelect: true,
-                infinite: false,
-                arrows: true
-            }
+    {% set viewOptions = {
+        widget: 'orofrontend/js/app/components/popup-gallery-widget',
+        use_thumb: true,
+        galleryImages: [{
+            src: 'src_to_original_image',
+            thumb: 'src_to_thumbnail_image',
+            alt: 'Image alt text'
+        }],
+        imageOptions: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            fade: true,
+            arrows: false,
+            asNavFor: '.product-view-media-gallery__nav',
+            lazyLoad: 'progressive',
+            infinite: false,
+            relatedComponent: 'zoom'
+        },
+        navOptions: {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            asNavFor: '.product-view-media-gallery',
+            focusOnSelect: true,
+            infinite: false,
+            arrows: true
         }
-    %}" %}
+    }%}" %}
 
     {% set source_code %}
-        {{ options|raw }}
+    {{ options|raw }}
 
-        <div class="popup-gallery" >
-            <div data-trigger-gallery-open data-page-component-widget="{{ "{{  viewOptions|json_encode }}"|raw }}">
-                <img src="url_path" alt="Alt">
-            </div>
+    <div class="popup-gallery" >
+        <div data-trigger-gallery-open data-page-component-widget="{{ "{{  viewOptions|json_encode }}"|raw }}">
+            <img src="url_path" alt="Alt">
         </div>
+    </div>
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -1675,7 +1663,7 @@
 
 {% block _style_book_grid_element_popup_gallery_js_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
@@ -1749,7 +1737,7 @@
 
 {% block _style_book_grid_element_viewport_manager_require_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
@@ -1889,7 +1877,7 @@
 {% block _style_book_input_widget_number_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container ',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground-widgets',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground-widgets',
         'data-page-component-options': {
             viewConstructor: 'oroui/js/app/views/input-widget/number',
             widget: true,
@@ -1910,7 +1898,7 @@
 
 {% block _style_book_grid_element_input_widget_number_html_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
@@ -1933,31 +1921,31 @@
 
 {% block _style_book_grid_element_input_widget_number_js_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
         define(function(require) {
-        'use strict';
+            'use strict';
 
-        var SomeExtensionNumberInputWidget;
-        var NumberInputWidget = require('oroui/js/app/views/input-widget/number');
+            var SomeExtensionNumberInputWidget;
+            var NumberInputWidget = require('oroui/js/app/views/input-widget/number');
 
-        SomeExtensionNumberInputWidget = NumberInputWidget.extend({
-        // Extend properties
-        allowZero: false,
+            SomeExtensionNumberInputWidget = NumberInputWidget.extend({
+            // Extend properties
+            allowZero: false,
 
-        precision: 2, // Data attribute more priority
+            precision: 2, // Data attribute more priority
 
-        // Extend widget functionality
-        _normalizeNumberFieldValue: function(event) {
-        SomeExtensionNumberInputWidget.__super__._normalizeNumberFieldValue.apply(this, arguments)
+            // Extend widget functionality
+            _normalizeNumberFieldValue: function(event) {
+            SomeExtensionNumberInputWidget.__super__._normalizeNumberFieldValue.apply(this, arguments)
 
-        // Make some ...
-        }
-        });
+            // Make some ...
+            }
+            });
 
-        return SomeExtensionNumberInputWidget;
+            return SomeExtensionNumberInputWidget;
         });
     {% endset %}
 
@@ -1973,11 +1961,23 @@
 {% endblock %}
 
 {# Select2 Widget Number #}
+{% block _style_book_input_widget_select2_template_widget %}
+    <div class="form-row" >
+        <label class="label label--full required" for="form_select-select2">Select2 Widget Number</label>
+
+        <select data-example-view id="form_select-select2" name="form[select]" class="select select--full" data-ftid="form_select" data-name="field__select" placeholder="">
+            <option></option>
+            {% for letter in 'a'..'z' %}
+                <option value="{{ letter }}">Option {{ letter|upper }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endblock %}
 
 {% block _style_book_input_widget_select2_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container ',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground-widgets',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground-widgets',
         'data-page-component-options': {
             viewConstructor: 'oroui/js/app/views/input-widget/select2',
             props: {
@@ -1989,16 +1989,7 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <div class="form-row" >
-            <label class="label label--full required" for="form_select-select2">Select2 Widget Number</label>
-
-            <select data-example-view id="form_select-select2" name="form[select]" class="select select--full" data-ftid="form_select" data-name="field__select" placeholder="" >
-                <option></option>
-                {% for letter in 'a'..'z' %}
-                    <option value="{{ letter }}">Option {{ letter|upper }}</option>
-                {% endfor %}
-            </select>
-        </div>
+        {{ block('_style_book_input_widget_select2_template_widget') }}
         {{ block_widget(block) }}
     </div>
 {% endblock %}
@@ -2013,20 +2004,11 @@
 
 {% block _style_book_grid_element_input_widget_select2_html_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
-        <div class="form-row" >
-            <label class="label label--full required" for="form_select-select2">Select2 Widget Number</label>
-
-            <select data-example-view id="form_select-select2" name="form[select]" class="select select--full" data-ftid="form_select" data-name="field__select" placeholder="">
-                <option></option>
-                {% for letter in 'a'..'z' %}
-                    <option value="{{ letter }}">Option {{ letter|upper }}</option>
-                {% endfor %}
-            </select>
-        </div>
+        {{ block('_style_book_input_widget_select2_template_widget') }}
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -2046,9 +2028,9 @@
 
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container style-book-zoom',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-playground-widgets',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-playground-widgets',
         'data-page-component-options': {
-            viewConstructor: 'orostylebook/js/style-book-views/style-book-zoom-widget-view',
+            viewConstructor: 'orostylebook/js/style-book/style-book-zoom-widget-view',
             props: {
                 zoomWindowPosition: 'zoom-container',
                 minZoomWindowWidth: 376,
@@ -2083,34 +2065,32 @@
 
 {% block _style_book_grid_element_zoom_widget_html_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set source_code %}
-        <!-- Use shortcut manager data attribute -->
-
-        <!--
-        set options = {
+        {% set zoomOptions = "
+        {% set options = layout_attr_defaults(attr, {
             viewport: {
                 minScreenType: 'desktop'
             },
             widgetModule: 'oroproduct/js/widget/zoom-widget',
+        })%}
+        "|raw %}
 
-            ... options
-        } %}
-        -->
-
-       <div>
+        <!-- Use shortcut manager data attribute -->
+        {{ zoomOptions|raw }}
+        <div>
            <img class="product-view-media-gallery__image"
                 alt="Image"
                 data-zoom-image="path/to/zoomimg/image"
                 src="path/to/origin/image"
-                data-page-component-viewport="<!-- options|json_encode -->"
+                data-page-component-viewport="{{ "{{ zoomOptions|json_encode }}"|raw }}"
                 itemprop="image"
                 data-lazy="path/to/lazy/image"
                 />
            <div id="zoom-container"></div>
-       </div>
+        </div>
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -2141,7 +2121,7 @@
 
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid js-component-container',
-        'data-page-component-view': 'orostylebook/js/app/views/style-book-datagrid-playground',
+        'data-page-component-view': 'orostylebook/js/style-book/style-book-datagrid-playground',
         'data-page-component-options': {
             viewConstructor: 'orodatagrid/js/app/components/datagrid-component',
             props: {
@@ -2197,19 +2177,19 @@
 
 {% block _style_book_grid_element_datagrid_html_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' grid'
+        '~class': ' grid'
     }) %}
 
     {% set options = "{% set gridParams = {
-                gridName: 'some-grid-name',
-                themeOptions,
-                toolbarOptions,
-                gridViewsOptions,
-                gridBuildersOptions,
-                enableViews,
-                filterContainerSelector,
-                filtersStateElement,
-            } %}" %}
+            gridName: 'some-grid-name',
+            themeOptions,
+            toolbarOptions,
+            gridViewsOptions,
+            gridBuildersOptions,
+            enableViews,
+            filterContainerSelector,
+            filtersStateElement,
+        } %}" %}
     {% set marcros = "
         {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
 

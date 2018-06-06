@@ -1,6 +1,0 @@
-config:
-    paths:
-        'orostylebook/js/app/views/style-book-elements-navigation-view': 'orostylebook/js/app/views/style-book-elements-navigation-view.js'
-        'orostylebook/js/app/views/style-book-playground': 'bundles/orostylebook/js/app/views/style-book-playground.js'
-
-        'orostylebook/blank/js/app/views/style-book-colors-view': 'bundles/orostylebook/blank/js/app/views/style-book-colors-view.js'

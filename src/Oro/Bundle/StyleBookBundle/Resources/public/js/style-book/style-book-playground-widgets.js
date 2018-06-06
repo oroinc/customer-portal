@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     var StyleBookPlaygroundWidgets;
-    var StyleBookPlayground = require('orostylebook/js/app/views/style-book-playground');
+    var StyleBookPlayground = require('orostylebook/js/style-book/style-book-playground');
 
     StyleBookPlaygroundWidgets = StyleBookPlayground.extend({
         constructor: function StyleBookPlaygroundWidgets() {

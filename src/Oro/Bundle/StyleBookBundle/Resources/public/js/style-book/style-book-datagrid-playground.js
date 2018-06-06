@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     var StyleBookDatagridPlayground;
-    var StyleBookPlayground = require('orostylebook/js/app/views/style-book-playground');
+    var StyleBookPlayground = require('orostylebook/js/style-book/style-book-playground');
     var datagridData = require('orofrontend/json/grid-config');
     var _ = require('underscore');
 

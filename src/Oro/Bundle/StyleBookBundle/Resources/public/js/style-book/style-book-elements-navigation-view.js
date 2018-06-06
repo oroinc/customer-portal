@@ -50,7 +50,7 @@ define(function(require) {
         /**
          * @property {Number}
          */
-        pageScrollDuration: 700,
+        pageScrollDuration: 500,
 
         /**
          * @inheritDoc
@@ -137,7 +137,7 @@ define(function(require) {
                 'activate.bs.scrollspy': function(e) {
                     $(e.target).parents().filter(self.options.itemSelector).addClass(self.options.activeClass);
                 }
-            }).scrollspy({target: '#' + this.$el.attr('id'), offset: (this.offset * 2)});
+            }).scrollspy({target: '#' + this.$el.attr('id'), offset: (this.offset * 2 - 5)});
         }
     });
 

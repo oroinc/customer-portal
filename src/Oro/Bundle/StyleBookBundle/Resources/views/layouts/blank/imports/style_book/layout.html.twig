@@ -90,7 +90,7 @@
             viewport: {
                 maxScreenType: 'tablet',
             },
-            view: 'orofrontend/blank/js/app/views/toggle-action-view',
+            view: 'orostylebook/js/style-book/toggle-action-view',
             target: '[data-role=style-book-sidebar]'
         }
     }) %}
@@ -179,7 +179,7 @@
 
 {% block __style_book__content_widget %}
     {% set attr = layout_attr_defaults(attr, {
-    '~class': ' page-content'
+        '~class': ' page-content'
     }) %}
 
     {% if blocks.style_book_sidebar_container is defined %}
@@ -204,14 +204,15 @@
     {% endif %}
 {% endblock %}
 
-{% block __style_book__page_content_container_widget %}
-    {% set content = block_widget(block)|trim %}
+{% block __style_book__page_description_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' style-book-page-content'
+        '~class': ' style-book-page-description'
     }) %}
 
-    {% if content|length %}
-        <p{{ block('block_attributes') }}>{{ content|raw }}</p>
+    {% if description is defined %}
+        <div {{ block('block_attributes') }}>
+            {{ description|trans|raw }}
+        </div>
     {% endif %}
 {% endblock %}
 

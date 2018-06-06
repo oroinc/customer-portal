@@ -9,8 +9,8 @@ layout:
             optionValue: 'oro_stylebook.groups.grid.title'
 
         - '@setOption':
-            id: style_book_page_content
-            optionName: defaultValue
+            id: style_book_page_description
+            optionName: vars.description
             optionValue: 'oro_stylebook.groups.grid.content'
 
         - '@addTree':

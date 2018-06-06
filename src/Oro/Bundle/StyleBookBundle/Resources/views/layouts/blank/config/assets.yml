@@ -9,6 +9,7 @@ stylebook_styles:
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-header-config.scss'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-sticky-header-config.scss'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-sticky-elements-nav-config.scss'
+        - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-page-description-config.scss'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-page-title-config.scss'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-sidebar-config.scss'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-title-config.scss'
