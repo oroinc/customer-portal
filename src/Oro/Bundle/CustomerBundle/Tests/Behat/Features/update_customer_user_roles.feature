@@ -3,7 +3,11 @@ Feature: Update customer user roles
   ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Customer user able to update his roles
-    Given I signed in as NancyJSallee@example.org on the store frontend
+    Given sessions active:
+      | Admin | first_session  |
+      | User  | second_session |
+    And I proceed as the User
+    And I signed in as NancyJSallee@example.org on the store frontend
     And I click "Account"
     And I click "Users"
     And click Edit NancyJSallee@example.org in grid
@@ -11,6 +15,15 @@ Feature: Update customer user roles
       | Buyer (Predefined) | true |
     And I click "Save"
     Then I should see "Customer User has been saved"
+
+  Scenario: Check customer user info
+    Given I proceed as the Admin
+    And I login as administrator
+    And I go to Customers/Customer Users
+    And click on NancyJSallee@example.org in grid
+    And I should see Customer User with:
+      | Roles   | Administrator Buyer |
+      | Website | Default|
 
   Scenario: Customer user unable to update his roles
     Given I signed in as AmandaRCole@example.org on the store frontend
