@@ -10,7 +10,10 @@
     .style-book {
         &__header-menu-container {
             display: $style-book-header-menu-tablet-display;
-            margin: $style-book-header-menu-container-offset;
+
+            &:not(:last-child) {
+                margin: $style-book-header-menu-container-offset;
+            }
         }
     }
 }
