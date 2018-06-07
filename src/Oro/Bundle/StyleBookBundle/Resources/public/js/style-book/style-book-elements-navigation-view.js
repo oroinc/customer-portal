@@ -50,7 +50,7 @@ define(function(require) {
         /**
          * @property {Number}
          */
-        pageScrollDuration: 500,
+        pageScrollDuration: 20,
 
         /**
          * @inheritDoc
