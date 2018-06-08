@@ -1,0 +1,12 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'sidebar.html.twig'
+
+        - '@addTree':
+            items:
+                __container:
+                    blockType: container
+            tree:
+                __root:
+                    __container: ~

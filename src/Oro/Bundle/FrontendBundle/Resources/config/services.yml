@@ -214,14 +214,6 @@ services:
         tags:
            - { name: oro.action.extension.button_provider, priority: 120 }
 
-    oro_frontend.layout.data_provider.style_book_form:
-        class: 'Oro\Bundle\FrontendBundle\Layout\DataProvider\StyleBookFormProvider'
-        arguments:
-            - '@form.factory'
-            - '@router'
-        tags:
-            - { name: layout.data_provider, alias: style_book_form }
-
     oro_frontend.layout_context_configurator.page_template:
         class: 'Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator'
         arguments:

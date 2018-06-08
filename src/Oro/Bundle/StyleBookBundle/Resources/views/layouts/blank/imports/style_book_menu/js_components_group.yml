@@ -1,0 +1,9 @@
+layout:
+    actions:
+        - '@add':
+            id: jscomponents_item
+            parentId: style_book_groups_menu
+            blockType: groups_menu_item
+            options:
+                label: oro_stylebook.groups.jscomponent.title
+                group: jscomponents

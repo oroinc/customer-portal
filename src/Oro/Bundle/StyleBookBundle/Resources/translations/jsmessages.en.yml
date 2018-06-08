@@ -1,0 +1,227 @@
+oro_stylebook:
+    autogenerate:
+        mixins-direct-link:
+            title: direct-link
+        mixins-placeholder:
+            title: placeholder
+        mixins-appearance:
+            title: appearance
+        mixins-base-disabled-style:
+            title: base-disabled-style
+        mixins-base-ui-element:
+            title: base-ui-element
+        mixins-after:
+            title: after
+        mixins-ellipsis:
+            title: ellipsis
+        mixins-clearfix:
+            title: clearfix
+        mixins-list-normalize:
+            title: list-normalize
+        mixins-breakpoint:
+            title: breakpoint
+        mixins-font-face:
+            title: font-face
+        mixins-only-desktop:
+            title: only-desktop
+        mixins-only-mobile:
+            title: only-mobile
+        mixins-fullscreen-mode:
+            title: fullscreen-mode
+        mixins-disable-search-styles:
+            title: disable-search-styles
+        mixins-aspect-ratio:
+            title: aspect-ratio
+        mixins-element-state:
+            title: element-state
+        mixins-safe-area-offset:
+            title: safe-area-offset
+        mixins-link:
+            title: link
+        mixins-fa-icon:
+            title: fa-icon
+        mixins-caret:
+            title: caret
+        mixins-border:
+            title: border
+        mixins-nav-tabs:
+            title: nav-tabs
+        mixins-list-separator:
+            title: list-separator
+        mixins-list-separator:
+            title: list-separator
+        mixins-base-transition:
+            title: base-transition
+        mixins-table-base:
+            title: table-base
+        mixins-mosaic-grid:
+            title: mosaic-grid
+        mixins-badge:
+            title: badge
+        mixins-slick-arrow:
+            title: slick-arrow
+        mixins-slick-dots:
+            title: slick-dots
+        mixins-block-substrate:
+            title: block-substrate
+        mixins-keyframe:
+            title: keyframe
+        mixins-grid-cell-align:
+            title: grid-cell-align
+    groups:
+        forms:
+            form_text:
+                title: Text Input
+                one_line:
+                    title: One-Line
+                textarea:
+                    title: Multi-line
+                password:
+                    title: Password
+            form_datetime:
+                title: Date and Time Picker
+            form_select:
+                title: Single Option Select
+                drop_down:
+                    title: Via Drop-Down
+                checkbox:
+                    title: Via Checkbox
+                radio:
+                    title: Via a Radio
+                radio_list:
+                    title: Via Radio List
+            form_checkboxes:
+                title: Multiple Option Select
+                checkbox:
+                    title: Via Checkbox
+                drop_down:
+                    title: Via Drop-Down
+            buttons:
+                title: Buttons
+                default:
+                    title: Default Button
+                action:
+                    title: Action Button
+                info:
+                    title: Info Button
+                primary:
+                    title: Primary Button
+                link:
+                    title: Link Button
+                large_size:
+                    title: Large Button (type 1, --large)
+                size_l:
+                    title: Large Button (type 2, --size-l)
+                size_m:
+                    title: Medium Button (--size-m)
+                size_s:
+                    title: Small Button (--size-s)
+            buttons_group:
+                title: Buttons Group
+                drop_down_group:
+                    title: Drop-Down Button Group
+                inline_group:
+                    title: Inline Icon Button Group
+                inline_btn_group:
+                    title: Horizontal Text Button Group
+                inline_group_vertical:
+                    title: Vertical Text Button Group
+            notifications:
+                title: Notifications
+                error:
+                    title: Error
+                success:
+                    title: Success
+                warning:
+                    title: Warning
+            notification_message:
+                title: Notification Message
+                error:
+                    title: Error
+                warning:
+                    title: Warning
+                success:
+                    title: Success
+            callout_info:
+                title: Inline Сallout Information
+                info:
+                    title: Info
+                success:
+                    title: Success
+                warning:
+                    title: Warning
+                danger:
+                    title: Danger
+        configs:
+            title: 'Components config'
+            colors:
+                title: Colors
+            typography:
+                title: Typography
+            sizes:
+                title: Sizes
+            functions:
+                title: Functions
+            mixins:
+                title: Mixins
+            animation:
+                title: Animation
+
+        grid:
+            column_size:
+                title: Column Size
+            row_offset:
+                title: Row Spacing
+            column_offset:
+                title: Column Spacing
+                right:
+                    title: Right
+                bottom:
+                    title: Bottom
+            columns_equal:
+                title: Two Symmetric Columns
+            multi_line_row:
+                title: Multi-Line Row
+
+        jscomponent:
+            modal:
+                title: 'Modal'
+            datagrid:
+                title: 'Datagrid'
+            loading_mask:
+                title: 'Loading Mask'
+            dialog_widget:
+                title: 'Dialog Widget'
+            collapse_widget:
+                title: 'Collapse Widget'
+            fullscreen_popup_view:
+                title: 'Fullscreen Popup View'
+            scroll_view:
+                title: 'Scroll View'
+            googlemaps_view:
+                title: 'Google Map View'
+            list_slider:
+                title: 'List Slider Component'
+            sticky_panel_view:
+                title: 'Sticky Panel View'
+                button:
+                    sticky_on: 'Off sticky'
+                    sticky_off: 'On sticky'
+            mediator:
+                title: 'Mediator'
+            dom_relocation:
+                title: 'DOM Relocation'
+            popup_gallery:
+                title: 'Popup Gallery'
+            viewport_manager:
+                title: 'Viewport Manager'
+            lazy_init:
+                title: 'Lazy Init View'
+            zoom_widget:
+                title: 'Zoom Widget'
+            input_widgets:
+                title: 'Input Widgets'
+                number:
+                    title: 'Input Number Widget'
+                select2:
+                    title: 'Select2 Widget'
