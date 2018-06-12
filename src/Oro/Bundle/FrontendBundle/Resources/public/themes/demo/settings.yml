@@ -1,3 +1,4 @@
 icon: bundles/orofrontend/default/images/favicon.ico
+logo: bundles/orofrontend/themes/oro/images/oro-commerce-logo.svg
 styles:
-    - bundles/orofrontend/themes/demo/style.css
+    - bundles/oroui/themes/demo/css/scss/main.scss
