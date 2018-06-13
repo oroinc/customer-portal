@@ -91,6 +91,16 @@ class CustomerRegistrationHandler
     }
 
     /**
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public function isRegistrationRequest(Request $request)
+    {
+        return (bool) $request->query->get('isRegistration');
+    }
+
+    /**
      * @return FormInterface
      */
     public function getForm()

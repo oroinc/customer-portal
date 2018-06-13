@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CheckoutBundle\Handler;
+namespace Oro\Bundle\CustomerBundle\Handler;
 
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
