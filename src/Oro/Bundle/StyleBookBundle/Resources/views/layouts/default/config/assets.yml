@@ -1,0 +1,8 @@
+stylebook_styles:
+    inputs:
+        - 'bundles/orofrontend/default/scss/settings/global-settings.scss'
+        - 'bundles/orofrontend/default/scss/variables/page-main-config.scss'
+        - 'bundles/orostylebook/default/scss/variables/style-book/style-book-menu-config.scss'
+        - 'bundles/orostylebook/default/scss/variables/style-book/style-book-sticky-elements-nav-config.scss'
+        - 'bundles/orostylebook/default/scss/style-book.scss'
+    output: 'css/layout/default/stylebook.css'

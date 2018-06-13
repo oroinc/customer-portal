@@ -19,6 +19,10 @@
         @include list-normalize();
     }
 
+    &__icon {
+        display: inline-block;
+    }
+
     &__item {
         &:not(:first-child) {
             margin: $information-nav-item-offset;

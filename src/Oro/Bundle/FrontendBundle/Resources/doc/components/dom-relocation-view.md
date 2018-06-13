@@ -12,7 +12,7 @@ attributes to corresponding element as it is showing below:
          data-dom-relocation-options="{
             responsive: [
                 {
-                    viewport: {maxScreenType: 'tablet'}
+                    viewport: {maxScreenType: 'tablet'},
                     moveTo: '#container' // jQuery selector
                 }
             ]
