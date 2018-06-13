@@ -84,6 +84,21 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function validateAndUpdateContext($entity)
+    {
+        /** @var CustomerUser $entity */
+        $entity = parent::validateAndUpdateContext($entity);
+        if ($entity !== null) {
+            $customer = $entity->getCustomer();
+            $customer->getUsers()->clear();
+        }
+
+        return $entity;
+    }
+
+    /**
      * @param $entity
      * @return CustomerUser|null
      */
