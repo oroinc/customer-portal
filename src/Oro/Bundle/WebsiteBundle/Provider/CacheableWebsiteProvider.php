@@ -63,6 +63,21 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getWebsiteChoices()
+    {
+        $websiteChoices = [];
+        foreach ($this->getWebsiteIds() as $websiteId) {
+            /** @var Website $website */
+            $website = $this->doctrineHelper->getEntityReference(Website::class, $websiteId);
+            $websiteChoices[$website->getName()] = $websiteId;
+        }
+
+        return $websiteChoices;
+    }
+
+    /**
      * Checks if this provider has data in the internal cache.
      *
      * @return bool

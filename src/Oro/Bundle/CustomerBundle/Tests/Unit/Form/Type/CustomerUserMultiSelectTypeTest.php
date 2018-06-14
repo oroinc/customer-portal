@@ -4,31 +4,17 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserMultiSelectType;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
-use Symfony\Component\Form\PreloadedExtension;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
 {
     use EntityTrait;
-
-    /** @var CustomerUserMultiSelectType */
-    protected $formType;
-
-    protected function setUp()
-    {
-        $this->formType = new CustomerUserMultiSelectType();
-
-        parent::setUp();
-    }
-
-    protected function tearDown()
-    {
-        unset($this->formType);
-    }
 
     public function testConfigureOptions()
     {
@@ -38,7 +24,7 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
             ->method('setDefaults')
             ->with(
                 [
-                    'autocomplete_alias' => 'oro_customer_customer_user',
+                    'autocomplete_alias' => CustomerUserType::class,
                     'configs' => [
                         'multiple' => true,
                         'component' => 'autocomplete-customeruser',
@@ -50,17 +36,14 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
                 ]
             );
 
-        $this->formType->configureOptions($resolver);
+        $formType = new CustomerUserMultiSelectType();
+        $formType->configureOptions($resolver);
     }
 
     public function testGetParent()
     {
-        $this->assertEquals(UserMultiSelectType::NAME, $this->formType->getParent());
-    }
-
-    public function testGetName()
-    {
-        $this->assertEquals(CustomerUserMultiSelectType::NAME, $this->formType->getName());
+        $formType = new CustomerUserMultiSelectType();
+        $this->assertEquals(UserMultiSelectType::class, $formType->getParent());
     }
 
     /**
@@ -73,7 +56,7 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
      */
     public function testSubmit(array $defaultData, array $submittedData, $isValid = false, $expectedData = null)
     {
-        $form = $this->factory->create($this->formType, $defaultData, []);
+        $form = $this->factory->create(CustomerUserMultiSelectType::class, $defaultData, []);
 
         $this->assertEquals($defaultData, $form->getData());
 
@@ -127,7 +110,7 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    $customerUserSelectType->getName() => $customerUserSelectType,
+                    UserMultiSelectType::class => $customerUserSelectType,
                 ],
                 []
             ),

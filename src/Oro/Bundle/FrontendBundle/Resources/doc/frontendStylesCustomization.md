@@ -203,7 +203,7 @@ $offset-x-s: 5px;
 
 ## How to override or disable files
 
-To remove or override `scss/less/css`, create an assets.yml file in your theme and write the following config in `Resources/views/layouts/{theme_name}`
+To remove or override `scss/css`, create an assets.yml file in your theme and write the following config in `Resources/views/layouts/{theme_name}`
 
 ````yml
 styles:
@@ -214,7 +214,7 @@ styles:
 
 ## How remove unnecessary ORO files
 
-Remove all `scss/less/css`: all themes use styles registered in this theme and from parent themes.
+Remove all `scss/css`: all themes use styles registered in this theme and from parent themes.
 You cannot change this behavior without changes in assets build logic.
 To remove all assets, override `oro_layout.assetic.layout_resource` service in your bundle and customize assets collect logic.
 

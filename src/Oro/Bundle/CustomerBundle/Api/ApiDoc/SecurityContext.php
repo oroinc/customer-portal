@@ -104,7 +104,10 @@ class SecurityContext implements SecurityContextInterface
         $token = $this->tokenStorage->getToken();
 
         return
-            $token instanceof AnonymousCustomerUserToken
-            || $token->getUser() instanceof CustomerUser;
+            null !== $token
+            && (
+                $token instanceof AnonymousCustomerUserToken
+                || $token->getUser() instanceof CustomerUser
+            );
     }
 }

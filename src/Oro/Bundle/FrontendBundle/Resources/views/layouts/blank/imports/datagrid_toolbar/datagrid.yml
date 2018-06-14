@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'datagrid.html.twig'
+            themes: 'OroFrontendBundle:layouts:blank/imports/datagrid_toolbar/datagrid.html.twig'
         - '@setOption':
             id: __datagrid_toolbar_sorting
             optionName: visible

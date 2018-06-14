@@ -17,7 +17,7 @@ class CustomerUserPasswordRequestHandler extends AbstractCustomerUserPasswordHan
     {
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $emailForm = $form->get('email');
                 $email = $emailForm->getData();
 

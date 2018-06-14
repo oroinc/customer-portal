@@ -75,7 +75,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
 
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(CustomerUserRoleType::NAME, $role, ['privilege_config' => $expectedConfig])
+            ->with(CustomerUserRoleType::class, $role, ['privilege_config' => $expectedConfig])
             ->willReturn($expectedForm);
 
         $actualForm = $this->handler->createForm($role);

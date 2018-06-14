@@ -136,7 +136,7 @@ services:
             - '%oro_customer.entity.customer_user.class%'
             - ["firstname", "lastname"]
         tags:
-            - { name: oro_form.autocomplete.search_handler, alias: oro_customer_customer_user, acl_resource: oro_customer_customer_user_view }
+            - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType, acl_resource: oro_customer_customer_user_view }
 
     oro_customer.frontend_form.autocomplete.customer_user_customer.search_handler:
         public: false
@@ -146,7 +146,7 @@ services:
             - '%oro_customer.entity.customer_user.class%'
             - ["firstname", "lastname"]
         tags:
-            - { name: oro_form.autocomplete.search_handler, alias: oro_customer_frontend_customer_user, acl_resource: oro_customer_frontend_customer_user_view }
+            - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType, acl_resource: oro_customer_frontend_customer_user_view }
 
     oro_customer.customer_user.manager.api:
         class: 'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'
@@ -421,19 +421,22 @@ services:
             - { name: oro_menu.builder, alias: frontend_mostviewed }
             - { name: oro_featuretogle.feature, feature: email }
 
-    kernel.listener.frontend_nav_history_response:
-        class: '%oro_navigation.event.response_history.listener.class%'
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onResponse }
-        arguments:
-            - "@oro_navigation.item.factory"
-            - "@security.token_storage"
-            - "@doctrine"
-            - "@oro_navigation.title_service"
-        calls:
-            - [ setHistoryItemEntityFQCN, ['%oro_customer.entity.navigation_history_item.class%']]
-            - [ setUserEntityFQCN, ['%oro_customer.entity.customer_user.class%']]
-            - [ setNavigationHistoryItemType, ['frontend_history']]
+#    BB-14204: Fatal error due to serialization issue on product view page
+#    (Disabled until navigation history functionality on commerce frontend will be fully worked.)
+#
+#    kernel.listener.frontend_nav_history_response:
+#        class: '%oro_navigation.event.response_history.listener.class%'
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.response, method: onResponse }
+#        arguments:
+#            - "@oro_navigation.item.factory"
+#            - "@security.token_storage"
+#            - "@doctrine"
+#            - "@oro_navigation.title_service"
+#        calls:
+#            - [ setHistoryItemEntityFQCN, ['%oro_customer.entity.navigation_history_item.class%']]
+#            - [ setUserEntityFQCN, ['%oro_customer.entity.customer_user.class%']]
+#            - [ setNavigationHistoryItemType, ['frontend_history']]
 
     oro_customer.item.builder.history:
         class: 'Oro\Bundle\NavigationBundle\Entity\Builder\HistoryItemBuilder'

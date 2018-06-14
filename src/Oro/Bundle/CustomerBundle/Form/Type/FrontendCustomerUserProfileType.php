@@ -2,8 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
+use Oro\Bundle\FormBundle\Form\Type\OroDateType;
 use Oro\Bundle\UserBundle\Form\Type\ChangePasswordType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -34,7 +37,7 @@ class FrontendCustomerUserProfileType extends AbstractType
         $builder
             ->add(
                 'namePrefix',
-                'text',
+                TextType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.name_prefix.label'
@@ -42,7 +45,7 @@ class FrontendCustomerUserProfileType extends AbstractType
             )
             ->add(
                 'firstName',
-                'text',
+                TextType::class,
                 [
                     'required' => true,
                     'label' => 'oro.customer.customeruser.first_name.label'
@@ -50,7 +53,7 @@ class FrontendCustomerUserProfileType extends AbstractType
             )
             ->add(
                 'middleName',
-                'text',
+                TextType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.middle_name.label'
@@ -58,7 +61,7 @@ class FrontendCustomerUserProfileType extends AbstractType
             )
             ->add(
                 'lastName',
-                'text',
+                TextType::class,
                 [
                     'required' => true,
                     'label' => 'oro.customer.customeruser.last_name.label'
@@ -66,7 +69,7 @@ class FrontendCustomerUserProfileType extends AbstractType
             )
             ->add(
                 'nameSuffix',
-                'text',
+                TextType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.name_suffix.label'
@@ -74,7 +77,7 @@ class FrontendCustomerUserProfileType extends AbstractType
             )
             ->add(
                 'birthday',
-                'oro_date',
+                OroDateType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.birthday.label'
@@ -82,7 +85,7 @@ class FrontendCustomerUserProfileType extends AbstractType
             )
             ->add(
                 'email',
-                'email',
+                EmailType::class,
                 [
                     'required' => true,
                     'label' => 'oro.customer.customeruser.email.label'
@@ -90,7 +93,7 @@ class FrontendCustomerUserProfileType extends AbstractType
             )
             ->add(
                 'changePassword',
-                ChangePasswordType::NAME,
+                ChangePasswordType::class,
                 [
                     'current_password_label' => 'oro.customer.customeruser.current_password.label',
                     'plain_password_invalid_message' => 'oro.customer.message.password_mismatch',
@@ -108,7 +111,7 @@ class FrontendCustomerUserProfileType extends AbstractType
      */
     public function preSetData(FormEvent $event)
     {
-        $event->getForm()->add('customer', FrontendOwnerSelectType::NAME, [
+        $event->getForm()->add('customer', FrontendOwnerSelectType::class, [
             'label' => 'oro.customer.customer.entity_label',
             'targetObject' => $event->getData()
         ]);

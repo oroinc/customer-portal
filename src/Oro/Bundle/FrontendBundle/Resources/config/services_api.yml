@@ -20,7 +20,7 @@ services:
             index_0: 'frontend_rest_api'
             index_1: '@oro_frontend.api.rest.action_mapper'
         tags:
-            - { name: oro_api.routing_options_resolver, view: frontend_rest_json_api }
+            - { name: oro.api.routing_options_resolver, view: frontend_rest_json_api }
 
     oro_frontend.api.rest.doc_handler:
         parent: oro_api.rest.doc_handler

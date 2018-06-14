@@ -9,9 +9,9 @@ use Oro\Bundle\WebsiteBundle\Form\Type\WebsiteScopedDataType;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use Oro\Bundle\WebsiteBundle\Tests\Unit\Form\Type\Stub\StubType;
 use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
@@ -33,7 +33,8 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    StubType::NAME => new StubType(),
+                    $this->formType,
+                    StubType::class => new StubType(),
                 ],
                 []
             )
@@ -42,8 +43,6 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
 
     protected function setUp()
     {
-        parent::setUp();
-
         $website = $this->getEntity(Website::class, ['id' => self::WEBSITE_ID]);
 
         $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
@@ -86,6 +85,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
 
         $this->formType = new WebsiteScopedDataType($registry, $websiteProvider);
         $this->formType->setWebsiteClass('TestWebsiteClass');
+        parent::setUp();
     }
 
     /**
@@ -97,7 +97,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
      */
     public function testSubmit($defaultData, array $options, array $submittedData, array $expectedData)
     {
-        $form = $this->factory->create($this->formType, $defaultData, $options);
+        $form = $this->factory->create(WebsiteScopedDataType::class, $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
@@ -118,7 +118,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
                 'defaultData'   => [],
                 'options' => [
                     'preloaded_websites' => [],
-                    'type' => new StubType()
+                    'type' => StubType::class
                 ],
                 'submittedData' => [
                     self::WEBSITE_ID => [],
@@ -169,11 +169,6 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
                 'expected' => ['1' => 'test', 'not_int' => 'test']
             ],
         ];
-    }
-
-    public function testGetName()
-    {
-        $this->assertEquals(WebsiteScopedDataType::NAME, $this->formType->getName());
     }
 
     /**

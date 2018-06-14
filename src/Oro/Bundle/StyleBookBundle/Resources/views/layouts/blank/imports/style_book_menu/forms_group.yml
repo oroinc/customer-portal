@@ -1,0 +1,12 @@
+layout:
+    actions:
+        - '@addTree':
+            items:
+                __form_item:
+                    blockType: groups_menu_item
+                    options:
+                        label: oro_stylebook.groups.forms.title
+                        group: forms
+            tree:
+                __root:
+                    __form_item: ~

@@ -152,14 +152,14 @@ system_configuration:
     fields:
         guest_product:
             data_type: boolean
-            type: oro_config_checkbox
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
             options:
                 label: some.title
                 tooltip: some.tooltip
         guest_product_owner:
             ui_only: true
             data_type: string
-            type: oro_user_select
+            type: Oro\Bundle\UserBundle\Form\Type\UserSelectType
             options:
                 label: some.title
                 tooltip: some.tooltip

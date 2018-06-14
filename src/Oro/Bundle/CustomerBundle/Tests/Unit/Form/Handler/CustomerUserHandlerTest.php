@@ -113,12 +113,12 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
                 ->method('getOrganization')
                 ->willReturn($organization);
 
-            $this->form->expects($this->at(2))
+            $this->form->expects($this->at(4))
                 ->method('get')
                 ->with('passwordGenerate')
                 ->will($this->returnValue($this->passwordGenerateForm));
 
-            $this->form->expects($this->at(3))
+            $this->form->expects($this->at(5))
                 ->method('get')
                 ->with('sendEmail')
                 ->will($this->returnValue($this->sendEmailForm));
@@ -143,11 +143,12 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
             ->method('isValid')
             ->will($this->returnValue($isValid));
 
+        $this->request->initialize([], self::FORM_DATA);
         $this->request->setMethod($method);
 
         $this->form->expects($this->once())
             ->method('submit')
-            ->with($this->request);
+            ->with(self::FORM_DATA);
 
         $this->assertEquals($isProcessed, $this->handler->process($this->entity));
         if ($organization) {
@@ -160,18 +161,19 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
      */
     public function testProcessValidData()
     {
+        $this->request->initialize([], self::FORM_DATA);
         $this->request->setMethod('POST');
 
         $this->form->expects($this->once())
             ->method('submit')
-            ->with($this->request);
+            ->with(self::FORM_DATA);
 
-        $this->form->expects($this->at(2))
+        $this->form->expects($this->at(4))
             ->method('get')
             ->with('passwordGenerate')
             ->will($this->returnValue($this->passwordGenerateForm));
 
-        $this->form->expects($this->at(3))
+        $this->form->expects($this->at(5))
             ->method('get')
             ->with('sendEmail')
             ->will($this->returnValue($this->sendEmailForm));
@@ -254,9 +256,11 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
         $this->form->expects($this->any())
             ->method('isValid')
             ->will($this->returnValue(true));
+
+        $this->request->initialize([], self::FORM_DATA);
         $this->request->setMethod('POST');
         $this->form->expects($this->once())
             ->method('submit')
-            ->with($this->request);
+            ->with(self::FORM_DATA);
     }
 }

@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerMenuBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuScreensConditionType;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
-use Symfony\Component\Form\PreloadedExtension;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuScreensConditionTypeTest extends FormIntegrationTestCase
@@ -28,8 +28,8 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
      * @internal
      */
     const SCREENS_CHOICES = [
-        'desktop' => 'Sample desktop label',
-        'mobile' => 'Sample mobile label',
+        'Sample desktop label' => 'desktop',
+        'Sample mobile label' => 'mobile',
     ];
 
     /**
@@ -79,11 +79,6 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
 
         $this->assertFormIsValid($form);
         $this->assertEquals($selectedScreens, $form->getData());
-    }
-
-    public function testGetName()
-    {
-        static::assertEquals('oro_commerce_menu_screens_condition', $this->formType->getName());
     }
 
     public function testGetBlockPrefix()

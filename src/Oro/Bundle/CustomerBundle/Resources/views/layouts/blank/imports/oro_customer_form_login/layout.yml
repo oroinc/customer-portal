@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'layout.html.twig'
+            themes: 'OroCustomerBundle:layouts:blank/imports/oro_customer_form_login/layout.html.twig'
         - '@setOption':
             id: login_label
             optionName: text
@@ -75,6 +75,8 @@ layout:
                           label: oro.customer.customeruser.profile.remember_me
                 __login_form_target:
                       blockType: target_path
+                      options:
+                          value: '=data["oro_customer_sign_in"].getTargetPath()'
                 __login_form_failure:
                       blockType: failure_path
                 __login_form_csrf:

@@ -1,5 +1,0 @@
-layout:
-    imports:
-        -
-            id: style-book
-    actions: []
