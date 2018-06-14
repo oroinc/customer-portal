@@ -1,13 +1,3 @@
-// @theme: default;
+/* @theme: default; */
 
-%direct-link {
-    padding: 0 10px;
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-@mixin direct-link() {
-  @extend %direct-link;
-}
+@import './mixins/direct-link';

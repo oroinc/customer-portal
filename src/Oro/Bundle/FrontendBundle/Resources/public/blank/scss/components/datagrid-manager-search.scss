@@ -1,4 +1,4 @@
-// @theme: blank;
+/* @theme: blank; */
 
 .datagrid-manager-search {
     position: relative;
@@ -28,10 +28,10 @@
         font-size: 20px;
         line-height: 20px;
 
-        color: transparentize(get-color('additional', 'middle'), 27%);
+        color: transparentize(get-color('additional', 'middle'), .27);
 
         @include element-state('hover') {
-            color: transparentize(get-color('additional', 'middle'), 42%);
+            color: transparentize(get-color('additional', 'middle'), .42);
         }
     }
 
@@ -47,7 +47,7 @@
 
             font-size: 15px;
 
-            color: transparentize(get-color('additional', 'middle'), 27%);
+            color: transparentize(get-color('additional', 'middle'), .27);
         }
 
         > .clear {

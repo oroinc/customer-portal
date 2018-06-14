@@ -1,0 +1,30 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'layout.html.twig'
+
+        - '@addTree':
+            items:
+                __container:
+                    blockType: container
+                __container_inner:
+                    blockType: container
+                __header_menu_container:
+                    blockType: container
+                __header_menu_title:
+                    blockType: block
+                __header_menu_placeholder:
+                    blockType: container
+                __title:
+                    blockType: block
+                __menu:
+                    blockType: container
+            tree:
+                __root:
+                    __container:
+                        __container_inner:
+                            __header_menu_container:
+                                __header_menu_title: ~
+                                __header_menu_placeholder: ~
+                            __title: ~
+                            __menu: ~

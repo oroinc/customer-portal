@@ -1,0 +1,139 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'OroStyleBookBundle:layouts:default/oro_stylebook_group/notifications.html.twig'
+
+        - '@addTree':
+            items:
+                group_element_grid_view_notifications:
+                    blockType: group_element
+                    options:
+                      anchor: notifications
+                      label: oro_stylebook.groups.forms.notifications.title
+
+                group_element_item_notification_flash_holder:
+                    blockType: group_element_item
+                    options:
+                      anchor: notification_flash_error
+                      label: oro_stylebook.groups.forms.notifications.error.title
+                      subTreeLvl: 1
+                      description: oro_stylebook.groups.forms.notifications.error.description
+                style_book_grid_element_notification_flash:
+                    blockType: block
+
+                group_element_item_notification_flash_success_holder:
+                    blockType: group_element_item
+                    options:
+                      anchor: notification_flash_success
+                      label: oro_stylebook.groups.forms.notifications.success.title
+                      subTreeLvl: 1
+                      description: oro_stylebook.groups.forms.notifications.success.description
+                style_book_grid_element_notification_flash_success:
+                    blockType: block
+
+                group_element_item_notification_flash_warning_holder:
+                    blockType: group_element_item
+                    options:
+                      anchor: notification_flash_warning
+                      label: oro_stylebook.groups.forms.notifications.warning.title
+                      subTreeLvl: 1
+                      description: oro_stylebook.groups.forms.notifications.warning.description
+                style_book_grid_element_notification_flash_warning:
+                    blockType: block
+
+                group_element_grid_view_notification_message:
+                    blockType: group_element
+                    options:
+                        anchor: notification_message
+                        label: oro_stylebook.groups.forms.notification_message.title
+
+                group_element_item_notification_message_holder:
+                    blockType: group_element_item
+                    options:
+                        anchor: notification_message_error
+                        label: oro_stylebook.groups.forms.notification_message.error.title
+                        subTreeLvl: 1
+                        description: oro_stylebook.groups.forms.notification_message.error.description
+                style_book_grid_element_notification_message:
+                    blockType: block
+
+                group_element_item_notification_message_warning_holder:
+                    blockType: group_element_item
+                    options:
+                        anchor: notification_message_warning
+                        label: oro_stylebook.groups.forms.notification_message.warning.title
+                        subTreeLvl: 1
+                        description: oro_stylebook.groups.forms.notification_message.warning.description
+                style_book_grid_element_notification_message_warning:
+                  blockType: block
+
+                group_element_item_notification_message_success_holder:
+                    blockType: group_element_item
+                    options:
+                        anchor: notification_message_success
+                        label: oro_stylebook.groups.forms.notification_message.success.title
+                        subTreeLvl: 1
+                        description: oro_stylebook.groups.forms.notification_message.success.description
+                style_book_grid_element_notification_message_success:
+                    blockType: block
+
+                group_element_grid_view_callout_info:
+                    blockType: group_element
+                    options:
+                        anchor: callout_info
+                        label: oro_stylebook.groups.forms.callout_info.title
+                group_element_item_callout_info_holder:
+                    blockType: group_element_item
+                    options:
+                        anchor: description_callout_info
+                        label: oro_stylebook.groups.forms.callout_info.info.title
+                        subTreeLvl: 1
+                        description: oro_stylebook.groups.forms.callout_info.info.description
+                style_book_grid_element_callout_info:
+                    blockType: block
+                group_element_item_callout_warning_holder:
+                    blockType: group_element_item
+                    options:
+                        anchor: description_callout_warning
+                        label: oro_stylebook.groups.forms.callout_info.warning.title
+                        subTreeLvl: 1
+                        description: oro_stylebook.groups.forms.callout_info.warning.description
+                style_book_grid_element_callout_warning:
+                    blockType: block
+                group_element_item_callout_danger_holder:
+                    blockType: group_element_item
+                    options:
+                        anchor: description_callout_danger
+                        label: oro_stylebook.groups.forms.callout_info.danger.title
+                        subTreeLvl: 1
+                        description: oro_stylebook.groups.forms.callout_info.danger.description
+                style_book_grid_element_callout_danger:
+                    blockType: block
+
+            tree:
+                style_book_content:
+                        group_element_grid_view_notifications:
+                            group_element_item_notification_flash_holder:
+                                style_book_grid_element_notification_flash: ~
+                            group_element_item_notification_flash_success_holder:
+                                style_book_grid_element_notification_flash_success: ~
+                            group_element_item_notification_flash_warning_holder:
+                                style_book_grid_element_notification_flash_warning: ~
+
+                        group_element_grid_view_notification_message:
+                            group_element_item_notification_message_holder:
+                                style_book_grid_element_notification_message: ~
+                            group_element_item_notification_message_success_holder:
+                                style_book_grid_element_notification_message_success: ~
+                            group_element_item_notification_message_warning_holder:
+                                style_book_grid_element_notification_message_warning: ~
+
+                        group_element_grid_view_callout_info:
+                            group_element_item_callout_info_holder:
+                                style_book_grid_element_callout_info: ~
+                            group_element_item_callout_warning_holder:
+                                style_book_grid_element_callout_warning: ~
+                            group_element_item_callout_danger_holder:
+                                style_book_grid_element_callout_danger: ~
+
+    conditions: 'context["group"]=="forms"'

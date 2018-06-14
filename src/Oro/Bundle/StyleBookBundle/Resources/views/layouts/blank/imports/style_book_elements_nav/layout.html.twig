@@ -1,0 +1,82 @@
+{% block __style_book_elements_nav__container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-menu-container',
+        'data-page-component-viewport': {
+            viewport: {
+                minScreenType: 'desktop',
+            },
+            view: 'orostylebook/js/style-book/sticky-sidebar-view',
+            excludeTarget: '.style-book-header',
+            offsetTop: 26,
+            offsetBottom: 26
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book_elements_nav__container_inner_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-menu-container__inner'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book_elements_nav__header_menu_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book__header-menu-container'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book_elements_nav__header_menu_title_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-menu-title'
+    }) %}
+
+    <h3 {{ block('block_attributes') }}>
+        {{ 'oro_stylebook.nav.header_menu_title'|trans }}
+    </h3>
+{% endblock %}
+
+{% block __style_book_elements_nav__header_menu_placeholder_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'data-header-menu-container': '' 
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block __style_book_elements_nav__title_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' style-book-menu-title'
+    }) %}
+
+    <h3 {{ block('block_attributes') }}>
+        {{ 'oro_stylebook.nav.title'|trans }}
+    </h3>
+{% endblock %}
+
+{% block __style_book_elements_nav__menu_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'id': 'style-book-scrollspy-nav',
+        '~class': ' style-book-elements-nav',
+        'data-page-component-module': 'oroui/js/app/components/view-component',
+        'data-page-component-options': {
+            'view': 'orostylebook/js/style-book/style-book-elements-navigation-view',
+            'elementsContainerSelector': '.page-content'
+        }
+    }) %}
+
+    <div {{ block('block_attributes') }}></div>
+{% endblock %}

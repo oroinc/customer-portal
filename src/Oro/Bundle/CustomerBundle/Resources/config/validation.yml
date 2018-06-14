@@ -11,6 +11,8 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
         parent:
             - Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference: ~
+        users:
+            - Valid: ~
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     properties:
@@ -66,6 +68,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             - Date: ~
         customer:
             - NotBlank: ~
+            - Valid: ~
         addresses:
             - Valid: ~
             - Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
