@@ -33,122 +33,128 @@
     {% import 'OroEmailBundle::actions.html.twig' as EmailActions %}
     {% import 'OroEmailBundle::macros.html.twig' as Email %}
 
-    <div class="info-list">
-        <div class="info-list__item">
-            <div class="info-list__name">
-                {{- 'oro.customer.frontend.customer_user.full_name.label'|trans -}}
-            </div>
-            <div class="info-list__desc">
-                {{- 'oro.customer.customeruser.full_name'|trans({
-                    '%name_prefix%': customerUser.namePrefix,
-                    '%first_name%': customerUser.firstName,
-                    '%middle_name%': customerUser.middleName,
-                    '%last_name%': customerUser.lastName,
-                    '%name_suffix%': customerUser.nameSuffix
-                })|e
-                -}}
-            </div>
-        </div>
+    {% set attr = layout_attr_defaults(attr, {
+        'class': ' customer-profile__data'
+    }) %}
 
-        {% if customerUser.birthday is not empty %}
-            {% set birthday_string %}
-                {{- customerUser.birthday|oro_format_date -}}
-                ({{- customerUser.birthday|age_string({'default': 'N/A'}) -}})
-            {% endset %}
-
+    <div {{ block('block_attributes') }}>
+        <div class="info-list">
             <div class="info-list__item">
                 <div class="info-list__name">
-                    {{- 'oro.customer.customeruser.birthday.label'|trans -}}
+                    {{- 'oro.customer.frontend.customer_user.full_name.label'|trans -}}
                 </div>
                 <div class="info-list__desc">
-                    {{- birthday_string -}}
+                    {{- 'oro.customer.customeruser.full_name'|trans({
+                        '%name_prefix%': customerUser.namePrefix,
+                        '%first_name%': customerUser.firstName,
+                        '%middle_name%': customerUser.middleName,
+                        '%last_name%': customerUser.lastName,
+                        '%name_suffix%': customerUser.nameSuffix
+                    })|e
+                    -}}
                 </div>
             </div>
-        {% endif %}
 
-        <div class="info-list__item">
-            <div class="info-list__name">
-                {{- 'oro.customer.customeruser.username.label'|trans -}}
-            </div>
-            <div class="info-list__desc">
-                {{- Email.email_address_simple(customerUser.email) -}}
-            </div>
-        </div>
+            {% if customerUser.birthday is not empty %}
+                {% set birthday_string %}
+                    {{- customerUser.birthday|oro_format_date -}}
+                    ({{- customerUser.birthday|age_string({'default': 'N/A'}) -}})
+                {% endset %}
 
-        {% if is_granted('oro_customer_frontend_customer_user_role_view') %}
+                <div class="info-list__item">
+                    <div class="info-list__name">
+                        {{- 'oro.customer.customeruser.birthday.label'|trans -}}
+                    </div>
+                    <div class="info-list__desc">
+                        {{- birthday_string -}}
+                    </div>
+                </div>
+            {% endif %}
+
             <div class="info-list__item">
                 <div class="info-list__name">
-                    {%- if customerUser.roles|length == 1 -%}
-                        {{- 'oro.customer.customeruser.role.label'|trans -}}
-                    {%- else -%}
-                        {{- 'oro.customer.customeruser.roles.label'|trans -}}
-                    {%- endif -%}
-                </div>
-                <div class="info-list__desc info-list__desc--roles">
-                    {% for customerUserRole in customerUser.roles %}
-                        {{- UI.link({
-                            'path': path('oro_customer_frontend_customer_user_role_view', {id: customerUserRole.id}),
-                            'label': customerUserRole.label,
-                            'class': 'info-list__link'
-                        }) -}}
-                        <br>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endif %}
-
-        {% if customerUser.customer and companyNameEnabled %}
-            <div class="info-list__item">
-                <div class="info-list__name">
-                    {{- 'oro.customer.customeruser.profile.company'|trans -}}
+                    {{- 'oro.customer.customeruser.username.label'|trans -}}
                 </div>
                 <div class="info-list__desc">
-                    {{- customerUser.customer.name -}}
+                    {{- Email.email_address_simple(customerUser.email) -}}
                 </div>
             </div>
-        {% endif %}
 
-        <div class="info-list__item">
-            <div class="info-list__name">
-                {{- 'oro.customer.customeruser.profile.status.label'|trans -}}
-            </div>
-            <div class="info-list__desc">
-                {% if customerUser.enabled == true %}
-                    <div class="info-list-status">
-                        <i class="fa fa-check"></i>
-                        {{- 'oro.customer.customeruser.profile.statuses.active'|trans -}}
+            {% if is_granted('oro_customer_frontend_customer_user_role_view') %}
+                <div class="info-list__item">
+                    <div class="info-list__name">
+                        {%- if customerUser.roles|length == 1 -%}
+                            {{- 'oro.customer.customeruser.role.label'|trans -}}
+                        {%- else -%}
+                            {{- 'oro.customer.customeruser.roles.label'|trans -}}
+                        {%- endif -%}
                     </div>
-                {% else %}
-                    <div class="info-list-status info-list-status--disabled">
-                        <i class="fa fa-ban"></i>
-                        {{- 'oro.customer.customeruser.profile.statuses.inactive'|trans -}}
+                    <div class="info-list__desc info-list__desc--roles">
+                        {% for customerUserRole in customerUser.roles %}
+                            {{- UI.link({
+                                'path': path('oro_customer_frontend_customer_user_role_view', {id: customerUserRole.id}),
+                                'label': customerUserRole.label,
+                                'class': 'info-list__link'
+                            }) -}}
+                            <br>
+                        {% endfor %}
                     </div>
-                {% endif %}
+                </div>
+            {% endif %}
 
-                {% if customerUser.confirmed == true %}
-                    <div class="info-list-status">
-                        <i class="fa fa-check"></i>
-                        {{- 'oro.customer.customeruser.profile.statuses.confirmed'|trans -}}
+            {% if customerUser.customer and companyNameEnabled %}
+                <div class="info-list__item">
+                    <div class="info-list__name">
+                        {{- 'oro.customer.customeruser.profile.company'|trans -}}
                     </div>
-                {% else %}
-                    <div class="info-list-status info-list-status--disabled">
-                        <i class="fa fa-ban"></i>
-                        {{- 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans -}}
+                    <div class="info-list__desc">
+                        {{- customerUser.customer.name -}}
                     </div>
-                {% endif %}
-            </div>
-        </div>
+                </div>
+            {% endif %}
 
-        {% if customerUser.salesRepresentatives | length %}
             <div class="info-list__item">
                 <div class="info-list__name">
-                    {{- 'oro.customer.customeruser.sales_representatives.label'|trans -}}
+                    {{- 'oro.customer.customeruser.profile.status.label'|trans -}}
                 </div>
                 <div class="info-list__desc">
-                    {{- UI.entityViewLinks(customerUser.salesRepresentatives, 'fullName') -}}
+                    {% if customerUser.enabled == true %}
+                        <div class="info-list-status">
+                            <i class="fa fa-check"></i>
+                            {{- 'oro.customer.customeruser.profile.statuses.active'|trans -}}
+                        </div>
+                    {% else %}
+                        <div class="info-list-status info-list-status--disabled">
+                            <i class="fa fa-ban"></i>
+                            {{- 'oro.customer.customeruser.profile.statuses.inactive'|trans -}}
+                        </div>
+                    {% endif %}
+
+                    {% if customerUser.confirmed == true %}
+                        <div class="info-list-status">
+                            <i class="fa fa-check"></i>
+                            {{- 'oro.customer.customeruser.profile.statuses.confirmed'|trans -}}
+                        </div>
+                    {% else %}
+                        <div class="info-list-status info-list-status--disabled">
+                            <i class="fa fa-ban"></i>
+                            {{- 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans -}}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-        {% endif %}
+
+            {% if customerUser.salesRepresentatives | length %}
+                <div class="info-list__item">
+                    <div class="info-list__name">
+                        {{- 'oro.customer.customeruser.sales_representatives.label'|trans -}}
+                    </div>
+                    <div class="info-list__desc">
+                        {{- UI.entityViewLinks(customerUser.salesRepresentatives, 'fullName') -}}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 
