@@ -38,9 +38,7 @@ class FrontendDatagridExtension extends AbstractExtension
      */
     public function isApplicable(DatagridConfiguration $config)
     {
-        return
-            parent::isApplicable($config)
-            && !$this->isFrontendGrid($config);
+        return parent::isApplicable($config) && !$this->isFrontendGrid($config);
     }
 
     /**
@@ -48,7 +46,7 @@ class FrontendDatagridExtension extends AbstractExtension
      */
     public function processConfigs(DatagridConfiguration $config)
     {
-        if ($this->isFrontendRequest()) {
+        if (!$this->isFrontendGrid($config) && $this->isFrontendRequest()) {
             throw new LogicException(
                 sprintf(
                     'The datagrid "%s" is not allowed to be displayed on the frontend.'
