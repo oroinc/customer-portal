@@ -94,14 +94,6 @@ define(function(require) {
 
         /**
          * @inheritDoc
-         * @returns {*}
-         */
-        constructor: function FrontendDialogWidget() {
-            return FrontendDialogWidget.__super__.constructor.apply(this, arguments);
-        },
-
-        /**
-         * @inheritDoc
          */
         constructor: function FrontendDialogWidget() {
             FrontendDialogWidget.__super__.constructor.apply(this, arguments);
