@@ -48,6 +48,13 @@ class FrontendDatagridExtensionTest extends \PHPUnit_Framework_TestCase
         self::assertFalse($this->extension->isApplicable($datagridConfig));
     }
 
+    public function testShouldGrantAccessForFrontendGrid()
+    {
+        $datagridConfig = DatagridConfiguration::createNamed('test_grid', ['options' => ['frontend' => true]]);
+
+        $this->extension->processConfigs($datagridConfig);
+    }
+
     public function testShouldGrantAccessForBackendGridIfSecurityTokenIsNotSet()
     {
         $datagridConfig = DatagridConfiguration::createNamed('test_grid', []);
