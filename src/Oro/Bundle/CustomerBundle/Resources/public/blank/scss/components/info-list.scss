@@ -16,6 +16,7 @@
 
     &__name {
         width: $info-list-name-width;
+        min-width: $info-list-name-min-width;
         margin: $info-list-name-offset;
 
         &:after {
@@ -33,6 +34,7 @@
 
         &__name {
             width: $info-list-name-mobile-width;
+            max-width: $info-list-name-mobile-width;
             margin: $info-list-name-mobile-offset;
         }
     }
