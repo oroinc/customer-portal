@@ -5,13 +5,39 @@ define(function(require) {
     var DialogWidget = require('oro/dialog-widget');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var ViewportManager = require('oroui/js/viewport-manager');
+    var actionsTemplate = require('tpl!orofrontend/templates/frontend-dialog/dialog-actions.html');
     var _ = require('underscore');
     var $ = require('jquery');
 
     FrontendDialogWidget = DialogWidget.extend({
+        /**
+         * @inheritDoc
+         */
         optionNames: DialogWidget.prototype.optionNames.concat([
-            'fullscreenViewport', 'fullscreenViewOptions', 'fullscreenDialogOptions'
+            'fullscreenViewport', 'fullscreenViewOptions', 'fullscreenDialogOptions',
+            'fullscreenMode', 'actionsTemplate', 'simpleActionTemplate',
+            'contentElement', 'renderActionsFromTemplate', 'staticPage'
         ]),
+
+        /**
+         * @property {String}
+         */
+        actionsTemplate: actionsTemplate,
+
+        /**
+         * @property {Boolean}
+         */
+        simpleActionTemplate: false,
+
+        /**
+         * @property {String}
+         */
+        contentElement: 'section.page-content',
+
+        /**
+         * @property {Boolean}
+         */
+        renderActionsFromTemplate: false,
 
         /**
          * @property {Object}
@@ -41,12 +67,30 @@ define(function(require) {
         },
 
         /**
+         * @property {Boolean}
+         */
+        fullscreenMode: true,
+
+        /**
          * Property detect needed viewport of device
          * @property {boolean}
          */
         isApplicable: false,
 
+        /**
+         * @property {jQuery.Element}
+         */
         $header: null,
+
+        /**
+         * @property {Boolean}
+         */
+        useDialog: false,
+
+        /**
+         * @property {Boolean}
+         */
+        staticPage: false,
 
         /**
          * @inheritDoc
@@ -63,7 +107,11 @@ define(function(require) {
             this.isApplicable = this.fullscreenViewport
                 ? ViewportManager.isApplicable(this.fullscreenViewport) : null;
 
-            if (this.isApplicable) {
+            this.options.dialogOptions = _.defaults(this.options.dialogOptions, {
+                close: _.bind(this._onClose, this)
+            });
+
+            if (this.isApplicable && this.fullscreenMode) {
                 this.setFullscreenDialogClass();
                 this.options.dialogOptions = _.extend({}, this.options.dialogOptions, this.fullscreenDialogOptions);
             }
@@ -85,16 +133,25 @@ define(function(require) {
          */
         show: function(options) {
             FrontendDialogWidget.__super__.show.call(this, options);
-            if (this.isApplicable) {
+            if (this.isApplicable && this.fullscreenMode) {
                 this.showFullscreen();
             }
         },
 
+        /**
+         * Listen widget create event
+         * @param content
+         */
         onWidgetRender: function(content) {
             FrontendDialogWidget.__super__.onWidgetRender.call(this, content);
             this._setHeader();
         },
 
+        /**
+         * Apply dialog header
+         *
+         * @private
+         */
         _setHeader: function() {
             if (this.options.header) {
                 var $title = this.widget.dialog('instance').uiDialogTitlebar;
@@ -105,6 +162,9 @@ define(function(require) {
             }
         },
 
+        /**
+         * Create and show fullscreen popup via fullscreen mode
+         */
         showFullscreen: function() {
             if (this.$header) {
                 this.fullscreenViewOptions.headerElement = this.$header;
@@ -149,6 +209,86 @@ define(function(require) {
             if (!this.subview('fullscreenView')) {
                 return FrontendDialogWidget.__super__.resetDialogPosition.call(this);
             }
+        },
+
+        /**
+         * Filter send data via dialog open request
+         *
+         * @param data
+         * @param method
+         * @param url
+         * @returns {*}
+         */
+        prepareContentRequestOptions: function(data, method, url) {
+            var options = FrontendDialogWidget.__super__.prepareContentRequestOptions.apply(this, arguments);
+
+            if (this.staticPage) {
+                options.data = '';
+            }
+
+            return options;
+        },
+
+        /**
+         * Filtered on loaded content
+         *
+         * @param content
+         * @returns {*}
+         * @private
+         */
+        _onContentLoad: function(content) {
+            if (this.renderActionsFromTemplate) {
+                content = $(content).find(this.contentElement).addClass('widget-content');
+
+                content.append(this.actionsTemplate({
+                    simpleActionTemplate: this.simpleActionTemplate
+                }));
+
+                content = content.parent().html();
+            }
+
+            return FrontendDialogWidget.__super__._onContentLoad.call(this, content);
+        },
+
+        /**
+         * Handled submit dialog method
+         *
+         * @param form
+         * @returns {*}
+         * @private
+         */
+        _onAdoptedFormSubmitClick: function(form) {
+            this.trigger('frontend-dialog:accept');
+            if (form) {
+                return FrontendDialogWidget.__super__._onAdoptedFormSubmitClick.apply(this, arguments);
+            }
+
+            this.dispose();
+        },
+
+        /**
+         * Handled reset dialog method
+         *
+         * @param form
+         * @returns {*}
+         * @private
+         */
+        _onAdoptedFormResetClick: function(form) {
+            this.trigger('frontend-dialog:cancel');
+            if (form) {
+                return FrontendDialogWidget.__super__._onAdoptedFormResetClick.apply(this, arguments);
+            }
+
+            this.dispose();
+        },
+
+        /**
+         * Default on close handler
+         *
+         * @private
+         */
+        _onClose: function() {
+            this.trigger('frontend-dialog:close');
         }
     });
 
