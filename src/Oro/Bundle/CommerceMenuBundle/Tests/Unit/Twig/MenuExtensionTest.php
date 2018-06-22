@@ -9,7 +9,7 @@ use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class MenuItemExtensionTest extends \PHPUnit_Framework_TestCase
+class MenuExtensionTest extends \PHPUnit_Framework_TestCase
 {
     use TwigExtensionTestCaseTrait;
 
@@ -151,5 +151,25 @@ class MenuItemExtensionTest extends \PHPUnit_Framework_TestCase
                 'result' => '/help?123'
             ],
         ];
+    }
+
+    public function testGetUrlWithBaseUrl()
+    {
+        $passedUrl = '/index.php/contact-us';
+        $request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->getMock();
+
+        $request->expects($this->once())
+            ->method('getBaseUrl')
+            ->willReturn('/index.php');
+
+        $request->expects($this->never())
+            ->method('getUriForPath');
+
+        $this->requestStack
+            ->expects($this->once())
+            ->method('getCurrentRequest')
+            ->willReturn($request);
+
+        $this->assertEquals('/index.php/contact-us', $this->extension->getUrl($passedUrl));
     }
 }
