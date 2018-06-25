@@ -8,8 +8,9 @@ use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 
 /**
  * Tests that all registered frontend API resources are accessible for the anonymous user.
- * Both response status coded, 200 (OK) and 403 (Forbidden) are valid,
+ * Both response status coded, 200 (OK) and 403 (Forbidden), are valid,
  * because the access for some resources can be granted, but for others can be denied for the anonymous user.
+ * @group regression
  */
 class GetTest extends FrontendRestJsonApiTestCase
 {
