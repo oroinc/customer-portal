@@ -5,6 +5,9 @@ namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @group regression
+ */
 class ApiDocControllerTest extends WebTestCase
 {
     protected function setUp()
