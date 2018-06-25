@@ -18,32 +18,32 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
     use EntityTrait;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Oro\Bundle\CustomerBundle\Entity\CustomerUserManager
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Oro\Bundle\CustomerBundle\Entity\CustomerUserManager
      */
     protected $userManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|FormInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|FormInterface
      */
     protected $passwordGenerateForm;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|FormInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|FormInterface
      */
     protected $sendEmailForm;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface
      */
     protected $tokenAccessor;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|TranslatorInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
      */
     protected $translator;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|LoggerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface
      */
     protected $logger;
 

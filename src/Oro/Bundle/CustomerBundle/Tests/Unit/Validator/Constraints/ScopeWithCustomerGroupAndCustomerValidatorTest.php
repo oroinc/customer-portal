@@ -12,7 +12,7 @@ use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class ScopeWithCustomerGroupAndCustomerValidatorTest extends \PHPUnit_Framework_TestCase
+class ScopeWithCustomerGroupAndCustomerValidatorTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
@@ -23,12 +23,12 @@ class ScopeWithCustomerGroupAndCustomerValidatorTest extends \PHPUnit_Framework_
             ->method('isEmpty')
             ->willReturn(true);
 
-        /** @var Constraint|\PHPUnit_Framework_MockObject_MockObject $constraint **/
+        /** @var Constraint|\PHPUnit\Framework\MockObject\MockObject $constraint **/
         $constraint = $this->getMockBuilder(Constraint::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock('Symfony\Component\Validator\Context\ExecutionContextInterface');
         $context->expects($this->never())
             ->method('addViolation');
@@ -65,7 +65,7 @@ class ScopeWithCustomerGroupAndCustomerValidatorTest extends \PHPUnit_Framework_
         $builder->expects($this->once())
             ->method('addViolation');
 
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock('Symfony\Component\Validator\Context\ExecutionContextInterface');
         $context->expects($this->once())
             ->method('buildViolation')

@@ -114,7 +114,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $request = new Request();
         $request->setMethod('GET');
 
-        /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject $requestStack */
+        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock(RequestStack::class);
         $requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
 
@@ -196,7 +196,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $request = new Request();
         $request->setMethod('POST');
 
-        /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject $requestStack */
+        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock(RequestStack::class);
         $requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
 
@@ -325,14 +325,14 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->method('setPermission')
             ->with($roleSecurityIdentity, $productObjectIdentity, 16);
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|AclExtensionInterface $aclExtension */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|AclExtensionInterface $aclExtension */
         $aclExtension = $this->createMock(AclExtensionInterface::class);
         $aclExtension->expects($this->once())
             ->method('getMaskBuilder')
             ->with('VIEW')
             ->willReturn(new EntityMaskBuilder(0, ['VIEW', 'CREATE', 'EDIT']));
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|AclExtensionSelector $aclExtension */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|AclExtensionSelector $aclExtension */
         $aclExtensionSelector = $this->getMockBuilder(AclExtensionSelector::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -450,7 +450,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
 
     /**
      * @param bool $hasFrontendOwner
-     * @return ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ConfigInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function createClassConfigMock($hasFrontendOwner)
     {

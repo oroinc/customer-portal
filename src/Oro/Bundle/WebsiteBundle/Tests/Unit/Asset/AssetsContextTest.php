@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class AssetsContextTest extends \PHPUnit_Framework_TestCase
+class AssetsContextTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var AssetsContext
@@ -15,7 +15,7 @@ class AssetsContextTest extends \PHPUnit_Framework_TestCase
     protected $context;
 
     /**
-     * @var RequestStack|\PHPUnit_Framework_MockObject_MockObject
+     * @var RequestStack|\PHPUnit\Framework\MockObject\MockObject
      */
     private $requestStack;
 
@@ -40,7 +40,7 @@ class AssetsContextTest extends \PHPUnit_Framework_TestCase
 
     public function testGetBasePath()
     {
-        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
+        /** @var Request|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->getMockBuilder(Request::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -58,7 +58,7 @@ class AssetsContextTest extends \PHPUnit_Framework_TestCase
 
     public function testGetBasePathNoConfiguration()
     {
-        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
+        /** @var Request|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->getMockBuilder(Request::class)
             ->disableOriginalConstructor()
             ->getMock();

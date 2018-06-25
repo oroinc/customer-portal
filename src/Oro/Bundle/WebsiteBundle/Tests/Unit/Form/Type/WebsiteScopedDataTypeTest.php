@@ -62,7 +62,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             ->method('getAllWebsites')
             ->willReturn([$website]);
 
-        /** @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject $registry */
+        /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $registry */
         $registry = $this->getMockBuilder('\Doctrine\Common\Persistence\ManagerRegistry')
             ->disableOriginalConstructor()
             ->getMock();
@@ -77,7 +77,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             ->with('TestWebsiteClass')
             ->willReturn($em);
 
-        /** @var WebsiteProviderInterface|\PHPUnit_Framework_MockObject_MockObject $websiteProvider */
+        /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject $websiteProvider */
         $websiteProvider = $this->createMock('Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface');
         $websiteProvider->expects($this->any())
             ->method('getWebsites')
@@ -134,7 +134,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
     {
         $view = new FormView();
 
-        /** @var FormInterface|\PHPUnit_Framework_MockObject_MockObject $form */
+        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock('Symfony\Component\Form\FormInterface');
         $this->formType->buildView($view, $form, ['region_route' => 'test']);
 

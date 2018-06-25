@@ -32,10 +32,10 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
     /** @var AddressType */
     protected $shippingType;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|EntityManager */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityManager */
     protected $em;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|EntityRepository */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityRepository */
     protected $addressRepository;
 
     /**
@@ -266,7 +266,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
 
     /**
      * @param array $entityModels
-     * @return \PHPUnit_Framework_MockObject_MockObject|EntityRepository
+     * @return \PHPUnit\Framework\MockObject\MockObject|EntityRepository
      */
     protected function createRepositoryMock(array $entityModels = [])
     {
@@ -286,7 +286,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|EntityManager
+     * @return \PHPUnit\Framework\MockObject\MockObject|EntityManager
      */
     protected function createEntityManagerMock()
     {

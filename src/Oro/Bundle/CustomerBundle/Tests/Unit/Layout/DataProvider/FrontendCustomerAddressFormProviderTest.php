@@ -11,16 +11,16 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class FrontendCustomerAddressFormProviderTest extends \PHPUnit_Framework_TestCase
+class FrontendCustomerAddressFormProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FrontendCustomerAddressFormProvider */
     protected $provider;
 
-    /** @var FormFactoryInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $mockFormFactory;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|UrlGeneratorInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|UrlGeneratorInterface
      */
     protected $router;
 
@@ -47,7 +47,7 @@ class FrontendCustomerAddressFormProviderTest extends \PHPUnit_Framework_TestCas
      */
     private function actionTestWithId($id = null)
     {
-        /** @var CustomerAddress|\PHPUnit_Framework_MockObject_MockObject $mockCustomerUserAddress */
+        /** @var CustomerAddress|\PHPUnit\Framework\MockObject\MockObject $mockCustomerUserAddress */
         $mockCustomerUserAddress = $this->getMockBuilder(CustomerAddress::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -56,7 +56,7 @@ class FrontendCustomerAddressFormProviderTest extends \PHPUnit_Framework_TestCas
             ->method('getId')
             ->willReturn($id);
 
-        /** @var Customer|\PHPUnit_Framework_MockObject_MockObject $mockCustomerUser */
+        /** @var Customer|\PHPUnit\Framework\MockObject\MockObject $mockCustomerUser */
         $mockCustomerUser = $this->getMockBuilder(Customer::class)
             ->disableOriginalConstructor()
             ->getMock();

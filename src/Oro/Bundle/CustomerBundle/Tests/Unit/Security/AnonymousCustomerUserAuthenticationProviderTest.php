@@ -12,7 +12,7 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
+class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
@@ -21,12 +21,12 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit_Framework
     const UPDATE_LATENCY = 500;
 
     /**
-     * @var CustomerVisitorManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var CustomerVisitorManager|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $visitorManager;
 
     /**
-     * @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $websiteManager;
 

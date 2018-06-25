@@ -11,10 +11,10 @@ use Oro\Component\Testing\Unit\Form\Type\Stub\FormStub;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
-class AclAccessLevelSelectorExtensionTest extends \PHPUnit_Framework_TestCase
+class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|RoleTranslationPrefixResolver
+     * @var \PHPUnit\Framework\MockObject\MockObject|RoleTranslationPrefixResolver
      */
     protected $roleTranslationPrefixResolver;
 
@@ -118,7 +118,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit_Framework_TestCase
                 ->willReturn($permissionsForm);
         }
 
-        /** @var FormInterface|\PHPUnit_Framework_MockObject_MockObject $form */
+        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock('Symfony\Component\Form\FormInterface');
         $form->expects($this->once())
             ->method('getParent')

@@ -13,7 +13,7 @@ class ProcessorTest extends AbstractProcessorTest
     const PASSWORD = '123456';
 
     /**
-     * @var Processor|\PHPUnit_Framework_MockObject_MockObject
+     * @var Processor|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $mailProcessor;
 
@@ -23,7 +23,7 @@ class ProcessorTest extends AbstractProcessorTest
     protected $user;
 
     /**
-     * @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $eventDispatcher;
 

@@ -6,7 +6,7 @@ use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class MenuUserAgentConditionTest extends \PHPUnit_Framework_TestCase
+class MenuUserAgentConditionTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 

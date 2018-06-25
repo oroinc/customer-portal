@@ -10,10 +10,10 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ThemeSelectTypeTest extends \PHPUnit_Framework_TestCase
+class ThemeSelectTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ThemeManager
+     * @var \PHPUnit\Framework\MockObject\MockObject|ThemeManager
      */
     protected $themeManager;
 
@@ -57,7 +57,7 @@ class ThemeSelectTypeTest extends \PHPUnit_Framework_TestCase
             ->with('commerce')
             ->will($this->returnValue($themes));
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|OptionsResolver $resolver */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|OptionsResolver $resolver */
         $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
             ->disableOriginalConstructor()
             ->getMock();
@@ -83,7 +83,7 @@ class ThemeSelectTypeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($themes));
 
         $view = new FormView();
-        /** @var \PHPUnit_Framework_MockObject_MockObject|FormInterface $form */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface $form */
         $form = $this->createMock('Symfony\Component\Form\FormInterface');
         $options = [];
 

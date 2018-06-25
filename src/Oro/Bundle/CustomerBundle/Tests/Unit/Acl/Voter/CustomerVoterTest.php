@@ -20,7 +20,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CustomerVoterTest extends \PHPUnit_Framework_TestCase
+class CustomerVoterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CustomerVoter
@@ -28,27 +28,27 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
     protected $voter;
 
     /**
-     * @var DoctrineHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $doctrineHelper;
 
     /**
-     * @var CustomerUserProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $securityProvider;
 
     /**
-     * @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $authorizationChecker;
 
     /**
-     * @var AuthenticationTrustResolverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthenticationTrustResolverInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $trustResolver;
 
     /**
-     * @var CustomerUserRelationsProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var CustomerUserRelationsProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $relationsProvider;
 
@@ -79,7 +79,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
             'oro_customer.provider.customer_user_relations_provider' => $this->relationsProvider,
         ];
 
-        /* @var $container ContainerInterface|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $container ContainerInterface|\PHPUnit\Framework\MockObject\MockObject */
         $container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->any())
             ->method('get')
@@ -96,7 +96,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
         $object = new \stdClass();
         $class = get_class($object);
 
-        /* @var $token TokenInterface|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $token TokenInterface|\PHPUnit\Framework\MockObject\MockObject */
         $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         $token->expects($this->any())
             ->method('getUser')
@@ -161,7 +161,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
             ->with($class)
             ->willReturn($inputData['grantedEditLocal']);
 
-        /* @var $token TokenInterface|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $token TokenInterface|\PHPUnit\Framework\MockObject\MockObject */
         $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         $token->expects($this->any())
             ->method('getUser')
@@ -519,11 +519,11 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
      * @param int $id
      * @param int $customerUserId
      * @param int $customerId
-     * @return CustomerOwnerAwareInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return CustomerOwnerAwareInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getObject($id, $customerUserId = null, $customerId = null)
     {
-        /* @var $object CustomerOwnerAwareInterface|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $object CustomerOwnerAwareInterface|\PHPUnit\Framework\MockObject\MockObject */
         $object = $this->getMockEntity('Oro\Bundle\CustomerBundle\Entity\CustomerOwnerAwareInterface', $id);
 
         if ($customerUserId) {
@@ -595,7 +595,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $className
      * @param int $id
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function getMockEntity($className, $id)
     {
@@ -638,7 +638,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
 
         $voter->setClassName(get_class($object));
 
-        /* @var $token TokenInterface|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $token TokenInterface|\PHPUnit\Framework\MockObject\MockObject */
         $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         $token->expects($this->any())->method('getUser')->willReturn($customerUser);
 
@@ -655,7 +655,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
         $this->authorizationChecker->expects($this->never())
             ->method('isGranted');
 
-        /* @var $token TokenInterface|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $token TokenInterface|\PHPUnit\Framework\MockObject\MockObject */
         $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         $token->expects($this->any())
             ->method('getUser')
@@ -702,7 +702,7 @@ class CustomerVoterTest extends \PHPUnit_Framework_TestCase
             ->with($permissionAttribute, $this->getDescriptor())
             ->willReturn($isGranted);
 
-        /* @var $token TokenInterface|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $token TokenInterface|\PHPUnit\Framework\MockObject\MockObject */
         $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         $token->expects($this->any())
             ->method('getUser')

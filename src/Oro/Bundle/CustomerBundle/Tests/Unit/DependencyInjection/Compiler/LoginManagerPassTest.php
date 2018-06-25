@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class LoginManagerPassTest extends \PHPUnit_Framework_TestCase
+class LoginManagerPassTest extends \PHPUnit\Framework\TestCase
 {
     public function testProcessPersistentRememberMe()
     {
@@ -93,7 +93,7 @@ class LoginManagerPassTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessWithoutDefinition()
     {
-        /** @var ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject $containerBuilder */
+        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $containerBuilder */
         $containerBuilder = $this->getMockBuilder(ContainerBuilder::class)
             ->disableOriginalConstructor()
             ->getMock();

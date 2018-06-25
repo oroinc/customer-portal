@@ -10,19 +10,19 @@ use Oro\Bundle\FrontendBundle\Twig\FrontendAsseticTokenParser;
 use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
 use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
 
-class FrontendAsseticTokenParserTest extends \PHPUnit_Framework_TestCase
+class FrontendAsseticTokenParserTest extends \PHPUnit\Framework\TestCase
 {
     const ACTIVE_THEME = 'oro';
     const TAG_NAME = 'oro_css';
     const PARSER_OUTPUT = 'css/*.css';
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|AssetsConfiguration
+     * @var \PHPUnit\Framework\MockObject\MockObject|AssetsConfiguration
      */
     protected $assetsConfiguration;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|AssetFactory
+     * @var \PHPUnit\Framework\MockObject\MockObject|AssetFactory
      */
     protected $assetFactory;
 
@@ -97,7 +97,7 @@ class FrontendAsseticTokenParserTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|\Twig_Parser $parser */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|\Twig_Parser $parser */
         $parser = $this->getMockBuilder('Twig_Parser')
             ->disableOriginalConstructor()
             ->getMock();

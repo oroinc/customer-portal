@@ -9,14 +9,14 @@ use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class MenuExtensionTest extends \PHPUnit_Framework_TestCase
+class MenuExtensionTest extends \PHPUnit\Framework\TestCase
 {
     use TwigExtensionTestCaseTrait;
 
-    /** @var MatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var MatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $matcher;
 
-    /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
     private $requestStack;
 
     /** @var MenuExtension */
@@ -48,7 +48,7 @@ class MenuExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testIsCurrent()
     {
-        /** @var ItemInterface|\PHPUnit_Framework_MockObject_MockObject $item */
+        /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject $item */
         $item = $this->createMock(ItemInterface::class);
 
         $this->matcher->expects($this->once())
@@ -63,7 +63,7 @@ class MenuExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAncestor()
     {
-        /** @var ItemInterface|\PHPUnit_Framework_MockObject_MockObject $item */
+        /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject $item */
         $item = $this->createMock(ItemInterface::class);
 
         $this->matcher

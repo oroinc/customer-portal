@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
 {
-    /** @var PageTemplatesManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var PageTemplatesManager|\PHPUnit\Framework\MockObject\MockObject */
     private $pageTemplatesManagerMock;
 
     /** @var PageTemplateCollectionType */

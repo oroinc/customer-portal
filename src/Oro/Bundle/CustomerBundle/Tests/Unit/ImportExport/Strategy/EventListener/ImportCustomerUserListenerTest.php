@@ -21,40 +21,40 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class ImportCustomerUserListenerTest extends \PHPUnit_Framework_TestCase
+class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $registry;
 
     /**
-     * @var CustomerUserManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $customerUserManager;
 
     /**
-     * @var TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $translation;
 
     /**
-     * @var ImportStrategyHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var ImportStrategyHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $strategyHelper;
 
     /**
-     * @var WebsiteRepository|\PHPUnit_Framework_MockObject_MockObject
+     * @var WebsiteRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $websiteRepository;
 
     /**
-     * @var CustomerUserRoleRepository|\PHPUnit_Framework_MockObject_MockObject
+     * @var CustomerUserRoleRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $customerUserRoleRepository;
 
     /**
-     * @var StrategyEvent|\PHPUnit_Framework_MockObject_MockObject
+     * @var StrategyEvent|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $event;
 

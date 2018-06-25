@@ -28,10 +28,10 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
      */
     protected $formType;
 
-    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $tokenAccessor;
 
-    /** @var $registry Registry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var $registry Registry|\PHPUnit\Framework\MockObject\MockObject */
     protected $registry;
 
     /** @var QueryBuilder */
@@ -56,7 +56,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->tokenAccessor->expects($this->any())->method('getUser')->willReturn($user);
         $this->registry = $this->createMock(ManagerRegistry::class);
-        /** @var $repo CustomerUserRoleRepository|\PHPUnit_Framework_MockObject_MockObject */
+        /** @var $repo CustomerUserRoleRepository|\PHPUnit\Framework\MockObject\MockObject */
         $repo = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository')
             ->disableOriginalConstructor()
             ->getMock();
@@ -64,7 +64,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
             ->method('createQueryBuilder')
             ->with('customer')
             ->willReturn($this->qb);
-        /** @var $em ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+        /** @var $em ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
         $em = $this->createMock('Doctrine\Common\Persistence\ObjectManager');
         $em->expects($this->any())
             ->method('getRepository')
@@ -98,7 +98,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
     public function testConfigureOptions()
     {
-        /** @var $resolver OptionsResolver|\PHPUnit_Framework_MockObject_MockObject */
+        /** @var $resolver OptionsResolver|\PHPUnit\Framework\MockObject\MockObject */
         $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
 
         $resolver->expects($this->once())
@@ -115,10 +115,10 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
     public function testEmptyUser()
     {
-        /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject $tokenAccessor */
+        /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject $tokenAccessor */
         $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $tokenAccessor->expects($this->once())->method('getUser')->willReturn(null);
-        /** @var $resolver OptionsResolver|\PHPUnit_Framework_MockObject_MockObject */
+        /** @var $resolver OptionsResolver|\PHPUnit\Framework\MockObject\MockObject */
         $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
         $roleFormType = new FrontendCustomerUserRoleSelectType($tokenAccessor, $this->registry, $this->aclHelper);
         $roleFormType->configureOptions($resolver);
@@ -176,7 +176,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function createAclHelperMock()
     {

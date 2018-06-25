@@ -12,25 +12,25 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class ThemeListenerTest extends \PHPUnit_Framework_TestCase
+class ThemeListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ThemeRegistry
+     * @var \PHPUnit\Framework\MockObject\MockObject|ThemeRegistry
      */
     protected $themeRegistry;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|FrontendHelper
+     * @var \PHPUnit\Framework\MockObject\MockObject|FrontendHelper
      */
     protected $helper;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|HttpKernelInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|HttpKernelInterface
      */
     protected $kernel;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ConfigManager
+     * @var \PHPUnit\Framework\MockObject\MockObject|ConfigManager
      */
     protected $configManager;
 

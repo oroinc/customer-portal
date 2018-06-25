@@ -10,7 +10,7 @@ use Oro\Component\Testing\Unit\PreloadedExtension;
 
 class PageTemplateTypeTest extends FormIntegrationTestCase
 {
-    /** @var PageTemplatesManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var PageTemplatesManager|\PHPUnit\Framework\MockObject\MockObject */
     private $pageTemplatesManagerMock;
 
     /** @var PageTemplateCollectionType */

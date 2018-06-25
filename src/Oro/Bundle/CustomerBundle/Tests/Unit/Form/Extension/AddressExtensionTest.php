@@ -30,7 +30,7 @@ class AddressExtensionTest extends AbstractCustomerUserAwareExtensionTest
     {
         $this->assertCustomerUserTokenCall();
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|OptionsResolver $resolver */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|OptionsResolver $resolver */
         $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
             ->disableOriginalConstructor()
             ->getMock();
@@ -48,7 +48,7 @@ class AddressExtensionTest extends AbstractCustomerUserAwareExtensionTest
             ->method('getToken')
             ->will($this->returnValue($token));
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|OptionsResolver $resolver */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|OptionsResolver $resolver */
         $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
             ->disableOriginalConstructor()
             ->getMock();

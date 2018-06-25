@@ -11,15 +11,15 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 
-class DisabledUserSessionListenerTest extends \PHPUnit_Framework_TestCase
+class DisabledUserSessionListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var LogoutUrlGenerator|\PHPUnit_Framework_MockObject_MockObject
+     * @var LogoutUrlGenerator|\PHPUnit\Framework\MockObject\MockObject
      */
     private $logoutUrlGenerator;
 
     /**
-     * @var FrontendHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     private $frontendHelper;
 

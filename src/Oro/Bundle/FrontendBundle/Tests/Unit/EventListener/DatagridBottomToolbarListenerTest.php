@@ -14,7 +14,7 @@ class DatagridBottomToolbarListenerTest extends FrontendDatagridListenerTestCase
     protected $listener;
 
     /**
-     * @var BuildBefore|\PHPUnit_Framework_MockObject_MockObject
+     * @var BuildBefore|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $event;
 

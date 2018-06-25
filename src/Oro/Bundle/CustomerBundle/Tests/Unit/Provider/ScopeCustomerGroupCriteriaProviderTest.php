@@ -9,15 +9,15 @@ use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class ScopeCustomerGroupCriteriaProviderTest extends \PHPUnit_Framework_TestCase
+class ScopeCustomerGroupCriteriaProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $tokenStorage;
 
     /**
-     * @var CustomerUserRelationsProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var CustomerUserRelationsProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $customerUserRelationsProvider;
 

@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Form\DataTransformer\AddressTypeDefaultTransformer;
 
-class AddressTypeDefaultTransformerTest extends \PHPUnit_Framework_TestCase
+class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var EntityManager  */
     protected $em;
@@ -128,7 +128,7 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $entityModels
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function createRepositoryMock($entityModels = [])
     {
@@ -148,7 +148,7 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function createEntityManagerMock()
     {

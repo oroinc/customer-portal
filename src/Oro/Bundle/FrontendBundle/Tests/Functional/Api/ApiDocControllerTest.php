@@ -42,7 +42,7 @@ class ApiDocControllerTest extends WebTestCase
     {
         try {
             $this->sendApiDocRequest();
-        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
+        } catch (\PHPUnit\Framework\AssertionFailedError $e) {
             // ignore checkForBackendUrls,
             // because urls on API sandbox are updated by JS
             // due to hardcode in NelmioApiDocBuntle TWIG template

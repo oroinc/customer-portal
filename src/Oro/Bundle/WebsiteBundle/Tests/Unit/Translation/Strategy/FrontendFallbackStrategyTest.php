@@ -6,15 +6,15 @@ use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\TranslationBundle\Strategy\DefaultTranslationStrategy;
 use Oro\Bundle\WebsiteBundle\Translation\Strategy\FrontendFallbackStrategy;
 
-class FrontendFallbackStrategyTest extends \PHPUnit_Framework_TestCase
+class FrontendFallbackStrategyTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var FrontendHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $frontendHelper;
 
     /**
-     * @var DefaultTranslationStrategy|\PHPUnit_Framework_MockObject_MockObject
+     * @var DefaultTranslationStrategy|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $frontendStrategy;
 

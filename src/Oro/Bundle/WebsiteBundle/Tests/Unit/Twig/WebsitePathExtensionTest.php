@@ -7,12 +7,12 @@ use Oro\Bundle\WebsiteBundle\Twig\WebsitePathExtension;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 
-class WebsitePathExtensionTest extends \PHPUnit_Framework_TestCase
+class WebsitePathExtensionTest extends \PHPUnit\Framework\TestCase
 {
     use TwigExtensionTestCaseTrait;
     use EntityTrait;
 
-    /** @var WebsiteUrlResolver|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var WebsiteUrlResolver|\PHPUnit\Framework\MockObject\MockObject */
     protected $websiteUrlResolver;
 
     /** @var WebsitePathExtension */

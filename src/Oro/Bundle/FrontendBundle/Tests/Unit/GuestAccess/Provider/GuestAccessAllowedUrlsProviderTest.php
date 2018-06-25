@@ -4,7 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\GuestAccess;
 
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider;
 
-class GuestAccessAllowedUrlsProviderTest extends \PHPUnit_Framework_TestCase
+class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var GuestAccessAllowedUrlsProvider

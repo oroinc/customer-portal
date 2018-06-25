@@ -24,10 +24,10 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
     /** @var AddressType */
     protected $shippingType;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|ManagerRegistry */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry */
     protected $registry;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|EntityManager */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityManager */
     protected $em;
 
     /**
@@ -165,7 +165,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 
     /**
      * @param array $entityModels
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function createRepositoryMock(array $entityModels = [])
     {
@@ -200,7 +200,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 
     /**
      * @param $repo
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function createEntityManagerMock($repo)
     {
@@ -221,7 +221,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 
     /**
      * @param $em
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     private function createManagerRegistryMock($em)
     {
@@ -243,7 +243,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     private function createClassMetadataMock()
     {
@@ -266,7 +266,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 
     /**
      * @param $field
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     public function createReflectionProperty($field)
     {
@@ -284,7 +284,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|TranslatorInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
      */
     private function createTranslatorMock()
     {
