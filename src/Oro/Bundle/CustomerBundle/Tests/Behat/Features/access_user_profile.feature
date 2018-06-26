@@ -10,10 +10,11 @@ Feature: Access user profile
   Scenario: Redirect to login when not logged-in user try to access user profile page
     Given I proceed as the Buyer
     And I am on "customer/profile"
-    Then Page title equals to "Sign In"
-    And I signed in as NancyJSallee@example.org on the store frontend
-    Then I should see an "Account link" element
-    And I should see "My Profile"
+    And Page title equals to "Sign In"
+    When I signed in as NancyJSallee@example.org on the store frontend
+    And I should see an "Account link" element
+    And I click "Account"
+    Then I should see "My Profile"
 
   Scenario: Customer user role change
     Given I proceed as the Admin
