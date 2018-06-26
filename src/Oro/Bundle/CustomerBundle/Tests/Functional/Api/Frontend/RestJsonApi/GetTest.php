@@ -10,6 +10,7 @@ use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 /**
  * Tests that the access to all registered frontend API resources is granted
  * for the customer user with administrative permissions.
+ * @group regression
  */
 class GetTest extends FrontendRestJsonApiTestCase
 {

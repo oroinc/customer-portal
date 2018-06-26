@@ -9,12 +9,12 @@ use Oro\Bundle\CustomerBundle\Handler\CustomerAssignHelper;
 use Oro\Bundle\CustomerBundle\Handler\CustomerDeleteHandler;
 use Oro\Bundle\OrganizationBundle\Ownership\OwnerDeletionManager;
 
-class CustomerDeleteHandlerTest extends \PHPUnit_Framework_TestCase
+class CustomerDeleteHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CustomerDeleteHandler */
     protected $handler;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit\Framework\MockObject\MockObject */
     protected $customerAssignHelper;
 
     protected function setUp()

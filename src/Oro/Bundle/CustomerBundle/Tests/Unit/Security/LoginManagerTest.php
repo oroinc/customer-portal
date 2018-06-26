@@ -19,30 +19,30 @@ use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
 use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
 
-class LoginManagerTest extends \PHPUnit_Framework_TestCase
+class LoginManagerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenStorage;
 
-    /** @var UserCheckerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var UserCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $userChecker;
 
-    /** @var SessionAuthenticationStrategyInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var SessionAuthenticationStrategyInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $sessionStrategy;
 
-    /** @var Request|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
     private $request;
 
-    /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
     private $requestStack;
 
-    /** @var RememberMeServicesInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var RememberMeServicesInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $rememberMe;
 
-    /** @var UsernamePasswordOrganizationTokenFactoryInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var UsernamePasswordOrganizationTokenFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenFactory;
 
-    /** @var  EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $eventDispatcher;
 
     /** @var LoginManager */

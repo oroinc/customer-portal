@@ -22,54 +22,54 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Acl\Model\AclCacheInterface;
 
-abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit_Framework_TestCase
+abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|FormFactory
+     * @var \PHPUnit\Framework\MockObject\MockObject|FormFactory
      */
     protected $formFactory;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|AclManager
+     * @var \PHPUnit\Framework\MockObject\MockObject|AclManager
      */
     protected $aclManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|AclPrivilegeRepository
+     * @var \PHPUnit\Framework\MockObject\MockObject|AclPrivilegeRepository
      */
     protected $privilegeRepository;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ChainOwnershipMetadataProvider
+     * @var \PHPUnit\Framework\MockObject\MockObject|ChainOwnershipMetadataProvider
      */
     protected $chainMetadataProvider;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ConfigProvider
+     * @var \PHPUnit\Framework\MockObject\MockObject|ConfigProvider
      */
     protected $ownershipConfigProvider;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ManagerRegistry
+     * @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry
      */
     protected $managerRegistry;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|DoctrineHelper
+     * @var \PHPUnit\Framework\MockObject\MockObject|DoctrineHelper
      */
     protected $doctrineHelper;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|CustomerUserRoleRepository
+     * @var \PHPUnit\Framework\MockObject\MockObject|CustomerUserRoleRepository
      */
     protected $roleRepository;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|AclCacheInterface */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|AclCacheInterface */
     protected $aclCache;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|AclPrivilegeConfigurableFilter */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|AclPrivilegeConfigurableFilter */
     protected $configurableFilter;
 
     /**
@@ -174,7 +174,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit_Fr
         $request = new Request();
         $request->setMethod('POST');
 
-        /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject $requestStack */
+        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock(RequestStack::class);
         $requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
 
@@ -210,7 +210,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit_Fr
 
         $handlerInstance = $this->getHandler();
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|AbstractCustomerUserRoleHandler $handler */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|AbstractCustomerUserRoleHandler $handler */
         $handler = $this->getMockBuilder(get_class($handlerInstance))
             ->setMethods(['processPrivileges'])
             ->setConstructorArgs([$this->formFactory, $this->aclCache, $this->privilegeConfig])

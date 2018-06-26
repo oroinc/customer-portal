@@ -9,7 +9,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class ActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
+class ActionPermissionProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ActionPermissionProvider
@@ -17,7 +17,7 @@ class ActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
     protected $actionPermissionProvider;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ResultRecordInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|ResultRecordInterface
      */
     protected $record;
 
@@ -40,10 +40,10 @@ class ActionPermissionProviderTest extends \PHPUnit_Framework_TestCase
         'update'
     ];
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|AuthorizationCheckerInterface */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|AuthorizationCheckerInterface */
     protected $authorizationChecker;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
     protected $tokenAccessor;
 
     /**

@@ -70,7 +70,8 @@ define(function(require) {
         },
 
         initLazyView: function() {
-            return this.initLayout(this.options);
+            var layoutOptions = _.omit(this.options, 'el', 'name');
+            return this.initLayout(layoutOptions);
         },
 
         _onScrollDemand: function() {

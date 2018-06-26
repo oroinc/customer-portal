@@ -35,12 +35,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     protected $formType;
 
     /**
-     * @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $authorizationChecker;
 
     /**
-     * @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $tokenAccessor;
 
@@ -378,7 +378,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|TranslatorInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
      */
     private function createTranslator()
     {

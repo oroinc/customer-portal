@@ -5,7 +5,12 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
             - Length:
                 max: 255
         addresses:
-            - Valid: ~
+            - Valid:
+                groups: [Default]
+            - Valid:
+                groups: [RequireName]
+            - Valid:
+                groups: [RequirePeriod]
             - Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
                 message: One of the addresses must be set as primary.
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~

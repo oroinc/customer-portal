@@ -10,11 +10,11 @@ use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
-class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_TestCase
+class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /** @var EntityRepository|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $customerUserRepository;
 
     /** @var UniqueCustomerUserNameAndEmailValidator */
@@ -41,11 +41,11 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
             ->with(['email' => 'foo', 'isGuest' => false])
             ->willReturn(null);
 
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(ExecutionContextInterface::class);
         $context->expects($this->never())->method('buildViolation');
 
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit_Framework_MockObject_MockObject $constraint */
+        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
 
         $this->validator->initialize($context);
@@ -67,11 +67,11 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
             ->with(['email' => 'foo', 'isGuest' => false])
             ->willReturn(null);
 
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(ExecutionContextInterface::class);
         $context->expects($this->never())->method('buildViolation');
 
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit_Framework_MockObject_MockObject $constraint */
+        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
 
         $this->validator->initialize($context);
@@ -85,11 +85,11 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
 
         $this->customerUserRepository->expects($this->never())->method('findOneBy');
 
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(ExecutionContextInterface::class);
         $context->expects($this->never())->method('buildViolation');
 
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit_Framework_MockObject_MockObject $constraint */
+        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
 
         $this->validator->initialize($context);
@@ -110,10 +110,10 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
             ->with(['email' => 'foo', 'isGuest' => false])
             ->willReturn($existingCustomer);
 
-        /** @var ConstraintViolationBuilderInterface|\PHPUnit_Framework_MockObject_MockObject $violationBuilder */
+        /** @var ConstraintViolationBuilderInterface|\PHPUnit\Framework\MockObject\MockObject $violationBuilder */
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(ExecutionContextInterface::class);
 
         if (!$valid) {
@@ -126,7 +126,7 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
             $context->expects($this->never())->method('buildViolation');
         }
 
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit_Framework_MockObject_MockObject $constraint */
+        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
 
         $this->validator->initialize($context);
@@ -213,10 +213,10 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
             ->with(['email' => 'some@CustomerEmail', 'isGuest' => false])
             ->willReturn($customerUser);
 
-        /** @var ConstraintViolationBuilderInterface|\PHPUnit_Framework_MockObject_MockObject $violationBuilder */
+        /** @var ConstraintViolationBuilderInterface|\PHPUnit\Framework\MockObject\MockObject $violationBuilder */
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(ExecutionContextInterface::class);
 
         $violationBuilder->expects($this->at(0))->method('atPath')->willReturn($violationBuilder);
@@ -225,7 +225,7 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
 
         $context->expects($this->once())->method('buildViolation')->willReturn($violationBuilder);
 
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit_Framework_MockObject_MockObject $constraint */
+        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
 
         $this->validator->initialize($context);
@@ -239,13 +239,13 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit_Framework_Tes
             ->with(['email' => 'some@CustomerEmail', 'isGuest' => false])
             ->willReturn(null);
 
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(ExecutionContextInterface::class);
 
         $context->expects($this->never())->method('buildViolation');
 
 
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit_Framework_MockObject_MockObject $constraint */
+        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
 
         $this->validator->initialize($context);

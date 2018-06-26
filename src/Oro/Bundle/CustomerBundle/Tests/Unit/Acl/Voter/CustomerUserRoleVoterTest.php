@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
+class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CustomerUserRoleVoter
@@ -24,12 +24,12 @@ class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
     protected $voter;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|DoctrineHelper
+     * @var \PHPUnit\Framework\MockObject\MockObject|DoctrineHelper
      */
     protected $doctrineHelper;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ContainerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|ContainerInterface
      */
     protected $container;
 
@@ -81,7 +81,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
             ->with('OroCustomerBundle:CustomerUserRole')
             ->will($this->returnValue($entityRepository));
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|TokenInterface $token */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|TokenInterface $token */
         $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         $this->assertEquals(
             $expected,
@@ -154,7 +154,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
             $this->getMockForUpdateAndView($customerUser, $customerUserRole, $isGranted, 'EDIT');
         }
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|TokenInterface $token */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|TokenInterface $token */
         $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
 
         $this->assertEquals(
@@ -204,7 +204,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
             $this->getMockForUpdateAndView($customerUser, $customerUserRole, $isGranted, 'VIEW');
         }
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|TokenInterface $token */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|TokenInterface $token */
         $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
 
         $this->assertEquals(

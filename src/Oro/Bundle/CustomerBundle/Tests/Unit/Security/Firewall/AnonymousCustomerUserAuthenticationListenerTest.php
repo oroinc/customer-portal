@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit_Framework_TestCase
+class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
@@ -29,22 +29,22 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit_Framework
     protected $listener;
 
     /**
-     * @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $tokenStorage;
 
     /**
-     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $logger;
 
     /**
-     * @var AuthenticationManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthenticationManagerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $authenticationManager;
 
     /**
-     * @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $configManager;
 
@@ -164,7 +164,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit_Framework
     }
 
     /**
-     * @return GetResponseEvent|\PHPUnit_Framework_MockObject_MockObject
+     * @return GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject
      */
     private function getEventMock()
     {

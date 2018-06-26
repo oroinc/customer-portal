@@ -6,14 +6,14 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Twig\OroWebsiteExtension;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 
-class OroWebsiteExtensionTest extends \PHPUnit_Framework_TestCase
+class OroWebsiteExtensionTest extends \PHPUnit\Framework\TestCase
 {
     use TwigExtensionTestCaseTrait;
 
     /** @var OroWebsiteExtension */
     protected $extension;
 
-    /** @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $websiteManager;
 
     /**

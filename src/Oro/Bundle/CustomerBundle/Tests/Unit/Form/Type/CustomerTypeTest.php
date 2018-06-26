@@ -43,12 +43,12 @@ class CustomerTypeTest extends FormIntegrationTestCase
     protected static $users;
 
     /**
-     * @var  EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var  EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $eventDispatcher;
 
     /**
-     * @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $authorizationChecker;
 
@@ -341,7 +341,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|EventDispatcherInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|EventDispatcherInterface
      */
     protected function getEventDispatcher()
     {

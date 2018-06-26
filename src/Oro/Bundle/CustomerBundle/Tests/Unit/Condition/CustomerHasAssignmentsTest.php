@@ -9,11 +9,11 @@ use Oro\Component\ConfigExpression\Exception\InvalidArgumentException;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
 
-class CustomerHasAssignmentsTest extends \PHPUnit_Framework_TestCase
+class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /** @var CustomerAssignHelper|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CustomerAssignHelper|\PHPUnit\Framework\MockObject\MockObject */
     protected $helper;
 
     /** @var CustomerHasAssignments */

@@ -9,14 +9,14 @@ use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class CacheableWebsiteProviderTest extends \PHPUnit_Framework_TestCase
+class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /** @var WebsiteProviderInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteProvider;
 
-    /** @var DoctrineHelper|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
 
     /** @var CacheableWebsiteProvider */

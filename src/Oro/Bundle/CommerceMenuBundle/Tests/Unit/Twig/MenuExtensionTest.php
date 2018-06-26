@@ -9,14 +9,14 @@ use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class MenuItemExtensionTest extends \PHPUnit_Framework_TestCase
+class MenuExtensionTest extends \PHPUnit\Framework\TestCase
 {
     use TwigExtensionTestCaseTrait;
 
-    /** @var MatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var MatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $matcher;
 
-    /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
     private $requestStack;
 
     /** @var MenuExtension */
@@ -48,7 +48,7 @@ class MenuItemExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testIsCurrent()
     {
-        /** @var ItemInterface|\PHPUnit_Framework_MockObject_MockObject $item */
+        /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject $item */
         $item = $this->createMock(ItemInterface::class);
 
         $this->matcher->expects($this->once())
@@ -63,7 +63,7 @@ class MenuItemExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAncestor()
     {
-        /** @var ItemInterface|\PHPUnit_Framework_MockObject_MockObject $item */
+        /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject $item */
         $item = $this->createMock(ItemInterface::class);
 
         $this->matcher
@@ -151,5 +151,25 @@ class MenuItemExtensionTest extends \PHPUnit_Framework_TestCase
                 'result' => '/help?123'
             ],
         ];
+    }
+
+    public function testGetUrlWithBaseUrl()
+    {
+        $passedUrl = '/index.php/contact-us';
+        $request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->getMock();
+
+        $request->expects($this->once())
+            ->method('getBaseUrl')
+            ->willReturn('/index.php');
+
+        $request->expects($this->never())
+            ->method('getUriForPath');
+
+        $this->requestStack
+            ->expects($this->once())
+            ->method('getCurrentRequest')
+            ->willReturn($request);
+
+        $this->assertEquals('/index.php/contact-us', $this->extension->getUrl($passedUrl));
     }
 }

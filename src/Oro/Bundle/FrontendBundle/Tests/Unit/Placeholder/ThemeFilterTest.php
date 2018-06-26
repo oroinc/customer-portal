@@ -5,7 +5,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Placeholder;
 use Oro\Bundle\FrontendBundle\Placeholder\ThemeFilter;
 use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
 
-class ThemeFilterTest extends \PHPUnit_Framework_TestCase
+class ThemeFilterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ThemeRegistry

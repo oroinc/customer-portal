@@ -13,7 +13,7 @@ use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-abstract class AbstractAddressTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractAddressTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 

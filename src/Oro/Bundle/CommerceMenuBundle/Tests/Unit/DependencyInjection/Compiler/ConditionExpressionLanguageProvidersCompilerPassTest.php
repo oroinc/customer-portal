@@ -7,18 +7,18 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class ConditionExpressionLanguageProvidersCompilerPassTest extends \PHPUnit_Framework_TestCase
+class ConditionExpressionLanguageProvidersCompilerPassTest extends \PHPUnit\Framework\TestCase
 {
     public function testProcess()
     {
-        /** @var ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject $container */
+        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $container */
         $container = $this->getMockBuilder(ContainerBuilder::class)->getMock();
         $container->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with(ConditionExpressionLanguageProvidersCompilerPass::TAG_NAME)
             ->willReturn([1 => 'provider_1', 2 => 'provider_2']);
 
-        /** @var Definition|\PHPUnit_Framework_MockObject_MockObject $definition */
+        /** @var Definition|\PHPUnit\Framework\MockObject\MockObject $definition */
         $definition = $this->getMockBuilder(Definition::class)->disableOriginalConstructor()->getMock();
         $definition->expects($this->exactly(2))
             ->method('addMethodCall')

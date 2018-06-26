@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 
-class GuestAccessRequestListenerTest extends \PHPUnit_Framework_TestCase
+class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @internal
@@ -31,32 +31,32 @@ class GuestAccessRequestListenerTest extends \PHPUnit_Framework_TestCase
     const REDIRECT_STATUS_CODE = 302;
 
     /**
-     * @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $tokenAccessor;
 
     /**
-     * @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
      */
     private $configManager;
 
     /**
-     * @var GuestAccessDecisionMakerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var GuestAccessDecisionMakerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $guestAccessDecisionMaker;
 
     /**
-     * @var RouterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $router;
 
     /**
-     * @var GetResponseEvent|\PHPUnit_Framework_MockObject_MockObject
+     * @var GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject
      */
     private $event;
 
     /**
-     * @var Request|\PHPUnit_Framework_MockObject_MockObject
+     * @var Request|\PHPUnit\Framework\MockObject\MockObject
      */
     private $request;
 

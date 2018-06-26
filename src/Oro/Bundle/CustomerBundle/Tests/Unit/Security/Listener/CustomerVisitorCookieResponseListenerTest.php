@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
-class CustomerVisitorCookieResponseListenerTest extends \PHPUnit_Framework_TestCase
+class CustomerVisitorCookieResponseListenerTest extends \PHPUnit\Framework\TestCase
 {
     public function testOnKernelResponse()
     {

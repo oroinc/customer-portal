@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Constraint;
 
 class CustomerType extends AbstractType
 {
@@ -176,6 +177,7 @@ class CustomerType extends AbstractType
         $resolver->setDefaults(
             [
                 'csrf_token_id' => 'customer',
+                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequirePeriod'],
             ]
         );
     }

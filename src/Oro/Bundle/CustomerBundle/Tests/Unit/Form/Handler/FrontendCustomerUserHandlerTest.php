@@ -17,23 +17,23 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class FrontendCustomerUserHandlerTest extends \PHPUnit_Framework_TestCase
+class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /** @var CustomerUserManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
     private $userManager;
 
-    /** @var DoctrineHelper|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
 
-    /** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $eventDispatcher;
 
-    /** @var Request|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
     private $request;
 
-    /** @var FormInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $form;
 
     /** @var FrontendCustomerUserHandler */

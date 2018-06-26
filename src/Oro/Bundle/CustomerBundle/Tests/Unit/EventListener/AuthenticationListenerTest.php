@@ -10,17 +10,17 @@ use Oro\Bundle\CustomerBundle\Security\LoginManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthenticationListenerTest extends \PHPUnit_Framework_TestCase
+class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
 {
     const FIREWALL_NAME = 'test_firewall';
 
     /** @var AuthenticationListener */
     private $listener;
 
-    /** @var LoginManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var LoginManager|\PHPUnit\Framework\MockObject\MockObject */
     private $loginManager;
 
-    /** @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
 
     /**

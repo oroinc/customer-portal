@@ -21,24 +21,24 @@ use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class RolePermissionDatasourceTest extends \PHPUnit_Framework_TestCase
+class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $translator;
 
-    /** @var RolePrivilegeCategoryProvider|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var RolePrivilegeCategoryProvider|\PHPUnit\Framework\MockObject\MockObject */
     protected $categoryProvider;
 
-    /** @var AclRoleHandler|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AclRoleHandler|\PHPUnit\Framework\MockObject\MockObject */
     protected $aclRoleHandler;
 
-    /** @var PermissionManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var PermissionManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $permissionManager;
 
-    /** @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $configEntityManager;
 
-    /** @var RoleTranslationPrefixResolver|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var RoleTranslationPrefixResolver|\PHPUnit\Framework\MockObject\MockObject */
     protected $roleTranslationPrefixResolver;
 
     protected function setUp()
@@ -159,13 +159,13 @@ class RolePermissionDatasourceTest extends \PHPUnit_Framework_TestCase
      * @param string $id
      * @param string $name
      * @param AclPermission $permission
-     * @return AclPrivilege|\PHPUnit_Framework_MockObject_MockObject
+     * @return AclPrivilege|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getAclPrivilege($id, $name, AclPermission $permission)
     {
         $identity = new AclPrivilegeIdentity($id, $name);
         
-        /** @var AclPrivilege|\PHPUnit_Framework_MockObject_MockObject $privilege */
+        /** @var AclPrivilege|\PHPUnit\Framework\MockObject\MockObject $privilege */
         $privilege = $this->getMockBuilder('Oro\Bundle\SecurityBundle\Model\AclPrivilege')
             ->disableOriginalConstructor()
             ->getMock();
@@ -192,7 +192,7 @@ class RolePermissionDatasourceTest extends \PHPUnit_Framework_TestCase
      */
     protected function getDatagrid(Role $role)
     {
-        /** @var DatagridInterface|\PHPUnit_Framework_MockObject_MockObject $datagrid */
+        /** @var DatagridInterface|\PHPUnit\Framework\MockObject\MockObject $datagrid */
         $datagrid = $this->createMock('Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface');
         $datagrid->expects($this->once())
             ->method('getParameters')

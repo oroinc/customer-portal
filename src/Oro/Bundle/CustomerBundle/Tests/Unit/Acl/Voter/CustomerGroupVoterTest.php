@@ -11,7 +11,7 @@ use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class CustomerGroupVoterTest extends \PHPUnit_Framework_TestCase
+class CustomerGroupVoterTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
@@ -29,7 +29,7 @@ class CustomerGroupVoterTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        /** @var DoctrineHelper|\PHPUnit_Framework_MockObject_MockObject $doctrineHelper */
+        /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject $doctrineHelper */
         $doctrineHelper = $this->getMockBuilder('Oro\Bundle\EntityBundle\ORM\DoctrineHelper')
             ->disableOriginalConstructor()
             ->getMock();
@@ -46,7 +46,7 @@ class CustomerGroupVoterTest extends \PHPUnit_Framework_TestCase
                 return get_class($group);
             });
 
-        /** @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject $configManager */
+        /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject $configManager */
         $configManager = $this->getMockBuilder('Oro\Bundle\ConfigBundle\Config\ConfigManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -102,7 +102,7 @@ class CustomerGroupVoterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|TokenInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|TokenInterface
      */
     protected function getToken()
     {

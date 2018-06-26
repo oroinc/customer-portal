@@ -21,29 +21,29 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
-class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framework_TestCase
+class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
     /** @var FrontendCustomerUserRegistrationFormProvider */
     protected $dataProvider;
 
-    /** @var FormFactoryInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $formFactory;
 
-    /** @var CustomerUserRoleRepository|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CustomerUserRoleRepository|\PHPUnit\Framework\MockObject\MockObject */
     protected $roleRepository;
 
-    /** @var ObjectRepository|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ObjectRepository|\PHPUnit\Framework\MockObject\MockObject */
     protected $userRepository;
 
-    /** @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $configManager;
 
-    /** @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $websiteManager;
 
-    /** @var UrlGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $router;
 
     protected function setUp()

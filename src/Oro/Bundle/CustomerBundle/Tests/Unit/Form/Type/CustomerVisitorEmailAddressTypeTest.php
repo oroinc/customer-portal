@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Validation;
 class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
 {
     /**
-     * @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $tokenStorage;
 
@@ -31,7 +31,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
 
     public function testCreateByCustomerVisitor()
     {
-        /** @var AnonymousCustomerUserToken|\PHPUnit_Framework_MockObject_MockObject $token */
+        /** @var AnonymousCustomerUserToken|\PHPUnit\Framework\MockObject\MockObject $token */
         $token = $this->createMock(AnonymousCustomerUserToken::class);
 
         $this->tokenStorage->expects($this->once())
@@ -51,7 +51,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
      */
     public function testSubmitNotValidEmailByCustomerVisitor($submittedData, $expectedError)
     {
-        /** @var AnonymousCustomerUserToken|\PHPUnit_Framework_MockObject_MockObject $token */
+        /** @var AnonymousCustomerUserToken|\PHPUnit\Framework\MockObject\MockObject $token */
         $token = $this->createMock(AnonymousCustomerUserToken::class);
 
         $this->tokenStorage->expects($this->once())
@@ -83,7 +83,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
 
     public function testCreateByCustomerUser()
     {
-        /** @var TokenInterface|\PHPUnit_Framework_MockObject_MockObject $token */
+        /** @var TokenInterface|\PHPUnit\Framework\MockObject\MockObject $token */
         $token = $this->createMock(TokenInterface::class);
 
         $this->tokenStorage->expects($this->once())
@@ -102,7 +102,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
      */
     public function testSubmitNotValidEmailByCustomerUser($submittedData, $expectedError)
     {
-        /** @var TokenInterface|\PHPUnit_Framework_MockObject_MockObject $token */
+        /** @var TokenInterface|\PHPUnit\Framework\MockObject\MockObject $token */
         $token = $this->createMock(TokenInterface::class);
 
         $this->tokenStorage->expects($this->once())
