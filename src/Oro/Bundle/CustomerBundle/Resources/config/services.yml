@@ -22,12 +22,6 @@ parameters:
     oro_customer.firewall_name: frontend
 
 services:
-    oro_customer.deprecated_rest_api_route_options_resolver:
-        class: Oro\Bundle\CustomerBundle\Routing\DeprecatedRestApiRouteOptionsResolver
-        public: false
-        tags:
-            - { name: routing.options_resolver }
-
     oro_customer.security.customer_user_provider:
         class: 'Oro\Bundle\CustomerBundle\Security\CustomerUserProvider'
         arguments:
