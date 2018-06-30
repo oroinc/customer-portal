@@ -5,7 +5,6 @@ namespace Oro\Bundle\FrontendBundle;
 use Oro\Bundle\ApiBundle\DependencyInjection\Compiler\ProcessorBagCompilerPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiDocPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiPass;
-use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\RestDocUrlGeneratorCompilerPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -25,7 +24,6 @@ class OroFrontendBundle extends Bundle
         parent::build($container);
 
         if ($container instanceof ExtendedContainerBuilder) {
-            $container->addCompilerPass(new RestDocUrlGeneratorCompilerPass());
             $container->addCompilerPass(new FrontendApiPass());
             $container->moveCompilerPassBefore(FrontendApiPass::class, ProcessorBagCompilerPass::class);
             $container->addCompilerPass(new FrontendApiDocPass(), PassConfig::TYPE_BEFORE_REMOVING);
