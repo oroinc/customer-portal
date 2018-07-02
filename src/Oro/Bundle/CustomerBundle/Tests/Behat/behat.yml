@@ -217,6 +217,24 @@ oro_behat_extension:
     Account link:
       selector: 'li.topbar-navigation__item a:contains("Account")'
 
+    First Address Default Billing Checkbox:
+        selector: '[name="oro_customer_type[addresses][0][defaults][default][]"][value="billing"]'
+
+    First Address Default Shipping Checkbox:
+        selector: '[name="oro_customer_type[addresses][0][defaults][default][]"][value="shipping"]'
+
+    First Address Billing Checkbox:
+        selector: '[name="oro_customer_type[addresses][0][types][]"][value="billing"]'
+
+    First Address Shipping Checkbox:
+        selector: '[name="oro_customer_type[addresses][0][types][]"][value="shipping"]'
+
+    Second Address Billing Checkbox:
+        selector: '[name="oro_customer_type[addresses][2][types][]"][value="billing"]'
+
+    Second Address Shipping Checkbox:
+        selector: '[name="oro_customer_type[addresses][2][types][]"][value="shipping"]'
+
   pages:
     Customer User Role View:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView
