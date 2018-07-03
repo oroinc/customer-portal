@@ -9,15 +9,15 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\EventListener\WebsiteListener;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 
-class WebsiteListenerTest extends \PHPUnit_Framework_TestCase
+class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CacheableWebsiteProvider|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CacheableWebsiteProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $cacheableProvider;
 
     /** @var WebsiteListener */
     private $listener;
 
-    /** @var UnitOfWork|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var UnitOfWork|\PHPUnit\Framework\MockObject\MockObject */
     private $uow;
 
     protected function setUp()
@@ -31,7 +31,7 @@ class WebsiteListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testOnFlushWhenCacheIsEmpty()
     {
-        /** @var OnFlushEventArgs|\PHPUnit_Framework_MockObject_MockObject $args */
+        /** @var OnFlushEventArgs|\PHPUnit\Framework\MockObject\MockObject $args */
         $args = $this->createMock(OnFlushEventArgs::class);
         $args->expects($this->never())
             ->method('getEntityManager');
@@ -128,11 +128,11 @@ class WebsiteListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return OnFlushEventArgs|\PHPUnit_Framework_MockObject_MockObject
+     * @return OnFlushEventArgs|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getEventArgs()
     {
-        /** @var OnFlushEventArgs|\PHPUnit_Framework_MockObject_MockObject $args */
+        /** @var OnFlushEventArgs|\PHPUnit\Framework\MockObject\MockObject $args */
         $args = $this->createMock(OnFlushEventArgs::class);
 
         $em = $this->createMock(EntityManager::class);

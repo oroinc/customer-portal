@@ -9,7 +9,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class CustomerVisitorManagerTest extends \PHPUnit_Framework_TestCase
+class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
@@ -17,12 +17,12 @@ class CustomerVisitorManagerTest extends \PHPUnit_Framework_TestCase
     const SESSION_ID = 'someSessionId';
 
     /**
-     * @var EntityManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityManager|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $entityManager;
 
     /**
-     * @var DoctrineHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $doctrineHelper;
 

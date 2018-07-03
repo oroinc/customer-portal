@@ -6,7 +6,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider;
 
-class ScopeCriteriaProviderTest extends \PHPUnit_Framework_TestCase
+class ScopeCriteriaProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ScopeCriteriaProvider
@@ -14,7 +14,7 @@ class ScopeCriteriaProviderTest extends \PHPUnit_Framework_TestCase
     private $provider;
 
     /**
-     * @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject
      */
     private $websiteManager;
 

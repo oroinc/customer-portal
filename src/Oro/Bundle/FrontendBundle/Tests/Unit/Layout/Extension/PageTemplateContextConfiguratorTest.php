@@ -7,9 +7,9 @@ use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator;
 use Oro\Component\Layout\LayoutContext;
 
-class PageTemplateContextConfiguratorTest extends \PHPUnit_Framework_TestCase
+class PageTemplateContextConfiguratorTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManagerMock;
 
     /** @var PageTemplateContextConfigurator */

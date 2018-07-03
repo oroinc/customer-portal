@@ -9,7 +9,7 @@ use Oro\Bundle\CustomerBundle\Autocomplete\ParentCustomerSearchHandler;
 use Oro\Bundle\SearchBundle\Engine\Indexer;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
-class ParentCustomerSearchHandlerTest extends \PHPUnit_Framework_TestCase
+class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
 {
     const TEST_ENTITY_CLASS = 'TestEntity';
 
@@ -19,27 +19,27 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit_Framework_TestCase
     protected $searchHandler;
 
     /**
-     * @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $managerRegistry;
 
     /**
-     * @var EntityManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityManager|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $entityManager;
 
     /**
-     * @var EntityRepository|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $entityRepository;
 
     /**
-     * @var Indexer|\PHPUnit_Framework_MockObject_MockObject
+     * @var Indexer|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $indexer;
 
     /**
-     * @var AclHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var AclHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $aclHelper;
 
@@ -214,7 +214,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function getMetaMocks()
     {
@@ -239,7 +239,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param int $id
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function getSearchItem($id)
     {
@@ -274,7 +274,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit_Framework_TestCase
      * @param array $foundElements
      * @param array $resultData
      * @param array $expectedIds
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function assertSearchCall(
         $search,

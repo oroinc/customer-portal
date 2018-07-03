@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Event;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
 
-class CustomerUserEmailSendEventTest extends \PHPUnit_Framework_TestCase
+class CustomerUserEmailSendEventTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CustomerUserEmailSendEvent

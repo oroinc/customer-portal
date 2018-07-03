@@ -8,15 +8,15 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 
-class MenuConditionEvaluatorTest extends \PHPUnit_Framework_TestCase
+class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $logger;
 
     /**
-     * @var ExpressionLanguage|\PHPUnit_Framework_MockObject_MockObject
+     * @var ExpressionLanguage|\PHPUnit\Framework\MockObject\MockObject
      */
     private $expressionLanguage;
 
@@ -126,7 +126,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $conditionString
      *
-     * @return ItemInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ItemInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private function mockMenuItem($conditionString)
     {

@@ -8,17 +8,17 @@ use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class WebsiteUrlResolverTest extends \PHPUnit_Framework_TestCase
+class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
     /**
-     * @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $configManager;
 
     /**
-     * @var UrlGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $urlGenerator;
 

@@ -58,10 +58,6 @@ placeholders:
             applicable: "@oro_layout.helper->isTemplateRequest()"
         email_filter_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
-        dot_menu_js:
-            applicable: "@oro_layout.helper->isTemplateRequest()"
-        pinbar_js:
-            applicable: "@oro_layout.helper->isTemplateRequest()"
         oro_reminder_subscribe_script:
             applicable: "@oro_layout.helper->isTemplateRequest()"
         sync_js:

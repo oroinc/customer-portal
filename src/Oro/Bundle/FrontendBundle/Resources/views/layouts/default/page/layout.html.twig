@@ -90,9 +90,9 @@
     {% endif %}
 
     {% set flashMessageViewOptions = {
-        view: 'oroui/js/app/views/flash-message-view',
+        view: 'oroui/js/app/views/page/messages-view',
         options: {
-            container: '#' ~ attr.id,
+            autoRender: true,
             initializeMessenger: true,
             messages: flashMessages
         }

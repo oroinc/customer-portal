@@ -92,7 +92,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|TranslatorInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
      */
     private function createTranslator()
     {

@@ -21,7 +21,7 @@ class CustomerGroupScopeExtensionTest extends FormIntegrationTestCase
     protected $customerGroupScopeExtension;
 
     /**
-     * @var ScopeManager|\PHPUnit_Framework_MockObject_MockObject $scopeManager
+     * @var ScopeManager|\PHPUnit\Framework\MockObject\MockObject $scopeManager
      */
     protected $scopeManager;
 

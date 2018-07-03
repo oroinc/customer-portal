@@ -6,7 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
 use Oro\Component\PhpUtils\ReflectionUtil;
 
-class CustomerUserApiTest extends \PHPUnit_Framework_TestCase
+class CustomerUserApiTest extends \PHPUnit\Framework\TestCase
 {
     public function testId()
     {

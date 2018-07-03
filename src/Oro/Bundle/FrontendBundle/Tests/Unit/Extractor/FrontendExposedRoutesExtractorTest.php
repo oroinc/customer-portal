@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
-class FrontendExposedRoutesExtractorTest extends \PHPUnit_Framework_TestCase
+class FrontendExposedRoutesExtractorTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {
@@ -16,7 +16,7 @@ class FrontendExposedRoutesExtractorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetExposedRoutes()
     {
-        /** @var RouterInterface|\PHPUnit_Framework_MockObject_MockObject $router */
+        /** @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject $router */
         $router = $this->createMock(RouterInterface::class);
         $routesCollection = new RouteCollection();
 
@@ -35,7 +35,7 @@ class FrontendExposedRoutesExtractorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCachePath()
     {
-        /** @var RouterInterface|\PHPUnit_Framework_MockObject_MockObject $router */
+        /** @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject $router */
         $router = $this->createMock(RouterInterface::class);
         $extractor = new FrontendExposedRoutesExtractor($router, ['route_*'], '/tmp');
         $this->assertEquals('/tmp/fosJsRouting/frontend_data.json', $extractor->getCachePath(''));

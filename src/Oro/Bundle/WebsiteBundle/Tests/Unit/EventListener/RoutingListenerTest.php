@@ -8,7 +8,7 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
-class RoutingListenerTest extends \PHPUnit_Framework_TestCase
+class RoutingListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var RoutingListener
@@ -16,7 +16,7 @@ class RoutingListenerTest extends \PHPUnit_Framework_TestCase
     private $listener;
 
     /**
-     * @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject
      */
     private $websiteManager;
 
@@ -41,7 +41,7 @@ class RoutingListenerTest extends \PHPUnit_Framework_TestCase
         $website = new Website();
         $this->websiteManager->method('getCurrentWebsite')->willReturn($website);
         $request = Request::create('https://orocommerce.com/product');
-        /** @var GetResponseEvent|\PHPUnit_Framework_MockObject_MockObject $event */
+        /** @var GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject $event */
         $event = $this->getMockBuilder(GetResponseEvent::class)->disableOriginalConstructor()->getMock();
         $event->method('getRequest')->willReturn($request);
         $this->listener->onRequest($event);

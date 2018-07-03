@@ -32,7 +32,7 @@ trait AddressEntityTestTrait
         }
 
         $actualAddress = $customer->getAddressByTypeName($searchName);
-        \PHPUnit_Framework_Assert::assertEquals($expectedAddress, $actualAddress);
+        \PHPUnit\Framework\Assert::assertEquals($expectedAddress, $actualAddress);
     }
 
     /**
@@ -89,7 +89,7 @@ trait AddressEntityTestTrait
             $customer->addAddress($address);
         }
 
-        \PHPUnit_Framework_Assert::assertEquals($expectedAddress, $customer->getPrimaryAddress());
+        \PHPUnit\Framework\Assert::assertEquals($expectedAddress, $customer->getPrimaryAddress());
     }
 
     public function getPrimaryAddressProvider()

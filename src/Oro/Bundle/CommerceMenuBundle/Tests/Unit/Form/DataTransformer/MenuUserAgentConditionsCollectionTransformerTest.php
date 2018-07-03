@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\CommerceMenuBundle\Form\DataTransformer\MenuUserAgentConditionsCollectionTransformer;
 
-class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit_Framework_TestCase
+class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var MenuUserAgentConditionsCollectionTransformer
@@ -143,7 +143,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit_Framewor
     /**
      * @param int $conditionGroupIdentifier
      *
-     * @return MenuUserAgentCondition|\PHPUnit_Framework_MockObject_MockObject
+     * @return MenuUserAgentCondition|\PHPUnit\Framework\MockObject\MockObject
      */
     private function mockMenuUserAgentCondition($conditionGroupIdentifier)
     {

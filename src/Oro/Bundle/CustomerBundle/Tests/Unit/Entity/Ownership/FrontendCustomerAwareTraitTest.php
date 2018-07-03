@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Ownership;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\Ownership\FrontendCustomerAwareTrait;
 
-class FrontendCustomerAwareTraitTest extends \PHPUnit_Framework_TestCase
+class FrontendCustomerAwareTraitTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FrontendCustomerAwareTrait
@@ -19,7 +19,7 @@ class FrontendCustomerAwareTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testSetCustomer()
     {
-        /** @var Customer|\PHPUnit_Framework_MockObject_MockObject $customer **/
+        /** @var Customer|\PHPUnit\Framework\MockObject\MockObject $customer **/
         $customer = $this->createMock(Customer::class);
         $this->frontendCustomerAwareTrait->setCustomer($customer);
 

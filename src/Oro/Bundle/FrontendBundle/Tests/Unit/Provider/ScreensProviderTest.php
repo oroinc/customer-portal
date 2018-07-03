@@ -7,7 +7,7 @@ use Oro\Bundle\FrontendBundle\Provider\ScreensProvider;
 use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 
-class ScreensProviderTest extends \PHPUnit_Framework_TestCase
+class ScreensProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @internal
@@ -61,12 +61,12 @@ class ScreensProviderTest extends \PHPUnit_Framework_TestCase
     ];
 
     /**
-     * @var ChainCache|\PHPUnit_Framework_MockObject_MockObject
+     * @var ChainCache|\PHPUnit\Framework\MockObject\MockObject
      */
     private $chainCache;
 
     /**
-     * @var ThemeManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var ThemeManager|\PHPUnit\Framework\MockObject\MockObject
      */
     private $themeManager;
 
@@ -218,7 +218,7 @@ class ScreensProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $screensConfig
      *
-     * @return Theme|\PHPUnit_Framework_MockObject_MockObject
+     * @return Theme|\PHPUnit\Framework\MockObject\MockObject
      */
     private function createThemeMock(array $screensConfig)
     {

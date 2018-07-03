@@ -9,7 +9,7 @@ use Oro\Component\Config\CumulativeResourceManager;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class OroFrontendExtensionTest extends \PHPUnit_Framework_TestCase
+class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoad()
     {

@@ -6,12 +6,12 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Placeholder\PlaceholderFilter;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
-class PlaceholderFilterTest extends \PHPUnit_Framework_TestCase
+class PlaceholderFilterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PlaceholderFilter */
     protected $placeholderFilter;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
     protected $tokenAccessor;
 
     protected function setUp()

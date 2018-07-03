@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
 use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType;
 use Symfony\Component\Form\FormView;
 
-class ParentCustomerSelectTypeTest extends \PHPUnit_Framework_TestCase
+class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ParentCustomerSelectType

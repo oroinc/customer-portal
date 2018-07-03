@@ -15,15 +15,15 @@ use Oro\Bundle\OrganizationBundle\Tests\Unit\Fixture\Entity\Entity;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-class RecordOwnerDataListenerTest extends \PHPUnit_Framework_TestCase
+class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**  @var RecordOwnerDataListener */
     protected $listener;
 
-    /** @var CustomerUserProvider|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
     protected $customerUserProvider;
 
-    /** @var ConfigProvider|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
     protected $configProvider;
 
     protected function setUp()

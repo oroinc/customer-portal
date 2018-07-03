@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\DependencyInjection;
 
+use Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension;
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
 use Oro\Bundle\LayoutBundle\DependencyInjection\OroLayoutExtension;
 use Oro\Component\Config\CumulativeResourceInfo;
@@ -18,19 +19,13 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class OroFrontendExtension extends Extension implements PrependExtensionInterface
 {
-    const ALIAS = 'oro_frontend';
+    public const ALIAS = 'oro_frontend';
 
-    const API_DOC_VIEWS_PARAMETER_NAME = 'oro_frontend.api_doc.views';
+    public const API_DOC_VIEWS_PARAMETER_NAME        = 'oro_frontend.api_doc.views';
+    public const API_DOC_DEFAULT_VIEW_PARAMETER_NAME = 'oro_frontend.api_doc.default_view';
 
-    /**
-     * @internal
-     */
-    const RESOURCES_FOLDER_PLACEHOLDER = '{folder}';
-
-    /**
-     * @internal
-     */
-    const RESOURCES_FOLDER_PATTERN = '[a-zA-Z][a-zA-Z0-9_\-:]*';
+    private const RESOURCES_FOLDER_PLACEHOLDER = '{folder}';
+    private const RESOURCES_FOLDER_PATTERN     = '[a-zA-Z][a-zA-Z0-9_\-:]*';
 
     /**
      * {@inheritdoc}
@@ -56,9 +51,18 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 
         $container->setParameter('oro_frontend.debug_routes', $config['debug_routes']);
 
+        $apiDocViews = $this->getApiDocViews($container);
         $frontendApiDocViews = $config['frontend_api_doc_views'];
         $container->setParameter(self::API_DOC_VIEWS_PARAMETER_NAME, $frontendApiDocViews);
-        $this->setDefaultHtmlFormatterForFrontendApiViews($container, $frontendApiDocViews);
+        $container->setParameter(
+            self::API_DOC_DEFAULT_VIEW_PARAMETER_NAME,
+            $this->getFrontendDefaultApiView($apiDocViews, $frontendApiDocViews)
+        );
+        $container->setParameter(
+            OroApiExtension::API_DOC_DEFAULT_VIEW_PARAMETER_NAME,
+            $this->getBackendDefaultApiView($apiDocViews, $frontendApiDocViews)
+        );
+        $this->setDefaultHtmlFormatterForFrontendApiViews($container, $apiDocViews, $frontendApiDocViews);
     }
 
     /**
@@ -175,15 +179,60 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     }
 
     /**
+     * @param array    $views
+     * @param string[] $frontendViewNames
+     *
+     * @return string|null
+     */
+    private function getBackendDefaultApiView(array $views, array $frontendViewNames): ?string
+    {
+        $backendDefaultView = null;
+        foreach ($views as $name => $view) {
+            if (\array_key_exists('default', $view)
+                && $view['default']
+                && !\in_array($name, $frontendViewNames, true)
+            ) {
+                $backendDefaultView = $name;
+            }
+        }
+
+        return $backendDefaultView;
+    }
+
+    /**
+     * @param array    $views
+     * @param string[] $frontendViewNames
+     *
+     * @return string|null
+     */
+    private function getFrontendDefaultApiView(array $views, array $frontendViewNames): ?string
+    {
+        $frontendDefaultView = null;
+        foreach ($views as $name => $view) {
+            if (\array_key_exists('default', $view)
+                && $view['default']
+                && \in_array($name, $frontendViewNames, true)
+            ) {
+                $frontendDefaultView = $name;
+            }
+        }
+
+        return $frontendDefaultView;
+    }
+
+    /**
      * @param ContainerBuilder $container
+     * @param array            $apiDocViews
      * @param string[]         $frontendViewNames
      */
-    private function setDefaultHtmlFormatterForFrontendApiViews(ContainerBuilder $container, array $frontendViewNames)
-    {
+    private function setDefaultHtmlFormatterForFrontendApiViews(
+        ContainerBuilder $container,
+        array $apiDocViews,
+        array $frontendViewNames
+    ) {
         $config = DependencyInjectionUtil::getConfig($container);
-        $views = $config['api_doc_views'];
         foreach ($frontendViewNames as $name) {
-            if (!array_key_exists($name, $views)) {
+            if (!array_key_exists($name, $apiDocViews)) {
                 throw new LogicException(sprintf(
                     'The view "%s" defined in %s.frontend_api_doc_views is unknown.'
                     . ' Check that it is configured in oro_api.api_doc_views.',
@@ -191,12 +240,24 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
                     self::ALIAS
                 ));
             }
-            if (empty($views[$name]['html_formatter'])
-                || 'oro_api.api_doc.formatter.html_formatter' === $views[$name]['html_formatter']
+            if (empty($apiDocViews[$name]['html_formatter'])
+                || 'oro_api.api_doc.formatter.html_formatter' === $apiDocViews[$name]['html_formatter']
             ) {
                 $config['api_doc_views'][$name]['html_formatter'] = 'oro_frontend.api_doc.formatter.html_formatter';
             }
         }
         DependencyInjectionUtil::setConfig($container, $config);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     *
+     * @return array
+     */
+    private function getApiDocViews(ContainerBuilder $container): array
+    {
+        $config = DependencyInjectionUtil::getConfig($container);
+
+        return $config['api_doc_views'];
     }
 }

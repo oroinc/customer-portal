@@ -14,7 +14,6 @@
         "oro/calendar-bundle": "2.x-dev",
         "oro/marketing": "2.x-dev",
         "oro/commerce": "1.x-dev",
-        "leafo/scssphp": "0.6.3",
         "bower-asset/prism": "1.6.0"
     },
     "extra": {
