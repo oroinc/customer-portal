@@ -16,6 +16,9 @@ use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Acl\Util\ClassUtils;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+/**
+ * This provider is resopnsible for providing current customer user and checking its access
+ */
 class CustomerUserProvider
 {
     /** @var AuthorizationCheckerInterface */
