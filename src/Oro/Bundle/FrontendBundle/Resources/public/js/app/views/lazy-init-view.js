@@ -75,7 +75,7 @@ define(function(require) {
         },
 
         _onScrollDemand: function() {
-            if (this.$el.offset().top < (window.scrollY + window.innerHeight / 0.5)) {
+            if (this.$el.offset().top < (window.pageYOffset + window.innerHeight / 0.5)) {
                 this.initLazyView();
                 this.$window.off('scroll' + this.eventNamespace());
             }
