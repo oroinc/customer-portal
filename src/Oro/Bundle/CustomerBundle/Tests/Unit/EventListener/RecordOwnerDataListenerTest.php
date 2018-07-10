@@ -49,7 +49,7 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
         $entity = new Entity();
         $this->customerUserProvider->expects($this->once())
             ->method('getLoggedUser')
-            ->with(true)
+            ->with(false)
             ->will($this->returnValue($user));
 
         $args = new LifecycleEventArgs($entity, $this->createMock(ObjectManager::class));
