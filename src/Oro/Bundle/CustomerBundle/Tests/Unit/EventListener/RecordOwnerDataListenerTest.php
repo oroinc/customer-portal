@@ -13,7 +13,6 @@ use Oro\Bundle\EntityConfigBundle\Config\Id\EntityConfigId;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\OrganizationBundle\Tests\Unit\Fixture\Entity\Entity;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
 {
@@ -49,7 +48,8 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
     {
         $entity = new Entity();
         $this->customerUserProvider->expects($this->once())
-            ->method('getLoggedUserIncludingGuest')
+            ->method('getLoggedUser')
+            ->with(true)
             ->will($this->returnValue($user));
 
         $args = new LifecycleEventArgs($entity, $this->createMock(ObjectManager::class));
@@ -74,9 +74,7 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
     public function preSetData()
     {
         /** @var EntityConfigId $entityConfigId */
-        $entityConfigId = $this->getMockBuilder(EntityConfigId::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $entityConfigId = $this->createMock(EntityConfigId::class);
 
         $user = new User();
         $user->setId(1);
@@ -87,25 +85,25 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
         $userConfig = new Config($entityConfigId);
         $userConfig->setValues(
             [
-                "frontend_owner_type" => "FRONTEND_USER",
-                "frontend_owner_field_name" => "owner",
-                "frontend_owner_column_name" => "owner_id"
+                'frontend_owner_type' => 'FRONTEND_USER',
+                'frontend_owner_field_name' => 'owner',
+                'frontend_owner_column_name' => 'owner_id'
             ]
         );
         $buConfig = new Config($entityConfigId);
         $buConfig->setValues(
             [
-                "frontend_owner_type" => "FRONTEND_CUSTOMER",
-                "frontend_owner_field_name" => "owner",
-                "frontend_owner_column_name" => "owner_id"
+                'frontend_owner_type' => 'FRONTEND_CUSTOMER',
+                'frontend_owner_field_name' => 'owner',
+                'frontend_owner_column_name' => 'owner_id'
             ]
         );
         $organizationConfig = new Config($entityConfigId);
         $organizationConfig->setValues(
             [
-                "frontend_owner_type" => "FRONTEND_ORGANIZATION",
-                "frontend_owner_field_name" => "owner",
-                "frontend_owner_column_name" => "owner_id"
+                'frontend_owner_type' => 'FRONTEND_ORGANIZATION',
+                'frontend_owner_field_name' => 'owner',
+                'frontend_owner_column_name' => 'owner_id'
             ]
         );
 

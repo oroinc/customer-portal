@@ -50,7 +50,7 @@ class RecordOwnerDataListener
      */
     public function prePersist(LifecycleEventArgs $args)
     {
-        $user = $this->customerUserProvider->getLoggedUserIncludingGuest();
+        $user = $this->customerUserProvider->getLoggedUser(true);
         if (!$user) {
             return;
         }
