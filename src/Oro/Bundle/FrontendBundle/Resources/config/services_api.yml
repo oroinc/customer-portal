@@ -1,7 +1,11 @@
 parameters:
-    # The names of API views that are available for the store frontend
+    # The names of API views that are available for the storefront
     # they are set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
     oro_frontend.api_doc.views: []
+
+    # The name of default API view for the storefront
+    # it is set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+    oro_frontend.api_doc.default_view: ~
 
 services:
     oro_frontend.api.rest.request_handler:
@@ -46,7 +50,7 @@ services:
             - '@oro_frontend.api.rest.doc_url_generator.inner'
             - '@router'
             - '%oro_frontend.api_doc.views%'
-            - ~ # default view; it is set by Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\RestDocUrlGeneratorCompilerPass
+            - '%oro_frontend.api_doc.default_view%'
 
     # default HTML formatter for frontend API views
     # it should be a separate instance because the lists of frontend and backend API views are different
