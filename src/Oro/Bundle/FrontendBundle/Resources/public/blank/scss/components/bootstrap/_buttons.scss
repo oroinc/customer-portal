@@ -1,0 +1,9 @@
+/* @theme: blank; */
+
+@import "components/bootstrap/scss/buttons";
+
+@each $color, $value in $theme-colors {
+    .btn--#{$color} {
+        @extend .btn-#{$color};
+    }
+}

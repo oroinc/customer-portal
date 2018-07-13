@@ -2,12 +2,20 @@ styles:
     inputs:
         - 'bundles/orofrontend/default/vendors/slick/slick.css'
 
-        - 'bundles/orofrontend/blank/scss/variables/bootstrap4-variables-config.scss' # Must be first from *.scss
-        - 'bundles/orofrontend/blank/scss/variables/btn-group-config.scss'
-        - 'bundles/orofrontend/blank/scss/variables/bootstrap4-config.scss'
-        - 'bundles/orofrontend/blank/scss/variables/breadcrumbs-config.scss'
+        # - 'bundles/orofrontend/blank/scss/variables/bootstrap4-variables-config.scss' # Must be first from *.scss
+        # - 'bundles/orofrontend/blank/scss/variables/btn-group-config.scss'
+        # - 'bundles/orofrontend/blank/scss/variables/bootstrap4-config.scss'
+
+        # Bootstrap Required
+        - 'bundles/orofrontend/blank/scss/settings/bootstrap/functions.scss'
+        - 'bundles/orofrontend/blank/scss/settings/bootstrap/mixins.scss'
+        - 'bundles/orofrontend/blank/scss/settings/bootstrap/overrides.scss'
+        - 'bundles/orofrontend/blank/scss/settings/bootstrap/variables.scss'
+        - 'bundles/orofrontend/blank/scss/settings/bootstrap/clearing.scss'
+
         - 'bundles/orofrontend/blank/scss/settings/global-settings.scss'
 
+        - 'bundles/orofrontend/blank/scss/variables/breadcrumbs-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/layout/page-area-container-config.scss'
 
         - 'bundles/orofrontend/blank/scss/variables/datagrid/datagrid-massaction-config.scss'
@@ -34,6 +42,9 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/datagrid-manager-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/warning-list-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/tiny-container-config.scss'
+
+        # Bootstrap Optional Components
+        - 'bundles/orofrontend/blank/scss/components/bootstrap/bootstrap.scss'
 
         - 'bundles/orofrontend/blank/scss/components/ui/jquery-ui.scss'
         - 'bundles/orofrontend/blank/scss/components/ui/datepicker.scss'
