@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -14,6 +15,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInProvider;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class SignInProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,6 +37,9 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
     /** @var CsrfTokenManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $csrfTokenManager;
 
+    /** @var TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $translator;
+
     protected function setUp()
     {
         $this->parameterBag = $this->createMock(ParameterBag::class);
@@ -50,8 +55,10 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->csrfTokenManager = $this->createMock(CsrfTokenManagerInterface::class);
+        $this->translator = $this->createMock(TranslatorInterface::class);
 
         $this->dataProvider = new SignInProvider($this->requestStack, $this->tokenAccessor, $this->csrfTokenManager);
+        $this->dataProvider->setTranslator($this->translator);
     }
 
     public function testGetLastNameWithSession()
@@ -81,7 +88,13 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $dataProvider->getLastName());
     }
 
-    public function testGetErrorWithSession()
+    /**
+     * @dataProvider getErrorExceptionProvider
+     *
+     * @param \Exception $exception
+     * @param string $expected
+     */
+    public function testGetErrorWithSession(\Exception $exception, $expected)
     {
         /** @var SessionInterface|\PHPUnit_Framework_MockObject_MockObject $session */
         $session = $this->createMock(SessionInterface::class);
@@ -98,11 +111,17 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
         $session->expects($this->once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
-            ->will($this->returnValue(new AuthenticationException('error')));
+            ->willReturn($exception);
 
-        $this->assertEquals('error', $this->dataProvider->getError());
+        $this->translator
+            ->expects($this->any())
+            ->method('trans')
+            ->with($this->isType('string'), $this->isType('array'), 'security')
+            ->willReturn('translated error message');
+
+        $this->assertEquals($expected, $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals('error', $this->dataProvider->getError());
+        $this->assertEquals($expected, $this->dataProvider->getError());
     }
 
     public function testGetErrorWithoutSession()
@@ -120,9 +139,16 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $dataProvider->getError());
     }
 
-    public function testGetErrorFromRequestAttributes()
+    /**
+     * @dataProvider getErrorExceptionProvider
+     *
+     * @param \Exception $exception
+     * @param string $expected
+     */
+    public function testGetErrorFromRequestAttributes(\Exception $exception, $expected)
     {
         $dataProvider = new SignInProvider($this->requestStack, $this->tokenAccessor, $this->csrfTokenManager);
+        $dataProvider->setTranslator($this->translator);
 
         /** @var SessionInterface|\PHPUnit_Framework_MockObject_MockObject $session */
         $session = $this->createMock(SessionInterface::class);
@@ -141,11 +167,36 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
-            ->will($this->returnValue(new AuthenticationException('error')));
+            ->willReturn($exception);
 
-        $this->assertEquals('error', $dataProvider->getError());
+        $this->translator
+            ->expects($this->any())
+            ->method('trans')
+            ->with($this->isType('string'), $this->isType('array'), 'security')
+            ->willReturn('translated error message');
+
+        $this->assertEquals($expected, $dataProvider->getError());
         /** test local cache */
-        $this->assertEquals('error', $dataProvider->getError());
+        $this->assertEquals($expected, $dataProvider->getError());
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrorExceptionProvider()
+    {
+        $message = 'error message';
+
+        return [
+            [
+                'exception' => new AuthenticationException($message),
+                'expected' => $message
+            ],
+            [
+                'exception' => new BadCredentialsException(),
+                'expected' => 'translated error message'
+            ]
+        ];
     }
 
     public function testGetCSRFToken()

@@ -297,6 +297,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
 
+    oro_customer.event_listener.authentication_failure:
+        class: Oro\Bundle\UserBundle\EventListener\AuthenticationFailureListener
+        arguments:
+            - 'frontend'
+            - 'oro_customer.login.errors.bad_credentials'
+        tags:
+            - { name: kernel.event_listener, event: security.authentication.failure, method: onAuthenticationFailure, priority: -255 }
+
     oro_customer.acl.group_provider:
         class: 'Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider'
         public: false
@@ -529,6 +537,8 @@ services:
             - "@request_stack"
             - "@oro_security.token_accessor"
             - "@security.csrf.token_manager"
+        calls:
+            - [setTranslator, ['@translator']]
         tags:
             - { name: layout.data_provider, alias: oro_customer_sign_in }
 
