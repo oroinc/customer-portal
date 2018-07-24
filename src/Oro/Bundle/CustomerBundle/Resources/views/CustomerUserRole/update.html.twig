@@ -93,7 +93,7 @@
     {% set dataBlocks = [
         {
             'title': 'oro.customer.sections.general'|trans,
-            'class': 'active',
+            'class': 'nav-item active',
             'subblocks': [
                 {
                     'data': fields
@@ -116,6 +116,7 @@
 
     {% set dataBlocks = dataBlocks|merge([{
         'title': form.vars.privilegeConfig['entity'].label|trans,
+        'class': 'nav-item',
         'subblocks': [
             {
                 'title': '',
@@ -129,6 +130,7 @@
 
     {% set dataBlocks = dataBlocks|merge([{
         'title' : 'oro.customer.customeruser.entity_plural_label'|trans,
+        'class': 'nav-item',
         'subblocks': [{
             'title' : null,
             'useSpan': false,
@@ -146,13 +148,14 @@
     {% endfor %}
     {% if additionalData is not empty %}
         {% set dataBlocks = dataBlocks|merge([{
-        'title': 'oro.customer.sections.additional'|trans,
-        'subblocks': [{
-        'title': '',
-        'useSpan': false,
-        'data' : additionalData
-        }]
-        }] ) %}
+            'title': 'oro.customer.sections.additional'|trans,
+            'class': 'nav-item',
+            'subblocks': [{
+                'title': '',
+                'useSpan': false,
+                'data' : additionalData
+            }]
+        }]) %}
     {% endif %}
 
     {% set data = {

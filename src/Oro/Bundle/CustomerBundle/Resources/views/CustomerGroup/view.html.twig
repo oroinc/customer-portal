@@ -30,11 +30,12 @@
     {% set dataBlocks = [
         {
             'title': 'oro.customer.sections.general'|trans,
-            'class': 'active',
+            'class': 'nav-item active',
             'subblocks': [{'data' : [customerGroupInfo]}]
         },
         {
             'title': 'oro.customer.sections.customergroup.customers'|trans,
+            'class': 'nav-item',
             'subblocks': [{'data' : [customersGrid]}]
         }
     ] %}
