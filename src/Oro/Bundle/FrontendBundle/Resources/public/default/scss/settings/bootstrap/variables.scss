@@ -8,3 +8,8 @@
 //     "primary": #0074d9,
 //     "danger": #ff4136
 // );
+
+@import "components/bootstrap/scss/variables";
+
+// Remove unnecessary default theme colors
+// $theme-colors: map-remove($theme-colors, "info", "light", "dark");

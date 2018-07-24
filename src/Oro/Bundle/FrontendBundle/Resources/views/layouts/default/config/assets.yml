@@ -1,8 +1,7 @@
 styles:
     inputs:
         # Bootstrap Required
-        - 'bundles/orofrontend/blank/scss/settings/bootstrap/overrides.scss': 'bundles/orofrontend/default/scss/settings/bootstrap/overrides.scss'
-        - 'bundles/orofrontend/blank/scss/settings/bootstrap/clearing.scss': 'bundles/orofrontend/default/scss/settings/bootstrap/clearing.scss'
+        - 'bundles/orofrontend/default/scss/settings/bootstrap/variables.scss'
 
         - 'bundles/orofrontend/default/vendors/slick/slick.css'
         - 'bundles/orofrontend/default/scss/settings/global-settings.scss'

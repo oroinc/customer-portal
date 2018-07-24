@@ -1,3 +1,17 @@
 /* @theme: blank; */
 
+// Your variable overrides
+// $body-bg: #000;
+// $body-color: #111;
+
+// $theme-colors: (
+//     "primary": #0074d9,
+//     "danger": #ff4136
+// );
+
 @import "components/bootstrap/scss/variables";
+
+$dt-font-weight: $font-weight-normal;
+
+// Remove unnecessary default theme colors
+// $theme-colors: map-remove($theme-colors, "info", "light", "dark");

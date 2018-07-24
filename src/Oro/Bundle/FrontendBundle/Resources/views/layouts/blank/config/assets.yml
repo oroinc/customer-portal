@@ -9,9 +9,7 @@ styles:
         # Bootstrap Required
         - 'bundles/orofrontend/blank/scss/settings/bootstrap/functions.scss'
         - 'bundles/orofrontend/blank/scss/settings/bootstrap/mixins.scss'
-        - 'bundles/orofrontend/blank/scss/settings/bootstrap/overrides.scss'
         - 'bundles/orofrontend/blank/scss/settings/bootstrap/variables.scss'
-        - 'bundles/orofrontend/blank/scss/settings/bootstrap/clearing.scss'
 
         - 'bundles/orofrontend/blank/scss/settings/global-settings.scss'
 
