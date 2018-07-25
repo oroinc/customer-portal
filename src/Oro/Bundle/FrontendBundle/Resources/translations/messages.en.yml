@@ -61,3 +61,6 @@ oro_frontend:
             label: "Menu"
         back:
             label: "Back"
+
+    combined_buttons:
+        more_actions.label: More actions
