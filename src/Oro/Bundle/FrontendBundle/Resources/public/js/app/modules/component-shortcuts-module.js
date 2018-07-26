@@ -34,4 +34,12 @@ define(function(require) {
             widgetModule: 'orofrontend/blank/js/widgets/print-page-widget'
         }
     });
+
+    ComponentShortcutsManager.add('sticky', {
+        moduleName: 'oroui/js/app/components/view-component',
+        scalarOption: 'offsetSelector',
+        options: {
+            view: 'orofrontend/default/js/app/views/sticky-view'
+        }
+    });
 });
