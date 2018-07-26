@@ -9,11 +9,11 @@
         }
     ],
     "require": {
-        "oro/platform": "3.0.*",
-        "oro/platform-serialised-fields": "3.0.*",
-        "oro/calendar-bundle": "3.0.*",
-        "oro/marketing": "3.0.*",
-        "oro/commerce": "3.0.*",
+        "oro/platform": "3.0.x-dev",
+        "oro/platform-serialised-fields": "3.0.x-dev",
+        "oro/calendar-bundle": "3.0.x-dev",
+        "oro/marketing": "3.0.x-dev",
+        "oro/commerce": "3.0.x-dev",
         "leafo/scssphp": "0.6.3",
         "bower-asset/prism": "1.6.0"
     },
