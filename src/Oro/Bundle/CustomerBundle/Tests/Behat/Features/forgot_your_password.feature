@@ -11,6 +11,7 @@ Feature: Forgot your password
     And I fill form with:
       | Email Address | nonexisting@example.com |
     And I press "Request"
+    And I wait 1 second
     Then I should see validation errors:
       | Email Address | Email address "nonexisting@example.com" does not exist. |
 

@@ -10,6 +10,8 @@ oro_behat_extension:
         - OroDataGridBundle::GridContext
         - OroFormBundle::FormContext
         - OroCustomerBundle::CustomerUserContext
+        - OroFrontendLocalizationBundle::LocalizationSwitcherContext
+        - OroLocaleBundle::LocalizationContext
         - OroCustomerBundle::ACLContext
         - OroCustomerBundle::FrontendGridContext
         - OroSecurityBundle::PermissionContext
@@ -245,3 +247,7 @@ oro_behat_extension:
     Customer User Profile Update:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserProfileUpdate
       route: 'oro_customer_frontend_customer_user_profile_update'
+
+    Customer User Forgot Password:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserForgotPassword
+      route: 'oro_customer_frontend_customer_user_reset_request'

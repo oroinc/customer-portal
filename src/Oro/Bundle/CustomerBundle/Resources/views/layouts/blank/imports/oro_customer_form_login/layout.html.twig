@@ -44,8 +44,15 @@
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' notification'
     }) %}
+
+    {% if text.message is defined and text.message is not empty %}
+        {% set text = text.message %}
+    {% elseif text.messageKey is defined and text.messageData is defined %}
+        {% set text = text.messageKey|trans(text.messageData, 'security') %}
+    {% endif %}
+
     <div class="form-row">
-        <div class="notifications notifications--error">{{ block_widget(block) }}</div>
+        <div class="notifications notifications--error">{{ block_widget(block, {text: text}) }}</div>
     </div>
 {% endblock %}
 
