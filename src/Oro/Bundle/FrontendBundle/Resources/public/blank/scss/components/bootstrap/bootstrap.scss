@@ -1,35 +1,46 @@
 /* @theme: blank; */
 
 // Optional
-@import "components/bootstrap/scss/root";
-@import "components/bootstrap/scss/reboot";
-@import "components/bootstrap/scss/type";
-@import "components/bootstrap/scss/images";
-@import "components/bootstrap/scss/code";
-@import "components/bootstrap/scss/grid";
+// @import "components/bootstrap/scss/root";
+// @import "components/bootstrap/scss/reboot";
+// @import "components/bootstrap/scss/type";
+// @import "components/bootstrap/scss/images";
+// @import "components/bootstrap/scss/code";
+// @import "components/bootstrap/scss/grid";
+
 @import "components/bootstrap/scss/tables";
-@import "components/bootstrap/scss/forms";
+
+// @import "components/bootstrap/scss/forms";
+
 @import "buttons";
 @import "components/bootstrap/scss/transitions";
 @import "components/bootstrap/scss/dropdown";
-@import "components/bootstrap/scss/button-group";
-@import "components/bootstrap/scss/input-group";
-@import "components/bootstrap/scss/custom-forms";
-@import "components/bootstrap/scss/nav";
-@import "components/bootstrap/scss/navbar";
-@import "components/bootstrap/scss/card";
-@import "components/bootstrap/scss/breadcrumb";
-@import "components/bootstrap/scss/pagination";
-@import "components/bootstrap/scss/badge";
-@import "components/bootstrap/scss/jumbotron";
-@import "components/bootstrap/scss/alert";
-@import "components/bootstrap/scss/progress";
-@import "components/bootstrap/scss/media";
-@import "components/bootstrap/scss/list-group";
-@import "components/bootstrap/scss/close";
-@import "components/bootstrap/scss/modal";
+@import "button-group";
+
+// @import "components/bootstrap/scss/input-group";
+// @import "components/bootstrap/scss/custom-forms";
+
+@import "nav";
+
+// @import "components/bootstrap/scss/navbar";
+// @import "components/bootstrap/scss/card";
+// @import "components/bootstrap/scss/breadcrumb";
+// @import "components/bootstrap/scss/pagination";
+// @import "components/bootstrap/scss/badge";
+// @import "components/bootstrap/scss/jumbotron";
+// @import "components/bootstrap/scss/alert";
+// @import "components/bootstrap/scss/progress";
+// @import "components/bootstrap/scss/media";
+// @import "components/bootstrap/scss/list-group";
+// @import "components/bootstrap/scss/close";
+
+@import "modal";
 @import "components/bootstrap/scss/tooltip";
-@import "components/bootstrap/scss/popover";
-@import "components/bootstrap/scss/carousel";
+@import "popover";
+
+// @import "components/bootstrap/scss/carousel";
+
 @import "components/bootstrap/scss/utilities";
-@import "components/bootstrap/scss/print";
+@import "hide-text";
+
+// @import "components/bootstrap/scss/print";

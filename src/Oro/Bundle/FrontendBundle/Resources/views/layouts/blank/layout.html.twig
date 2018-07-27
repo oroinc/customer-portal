@@ -30,7 +30,7 @@
             {% set additionalCss = additionalCss ~ " btn" %}
         {% endif %}
         {% if hasVariants %}
-            {% set additionalCss = " btn-group full" %}
+            {% set additionalCss = " btn-group btn-group--block" %}
         {% endif %}
         {% set attr = attr|merge({ class: attr.class|default('') ~ additionalCss}) %}
 
@@ -79,7 +79,7 @@
 {% endblock %}
 
 {% block combined_buttons_widget %}
-    {% set dropdownActionClass = dropdownActionClass|default('btn btn--info btn--size-l direct-link') %}
+    {% set dropdownActionClass = dropdownActionClass|default('btn btn--block btn--info btn--size-l direct-link') %}
     {% set dropdownToggleClass = dropdownToggleClass|default('btn btn--info btn--size-l dropdown-toggle') %}
     {% set dropdownItemClass = dropdownItemClass|default('dropdown-item') %}
     {% set actionButtonClass = actionButtonClass|default('btn btn--action btn--size-s direct-link') %}
@@ -96,7 +96,7 @@
                 {% set additionalCss = additionalCss ~ " btn--info " %}
             {% endif %}
             {% if hasVariants %}
-                {% set additionalCss = " btn-group full " %}
+                {% set additionalCss = " btn-group btn-group--flex " %}
             {% endif %}
             {% set attr = attr|merge({ class: attr.class|default('') ~ additionalCss}) %}
             {% set dropdownMenuOptions = {

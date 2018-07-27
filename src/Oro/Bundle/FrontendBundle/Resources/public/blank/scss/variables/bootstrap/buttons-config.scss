@@ -1,0 +1,16 @@
+/* @theme: blank; */
+
+/* Style for button without theme modificator */
+$btn-theme: (
+    'background': get-color('additional', 'base'),
+    'border': get-color('additional', 'light'),
+    'hover-background': get-color('additional', 'base'),
+    'hover-border': get-color('additional', 'dark'),
+    'active-background': get-color('additional', 'base'),
+    'active-border': get-color('additional', 'dark'),
+    'focus-border': get-color('additional', 'dark')
+) !default;
+
+$btn-theme-keys: () !default;
+
+$btn-font-family: $base-font !default;

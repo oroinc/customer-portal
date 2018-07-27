@@ -1,0 +1,13 @@
+/* @theme: blank; */
+
+@import "components/bootstrap/scss/button-group";
+
+.btn-group {
+    &--flex {
+        display: flex;
+    }
+
+    &--block {
+        display: block;
+    }
+}

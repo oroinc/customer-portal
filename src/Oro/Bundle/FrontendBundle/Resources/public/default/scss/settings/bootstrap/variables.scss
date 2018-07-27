@@ -1,8 +1,25 @@
 /* @theme: default; */
 
 // Your variable overrides
-// $body-bg: #000;
-// $body-color: #111;
+$border-radius: 5px;
+$border-radius-m: 5px;
+$border-radius-l: 5px;
+
+$btn-border-radius: $border-radius;
+$btn-border-radius-xs: $border-radius-xs;
+$btn-border-radius-s: $border-radius-s;
+$btn-border-radius-m: $border-radius-m;
+$btn-border-radius-l: $border-radius-l;
+
+$input-border-radius: $border-radius;
+$input-btn-padding-y: 10px;
+$input-btn-padding-x: 15px;
+
+$btn-padding-y: $input-btn-padding-y;
+$btn-padding-x: $input-btn-padding-x;
+
+$dropdown-item-padding-y: 8px;
+$dropdown-item-padding-x: 20px;
 
 // $theme-colors: (
 //     "primary": #0074d9,

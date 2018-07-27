@@ -1,0 +1,69 @@
+/* @theme: default; */
+
+$active-box-shadow: inset 0 3px 5px 0 rgba(0, 0, 0, .35) !default;
+
+/* Style for button without theme modificator */
+$btn-theme: (
+    'background': darken(get-color('additional', 'middle'), 44%),
+    'border': darken(get-color('additional', 'middle'), 44%),
+    'hover-background': darken(get-color('additional', 'middle'), 50%),
+    'hover-border': darken(get-color('additional', 'middle'), 50%),
+    'active-background': darken(get-color('additional', 'middle'), 50%),
+    'active-border': darken(get-color('additional', 'middle'), 50%),
+    'active-box-shadow': $active-box-shadow,
+    'focus-border': darken(get-color('additional', 'middle'), 50%)
+);
+
+$btn-theme-action: (
+    'background': get-color('additional', 'darker'),
+    'border': get-color('additional', 'darker'),
+    'hover-background': lighten(get-color('additional', 'darker'), 15%),
+    'hover-border': lighten(get-color('additional', 'darker'), 15%),
+    'active-background': lighten(get-color('additional', 'darker'), 15%),
+    'active-border': lighten(get-color('additional', 'darker'), 15%),
+    'focus-border': lighten(get-color('additional', 'darker'), 15%)
+) !default;
+
+$btn-theme-default: (
+    'background': get-color('additional', 'ultra'),
+    'border': get-color('additional', 'light'),
+    'hover-background': darken(get-color('additional', 'ultra'), 3%),
+    'hover-border': darken(get-color('additional', 'light'), 3%),
+    'active-background': darken(get-color('additional', 'ultra'), 3%),
+    'active-border': darken(get-color('additional', 'light'), 3%),
+    'focus-border': darken(get-color('additional', 'light'), 5%)
+) !default;
+
+$btn-theme-info: (
+    'background': get-color('primary', 'base'),
+    'border': get-color('primary', 'base'),
+    'hover-background': lighten(get-color('primary', 'base'), 5%),
+    'hover-border': lighten(get-color('primary', 'base'), 5%),
+    'active-background': lighten(get-color('primary', 'base'), 5%),
+    'active-border': lighten(get-color('primary', 'base'), 5%),
+    'focus-border': lighten(get-color('primary', 'base'), 5%)
+) !default;
+
+$btn-theme-primary: (
+    'background': get-color('additional', 'middle'),
+    'border': get-color('additional', 'middle'),
+    'color': get-color('additional', 'ultra'),
+    'hover-background': lighten(get-color('additional', 'middle'), 5%),
+    'hover-border': lighten(get-color('additional', 'middle'), 5%),
+    'hover-color': get-color('additional', 'ultra'),
+    'active-background': lighten(get-color('additional', 'middle'), 5%),
+    'active-border': lighten(get-color('additional', 'middle'), 5%),
+    'active-color': get-color('additional', 'ultra'),
+    'focus-border': lighten(get-color('additional', 'middle'), 5%)
+) !default;
+
+$btn-theme-keys: () !default;
+$btn-theme-keys: map-merge(
+    (
+        'action': $btn-theme-action,
+        'default': $btn-theme-default,
+        'info': $btn-theme-info,
+        'primary': $btn-theme-primary
+    ),
+    $btn-theme-keys
+);
