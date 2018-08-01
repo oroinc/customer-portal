@@ -1,5 +1,7 @@
 @fixture-OroCustomerBundle:ImportCustomerUsersFixture.yml
 @regression
+# Unskip after BB-14919
+@skip
 Feature: Import Customer Users
   In order to add multiple customer users at once
   As an Administrator
