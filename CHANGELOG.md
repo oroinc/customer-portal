@@ -1,3 +1,9 @@
+## 3.0.0 (2018-07-27)
+[Show detailed list of changes](incompatibilities-3-0.md)
+### Changed
+#### CustomerBundle
+* The `CustomerGroup::customers` relation was removed as well as other related logic.
+
 ## 3.0.0-rc (2018-05-31)
 [Show detailed list of changes](incompatibilities-3-0-rc.md)
 

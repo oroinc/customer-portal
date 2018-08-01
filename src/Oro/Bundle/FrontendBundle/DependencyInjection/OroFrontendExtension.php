@@ -71,6 +71,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     public function prepend(ContainerBuilder $container)
     {
         if ($container instanceof ExtendedContainerBuilder) {
+            $this->modifySecurityConfig($container);
             $this->modifyFosRestConfig($container);
         }
 
@@ -150,19 +151,42 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     /**
      * @param ExtendedContainerBuilder $container
      */
-    protected function modifyFosRestConfig(ExtendedContainerBuilder $container)
+    private function modifySecurityConfig(ExtendedContainerBuilder $container)
+    {
+        $configs = $container->getExtensionConfig('security');
+        $restApiPatternPlaceholder = '%' . OroApiExtension::REST_API_PATTERN_PARAMETER_NAME . '%';
+        foreach ($configs as $configKey => $config) {
+            if (isset($config['firewalls']) && is_array($config['firewalls'])) {
+                foreach ($config['firewalls'] as $key => $firewall) {
+                    if (!empty($firewall['pattern'])
+                        && $firewall['pattern'] === $restApiPatternPlaceholder
+                        && 0 !== strpos($key, 'frontend_')
+                    ) {
+                        // add backend prefix to the pattern of the backend REST API firewall
+                        $configs[$configKey]['firewalls'][$key]['pattern'] = $this->getBackendApiPattern($container);
+                    }
+                }
+            }
+        }
+        $container->setExtensionConfig('security', $configs);
+    }
+
+    /**
+     * @param ExtendedContainerBuilder $container
+     */
+    private function modifyFosRestConfig(ExtendedContainerBuilder $container)
     {
         $configs = $container->getExtensionConfig('fos_rest');
+        $restApiPatternPlaceholder = '%' . OroApiExtension::REST_API_PATTERN_PARAMETER_NAME . '%';
         foreach ($configs as $configKey => $config) {
             if (isset($config['format_listener']['rules']) && is_array($config['format_listener']['rules'])) {
                 foreach ($config['format_listener']['rules'] as $key => $rule) {
-                    if (!empty($rule['path']) && $rule['path'] === '^/api/(?!(rest|doc)(/|$)+)') {
+                    if (!empty($rule['path']) && $rule['path'] === $restApiPatternPlaceholder) {
                         $rules = $config['format_listener']['rules'];
                         // make a a copy of the backend REST API rule
                         $frontendRule = $rule;
                         // add backend prefix to the path of the backend REST API rule
-                        $backendPrefix = trim(trim($container->getParameter('web_backend_prefix')), '/');
-                        $rule['path'] = str_replace('/api/', '/' . $backendPrefix . '/api/', $rule['path']);
+                        $rule['path'] = $this->getBackendApiPattern($container);
                         $rules[$key] = $rule;
                         // add the frontend REST API rule
                         array_unshift($rules, $frontendRule);
@@ -176,6 +200,20 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         }
 
         $container->setExtensionConfig('fos_rest', $configs);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     *
+     * @return string
+     */
+    private function getBackendApiPattern(ContainerBuilder $container)
+    {
+        $backendPrefix = trim(trim($container->getParameter('web_backend_prefix')), '/');
+        $prefix = $container->getParameter(OroApiExtension::REST_API_PREFIX_PARAMETER_NAME);
+        $pattern = $container->getParameter(OroApiExtension::REST_API_PATTERN_PARAMETER_NAME);
+
+        return str_replace($prefix, '/' . $backendPrefix . $prefix, $pattern);
     }
 
     /**
