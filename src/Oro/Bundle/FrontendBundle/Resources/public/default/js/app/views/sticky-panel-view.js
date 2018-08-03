@@ -20,7 +20,7 @@ define(function(require) {
         options: {
             placeholderClass: 'moved-to-sticky',
             elementClass: 'in-sticky',
-            scrollTimeout: 60,
+            scrollTimeout: 250,
             layoutTimeout: 60
         },
 
@@ -442,9 +442,22 @@ define(function(require) {
 
             $element.data('sticky').$elementPlaceholder.css({
                 display: $element.css('display'),
-                width: $element.data('sticky').autoWidth ? 'auto' : $element.outerWidth(true),
-                height: $element.outerHeight(true)
+                width: $element.data('sticky').autoWidth ? 'auto' : $element.outerWidth(),
+                height: $element.outerHeight(),
+                margin: this.getElementMargin($element[0]) || 0
             });
+        },
+
+        /**
+         * Get margin from element
+         * @param element
+         * @returns {string}
+         */
+        getElementMargin: function(element) {
+            var values = _.map(['top', 'right', 'bottom', 'left'], function(pos) {
+                return window.getComputedStyle(element)['margin-' + pos];
+            });
+            return values.join(' ');
         },
 
         /**
