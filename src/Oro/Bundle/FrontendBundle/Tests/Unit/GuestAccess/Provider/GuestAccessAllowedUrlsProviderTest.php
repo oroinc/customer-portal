@@ -24,7 +24,6 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
             '^/_wdt',
             '^/_fragment',
             '^/js/',
-            '^/api/',
             '^/embedded-form',
             '^/customer/user/login$',
             '^/customer/user/reset-request$',
@@ -33,7 +32,9 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
             '^/customer/user/registration$',
             '^/customer/user/confirm-email$',
             '^/customer/user/reset$',
+            '^/api/',
         ];
+        $this->guestAccessAllowedUrlsProvider->addAllowedUrlPattern('^/api/');
 
         static::assertSame($allowedUrls, $this->guestAccessAllowedUrlsProvider->getAllowedUrlsPatterns());
     }
