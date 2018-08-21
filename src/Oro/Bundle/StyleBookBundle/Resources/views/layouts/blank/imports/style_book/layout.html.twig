@@ -304,10 +304,19 @@
 
     {% if tabs|length %}
         <div {{ block('block_attributes') }}>
-            <ul class="nav nav-tabs nav-tabs-dropdown">
+            <ul class="nav nav-tabs nav-tabs-dropdown" role="tablist">
+                {% set uniqueId = 'dropdown-'|uniqid %}
+
                 {% for item in tabs %}
-                    <li class="nav-item tab{{ item.active ? ' active' : ''}}">
-                        <a href="#{{ item.anchor }}" class="nav-link" data-toggle="tab">{{ item.label|trans|raw }}</a>
+                    <li class="nav-item tab">
+                        <a id="{{ item.anchor ~ uniqueId ~ '-tab' }}"
+                           href="#{{ item.anchor ~ uniqueId }}"
+                           class="nav-link {{ item.active ? ' active' : ''}}"
+                           data-toggle="tab"
+                           role="tab"
+                           aria-selected="{{ item.active ? ' active' : 'false'}}"
+                           aria-controls="{{ item.anchor ~ uniqueId }}"
+                        >{{ item.label|trans|raw }}</a>
                     </li>
                 {% endfor %}
 
@@ -324,7 +333,11 @@
 
             <div class="tab-content" id="tab-container">
                 {% for item in tabs %}
-                    <div id="{{ item.anchor }}" class="tab-pane{{ item.active ? ' active' : '' }}">
+                    <div id="{{ item.anchor ~ uniqueId }}"
+                         class="tab-pane{{ item.active ? ' active' : '' }}"
+                         role="tabpanel"
+                         aria-labelledby="{{ item.anchor ~ uniqueId ~ '-tab' }}"
+                    >
                         {{ block('_' ~ item.widget ~ '_widget') }}
                     </div>
                 {% endfor %}
