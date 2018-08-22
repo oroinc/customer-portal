@@ -55,7 +55,6 @@
     {% set dataBlocks = [
         {
             'title': 'oro.customer.sections.general'|trans,
-            'class': 'nav-item active',
             'subblocks': subblocks
         }
     ] %}
@@ -67,7 +66,6 @@
     {% if additionalData is not empty %}
         {% set dataBlocks = dataBlocks|merge([{
             'title': 'oro.customer.sections.additional'|trans,
-            'class': 'nav-item',
             'subblocks': [{
                 'title': '',
                 'useSpan': false,

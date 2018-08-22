@@ -36,7 +36,6 @@
 
     {% set dataBlocks = [{
         'title': 'oro.customer.sections.general'|trans,
-        'class': 'nav-item active',
         'subblocks': [
             {'data' : [customerInfo]},
             {'data' : [addressBookWidget]},
@@ -46,7 +45,6 @@
     {% set dataBlocks = dataBlocks|merge([
         {
             'title' : 'oro.customer.customeruser.entity_plural_label'|trans,
-            'class': 'nav-item',
             'subblocks': [
                 {
                     'title' : '',
