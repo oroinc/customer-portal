@@ -7,6 +7,9 @@ use Oro\Bundle\WebsiteBundle\Provider\WebsiteProvider as BaseWebsiteProvider;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
+/**
+ * The provider that uses a cache to prevent unneeded loading of website identifiers from the database.
+ */
 class CacheableWebsiteProvider extends BaseWebsiteProvider
 {
     const WEBSITE_IDS_CACHE_KEY = 'oro_website_entity_ids';
@@ -52,12 +55,10 @@ class CacheableWebsiteProvider extends BaseWebsiteProvider
      */
     public function getWebsiteIds()
     {
-        if (!$this->cacheProvider->contains(self::WEBSITE_IDS_CACHE_KEY)) {
+        $websiteIds = $this->cacheProvider->fetch(self::WEBSITE_IDS_CACHE_KEY);
+        if (false === $websiteIds) {
             $websiteIds = $this->websiteProvider->getWebsiteIds();
-
             $this->cacheProvider->save(self::WEBSITE_IDS_CACHE_KEY, $websiteIds);
-        } else {
-            $websiteIds = $this->cacheProvider->fetch(self::WEBSITE_IDS_CACHE_KEY);
         }
 
         return $websiteIds;
