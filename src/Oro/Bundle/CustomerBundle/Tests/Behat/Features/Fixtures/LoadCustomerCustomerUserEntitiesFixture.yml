@@ -1,0 +1,110 @@
+Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    customer_address1:
+        country: '@germany'
+        region: '@berlin'
+        label: 'label'
+        street: 'CustomerStreet1'
+        city: 'CustomerCity1'
+        postalCode: '10011'
+        firstName: 'CustomerFN1'
+        lastName: 'CustomerLN1'
+        frontendOwner: '@customer'
+        owner: '@admin'
+        setDefaults: ['@shippingType', '@billingType']
+        organization: '@organization'
+        systemOrganization: '@organization'
+        primary: true
+    customer_address2:
+        country: '@united_states'
+        region: '@florida'
+        label: 'label'
+        street: 'CustomerStreet2'
+        city: 'CustomerCity2'
+        postalCode: '10012'
+        firstName: 'CustomerFN2'
+        lastName: 'CustomerLN2'
+        frontendOwner: '@customer2'
+        owner: '@admin'
+        setDefaults: ['@shippingType', '@billingType']
+        organization: '@organization'
+        systemOrganization: '@organization'
+        primary: true
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+    customer_user_address1:
+        country: '@germany'
+        region: '@berlin'
+        label: 'label'
+        street: 'CustomerUStreet1'
+        city: 'CustomerUCity1'
+        postalCode: '10013'
+        firstName: 'CustomerUserFN1'
+        lastName: 'CustomerUserLN1'
+        frontendOwner: '@amanda'
+        owner: '@admin'
+        setDefaults: ['@shippingType', '@billingType']
+        organization: '@organization'
+        systemOrganization: '@organization'
+        primary: true
+    customer_user_address2:
+        country: '@united_states'
+        region: '@florida'
+        label: 'label'
+        street: 'CustomerUStreet2'
+        city: 'CustomerUCity2'
+        postalCode: '10014'
+        firstName: 'CustomerUserFN2'
+        lastName: 'CustomerUserLN2'
+        frontendOwner: '@amanda'
+        owner: '@admin'
+        setDefaults: ['@shippingType', '@billingType']
+        organization: '@organization'
+        systemOrganization: '@organization'
+        primary: true
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer:
+        name: 'ParentCustomer'
+        organization: '@organization'
+        owner: '@admin'
+        addresses:
+            - '@customer_address1'
+    customer2:
+        name: 'ChildCustomer'
+        organization: '@organization'
+        owner: '@admin'
+        parent: '@customer'
+        addresses:
+            - '@customer_address2'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    amanda:
+        email: 'AmandaRCole@example.org'
+        username: 'AmandaRCole@example.org'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        firstName: 'Amanda'
+        lastName: 'Cole'
+        enabled: true
+        confirmed: true
+        customer: '@customer'
+        organization: '@organization'
+        role: ['@front_admin']
+        owner: '@admin'
+        addresses:
+            - '@customer_user_address1'
+    nancy:
+        email: 'NancyJSallee@example.org'
+        username: 'NancyJSallee@example.org'
+        password: 'RQ0+FN3TZyBpB4W6FenR4kTugMt0LW6Gcq9hsMkC5hwkA+C9UQBvt2th0RXEbVMG3DcV7LXi+26CjK8L2EkLVQ=='
+        salt: '687ji8ylggkck4wg8gggkooo44gks8g'
+        firstName: 'Nancy'
+        lastName: 'Sallee'
+        enabled: true
+        confirmed: true
+        customer: '@customer'
+        organization: '@organization'
+        role: ['@buyer']
+        owner: '@admin'
+        addresses:
+            - '@customer_user_address2'

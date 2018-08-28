@@ -1064,7 +1064,8 @@ datagrids:
                     left:
                         - { join: address.country, alias: country}
                         - { join: address.region, alias: region}
-
+            hints:
+                - HINT_TRANSLATABLE
         properties:
             id: ~
         columns:
