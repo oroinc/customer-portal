@@ -182,8 +182,26 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
     /**
      * {@inheritdoc}
      */
+    public function findUserByUsername($username)
+    {
+        // Username and email for customer users are equal.
+        // So, search can be performed by email field as well as by username field.
+        return $this->findUserByEmail($username);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findUserBy(array $criteria)
     {
         return parent::findUserBy(array_merge($criteria, ['isGuest' => false]));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function isCaseInsensitiveEmailAddressesEnabled(): bool
+    {
+        return (bool) $this->getConfigValue('oro_customer.case_insensitive_email_addresses_enabled');
     }
 }

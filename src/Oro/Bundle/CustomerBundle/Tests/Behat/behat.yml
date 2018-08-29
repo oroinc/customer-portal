@@ -267,3 +267,7 @@ oro_behat_extension:
     Customer User Forgot Password:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserForgotPassword
       route: 'oro_customer_frontend_customer_user_reset_request'
+
+    Customer User Index:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserIndex
+      route: 'oro_customer_customer_user_index'

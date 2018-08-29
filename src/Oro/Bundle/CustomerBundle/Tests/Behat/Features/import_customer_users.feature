@@ -1,7 +1,6 @@
 @fixture-OroCustomerBundle:ImportCustomerUsersFixture.yml
 @regression
-# Uncoment steps after BB-14919
-@skip
+
 Feature: Import Customer Users
   In order to add multiple customer users at once
   As an Administrator
@@ -36,12 +35,7 @@ Feature: Import Customer Users
       |    |             | Branda     |             | Sanborn   |             |            | BrandaJSanborn@example.org | 1           | Company A                 | ROLE_FRONTEND_BUYER         |                     | 2          | 0       | 1         |          |
       |    | Ruth Pre    | Ruth       | Middle Max  | Maxwell   | Ruth Suff   | 11/06/1988 | RuthWMaxwell@example.org   | 2           | Company A - West Division | ROLE_FRONTEND_BUYER         |                     | 2          | 1       | 0         | 2        |
     When I import file
-    And I wait for action
-#    Error in row #3. You have no access to set given owner
-#    An exception occurred while executing 'INSERT INTO oro_customer_user (serialized_data, confirmed, email, name_prefix, first_name, middle_name, last_name, name_suffix, birthday, created_at, updated_at, enabled, login_count, username, is_guest, password, salt, last_login, confirmation_token, password_requested, password_changed, customer_id, owner_id, website_id, organization_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' with params ["Tjs=", 1, "AmandaRCole@example.org", "Amanda Pre", "Amanda", "Middle Co", "Cole", "Cole Suff", "1980-10-21", "2018-07-31 14:09:43", "2018-07-31 14:09:43", 1, 0, "AmandaRCole@example.org", null, "s9QVoHvTbmvFPFRnhJf7WK\/9FJFDoZitVIZWHeqK37c1qWKDXIQrZwd6cSIR6lZJ3g9\/\/LeEiHL8b7cxTwnjuA==", "ejlrsmhpju0os0w8gos0g4sgos8ogsc", null, null, null, null, 1, 1, 1, 1]:
-#    SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'is_guest' cannot be null
-#    Real result Errors: 2 processed: 3, read: 3, added: 0, updated: 0, replaced: 0
-#    And Email should contains the following "Errors: 0 processed: 3, read: 3, added: 3, updated: 0, replaced: 0" text
+    And Email should contains the following "Errors: 0 processed: 3, read: 3, added: 3, updated: 0, replaced: 0" text
     And I reload the page
     And I should see following grid:
       | Customer                  | First Name   | Last Name | Email Address              | Enabled | Confirmed |
@@ -80,16 +74,23 @@ Feature: Import Customer Users
       | Roles       | Buyer       |
       | Website     | Second      |
 
+  Scenario: Enable Case-Insensitive Email option
+    Given I go to System/Configuration
+    And I follow "Commerce/Customer/Customer Users" on configuration sidebar
+    And I check "Case-Insensitive Email Addresses"
+    When I save form
+    Then I should see "Configuration saved" flash message
+
   Scenario: Update Customer Users
     Given I go to Customers/ Customer Users
     And I fill template with data:
       | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix | Birthday   | Email Address              | Customer Id | Roles 1 Role                | Roles 2 Role | Website Id | Enabled | Confirmed | Owner Id |
       | 2  | Amanda Pre  | Amanda_up  | Middle Co   | Cole      | Cole Suff   | 10/21/1980 |                            | 1           | ROLE_FRONTEND_ADMINISTRATOR |              | 1          | 0       | 1         | 2        |
       | 3  | New Prefix  | Branda     |             | Sanborn   |             | 05/11/1985 | BrandaJSanborn@example.org | 2           | ROLE_FRONTEND_ADMINISTRATOR |              | 1          | 1       | 0         | 1        |
+      |    | None        | None       | None        | None      | None        | 11/06/1990 | ruthwmaxwell@example.org   | 2           | ROLE_FRONTEND_BUYER         |              | 2          | 1       | 1         | 2        |
       | 4  | Ruth Pre    | Ruth       | Middle XXX  | Maxwell   | Ruth XXX    | 11/06/1990 | RuthWMaxwell@example.org   | 2           | ROLE_FRONTEND_BUYER         |              | 2          | 1       | 1         | 2        |
     When I import file
-    And I wait for action
-#    And Email should contains the following "Errors: 0 processed: 3, read: 3, added: 0, updated: 3, replaced: 0" text
+    And Email should contains the following "Errors: 0 processed: 4, read: 4, added: 0, updated: 0, replaced: 4" text
     And I reload the page
     And I should see following grid:
       | Customer                  | First Name   | Last Name | Email Address              | Enabled | Confirmed |
@@ -128,13 +129,20 @@ Feature: Import Customer Users
       | Roles       | Buyer       |
       | Website     | Second      |
 
+  Scenario: Disable Case-Insensitive Email option
+    Given I go to System/Configuration
+    And I follow "Commerce/Customer/Customer Users" on configuration sidebar
+    And I uncheck "Case-Insensitive Email Addresses"
+    When I save form
+    Then I should see "Configuration saved" flash message
+
   Scenario: Export - Import Customer Users
     Given I go to Customers/ Customer Users
     And I press "Export"
     And I should see "Export started successfully. You will receive email notification upon completion." flash message
+    And Email should contains the following "Export performed successfully. 4 customer users were exported" text
     When I import exported file
-    And I wait for action
-#    And Email should contains the following "Errors: 0 processed: 3, read: 3, added: 0, updated: 0, replaced: 3" text
+    And Email should contains the following "Errors: 0 processed: 4, read: 4, added: 0, updated: 0, replaced: 4" text
     And I reload the page
     And I should see following grid:
       | Customer                  | First Name   | Last Name | Email Address              | Enabled | Confirmed |
@@ -193,8 +201,7 @@ Feature: Import Customer Users
       | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix  | Birthday   | Email Address       | Customer Id | Roles 1 Role                | Website Id | Enabled | Confirmed | Owner Id |
       |    | NewUser Pre | NewFirst   | NewMiddle   | NewLast   | NewUser Suff | 10/21/1980 | NewUser@example.org | 1           | ROLE_FRONTEND_ADMINISTRATOR | 1          | 1       | 1         | 1        |
     When I import file
-    And I wait for action
-#    And Email should contains the following "Errors: 1 processed: 0, read: 1, added: 0, updated: 0, replaced: 0" text
+    And Email should contains the following "Errors: 1 processed: 0, read: 1, added: 0, updated: 0, replaced: 0" text
     And I reload the page
     And number of records should be 4
     And I click Logout in user menu
@@ -209,8 +216,7 @@ Feature: Import Customer Users
       | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix  | Birthday   | Email Address       | Customer Id | Roles 1 Role                | Website Id | Enabled | Confirmed | Owner Id |
       |    | NewUser Pre | NewFirst   | NewMiddle   | NewLast   | NewUser Suff | 10/21/1980 | NewUser@example.org | 1           | ROLE_FRONTEND_ADMINISTRATOR | 1          | 1       | 1         | 2        |
     When I import file
-    And I wait for action
-#    And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 1, updated: 0, replaced: 0" text
+    And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 1, updated: 0, replaced: 0" text
     And I reload the page
     And I should see following grid:
       | Customer                  | First Name   | Last Name | Email Address              | Enabled | Confirmed |
@@ -237,8 +243,7 @@ Feature: Import Customer Users
       | ID | Customer Id | Website Id |
       | 5  | 2           | 2          |
     When I import file
-    And I wait for action
-#    And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 0, updated: 0, replaced: 1" text
+    And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 0, updated: 0, replaced: 1" text
     And I reload the page
     And I should see following grid:
       | Customer                  | First Name   | Last Name | Email Address              | Enabled | Confirmed |
@@ -263,8 +268,7 @@ Feature: Import Customer Users
       | ID | Email Address          |
       | 5  | NewUser_UP@example.org |
     When I import file
-    And I wait for action
-#    And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 1, updated: 0, replaced: 0" text
+    And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 0, updated: 0, replaced: 1" text
     And I reload the page
     And I should see following grid:
       | Customer                  | First Name   | Last Name | Email Address              | Enabled | Confirmed |
@@ -291,8 +295,8 @@ Feature: Import Customer Users
       |    | testtest    | test       | test        | test      | Cole Suff   | 10/21/1986 | tester@example.org      | 1           | ROLE_FRONTEND_ADMINISTRATOR  |              | 1          | 0       | 1         | 2        |
     When I import file
     And reload the page
-    And I wait for action
-#    And Email should contains the following "Errors: 2 processed: 2, read: 2, added: 1, updated: 0, replaced: 0" text
+    # Uncomment after BB-14919
+    # And Email should contains the following "Errors: 2 processed: 2, read: 2, added: 1, updated: 0, replaced: 0" text
     And I should see following grid:
       | Customer                  | First Name   | Last Name | Email Address              | Enabled | Confirmed |
       | Company A                 | CustomerUser | One       | user1@example.org          | Yes     | Yes       |
