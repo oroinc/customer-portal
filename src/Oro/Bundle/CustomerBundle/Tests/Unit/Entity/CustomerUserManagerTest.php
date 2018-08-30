@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\UserBundle\Entity\Repository\AbstractUserRepository;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -311,5 +311,66 @@ class CustomerUserManagerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(array_merge($criteria, ['isGuest' => false])));
 
         $this->userManager->findUserBy($criteria);
+    }
+
+    public function testFindUserByEmail()
+    {
+        $email = 'Test@test.com';
+
+        $user = new CustomerUser();
+        $user->setEmail($email);
+
+        $this->assertRepositoryCalled($user);
+        $this->assertConfigManagerCalled();
+
+        self::assertSame($user, $this->userManager->findUserByEmail($email));
+    }
+
+    public function testFindUserByUsername()
+    {
+        $email = 'Test@test.com';
+
+        $user = new CustomerUser();
+        $user->setEmail($email);
+
+        $this->assertRepositoryCalled($user);
+        $this->assertConfigManagerCalled();
+
+        self::assertSame($user, $this->userManager->findUserByUsername($email));
+    }
+
+    /**
+     * @param CustomerUser $user
+     */
+    private function assertRepositoryCalled(CustomerUser $user)
+    {
+        $this->registry
+            ->expects(self::once())
+            ->method('getManagerForClass')
+            ->willReturn($this->om);
+
+        $this->om
+            ->expects(self::once())
+            ->method('getRepository')
+            ->with($this->userManager->getClass())
+            ->willReturn($repository = $this->createMock(AbstractUserRepository::class));
+
+        $repository
+            ->expects(self::once())
+            ->method('findUserByEmail')
+            ->with($user->getEmail(), true)
+            ->willReturn($user);
+    }
+
+    /**
+     * @param bool $result
+     */
+    private function assertConfigManagerCalled(bool $result = true)
+    {
+        $this->configManager
+            ->expects(self::once())
+            ->method('get')
+            ->with('oro_customer.case_insensitive_email_addresses_enabled')
+            ->willReturn($result);
     }
 }

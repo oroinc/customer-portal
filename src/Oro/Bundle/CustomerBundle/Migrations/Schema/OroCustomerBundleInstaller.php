@@ -4,7 +4,6 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Type;
-
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareInterface;
@@ -74,7 +73,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_16_1';
+        return 'v1_16_2';
     }
 
     /**
@@ -171,6 +170,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('customer_id', 'integer', ['notnull' => false]);
         $table->addColumn('username', 'string', ['length' => 255]);
         $table->addColumn('email', 'string', ['length' => 255]);
+        $table->addColumn('email_lowercase', 'string', ['length' => 255]);
         $table->addColumn('name_prefix', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('first_name', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('middle_name', 'string', ['notnull' => false, 'length' => 255]);
@@ -190,6 +190,9 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('created_at', 'datetime', []);
         $table->addColumn('updated_at', 'datetime', []);
         $table->addColumn('website_id', 'integer', ['notnull' => false]);
+
+        $table->addIndex(['email'], 'idx_oro_customer_user_email', []);
+        $table->addIndex(['email_lowercase'], 'idx_oro_customer_user_email_lowercase', []);
 
         $table->setPrimaryKey(['id']);
 

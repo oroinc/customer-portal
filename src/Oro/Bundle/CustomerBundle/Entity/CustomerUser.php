@@ -19,8 +19,14 @@ use Oro\Bundle\UserBundle\Security\AdvancedApiUserInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
- * @ORM\Entity()
- * @ORM\Table(name="oro_customer_user")
+ * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository")
+ * @ORM\Table(
+ *     name="oro_customer_user",
+ *     indexes={
+ *         @ORM\Index(name="idx_oro_customer_user_email", columns={"email"}),
+ *         @ORM\Index(name="idx_oro_customer_user_email_lowercase", columns={"email_lowercase"}),
+ *     }
+ * )
  * @ORM\HasLifecycleCallbacks()
  * @Config(
  *      routeName="oro_customer_customer_user_index",
@@ -163,6 +169,24 @@ class CustomerUser extends ExtendCustomerUser implements
      * )
      */
     protected $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email_lowercase", type="string", length=255)
+     * @ConfigField(
+     *      defaultValues={
+     *          "dataaudit"={
+     *              "auditable"=false
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      },
+     *      mode="hidden"
+     * )
+     */
+    protected $emailLowercase;
 
     /**
      * Name prefix
@@ -643,6 +667,7 @@ class CustomerUser extends ExtendCustomerUser implements
         parent::setUsername($username);
 
         $this->email = $username;
+        $this->emailLowercase = mb_strtolower($username);
 
         return $this;
     }
@@ -663,8 +688,17 @@ class CustomerUser extends ExtendCustomerUser implements
     {
         $this->email = $email;
         $this->username = $email;
+        $this->emailLowercase = mb_strtolower($email);
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailLowercase()
+    {
+        return $this->emailLowercase;
     }
 
     /**

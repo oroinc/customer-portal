@@ -166,7 +166,7 @@ class FrontendRestJsonApiLoginTest extends FrontendWebTestCase
         self::assertCount(0, $user->getApiKeys());
     }
 
-    public function testLoginWithValidCredentialsAndAlreadyGeneratedApiKey()
+    public function testLoginWithValidCredentialsAndAlreadyGeneratedApiKeyWithCaseSensitive()
     {
         /** @var CustomerUser $user */
         $user = $this->getReference(LoadCustomerUserData::EMAIL);
@@ -177,9 +177,59 @@ class FrontendRestJsonApiLoginTest extends FrontendWebTestCase
         $em->persist($apiKey);
         $em->flush();
 
-        $existingApiKey = $apiKey->getApiKey();
+        $configManager = $this
+            ->getClientInstance()
+            ->getContainer()
+            ->get('oro_config.global');
+
+        $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', false);
+        $configManager->flush();
+
+        $response = $this->sendLoginRequest(strtoupper(LoadCustomerUserData::EMAIL), LoadCustomerUserData::PASSWORD);
+
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
 
         $response = $this->sendLoginRequest(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
+
+        $this->assertCustomerUserLoggedIn($response, $user, $apiKey);
+    }
+
+    public function testLoginWithValidCredentialsAndAlreadyGeneratedApiKeyWithCaseInsensitive()
+    {
+        /** @var CustomerUser $user */
+        $user = $this->getReference(LoadCustomerUserData::EMAIL);
+        $apiKey = new CustomerUserApi();
+        $apiKey->setApiKey($apiKey->generateKey());
+        $user->addApiKey($apiKey);
+        $em = $this->getEntityManager();
+        $em->persist($apiKey);
+        $em->flush();
+
+        $configManager = $this
+            ->getClientInstance()
+            ->getContainer()
+            ->get('oro_config.global');
+
+        $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', true);
+        $configManager->flush();
+
+        $response = $this->sendLoginRequest(strtoupper(LoadCustomerUserData::EMAIL), LoadCustomerUserData::PASSWORD);
+
+        $this->assertCustomerUserLoggedIn($response, $user, $apiKey);
+
+        $response = $this->sendLoginRequest(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
+
+        $this->assertCustomerUserLoggedIn($response, $user, $apiKey);
+    }
+
+    /**
+     * @param Response $response
+     * @param CustomerUser $user
+     * @param CustomerUserApi $apiKey
+     */
+    private function assertCustomerUserLoggedIn(Response $response, CustomerUser $user, CustomerUserApi $apiKey)
+    {
+        $existingApiKey = $apiKey->getApiKey();
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
         $content = json_decode($response->getContent(), true);

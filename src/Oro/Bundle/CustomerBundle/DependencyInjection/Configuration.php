@@ -2,11 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\DependencyInjection;
 
+use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
-
+/**
+ * Defines bundle configutation.
+ */
 class Configuration implements ConfigurationInterface
 {
     /**
@@ -46,7 +48,8 @@ class Configuration implements ConfigurationInterface
                 'user_menu_show_items' => ['type' => 'string', 'value' => self::USER_MENU_SHOW_ITEMS_ALL_AT_ONCE],
                 'customer_visitor_cookie_lifetime_days' => ['type' => 'integer', 'value' => 30],
                 'maps_enabled' => ['type' => 'boolean', 'value' => true],
-                'api_key_generation_enabled' => ['type' => 'boolean', 'value' => true]
+                'api_key_generation_enabled' => ['type' => 'boolean', 'value' => true],
+                'case_insensitive_email_addresses_enabled' => ['type' => 'boolean', 'value' => false],
             ]
         );
 

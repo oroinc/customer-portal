@@ -4,17 +4,16 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Tests\Unit\Entity\AbstractUserTest;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Traits\AddressEntityTestTrait;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\UserBundle\Tests\Unit\Entity\AbstractUserTest;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
@@ -315,5 +314,21 @@ class CustomerUserTest extends AbstractUserTest
         $user->removeApiKey($apiKey1);
         $this->assertCount(1, $user->getApiKeys());
         $this->assertSame($apiKey2, $user->getApiKeys()->first());
+    }
+
+    public function testSetEmailGetEmailLowercase()
+    {
+        $user = $this->getUser();
+        $user->setEmail('John.Doe@example.org');
+
+        $this->assertEquals('john.doe@example.org', $user->getEmailLowercase());
+    }
+
+    public function testSetUsernameGetEmailLowercase()
+    {
+        $user = $this->getUser();
+        $user->setUsername('John.Doe@example.org');
+
+        $this->assertEquals('john.doe@example.org', $user->getEmailLowercase());
     }
 }

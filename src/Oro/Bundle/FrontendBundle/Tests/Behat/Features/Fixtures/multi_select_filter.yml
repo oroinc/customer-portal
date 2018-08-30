@@ -1,3 +1,2 @@
 include:
-    - '@OroCustomerBundle:CustomerUserAmandaRCole.yml'
     - '@OroRFPBundle:RFQWorkflows.yml'
