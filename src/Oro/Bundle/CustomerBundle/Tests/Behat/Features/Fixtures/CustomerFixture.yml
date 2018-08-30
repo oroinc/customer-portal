@@ -1,12 +1,12 @@
 Oro\Bundle\CustomerBundle\Entity\Customer:
     customer1:
-        name: 'Assigned'
+        name: 'WithCustomerUser'
         organization: '@organization'
         owner: '@admin'
         createdAt: '2017-10-01 12:00:00'
         updatedAt: '2017-10-01 13:00:00'
     customer2:
-        name: 'NonAssigned'
+        name: 'NoCustomerUser'
         organization: '@organization'
         owner: '@admin'
         createdAt: '2017-10-02 12:00:00'

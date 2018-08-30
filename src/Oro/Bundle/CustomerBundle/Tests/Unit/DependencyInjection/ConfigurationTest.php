@@ -105,7 +105,11 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
                         'enable_swipe_actions_grids' => [
                             'value' => true,
                             'scope' => 'app',
-                        ]
+                        ],
+                        'case_insensitive_email_addresses_enabled' => [
+                            'value' => false,
+                            'scope' => 'app',
+                        ],
                     ]
                 ]
             ]
