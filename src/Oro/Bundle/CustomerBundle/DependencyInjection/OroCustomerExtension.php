@@ -32,6 +32,10 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
         $loader->load('importexport.yml');
 
         $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
+
+        if ('test' === $container->getParameter('kernel.environment')) {
+            $this->configureTestEnvironment($container);
+        }
     }
 
     /**
@@ -50,5 +54,17 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
     public function getAlias()
     {
         return self::ALIAS;
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     */
+    private function configureTestEnvironment(ContainerBuilder $container)
+    {
+        $loader = new Loader\YamlFileLoader(
+            $container,
+            new FileLocator(__DIR__ . '/../Tests/Functional/Environment')
+        );
+        $loader->load('services.yml');
     }
 }

@@ -66,6 +66,8 @@ api:
                     exclude: true
                 confirmationToken:
                     exclude: true
+                emailLowercase:
+                    exclude: true
             actions:
                 create:
                     fields:

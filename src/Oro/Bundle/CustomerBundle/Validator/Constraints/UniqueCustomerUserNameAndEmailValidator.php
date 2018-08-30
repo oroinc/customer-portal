@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
-use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -13,19 +13,20 @@ use Symfony\Component\Validator\ConstraintValidator;
 class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
 {
     /**
-     * @var  EntityRepository
+     * @var CustomerUserManager
      */
-    private $customerUserRepository;
+    private $customerUserManager;
 
     /**
-     * @param EntityRepository $customerUserRepository
+     * @param CustomerUserManager $customerUserManager
      */
-    public function __construct(EntityRepository $customerUserRepository)
+    public function __construct(CustomerUserManager $customerUserManager)
     {
-        $this->customerUserRepository = $customerUserRepository;
+        $this->customerUserManager = $customerUserManager;
     }
 
     /**
+     * @param CustomerUser|string $value
      * @param UniqueCustomerUserNameAndEmail $constraint
      *
      * {@inheritdoc}
@@ -43,17 +44,12 @@ class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
         }
 
         /** @var CustomerUser $existingCustomerUser */
-        $existingCustomerUser = $this->customerUserRepository->findOneBy(
-            [
-                'email' => $value,
-                'isGuest' => false
-            ]
-        );
+        $existingCustomerUser = $this->customerUserManager->findUserByEmail((string)$value);
 
         if ($existingCustomerUser && $id !== $existingCustomerUser->getId()) {
             $this->context->buildViolation($constraint->message)
                 ->atPath('email')
-                ->setInvalidValue('email')
+                ->setInvalidValue($value)
                 ->addViolation();
             return;
         }
