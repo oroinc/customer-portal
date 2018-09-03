@@ -1,4 +1,4 @@
-@name = customer_user_welcome_email
+@name = customer_user_welcome_email_registered_by_admin
 @entityName = Oro\Bundle\CustomerBundle\Entity\CustomerUser
 @subject = Welcome: {{ entity|oro_format_name }}
 @isSystem = 1
@@ -12,6 +12,8 @@
 <h1>Welcome to {{ organizationName }}.</h1>
 
 <div>
+    <p>Please follow the link below to create a password for your new account.</p>
+    <p><a href="{{ resetPasswordUrl }}">{{ resetPasswordUrl }}</a></p>
     <p>To log into your new account, just click 'Sign In' at the top of <a href="{{ frontendUrl }}">{{ frontendUrl }}</a>. Enter the below credentials:<br/>
         <b>Email:</b> {{ entity.email }}<br/>
         <b>Password:</b> This is the password you created. If you ever forget your password, recover it <a href="{{ resetPasswordUrl }}">here</a>.</p>

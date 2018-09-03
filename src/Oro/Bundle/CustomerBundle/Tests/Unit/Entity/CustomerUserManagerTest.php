@@ -134,6 +134,31 @@ class CustomerUserManagerTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testConfirmRegistrationByAdmin()
+    {
+        $user = new CustomerUser();
+        $user->setConfirmed(false);
+
+        $this->emailProcessor->expects($this->once())
+            ->method('sendWelcomeForRegisteredByAdminNotification')
+            ->with($user);
+
+        $this->userManager->confirmRegistrationByAdmin($user);
+
+        $this->assertTrue($user->isConfirmed());
+    }
+
+    public function testSendWelcomeRegisteredByAdminEmail()
+    {
+        $user = new CustomerUser();
+
+        $this->emailProcessor->expects($this->once())
+            ->method('sendWelcomeForRegisteredByAdminNotification')
+            ->with($user);
+
+        $this->userManager->sendWelcomeRegisteredByAdminEmail($user);
+    }
+
     public function testGeneratePassword()
     {
         $password = $this->userManager->generatePassword(10);

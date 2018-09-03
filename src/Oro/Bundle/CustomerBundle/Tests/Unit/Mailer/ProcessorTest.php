@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Mailer;
 
-use Oro\Bundle\UserBundle\Tests\Unit\Mailer\AbstractProcessorTest;
-use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Mailer\Processor;
+use Oro\Bundle\UserBundle\Tests\Unit\Mailer\AbstractProcessorTest;
 
 class ProcessorTest extends AbstractProcessorTest
 {
@@ -55,6 +55,52 @@ class ProcessorTest extends AbstractProcessorTest
         );
 
         $this->mailProcessor->sendWelcomeNotification($this->user, self::PASSWORD);
+    }
+
+    public function testSendWelcomeForRegisteredByAdminNotificationTemplateExists()
+    {
+        $this->emailTemplate->expects($this->once())
+            ->method('getType')
+            ->willReturn('txt');
+
+        $this->objectRepository
+            ->expects($this->once())
+            ->method('findOneBy')
+            ->with(['name' => Processor::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME])
+            ->willReturn($this->emailTemplate);
+
+        $this->assertSendCalledWithoutRepositoryChecking(
+            ['entity' => $this->user],
+            $this->buildMessage($this->user->getEmail())
+        );
+
+        $this->mailProcessor->sendWelcomeForRegisteredByAdminNotification($this->user);
+    }
+
+    public function testSendWelcomeForRegisteredByAdminNotificationTemplateNotExists()
+    {
+        $this->emailTemplate->expects($this->once())
+            ->method('getType')
+            ->willReturn('txt');
+
+        $this->objectRepository
+            ->expects($this->exactly(2))
+            ->method('findOneBy')
+            ->withConsecutive(
+                [['name' => Processor::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME]],
+                [['name' => Processor::WELCOME_EMAIL_TEMPLATE_NAME]]
+            )
+            ->willReturnOnConsecutiveCalls(
+                null,
+                $this->emailTemplate
+            );
+
+        $this->assertSendCalledWithoutRepositoryChecking(
+            ['entity' => $this->user, 'password' => null],
+            $this->buildMessage($this->user->getEmail())
+        );
+
+        $this->mailProcessor->sendWelcomeForRegisteredByAdminNotification($this->user);
     }
 
     public function testSendConfirmationEmail()

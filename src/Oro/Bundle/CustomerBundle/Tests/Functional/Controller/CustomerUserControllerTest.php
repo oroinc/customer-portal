@@ -2,18 +2,23 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadCustomerUserRoles;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserData;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class CustomerUserControllerTest extends AbstractUserControllerTest
+class CustomerUserControllerTest extends WebTestCase
 {
+    use EmailMessageAssertionTrait;
+
     const NAME_PREFIX = 'NamePrefix';
     const MIDDLE_NAME = 'MiddleName';
     const NAME_SUFFIX = 'NameSuffix';
@@ -37,9 +42,9 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
         $this->client->useHashNavigation(true);
         $this->loadFixtures(
             [
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers',
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData',
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserData'
+                LoadCustomers::class,
+                LoadCustomerUserRoleData::class,
+                LoadUserData::class
             ]
         );
     }
@@ -48,22 +53,30 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
      * @dataProvider createDataProvider
      * @param string $email
      * @param string $password
-     * @param bool   $isPasswordGenerate
-     * @param bool   $isSendEmail
-     * @param int    $emailsCount
+     * @param bool $isPasswordGenerate
+     * @param bool $isSendEmail
+     * @param int $emailsCount
      */
     public function testCreate($email, $password, $isPasswordGenerate, $isSendEmail, $emailsCount)
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_create'));
         $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
 
-        /** @var \Oro\Bundle\CustomerBundle\Entity\Customer $customer */
-        $customer = $this->getCustomerRepository()->findOneBy([]);
+        /** @var Customer $customer */
+        $customer = $this->getContainer()
+            ->get('doctrine')
+            ->getManagerForClass(Customer::class)
+            ->getRepository(Customer::class)
+            ->findOneBy([]);
 
-        /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUserRole $role */
-        $role = $this->getUserRoleRepository()->findOneBy(
-            ['role' => CustomerUserRole::PREFIX_ROLE . LoadCustomerUserRoles::ADMINISTRATOR]
-        );
+        /** @var CustomerUserRole $role */
+        $role = $this->getContainer()
+            ->get('doctrine')
+            ->getManagerForClass(CustomerUserRole::class)
+            ->getRepository(CustomerUserRole::class)
+            ->findOneBy(
+                ['role' => CustomerUserRole::PREFIX_ROLE . LoadCustomerUserRoles::ADMINISTRATOR]
+            );
 
         $this->assertNotNull($customer);
         $this->assertNotNull($role);
@@ -97,7 +110,13 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
         $this->assertCount($emailsCount, $emailMessages);
 
         if ($isSendEmail) {
-            $this->assertMessage($email, array_shift($emailMessages));
+            /** @var \Swift_Message $emailMessage */
+            $emailMessage = array_shift($emailMessages);
+            $this->assertWelcomeMessage($email, $emailMessage);
+            $this->assertContains(
+                'Please follow the link below to create a password for your new account.',
+                $emailMessage->getBody()
+            );
         }
 
         $crawler = $this->client->followRedirect();
@@ -107,6 +126,36 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
         $this->assertContains('Customer User has been saved', $crawler->html());
         $this->assertContains($this->getReference(LoadUserData::USER1)->getFullName(), $result->getContent());
         $this->assertContains($this->getReference(LoadUserData::USER2)->getFullName(), $result->getContent());
+    }
+
+    /**
+     * @return array
+     */
+    public function createDataProvider()
+    {
+        return [
+            'simple create' => [
+                'email' => $this->getEmail(),
+                'password' => '123456',
+                'isPasswordGenerate' => false,
+                'isSendEmail' => false,
+                'emailsCount' => 0
+            ],
+            'create with email and without password generator' => [
+                'email' => 'second@example.com',
+                'password' => '123456',
+                'isPasswordGenerate' => false,
+                'isSendEmail' => true,
+                'emailsCount' => 1
+            ],
+            'create with email and password generator' => [
+                'email' => 'third@example.com',
+                'password' => '',
+                'isPasswordGenerate' => true,
+                'isSendEmail' => true,
+                'emailsCount' => 1
+            ]
+        ];
     }
 
     public function testCreateWithLowPasswordComplexity()
@@ -148,9 +197,13 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
     {
         /** @var CustomerUser $customer */
         $customerUser = $this->getContainer()->get('doctrine')
-            ->getManagerForClass('OroCustomerBundle:CustomerUser')
-            ->getRepository('OroCustomerBundle:CustomerUser')
-            ->findOneBy(['email' => self::EMAIL, 'firstName' => self::FIRST_NAME, 'lastName' => self::LAST_NAME]);
+            ->getManagerForClass(CustomerUser::class)
+            ->getRepository(CustomerUser::class)
+            ->findOneBy([
+                'email' => self::EMAIL,
+                'firstName' => self::FIRST_NAME,
+                'lastName' => self::LAST_NAME
+            ]);
         $id = $customerUser->getId();
 
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_update', ['id' => $id]));
@@ -213,8 +266,11 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
             ['_widgetContainer' => 'dialog']
         );
 
-        /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUser $user */
-        $user = $this->getUserRepository()->find($id);
+        /** @var CustomerUser $user */
+        $user = $this->getContainer()->get('doctrine')
+            ->getManagerForClass(CustomerUser::class)
+            ->getRepository(CustomerUser::class)
+            ->find($id);
         $this->assertNotNull($user);
 
         /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUserRole $role */
@@ -234,7 +290,7 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
 
     public function testGetRolesWithCustomerAction()
     {
-        $manager = $this->getObjectManager();
+        $manager = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUserRole::class);
 
         $foreignCustomer = $this->createCustomer('Foreign customer');
         $foreignRole = $this->createCustomerUserRole('Custom foreign role');
@@ -270,7 +326,7 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
 
     public function testGetRolesWithUserAction()
     {
-        $manager = $this->getObjectManager();
+        $manager = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUserRole::class);
 
         $foreignCustomer = $this->createCustomer('User foreign customer');
         $notExpectedRoles[] = $foreignRole = $this->createCustomerUserRole('Custom user foreign role');
@@ -295,7 +351,7 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
                 'oro_customer_customer_user_roles',
                 [
                     'customerUserId' => $customerUser->getId(),
-                    'customerId'     => $userCustomer->getId(),
+                    'customerId' => $userCustomer->getId(),
                 ]
             ),
             ['_widgetContainer' => 'widget']
@@ -336,7 +392,7 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
                 'oro_customer_customer_user_roles',
                 [
                     'customerUserId' => $customerUser->getId(),
-                    'error'         => $errorMessage
+                    'error' => $errorMessage
                 ]
             ),
             ['_widgetContainer' => 'widget']
@@ -355,7 +411,9 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
         $customer = new Customer();
         $customer->setName($name);
         $customer->setOrganization($this->getDefaultOrganization());
-        $this->getObjectManager()->persist($customer);
+        $this->getContainer()->get('doctrine')
+            ->getManagerForClass(Customer::class)
+            ->persist($customer);
 
         return $customer;
     }
@@ -369,7 +427,9 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
         $role = new CustomerUserRole($name);
         $role->setLabel($name);
         $role->setOrganization($this->getDefaultOrganization());
-        $this->getObjectManager()->persist($role);
+        $this->getContainer()->get('doctrine')
+            ->getManagerForClass(CustomerUserRole::class)
+            ->persist($role);
 
         return $role;
     }
@@ -384,7 +444,9 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
         $customerUser->setEmail($email);
         $customerUser->setPassword('password');
         $customerUser->setOrganization($this->getDefaultOrganization());
-        $this->getObjectManager()->persist($customerUser);
+        $this->getContainer()->get('doctrine')
+            ->getManagerForClass(CustomerUser::class)
+            ->persist($customerUser);
 
         return $customerUser;
     }
@@ -394,14 +456,17 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
      */
     protected function getDefaultOrganization()
     {
-        return $this->getObjectManager()->getRepository('OroOrganizationBundle:Organization')->findOneBy([]);
+        return $this->getContainer()->get('doctrine')
+            ->getManagerForClass(Organization::class)
+            ->getRepository(Organization::class)
+            ->findOneBy([]);
     }
 
     /**
      * @param CustomerUserRole[] $expectedRoles
      * @param CustomerUserRole[] $notExpectedRoles
-     * @param string            $content
-     * @param CustomerUser|null  $customerUser
+     * @param string $content
+     * @param CustomerUser|null $customerUser
      */
     protected function assertRoles(
         array $expectedRoles,
