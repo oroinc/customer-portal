@@ -88,6 +88,7 @@ Feature: Customer User Case Insensitive Email Addresses
     When I press "Create An Account"
     Then I should see that "Customer User Registration Error Container" contains "This email is already used."
 
+  @skip
   Scenario: Check that you cant enable "Case Insensitive Email Addresses" options while there are customer users with same lowercase emails exist
     Given I proceed as the Admin
     When I go to System/Configuration
@@ -122,6 +123,7 @@ Feature: Customer User Case Insensitive Email Addresses
       | first customer |
       | OroCommerce    |
 
+  @skip
   Scenario: Create customer user from the Admin panel with enabled "Case Insensitive Email Addresses"
     Given I go to Customers/ Customer Users
     And I click "Create Customer User"
@@ -139,6 +141,7 @@ Feature: Customer User Case Insensitive Email Addresses
     Then I should see validation errors:
       | Email Address | This email is already used. |
 
+  @skip
   Scenario: Create second customer user from the Admin panel with enabled "Case Insensitive Email Addresses"
     Given I go to Customers/ Customer Users
     And I click "Create Customer User"
