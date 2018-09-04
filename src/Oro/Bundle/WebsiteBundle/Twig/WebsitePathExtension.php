@@ -6,6 +6,9 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Adds twig functions for url generation
+ */
 class WebsitePathExtension extends \Twig_Extension
 {
     const NAME = 'oro_website_path';

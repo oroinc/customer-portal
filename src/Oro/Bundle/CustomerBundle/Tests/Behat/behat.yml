@@ -45,6 +45,11 @@ oro_behat_extension:
           Second State:
             locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_region-uid")]/input'
             type: xpath
+
+    CustomerUserRoleGrid:
+      selector: '[id^="grid-customer-user-role-permission-grid"]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+
     Customer Users Grid:
       selector: '[id^="grid-frontend-customer-customer-user-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
