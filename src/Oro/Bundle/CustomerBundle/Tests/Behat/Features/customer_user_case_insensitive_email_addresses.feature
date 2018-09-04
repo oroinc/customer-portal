@@ -115,12 +115,10 @@ Feature: Customer User Case Insensitive Email Addresses
     Then I should see "there are existing customer users who have identical lowercase emails"
     When I click "Click here"
     Then I should be on Customer User Index page
-    And records in current page grid should be 7
-    And I should see following records in grid:
-      | first customer |
-      | first customer |
-      | first customer |
-      | OroCommerce    |
+    And I should see following grid:
+      | Customer       | First Name | Last Name | Email Address           | Enabled | Confirmed | Guest |
+      | first customer | Amanda     | Cole      | AmandaRCole@example.org | Yes     | Yes       | No    |
+      | OroCommerce    | Ruth       | Maxwell   | amandarcole@example.org | Yes     | No        | No    |
 
   Scenario: Create customer user from the Admin panel with enabled "Case Insensitive Email Addresses"
     Given I go to Customers/ Customer Users
