@@ -450,6 +450,8 @@ services:
             - [ setHistoryItemEntityFQCN, ['%oro_customer.entity.navigation_history_item.class%']]
             - [ setUserEntityFQCN, ['%oro_customer.entity.customer_user.class%']]
             - [ setNavigationHistoryItemType, ['frontend_history']]
+            - [ addExcludedRoute, ['oro_frontend_exception']]
+            - [ addExcludedRoute, ['oro_frontend_rest_api_doc']]
 
     oro_customer.item.builder.history:
         class: 'Oro\Bundle\NavigationBundle\Entity\Builder\HistoryItemBuilder'
