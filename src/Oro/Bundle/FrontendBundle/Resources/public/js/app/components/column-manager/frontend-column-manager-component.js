@@ -15,7 +15,14 @@ define(function(require) {
          * Check if filters enabled
          * @type {boolean}
          */
-        enableFilters: false
+        enableFilters: false,
+
+        /**
+         * @inheritDoc
+         */
+        constructor: function FrontendColumnManagerComponent() {
+            FrontendColumnManagerComponent.__super__.constructor.apply(this, arguments);
+        }
     });
 
     return FrontendColumnManagerComponent;
