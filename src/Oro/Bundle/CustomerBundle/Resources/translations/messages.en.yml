@@ -575,7 +575,7 @@ oro.customer:
             api_key_generation_enabled.label: 'Enable API key generation'
             case_insensitive_email_addresses_enabled:
                 label: 'Case-Insensitive Email Addresses'
-                tooltip: 'If this option is enabled the letter case will ignored when comparing email addresses. For example, john.doe@example.com and John.Doe@example.com will be considered equal.'
+                tooltip: 'If this option is enabled, the letter case will be ignored when comparing email addresses. For example, john.doe@example.com and John.Doe@example.com will be considered equal.'
 
     security:
         permissions: 'Action Permissions'
