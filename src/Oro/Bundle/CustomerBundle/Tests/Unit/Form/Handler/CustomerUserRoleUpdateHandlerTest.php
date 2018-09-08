@@ -2,8 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -287,11 +290,25 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->method('create')
             ->willReturn($form);
 
-        $objectManager = $this->createMock(ObjectManager::class);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
         $this->managerRegistry->expects($this->any())
             ->method('getManagerForClass')
             ->with(get_class($role))
             ->willReturn($objectManager);
+
+        $configuration = $this->createMock(Configuration::class);
+        $cache = $this->createMock(ArrayCache::class);
+        $this->managerRegistry->expects($this->once())
+            ->method('getManager')
+            ->willReturn($objectManager);
+        $objectManager->expects($this->once())
+            ->method('getConfiguration')
+            ->willReturn($configuration);
+        $configuration->expects($this->once())
+            ->method('getQueryCacheImpl')
+            ->willReturn($cache);
+        $cache->expects($this->once())
+            ->method('deleteAll');
 
         $expectedFirstEntityPrivilege = $this->createPrivilege('entity', 'entity:FirstClass', 'VIEW');
         $expectedFirstEntityPrivilege->setGroup(CustomerUser::SECURITY_GROUP);

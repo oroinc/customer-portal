@@ -316,7 +316,7 @@ services:
         arguments:
             - "@oro_security.acl_helper"
         tags:
-            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after.frontend-customer-customer-user-roles-grid, method: onBuildAfter }
+            - { name: kernel.event_listener, event: oro_datagrid.orm_datasource.result.before.frontend-customer-customer-user-roles-grid, method: onResultBefore }
 
     oro_customer.event_listener.datagrid.customer_user:
         class: 'Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserDatagridListener'
@@ -1032,3 +1032,8 @@ services:
             - '@?security.acl.voter.basic_permissions'
             - '@oro_customer.security.orm.ownership_sql_walker_builder.inner'
             - '@oro_security.acl.group_provider.chain'
+
+    oro_customer.access_rule.self_managed_public_customer_user_role:
+        class: Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule
+        tags:
+            - { name: oro_security.access_rule, priority: -200 }
