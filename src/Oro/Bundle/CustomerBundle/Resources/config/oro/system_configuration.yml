@@ -74,14 +74,6 @@ system_configuration:
                 label: oro.customer.system_configuration.fields.company_name_field_enabled.label
                 tooltip: oro.customer.system_configuration.fields.company_name_field_enabled.tooltip
                 required: false
-        oro_customer.send_password_in_welcome_email:
-            data_type: boolean
-            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
-            priority: 80
-            options:
-                label: oro.customer.system_configuration.fields.send_password_in_welcome_email.label
-                tooltip: oro.customer.system_configuration.fields.send_password_in_welcome_email.tooltip
-                required: false
         oro_customer.registration_instructions_enabled:
             data_type: boolean
             type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
@@ -185,8 +177,6 @@ system_configuration:
                                             - oro_customer.confirmation_required
                                             - oro_customer.auto_login_after_registration
                                             - oro_customer.company_name_field_enabled
-                                            # The backend user should not be able to enable this option in the UI
-                                            #- oro_customer.send_password_in_welcome_email
                                             - oro_customer.registration_instructions_enabled
                                             - oro_customer.registration_instructions_text
                                             - oro_customer.case_insensitive_email_addresses_enabled

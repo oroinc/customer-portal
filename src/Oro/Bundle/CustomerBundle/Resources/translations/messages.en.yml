@@ -559,7 +559,6 @@ oro.customer:
             confirmation_required.label: 'Confirmation Required'
             auto_login_after_registration.label: 'Auto login'
             registration_link_enabled.label: 'Show Registration Link'
-            send_password_in_welcome_email.label: 'Send plain text password in welcome emails'
             registration_instructions_enabled.label: 'Show Registration Instructions'
             registration_instructions_text.label: 'Registration Instructions Text'
             company_name_field_enabled.label: 'Require company name'
