@@ -6,7 +6,6 @@ config:
     map:
         '*':
             'oroui/templates/modal-dialog.html': 'orofrontend/default/templates/ui/modal-dialog.html'
-            'oroui/templates/standart-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/delete-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/message-item.html': 'orofrontend/default/templates/ui/message-item.html'
             'oroui/templates/loading-mask-view.html': 'orofrontend/templates/ui/loading-mask-view.html'

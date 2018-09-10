@@ -1,24 +1,25 @@
-<div class="modal-dialog modal-dialog--centered" aria-hidden="false">
+<div class="modal-dialog modal-dialog--centered" aria-hidden="false" role="document">
     <div class="modal-content">
         <div class="modal-dialog__body">
-            <button type="button" class="close btn_close" data-dismiss="modal" aria-label="Close">
-                <i aria-hidden="true" class="fa-close"></i>
+            <button type="button" class="close <%= closeButtonClass %>" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" class="fa-close"></span>
             </button>
             <% if (title) { %>
-            <div class="page-title-wrapper">
-                <h2 class="page-title"><%= title %></h2>
-            </div>
+                <div class="page-title-wrapper">
+                    <h2 id="<%- modalId %>" class="page-title"><%= title %></h2>
+                </div>
             <% } %>
             <div><%= content %></div>
-
-            <div class="buttons-equal">
-                <% if (allowCancel && cancelText) { %>
-                <button class="<%= cancelButtonClass %>" data-dismiss="modal" aria-label="Close"><%= cancelText %></button>
-                <% } %>
-                <% if (allowOk && okText) { %>
-                <button class="<%= okButtonClass %>" data-dismiss="modal" aria-label="Close"><%= okText %></button>
-                <% } %>
-            </div>
+            <% if (allowCancel && allowOk ) { %>
+                <div class="buttons-equal">
+                    <% if (allowCancel && cancelText) { %>
+                        <button class="cancel <%= cancelButtonClass %>" data-dismiss="modal"><%= cancelText %></button>
+                    <% } %>
+                    <% if (allowOk && okText) { %>
+                        <button class="ok <%= okButtonClass %>"><%= okText %></button>
+                    <% } %>
+                </div>
+            <% } %>
         </div>
     </div>
 </div>

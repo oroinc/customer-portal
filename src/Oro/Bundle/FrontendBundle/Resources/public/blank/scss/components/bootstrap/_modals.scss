@@ -38,14 +38,25 @@
     }
 }
 
+.modal-backdrop {
+    &.show {
+        opacity: $modal-backdrop-opacity;
+    }
+}
+
 .modal {
     &:not(.not-expand) {
+        &.show,
         &.in {
             .modal-dialog {
                 // Bootstrap override
                 transform: translate(-50%, -50%);
             }
         }
+    }
+
+    &.show .modal-dialog {
+        transform: translate(0, 0);
     }
 }
 
