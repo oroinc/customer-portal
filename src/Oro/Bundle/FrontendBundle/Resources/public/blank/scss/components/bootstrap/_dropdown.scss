@@ -1,0 +1,16 @@
+/* @theme: blank; */
+
+@import "components/bootstrap/scss/dropdown";
+
+// Should be removed when bootstrap updated
+.open {
+    > .dropdown-menu {
+        @extend .dropdown-menu.show;
+    }
+}
+
+.dropdown-toggle--no-caret {
+    &:after {
+        content: none;
+    }
+}
