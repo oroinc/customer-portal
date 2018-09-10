@@ -1,0 +1,22 @@
+api:
+    entity_aliases:
+        Oro\Bundle\ApiBundle\Tests\Functional\Environment\Model\TestUnaccessibleModel:
+            alias: testapiunaccessiblemodel
+            plural_alias: testapiunaccessiblemodel
+
+    entities:
+        # this resource is used to test that 4xx responses for storefront visitors are correct
+        Oro\Bundle\ApiBundle\Tests\Functional\Environment\Model\TestUnaccessibleModel:
+            identifier_field_names: [id]
+            fields:
+                id:
+                    data_type: int
+                name:
+                    data_type: string
+            actions:
+                get: true
+                get_list: false
+                create: false
+                update: false
+                delete: false
+                delete_list: false

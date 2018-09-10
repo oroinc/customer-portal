@@ -33,3 +33,15 @@ $filter-toggle-mode-open-filter-criteria-selector-border-bottom-color: transpare
 $filter-manager-toggle-mode-trigger-side-offset: $offset-x-m !default;
 $filter-manager-toggle-mode-trigger-offset: 0 $filter-manager-toggle-mode-trigger-side-offset !default;
 $filter-manager-toggle-mode-trigger-font: $base-font-size $base-font !default;
+
+$filter-manager-tablet-toggle-mode-filter-date-range-width: 100% !default;
+
+$filter-manager-mobile-landscape-toggle-mode-filter-select-oro-wrapper-width: 30% !default;
+$filter-manager-mobile-landscape-toggle-mode-filter-date-range-width: 70% !default;
+
+$filter-manager-mobile-toggle-mode-filter-date-range-width: 100% !default;
+$filter-manager-mobile-toggle-mode-filter-date-range-display: block !default;
+
+$filter-manager-mobile-toggle-mode-filter-date-width: 100% !default;
+
+$filter-manager-mobile-toggle-mode-filter-separator-display: none !default;

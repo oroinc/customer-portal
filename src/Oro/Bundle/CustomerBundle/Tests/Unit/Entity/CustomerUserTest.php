@@ -315,4 +315,20 @@ class CustomerUserTest extends AbstractUserTest
         $this->assertCount(1, $user->getApiKeys());
         $this->assertSame($apiKey2, $user->getApiKeys()->first());
     }
+
+    public function testSetEmailGetEmailLowercase()
+    {
+        $user = $this->getUser();
+        $user->setEmail('John.Doe@example.org');
+
+        $this->assertEquals('john.doe@example.org', $user->getEmailLowercase());
+    }
+
+    public function testSetUsernameGetEmailLowercase()
+    {
+        $user = $this->getUser();
+        $user->setUsername('John.Doe@example.org');
+
+        $this->assertEquals('john.doe@example.org', $user->getEmailLowercase());
+    }
 }

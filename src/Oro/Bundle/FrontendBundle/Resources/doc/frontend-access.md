@@ -15,13 +15,14 @@ When access is disabled, all non-authenticated visitors will be redirected to th
 
 Few system URLs are still available, even if access for non-authenticated visitors is restricted.
 A list of patterns of those URLs can be found in `Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider`.
-To create your own list of allowed URL patterns, you can decorate the `oro_frontend.guest_access.provider.guest_access_urls_provider` service and implement `Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProviderInterface`.
+To add a pattern to the list of allowed URL patterns you can call `addAllowedUrlPattern` of `oro_frontend.guest_access.provider.guest_access_urls_provider` service or create your own list by decorating the this service with a class implements `Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProviderInterface`.
 
 ```yaml
     acme_frontend.guest_access.provider.guest_access_urls_provider:
         class: Acme\Bundle\MyFrontendBundle\GuestAccess\Provider\MyGuestAccessAllowedUrlsProvider
         decorates: oro_frontend.guest_access.provider.guest_access_urls_provider
 ```
+
 ## Frontend Datagrids
 
 In order to prevent displaying the management console datagrids on the store frontend, `frontend` option was added

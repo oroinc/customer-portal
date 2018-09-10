@@ -6,8 +6,6 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData as OroLoadCustomerUserData;
-use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory;
-use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 /**
@@ -70,31 +68,6 @@ class CustomerUserRoleControllerTest extends WebTestCase
 
         $this->currentUser = $this->getCurrentUser();
         $this->predefinedRole = $this->getPredefinedRole();
-
-        $this->warmUpAces();
-    }
-
-    protected function warmUpAces()
-    {
-        $classes = [
-            $this->getContainer()->getParameter('oro_customer.entity.customer_user.class'),
-            $this->getContainer()->getParameter('oro_customer.entity.customer_user_role.class'),
-        ];
-
-        /** @var AclManager $aclManager */
-        $aclManager = $this->getContainer()->get('oro_security.acl.manager');
-        $extension = $aclManager->getExtensionSelector()->select('entity:(root)');
-
-        foreach ($classes as $class) {
-            $aclManager->setPermission(
-                $aclManager->getSid(ObjectIdentityFactory::ROOT_IDENTITY_TYPE),
-                $aclManager->getOid(
-                    'entity:' . $class
-                ),
-                $extension->getMaskBuilder('VIEW')->getMask('MASK_VIEW_SYSTEM')
-            );
-        }
-        $aclManager->flush();
     }
 
     public function testCreate()

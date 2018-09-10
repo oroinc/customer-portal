@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\QueryBuilder;
@@ -14,7 +13,6 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,17 +35,12 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
     /** @var QueryBuilder */
     protected $qb;
 
-    /**
-     * @var AclHelper $aclHelper
-     */
-    protected $aclHelper;
-
     protected function setUp()
     {
         $customer = $this->createCustomer(1, 'customer');
         $organization = $this->createOrganization(1);
         $user = new CustomerUser();
-        $criteria = new Criteria();
+
         $user->setCustomer($customer);
         $user->setOrganization($organization);
         $this->qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
@@ -70,16 +63,10 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
             ->method('getRepository')
             ->with('Oro\Bundle\CustomerBundle\Entity\CustomerUserRole')
             ->willReturn($repo);
-        $this->qb->expects($this->any())
-            ->method('addCriteria')
-            ->with($criteria)
-            ->willReturn($this->qb);
-        $this->aclHelper = $this->createAclHelperMock();
         $this->registry->expects($this->any())->method('getManagerForClass')->willReturn($em);
         $this->formType = new FrontendCustomerUserRoleSelectType(
             $this->tokenAccessor,
-            $this->registry,
-            $this->aclHelper
+            $this->registry
         );
         $this->formType->setRoleClass('Oro\Bundle\CustomerBundle\Entity\CustomerUserRole');
 
@@ -108,6 +95,14 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
                 function (array $options) {
                     $this->assertArrayHasKey('query_builder', $options);
                     $this->assertInstanceOf('\Closure', $options['query_builder']);
+                    $this->assertArrayHasKey('acl_options', $options);
+                    $this->assertEquals(
+                        [
+                            'permission' => 'ASSIGN',
+                            'options' => ['selfManagedPublicCustomerUserRoleEnable' => true]
+                        ],
+                        $options['acl_options']
+                    );
                 }
             );
         $this->formType->configureOptions($resolver);
@@ -120,7 +115,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $tokenAccessor->expects($this->once())->method('getUser')->willReturn(null);
         /** @var $resolver OptionsResolver|\PHPUnit\Framework\MockObject\MockObject */
         $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
-        $roleFormType = new FrontendCustomerUserRoleSelectType($tokenAccessor, $this->registry, $this->aclHelper);
+        $roleFormType = new FrontendCustomerUserRoleSelectType($tokenAccessor, $this->registry);
         $roleFormType->configureOptions($resolver);
     }
 
@@ -173,15 +168,5 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $role->setLabel($label);
 
         return $role;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function createAclHelperMock()
-    {
-        return $this->getMockBuilder('Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 }

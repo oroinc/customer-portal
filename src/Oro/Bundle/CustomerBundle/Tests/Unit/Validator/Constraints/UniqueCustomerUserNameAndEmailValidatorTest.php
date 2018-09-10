@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
-use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmail;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmailValidator;
 use Oro\Component\Testing\Unit\EntityTrait;
@@ -14,241 +14,126 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit\Framework\Tes
 {
     use EntityTrait;
 
-    /** @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject */
-    private $customerUserRepository;
+    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $customerUserManager;
+
+    /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject */
+    private $constraint;
+
+    /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $executionContext;
+
+    /** @var ConstraintViolationBuilderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $constraintViolationBuilder;
 
     /** @var UniqueCustomerUserNameAndEmailValidator */
     private $validator;
 
     protected function setUp()
     {
-        $this->customerUserRepository = $this->createMock(EntityRepository::class);
-        $this->validator = new UniqueCustomerUserNameAndEmailValidator($this->customerUserRepository);
+        $this->customerUserManager = $this->createMock(CustomerUserManager::class);
+        $this->constraintViolationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
+        $this->executionContext = $this->createMock(ExecutionContextInterface::class);
+        $this->constraint = new UniqueCustomerUserNameAndEmail();
+
+        $this->validator = new UniqueCustomerUserNameAndEmailValidator($this->customerUserManager);
+        $this->validator->initialize($this->executionContext);
     }
 
-    public function testValidationSucceedsWhenUsersWithSuchEmailOrUsernameDoesntExist()
+    public function testValidateNewCustomerUserEmailIsUnique()
     {
-        $newCustomer = $this->getEntity(
-            CustomerUser::class,
-            [
-                'username' => 'foo',
-                'email' => 'foo',
-            ]
-        );
+        $email = 'foo';
+        /** @var CustomerUser $newCustomerUser */
+        $newCustomerUser = $this->getEntity(CustomerUser::class, ['email' => $email]);
 
-        $this->customerUserRepository->expects($this->once())
-            ->method('findOneBy')
-            ->with(['email' => 'foo', 'isGuest' => false])
+        $this->customerUserManager
+            ->expects(self::once())
+            ->method('findUserByEmail')
+            ->with($email)
             ->willReturn(null);
 
-        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
-        $context = $this->createMock(ExecutionContextInterface::class);
-        $context->expects($this->never())->method('buildViolation');
+        $this->executionContext
+            ->expects(self::never())
+            ->method('buildViolation');
 
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
-        $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
-
-        $this->validator->initialize($context);
-        $this->validator->validate($newCustomer, $constraint);
+        $this->validator->validate($newCustomerUser, $this->constraint);
     }
 
-    public function testValidationSucceedsWhenOnlyGuestUsersExistWithSuchUsernameOrEmail()
+    public function testValidateCustomerUserEmailIsUnique()
     {
-        $newCustomer = $this->getEntity(
-            CustomerUser::class,
-            [
-                'username' => 'foo',
-                'email' => 'foo',
-            ]
-        );
+        $email = 'foo';
+        /** @var CustomerUser $customerUser */
+        $customerUser = $this->getEntity(CustomerUser::class, ['email' => $email, 'id' => 1]);
 
-        $this->customerUserRepository->expects($this->once())
-            ->method('findOneBy')
-            ->with(['email' => 'foo', 'isGuest' => false])
-            ->willReturn(null);
-
-        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
-        $context = $this->createMock(ExecutionContextInterface::class);
-        $context->expects($this->never())->method('buildViolation');
-
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
-        $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
-
-        $this->validator->initialize($context);
-        $this->validator->validate($newCustomer, $constraint);
-    }
-
-    public function testValidationSucceedsWhenGuestUsersIsPassed()
-    {
-        $newCustomer = new CustomerUser();
-        $newCustomer->setIsGuest(true);
-
-        $this->customerUserRepository->expects($this->never())->method('findOneBy');
-
-        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
-        $context = $this->createMock(ExecutionContextInterface::class);
-        $context->expects($this->never())->method('buildViolation');
-
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
-        $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
-
-        $this->validator->initialize($context);
-        $this->validator->validate($newCustomer, $constraint);
-    }
-
-    /**
-     * @dataProvider guestCustomerUsersDataProvider
-     *
-     * @param EntityTrait $existingCustomer
-     * @param EntityTrait $newCustomer
-     * @param bool $valid
-     */
-    public function testValidationFailsWhenNonGuestUserWithSuchEmailExists($existingCustomer, $newCustomer, $valid)
-    {
-        $this->customerUserRepository->expects($this->once())
-            ->method('findOneBy')
-            ->with(['email' => 'foo', 'isGuest' => false])
-            ->willReturn($existingCustomer);
-
-        /** @var ConstraintViolationBuilderInterface|\PHPUnit\Framework\MockObject\MockObject $violationBuilder */
-        $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
-
-        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
-        $context = $this->createMock(ExecutionContextInterface::class);
-
-        if (!$valid) {
-            $violationBuilder->expects($this->at(0))->method('atPath')->willReturn($violationBuilder);
-            $violationBuilder->expects($this->at(1))->method('setInvalidValue')->willReturn($violationBuilder);
-            $violationBuilder->expects($this->at(2))->method('addViolation')->willReturn($violationBuilder);
-
-            $context->expects($this->once())->method('buildViolation')->willReturn($violationBuilder);
-        } else {
-            $context->expects($this->never())->method('buildViolation');
-        }
-
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
-        $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
-
-        $this->validator->initialize($context);
-        $this->validator->validate($newCustomer, $constraint);
-    }
-
-    /**
-     * @return array
-     */
-    public function guestCustomerUsersDataProvider()
-    {
-        return [
-            'new customer' => [
-                $this->getEntity(
-                    CustomerUser::class,
-                    [
-                        'id' => 1,
-                        'username' => 'foo',
-                        'email' => 'foo',
-                        'isGuest' => false,
-                    ]
-                ),
-                $this->getEntity(
-                    CustomerUser::class,
-                    [
-                        'id' => null,
-                        'username' => 'foo',
-                        'email' => 'foo',
-                        'isGuest' => false,
-                    ]
-                ),
-                false
-            ],
-            'other customer' => [
-                $this->getEntity(
-                    CustomerUser::class,
-                    [
-                        'id' => 1,
-                        'username' => 'foo',
-                        'email' => 'foo',
-                        'isGuest' => false,
-                    ]
-                ),
-                $this->getEntity(
-                    CustomerUser::class,
-                    [
-                        'id' => 2,
-                        'username' => 'foo',
-                        'email' => 'foo',
-                        'isGuest' => false,
-                    ]
-                ),
-                false
-            ],
-            'same customer' => [
-                $this->getEntity(
-                    CustomerUser::class,
-                    [
-                        'id' => 1,
-                        'username' => 'foo',
-                        'email' => 'foo',
-                        'isGuest' => false,
-                    ]
-                ),
-                $this->getEntity(
-                    CustomerUser::class,
-                    [
-                        'id' => 1,
-                        'username' => 'foo',
-                        'email' => 'foo',
-                        'isGuest' => false,
-                    ]
-                ),
-                true
-            ],
-        ];
-    }
-
-    public function testValidationCustomerUserAsStringPassedFail()
-    {
-        $customerUser = new CustomerUser();
-        $this->customerUserRepository->expects($this->once())
-            ->method('findOneBy')
-            ->with(['email' => 'some@CustomerEmail', 'isGuest' => false])
+        $this->customerUserManager
+            ->expects(self::once())
+            ->method('findUserByEmail')
+            ->with($email)
             ->willReturn($customerUser);
 
-        /** @var ConstraintViolationBuilderInterface|\PHPUnit\Framework\MockObject\MockObject $violationBuilder */
-        $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
+        $this->executionContext
+            ->expects(self::never())
+            ->method('buildViolation');
 
-        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
-        $context = $this->createMock(ExecutionContextInterface::class);
-
-        $violationBuilder->expects($this->at(0))->method('atPath')->willReturn($violationBuilder);
-        $violationBuilder->expects($this->at(1))->method('setInvalidValue')->willReturn($violationBuilder);
-        $violationBuilder->expects($this->at(2))->method('addViolation')->willReturn($violationBuilder);
-
-        $context->expects($this->once())->method('buildViolation')->willReturn($violationBuilder);
-
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
-        $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
-
-        $this->validator->initialize($context);
-        $this->validator->validate('some@CustomerEmail', $constraint);
+        $this->validator->validate($customerUser, $this->constraint);
     }
 
-    public function testValidationCustomerUserAsStringPassedSuccess()
+    public function testValidateGuestCustomerUserEmailIsNotUnique()
     {
-        $this->customerUserRepository->expects($this->once())
-            ->method('findOneBy')
-            ->with(['email' => 'some@CustomerEmail', 'isGuest' => false])
-            ->willReturn(null);
+        $email = 'foo';
+        /** @var CustomerUser $guestCustomerUser */
+        $guestCustomerUser = $this->getEntity(CustomerUser::class, ['email' => $email, 'isGuest' => true]);
+        /** @var CustomerUser $existingCustomerUser */
+        $existingCustomerUser = $this->getEntity(CustomerUser::class, ['email' => $email]);
 
-        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
-        $context = $this->createMock(ExecutionContextInterface::class);
+        $this->customerUserManager
+            ->expects(self::never())
+            ->method('findUserByEmail')
+            ->with($email)
+            ->willReturn($existingCustomerUser);
 
-        $context->expects($this->never())->method('buildViolation');
+        $this->executionContext
+            ->expects(self::never())
+            ->method('buildViolation');
 
+        $this->validator->validate($guestCustomerUser, $this->constraint);
+    }
 
-        /** @var UniqueCustomerUserNameAndEmail|\PHPUnit\Framework\MockObject\MockObject $constraint */
-        $constraint = $this->createMock(UniqueCustomerUserNameAndEmail::class);
+    public function testValidateCustomerUserEmailIsNotUnique()
+    {
+        $newUserEmail = 'foo';
+        /** @var CustomerUser $newCustomerUser */
+        $newCustomerUser = $this->getEntity(CustomerUser::class, ['email' => $newUserEmail, 'id' => 1]);
+        /** @var CustomerUser $existingCustomerUser */
+        $existingCustomerUser = $this->getEntity(CustomerUser::class, ['email' => $newUserEmail, 'id' => 2]);
 
-        $this->validator->initialize($context);
-        $this->validator->validate('some@CustomerEmail', $constraint);
+        $this->customerUserManager
+            ->expects(self::once())
+            ->method('findUserByEmail')
+            ->with($newUserEmail)
+            ->willReturn($existingCustomerUser);
+
+        $this->executionContext
+            ->expects(self::once())
+            ->method('buildViolation')
+            ->with($this->constraint->message)
+            ->willReturn($this->constraintViolationBuilder);
+
+        $this->constraintViolationBuilder
+            ->expects(self::at(0))
+            ->method('atPath')
+            ->with('email')
+            ->willReturnSelf();
+        $this->constraintViolationBuilder
+            ->expects(self::at(1))
+            ->method('setInvalidValue')
+            ->with($newUserEmail)
+            ->willReturnSelf();
+        $this->constraintViolationBuilder
+            ->expects(self::at(2))
+            ->method('addViolation')
+            ->willReturnSelf();
+
+        $this->validator->validate($newCustomerUser, $this->constraint);
     }
 }

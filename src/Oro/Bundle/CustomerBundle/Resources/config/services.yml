@@ -283,6 +283,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
 
+    oro_customer.event_listener.authentication_failure:
+        class: Oro\Bundle\UserBundle\EventListener\AuthenticationFailureListener
+        arguments:
+            - 'frontend'
+            - 'oro_customer.login.errors.bad_credentials'
+        tags:
+            - { name: kernel.event_listener, event: security.authentication.failure, method: onAuthenticationFailure, priority: -255 }
+
     oro_customer.acl.group_provider:
         class: 'Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider'
         public: false
@@ -308,7 +316,7 @@ services:
         arguments:
             - "@oro_security.acl_helper"
         tags:
-            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after.frontend-customer-customer-user-roles-grid, method: onBuildAfter }
+            - { name: kernel.event_listener, event: oro_datagrid.orm_datasource.result.before.frontend-customer-customer-user-roles-grid, method: onResultBefore }
 
     oro_customer.event_listener.datagrid.customer_user:
         class: 'Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserDatagridListener'
@@ -722,18 +730,6 @@ services:
         tags:
             - { name: oro_datagrid.datasource, type: customer-user-workflow-permission-grid-provider }
 
-    oro_customer.repository.customer:
-        class: 'Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository'
-        parent: oro_entity.abstract_repository
-        arguments:
-            - '%oro_customer.entity.customer.class%'
-
-    oro_customer.repository.customer_user:
-        class: 'Doctrine\ORM\EntityRepository'
-        parent: oro_entity.abstract_repository
-        arguments:
-            - '%oro_customer.entity.customer_user.class%'
-
     oro_user.provider.role_privilege_capability_provider_commerce:
         class: '%oro_user.provider.role_privilege_capability_provider.class%'
         arguments:
@@ -780,9 +776,18 @@ services:
     oro_customer.customer_user.validator.unique_name_and_email:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmailValidator
         arguments:
-            - '@oro_customer.repository.customer_user'
+            - '@oro_customer_user.manager'
         tags:
             - { name: validator.constraint_validator, alias: oro_customer.customer_user.validator.unique_name_and_email }
+
+    oro_customer.validator.email_case_insensitive_option:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\EmailCaseInsensitiveOptionValidator
+        arguments:
+            - '@oro_customer_user.manager'
+            - '@translator'
+            - '@oro_datagrid.helper.route'
+        tags:
+            - { name: validator.constraint_validator, alias: oro_customer.validator.email_case_insensitive_option }
 
     oro_customer.grid_view.manager.api:
         class: 'Oro\Bundle\DataGridBundle\Entity\Manager\GridViewApiEntityManager'
@@ -1027,3 +1032,8 @@ services:
             - '@?security.acl.voter.basic_permissions'
             - '@oro_customer.security.orm.ownership_sql_walker_builder.inner'
             - '@oro_security.acl.group_provider.chain'
+
+    oro_customer.access_rule.self_managed_public_customer_user_role:
+        class: Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule
+        tags:
+            - { name: oro_security.access_rule, priority: -200 }
