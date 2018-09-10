@@ -1,6 +1,8 @@
 /* @theme: blank; */
 
 .tooltip {
+    pointer-events: none;
+
     &.top {
         @extend .tooltip.tooltip-top;
 
