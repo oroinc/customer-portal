@@ -1,11 +1,19 @@
 /* @theme: blank; */
 
+.dropdown-menu.show {
+    display: block;
+}
+
 .dropdown-item {
     padding: 8px $dropdown-item-padding-x;
 
     box-sizing: border-box;
 
     white-space: normal;
+
+    &.show {
+        display: block;
+    }
 }
 
 @include breakpoint('tablet') {

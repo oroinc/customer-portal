@@ -20,8 +20,16 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendColumnManagerComponent() {
-            FrontendColumnManagerComponent.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendColumnManagerComponent(options) {
+            FrontendColumnManagerComponent.__super__.constructor.call(this, options);
+        },
+
+        /**
+         * @inheritDoc
+         */
+        beforeOpen: function(showEvent) {
+            FrontendColumnManagerComponent.__super__.beforeOpen.call(this, showEvent);
+            this.columnManagerView.beforeOpen(showEvent);
         }
     });
 

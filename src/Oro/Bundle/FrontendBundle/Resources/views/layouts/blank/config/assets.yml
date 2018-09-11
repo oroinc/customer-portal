@@ -1,6 +1,6 @@
 styles:
     inputs:
-        - 'bundles/orofrontend/default/vendors/slick/slick.scss'
+        - 'bundles/npmassets/slick-carousel/slick/slick.scss'
 
         - 'bundles/orofrontend/blank/scss/variables/bootstrap4-variables-config.scss' # Must be first from *.scss
         - 'bundles/orofrontend/blank/scss/variables/btn-group-config.scss'
