@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-dialog--centered" aria-hidden="false" role="document">
     <div class="modal-content">
         <div class="modal-dialog__body">
-            <button type="button" class="close <%= closeButtonClass %>" data-dismiss="modal" aria-label="Close">
+            <button class="close <%= closeButtonClass %>" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true" class="fa-close"></span>
             </button>
             <% if (title) { %>
@@ -10,7 +10,7 @@
                 </div>
             <% } %>
             <div><%= content %></div>
-            <% if (allowCancel && allowOk ) { %>
+            <% if (allowCancel || allowOk ) { %>
                 <div class="buttons-equal">
                     <% if (allowCancel && cancelText) { %>
                         <button class="cancel <%= cancelButtonClass %>" data-dismiss="modal"><%= cancelText %></button>

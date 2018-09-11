@@ -46,8 +46,7 @@
 
 .modal {
     &:not(.not-expand) {
-        &.show,
-        &.in {
+        &.show {
             .modal-dialog {
                 // Bootstrap override
                 transform: translate(-50%, -50%);
