@@ -2,6 +2,7 @@ define(function(require) {
     'use strict';
 
     var FrontendColumnManagerView;
+    var $ = require('jquery');
     var _ = require('underscore');
     var ColumnManagerView = require('orodatagrid/js/app/views/column-manager/column-manager-view');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
@@ -57,6 +58,19 @@ define(function(require) {
         },
 
         /**
+         * Handles bootstrap dropdown show event
+         *
+         * @param {jQuery.Event} showEvent
+         */
+        beforeOpen: function(showEvent) {
+            var dropdown = $(showEvent.target).find('[data-toggle="dropdown"]').data('bs.dropdown');
+            if (dropdown) {
+                // prevent usage popper in dropdown, if it's fullscreen mode (_inNavbar doesn't use popper)
+                dropdown._inNavbar = viewportManager.isApplicable(this.viewport) ? true : dropdown._detectNavbar();
+            }
+        },
+
+        /**
          * @inheritDoc
          */
         updateStateView: function() {
@@ -68,6 +82,7 @@ define(function(require) {
                     this.setFullScreenViewDesign(false);
                     this.fullscreenView.dispose();
                     delete this.fullscreenView;
+                    this.$el.removeClass('show');
                 }, this);
 
                 this.fullscreenView.show();

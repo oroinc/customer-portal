@@ -1,15 +1,17 @@
 styles:
     inputs:
+        - 'bundles/npmassets/slick-carousel/slick/slick.scss'
+
         # Bootstrap Required
         - 'bundles/orofrontend/default/scss/settings/bootstrap/variables.scss'
 
-        - 'bundles/orofrontend/default/vendors/slick/slick.css'
         - 'bundles/orofrontend/default/scss/settings/global-settings.scss'
 
         # Bootstrap Configs
         - 'bundles/orofrontend/default/scss/variables/bootstrap/buttons-config.scss'
         - 'bundles/orofrontend/default/scss/variables/bootstrap/button-group-config.scss'
 
+        - 'bundles/orofrontend/default/scss/settings/global-settings.scss'
         - 'bundles/orofrontend/default/scss/variables/base-config.scss'
         - 'bundles/orofrontend/default/scss/variables/custom-icons-config.scss'
         - 'bundles/orofrontend/default/scss/variables/breadcrumbs-config.scss'

@@ -103,14 +103,16 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
             ->with(Security::AUTHENTICATION_ERROR)
             ->will($this->returnValue(true));
 
+        $exception = new AuthenticationException('error');
+
         $session->expects($this->once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
-            ->will($this->returnValue(new AuthenticationException('error')));
+            ->willReturn($exception);
 
-        $this->assertEquals('error', $this->dataProvider->getError());
+        $this->assertEquals($exception, $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals('error', $this->dataProvider->getError());
+        $this->assertEquals($exception, $this->dataProvider->getError());
     }
 
     public function testGetErrorWithoutSession()
@@ -142,15 +144,17 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
             ->with(Security::AUTHENTICATION_ERROR)
             ->will($this->returnValue(true));
 
+        $exception = new AuthenticationException('error');
+
         $this->parameterBag
             ->expects($this->once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
-            ->will($this->returnValue(new AuthenticationException('error')));
+            ->willReturn($exception);
 
-        $this->assertEquals('error', $this->dataProvider->getError());
+        $this->assertEquals($exception, $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals('error', $this->dataProvider->getError());
+        $this->assertEquals($exception, $this->dataProvider->getError());
     }
 
     public function testGetCSRFToken()

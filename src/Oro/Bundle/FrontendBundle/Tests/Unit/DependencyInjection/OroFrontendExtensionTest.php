@@ -100,6 +100,53 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(OroFrontendExtension::ALIAS, $extension->getAlias());
     }
 
+    public function testPrependSecurity()
+    {
+        $configs = [
+            [
+            ],
+            [
+                'firewalls' => []
+            ],
+            [
+                'firewalls' => [
+                    'test1' => []
+                ]
+            ],
+            [
+                'firewalls' => [
+                    'test2' => [
+                        'pattern' => '%oro_api.rest.pattern%'
+                    ],
+                    'test3' => [
+                        'pattern' => '%oro_api.rest.pattern%'
+                    ],
+                    'test4' => [
+                        'pattern' => '/'
+                    ],
+                    'frontend_test3' => [
+                        'pattern' => '%oro_api.rest.pattern%'
+                    ]
+                ]
+            ]
+        ];
+
+        $expected = $configs;
+        $expected[3]['firewalls']['test2']['pattern'] = '^/admin/api/(?!(rest|doc)($|/.*))';
+        $expected[3]['firewalls']['test3']['pattern'] = '^/admin/api/(?!(rest|doc)($|/.*))';
+
+        $container = new ExtendedContainerBuilder();
+        $container->setParameter('web_backend_prefix', '/admin');
+        $container->setParameter('oro_api.rest.prefix', '/api/');
+        $container->setParameter('oro_api.rest.pattern', '^/api/(?!(rest|doc)($|/.*))');
+        $container->setExtensionConfig('security', $configs);
+
+        $extension = new OroFrontendExtension();
+        $extension->prepend($container);
+
+        self::assertEquals($expected, $container->getExtensionConfig('security'));
+    }
+
     public function testPrependFosRest()
     {
         $configs = [
@@ -119,7 +166,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
             [
                 'format_listener' => [
                     'rules' => [
-                        ['path' => '^/api/(?!(rest|doc)(/|$)+)', 'prefer_extension' => false],
+                        ['path' => '%oro_api.rest.pattern%', 'prefer_extension' => false],
                         ['path' => '^/api/rest']
                     ]
                 ]
@@ -131,10 +178,12 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
             $expected[3]['format_listener']['rules'],
             $expected[3]['format_listener']['rules'][0]
         );
-        $expected[3]['format_listener']['rules'][1]['path'] = '^/admin/api/(?!(rest|doc)(/|$)+)';
+        $expected[3]['format_listener']['rules'][1]['path'] = '^/admin/api/(?!(rest|doc)($|/.*))';
 
         $container = new ExtendedContainerBuilder();
         $container->setParameter('web_backend_prefix', '/admin');
+        $container->setParameter('oro_api.rest.prefix', '/api/');
+        $container->setParameter('oro_api.rest.pattern', '^/api/(?!(rest|doc)($|/.*))');
         $container->setExtensionConfig('fos_rest', $configs);
 
         $extension = new OroFrontendExtension();

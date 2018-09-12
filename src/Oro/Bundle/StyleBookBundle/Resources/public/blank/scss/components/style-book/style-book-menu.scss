@@ -1,9 +1,50 @@
 /* @theme: blank; */
 
+%style-book-menu-element-active {
+    font-weight: $style-book-menu-link-font-weight-current;
+
+    &:before {
+        top: $style-book-menu-link-current-before-top;
+        left: $style-book-menu-link-current-before-left;
+
+        width: $style-book-menu-link-current-before-width;
+        height: $style-book-menu-link-current-before-height;
+
+        border-radius: $style-book-menu-link-current-before-border-radius;
+        background: $style-book-menu-link-current-before-background;
+
+        @include after();
+    }
+}
+
 .style-book-menu {
-    display: $style-book-menu-display;
+    display: block;
+
+    .style-book-menu {
+        display: none;
+
+        padding: $style-book-sub-menu-inner-offset;
+    }
+
+    &__item {
+        &--current,
+        &.active {
+            > .style-book-menu__link {
+                @extend %style-book-menu-element-active;
+            }
+
+            > .style-book-menu {
+                display: block;
+            }
+        }
+    }
 
     &__link {
+        position: $style-book-menu-link-position;
+
+        display: block;
+        padding: $style-book-menu-link-inner-offset;
+
         color: $style-book-menu-link-color;
 
         @include element-state('hover') {
@@ -17,35 +58,12 @@
                 color: $style-book-menu-link-color-current;
             }
         }
-    }
 
-    &__item {
-        position: $style-book-menu-item-position;
-        padding: $style-book-menu-item-inner-offset;
-
-        .style-book-menu {
-            display: $style-book-menu-item-menu-display;
-        }
-
-        &--current,
         &.active {
-            &:before {
-                top: $style-book-menu-item-current-before-top;
-                left: $style-book-menu-item-current-before-left;
-                width: $style-book-menu-item-current-before-width;
-                height: $style-book-menu-item-current-before-height;
-                border-radius: $style-book-menu-item-current-before-border-radius;
-                background: $style-book-menu-item-current-before-background;
+            @extend %style-book-menu-element-active;
 
-                @include after();
-            }
-
-            > .style-book-menu__link {
-                font-weight: $style-book-menu-link-font-weight-current;
-            }
-
-            > .style-book-menu {
-                display: $style-book-menu-item-active-menu-display;
+            + .style-book-menu {
+                display: block;
             }
         }
     }
@@ -60,6 +78,7 @@
 
             #{$root}__item {
                 padding: $style-book-menu-main-item-inner-offset;
+
                 text-transform: $style-book-menu-main-item-text-transform;
 
                 @include element-state('hover') {
@@ -70,12 +89,13 @@
                 &.active {
                     background: $style-book-menu-main-item-current-background;
 
-                    &:before {
-                        content: $style-book-menu-main-item-current-before-content;
-                    }
-
                     > #{$root}__link {
                         font-weight: $style-book-menu-main-link-font-weight-current;
+
+
+                        &:before {
+                            content: none;
+                        }
                     }
                 }
             }

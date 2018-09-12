@@ -72,16 +72,27 @@ class ProcessorTest extends AbstractProcessorTest
     {
         $this->assertSendCalled(
             Processor::WELCOME_EMAIL_TEMPLATE_NAME,
-            ['entity' => $this->user, 'password' => self::PASSWORD],
+            ['entity' => $this->user],
             $this->buildMessage($this->user->getEmail())
         );
 
         $this->assertEventDispatched(
             Processor::WELCOME_EMAIL_TEMPLATE_NAME,
-            ['entity' => $this->user, 'password' => self::PASSWORD]
+            ['entity' => $this->user]
         );
 
-        $this->mailProcessor->sendWelcomeNotification($this->user, self::PASSWORD);
+        $this->mailProcessor->sendWelcomeNotification($this->user);
+    }
+
+    public function testSendWelcomeForRegisteredByAdminNotification()
+    {
+        $this->assertSendCalled(
+            Processor::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME,
+            ['entity' => $this->user],
+            $this->buildMessage($this->user->getEmail())
+        );
+
+        $this->mailProcessor->sendWelcomeForRegisteredByAdminNotification($this->user);
     }
 
     public function testSendConfirmationEmail()

@@ -25,7 +25,6 @@ services:
     oro_customer_customer.form.type.frontend.owner_select:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType'
         arguments:
-             - '@oro_security.acl_helper'
              - '@doctrine'
              - '@oro_entity_config.provider.ownership'
         tags:
@@ -120,7 +119,6 @@ services:
         arguments:
             - '@oro_security.token_accessor'
             - '@doctrine'
-            - '@oro_security.acl_helper'
         calls:
             - [setRoleClass, ['%oro_customer.entity.customer_user_role.class%']]
         tags:

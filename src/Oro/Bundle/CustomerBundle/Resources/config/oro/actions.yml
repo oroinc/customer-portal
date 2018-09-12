@@ -594,7 +594,7 @@ action_groups:
         actions:
             - '@call_service_method':
                 service: oro_customer_user.manager
-                method: confirmRegistration
+                method: confirmRegistrationByAdmin
                 method_parameters: [$.data]
             - '@call_service_method':
                 service: oro_customer_user.manager

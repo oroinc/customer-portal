@@ -38,17 +38,15 @@
         {% set primaryButtonCss = ' btn btn--action btn--size-s direct-link ' ~ action.buttonOptions.class|default('') ~ " "  ~ params.buttonOptions.aCss|default('') %}
 
         {% if hasVariants %}
-            {% set dropdownMenuOptions = {
-                'align': 'right',
-                'attachToParent': true
-            } %}
-
             <div{{ block('block_attributes') }}>
                 <a class="btn btn--info btn--size-l">
                     {{ action.label|trim }}
                 </a>
-                <a class="btn btn--info btn--size-l dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
-                <ul class="dropdown-menu" data-options={{ dropdownMenuOptions|json_encode }}>
+                {% set togglerId = 'dropdown-'|uniqid %}
+                <a class="btn btn--info btn--size-l dropdown-toggle" href="#" role="button" id="{{ togglerId }}"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                   aria-label="{{ 'oro_frontend.combined_buttons.more_actions.label'|trans }}"></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="{{ togglerId }}">
                     {% for action in actions|slice(1) %}
                     <li>
                         <a class="dropdown-item">
@@ -99,17 +97,14 @@
                 {% set additionalCss = " btn-group btn-group--flex " %}
             {% endif %}
             {% set attr = attr|merge({ class: attr.class|default('') ~ additionalCss}) %}
-            {% set dropdownMenuOptions = {
-                'align': 'right',
-                'attachToParent': true
-            } %}
 
             <div{{ block('block_attributes') }}>
                 {% include button.template with button.templateData|merge({onlyLink: true, aClass: dropdownActionClass, noIcon: true, noIconText: true}) %}
-
-                <a href="#" class="{{ dropdownToggleClass }}" data-toggle="dropdown" data-container="body" aria-haspopup="true" aria-expanded="true"></a>
-
-                <ul class="dropdown-menu" data-options={{ dropdownMenuOptions|json_encode }}>
+                {% set togglerId = 'dropdown-'|uniqid %}
+                <a href="#" role="button" id="{{ togglerId }}" class="{{ dropdownToggleClass }}" data-toggle="dropdown"
+                   data-placement="bottom-end" data-inherit-parent-width="strictly" aria-haspopup="true" aria-expanded="true"
+                   aria-label="{{ 'oro_frontend.combined_buttons.more_actions.label'|trans }}"></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="{{ togglerId }}">
                     {% for button in buttons|slice(1) %}
                         <li>
                             {% include button.template with button.templateData|merge({onlyLink: true, aClass: dropdownItemClass, noIcon: true, noIconText: true}) %}
@@ -124,7 +119,7 @@
 {% endblock %}
 
 {% block icon_block -%}
-    <i class="fa-{{ icon }}{% if icon_class is defined %} {{ icon_class }}{% endif %}"></i>
+    <span class="fa-{{ icon }}{% if icon_class is defined %} {{ icon_class }}{% endif %}" aria-hidden="true"></span>
 {%- endblock %}
 
 {% block back_link_widget %}

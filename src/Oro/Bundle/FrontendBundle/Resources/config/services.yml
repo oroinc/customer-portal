@@ -57,6 +57,8 @@ services:
     oro_frontend.guest_access.provider.guest_access_urls_provider:
         class: 'Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider'
         public: false
+        calls:
+            - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%']]
 
     oro_frontend.assetic.configuration:
         class: '%oro_assetic.configuration.class%'
@@ -267,3 +269,12 @@ services:
             - '@security.token_storage'
         tags:
             - { name: oro_datagrid.extension }
+
+    oro_frontend.locale_settings:
+        class: Oro\Bundle\FrontendBundle\Model\LocaleSettings
+        decorates: oro_locale.settings
+        decoration_priority: -10
+        arguments:
+            - '@oro_frontend.locale_settings.inner'
+            - '@oro_frontend.request.frontend_helper'
+            - '@oro_frontend_localization.manager.user_localization'

@@ -153,9 +153,7 @@
         {% set options = {
             component: 'oroui/js/app/components/view-component',
             view: 'oroui/js/app/views/datepicker/datepicker-view',
-            viewport: {
-                isMobile: false,
-            },
+            nativeMode: isMobileVersion(),
             dateInputAttrs: {
                 placeholder: 'oro.form.choose_date'|trans,
                 id: 'date_selector_' ~ id,

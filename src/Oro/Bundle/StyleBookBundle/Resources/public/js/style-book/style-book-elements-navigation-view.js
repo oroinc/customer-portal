@@ -6,6 +6,8 @@ define(function(require) {
     var $ = require('jquery');
     var _ = require('underscore');
 
+    require('bootstrap-scrollspy');
+
     StyleBookElementsNavigationView = BaseView.extend({
         /**
          * @property {String}
@@ -27,8 +29,6 @@ define(function(require) {
          */
         options: {
             elementSelector: '[data-style-book-element]',
-            itemSelector: '[data-style-book-element-item]',
-            switchSelector: '[data-style-book-element-switch]',
             elementsContainerSelector: null,
             activeClass: 'active'
         },
@@ -44,7 +44,7 @@ define(function(require) {
          * @property {Object}
          */
         events: {
-            'click [data-style-book-element-switch]': 'onSwitchClick'
+            'click .nav-link': 'onSwitchClick'
         },
 
         /**
@@ -95,13 +95,13 @@ define(function(require) {
 
         /**
          *
-         * @param $element
+         * @param {String} anchor
          */
-        scrollToElement: function(anchor, speed) {
+        scrollToElement: function(anchor) {
             var $element = $(anchor);
             var scrollPos = $element.offset().top - this.offset;
 
-            $('body,html').animate({
+            $('body, html').animate({
                 scrollTop: scrollPos
             }, this.pageScrollDuration);
 
@@ -125,19 +125,12 @@ define(function(require) {
          * @inheritDoc
          */
         render: function() {
-            var self = this;
-
             this.$el.html(this.template({
                 items: this.getElementsList()
             }));
 
-            this.$el.find('[data-style-book-element-item]:first').addClass(this.options.activeClass);
-
-            $('body').on({
-                'activate.bs.scrollspy': function(e) {
-                    $(e.target).parents().filter(self.options.itemSelector).addClass(self.options.activeClass);
-                }
-            }).scrollspy({target: '#' + this.$el.attr('id'), offset: (this.offset * 2 - 5)});
+            this.$el.find('.nav-link:first').addClass(this.options.activeClass);
+            $('body').scrollspy({target: '#' + this.$el.attr('id'), offset: (this.offset * 2 - 5)});
         }
     });
 

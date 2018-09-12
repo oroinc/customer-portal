@@ -5,10 +5,6 @@
     display: none !important; // override inline styles
 }
 
-.show {
-    display: block !important; // override inline styles
-}
-
 .disabled {
     @include base-disabled-style();
 }

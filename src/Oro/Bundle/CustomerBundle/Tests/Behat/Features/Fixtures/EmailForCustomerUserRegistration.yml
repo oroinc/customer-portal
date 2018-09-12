@@ -1,0 +1,88 @@
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer:
+        name: 'Company A'
+        organization: '@organization'
+        owner: '@admin'
+    customer1:
+        name: 'Company B'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    amanda:
+        email: 'AmandaRCole@example.org'
+        username: 'AmandaRCole@example.org'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        salt: 'fgswya1kzw0sck8ck48kosowckwo0ws'
+        firstName: 'Amanda'
+        lastName: 'Cole'
+        enabled: '1'
+        confirmed: '1'
+        customer: '@customer'
+        organization: '@organization'
+        role: ['@front_admin']
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    customerAddress:
+        country: '@germany'
+        region: '@berlin'
+        label: 'Primary address'
+        street: 'Fifth avenue'
+        city: 'Berlin'
+        postalCode: '10115'
+        frontendOwner: '@customer'
+        owner: '@admin'
+        setDefaults: ['@shippingType', '@billingType']
+        systemOrganization: '@organization'
+        primary: true
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
+    customerAddressShippingDefault:
+        address: '@customerAddress'
+        type: 'shipping'
+        default: true
+    customerAddressBillingDefault:
+        address: '@customerAddress'
+        type: 'billing'
+        default: true
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+    address:
+        country: '@germany'
+        region: '@berlin'
+        label: 'Primary address'
+        street: 'Fifth avenue'
+        city: 'Berlin'
+        postalCode: '10115'
+        frontendOwner: '@amanda'
+        owner: '@admin'
+        setDefaults: ['@shippingType', '@billingType']
+        systemOrganization: '@organization'
+        primary: true
+        organization: '@organization'
+    address2:
+        country: '@germany'
+        region: '@berlin'
+        label: 'label'
+        street: 'Fourth avenue'
+        city: 'Berlin'
+        postalCode: '10111'
+        organization: '@organization'
+        frontendOwner: '@amanda'
+        owner: '@admin'
+        systemOrganization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
+    billing:
+        address: '@address'
+        type: '@billingType'
+        default: true
+    billing2:
+        address: '@address2'
+        type: '@billingType'
+    shipping:
+        address: '@address'
+        type: '@shippingType'
+        default: true

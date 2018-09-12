@@ -513,6 +513,7 @@ oro.customer:
         frontend_customer_user_roles.label: Roles
 
         how_to_use_pinbar: 'Learn how to use this space'
+        more_pintabs.label: 'More pintabs'
 
     controller:
         customer:
@@ -559,7 +560,6 @@ oro.customer:
             confirmation_required.label: 'Confirmation Required'
             auto_login_after_registration.label: 'Auto login'
             registration_link_enabled.label: 'Show Registration Link'
-            send_password_in_welcome_email.label: 'Send plain text password in welcome emails'
             registration_instructions_enabled.label: 'Show Registration Instructions'
             registration_instructions_text.label: 'Registration Instructions Text'
             company_name_field_enabled.label: 'Require company name'
@@ -585,6 +585,9 @@ oro.customer:
             api_key_generation_enabled.label: 'Enable API key generation'
             oro_customer_confirmation_required.label: 'Enables customer user email confirmation'
             oro_customer_confirmation_required.description: 'Enables customer user email confirmation'
+            case_insensitive_email_addresses_enabled:
+                label: 'Case-Insensitive Email Addresses'
+                tooltip: 'If this option is enabled, the letter case will be ignored when comparing email addresses. For example, john.doe@example.com and John.Doe@example.com will be considered equal.'
 
     security:
         permissions: 'Action Permissions'

@@ -6,7 +6,6 @@ config:
     map:
         '*':
             'oroui/templates/modal-dialog.html': 'orofrontend/default/templates/ui/modal-dialog.html'
-            'oroui/templates/standart-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/delete-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/message-item.html': 'orofrontend/default/templates/ui/message-item.html'
             'oroui/templates/loading-mask-view.html': 'orofrontend/templates/ui/loading-mask-view.html'
@@ -84,7 +83,7 @@ config:
         'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin': 'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin.js'
         'orofrontend/js/app/datafilter/actions/fullscreen-filters-action': 'orofrontend/js/app/datafilter/actions/fullscreen-filters-action.js'
 
-        'slick': 'bundles/orofrontend/default/vendors/slick/slick.js'
+        'slick': 'bundles/npmassets/slick-carousel/slick/slick.js'
         'orofrontend/js/app/components/list-slider-component': 'bundles/orofrontend/js/app/components/list-slider-component.js'
         'orofrontend/js/app/components/popup-gallery-widget': 'bundles/orofrontend/js/app/components/popup-gallery-widget.js'
         'orofrontend/js/app/components/column-manager/frontend-column-manager-component': 'bundles/orofrontend/js/app/components/column-manager/frontend-column-manager-component.js'

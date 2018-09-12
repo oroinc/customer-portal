@@ -2,6 +2,10 @@
 
 @import "components/bootstrap/scss/dropdown";
 
+.dropdown-menu.show {
+    display: block;
+}
+
 // Should be removed when bootstrap updated
 .open {
     > .dropdown-menu {
@@ -12,5 +16,13 @@
 .dropdown-toggle--no-caret {
     &:after {
         content: none;
+    }
+}
+
+@include breakpoint('tablet') {
+    .dropdown-toggle--expanded {
+        &:after {
+            content: none;
+        }
     }
 }

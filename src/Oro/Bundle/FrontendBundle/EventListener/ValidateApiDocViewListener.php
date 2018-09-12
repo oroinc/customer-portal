@@ -18,18 +18,20 @@ class ValidateApiDocViewListener extends BaseValidateApiDocViewListener
     private $frontendDefaultView;
 
     /**
+     * @param string      $basePath
      * @param string[]    $views
      * @param string|null $defaultView
      * @param string[]    $frontendViews
      * @param string|null $frontendDefaultView
      */
     public function __construct(
+        string $basePath,
         array $views,
         ?string $defaultView,
         array $frontendViews,
         ?string $frontendDefaultView
     ) {
-        parent::__construct($views, $defaultView);
+        parent::__construct($basePath, $views, $defaultView);
         $this->frontendViews = $frontendViews;
         $this->frontendDefaultView = $frontendDefaultView;
     }

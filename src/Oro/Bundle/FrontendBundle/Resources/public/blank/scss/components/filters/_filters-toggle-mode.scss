@@ -166,15 +166,33 @@
     }
 }
 
+@include breakpoint('tablet') {
+    .toggle-mode {
+        .value-field-frame,
+        .filter-date-range {
+            width: $filter-manager-tablet-toggle-mode-filter-date-range-width;
+        }
+
+        .value-field-frame {
+            padding-left: 0;
+        }
+
+        .datepicker-input,
+        .timepicker-input {
+            white-space: nowrap;
+        }
+    }
+}
+
 @include breakpoint('mobile-landscape') {
     .toggle-mode {
         .filter-select-oro-wrapper {
-            width: 30%;
+            width: $filter-manager-mobile-landscape-toggle-mode-filter-select-oro-wrapper-width;
         }
 
         .value-field-frame,
         .filter-date-range {
-            width: 70%;
+            width: $filter-manager-mobile-landscape-toggle-mode-filter-date-range-width;
         }
     }
 }
@@ -189,16 +207,28 @@
         .filter-select-oro-wrapper,
         .value-field-frame,
         .filter-date-range {
-            width: 100%;
+            width: $filter-manager-mobile-toggle-mode-filter-date-range-width;
+            display: $filter-manager-mobile-toggle-mode-filter-date-range-display;
+        }
+
+        .filter-start-date {
+            margin-bottom: $offset-y;
+        }
+
+        .filter-start-date,
+        .filter-end-date {
+            width: $filter-manager-mobile-toggle-mode-filter-date-width;
+        }
+
+        .filter-date-range {
+            .filter-separator {
+                display: $filter-manager-mobile-toggle-mode-filter-separator-display;
+            }
         }
 
         .filter-select-oro-wrapper {
             padding-right: 0;
             margin-bottom: $offset-y
-        }
-
-        .value-field-frame {
-            padding-left: 0;
         }
     }
 }

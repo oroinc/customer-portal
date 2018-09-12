@@ -53,7 +53,7 @@ class CustomersDeleteActionHandler extends DeleteMassActionHandler
  protected function isDeleteAllowed($entity)
  {
      /** @var CustomerUser $entity */
-     if ($this->securityFacade->getLoggedUserId() === $entity->getId()) {
+     if ($this->tokenAccessor->getUserId() === $entity->getId()) {
          return false;
      }
 

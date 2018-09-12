@@ -75,7 +75,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_17';
+        return 'v1_19';
     }
 
     /**
@@ -172,6 +172,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('customer_id', 'integer', ['notnull' => false]);
         $table->addColumn('username', 'string', ['length' => 255]);
         $table->addColumn('email', 'string', ['length' => 255]);
+        $table->addColumn('email_lowercase', 'string', ['length' => 255]);
         $table->addColumn('name_prefix', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('first_name', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('middle_name', 'string', ['notnull' => false, 'length' => 255]);
@@ -191,6 +192,9 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('created_at', 'datetime', []);
         $table->addColumn('updated_at', 'datetime', []);
         $table->addColumn('website_id', 'integer', ['notnull' => false]);
+
+        $table->addIndex(['email'], 'idx_oro_customer_user_email', []);
+        $table->addIndex(['email_lowercase'], 'idx_oro_customer_user_email_lowercase', []);
 
         $table->setPrimaryKey(['id']);
 
@@ -325,7 +329,6 @@ class OroCustomerBundleInstaller implements
      * Create oro_audit table
      *
      * @param Schema $schema
-     * @todo: BB-2679
      */
     protected function updateOroAuditTable(Schema $schema)
     {
@@ -1152,7 +1155,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * @param Schema $schema
-     * @todo: BB-2679
      */
     private function addRelationsToScope(Schema $schema)
     {
