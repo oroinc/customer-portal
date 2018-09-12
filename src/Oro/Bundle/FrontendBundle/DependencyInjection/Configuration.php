@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
                 ->prototype('scalar')->end()
             ->end()
             ->arrayNode('frontend_api_doc_views')
-                ->info('The API views that are available for the store frontend.')
+                ->info('The API views that are available for the storefront.')
                 ->prototype('scalar')->end()
             ->end();
 

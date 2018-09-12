@@ -65,10 +65,6 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
                             'value' => false,
                             'scope' => 'app'
                         ],
-                        'send_password_in_welcome_email' => [
-                            'value' => false,
-                            'scope' => 'app'
-                        ],
                         'registration_instructions_enabled' => [
                             'value' => false,
                             'scope' => 'app',

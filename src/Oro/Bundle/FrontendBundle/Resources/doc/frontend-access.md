@@ -5,7 +5,7 @@
 
 ## Close website for non-authenticated visitors
 
-In order to prevent non-registered customers from accessing the store frontend,
+In order to prevent non-registered customers from accessing the storefront,
 a possibility to disable website access by such users was added.
 
 To change access, navigate to `Configuration -> Commerce -> Guests -> Website Access` and set the `Enable Guest Access` option.
@@ -25,9 +25,9 @@ To add a pattern to the list of allowed URL patterns you can call `addAllowedUrl
 
 ## Frontend Datagrids
 
-In order to prevent displaying the management console datagrids on the store frontend, `frontend` option was added
+In order to prevent displaying the management console datagrids on the storefront, `frontend` option was added
 to datagrid configuration. By default it is suggested that all datagrids are intended to be used on the management
-console. To allow a datagrid to be visible on the store frontend the `frontend` option should be set to `true`.
+console. To allow a datagrid to be visible on the storefront the `frontend` option should be set to `true`.
 
 ```yaml
     acme_frontend.frontend_customers_users:
