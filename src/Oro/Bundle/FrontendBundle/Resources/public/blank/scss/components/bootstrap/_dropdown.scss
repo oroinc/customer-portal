@@ -6,13 +6,6 @@
     display: block;
 }
 
-// Should be removed when bootstrap updated
-.open {
-    > .dropdown-menu {
-        @extend .dropdown-menu.show;
-    }
-}
-
 .dropdown-toggle--no-caret {
     &:after {
         content: none;
