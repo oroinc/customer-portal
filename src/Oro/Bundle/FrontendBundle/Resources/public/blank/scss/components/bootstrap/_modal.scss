@@ -70,9 +70,3 @@
         }
     }
 }
-
-.modal-backdrop {
-    &.in {
-        @extend .modal-backdrop.show;
-    }
-}

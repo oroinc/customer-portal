@@ -1,6 +1,6 @@
 /* @theme: default; */
 
-// Your variable overrides
+// Variable overrides
 $border-radius: 5px;
 $border-radius-m: 5px;
 $border-radius-l: 5px;
@@ -21,12 +21,4 @@ $btn-padding-x: $input-btn-padding-x;
 $dropdown-item-padding-y: 8px;
 $dropdown-item-padding-x: 20px;
 
-// $theme-colors: (
-//     "primary": #0074d9,
-//     "danger": #ff4136
-// );
-
 @import "components/bootstrap/scss/variables";
-
-// Remove unnecessary default theme colors
-// $theme-colors: map-remove($theme-colors, "info", "light", "dark");

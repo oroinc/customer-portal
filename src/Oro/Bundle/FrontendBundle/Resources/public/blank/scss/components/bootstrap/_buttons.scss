@@ -1,15 +1,16 @@
 /* @theme: blank; */
 
 .btn {
-    display: inline-block;
+    display: $btn-display;
     font-family: $btn-font-family;
     font-weight: $btn-font-weight;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    user-select: none;
-    border: $btn-border-width solid transparent;
-    text-decoration: none;
+    text-align: $btn-text-align;
+    white-space: $btn-white-space;
+    vertical-align: $btn-vertical-align;
+    user-select: $btn-user-select;
+    border: $btn-border;
+    text-decoration: $btn-text-decoration;
+
 
     @if ($btn-theme) {
         @include button-custom-variant($btn-theme...);
@@ -20,12 +21,12 @@
 
     // Share hover and focus styles
     @include hover-focus {
-        text-decoration: none;
+        text-decoration: $btn-hover-focus-text-decoration;
     }
 
     &:focus,
     &.focus {
-        outline: 0;
+        outline: $btn-hover-focus-outline;
     }
 
     // Disabled comes first so active can properly restyle
@@ -33,7 +34,7 @@
     &:disabled {
         opacity: $btn-disabled-opacity;
 
-        @include box-shadow(none);
+        @include box-shadow($btn-disabled-box-shadow);
     }
 
     // Opinionated: add "hand" cursor to non-disabled .btn elements
@@ -75,73 +76,73 @@ fieldset:disabled a.btn {
 
 // Make a button look and behave like a link
 .btn--link {
-    font-weight: $font-weight-normal;
-    color: $link-color;
-    background-color: transparent;
-    border-color: transparent;
+    font-weight: $btn-link-font-weight;
+    color: $btn-link-color;
+    background-color: $btn-link-background-color;
+    border-color: $btn-link-border-color;
 
     @include hover {
-        color: $link-hover-color;
-        text-decoration: $link-hover-decoration;
-        background-color: transparent;
-        border-color: transparent;
+        color: $btn-link-hover-color;
+        text-decoration: $btn-link-hover-text-decoration;
+        background-color: $btn-link-hover-background-color;
+        border-color: $btn-link-hover-border-color;
     }
 
     &:focus,
     &.focus {
-        text-decoration: $link-hover-decoration;
-        border-color: transparent;
-        box-shadow: none;
+        text-decoration: $btn-link-focus-text-decoration;
+        border-color: $btn-link-focus-border-color;
+        box-shadow: $btn-link-focus-box-shadow;
     }
 
     &:active,
     &.active,
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
-        background: transparent;
-        color: $link-hover-color;
-        border-color: transparent;
-        box-shadow: none;
+        background: $btn-link-active-background;
+        color: $btn-link-active-color;
+        border-color: $btn-link-active-border-color;
+        box-shadow: $btn-link-active-box-shadow;
     }
 
     &:disabled,
     &.disabled {
         color: $btn-link-disabled-color;
-        pointer-events: none;
+        pointer-events: $btn-link-disabled-pointer-events;
     }
 }
 
 .btn--plain {
-    padding: 0 3px;
-    line-height: 1;
-    border-color: transparent;
-    background-color: transparent;
-    color: get-color('additional', 'middle');
-    cursor: pointer;
+    padding: $btn-plain-inner-offset;
+    line-height: $btn-plain-line-height;
+    border-color: $btn-plain-border-color;
+    background-color: $btn-plain-background-color;
+    color: $btn-plain-color;
+    cursor: $btn-plain-cursor;
 
     @include element-state('hover') {
-        background-color: transparent;
-        border-color: transparent;
-        color: get-color('additional', 'light');
+        background-color: $btn-plain-hover-background-color;
+        border-color: $btn-plain-hover-border-color;
+        color: $btn-plain-hover-color;
     }
 
     @include element-state('focus') {
-        background-color: transparent;
-        border-color: transparent;
+        background-color: $btn-plain-focus-background-color;
+        border-color: $btn-plain-focus-border-color;
     }
 
     @include element-state('active') {
-        box-shadow: none;
+        box-shadow: $btn-plain-active-box-shadow;
     }
 
     &.active,
     &.pressed {
-        box-shadow: none;
+        box-shadow: $btn-plain-pressed-box-shadow;
     }
 }
 
 .btn--large {
-    min-width: 200px;
+    min-width: $btn-large-min-width;
 }
 
 //
@@ -183,12 +184,12 @@ fieldset:disabled a.btn {
 //
 
 .btn--block {
-    display: block;
-    width: 100%;
+    display: $btn-block-display;
+    width: $btn-block-width;
 
     // Vertically space out multiple block buttons
     + .btn--block {
-        margin-top: $btn-block-spacing-y;
+        margin-top: $btn-block-offset-top;
     }
 }
 
