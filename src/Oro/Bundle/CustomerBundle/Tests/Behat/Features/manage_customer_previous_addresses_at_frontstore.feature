@@ -50,7 +50,7 @@ Feature: Manage Customer previous addresses at front-store
     And I fill form with:
       | City             | <script>alert(11)</script> |
 
-    When I press "Save"
+    When I click "Save"
     Then I should see following "Customer Company User Addresses Grid" grid:
       | Customer Address | City      | State  | Zip/Postal Code | Country | Type                              |
       | alert(9)         | alert(11) | Berlin | alert(12)       | Germany | Default Shipping, Default Billing |

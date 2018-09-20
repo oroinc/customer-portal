@@ -31,7 +31,7 @@ Feature: Email templates used for customer user registration
       | Email Address    | FrontULastN1@example.org |
       | Password         | FrontULastN1@example.org |
       | Confirm Password | FrontULastN1@example.org |
-    When I press "Create An Account"
+    When I click "Create An Account"
     Then email with Subject "Welcome: FrontU LastN" containing the following was sent:
       | Body | Dear FrontU LastN,                                                                             |
       | Body | Welcome to ORO.                                                                                |
