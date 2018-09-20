@@ -188,6 +188,15 @@ oro_behat_extension:
            locator: '[id^="oro_customer_customer_user_roles_2-uid"]'
            type: css
 
+    Customer User Address Form:
+      selector: '[id^="oro_customer_customer_user-uid"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          First Name: 'oro_customer_customer_user[addresses][0][firstName]'
+          Last Name: 'oro_customer_customer_user[addresses][0][lastName]'
+          Organization: 'oro_customer_customer_user[addresses][0][organization]'
+
     Map Container:
       selector: '.map-visual-frame'
 
