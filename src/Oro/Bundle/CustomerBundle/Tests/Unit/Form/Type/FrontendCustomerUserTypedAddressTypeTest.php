@@ -52,7 +52,7 @@ class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddr
                 'validation_groups' => [
                     'Default',
                     'RequireName',
-                    'RequirePeriod'
+                    'RequireRegion'
                 ]
             ],
             $optionsResolver->resolve()
