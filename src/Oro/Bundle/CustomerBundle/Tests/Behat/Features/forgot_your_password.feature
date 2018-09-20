@@ -10,7 +10,7 @@ Feature: Forgot your password
     And I click "Forgot Your Password?"
     And I fill form with:
       | Email Address | nonexisting@example.com |
-    And I press "Request"
+    And I click "Request"
     # wait ajax request
     And I wait 1 second
     Then I should see validation errors:
@@ -39,5 +39,5 @@ Feature: Forgot your password
       | Email Address | This value should not be blank. |
       | Email Address | Email address "nonexisting@example.com" does not exist. |
       | Email Address | This value is not a valid email address.                |
-    When I press "Request"
+    When I click "Request"
     Then I should see "An email has been sent to ...@example.org. It contains a link you must click to reset your password."

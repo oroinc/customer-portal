@@ -37,7 +37,7 @@ Feature: Frontend Grid Views
 
     And I click grid view list on "Customer Users Grid" grid
     And I click "Delete"
-    And I press "Yes, Delete"
+    And I click "Yes, Delete"
     Then I should see "View has been successfully deleted" flash message
     When I click grid view list on "Customer Users Grid" grid
     Then I should not see "Test_View_1"

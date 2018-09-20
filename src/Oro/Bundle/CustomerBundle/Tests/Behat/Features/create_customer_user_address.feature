@@ -26,7 +26,7 @@ Feature: Create customer user address
     And I click on first customer in grid
     Then I should not see "Test billing address"
 
-    When I press "+ New Address"
+    When I click "+ New Address"
     And I fill form with:
       | Label           | Test billing address |
       | First name      | Test first name      |
@@ -36,13 +36,13 @@ Feature: Create customer user address
       | Country         | GermanyZulu          |
       | State           | BerlinZulu           |
       | Zip/Postal Code | 111111               |
-    And I press "Save"
+    And I click "Save"
     Then I should see "First Name and Last Name or Organization should not be blank."
     Then I should see "Last Name and First Name or Organization should not be blank."
     Then I should see "Organization or First Name and Last Name should not be blank."
     When I fill form with:
       | Organization | Test Organization |
-    And I press "Save"
+    And I click "Save"
     Then I should see "Address saved" flash message
     And customer user has 1 address
     And Test billing address address must be primary

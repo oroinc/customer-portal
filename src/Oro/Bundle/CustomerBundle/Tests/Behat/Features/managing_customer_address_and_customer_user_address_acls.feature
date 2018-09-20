@@ -29,7 +29,7 @@ Feature: Managing customer address and customer user address ACLs
   Scenario: Ensure creating addresses is allowed
     Given I go to Customers / Customers
     Then I click on first customer in grid
-    Then I press "+ New Address"
+    Then I click "+ New Address"
     Then I fill form with:
       | Label           | Test address 1 |
       | Country         | United States  |
@@ -38,12 +38,12 @@ Feature: Managing customer address and customer user address ACLs
       | State           | Alabama        |
       | Zip/Postal Code | 67726534       |
       | Organization    | Test Org       |
-    And I press "Save"
+    And I click "Save"
     Then I should see "Address saved" flash message
 
     Then I go to Customers / Customer Users
     Then I click on Amanda in grid
-    Then I press "+ New Address"
+    Then I click "+ New Address"
     Then I fill form with:
       | Label           | Test address 2 |
       | Country         | United States  |
@@ -52,7 +52,7 @@ Feature: Managing customer address and customer user address ACLs
       | State           | Alabama        |
       | Zip/Postal Code | 677262368      |
       | Organization    | Test Org       |
-    And I press "Save"
+    And I click "Save"
     Then I should see "Address saved" flash message
 
   Scenario: Ensure editing addresses is allowed
@@ -61,7 +61,7 @@ Feature: Managing customer address and customer user address ACLs
     And click edit Test address 1 address
     Then I fill form with:
       | Street | East street |
-    And I press "Save"
+    And I click "Save"
     Then I should see "Address saved" flash message
 
     Given I go to Customers / Customer Users
@@ -69,20 +69,20 @@ Feature: Managing customer address and customer user address ACLs
     And click edit Test address 2 address
     Then I fill form with:
       | Street | West street |
-    And I press "Save"
+    And I click "Save"
     Then I should see "Address saved" flash message
 
   Scenario: Ensure deleting addresses is allowed
     Given I go to Customers / Customers
     Then I click on first customer in grid
     And I delete Test address 1 address
-    And I press "Yes, Delete"
+    And I click "Yes, Delete"
     Then I should not see "Test address 1"
 
     Given I go to Customers / Customer Users
     Then I click on Amanda in grid
     And I delete Test address 2 address
-    And I press "Yes, Delete"
+    And I click "Yes, Delete"
     Then I should not see "Test address 2"
 
   Scenario: Addresses not visible when viewing is not allowed
@@ -107,7 +107,7 @@ Feature: Managing customer address and customer user address ACLs
   Scenario: Can't create addresses when creating is not allowed
     Given I go to Customers / Customers
     Then I click on first customer in grid
-    Then I press "+ New Address"
+    Then I click "+ New Address"
     Then I fill form with:
       | Label           | Test address 3 |
       | Country         | United States  |
@@ -117,12 +117,12 @@ Feature: Managing customer address and customer user address ACLs
       | Zip/Postal Code | 67726534       |
       | Organization    | Test Org       |
     Given administrator have "None" permissions for "Create" "Customer Address" entity
-    And I press "Save"
+    And I click "Save"
     Then I should see "You do not have permission to perform this action" error message
 
     Given I go to Customers / Customer Users
     Then I click on Amanda in grid
-    Then I press "+ New Address"
+    Then I click "+ New Address"
     Then I fill form with:
       | Label           | Test address 4 |
       | Country         | United States  |
@@ -132,7 +132,7 @@ Feature: Managing customer address and customer user address ACLs
       | Zip/Postal Code | 67726534       |
       | Organization    | Test Org       |
     Given administrator have "None" permissions for "Create" "Customer User Address" entity
-    And I press "Save"
+    And I click "Save"
     Then I should see "You do not have permission to perform this action" error message
 
   Scenario: New address button not visible when creating is not allowed
@@ -155,7 +155,7 @@ Feature: Managing customer address and customer user address ACLs
     Then I fill form with:
       | Street | East street |
     Given administrator have "None" permissions for "Edit" "Customer Address" entity
-    And I press "Save"
+    And I click "Save"
     Then I should see "You do not have permission to perform this action" error message
 
     Given I go to Customers / Customer Users
@@ -164,7 +164,7 @@ Feature: Managing customer address and customer user address ACLs
     Then I fill form with:
       | Street | East street |
     Given administrator have "None" permissions for "Edit" "Customer User Address" entity
-    And I press "Save"
+    And I click "Save"
     Then I should see "You do not have permission to perform this action" error message
 
   Scenario: Edit address button not visible when editing is not allowed

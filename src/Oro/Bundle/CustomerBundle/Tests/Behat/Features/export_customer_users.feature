@@ -9,7 +9,7 @@ Feature: Export Customer Users
   Scenario: Export Customer Users
     Given I login as administrator
     And I go to Customers/Customer Users
-    When I press "Export"
+    When I click "Export"
     Then I should see "Export started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Export performed successfully. 3 customer users were exported. Download" text
     And Exported file for "Customer Users" contains the following data:

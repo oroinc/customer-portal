@@ -10,12 +10,12 @@ Feature: Customer user roles crud frontend
     Given I signed in as NancyJSallee@example.org on the store frontend
     And I click "Account"
     And I click "Roles"
-    When I press "Create Customer User Role"
+    When I click "Create Customer User Role"
     And I fill form with:
       | Role Title | Test customer user role |
     And select following permissions:
       | Customer User Address | View:User | Create:Department | Edit:Сorporate |
-    And I press "Create"
+    And I click "Create"
     Then I should see "Test customer user role"
 
   Scenario: Disable configuring permissions and capabilities for user role
