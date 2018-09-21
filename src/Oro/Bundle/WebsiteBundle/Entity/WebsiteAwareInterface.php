@@ -2,10 +2,13 @@
 
 namespace Oro\Bundle\WebsiteBundle\Entity;
 
+/**
+ * Interface for entities which are related to some website.
+ */
 interface WebsiteAwareInterface
 {
     /**
-     * @return Website
+     * @return Website|null
      */
     public function getWebsite();
 

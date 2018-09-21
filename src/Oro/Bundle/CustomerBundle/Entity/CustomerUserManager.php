@@ -2,14 +2,18 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\UserBundle\Entity\BaseUserManager;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
  * Provides a set of methods to simplify manage of the CustomerUser entity.
@@ -18,17 +22,63 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class CustomerUserManager extends BaseUserManager implements ContainerAwareInterface, LoggerAwareInterface
 {
-    /** @var ConfigManager */
+    /**
+     * @varConfigManager
+     */
     protected $configManager;
 
-    /** @var Processor */
+    /**
+     * @var Processor
+     */
     protected $emailProcessor;
 
-    /** @var LoggerInterface */
+    /**
+     * @var LoggerInterface
+     */
     protected $logger;
 
-    /** @var ContainerInterface */
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
+
+    /**
+     * @var FrontendHelper
+     */
+    private $frontendHelper;
+
+    /**
+     * @var LocalizationHelper
+     */
+    private $localizationHelper;
+
+    /**
+     * @var WebsiteManager
+     */
+    private $websiteManager;
+
+    /**
+     * @param string $class,
+     * @param ManagerRegistry $registry,
+     * @param EncoderFactoryInterface $encoderFactory,
+     * @param FrontendHelper $frontendHelper
+     * @param LocalizationHelper $localizationHelper
+     * @param WebsiteManager $websiteManager
+     */
+    public function __construct(
+        string $class,
+        ManagerRegistry $registry,
+        EncoderFactoryInterface $encoderFactory,
+        FrontendHelper $frontendHelper,
+        LocalizationHelper $localizationHelper,
+        WebsiteManager $websiteManager
+    ) {
+        parent::__construct($class, $registry, $encoderFactory);
+
+        $this->localizationHelper = $localizationHelper;
+        $this->websiteManager = $websiteManager;
+        $this->frontendHelper = $frontendHelper;
+    }
 
     /**
      * @param LoggerInterface $logger
@@ -43,6 +93,15 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
      */
     public function register(CustomerUser $user)
     {
+        if ($this->frontendHelper->isFrontendRequest()) {
+            $settings = $user->getWebsiteSettings($this->websiteManager->getCurrentWebsite())
+                ?? new CustomerUserSettings($this->websiteManager->getCurrentWebsite());
+
+            $settings->setLocalization($this->localizationHelper->getCurrentLocalization());
+
+            $user->setWebsiteSettings($settings);
+        }
+
         if ($this->isConfirmationRequired()) {
             $this->sendConfirmationEmail($user);
         } else {
