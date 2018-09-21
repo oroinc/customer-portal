@@ -17,6 +17,7 @@ use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Security\AdvancedApiUserInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository")
@@ -68,6 +69,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 class CustomerUser extends ExtendCustomerUser implements
     FullNameInterface,
     EmailHolderInterface,
+    WebsiteAwareInterface,
     CustomerUserIdentity,
     AdvancedApiUserInterface
 {

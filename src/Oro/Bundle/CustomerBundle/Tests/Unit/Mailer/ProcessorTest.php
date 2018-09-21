@@ -63,8 +63,7 @@ class ProcessorTest extends AbstractProcessorTest
             ->method('getType')
             ->willReturn('txt');
 
-        $this->objectRepository
-            ->expects($this->once())
+        $this->objectRepository->expects($this->exactly(2))
             ->method('findOneBy')
             ->with(['name' => Processor::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME])
             ->willReturn($this->emailTemplate);
@@ -123,5 +122,22 @@ class ProcessorTest extends AbstractProcessorTest
         );
 
         $this->mailProcessor->sendResetPasswordEmail($this->user);
+    }
+
+    public function testSendEmailWhenTemplateEmailManagerSet(): void
+    {
+        $returnValue = 1;
+        $templateEmailManager = $this->confgureTemplateEmailManagerExpectations($this->user, 1);
+
+        $this->mailProcessor->setTemplateEmailManager($templateEmailManager);
+
+        self::assertEquals(
+            $returnValue,
+            $this->mailProcessor->getEmailTemplateAndSendEmail(
+                $this->user,
+                self::TEMPLATE_NAME,
+                ['entity' => $this->user]
+            )
+        );
     }
 }

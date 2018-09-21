@@ -188,6 +188,8 @@ services:
 
     oro_customer.mailer.processor:
         class: 'Oro\Bundle\CustomerBundle\Mailer\Processor'
+        calls:
+            - [setTemplateEmailManager, ['@oro_email.manager.template_email']]
         arguments:
             - "@doctrine"
             - "@oro_config.manager"
@@ -1011,3 +1013,19 @@ services:
             - '@?security.acl.voter.basic_permissions'
             - '@oro_customer.security.orm.ownership_sql_walker_builder.inner'
             - '@oro_security.acl.group_provider.chain'
+
+    oro_customer.provider.customer_user_preferred_language_provider:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerUserPreferredLanguageProvider
+        public: false
+        arguments:
+            - '@oro_frontend_localization.manager.user_localization'
+        tags:
+            - { name: oro_locale.preferred_language_provider }
+
+    oro_customer.form.extension.frontend_customer_user_registration:
+        class: 'Oro\Bundle\CustomerBundle\Form\Extension\FrontendCustomerUserRegistrationExtension'
+        arguments:
+            - '@oro_locale.helper.localization'
+            - '@oro_website.manager'
+        tags:
+            - { name: form.type_extension, extended_type: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType }

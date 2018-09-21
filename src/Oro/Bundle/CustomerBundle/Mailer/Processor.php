@@ -19,10 +19,10 @@ class Processor extends CustomerUserProcessor
     {
         $emailTemplate = $this->findEmailTemplateByName(static::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME);
         if ($emailTemplate) {
-            return $this->sendEmail(
+            return $this->getEmailTemplateAndSendEmail(
                 $customerUser,
-                $this->renderer->compileMessage($emailTemplate, ['entity' => $customerUser]),
-                $this->getEmailTemplateType($emailTemplate)
+                static::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME,
+                ['entity' => $customerUser]
             );
         }
 
