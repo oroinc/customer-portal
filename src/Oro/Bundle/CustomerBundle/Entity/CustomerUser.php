@@ -16,6 +16,7 @@ use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Security\AdvancedApiUserInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
 
 /**
  * The entity that represents a person who acts on behalf of the company
@@ -70,6 +71,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 class CustomerUser extends ExtendCustomerUser implements
     FullNameInterface,
     EmailHolderInterface,
+    WebsiteAwareInterface,
     CustomerUserIdentity,
     AdvancedApiUserInterface
 {

@@ -85,7 +85,7 @@ Feature: Customer User Case Insensitive Email Addresses
       | Email Address    | amandarcole@example.org  |
       | Password         | amandarcolE@example.org1 |
       | Confirm Password | amandarcolE@example.org1 |
-    When I press "Create An Account"
+    When I click "Create An Account"
     Then I should see that "Customer User Registration Error Container" contains "This email is already used."
 
   Scenario: Check that you cant enable "Case Insensitive Email Addresses" options while there are customer users with same lowercase emails exist
@@ -105,7 +105,7 @@ Feature: Customer User Case Insensitive Email Addresses
       | Email Address    | amandarcole@example.org  |
       | Password         | amandarcolE@example.org1 |
       | Confirm Password | amandarcolE@example.org1 |
-    And I press "Create An Account"
+    And I click "Create An Account"
     Then I should see "Please check your email to complete registration"
     When I proceed as the Admin
     And I go to System/Configuration

@@ -283,6 +283,15 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('en_US', $this->localeSettings->getLanguage());
     }
 
+    public function testGetActualLanguage()
+    {
+        $this->inner->expects($this->once())
+            ->method('getActualLanguage')
+            ->willReturn('en_US');
+
+        $this->assertEquals('en_US', $this->localeSettings->getActualLanguage());
+    }
+
     public function testGetLanguageWithLocalization()
     {
         $this->frontendHelper->expects($this->atLeastOnce())

@@ -14,6 +14,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * Manage Customer Typed Address from
+ */
 class CustomerTypedAddressType extends AbstractType
 {
     const NAME = 'oro_customer_typed_address';
@@ -91,7 +94,7 @@ class CustomerTypedAddressType extends AbstractType
                 'single_form' => true,
                 'all_addresses_property_path' => 'frontendOwner.addresses',
                 'ownership_disabled' => true,
-                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequirePeriod'],
+                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequireRegion'],
             ]
         );
     }

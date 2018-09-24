@@ -4,7 +4,14 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\LocaleBundle\Entity\Localization;
+use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\UserBundle\Entity\Repository\AbstractUserRepository;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -12,7 +19,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 {
+    use EntityTrait;
+
     const USER_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
+
+    const DEFAULT_LOCALIZATION = 'en';
+
+    const CURRENT_LOCALIZATION = 'fr_FR';
 
     /**
      * @var CustomerUserManager
@@ -33,6 +46,21 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
      * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $ef;
+
+    /**
+     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $frontendHelper;
+
+    /**
+     * @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $localizationHelper;
+
+    /**
+     * @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $websiteManager;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject
@@ -78,7 +106,18 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
                 )
             );
 
-        $this->userManager = new CustomerUserManager(static::USER_CLASS, $this->registry, $this->ef);
+        $this->frontendHelper = $this->createMock(FrontendHelper::class);
+        $this->localizationHelper = $this->createMock(LocalizationHelper::class);
+        $this->websiteManager = $this->createMock(WebsiteManager::class);
+
+        $this->userManager = new CustomerUserManager(
+            static::USER_CLASS,
+            $this->registry,
+            $this->ef,
+            $this->frontendHelper,
+            $this->localizationHelper,
+            $this->websiteManager
+        );
         $this->userManager->setContainer($container);
     }
 
@@ -146,13 +185,20 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertLessThanOrEqual(10, strlen($password));
     }
 
-    public function testRegisterConfirmationRequired()
+    public function testRegisterConfirmationRequiredNotFrontendRequest()
     {
         $password = 'test1Q';
 
         $user = new CustomerUser();
         $user->setEnabled(false);
         $user->setPlainPassword($password);
+
+        $this->frontendHelper->expects($this->once())
+            ->method('isFrontendRequest')
+            ->willReturn(false);
+
+        $this->websiteManager->expects($this->never())
+            ->method($this->anything());
 
         $this->configManager->expects($this->once())
             ->method('get')
@@ -167,6 +213,121 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 
         $this->assertFalse($user->isEnabled());
         $this->assertNotEmpty($user->getConfirmationToken());
+    }
+
+    public function testRegisterConfirmationNotRequiredWhenWebsiteSettingsExist()
+    {
+        $this->frontendHelper->expects($this->once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        /** @var Website $website */
+        $website = $this->getEntity(Website::class);
+        $defaultLocalization = $this->getEntity(
+            Localization::class,
+            ['id' => 2, 'formattingCode' => self::DEFAULT_LOCALIZATION]
+        );
+
+        /** @var CustomerUser $user */
+        $user = $this->getEntity(
+            CustomerUser::class,
+            [
+                'websiteSettings' => (new CustomerUserSettings($website))->setLocalization($defaultLocalization),
+                'confirmed' => false,
+                'plainPassword' => 'test1Q'
+            ]
+        );
+
+        $this->websiteManager
+            ->expects($this->once())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
+
+        $currentLocalization = $this->getEntity(
+            Localization::class,
+            ['id' => 1, 'formattingCode' => self::CURRENT_LOCALIZATION]
+        );
+
+        $this->localizationHelper
+            ->expects($this->once())
+            ->method('getCurrentLocalization')
+            ->willReturn($currentLocalization);
+
+        $this->configManager->expects($this->exactly(1))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    ['oro_customer.confirmation_required', false, false, null, false],
+                ]
+            );
+
+        $this->emailProcessor->expects($this->once())
+            ->method('sendWelcomeNotification')
+            ->with($user);
+
+        $expectedWebsiteSettings = new CustomerUserSettings($website);
+        $expectedWebsiteSettings->setLocalization($currentLocalization);
+        $expectedWebsiteSettings->setCustomerUser($user);
+
+        $this->userManager->register($user);
+
+        $this->assertTrue($user->isConfirmed());
+
+        self::assertEquals($expectedWebsiteSettings, $user->getWebsiteSettings($website));
+    }
+
+    public function testRegisterConfirmationNotRequiredWhenWebsiteSettingsNotExist()
+    {
+        $this->frontendHelper->expects($this->once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $website = new Website();
+
+        /** @var CustomerUser $user */
+        $user = $this->getEntity(
+            CustomerUser::class,
+            [
+                'confirmed' => false,
+                'plainPassword' => 'test1Q'
+            ]
+        );
+
+        $this->websiteManager
+            ->expects($this->any())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
+
+        $currentLocalization = $this->getEntity(
+            Localization::class,
+            ['id' => 1, 'formattingCode' => self::CURRENT_LOCALIZATION]
+        );
+
+        $this->localizationHelper
+            ->expects($this->once())
+            ->method('getCurrentLocalization')
+            ->willReturn($currentLocalization);
+
+        $this->configManager->expects($this->exactly(1))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    ['oro_customer.confirmation_required', false, false, null, false],
+                ]
+            );
+
+        $this->emailProcessor->expects($this->once())
+            ->method('sendWelcomeNotification')
+            ->with($user);
+
+        $expectedWebsiteSettings = new CustomerUserSettings($website);
+        $expectedWebsiteSettings->setLocalization($currentLocalization);
+        $expectedWebsiteSettings->setCustomerUser($user);
+
+        $this->userManager->register($user);
+
+        $this->assertTrue($user->isConfirmed());
+        $this->assertEquals($expectedWebsiteSettings, $user->getWebsiteSettings($website));
     }
 
     public function testRegisterConfirmationNotRequired()

@@ -174,11 +174,7 @@ services:
     oro_customer.mailer.processor:
         class: 'Oro\Bundle\CustomerBundle\Mailer\Processor'
         arguments:
-            - "@doctrine"
-            - "@oro_config.manager"
-            - "@oro_email.email_renderer"
-            - "@oro_email.email_holder_helper"
-            - "@oro_email.direct_mailer"
+            - "@oro_user.mailer.user_template_email_sender"
             - "@event_dispatcher"
 
     oro_customer_user.manager:
@@ -187,6 +183,9 @@ services:
             - '%oro_customer.entity.customer_user.class%'
             - "@doctrine"
             - "@security.encoder_factory"
+            - "@oro_frontend.request.frontend_helper"
+            - "@oro_locale.helper.localization"
+            - "@oro_website.manager"
         calls:
             - [setContainer, ["@service_container"]]
 
@@ -1037,3 +1036,11 @@ services:
         class: Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule
         tags:
             - { name: oro_security.access_rule, priority: -200 }
+
+    oro_customer.provider.customer_user_preferred_language_provider:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerUserPreferredLanguageProvider
+        public: false
+        arguments:
+            - '@oro_frontend_localization.manager.user_localization'
+        tags:
+            - { name: oro_locale.preferred_language_provider }
