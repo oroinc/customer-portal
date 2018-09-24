@@ -2,7 +2,9 @@
 <div class="datagrid-massaction">
     <div class="dropdown datagrid-massaction__toggle">
         <button class="datagrid-massaction__invisible" data-toggle="dropdown" type="button"
-                id="<%- togglerId %>" aria-haspopup="true" aria-expanded="false"
+                id="<%- togglerId %>"
+                data-modifiers="<%- JSON.stringify({preventOverflow: {enabled: false}, hide: {enabled: false}}) %>"
+                aria-haspopup="true" aria-expanded="false"
                 aria-label="<%- _.__('oro.datagrid.headerCell.selectAll.label') %>"></button>
         <label class="custom-checkbox">
             <input type="checkbox" name="is_default" class="custom-checkbox__input" data-select>

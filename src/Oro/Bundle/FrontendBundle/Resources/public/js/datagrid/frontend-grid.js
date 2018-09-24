@@ -3,6 +3,9 @@ define(function(require) {
 
     var FrontendGrid;
     var Grid = require('orodatagrid/js/datagrid/grid');
+    var $ = require('jquery');
+    var _ = require('underscore');
+    var __ = require('orotranslation/js/translator');
 
     FrontendGrid = Grid.extend({
         /**
@@ -11,6 +14,13 @@ define(function(require) {
          * @property {Object}
          */
         gridOptions: null,
+
+        /** @property {Object} */
+        noDataTranslations: {
+            noColumns: 'oro.datagrid.no.columns',
+            noEntities: 'oro.datagrid.no.entities',
+            noResults: 'oro_frontend.datagrid.no.results'
+        },
 
         /**
          * @constructor
@@ -64,6 +74,22 @@ define(function(require) {
                     this.gridOptions.rowClassName = this.rowClassName + ' ' + this.rowSelectClass;
                 }
             }
+        },
+
+        /**
+         * Define no data block.
+         */
+        _defineNoDataBlock: function() {
+            var placeholders = {
+                entityHint: (this.entityHint || __('oro.datagrid.entityHint')).toLowerCase()
+            };
+            var message = _.isEmpty(this.collection.state.filters)
+                ? this.noDataTranslations.noEntities : this.noDataTranslations.noResults;
+            message = this.noColumnsFlag ? this.noDataTranslations.noColumns : message;
+
+            this.$(this.selectors.noDataBlock).html($(this.noDataTemplate({
+                hints: __(message, placeholders).replace('\n', '<br />')
+            })));
         }
     });
 

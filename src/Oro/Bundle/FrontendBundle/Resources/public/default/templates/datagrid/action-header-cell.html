@@ -1,7 +1,9 @@
 <% var togglerId = _.uniqueId('dropdown-') %>
 <div class="dropdown datagrid-massaction">
     <button type="button" class="datagrid-massaction__toggle" id="<%- togglerId %>"
-            data-toggle="dropdown" data-placement="bottom-end" title="<%= _.__('oro.datagrid.mass_action.title') %>"
+            data-toggle="dropdown" data-placement="bottom-end"
+            data-modifiers="<%- JSON.stringify({preventOverflow: {enabled: false}, hide: {enabled: false}}) %>"
+            title="<%= _.__('oro.datagrid.mass_action.title') %>"
             aria-label="<%= _.__('oro.datagrid.mass_action.title') %>" aria-haspopup="true" aria-expanded="false">
         <span class="datagrid-massaction__dots" aria-hidden="true"><%= _.__('oro.datagrid.mass_action.button_title') %></span>
     </button>
