@@ -24,6 +24,11 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     public const API_DOC_VIEWS_PARAMETER_NAME        = 'oro_frontend.api_doc.views';
     public const API_DOC_DEFAULT_VIEW_PARAMETER_NAME = 'oro_frontend.api_doc.default_view';
 
+    private const API_CACHE_CONTROL_PROCESSOR_SERVICE_ID = 'oro_frontend.api.options.rest.set_cache_control';
+    private const API_MAX_AGE_PROCESSOR_SERVICE_ID       = 'oro_frontend.api.options.rest.cors.set_max_age';
+    private const API_ALLOW_ORIGIN_PROCESSOR_SERVICE_ID  = 'oro_frontend.api.rest.cors.set_allow_origin';
+    private const API_CORS_HEADERS_PROCESSOR_SERVICE_ID  = 'oro_frontend.api.rest.cors.set_allow_and_expose_headers';
+
     private const RESOURCES_FOLDER_PLACEHOLDER = '{folder}';
     private const RESOURCES_FOLDER_PATTERN     = '[a-zA-Z][a-zA-Z0-9_\-:]*';
 
@@ -51,18 +56,8 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 
         $container->setParameter('oro_frontend.debug_routes', $config['debug_routes']);
 
-        $apiDocViews = $this->getApiDocViews($container);
-        $frontendApiDocViews = $config['frontend_api_doc_views'];
-        $container->setParameter(self::API_DOC_VIEWS_PARAMETER_NAME, $frontendApiDocViews);
-        $container->setParameter(
-            self::API_DOC_DEFAULT_VIEW_PARAMETER_NAME,
-            $this->getFrontendDefaultApiView($apiDocViews, $frontendApiDocViews)
-        );
-        $container->setParameter(
-            OroApiExtension::API_DOC_DEFAULT_VIEW_PARAMETER_NAME,
-            $this->getBackendDefaultApiView($apiDocViews, $frontendApiDocViews)
-        );
-        $this->setDefaultHtmlFormatterForFrontendApiViews($container, $apiDocViews, $frontendApiDocViews);
+        $this->configureApiDocViews($container, $config);
+        $this->configureApiCors($container, $config);
     }
 
     /**
@@ -204,6 +199,45 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 
     /**
      * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function configureApiDocViews(ContainerBuilder $container, array $config)
+    {
+        $apiDocViews = $this->getApiDocViews($container);
+        $frontendApiDocViews = $config['frontend_api']['api_doc_views'];
+        $container->setParameter(self::API_DOC_VIEWS_PARAMETER_NAME, $frontendApiDocViews);
+        $container->setParameter(
+            self::API_DOC_DEFAULT_VIEW_PARAMETER_NAME,
+            $this->getFrontendDefaultApiView($apiDocViews, $frontendApiDocViews)
+        );
+        $container->setParameter(
+            OroApiExtension::API_DOC_DEFAULT_VIEW_PARAMETER_NAME,
+            $this->getBackendDefaultApiView($apiDocViews, $frontendApiDocViews)
+        );
+        $this->setDefaultHtmlFormatterForFrontendApiViews($container, $apiDocViews, $frontendApiDocViews);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function configureApiCors(ContainerBuilder $container, array $config)
+    {
+        $corsConfig = $config['frontend_api']['cors'];
+        $container->getDefinition(self::API_CACHE_CONTROL_PROCESSOR_SERVICE_ID)
+            ->replaceArgument(0, $corsConfig['preflight_max_age']);
+        $container->getDefinition(self::API_MAX_AGE_PROCESSOR_SERVICE_ID)
+            ->replaceArgument(0, $corsConfig['preflight_max_age']);
+        $container->getDefinition(self::API_ALLOW_ORIGIN_PROCESSOR_SERVICE_ID)
+            ->replaceArgument(0, $corsConfig['allow_origins']);
+        $container->getDefinition(self::API_CORS_HEADERS_PROCESSOR_SERVICE_ID)
+            ->replaceArgument(0, $corsConfig['allow_headers'])
+            ->replaceArgument(1, $corsConfig['expose_headers'])
+            ->replaceArgument(2, $corsConfig['allow_credentials']);
+    }
+
+    /**
+     * @param ContainerBuilder $container
      *
      * @return string
      */
@@ -272,7 +306,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         foreach ($frontendViewNames as $name) {
             if (!array_key_exists($name, $apiDocViews)) {
                 throw new LogicException(sprintf(
-                    'The view "%s" defined in %s.frontend_api_doc_views is unknown.'
+                    'The view "%s" defined in %s.frontend_api.api_doc_views is unknown.'
                     . ' Check that it is configured in oro_api.api_doc_views.',
                     $name,
                     self::ALIAS

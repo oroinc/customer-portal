@@ -65,3 +65,61 @@ services:
             index_0: 'oro_frontend_rest_api_item'
         tags:
             - { name: oro.api.processor, action: create, group: finalize, requestType: frontend&rest, priority: -9 }
+
+    oro_frontend.api.rest.cors.set_allow_origin:
+        class: Oro\Bundle\ApiBundle\Processor\Shared\Rest\SetCorsAllowOrigin
+        arguments:
+            - [] # allowedOrigins. They are set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+        tags:
+            - { name: oro.api.processor, action: get, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: get_list, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: delete, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: delete_list, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: create, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: update, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: get_subresource, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: delete_subresource, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: add_subresource, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: update_subresource, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: get_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: delete_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: add_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: update_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: options, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+
+    oro_frontend.api.rest.cors.set_allow_and_expose_headers:
+        class: Oro\Bundle\ApiBundle\Processor\Shared\Rest\SetCorsAllowAndExposeHeaders
+        arguments:
+            - [] # allowedHeaders. They are set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+            - [] # exposableHeaders. They are set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+            - false # isCredentialsAllowed. It is set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+        tags:
+            - { name: oro.api.processor, action: get, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: get_list, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: delete, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: delete_list, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: create, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: update, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: get_subresource, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: delete_subresource, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: add_subresource, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: update_subresource, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: get_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: delete_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: add_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: update_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: options, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+
+    oro_frontend.api.options.rest.cors.set_max_age:
+        class: Oro\Bundle\ApiBundle\Processor\Options\Rest\SetCorsMaxAge
+        arguments:
+            - 0 # preflightMaxAge. It is set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+        tags:
+            - { name: oro.api.processor, action: options, group: normalize_result, requestType: frontend&rest, cors: true, priority: -242 }
+
+    oro_frontend.api.options.rest.set_cache_control:
+        class: Oro\Bundle\ApiBundle\Processor\Options\Rest\SetCacheControl
+        arguments:
+            - 0 # preflightMaxAge. It is set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+        tags:
+            - { name: oro.api.processor, action: options, group: normalize_result, requestType: frontend&rest, priority: -245 }

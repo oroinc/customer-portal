@@ -12,7 +12,8 @@ oro_api:
             request_type: ['rest', 'json_api', 'frontend']
 
 oro_frontend:
-    frontend_api_doc_views: [frontend_rest_json_api]
+    frontend_api:
+        api_doc_views: [frontend_rest_json_api]
 
 twig:
     globals:
