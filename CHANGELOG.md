@@ -1,4 +1,5 @@
-## 3.1.0
+## 3.1.0-beta (2018-09-27)
+[Show detailed list of changes](incompatibilities-3-1-beta.md)
 ### Added
 #### CustomerBundle
 * A new email template `customer_user_welcome_email_registered_by_admin` was added. It is sent when the administrator or a customer user manager creates a new customer user with the "Send Welcome Email" option selected or when the administrator confirms a customer user from the management console.
