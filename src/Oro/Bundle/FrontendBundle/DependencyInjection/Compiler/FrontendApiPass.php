@@ -26,6 +26,10 @@ class FrontendApiPass implements CompilerPassInterface
         );
         FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
             $container,
+            'oro_api.create.rest.set_location_header'
+        );
+        FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
+            $container,
             'oro_api.options.rest.set_cache_control'
         );
         FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(

@@ -22,7 +22,8 @@ services:
         parent: oro_api.rest.routing_options_resolver
         arguments:
             index_0: 'frontend_rest_api'
-            index_1: '@oro_frontend.api.rest.action_mapper'
+            index_1: '@oro_frontend.api.rest.routes'
+            index_2: '@oro_frontend.api.rest.action_mapper'
         tags:
             - { name: oro.api.routing_options_resolver, view: frontend_rest_json_api }
 
@@ -33,14 +34,20 @@ services:
         tags:
             - { name: nelmio_api_doc.extractor.handler }
 
-    oro_frontend.api.rest.action_mapper:
-        class: Oro\Bundle\ApiBundle\ApiDoc\RestActionMapper
+    oro_frontend.api.rest.routes:
+        class: Oro\Bundle\ApiBundle\Request\Rest\RestRoutes
         public: false
         arguments:
             - 'oro_frontend_rest_api_item'
             - 'oro_frontend_rest_api_list'
             - 'oro_frontend_rest_api_subresource'
             - 'oro_frontend_rest_api_relationship'
+
+    oro_frontend.api.rest.action_mapper:
+        class: Oro\Bundle\ApiBundle\ApiDoc\RestActionMapper
+        public: false
+        arguments:
+            - '@oro_frontend.api.rest.routes'
 
     oro_frontend.api.rest.doc_url_generator:
         class: Oro\Bundle\FrontendBundle\Api\ApiDoc\RestDocUrlGenerator
@@ -62,9 +69,9 @@ services:
     oro_frontend.api.create.rest.set_location_header:
         parent: oro_api.create.rest.set_location_header
         arguments:
-            index_0: 'oro_frontend_rest_api_item'
+            index_0: '@oro_frontend.api.rest.routes'
         tags:
-            - { name: oro.api.processor, action: create, group: finalize, requestType: frontend&rest, priority: -9 }
+            - { name: oro.api.processor, action: create, group: finalize, requestType: frontend&rest, priority: -10 }
 
     oro_frontend.api.rest.cors.set_allow_origin:
         class: Oro\Bundle\ApiBundle\Processor\Shared\Rest\SetCorsAllowOrigin
