@@ -366,6 +366,7 @@ class LoginTest extends FrontendWebTestCase
     public function testNotAllowedMethods($method)
     {
         $response = $this->request($method);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_METHOD_NOT_ALLOWED);
         self::assertEquals('OPTIONS, POST', $response->headers->get('Allow'));
     }
 
