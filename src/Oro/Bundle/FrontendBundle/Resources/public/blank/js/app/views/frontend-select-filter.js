@@ -5,6 +5,7 @@ define(function(require) {
     var _ = require('underscore');
     var SelectFilter = require('oro/filter/select-filter');
     var MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
+    var FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
     var module = require('module');
     var config = module.config();
 
@@ -13,7 +14,7 @@ define(function(require) {
         toggleMode: _.isMobile()
     }, config);
 
-    FrontendSelectFilter = SelectFilter.extend({
+    FrontendSelectFilter = SelectFilter.extend(_.extend({}, FilterCountHelper, {
         /**
          * @property
          */
@@ -45,6 +46,28 @@ define(function(require) {
          * @property
          */
         containerSelector: '.filter-criteria-selector',
+
+        /**
+         * @inheritDoc
+         */
+        populateDefault: false,
+
+        /**
+         * @property {Object}
+         */
+        listen: {
+            'metadata-loaded': 'onMetadataLoaded',
+            'filters-manager:after-applying-state mediator': 'rerenderFilter'
+        },
+
+        /**
+         * @inheritDoc
+         */
+        getTemplateData: function() {
+            var templateData = FrontendSelectFilter.__super__.getTemplateData.apply(this, arguments);
+
+            return this.filterTemplateData(templateData);
+        },
 
         /**
          * Set container for dropdown
@@ -100,7 +123,7 @@ define(function(require) {
                 this.toggleFilter();
             }
         }
-    });
+    }));
 
     return FrontendSelectFilter;
 });
