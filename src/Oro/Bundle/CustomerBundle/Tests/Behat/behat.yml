@@ -26,7 +26,28 @@ oro_behat_extension:
   elements:
     CustomerUserRoleForm:
       selector: "form[id*='_customer_user_role']"
-      class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\CustomerUserRoleForm
+      class: Oro\Bundle\UserBundle\Tests\Behat\Element\UserRoleForm
+    Customer User Form:
+      selector: 'form[name="oro_customer_customer_user"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Second Primary: 'oro_customer_customer_user[addresses][1][primary]'
+          Second Street: 'oro_customer_customer_user[addresses][1][street]'
+          Second City: 'oro_customer_customer_user[addresses][1][city]'
+          Second Postal Code: 'oro_customer_customer_user[addresses][1][postalCode]'
+          Second Organization: 'oro_customer_customer_user[addresses][1][organization]'
+          Second Country:
+            locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_country-uid")]/input'
+            type: xpath
+          Second State:
+            locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_region-uid")]/input'
+            type: xpath
+
+    CustomerUserRoleGrid:
+      selector: '[id^="grid-customer-user-role-permission-grid"]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+
     Customer Users Grid:
       selector: '[id^="grid-frontend-customer-customer-user-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
