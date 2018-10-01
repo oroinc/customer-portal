@@ -28,7 +28,7 @@ oro_behat_extension:
   elements:
     CustomerUserRoleForm:
       selector: "form[id*='_customer_user_role']"
-      class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\CustomerUserRoleForm
+      class: Oro\Bundle\UserBundle\Tests\Behat\Element\UserRoleForm
     Customer User Form:
       selector: 'form[name="oro_customer_customer_user"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
