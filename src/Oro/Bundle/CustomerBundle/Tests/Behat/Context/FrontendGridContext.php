@@ -138,7 +138,7 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     public function assertHasFilterInManagerInFrontendGrid(string $filter, string $dataGridName = null)
     {
         /** @var FrontendGridFilterManager $filterManager */
-        $filterManager = $this->getFilterSelector($dataGridName);
+        $filterManager = $this->getFilterManager($dataGridName);
         self::assertTrue(
             $filterManager->hasFilter($filter),
             sprintf('Filter %s is not present in %s grid filter manager', $filter, $dataGridName)
@@ -160,7 +160,7 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     public function assertHasNoFilterInManagerInFrontendGrid(string $filter, string $dataGridName = null)
     {
         /** @var FrontendGridFilterManager $filterManager */
-        $filterManager = $this->getFilterSelector($dataGridName);
+        $filterManager = $this->getFilterManager($dataGridName);
         self::assertFalse(
             $filterManager->hasFilter($filter),
             sprintf('Filter %s is present in %s grid filter manager', $filter, $dataGridName)
@@ -242,21 +242,5 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
         $filterButton->click();
 
         return $grid->getElement($grid->getMappedChildElementName('FrontendGridFilterManager'));
-    }
-
-    /**
-     * @param null $datagridName
-     *
-     * @return FrontendGridFilterManager|Element
-     */
-    protected function getFilterSelector($datagridName = null)
-    {
-        $grid = $this->getFrontendGrid($datagridName);
-
-        $grid->getElement($grid->getMappedChildElementName('GridFiltersButton'))->open();
-        $filterButton = $grid->getElement($grid->getMappedChildElementName('GridFilterManagerButton'));
-        $filterButton->click();
-
-        return $grid->getElement($grid->getMappedChildElementName('FrontendGridFilterSelector'));
     }
 }
