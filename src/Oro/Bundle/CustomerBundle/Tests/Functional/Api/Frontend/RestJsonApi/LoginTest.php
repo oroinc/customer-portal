@@ -3,6 +3,9 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Oro\Bundle\ApiBundle\ApiDoc\Extractor\CachingApiDocExtractor;
+use Oro\Bundle\ApiBundle\Request\ApiActions;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
@@ -12,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @dbIsolationPerTest
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class LoginTest extends FrontendWebTestCase
 {
@@ -28,6 +33,32 @@ class LoginTest extends FrontendWebTestCase
     }
 
     /**
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return Response
+     */
+    private function request($method, array $parameters = [])
+    {
+        $this->client->request(
+            $method,
+            $this->getUrl('oro_frontend_rest_api_list', ['entity' => 'login']),
+            $parameters,
+            [],
+            ['CONTENT_TYPE' => self::JSON_API_CONTENT_TYPE]
+        );
+
+        $this->getEntityManager()->clear();
+
+        self::assertFalse(
+            self::getContainer()->get('oro_api.tests.test_session_listener')->isSessionStarted(),
+            'The Session must not be started because REST API is stateless'
+        );
+
+        return $this->client->getResponse();
+    }
+
+    /**
      * @param string $email
      * @param string $password
      *
@@ -35,29 +66,38 @@ class LoginTest extends FrontendWebTestCase
      */
     private function sendLoginRequest($email, $password)
     {
-        $this->client->request(
+        $response = $this->request(
             'POST',
-            $this->getUrl('oro_frontend_rest_api_list', ['entity' => 'login']),
             [
                 'meta' => [
                     'email'    => $email,
                     'password' => $password
                 ]
-            ],
-            [],
-            ['CONTENT_TYPE' => self::JSON_API_CONTENT_TYPE]
+            ]
         );
 
-        $this->getEntityManager()->clear();
-
-        // make sure that REST API call does not start the session
-        self::assertFalse(
-            self::getContainer()->get('oro_api.tests.test_session_listener')->isSessionStarted(),
-            'The Session must not be started because REST API is stateless'
-        );
-
-        $response = $this->client->getResponse();
         self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
+
+        return $response;
+    }
+
+    /**
+     * @return Response
+     */
+    protected function sendOptionsRequest()
+    {
+        $response = $this->request('OPTIONS');
+
+        self::assertTrue(
+            null === self::getContainer()->get('security.token_storage')->getToken(),
+            'The security token must not be initialized for OPTIONS request'
+        );
+
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
+        self::assertSame('', $response->getContent());
+        self::assertSame(0, $response->headers->get('Content-Length'));
+        self::assertEquals('max-age=600, public', $response->headers->get('Cache-Control'));
+        self::assertEquals('Origin', $response->headers->get('Vary'));
 
         return $response;
     }
@@ -75,7 +115,7 @@ class LoginTest extends FrontendWebTestCase
         $response = $this->sendLoginRequest('', '');
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_BAD_REQUEST);
-        $content = json_decode($response->getContent(), true);
+        $content = self::jsonToArray($response->getContent());
         self::assertEquals(
             [
                 'errors' => [
@@ -102,7 +142,7 @@ class LoginTest extends FrontendWebTestCase
         $response = $this->sendLoginRequest('unknown@example.com', 'unknown');
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
-        $content = json_decode($response->getContent(), true);
+        $content = self::jsonToArray($response->getContent());
         self::assertEquals(
             [
                 'errors' => [
@@ -130,7 +170,7 @@ class LoginTest extends FrontendWebTestCase
         );
         self::assertCount(1, $user->getApiKeys());
 
-        $content = json_decode($response->getContent(), true);
+        $content = self::jsonToArray($response->getContent());
         self::assertEquals(
             [
                 'meta' => [
@@ -151,7 +191,7 @@ class LoginTest extends FrontendWebTestCase
         $response = $this->sendLoginRequest(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
-        $content = json_decode($response->getContent(), true);
+        $content = self::jsonToArray($response->getContent());
         self::assertEquals(
             [
                 'errors' => [
@@ -184,11 +224,7 @@ class LoginTest extends FrontendWebTestCase
         $em->persist($apiKey);
         $em->flush();
 
-        $configManager = $this
-            ->getClientInstance()
-            ->getContainer()
-            ->get('oro_config.global');
-
+        $configManager = self::getContainer()->get('oro_config.global');
         $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', false);
         $configManager->flush();
 
@@ -212,11 +248,7 @@ class LoginTest extends FrontendWebTestCase
         $em->persist($apiKey);
         $em->flush();
 
-        $configManager = $this
-            ->getClientInstance()
-            ->getContainer()
-            ->get('oro_config.global');
-
+        $configManager = self::getContainer()->get('oro_config.global');
         $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', true);
         $configManager->flush();
 
@@ -239,7 +271,7 @@ class LoginTest extends FrontendWebTestCase
         $existingApiKey = $apiKey->getApiKey();
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
-        $content = json_decode($response->getContent(), true);
+        $content = self::jsonToArray($response->getContent());
         self::assertEquals(
             [
                 'meta' => [
@@ -269,7 +301,7 @@ class LoginTest extends FrontendWebTestCase
         $response = $this->sendLoginRequest(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
-        $content = json_decode($response->getContent(), true);
+        $content = self::jsonToArray($response->getContent());
         self::assertEquals(
             [
                 'errors' => [
@@ -310,7 +342,7 @@ class LoginTest extends FrontendWebTestCase
         );
         self::assertCount(1, $user->getApiKeys());
 
-        $content = json_decode($response->getContent(), true);
+        $content = self::jsonToArray($response->getContent());
         self::assertEquals(
             [
                 'meta' => [
@@ -320,5 +352,82 @@ class LoginTest extends FrontendWebTestCase
             $content
         );
         self::assertFalse($response->headers->has('Location'), 'Location header');
+    }
+
+    public function testOptions()
+    {
+        $response = $this->sendOptionsRequest();
+        self::assertEquals('OPTIONS, POST', $response->headers->get('Allow'));
+    }
+
+    /**
+     * @dataProvider getNotAllowedMethods
+     */
+    public function testNotAllowedMethods($method)
+    {
+        $response = $this->request($method);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_METHOD_NOT_ALLOWED);
+        self::assertEquals('OPTIONS, POST', $response->headers->get('Allow'));
+    }
+
+    /**
+     * @return array
+     */
+    public function getNotAllowedMethods()
+    {
+        return [
+            ['HEAD'],
+            ['GET'],
+            ['PATCH'],
+            ['DELETE']
+        ];
+    }
+
+    public function testOptionsDocumentation()
+    {
+        $extractor = self::getContainer()->get('nelmio_api_doc.extractor.api_doc_extractor');
+        if ($extractor instanceof CachingApiDocExtractor) {
+            $extractor->warmUp('frontend_rest_json_api');
+        }
+        $allDocs = $extractor->all('frontend_rest_json_api');
+        $docs = [];
+        foreach ($allDocs as $doc) {
+            /** @var ApiDoc $annotation */
+            $annotation = $doc['annotation'];
+            $route = $annotation->getRoute();
+            if ($route->getDefault('entity') === 'login'
+                && $route->getDefault('_action') === ApiActions::OPTIONS
+            ) {
+                $docs[] = $doc;
+                break;
+            }
+        }
+        self::assertCount(1, $docs);
+        $formatter = self::getContainer()->get('nelmio_api_doc.formatter.simple_formatter');
+        $data = $formatter->format($docs);
+        $resourceData = reset($data);
+        $resourceData = reset($resourceData);
+        self::assertEquals(
+            'Get options',
+            $resourceData['description'],
+            'description'
+        );
+        self::assertEquals(
+            'Get communication options for a resource',
+            $resourceData['documentation'],
+            'documentation'
+        );
+        self::assertTrue(
+            empty($resourceData['parameters']),
+            'The "parameters" section should be empty'
+        );
+        self::assertTrue(
+            empty($resourceData['filters']),
+            'The "filters" section should be empty'
+        );
+        self::assertTrue(
+            empty($resourceData['response']),
+            'The "response" section should be empty'
+        );
     }
 }
