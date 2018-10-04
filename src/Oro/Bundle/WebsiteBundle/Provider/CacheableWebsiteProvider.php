@@ -93,6 +93,10 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
      */
     public function clearCache()
     {
+        if (!$this->hasCache()) {
+            return;
+        }
+
         $this->cacheProvider->delete(self::WEBSITE_IDS_CACHE_KEY);
     }
 }

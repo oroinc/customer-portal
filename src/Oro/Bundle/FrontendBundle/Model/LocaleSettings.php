@@ -161,6 +161,14 @@ class LocaleSettings extends BaseLocaleSettings
     /**
      * {@inheritdoc}
      */
+    public function getActualLanguage()
+    {
+        return $this->inner->getActualLanguage();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCountry()
     {
         if (!$this->frontendHelper->isFrontendRequest()) {

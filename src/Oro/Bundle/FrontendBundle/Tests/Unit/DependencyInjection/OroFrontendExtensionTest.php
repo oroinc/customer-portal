@@ -36,7 +36,9 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $container = new ContainerBuilder();
 
         $config = [
-            'frontend_api_doc_views' => ['frontend_view1']
+            'frontend_api' => [
+                'api_doc_views' => ['frontend_view1']
+            ]
         ];
         $apiConfig = [
             'api_doc_views' => [
@@ -55,7 +57,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
         self::assertTrue($container->getParameter('oro_frontend.debug_routes'));
         self::assertEquals(
-            $config['frontend_api_doc_views'],
+            $config['frontend_api']['api_doc_views'],
             $container->getParameter('oro_frontend.api_doc.views')
         );
         $updatedApiConfig = DependencyInjectionUtil::getConfig($container);
@@ -72,7 +74,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
     // @codingStandardsIgnoreStart
     /**
      * @expectedException \Symfony\Component\DependencyInjection\Exception\LogicException
-     * @expectedExceptionMessage The view "frontend_view1" defined in oro_frontend.frontend_api_doc_views is unknown. Check that it is configured in oro_api.api_doc_views.
+     * @expectedExceptionMessage The view "frontend_view1" defined in oro_frontend.frontend_api.api_doc_views is unknown. Check that it is configured in oro_api.api_doc_views.
      */
     // @codingStandardsIgnoreEnd
     public function testShouldThrowExceptionIfFrontendApiDocViewIsUnknown()
@@ -80,7 +82,9 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $container = new ContainerBuilder();
 
         $config = [
-            'frontend_api_doc_views' => ['frontend_view1']
+            'frontend_api' => [
+                'api_doc_views' => ['frontend_view1']
+            ]
         ];
         $apiConfig = [
             'api_doc_views' => [
@@ -91,6 +95,52 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
         $extension = new OroFrontendExtension();
         $extension->load([$config], $container);
+    }
+
+    public function testConfigurationForFrontendApiCors()
+    {
+        $container = new ContainerBuilder();
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $config = [
+            'frontend_api' => [
+                'cors' => [
+                    'preflight_max_age' => 123,
+                    'allow_origins' => ['https://foo.com'],
+                    'allow_headers' => ['AllowHeader1'],
+                    'expose_headers' => ['ExposeHeader1'],
+                    'allow_credentials' => true
+                ]
+            ]
+        ];
+
+        $extension = new OroFrontendExtension();
+        $extension->load([$config], $container);
+
+        self::assertSame(
+            $config['frontend_api']['cors']['preflight_max_age'],
+            $container->getDefinition('oro_frontend.api.options.rest.set_cache_control')->getArgument(0)
+        );
+        self::assertSame(
+            $config['frontend_api']['cors']['preflight_max_age'],
+            $container->getDefinition('oro_frontend.api.options.rest.cors.set_max_age')->getArgument(0)
+        );
+        self::assertSame(
+            $config['frontend_api']['cors']['allow_origins'],
+            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_origin')->getArgument(0)
+        );
+        self::assertSame(
+            $config['frontend_api']['cors']['allow_headers'],
+            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_and_expose_headers')->getArgument(0)
+        );
+        self::assertSame(
+            $config['frontend_api']['cors']['expose_headers'],
+            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_and_expose_headers')->getArgument(1)
+        );
+        self::assertSame(
+            $config['frontend_api']['cors']['allow_credentials'],
+            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_and_expose_headers')->getArgument(2)
+        );
     }
 
     public function testGetAlias()

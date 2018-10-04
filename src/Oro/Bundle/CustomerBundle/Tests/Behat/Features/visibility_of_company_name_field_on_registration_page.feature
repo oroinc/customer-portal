@@ -36,7 +36,7 @@ Feature: Visibility of Company Name Field on registration page
       | Email Address    | RuthWMaxwell@example.org |
       | Password         | RuthWMaxwell123          |
       | Confirm Password | RuthWMaxwell123          |
-    When I press "Create An Account"
+    When I click "Create An Account"
     Then I should see "Please check your email to complete registration"
 
   Scenario: Check that company name consists of first name and last name when "Require company name" option is disabled
