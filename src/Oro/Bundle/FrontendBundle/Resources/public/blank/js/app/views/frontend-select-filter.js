@@ -63,6 +63,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function FrontendSelectFilter() {
+            FrontendSelectFilter.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         getTemplateData: function() {
             var templateData = FrontendSelectFilter.__super__.getTemplateData.apply(this, arguments);
 

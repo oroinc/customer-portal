@@ -23,6 +23,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function FrontendMultiSelectFilter() {
+            FrontendMultiSelectFilter.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         getTemplateData: function() {
             var templateData = FrontendMultiSelectFilter.__super__.getTemplateData.apply(this, arguments);
 
