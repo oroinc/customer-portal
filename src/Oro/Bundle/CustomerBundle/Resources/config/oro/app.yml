@@ -7,6 +7,12 @@ security:
         Oro\Bundle\CustomerBundle\Entity\CustomerUser: sha512
 
     firewalls:
+        frontend_api_options:
+            pattern: '%oro_api.rest.pattern%'
+            methods: [OPTIONS]
+            security: false
+            stateless: true
+            anonymous: false
         frontend_api_wsse_secured:
             pattern:   '%oro_api.rest.pattern%'
             provider:  commerce_customer_user

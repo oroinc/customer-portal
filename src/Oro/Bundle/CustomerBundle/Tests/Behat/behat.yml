@@ -45,6 +45,11 @@ oro_behat_extension:
           Second State:
             locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_region-uid")]/input'
             type: xpath
+
+    CustomerUserRoleGrid:
+      selector: '[id^="grid-customer-user-role-permission-grid"]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+
     Customer Users Grid:
       selector: '[id^="grid-frontend-customer-customer-user-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -184,6 +189,15 @@ oro_behat_extension:
           Buyer Role:
            locator: '[id^="oro_customer_customer_user_roles_2-uid"]'
            type: css
+
+    Customer User Address Form:
+      selector: '[id^="oro_customer_customer_user-uid"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          First Name: 'oro_customer_customer_user[addresses][0][firstName]'
+          Last Name: 'oro_customer_customer_user[addresses][0][lastName]'
+          Organization: 'oro_customer_customer_user[addresses][0][organization]'
 
     Map Container:
       selector: '.map-visual-frame'

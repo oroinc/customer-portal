@@ -3,15 +3,18 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\AbstractUserControllerTest;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\EmailMessageAssertionTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CustomerUserControllerTest extends AbstractUserControllerTest
+class CustomerUserControllerTest extends WebTestCase
 {
+    use EmailMessageAssertionTrait;
+
     const NAME_PREFIX = 'NamePrefix';
     const MIDDLE_NAME = 'MiddleName';
     const NAME_SUFFIX = 'NameSuffix';
@@ -38,6 +41,8 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
                 LoadCustomerUserACLData::class,
             ]
         );
+
+        parent::setUp();
     }
 
     /**
@@ -81,7 +86,13 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
         $this->assertCount($emailsCount, $emailMessages);
 
         if ($isSendEmail) {
-            $this->assertMessage($email, array_shift($emailMessages));
+            /** @var \Swift_Message $emailMessage */
+            $emailMessage = array_shift($emailMessages);
+            $this->assertWelcomeMessage($email, $emailMessage);
+            $this->assertContains(
+                'Please follow the link below to create a password for your new account.',
+                $emailMessage->getBody()
+            );
         }
 
         $crawler = $this->client->followRedirect();
@@ -89,6 +100,36 @@ class CustomerUserControllerTest extends AbstractUserControllerTest
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertContains('Customer User has been saved', $crawler->html());
+    }
+
+    /**
+     * @return array
+     */
+    public function createDataProvider()
+    {
+        return [
+            'simple create' => [
+                'email' => $this->getEmail(),
+                'password' => '123456',
+                'isPasswordGenerate' => false,
+                'isSendEmail' => false,
+                'emailsCount' => 0
+            ],
+            'create with email and without password generator' => [
+                'email' => 'second@example.com',
+                'password' => '123456',
+                'isPasswordGenerate' => false,
+                'isSendEmail' => true,
+                'emailsCount' => 1
+            ],
+            'create with email and password generator' => [
+                'email' => 'third@example.com',
+                'password' => '',
+                'isPasswordGenerate' => true,
+                'isSendEmail' => true,
+                'emailsCount' => 1
+            ]
+        ];
     }
 
     public function testCreateWithLowPasswordComplexity()

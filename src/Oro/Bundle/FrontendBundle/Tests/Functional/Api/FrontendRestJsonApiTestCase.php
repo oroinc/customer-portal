@@ -4,7 +4,11 @@ namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api;
 
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
+use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
 use Oro\Bundle\FrontendTestFrameworkBundle\Test\WebsiteManagerTrait;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\Routing\RequestContext;
 
 /**
  * The base class for store frontend REST API that conforms JSON.API specification functional tests.
@@ -18,12 +22,17 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     const USER_PASSWORD = 'frontend_admin_api_key';
 
     /**
-     * {@inheritdoc}
+     * @before
      */
-    protected function setUp()
+    public function beforeFrontendTest()
     {
-        parent::setUp();
-        $this->setCurrentWebsite();
+        // set the current website after all fixtures are loaded,
+        // to make sure that its the ORM state is "managed".
+        // if fixtures are loaded in a test method, not in setUp() method,
+        // the setCurrentWebsite() method need to be called manually in this test method
+        if (null !== $this->client) {
+            $this->setCurrentWebsite();
+        }
     }
 
     /**
@@ -45,6 +54,17 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $requestType->add('frontend');
 
         return $requestType;
+    }
+
+    /**
+     * @param CustomerVisitor $visitor
+     */
+    protected function setVisitorCookie(CustomerVisitor $visitor)
+    {
+        $value = base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()]));
+        $this->client->getCookieJar()->set(
+            new Cookie(AnonymousCustomerUserAuthenticationListener::COOKIE_NAME, $value)
+        );
     }
 
     /**
@@ -99,5 +119,25 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     protected function getRelationshipRouteName()
     {
         return 'oro_frontend_rest_api_relationship';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getUrl($name, $parameters = [], $absolute = false)
+    {
+        // substitute the path info to avoid unnecessary usage of slugs
+        // the '/api/' is one of the skipped patterns for the slug decision maker
+        /** @var RequestContext $requestContext */
+        $requestContext = self::getContainer()->get('router.request_context');
+        $pathInfo = $requestContext->getPathInfo();
+        if ('/' === $pathInfo) {
+            $requestContext->setPathInfo('/api/');
+        }
+        try {
+            return parent::getUrl($name, $parameters, $absolute);
+        } finally {
+            $requestContext->setPathInfo($pathInfo);
+        }
     }
 }

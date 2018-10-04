@@ -28,7 +28,7 @@ Feature: Hide Is Primary Address checkbox for first address
     Then I should see "Customer Address has been saved" flash message
     And I click "New Company Address"
     Then I should see "Is Primary Address Checkbox" element inside "Create Address Form" element
-    And I press "Cancel"
+    And I click "Cancel"
 
   Scenario: Check Is Primary checkbox is not shown when creating first customer user address
     And I click "New Address"

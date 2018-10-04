@@ -106,7 +106,7 @@ class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertMethodNotAllowedResponse($response, 'GET');
+        self::assertMethodNotAllowedResponse($response, 'OPTIONS, GET');
     }
 
     public function testUnexpectedError()

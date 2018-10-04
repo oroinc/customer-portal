@@ -4,10 +4,8 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
-use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\TranslationBundle\Form\Type\Select2TranslatableEntityType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,9 +16,6 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
      * @var FrontendOwnerSelectType
      */
     protected $formType;
-
-    /** @var AclHelper $aclHelper */
-    protected $aclHelper;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject
@@ -37,10 +32,9 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-        $this->aclHelper = $this->createAclHelperMock();
         $this->registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
         $this->configProvider = $this->getMockBuilder(ConfigProvider::class)->disableOriginalConstructor()->getMock();
-        $this->formType = new FrontendOwnerSelectType($this->aclHelper, $this->registry, $this->configProvider);
+        $this->formType = new FrontendOwnerSelectType($this->registry, $this->configProvider);
     }
 
     public function testGetParent()
@@ -91,12 +85,6 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
             ->method('getRepository')
             ->with('OroCustomerBundle:Customer')
             ->willReturn($customerUserRepository);
-
-        $this->aclHelper
-            ->expects($this->any())
-            ->method('applyAclToCriteria')
-            ->with(CustomerUser::class, $criteria, 'VIEW', ['customer' => 'customer.id'])
-            ->willReturn($queryBuilder);
 
         $queryBuilder
             ->expects($this->any())

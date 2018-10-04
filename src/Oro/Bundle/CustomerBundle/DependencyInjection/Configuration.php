@@ -36,7 +36,6 @@ class Configuration implements ConfigurationInterface
                 'registration_link_enabled' => ['type' => 'boolean', 'value' => true],
                 'confirmation_required' => ['type' => 'boolean', 'value' => true],
                 'auto_login_after_registration' => ['type' => 'boolean', 'value' => false],
-                'send_password_in_welcome_email' => ['type' => 'boolean', 'value' => false],
                 'registration_instructions_enabled' => ['type' => 'boolean', 'value' => false],
                 'registration_instructions_text' => [
                     'type' => 'textarea',

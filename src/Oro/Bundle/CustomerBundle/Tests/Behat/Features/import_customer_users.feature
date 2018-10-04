@@ -138,7 +138,7 @@ Feature: Import Customer Users
 
   Scenario: Export - Import Customer Users
     Given I go to Customers/ Customer Users
-    And I press "Export"
+    And I click "Export"
     And I should see "Export started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Export performed successfully. 4 customer users were exported" text
     When I import exported file

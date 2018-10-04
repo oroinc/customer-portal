@@ -2,31 +2,83 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\UserBundle\Entity\BaseUserManager;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
  * Provides a set of methods to simplify manage of the CustomerUser entity.
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class CustomerUserManager extends BaseUserManager implements ContainerAwareInterface, LoggerAwareInterface
 {
-    /** @var ConfigManager */
+    /**
+     * @varConfigManager
+     */
     protected $configManager;
 
-    /** @var Processor */
+    /**
+     * @var Processor
+     */
     protected $emailProcessor;
 
-    /** @var LoggerInterface */
+    /**
+     * @var LoggerInterface
+     */
     protected $logger;
 
-    /** @var ContainerInterface */
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
+
+    /**
+     * @var FrontendHelper
+     */
+    private $frontendHelper;
+
+    /**
+     * @var LocalizationHelper
+     */
+    private $localizationHelper;
+
+    /**
+     * @var WebsiteManager
+     */
+    private $websiteManager;
+
+    /**
+     * @param string $class,
+     * @param ManagerRegistry $registry,
+     * @param EncoderFactoryInterface $encoderFactory,
+     * @param FrontendHelper $frontendHelper
+     * @param LocalizationHelper $localizationHelper
+     * @param WebsiteManager $websiteManager
+     */
+    public function __construct(
+        string $class,
+        ManagerRegistry $registry,
+        EncoderFactoryInterface $encoderFactory,
+        FrontendHelper $frontendHelper,
+        LocalizationHelper $localizationHelper,
+        WebsiteManager $websiteManager
+    ) {
+        parent::__construct($class, $registry, $encoderFactory);
+
+        $this->localizationHelper = $localizationHelper;
+        $this->websiteManager = $websiteManager;
+        $this->frontendHelper = $frontendHelper;
+    }
 
     /**
      * @param LoggerInterface $logger
@@ -41,6 +93,15 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
      */
     public function register(CustomerUser $user)
     {
+        if ($this->frontendHelper->isFrontendRequest()) {
+            $settings = $user->getWebsiteSettings($this->websiteManager->getCurrentWebsite())
+                ?? new CustomerUserSettings($this->websiteManager->getCurrentWebsite());
+
+            $settings->setLocalization($this->localizationHelper->getCurrentLocalization());
+
+            $user->setWebsiteSettings($settings);
+        }
+
         if ($this->isConfirmationRequired()) {
             $this->sendConfirmationEmail($user);
         } else {
@@ -61,16 +122,46 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
     /**
      * @param CustomerUser $user
      */
+    public function confirmRegistrationByAdmin(CustomerUser $user)
+    {
+        $user->setConfirmed(true)
+            ->setConfirmationToken(null);
+        $this->sendWelcomeRegisteredByAdminEmail($user);
+    }
+
+    /**
+     * @param CustomerUser $user
+     */
     public function sendWelcomeEmail(CustomerUser $user)
     {
+        $user->setConfirmationToken($user->generateToken());
+
         try {
-            $this->getEmailProcessor()->sendWelcomeNotification(
-                $user,
-                $this->isSendPasswordInWelcomeEmail() ? $user->getPlainPassword() : null
-            );
+            $this->getEmailProcessor()->sendWelcomeNotification($user);
         } catch (\Swift_SwiftException $exception) {
             if (null !== $this->logger) {
                 $this->logger->error('Unable to send welcome notification email', ['exception' => $exception]);
+            }
+        }
+    }
+
+    /**
+     * @param CustomerUser $user
+     */
+    public function sendWelcomeRegisteredByAdminEmail(CustomerUser $user)
+    {
+        $user->setConfirmationToken($user->generateToken());
+
+        try {
+            $this->getEmailProcessor()->sendWelcomeForRegisteredByAdminNotification($user);
+        } catch (\Swift_SwiftException $exception) {
+            if (null !== $this->logger) {
+                $this->logger->error(
+                    'Unable to send welcome notification email for registered by admin',
+                    [
+                        'exception' => $exception
+                    ]
+                );
             }
         }
     }
@@ -159,14 +250,6 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
     public function isConfirmationRequired()
     {
         return (bool)$this->getConfigValue('oro_customer.confirmation_required');
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isSendPasswordInWelcomeEmail()
-    {
-        return (bool)$this->getConfigValue('oro_customer.send_password_in_welcome_email');
     }
 
     /**
