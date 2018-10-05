@@ -28,7 +28,7 @@ define(function() {
                     hide: false,
                     addResetAction: true,
                     addRefreshAction: true,
-                    addColumnManager: true,
+                    datagridSettingsManager: true,
                     turnOffToolbarRecordsNumber: 0,
                     pageSize: {
                     },
@@ -859,8 +859,8 @@ define(function() {
                 }
             },
             customModules: {
-                columnManagerComponent: 'orofrontend\/js\/app\/components\/' +
-                'column-manager\/frontend-column-manager-component'
+                datagridSettingsComponent: 'orofrontend\/js\/app\/views\/' +
+                'datagrid-settings\/frontend-datagrid-settings-column-view'
             },
             toolbarTemplateSelector: '#template-customer-address-book-addresses-grid-toolbar',
             cellActionsHideCount: 4,

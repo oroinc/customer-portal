@@ -1,10 +1,10 @@
 define(function(require) {
     'use strict';
 
-    var FrontendColumnManagerView;
+    var FrontendDatagridSettingsColumnView;
     var $ = require('jquery');
     var _ = require('underscore');
-    var ColumnManagerView = require('orodatagrid/js/app/views/column-manager/column-manager-view');
+    var DatagridSettingsListView = require('orodatagrid/js/app/views/datagrid-settings-list/datagrid-settings-list-view');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var viewportManager = require('oroui/js/viewport-manager');
     var module = require('module');
@@ -18,7 +18,7 @@ define(function(require) {
         popupOptions: {}
     }, config);
 
-    FrontendColumnManagerView = ColumnManagerView.extend({
+    FrontendDatagridSettingsColumnView = DatagridSettingsListView.extend({
         /**
          * @property
          */
@@ -42,8 +42,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendColumnManagerView() {
-            FrontendColumnManagerView.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendDatagridSettingsColumnView() {
+            FrontendDatagridSettingsColumnView.__super__.constructor.apply(this, arguments);
         },
 
         /**
@@ -54,7 +54,7 @@ define(function(require) {
             this.popupOptions.contentElement = this.$el;
             this.popupOptions = _.extend({}, this.popupOptions, options.popupOptions || {});
 
-            FrontendColumnManagerView.__super__.initialize.call(this, options);
+            FrontendDatagridSettingsColumnView.__super__.initialize.call(this, options);
         },
 
         /**
@@ -87,7 +87,7 @@ define(function(require) {
 
                 this.fullscreenView.show();
             } else {
-                FrontendColumnManagerView.__super__.updateStateView.apply(this, arguments);
+                FrontendDatagridSettingsColumnView.__super__.updateStateView.apply(this, arguments);
             }
         },
 
@@ -108,5 +108,5 @@ define(function(require) {
         }
     });
 
-    return FrontendColumnManagerView;
+    return FrontendDatagridSettingsColumnView;
 });

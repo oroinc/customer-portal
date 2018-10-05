@@ -8,7 +8,7 @@ Feature: grid views management on datagrids
     Given I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account"
     And I click "Address Book"
-    And I hide filter "State" in "Customer Company Addresses Grid" grid
+    And I hide filter "State" in "Customer Company Addresses Grid" frontend grid
     When I click grid view list on "Customer Company Addresses Grid" grid
     And I click "Save As New"
     And I set "Test view" as grid view name for "Customer Company Addresses Grid" grid on frontend

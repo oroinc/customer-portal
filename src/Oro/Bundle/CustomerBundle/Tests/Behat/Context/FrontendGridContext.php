@@ -69,6 +69,22 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     }
 
     /**
+     * @When /^(?:|I )hide column "(?P<columnName>(?:[^"]|\\")*)" in frontend grid$/
+     * @When /^(?:|I )hide column "(?P<columnName>(?:[^"]|\\")*)" in "(?P<datagridName>(?:[^"]|\\")*)" frontend grid$/
+     *
+     * @param string $columnName
+     * @param string|null $datagridName
+     */
+    public function uncheckColumnOptionFrontendDatagrid($columnName, $datagridName = null)
+    {
+        /** @var FrontendGridColumnManager $columnManager */
+        $columnManager = $this->getFrontendGridColumnManager($datagridName);
+        $columnManager->open();
+        $columnManager->uncheckColumnVisibility($columnName);
+        $columnManager->close();
+    }
+
+    /**
      * @When /^(?:|I )go to next page in grid$/
      * @When /^(?:|I )go to next page in "(?P<datagridName>[\w\s]+)"$/
      *
@@ -139,6 +155,21 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
         $filterManager->close();
     }
 
+    /**
+     * @Given /^(?:|I) hide filter "(?P<filter>(?:[^"]|\\")*)" in frontend grid$/
+     * @Given /^(?:|I) hide filter "(?P<filter>(?:[^"]|\\")*)" in "(?P<datagridName>[\w\s]+)" frontend grid$/
+     *
+     * @param string $filter
+     * @param string $datagridName
+     */
+    public function iHideFilterInFrontendGrid($filter, $datagridName = null)
+    {
+        /** @var FrontendGridFilterManager $filterManager */
+        $filterManager = $this->getFilterManager($datagridName);
+        $filterManager->uncheckColumnFilter($filter);
+        $filterManager->close();
+    }
+
     //@codingStandardsIgnoreStart
     /**
      * @Then /^(?:|I )shouldn't see "(?P<columnName>(?:[^"]|\\")*)" column in frontend grid$/
@@ -195,7 +226,7 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
         $grid = $this->getFrontendGrid($datagridName);
 
         $grid->getElement($grid->getMappedChildElementName('GridFiltersButton'))->open();
-        $filterButton = $grid->getElement($grid->getMappedChildElementName('GridFilterManagerButton'));
+        $filterButton = $grid->getElement($grid->getMappedChildElementName('FrontendGridFilterManagerButton'));
         $filterButton->click();
 
         return $grid->getElement($grid->getMappedChildElementName('FrontendGridFilterManager'));
