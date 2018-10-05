@@ -15,6 +15,8 @@ use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
+ * Entity that represents CustomerUser`s roles in system
+ *
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository")
  * @ORM\Table(name="oro_customer_user_role",
  *      uniqueConstraints={
@@ -26,6 +28,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  * )
  * @Config(
  *      routeName="oro_customer_customer_user_role_index",
+ *      routeCreate="oro_customer_customer_user_role_create",
  *      routeUpdate="oro_customer_customer_user_role_update",
  *      defaultValues={
  *          "entity"={
@@ -36,6 +39,9 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  *              "group_name"="commerce"
  *          },
  *          "ownership"={
+ *              "owner_type"="ORGANIZATION",
+ *              "owner_field_name"="organization",
+ *              "owner_column_name"="organization_id",
  *              "frontend_owner_type"="FRONTEND_CUSTOMER",
  *              "frontend_owner_field_name"="customer",
  *              "frontend_owner_column_name"="customer_id",
@@ -149,6 +155,10 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
     protected $customerUsers;
 
     /**
+     * Only self-managed roles should be displayed on the frontend in "Account User Roles" management UI.
+     * Account users should not be allowed to see, view or copy the account user roles that are not flagged
+     * as "Self-Managed".
+     *
      * @var boolean
      *
      * @ORM\Column(type="boolean", name="self_managed", options={"default"=false})

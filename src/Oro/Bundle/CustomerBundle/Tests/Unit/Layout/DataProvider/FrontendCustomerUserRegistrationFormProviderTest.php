@@ -6,6 +6,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\WebsiteStub;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -34,9 +36,6 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
     /** @var FormFactoryInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $formFactory;
 
-    /** @var CustomerUserRoleRepository|\PHPUnit_Framework_MockObject_MockObject */
-    protected $roleRepository;
-
     /** @var ObjectRepository|\PHPUnit_Framework_MockObject_MockObject */
     protected $userRepository;
 
@@ -53,14 +52,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
     {
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
 
-        $this->roleRepository = $this->createMock(CustomerUserRoleRepository::class);
-
         $objectManager = $this->createMock(ObjectManager::class);
-        $objectManager->expects($this->any())
-            ->method('getRepository')
-            ->with('OroCustomerBundle:CustomerUserRole')
-            ->willReturn($this->roleRepository);
-
         $managerRegistry = $this->createMock(ManagerRegistry::class);
         $managerRegistry->expects($this->any())
             ->method('getManagerForClass')
@@ -94,10 +86,10 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
         $action = 'form_action';
 
         $defaultOwnerId = 1;
-        $defaultRole = $this->createMock(RoleInterface::class);
+        $defaultRole = new CustomerUserRole();
 
         $organization = $this->getEntity(Organization::class);
-        $website = $this->getEntity(Website::class, ['organization' => $organization]);
+        $website = $this->getEntity(WebsiteStub::class, ['organization' => $organization]);
         $owner = $this->getEntity(User::class);
 
         $formView = $this->createMock(FormView::class);
@@ -148,7 +140,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
     public function testGetRegisterFormViewOrganizationEmpty()
     {
         $defaultOwnerId = 1;
-        $website = $this->getEntity(Website::class);
+        $website = $this->getEntity(WebsiteStub::class);
 
         $this->prepare($defaultOwnerId, $website);
 
@@ -164,7 +156,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
         $defaultOwnerId = 1;
         $defaultRole = false;
         $organization = $this->getEntity(Organization::class);
-        $website = $this->getEntity(Website::class, ['organization' => $organization]);
+        $website = $this->getEntity(WebsiteStub::class, ['organization' => $organization]);
 
         $this->prepare($defaultOwnerId, $website, $defaultRole);
 
@@ -176,10 +168,10 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
         $action = 'form_action';
 
         $defaultOwnerId = 1;
-        $defaultRole = $this->createMock(RoleInterface::class);
+        $defaultRole = new CustomerUserRole();
 
         $organization = $this->getEntity(Organization::class);
-        $website = $this->getEntity(Website::class, ['organization' => $organization]);
+        $website = $this->getEntity(WebsiteStub::class, ['organization' => $organization]);
         $owner = $this->getEntity(User::class);
 
         $form = $this->createMock(FormInterface::class);
@@ -225,7 +217,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
     public function testGetRegisterFormOrganizationEmpty()
     {
         $defaultOwnerId = 1;
-        $website = $this->getEntity(Website::class);
+        $website = $this->getEntity(WebsiteStub::class);
 
         $this->prepare($defaultOwnerId, $website);
 
@@ -241,7 +233,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
         $defaultOwnerId = 1;
         $defaultRole = false;
         $organization = $this->getEntity(Organization::class);
-        $website = $this->getEntity(Website::class, ['organization' => $organization]);
+        $website = $this->getEntity(WebsiteStub::class, ['organization' => $organization]);
 
         $this->prepare($defaultOwnerId, $website, $defaultRole);
 
@@ -250,8 +242,8 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
 
     /**
      * @param int $defaultOwnerId
-     * @param Website $website
-     * @param RoleInterface $defaultRole
+     * @param WebsiteStub $website
+     * @param CustomerUserRole $defaultRole
      * @param FormInterface $form
      * @param string $routerAction
      * @param User $owner
@@ -266,7 +258,9 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
     ) {
         $this->configureDefaultOwner($defaultOwnerId);
         $this->configureCurrentWebsite($website);
-        $this->configureDefaultRoleByWebsite($defaultRole, $website);
+        if ($defaultRole) {
+            $website->setDefaultRole($defaultRole);
+        }
         $this->configureCreateForm($form);
         $this->configureRouterGenerator($routerAction);
         $this->configureUserRepoFind($owner, $defaultOwnerId);
@@ -298,27 +292,6 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit_Framewor
                 ->expects($this->once())
                 ->method('getCurrentWebsite')
                 ->willReturn($website);
-        }
-    }
-
-    /**
-     * @param RoleInterface|bool|null $defaultRole
-     * @param Website|bool|null $website
-     */
-    protected function configureDefaultRoleByWebsite(
-        $defaultRole = null,
-        $website = null
-    ) {
-        if ($defaultRole === null) {
-            $this->roleRepository
-                ->expects($this->never())
-                ->method('getDefaultCustomerUserRoleByWebsite');
-        } else {
-            $this->roleRepository
-                ->expects($this->once())
-                ->method('getDefaultCustomerUserRoleByWebsite')
-                ->with($website)
-                ->willReturn($defaultRole);
         }
     }
 

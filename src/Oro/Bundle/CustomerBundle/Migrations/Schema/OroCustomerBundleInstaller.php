@@ -8,6 +8,9 @@ use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareTrait;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectOrCreateType;
+use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
+use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
@@ -327,7 +330,6 @@ class OroCustomerBundleInstaller implements
      * Create oro_audit table
      *
      * @param Schema $schema
-     * @todo: BB-2679
      */
     protected function updateOroAuditTable(Schema $schema)
     {
@@ -365,6 +367,52 @@ class OroCustomerBundleInstaller implements
             $schema,
             'oro_note',
             'oro_customer_user_role'
+        );
+
+        $this->extendExtension->addManyToOneRelation(
+            $schema,
+            'oro_website',
+            'guest_role',
+            $table,
+            'label',
+            [
+                'extend' => [
+                    'owner' => ExtendScope::OWNER_CUSTOM,
+                    'nullable' => true,
+                    'on_delete' => 'RESTRICT',
+                ],
+                'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_FALSE],
+                'form' => [
+                    'is_enabled' => true,
+                    'form_type' => CustomerUserRoleSelectOrCreateType::class,
+                    'form_options' => ['required' => true]
+                ],
+                'view' => ['is_displayable' => true],
+                'dataaudit' => ['auditable' => true],
+            ]
+        );
+
+        $this->extendExtension->addManyToOneRelation(
+            $schema,
+            'oro_website',
+            'default_role',
+            $table,
+            'label',
+            [
+                'extend' => [
+                    'owner' => ExtendScope::OWNER_CUSTOM,
+                    'nullable' => true,
+                    'on_delete' => 'RESTRICT',
+                ],
+                'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_FALSE],
+                'form' => [
+                    'is_enabled' => true,
+                    'form_type' => CustomerUserRoleSelectOrCreateType::class,
+                    'form_options' => ['required' => true]
+                ],
+                'view' => ['is_displayable' => true],
+                'dataaudit' => ['auditable' => true],
+            ]
         );
     }
 
@@ -1154,7 +1202,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * @param Schema $schema
-     * @todo: BB-2679
      */
     private function addRelationsToScope(Schema $schema)
     {

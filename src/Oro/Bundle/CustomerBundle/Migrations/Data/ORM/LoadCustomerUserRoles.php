@@ -10,6 +10,9 @@ use Oro\Bundle\FrontendBundle\Migrations\Data\ORM\AbstractRolesData;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 
+/**
+ * This fixture creates default CustomerUserRoles
+ */
 class LoadCustomerUserRoles extends AbstractRolesData
 {
     const ROLES_FILE_NAME = 'frontend_roles.yml';
@@ -47,6 +50,9 @@ class LoadCustomerUserRoles extends AbstractRolesData
             $role = $this->createEntity($roleName, $roleConfigData['label']);
             if (!empty($roleConfigData['website_default_role'])) {
                 $this->setWebsiteDefaultRoles($role);
+            }
+            if (!empty($roleConfigData['website_guest_role'])) {
+                $this->setWebsiteGuestRoles($role);
             }
             $role->setOrganization($organization);
             $manager->persist($role);
@@ -118,7 +124,17 @@ class LoadCustomerUserRoles extends AbstractRolesData
     protected function setWebsiteDefaultRoles(CustomerUserRole $role)
     {
         foreach ($this->getWebsites() as $website) {
-            $role->addWebsite($website);
+            $website->setDefaultRole($role);
+        }
+    }
+
+    /**
+     * @param CustomerUserRole $role
+     */
+    protected function setWebsiteGuestRoles(CustomerUserRole $role)
+    {
+        foreach ($this->getWebsites() as $website) {
+            $website->setGuestRole($role);
         }
     }
 

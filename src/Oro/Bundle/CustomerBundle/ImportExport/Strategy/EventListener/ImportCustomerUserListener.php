@@ -14,6 +14,9 @@ use Oro\Bundle\ImportExportBundle\Event\StrategyEvent;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ImportStrategyHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
+/**
+ * Listener that updates imported CustomerUser entity website, roles & password
+ */
 class ImportCustomerUserListener
 {
     /**
@@ -119,9 +122,8 @@ class ImportCustomerUserListener
             return false;
         }
 
-        $role = $this->registry
-            ->getRepository(CustomerUserRole::class)
-            ->getDefaultCustomerUserRoleByWebsite($website);
+        /** @var CustomerUserRole $role */
+        $role = $website->getDefaultRole();
 
         if ($role) {
             $customerUser->addRole($role);

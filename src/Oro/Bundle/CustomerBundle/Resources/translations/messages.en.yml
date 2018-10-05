@@ -48,6 +48,13 @@ oro:
             update_profile:
                 label: Update User Profile
                 description: Allows the Customer User to update their own profile regardless of Edit permissions for Customer User entity.
+    website:
+        default_role:
+            label: 'Default Self-Registration Role'
+            description: 'If self-registration is allowed this role will be assigned to new customer users who register themselves on the storefront.'
+        guest_role:
+            label: 'Guest Role'
+            description: 'This role is used to manage permissions for non-authenticated visitors.'
 
 oro.customer:
     customer:

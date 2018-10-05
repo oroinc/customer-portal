@@ -115,3 +115,10 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
                 max: 255
         customerUsers:
             - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRole: ~
+
+Oro\Bundle\WebsiteBundle\Entity\Website:
+    properties:
+        guest_role:
+            - NotBlank: ~
+        default_role:
+            - NotBlank: ~

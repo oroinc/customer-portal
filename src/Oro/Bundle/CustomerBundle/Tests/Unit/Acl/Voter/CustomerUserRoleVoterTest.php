@@ -16,6 +16,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,10 +37,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->doctrineHelper = $this->getMockBuilder('Oro\Bundle\EntityBundle\ORM\DoctrineHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $this->doctrineHelper = $this->createMock('Oro\Bundle\EntityBundle\ORM\DoctrineHelper');
         $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
         $this->voter = new CustomerUserRoleVoter($this->doctrineHelper);
@@ -92,25 +90,140 @@ class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
     public function supportsAttributeDataProvider()
     {
         return [
-            'VIEW'                         => ['VIEW', false],
-            'CREATE'                       => ['CREATE', false],
-            'EDIT'                         => ['EDIT', false],
-            'DELETE'                       => [CustomerUserRoleVoter::ATTRIBUTE_DELETE, true],
+            'VIEW' => [CustomerUserRoleVoter::ATTRIBUTE_VIEW, true],
+            'CREATE' => ['CREATE', false],
+            'EDIT' => [CustomerUserRoleVoter::ATTRIBUTE_EDIT, true],
+            'ASSIGN' => [CustomerUserRoleVoter::ATTRIBUTE_ASSIGN, true],
+            'DELETE' => [CustomerUserRoleVoter::ATTRIBUTE_DELETE, true],
             'FRONTEND ACCOUNT ROLE UPDATE' => [CustomerUserRoleVoter::ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_UPDATE, true],
-            'FRONTEND ACCOUNT ROLE VIEW'   => [CustomerUserRoleVoter::ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_VIEW, true],
+            'FRONTEND ACCOUNT ROLE VIEW' => [CustomerUserRoleVoter::ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_VIEW, true],
+            'UNKNOWN' => ['UNKNOWN', false],
+        ];
+    }
+
+    /**
+     * @param string $attribute
+     * @param bool $isCustomerGranted
+     * @param bool $withCustomer
+     * @param int $expected
+     *
+     * @dataProvider attributesDataProvider
+     */
+    public function testVoteAttribute($attribute, $isCustomerGranted, $withCustomer, $expected)
+    {
+        $object = new CustomerUserRole();
+
+        $customer = new Customer();
+        if ($withCustomer) {
+            $object->setCustomer($customer);
+        }
+
+        $this->getMocksForVote($object);
+
+        $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        $authorizationChecker->expects($this->any())
+            ->method('isGranted')
+            ->with(CustomerUserRoleVoter::ATTRIBUTE_VIEW, $customer)
+            ->willReturn($isCustomerGranted);
+
+        $this->container->expects($this->any())
+            ->method('get')
+            ->willReturnMap([
+                [
+                    'security.authorization_checker',
+                    ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+                    $authorizationChecker
+                ]
+            ]);
+
+        /** @var \PHPUnit_Framework_MockObject_MockObject|TokenInterface $token */
+        $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
+        $this->assertEquals(
+            $expected,
+            $this->voter->vote($token, $object, [$attribute])
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function attributesDataProvider()
+    {
+        return [
+            'VIEW common role' => [
+                'attribute' => CustomerUserRoleVoter::ATTRIBUTE_VIEW,
+                'isCustomerGranted' => false,
+                'withCustomer' => false,
+                'expected' => VoterInterface::ACCESS_GRANTED,
+            ],
+            'VIEW common role allow customer' => [
+                'attribute' => CustomerUserRoleVoter::ATTRIBUTE_VIEW,
+                'isCustomerGranted' => true,
+                'withCustomer' => true,
+                'expected' => VoterInterface::ACCESS_GRANTED,
+            ],
+            'VIEW common role disallow customer' => [
+                'attribute' => CustomerUserRoleVoter::ATTRIBUTE_VIEW,
+                'isCustomerGranted' => false,
+                'withCustomer' => true,
+                'expected' => VoterInterface::ACCESS_DENIED,
+            ],
+            'EDIT common role' => [
+                'attribute' => CustomerUserRoleVoter::ATTRIBUTE_EDIT,
+                'isCustomerGranted' => false,
+                'withCustomer' => false,
+                'expected' => VoterInterface::ACCESS_GRANTED,
+            ],
+            'EDIT common role allow customer' => [
+                'attribute' => CustomerUserRoleVoter::ATTRIBUTE_EDIT,
+                'isCustomerGranted' => true,
+                'withCustomer' => true,
+                'expected' => VoterInterface::ACCESS_GRANTED,
+            ],
+            'EDIT common role disallow customer' => [
+                'attribute' => CustomerUserRoleVoter::ATTRIBUTE_EDIT,
+                'isCustomerGranted' => false,
+                'withCustomer' => true,
+                'expected' => VoterInterface::ACCESS_DENIED,
+            ],
+            'ASSIGN common role' => [
+                'attribute' => CustomerUserRoleVoter::ATTRIBUTE_ASSIGN,
+                'isCustomerGranted' => false,
+                'withCustomer' => false,
+                'expected' => VoterInterface::ACCESS_GRANTED,
+            ],
+            'ASSIGN common role allow customer' => [
+                'attribute' => CustomerUserRoleVoter::ATTRIBUTE_ASSIGN,
+                'isCustomerGranted' => true,
+                'withCustomer' => true,
+                'expected' => VoterInterface::ACCESS_GRANTED,
+            ],
+            'ASSIGN common role disallow customer' => [
+                'attribute' => CustomerUserRoleVoter::ATTRIBUTE_ASSIGN,
+                'isCustomerGranted' => false,
+                'withCustomer' => true,
+                'expected' => VoterInterface::ACCESS_DENIED,
+            ],
         ];
     }
 
     /**
      * @param bool $isDefaultWebsiteRole
      * @param bool $hasUsers
-     * @param int  $expected
+     * @param bool $isCustomerGranted
+     * @param bool $withCustomer
+     * @param int $expected
      *
      * @dataProvider attributeDeleteDataProvider
      */
-    public function testVoteDelete($isDefaultWebsiteRole, $hasUsers, $expected)
+    public function testVoteDelete($isDefaultWebsiteRole, $hasUsers, $isCustomerGranted, $withCustomer, $expected)
     {
         $object = new CustomerUserRole();
+
+        $customer = new Customer();
+        if ($withCustomer) {
+            $object->setCustomer($customer);
+        }
 
         $this->getMocksForVote($object);
 
@@ -119,13 +232,29 @@ class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $entityRepository->expects($this->at(0))
+        $entityRepository->expects($this->any())
             ->method('isDefaultForWebsite')
             ->will($this->returnValue($isDefaultWebsiteRole));
 
-        $entityRepository->expects($this->at(1))
+        $entityRepository->expects($this->any())
             ->method('hasAssignedUsers')
             ->will($this->returnValue($hasUsers));
+
+        $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        $authorizationChecker->expects($this->any())
+            ->method('isGranted')
+            ->with(CustomerUserRoleVoter::ATTRIBUTE_VIEW, $customer)
+            ->willReturn($isCustomerGranted);
+
+        $this->container->expects($this->any())
+            ->method('get')
+            ->willReturnMap([
+                [
+                    'security.authorization_checker',
+                    ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+                    $authorizationChecker
+                ]
+            ]);
 
         $this->doctrineHelper->expects($this->any())
             ->method('getEntityRepository')
@@ -146,20 +275,40 @@ class CustomerUserRoleVoterTest extends \PHPUnit_Framework_TestCase
     public function attributeDeleteDataProvider()
     {
         return [
-            'common role'          => [
+            'common role' => [
                 'isDefaultWebsiteRole' => false,
-                'hasUsers'             => false,
-                'expected'             => VoterInterface::ACCESS_GRANTED,
+                'hasUsers' => false,
+                'isCustomerGranted' => false,
+                'withCustomer' => false,
+                'expected' => VoterInterface::ACCESS_GRANTED,
+            ],
+            'common role allow customer' => [
+                'isDefaultWebsiteRole' => false,
+                'hasUsers' => false,
+                'isCustomerGranted' => true,
+                'withCustomer' => true,
+                'expected' => VoterInterface::ACCESS_GRANTED,
+            ],
+            'common role disallow customer' => [
+                'isDefaultWebsiteRole' => false,
+                'hasUsers' => false,
+                'isCustomerGranted' => false,
+                'withCustomer' => true,
+                'expected' => VoterInterface::ACCESS_DENIED,
             ],
             'default website role' => [
                 'isDefaultWebsiteRole' => true,
-                'hasUsers'             => false,
-                'expected'             => VoterInterface::ACCESS_DENIED,
+                'hasUsers' => false,
+                'isCustomerGranted' => false,
+                'withCustomer' => false,
+                'expected' => VoterInterface::ACCESS_DENIED,
             ],
-            'role wit users'       => [
+            'role wit users' => [
                 'isDefaultWebsiteRole' => false,
-                'hasUsers'             => true,
-                'expected'             => VoterInterface::ACCESS_DENIED,
+                'hasUsers' => true,
+                'isCustomerGranted' => false,
+                'withCustomer' => false,
+                'expected' => VoterInterface::ACCESS_DENIED,
             ],
         ];
     }
