@@ -11,10 +11,17 @@ define(function(require) {
     config = _.extend({
         icon: 'cog',
         wrapperClassName: 'datagrid-settings',
-        label: _.__('oro.datagrid.column_manager.title')
+        label: _.__('oro.datagrid.settings.title')
     }, config);
 
+    /**
+     * @class FrontendDatagridSettingsPlugin
+     * @extends DatagridSettingsPlugin
+     */
     FrontendDatagridSettingsPlugin = DatagridSettingsPlugin.extend({
+        /**
+         * @inheritDoc
+         */
         onBeforeToolbarInit: function(toolbarOptions) {
             var options = {
                 datagrid: this.main,

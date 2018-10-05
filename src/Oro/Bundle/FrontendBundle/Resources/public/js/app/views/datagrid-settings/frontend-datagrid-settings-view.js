@@ -18,6 +18,9 @@ define(function(require) {
             FrontendDatagridSettingsView.__super__.constructor.apply(this, arguments);
         },
 
+        /**
+         * @inheritDoc
+         */
         render: function() {
             FrontendDatagridSettingsView.__super__.render.call(this);
 
