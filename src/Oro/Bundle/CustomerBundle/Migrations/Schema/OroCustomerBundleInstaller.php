@@ -8,6 +8,9 @@ use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareTrait;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectOrCreateType;
+use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
+use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
@@ -35,7 +38,6 @@ class OroCustomerBundleInstaller implements
     const ORO_CUSTOMER_TABLE_NAME = 'oro_customer';
     const ORO_CUSTOMER_USER_TABLE_NAME = 'oro_customer_user';
     const ORO_CUSTOMER_GROUP_TABLE_NAME = 'oro_customer_group';
-    const ORO_CUSTOMER_ROLE_TO_WEBSITE_TABLE_NAME = 'oro_customer_role_to_website';
     const ORO_WEBSITE_TABLE_NAME = 'oro_website';
     const ORO_ORGANIZATION_TABLE_NAME = 'oro_organization';
     const ORO_CUSTOMER_ADDRESS_TABLE_NAME = 'oro_customer_address';
@@ -97,7 +99,6 @@ class OroCustomerBundleInstaller implements
         $this->createOroCustomerUserTable($schema);
         $this->createOroCustomerUserRoleTable($schema);
         $this->createOroCustomerUserAccessCustomerUserRoleTable($schema);
-        $this->createOroCustomerUserRoleToWebsiteTable($schema);
         $this->createOroCustomerUserApiTable($schema);
         $this->createOroCustomerTable($schema);
         $this->createOroCustomerGroupTable($schema);
@@ -128,7 +129,6 @@ class OroCustomerBundleInstaller implements
         $this->addOroCustomerUserForeignKeys($schema);
         $this->addOroCustomerUserAccessCustomerUserRoleForeignKeys($schema);
         $this->addOroCustomerUserRoleForeignKeys($schema);
-        $this->addOroCustomerUserRoleToWebsiteForeignKeys($schema);
         $this->addOroCustomerUserApiForeignKeys($schema);
         $this->addOroCustomerForeignKeys($schema);
         $this->addOroCustomerAddressForeignKeys($schema);
@@ -367,20 +367,52 @@ class OroCustomerBundleInstaller implements
             'oro_note',
             'oro_customer_user_role'
         );
-    }
 
-    /**
-     * Create oro_customer_role_to_website table
-     *
-     * @param Schema $schema
-     */
-    protected function createOroCustomerUserRoleToWebsiteTable(Schema $schema)
-    {
-        $table = $schema->createTable(static::ORO_CUSTOMER_ROLE_TO_WEBSITE_TABLE_NAME);
-        $table->addColumn('customer_user_role_id', 'integer', []);
-        $table->addColumn('website_id', 'integer', []);
-        $table->setPrimaryKey(['customer_user_role_id', 'website_id']);
-        $table->addUniqueIndex(['website_id']);
+        $this->extendExtension->addManyToOneRelation(
+            $schema,
+            'oro_website',
+            'guest_role',
+            $table,
+            'label',
+            [
+                'extend' => [
+                    'owner' => ExtendScope::OWNER_CUSTOM,
+                    'nullable' => true,
+                    'on_delete' => 'RESTRICT',
+                ],
+                'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_FALSE],
+                'form' => [
+                    'is_enabled' => true,
+                    'form_type' => CustomerUserRoleSelectOrCreateType::class,
+                    'form_options' => ['required' => true]
+                ],
+                'view' => ['is_displayable' => true],
+                'dataaudit' => ['auditable' => true],
+            ]
+        );
+
+        $this->extendExtension->addManyToOneRelation(
+            $schema,
+            'oro_website',
+            'default_role',
+            $table,
+            'label',
+            [
+                'extend' => [
+                    'owner' => ExtendScope::OWNER_CUSTOM,
+                    'nullable' => true,
+                    'on_delete' => 'RESTRICT',
+                ],
+                'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_FALSE],
+                'form' => [
+                    'is_enabled' => true,
+                    'form_type' => CustomerUserRoleSelectOrCreateType::class,
+                    'form_options' => ['required' => true]
+                ],
+                'view' => ['is_displayable' => true],
+                'dataaudit' => ['auditable' => true],
+            ]
+        );
     }
 
     /**
@@ -714,28 +746,6 @@ class OroCustomerBundleInstaller implements
             ['customer_id'],
             ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
-        );
-    }
-
-    /**
-     * Add oro_customer_role_to_website foreign keys.
-     *
-     * @param Schema $schema
-     */
-    protected function addOroCustomerUserRoleToWebsiteForeignKeys(Schema $schema)
-    {
-        $table = $schema->getTable(static::ORO_CUSTOMER_ROLE_TO_WEBSITE_TABLE_NAME);
-        $table->addForeignKeyConstraint(
-            $schema->getTable(static::ORO_WEBSITE_TABLE_NAME),
-            ['website_id'],
-            ['id'],
-            ['onDelete' => 'CASCADE', 'onUpdate' => null]
-        );
-        $table->addForeignKeyConstraint(
-            $schema->getTable('oro_customer_user_role'),
-            ['customer_user_role_id'],
-            ['id'],
-            ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
     }
 

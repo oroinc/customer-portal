@@ -142,6 +142,15 @@ services:
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType, acl_resource: oro_customer_frontend_customer_user_view }
 
+    oro_customer_customer.form.autocomplete.customer_user_role.search_handler:
+        public: false
+        parent: oro_form.autocomplete.search_handler
+        arguments:
+            - '%oro_customer.entity.customer_user_role.class%'
+            - ["label"]
+        tags:
+            - { name: oro_form.autocomplete.search_handler, alias: customer_user_role_select_or_create_type, acl_resource: oro_customer_customer_user_role_view }
+
     oro_customer.customer_user.manager.api:
         class: 'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'
         parent: oro_soap.manager.entity_manager.abstract
@@ -213,13 +222,14 @@ services:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
     oro_customer.authentication.listener.anonymous_customer_user:
-        class: 'Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener'
+        class: Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener
         abstract: true
         arguments:
             - '@security.token_storage'
             - '@security.authentication.manager'
             - '@logger'
             - '@oro_config.manager'
+            - '@oro_website.manager'
         public: false
         tags:
             - { name: monolog.logger, channel: security }
@@ -314,6 +324,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserRoleDatagridListener'
         arguments:
             - "@oro_security.acl_helper"
+            - "@oro_security.token_accessor"
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.orm_datasource.result.before.frontend-customer-customer-user-roles-grid, method: onResultBefore }
 
@@ -505,7 +516,6 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRegistrationFormProvider'
         arguments:
             - "@form.factory"
-            - "@doctrine"
             - "@oro_config.manager"
             - "@oro_website.manager"
             - "@oro_user.manager"
@@ -1034,6 +1044,8 @@ services:
 
     oro_customer.access_rule.self_managed_public_customer_user_role:
         class: Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule
+        arguments:
+            - '@oro_security.token_accessor'
         tags:
             - { name: oro_security.access_rule, priority: -200 }
 
