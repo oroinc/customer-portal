@@ -16,6 +16,7 @@ class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtu
     const ROLE_WITH_ACCOUNT_USER = 'Role with customer user';
     const ROLE_WITH_ACCOUNT = 'Role with customer';
     const ROLE_WITH_WEBSITE = 'Role with website';
+    const ROLE_GUEST_FOR_WEBSITE = 'Role guest for website';
     const ROLE_EMPTY = 'Role without any additional attributes';
     const ROLE_NOT_SELF_MANAGED = 'Role that is not self managed';
     const ROLE_SELF_MANAGED = 'Role that is self managed';
@@ -45,6 +46,7 @@ class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtu
         );
         $this->loadRoleWithCustomer($manager, self::ROLE_WITH_ACCOUNT, 'customer.level_1');
         $this->loadRoleWithWebsite($manager, self::ROLE_WITH_WEBSITE, 'Canada');
+        $this->loadRoleWithWebsite($manager, self::ROLE_GUEST_FOR_WEBSITE, 'CA', true);
         $this->loadEmptyRole($manager, self::ROLE_EMPTY);
         $this->loadNotSelfManagedRole($manager, self::ROLE_NOT_SELF_MANAGED);
         $this->loadSelfManagedRole($manager, self::ROLE_SELF_MANAGED);
@@ -57,14 +59,15 @@ class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtu
      * @param ObjectManager $manager
      * @param string $roleLabel
      * @param string $websiteName
+     * @param bool $isGuest
      */
-    protected function loadRoleWithWebsite(ObjectManager $manager, $roleLabel, $websiteName)
+    protected function loadRoleWithWebsite(ObjectManager $manager, $roleLabel, $websiteName, $isGuest = false)
     {
         $entity = $this->loadEmptyRole($manager, $roleLabel);
 
         /** @var Website $website */
         $website = $this->getReference($websiteName);
-        $entity->addWebsite($website);
+        $isGuest ? $website->setDefaultRole($entity) : $website->setGuestRole($entity);
         $entity->setSelfManaged(true);
 
         $this->setReference($entity->getLabel(), $entity);

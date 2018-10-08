@@ -20,7 +20,7 @@ stores info taken from cookie: `visitor_id` and `session_id`. If user belongs to
 ```php
 $token = new AnonymousCustomerUserToken(
     'Anonymous Customer User',
-    [self::ANONYMOUS_CUSTOMER_USER_ROLE]
+    [$currentWebsite->getGuestRole()->getRole()]
 );
 ```
  The `authenticate` method of [AnonymousCustomerUserAuthenticationProvider](#the-authentication-provider) sets in the token other data return it:

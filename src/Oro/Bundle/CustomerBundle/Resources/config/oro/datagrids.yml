@@ -580,6 +580,10 @@ datagrids:
                 join:
                     left:
                         - { join: role.customer, alias: role_customer }
+                where:
+                    or:
+                        - role.customer IS NULL
+                        - role.customer IS NOT NULL AND role_customer.name IS NOT NULL
         columns:
             customer_name:
                 label: oro.customer.customeruserrole.customer.label
