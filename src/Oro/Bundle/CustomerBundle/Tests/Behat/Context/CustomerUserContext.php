@@ -30,7 +30,7 @@ class CustomerUserContext extends OroFeatureContext
 
         /** @var Role $item */
         foreach ($customerUser->getRoles() as $item) {
-            if ($role === $item->getLabel()) {
+            if (trim($role) === $item->getLabel()) {
                 $customerUserRole = $item;
                 break;
             }
