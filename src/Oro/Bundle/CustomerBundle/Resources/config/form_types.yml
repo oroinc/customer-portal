@@ -83,6 +83,11 @@ services:
         tags:
             - { name: form.type, alias: oro_customer_customer_user_role_select }
 
+    oro_customer.form.type.customer_user_role_select_or_create:
+        class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectOrCreateType'
+        tags:
+        - { name: form.type, alias: customer_user_role_select_or_create }
+
     oro_customer.form.type.customer_user_role:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType'
         calls:

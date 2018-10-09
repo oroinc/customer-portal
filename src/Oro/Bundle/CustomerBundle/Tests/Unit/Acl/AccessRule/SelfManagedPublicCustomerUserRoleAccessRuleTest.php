@@ -9,17 +9,22 @@ use Oro\Bundle\SecurityBundle\AccessRule\Expr\Comparison;
 use Oro\Bundle\SecurityBundle\AccessRule\Expr\CompositeExpression;
 use Oro\Bundle\SecurityBundle\AccessRule\Expr\NullComparison;
 use Oro\Bundle\SecurityBundle\AccessRule\Expr\Path;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AccessRuleWalker;
 use PHPUnit\Framework\TestCase;
 
 class SelfManagedPublicCustomerUserRoleAccessRuleTest extends TestCase
 {
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenAccessor;
+
     /** @var SelfManagedPublicCustomerUserRoleAccessRule */
     private $rule;
 
     protected function setUp()
     {
-        $this->rule = new SelfManagedPublicCustomerUserRoleAccessRule();
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $this->rule = new SelfManagedPublicCustomerUserRoleAccessRule($this->tokenAccessor);
     }
 
     public function testIsApplicableWithoutOptionsInCriteriaAndNotSupportedEntity()
@@ -91,6 +96,31 @@ class SelfManagedPublicCustomerUserRoleAccessRuleTest extends TestCase
                             new NullComparison(new Path('customer')),
                         ]
                     )
+                ]
+            ),
+            $criteria->getExpression()
+        );
+    }
+
+    public function testProcessWithOrganizationId()
+    {
+        $this->tokenAccessor
+            ->expects($this->once())
+            ->method('getOrganizationId')
+            ->willReturn($organizationId = 10);
+
+        $criteria = new Criteria(AccessRuleWalker::ORM_RULES_TYPE, CustomerUserRole::class, 'e');
+
+        $this->rule->process($criteria);
+
+        $this->assertEquals(
+            new CompositeExpression(
+                CompositeExpression::TYPE_AND,
+                [
+                    new Comparison(new Path('organization'), Comparison::EQ, $organizationId),
+                    new Comparison(new Path('selfManaged'), Comparison::EQ, true),
+                    new Comparison(new Path('public'), Comparison::EQ, true),
+                    new NullComparison(new Path('customer')),
                 ]
             ),
             $criteria->getExpression()
