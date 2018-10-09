@@ -28,7 +28,7 @@
                     <ul class="dropdown-menu" role="menu" aria-labelledby="<%- togglerId %>">
                         {% if options.acl.addressEdit is not defined or is_granted(options.acl.addressEdit) %}
                         <li>
-                            <button class="dropdown-item item-edit-button address-book-item__action">
+                            <button class="dropdown-item item-edit-button">
                                 <span class="fa-pencil-square-o" aria-hidden='true'></span>
                                 <%- _.__('Edit') %>
                             </button>
