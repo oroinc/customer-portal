@@ -3,6 +3,7 @@ define(function(require) {
 
     var FrontendDatagridSettingsPlugin;
     var _ = require('underscore');
+    var tools = require('oroui/js/tools');
     var ShowComponentAction = require('oro/datagrid/action/show-component-action');
     var DatagridSettingsPlugin = require('orodatagrid/js/app/plugins/grid/datagrid-settings-plugin');
     var DatagridSettingView = require('orodatagrid/js/app/views/grid/datagrid-settings-view');
@@ -11,7 +12,10 @@ define(function(require) {
     config = _.extend({
         icon: 'cog',
         wrapperClassName: 'datagrid-settings',
-        label: _.__('oro.datagrid.settings.title')
+        label: _.__('oro.datagrid.settings.title'),
+        attributes: {
+            'data-placement': (tools.isMobile() ? 'bottom-end': 'left-start')
+        }
     }, config);
 
     /**
