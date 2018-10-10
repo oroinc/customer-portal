@@ -14,9 +14,15 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
+/**
+ * This voter controls access to CustomerUserRole entity
+ */
 class CustomerUserRoleVoter extends AbstractEntityVoter
 {
+    const ATTRIBUTE_VIEW = 'VIEW';
+    const ATTRIBUTE_EDIT = 'EDIT';
     const ATTRIBUTE_DELETE = 'DELETE';
+    const ATTRIBUTE_ASSIGN = 'ASSIGN';
     const ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_UPDATE = 'FRONTEND_CUSTOMER_ROLE_UPDATE';
     const ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_VIEW = 'FRONTEND_CUSTOMER_ROLE_VIEW';
     const ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_DELETE = 'FRONTEND_CUSTOMER_ROLE_DELETE';
@@ -28,7 +34,10 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
      * @var array
      */
     protected $supportedAttributes = [
+        self::ATTRIBUTE_VIEW,
+        self::ATTRIBUTE_EDIT,
         self::ATTRIBUTE_DELETE,
+        self::ATTRIBUTE_ASSIGN,
         self::ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_UPDATE,
         self::ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_VIEW,
         self::ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_DELETE,
@@ -72,6 +81,10 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
         }
 
         switch ($attribute) {
+            case static::ATTRIBUTE_VIEW:
+            case static::ATTRIBUTE_EDIT:
+            case static::ATTRIBUTE_ASSIGN:
+                return $this->isGrantedCustomerViewPermission();
             case static::ATTRIBUTE_DELETE:
                 return $this->getPermissionForDelete();
             case static::ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_VIEW:
@@ -88,19 +101,31 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
     /**
      * @return int
      */
-    protected function getPermissionForDelete()
+    protected function isGrantedCustomerViewPermission()
     {
-        /** @var CustomerUserRoleRepository $repository */
-        $repository = $this->doctrineHelper->getEntityRepository('OroCustomerBundle:CustomerUserRole');
-
-        $isDefaultForWebsite = $repository->isDefaultForWebsite($this->object);
-        $hasAssignedUsers = $repository->hasAssignedUsers($this->object);
-
-        if ($isDefaultForWebsite || $hasAssignedUsers) {
+        $customer = $this->object->getCustomer();
+        if ($customer && !$this->getAuthorizationChecker()->isGranted(static::ATTRIBUTE_VIEW, $customer)) {
             return self::ACCESS_DENIED;
         }
 
         return self::ACCESS_GRANTED;
+    }
+
+    /**
+     * @return int
+     */
+    protected function getPermissionForDelete()
+    {
+        /** @var CustomerUserRoleRepository $repository */
+        $repository = $this->doctrineHelper->getEntityRepository('OroCustomerBundle:CustomerUserRole');
+        if ($repository->isDefaultForWebsite($this->object)) {
+            return self::ACCESS_DENIED;
+        }
+        if ($repository->hasAssignedUsers($this->object)) {
+            return self::ACCESS_DENIED;
+        }
+
+        return $this->isGrantedCustomerViewPermission();
     }
 
     /**

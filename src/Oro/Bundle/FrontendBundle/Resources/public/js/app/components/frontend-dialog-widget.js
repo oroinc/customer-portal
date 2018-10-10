@@ -47,6 +47,11 @@ define(function(require) {
          */
         isApplicable: false,
 
+        /**
+         * @property {boolean}
+         */
+        rendered: false,
+
         $header: null,
 
         /**
@@ -79,7 +84,8 @@ define(function(require) {
          */
         show: function(options) {
             FrontendDialogWidget.__super__.show.call(this, options);
-            if (this.isApplicable) {
+            if (this.isApplicable && !this.rendered) {
+                this.rendered = true;
                 this.showFullscreen();
             }
         },

@@ -128,6 +128,22 @@
     .ui-widget-content {
         border-radius: $dialog-widget-content-border-radius;
     }
+
+    &--frontend {
+        &-fullscreen {
+            position: $dialog-frontend-fullscreen-position;
+            padding-top: $dialog-frontend-fullscreen-offset-inner-top;
+
+            .ui-dialog-titlebar,
+            .ui-dialog-buttonpane {
+                display: $dialog-frontend-fullscreen-titlebar-display;
+            }
+
+            .ui-widget-content {
+                padding: $dialog-frontend-fullscreen-content-offset-inner;
+            }
+        }
+    }
 }
 
 @include breakpoint('mobile-landscape') {
@@ -142,6 +158,14 @@
 
         .ui-dialog-buttonpane {
             padding: $dialog-buttonpane-offset-inner-mobile-landscape;
+        }
+
+        &--frontend {
+            &-fullscreen {
+                .ui-widget-content {
+                    padding: $dialog-frontend-fullscreen-content-offset-inner-mobile-landscape;
+                }
+            }
         }
     }
 }

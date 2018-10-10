@@ -82,11 +82,6 @@ class CustomerUserType extends AbstractType
 
         if ($data instanceof CustomerUser && $data->getId()) {
             $passwordOptions = array_merge($passwordOptions, ['required' => false]);
-            $builder->add(
-                'website',
-                'hidden',
-                ['data' => $data->getWebsite()]
-            );
         } else {
             $this->addNewUserFields($builder);
             $passwordOptions = array_merge($passwordOptions, ['required' => true, 'validation_groups' => ['create']]);

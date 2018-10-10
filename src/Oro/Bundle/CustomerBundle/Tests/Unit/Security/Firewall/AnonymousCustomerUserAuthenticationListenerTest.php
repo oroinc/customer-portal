@@ -3,7 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security\Firewall;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
+use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\WebsiteStub;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Oro\Component\Testing\Unit\EntityTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,11 +18,6 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterfac
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-
-use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
-use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-use Oro\Component\Testing\Unit\EntityTrait;
 
 class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,12 +50,16 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit_Framework
      */
     protected $configManager;
 
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
+    protected $websiteManager;
+
     protected function setUp()
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         $this->authenticationManager = $this->createMock(AuthenticationManagerInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->configManager = $this->createMock(ConfigManager::class);
+        $this->websiteManager = $this->createMock(WebsiteManager::class);
 
         $this->listener = new AnonymousCustomerUserAuthenticationListener(
             $this->tokenStorage,
@@ -62,6 +67,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit_Framework
             $this->logger,
             $this->configManager
         );
+        $this->listener->setWebsiteManager($this->websiteManager);
     }
 
     /**
@@ -86,13 +92,30 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit_Framework
             ->method('getToken')
             ->willReturn($token);
 
-        $newToken = new AnonymousCustomerUserToken('Anonymous Customer User', ['ROLE_FRONTEND_ANONYMOUS']);
+        $newToken = new AnonymousCustomerUserToken('Anonymous Customer User');
 
         $visitor = $this->getEntity(CustomerVisitor::class, ['id' => 4, 'session_id' => 'someSessionId']);
         $newToken->setVisitor($visitor);
 
+        $currentWebsite = new WebsiteStub();
+        $currentWebsite->setGuestRole(new CustomerUserRole('TEST_ANONYMOUS_ROLE'));
+        $this->websiteManager->expects($this->once())
+            ->method('getCurrentWebsite')
+            ->willReturn($currentWebsite);
+
         $this->authenticationManager->expects($this->once())
             ->method('authenticate')
+            ->with($this->callback(function (TokenInterface $token) {
+                $roles = $token->getRoles();
+                if (count($roles) !== 1) {
+                    return false;
+                }
+                $role = reset($roles);
+                if ($role->getRole() !== 'ROLE_FRONTEND_TEST_ANONYMOUS_ROLE') {
+                    return false;
+                }
+                return true;
+            }))
             ->willReturn($newToken);
 
         $this->tokenStorage->expects($this->once())
