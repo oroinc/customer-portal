@@ -4,7 +4,10 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Group;
 
 use Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationToken;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\UserBundle\Entity\User;
 
 class AclGroupProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,40 +32,59 @@ class AclGroupProviderTest extends \PHPUnit_Framework_TestCase
         unset($this->tokenAccessor, $this->provider);
     }
 
-    /**
-     * @dataProvider supportsDataProvider
-     *
-     * @param object|null $user
-     * @param bool $expectedResult
-     */
-    public function testSupports($user, $expectedResult)
+    public function testSupportsAnonymous()
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
-            ->willReturn($user);
+            ->willReturn(null);
 
-        $this->assertEquals($expectedResult, $this->provider->supports());
+        $token = $this->createMock(AnonymousCustomerUserToken::class);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->assertTrue($this->provider->supports());
     }
 
-    /**
-     * @return array
-     */
-    public function supportsDataProvider()
+    public function testSupportsCustomerUser()
     {
-        return [
-            'incorrect user object' => [
-                'user' => new \stdClass(),
-                'expectedResult' => false
-            ],
-            'customer user' => [
-                'user' => new CustomerUser(),
-                'expectedResult' => true
-            ],
-            'user is not logged in' => [
-                'user' => null,
-                'expectedResult' => true
-            ],
-        ];
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn(new CustomerUser());
+
+        $token = $this->createMock(OrganizationToken::class);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->assertTrue($this->provider->supports());
+    }
+
+    public function testSupportsNoTokenNoUser()
+    {
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn(null);
+
+        $this->tokenAccessor->expects($this->once())
+            ->method('getToken')
+            ->willReturn(null);
+
+        $this->assertFalse($this->provider->supports());
+    }
+
+    public function testSupportsUnsupportedUser()
+    {
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->createMock(User::class));
+
+        $token = $this->createMock(OrganizationToken::class);
+        $this->tokenAccessor->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->assertFalse($this->provider->supports());
     }
 
     public function testGetGroup()
