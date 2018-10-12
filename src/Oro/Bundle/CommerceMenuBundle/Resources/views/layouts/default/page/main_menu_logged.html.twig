@@ -1,5 +1,8 @@
 {% block _header_row_shopping_widget %}
-    <div class="header-row__container shopping-list-widget">
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " header-row__container shopping-list-widget"
+    }) %}
+    <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
 {% endblock %}
