@@ -1,0 +1,6 @@
+Oro\Bundle\TranslationBundle\Entity\Translation:
+  menu_information_title_translation_zu:
+    translationKey: '@informationTitleTranslationKey'
+    value: 'Information LANG1'
+    language: '@language1'
+    scope: 1
