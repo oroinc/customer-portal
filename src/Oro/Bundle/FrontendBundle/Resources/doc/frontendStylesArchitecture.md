@@ -5,12 +5,12 @@
 * [Theme extending](#user-content-theme-extending)
 * [Themes settings and useful recommendations](#user-content-themes-settings-and-useful-recommendation)
 
-A mostly reasonable approach to develop and maintain CSS and [SASS](http://sass-lang.com/) in **ORO commerce** project.
+A mostly reasonable approach to develop and maintain CSS and [SASS](http://sass-lang.com/) in **OroCommerce** project.
 
 ## Terminology
 
-ORO Commerce project consists of bundles. Each bundle of the project has own set of CSS related to particular bundle. 
-Additionally ORO Commerce project has three themes: **blank**, **default**, **custom**. CSS for each theme is located in particular theme folder: *BundleName/Resources/public/theme_name/scss/*.
+OroCommerce project consists of bundles. Each bundle of the project has own set of CSS related to particular bundle. 
+Additionally OroCommerce project has three themes: **blank**, **default**, **custom**. CSS for each theme is located in particular theme folder: *BundleName/Resources/public/theme_name/scss/*.
 
 1. **blank** - skeleton theme. It has basic @mixins, @functions, variables, color palette and typography. Blank theme includes basic functionality without reference to design;*
 2. **default** - expanded theme with own settings and dependencies. It is based on the **blank** theme;
