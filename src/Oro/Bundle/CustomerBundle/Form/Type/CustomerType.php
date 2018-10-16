@@ -17,6 +17,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * Manage Customer from
+ */
 class CustomerType extends AbstractType
 {
     const NAME = 'oro_customer_type';
@@ -177,7 +180,7 @@ class CustomerType extends AbstractType
         $resolver->setDefaults(
             [
                 'csrf_token_id' => 'customer',
-                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequirePeriod'],
+                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequireRegion'],
             ]
         );
     }

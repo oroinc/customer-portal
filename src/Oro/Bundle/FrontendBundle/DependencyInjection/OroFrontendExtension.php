@@ -24,6 +24,11 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     public const API_DOC_VIEWS_PARAMETER_NAME        = 'oro_frontend.api_doc.views';
     public const API_DOC_DEFAULT_VIEW_PARAMETER_NAME = 'oro_frontend.api_doc.default_view';
 
+    private const API_CACHE_CONTROL_PROCESSOR_SERVICE_ID = 'oro_frontend.api.options.rest.set_cache_control';
+    private const API_MAX_AGE_PROCESSOR_SERVICE_ID       = 'oro_frontend.api.options.rest.cors.set_max_age';
+    private const API_ALLOW_ORIGIN_PROCESSOR_SERVICE_ID  = 'oro_frontend.api.rest.cors.set_allow_origin';
+    private const API_CORS_HEADERS_PROCESSOR_SERVICE_ID  = 'oro_frontend.api.rest.cors.set_allow_and_expose_headers';
+
     private const RESOURCES_FOLDER_PLACEHOLDER = '{folder}';
     private const RESOURCES_FOLDER_PATTERN     = '[a-zA-Z][a-zA-Z0-9_\-:]*';
 
@@ -51,18 +56,8 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 
         $container->setParameter('oro_frontend.debug_routes', $config['debug_routes']);
 
-        $apiDocViews = $this->getApiDocViews($container);
-        $frontendApiDocViews = $config['frontend_api_doc_views'];
-        $container->setParameter(self::API_DOC_VIEWS_PARAMETER_NAME, $frontendApiDocViews);
-        $container->setParameter(
-            self::API_DOC_DEFAULT_VIEW_PARAMETER_NAME,
-            $this->getFrontendDefaultApiView($apiDocViews, $frontendApiDocViews)
-        );
-        $container->setParameter(
-            OroApiExtension::API_DOC_DEFAULT_VIEW_PARAMETER_NAME,
-            $this->getBackendDefaultApiView($apiDocViews, $frontendApiDocViews)
-        );
-        $this->setDefaultHtmlFormatterForFrontendApiViews($container, $apiDocViews, $frontendApiDocViews);
+        $this->configureApiDocViews($container, $config);
+        $this->configureApiCors($container, $config);
     }
 
     /**
@@ -71,6 +66,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     public function prepend(ContainerBuilder $container)
     {
         if ($container instanceof ExtendedContainerBuilder) {
+            $this->modifySecurityConfig($container);
             $this->modifyFosRestConfig($container);
         }
 
@@ -150,19 +146,42 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     /**
      * @param ExtendedContainerBuilder $container
      */
-    protected function modifyFosRestConfig(ExtendedContainerBuilder $container)
+    private function modifySecurityConfig(ExtendedContainerBuilder $container)
+    {
+        $configs = $container->getExtensionConfig('security');
+        $restApiPatternPlaceholder = '%' . OroApiExtension::REST_API_PATTERN_PARAMETER_NAME . '%';
+        foreach ($configs as $configKey => $config) {
+            if (isset($config['firewalls']) && is_array($config['firewalls'])) {
+                foreach ($config['firewalls'] as $key => $firewall) {
+                    if (!empty($firewall['pattern'])
+                        && $firewall['pattern'] === $restApiPatternPlaceholder
+                        && 0 !== strpos($key, 'frontend_')
+                    ) {
+                        // add backend prefix to the pattern of the backend REST API firewall
+                        $configs[$configKey]['firewalls'][$key]['pattern'] = $this->getBackendApiPattern($container);
+                    }
+                }
+            }
+        }
+        $container->setExtensionConfig('security', $configs);
+    }
+
+    /**
+     * @param ExtendedContainerBuilder $container
+     */
+    private function modifyFosRestConfig(ExtendedContainerBuilder $container)
     {
         $configs = $container->getExtensionConfig('fos_rest');
+        $restApiPatternPlaceholder = '%' . OroApiExtension::REST_API_PATTERN_PARAMETER_NAME . '%';
         foreach ($configs as $configKey => $config) {
             if (isset($config['format_listener']['rules']) && is_array($config['format_listener']['rules'])) {
                 foreach ($config['format_listener']['rules'] as $key => $rule) {
-                    if (!empty($rule['path']) && $rule['path'] === '^/api/(?!(rest|doc)(/|$)+)') {
+                    if (!empty($rule['path']) && $rule['path'] === $restApiPatternPlaceholder) {
                         $rules = $config['format_listener']['rules'];
                         // make a a copy of the backend REST API rule
                         $frontendRule = $rule;
                         // add backend prefix to the path of the backend REST API rule
-                        $backendPrefix = trim(trim($container->getParameter('web_backend_prefix')), '/');
-                        $rule['path'] = str_replace('/api/', '/' . $backendPrefix . '/api/', $rule['path']);
+                        $rule['path'] = $this->getBackendApiPattern($container);
                         $rules[$key] = $rule;
                         // add the frontend REST API rule
                         array_unshift($rules, $frontendRule);
@@ -176,6 +195,59 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         }
 
         $container->setExtensionConfig('fos_rest', $configs);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function configureApiDocViews(ContainerBuilder $container, array $config)
+    {
+        $apiDocViews = $this->getApiDocViews($container);
+        $frontendApiDocViews = $config['frontend_api']['api_doc_views'];
+        $container->setParameter(self::API_DOC_VIEWS_PARAMETER_NAME, $frontendApiDocViews);
+        $container->setParameter(
+            self::API_DOC_DEFAULT_VIEW_PARAMETER_NAME,
+            $this->getFrontendDefaultApiView($apiDocViews, $frontendApiDocViews)
+        );
+        $container->setParameter(
+            OroApiExtension::API_DOC_DEFAULT_VIEW_PARAMETER_NAME,
+            $this->getBackendDefaultApiView($apiDocViews, $frontendApiDocViews)
+        );
+        $this->setDefaultHtmlFormatterForFrontendApiViews($container, $apiDocViews, $frontendApiDocViews);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function configureApiCors(ContainerBuilder $container, array $config)
+    {
+        $corsConfig = $config['frontend_api']['cors'];
+        $container->getDefinition(self::API_CACHE_CONTROL_PROCESSOR_SERVICE_ID)
+            ->replaceArgument(0, $corsConfig['preflight_max_age']);
+        $container->getDefinition(self::API_MAX_AGE_PROCESSOR_SERVICE_ID)
+            ->replaceArgument(0, $corsConfig['preflight_max_age']);
+        $container->getDefinition(self::API_ALLOW_ORIGIN_PROCESSOR_SERVICE_ID)
+            ->replaceArgument(0, $corsConfig['allow_origins']);
+        $container->getDefinition(self::API_CORS_HEADERS_PROCESSOR_SERVICE_ID)
+            ->replaceArgument(0, $corsConfig['allow_headers'])
+            ->replaceArgument(1, $corsConfig['expose_headers'])
+            ->replaceArgument(2, $corsConfig['allow_credentials']);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     *
+     * @return string
+     */
+    private function getBackendApiPattern(ContainerBuilder $container)
+    {
+        $backendPrefix = trim(trim($container->getParameter('web_backend_prefix')), '/');
+        $prefix = $container->getParameter(OroApiExtension::REST_API_PREFIX_PARAMETER_NAME);
+        $pattern = $container->getParameter(OroApiExtension::REST_API_PATTERN_PARAMETER_NAME);
+
+        return str_replace($prefix, '/' . $backendPrefix . $prefix, $pattern);
     }
 
     /**
@@ -234,7 +306,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         foreach ($frontendViewNames as $name) {
             if (!array_key_exists($name, $apiDocViews)) {
                 throw new LogicException(sprintf(
-                    'The view "%s" defined in %s.frontend_api_doc_views is unknown.'
+                    'The view "%s" defined in %s.frontend_api.api_doc_views is unknown.'
                     . ' Check that it is configured in oro_api.api_doc_views.',
                     $name,
                     self::ALIAS

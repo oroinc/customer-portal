@@ -12,7 +12,8 @@ oro_api:
             request_type: ['rest', 'json_api', 'frontend']
 
 oro_frontend:
-    frontend_api_doc_views: [frontend_rest_json_api]
+    frontend_api:
+        api_doc_views: [frontend_rest_json_api]
 
 twig:
     globals:
@@ -33,10 +34,6 @@ security:
         # override pattern
         wsse_secured:
             pattern:                        '^%web_backend_prefix%/api/rest.*'
-
-        # override pattern
-        api_wsse_secured:
-            pattern:                        '^%web_backend_prefix%/api/(?!(doc|rest))($|.*)'
 
         # override pattern
         login:

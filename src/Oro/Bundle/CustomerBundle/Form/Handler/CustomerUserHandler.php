@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Translation\TranslatorInterface;
 
+/**
+ * Form handler to process entity update/create
+ */
 class CustomerUserHandler
 {
     use RequestHandlerTrait;
@@ -80,7 +83,7 @@ class CustomerUserHandler
 
                     if ($this->form->get('sendEmail')->getData()) {
                         try {
-                            $this->userManager->sendWelcomeEmail($customerUser);
+                            $this->userManager->sendWelcomeRegisteredByAdminEmail($customerUser);
                         } catch (\Exception $ex) {
                             $this->logger->error('Welcome email sending failed.', ['exception' => $ex]);
                             /** @var Session $session */

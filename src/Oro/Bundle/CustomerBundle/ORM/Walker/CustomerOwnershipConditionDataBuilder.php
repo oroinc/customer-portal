@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\ORM\Walker;
 
-use Doctrine\ORM\Query\AST\PathExpression;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Acl\Domain\OneShotIsGrantedObserver;
@@ -16,7 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * Allows accessto to entities with frontend ownerwhip with deep access levels
+ * Allows access to to entities with frontend ownerwhip with deep access levels
  */
 class CustomerOwnershipConditionDataBuilder extends AbstractOwnershipConditionDataBuilder
 {
@@ -112,8 +111,7 @@ class CustomerOwnershipConditionDataBuilder extends AbstractOwnershipConditionDa
 
         return [
             $metadata->getCustomerFieldName(),
-            $customersIds,
-            PathExpression::TYPE_SINGLE_VALUED_ASSOCIATION
+            $customersIds
         ];
     }
 

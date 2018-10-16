@@ -6,8 +6,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
-use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\ImportExport\Strategy\EventListener\ImportCustomerUserListener;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\WebsiteStub;
 use Oro\Bundle\EntityBundle\Helper\FieldHelper;
 use Oro\Bundle\ImportExportBundle\Context\Context;
 use Oro\Bundle\ImportExportBundle\Context\ContextInterface;
@@ -49,11 +49,6 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
     protected $websiteRepository;
 
     /**
-     * @var CustomerUserRoleRepository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $customerUserRoleRepository;
-
-    /**
      * @var StrategyEvent|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $event;
@@ -86,7 +81,6 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->websiteRepository = $this->createMock(WebsiteRepository::class);
-        $this->customerUserRoleRepository = $this->createMock(CustomerUserRoleRepository::class);
         $this->event = $this->createMock(StrategyEvent::class);
         $this->context = new Context([]);
     }
@@ -94,7 +88,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
     public function testWebsiteAndRoleExist()
     {
         $websiteName = 'WebsiteTest';
-        $website = new Website();
+        $website = new WebsiteStub();
         $website->setName($websiteName);
 
         $this->websiteRepository->method('getDefaultWebsite')
@@ -103,8 +97,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $roleName = 'ROLE_FRONTEND_TEST';
         $customerUserRole = new CustomerUserRole($roleName);
 
-        $this->customerUserRoleRepository->method('getDefaultCustomerUserRoleByWebsite')
-            ->willReturn($customerUserRole);
+        $website->setDefaultRole($customerUserRole);
 
         $customerUser = new CustomerUser();
         $this->updateEventMock($customerUser);
@@ -130,22 +123,14 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($password, $customerUser->getPassword());
     }
 
-    /**
-     * @dataProvider dataProvider
-     * @param $website
-     * @param $customerUserRole
-     */
-    public function testWebsiteOrWebsiteAndRoleDoesNotExist($website, $customerUserRole)
+    public function testWebsiteOrWebsiteAndRoleDoesNotExist()
     {
-        $this->customerUserRoleRepository->method('getDefaultCustomerUserRoleByWebsite')
-            ->willReturn($customerUserRole);
-
         $customerUser = new CustomerUser();
         $this->updateEventMock($customerUser);
 
         $password = 'password';
         $this->updateCustomerManagerMock($password);
-        $this->updateTranslationMock($website);
+        $this->updateTranslationMock(null);
         $this->updateRegistryMock();
 
         $listener = new ImportCustomerUserListener(
@@ -174,15 +159,11 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
     public function testRoleDoesNotExists()
     {
         $websiteName = 'WebsiteTest';
-        $website = new Website();
+        $website = new WebsiteStub();
         $website->setName($websiteName);
 
         $this->websiteRepository->method('getDefaultWebsite')
             ->willReturn($website);
-
-        $customerUserRole = null;
-        $this->customerUserRoleRepository->method('getDefaultCustomerUserRoleByWebsite')
-            ->willReturn($customerUserRole);
 
         $customerUser = new CustomerUser();
         $this->updateEventMock($customerUser);
@@ -218,7 +199,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $websiteBefore = new Website();
         $websiteBefore->setName($websiteBeforeName);
 
-        $websiteAfter = new Website();
+        $websiteAfter = new WebsiteStub();
         $websiteAfter->setName('WebsiteAfter');
 
         $this->websiteRepository->method('getDefaultWebsite')
@@ -228,8 +209,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $customerUserRoleBefore = new CustomerUserRole('ROLE_FRONTEND_TEST_BEFORE');
         $customerUserRoleAfter = new CustomerUserRole('ROLE_FRONTEND_TEST_AFTER');
 
-        $this->customerUserRoleRepository->method('getDefaultCustomerUserRoleByWebsite')
-            ->willReturn($customerUserRoleAfter);
+        $websiteAfter->setDefaultRole($customerUserRoleAfter);
 
         $this->updateRegistryMock();
 
@@ -255,22 +235,6 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($websiteBeforeName, (string) $customerUser->getWebsite());
         $this->assertEquals($roleNameBefore, $customerUser->getRole($roleNameBefore)->getRole());
         $this->assertEquals($passwordBefore, $customerUser->getPassword());
-    }
-
-
-    /**
-     * @return array
-     */
-    public function dataProvider()
-    {
-        $website = new Website();
-        $website->setName('WebsiteTest');
-        $customerUserRole = new CustomerUserRole('ROLE_FRONTEND_TEST');
-
-        return [
-            'null all entities' => [null, null],
-            'null website entity' => [null, $customerUserRole],
-        ];
     }
 
     /**
@@ -335,9 +299,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
     protected function updateRegistryMock()
     {
         $this->registry->method('getRepository')
-            ->willReturnMap([
-                [Website::class, null, $this->websiteRepository],
-                [CustomerUserRole::class, null, $this->customerUserRoleRepository]
-            ]);
+            ->with(Website::class)
+            ->willReturn($this->websiteRepository);
     }
 }

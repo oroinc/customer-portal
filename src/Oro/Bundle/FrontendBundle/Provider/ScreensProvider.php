@@ -2,31 +2,27 @@
 
 namespace Oro\Bundle\FrontendBundle\Provider;
 
-use Doctrine\Common\Cache\ChainCache;
+use Doctrine\Common\Cache\Cache;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 
+/**
+ * Provides configuration of screens defined for a particular layout theme, e.g. desktop, mobile, etc.
+ */
 class ScreensProvider implements ScreensProviderInterface
 {
-    /**
-     * @internal
-     */
-    const SCREENS_CACHE_KEY = 'oro_frontend.provider.screens';
+    private const SCREENS_CACHE_KEY = 'oro_frontend.provider.screens';
 
-    /**
-     * @var ThemeManager
-     */
+    /** @var ThemeManager */
     private $themeManager;
 
-    /**
-     * @var ChainCache
-     */
+    /** @var Cache */
     private $cache;
 
     /**
      * @param ThemeManager $themeManager
-     * @param ChainCache   $cache
+     * @param Cache        $cache
      */
-    public function __construct(ThemeManager $themeManager, ChainCache $cache)
+    public function __construct(ThemeManager $themeManager, Cache $cache)
     {
         $this->themeManager = $themeManager;
         $this->cache = $cache;
@@ -37,12 +33,10 @@ class ScreensProvider implements ScreensProviderInterface
      */
     public function getScreens()
     {
-        if ($this->cache->contains(static::SCREENS_CACHE_KEY)) {
-            $screens = $this->cache->fetch(static::SCREENS_CACHE_KEY);
-        } else {
+        $screens = $this->cache->fetch(self::SCREENS_CACHE_KEY);
+        if (false === $screens) {
             $screens = $this->collectScreens();
-
-            $this->cache->save(static::SCREENS_CACHE_KEY, $screens);
+            $this->cache->save(self::SCREENS_CACHE_KEY, $screens);
         }
 
         return $screens;
@@ -53,8 +47,9 @@ class ScreensProvider implements ScreensProviderInterface
      */
     public function getScreen($screenName)
     {
-        if ($this->hasScreen($screenName)) {
-            return $this->getScreens()[$screenName];
+        $screens = $this->getScreens();
+        if (array_key_exists($screenName, $screens)) {
+            return $screens[$screenName];
         }
 
         return null;

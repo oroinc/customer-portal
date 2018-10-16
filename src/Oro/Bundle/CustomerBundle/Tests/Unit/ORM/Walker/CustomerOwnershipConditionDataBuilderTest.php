@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\ORM\Walker;
 
-use Doctrine\ORM\Query\AST\PathExpression;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\ORM\Walker\CustomerOwnershipConditionDataBuilder;
@@ -155,7 +154,6 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
         $constraint = [
             'owner',
             [],
-            PathExpression::TYPE_STATE_FIELD,
             'organization',
             'org3',
             false
@@ -180,7 +178,6 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
                 'expected' => [
                     'customer',
                     ['c3'],
-                    PathExpression::TYPE_SINGLE_VALUED_ASSOCIATION,
                     'organization',
                     'org3',
                     false
@@ -194,7 +191,6 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
                 'expected' => [
                     'customer',
                     ['c31', 'c32', 'c321', 'c3'],
-                    PathExpression::TYPE_SINGLE_VALUED_ASSOCIATION,
                     'organization',
                     'org3',
                     false
@@ -224,7 +220,6 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
                 'parentResult' => [
                     'owner',
                     null,
-                    PathExpression::TYPE_STATE_FIELD,
                     'organization',
                     'org3',
                     false
@@ -235,7 +230,6 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
                 'expected' => [
                     'owner',
                     null,
-                    PathExpression::TYPE_STATE_FIELD,
                     'organization',
                     'org3',
                     false

@@ -10,6 +10,8 @@ oro_behat_extension:
         - OroDataGridBundle::GridContext
         - OroFormBundle::FormContext
         - OroCustomerBundle::CustomerUserContext
+        - OroFrontendLocalizationBundle::LocalizationSwitcherContext
+        - OroLocaleBundle::LocalizationContext
         - OroCustomerBundle::ACLContext
         - OroCustomerBundle::FrontendGridContext
         - OroSecurityBundle::PermissionContext
@@ -27,6 +29,27 @@ oro_behat_extension:
     CustomerUserRoleForm:
       selector: "form[id*='_customer_user_role']"
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\CustomerUserRoleForm
+    Customer User Form:
+      selector: 'form[name="oro_customer_customer_user"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Second Primary: 'oro_customer_customer_user[addresses][1][primary]'
+          Second Street: 'oro_customer_customer_user[addresses][1][street]'
+          Second City: 'oro_customer_customer_user[addresses][1][city]'
+          Second Postal Code: 'oro_customer_customer_user[addresses][1][postalCode]'
+          Second Organization: 'oro_customer_customer_user[addresses][1][organization]'
+          Second Country:
+            locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_country-uid")]/input'
+            type: xpath
+          Second State:
+            locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_region-uid")]/input'
+            type: xpath
+
+    CustomerUserRoleGrid:
+      selector: '[id^="grid-customer-user-role-permission-grid"]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+
     Customer Users Grid:
       selector: '[id^="grid-frontend-customer-customer-user-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -167,6 +190,15 @@ oro_behat_extension:
            locator: '[id^="oro_customer_customer_user_roles_2-uid"]'
            type: css
 
+    Customer User Address Form:
+      selector: '[id^="oro_customer_customer_user-uid"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          First Name: 'oro_customer_customer_user[addresses][0][firstName]'
+          Last Name: 'oro_customer_customer_user[addresses][0][lastName]'
+          Organization: 'oro_customer_customer_user[addresses][0][organization]'
+
     Map Container:
       selector: '.map-visual-frame'
 
@@ -245,3 +277,11 @@ oro_behat_extension:
     Customer User Profile Update:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserProfileUpdate
       route: 'oro_customer_frontend_customer_user_profile_update'
+
+    Customer User Forgot Password:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserForgotPassword
+      route: 'oro_customer_frontend_customer_user_reset_request'
+
+    Customer User Index:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserIndex
+      route: 'oro_customer_customer_user_index'

@@ -6,6 +6,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * Configure allowed twig functions within sandbox
+ */
 class TwigSandboxConfigurationPass implements CompilerPassInterface
 {
     const EMAIL_TEMPLATE_SANDBOX_SECURITY_POLICY_SERVICE_KEY = 'oro_email.twig.email_security_policy';
