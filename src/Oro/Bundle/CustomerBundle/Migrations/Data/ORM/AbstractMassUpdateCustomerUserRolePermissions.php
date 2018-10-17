@@ -10,6 +10,9 @@ use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
+/**
+ * Abstract implementation for mass ACL updating.
+ */
 abstract class AbstractMassUpdateCustomerUserRolePermissions extends AbstractFixture implements
     ContainerAwareInterface,
     DependentFixtureInterface
