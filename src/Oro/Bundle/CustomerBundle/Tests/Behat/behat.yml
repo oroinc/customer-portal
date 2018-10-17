@@ -151,8 +151,13 @@ oro_behat_extension:
     FrontendGridViewSetAsDefaultCheckbox:
       selector: '.grid-views input[name="is_default"]+.custom-checkbox__icon'
 
-    FrontendGridFilterManager:
+    Frontend Grid Filter Dropdown:
       selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
+
+    FrontendGridFilterManager:
+      selector:
+        locator: '//div[contains(concat(" ", normalize-space(@class), " "), " filter-container ")]/div[contains(concat(" ", normalize-space(@class), " "), " datagrid-manager ")][last()]/div[contains(concat(" ", normalize-space(@class), " "), " dropdown-menu ")]'
+        type: xpath
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
 
     Customer User Form Admin:
