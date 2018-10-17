@@ -1,0 +1,22 @@
+/* @theme: default; */
+
+.btn {
+    &.checked,
+    &.active,
+    &.pressed {
+        box-shadow: $active-box-shadow;
+    }
+
+    &.caret {
+        &:after {
+            content: '';
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-top: 4px solid;
+            border-right: 4px solid transparent;
+            border-left: 4px solid transparent;
+            vertical-align: middle;
+        }
+    }
+}

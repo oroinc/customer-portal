@@ -86,6 +86,13 @@
 
         .dropdown-toggle {
             color: $filter-trigger-wrapper-dropdown-toggle-color;
+
+            &:active,
+            &.active,
+            &:not(:disabled):not(.disabled):active,
+            &:not(:disabled):not(.disabled).active {
+                color: $filter-trigger-wrapper-dropdown-toggle-color;
+            }
         }
 
         .active {

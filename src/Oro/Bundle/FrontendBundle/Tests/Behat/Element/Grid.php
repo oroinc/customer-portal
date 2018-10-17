@@ -51,6 +51,6 @@ class Grid extends BaseGrid
 
         $this->elementFactory->createElement($massActionHeadCheckboxElementName, $this)->clickForce();
 
-        $this->elementFactory->createElement('GridFloatingMenu')->clickLink($title);
+        $this->elementFactory->createElement('GridMassCheckMenu')->clickLink($title);
     }
 }

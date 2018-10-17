@@ -36,7 +36,7 @@ layout:
                                 icon: 'refresh fa--no-offset'
                                 iconHideText: true
                     customModules:
-                        columnManagerComponent: 'orofrontend/js/app/components/column-manager/frontend-column-manager-component'
+                        datagridSettingsComponent: 'orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view'
                 toolbarOptions:
                     actionsPanel:
                         className: 'btn-group not-expand frontend-datagrid__panel'
