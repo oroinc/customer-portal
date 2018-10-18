@@ -14,7 +14,8 @@
         "oro/calendar-bundle": "3.1.*",
         "oro/marketing": "3.1.*",
         "oro/commerce": "3.1.*",
-        "bower-asset/prism": "1.6.0"
+        "bower-asset/prism": "1.6.0",
+        "npm-asset/slick-carousel": "1.6.0"
     },
     "extra": {
         "branch-alias": {
