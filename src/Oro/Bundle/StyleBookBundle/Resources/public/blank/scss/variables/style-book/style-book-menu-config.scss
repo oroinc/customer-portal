@@ -1,19 +1,16 @@
 /* @theme: blank; */
 
-$style-book-menu-display: block !default;
+$style-book-sub-menu-inner-offset: 0 0 0 18px !default;
 
-$style-book-menu-item-position: relative !default;
-$style-book-menu-item-inner-offset: 5px 0 0 18px !default;
-$style-book-menu-item-menu-display: none !default;
-$style-book-menu-item-active-menu-display: block !default;
-
-$style-book-menu-item-current-before-top: 10px !default;
-$style-book-menu-item-current-before-left: 0 !default;
-$style-book-menu-item-current-before-width: 7px !default;
-$style-book-menu-item-current-before-height: 7px !default;
-$style-book-menu-item-current-before-border-radius: 50% !default;
-$style-book-menu-item-current-before-background: get-color('primary', 'base') !default;
-
+$style-book-menu-link-position: relative !default;
+$style-book-menu-link-inner-offset: 5px 0 0 18px !default;
+$style-book-menu-link-active-menu-display: block !default;
+$style-book-menu-link-current-before-top: 10px !default;
+$style-book-menu-link-current-before-left: 0 !default;
+$style-book-menu-link-current-before-width: 7px !default;
+$style-book-menu-link-current-before-height: 7px !default;
+$style-book-menu-link-current-before-border-radius: 50% !default;
+$style-book-menu-link-current-before-background: get-color('primary', 'base') !default;
 $style-book-menu-link-font-weight-current: bold !default;
 $style-book-menu-link-color: get-color('ui', 'normal') !default;
 $style-book-menu-link-color-hover: get-color('ui', 'focus') !default;
@@ -25,7 +22,6 @@ $style-book-menu-main-item-inner-offset: 0 !default;
 $style-book-menu-main-item-text-transform: uppercase !default;
 $style-book-menu-main-item-background-hover: get-color('additional', 'base') !default;
 $style-book-menu-main-item-current-background: get-color('additional', 'base') !default;
-$style-book-menu-main-item-current-before-content: none !default;
 
 $style-book-menu-main-link-font-weight-current: normal !default;
 $style-book-menu-main-link-display: block !default;

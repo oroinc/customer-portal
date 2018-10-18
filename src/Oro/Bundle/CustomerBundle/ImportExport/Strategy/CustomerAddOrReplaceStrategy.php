@@ -4,9 +4,9 @@ namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy;
 
 use Doctrine\ORM\PersistentCollection;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrategy;
+use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * Handles logic of preparing correct customer data for import and validating it
@@ -20,6 +20,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     {
         $entity = parent::beforeProcessEntity($entity);
         $entity = $this->verifyIfParentExists($entity);
+        $entity = $this->verifyIfOwnerValid($entity);
 
         return $entity;
     }
@@ -27,7 +28,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     /**
      * {@inheritdoc}
      */
-    public function afterProcessEntity($entity)
+    protected function afterProcessEntity($entity)
     {
         $entity = parent::afterProcessEntity($entity);
         $entity = $this->verifyIfUserIsGrantedToUpdateOwner($entity);
@@ -69,7 +70,6 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
     /**
      * {@inheritdoc}
-     * @todo replace empty cells check with BAP-14672
      */
     protected function importExistingEntity(
         $entity,
@@ -79,6 +79,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     ) {
         $entitiesOfCustomer = $entity instanceof Customer && $existingEntity instanceof Customer;
 
+        // Configuration option ignore_empty_cells is not implemented yet, see BAP-14672 for details
         if ($itemData !== null && $entitiesOfCustomer) {
             foreach ($itemData as $fieldName => $fieldValue) {
                 if ($fieldValue === null || (is_array($fieldValue) && count($fieldValue) === 0)) {
@@ -116,6 +117,30 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
                 $this->context->addPostponedRow($this->context->getValue('rawItemData'));
 
                 return null;
+            }
+        }
+
+        return $entity;
+    }
+
+    /**
+     * @param $entity
+     *
+     * @return null
+     */
+    private function verifyIfOwnerValid($entity)
+    {
+        if ($entity instanceof Customer && $entity->getOwner()) {
+            /** @var User $owner */
+            $owner = $this->findExistingEntity($entity->getOwner());
+            if ($owner) {
+                $entity->setOwner($owner);
+                if (false === $this->ownerChecker->isOwnerCanBeSet($entity)) {
+                    $error = $this->translator->trans('oro.importexport.import.errors.wrong_owner');
+                    $this->strategyHelper->addValidationErrors([$error], $this->context);
+
+                    return null;
+                }
             }
         }
 
