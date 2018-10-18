@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Compiler;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappingPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class DataAuditEntityMappingPassTest extends \PHPUnit_Framework_TestCase
+class DataAuditEntityMappingPassTest extends \PHPUnit\Framework\TestCase
 {
     public function testProcess()
     {
@@ -17,7 +17,7 @@ class DataAuditEntityMappingPassTest extends \PHPUnit_Framework_TestCase
             ->method('addMethodCall')
             ->with('addAuditEntryClasses', $this->isType('array'));
 
-        /** @var ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject $containerBuilder */
+        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $containerBuilder */
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
             ->disableOriginalConstructor()
             ->getMock();
@@ -42,7 +42,7 @@ class DataAuditEntityMappingPassTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessWithoutDefinition()
     {
-        /** @var ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject $containerBuilder */
+        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $containerBuilder */
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
             ->disableOriginalConstructor()
             ->getMock();

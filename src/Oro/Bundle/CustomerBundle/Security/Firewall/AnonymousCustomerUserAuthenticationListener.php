@@ -4,7 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Security\Firewall;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +16,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
+/**
+ * This listener authenticates anonymous (AKA guest) customer users at frontend
+ */
 class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
 {
-    const ANONYMOUS_CUSTOMER_USER_ROLE = 'ROLE_FRONTEND_ANONYMOUS';
-
     const COOKIE_ATTR_NAME = '_security_customer_visitor_cookie';
     const COOKIE_NAME = 'customer_visitor';
 
@@ -42,21 +45,29 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     private $configManager;
 
     /**
+     * @var WebsiteManager
+     */
+    private $websiteManager;
+
+    /**
      * @param TokenStorageInterface $tokenStorage
      * @param AuthenticationManagerInterface $authenticationManager
      * @param LoggerInterface|null $logger
      * @param ConfigManager $configManager
+     * @param WebsiteManager $websiteManager
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
         LoggerInterface $logger,
-        ConfigManager $configManager
+        ConfigManager $configManager,
+        WebsiteManager $websiteManager
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
         $this->logger = $logger;
         $this->configManager = $configManager;
+        $this->websiteManager = $websiteManager;
     }
 
     /**
@@ -70,7 +81,7 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
 
             $token = new AnonymousCustomerUserToken(
                 'Anonymous Customer User',
-                [self::ANONYMOUS_CUSTOMER_USER_ROLE]
+                $this->getRoles()
             );
             $token->setCredentials($this->getCredentials($request));
 
@@ -85,6 +96,21 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
                 $this->logger->info('Customer User anonymous authentication failed.', ['exception' => $e]);
             }
         }
+    }
+
+
+    /**
+     * @return array
+     */
+    private function getRoles()
+    {
+        $currentWebsite = $this->websiteManager->getCurrentWebsite();
+        if (!$currentWebsite) {
+            return [];
+        }
+        /** @var CustomerUserRole $guestRole */
+        $guestRole = $currentWebsite->getGuestRole();
+        return [$guestRole->getRole()];
     }
 
     /**

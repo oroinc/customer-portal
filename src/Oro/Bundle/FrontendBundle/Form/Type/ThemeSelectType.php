@@ -5,6 +5,7 @@ namespace Oro\Bundle\FrontendBundle\Form\Type;
 use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,7 +38,9 @@ class ThemeSelectType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('choices', $this->getChoices());
+        $resolver->setDefaults([
+            'choices' => $this->getChoices(),
+        ]);
     }
 
     /**
@@ -45,7 +48,7 @@ class ThemeSelectType extends AbstractType
      */
     public function getParent()
     {
-        return 'choice';
+        return ChoiceType::class;
     }
 
     /**
@@ -89,7 +92,7 @@ class ThemeSelectType extends AbstractType
         $choices = [];
 
         foreach ($this->getThemes() as $theme) {
-            $choices[$theme->getName()] = $theme->getLabel();
+            $choices[$theme->getLabel()] = $theme->getName();
         }
 
         return $choices;

@@ -1,7 +1,7 @@
 {% block root_widget %}
     {% if not oro_is_hash_navigation() %}
         <!DOCTYPE {{ doctype|default('html') }}>
-        <html lang="{{ languageCode }}">
+        <html lang="{{ languageCode|slice(0,2) }}">
         {{ block_widget(block) }}
         </html>
     {% else %}
@@ -90,9 +90,9 @@
     {% endif %}
 
     {% set flashMessageViewOptions = {
-        view: 'oroui/js/app/views/flash-message-view',
+        view: 'oroui/js/app/views/page/messages-view',
         options: {
-            container: '#' ~ attr.id,
+            autoRender: true,
             initializeMessenger: true,
             messages: flashMessages
         }

@@ -51,6 +51,8 @@ abstract class AbstractRestTest extends RestJsonApiTestCase
         $manager = $this->getManager();
         $owner = $this->getFirstUser($manager);
         $parent = $manager->getRepository(Customer::class)->findOneByName('CustomerUser CustomerUser');
+        // Initialize collection of CustomerUsers to avoid exception about cascade persist operation
+        $parent->getUsers()->current();
 
         $customer = new Customer();
         $customer->setName($name)
@@ -61,9 +63,6 @@ abstract class AbstractRestTest extends RestJsonApiTestCase
 
         if ($ratingId) {
             $customer->setInternalRating($this->getRating($ratingId));
-        }
-        if ($group) {
-            $group->addCustomer($customer);
         }
 
         $manager->persist($customer);

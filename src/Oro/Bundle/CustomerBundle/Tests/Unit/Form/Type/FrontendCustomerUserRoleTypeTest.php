@@ -7,16 +7,17 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AclPriviledgeTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
-use Oro\Bundle\FormBundle\Form\Type\Select2Type;
+use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
 use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType;
 use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType as EntityIdentifierTypeStub;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as CustomerSelectTypeStub;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Validator\Validation;
 
 class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
@@ -34,10 +35,10 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
      */
     protected function getExtensions()
     {
-        $entityIdentifierType = new EntityIdentifierType($this->getCustomerUsers());
+        $entityIdentifierType = new EntityIdentifierTypeStub($this->getCustomerUsers());
         $customerSelectType = new CustomerSelectTypeStub($this->getCustomers(), CustomerSelectType::NAME);
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|TranslatableEntityType $registry */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|TranslatableEntityType $registry */
         $translatableEntity = $this->getMockBuilder('Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType')
             ->setMethods(['configureOptions', 'buildForm'])
             ->disableOriginalConstructor()
@@ -45,16 +46,13 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         return [
             new PreloadedExtension(
                 [
-                    $entityIdentifierType->getName() => $entityIdentifierType,
-                    $customerSelectType->getName() => $customerSelectType,
-                    'oro_acl_collection' => new PrivilegeCollectionType(),
-                    AclPriviledgeTypeStub::NAME => new AclPriviledgeTypeStub(),
-                    FrontendOwnerSelectTypeStub::NAME => new FrontendOwnerSelectTypeStub(),
-                    'oro_select2_translatable_entity' => new Select2Type(
-                        'Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType',
-                        'oro_select2_translatable_entity'
-                    ),
-                    'translatable_entity' => $translatableEntity,
+                    $this->formType,
+                    EntityIdentifierType::class => $entityIdentifierType,
+                    CustomerSelectType::class => $customerSelectType,
+                    PrivilegeCollectionType::class => new PrivilegeCollectionType(),
+                    AclPriviledgeTypeStub::class => new AclPriviledgeTypeStub(),
+                    FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub(),
+                    TranslatableEntityType::class => $translatableEntity,
                 ],
                 []
             ),
@@ -73,7 +71,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         array $submittedData,
         $expectedData
     ) {
-        $form = $this->factory->create($this->formType, $defaultData, $options);
+        $form = $this->factory->create(FrontendCustomerUserRoleType::class, $defaultData, $options);
 
         $this->assertTrue($form->has('appendUsers'));
         $this->assertTrue($form->has('removeUsers'));
@@ -223,14 +221,6 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
     /**
      * {@inheritdoc}
      */
-    public function testGetName()
-    {
-        $this->assertEquals(FrontendCustomerUserRoleType::NAME, $this->formType->getName());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function createCustomerUserRoleFormTypeAndSetDataClass()
     {
         $this->formType = new FrontendCustomerUserRoleType();
@@ -286,7 +276,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         $predefinedRole->addCustomerUser($customerUser4);
 
         $form = $this->factory->create(
-            $this->formType,
+            FrontendCustomerUserRoleType::class,
             $role,
             ['privilege_config' => $this->privilegeConfig, 'predefined_role' => $predefinedRole]
         );

@@ -17,6 +17,16 @@ define(function(require) {
             offset: 8
         },
 
+        /**
+         * @inheritDoc
+         */
+        constructor: function ScrollableTableView() {
+            ScrollableTableView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             ScrollableTableView.__super__.initialize.apply(this, arguments);
 

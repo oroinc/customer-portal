@@ -31,6 +31,7 @@ Feature: Manage Customer addresses at front-store
   Scenario: Verify HTML tags on create new address
     Given I click "New Address"
     When I fill form with:
+      | User             | Nancy Sallee               |
       | Label            | <script>alert(1)</script>  |
       | Name prefix      | <script>alert(2)</script>  |
       | First Name       | <script>alert(3)</script>  |
@@ -49,7 +50,7 @@ Feature: Manage Customer addresses at front-store
       | Shipping         | true                       |
       | Default Billing  | true                       |
       | Default Shipping | true                       |
-    And I press "Save"
+    And I click "Save"
     Then I should see following "Customer Company User Addresses Grid" grid:
       | Customer Address | City      | State  | Zip/Postal Code | Country | Type                              |
       | alert(9)         | alert(11) | Berlin | alert(12)       | Germany | Default Billing, Default Shipping |

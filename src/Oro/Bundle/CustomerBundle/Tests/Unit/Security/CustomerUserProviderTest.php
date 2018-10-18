@@ -18,15 +18,15 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
+class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $authChecker;
 
-    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
-    /** @var AclManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AclManager|\PHPUnit\Framework\MockObject\MockObject */
     private $aclManager;
 
     /** @var CustomerUserProvider */
@@ -62,7 +62,7 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
             ->willReturn($oid);
         $user = $this->mockUser();
 
-        /** @var RoleInterface|\PHPUnit_Framework_MockObject_MockObject $role */
+        /** @var RoleInterface|\PHPUnit\Framework\MockObject\MockObject $role */
         $role = $this->createMock(RoleInterface::class);
 
         $user->expects($this->exactly(2))
@@ -76,7 +76,7 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
             ->with($sid, $oid)
             ->willReturn([]);
 
-        /** @var ObjectIdentity|\PHPUnit_Framework_MockObject_MockObject $rootOid */
+        /** @var ObjectIdentity|\PHPUnit\Framework\MockObject\MockObject $rootOid */
         $rootOid = new ObjectIdentity('id', '(root)');
         $this->aclManager->expects($this->once())
             ->method('getRootOid')
@@ -108,7 +108,7 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
             ->willReturn($oid);
         $user = $this->mockUser();
 
-        /** @var RoleInterface|\PHPUnit_Framework_MockObject_MockObject $role */
+        /** @var RoleInterface|\PHPUnit\Framework\MockObject\MockObject $role */
         $role = $this->createMock(RoleInterface::class);
 
         $user->expects($this->exactly(2))
@@ -130,7 +130,7 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
         $extension->expects($this->at(1))->method('getServiceBits')->with(1)->willReturn(1);
         $extension->expects($this->at(2))->method('getServiceBits')->with(256)->willReturn(0);
 
-        /** @var ObjectIdentity|\PHPUnit_Framework_MockObject_MockObject $rootOid */
+        /** @var ObjectIdentity|\PHPUnit\Framework\MockObject\MockObject $rootOid */
         $rootOid = new ObjectIdentity('id', '(root)');
         $this->aclManager->expects($this->once())
             ->method('getRootOid')
@@ -162,7 +162,7 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
             ->willReturn($oid);
         $user = $this->mockUser();
 
-        /** @var RoleInterface|\PHPUnit_Framework_MockObject_MockObject $role */
+        /** @var RoleInterface|\PHPUnit\Framework\MockObject\MockObject $role */
         $role = $this->createMock(RoleInterface::class);
 
         $user->expects($this->exactly(2))
@@ -192,7 +192,7 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
 
         $ace->expects($this->once())->method('getAcl')->willReturn($acl);
 
-        /** @var ObjectIdentity|\PHPUnit_Framework_MockObject_MockObject $rootOid */
+        /** @var ObjectIdentity|\PHPUnit\Framework\MockObject\MockObject $rootOid */
         $rootOid = new ObjectIdentity('id', '(root)');
         $this->aclManager->expects($this->once())
             ->method('getRootOid')
@@ -224,7 +224,7 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
             ->willReturn($oid);
         $user = $this->mockUser();
 
-        /** @var RoleInterface|\PHPUnit_Framework_MockObject_MockObject $role */
+        /** @var RoleInterface|\PHPUnit\Framework\MockObject\MockObject $role */
         $role = $this->createMock(RoleInterface::class);
 
         $user->expects($this->once())
@@ -265,7 +265,7 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $identifier
-     * @return AclInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return AclInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private function mockAclWithIdentityIdentifier($identifier)
     {
@@ -277,13 +277,13 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return EntityAclExtension|\PHPUnit_Framework_MockObject_MockObject
+     * @return EntityAclExtension|\PHPUnit\Framework\MockObject\MockObject
      */
     private function mockExtension()
     {
         $extensionSelector = $this->createMock(AclExtensionSelector::class);
 
-        /** @var EntityAclExtension|\PHPUnit_Framework_MockObject_MockObject $extension */
+        /** @var EntityAclExtension|\PHPUnit\Framework\MockObject\MockObject $extension */
         $extension = $this->createMock(EntityAclExtension::class);
 
         $extensionSelector->expects($this->any())
@@ -298,7 +298,7 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return CustomerUser|\PHPUnit_Framework_MockObject_MockObject
+     * @return CustomerUser|\PHPUnit\Framework\MockObject\MockObject
      */
     private function mockUser()
     {
@@ -312,7 +312,7 @@ class CustomerUserProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param RoleInterface $role
-     * @return SecurityIdentityInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return SecurityIdentityInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private function mockSid(RoleInterface $role)
     {

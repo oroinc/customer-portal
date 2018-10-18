@@ -31,7 +31,7 @@ define(function(require) {
                     buttons: [
                         {
                             'type': 'button',
-                            'class': 'btn btn--info btn--full btn--size-s',
+                            'class': 'btn btn--info btn--block btn--size-s',
                             'role': 'action',
                             'label': _.__('oro_frontend.filters.apply_all')
                         }
@@ -74,6 +74,13 @@ define(function(require) {
          * @property;
          */
         counterBadgeView: CounterBadgeView,
+
+        /**
+         * @inheritDoc
+         */
+        constructor: function FrontendFullScreenFiltersAction() {
+            FrontendFullScreenFiltersAction.__super__.constructor.apply(this, arguments);
+        },
 
         /**
          * @inheritDoc
@@ -312,9 +319,9 @@ define(function(require) {
 
             _.each(filters, function(filter) {
                 if (
-                    filter.enabled && (filter.type === 'multichoice' ?
-                        filter._readDOMValue().value.length === 0 :
-                        _.isEqual(filter.emptyValue, filter._readDOMValue()))
+                    filter.enabled && (filter.type === 'multichoice'
+                        ? filter._readDOMValue().value.length === 0
+                        : _.isEqual(filter.emptyValue, filter._readDOMValue()))
                 ) {
                     if (!_.isFunction(filter._onClickCriteriaSelector)) {
                         return;

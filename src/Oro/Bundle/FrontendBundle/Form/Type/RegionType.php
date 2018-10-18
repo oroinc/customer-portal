@@ -3,8 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\Form\Type;
 
 use Oro\Bundle\AddressBundle\Form\Type\RegionType as BaseCountryType;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
+use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
 
 class RegionType extends BaseCountryType
 {
@@ -29,6 +28,6 @@ class RegionType extends BaseCountryType
      */
     public function getParent()
     {
-        return 'translatable_entity';
+        return TranslatableEntityType::class;
     }
 }

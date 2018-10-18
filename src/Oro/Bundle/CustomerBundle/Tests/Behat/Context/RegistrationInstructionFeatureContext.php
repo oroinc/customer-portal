@@ -50,12 +50,13 @@ class RegistrationInstructionFeatureContext extends OroFeatureContext implements
     private function getCurrentApplicationUrl($subDomain = '')
     {
         $currentUrl = $this->getSession()->getCurrentUrl();
+        $scheme = parse_url($currentUrl, PHP_URL_SCHEME);
         $host = parse_url($currentUrl, PHP_URL_HOST);
         $port = parse_url($currentUrl, PHP_URL_PORT);
         if ($port) {
             $port = ':' . $port;
         }
-        return sprintf('http://%s%s%s/', $subDomain, $host, $port);
+        return sprintf('%s://%s%s%s/', $scheme, $subDomain, $host, $port);
     }
 
     /**

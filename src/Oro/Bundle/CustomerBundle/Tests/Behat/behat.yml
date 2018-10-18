@@ -10,6 +10,8 @@ oro_behat_extension:
         - OroDataGridBundle::GridContext
         - OroFormBundle::FormContext
         - OroCustomerBundle::CustomerUserContext
+        - OroFrontendLocalizationBundle::LocalizationSwitcherContext
+        - OroLocaleBundle::LocalizationContext
         - OroCustomerBundle::ACLContext
         - OroCustomerBundle::FrontendGridContext
         - OroSecurityBundle::PermissionContext
@@ -27,6 +29,27 @@ oro_behat_extension:
     CustomerUserRoleForm:
       selector: "form[id*='_customer_user_role']"
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\CustomerUserRoleForm
+    Customer User Form:
+      selector: 'form[name="oro_customer_customer_user"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Second Primary: 'oro_customer_customer_user[addresses][1][primary]'
+          Second Street: 'oro_customer_customer_user[addresses][1][street]'
+          Second City: 'oro_customer_customer_user[addresses][1][city]'
+          Second Postal Code: 'oro_customer_customer_user[addresses][1][postalCode]'
+          Second Organization: 'oro_customer_customer_user[addresses][1][organization]'
+          Second Country:
+            locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_country-uid")]/input'
+            type: xpath
+          Second State:
+            locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_region-uid")]/input'
+            type: xpath
+
+    CustomerUserRoleGrid:
+      selector: '[id^="grid-customer-user-role-permission-grid"]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+
     Customer Users Grid:
       selector: '[id^="grid-frontend-customer-customer-user-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -54,6 +77,8 @@ oro_behat_extension:
     Customer User Registration Error Container:
       selector: ".form-row span.validation-failed"
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Customer User Responsive Datagrid:
+      selector: ".frontend-datagrid--responsive"
     Customer Users Registration form:
       selector: '[id^="customer_users-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -66,11 +91,11 @@ oro_behat_extension:
     Customer Grid Settings Created At:
       selector:
         type: xpath
-        locator: '//label[contains(., "Created At")]/ancestor::td[contains(@class, "title-cell")]'
+        locator: '//label[contains(., "Created At")]/../../td/span[contains(@class, "checkbox-view")]'
     Customer Grid Settings Updated At:
       selector:
         type: xpath
-        locator: '//label[contains(., "Updated At")]/ancestor::td[contains(@class, "title-cell")]'
+        locator: '//label[contains(., "Updated At")]/../../td/span[contains(@class, "checkbox-view")]'
     Routing General form:
       selector: '[id^="routing-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -153,6 +178,10 @@ oro_behat_extension:
       selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
 
+    FrontendGridFilterManagerButton:
+      selector: 'button.select-filter-widget'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+
     Customer User Form Admin:
       selector: '[id^="oro_customer_customer_user-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -164,6 +193,15 @@ oro_behat_extension:
           Buyer Role:
            locator: '[id^="oro_customer_customer_user_roles_2-uid"]'
            type: css
+
+    Customer User Address Form:
+      selector: '[id^="oro_customer_customer_user-uid"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          First Name: 'oro_customer_customer_user[addresses][0][firstName]'
+          Last Name: 'oro_customer_customer_user[addresses][0][lastName]'
+          Organization: 'oro_customer_customer_user[addresses][0][organization]'
 
     Map Container:
       selector: '.map-visual-frame'
@@ -214,6 +252,27 @@ oro_behat_extension:
     My Profile Menu Item:
       selector: 'li.primary-menu__item a:contains("My Profile")'
 
+    Account link:
+      selector: 'li.topbar-navigation__item a:contains("Account")'
+
+    First Address Default Billing Checkbox:
+        selector: '[name="oro_customer_type[addresses][0][defaults][default][]"][value="billing"]'
+
+    First Address Default Shipping Checkbox:
+        selector: '[name="oro_customer_type[addresses][0][defaults][default][]"][value="shipping"]'
+
+    First Address Billing Checkbox:
+        selector: '[name="oro_customer_type[addresses][0][types][]"][value="billing"]'
+
+    First Address Shipping Checkbox:
+        selector: '[name="oro_customer_type[addresses][0][types][]"][value="shipping"]'
+
+    Second Address Billing Checkbox:
+        selector: '[name="oro_customer_type[addresses][2][types][]"][value="billing"]'
+
+    Second Address Shipping Checkbox:
+        selector: '[name="oro_customer_type[addresses][2][types][]"][value="shipping"]'
+
   pages:
     Customer User Role View:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView
@@ -222,3 +281,11 @@ oro_behat_extension:
     Customer User Profile Update:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserProfileUpdate
       route: 'oro_customer_frontend_customer_user_profile_update'
+
+    Customer User Forgot Password:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserForgotPassword
+      route: 'oro_customer_frontend_customer_user_reset_request'
+
+    Customer User Index:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserIndex
+      route: 'oro_customer_customer_user_index'

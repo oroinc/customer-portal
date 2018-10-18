@@ -8,7 +8,6 @@ define(function(require) {
     var widgetManager = require('oroui/js/widget-manager');
 
     CustomerUser = BaseComponent.extend({
-
         /**
          * @property {Object}
          */
@@ -16,6 +15,13 @@ define(function(require) {
             widgetAlias: null,
             customerFormId: null,
             customerUserId: null
+        },
+
+        /**
+         * @inheritDoc
+         */
+        constructor: function CustomerUser() {
+            CustomerUser.__super__.constructor.apply(this, arguments);
         },
 
         /**

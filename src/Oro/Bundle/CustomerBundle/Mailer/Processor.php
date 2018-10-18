@@ -3,24 +3,65 @@
 namespace Oro\Bundle\CustomerBundle\Mailer;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
+use Oro\Bundle\UserBundle\Mailer\UserTemplateEmailSender;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class Processor extends CustomerUserProcessor
+/**
+ * Handles CustomerUser email sending logic
+ */
+class Processor
 {
     const WELCOME_EMAIL_TEMPLATE_NAME = 'customer_user_welcome_email';
+    const WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME = 'customer_user_welcome_email_registered_by_admin';
     const CONFIRMATION_EMAIL_TEMPLATE_NAME = 'customer_user_confirmation_email';
     const RESET_PASSWORD_EMAIL_TEMPLATE_NAME = 'customer_user_reset_password';
 
     /**
+     * @var UserTemplateEmailSender
+     */
+    private $userTemplateEmailSender;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
+     * @param UserTemplateEmailSender $userTemplateEmailSender
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(
+        UserTemplateEmailSender $userTemplateEmailSender,
+        EventDispatcherInterface $eventDispatcher
+    ) {
+        $this->userTemplateEmailSender = $userTemplateEmailSender;
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
      * @param CustomerUser $customerUser
-     * @param string $password
      * @return int
      */
-    public function sendWelcomeNotification(CustomerUser $customerUser, $password)
+    public function sendWelcomeNotification(CustomerUser $customerUser)
     {
         return $this->getEmailTemplateAndSendEmail(
             $customerUser,
             static::WELCOME_EMAIL_TEMPLATE_NAME,
-            ['entity' => $customerUser, 'password' => $password]
+            ['entity' => $customerUser]
+        );
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     * @return int
+     */
+    public function sendWelcomeForRegisteredByAdminNotification(CustomerUser $customerUser)
+    {
+        return $this->getEmailTemplateAndSendEmail(
+            $customerUser,
+            static::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME,
+            ['entity' => $customerUser]
         );
     }
 
@@ -47,6 +88,28 @@ class Processor extends CustomerUserProcessor
             $customerUser,
             static::RESET_PASSWORD_EMAIL_TEMPLATE_NAME,
             ['entity' => $customerUser]
+        );
+    }
+
+    /**
+     * @param CustomerUser $user
+     * @param $emailTemplateName
+     * @param array $emailTemplateParams
+     * @return int
+     */
+    private function getEmailTemplateAndSendEmail(
+        CustomerUser $user,
+        $emailTemplateName,
+        array $emailTemplateParams
+    ): int {
+        $event = new CustomerUserEmailSendEvent($user, $emailTemplateName, $emailTemplateParams);
+        $this->eventDispatcher->dispatch(CustomerUserEmailSendEvent::NAME, $event);
+
+        return $this->userTemplateEmailSender->sendUserTemplateEmail(
+            $user,
+            $event->getEmailTemplate(),
+            $event->getEmailTemplateParams(),
+            $user->getWebsite()
         );
     }
 }

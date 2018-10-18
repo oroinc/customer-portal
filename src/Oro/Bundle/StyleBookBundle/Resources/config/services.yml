@@ -1,0 +1,13 @@
+services:
+    oro_stylebook.layout.data_provider.style_book_form:
+        class: 'Oro\Bundle\StyleBookBundle\Layout\DataProvider\StyleBookFormProvider'
+        arguments:
+            - '@form.factory'
+            - '@router'
+        tags:
+            - { name: layout.data_provider, alias: style_book_form }
+
+    oro_stylebook.helper.access_helper:
+        class: 'Oro\Bundle\StyleBookBundle\Helper\AccessHelper'
+        arguments:
+            - '@service_container'

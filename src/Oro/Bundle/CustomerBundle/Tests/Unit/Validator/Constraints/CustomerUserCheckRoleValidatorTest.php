@@ -9,7 +9,7 @@ use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRole;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRoleValidator;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class CustomerUserCheckRoleValidatorTest extends \PHPUnit_Framework_TestCase
+class CustomerUserCheckRoleValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CustomerUserCheckRoleValidator
@@ -22,12 +22,12 @@ class CustomerUserCheckRoleValidatorTest extends \PHPUnit_Framework_TestCase
     protected $constraint;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ArrayCollection
+     * @var \PHPUnit\Framework\MockObject\MockObject|ArrayCollection
      */
     protected $rolesCollection;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|CustomerUser
+     * @var \PHPUnit\Framework\MockObject\MockObject|CustomerUser
      */
     protected $customerUser;
 
@@ -69,7 +69,7 @@ class CustomerUserCheckRoleValidatorTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->willReturn(true);
 
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->getMockBuilder(ExecutionContextInterface::class)->disableOriginalConstructor()->getMock();
 
         $context->expects($this->once())

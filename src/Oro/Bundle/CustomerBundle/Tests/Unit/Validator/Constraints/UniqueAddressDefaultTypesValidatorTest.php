@@ -8,7 +8,7 @@ use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypesVal
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit_Framework_TestCase
+class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException \Symfony\Component\Validator\Exception\UnexpectedTypeException
@@ -16,7 +16,7 @@ class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateExceptionWhenInvalidArgumentType()
     {
-        /** @var Constraint|\PHPUnit_Framework_MockObject_MockObject $constraint */
+        /** @var Constraint|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock('Symfony\Component\Validator\Constraint');
         $validator = new UniqueAddressDefaultTypesValidator();
         $validator->validate(false, $constraint);
@@ -28,7 +28,7 @@ class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateExceptionWhenInvalidArgumentElementType()
     {
-        /** @var Constraint|\PHPUnit_Framework_MockObject_MockObject $constraint */
+        /** @var Constraint|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock('Symfony\Component\Validator\Constraint');
         $validator = new UniqueAddressDefaultTypesValidator();
         $validator->validate([1], $constraint);
@@ -40,12 +40,12 @@ class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateValid(array $addresses)
     {
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock('Symfony\Component\Validator\Context\ExecutionContextInterface');
         $context->expects($this->never())
             ->method('addViolation');
 
-        /** @var Constraint|\PHPUnit_Framework_MockObject_MockObject $constraint */
+        /** @var Constraint|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock('Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes');
         $validator = new UniqueAddressDefaultTypesValidator();
         $validator->initialize($context);
@@ -93,7 +93,7 @@ class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateInvalid($addresses, $types)
     {
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->getMockBuilder('Symfony\Component\Validator\Context\ExecutionContextInterface')
             ->disableOriginalConstructor()
             ->getMock();
@@ -101,7 +101,7 @@ class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit_Framework_TestCase
             ->method('addViolation')
             ->with('Several addresses have the same default type {{ types }}.', ['{{ types }}' => $types]);
 
-        /** @var UniqueAddressDefaultTypes|\PHPUnit_Framework_MockObject_MockObject $constraint */
+        /** @var UniqueAddressDefaultTypes|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock('Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes');
         $validator = new UniqueAddressDefaultTypesValidator();
         $validator->initialize($context);
@@ -138,7 +138,7 @@ class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit_Framework_TestCase
      *
      * @param array $addressTypes
      * @param bool  $isEmpty
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function getDefaultTypedAddressMock(array $addressTypes, $isEmpty = false)
     {

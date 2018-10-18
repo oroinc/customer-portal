@@ -8,7 +8,7 @@ use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 use Oro\Bundle\UIBundle\View\ScrollData;
 use Symfony\Component\Form\FormView;
 
-class MenuUpdateFormViewListenerTest extends \PHPUnit_Framework_TestCase
+class MenuUpdateFormViewListenerTest extends \PHPUnit\Framework\TestCase
 {
     public function testOnEdit()
     {

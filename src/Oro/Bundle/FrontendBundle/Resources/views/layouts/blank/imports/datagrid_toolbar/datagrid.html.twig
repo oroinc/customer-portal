@@ -10,7 +10,7 @@
 {% block __datagrid_toolbar__datagrid_toolbar_filter_container_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' frontend-datagrid__filter',
-        'data-datafilter-container': ''
+        'data-role': 'filter-container'
     }) %}
 
     {% set toolbarPosition = attr['data-grid-toolbar']|default('') %}

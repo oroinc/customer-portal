@@ -7,15 +7,15 @@ use Oro\Bundle\CustomerBundle\Voter\AnonymousCustomerUserVoter;
 use Oro\Bundle\FeatureToggleBundle\Checker\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class AnonymousCustomerUserVoterTest extends \PHPUnit_Framework_TestCase
+class AnonymousCustomerUserVoterTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var VoterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var VoterInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $configVoter;
 
     /**
-     * @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $tokenStorage;
 

@@ -49,6 +49,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function ScrollTopView() {
+            ScrollTopView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options || {});
             ScrollTopView.__super__.initialize.apply(this, arguments);
@@ -90,6 +97,10 @@ define(function(require) {
         },
 
         toggle: function() {
+            if (this.disposed) {
+                return;
+            }
+
             if (this.isApplicable) {
                 var state = this.$window.scrollTop() > this.options.togglePoint;
                 this.$el.toggle(state);

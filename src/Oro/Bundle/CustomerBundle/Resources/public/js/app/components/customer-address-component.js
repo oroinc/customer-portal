@@ -11,6 +11,16 @@ define(function(require) {
          */
         targetElement: null,
 
+        /**
+         * @inheritDoc
+         */
+        constructor: function CustomerAddressComponent() {
+            CustomerAddressComponent.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.targetElement = $(options._sourceElement);
             if (options.disableDefaultWithoutType) {
@@ -38,9 +48,12 @@ define(function(require) {
              * Switch off default checkbox when type unselected
              */
             var self = this;
-            this.targetElement.on('click', '[name$="[defaults][default][]"]', function() {
+            this.targetElement.on('click', '[name$="[defaults][default][]"]', function(event) {
                 if (this.checked) {
-                    self.targetElement.find('[name$="[types][]"][value="' + this.value + '"]').each(function(idx, el) {
+                    var items = $(event.target.closest('*[data-content]'))
+                        .find('[name$="[types][]"][value="' + this.value + '"]');
+
+                    items.each(function(idx, el) {
                         el.checked = true;
                     });
                 }

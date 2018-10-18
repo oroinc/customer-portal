@@ -2,8 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -75,7 +78,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
 
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(CustomerUserRoleType::NAME, $role, ['privilege_config' => $expectedConfig])
+            ->with(CustomerUserRoleType::class, $role, ['privilege_config' => $expectedConfig])
             ->willReturn($expectedForm);
 
         $actualForm = $this->handler->createForm($role);
@@ -114,7 +117,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $request = new Request();
         $request->setMethod('GET');
 
-        /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject $requestStack */
+        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock(RequestStack::class);
         $requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
 
@@ -196,7 +199,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $request = new Request();
         $request->setMethod('POST');
 
-        /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject $requestStack */
+        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock(RequestStack::class);
         $requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
 
@@ -287,11 +290,25 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->method('create')
             ->willReturn($form);
 
-        $objectManager = $this->createMock(ObjectManager::class);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
         $this->managerRegistry->expects($this->any())
             ->method('getManagerForClass')
             ->with(get_class($role))
             ->willReturn($objectManager);
+
+        $configuration = $this->createMock(Configuration::class);
+        $cache = $this->createMock(ArrayCache::class);
+        $this->managerRegistry->expects($this->once())
+            ->method('getManager')
+            ->willReturn($objectManager);
+        $objectManager->expects($this->once())
+            ->method('getConfiguration')
+            ->willReturn($configuration);
+        $configuration->expects($this->once())
+            ->method('getQueryCacheImpl')
+            ->willReturn($cache);
+        $cache->expects($this->once())
+            ->method('deleteAll');
 
         $expectedFirstEntityPrivilege = $this->createPrivilege('entity', 'entity:FirstClass', 'VIEW');
         $expectedFirstEntityPrivilege->setGroup(CustomerUser::SECURITY_GROUP);
@@ -325,14 +342,14 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->method('setPermission')
             ->with($roleSecurityIdentity, $productObjectIdentity, 16);
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|AclExtensionInterface $aclExtension */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|AclExtensionInterface $aclExtension */
         $aclExtension = $this->createMock(AclExtensionInterface::class);
         $aclExtension->expects($this->once())
             ->method('getMaskBuilder')
             ->with('VIEW')
             ->willReturn(new EntityMaskBuilder(0, ['VIEW', 'CREATE', 'EDIT']));
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|AclExtensionSelector $aclExtension */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|AclExtensionSelector $aclExtension */
         $aclExtensionSelector = $this->getMockBuilder(AclExtensionSelector::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -450,7 +467,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
 
     /**
      * @param bool $hasFrontendOwner
-     * @return ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ConfigInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function createClassConfigMock($hasFrontendOwner)
     {

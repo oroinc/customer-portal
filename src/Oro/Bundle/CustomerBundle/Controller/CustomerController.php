@@ -90,7 +90,7 @@ class CustomerController extends Controller
     {
         return $this->get('oro_form.model.update_handler')->handleUpdate(
             $customer,
-            $this->createForm(CustomerType::NAME, $customer),
+            $this->createForm(CustomerType::class, $customer),
             function (Customer $customer) {
                 return [
                     'route' => 'oro_customer_customer_update',

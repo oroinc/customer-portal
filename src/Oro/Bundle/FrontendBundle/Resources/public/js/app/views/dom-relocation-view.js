@@ -33,6 +33,13 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function DomRelocationView() {
+            DomRelocationView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.$window = $(window);
             this.onViewportChange = _.debounce(_.bind(this.onViewportChange, this), this.resizeTimeout);

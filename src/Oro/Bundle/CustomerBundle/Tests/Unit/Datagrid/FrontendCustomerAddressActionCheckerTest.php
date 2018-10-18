@@ -5,12 +5,12 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Datagrid;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Datagrid\FrontendCustomerAddressActionChecker;
 
-class FrontendCustomerAddressActionCheckerTest extends \PHPUnit_Framework_TestCase
+class FrontendCustomerAddressActionCheckerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FrontendCustomerAddressActionChecker */
     private $actionChecker;
 
-    /** @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
 
     /**

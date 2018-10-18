@@ -31,7 +31,8 @@ class FrontendApiDocPass implements CompilerPassInterface
     {
         $container->getDefinition('oro_api.api_doc.validate_view_listener')
             ->setClass(ValidateApiDocViewListener::class)
-            ->addArgument($container->getParameter(OroFrontendExtension::API_DOC_VIEWS_PARAMETER_NAME));
+            ->addArgument($container->getParameter(OroFrontendExtension::API_DOC_VIEWS_PARAMETER_NAME))
+            ->addArgument($container->getParameter(OroFrontendExtension::API_DOC_DEFAULT_VIEW_PARAMETER_NAME));
     }
 
     /**

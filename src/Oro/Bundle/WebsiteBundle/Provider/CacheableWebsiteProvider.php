@@ -6,6 +6,9 @@ use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
+/**
+ * The provider that uses a cache to prevent unneeded loading of website identifiers from the database.
+ */
 class CacheableWebsiteProvider implements WebsiteProviderInterface
 {
     const WEBSITE_IDS_CACHE_KEY = 'oro_website_entity_ids';
@@ -51,15 +54,28 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
      */
     public function getWebsiteIds()
     {
-        if (!$this->cacheProvider->contains(self::WEBSITE_IDS_CACHE_KEY)) {
+        $websiteIds = $this->cacheProvider->fetch(self::WEBSITE_IDS_CACHE_KEY);
+        if (false === $websiteIds) {
             $websiteIds = $this->websiteProvider->getWebsiteIds();
-
             $this->cacheProvider->save(self::WEBSITE_IDS_CACHE_KEY, $websiteIds);
-        } else {
-            $websiteIds = $this->cacheProvider->fetch(self::WEBSITE_IDS_CACHE_KEY);
         }
 
         return $websiteIds;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWebsiteChoices()
+    {
+        $websiteChoices = [];
+        foreach ($this->getWebsiteIds() as $websiteId) {
+            /** @var Website $website */
+            $website = $this->doctrineHelper->getEntityReference(Website::class, $websiteId);
+            $websiteChoices[$website->getName()] = $websiteId;
+        }
+
+        return $websiteChoices;
     }
 
     /**
@@ -77,6 +93,10 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
      */
     public function clearCache()
     {
+        if (!$this->hasCache()) {
+            return;
+        }
+
         $this->cacheProvider->delete(self::WEBSITE_IDS_CACHE_KEY);
     }
 }

@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\GridView;
 use Oro\Bundle\CustomerBundle\Entity\GridViewUser;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class GridViewTest extends \PHPUnit_Framework_TestCase
+class GridViewTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 

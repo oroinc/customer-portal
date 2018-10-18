@@ -14,6 +14,8 @@ use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
+ * Entity that represents CustomerUser`s roles in system
+ *
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository")
  * @ORM\Table(name="oro_customer_user_role",
  *      uniqueConstraints={
@@ -25,6 +27,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  * )
  * @Config(
  *      routeName="oro_customer_customer_user_role_index",
+ *      routeCreate="oro_customer_customer_user_role_create",
  *      routeUpdate="oro_customer_customer_user_role_update",
  *      defaultValues={
  *          "entity"={
@@ -35,6 +38,9 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  *              "group_name"="commerce"
  *          },
  *          "ownership"={
+ *              "owner_type"="ORGANIZATION",
+ *              "owner_field_name"="organization",
+ *              "owner_column_name"="organization_id",
  *              "frontend_owner_type"="FRONTEND_CUSTOMER",
  *              "frontend_owner_field_name"="customer",
  *              "frontend_owner_column_name"="customer_id",
@@ -125,22 +131,6 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
     protected $label;
 
     /**
-     * @var Website[]|Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Oro\Bundle\WebsiteBundle\Entity\Website")
-     * @ORM\JoinTable(
-     *      name="oro_customer_role_to_website",
-     *      joinColumns={
-     *          @ORM\JoinColumn(name="customer_user_role_id", referencedColumnName="id", onDelete="CASCADE")
-     *      },
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="website_id", referencedColumnName="id", onDelete="CASCADE", unique=true)
-     *      }
-     * )
-     */
-    protected $websites;
-
-    /**
      * @var CustomerUser[]|Collection
      *
      * @ORM\ManyToMany(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser", mappedBy="roles")
@@ -148,6 +138,10 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
     protected $customerUsers;
 
     /**
+     * Only self-managed roles should be displayed on the frontend in "Account User Roles" management UI.
+     * Account users should not be allowed to see, view or copy the account user roles that are not flagged
+     * as "Self-Managed".
+     *
      * @var boolean
      *
      * @ORM\Column(type="boolean", name="self_managed", options={"default"=false})
@@ -170,7 +164,6 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
             $this->setRole($role, false);
         }
 
-        $this->websites = new ArrayCollection();
         $this->customerUsers = new ArrayCollection();
 
         parent::__construct($this->getRole());
@@ -217,40 +210,6 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
     public function getPrefix()
     {
         return static::PREFIX_ROLE;
-    }
-
-    /**
-     * @param Website $website
-     * @return $this
-     */
-    public function addWebsite(Website $website)
-    {
-        if (!$this->websites->contains($website)) {
-            $this->websites->add($website);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Website $website
-     * @return $this
-     */
-    public function removeWebsite(Website $website)
-    {
-        if ($this->websites->contains($website)) {
-            $this->websites->removeElement($website);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Website[]
-     */
-    public function getWebsites()
-    {
-        return $this->websites;
     }
 
     /**
@@ -312,7 +271,6 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
     {
         $newRole = clone $this;
         $newRole->setRole($newRole->getLabel());
-        $newRole->websites = new ArrayCollection();
         $newRole->customerUsers = new ArrayCollection();
 
         return $newRole;
@@ -416,7 +374,6 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
             $this->public
             ) = unserialize($serialized);
 
-        $this->websites     = new ArrayCollection();
         $this->customerUsers = new ArrayCollection();
     }
 }

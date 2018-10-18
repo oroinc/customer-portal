@@ -16,16 +16,17 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\UserBundle\Entity\User;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
+class OrmDatasourceAclListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface
+     * @var MockObject|TokenAccessorInterface
      */
     protected $tokenAccessor;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|OwnershipMetadataProviderInterface
+     * @var MockObject|OwnershipMetadataProviderInterface
      */
     protected $metadataProvider;
 
@@ -35,7 +36,7 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
     protected $listener;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|OrmResultBefore
+     * @var MockObject|OrmResultBefore
      */
     protected $event;
 
@@ -160,11 +161,11 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param bool $expectedSkipAclCheck
-     * @return DatagridInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return DatagridInterface|MockObject
      */
     protected function createDatagridMock($expectedSkipAclCheck)
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|DatagridConfiguration $datagridConfiguration */
+        /** @var MockObject|DatagridConfiguration $datagridConfiguration */
         $datagridConfiguration = $this
             ->getMockBuilder('Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration')
             ->disableOriginalConstructor()
@@ -174,7 +175,7 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
             ->with(DatagridConfiguration::DATASOURCE_SKIP_ACL_APPLY_PATH, true)
             ->willReturnSelf();
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|DatagridInterface $datagrid */
+        /** @var MockObject|DatagridInterface $datagrid */
         $datagrid = $this->createMock('Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface');
         $datagrid->expects($this->once())
             ->method('getConfig')
@@ -185,17 +186,17 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param FromClause $from
-     * @return AbstractQuery|\PHPUnit_Framework_MockObject_MockObject
+     * @return AbstractQuery|MockObject
      */
     protected function createQueryMock(FromClause $from)
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|SelectStatement $select */
+        /** @var MockObject|SelectStatement $select */
         $select = $this->getMockBuilder('Doctrine\ORM\Query\AST\SelectStatement')
             ->disableOriginalConstructor()
             ->getMock();
         $select->fromClause = $from;
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|AbstractQuery $query */
+        /** @var MockObject|AbstractQuery $query */
         $query = $this->getMockBuilder('Doctrine\ORM\AbstractQuery')
             ->setMethods(['getAST'])
             ->disableOriginalConstructor()
@@ -209,17 +210,17 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $className
-     * @return IdentificationVariableDeclaration|\PHPUnit_Framework_MockObject_MockObject
+     * @return IdentificationVariableDeclaration|MockObject
      */
     protected function createIdentVariableDeclarationMock($className)
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|RangeVariableDeclaration $rangeVariableDeclaration */
+        /** @var MockObject|RangeVariableDeclaration $rangeVariableDeclaration */
         $rangeVariableDeclaration = $this->getMockBuilder('Doctrine\ORM\Query\AST\RangeVariableDeclaration')
             ->disableOriginalConstructor()
             ->getMock();
         $rangeVariableDeclaration->abstractSchemaName = $className;
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|IdentificationVariableDeclaration $identVariableDeclaration */
+        /** @var MockObject|IdentificationVariableDeclaration $identVariableDeclaration */
         $identVariableDeclaration = $this->getMockBuilder('Doctrine\ORM\Query\AST\IdentificationVariableDeclaration')
             ->disableOriginalConstructor()
             ->getMock();
@@ -230,11 +231,11 @@ class OrmDatasourceAclListenerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param bool $hasOwner
-     * @return OwnershipMetadataInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return OwnershipMetadataInterface|MockObject
      */
     protected function createOwnershipMetadataMock($hasOwner)
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|OwnershipMetadataInterface $metadata */
+        /** @var MockObject|OwnershipMetadataInterface $metadata */
         $metadata = $this->createMock('Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataInterface');
         $metadata->expects($this->once())
             ->method('hasOwner')

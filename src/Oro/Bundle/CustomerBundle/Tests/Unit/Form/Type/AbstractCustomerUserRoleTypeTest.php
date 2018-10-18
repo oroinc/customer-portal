@@ -7,12 +7,14 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AclPriviledgeTypeStub;
+use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
+use Oro\Bundle\SecurityBundle\Form\Type\AclPrivilegeType;
 use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType as EntityIdentifierTypeStub;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as CustomerSelectTypeStub;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
 
@@ -43,9 +45,8 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-        parent::setUp();
-
         $this->createCustomerUserRoleFormTypeAndSetDataClass();
+        parent::setUp();
     }
 
     /**
@@ -61,16 +62,17 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
      */
     protected function getExtensions()
     {
-        $entityIdentifierType = new EntityIdentifierType([]);
+        $entityIdentifierType = new EntityIdentifierTypeStub([]);
         $customerSelectType = new CustomerSelectTypeStub($this->getCustomers(), CustomerSelectType::NAME);
 
         return [
             new PreloadedExtension(
                 [
-                    $entityIdentifierType->getName() => $entityIdentifierType,
-                    $customerSelectType->getName() => $customerSelectType,
-                    'oro_acl_collection' => new PrivilegeCollectionType(),
-                    AclPriviledgeTypeStub::NAME => new AclPriviledgeTypeStub(),
+                    $this->formType,
+                    EntityIdentifierType::class => $entityIdentifierType,
+                    CustomerSelectType::class => $customerSelectType,
+                    PrivilegeCollectionType::class => new PrivilegeCollectionType(),
+                    AclPrivilegeType::class => new AclPriviledgeTypeStub(),
                 ],
                 []
             ),
@@ -191,11 +193,6 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
      * Create form type
      */
     abstract protected function createCustomerUserRoleFormTypeAndSetDataClass();
-
-    /**
-     * Make test for testing form type name
-     */
-    abstract public function testGetName();
 
     /**
      * @param array $options

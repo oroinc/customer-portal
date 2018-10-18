@@ -8,7 +8,7 @@ use Oro\Bundle\DataAuditBundle\Entity\AuditField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class AuditTest extends \PHPUnit_Framework_TestCase
+class AuditTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 

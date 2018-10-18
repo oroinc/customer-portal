@@ -7,6 +7,10 @@ use Doctrine\ORM\UnitOfWork;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 
+/**
+ * Clears the cache of the website identifiers provider
+ * when a new website is created or existing website is deleted or updated.
+ */
 class WebsiteListener
 {
     /** @var CacheableWebsiteProvider */
@@ -25,9 +29,7 @@ class WebsiteListener
      */
     public function onFlush(OnFlushEventArgs $args)
     {
-        if ($this->cacheableWebsiteProvider->hasCache() &&
-            $this->hasScheduledWebsites($args->getEntityManager()->getUnitOfWork())
-        ) {
+        if ($this->hasScheduledWebsites($args->getEntityManager()->getUnitOfWork())) {
             $this->cacheableWebsiteProvider->clearCache();
         }
     }

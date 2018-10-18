@@ -10,7 +10,7 @@ Feature: Delete customer address
     And I should see "23400 Caldwell Road"
     And I should see "34500 Capitol Avenue"
     Then I delete 801 Scenic Hwy address
-    And press "Yes, Delete"
+    And click "Yes, Delete"
     And I should not see "801 Scenic Hwy"
     And I should see "23400 Caldwell Road"
     And I should see "34500 Capitol Avenue"

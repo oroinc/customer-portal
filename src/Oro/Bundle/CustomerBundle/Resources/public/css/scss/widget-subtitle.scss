@@ -1,0 +1,16 @@
+/* @theme: admin.oro; */
+
+.widget-subtitle {
+    border: 1px solid #e5e5e5;
+    margin-top: 0 !important;
+    background: #fafafa;
+    padding: 6px 20px;
+    color: #777;
+    font-size: 13px;
+    line-height: 13px;
+    font-weight: normal;
+
+    &.indented {
+        margin-top: 50px !important;
+    }
+}

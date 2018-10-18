@@ -7,7 +7,7 @@ use Oro\Bundle\FrontendBundle\EventListener\RouteCollectionListener;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-class RouteCollectionListenerTest extends \PHPUnit_Framework_TestCase
+class RouteCollectionListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param string $prefix

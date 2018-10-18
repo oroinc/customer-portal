@@ -172,7 +172,7 @@ The resulting ```styles.css``` file will be next:
 ```
 
 Before dumps all files collects into one for each theme.
-For ```my-theme``` in file ```application/commerce/web/css/layout/my-theme/styles.css.scss```:
+For ```my-theme``` in file ```application/commerce/public/css/layout/my-theme/styles.css.scss```:
 
 ```css
 @import 'my-theme/settings/global-settings';
@@ -181,7 +181,7 @@ For ```my-theme``` in file ```application/commerce/web/css/layout/my-theme/style
 @import 'my-theme/styles';
 ```
 
-For ```my-custom-theme``` in file ```application/commerce/web/css/layout/my-custom-theme/styles.css.scss```:
+For ```my-custom-theme``` in file ```application/commerce/public/css/layout/my-custom-theme/styles.css.scss```:
 ```css
 @import 'my-theme/settings/global-settings';
 @import 'my-custom-theme/settings/global-settings';

@@ -48,7 +48,7 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
      */
     public function preSetData(FormEvent $event)
     {
-        $event->getForm()->add('customer', FrontendOwnerSelectType::NAME, [
+        $event->getForm()->add('customer', FrontendOwnerSelectType::class, [
             'label' => 'oro.customer.customer.entity_label',
             'targetObject' => $event->getData()
         ]);

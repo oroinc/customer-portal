@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\FormBundle\Form\Handler\RequestHandlerTrait;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormInterface;
@@ -11,8 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Translation\TranslatorInterface;
 
+/**
+ * Form handler to process entity update/create
+ */
 class CustomerUserHandler
 {
+    use RequestHandlerTrait;
+
     /** @var FormInterface */
     protected $form;
 
@@ -66,7 +72,7 @@ class CustomerUserHandler
     {
         $isUpdated = false;
         if (in_array($this->request->getMethod(), ['POST', 'PUT'], true)) {
-            $this->form->submit($this->request);
+            $this->submitPostPutRequest($this->form, $this->request);
 
             if ($this->form->isValid()) {
                 if (!$customerUser->getId()) {
@@ -77,7 +83,7 @@ class CustomerUserHandler
 
                     if ($this->form->get('sendEmail')->getData()) {
                         try {
-                            $this->userManager->sendWelcomeEmail($customerUser);
+                            $this->userManager->sendWelcomeRegisteredByAdminEmail($customerUser);
                         } catch (\Exception $ex) {
                             $this->logger->error('Welcome email sending failed.', ['exception' => $ex]);
                             /** @var Session $session */

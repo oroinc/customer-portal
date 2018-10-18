@@ -1,5 +1,5 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'logo.html.twig'
+            themes: 'OroFrontendBundle:layouts:default/page/logo.html.twig'
 

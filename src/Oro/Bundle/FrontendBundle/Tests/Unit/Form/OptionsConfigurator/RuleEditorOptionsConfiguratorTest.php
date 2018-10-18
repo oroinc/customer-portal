@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RuleEditorOptionsConfiguratorTest extends \PHPUnit_Framework_TestCase
+class RuleEditorOptionsConfiguratorTest extends \PHPUnit\Framework\TestCase
 {
     public function testConfigureOptionsNoRequired()
     {

@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Menu;
 
 use Oro\Bundle\CustomerBundle\Menu\CustomerUserMenuBuilder;
 
-class CustomerUserMenuBuilderTest extends \PHPUnit_Framework_TestCase
+class CustomerUserMenuBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CustomerUserMenuBuilder
@@ -33,7 +33,7 @@ class CustomerUserMenuBuilderTest extends \PHPUnit_Framework_TestCase
             ->with('divider', true)
             ->willReturnSelf();
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|\Knp\Menu\ItemInterface $menu */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|\Knp\Menu\ItemInterface $menu */
         $menu = $this->createMock('Knp\Menu\ItemInterface');
         $menu->expects($this->at(0))
             ->method('setExtra')

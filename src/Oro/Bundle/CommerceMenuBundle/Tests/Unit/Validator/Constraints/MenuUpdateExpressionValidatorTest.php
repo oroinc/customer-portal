@@ -7,9 +7,9 @@ use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpressionVali
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class MenuUpdateExpressionValidatorTest extends \PHPUnit_Framework_TestCase
+class MenuUpdateExpressionValidatorTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ExpressionLanguage|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ExpressionLanguage|\PHPUnit\Framework\MockObject\MockObject */
     protected $expressionLanguage;
 
     /** @var MenuUpdateExpressionValidator */
@@ -30,7 +30,7 @@ class MenuUpdateExpressionValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidation($expression, $message, $valid)
     {
-        /** @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
         $context = $this->createMock(ExecutionContextInterface::class);
 
         if ($valid) {
@@ -41,7 +41,7 @@ class MenuUpdateExpressionValidatorTest extends \PHPUnit_Framework_TestCase
                 ->with($message);
         }
 
-        /** @var MenuUpdateExpression|\PHPUnit_Framework_MockObject_MockObject $constraint */
+        /** @var MenuUpdateExpression|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock(MenuUpdateExpression::class);
 
         $this->validator->initialize($context);

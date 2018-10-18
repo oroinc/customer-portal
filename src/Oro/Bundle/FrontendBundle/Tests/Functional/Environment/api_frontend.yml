@@ -1,0 +1,4 @@
+api:
+    entities:
+        Oro\Bundle\TestFrameworkBundle\Entity\TestProduct: ~
+        Oro\Bundle\TestFrameworkBundle\Entity\TestProductType: ~

@@ -7,10 +7,10 @@ use Oro\Bundle\PayPalBundle\PayPal\Payflow\Option\OptionsResolver;
 use Oro\Bundle\PricingBundle\Form\Type\PriceRuleEditorType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class RuleEditorTextareaTypeTest extends \PHPUnit_Framework_TestCase
+class RuleEditorTextareaTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var RuleEditorOptionsConfigurator|\PHPUnit_Framework_MockObject_MockObject
+     * @var RuleEditorOptionsConfigurator|\PHPUnit\Framework\MockObject\MockObject
      */
     private $optionsConfigurator;
 
@@ -25,11 +25,6 @@ class RuleEditorTextareaTypeTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->type = new RuleEditorTextareaType($this->optionsConfigurator);
-    }
-
-    public function testGetName()
-    {
-        $this->assertEquals(RuleEditorTextareaType::NAME, $this->type->getName());
     }
 
     public function testGetBlockPrefix()

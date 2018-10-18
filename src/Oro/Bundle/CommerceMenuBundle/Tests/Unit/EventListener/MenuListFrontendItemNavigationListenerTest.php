@@ -9,15 +9,15 @@ use Oro\Bundle\NavigationBundle\Event\ConfigureMenuEvent;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class MenuListFrontendItemNavigationListenerTest extends \PHPUnit_Framework_TestCase
+class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MenuListFrontendItemNavigationListener */
     private $listener;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit\Framework\MockObject\MockObject */
     private $authorizationChecker;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
     protected function setUp()

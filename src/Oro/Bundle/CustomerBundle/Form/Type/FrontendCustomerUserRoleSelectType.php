@@ -2,16 +2,17 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
-use Symfony\Bridge\Doctrine\Form\ChoiceList\ORMQueryBuilderLoader;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form type that allows to select roles for customer user.
+ */
 class FrontendCustomerUserRoleSelectType extends AbstractType
 {
     const NAME = 'oro_customer_frontend_customer_user_role_select';
@@ -25,19 +26,14 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
     /** @var string */
     protected $roleClass;
 
-    /** @var AclHelper */
-    protected $aclHelper;
-
     /**
      * @param TokenAccessorInterface $tokenAccessor
      * @param ManagerRegistry        $registry
-     * @param AclHelper              $aclHelper
      */
-    public function __construct(TokenAccessorInterface $tokenAccessor, ManagerRegistry $registry, AclHelper $aclHelper)
+    public function __construct(TokenAccessorInterface $tokenAccessor, ManagerRegistry $registry)
     {
         $this->tokenAccessor = $tokenAccessor;
         $this->registry = $registry;
-        $this->aclHelper = $aclHelper;
     }
 
     /**
@@ -69,7 +65,7 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
      */
     public function getParent()
     {
-        return CustomerUserRoleSelectType::NAME;
+        return CustomerUserRoleSelectType::class;
     }
 
     /**
@@ -82,26 +78,17 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
             return;
         }
 
-        $resolver->setNormalizer('loader', function () use ($loggedUser) {
-            /** @var $repo CustomerUserRoleRepository */
-            $repo = $this->registry->getManagerForClass($this->roleClass)
-                ->getRepository($this->roleClass);
-            $criteria = new Criteria();
-            $qb = $repo->createQueryBuilder('customer');
-            $this->aclHelper->applyAclToCriteria(
-                $this->roleClass,
-                $criteria,
-                'ASSIGN',
-                ['customer' => 'customer.customer', 'organization' => 'customer.organization']
-            );
-            $qb->addCriteria($criteria);
-            $qb->orWhere(
-                'customer.selfManaged = :isActive AND customer.public = :isActive AND customer.customer is NULL'
-            );
-            $qb->setParameter('isActive', true, \PDO::PARAM_BOOL);
-
-            return new ORMQueryBuilderLoader($qb);
-        });
+        $resolver->setDefaults([
+            'query_builder' => function () {
+                /** @var $repo CustomerUserRoleRepository */
+                $repo = $this->registry->getManagerForClass($this->roleClass)->getRepository($this->roleClass);
+                return $repo->createQueryBuilder('customer');
+            },
+            'acl_options' => [
+                'permission' => 'ASSIGN',
+                'options' => [SelfManagedPublicCustomerUserRoleAccessRule::ENABLE_RULE => true]
+            ]
+        ]);
     }
 
     /**

@@ -1,5 +1,5 @@
-// @theme: blamk;
+/* @theme: blank; */
 
 .hide-text {
-    @include text-hide();
+    @include text-hide($ignore-warning: true);
 }

@@ -10,20 +10,8 @@ oro_frontend_datagrid:
     options:
         frontend: true
 
-oro_frontend_style_book:
-    resource:     "@OroFrontendBundle/Controller/StyleBookController.php"
-    prefix:       /style-book
-    type:         annotation
-    options:
-        frontend: true
-
 oro_frontend_api:
     resource: "@OroFrontendBundle/Resources/config/oro/routing_api.yml"
-
-oro_installer:
-    resource: "@OroInstallerBundle/Resources/config/oro/routing.yml"
-    options:
-        frontend: true
 
 oro_frontend_dictionary_search:
     path: /dictionary/{dictionary}/search

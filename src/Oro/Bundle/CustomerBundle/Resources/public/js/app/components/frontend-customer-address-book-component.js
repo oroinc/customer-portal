@@ -26,7 +26,14 @@ define(function(require) {
         },
 
         /**
-         * @param {Object} options
+         * @inheritDoc
+         */
+        constructor: function CustomerAddressBook() {
+            CustomerAddressBook.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
          */
         initialize: function(options) {
             options = _.defaults(options || {}, this.defaultOptions);

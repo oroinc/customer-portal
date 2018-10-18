@@ -9,7 +9,7 @@ use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class CustomerUserByAccountExtensionTest extends \PHPUnit_Framework_TestCase
+class CustomerUserByAccountExtensionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CustomerUserByCustomerExtension
@@ -17,7 +17,7 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit_Framework_TestCase
     protected $extension;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|Request
+     * @var \PHPUnit\Framework\MockObject\MockObject|Request
      */
     protected $request;
 
@@ -31,7 +31,7 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->extension = new CustomerUserByCustomerExtension();
-        /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject $requestStack */
+        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock('Symfony\Component\HttpFoundation\RequestStack');
         $requestStack->expects($this->any())->method('getCurrentRequest')->willReturn($this->request);
         $this->extension->setRequestStack($requestStack);
@@ -51,7 +51,7 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit_Framework_TestCase
             ->with(CustomerUserByCustomerExtension::ACCOUNT_KEY)
             ->will($this->returnValue($customerId));
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|DatagridConfiguration $config */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|DatagridConfiguration $config */
         $config = $this->getMockBuilder('Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration')
             ->disableOriginalConstructor()
             ->getMock();
@@ -77,7 +77,7 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testVisitDatasource()
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|DatagridConfiguration $config */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|DatagridConfiguration $config */
         $config = $this->getMockBuilder('Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration')
             ->disableOriginalConstructor()
             ->getMock();
@@ -110,7 +110,7 @@ class CustomerUserByAccountExtensionTest extends \PHPUnit_Framework_TestCase
             ->method('expr')
             ->will($this->returnValue($expr));
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|OrmDatasource $datasource */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|OrmDatasource $datasource */
         $datasource = $this->getMockBuilder('Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource')
             ->disableOriginalConstructor()
             ->getMock();

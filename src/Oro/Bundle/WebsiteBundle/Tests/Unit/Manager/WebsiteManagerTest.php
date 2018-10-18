@@ -9,10 +9,10 @@ use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
-class WebsiteManagerTest extends \PHPUnit_Framework_TestCase
+class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ManagerRegistry
+     * @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry
      */
     protected $managerRegistry;
 
@@ -22,7 +22,7 @@ class WebsiteManagerTest extends \PHPUnit_Framework_TestCase
     protected $manager;
 
     /**
-     * @var FrontendHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $frontendHelper;
 

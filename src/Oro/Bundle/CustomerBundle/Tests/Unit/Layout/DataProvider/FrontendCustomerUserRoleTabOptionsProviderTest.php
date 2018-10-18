@@ -12,7 +12,7 @@ use Oro\Bundle\UserBundle\Provider\PrivilegeCategoryProviderInterface;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit_Framework_TestCase
+class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit\Framework\TestCase
 {
     const CATEGORY1_ID = '1';
     const CATEGORY1_LABEL = 'Category 1';
@@ -27,17 +27,17 @@ class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit_Framework_
     const CATEGORY_DEFAULT_PRIORITY = 10;
 
     /**
-     * @var RolePrivilegeCategoryProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var RolePrivilegeCategoryProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     private $permissionCategoryProvider;
 
     /**
-     * @var TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $translator;
 
     /**
-     * @var AbstractCustomerUserRoleHandler|\PHPUnit_Framework_MockObject_MockObject
+     * @var AbstractCustomerUserRoleHandler|\PHPUnit\Framework\MockObject\MockObject
      */
     private $aclRoleHandler;
 

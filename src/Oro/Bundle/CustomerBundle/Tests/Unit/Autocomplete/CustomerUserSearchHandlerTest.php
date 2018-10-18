@@ -15,7 +15,7 @@ use Oro\Bundle\SearchBundle\Engine\Indexer;
 use Oro\Bundle\SearchBundle\Query\Result;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
-class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
+class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 {
     const DELIMITER = ';';
 
@@ -27,27 +27,27 @@ class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
     protected $searchHandler;
 
     /**
-     * @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $managerRegistry;
 
     /**
-     * @var EntityManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityManager|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $entityManager;
 
     /**
-     * @var EntityRepository|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $entityRepository;
 
     /**
-     * @var Indexer|\PHPUnit_Framework_MockObject_MockObject
+     * @var Indexer|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $indexer;
 
     /**
-     * @var AclHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var AclHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $aclHelper;
 
@@ -193,7 +193,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param int $id
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function getSearchItem($id)
     {
@@ -208,11 +208,11 @@ class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return ClassMetadataFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @return ClassMetadataFactory|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getMetaMocks()
     {
-        /* @var $metadata ClassMetadata|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $metadata ClassMetadata|\PHPUnit\Framework\MockObject\MockObject */
         $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
             ->setMethods(['getSingleIdentifierFieldName'])
             ->disableOriginalConstructor()
@@ -220,7 +220,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
         $metadata->expects($this->once())
             ->method('getSingleIdentifierFieldName')
             ->will($this->returnValue('id'));
-        /* @var $metadataFactory ClassMetadataFactory|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $metadataFactory ClassMetadataFactory|\PHPUnit\Framework\MockObject\MockObject */
         $metadataFactory = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadataFactory')
             ->setMethods(['getMetadataFor'])
             ->disableOriginalConstructor()
@@ -240,7 +240,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
      * @param array $foundElements
      * @param array $resultData
      * @param array $expectedIds
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function assertSearchCall(
         $search,
@@ -250,7 +250,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
         array $resultData,
         array $expectedIds
     ) {
-        /* @var $searchResult Result|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $searchResult Result|\PHPUnit\Framework\MockObject\MockObject */
         $searchResult = $this->getMockBuilder('Oro\Bundle\SearchBundle\Query\Result')
             ->disableOriginalConstructor()
             ->getMock();
@@ -264,12 +264,12 @@ class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
             ->with($search, $page - 1, $perPage + 1, 'alias')
             ->willReturn($searchResult);
 
-        /* @var $queryBuilder QueryBuilder|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $queryBuilder QueryBuilder|\PHPUnit\Framework\MockObject\MockObject */
         $queryBuilder = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
             ->disableOriginalConstructor()
             ->getMock();
 
-        /* @var $query AbstractQuery|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $query AbstractQuery|\PHPUnit\Framework\MockObject\MockObject */
         $query = $this->getMockBuilder('Doctrine\ORM\AbstractQuery')
             ->disableOriginalConstructor()
             ->setMethods(['getResult'])
@@ -279,7 +279,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
             ->method('getResult')
             ->willReturn($resultData);
 
-        /* @var $expr Expr|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $expr Expr|\PHPUnit\Framework\MockObject\MockObject */
         $expr = $this->getMockBuilder('Doctrine\ORM\Query\Expr')
             ->disableOriginalConstructor()
             ->getMock();

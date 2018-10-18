@@ -10,44 +10,28 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
+/**
+ * Standard Symfony`s repository for CustomerUser entity
+ */
 class CustomerUserRoleRepository extends EntityRepository
 {
-    /**
-     * @param Website $website
-     * @return CustomerUserRole|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
-    public function getDefaultCustomerUserRoleByWebsite(Website $website)
-    {
-        $qb = $this->createQueryBuilder('CustomerUserRole');
-
-        return $qb
-            ->innerJoin('CustomerUserRole.websites', 'website')
-            ->andWhere($qb->expr()->eq('website', ':website'))
-            ->setParameter('website', $website)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
     /**
      * Checks is role default for website
      *
      * @param CustomerUserRole $role
      * @return bool
      */
-    public function isDefaultForWebsite(CustomerUserRole $role)
+    public function isDefaultOrGuestForWebsite(CustomerUserRole $role)
     {
-        $qb = $this->createQueryBuilder('CustomerUserRole');
-        $findResult = $qb
-            ->select('CustomerUserRole.id')
-            ->innerJoin('CustomerUserRole.websites', 'website')
-            ->where($qb->expr()->eq('CustomerUserRole', ':CustomerUserRole'))
-            ->setParameter('CustomerUserRole', $role)
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        return (bool)$qb->select('1')
+            ->from(Website::class, 'website')
+            ->where($qb->expr()->eq('website.default_role', ':role'))
+            ->orWhere($qb->expr()->eq('website.guest_role', ':role'))
+            ->setParameter('role', $role)
             ->setMaxResults(1)
             ->getQuery()
-            ->getArrayResult();
-
-        return !empty($findResult);
+            ->getResult();
     }
 
     /**

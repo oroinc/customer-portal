@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class CustomerUserAddressToAddressTypeTest extends \PHPUnit_Framework_TestCase
+class CustomerUserAddressToAddressTypeTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 

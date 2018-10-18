@@ -5,20 +5,30 @@ define(function(require) {
     var _ = require('underscore');
     var MapAction = require('oro/datagrid/action/map-action');
     var ViewportManager = require('oroui/js/viewport-manager');
+    var Popover = require('bootstrap-popover');
     var FullscreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+
     require('jquery');
 
     FrontendMapAction = MapAction.extend({
         /**
          * @property {String}
          */
-        popoverTpl: '<div class="map-popover popover"><div class="map-popover__content popover-content"></div></div>',
+        popoverTpl: '<div class="map-popover popover"><div class="arrow"></div>' +
+            '<div class="map-popover__content popover-body"></div></div>',
 
         /**
          * @property {Object}
          */
         viewport: {
             maxScreenType: 'tablet-small'
+        },
+
+        /**
+         * @inheritDoc
+         */
+        constructor: function FrontendMapAction() {
+            FrontendMapAction.__super__.constructor.apply(this, arguments);
         },
 
         /**
@@ -33,9 +43,9 @@ define(function(require) {
         onMapRendered: function() {
             var placement = this.getPopoverConfig().placement;
             var $popoverTrigger = this.subviews[0].$el;
-            var $popoverData = $popoverTrigger.data('popover');
-            if ($popoverData) {
-                $popoverData.applyPlacement('', placement);
+            var popover = $popoverTrigger.data(Popover.DATA_KEY);
+            if (popover !== void 0) {
+                popover.applyPlacement('', placement);
             }
         },
         /**

@@ -7,12 +7,12 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 
-class LoggedInExpressionLanguageProviderTest extends \PHPUnit_Framework_TestCase
+class LoggedInExpressionLanguageProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var LoggedInExpressionLanguageProvider */
     private $provider;
 
-    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
     /**

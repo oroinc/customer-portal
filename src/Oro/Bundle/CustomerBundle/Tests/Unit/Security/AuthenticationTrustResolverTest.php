@@ -8,10 +8,10 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver a
 use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class AuthenticationTrustResolverTest extends \PHPUnit_Framework_TestCase
+class AuthenticationTrustResolverTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var BaseAuthenticationTrustResolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var BaseAuthenticationTrustResolver|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $baseTrustResolver;
 
