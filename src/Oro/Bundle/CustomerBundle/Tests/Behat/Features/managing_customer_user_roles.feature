@@ -8,7 +8,7 @@ Feature: Managing customer user roles
   Scenario: Customer user role create
     Given I login as administrator
     And go to Customers/Customer User Roles
-    When I press "Create Customer User Role"
+    When I click "Create Customer User Role"
     And I fill form with:
       | Role | Test customer user role |
     And select following permissions:

@@ -8,7 +8,7 @@ use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRole;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRoleValidator;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class CustomerUserWithoutRoleValidatorTest extends \PHPUnit_Framework_TestCase
+class CustomerUserWithoutRoleValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CustomerUserWithoutRoleValidator
@@ -21,7 +21,7 @@ class CustomerUserWithoutRoleValidatorTest extends \PHPUnit_Framework_TestCase
     protected $constraint;
 
     /**
-     * @var ExecutionContextInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $context;
 

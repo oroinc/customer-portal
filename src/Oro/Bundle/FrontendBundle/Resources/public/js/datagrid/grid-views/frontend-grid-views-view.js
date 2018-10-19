@@ -125,6 +125,13 @@ define(function(require) {
 
         /**
          * @inheritDoc
+         */
+        constructor: function FrontendGridViewsView() {
+            FrontendGridViewsView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
          * @param options
          */
         initialize: function(options) {

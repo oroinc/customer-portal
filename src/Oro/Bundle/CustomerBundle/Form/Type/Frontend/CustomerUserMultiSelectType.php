@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Form\Type\Frontend;
 
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserMultiSelectType as BaseCustomerUserMultiSelectType;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerUserMultiSelectType extends BaseCustomerUserMultiSelectType
@@ -16,7 +17,7 @@ class CustomerUserMultiSelectType extends BaseCustomerUserMultiSelectType
     {
         $resolver->setDefaults(
             [
-                'autocomplete_alias' => 'oro_customer_frontend_customer_user',
+                'autocomplete_alias' => FrontendCustomerUserType::class,
                 'configs' => [
                     'route_name' => 'oro_frontend_autocomplete_search',
                     'multiple' => true,

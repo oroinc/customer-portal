@@ -32,6 +32,16 @@ define(function(require) {
 
         cache: null,
 
+        /**
+         * @inheritDoc
+         */
+        constructor: function HeaderRowView() {
+            HeaderRowView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.checkViewport();
             return HeaderRowView.__super__.initialize.call(this, options);

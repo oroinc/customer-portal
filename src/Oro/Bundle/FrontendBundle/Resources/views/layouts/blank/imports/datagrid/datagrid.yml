@@ -5,15 +5,23 @@ layout:
             root: __root
     actions:
         - '@setBlockTheme':
-            themes: 'datagrid.html.twig'
+            themes: 'OroFrontendBundle:layouts:blank/imports/datagrid/datagrid.html.twig'
 
         - '@setOption':
             id: __datagrid
             optionName: grid_render_parameters
             optionValue:
-                cssClass: 'frontend-datagrid'
+                cssClass: '=data["system_config_provider"].getValue("oro_customer.enable_responsive_grids") ? "frontend-datagrid frontend-datagrid--responsive" : "frontend-datagrid"'
                 enableFloatingHeaderPlugin: false
                 enableToggleFilters: true
+                responsiveGrids:
+                    enable: '=data["system_config_provider"].getValue("oro_customer.enable_responsive_grids")'
+                    viewport:
+                        minScreenType: 'tablet'
+                swipeActionsGrid:
+                    enable: '=data["system_config_provider"].getValue("oro_customer.enable_swipe_actions_grids")'
+                    viewport:
+                        maxScreenType: 'tablet'
                 themeOptions:
                     actionsDropdown: 'auto'
                     actionOptions:
@@ -28,11 +36,11 @@ layout:
                                 icon: 'refresh fa--no-offset'
                                 iconHideText: true
                     customModules:
-                        columnManagerComponent: 'orofrontend/js/app/components/column-manager/frontend-column-manager-component'
+                        datagridSettingsComponent: 'orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view'
                 toolbarOptions:
                     actionsPanel:
                         className: 'btn-group not-expand frontend-datagrid__panel'
                     itemsCounter:
                         className: 'datagrid-tool'
                     hideItemsCounter: false
-                filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'
+                filterContainerSelector: '[data-grid-toolbar="top"] [data-role="filter-container"]'

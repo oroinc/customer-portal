@@ -17,7 +17,7 @@ class CustomerUserSelectType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'autocomplete_alias' => 'oro_customer_customer_user',
+                'autocomplete_alias' => CustomerUserType::class,
                 'create_form_route' => 'oro_customer_customer_user_create',
                 'configs' => [
                     'component' => 'autocomplete-customeruser',
@@ -51,6 +51,6 @@ class CustomerUserSelectType extends AbstractType
      */
     public function getParent()
     {
-        return OroEntitySelectOrCreateInlineType::NAME;
+        return OroEntitySelectOrCreateInlineType::class;
     }
 }

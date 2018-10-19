@@ -2,12 +2,13 @@
 
 namespace Oro\Bundle\CustomerBundle\EventListener\Datagrid;
 
-use Doctrine\Common\Collections\Criteria;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
-use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource;
-use Oro\Bundle\DataGridBundle\Event\BuildAfter;
+use Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule;
+use Oro\Bundle\DataGridBundle\Event\OrmResultBefore;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
+/**
+ * The listener for "frontend-customer-customer-user-roles-grid" datagrid that adds ACL checks.
+ */
 class CustomerUserRoleDatagridListener
 {
     /**
@@ -24,31 +25,14 @@ class CustomerUserRoleDatagridListener
     }
 
     /**
-     * @param BuildAfter $event
+     * @param OrmResultBefore $event
      */
-    public function onBuildAfter(BuildAfter $event)
+    public function onResultBefore(OrmResultBefore $event)
     {
-        $dataGrid = $event->getDatagrid();
-
-        $datasource = $dataGrid->getDatasource();
-        if ($datasource instanceof OrmDatasource) {
-            $qb = $datasource->getQueryBuilder();
-            $alias = $qb->getRootAliases()[0];
-            $criteria = new Criteria();
-            $this->aclHelper->applyAclToCriteria(
-                CustomerUserRole::class,
-                $criteria,
-                'VIEW',
-                ['customer' => $alias.'.customer', 'organization' => $alias.'.organization']
-            );
-
-            $qb->addCriteria($criteria);
-            $qb->orWhere(
-                $alias . '.selfManaged = :isActive AND '.
-                $alias . '.public = :isActive AND '.
-                $alias . '.customer is NULL'
-            );
-            $qb->setParameter('isActive', true, \PDO::PARAM_BOOL);
-        }
+        $this->aclHelper->apply(
+            $event->getQuery(),
+            'VIEW',
+            [SelfManagedPublicCustomerUserRoleAccessRule::ENABLE_RULE => true]
+        );
     }
 }

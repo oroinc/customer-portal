@@ -15,7 +15,7 @@ Feature: Registration flow and error messages
       | Email Address    | RuthWMaxwell@example.org |
       | Password         | RuthWMaxwell123          |
       | Confirm Password | RuthWMaxwell123          |
-    When I press "Create An Account"
+    When I click "Create An Account"
     Then I should see "Please check your email to complete registration"
 
   Scenario: Error message should has correct container and text when user already present
@@ -27,7 +27,7 @@ Feature: Registration flow and error messages
       | Email Address    | RuthWMaxwell@example.org |
       | Password         | RuthWMaxwell123          |
       | Confirm Password | RuthWMaxwell123          |
-    When I press "Create An Account"
+    When I click "Create An Account"
     Then I should see that "Customer User Registration Error Container" contains "This email is already used."
 
   Scenario: Error message has correct container and text when registration form has empty field
@@ -38,7 +38,7 @@ Feature: Registration flow and error messages
       | Email Address    | RuthWMaxwell@example.org |
       | Password         | RuthWMaxwell123          |
       | Confirm Password | RuthWMaxwell123          |
-    When I press "Create An Account"
+    When I click "Create An Account"
     Then I should see that "Customer User Registration Error Container" contains "This value should not be blank."
 
   Scenario: Company Name field validation

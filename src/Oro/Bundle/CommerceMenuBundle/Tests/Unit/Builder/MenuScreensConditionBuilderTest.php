@@ -8,7 +8,7 @@ use Knp\Menu\MenuItem;
 use Oro\Bundle\CommerceMenuBundle\Builder\MenuScreensConditionBuilder;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 
-class MenuScreensConditionBuilderTest extends \PHPUnit_Framework_TestCase
+class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @internal
@@ -24,7 +24,7 @@ class MenuScreensConditionBuilderTest extends \PHPUnit_Framework_TestCase
     ];
 
     /**
-     * @var ScreensProviderInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ScreensProviderInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $screensProvider;
 
@@ -130,7 +130,7 @@ class MenuScreensConditionBuilderTest extends \PHPUnit_Framework_TestCase
      * @param array  $children
      * @param bool   $isDisplayed
      *
-     * @return ItemInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ItemInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private function mockMenuItem($menuName, array $attributes, array $extras, array $children, $isDisplayed)
     {
@@ -148,7 +148,7 @@ class MenuScreensConditionBuilderTest extends \PHPUnit_Framework_TestCase
      * @param array $menuItem2Attributes
      * @param array $menuItem2Extras
      *
-     * @return ItemInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ItemInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private function mockMenuAndChildren(array $menuItem2Attributes, array $menuItem2Extras)
     {

@@ -1,4 +1,4 @@
-// @theme: blank
+/* @theme: blank; */
 
 .header-row {
     position: relative;
@@ -24,7 +24,7 @@
         background-color: get-color('additional', 'ultra');
     }
 
-    &.open {
+    &.show {
         .header-row__trigger {
             background: get-color('additional', 'ultra');
 

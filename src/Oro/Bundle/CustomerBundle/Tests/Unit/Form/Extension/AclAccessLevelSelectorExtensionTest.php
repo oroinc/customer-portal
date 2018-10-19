@@ -7,13 +7,14 @@ use Oro\Bundle\CustomerBundle\Form\Extension\AclAccessLevelSelectorExtension;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType;
 use Oro\Bundle\SecurityBundle\Form\Type\AclAccessLevelSelectorType;
+use Oro\Component\Testing\Unit\Form\Type\Stub\FormStub;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
-class AclAccessLevelSelectorExtensionTest extends \PHPUnit_Framework_TestCase
+class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|RoleTranslationPrefixResolver
+     * @var \PHPUnit\Framework\MockObject\MockObject|RoleTranslationPrefixResolver
      */
     protected $roleTranslationPrefixResolver;
 
@@ -39,7 +40,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetExtendedType()
     {
-        $this->assertEquals(AclAccessLevelSelectorType::NAME, $this->extension->getExtendedType());
+        $this->assertEquals(AclAccessLevelSelectorType::class, $this->extension->getExtendedType());
     }
 
     /**
@@ -48,7 +49,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit_Framework_TestCase
      * @param bool $hasPrivilegeForm
      * @param bool $hasPrivilegesForm
      * @param bool $hasRoleForm
-     * @param string|null $roleFormName
+     * @param string|null $roleFormType
      * @param string|null $expectedPrefix
      * @dataProvider finishViewDataProvider
      *
@@ -60,7 +61,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit_Framework_TestCase
         $hasPrivilegeForm = false,
         $hasPrivilegesForm = false,
         $hasRoleForm = false,
-        $roleFormName = null,
+        $roleFormType = null,
         $expectedPrefix = null
     ) {
         $this->roleTranslationPrefixResolver->expects($expectedPrefix ? $this->once() : $this->never())
@@ -70,9 +71,9 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit_Framework_TestCase
         $roleForm = null;
         if ($hasRoleForm) {
             $type = $this->createMock('Symfony\Component\Form\ResolvedFormTypeInterface');
-            $type->expects($this->once())
-                ->method('getName')
-                ->willReturn($roleFormName);
+            $type->expects($this->any())
+                ->method('getInnerType')
+                ->willReturn($roleFormType);
 
             $formConfig = $this->createMock('Symfony\Component\Form\FormConfigInterface');
             $formConfig->expects($this->once())
@@ -117,7 +118,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit_Framework_TestCase
                 ->willReturn($permissionsForm);
         }
 
-        /** @var FormInterface|\PHPUnit_Framework_MockObject_MockObject $form */
+        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock('Symfony\Component\Form\FormInterface');
         $form->expects($this->once())
             ->method('getParent')
@@ -146,14 +147,14 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit_Framework_TestCase
             'no privilege form' => [true, true],
             'no privileges form' => [true, true, true],
             'no role form' => [true, true, true, true],
-            'not supported form name' => [true, true, true, true, true, 'not_supported_form'],
+            'not supported form name' => [true, true, true, true, true, new FormStub('not_supported_form')],
             'supported form name (CustomerUserRoleType)' => [
                 true,
                 true,
                 true,
                 true,
                 true,
-                CustomerUserRoleType::NAME,
+                new CustomerUserRoleType(),
                 'oro.customer.security.access-level.'
             ],
             'supported form name (FrontendCustomerUserRoleType)' => [
@@ -162,7 +163,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit_Framework_TestCase
                 true,
                 true,
                 true,
-                FrontendCustomerUserRoleType::NAME,
+                new FrontendCustomerUserRoleType(),
                 'oro.customer.security.frontend.access-level.'
             ],
         ];

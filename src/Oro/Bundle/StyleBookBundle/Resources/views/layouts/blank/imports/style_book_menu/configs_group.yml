@@ -1,0 +1,12 @@
+layout:
+    actions:
+        - '@addTree':
+            items:
+                __configs_item:
+                    blockType: groups_menu_item
+                    options:
+                        label: oro_stylebook.groups.configs.title
+                        group: configs
+            tree:
+                __root:
+                    __configs_item: ~

@@ -85,6 +85,8 @@ services:
         class: Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerUserAddOrReplaceStrategy
         public: false
         parent: oro_importexport.strategy.configurable_add_or_replace
+        calls:
+            - [setConfigManager, ['@oro_config.manager']]
 
     # Customer User Import Listener
     oro_customer.importexport.strategy.event_listener.import_customer_user_listener:

@@ -1,11 +1,15 @@
-// @theme: blank;
+/* @theme: blank; */
 
-.dropdown-item {
-    padding: 8px $dropdown-item-padding-x;
+@import "bowerassets/bootstrap/scss/dropdown";
 
-    box-sizing: border-box;
+.dropdown-menu.show {
+    display: block;
+}
 
-    white-space: normal;
+.dropdown-toggle--no-caret {
+    &:after {
+        content: none;
+    }
 }
 
 @include breakpoint('tablet') {

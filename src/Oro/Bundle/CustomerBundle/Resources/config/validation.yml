@@ -5,12 +5,20 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
             - Length:
                 max: 255
         addresses:
-            - Valid: ~
-            - Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
-                message: One of the addresses must be set as primary.
+            - Valid:
+                groups: [Default]
+            - Valid:
+                groups: [RequireName]
+            - Valid:
+                groups: [RequireRegion]
+            # temporary disabled, because now this check does not make sense until BB-15134 is done
+            #- Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
+            #    message: One of the addresses must be set as primary.
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
         parent:
             - Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference: ~
+        users:
+            - Valid: ~
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     properties:
@@ -66,10 +74,17 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             - Date: ~
         customer:
             - NotBlank: ~
-        addresses:
             - Valid: ~
-            - Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
-                message: One of the addresses must be set as primary.
+        addresses:
+            - Valid:
+                groups: [Default]
+            - Valid:
+                groups: [RequireName]
+            - Valid:
+                groups: [RequireRegion]
+            # temporary disabled, because now this check does not make sense until BB-15134 is done
+            #- Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
+            #    message: One of the addresses must be set as primary.
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
@@ -108,3 +123,10 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
                 max: 255
         customerUsers:
             - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRole: ~
+
+Oro\Bundle\WebsiteBundle\Entity\Website:
+    properties:
+        guest_role:
+            - NotBlank: ~
+        default_role:
+            - NotBlank: ~

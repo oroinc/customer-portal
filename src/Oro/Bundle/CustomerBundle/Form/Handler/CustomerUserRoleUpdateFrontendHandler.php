@@ -57,7 +57,7 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
     protected function createRoleFormInstance(AbstractRole $role, array $privilegeConfig)
     {
         $form = $this->formFactory->create(
-            FrontendCustomerUserRoleType::NAME,
+            FrontendCustomerUserRoleType::class,
             $role,
             ['privilege_config' => $privilegeConfig, 'predefined_role' => $this->predefinedRole]
         );

@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-class LoginListenerTest extends \PHPUnit_Framework_TestCase
+class LoginListenerTest extends \PHPUnit\Framework\TestCase
 {
     const TEST_URL = 'http://test_url/';
 
@@ -20,12 +20,12 @@ class LoginListenerTest extends \PHPUnit_Framework_TestCase
     protected $request;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|TokenInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|TokenInterface
      */
     protected $token;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|InteractiveLoginEvent
+     * @var \PHPUnit\Framework\MockObject\MockObject|InteractiveLoginEvent
      */
     protected $event;
 

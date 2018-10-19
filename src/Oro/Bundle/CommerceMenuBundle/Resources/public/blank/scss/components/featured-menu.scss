@@ -1,4 +1,4 @@
-// @theme: blank;
+/* @theme: blank; */
 
 .featured-menu {
     margin: $featured-menu-offset;
@@ -47,7 +47,6 @@
     }
 
     &__link {
-        line-height: $featured-menu-link-line-height;
         white-space: $featured-menu-link-white-space;
     }
 

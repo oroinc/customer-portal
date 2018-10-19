@@ -12,17 +12,17 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit_Framework_TestCase
+class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
     /** @var FrontendCustomerUserAddressFormProvider */
     protected $provider;
 
-    /** @var FormFactoryInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var FormFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $mockFormFactory;
 
-    /** @var UrlGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $router;
 
     protected function setUp()
@@ -50,7 +50,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit_Framework_Tes
         $this->mockFormFactory
             ->expects($this->once())
             ->method('create')
-            ->with(FrontendCustomerUserTypedAddressType::NAME, $customerUserAddress, ['action' => $action])
+            ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
         $this->router
@@ -82,7 +82,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit_Framework_Tes
         $this->mockFormFactory
             ->expects($this->once())
             ->method('create')
-            ->with(FrontendCustomerUserTypedAddressType::NAME, $customerUserAddress, ['action' => $action])
+            ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
         $this->router
@@ -119,7 +119,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit_Framework_Tes
         $this->mockFormFactory
             ->expects($this->once())
             ->method('create')
-            ->with(FrontendCustomerUserTypedAddressType::NAME, $customerUserAddress, ['action' => $action])
+            ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
         $this->router
@@ -151,7 +151,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit_Framework_Tes
         $this->mockFormFactory
             ->expects($this->once())
             ->method('create')
-            ->with(FrontendCustomerUserTypedAddressType::NAME, $customerUserAddress, ['action' => $action])
+            ->with(FrontendCustomerUserTypedAddressType::class, $customerUserAddress, ['action' => $action])
             ->willReturn($form);
 
         $this->router

@@ -13,21 +13,21 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-class GuestCustomerUserManagerTest extends \PHPUnit_Framework_TestCase
+class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var GuestCustomerUserManager */
     private $guestCustomerUserManager;
 
-    /** @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteManager;
 
-    /** @var CustomerUserManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
     private $customerUserManager;
 
-    /** @var DefaultUserProvider|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var DefaultUserProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $defaultUserProvider;
 
-    /** @var CustomerUserRelationsProvider|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CustomerUserRelationsProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $relationsProvider;
 
     /**

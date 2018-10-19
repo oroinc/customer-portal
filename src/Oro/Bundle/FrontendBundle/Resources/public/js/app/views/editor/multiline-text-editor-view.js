@@ -50,6 +50,13 @@ define(function(require) {
 
     MultilineTextEditorView = TextEditorView.extend(/** @lends MultilineTextEditorView.prototype */{
         /**
+         * @inheritDoc
+         */
+        constructor: function MultilineTextEditorView() {
+            MultilineTextEditorView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
          * Generic keydown handler, which handles ENTER
          *
          * @param {$.Event} e

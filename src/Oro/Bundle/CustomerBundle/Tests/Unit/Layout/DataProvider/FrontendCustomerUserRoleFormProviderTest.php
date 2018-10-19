@@ -12,18 +12,18 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit_Framework_TestCase
+class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /** @var CustomerUserRoleUpdateFrontendHandler|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CustomerUserRoleUpdateFrontendHandler|\PHPUnit\Framework\MockObject\MockObject */
     protected $handler;
 
     /** @var FrontendCustomerUserRoleFormProvider */
     protected $provider;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|UrlGeneratorInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|UrlGeneratorInterface
      */
     protected $router;
 
@@ -34,7 +34,7 @@ class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit_Framework_TestCa
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var FormFactory|\PHPUnit_Framework_MockObject_MockObject $formFactory */
+        /** @var FormFactory|\PHPUnit\Framework\MockObject\MockObject $formFactory */
         $formFactory = $this->getMockBuilder('Symfony\Component\Form\FormFactoryInterface')->getMock();
         $this->router = $this->createMock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
 
@@ -115,21 +115,21 @@ class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit_Framework_TestCa
     /**
      * @param CustomerUserRole $role
      * @param string $method
-     * @return \PHPUnit_Framework_MockObject_MockObject|FormInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|FormInterface
      */
     protected function assertCustomerUserRoleFormHandlerCalled(CustomerUserRole $role, $method = 'TEST')
     {
-        /** @var FormConfigInterface|\PHPUnit_Framework_MockObject_MockObject $config */
+        /** @var FormConfigInterface|\PHPUnit\Framework\MockObject\MockObject $config */
         $config = $this->createMock('Symfony\Component\Form\FormConfigInterface');
         $config->expects($this->any())
             ->method('getMethod')
             ->willReturn($method);
 
-        /** @var FormView|\PHPUnit_Framework_MockObject_MockObject $config */
+        /** @var FormView|\PHPUnit\Framework\MockObject\MockObject $config */
         $view = $this->createMock('Symfony\Component\Form\FormView');
         $view->vars = ['multipart' => null];
 
-        /** @var FormInterface|\PHPUnit_Framework_MockObject_MockObject $form */
+        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock('Symfony\Component\Form\FormInterface');
         $form->expects($this->any())
             ->method('getConfig')

@@ -9,15 +9,15 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\EventListener\WebsiteListener;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 
-class WebsiteListenerTest extends \PHPUnit_Framework_TestCase
+class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CacheableWebsiteProvider|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CacheableWebsiteProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $cacheableProvider;
 
     /** @var WebsiteListener */
     private $listener;
 
-    /** @var UnitOfWork|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var UnitOfWork|\PHPUnit\Framework\MockObject\MockObject */
     private $uow;
 
     protected function setUp()
@@ -29,27 +29,8 @@ class WebsiteListenerTest extends \PHPUnit_Framework_TestCase
         $this->uow = $this->createMock(UnitOfWork::class);
     }
 
-    public function testOnFlushWhenCacheIsEmpty()
+    public function testOnFlushWhenNoScheduledWebsite()
     {
-        /** @var OnFlushEventArgs|\PHPUnit_Framework_MockObject_MockObject $args */
-        $args = $this->createMock(OnFlushEventArgs::class);
-        $args->expects($this->never())
-            ->method('getEntityManager');
-
-        $this->cacheableProvider->expects($this->once())
-            ->method('hasCache')
-            ->willReturn(false);
-        $this->cacheableProvider->expects($this->never())
-            ->method('clearCache');
-
-        $this->listener->onFlush($args);
-    }
-
-    public function testOnFlushWhenHasCacheAndNoScheduledWebsite()
-    {
-        $this->cacheableProvider->expects($this->once())
-            ->method('hasCache')
-            ->willReturn(true);
         $this->cacheableProvider->expects($this->never())
             ->method('clearCache');
 
@@ -66,11 +47,8 @@ class WebsiteListenerTest extends \PHPUnit_Framework_TestCase
         $this->listener->onFlush($this->getEventArgs());
     }
 
-    public function testOnFlushWhenHasCacheAndHasInsertedWebsite()
+    public function testOnFlushWhenHasInsertedWebsite()
     {
-        $this->cacheableProvider->expects($this->once())
-            ->method('hasCache')
-            ->willReturn(true);
         $this->cacheableProvider->expects($this->once())
             ->method('clearCache');
 
@@ -86,11 +64,8 @@ class WebsiteListenerTest extends \PHPUnit_Framework_TestCase
         $this->listener->onFlush($this->getEventArgs());
     }
 
-    public function testOnFlushWhenHasCacheAndHasUpdatedWebsite()
+    public function testOnFlushWhenHasUpdatedWebsite()
     {
-        $this->cacheableProvider->expects($this->once())
-            ->method('hasCache')
-            ->willReturn(true);
         $this->cacheableProvider->expects($this->once())
             ->method('clearCache');
 
@@ -106,11 +81,8 @@ class WebsiteListenerTest extends \PHPUnit_Framework_TestCase
         $this->listener->onFlush($this->getEventArgs());
     }
 
-    public function testOnFlushWhenHasCacheAndHasDeletedWebsite()
+    public function testOnFlushWhenHasDeletedWebsite()
     {
-        $this->cacheableProvider->expects($this->once())
-            ->method('hasCache')
-            ->willReturn(true);
         $this->cacheableProvider->expects($this->once())
             ->method('clearCache');
 
@@ -128,11 +100,11 @@ class WebsiteListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return OnFlushEventArgs|\PHPUnit_Framework_MockObject_MockObject
+     * @return OnFlushEventArgs|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getEventArgs()
     {
-        /** @var OnFlushEventArgs|\PHPUnit_Framework_MockObject_MockObject $args */
+        /** @var OnFlushEventArgs|\PHPUnit\Framework\MockObject\MockObject $args */
         $args = $this->createMock(OnFlushEventArgs::class);
 
         $em = $this->createMock(EntityManager::class);

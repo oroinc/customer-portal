@@ -14,6 +14,7 @@ define(function(require) {
          * @property {Object}
          */
         options: {
+            useTransform: false, // transform in slick-slider breaks dropdowns
             mobileEnabled: true,
             slidesToShow: 4,
             slidesToScroll: 1,
@@ -22,8 +23,15 @@ define(function(require) {
             arrows: !tools.isMobile(),
             dots: false,
             infinite: false,
-            additionalClass: 'embedded-list__slider',
+            additionalClass: 'embedded-list__slider no-transform',
             embeddedArrowsClass: 'embedded-arrows'
+        },
+
+        /**
+         * @inheritDoc
+         */
+        constructor: function ContentSliderComponent() {
+            ContentSliderComponent.__super__.constructor.apply(this, arguments);
         },
 
         /**
@@ -40,7 +48,7 @@ define(function(require) {
             this.addEmbeddedArrowsClass(this.$el, this.options.arrows || false);
 
             $(this.$el).on('init', function(event, slick) {
-                if (self.$el.hasClass(self.options.additionalClass)) {
+                if (self.options.additionalClass) {
                     self.$el.addClass(self.options.additionalClass);
                 }
             });

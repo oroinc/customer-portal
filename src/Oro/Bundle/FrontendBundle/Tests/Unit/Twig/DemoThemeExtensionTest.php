@@ -8,20 +8,20 @@ use Oro\Bundle\FrontendBundle\Twig\FrontendAsseticTokenParser;
 use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
 use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
 
-class DemoThemeExtensionTest extends \PHPUnit_Framework_TestCase
+class DemoThemeExtensionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|AssetsConfiguration
+     * @var \PHPUnit\Framework\MockObject\MockObject|AssetsConfiguration
      */
     protected $assetsConfiguration;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|AssetFactory
+     * @var \PHPUnit\Framework\MockObject\MockObject|AssetFactory
      */
     protected $assetFactory;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ThemeRegistry
+     * @var \PHPUnit\Framework\MockObject\MockObject|ThemeRegistry
      */
     protected $themeRegistry;
 

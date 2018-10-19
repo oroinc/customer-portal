@@ -85,6 +85,13 @@ class MenuExtension extends \Twig_Extension
         $requestStack = $this->container->get('request_stack');
         $request = $requestStack->getCurrentRequest();
 
+        $baseUrl = $request->getBaseUrl();
+
+        //Url is already with base url so we use it as is
+        if ($baseUrl && stripos($url, $baseUrl) !== false) {
+            return $url;
+        }
+
         if (0 !== strpos($url, '/')) {
             $url = '/' . $url;
         }

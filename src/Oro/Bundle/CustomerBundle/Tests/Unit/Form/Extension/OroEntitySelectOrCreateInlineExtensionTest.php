@@ -20,7 +20,7 @@ class OroEntitySelectOrCreateInlineExtensionTest extends AbstractCustomerUserAwa
 
     public function testGetExtendedType()
     {
-        $this->assertEquals(OroEntitySelectOrCreateInlineType::NAME, $this->extension->getExtendedType());
+        $this->assertEquals(OroEntitySelectOrCreateInlineType::class, $this->extension->getExtendedType());
     }
 
     public function testConfigureOptionsNonCustomerUser()
@@ -32,7 +32,7 @@ class OroEntitySelectOrCreateInlineExtensionTest extends AbstractCustomerUserAwa
     {
         $this->assertCustomerUserTokenCall();
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|OptionsResolver $resolver */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|OptionsResolver $resolver */
         $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
             ->disableOriginalConstructor()
             ->getMock();
@@ -54,7 +54,7 @@ class OroEntitySelectOrCreateInlineExtensionTest extends AbstractCustomerUserAwa
         $this->assertCustomerUserTokenCall($user);
 
         $view = new FormView();
-        /** @var FormInterface|\PHPUnit_Framework_MockObject_MockObject $form */
+        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock('Symfony\Component\Form\FormInterface');
         $options = [];
 

@@ -80,11 +80,6 @@ class SignInProvider
                 $error = '';
             }
 
-            if ($error) {
-                // TODO: this is a potential security risk (see http://trac.symfony-project.org/ticket/9523)
-                $error = $error->getMessage();
-            }
-
             $this->options['error'] = $error;
         }
 

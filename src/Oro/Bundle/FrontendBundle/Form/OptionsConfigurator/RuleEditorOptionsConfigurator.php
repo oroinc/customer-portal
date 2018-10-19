@@ -6,7 +6,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Rule Editor Options Configurator
+ * Provides configuration data for Rule expression editor
  */
 class RuleEditorOptionsConfigurator
 {

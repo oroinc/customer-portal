@@ -46,6 +46,6 @@ class PageTemplateContextConfigurator implements ContextConfiguratorInterface
                     }
                 ]
             )
-            ->setAllowedTypes(['page_template' => ['string', 'null']]);
+            ->setAllowedTypes('page_template', ['string', 'null']);
     }
 }

@@ -1,10 +1,30 @@
-## 2.7.0 (Unreleased)
+## 3.2.0 (Unreleased)
 
 ### Changed
 #### FrontendBundle
-* Changed format of options that prepares `RuleEditorOptionsConfigurator` <sup>[[?]](https://github.com/oroinc/customer-portal/tree/2.7.0/src/Oro/Bundle/FrontendBundle/Form/OptionsConfigurator/RuleEditorOptionsConfigurator.php)</sup> , removed `entities` field and added `supportedNames` and `entityDataProvider`
+* Changed format of options that prepares `RuleEditorOptionsConfigurator` <sup>[[?]](https://github.com/oroinc/customer-portal/tree/3.2.0/src/Oro/Bundle/FrontendBundle/Form/OptionsConfigurator/RuleEditorOptionsConfigurator.php)</sup> , removed `entities` field and added `supportedNames` and `entityDataProvider`
 
-## 2.6.0 (Unreleased)
+## 3.1.0
+### Added
+#### CustomerBundle
+* A new email template `customer_user_welcome_email_registered_by_admin` was added. It is sent when the administrator or a customer user manager creates a new customer user with the "Send Welcome Email" option selected or when the administrator confirms a customer user from the management console.
+### Changed
+* Removed the  `oro_customer.send_password_in_welcome_email` config option to prevent issues with security when a plain password is sent by email.
+* There is no password provided while rendering the `customer_user_welcome_email` email template. Please update your customization of this email template. It is recommended to use a reset password link in the email template instead of a plain password.   
+
+## 3.0.0 (2018-07-27)
+[Show detailed list of changes](incompatibilities-3-0.md)
+### Changed
+#### CustomerBundle
+* The `CustomerGroup::customers` relation was removed as well as other related logic.
+
+## 3.0.0-rc (2018-05-31)
+[Show detailed list of changes](incompatibilities-3-0-rc.md)
+
+## 3.0.0-beta (2018-03-30)
+[Show detailed list of changes](incompatibilities-3-0-beta.md)
+
+## 2.6.0 (2018-01-31)
 
 ### Changed
 #### FrontendBundle

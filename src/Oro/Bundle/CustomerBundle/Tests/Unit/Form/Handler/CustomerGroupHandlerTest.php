@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class CustomerGroupHandlerTest extends \PHPUnit_Framework_TestCase
+class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Request
@@ -18,7 +18,7 @@ class CustomerGroupHandlerTest extends \PHPUnit_Framework_TestCase
     protected $request;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|FormInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|FormInterface
      */
     protected $form;
 
@@ -28,12 +28,12 @@ class CustomerGroupHandlerTest extends \PHPUnit_Framework_TestCase
     protected $handler;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ObjectManager
+     * @var \PHPUnit\Framework\MockObject\MockObject|ObjectManager
      */
     protected $manager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|EventDispatcherInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|EventDispatcherInterface
      */
     protected $dispatcher;
 
@@ -72,11 +72,14 @@ class CustomerGroupHandlerTest extends \PHPUnit_Framework_TestCase
             ->with($this->entity);
 
         $this->form->expects($this->once())
-            ->method('submit')
+            ->method('handleRequest')
             ->with($this->request);
 
         $this->request->setMethod('POST');
 
+        $this->form->expects($this->once())
+            ->method('isSubmitted')
+            ->will($this->returnValue(true));
         $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(true));
@@ -87,7 +90,7 @@ class CustomerGroupHandlerTest extends \PHPUnit_Framework_TestCase
         $appendForm->expects($this->once())
             ->method('getData')
             ->will($this->returnValue([$appendedCustomer]));
-        $this->form->expects($this->at(3))
+        $this->form->expects($this->at(4))
             ->method('get')
             ->with('appendCustomers')
             ->will($this->returnValue($appendForm));
@@ -98,7 +101,7 @@ class CustomerGroupHandlerTest extends \PHPUnit_Framework_TestCase
         $removeForm->expects($this->once())
             ->method('getData')
             ->will($this->returnValue([$removedCustomer]));
-        $this->form->expects($this->at(4))
+        $this->form->expects($this->at(5))
             ->method('get')
             ->with('removeCustomers')
             ->will($this->returnValue($removeForm));
@@ -136,6 +139,9 @@ class CustomerGroupHandlerTest extends \PHPUnit_Framework_TestCase
         $this->form->expects($this->once())
             ->method('setData')
             ->with($this->entity);
+        $this->form->expects($this->once())
+            ->method('isSubmitted')
+            ->will($this->returnValue(true));
         $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(false));

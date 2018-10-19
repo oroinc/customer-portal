@@ -45,46 +45,46 @@ Feature: Checked actions in grid line items
     # FirstName_10       LastName_10     user_10@example.org        Acme Company
 
     Scenario: Checked actions in grid line items on Address Book page on "All Company Addresses" grid
-        Given I signed in as AmandaRCole@example.org on the store frontend
-        And I click "Account"
-        When I click "Address Book"
-        Then I should see "1 Total Company Addresses"
-        And I should see following elements in "Customer Company Addresses Grid":
-            | FrontendGridActionRefreshButton |
-            | FrontendGridActionResetButton   |
-            | FrontendGridActionFilterButton  |
-        And I should see following actions for Company_Street_01 in grid:
-            | map    |
-            | edit   |
-            | delete |
+      Given I signed in as AmandaRCole@example.org on the store frontend
+      And I click "Account"
+      When I click "Address Book"
+      Then I should see "1 Total Company Addresses"
+      And I should see following elements in "Customer Company Addresses Grid":
+          | FrontendGridActionRefreshButton |
+          | FrontendGridActionResetButton   |
+          | FrontendGridActionFilterButton  |
+      And I should see following actions for Company_Street_01 in grid:
+          | Map    |
+          | Edit   |
+          | Delete |
 
     Scenario: Checked actions in grid line items on "All Users" grid
-        And I click "Account"
-        And I click "Users"
-        And I should see "11 Total Users"
-        And I should see "Create User" button
-        And I should see following elements in "Frontend Grid":
-            | FrontendGridActionRefreshButton |
-            | FrontendGridActionResetButton   |
-            | FrontendGridActionFilterButton  |
-        And I should see following actions for AmandaRCole@example.org in grid:
-            | View |
-            | Edit |
-        And I should see following actions for user_1@example.org in grid:
-            | Disable |
-            | View    |
-            | Edit    |
-            | Delete  |
-        And I should not see following elements in "FrontendGridBottomToolbar" for "Frontend Grid":
-            | FrontendGridActionRefreshButton |
-            | FrontendGridActionResetButton   |
-            | FrontendGridActionFilterButton  |
-        And I select 10 from per page list dropdown in "Frontend Grid"
-        And I should see following elements in "Frontend Grid":
-            | FrontendGridTopToolbar    |
-            | FrontendGridBottomToolbar |
-        And I go to next page in "Frontend Grid"
-        And I should see following grid:
-            | First Name   | Email Address       |
-            | FirstName_10 | user_10@example.org |
-        And I click "Sign Out"
+      And I click "Account"
+      And I click "Users"
+      And I should see "11 Total Users"
+      And I should see "Create User" button
+      And I should see following elements in "Frontend Grid":
+          | FrontendGridActionRefreshButton |
+          | FrontendGridActionResetButton   |
+          | FrontendGridActionFilterButton  |
+      And I should see following actions for AmandaRCole@example.org in grid:
+          | View |
+          | Edit |
+      And I should see following actions for user_1@example.org in grid:
+          | Disable |
+          | View    |
+          | Edit    |
+          | Delete  |
+      And I should not see following elements in "FrontendGridBottomToolbar" for "Frontend Grid":
+          | FrontendGridActionRefreshButton |
+          | FrontendGridActionResetButton   |
+          | FrontendGridActionFilterButton  |
+      And I select 10 from per page list dropdown in "Frontend Grid"
+      And I should see following elements in "Frontend Grid":
+          | FrontendGridTopToolbar    |
+          | FrontendGridBottomToolbar |
+      And I go to next page in "Frontend Grid"
+      And I should see following grid:
+          | First Name   | Email Address       |
+          | FirstName_10 | user_10@example.org |
+      And I click "Sign Out"

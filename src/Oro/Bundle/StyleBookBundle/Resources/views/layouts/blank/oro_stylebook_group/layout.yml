@@ -1,0 +1,15 @@
+layout:
+    imports:
+        -
+            id: style_book
+            root: body
+            namespace: style_book
+        -
+            id: style_book_sidebar
+            root: style_book_main
+            namespace: style_book_sidebar
+        -
+            id: style_book_elements_nav
+            root: style_book_sidebar_container
+            namespace: style_book_elements_nav
+    actions: []

@@ -4,6 +4,19 @@
 Feature: Sticky panel for main menu, product filters etc
   ToDo: BAP-16103 Add missing descriptions to the Behat features
 
+  Scenario: Check filters in sticky panel
+    Given I login as AmandaRCole@example.org buyer
+    And I click "Search Button"
+    When I click "Copyright"
+    Then I should see an "Active Sticky Panel" element
+    And I should see an "Sticky Filters Dropdown" element
+    And I click "Sticky Filters Dropdown"
+    Then I should see an "Product Filter Into Sticky Panel" element
+    And I should see an "Mass Actions Into Sticky Panel" element
+    And I should see an "Pegination Into Sticky Panel" element
+    And I should see an "Sorting Into Sticky Panel" element
+    And I should see an "Catalog Switcher Into Sticky Panel" element
+
   Scenario: Check is sticky panel visible and has main menu content (mobile version)
     Given here is the "User" under "320_session"
     And I set window size to 320x640

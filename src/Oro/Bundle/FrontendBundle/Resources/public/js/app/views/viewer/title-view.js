@@ -23,12 +23,23 @@ define(function(require) {
      */
     var TitleView = BaseView.extend(/** @lends TitleView.prototype */{
         showDefault: true,
+
         template: require('tpl!orofrontend/templates/viewer/title-view.html'),
 
         listen: {
             'change model': 'render'
         },
 
+        /**
+         * @inheritDoc
+         */
+        constructor: function TitleView() {
+            TitleView.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             this.fieldName = _.result(options, 'fieldName', 'value');
             this.tooltip = _.result(options, 'tooltip', null);

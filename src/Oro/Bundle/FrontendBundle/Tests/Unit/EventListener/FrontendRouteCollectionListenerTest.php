@@ -7,7 +7,7 @@ use Oro\Bundle\FrontendBundle\EventListener\FrontendRouteCollectionListener;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-class FrontendRouteCollectionListenerTest extends \PHPUnit_Framework_TestCase
+class FrontendRouteCollectionListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param RouteCollection $collection

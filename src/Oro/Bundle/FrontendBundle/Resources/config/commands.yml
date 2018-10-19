@@ -1,0 +1,6 @@
+services:
+    Oro\Bundle\FrontendBundle\Command\FrontendJsRoutingDumpCommand:
+        public: false
+        class: Oro\Bundle\FrontendBundle\Command\FrontendJsRoutingDumpCommand
+        tags:
+            - { name: console.command }

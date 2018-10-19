@@ -1,4 +1,4 @@
-// @theme: default;
+/* @theme: default; */
 
 $action-permissions-offset-right: 24px !default;
 $action-permissions-offset-left: $permissions-grid-first-entity-name-width + 5px !default;
@@ -14,9 +14,6 @@ $action-permissions-item-wrapper-toggle-icon-offset-left: 0 !default;
 $action-permissions-item-wrapper-no-access-opacity: .4 !default;
 $action-permissions-item-wrapper-changed-background: get-color('additional', 'base') !default;
 $action-permissions-item-wrapper-changed-box-shadow: 0 0 0 3px get-color('additional', 'base') !default;
-$action-permissions-dropdown-menu-top: -7px !default;
-$action-permissions-dropdown-menu-right: 100% !default;
-$action-permissions-dropdown-menu-left: auto !default;
 $action-permissions-dropdown-offset-inner: $offset-y-m 12px !default;
 $action-permissions-dropdown-min-width: 0 !default;
 $action-permissions-dropdown-white-space: nowrap !default;

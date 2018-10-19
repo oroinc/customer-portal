@@ -14,14 +14,26 @@ class ValidateApiDocViewListener extends BaseValidateApiDocViewListener
     /** @var string[] */
     private $frontendViews;
 
+    /** @var string */
+    private $frontendDefaultView;
+
     /**
-     * @param string[] $views
-     * @param string[] $frontendViews
+     * @param string      $basePath
+     * @param string[]    $views
+     * @param string|null $defaultView
+     * @param string[]    $frontendViews
+     * @param string|null $frontendDefaultView
      */
-    public function __construct(array $views, array $frontendViews)
-    {
-        parent::__construct($views);
+    public function __construct(
+        string $basePath,
+        array $views,
+        ?string $defaultView,
+        array $frontendViews,
+        ?string $frontendDefaultView
+    ) {
+        parent::__construct($basePath, $views, $defaultView);
         $this->frontendViews = $frontendViews;
+        $this->frontendDefaultView = $frontendDefaultView;
     }
 
     /**
@@ -45,6 +57,20 @@ class ValidateApiDocViewListener extends BaseValidateApiDocViewListener
         }
 
         return true;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return string|null
+     */
+    protected function getDefaultView(Request $request): ?string
+    {
+        if ($this->isFrontendRequest($request)) {
+            return $this->frontendDefaultView;
+        }
+
+        return parent::getDefaultView($request);
     }
 
     /**

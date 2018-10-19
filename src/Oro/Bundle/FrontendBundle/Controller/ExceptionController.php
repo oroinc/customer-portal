@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Controller;
 
-use FOS\RestBundle\Controller\ExceptionController as BaseExceptionController;
+use Oro\Bundle\UIBundle\Controller\ExceptionController as BaseExceptionController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;

@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'require_js_config.html.twig'
+            themes: 'OroFrontendBundle:layouts:blank/page/require_js_config.html.twig'
         - '@add':
             id: require_js_config
             parentId: require_js

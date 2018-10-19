@@ -8,20 +8,20 @@ use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class ActivityListPlaceholderFilterTest extends \PHPUnit_Framework_TestCase
+class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|PlaceholderFilter
+     * @var \PHPUnit\Framework\MockObject\MockObject|PlaceholderFilter
      */
     protected $basicFilter;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|FrontendHelper
+     * @var \PHPUnit\Framework\MockObject\MockObject|FrontendHelper
      */
     protected $helper;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|RequestStack
+     * @var \PHPUnit\Framework\MockObject\MockObject|RequestStack
      */
     protected $requestStack;
 
@@ -92,7 +92,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAllowedButtonNotFrontend()
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|BeforeGroupingChainWidgetEvent $event */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|BeforeGroupingChainWidgetEvent $event */
         $event = $this->getMockBuilder('Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent')
             ->disableOriginalConstructor()
             ->getMock();
@@ -108,7 +108,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAllowedButton()
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|BeforeGroupingChainWidgetEvent $event */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|BeforeGroupingChainWidgetEvent $event */
         $event = $this->getMockBuilder('Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent')
             ->disableOriginalConstructor()
             ->getMock();

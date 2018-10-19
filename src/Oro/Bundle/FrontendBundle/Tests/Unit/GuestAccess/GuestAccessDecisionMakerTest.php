@@ -7,7 +7,7 @@ use Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMakerInterface;
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProviderInterface;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
-class GuestAccessDecisionMakerTest extends \PHPUnit_Framework_TestCase
+class GuestAccessDecisionMakerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @internal
@@ -23,12 +23,12 @@ class GuestAccessDecisionMakerTest extends \PHPUnit_Framework_TestCase
     const NOT_FRONTEND_URL = '/admin/';
 
     /**
-     * @var FrontendHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     private $frontendHelper;
 
     /**
-     * @var GuestAccessAllowedUrlsProviderInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var GuestAccessAllowedUrlsProviderInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $guestAccessAllowedUrlsProvider;
 

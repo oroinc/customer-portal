@@ -1,0 +1,12 @@
+layout:
+    actions:
+        - '@addTree':
+            items:
+                __grid_item:
+                    blockType: groups_menu_item
+                    options:
+                        label: oro_stylebook.groups.grid.title
+                        group: grid
+            tree:
+                __root:
+                    __grid_item: ~

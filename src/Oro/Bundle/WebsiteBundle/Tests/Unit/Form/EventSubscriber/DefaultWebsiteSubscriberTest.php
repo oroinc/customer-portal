@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormInterface;
 class DefaultWebsiteSubscriberTest extends TestCase
 {
     /**
-     * @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject
      */
     private $websiteManagerMock;
 
@@ -99,7 +99,7 @@ class DefaultWebsiteSubscriberTest extends TestCase
     }
 
     /**
-     * @return FormInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return FormInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private function createFormMock()
     {
@@ -107,7 +107,7 @@ class DefaultWebsiteSubscriberTest extends TestCase
     }
 
     /**
-     * @return Website|\PHPUnit_Framework_MockObject_MockObject
+     * @return Website|\PHPUnit\Framework\MockObject\MockObject
      */
     private function createWebsiteMock()
     {
@@ -115,7 +115,7 @@ class DefaultWebsiteSubscriberTest extends TestCase
     }
 
     /**
-     * @return WebsiteAwareInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return WebsiteAwareInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private function createWebsiteAwareMock()
     {

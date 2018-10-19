@@ -9,7 +9,6 @@ define(function(require) {
     var $ = require('jquery');
 
     FrontendDialogWidget = DialogWidget.extend({
-
         optionNames: DialogWidget.prototype.optionNames.concat([
             'fullscreenViewport', 'fullscreenViewOptions', 'fullscreenDialogOptions'
         ]),
@@ -52,10 +51,17 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        constructor: function FrontendDialogWidget() {
+            FrontendDialogWidget.__super__.constructor.apply(this, arguments);
+        },
+
+        /**
+         * @inheritDoc
+         */
         initialize: function(options) {
             FrontendDialogWidget.__super__.initialize.call(this, options);
-            this.isApplicable = this.fullscreenViewport ?
-                ViewportManager.isApplicable(this.fullscreenViewport) : null;
+            this.isApplicable = this.fullscreenViewport
+                ? ViewportManager.isApplicable(this.fullscreenViewport) : null;
 
             if (this.isApplicable) {
                 this.setFullscreenDialogClass();

@@ -1,4 +1,4 @@
 assets:
     css:
         'orocustomer':
-            - 'bundles/orocustomer/css/less/style.less'
+            - 'bundles/orocustomer/css/scss/main.scss'
