@@ -32,6 +32,15 @@
 
         border-width: 0;
         box-shadow: none;
+
+        &.show {
+            // Disable emulate hidden state
+            height: auto;
+            overflow: auto;
+
+            border-width: 1px;
+            box-shadow: $dropdown-box-shadow;
+        }
     }
 
     &__title {
@@ -159,17 +168,6 @@
 
     .custom-checkbox {
         padding-top: 4px;
-    }
-
-    &.open {
-        .grid-views__dropdown {
-            // Disable emulate hidden state
-            height: auto;
-            overflow: auto;
-
-            border-width: 1px;
-            box-shadow: $dropdown-box-shadow;
-        }
     }
 }
 

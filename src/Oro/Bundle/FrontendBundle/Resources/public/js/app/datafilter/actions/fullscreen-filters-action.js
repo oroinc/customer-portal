@@ -31,7 +31,7 @@ define(function(require) {
                     buttons: [
                         {
                             'type': 'button',
-                            'class': 'btn btn--info btn--full btn--size-s',
+                            'class': 'btn btn--info btn--block btn--size-s',
                             'role': 'action',
                             'label': _.__('oro_frontend.filters.apply_all')
                         }

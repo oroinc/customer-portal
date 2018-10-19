@@ -12,7 +12,7 @@ define(function(require) {
     InputWidgetManager.removeWidget('number');
 
     InputWidgetManager.addWidget('checkbox', {
-        selector: 'input:checkbox',
+        selector: 'input:checkbox:not(.invisible)',
         Widget: CheckboxInputWidget
     });
 

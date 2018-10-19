@@ -24,7 +24,7 @@ define(function(require) {
                 'label[for]',
                 '.select2-result',
                 '.select2-container',
-                '.column-manager.dropdown'
+                '.datagrid-settings.dropdown'
             ].join(', ') // Target DOM elements to disable zoom
         },
 

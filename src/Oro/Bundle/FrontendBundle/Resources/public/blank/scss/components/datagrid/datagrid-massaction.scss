@@ -23,7 +23,7 @@
 
         white-space: nowrap;
 
-        @include caret();
+        @include custom-caret();
 
         @include element-state('hover') {
             background-color: $datagrid-massaction-toggle-hover-background-color;
