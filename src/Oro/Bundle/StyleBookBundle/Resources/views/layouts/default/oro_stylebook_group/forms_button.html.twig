@@ -53,14 +53,15 @@
 
 {% block _style_book_button_element_group_widget %}
     <div class="btn-group">
-        <a href="javascript: void(0);" class="btn btn--info">Button with a drop-down</a>
-        <a href="#" data-toggle="dropdown" class="btn dropdown-toggle btn--info">
-            <span class="caret"></span>
+        <a href="#" role="button" class="btn btn--info">Button with a drop-down</a>
+        <a href="#" id="button-element-group-widget" data-toggle="dropdown" class="btn dropdown-toggle btn--info"
+           role="button" aria-haspopup="true" aria-expanded="false" aria-label="More actions">
+            <span class="caret" aria-hidden="true"></span>
         </a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action A</a></li>
-            <li><a class="dropdown-item" href="#">Action B</a></li>
-            <li><a class="dropdown-item" href="#">Action C</a></li>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="button-element-group-widget">
+            <li><a class="dropdown-item" role="button" href="#">Action A</a></li>
+            <li><a class="dropdown-item" role="button" href="#">Action B</a></li>
+            <li><a class="dropdown-item" role="button" href="#">Action C</a></li>
         </ul>
     </div>
 {% endblock %}

@@ -7,7 +7,7 @@ oro_frontend:
     item_deleted: "Item has been deleted."
     widget_form_component:
         save_flash_success: Saved successfully
-    column_manager:
+    settings:
         title: "Manage Grid"
 
     datagrid:
@@ -26,6 +26,8 @@ oro_frontend:
         requires:
             data: 'Data attribute "data-server-render" must be defined'
             options: 'Options for datagrid-component must be defined'
+        no:
+            results: "No {{ entityHint }} were found to match your search. Try modifying your search criteria..."
 
 
     filter_manager:

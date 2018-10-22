@@ -7,7 +7,7 @@
 
     font-size: $base-font-size;
 
-    &::before {
+    &:before {
         position: $main-menu-column-before-position;
 
         top: $main-menu-column-before-top;
@@ -28,6 +28,16 @@
 
         &:before {
             display: $main-menu-column-first-child-before-display;
+        }
+    }
+
+    &__inner {
+        &,
+        &-left,
+        &-right {
+            // IE11, Edge hack for nested list inner block with display: none
+            list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=);
+            list-style-type: none;
         }
     }
 

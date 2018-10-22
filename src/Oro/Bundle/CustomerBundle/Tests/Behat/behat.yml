@@ -91,11 +91,11 @@ oro_behat_extension:
     Customer Grid Settings Created At:
       selector:
         type: xpath
-        locator: '//label[contains(., "Created At")]/ancestor::td[contains(@class, "title-cell")]'
+        locator: '//label[contains(., "Created At")]/../../td/span[contains(@class, "checkbox-view")]'
     Customer Grid Settings Updated At:
       selector:
         type: xpath
-        locator: '//label[contains(., "Updated At")]/ancestor::td[contains(@class, "title-cell")]'
+        locator: '//label[contains(., "Updated At")]/../../td/span[contains(@class, "checkbox-view")]'
     Routing General form:
       selector: '[id^="routing-uid"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -174,9 +174,28 @@ oro_behat_extension:
     FrontendGridViewSetAsDefaultCheckbox:
       selector: '.grid-views input[name="is_default"]+.custom-checkbox__icon'
 
+    FrontendGridViewSetAsDefaultButton:
+      selector: 'button[data-role="use_as_default"]'
+
+    FrontendGridViewDeleteButton:
+      selector: 'button[data-role="delete"]'
+
+    FrontendGridViewsItem:
+      selector: 'li.grid-views__item'
+
+    FrontendGridViewsItemLabel:
+      selector: 'label.custom-radio'
+
+    FrontendGridViewsClose:
+      selector: '.grid-views__dropdown .grid-views__close'
+
     FrontendGridFilterManager:
       selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
+
+    FrontendGridFilterManagerButton:
+      selector: 'button.select-filter-widget'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Customer User Form Admin:
       selector: '[id^="oro_customer_customer_user-uid"]'

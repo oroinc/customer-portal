@@ -10,7 +10,7 @@ oro:
 oro_frontend:
     logo:
         alt:
-            label: 'ORO Commerce'
+            label: 'OroCommerce'
     widget_form_component:
         save_flash_success: Saved successfully
     form:
@@ -61,3 +61,6 @@ oro_frontend:
             label: "Menu"
         back:
             label: "Back"
+
+    combined_buttons:
+        more_actions.label: More actions

@@ -10,18 +10,21 @@
 
                 'orodatagrid/js/datagrid/grid-views/model': {route: 'oro_api_frontend_datagrid_gridview_post'},
 
-                'oroui/js/modal': {defaults: {okButtonClass: 'btn btn--info ok'}},
+                'oroui/js/modal': {defaults: {okButtonClass: 'btn btn--info'}},
 
                 'orofrontend/js/datagrid/cell/frontend-action-cell': {showCloseButton: false, actionsHideCount: !'{{ NotMobileVersion }}' ? 99 : 3},
-                'orodatagrid/js/app/plugins/grid/column-manager-plugin': {
+                'orofrontend/js/app/plugins/frontend-datagrid-settings-plugin': {
                     icon: 'gear',
                     wrapperClassName: 'datagrid-manager btn-group ',
                     className: 'btn btn--default btn--size-s dropdown-toggle--expanded ',
-                    iconHideText: true
+                    iconHideText: true,
+                    attributes: {
+                        'data-placement': 'bottom-end'
+                    }
                 },
                 'orodatagrid/js/datagrid/action-launcher': {iconHideText: false},
                 'orodatagrid/js/grid-views-builder': {GridViewsView: 'orofrontend/js/datagrid/grid-views/frontend-grid-views-view'},
-                'orodatagrid/js/app/views/column-manager/column-manager-collection-view': {fallbackSelector: '.datagrid-manager__no-columns'},
+                'orodatagrid/js/app/views/datagrid-settings-list/datagrid-settings-list-collection-view': {fallbackSelector: '.datagrid-manager__no-columns'},
 
                 'oro/filter/abstract-filter': {
                     placeholder: null,
@@ -61,7 +64,8 @@
                 'oroaddress/js/region/view': {switchState: 'disable'},
 
                 'oro/dialog-widget': {
-                    messengerContainerClass: 'ui-dialog-messages'
+                    messengerContainerClass: 'ui-dialog-messages',
+                    mobileLoadingBar: false
                 },
 
                 'oroui/js/app/views/flash-message-view': {
