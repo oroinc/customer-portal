@@ -3,17 +3,24 @@ define(function(require) {
 
     var ScrollView;
     var BaseView = require('oroui/js/app/views/base/view');
-    var ElementsHelper = require('orofrontend/js/app/elements-helper');
     var _ = require('underscore');
     require('jquery.mousewheel');
-    require('jquery.mCustomScrollbar');
 
-    ScrollView = BaseView.extend(_.extend({}, ElementsHelper, {
-        elements: {
-            scrollableContainer: '[data-scroll-view]',
-            followXAxis: '[data-scroll-view-follow="x"]',
-            followYAxis: '[data-scroll-view-follow="y"]'
-        },
+    ScrollView = BaseView.extend({
+        /**
+         * @property {jQuery}
+         */
+        $scrollableContainer: null,
+
+        /**
+         * @property {jQuery}
+         */
+        $followXAxis: null,
+
+        /**
+         * @property {jQuery}
+         */
+        $followYAxis: null,
 
         /**
          * Initialize
@@ -22,7 +29,11 @@ define(function(require) {
          */
         initialize: function(options) {
             ScrollView.__super__.initialize.apply(this, options);
-            this.initializeElements(options);
+
+            this.$scrollableContainer = this.find('[data-scroll-view]');
+            this.$followXAxis = this.find('[data-scroll-view-follow="x"]');
+            this.$followYAxis = this.find('[data-scroll-view-follow="y"]');
+
             this.initScrollContainer();
             this.setScrollStatus();
         },
@@ -33,7 +44,7 @@ define(function(require) {
         initScrollContainer: function() {
             this.setStartPosition();
 
-            this.getElement('scrollableContainer').on('scroll mousewheel', _.bind(function(e) {
+            this.$scrollableContainer.on('scroll mousewheel', _.bind(function(e) {
                 e.stopPropagation();
                 this.updateFollowersPosition(e.currentTarget);
                 this.setScrollStatus();
@@ -50,11 +61,11 @@ define(function(require) {
         },
 
         setStartPosition: function() {
-            this.updateFollowersPosition(this.getElement('scrollableContainer').get(0));
+            this.updateFollowersPosition(this.$scrollableContainer.get(0));
         },
 
         setScrollStatus: function() {
-            var scroll = this.hasScroll(this.getElement('scrollableContainer').get(0));
+            var scroll = this.hasScroll(this.$scrollableContainer.get(0));
 
             this.$el
                 .toggleClass('has-x-scroll', scroll.x)
@@ -69,7 +80,7 @@ define(function(require) {
         },
 
         _transformFollowers: function(direction, value) {
-            this.getElement('follow' + direction.toUpperCase() + 'Axis').css({
+            this['$follow' + direction.toUpperCase() + 'Axis'].css({
                 transform: 'translate' + direction.toUpperCase() + '(' + value + 'px)'
             });
         },
@@ -79,11 +90,15 @@ define(function(require) {
                 return;
             }
 
-            this.getElement('scrollableContainer').off();
+            this.$scrollableContainer.off();
+
+            delete this.$scrollableContainer;
+            delete this.$followXAxis;
+            delete this.$followYAxis;
 
             ScrollView.__super__.dispose.call(this);
         }
-    }));
+    });
 
     return ScrollView;
 });

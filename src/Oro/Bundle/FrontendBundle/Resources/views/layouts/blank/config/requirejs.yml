@@ -26,8 +26,14 @@ config:
             'oroui/js/app/views/page/content-view': 'orofrontend/js/app/views/page/content-view'
             'oro/filter/choice-filter': 'orofrontend/default/js/app/views/choice-filter'
             'oro/filter/select-filter': 'orofrontend/js/app/views/frontend-select-filter'
+            'oro/filter/multiselect-filter': 'orofrontend/js/app/views/frontend-multiselect-filter'
+            'oro/filter/boolean-filter': 'orofrontend/js/app/views/frontend-boolean-filter'
         'orofrontend/js/app/views/frontend-select-filter':
             'oro/filter/select-filter': 'oro/filter/select-filter'
+        'orofrontend/js/app/views/frontend-multiselect-filter':
+            'oro/filter/multiselect-filter': 'oro/filter/multiselect-filter'
+        'orofrontend/js/app/views/frontend-boolean-filter':
+            'oro/filter/boolean-filter': 'oro/filter/boolean-filter'
         'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin':
             'orofilter/js/plugins/filters-toggle-plugin': 'orofilter/js/plugins/filters-toggle-plugin'
         'orofrontend/js/app/views/page/content-view':
@@ -65,12 +71,15 @@ config:
         'orofrontend/default/js/app/modules/zoom-disable': 'bundles/orofrontend/default/js/app/modules/zoom-disable.js'
         'orofrontend/default/js/app/views/choice-filter': 'bundles/orofrontend/default/js/app/views/choice-filter.js'
         'orofrontend/js/app/views/frontend-select-filter': 'bundles/orofrontend/blank/js/app/views/frontend-select-filter.js'
+        'orofrontend/js/app/views/frontend-multiselect-filter': 'bundles/orofrontend/blank/js/app/views/frontend-multiselect-filter.js'
+        'orofrontend/js/app/views/frontend-boolean-filter': 'bundles/orofrontend/blank/js/app/views/frontend-boolean-filter.js'
         'orofrontend/js/app/elements-helper': 'bundles/orofrontend/js/app/elements-helper.js'
         'orofrontend/js/app/datafilter/frontend-collection-filters-manager': 'bundles/orofrontend/js/app/datafilter/frontend-collection-filters-manager.js'
         'orofrontend/js/app/datafilter/frontend-multiselect-decorator': 'bundles/orofrontend/js/app/datafilter/frontend-multiselect-decorator.js'
         'orofrontend/js/app/datafilter/fronend-manage-filters-decorator': 'bundles/orofrontend/js/app/datafilter/fronend-manage-filters-decorator.js'
         'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin': 'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin.js'
         'orofrontend/js/app/datafilter/actions/fullscreen-filters-action': 'orofrontend/js/app/datafilter/actions/fullscreen-filters-action.js'
+        'orofrontend/js/app/filter-count-helper': 'bundles/orofrontend/blank/js/app/filter-count-helper.js'
 
         'slick': 'bundles/orofrontend/default/vendors/slick/slick.js'
         'orofrontend/js/app/components/list-slider-component': 'bundles/orofrontend/js/app/components/list-slider-component.js'
@@ -87,6 +96,9 @@ config:
 
         'orofrontend/js/app/views/scroll-view': 'bundles/orofrontend/js/app/views/scroll-view.js'
         'orofrontend/js/app/views/fit-matrix-view': 'bundles/orofrontend/js/app/views/fit-matrix-view.js'
+        'orofrontend/js/app/views/lazy-init-view': 'bundles/orofrontend/js/app/views/lazy-init-view.js'
+
+        'orofrontend/default/js/app/views/input-widget/number': 'bundles/orofrontend/default/js/app/views/input-widget/number.js'
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module
         - orofrontend/js/app/modules/component-shortcuts-module

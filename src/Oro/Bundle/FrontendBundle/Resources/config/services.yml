@@ -287,3 +287,33 @@ services:
             - '@security.token_storage'
         tags:
             - { name: oro_datagrid.extension }
+
+    oro_frontend.api.create.rest.set_location_header:
+        class: Oro\Bundle\ApiBundle\Processor\Create\Rest\SetLocationHeader
+        arguments:
+            - '@router'
+            - '@oro_api.value_normalizer'
+            - '@oro_api.rest.entity_id_transformer'
+        calls:
+            - ['setGetRouteName', ['oro_frontend_rest_api_get']]
+        tags:
+            - { name: oro.api.processor, action: create, group: finalize, requestType: frontend&rest, priority: -9 }
+
+    oro_frontend.locale_settings:
+        class: Oro\Bundle\FrontendBundle\Model\LocaleSettings
+        decorates: oro_locale.settings
+        decoration_priority: -10
+        arguments:
+            - '@oro_frontend.locale_settings.inner'
+            - '@oro_frontend.request.frontend_helper'
+            - '@oro_frontend_localization.manager.user_localization'
+
+    #  this provider should be run before the last one
+    oro_frontend.provider.default_frontend_preferred_language_provider:
+        class: Oro\Bundle\FrontendBundle\Provider\DefaultFrontendPreferredLanguageProvider
+        public: false
+        arguments:
+            - '@oro_frontend_localization.manager.user_localization'
+            - '@oro_frontend.request.frontend_helper'
+        tags:
+            - { name: oro_locale.preferred_language_provider, priority: 254 }

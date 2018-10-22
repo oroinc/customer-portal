@@ -2,8 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Security\Firewall;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Psr\Log\LoggerInterface;
-
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -12,14 +16,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
-
+/**
+ * This listener authenticates anonymous (AKA guest) customer users at frontend
+ */
 class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
 {
-    const ANONYMOUS_CUSTOMER_USER_ROLE = 'ROLE_FRONTEND_ANONYMOUS';
-
     const COOKIE_ATTR_NAME = '_security_customer_visitor_cookie';
     const COOKIE_NAME = 'customer_visitor';
 
@@ -44,6 +45,11 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     private $configManager;
 
     /**
+     * @var WebsiteManager
+     */
+    private $websiteManager;
+
+    /**
      * @param TokenStorageInterface $tokenStorage
      * @param AuthenticationManagerInterface $authenticationManager
      * @param LoggerInterface|null $logger
@@ -62,6 +68,14 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     }
 
     /**
+     * @param WebsiteManager $websiteManager
+     */
+    public function setWebsiteManager(WebsiteManager $websiteManager)
+    {
+        $this->websiteManager = $websiteManager;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function handle(GetResponseEvent $event)
@@ -72,7 +86,7 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
 
             $token = new AnonymousCustomerUserToken(
                 'Anonymous Customer User',
-                [self::ANONYMOUS_CUSTOMER_USER_ROLE]
+                $this->getRoles()
             );
             $token->setCredentials($this->getCredentials($request));
 
@@ -87,6 +101,21 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
                 $this->logger->info('Customer User anonymous authentication failed.', ['exception' => $e]);
             }
         }
+    }
+
+
+    /**
+     * @return array
+     */
+    protected function getRoles()
+    {
+        $currentWebsite = $this->websiteManager->getCurrentWebsite();
+        if (!$currentWebsite) {
+            return [];
+        }
+        /** @var CustomerUserRole $guestRole */
+        $guestRole = $currentWebsite->getGuestRole();
+        return [$guestRole->getRole()];
     }
 
     /**

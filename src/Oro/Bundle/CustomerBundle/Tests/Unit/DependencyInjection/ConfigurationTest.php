@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Processor;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\Processor;
 
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
@@ -89,7 +89,15 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         'maps_enabled' => [
                             'value' => true,
                             'scope' => 'app',
-                        ]
+                        ],
+                        'api_key_generation_enabled' => [
+                            'value' => true,
+                            'scope' => 'app',
+                        ],
+                        'case_insensitive_email_addresses_enabled' => [
+                            'value' => false,
+                            'scope' => 'app',
+                        ],
                     ]
                 ]
             ]

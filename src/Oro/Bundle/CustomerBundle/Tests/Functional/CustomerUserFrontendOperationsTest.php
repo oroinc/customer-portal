@@ -2,16 +2,19 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional;
 
-use Doctrine\ORM\EntityManagerInterface;
-
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\EmailMessageAssertionTrait;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-
+/**
+ * @dbIsolationPerTest
+ */
 class CustomerUserFrontendOperationsTest extends WebTestCase
 {
+    use EmailMessageAssertionTrait;
+
     protected function setUp()
     {
         $this->initClient();
@@ -31,13 +34,14 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      */
     public function testSendConfirmation($login, $resource)
     {
+        $em = $this->getContainer()->get('doctrine')
+            ->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
-        /** @var CustomerUser $user */
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
 
         $user->setConfirmed(false);
-        $this->getObjectManager()->flush();
+        $em->flush();
 
         $this->executeOperation($user, 'oro_customer_customeruser_sendconfirmation');
 
@@ -56,9 +60,9 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         $this->assertContains('Confirmation of account registration', $message->getSubject());
         $this->assertContains($resource, $message->getBody());
 
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
-        $this->getObjectManager()->flush();
+        $em->flush();
     }
 
     /**
@@ -70,21 +74,23 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      */
     public function testSendConfirmationAccessDenied($login, $resource, $status)
     {
+        $em = $this->getContainer()->get('doctrine')
+            ->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
         /** @var CustomerUser $user */
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $user->setConfirmed(false);
-        $this->getObjectManager()->flush();
+        $em->flush();
 
         $this->client->getContainer()->get('doctrine')->getManager()->clear();
 
         $this->executeOperation($user, 'oro_customer_customeruser_sendconfirmation');
         $this->assertSame($status, $this->client->getResponse()->getStatusCode());
 
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
-        $this->getObjectManager()->flush();
+        $em->flush();
     }
 
     /**
@@ -95,17 +101,18 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      */
     public function testConfirmAccessGranted($login, $resource)
     {
+        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
         /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUser $user */
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $user->setConfirmed(false);
-        $this->getObjectManager()->flush();
+        $em->flush();
 
         $this->executeOperation($user, 'oro_customer_customeruser_confirm');
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $this->assertTrue($user->isConfirmed());
 
         /** @var \Swift_Plugins_MessageLogger $emailLogging */
@@ -114,24 +121,15 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
         $this->assertCount(1, $emailMessages);
 
-        $message = array_shift($emailMessages);
-
-        $this->assertInstanceOf('\Swift_Message', $message);
-        $this->assertEquals($user->getEmail(), key($message->getTo()));
-        $this->assertEquals(
-            $this->getContainer()->get('oro_config.manager')->get('oro_notification.email_notification_sender_email'),
-            key($message->getFrom())
+        /** @var \Swift_Message $emailMessage */
+        $emailMessage = array_shift($emailMessages);
+        $this->assertWelcomeMessage($user->getEmail(), $emailMessage);
+        $this->assertContains(
+            'Please follow the link below to create a password for your new account.',
+            $emailMessage->getBody()
         );
-        $this->assertContains($user->getEmail(), $message->getSubject());
-        $this->assertContains($user->getEmail(), $message->getBody());
 
-        $configManager = $this->getContainer()->get('oro_config.manager');
-        $applicationUrl = $configManager->get('oro_ui.application_url');
-        $loginUrl = $applicationUrl . $this->getUrl('oro_customer_customer_user_security_login');
-
-        $this->assertContains($loginUrl, $message->getBody());
-
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $this->assertTrue($user->isConfirmed());
     }
 
@@ -144,19 +142,21 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      */
     public function testConfirmAccessDenied($login, $resource, $status)
     {
+        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
+
         /** @var CustomerUser $user */
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
 
         $user->setConfirmed(false);
-        $this->getObjectManager()->flush();
+        $em->flush();
 
         $this->executeOperation($user, 'oro_customer_customeruser_confirm');
         $this->assertSame($status, $this->client->getResponse()->getStatusCode());
 
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
-        $this->getObjectManager()->flush();
+        $em->flush();
     }
 
     /**
@@ -167,27 +167,27 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      */
     public function testEnableAndDisable($login, $resource)
     {
+        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
-        /** @var CustomerUser $user */
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $this->assertTrue($user->isEnabled());
 
         $this->executeOperation($user, 'oro_customer_frontend_customeruser_disable');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $this->assertFalse($user->isEnabled());
         $this->assertNotEmpty($user->getRoles());
         $this->executeOperation($user, 'oro_customer_frontend_customeruser_enable');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $this->assertTrue($user->isEnabled());
 
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
-        $this->getObjectManager()->flush();
+        $em->flush();
     }
 
     /**
@@ -199,21 +199,20 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      */
     public function testEnableAndDisableAccessDenied($login, $resource, $status)
     {
+        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
-        /** @var CustomerUser $user */
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $user->setConfirmed(false);
-        $this->getObjectManager()->flush();
+        $em->flush();
         $this->executeOperation($user, 'oro_customer_frontend_customeruser_enable');
-        $this->assertSame($this->client->getResponse()->getStatusCode(), $status);
+        $this->assertSame($status, $this->client->getResponse()->getStatusCode());
 
-        /** @var CustomerUser $user */
-        $user = $this->getUserRepository()->findOneBy(['email' => $resource]);
+        $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
-        $this->getObjectManager()->flush();
+        $em->flush();
         $this->executeOperation($user, 'oro_customer_frontend_customeruser_disable');
-        $this->assertSame($this->client->getResponse()->getStatusCode(), $status);
+        $this->assertSame($status, $this->client->getResponse()->getStatusCode());
     }
 
     /**
@@ -263,28 +262,12 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
     }
 
     /**
-     * @return EntityManagerInterface
-     */
-    protected function getObjectManager()
-    {
-        return $this->getContainer()->get('doctrine')->getManager();
-    }
-
-    /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository
-     */
-    protected function getUserRepository()
-    {
-        return $this->getObjectManager()->getRepository('OroCustomerBundle:CustomerUser');
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function executeOperation(CustomerUser $customerUser, $operationName)
     {
         $entityId = $customerUser->getId();
-        $entityClass = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
+        $entityClass = CustomerUser::class;
         $this->client->request(
             'POST',
             $this->getUrl(
@@ -325,5 +308,18 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         $container->get('session')->save();
 
         return $tokenData;
+    }
+
+    /**
+     * @param string $resource
+     * @return CustomerUser
+     */
+    private function findCustomerUser($resource): CustomerUser
+    {
+        $repository = $this->getContainer()->get('doctrine')
+            ->getManagerForClass(CustomerUser::class)
+            ->getRepository(CustomerUser::class);
+
+        return $repository->findOneBy(['email' => $resource]);
     }
 }

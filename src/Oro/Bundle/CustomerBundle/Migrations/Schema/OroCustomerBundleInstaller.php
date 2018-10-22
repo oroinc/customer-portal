@@ -4,11 +4,13 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Type;
-
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareTrait;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectOrCreateType;
+use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
+use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
@@ -74,7 +76,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_16';
+        return 'v1_16_3';
     }
 
     /**
@@ -97,6 +99,7 @@ class OroCustomerBundleInstaller implements
         $this->createOroCustomerUserRoleTable($schema);
         $this->createOroCustomerUserAccessCustomerUserRoleTable($schema);
         $this->createOroCustomerUserRoleToWebsiteTable($schema);
+        $this->createOroCustomerUserApiTable($schema);
         $this->createOroCustomerTable($schema);
         $this->createOroCustomerGroupTable($schema);
         $this->createOroCustomerAddressTable($schema);
@@ -127,6 +130,7 @@ class OroCustomerBundleInstaller implements
         $this->addOroCustomerUserAccessCustomerUserRoleForeignKeys($schema);
         $this->addOroCustomerUserRoleForeignKeys($schema);
         $this->addOroCustomerUserRoleToWebsiteForeignKeys($schema);
+        $this->addOroCustomerUserApiForeignKeys($schema);
         $this->addOroCustomerForeignKeys($schema);
         $this->addOroCustomerAddressForeignKeys($schema);
         $this->addOroCustomerAdrAdrTypeForeignKeys($schema);
@@ -169,6 +173,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('customer_id', 'integer', ['notnull' => false]);
         $table->addColumn('username', 'string', ['length' => 255]);
         $table->addColumn('email', 'string', ['length' => 255]);
+        $table->addColumn('email_lowercase', 'string', ['length' => 255]);
         $table->addColumn('name_prefix', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('first_name', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('middle_name', 'string', ['notnull' => false, 'length' => 255]);
@@ -188,6 +193,9 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('created_at', 'datetime', []);
         $table->addColumn('updated_at', 'datetime', []);
         $table->addColumn('website_id', 'integer', ['notnull' => false]);
+
+        $table->addIndex(['email'], 'idx_oro_customer_user_email', []);
+        $table->addIndex(['email_lowercase'], 'idx_oro_customer_user_email_lowercase', []);
 
         $table->setPrimaryKey(['id']);
 
@@ -322,7 +330,6 @@ class OroCustomerBundleInstaller implements
      * Create oro_audit table
      *
      * @param Schema $schema
-     * @todo: BB-2679
      */
     protected function updateOroAuditTable(Schema $schema)
     {
@@ -361,6 +368,52 @@ class OroCustomerBundleInstaller implements
             'oro_note',
             'oro_customer_user_role'
         );
+
+        $this->extendExtension->addManyToOneRelation(
+            $schema,
+            'oro_website',
+            'guest_role',
+            $table,
+            'label',
+            [
+                'extend' => [
+                    'owner' => ExtendScope::OWNER_CUSTOM,
+                    'nullable' => true,
+                    'on_delete' => 'RESTRICT',
+                ],
+                'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_FALSE],
+                'form' => [
+                    'is_enabled' => true,
+                    'form_type' => CustomerUserRoleSelectOrCreateType::class,
+                    'form_options' => ['required' => true]
+                ],
+                'view' => ['is_displayable' => true],
+                'dataaudit' => ['auditable' => true],
+            ]
+        );
+
+        $this->extendExtension->addManyToOneRelation(
+            $schema,
+            'oro_website',
+            'default_role',
+            $table,
+            'label',
+            [
+                'extend' => [
+                    'owner' => ExtendScope::OWNER_CUSTOM,
+                    'nullable' => true,
+                    'on_delete' => 'RESTRICT',
+                ],
+                'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_FALSE],
+                'form' => [
+                    'is_enabled' => true,
+                    'form_type' => CustomerUserRoleSelectOrCreateType::class,
+                    'form_options' => ['required' => true]
+                ],
+                'view' => ['is_displayable' => true],
+                'dataaudit' => ['auditable' => true],
+            ]
+        );
     }
 
     /**
@@ -375,6 +428,22 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('website_id', 'integer', []);
         $table->setPrimaryKey(['customer_user_role_id', 'website_id']);
         $table->addUniqueIndex(['website_id']);
+    }
+
+    /**
+     * Create oro_customer_user_api table
+     *
+     * @param Schema $schema
+     */
+    protected function createOroCustomerUserApiTable(Schema $schema)
+    {
+        $table = $schema->createTable('oro_customer_user_api');
+        $table->addColumn('id', 'integer', ['autoincrement' => true]);
+        $table->addColumn('user_id', 'integer', []);
+        $table->addColumn('api_key', 'crypted_string', ['length' => 255]);
+        $table->setPrimaryKey(['id']);
+        $table->addUniqueIndex(['api_key'], 'UNIQ_824F80CCC912ED9D');
+        $table->addIndex(['user_id'], 'IDX_824F80CCA76ED395', []);
     }
 
     /**
@@ -712,6 +781,22 @@ class OroCustomerBundleInstaller implements
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_customer_user_role'),
             ['customer_user_role_id'],
+            ['id'],
+            ['onDelete' => 'CASCADE', 'onUpdate' => null]
+        );
+    }
+
+    /**
+     * Add oro_customer_user_api foreign keys.
+     *
+     * @param Schema $schema
+     */
+    protected function addOroCustomerUserApiForeignKeys(Schema $schema)
+    {
+        $table = $schema->getTable('oro_customer_user_api');
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_customer_user'),
+            ['user_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
@@ -1117,7 +1202,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * @param Schema $schema
-     * @todo: BB-2679
      */
     private function addRelationsToScope(Schema $schema)
     {

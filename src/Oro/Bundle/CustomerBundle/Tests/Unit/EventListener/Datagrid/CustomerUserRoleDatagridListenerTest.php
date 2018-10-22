@@ -3,11 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener\Datagrid;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
 use Oro\Bundle\DataGridBundle\Event\BuildAfter;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserRoleDatagridListener;
 
@@ -28,11 +30,18 @@ class CustomerUserRoleDatagridListenerTest extends \PHPUnit_Framework_TestCase
      */
     protected $aclHelper;
 
+    /**
+     * @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $tokenAccessor;
+
     protected function setUp()
     {
         $this->queryBuilder = $this->getMockBuilder(QueryBuilder::class)->disableOriginalConstructor()->getMock();
         $this->aclHelper = $this->createAclHelperMock();
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->listener = new CustomerUserRoleDatagridListener($this->aclHelper);
+        $this->listener->setTokenAccessor($this->tokenAccessor);
     }
 
     protected function tearDown()
@@ -54,6 +63,9 @@ class CustomerUserRoleDatagridListenerTest extends \PHPUnit_Framework_TestCase
         $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
             ->disableOriginalConstructor()
             ->getMock();
+        $qb->expects($this->atLeastOnce())
+            ->method('expr')
+            ->willReturn(new Expr());
         $datasource->expects($this->once())
             ->method('getQueryBuilder')
             ->will($this->returnValue($qb));
@@ -68,6 +80,14 @@ class CustomerUserRoleDatagridListenerTest extends \PHPUnit_Framework_TestCase
                 ['customer' => '.customer', 'organization' => '.organization']
             )
             ->willReturn($this->queryBuilder);
+
+        $this->tokenAccessor->expects($this->once())->method('getOrganizationId')->willReturn(2);
+        $qb->expects($this->exactly(2))
+            ->method('setParameter')
+            ->withConsecutive(
+                ['isActive', true, \PDO::PARAM_BOOL],
+                ['currentCustomerOrganization', 2]
+            );
 
         $event = new BuildAfter($datagrid);
         $this->listener->onBuildAfter($event);

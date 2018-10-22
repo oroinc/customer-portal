@@ -5,7 +5,7 @@ namespace Oro\Bundle\WebsiteBundle\Entity;
 interface WebsiteAwareInterface
 {
     /**
-     * @return Website
+     * @return Website|null
      */
     public function getWebsite();
 

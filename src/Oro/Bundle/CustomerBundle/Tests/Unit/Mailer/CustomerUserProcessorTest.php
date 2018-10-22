@@ -80,4 +80,23 @@ class CustomerUserProcessorTest extends AbstractProcessorTest
             $this->mailer
         );
     }
+
+    public function testSendEmailWhenTemplateEmailManagerSet(): void
+    {
+        $customerUser = new CustomerUser();
+        $customerUser->setWebsite($this->website);
+        $returnValue = 1;
+        $templateEmailManager = $this->confgureTemplateEmailManagerExpectations($customerUser, 1);
+
+        $this->mailProcessor->setTemplateEmailManager($templateEmailManager);
+
+        self::assertEquals(
+            $returnValue,
+            $this->mailProcessor->getEmailTemplateAndSendEmail(
+                $customerUser,
+                self::TEMPLATE_NAME,
+                ['entity' => $customerUser]
+            )
+        );
+    }
 }

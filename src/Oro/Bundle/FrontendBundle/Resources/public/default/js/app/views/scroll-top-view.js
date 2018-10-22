@@ -90,6 +90,10 @@ define(function(require) {
         },
 
         toggle: function() {
+            if (this.disposed) {
+                return;
+            }
+
             if (this.isApplicable) {
                 var state = this.$window.scrollTop() > this.options.togglePoint;
                 this.$el.toggle(state);
@@ -125,9 +129,10 @@ define(function(require) {
                 return;
             }
 
+            this.undelegateEvents();
+
             delete this.$window;
             delete this.$document;
-            this.undelegateEvents();
 
             ScrollTopView.__super__.dispose.call(this);
         }

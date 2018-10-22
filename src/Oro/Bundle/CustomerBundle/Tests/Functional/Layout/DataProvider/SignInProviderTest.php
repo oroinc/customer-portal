@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -13,6 +14,9 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInProvider;
 
+/**
+ * @dbIsolationPerTest
+ */
 class SignInProviderTest extends WebTestCase
 {
     /** @var SignInProvider */
@@ -51,10 +55,14 @@ class SignInProviderTest extends WebTestCase
         $this->assertEquals($lastUsername, $this->dataProvider->getLastName());
     }
 
-    public function testGetError()
+    /**
+     * @dataProvider getErrorDataProvider
+     *
+     * @param \Exception $exception
+     * @param string $expected
+     */
+    public function testGetError(\Exception $exception, $expected)
     {
-        $errorMessage = 'Test Error';
-
         $request = new Request();
         $request->setDefaultLocale('test');
         $request->attributes->set('test', 'test_test');
@@ -62,11 +70,28 @@ class SignInProviderTest extends WebTestCase
         $session = new Session(new MockArraySessionStorage());
         $request->setSession($session);
 
-        $session->set(Security::AUTHENTICATION_ERROR, new AuthenticationException($errorMessage));
+        $session->set(Security::AUTHENTICATION_ERROR, $exception);
 
         $this->requestStack->push($request);
 
-        $this->assertEquals($errorMessage, $this->dataProvider->getError());
+        $this->assertSame($expected, $this->dataProvider->getError());
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrorDataProvider()
+    {
+        return [
+            [
+                'exception' => new AuthenticationException('Test Error'),
+                'expected' => 'Test Error'
+            ],
+            [
+                'exception' => new BadCredentialsException(),
+                'expected' => 'Invalid user name or password.'
+            ],
+        ];
     }
 
     public function testGetCSRFToken()

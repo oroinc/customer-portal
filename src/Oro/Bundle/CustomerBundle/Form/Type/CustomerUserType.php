@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Constraint;
 
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
@@ -306,6 +307,7 @@ class CustomerUserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => $this->dataClass,
             'intention' => 'customer_user',
+            'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequirePeriod']
         ]);
     }
 

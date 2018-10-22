@@ -39,25 +39,17 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
         $this->loadFixtures(['Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData']);
     }
 
-    public function testGetDefaultCustomerUserRoleByWebsite()
-    {
-        /** @var CustomerUserRole $role */
-        $expectedRole = $this->getReference(LoadCustomerUserRoleData::ROLE_WITH_WEBSITE);
-
-        /** @var Website $website */
-        $website = $expectedRole->getWebsites()->first();
-
-        $role = $this->repository->getDefaultCustomerUserRoleByWebsite($website);
-        $this->assertEquals($expectedRole, $role);
-    }
-
     public function testIsDefaultForWebsite()
     {
-        /** @var CustomerUserRole $role */
-        $role = $this->getReference(LoadCustomerUserRoleData::ROLE_WITH_WEBSITE);
-
-        $isDefaultForWebsite = $this->repository->isDefaultForWebsite($role);
-        $this->assertTrue($isDefaultForWebsite);
+        $this->assertTrue($this->repository->isDefaultForWebsite(
+            $this->getReference(LoadCustomerUserRoleData::ROLE_WITH_WEBSITE)
+        ));
+        $this->assertTrue($this->repository->isDefaultForWebsite(
+            $this->getReference(LoadCustomerUserRoleData::ROLE_GUEST_FOR_WEBSITE)
+        ));
+        $this->assertFalse($this->repository->isDefaultForWebsite(
+            $this->getReference(LoadCustomerUserRoleData::ROLE_EMPTY)
+        ));
     }
 
     public function testHasAssignedUsers()
@@ -162,6 +154,7 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
                     LoadCustomerUserRoleData::ROLE_WITH_ACCOUNT,
                     LoadCustomerUserRoleData::ROLE_WITH_ACCOUNT_USER,
                     LoadCustomerUserRoleData::ROLE_WITH_WEBSITE,
+                    LoadCustomerUserRoleData::ROLE_GUEST_FOR_WEBSITE,
                     LoadCustomerUserRoleData::ROLE_EMPTY,
                     LoadCustomerUserRoleData::ROLE_NOT_SELF_MANAGED,
                     LoadCustomerUserRoleData::ROLE_SELF_MANAGED,
@@ -173,6 +166,7 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
                 [
                     LoadCustomerUserRoleData::ROLE_WITH_ACCOUNT_USER,
                     LoadCustomerUserRoleData::ROLE_WITH_WEBSITE,
+                    LoadCustomerUserRoleData::ROLE_GUEST_FOR_WEBSITE,
                     LoadCustomerUserRoleData::ROLE_EMPTY,
                     LoadCustomerUserRoleData::ROLE_NOT_SELF_MANAGED,
                     LoadCustomerUserRoleData::ROLE_SELF_MANAGED,

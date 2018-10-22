@@ -7,17 +7,17 @@ Feature: Delete customers
   Scenario: Check buttons for customers
     Given I login as administrator
     When I go to Customers / Customers
-    Then I should see Assigned in grid
-    And I should not see following actions for Assigned in grid:
+    Then I should see WithCustomerUser in grid
+    And I should not see following actions for WithCustomerUser in grid:
       | Delete |
-    And I should see NonAssigned in grid
-    And I should see following actions for NonAssigned in grid:
+    And I should see NoCustomerUser in grid
+    And I should see following actions for NoCustomerUser in grid:
       | Delete |
 
   Scenario: Delete customer without assigned customer users
     Given I go to Customers / Customers
     When I keep in mind number of records in list
-    And I click Delete NonAssigned in grid
+    And I click Delete NoCustomerUser in grid
     And I confirm deletion
     Then the number of records decreased by 1
-    And I should not see "NonAssigned"
+    And I should not see "NoCustomerUser"

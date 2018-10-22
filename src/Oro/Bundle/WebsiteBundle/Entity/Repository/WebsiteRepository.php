@@ -57,15 +57,7 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
      */
     public function checkWebsiteExists($websiteId)
     {
-        $qb = $this->createQueryBuilder('website');
-
-        $result = $qb->select('website.id')
-            ->where($qb->expr()->eq('website.id', ':websiteId'))
-            ->setParameter('websiteId', (int)$websiteId)
-            ->getQuery()
-            ->getArrayResult();
-
-        return (bool)$result;
+        return $this->find($websiteId) instanceof Website;
     }
 
     /**

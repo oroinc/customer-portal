@@ -2,51 +2,50 @@
 
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
-use Doctrine\ORM\EntityRepository;
-
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-
+/**
+ * Validator which checks that CustomerUser entity has unique email.
+ */
 class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
 {
     /**
-     * @var  EntityRepository
+     * @var CustomerUserManager
      */
-    private $customerUserRepository;
+    private $customerUserManager;
 
     /**
-     * @param EntityRepository $customerUserRepository
+     * @param CustomerUserManager $customerUserManager
      */
-    public function __construct(EntityRepository $customerUserRepository)
+    public function __construct(CustomerUserManager $customerUserManager)
     {
-        $this->customerUserRepository = $customerUserRepository;
+        $this->customerUserManager = $customerUserManager;
     }
 
     /**
+     * @param CustomerUser $entity
      * @param UniqueCustomerUserNameAndEmail $constraint
      *
      * {@inheritdoc}
      */
     public function validate($entity, Constraint $constraint)
     {
-        /** @var CustomerUser $customerUser */
-        $customerUser = $entity;
+        if ($entity->isGuest()) {
+            return;
+        }
 
         /** @var CustomerUser $existingCustomerUser */
-        $existingCustomerUser = $this->customerUserRepository->findOneBy(
-            [
-                'email' => $customerUser->getEmail(),
-                'isGuest' => false
-            ]
-        );
+        $existingCustomerUser = $this->customerUserManager->findUserByEmail((string)$entity->getEmail());
 
-        if (!$entity->isGuest() && $existingCustomerUser && $entity->getId() !== $existingCustomerUser->getId()) {
+        if ($existingCustomerUser && $entity->getId() !== $existingCustomerUser->getId()) {
             $this->context->buildViolation($constraint->message)
                 ->atPath('email')
-                ->setInvalidValue('email')
+                ->setInvalidValue($entity->getEmail())
                 ->addViolation();
+
             return;
         }
     }

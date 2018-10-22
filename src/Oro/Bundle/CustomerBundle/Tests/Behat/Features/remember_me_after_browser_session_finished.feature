@@ -8,7 +8,7 @@ Feature: Remember me after browser session finished
       |Email Address |AmandaRCole@example.org|
       |Password      |AmandaRCole@example.org|
       |Remember Me   |true                   |
-    And I press "Sign In"
+    And I click "Sign In"
     Then I should see "Signed in as: Amanda Cole"
     When I restart the browser
     Then I should see "Signed in as: Amanda Cole"

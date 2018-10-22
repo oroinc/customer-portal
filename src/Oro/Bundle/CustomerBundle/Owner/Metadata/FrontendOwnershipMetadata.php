@@ -13,6 +13,12 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
     const OWNER_TYPE_FRONTEND_USER = 4;
     const OWNER_TYPE_FRONTEND_CUSTOMER = 5;
 
+    /** @var string */
+    protected $customerFieldName;
+
+    /** @var string */
+    protected $customerColumnName;
+
     /**
      * {@inheritdoc}
      */
@@ -60,5 +66,71 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
         }
 
         return AccessLevel::getAccessLevelNames($minLevel, $maxLevel);
+    }
+
+    /**
+     * @param string $customerFieldName
+     */
+    public function setCustomerFieldName($customerFieldName)
+    {
+        $this->customerFieldName = $customerFieldName;
+    }
+
+    /**
+     * @param string $customerColumnName
+     */
+    public function setCustomerColumnName($customerColumnName)
+    {
+        $this->customerColumnName = $customerColumnName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustomerFieldName()
+    {
+        return $this->customerFieldName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustomerColumnName()
+    {
+        return $this->customerColumnName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return serialize(
+            [
+                $this->ownerType,
+                $this->ownerFieldName,
+                $this->ownerColumnName,
+                $this->organizationFieldName,
+                $this->organizationColumnName,
+                $this->customerFieldName,
+                $this->customerColumnName
+            ]
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->ownerType,
+            $this->ownerFieldName,
+            $this->ownerColumnName,
+            $this->organizationFieldName,
+            $this->organizationColumnName,
+            $this->customerFieldName,
+            $this->customerColumnName
+        ) = unserialize($serialized);
     }
 }

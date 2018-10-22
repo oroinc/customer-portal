@@ -13,6 +13,11 @@ use Oro\Bundle\UserBundle\Entity\BaseUserManager;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
 
+/**
+ * Customer user manager - entry point for operations with User entity.
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class CustomerUserManager extends BaseUserManager implements ContainerAwareInterface, LoggerAwareInterface
 {
     /**
@@ -25,8 +30,11 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
      */
     protected $emailProcessor;
 
-    /** @var LoggerInterface */
+    /**
+     * @var LoggerInterface
+     */
     protected $logger;
+
     /**
      * @var ContainerInterface
      */
@@ -65,8 +73,20 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
     /**
      * @param CustomerUser $user
      */
+    public function confirmRegistrationByAdmin(CustomerUser $user)
+    {
+        $user->setConfirmed(true)
+            ->setConfirmationToken(null);
+        $this->sendWelcomeRegisteredByAdminEmail($user);
+    }
+
+    /**
+     * @param CustomerUser $user
+     */
     public function sendWelcomeEmail(CustomerUser $user)
     {
+        $user->setConfirmationToken($user->generateToken());
+
         try {
             $this->getEmailProcessor()->sendWelcomeNotification(
                 $user,
@@ -75,6 +95,27 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
         } catch (\Swift_SwiftException $exception) {
             if (null !== $this->logger) {
                 $this->logger->error('Unable to send welcome notification email', ['exception' => $exception]);
+            }
+        }
+    }
+
+    /**
+     * @param CustomerUser $user
+     */
+    public function sendWelcomeRegisteredByAdminEmail(CustomerUser $user)
+    {
+        $user->setConfirmationToken($user->generateToken());
+
+        try {
+            $this->getEmailProcessor()->sendWelcomeForRegisteredByAdminNotification($user);
+        } catch (\Swift_SwiftException $exception) {
+            if (null !== $this->logger) {
+                $this->logger->error(
+                    'Unable to send welcome notification email for registered by admin',
+                    [
+                        'exception' => $exception
+                    ]
+                );
             }
         }
     }
@@ -186,10 +227,28 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
     /**
      * {@inheritdoc}
      */
+    public function findUserByUsername($username)
+    {
+        // Username and email for customer users are equal.
+        // So, search can be performed by email field as well as by username field.
+        return $this->findUserByEmail($username);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findUserBy(array $criteria)
     {
         $criteria = array_merge($criteria, ['isGuest' => false]);
 
         return $this->getRepository()->findOneBy($criteria);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function isCaseInsensitiveEmailAddressesEnabled(): bool
+    {
+        return (bool) $this->getConfigValue('oro_customer.case_insensitive_email_addresses_enabled');
     }
 }

@@ -31,7 +31,7 @@ class CustomerUserContext extends OroFeatureContext
 
         /** @var Role $item */
         foreach ($customerUser->getRoles() as $item) {
-            if ($role === $item->getLabel()) {
+            if (trim($role) === $item->getLabel()) {
                 $customerUserRole = $item;
                 break;
             }
@@ -41,6 +41,25 @@ class CustomerUserContext extends OroFeatureContext
             $customerUserRole,
             sprintf('Customer user "%s" was found, but without role "%s"', $username, $role)
         );
+    }
+    /**
+     * Example: AmandaRCole@example.org customer user confirms registration
+     *
+     * @Given /^(?P<username>\S+) customer user confirms registration$/
+     *
+     * @param string $username
+     */
+    public function iConfirmRegistrationEmail(string $username): void
+    {
+        $customerUser = $this->getCustomerUser($username);
+        self::assertNotNull($customerUser, sprintf('Could not found customer user "%s",', $username));
+
+        $path = $this->getContainer()->get('oro_website.resolver.website_url_resolver')->getWebsitePath(
+            'oro_customer_frontend_customer_user_confirmation',
+            ['username' => $customerUser->getUsername(),  'token' => $customerUser->getConfirmationToken()],
+            $customerUser->getWebsite()
+        );
+        $this->visitPath($path);
     }
 
     /**

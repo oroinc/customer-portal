@@ -5,13 +5,27 @@ namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\PersistentCollection;
-
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrategy;
 
 class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 {
+    /** @var ConfigManager */
+    private $configManager;
+
+    /** @var bool|null */
+    private $isCaseSensitiveEmailEnabled;
+
+    /**
+     * @param ConfigManager $configManager
+     */
+    public function setConfigManager(ConfigManager $configManager): void
+    {
+        $this->configManager = $configManager;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -44,6 +58,28 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         }
 
         return $existingEntity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function findEntityByIdentityValues($entityName, array $identityValues)
+    {
+        return parent::findEntityByIdentityValues(
+            $entityName,
+            $this->handleCaseInsensitiveEmail($entityName, $identityValues)
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function combineIdentityValues($entity, $entityClass, array $searchContext)
+    {
+        return $this->handleCaseInsensitiveEmail(
+            $entityClass,
+            parent::combineIdentityValues($entity, $entityClass, $searchContext)
+        );
     }
 
     /**
@@ -81,6 +117,21 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         }
 
         return $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function validateAndUpdateContext($entity)
+    {
+        /** @var CustomerUser $entity */
+        $entity = parent::validateAndUpdateContext($entity);
+        if ($entity !== null) {
+            $customer = $entity->getCustomer();
+            $customer->getUsers()->clear();
+        }
+
+        return $entity;
     }
 
     /**
@@ -188,5 +239,40 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
                 ]
             )
         );
+    }
+
+    /**
+     * @param string $entityClass
+     * @param array|null $identityValues
+     * @return array|null
+     */
+    private function handleCaseInsensitiveEmail(string $entityClass, $identityValues): ?array
+    {
+        if (is_a($entityClass, CustomerUser::class, true) &&
+            $this->isCaseInsensitiveEmailEnabled() &&
+            isset($identityValues['email'])
+        ) {
+            $identityValues['emailLowercase'] = mb_strtolower($identityValues['email']);
+            unset($identityValues['email']);
+        }
+
+        return $identityValues;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isCaseInsensitiveEmailEnabled(): bool
+    {
+        if ($this->isCaseSensitiveEmailEnabled === null) {
+            $this->isCaseSensitiveEmailEnabled = false;
+
+            if ($this->configManager) {
+                $this->isCaseSensitiveEmailEnabled = (bool) $this->configManager
+                    ->get('oro_customer.case_insensitive_email_addresses_enabled');
+            }
+        }
+
+        return $this->isCaseSensitiveEmailEnabled;
     }
 }

@@ -48,6 +48,13 @@ oro:
             update_profile:
                 label: Update User Profile
                 description: Allows the Customer User to update their own profile regardless of Edit permissions for Customer User entity.
+    website:
+        default_role:
+            label: 'Default Self-Registration Role'
+            description: 'If self-registration is allowed this role will be assigned to new customer users who register themselves on the storefront.'
+        guest_role:
+            label: 'Guest Role'
+            description: 'This role is used to manage permissions for non-authenticated visitors.'
 
 oro.customer:
     customer:
@@ -549,6 +556,7 @@ oro.customer:
             menu_templates.title: 'Menu Templates'
             customer_visitor_section.title: 'Customer Visitor'
             map_settings.title: 'Map Settings'
+            rest_api.title: 'REST API'
         fields:
             default_customer_owner.label: 'Default Customer Owner'
             registration_allowed.label: 'Registration Allowed'
@@ -571,6 +579,10 @@ oro.customer:
                 option:
                     yes.label: 'Yes'
                     no.label: 'No'
+            api_key_generation_enabled.label: 'Enable API key generation'
+            case_insensitive_email_addresses_enabled:
+                label: 'Case-Insensitive Email Addresses'
+                tooltip: 'If this option is enabled, the letter case will be ignored when comparing email addresses. For example, john.doe@example.com and John.Doe@example.com will be considered equal.'
 
     security:
         permissions: 'Action Permissions'
@@ -627,8 +639,12 @@ oro.customer:
                 GLOBAL: 'Not supported'
                 SYSTEM: 'Full'
                 NONE: 'None'
+        customer:
+            entity_label: Customer
+            entity_plural_label: Customers
         customer_user:
             role.entity_plural_label: Roles
+            entity_label: User
             entity_plural_label: Users
             profile.label: Profile
             address.label: Address Book

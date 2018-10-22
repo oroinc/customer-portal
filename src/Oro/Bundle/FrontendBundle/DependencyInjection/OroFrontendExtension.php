@@ -142,12 +142,19 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         foreach ($configs as $configKey => $config) {
             if (isset($config['format_listener']['rules']) && is_array($config['format_listener']['rules'])) {
                 foreach ($config['format_listener']['rules'] as $key => $rule) {
-                    // add backend prefix to API format listener route
                     if (!empty($rule['path']) && $rule['path'] === '^/api/(?!(rest|doc)(/|$)+)') {
-                        $backendPrefix = $container->getParameter('web_backend_prefix');
-                        $rule['path'] = str_replace('/api/', $backendPrefix . '/api/', $rule['path']);
-                        $config['format_listener']['rules'][$key] = $rule;
-                        $configs[$configKey] = $config;
+                        $rules = $config['format_listener']['rules'];
+                        // make a a copy of the backend REST API rule
+                        $frontendRule = $rule;
+                        // add backend prefix to the path of the backend REST API rule
+                        $backendPrefix = trim(trim($container->getParameter('web_backend_prefix')), '/');
+                        $rule['path'] = str_replace('/api/', '/' . $backendPrefix . '/api/', $rule['path']);
+                        $rules[$key] = $rule;
+                        // add the frontend REST API rule
+                        array_unshift($rules, $frontendRule);
+                        // save updated rules
+                        $configs[$configKey]['format_listener']['rules'] = $rules;
+
                         break 2;
                     }
                 }

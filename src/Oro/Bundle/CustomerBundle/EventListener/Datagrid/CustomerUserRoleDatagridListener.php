@@ -7,8 +7,12 @@ use Doctrine\Common\Collections\Criteria;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource;
 use Oro\Bundle\DataGridBundle\Event\BuildAfter;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
+/**
+ * CustomerUserRole`s frontend datagrid listener that displays correct roles to current user
+ */
 class CustomerUserRoleDatagridListener
 {
     /**
@@ -17,11 +21,24 @@ class CustomerUserRoleDatagridListener
     protected $aclHelper;
 
     /**
+     * @var TokenAccessorInterface
+     */
+    protected $tokenAccessor;
+
+    /**
      * @param AclHelper $aclHelper
      */
     public function __construct(AclHelper $aclHelper)
     {
         $this->aclHelper = $aclHelper;
+    }
+
+    /**
+     * @param TokenAccessorInterface $tokenAccessor
+     */
+    public function setTokenAccessor(TokenAccessorInterface $tokenAccessor)
+    {
+        $this->tokenAccessor = $tokenAccessor;
     }
 
     /**
@@ -44,12 +61,20 @@ class CustomerUserRoleDatagridListener
             );
 
             $qb->addCriteria($criteria);
-            $qb->orWhere(
-                $alias . '.selfManaged = :isActive AND '.
-                $alias . '.public = :isActive AND '.
-                $alias . '.customer is NULL'
+
+            $expr = $qb->expr()->andX(
+                $qb->expr()->eq($alias . '.selfManaged', ':isActive'),
+                $qb->expr()->eq($alias . '.public', ':isActive'),
+                $qb->expr()->isNull($alias . '.customer')
             );
+            $qb->orWhere($expr);
             $qb->setParameter('isActive', true, \PDO::PARAM_BOOL);
+
+            $organizationId = $this->tokenAccessor->getOrganizationId();
+            if ($organizationId) {
+                $expr->add($qb->expr()->eq($alias . '.organization', ':currentCustomerOrganization'));
+                $qb->setParameter('currentCustomerOrganization', $organizationId);
+            }
         }
     }
 }

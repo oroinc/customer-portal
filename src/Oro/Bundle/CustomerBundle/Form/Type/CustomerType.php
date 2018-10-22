@@ -14,6 +14,7 @@ use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Bundle\CustomerBundle\Event\CustomerEvent;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Symfony\Component\Validator\Constraint;
 
 class CustomerType extends AbstractType
 {
@@ -175,6 +176,8 @@ class CustomerType extends AbstractType
         $resolver->setDefaults(
             [
                 'intention' => 'customer',
+                'cascade_validation' => true,
+                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequirePeriod'],
             ]
         );
     }

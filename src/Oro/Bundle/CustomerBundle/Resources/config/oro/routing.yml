@@ -162,3 +162,12 @@ oro_customer_frontend_entity_pagination_last:
 #    type:         annotation
 #    options:
 #        frontend: true
+
+oro_frontend_api_login:
+    path: /api/login
+    methods: [POST]
+    defaults:
+        _controller: OroCustomerBundle:Frontend\Api\Rest\Login:post
+    options:
+        frontend: true
+        group: frontend_rest_api

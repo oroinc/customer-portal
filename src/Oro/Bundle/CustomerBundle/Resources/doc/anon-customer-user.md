@@ -20,7 +20,7 @@ stores info taken from cookie: `visitor_id` and `session_id`. If user belongs to
 ```php
 $token = new AnonymousCustomerUserToken(
     'Anonymous Customer User',
-    [self::ANONYMOUS_CUSTOMER_USER_ROLE]
+    [$currentWebsite->getGuestRole()->getRole()]
 );
 ```
  The `authenticate` method of [AnonymousCustomerUserAuthenticationProvider](#the-authentication-provider) sets in the token other data return it:
@@ -206,7 +206,7 @@ oro_bundle.voter.guest_customer_user:
         - { name: oro_featuretogle.voter }
 ```
 Sometimes it should be necessary to open for guests some business entity or action using ACL configuration.
-So, if we want to enable for Anonimous Customer User Role this by default:
+So, if we want to enable for Anonymous Customer User Role this by default:
 ```yml
 #.../Migrations/Data/ORM/data/frontend_roles.yml
 ANONYMOUS:

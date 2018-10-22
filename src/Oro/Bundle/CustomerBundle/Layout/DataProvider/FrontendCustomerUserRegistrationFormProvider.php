@@ -10,12 +10,13 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;
 use Oro\Bundle\LayoutBundle\Layout\DataProvider\AbstractFormProvider;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Entity\UserManager;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
@@ -84,8 +85,6 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
 
     /**
      * @return CustomerUser
-     *
-     * TODO: remove logic with creating new customer user from data provider
      */
     private function createCustomerUser()
     {
@@ -107,10 +106,8 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
             throw new \RuntimeException('Website organization is empty');
         }
 
-        $defaultRole = $this->managerRegistry
-            ->getManagerForClass('OroCustomerBundle:CustomerUserRole')
-            ->getRepository('OroCustomerBundle:CustomerUserRole')
-            ->getDefaultCustomerUserRoleByWebsite($website);
+        /** @var CustomerUserRole $defaultRole */
+        $defaultRole = $website->getDefaultRole();
 
         if (!$defaultRole) {
             throw new \RuntimeException(sprintf('Role "%s" was not found', CustomerUser::ROLE_DEFAULT));

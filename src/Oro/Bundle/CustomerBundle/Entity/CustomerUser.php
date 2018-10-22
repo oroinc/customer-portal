@@ -15,11 +15,19 @@ use Oro\Bundle\LocaleBundle\Model\FullNameInterface;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\UserBundle\Security\AdvancedApiUserInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
 
 /**
- * @ORM\Entity()
- * @ORM\Table(name="oro_customer_user")
+ * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository")
+ * @ORM\Table(
+ *     name="oro_customer_user",
+ *     indexes={
+ *         @ORM\Index(name="idx_oro_customer_user_email", columns={"email"}),
+ *         @ORM\Index(name="idx_oro_customer_user_email_lowercase", columns={"email_lowercase"}),
+ *     }
+ * )
  * @ORM\HasLifecycleCallbacks()
  * @Config(
  *      routeName="oro_customer_customer_user_index",
@@ -54,10 +62,16 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  * )
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class CustomerUser extends ExtendCustomerUser implements FullNameInterface, EmailHolderInterface, CustomerUserIdentity
+class CustomerUser extends ExtendCustomerUser implements
+    FullNameInterface,
+    EmailHolderInterface,
+    WebsiteAwareInterface,
+    CustomerUserIdentity,
+    AdvancedApiUserInterface
 {
     const SECURITY_GROUP = 'commerce';
 
@@ -157,6 +171,24 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
      * )
      */
     protected $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email_lowercase", type="string", length=255)
+     * @ConfigField(
+     *      defaultValues={
+     *          "dataaudit"={
+     *              "auditable"=false
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      },
+     *      mode="hidden"
+     * )
+     */
+    protected $emailLowercase;
 
     /**
      * Name prefix
@@ -310,6 +342,29 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
      * )
      */
     protected $owner;
+
+    /**
+     * @var CustomerUserApi[]|Collection
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="CustomerUserApi",
+     *     mappedBy="user",
+     *     cascade={"persist", "remove"},
+     *     orphanRemoval=true,
+     *     fetch="EXTRA_LAZY"
+     * )
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          },
+     *          "email"={
+     *              "available_in_template"=false
+     *          }
+     *      }
+     * )
+     */
+    protected $apiKeys;
 
     /**
      * @var Collection|User[]
@@ -478,6 +533,7 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
         $this->addresses = new ArrayCollection();
         $this->salesRepresentatives = new ArrayCollection();
         $this->settings = new ArrayCollection();
+        $this->apiKeys = new ArrayCollection();
         parent::__construct();
     }
 
@@ -613,6 +669,7 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
         parent::setUsername($username);
 
         $this->email = $username;
+        $this->emailLowercase = mb_strtolower($username);
 
         return $this;
     }
@@ -633,8 +690,17 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
     {
         $this->email = $email;
         $this->username = $email;
+        $this->emailLowercase = mb_strtolower($email);
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailLowercase()
+    {
+        return $this->emailLowercase;
     }
 
     /**
@@ -862,6 +928,47 @@ class CustomerUser extends ExtendCustomerUser implements FullNameInterface, Emai
 
         foreach ($this->addresses as $customerUserAddress) {
             $customerUserAddress->setOwner($owner);
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getApiKeys()
+    {
+        return $this->apiKeys;
+    }
+
+    /**
+     * Adds API key to this customer user.
+     *
+     * @param CustomerUserApi $apiKey
+     *
+     * @return CustomerUser
+     */
+    public function addApiKey(CustomerUserApi $apiKey)
+    {
+        if (!$this->apiKeys->contains($apiKey)) {
+            $this->apiKeys->add($apiKey);
+            $apiKey->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Removes API key from this customer user.
+     *
+     * @param CustomerUserApi $apiKey
+     *
+     * @return CustomerUser
+     */
+    public function removeApiKey(CustomerUserApi $apiKey)
+    {
+        if ($this->apiKeys->contains($apiKey)) {
+            $this->apiKeys->removeElement($apiKey);
         }
 
         return $this;

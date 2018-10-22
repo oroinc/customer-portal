@@ -22,6 +22,7 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
         $resolver->setDefaults(
             [
                 'constraints' => [new NameOrOrganization()],
+                'owner_field_label' => 'oro.customer.customer.entity_label'
             ]
         );
 
@@ -48,7 +49,7 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
         $address = $event->getData();
 
         $form->add('frontendOwner', FrontendOwnerSelectType::NAME, [
-            'label' => 'oro.customer.customer.entity_label',
+            'label' => $form->getConfig()->getOption('owner_field_label'),
             'targetObject' => $address,
         ]);
 

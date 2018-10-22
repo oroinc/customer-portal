@@ -3,11 +3,12 @@
 namespace Oro\Bundle\CustomerBundle\Datagrid;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-
+use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
-
+/**
+ * @deprecated This class don't used anywhere and will be removed in 2.0 version
+ */
 class CustomerActionPermissionProvider
 {
     /** @var AuthorizationCheckerInterface */

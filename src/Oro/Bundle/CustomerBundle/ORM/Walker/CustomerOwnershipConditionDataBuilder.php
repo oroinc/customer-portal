@@ -1,0 +1,129 @@
+<?php
+
+namespace Oro\Bundle\CustomerBundle\ORM\Walker;
+
+use Doctrine\ORM\Query\AST\PathExpression;
+use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
+use Oro\Bundle\SecurityBundle\Acl\Domain\OneShotIsGrantedObserver;
+use Oro\Bundle\SecurityBundle\Acl\Group\AclGroupProviderInterface;
+use Oro\Bundle\SecurityBundle\Acl\Voter\AclVoter;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclConditionDataBuilderInterface;
+use Oro\Bundle\SecurityBundle\ORM\Walker\OwnershipConditionDataBuilder;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
+use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
+/**
+ * Allows access to to entities with frontend ownership with deep access levels
+ */
+class CustomerOwnershipConditionDataBuilder extends OwnershipConditionDataBuilder
+{
+    /** @var AclConditionDataBuilderInterface */
+    protected $ownerConditionBuilder;
+
+    /** @var AclVoter */
+    protected $aclVoter;
+
+    /** @var OwnerTreeProviderInterface */
+    protected $treeProvider;
+
+    /** @var AclGroupProviderInterface */
+    protected $aclGroupProvider;
+
+    /**
+     * @param AuthorizationCheckerInterface      $authorizationChecker
+     * @param TokenStorageInterface              $tokenStorage
+     * @param OwnershipMetadataProviderInterface $metadataProvider
+     * @param OwnerTreeProviderInterface         $treeProvider
+     * @param AclVoter                           $aclVoter
+     * @param AclConditionDataBuilderInterface   $ownerConditionBuilder
+     * @param AclGroupProviderInterface          $aclGroupProvider
+     */
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        TokenStorageInterface $tokenStorage,
+        OwnershipMetadataProviderInterface $metadataProvider,
+        OwnerTreeProviderInterface $treeProvider,
+        AclVoter $aclVoter,
+        AclConditionDataBuilderInterface $ownerConditionBuilder,
+        AclGroupProviderInterface $aclGroupProvider
+    ) {
+        $this->authorizationChecker = $authorizationChecker;
+        $this->tokenStorage = $tokenStorage;
+        $this->metadataProvider = $metadataProvider;
+        $this->treeProvider = $treeProvider;
+        $this->aclVoter = $aclVoter;
+        $this->ownerConditionBuilder = $ownerConditionBuilder;
+        $this->aclGroupProvider = $aclGroupProvider;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAclConditionData($entityClassName, $permissions = 'VIEW')
+    {
+        $constraint = $this->ownerConditionBuilder->getAclConditionData($entityClassName, $permissions);
+
+        $metadata = $this->metadataProvider->getMetadata($entityClassName);
+        if ($metadata instanceof FrontendOwnershipMetadata
+            && $metadata->getCustomerFieldName()
+            && !$this->isAccessAlreadyDenied($constraint)
+        ) {
+            $observer = new OneShotIsGrantedObserver();
+            $this->aclVoter->addOneShotIsGrantedObserver($observer);
+
+            $groupedEntityClassName = $entityClassName;
+            $group = $this->aclGroupProvider->getGroup();
+            if ($group) {
+                $groupedEntityClassName = sprintf('%s@%s', $group, $entityClassName);
+            }
+
+            if ($this->isEntityGranted($permissions, $groupedEntityClassName)) {
+                $constraint = array_replace(
+                    $constraint,
+                    $this->getConstraintForAccessLevel($metadata, $observer->getAccessLevel())
+                );
+            }
+        }
+
+        return $constraint;
+    }
+
+    /**
+     * @param FrontendOwnershipMetadata $metadata
+     * @param int $accessLevel
+     *
+     * @return array
+     */
+    protected function getConstraintForAccessLevel(FrontendOwnershipMetadata $metadata, $accessLevel)
+    {
+        if (!in_array($accessLevel, [AccessLevel::LOCAL_LEVEL, AccessLevel::DEEP_LEVEL], true)) {
+            return [];
+        }
+
+        $customerId = $this->getUser()->getCustomer()->getId();
+        $customersIds = $accessLevel === AccessLevel::DEEP_LEVEL
+            ? $this->treeProvider->getTree()->getSubordinateBusinessUnitIds($customerId)
+            : [];
+
+        $customersIds[] = $customerId;
+
+        return [
+            $metadata->getCustomerFieldName(),
+            $customersIds,
+            PathExpression::TYPE_SINGLE_VALUED_ASSOCIATION
+        ];
+    }
+
+    /**
+     * @param array $constraint
+     *
+     * @return bool
+     */
+    private function isAccessAlreadyDenied(array $constraint)
+    {
+        return array_key_exists(1, $constraint) && $constraint[1] === null;
+    }
+}

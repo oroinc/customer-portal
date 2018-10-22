@@ -2,12 +2,16 @@
 
 namespace Oro\Bundle\CustomerBundle\Layout\DataProvider;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Security\Core\Security;
-
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
+/**
+ * The data provider for "sign in" form.
+ */
 class SignInProvider
 {
     /**
@@ -24,6 +28,9 @@ class SignInProvider
     /** @var CsrfTokenManagerInterface */
     protected $csrfTokenManager;
 
+    /** @var TranslatorInterface */
+    protected $translator;
+
     /**
      * @param RequestStack              $requestStack
      * @param TokenAccessorInterface    $tokenAccessor
@@ -37,6 +44,14 @@ class SignInProvider
         $this->requestStack = $requestStack;
         $this->tokenAccessor = $tokenAccessor;
         $this->csrfTokenManager = $csrfTokenManager;
+    }
+
+    /**
+     * @param TranslatorInterface $translator
+     */
+    public function setTranslator(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
     }
 
     /**
@@ -74,9 +89,12 @@ class SignInProvider
                 $error = '';
             }
 
-            if ($error) {
-                // TODO: this is a potential security risk (see http://trac.symfony-project.org/ticket/9523)
-                $error = $error->getMessage();
+            if ($error instanceof \Exception) {
+                if ($error->getMessage()) {
+                    $error = $error->getMessage();
+                } elseif ($error instanceof AuthenticationException) {
+                    $error = $this->translator->trans($error->getMessageKey(), $error->getMessageData(), 'security');
+                }
             }
 
             $this->options['error'] = $error;

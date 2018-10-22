@@ -2,17 +2,18 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Tests\Unit\Entity\AbstractUserTest;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Traits\AddressEntityTestTrait;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\UserBundle\Tests\Unit\Entity\AbstractUserTest;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
@@ -288,5 +289,46 @@ class CustomerUserTest extends AbstractUserTest
         $user->setWebsiteSettings($fourthSetting);
         $this->assertEquals(3, $user->getSettings()->count());
         $this->assertTrue($user->getSettings()->contains($fourthSetting));
+    }
+
+    public function testApiKeys()
+    {
+        $user = $this->getUser();
+
+        $this->assertInstanceOf(ArrayCollection::class, $user->getApiKeys());
+        $this->assertCount(0, $user->getApiKeys());
+
+        $apiKey1 = new CustomerUserApi();
+        $apiKey1->setApiKey('key1');
+        $apiKey2 = new CustomerUserApi();
+        $apiKey2->setApiKey('key1');
+
+        $user->addApiKey($apiKey1);
+        $user->addApiKey($apiKey2);
+        $this->assertCount(2, $user->getApiKeys());
+        $this->assertSame($apiKey1, $user->getApiKeys()->first());
+        $this->assertSame($apiKey2, $user->getApiKeys()->last());
+        $this->assertSame($user, $apiKey1->getUser());
+        $this->assertSame($user, $apiKey2->getUser());
+
+        $user->removeApiKey($apiKey1);
+        $this->assertCount(1, $user->getApiKeys());
+        $this->assertSame($apiKey2, $user->getApiKeys()->first());
+    }
+
+    public function testSetEmailGetEmailLowercase()
+    {
+        $user = $this->getUser();
+        $user->setEmail('John.Doe@example.org');
+
+        $this->assertEquals('john.doe@example.org', $user->getEmailLowercase());
+    }
+
+    public function testSetUsernameGetEmailLowercase()
+    {
+        $user = $this->getUser();
+        $user->setUsername('John.Doe@example.org');
+
+        $this->assertEquals('john.doe@example.org', $user->getEmailLowercase());
     }
 }

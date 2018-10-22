@@ -48,7 +48,7 @@ class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationC
     }
 
     /**
-     * @return CustomerVisitor
+     * @return CustomerVisitor|null
      */
     public function getVisitor()
     {

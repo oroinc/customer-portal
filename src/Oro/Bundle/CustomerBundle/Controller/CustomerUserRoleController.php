@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -13,8 +14,11 @@ use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\UserBundle\Model\PrivilegeCategory;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * CRUD controller for CustomerUserRole entity
+ */
 class CustomerUserRoleController extends Controller
 {
     /**
@@ -104,8 +108,12 @@ class CustomerUserRoleController extends Controller
     {
         $handler = $this->get('oro_customer.form.handler.update_customer_user_role');
         $handler->createForm($role);
+        $isWidgetContext = (bool)$this->container
+            ->get('request_stack')
+            ->getCurrentRequest()
+            ->get('_wid', false);
 
-        if ($handler->process($role)) {
+        if ($handler->process($role) && !$isWidgetContext) {
             $this->get('session')->getFlashBag()->add(
                 'success',
                 $this->get('translator')->trans('oro.customer.controller.customeruserrole.saved.message')
@@ -122,7 +130,9 @@ class CustomerUserRoleController extends Controller
                 'capabilitySetOptions' => [
                     'data' => $this->getRolePrivilegeCapabilityProvider()->getCapabilities($role),
                     'tabIds' => $this->getRolePrivilegeCategoryProvider()->getTabList()
-                ]
+                ],
+                'isWidgetContext' => $isWidgetContext,
+                'savedId' => $role->getId(),
             ];
         }
     }

@@ -1,0 +1,166 @@
+oro_frontend_rest_api_doc:
+    path: /api/doc/{view}
+    methods: [GET]
+    defaults:
+        _controller: NelmioApiDocBundle:ApiDoc:index
+        view: frontend_rest_json_api
+    options:
+        frontend: true
+
+# returns an entity of the given type by its identifier
+oro_frontend_rest_api_get:
+    path: /api/{entity}/{id}
+    methods: [GET]
+    requirements:
+        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+    defaults:
+        _controller: OroFrontendBundle:FrontendRestApi:get
+        _action: get
+    options:
+        frontend: true
+        group: frontend_rest_api
+        priority: -10
+
+# returns a list of entities of the given type
+oro_frontend_rest_api_cget:
+    path: /api/{entity}
+    methods: [GET]
+    requirements:
+        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+    defaults:
+        _controller: OroFrontendBundle:FrontendRestApi:cget
+        _action: get_list
+    options:
+        frontend: true
+        group: frontend_rest_api
+        priority: -10
+
+# deletes an entity of the given type by its identifier
+oro_frontend_rest_api_delete:
+    path: /api/{entity}/{id}
+    methods: [DELETE]
+    requirements:
+        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+    defaults:
+        _controller: OroFrontendBundle:FrontendRestApi:delete
+        _action: delete
+    options:
+        frontend: true
+        group: frontend_rest_api
+        priority: -10
+
+# deletes a list of entities of the given type by the given filters
+oro_frontend_rest_api_cdelete:
+    path: /api/{entity}
+    methods: [DELETE]
+    requirements:
+        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+    defaults:
+        _controller: OroFrontendBundle:FrontendRestApi:cdelete
+        _action: delete_list
+    options:
+        frontend: true
+        group: frontend_rest_api
+        priority: -10
+
+# creates an entity of the given type
+oro_frontend_rest_api_post:
+    path: /api/{entity}
+    methods: [POST]
+    requirements:
+        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+    defaults:
+        _controller: OroFrontendBundle:FrontendRestApi:post
+        _action: create
+    options:
+        frontend: true
+        group: frontend_rest_api
+        priority: -10
+
+# updates the specified fields of the given entity
+oro_frontend_rest_api_patch:
+    path: /api/{entity}/{id}
+    methods: [PATCH]
+    requirements:
+        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+    defaults:
+        _controller: OroFrontendBundle:FrontendRestApi:patch
+        _action: update
+    options:
+        frontend: true
+        group: frontend_rest_api
+        priority: -10
+
+# returns an entity (for to-one association) or a list of entities (for to-many association)
+# connected to the given entity by the given association
+oro_frontend_rest_api_get_subresource:
+    path: /api/{entity}/{id}/{association}
+    methods: [GET]
+    requirements:
+        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+    defaults:
+        _controller: OroFrontendBundle:FrontendRestApiSubresource:get
+        _action: get_subresource
+    options:
+        frontend: true
+        group: frontend_rest_api
+        priority: -10
+
+# returns an entity identifier (for to-one association) or a list of entity identifiers (for to-many association)
+# connected to the given entity by the given association
+oro_frontend_rest_api_get_relationship:
+    path: /api/{entity}/{id}/relationships/{association}
+    methods: [GET]
+    requirements:
+        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+    defaults:
+        _controller: OroFrontendBundle:FrontendRestApiRelationship:get
+        _action: get_relationship
+    options:
+        frontend: true
+        group: frontend_rest_api
+        priority: -10
+
+# updates a relationship between entities represented by the given association
+# for to-one association the target entity can be NULL to clear the association
+# for to-many association the existing relationships will be completely replaced with the specified list
+oro_frontend_rest_api_patch_relationship:
+    path: /api/{entity}/{id}/relationships/{association}
+    methods: [PATCH]
+    requirements:
+        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+    defaults:
+        _controller: OroFrontendBundle:FrontendRestApiRelationship:patch
+        _action: update_relationship
+    options:
+        frontend: true
+        group: frontend_rest_api
+        priority: -10
+
+# adds the specified entities to the relationship represented by the given to-many association
+oro_frontend_rest_api_post_relationship:
+    path: /api/{entity}/{id}/relationships/{association}
+    methods: [POST]
+    requirements:
+        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+    defaults:
+        _controller: OroFrontendBundle:FrontendRestApiRelationship:post
+        _action: add_relationship
+    options:
+        frontend: true
+        group: frontend_rest_api
+        priority: -10
+
+# deletes the specified entities from the relationship represented by the given to-many association
+oro_frontend_rest_api_delete_relationship:
+    path: /api/{entity}/{id}/relationships/{association}
+    methods: [DELETE]
+    requirements:
+        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+    defaults:
+        _controller: OroFrontendBundle:FrontendRestApiRelationship:delete
+        _action: delete_relationship
+    options:
+        frontend: true
+        group: frontend_rest_api
+        priority: -10

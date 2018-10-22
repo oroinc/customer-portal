@@ -79,7 +79,7 @@ class CustomerUserHandler
 
                     if ($this->form->get('sendEmail')->getData()) {
                         try {
-                            $this->userManager->sendWelcomeEmail($customerUser);
+                            $this->userManager->sendWelcomeRegisteredByAdminEmail($customerUser);
                         } catch (\Exception $ex) {
                             $this->logger->error('Welcome email sending failed.', ['exception' => $ex]);
                             /** @var Session $session */

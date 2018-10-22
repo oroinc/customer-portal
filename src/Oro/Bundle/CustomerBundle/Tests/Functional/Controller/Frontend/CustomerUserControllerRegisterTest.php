@@ -2,27 +2,25 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend;
 
-use Symfony\Component\DomCrawler\Crawler;
-
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\EmailMessageAssertionTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserAndGuestWithSameUsername;
+use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 
 class CustomerUserControllerRegisterTest extends WebTestCase
 {
+    use EmailMessageAssertionTrait;
+
     const EMAIL = 'john.doe@example.com';
     const PASSWORD = '123456';
-
-    /** @var ConfigManager */
-    protected $configManager;
 
     protected function setUp()
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
-        $this->configManager = $this->getContainer()->get('oro_config.manager');
+
         $this->loadFixtures([LoadCustomerUserData::class]);
         $this->loadFixtures([LoadUserAndGuestWithSameUsername::class]);
     }
@@ -84,17 +82,12 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         ];
     }
 
-    /**
-     * @dataProvider registerWithoutConfirmationDataProvider
-     *
-     * @param string $email
-     * @param bool $withPassword
-     */
-    public function testRegisterWithoutConfirmation($email, $withPassword)
+    public function testRegisterWithoutConfirmation()
     {
-        $this->configManager->set('oro_customer.confirmation_required', false);
-        $this->configManager->set('oro_customer.send_password_in_welcome_email', $withPassword);
-        $this->configManager->flush();
+        $email = 'adam.smith@example.com';
+        $configManager = $this->getContainer()->get('oro_config.manager');
+        $configManager->set('oro_customer.confirmation_required', false);
+        $configManager->flush();
 
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_register'));
         $result = $this->client->getResponse();
@@ -106,23 +99,15 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $emailLogger = $this->getContainer()->get('swiftmailer.plugin.messagelogger');
         $emailMessages = $emailLogger->getMessages();
 
-        /** @var \Swift_Message $message */
-        $message = reset($emailMessages);
+        $this->assertCount(1, $emailMessages);
 
-        $applicationUrl = $this->configManager->get('oro_ui.application_url');
-        $loginUrl = $applicationUrl . $this->getUrl('oro_customer_customer_user_security_login');
-
-        $this->assertInstanceOf('Swift_Message', $message);
-        $this->assertEquals($email, key($message->getTo()));
-        $this->assertContains($email, $message->getSubject());
-        $this->assertContains($email, $message->getBody());
-        $this->assertContains($loginUrl, $message->getBody());
-
-        if ($withPassword) {
-            $this->assertContains(self::PASSWORD, $message->getBody());
-        } else {
-            $this->assertNotContains(self::PASSWORD, $message->getBody());
-        }
+        /** @var \Swift_Message $emailMessage */
+        $emailMessage = array_shift($emailMessages);
+        $this->assertWelcomeMessage($email, $emailMessage);
+        $this->assertNotContains(
+            'Please follow the link below to create a password for your new account.',
+            $emailMessage->getBody()
+        );
 
         $crawler = $this->client->followRedirect();
         $result = $this->client->getResponse();
@@ -135,27 +120,11 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $this->assertContains('Registration successful', $crawler->html());
     }
 
-    /**
-     * @return array
-     */
-    public function registerWithoutConfirmationDataProvider()
-    {
-        return [
-            'with password' => [
-                'email' => 'adam.smith@example.com',
-                'withPassword' => true
-            ],
-            'without password' => [
-                'email' => 'sam.black@example.com',
-                'withPassword' => false
-            ]
-        ];
-    }
-
     public function testRegisterWithConfirmation()
     {
-        $this->configManager->set('oro_customer.confirmation_required', true);
-        $this->configManager->flush();
+        $configManager = $this->getContainer()->get('oro_config.manager');
+        $configManager->set('oro_customer.confirmation_required', true);
+        $configManager->flush();
 
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_register'));
         $result = $this->client->getResponse();
@@ -176,7 +145,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
 
-        $applicationUrl = $this->configManager->get('oro_ui.application_url');
+        $applicationUrl = $configManager->get('oro_ui.application_url');
         $confirmMessage = 'Please follow this link to confirm your email address: <a href="'
             . $applicationUrl
             . htmlspecialchars($this->getUrl(
@@ -447,7 +416,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $this->assertContains(self::EMAIL, $message->getBody());
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
-        $applicationUrl = $this->configManager->get('oro_ui.application_url');
+        $applicationUrl = $this->getContainer()->get('oro_config.manager')->get('oro_ui.application_url');
 
         $resetUrl = $applicationUrl
             . htmlspecialchars($this->getUrl(
@@ -494,6 +463,5 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $this->assertNotEmpty($user);
         $this->assertTrue($user->isEnabled());
         $this->assertTrue($user->isConfirmed());
-        $this->assertNull($user->getConfirmationToken());
     }
 }
