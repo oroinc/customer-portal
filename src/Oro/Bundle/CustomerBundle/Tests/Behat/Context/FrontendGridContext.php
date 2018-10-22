@@ -2,16 +2,23 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
+use Behat\Mink\Element\NodeElement;
 use Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager;
 use Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager;
-use Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid;
+use Oro\Bundle\DataGridBundle\Tests\Behat\Element\GridInterface;
+use Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 use Oro\Bundle\TestFrameworkBundle\Behat\Element\Element;
 use Oro\Bundle\TestFrameworkBundle\Behat\Element\OroPageObjectAware;
+use Oro\Bundle\TestFrameworkBundle\Behat\Element\Table;
 use Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\PageObjectDictionary;
 
 /**
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  */
 class FrontendGridContext extends OroFeatureContext implements OroPageObjectAware
 {
@@ -38,10 +45,84 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      *
      * @param string $gridName
      */
-    public function setGridViewAsDefault($gridName)
+    public function markGridViewAsDefault($gridName)
     {
         $grid = $this->getFrontendGrid($gridName);
         $grid->getElement('FrontendGridViewSetAsDefaultCheckbox')->click();
+    }
+
+    /**
+     * Example: I delete "CustomView" grid view in "TestGrid" frontend grid
+     *
+     * @Given /^(?:I )?delete "(?P<gridViewName>([^"]+))" grid view in "(?P<gridName>([^"]+))" frontend grid$/
+     * @Given /^(?:I )?delete "(?P<gridViewName>([^"]+))" grid view in frontend grid$/
+     *
+     * @param string $gridViewName
+     * @param string $gridName
+     */
+    public function deleteGridView(string $gridViewName, ?string $gridName = null): void
+    {
+        $grid = $this->getFrontendGrid($gridName);
+        $grid->openGridViewDropdown();
+
+        $gridViewItemElement = $this->getGridViewItem($gridViewName, $gridName);
+
+        $gridViewItemElement->getElement('FrontendGridViewDeleteButton')->click();
+    }
+
+    /**
+     * Example: I set "CustomView" grid view as default in "TestGrid" frontend grid
+     *
+     * @Given /^(?:I )?set "(?P<gridViewName>([^"]+))" grid view as default in "(?P<gridName>([^"]+))" frontend grid$/
+     * @Given /^(?:I )?set "(?P<gridViewName>([^"]+))" grid view as default in frontend grid$/
+     *
+     * @param string $gridViewName
+     * @param string $gridName
+     */
+    public function setGridViewAsDefault(string $gridViewName, ?string $gridName = null): void
+    {
+        $grid = $this->getFrontendGrid($gridName);
+        $grid->openGridViewDropdown();
+
+        $gridViewItemElement = $this->getGridViewItem($gridViewName, $gridName);
+
+        $gridViewItemElement->getElement('FrontendGridViewSetAsDefaultButton')->click();
+
+        $grid->closeGridViewDropdown();
+    }
+
+    /**
+     * Example: I mark Set as Default on grid view for "TestGrid" grid on frontend
+     *
+     * @Given /^(?:I )?switch to "(?P<gridViewName>([^"]+))" grid view in frontend grid$/
+     * @Given /^(?:I )?switch to "(?P<gridViewName>([^"]+))" grid view in "(?P<gridName>([\w\s]+))" frontend grid$/
+     *
+     * @param string $gridViewName
+     * @param null|string $gridName
+     */
+    public function switchToGridView(string $gridViewName, ?string $gridName = null): void
+    {
+        $grid = $this->getFrontendGrid($gridName);
+        $grid->openGridViewDropdown();
+
+        $gridViewItemElement = $this->getGridViewItem($gridViewName, $gridName);
+
+        $gridViewItemElement->getElement('FrontendGridViewsItemLabel')->click();
+    }
+
+    /**
+     * @param string $gridViewName
+     * @param null|string $gridName
+     *
+     * @return Element
+     */
+    private function getGridViewItem(string $gridViewName, ?string $gridName = null): Element
+    {
+        $grid = $this->getFrontendGrid($gridName);
+        $gridViewItemElement = $grid->findElementContains('FrontendGridViewsItem', $gridViewName);
+        self::assertTrue($gridViewItemElement->isValid(), 'Grid view item not found');
+
+        return $gridViewItemElement;
     }
 
     /**
@@ -68,6 +149,27 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
         $columnManager = $this->getFrontendGridColumnManager($datagridName);
         $columnManager->open();
         $columnManager->checkColumnVisibility($columnName);
+        $columnManager->close();
+    }
+
+    /**
+     * Hide all columns in frontend grid except mentioned
+     *
+     * @When /^(?:|I) hide all columns in frontend grid except (?P<exceptions>(?:[^"]|\\")*)$/
+     * @When /^(?:|I) hide all columns in "(?P<gridName>[\w\s]+)" frontend grid except (?P<exceptions>(?:[^"]|\\")*)$/
+     * @When /^(?:|I) hide all columns in frontend grid$/
+     * @When /^(?:|I) hide all columns in "(?P<gridName>[\w\s]+)" frontend grid$/
+     *
+     * @param string $exceptions
+     * @param string|null $gridName
+     */
+    public function iHideAllColumnsInFrontendGrid(string $exceptions = '', ?string $gridName = null): void
+    {
+        $exceptColumns = array_filter(array_map('trim', explode(',', $exceptions)));
+
+        $columnManager = $this->getFrontendGridColumnManager($gridName);
+        $columnManager->open();
+        $columnManager->hideAllColumns($exceptColumns);
         $columnManager->close();
     }
 
@@ -207,14 +309,43 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      * @Given /^(?:|I) hide filter "(?P<filter>(?:[^"]|\\")*)" in "(?P<datagridName>[\w\s]+)" frontend grid$/
      *
      * @param string $filter
-     * @param string $datagridName
+     * @param string|null $datagridName
      */
-    public function iHideFilterInFrontendGrid($filter, $datagridName = null)
+    public function iHideFilterInFrontendGrid(string $filter, ?string $datagridName = null): void
     {
         /** @var FrontendGridFilterManager $filterManager */
         $filterManager = $this->getFilterManager($datagridName);
         $filterManager->uncheckColumnFilter($filter);
         $filterManager->close();
+    }
+
+    /**
+     * @Given /^(?:|I) sort frontend grid by "(?P<sorter>(?:[^"]|\\")*)"$/
+     * @Given /^(?:|I) sort frontend grid "(?P<datagridName>[\w\s]+)" by "(?P<sorter>(?:[^"]|\\")*)"$/
+     *
+     * @param string $sorter
+     * @param null|string $datagridName
+     */
+    public function iSortFrontendGrid(string $sorter, ?string $datagridName = null): void
+    {
+        $grid = $this->getGrid($datagridName);
+        $sorterSelect = $grid->getElement($grid->getMappedChildElementName('Frontend Product Grid Sorter'));
+
+        $optionElements = $sorterSelect->findAll('css', 'option');
+        $options = [];
+        /** @var NodeElement[] $optionElements */
+        foreach ($optionElements as $option) {
+            $optionLabel = trim(preg_replace('/\s+/', ' ', $option->getText()));
+            $options[$optionLabel] = $option->getValue();
+        }
+
+        self::assertArrayHasKey(
+            $sorter,
+            $options,
+            sprintf('Sorter %s was not found. Available options are: %s', $sorter, implode(', ', array_keys($options)))
+        );
+
+        $sorterSelect->setValue($options[$sorter]);
     }
 
     //@codingStandardsIgnoreStart
@@ -276,5 +407,27 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
         $filterButton->click();
 
         return $grid->getElement($grid->getMappedChildElementName('FrontendGridFilterManager'));
+    }
+
+    /**
+     * @param string|null $datagridName
+     * @param string|null $content
+     * @return GridInterface|Table|Element
+     */
+    private function getGrid(?string $datagridName = null, ?string $content = null)
+    {
+        if ($datagridName === null) {
+            $datagridName = 'Grid';
+        }
+
+        if ($content !== null) {
+            $grid = $this->elementFactory->findElementContains($datagridName, $content);
+        } else {
+            $grid = $this->elementFactory->createElement($datagridName);
+        }
+
+        self::assertTrue($grid->isIsset(), sprintf('Element "%s" not found on the page', $datagridName));
+
+        return $grid;
     }
 }
