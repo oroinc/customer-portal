@@ -1,6 +1,5 @@
 @fixture-OroCustomerBundle:ImportCustomerUsersFixture.yml
 @regression
-
 Feature: Import Customer Users
   In order to add multiple customer users at once
   As an Administrator
@@ -295,8 +294,7 @@ Feature: Import Customer Users
       |    | testtest    | test       | test        | test      | Cole Suff   | 10/21/1986 | tester@example.org      | 1           | ROLE_FRONTEND_ADMINISTRATOR  |              | 1          | 0       | 1         | 2        |
     When I import file
     And reload the page
-    # Uncomment after BB-14919
-    # And Email should contains the following "Errors: 2 processed: 2, read: 2, added: 1, updated: 0, replaced: 0" text
+    And Email should contains the following "Errors: 1 processed: 2, read: 2, added: 1, updated: 0, replaced: 1" text
     And I should see following grid:
       | Customer                  | First Name   | Last Name | Email Address              | Enabled | Confirmed |
       | Company A                 | CustomerUser | One       | user1@example.org          | Yes     | Yes       |
