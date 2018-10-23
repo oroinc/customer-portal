@@ -25,17 +25,17 @@ class LoadCustomerAddresses extends AbstractAddressesFixture implements Dependen
             'primary' => true,
             'types' => ['billing' => false, 'shipping' => true]
         ],
-        [
-            'customer' => 'customer.level_1',
-            'label' => 'customer.level_1.address_2',
-            'street' => '2413 Capitol Avenue',
-            'city' => 'Romney',
-            'postalCode' => '47981',
-            'country' => 'US',
-            'region' => 'IN',
-            'primary' => false,
-            'types' => ['billing' => true]
-        ],
+//        [
+//            'customer' => 'customer.level_1',
+//            'label' => 'customer.level_1.address_2',
+//            'street' => '2413 Capitol Avenue',
+//            'city' => 'Romney',
+//            'postalCode' => '47981',
+//            'country' => 'US',
+//            'region' => 'IN',
+//            'primary' => false,
+//            'types' => ['billing' => true]
+//        ],
         [
             'customer' => 'customer.level_1',
             'label' => 'customer.level_1.address_3',
