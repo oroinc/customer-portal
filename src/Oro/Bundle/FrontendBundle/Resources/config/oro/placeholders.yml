@@ -50,8 +50,6 @@ placeholders:
             template: OroFrontendBundle:InstallConfiguration:web.html.twig
         filter_embedded_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
-        template_audit_condition_type_select:
-            applicable: "@oro_layout.helper->isTemplateRequest()"
         widget_filter_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
         orodashboard_widget_items_templates:
