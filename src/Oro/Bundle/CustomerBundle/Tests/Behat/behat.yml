@@ -189,8 +189,13 @@ oro_behat_extension:
     FrontendGridViewsClose:
       selector: '.grid-views__dropdown .grid-views__close'
 
-    FrontendGridFilterManager:
+    Frontend Grid Filter Dropdown:
       selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
+
+    FrontendGridFilterManager:
+      selector:
+        locator: '//div[contains(concat(" ", normalize-space(@class), " "), " filter-container ")]/div[contains(concat(" ", normalize-space(@class), " "), " datagrid-manager ")][last()]/div[contains(concat(" ", normalize-space(@class), " "), " dropdown-menu ")]'
+        type: xpath
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
 
     FrontendGridFilterManagerButton:
