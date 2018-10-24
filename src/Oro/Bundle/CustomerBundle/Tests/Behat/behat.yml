@@ -192,6 +192,9 @@ oro_behat_extension:
     Frontend Grid Filter Dropdown:
       selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
 
+    FrontendGridViewsDropdown:
+      selector: '.grid-views__dropdown.dropdown-menu'
+
     FrontendGridFilterManager:
       selector:
         locator: '//div[contains(concat(" ", normalize-space(@class), " "), " filter-container ")]/div[contains(concat(" ", normalize-space(@class), " "), " datagrid-manager ")][last()]/div[contains(concat(" ", normalize-space(@class), " "), " dropdown-menu ")]'
