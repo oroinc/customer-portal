@@ -9,6 +9,9 @@ use Oro\Bundle\EntityBundle\ORM\DatabasePlatformInterface;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\ConfigIdInterface;
 
+/**
+ * Migrates class names from older to the newer variants in the tables containing references to such classes.
+ */
 class ClassMigration
 {
     /** @var ManagerRegistry */
@@ -115,10 +118,6 @@ class ClassMigration
     {
         try {
             $preparedFrom = $this->prepareFrom($defaultConnection, $from);
-            $aclCheck = $defaultConnection->fetchColumn(
-                'SELECT id FROM oro_navigation_title WHERE title LIKE :preparedFrom LIMIT 1',
-                ['preparedFrom' => "%$preparedFrom%"]
-            );
             $configCheck = $defaultConnection->fetchColumn(
                 'SELECT id FROM oro_entity_config WHERE class_name LIKE :preparedFrom LIMIT 1',
                 ['preparedFrom' => "%$preparedFrom%"]
@@ -127,7 +126,7 @@ class ClassMigration
             return false;
         }
 
-        return $aclCheck || $configCheck;
+        return $configCheck;
     }
 
     /**
