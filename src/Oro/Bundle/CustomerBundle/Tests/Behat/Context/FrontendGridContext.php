@@ -246,6 +246,50 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     }
 
     /**
+     * @codingStandardsIgnoreStart
+     *
+     * @Then /^(?:|I )should see available "(?P<filter>(?:[^"]|\\")*)" filter in frontend grid$/
+     * @Then /^(?:|I )should see available "(?P<filter>(?:[^"]|\\")*)" filter in "(?P<datagridName>[\w\s]+)" frontend grid$/
+     *
+     * @codingStandardsIgnoreEnd
+     *
+     * @param string $filter
+     * @param null|string $dataGridName
+     */
+    public function assertHasFilterInManagerInFrontendGrid(string $filter, string $dataGridName = null)
+    {
+        /** @var FrontendGridFilterManager $filterManager */
+        $filterManager = $this->getFilterManager($dataGridName);
+        self::assertTrue(
+            $filterManager->hasFilter($filter),
+            sprintf('Filter %s is not present in %s grid filter manager', $filter, $dataGridName)
+        );
+        $filterManager->close();
+    }
+
+    /**
+     * @codingStandardsIgnoreStart
+     *
+     * @Then /^(?:|I )should see no available "(?P<filter>(?:[^"]|\\")*)" filter in frontend grid$/
+     * @Then /^(?:|I )should see no available "(?P<filter>(?:[^"]|\\")*)" filter in "(?P<datagridName>[\w\s]+)" frontend grid$/
+     *
+     * @codingStandardsIgnoreEnd
+     *
+     * @param string $filter
+     * @param null|string $dataGridName
+     */
+    public function assertHasNoFilterInManagerInFrontendGrid(string $filter, string $dataGridName = null)
+    {
+        /** @var FrontendGridFilterManager $filterManager */
+        $filterManager = $this->getFilterManager($dataGridName);
+        self::assertFalse(
+            $filterManager->hasFilter($filter),
+            sprintf('Filter %s is present in %s grid filter manager', $filter, $dataGridName)
+        );
+        $filterManager->close();
+    }
+
+    /**
      * @Given /^(?:|I) show filter "(?P<filter>(?:[^"]|\\")*)" in frontend grid$/
      * @Given /^(?:|I) show filter "(?P<filter>(?:[^"]|\\")*)" in "(?P<datagridName>[\w\s]+)" frontend grid$/
      *
