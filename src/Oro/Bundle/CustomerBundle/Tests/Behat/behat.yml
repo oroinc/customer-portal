@@ -184,9 +184,6 @@ oro_behat_extension:
     FrontendGridViewsItemLabel:
       selector: 'label.custom-radio'
 
-    FrontendGridViewsClose:
-      selector: '.grid-views__dropdown .grid-views__close'
-
     FrontendGridViewsDropdown:
       selector: '.grid-views__dropdown.dropdown-menu'
 

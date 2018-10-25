@@ -102,14 +102,14 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      */
     public function switchToGridView(string $gridViewName, ?string $gridName = null): void
     {
-        $grid = $this->getFrontendGrid($gridName);
-        $grid->openGridViewDropdown();
+        $this->getFrontendGrid($gridName)->openGridViewDropdown();
 
         $gridViewItemElement = $this->getGridViewItem($gridViewName, $gridName);
 
         $gridViewItemElement->getElement('FrontendGridViewsItemLabel')->click();
 
-        $grid->closeGridViewDropdown();
+        // Gets grid element again to avoid stale element error after gridview is applied.
+        $this->getFrontendGrid($gridName)->closeGridViewDropdown();
     }
 
     /**
