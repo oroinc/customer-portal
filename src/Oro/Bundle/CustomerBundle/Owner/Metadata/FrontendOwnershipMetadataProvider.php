@@ -87,33 +87,6 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
 
     /**
      * {@inheritdoc}
-     * @deprecated since 2.3, use getUserClass instead
-     */
-    public function getBasicLevelClass()
-    {
-        return $this->getUserClass();
-    }
-
-    /**
-     * {@inheritdoc}
-     * @deprecated since 2.3, use getBusinessUnitClass instead
-     */
-    public function getLocalLevelClass($deep = false)
-    {
-        return $this->getBusinessUnitClass();
-    }
-
-    /**
-     * {@inheritdoc}
-     * @deprecated since 2.3, use getOrganizationClass instead
-     */
-    public function getGlobalLevelClass()
-    {
-        return $this->getOrganizationClass();
-    }
-
-    /**
-     * {@inheritdoc}
      */
     public function supports()
     {
