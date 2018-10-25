@@ -1,3 +1,4 @@
+@ticket-BAP-17733
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 @fixture-OroLocaleBundle:ZuluLocalization.yml
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
@@ -14,7 +15,7 @@ Feature: Checking the address types at different locales
   Scenario: Feature Background
     Given I proceed as the Admin
     And I login as administrator
-    And I go to System / Configuration
+    When I go to System / Configuration
     And I follow "System Configuration/General Setup/Language Settings" on configuration sidebar
     And I fill form with:
       | Supported Languages | [English, Zulu] |
@@ -24,7 +25,7 @@ Feature: Checking the address types at different locales
     Then I should see "Configuration saved" flash message
 
     When I follow "System Configuration/General Setup/Localization" on configuration sidebar
-    When fill form with:
+    And fill form with:
       | Enabled Localizations | [English, Zulu] |
       | Default Localization  | English         |
     And I submit form
@@ -48,10 +49,10 @@ Feature: Checking the address types at different locales
   Scenario: Check address type on Zulu localization
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And I click "Account"
+    When I click "Account"
     And I click "Address Book"
     And I click "Localization Switcher"
-    When I click "Zulu"
+    And I click "Zulu"
     Then should see following "Customers Address Book Grid" grid:
       | Customer Address     | Zip/Postal Code | Country       | Type                                            |
       | 801 Scenic Hwy       | 33844           | United States | Default Shipping - Zulu, Default Billing - Zulu |
@@ -66,8 +67,8 @@ Feature: Checking the address types at different locales
 
   Scenario: Check address type on English localization
     Given I click "Address Book"
-    And I click "Localization Switcher"
-    When I click "English"
+    When I click "Localization Switcher"
+    And I click "English"
     Then should see following "Customers Address Book Grid" grid:
       | Customer Address     | Zip/Postal Code | Country       | Type                              |
       | 801 Scenic Hwy       | 33844           | United States | Default Shipping, Default Billing |
