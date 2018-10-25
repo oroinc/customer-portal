@@ -9,6 +9,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Covers testing validation constraint for Customer Address
@@ -67,7 +68,7 @@ class CustomerTypeTest extends WebTestCase
         $this->client->followRedirects(true);
         $crawler = $this->client->request($form->getMethod(), $form->getUri(), $submittedData);
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        $this->assertHtmlResponseStatusCodeEquals($result, Response::HTTP_OK);
 
         return $crawler;
     }
@@ -86,7 +87,7 @@ class CustomerTypeTest extends WebTestCase
             )
         );
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        $this->assertHtmlResponseStatusCodeEquals($result, Response::HTTP_OK);
 
         return $crawler->selectButton('Save')->form();
     }
