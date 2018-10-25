@@ -9,7 +9,6 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Covers testing validation constraint for Customer Address
@@ -19,9 +18,7 @@ class CustomerTypeTest extends WebTestCase
     protected function setUp()
     {
         $this->initClient([], static::generateBasicAuthHeader());
-        $this->loadFixtures([
-            LoadCustomerAddresses::class
-        ]);
+        $this->loadFixtures([LoadCustomerAddresses::class]);
     }
 
     /**
@@ -61,6 +58,26 @@ class CustomerTypeTest extends WebTestCase
      */
     private function submitCustomerForm(array $data): Crawler
     {
+        $form = $this->getUpdateForm();
+
+        $submittedData = $form->getPhpValues();
+        $submittedData['input_action'] = 'save_and_stay';
+        $submittedData['oro_customer_type']['addresses'][0]['primary'] = $data['primary'];
+
+        $this->client->followRedirects(true);
+        $crawler = $this->client->request($form->getMethod(), $form->getUri(), $submittedData);
+        $result = $this->client->getResponse();
+        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+
+        return $crawler;
+    }
+
+    /**
+     * @param null|integer $id
+     * @return Form
+     */
+    private function getUpdateForm()
+    {
         $crawler = $this->client->request(
             Request::METHOD_GET,
             $this->getUrl(
@@ -68,23 +85,10 @@ class CustomerTypeTest extends WebTestCase
                 ['id' => $this->getCustomerId()]
             )
         );
-
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, Response::HTTP_OK);
+        $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        /** @var Form $form */
-        $form = $crawler->selectButton('Save')->form();
-        foreach ($data as $field => $value) {
-            $form[sprintf('oro_customer_type[addresses][0][%s]', $field)] = $value;
-        }
-
-        $this->client->followRedirects(true);
-        $crawler = $this->client->submit($form);
-
-        $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, Response::HTTP_OK);
-
-        return $crawler;
+        return $crawler->selectButton('Save')->form();
     }
 
     /**
