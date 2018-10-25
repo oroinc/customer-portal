@@ -74,9 +74,9 @@ class Grid extends BaseGrid
             return;
         }
 
-        $gridViewCloseElement = $this->getElement('FrontendGridViewsClose');
-        self::assertTrue($gridViewCloseElement->isValid(), 'Grid view close button not found');
+        $gridViewListElement = $this->getElement($this->getMappedChildElementName('GridViewList'));
+        self::assertTrue($gridViewListElement->isValid(), 'Grid view list not found on the page');
 
-        $gridViewCloseElement->click();
+        $gridViewListElement->click();
     }
 }

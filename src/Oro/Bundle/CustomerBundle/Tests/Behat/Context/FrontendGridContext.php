@@ -102,12 +102,14 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      */
     public function switchToGridView(string $gridViewName, ?string $gridName = null): void
     {
-        $grid = $this->getFrontendGrid($gridName);
-        $grid->openGridViewDropdown();
+        $this->getFrontendGrid($gridName)->openGridViewDropdown();
 
         $gridViewItemElement = $this->getGridViewItem($gridViewName, $gridName);
 
         $gridViewItemElement->getElement('FrontendGridViewsItemLabel')->click();
+
+        // Gets grid element again to avoid stale element error after gridview is applied.
+        $this->getFrontendGrid($gridName)->closeGridViewDropdown();
     }
 
     /**
@@ -153,6 +155,22 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     }
 
     /**
+     * @When /^(?:|I )hide column "(?P<columnName>(?:[^"]|\\")*)" in frontend grid$/
+     * @When /^(?:|I )hide column "(?P<columnName>(?:[^"]|\\")*)" in "(?P<datagridName>(?:[^"]|\\")*)" frontend grid$/
+     *
+     * @param string $columnName
+     * @param string|null $datagridName
+     */
+    public function uncheckColumnOptionFrontendDatagrid($columnName, $datagridName = null)
+    {
+        /** @var FrontendGridColumnManager $columnManager */
+        $columnManager = $this->getFrontendGridColumnManager($datagridName);
+        $columnManager->open();
+        $columnManager->uncheckColumnVisibility($columnName);
+        $columnManager->close();
+    }
+
+    /**
      * Hide all columns in frontend grid except mentioned
      *
      * @When /^(?:|I) hide all columns in frontend grid except (?P<exceptions>(?:[^"]|\\")*)$/
@@ -170,22 +188,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
         $columnManager = $this->getFrontendGridColumnManager($gridName);
         $columnManager->open();
         $columnManager->hideAllColumns($exceptColumns);
-        $columnManager->close();
-    }
-
-    /**
-     * @When /^(?:|I )hide column "(?P<columnName>(?:[^"]|\\")*)" in frontend grid$/
-     * @When /^(?:|I )hide column "(?P<columnName>(?:[^"]|\\")*)" in "(?P<datagridName>(?:[^"]|\\")*)" frontend grid$/
-     *
-     * @param string $columnName
-     * @param string|null $datagridName
-     */
-    public function uncheckColumnOptionFrontendDatagrid($columnName, $datagridName = null)
-    {
-        /** @var FrontendGridColumnManager $columnManager */
-        $columnManager = $this->getFrontendGridColumnManager($datagridName);
-        $columnManager->open();
-        $columnManager->uncheckColumnVisibility($columnName);
         $columnManager->close();
     }
 

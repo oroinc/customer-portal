@@ -186,9 +186,6 @@ oro_behat_extension:
     FrontendGridViewsItemLabel:
       selector: 'label.custom-radio'
 
-    FrontendGridViewsClose:
-      selector: '.grid-views__dropdown .grid-views__close'
-
     Frontend Grid Filter Dropdown:
       selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
 
