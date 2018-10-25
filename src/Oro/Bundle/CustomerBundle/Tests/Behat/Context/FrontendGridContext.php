@@ -88,6 +88,8 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
 
         $gridViewItemElement->getElement('FrontendGridViewSetAsDefaultButton')->click();
 
+        $this->waitForAjax();
+
         $grid->closeGridViewDropdown();
     }
 
@@ -107,6 +109,8 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
         $gridViewItemElement = $this->getGridViewItem($gridViewName, $gridName);
 
         $gridViewItemElement->getElement('FrontendGridViewsItemLabel')->click();
+
+        $this->waitForAjax();
 
         // Gets grid element again to avoid stale element error after gridview is applied.
         $this->getFrontendGrid($gridName)->closeGridViewDropdown();
