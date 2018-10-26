@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
@@ -17,12 +18,17 @@ class CustomerUserProfileController extends Controller
     /**
      * @Route("/", name="oro_customer_frontend_customer_user_profile")
      * @Layout
-     * @AclAncestor("oro_customer_frontend_customer_user_view")
      *
      * @return array
      */
     public function profileAction()
     {
+        if (!$this->isGranted("oro_customer_frontend_update_own_profile")
+            && !$this->isGranted("oro_customer_frontend_customer_user_view")
+        ) {
+            throw new AccessDeniedException();
+        }
+
         return [
             'data' => [
                 'entity' => $this->getUser()
