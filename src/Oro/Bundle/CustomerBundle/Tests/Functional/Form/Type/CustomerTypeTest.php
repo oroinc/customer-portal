@@ -23,12 +23,13 @@ class CustomerTypeTest extends WebTestCase
     }
 
     /**
-     * @param array $data
+     * @param bool $primary
+     *
      * @dataProvider formAddressTypeDataProvider
      */
-    public function testCreatePrimaryAddress(array $data): void
+    public function testCreatePrimaryAddress(bool $primary): void
     {
-        $crawler = $this->submitCustomerForm($data);
+        $crawler = $this->submitCustomerForm($primary);
 
         $this->assertNotContains('One of the addresses must be set as primary.', $crawler->html());
         $this->assertContains('Customer has been saved', $crawler->html());
@@ -41,29 +42,26 @@ class CustomerTypeTest extends WebTestCase
     {
         return [
             'set address as not primary' => [
-                'data' => [
-                    'primary' => false
-                ]
+                'primary' => false
             ],
             'set address as primary' => [
-                'data' => [
-                    'primary' => true
-                ]
+                'primary' => true
             ]
         ];
     }
 
     /**
-     * @param array $data
+     * @param bool $primary
+     *
      * @return Crawler
      */
-    private function submitCustomerForm(array $data): Crawler
+    private function submitCustomerForm(bool $primary): Crawler
     {
         $form = $this->getUpdateForm();
 
         $submittedData = $form->getPhpValues();
         $submittedData['input_action'] = 'save_and_stay';
-        $submittedData['oro_customer_type']['addresses'][0]['primary'] = $data['primary'];
+        $submittedData['oro_customer_type']['addresses'][0]['primary'] = $primary;
 
         $this->client->followRedirects(true);
         $crawler = $this->client->request($form->getMethod(), $form->getUri(), $submittedData);
@@ -74,7 +72,6 @@ class CustomerTypeTest extends WebTestCase
     }
 
     /**
-     * @param null|integer $id
      * @return Form
      */
     private function getUpdateForm()
