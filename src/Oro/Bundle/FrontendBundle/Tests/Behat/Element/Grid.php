@@ -56,6 +56,11 @@ class Grid extends BaseGrid
 
     public function openGridViewDropdown(): void
     {
+        $gridViewsDropdown = $this->getElement('FrontendGridViewsDropdown');
+        if ($gridViewsDropdown->isVisible()) {
+            return;
+        }
+
         $gridViewListElement = $this->getElement($this->getMappedChildElementName('GridViewList'));
         self::assertTrue($gridViewListElement->isValid(), 'Grid view list not found on the page');
 
@@ -64,9 +69,14 @@ class Grid extends BaseGrid
 
     public function closeGridViewDropdown(): void
     {
-        $gridViewCloseElement = $this->getElement('FrontendGridViewsClose');
-        self::assertTrue($gridViewCloseElement->isValid(), 'Grid view close button not found');
+        $gridViewsDropdown = $this->getElement('FrontendGridViewsDropdown');
+        if (!$gridViewsDropdown->isVisible()) {
+            return;
+        }
 
-        $gridViewCloseElement->click();
+        $gridViewListElement = $this->getElement($this->getMappedChildElementName('GridViewList'));
+        self::assertTrue($gridViewListElement->isValid(), 'Grid view list not found on the page');
+
+        $gridViewListElement->click();
     }
 }
