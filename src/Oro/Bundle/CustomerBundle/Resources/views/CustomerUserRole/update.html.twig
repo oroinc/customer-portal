@@ -74,7 +74,8 @@
     } %}
 
     {% set customerSelector %}
-        <div data-page-component-module="orocustomer/js/app/components/customer-user-role-component"
+        <div class="control-group"
+             data-page-component-module="orocustomer/js/app/components/customer-user-role-component"
              data-page-component-options="{{ customerSelectorComponentOptions|json_encode }}">
             {{ form_row(form.customer) }}
         </div>
