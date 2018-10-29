@@ -1,4 +1,5 @@
 @ticket-BB-15141
+@fixture-OroCustomerBundle:AccountFixture.yml
 Feature: Update customer without account
   In order to have ability edit customer
   As administrator
@@ -19,6 +20,6 @@ Feature: Update customer without account
     When I go to Customers/Customers
     Then I should see John Smith in grid
     When I click edit John Smith in grid
-    And I fill in "Name" with "Andrea Smith"
+    And I fill in "Account" with "Andrea Joe"
     And I save and close form
     Then I should see "Customer has been saved" flash message
