@@ -172,14 +172,29 @@ oro_behat_extension:
     FrontendGridViewSetAsDefaultCheckbox:
       selector: '.grid-views input[name="is_default"]+.custom-checkbox__icon'
 
-    Frontend Grid Filter Dropdown:
-      selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
+    FrontendGridViewSetAsDefaultButton:
+      selector: 'button[data-role="use_as_default"]'
+
+    FrontendGridViewDeleteButton:
+      selector: 'button[data-role="delete"]'
+
+    FrontendGridViewsItem:
+      selector: 'li.grid-views__item'
+
+    FrontendGridViewsItemLabel:
+      selector: 'label.custom-radio'
+
+    FrontendGridViewsDropdown:
+      selector: '.grid-views__dropdown.dropdown-menu'
 
     FrontendGridFilterManager:
       selector:
         locator: '//div[contains(concat(" ", normalize-space(@class), " "), " filter-container ")]/div[contains(concat(" ", normalize-space(@class), " "), " datagrid-manager ")][last()]/div[contains(concat(" ", normalize-space(@class), " "), " dropdown-menu ")]'
         type: xpath
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
+
+    Frontend Grid Filter Dropdown:
+      selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
 
     Customer User Form Admin:
       selector: '[id^="oro_customer_customer_user-uid"]'

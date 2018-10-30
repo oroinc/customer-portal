@@ -117,9 +117,6 @@ class ClassMigration
     {
         try {
             $preparedFrom = $this->prepareFrom($defaultConnection, $from);
-            $aclCheck = $defaultConnection->fetchColumn(
-                "SELECT id FROM oro_navigation_title WHERE title LIKE '%$preparedFrom%' LIMIT 1"
-            );
             $configCheck = $defaultConnection->fetchColumn(
                 "SELECT id FROM oro_entity_config WHERE class_name LIKE '%$preparedFrom%' LIMIT 1"
             );
@@ -127,7 +124,7 @@ class ClassMigration
             return false;
         }
 
-        return $aclCheck || $configCheck;
+        return $configCheck;
     }
 
     /**
