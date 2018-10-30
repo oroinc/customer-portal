@@ -2,15 +2,15 @@
 
 namespace Oro\Bundle\CustomerBundle\ImportExport\EventListener;
 
-use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityBundle\Helper\FieldHelper;
 use Oro\Bundle\ImportExportBundle\Event\LoadEntityRulesAndBackendHeadersEvent;
 
 /**
- * Listener adds appropriate rules and headers for owner and parent relations for Customer after normalization.
- * @see \Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerNormalizer
+ * Listener adds appropriate rules and headers for owner and customer relations for CustomerUser after normalization.
+ * @see \Oro\Bundle\CustomerBundle\ImportExport\Serializer\Normalizer\CustomerUserNormalizer
  */
-class CustomerHeadersListener
+class CustomerUserHeadersListener
 {
     /**
      * @var FieldHelper
@@ -30,25 +30,25 @@ class CustomerHeadersListener
      */
     public function afterLoadEntityRulesAndBackendHeaders(LoadEntityRulesAndBackendHeadersEvent $event): void
     {
-        if ($event->getEntityName() !== Customer::class) {
+        if ($event->getEntityName() !== CustomerUser::class) {
             return;
         }
 
-        if (!$this->fieldHelper->getConfigValue(Customer::class, 'owner', 'excluded')) {
+        if (!$this->fieldHelper->getConfigValue(CustomerUser::class, 'owner', 'excluded')) {
             $this->addHeader(
                 $event,
                 sprintf('owner%sid', $event->getConvertDelimiter()),
                 'Owner Id',
-                50
+                80
             );
         }
 
-        if (!$this->fieldHelper->getConfigValue(Customer::class, 'parent', 'excluded')) {
+        if (!$this->fieldHelper->getConfigValue(CustomerUser::class, 'customer', 'excluded')) {
             $this->addHeader(
                 $event,
-                sprintf('parent%sid', $event->getConvertDelimiter()),
-                'Parent Id',
-                30
+                sprintf('customer%sname', $event->getConvertDelimiter()),
+                'Customer Name',
+                40
             );
         }
     }
