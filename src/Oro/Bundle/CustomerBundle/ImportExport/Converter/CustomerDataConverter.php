@@ -5,6 +5,10 @@ namespace Oro\Bundle\CustomerBundle\ImportExport\Converter;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\UserBundle\Entity\User;
 
+/**
+ * This class is deprecated since 2.6 and will be removed.
+ * @see \Oro\Bundle\CustomerBundle\ImportExport\EventListener\CustomerListener instead
+ */
 class CustomerDataConverter extends CommonCustomerDataConverter
 {
     /**
