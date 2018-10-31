@@ -19,3 +19,5 @@ ANONYMOUS:
     label: Non-Authenticated Visitors
     public: false
     website_guest_role: true
+    permissions:
+        entity|Oro\Bundle\ProductBundle\Entity\Product: [VIEW_SYSTEM]
