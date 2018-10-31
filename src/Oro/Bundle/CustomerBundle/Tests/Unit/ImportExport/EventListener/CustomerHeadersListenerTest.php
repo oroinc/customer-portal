@@ -7,12 +7,12 @@ use Oro\Bundle\CustomerBundle\ImportExport\EventListener\CustomerHeadersListener
 use Oro\Bundle\EntityBundle\Helper\FieldHelper;
 use Oro\Bundle\ImportExportBundle\Event\LoadEntityRulesAndBackendHeadersEvent;
 
-class CustomerHeadersListenerTest extends \PHPUnit_Framework_TestCase
+class CustomerHeadersListenerTest extends \PHPUnit\Framework\TestCase
 {
     const DELIMITER = ':';
 
     /**
-     * @var FieldHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var FieldHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     private $fieldHelper;
 
