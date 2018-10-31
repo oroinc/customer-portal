@@ -89,7 +89,15 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
      */
     public function getCustomerFieldName()
     {
-        return $this->customerFieldName;
+        if ($this->customerFieldName) {
+            return $this->customerFieldName;
+        }
+
+        if ($this->getOwnerType() === self::OWNER_TYPE_FRONTEND_CUSTOMER) {
+            return $this->getOwnerFieldName();
+        }
+
+        return null;
     }
 
     /**
@@ -97,7 +105,15 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
      */
     public function getCustomerColumnName()
     {
-        return $this->customerColumnName;
+        if ($this->customerColumnName) {
+            return $this->customerColumnName;
+        }
+
+        if ($this->getOwnerType() === self::OWNER_TYPE_FRONTEND_CUSTOMER) {
+            return $this->getOwnerColumnName();
+        }
+
+        return null;
     }
 
     /**

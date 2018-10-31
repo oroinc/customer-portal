@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Metadata;
 
-use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 
 class FrontendOwnershipMetadataTest extends \PHPUnit_Framework_TestCase
 {
@@ -202,5 +202,69 @@ class FrontendOwnershipMetadataTest extends \PHPUnit_Framework_TestCase
     {
         $metadata = new FrontendOwnershipMetadata('ORGANIZATION', 'owner', 'owner_id');
         $metadata->getAccessLevelNames();
+    }
+
+    /**
+     * @dataProvider customerColumnDataProvider
+     *
+     * @param string $ownerType
+     * @param string $ownerField
+     * @param string $ownerColumn
+     * @param string $customerField
+     * @param string $customerColumn
+     * @param string $expectedCustomerField
+     * @param string $expectedCustomerColumn
+     */
+    public function testCustomerFields(
+        $ownerType,
+        $ownerField,
+        $ownerColumn,
+        $customerField,
+        $customerColumn,
+        $expectedCustomerField,
+        $expectedCustomerColumn
+    ) {
+        $metadata = new FrontendOwnershipMetadata($ownerType, $ownerField, $ownerColumn);
+        $metadata->setCustomerFieldName($customerField);
+        $metadata->setCustomerColumnName($customerColumn);
+
+        $this->assertEquals($expectedCustomerField, $metadata->getCustomerFieldName());
+        $this->assertEquals($expectedCustomerColumn, $metadata->getCustomerColumnName());
+    }
+
+    /**
+     * @return array
+     */
+    public function customerColumnDataProvider()
+    {
+        return [
+            [
+                'FRONTEND_USER',
+                'customerUser',
+                'customer_user_id',
+                'customer',
+                'customer_id',
+                'customer',
+                'customer_id'
+            ],
+            [
+                'FRONTEND_USER',
+                'customerUser',
+                'customer_user_id',
+                null,
+                null,
+                null,
+                null
+            ],
+            [
+                'FRONTEND_CUSTOMER',
+                'customer',
+                'customer_id',
+                null,
+                null,
+                'customer',
+                'customer_id'
+            ],
+        ];
     }
 }
