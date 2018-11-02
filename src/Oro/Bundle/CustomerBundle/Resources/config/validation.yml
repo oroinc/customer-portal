@@ -5,12 +5,7 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
             - Length:
                 max: 255
         addresses:
-            - Valid:
-                groups: [Default]
-            - Valid:
-                groups: [RequireName]
-            - Valid:
-                groups: [RequireRegion]
+            - Valid: ~
             # temporary disabled, because now this check does not make sense until BB-15134 is done
             #- Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
             #    message: One of the addresses must be set as primary.
@@ -21,6 +16,11 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
             - Valid: ~
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    constraints:
+        - Oro\Bundle\AddressBundle\Validator\Constraints\ValidRegion: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\RegionText: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\RequiredRegion: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization: ~
     properties:
         country:
             - NotBlank: ~
@@ -33,8 +33,10 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         phone:
             - Length:
                 max: 255
-    constraints:
-        - Callback: isRegionValid
+        frontendOwner:
+            - Oro\Bundle\FormBundle\Validator\Constraints\UnchangeableField:
+                message: oro.address.validation.owner_changed
+                groups: ['api']
 
 Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
     properties:
@@ -72,22 +74,22 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
                 max: 255
         birthday:
             - Date: ~
-        customer:
-            - NotBlank: ~
-            - Valid: ~
         addresses:
-            - Valid:
-                groups: [Default]
-            - Valid:
-                groups: [RequireName]
-            - Valid:
-                groups: [RequireRegion]
+            - Valid: ~
             # temporary disabled, because now this check does not make sense until BB-15134 is done
             #- Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
             #    message: One of the addresses must be set as primary.
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
+        customer:
+            - NotBlank: ~
+            - Valid: ~
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
+    constraints:
+        - Oro\Bundle\AddressBundle\Validator\Constraints\ValidRegion: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\RegionText: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\RequiredRegion: ~
+        - Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization: ~
     properties:
         country:
             - NotBlank: ~
@@ -100,8 +102,10 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         phone:
             - Length:
                 max: 255
-    constraints:
-        - Callback: isRegionValid
+        frontendOwner:
+            - Oro\Bundle\FormBundle\Validator\Constraints\UnchangeableField:
+                message: oro.address.validation.owner_changed
+                groups: ['api']
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
     constraints:

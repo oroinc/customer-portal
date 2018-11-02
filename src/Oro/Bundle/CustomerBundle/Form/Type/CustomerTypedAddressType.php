@@ -93,8 +93,7 @@ class CustomerTypedAddressType extends AbstractType
                 'data_class' => $this->dataClass,
                 'single_form' => true,
                 'all_addresses_property_path' => 'frontendOwner.addresses',
-                'ownership_disabled' => true,
-                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequireRegion'],
+                'ownership_disabled' => true
             ]
         );
     }

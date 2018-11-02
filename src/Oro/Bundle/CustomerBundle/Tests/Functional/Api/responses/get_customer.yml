@@ -2,7 +2,9 @@ data:
     type: customers
     id: '<toString(@customer.1->id)>'
     attributes:
-        name: customer.1
+        name: 'customer.1'
+        createdAt: '@customer.1->createdAt->format("Y-m-d\TH:i:s\Z")'
+        updatedAt: '@customer.1->updatedAt->format("Y-m-d\TH:i:s\Z")'
     relationships:
         parent:
             data:
@@ -24,12 +26,12 @@ data:
             data:
                 -
                     type: users
-                    id: '<toString(@default_customer->id)>'
+                    id: '<toString(@default_customer->owner->id)>'
         internal_rating:
             data:
-                type: customer_rating
+                type: customerratings
                 id: internal_rating.1_of_5
         group:
             data:
-                type: customer_groups
+                type: customergroups
                 id: '<toString(@customer_group.group1->id)>'

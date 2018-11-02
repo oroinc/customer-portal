@@ -3,49 +3,36 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api;
 
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
-use Oro\Bundle\ConfigBundle\Config\GlobalScopeManager;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadTestCustomerUser;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @dbIsolationPerTest
  */
 class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
 {
-    /** @var GlobalScopeManager */
-    private $configManager;
-
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
         parent::setUp();
-
         $this->loadFixtures([LoadTestCustomerUser::class]);
-
-        $this->configManager = $this
-            ->getClientInstance()
-            ->getContainer()
-            ->get('oro_config.global');
     }
 
     public function testCreateAndUpdateCaseSensitive()
     {
         if ($this->getRepository()->isCaseInsensitiveCollation()) {
-            $this->markTestSkipped('Case insensitive email option can\'t be disabled.');
+            self::markTestSkipped('Case insensitive email option can\'t be disabled.');
         }
 
-        $this->configManager->set('oro_customer.case_insensitive_email_addresses_enabled', false);
-        $this->configManager->flush();
+        $this->getConfigManager()->set('oro_customer.case_insensitive_email_addresses_enabled', false);
+        $this->getConfigManager()->flush();
 
-        $entityType = $this->getEntityType(CustomerUser::class);
-
-        $response = $this->post(['entity' => $entityType], $this->getData());
-        $user = $this->assertRequestSuccess($response, $this->getData(), Response::HTTP_CREATED);
+        $this->post(['entity' => 'customerusers'], $this->getData());
+        $user = $this->assertRequestSuccess($this->getData());
 
         $data = $this->getData();
         $data['data']['id'] = (string)$user->getId();
@@ -54,29 +41,33 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         $data['data']['attributes']['firstName'] = 'John';
         unset($data['data']['attributes']['password']);
 
-        $response = $this->patch(['entity' => $entityType, 'id' => $user->getId()], $data);
-        $this->assertRequestSuccess($response, $data, Response::HTTP_OK);
+        $this->patch(['entity' => 'customerusers', 'id' => $user->getId()], $data);
+        $this->assertRequestSuccess($data);
     }
 
     public function testCreateAndUpdateCaseInsensitive()
     {
-        $this->configManager->set('oro_customer.case_insensitive_email_addresses_enabled', true);
-        $this->configManager->flush();
+        $this->getConfigManager()->set('oro_customer.case_insensitive_email_addresses_enabled', true);
+        $this->getConfigManager()->flush();
 
-        $entityType = $this->getEntityType(CustomerUser::class);
+        $response = $this->post(['entity' => 'customerusers'], $this->getData(), [], false);
 
-        $response = $this->post(['entity' => $entityType], $this->getData(), [], false);
-
-        static::assertResponseStatusCodeEquals($response, Response::HTTP_BAD_REQUEST);
-        static::assertContains('unique customer user name and email constraint', $response->getContent());
-        static::assertTrue(null === $this->getUser('Bob', 'Fedeson'));
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'unique customer user name and email constraint',
+                'detail' => 'This email is already used.',
+                'source' => ['pointer' => '/data/attributes/email']
+            ],
+            $response
+        );
+        self::assertTrue(null === $this->getUser('Bob', 'Fedeson'));
 
         $data = $this->getData();
         $data['data']['attributes']['username'] = 'Email@Test.Com';
         $data['data']['attributes']['email'] = 'Email@Test.Com';
 
-        $response = $this->post(['entity' => $entityType], $data);
-        $user = $this->assertRequestSuccess($response, $data, Response::HTTP_CREATED);
+        $this->post(['entity' => 'customerusers'], $data);
+        $user = $this->assertRequestSuccess($data);
 
         $data['data']['id'] = (string)$user->getId();
         $data['data']['attributes']['username'] = 'NewEmail@Test.Com';
@@ -84,26 +75,23 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         $data['data']['attributes']['firstName'] = 'John';
         unset($data['data']['attributes']['password']);
 
-        $response = $this->patch(['entity' => $entityType, 'id' => $user->getId()], $data);
-        $this->assertRequestSuccess($response, $data, Response::HTTP_OK);
+        $this->patch(['entity' => 'customerusers', 'id' => $user->getId()], $data);
+        $this->assertRequestSuccess($data);
     }
 
     /**
-     * @param Response $response
      * @param array $data
-     * @param int $expectedCode
+     *
      * @return CustomerUser
      */
-    private function assertRequestSuccess(Response $response, array $data, int $expectedCode): CustomerUser
+    private function assertRequestSuccess(array $data): CustomerUser
     {
-        static::assertResponseStatusCodeEquals($response, $expectedCode);
-
         $data = $data['data']['attributes'];
         $user = $this->getUser($data['firstName'], $data['lastName']);
 
-        static::assertNotNull($user);
-        static::assertEquals($data['username'], $user->getUsername());
-        static::assertEquals($data['email'], $user->getEmail());
+        self::assertNotNull($user);
+        self::assertEquals($data['username'], $user->getUsername());
+        self::assertEquals($data['email'], $user->getEmail());
 
         return $user;
     }
@@ -111,7 +99,8 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
     /**
      * @param string $firstName
      * @param string $lastName
-     * @return null|CustomerUser
+     *
+     * @return CustomerUser|null
      */
     private function getUser(string $firstName, string $lastName): ?CustomerUser
     {
@@ -129,42 +118,45 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
     }
 
     /**
+     * @return ConfigManager
+     */
+    private function getConfigManager(): ConfigManager
+    {
+        return self::getContainer()->get('oro_config.global');
+    }
+
+    /**
      * @return array
      */
     private function getData(): array
     {
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getReference('testCustomerUser');
-        $customer = $customerUser->getCustomer();
-        $role = $this->getContainer()->get('doctrine')->getRepository(CustomerUserRole::class)->find(1);
-
         return [
             'data' => [
-                'type' => $this->getEntityType(CustomerUser::class),
-                'attributes' => [
-                    'username' => 'Test@Test.Com',
-                    'email' => 'Test@Test.Com',
-                    'password' => 'Password!123',
+                'type'          => 'customerusers',
+                'attributes'    => [
+                    'username'  => 'Test@Test.Com',
+                    'email'     => 'Test@Test.Com',
+                    'password'  => 'Password!123',
                     'firstName' => 'Bob',
-                    'lastName' => 'Fedeson',
+                    'lastName'  => 'Fedeson'
                 ],
                 'relationships' => [
                     'customer' => [
                         'data' => [
                             'type' => 'customers',
-                            'id' => (string)$customer->getId(),
-                        ],
+                            'id'   => '<toString(@testCustomerUser->customer->id)>'
+                        ]
                     ],
-                    'roles' => [
+                    'roles'    => [
                         'data' => [
                             [
-                                'type' => 'customer_user_roles',
-                                'id' => (string)$role->getId(),
-                            ],
-                        ],
-                    ],
-                ],
-            ],
+                                'type' => 'customeruserroles',
+                                'id'   => '<toString(@testCustomerUser->roles[0]->id)>'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
         ];
     }
 }
