@@ -300,14 +300,6 @@ Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/u
 
 **The required field**
 
-#### update
-
-{@inheritdoc}
-
-**Please note:**
-
-*This field is **required** and must remain defined.*
-
 ### types
 
 An array of address types.
@@ -332,23 +324,6 @@ Retrieve a record that contains information about the country that is mentioned 
 
 Retrieve the ID of the country that is mentioned in the customer user address.
 
-#### update_relationship
-
-Replace the country in the specific customer user address.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": {
-    "type": "countries",
-    "id": "RO"
-  }
-}
-```
-{@/request}
-
 ### customerUser
 
 #### get_subresource
@@ -358,23 +333,6 @@ Retrieve a record of a contact person.
 #### get_relationship
 
 Retrieve the ID of a contact person.
-
-#### update_relationship
-
-Replace a contact person.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": {
-    "type": "customerusers",
-    "id": "11"
-  }
-}
-```
-{@/request}
 
 ### owner
 
@@ -412,23 +370,6 @@ Retrieve a record that contains information about the region mentioned in a spec
 #### get_relationship
 
 Retrieve the ID of the region mentioned in a specific customer user address.
-
-#### update_relationship
-
-Replace the region mentioned in a specific customer user address.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": {
-    "type": "regions",
-    "id": "RO-MS"
-  }
-}
-```
-{@/request}
 
 ### systemOrganization
 
