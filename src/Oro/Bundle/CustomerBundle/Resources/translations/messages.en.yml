@@ -43,9 +43,6 @@ oro:
         data_channel:
             label:              Data Channel
             description:        A service field.
-        previous_account:
-            label: 'Assigned Sales Representatives'
-            description: 'Assigned Sales Representatives'
         action:
             update_profile:
                 label: Update User Profile

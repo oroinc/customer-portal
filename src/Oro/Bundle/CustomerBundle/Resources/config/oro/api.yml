@@ -11,8 +11,6 @@ api:
             fields:
                 dataChannel:
                     exclude: true
-                previous_account:
-                    exclude: true
             filters:
                 fields:
                     createdAt:
