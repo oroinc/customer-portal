@@ -1,0 +1,15 @@
+data:
+    -
+        type: customergroups
+        id: '<toString(@customer_group2->id)>'
+        attributes:
+            name: 'Group 2'
+        relationships:
+            owner:
+                data:
+                    type: users
+                    id: '<toString(@user->id)>'
+            organization:
+                data:
+                    type: organizations
+                    id: '<toString(@organization->id)>'

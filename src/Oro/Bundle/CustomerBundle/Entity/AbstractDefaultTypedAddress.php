@@ -11,6 +11,9 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 
+/**
+ * The base class for storefront typed addresses.
+ */
 abstract class AbstractDefaultTypedAddress extends AbstractTypedAddress
 {
     /**
@@ -231,5 +234,72 @@ abstract class AbstractDefaultTypedAddress extends AbstractTypedAddress
         $this->systemOrganization = $systemOrganization;
 
         return $this;
+    }
+
+    /**
+     * Gets a collection contains clones of all AbstractAddressToAddressType objects assigned to this address.
+     * The cloning is performed to avoid possible inconsistency in address types ORM association.
+     * To apply changes are made in the address type collection, pass it to setAddressTypes() method
+     * which has a quite complex logic to do this.
+     *
+     * @return Collection|AbstractAddressToAddressType[]
+     */
+    public function getAddressTypes()
+    {
+        return $this->types->map(
+            function (AbstractAddressToAddressType $type) {
+                return clone $type;
+            }
+        );
+    }
+
+    /**
+     * Replaces all existing AbstractAddressToAddressType objects assigned to this address
+     * with the given AbstractAddressToAddressType objects.
+     *
+     * @param Collection|AbstractAddressToAddressType[] $types
+     */
+    public function setAddressTypes(Collection $types)
+    {
+        $defaults = [];
+        $toRemoveTypes = [];
+        foreach ($this->types as $type) {
+            $toRemoveTypes[\spl_object_hash($type)] = $type;
+        }
+        foreach ($types as $type) {
+            $addressType = $type->getType();
+            if (null !== $addressType) {
+                $existingType = $this->findAddressType($addressType->getName());
+                if (null === $existingType) {
+                    $this->addType($addressType);
+                } else {
+                    unset($toRemoveTypes[\spl_object_hash($existingType)]);
+                }
+                if ($type->isDefault()) {
+                    $defaults[] = $addressType;
+                }
+            }
+        }
+        foreach ($toRemoveTypes as $type) {
+            $this->types->removeElement($type);
+        }
+        $this->setDefaults($defaults);
+    }
+
+    /**
+     * @param string $typeName
+     *
+     * @return AbstractAddressToAddressType|null
+     */
+    private function findAddressType($typeName)
+    {
+        /** @var AbstractAddressToAddressType $type */
+        foreach ($this->types as $type) {
+            if ($type->getType()->getName() === $typeName) {
+                return $type;
+            }
+        }
+
+        return null;
     }
 }

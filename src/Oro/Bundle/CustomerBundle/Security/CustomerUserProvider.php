@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Security;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
@@ -13,8 +14,12 @@ use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\PermissionGrantingStrategy;
 use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Acl\Util\ClassUtils;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+/**
+ * This provider is responsible for providing current customer user and checking its access.
+ */
 class CustomerUserProvider
 {
     /** @var AuthorizationCheckerInterface */
@@ -56,13 +61,26 @@ class CustomerUserProvider
     }
 
     /**
+     * @param bool $allowGuest
      * @return CustomerUser|null
      */
-    public function getLoggedUser()
+    public function getLoggedUser($allowGuest = false)
     {
-        $user = $this->tokenAccessor->getUser();
+        $token = $this->tokenAccessor->getToken();
+        if (!$token instanceof TokenInterface) {
+            return null;
+        }
+
+        $user = $token->getUser();
         if ($user instanceof CustomerUser) {
             return $user;
+        }
+
+        if ($allowGuest && $token instanceof AnonymousCustomerUserToken) {
+            $visitor = $token->getVisitor();
+            if ($visitor) {
+                return $visitor->getCustomerUser();
+            }
         }
 
         return null;

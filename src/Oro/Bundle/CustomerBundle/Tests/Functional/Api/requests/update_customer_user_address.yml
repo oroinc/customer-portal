@@ -1,10 +1,10 @@
 data:
-    type: customer_user_addresses
+    type: customeruseraddresses
     id: '<toString(@other.user@test.com.address_1->id)>'
     attributes:
-        city: 'Test City updated'
-        firstName: 'Testname updated'
-        label: 'Primary address label updated'
+        city: 'City updated'
+        firstName: 'First name updated'
+        label: 'Address label updated'
         lastName: 'Adrian'
         middleName: null
         namePrefix: null
@@ -16,19 +16,15 @@ data:
         street: '23405 Caldwell Road'
         street2: null
     relationships:
-        country:
-            data:
-                type: countries
-                id: '<toString(@country.usa->iso2Code)>'
-        frontendOwner:
-            data:
-                type: customer_users
-                id: '<toString(@second_customer.user@test.com->id)>'
         owner:
             data:
                 type: users
                 id: '<toString(@customer.1->owner->id)>'
+        country:
+            data:
+                type: countries
+                id: '<toString(@country.US->iso2Code)>'
         region:
             data:
                 type: regions
-                id: '<toString(@region.usny->combinedCode)>'
+                id: '<toString(@region.US-NY->combinedCode)>'
