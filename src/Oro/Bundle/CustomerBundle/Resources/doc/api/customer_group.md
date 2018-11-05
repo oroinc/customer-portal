@@ -28,7 +28,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_groups",
+    "type": "customergroups",
     "attributes": {
       "name": "Guests"
     }
@@ -51,7 +51,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_groups",
+    "type": "customergroups",
     "id": "1",
     "attributes": {
       "name": "Guests"
