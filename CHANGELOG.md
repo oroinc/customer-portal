@@ -1,11 +1,28 @@
+## 3.1.0-rc
+
+### Changed
+#### CustomerBundle
+* Changes in `/admin/api/customer_user_addresses` REST API resource:
+    - the resource name was changed to `/admin/api/customeruseraddresses`
+    - the attribute `created` was renamed to `createdAt`
+    - the attribute `updated` was renamed to `updatedAt`
+    - the relationship `frontendOwner` was renamed to `customerUser`
+* The name for `/admin/api/customer_users` REST API resource was changed to `/admin/api/customerusers`.
+* The name for `/admin/api/customer_user_roles` REST API resource was changed to `/admin/api/customeruserroles`.
+* The name for `/admin/api/customer_groups` REST API resource was changed to `/admin/api/customergroups`.
+* The name for `/admin/api/customer_rating` REST API resource was changed to `/admin/api/customerratings`.
+
 ## 3.1.0-beta (2018-09-27)
 [Show detailed list of changes](incompatibilities-3-1-beta.md)
+
 ### Added
 #### CustomerBundle
 * A new email template `customer_user_welcome_email_registered_by_admin` was added. It is sent when the administrator or a customer user manager creates a new customer user with the "Send Welcome Email" option selected or when the administrator confirms a customer user from the management console.
+
 ### Changed
-* Removed the  `oro_customer.send_password_in_welcome_email` config option to prevent issues with security when a plain password is sent by email.
-* There is no password provided while rendering the `customer_user_welcome_email` email template. Please update your customization of this email template. It is recommended to use a reset password link in the email template instead of a plain password.   
+#### CustomerBundle
+* Removed the `oro_customer.send_password_in_welcome_email` config option to prevent issues with security when a plain password is sent by email.
+* There is no password provided while rendering the `customer_user_welcome_email` email template. Please update your customization of this email template. It is recommended to use a reset password link in the email template instead of a plain password.
 
 ## 3.0.0 (2018-07-27)
 [Show detailed list of changes](incompatibilities-3-0.md)

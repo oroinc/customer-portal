@@ -1,0 +1,38 @@
+data:
+    type: customeraddresses
+    id: new
+    attributes:
+        phone: '123-456'
+        primary: true
+        label: 'New Address'
+        street: 'Street 1'
+        street2: 'Street 2'
+        city: 'Los Angeles'
+        postalCode: '90001'
+        organization: Acme
+        namePrefix: Mr.
+        firstName: John
+        middleName: Edgar
+        lastName: Doo
+        nameSuffix: M.D.
+        customRegion: null
+        types:
+            -
+                default: true
+                addressType: billing
+            -
+                default: false
+                addressType: shipping
+    relationships:
+        customer:
+            data:
+                type: customers
+                id: '<toString(@customer.level_1->id)>'
+        country:
+            data:
+                type: countries
+                id: '<toString(@country.US->iso2Code)>'
+        region:
+            data:
+                type: regions
+                id: '<toString(@region.US-NY->combinedCode)>'

@@ -78,9 +78,7 @@ class LoadCustomerUserAddresses extends AbstractAddressesFixture implements Depe
      */
     public function getDependencies()
     {
-        return [
-            'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData'
-        ];
+        return [LoadCustomerUserData::class];
     }
 
     /**
