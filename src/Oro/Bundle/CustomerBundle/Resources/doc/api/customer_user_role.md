@@ -28,7 +28,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_user_roles",
+    "type": "customeruserroles",
     "attributes": {
       "role": "ROLE_BACKEND_ADMINISTRATOR",
       "label": "Admin",
@@ -47,11 +47,11 @@ Example:
       "customerUsers": {
         "data": [
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "9"
           },
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "4"
           }
         ]
@@ -76,7 +76,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_user_roles",
+    "type": "customeruserroles",
     "id": "11",
     "attributes": {
       "role": "ROLE_BACKEND_ADMINISTRATOR",
@@ -96,11 +96,11 @@ Example:
       "customerUsers": {
         "data": [
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "9"
           },
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "4"
           }
         ]
@@ -207,11 +207,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "1"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "4"
     }
   ]
@@ -230,11 +230,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "1"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "4"
     }
   ]
@@ -253,11 +253,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "1"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "4"
     }
   ]

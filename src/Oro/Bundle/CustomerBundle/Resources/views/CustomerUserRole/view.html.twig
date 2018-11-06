@@ -55,7 +55,7 @@
             module: 'orouser/js/components/role/entity-category-tabs-component',
             options: tabsOptions
         }) }}></div>
-        <div id="{{ entityTabPanelId }}" role="tabpanel">
+        <div id="{{ entityTabPanelId }}" class="tab-content" role="tabpanel">
                 {{ dataGrid.renderGrid('customer-user-role-permission-grid', {role: entity}, { cssClass: 'inner-permissions-grid', themeOptions: {readonly: true} }) }}
                 <div {{ UI.renderPageComponentAttributes({
                     module: 'orouser/js/components/role/capability-set-component',

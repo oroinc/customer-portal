@@ -39,4 +39,14 @@ class PageTemplateEntityFieldFallbackValueTransformerTest extends \PHPUnit\Frame
         $this->assertEquals(['route_name' => 'value'], $value->getArrayValue());
         $this->assertNull($value->getScalarValue());
     }
+
+    public function testReverseTransformEntityFieldFallbackValueWhenScalarValueIsNull()
+    {
+        $value = new EntityFieldFallbackValue();
+
+        $this->transformer->reverseTransform($value);
+
+        $this->assertNull($value->getArrayValue());
+        $this->assertNull($value->getScalarValue());
+    }
 }
