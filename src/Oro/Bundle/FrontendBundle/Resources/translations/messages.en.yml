@@ -136,3 +136,6 @@ oro_frontend_style_book:
             text_typography_base_l: '$base-font-size--l'
             text_typography_base_large: '$base-font-size--large'
             description_animation: 'Add one of the following classes to the element you want to animate: <code class="language-markup">fade-in</code>, <code class="language-markup">fade-out</code>, <code class="language-markup">fade-in-down</code>, <code class="language-markup">fade-in-up</code>, <code class="language-markup">slide-in-down</code>, <code class="language-markup">slide-in-up</code>'
+
+    datagrid_views:
+        save_views: 'Save Views'
