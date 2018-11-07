@@ -1,35 +1,37 @@
 data:
     type: customers
-    id: '<toString(@entity->id)>'
+    id: new
     attributes:
-        name: 'created customer'
+        name: 'New Customer'
     relationships:
         parent:
             data:
                 type: customers
-                id: '<toString(@entity->parent->id)>'
+                id: '<toString(@default_customer->id)>'
         children:
-            data: {  }
+            data: []
+        addresses:
+            data: []
         group:
             data:
-                type: customer_groups
-                id: '<toString(@entity->group->id)>'
+                type: customergroups
+                id: '<toString(@customer_group.group1->id)>'
         users:
-            data: {  }
+            data: []
         owner:
             data:
                 type: users
-                id: '<toString(@entity->owner->id)>'
+                id: '<toString(@user->id)>'
         organization:
             data:
                 type: organizations
-                id: '<toString(@entity->organization->id)>'
+                id: '<toString(@organization->id)>'
         salesRepresentatives:
             data:
                 -
                     type: users
-                    id: '<toString(@entity->salesRepresentatives->first()->id)>'
+                    id: '<toString(@user->id)>'
         internal_rating:
             data:
-                type: customer_rating
-                id: 'internal_rating.1_of_5'
+                type: customerratings
+                id: '<toString(@internal_rating.1 of 5->id)>'

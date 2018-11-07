@@ -179,8 +179,7 @@ class CustomerType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'csrf_token_id' => 'customer',
-                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequireRegion'],
+                'csrf_token_id' => 'customer'
             ]
         );
     }

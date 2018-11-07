@@ -1,0 +1,139 @@
+data:
+    -
+        type: customeraddresses
+        id: '<toString(@customer.level_1.address_1->id)>'
+        attributes:
+            phone: null
+            primary: true
+            label: 'customer.level_1.address_1'
+            street: '1215 Caldwell Road'
+            street2: null
+            city: 'Rochester'
+            postalCode: '14608'
+            organization: 'Test Org'
+            namePrefix: null
+            firstName: null
+            middleName: null
+            lastName: null
+            nameSuffix: null
+            createdAt: '@customer.level_1.address_1->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer.level_1.address_1->updated->format("Y-m-d\TH:i:s\Z")'
+            customRegion: null
+            types:
+                -
+                    default: false
+                    addressType: billing
+                -
+                    default: true
+                    addressType: shipping
+        relationships:
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@customer.level_1->id)>'
+            owner:
+                data: null
+            systemOrganization:
+                data:
+                    type: organizations
+                    id: '<toString(@organization->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country.US->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region.US-NY->combinedCode)>'
+    -
+        type: customeraddresses
+        id: '<toString(@customer.level_1.address_3->id)>'
+        attributes:
+            phone: null
+            primary: false
+            label: 'customer.level_1.address_3'
+            street: '722 Harvest Lane'
+            street2: null
+            city: 'Sedalia'
+            postalCode: '65301'
+            organization: 'Test Org'
+            namePrefix: null
+            firstName: null
+            middleName: null
+            lastName: null
+            nameSuffix: null
+            createdAt: '@customer.level_1.address_3->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer.level_1.address_3->updated->format("Y-m-d\TH:i:s\Z")'
+            customRegion: null
+            types:
+                -
+                    default: false
+                    addressType: billing
+                -
+                    default: false
+                    addressType: shipping
+        relationships:
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@customer.level_1->id)>'
+            owner:
+                data: null
+            systemOrganization:
+                data:
+                    type: organizations
+                    id: '<toString(@organization->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country.US->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region.US-MO->combinedCode)>'
+    -
+        type: customeraddresses
+        id: '<toString(@customer.level_1.1.address_1->id)>'
+        attributes:
+            phone: null
+            primary: true
+            label: 'customer.level_1.1.address_1'
+            street: '2849 Junkins Avenue'
+            street2: null
+            city: 'Albany'
+            postalCode: '31707'
+            organization: 'Test Org'
+            namePrefix: null
+            firstName: null
+            middleName: null
+            lastName: null
+            nameSuffix: null
+            createdAt: '@customer.level_1.1.address_1->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer.level_1.1.address_1->updated->format("Y-m-d\TH:i:s\Z")'
+            customRegion: null
+            types:
+                -
+                    default: false
+                    addressType: billing
+                -
+                    default: true
+                    addressType: shipping
+        relationships:
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@customer.level_1.1->id)>'
+            owner:
+                data: null
+            systemOrganization:
+                data:
+                    type: organizations
+                    id: '<toString(@organization->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country.US->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region.US-GA->combinedCode)>'

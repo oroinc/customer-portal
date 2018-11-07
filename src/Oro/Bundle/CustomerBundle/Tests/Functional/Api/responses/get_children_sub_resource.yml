@@ -13,7 +13,7 @@ data:
                 data: {  }
             group:
                 data:
-                    type: customer_groups
+                    type: customergroups
                     id: '<toString(@customer_group.group1->id)>'
             users:
                 data: {  }
@@ -32,5 +32,5 @@ data:
                         id: '<toString(@default_customer->owner->id)>'
             internal_rating:
                 data:
-                    type: customer_rating
+                    type: customerratings
                     id: internal_rating.1_of_5

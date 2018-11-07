@@ -186,11 +186,16 @@ oro_behat_extension:
     FrontendGridViewsItemLabel:
       selector: 'label.custom-radio'
 
-    FrontendGridViewsClose:
-      selector: '.grid-views__dropdown .grid-views__close'
+    Frontend Grid Filter Dropdown:
+      selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
+
+    FrontendGridViewsDropdown:
+      selector: '.grid-views__dropdown.dropdown-menu'
 
     FrontendGridFilterManager:
-      selector: 'div.filter-container div.datagrid-manager div.dropdown-menu'
+      selector:
+        locator: '//div[contains(concat(" ", normalize-space(@class), " "), " filter-container ")]/div[contains(concat(" ", normalize-space(@class), " "), " datagrid-manager ")][last()]/div[contains(concat(" ", normalize-space(@class), " "), " dropdown-menu ")]'
+        type: xpath
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
 
     FrontendGridFilterManagerButton:

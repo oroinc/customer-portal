@@ -1,8 +1,11 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Security;
+namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
+use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\SecurityBundle\Acl\Extension\AclExtensionSelector;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
@@ -12,6 +15,7 @@ use Symfony\Component\Security\Acl\Domain\Entry;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Model\AclInterface;
 use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
@@ -43,6 +47,30 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
             $this->tokenAccessor,
             $this->aclManager
         );
+    }
+
+    public function testGetLoggedUserIncludingGuest()
+    {
+        $token = $this->createMock(AnonymousCustomerUserToken::class);
+        $token->expects($this->once())
+            ->method('getUser')
+            ->willReturn(null);
+
+        $this->tokenAccessor->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $visitor = $this->createMock(CustomerVisitor::class);
+        $token->expects($this->once())
+            ->method('getVisitor')
+            ->willReturn($visitor);
+
+        $guestUser = $this->createMock(CustomerUser::class);
+        $visitor->expects($this->once())
+            ->method('getCustomerUser')
+            ->willReturn($guestUser);
+
+        $this->assertSame($guestUser, $this->provider->getLoggedUser(true));
     }
 
     public function testIsGrantedOidMaskAcesFilteredOrNotPresent()
@@ -304,8 +332,14 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
     {
         $user = $this->createMock(CustomerUser::class);
 
+        $token = $this->createMock(TokenInterface::class);
+        $token->expects($this->any())
+            ->method('getUser')
+            ->willReturn($user);
+
         $this->tokenAccessor->expects($this->any())
-            ->method('getUser')->willReturn($user);
+            ->method('getToken')
+            ->willReturn($token);
 
         return $user;
     }
