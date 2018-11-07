@@ -63,7 +63,7 @@ class CustomerUserHeadersListener
         LoadEntityRulesAndBackendHeadersEvent $event,
         string $value,
         string $label,
-        ?int $order = 20
+        int $order = 20
     ): void {
         $exist = false;
         foreach ($event->getHeaders() as $header) {
