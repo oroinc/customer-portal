@@ -44,11 +44,14 @@ class CustomerHeadersListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($event->getRules());
     }
 
-    public function testAfterLoadEntityRulesAndBackendHeadersWhenExist()
+    public function testAfterLoadEntityRulesAndBackendHeadersWhenHeaderAlreadyExists()
     {
         $this->fieldHelper->expects($this->exactly(2))
             ->method('getConfigValue')
-            ->willReturn(false);
+            ->willReturnMap([
+                [Customer::class, 'owner', 'excluded', null, false],
+                [Customer::class, 'parent', 'excluded', null, false]
+            ]);
 
         $headers = [
             [
@@ -70,11 +73,20 @@ class CustomerHeadersListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($event->getRules());
     }
 
-    public function testAfterLoadEntityRulesAndBackendHeaders()
-    {
+    /**
+     * @dataProvider fieldsConfigDataProvider
+     * @param array $fieldsConfig
+     * @param array $expectedHeaders
+     * @param array $expectedRules
+     */
+    public function testAfterLoadEntityRulesAndBackendHeadersWhenHeadersNotExist(
+        array $fieldsConfig,
+        array $expectedHeaders,
+        array $expectedRules
+    ) {
         $this->fieldHelper->expects($this->exactly(2))
             ->method('getConfigValue')
-            ->willReturn(false);
+            ->willReturnMap($fieldsConfig);
 
         $event = new LoadEntityRulesAndBackendHeadersEvent(
             Customer::class,
@@ -84,28 +96,87 @@ class CustomerHeadersListenerTest extends \PHPUnit\Framework\TestCase
             'type'
         );
 
-        $expectedHeaders = [
-            [
-                'value' => 'owner:id',
-                'order' => 50,
-            ],
-            [
-                'value' => 'parent:id',
-                'order' => 30,
-            ]
-        ];
-        $expectedRules = [
-            'Owner Id' => [
-                'value' => 'owner:id',
-                'order' => 50,
-            ],
-            'Parent Id' => [
-                'value' => 'parent:id',
-                'order' => 30,
-            ],
-        ];
         $this->listener->afterLoadEntityRulesAndBackendHeaders($event);
         $this->assertEquals($event->getHeaders(), $expectedHeaders);
         $this->assertEquals($event->getRules(), $expectedRules);
+    }
+
+    /**
+     * @return array
+     */
+    public function fieldsConfigDataProvider(): array
+    {
+        return [
+            'owner and parent fields are excluded, no rules and headers are added' => [
+                'fieldsConfig' => [
+                    [Customer::class, 'owner', 'excluded', null, true],
+                    [Customer::class, 'parent', 'excluded', null, true]
+                ],
+                'expectedHeaders' => [],
+                'expectedRules' => [],
+            ],
+            'owner and parent fields are not excluded, rules and headers are added for both fields' => [
+                'fieldsConfig' => [
+                    [Customer::class, 'owner', 'excluded', null, false],
+                    [Customer::class, 'parent', 'excluded', null, false]
+                ],
+                'expectedHeaders' => [
+                    [
+                        'value' => 'owner:id',
+                        'order' => 50,
+                    ],
+                    [
+                        'value' => 'parent:id',
+                        'order' => 30,
+                    ]
+                ],
+                'expectedRules' => [
+                    'Owner Id' => [
+                        'value' => 'owner:id',
+                        'order' => 50,
+                    ],
+                    'Parent Id' => [
+                        'value' => 'parent:id',
+                        'order' => 30,
+                    ],
+                ],
+            ],
+            'owner field is excluded and parent field is not, rule and header are added for parent field' => [
+                'fieldsConfig' => [
+                    [Customer::class, 'owner', 'excluded', null, true],
+                    [Customer::class, 'parent', 'excluded', null, false]
+                ],
+                'expectedHeaders' => [
+                    [
+                        'value' => 'parent:id',
+                        'order' => 30,
+                    ]
+                ],
+                'expectedRules' => [
+                    'Parent Id' => [
+                        'value' => 'parent:id',
+                        'order' => 30,
+                    ],
+                ],
+            ],
+            'owner field is not excluded and parent field is, rule and header are added for owner field' => [
+                'fieldsConfig' => [
+                    [Customer::class, 'owner', 'excluded', null, false],
+                    [Customer::class, 'parent', 'excluded', null, true]
+                ],
+                'expectedHeaders' => [
+                    [
+                        'value' => 'owner:id',
+                        'order' => 50,
+                    ],
+                ],
+                'expectedRules' => [
+                    'Owner Id' => [
+                        'value' => 'owner:id',
+                        'order' => 50,
+                    ],
+                ],
+            ],
+        ];
     }
 }
