@@ -35,16 +35,16 @@ Feature: grid views management on datagrids
     And I should see "View has been successfully updated" flash message
     Then I should see "Test view 02"
 
-  Scenario: Add translation for Save Views grid action
+  Scenario: Add translation for Saved Views grid action
     Given I login as administrator
     And I enable the existing localizations
     And I go to System / Configuration
     And go to System/Localization/Translations
     And filter Translated Value as is empty
-    And filter English translation as contains "Save Views"
-    When I edit "oro_frontend.datagrid_views.save_views" Translated Value as "Save Views - Zulu"
+    And filter English translation as contains "Saved Views"
+    When I edit "oro_frontend.datagrid_views.saved_views" Translated Value as "Saved Views - Zulu"
     Then I should see following records in grid:
-      | Save Views - Zulu |
+      | Saved Views - Zulu |
     When I click "Update Cache"
     Then I should see "Translation Cache has been updated" flash message
 
@@ -55,4 +55,4 @@ Feature: grid views management on datagrids
     And I click "Localization Switcher"
     And I select "Zulu" localization
     When I click grid view list on "Customer Company Addresses Grid" grid
-    Then I should see "Save Views - Zulu"
+    Then I should see "Saved Views - Zulu"

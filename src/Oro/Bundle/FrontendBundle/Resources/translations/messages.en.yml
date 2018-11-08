@@ -58,7 +58,7 @@ oro_frontend:
             label: "Back"
 
     datagrid_views:
-        save_views: 'Save Views'
+        saved_views: 'Saved Views'
 
 oro_frontend_style_book:
     main_content:
