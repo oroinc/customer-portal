@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 $action-permissions-offset-right: 24px !default;
-$action-permissions-offset-left: $permissions-grid-first-entity-name-width + 5px !default;
+$action-permissions-offset-left: 24px !default;
 $action-permissions-item-float: left !default;
 $action-permissions-item-width: 209px !default;
 $action-permissions-item-offset-right: $offset-x - 1px !default;
@@ -11,6 +11,7 @@ $action-permissions-item-wrapper-dropdown-toggle-right: 0 !default;
 $action-permissions-item-wrapper-toggle-icon-right: 0 !default;
 $action-permissions-item-wrapper-toggle-icon-offset-top: $offset-y-m !default;
 $action-permissions-item-wrapper-toggle-icon-offset-left: 0 !default;
+$action-permissions-item-wrapper-toggle-icon-color: get-color('additional', 'darker') !default;
 $action-permissions-item-wrapper-no-access-opacity: .4 !default;
 $action-permissions-item-wrapper-changed-background: get-color('additional', 'base') !default;
 $action-permissions-item-wrapper-changed-box-shadow: 0 0 0 3px get-color('additional', 'base') !default;
