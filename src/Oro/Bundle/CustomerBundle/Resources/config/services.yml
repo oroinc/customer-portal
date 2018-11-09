@@ -1042,3 +1042,13 @@ services:
             - '@oro_website.manager'
         tags:
             - { name: form.type_extension, extended_type: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType }
+
+    oro_customer.datagrid.extension.columns:
+        class: Oro\Bundle\CustomerBundle\Datagrid\Extension\ColumnsExtension
+        decorates: oro_datagrid.extension.columns
+        arguments:
+            - '@doctrine'
+            - '@oro_security.token_accessor'
+            - '@oro_security.acl_helper'
+            - '@oro_datagrid.columns.helper'
+            - '@oro_frontend.request.frontend_helper'

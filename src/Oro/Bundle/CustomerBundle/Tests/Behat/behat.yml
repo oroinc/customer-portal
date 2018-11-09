@@ -86,6 +86,8 @@ oro_behat_extension:
           Show Registration Instructions: 'customer_users[oro_customer___registration_instructions_enabled][value]'
           Registration Instructions Text Default: 'customer_users[oro_customer___registration_instructions_text][use_parent_scope_value]'
           Registration Instructions Text: 'customer_users[oro_customer___registration_instructions_text][value]'
+          Confirmation Required Default: 'customer_users[oro_customer___confirmation_required][use_parent_scope_value]'
+          Confirmation Required: 'customer_users[oro_customer___confirmation_required][value]'
     Customer Grid Settings Created At:
       selector:
         type: xpath
