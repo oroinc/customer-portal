@@ -50,6 +50,8 @@ datagrids:
                         - { join: customer.group, alias: customer_group }
                         - { join: customer.parent, alias: parent }
                         - { join: customer.internal_rating, alias: internalRating }
+            hints:
+                - HINT_TRANSLATABLE
         columns:
             id:
                 label: oro.customer.customer.id.label
