@@ -14,7 +14,7 @@ use Oro\Bundle\CustomerBundle\OroCustomerBundle;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\SecurityExtension;
 
-class OroCustomerBundleTest extends \PHPUnit_Framework_TestCase
+class OroCustomerBundleTest extends \PHPUnit\Framework\TestCase
 {
     /** @var OroCustomerBundle */
     private $bundle;

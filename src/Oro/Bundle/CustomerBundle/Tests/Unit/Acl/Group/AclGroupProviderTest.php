@@ -6,12 +6,12 @@ use Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
-class AclGroupProviderTest extends \PHPUnit_Framework_TestCase
+class AclGroupProviderTest extends \PHPUnit\Framework\TestCase
 {
     const LOCAL_LEVEL = 'Oro\Bundle\CustomerBundle\Entity\Customer';
     const BASIC_LEVEL = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
     protected $tokenAccessor;
 
     /** @var AclGroupProvider */

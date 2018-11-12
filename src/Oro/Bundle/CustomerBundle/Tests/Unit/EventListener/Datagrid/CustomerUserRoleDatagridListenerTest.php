@@ -2,15 +2,15 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener\Datagrid;
 
-use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule;
 use Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserRoleDatagridListener;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
-use Oro\Bundle\DataGridBundle\Event\BuildAfter;
+use Oro\Bundle\DataGridBundle\Event\OrmResultBefore;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
-class CustomerUserRoleDatagridListenerTest extends \PHPUnit_Framework_TestCase
+class CustomerUserRoleDatagridListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CustomerUserRoleDatagridListener
@@ -18,12 +18,12 @@ class CustomerUserRoleDatagridListenerTest extends \PHPUnit_Framework_TestCase
     protected $listener;
 
     /**
-     * @var QueryBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var QueryBuilder|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $queryBuilder;
 
     /**
-     * @var AclHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var AclHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $aclHelper;
 
@@ -39,41 +39,23 @@ class CustomerUserRoleDatagridListenerTest extends \PHPUnit_Framework_TestCase
         unset($this->listener, $this->aclHelper);
     }
 
-    public function testOnBuildAfter()
+    public function testOnResultBefore()
     {
-        $datasource = $this->getMockBuilder('Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource')
-            ->disableOriginalConstructor()
-            ->getMock();
-        /** @var \PHPUnit_Framework_MockObject_MockObject|DatagridInterface $datagrid */
-        $datagrid = $this->createMock('Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface');
-        $datagrid->expects($this->once())
-            ->method('getDatasource')
-            ->will($this->returnValue($datasource));
-
-        $qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $datasource->expects($this->once())
-            ->method('getQueryBuilder')
-            ->will($this->returnValue($qb));
-
-        $criteria = new Criteria();
+        $query = $this->createMock(AbstractQuery::class);
+        $event = new OrmResultBefore($this->createMock(DatagridInterface::class), $query);
         $this->aclHelper->expects($this->once())
-            ->method('applyAclToCriteria')
+            ->method('apply')
             ->with(
-                CustomerUserRole::class,
-                $criteria,
+                $query,
                 'VIEW',
-                ['customer' => '.customer', 'organization' => '.organization']
-            )
-            ->willReturn($this->queryBuilder);
+                [SelfManagedPublicCustomerUserRoleAccessRule::ENABLE_RULE => true]
+            );
 
-        $event = new BuildAfter($datagrid);
-        $this->listener->onBuildAfter($event);
+        $this->listener->onResultBefore($event);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function createAclHelperMock()
     {

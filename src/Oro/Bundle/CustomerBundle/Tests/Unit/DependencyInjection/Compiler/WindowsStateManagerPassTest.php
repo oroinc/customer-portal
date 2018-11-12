@@ -5,11 +5,11 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Compiler;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\WindowsStateManagerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class WindowsStateManagerPassTest extends \PHPUnit_Framework_TestCase
+class WindowsStateManagerPassTest extends \PHPUnit\Framework\TestCase
 {
     public function testProcessWithoutDefinition()
     {
-        /** @var ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject $containerBuilder */
+        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $containerBuilder */
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
             ->disableOriginalConstructor()
             ->getMock();
@@ -23,7 +23,7 @@ class WindowsStateManagerPassTest extends \PHPUnit_Framework_TestCase
 
     public function testProcess()
     {
-        /** @var ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject $containerBuilder */
+        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $containerBuilder */
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
             ->disableOriginalConstructor()
             ->getMock();

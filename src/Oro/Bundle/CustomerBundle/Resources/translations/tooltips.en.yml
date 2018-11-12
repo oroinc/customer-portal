@@ -2,7 +2,6 @@ oro.customer.system_configuration.fields.default_customer_owner.tooltip: 'Defaul
 oro.customer.system_configuration.fields.registration_allowed.tooltip: 'Allow customer user registration on the OroCommerce website.'
 oro.customer.system_configuration.fields.registration_link_enabled.tooltip: 'When registration link is enabled, it is shown next to the Sign In link in the top bar on the OroCommerce website.'
 oro.customer.system_configuration.fields.confirmation_required.tooltip: 'This option defines whether or not the user receives an email prompting to confirm their registration.'
-oro.customer.system_configuration.fields.send_password_in_welcome_email.tooltip: 'This option defines whether or not the password is sent in a plain text in the welcome email. Always keep it disabled in production.'
 oro.customer.system_configuration.fields.registration_instructions_enabled.tooltip: 'This option defines whether or not the registration instructions are shown on the OroCommerce website login page'
 oro.customer.system_configuration.fields.company_name_field_enabled.tooltip: 'This option defines whether or not the Company Name field is displayed in the registration form on the OroCommerce website'
 oro.customer.system_configuration.fields.api_key_generation_enabled.tooltip: 'This option defines whether or not the automatic generation of API access key is enabled for new customer users.'

@@ -11,7 +11,7 @@ use Oro\Bundle\FilterBundle\Grid\Extension\Configuration;
 use Oro\Bundle\FrontendBundle\EventListener\EnumFilterFrontendListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
-class EnumFilterFrontendListenerTest extends \PHPUnit_Framework_TestCase
+class EnumFilterFrontendListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var EnumFilterFrontendListener
@@ -19,12 +19,12 @@ class EnumFilterFrontendListenerTest extends \PHPUnit_Framework_TestCase
     private $listener;
 
     /**
-     * @var BuildBefore|\PHPUnit_Framework_MockObject_MockObject
+     * @var BuildBefore|\PHPUnit\Framework\MockObject\MockObject
      */
     private $event;
 
     /**
-     * @var FrontendHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     private $frontendHelper;
 

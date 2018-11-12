@@ -11,15 +11,15 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserAddressRepository;
 use Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
-class FrontendAddressProviderTest extends \PHPUnit_Framework_TestCase
+class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FrontendAddressProvider */
     private $provider;
 
-    /** @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
     private $registry;
 
-    /** @var AclHelper|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AclHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $aclHelper;
 
     /** @var string */
@@ -146,7 +146,7 @@ class FrontendAddressProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return CustomerAddressRepository|\PHPUnit_Framework_MockObject_MockObject
+     * @return CustomerAddressRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function prepareCustomerAddressRepository()
     {
@@ -169,7 +169,7 @@ class FrontendAddressProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return CustomerUserAddressRepository|\PHPUnit_Framework_MockObject_MockObject
+     * @return CustomerUserAddressRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function prepareCustomerUserAddressRepository()
     {

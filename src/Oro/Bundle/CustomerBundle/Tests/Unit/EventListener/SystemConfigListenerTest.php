@@ -9,10 +9,10 @@ use Oro\Bundle\ConfigBundle\Event\ConfigSettingsUpdateEvent;
 use Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener;
 use Oro\Bundle\UserBundle\Entity\User;
 
-class SystemConfigListenerTest extends \PHPUnit_Framework_TestCase
+class SystemConfigListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ManagerRegistry
+     * @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry
      */
     protected $registry;
 

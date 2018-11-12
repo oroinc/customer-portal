@@ -3,6 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\DependencyInjection;
 
 use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -28,7 +29,8 @@ class Configuration implements ConfigurationInterface
                 'filter_value_selectors' => ['type' => 'string', 'value' => self::FILTER_VALUE_SELECTORS_DROPDOWN],
             ]
         );
-        $rootNode->children()
+        $rootNodeChildren = $rootNode->children();
+        $rootNodeChildren
             ->booleanNode('debug_routes')
                 ->defaultTrue()
             ->end()
@@ -42,12 +44,57 @@ class Configuration implements ConfigurationInterface
                     })
                 ->end()
                 ->prototype('scalar')->end()
-            ->end()
-            ->arrayNode('frontend_api_doc_views')
-                ->info('The API views that are available for the store frontend.')
+            ->end();
+        $frontendApiChildren = $rootNodeChildren
+            ->arrayNode('frontend_api')
+                ->info('The configuration of API for the storefront')
+                ->addDefaultsIfNotSet()
+                ->children();
+        $frontendApiChildren
+            ->arrayNode('api_doc_views')
+                ->info('The API views that are available for the storefront')
                 ->prototype('scalar')->end()
             ->end();
+        $this->appendFrontendApiCorsNode($frontendApiChildren);
 
         return $treeBuilder;
+    }
+
+    /**
+     * @param NodeBuilder $node
+     */
+    private function appendFrontendApiCorsNode(NodeBuilder $node)
+    {
+        $node
+            ->arrayNode('cors')
+                ->info('The configuration of CORS requests for the storefront')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->integerNode('preflight_max_age')
+                        ->info('The amount of seconds the user agent is allowed to cache CORS preflight requests')
+                        ->defaultValue(600)
+                        ->min(0)
+                    ->end()
+                    ->arrayNode('allow_origins')
+                        ->info('The list of origins that are allowed to send CORS requests')
+                        ->example(['https://foo.com', 'https://bar.com'])
+                        ->prototype('scalar')->cannotBeEmpty()->end()
+                    ->end()
+                    ->booleanNode('allow_credentials')
+                        ->info('Indicates whether CORS request can include user credentials')
+                        ->defaultValue(false)
+                    ->end()
+                    ->arrayNode('allow_headers')
+                        ->info('The list of headers that are allowed to send by CORS requests')
+                        ->example(['X-Foo', 'X-Bar'])
+                        ->prototype('scalar')->cannotBeEmpty()->end()
+                    ->end()
+                    ->arrayNode('expose_headers')
+                        ->info('The list of headers that can be exposed by CORS responses')
+                        ->example(['X-Foo', 'X-Bar'])
+                        ->prototype('scalar')->cannotBeEmpty()->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 }

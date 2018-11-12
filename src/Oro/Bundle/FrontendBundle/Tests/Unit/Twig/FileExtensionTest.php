@@ -9,14 +9,14 @@ use Oro\Bundle\FrontendBundle\Manager\AttachmentManager;
 use Oro\Bundle\FrontendBundle\Twig\FileExtension;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 
-class FileExtensionTest extends \PHPUnit_Framework_TestCase
+class FileExtensionTest extends \PHPUnit\Framework\TestCase
 {
     use TwigExtensionTestCaseTrait;
 
     /** @var FileExtension */
     protected $extension;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|AttachmentManager */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|AttachmentManager */
     protected $manager;
 
     /** @var TestAttachment */

@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 
@@ -46,6 +47,7 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
     {
         parent::load($manager);
         $this->loadCustomerUserRoles($manager);
+        $this->loadCustomerPermissions($manager);
     }
 
     /**
@@ -80,7 +82,29 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
     }
 
     /**
-     * @return string
+     * Loads permissions for Customer entity class for the supported roles.
+     *
+     * @param ObjectManager $manager
+     */
+    protected function loadCustomerPermissions(ObjectManager $manager)
+    {
+        // Only one permission for Customer entity class is allowed on frontend - VIEW_SYSTEM.
+        $permissions = [['VIEW_SYSTEM'], []];
+        foreach ($this->getSupportedRoles() as $roleName) {
+            /** @var CustomerUserRole $role */
+            $role = $this->getReference($roleName);
+
+            $this->setRolePermissions($role, Customer::class, $permissions);
+
+            $manager->persist($role);
+        }
+
+        $manager->flush();
+        $this->container->get('oro_security.acl.manager')->flush();
+    }
+
+    /**
+     * {@inheritdoc}
      */
     protected function getAclResourceClassName()
     {

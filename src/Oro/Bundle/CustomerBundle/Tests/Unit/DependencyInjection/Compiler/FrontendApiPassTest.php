@@ -6,7 +6,7 @@ use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
-class FrontendApiPassTest extends \PHPUnit_Framework_TestCase
+class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ContainerBuilder */
     private $container;

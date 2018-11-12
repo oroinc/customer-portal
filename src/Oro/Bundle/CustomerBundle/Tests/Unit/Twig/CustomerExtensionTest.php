@@ -6,14 +6,14 @@ use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\CustomerBundle\Twig\CustomerExtension;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 
-class CustomerExtensionTest extends \PHPUnit_Framework_TestCase
+class CustomerExtensionTest extends \PHPUnit\Framework\TestCase
 {
     use TwigExtensionTestCaseTrait;
 
     /** @var CustomerExtension */
     protected $extension;
 
-    /** @var CustomerUserProvider|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
     protected $securityProvider;
 
     /**

@@ -7,10 +7,10 @@ use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class FrontendFilterTest extends \PHPUnit_Framework_TestCase
+class FrontendFilterTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|FrontendHelper
+     * @var \PHPUnit\Framework\MockObject\MockObject|FrontendHelper
      */
     protected $helper;
 
@@ -31,7 +31,7 @@ class FrontendFilterTest extends \PHPUnit_Framework_TestCase
 
     public function testNoRequestBehaviour()
     {
-        /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject $requestStack */
+        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock('Symfony\Component\HttpFoundation\RequestStack');
         $requestStack->expects($this->any())->method('getCurrentRequest')->willReturn(null);
         $this->filter = new FrontendFilter($this->helper, $requestStack);
@@ -46,7 +46,7 @@ class FrontendFilterTest extends \PHPUnit_Framework_TestCase
     public function testIsBackendIsFrontend($isFrontend)
     {
         $request = new Request();
-        /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject $requestStack */
+        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock('Symfony\Component\HttpFoundation\RequestStack');
         $requestStack->expects($this->any())->method('getCurrentRequest')->willReturn($request);
         $this->filter = new FrontendFilter($this->helper, $requestStack);

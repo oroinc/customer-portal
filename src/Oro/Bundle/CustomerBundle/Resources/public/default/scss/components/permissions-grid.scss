@@ -23,10 +23,7 @@
 
         font-weight: $permissions-grid-first-entity-name-font-weight;
     }
-
-    .entity-row-action {
-        float: $permissions-grid-first-entity-row-action-float;
-    }
+    
 
     .fields-list {
         display: none;
@@ -34,6 +31,11 @@
 
     .role-permissions-action-launcher {
         padding-left: $permissions-grid-first-action-launcher-offser-inner-left;
+    }
+
+    .entity-permission-container {
+        display: flex;
+        align-items: flex-start;
     }
 }
 

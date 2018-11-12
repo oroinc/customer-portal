@@ -28,7 +28,7 @@ class FrontendProductSelectExtensionTest extends AbstractCustomerUserAwareExtens
     public function testConfigureOptionsCustomerUser()
     {
         $this->assertCustomerUserTokenCall();
-        /** @var \PHPUnit_Framework_MockObject_MockObject|OptionsResolver $resolver */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|OptionsResolver $resolver */
         $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
             ->disableOriginalConstructor()
             ->getMock();

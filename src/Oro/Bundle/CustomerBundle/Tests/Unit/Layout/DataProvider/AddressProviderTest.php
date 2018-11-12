@@ -10,17 +10,17 @@ use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class AddressProviderTest extends \PHPUnit_Framework_TestCase
+class AddressProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /** @var UrlGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $router;
 
-    /** @var FragmentHandler|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var FragmentHandler|\PHPUnit\Framework\MockObject\MockObject */
     protected $fragmentHandler;
 
-    /** @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $configManager;
 
     /** @var AddressProvider */

@@ -6,7 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class CustomerVisitorTest extends \PHPUnit_Framework_TestCase
+class CustomerVisitorTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 

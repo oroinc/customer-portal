@@ -6,14 +6,13 @@ config:
     map:
         '*':
             'oroui/templates/modal-dialog.html': 'orofrontend/default/templates/ui/modal-dialog.html'
-            'oroui/templates/standart-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/delete-confirmation.html': 'orofrontend/default/templates/ui/modal-dialog.html'
             'oroui/templates/message-item.html': 'orofrontend/default/templates/ui/message-item.html'
             'oroui/templates/loading-mask-view.html': 'orofrontend/templates/ui/loading-mask-view.html'
-            'orodatagrid/templates/column-manager/column-manager-collection.html': 'orofrontend/default/templates/datagrid/column-manager-collection.html'
-            'orodatagrid/templates/column-manager/column-manager-item.html': 'orofrontend/default/templates/datagrid/column-manager-item.html'
-            'orodatagrid/templates/column-manager/column-manager-filter.html': 'orofrontend/default/templates/datagrid/column-manager-filter.html'
-            'orodatagrid/templates/column-manager/column-manager.html': 'orofrontend/default/templates/datagrid/column-manager.html'
+            'orodatagrid/templates/datagrid-settings/datagrid-settings-collection.html': 'orofrontend/default/templates/datagrid/datagrid-settings-collection.html'
+            'orodatagrid/templates/datagrid-settings/datagrid-settings-item.html': 'orofrontend/default/templates/datagrid/datagrid-settings-item.html'
+            'orodatagrid/templates/datagrid-settings/datagrid-settings-filter.html': 'orofrontend/default/templates/datagrid/datagrid-settings-filter.html'
+            'orodatagrid/templates/datagrid-settings/datagrid-settings.html': 'orofrontend/default/templates/datagrid/datagrid-settings.html'
             'orodatagrid/templates/datagrid/pagination-input.html': 'orofrontend/default/templates/datagrid/pagination-input.html'
             'orodatagrid/templates/datagrid/page-size.html': 'orofrontend/default/templates/datagrid/page-size.html'
             'orodatagrid/templates/datagrid/visible-items-counter.html': 'orofrontend/blank/templates/datagrid/visible-items-counter.html'
@@ -26,13 +25,20 @@ config:
             'oroui/js/app/views/page/content-view': 'orofrontend/js/app/views/page/content-view'
             'oro/filter/choice-filter': 'orofrontend/default/js/app/views/choice-filter'
             'oro/filter/select-filter': 'orofrontend/js/app/views/frontend-select-filter'
+            'oro/filter/multiselect-filter': 'orofrontend/js/app/views/frontend-multiselect-filter'
+            'oro/filter/boolean-filter': 'orofrontend/js/app/views/frontend-boolean-filter'
             'orodatagrid/js/app/components/datagrid-component': 'orofrontend/js/app/components/frontend-datagrid-component'
             'orodatagrid/js/datagrid/grid': 'orofrontend/js/datagrid/frontend-grid'
             'oro/datagrid/cell/action-cell': 'orofrontend/js/datagrid/cell/frontend-action-cell'
             'orodatagrid/js/datagrid/header-cell/action-header-cell': 'orofrontend/js/datagrid/cell/frontend-action-header-cell'
+            'orodatagrid/js/app/plugins/grid/datagrid-settings-plugin': 'orofrontend/js/app/plugins/frontend-datagrid-settings-plugin'
 
         'orofrontend/js/app/views/frontend-select-filter':
             'oro/filter/select-filter': 'oro/filter/select-filter'
+        'orofrontend/js/app/views/frontend-multiselect-filter':
+            'oro/filter/multiselect-filter': 'oro/filter/multiselect-filter'
+        'orofrontend/js/app/views/frontend-boolean-filter':
+            'oro/filter/boolean-filter': 'oro/filter/boolean-filter'
         'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin':
             'orofilter/js/plugins/filters-toggle-plugin': 'orofilter/js/plugins/filters-toggle-plugin'
         'orofrontend/js/app/views/page/content-view':
@@ -47,6 +53,8 @@ config:
             'oro/datagrid/cell/action-cell': 'oro/datagrid/cell/action-cell'
         'orofrontend/js/datagrid/cell/frontend-action-header-cell':
             'orodatagrid/js/datagrid/header-cell/action-header-cell': 'orodatagrid/js/datagrid/header-cell/action-header-cell'
+        'orofrontend/js/app/plugins/frontend-datagrid-settings-plugin':
+            'orodatagrid/js/app/plugins/grid/datagrid-settings-plugin': 'orodatagrid/js/app/plugins/grid/datagrid-settings-plugin'
     paths:
         'orofrontend/js/app/components/widget-form-component': 'bundles/orofrontend/js/app/components/widget-form-component.js'
         'orofrontend/js/app/components/switchable-editable-view-component': 'bundles/orofrontend/js/app/components/switchable-editable-view-component.js'
@@ -77,18 +85,21 @@ config:
         'orofrontend/default/js/app/modules/zoom-disable': 'bundles/orofrontend/default/js/app/modules/zoom-disable.js'
         'orofrontend/default/js/app/views/choice-filter': 'bundles/orofrontend/default/js/app/views/choice-filter.js'
         'orofrontend/js/app/views/frontend-select-filter': 'bundles/orofrontend/blank/js/app/views/frontend-select-filter.js'
+        'orofrontend/js/app/views/frontend-multiselect-filter': 'bundles/orofrontend/blank/js/app/views/frontend-multiselect-filter.js'
+        'orofrontend/js/app/views/frontend-boolean-filter': 'bundles/orofrontend/blank/js/app/views/frontend-boolean-filter.js'
         'orofrontend/js/app/elements-helper': 'bundles/orofrontend/js/app/elements-helper.js'
         'orofrontend/js/app/datafilter/frontend-collection-filters-manager': 'bundles/orofrontend/js/app/datafilter/frontend-collection-filters-manager.js'
         'orofrontend/js/app/datafilter/frontend-multiselect-decorator': 'bundles/orofrontend/js/app/datafilter/frontend-multiselect-decorator.js'
         'orofrontend/js/app/datafilter/fronend-manage-filters-decorator': 'bundles/orofrontend/js/app/datafilter/fronend-manage-filters-decorator.js'
         'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin': 'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin.js'
         'orofrontend/js/app/datafilter/actions/fullscreen-filters-action': 'orofrontend/js/app/datafilter/actions/fullscreen-filters-action.js'
+        'orofrontend/js/app/filter-count-helper': 'bundles/orofrontend/blank/js/app/filter-count-helper.js'
 
-        'slick': 'bundles/orofrontend/default/vendors/slick/slick.js'
+        'slick': 'bundles/npmassets/slick-carousel/slick/slick.js'
         'orofrontend/js/app/components/list-slider-component': 'bundles/orofrontend/js/app/components/list-slider-component.js'
         'orofrontend/js/app/components/popup-gallery-widget': 'bundles/orofrontend/js/app/components/popup-gallery-widget.js'
-        'orofrontend/js/app/components/column-manager/frontend-column-manager-component': 'bundles/orofrontend/js/app/components/column-manager/frontend-column-manager-component.js'
-        'orofrontend/js/app/views/column-manager/frontend-column-manager-view': 'bundles/orofrontend/js/app/views/column-manager/frontend-column-manager-view.js'
+        'orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view': 'bundles/orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view.js'
+        'orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-column-view': 'bundles/orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-column-view.js'
         'orofrontend/js/datagrid/grid-views/frontend-grid-views-view': 'bundles/orofrontend/js/datagrid/grid-views/frontend-grid-views-view.js'
         'orofrontend/js/app/views/object-fit-polyfill-view': 'orofrontend/js/app/views/object-fit-polyfill-view.js'
         'orofrontend/js/app/views/counter-badge-view': 'bundles/orofrontend/js/app/views/counter-badge-view.js'
@@ -108,6 +119,7 @@ config:
         'orofrontend/default/js/app/views/input-widget/number': 'bundles/orofrontend/default/js/app/views/input-widget/number.js'
 
         'orofrontend/js/app/plugins/plugin-elastic-swipe-actions': 'bundles/orofrontend/js/app/plugins/plugin-elastic-swipe-actions.js'
+        'orofrontend/js/app/plugins/frontend-datagrid-settings-plugin': 'bundles/orofrontend/js/app/plugins/frontend-datagrid-settings-plugin.js'
 
     appmodules:
         - orofrontend/js/app/modules/inline-editor-types-map-module

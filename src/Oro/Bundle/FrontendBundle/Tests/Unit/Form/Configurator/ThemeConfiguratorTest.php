@@ -8,15 +8,15 @@ use Oro\Bundle\FrontendBundle\Form\Type\PageTemplateFormFieldType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class ThemeConfiguratorTest extends \PHPUnit_Framework_TestCase
+class ThemeConfiguratorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ThemeConfigurator */
     private $themeConfigurator;
 
-    /** @var ConfigBag|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ConfigBag|\PHPUnit\Framework\MockObject\MockObject */
     private $configBag;
 
-    /** @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $authorizationChecker;
 
     /**

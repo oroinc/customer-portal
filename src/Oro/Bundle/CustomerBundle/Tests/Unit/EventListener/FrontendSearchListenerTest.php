@@ -13,14 +13,14 @@ use Oro\Bundle\SearchBundle\Event\SearchMappingCollectEvent;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class FrontendSearchListenerTest extends \PHPUnit_Framework_TestCase
+class FrontendSearchListenerTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
     /** @var FrontendSearchListener */
     protected $listener;
 
-    /** @var OwnershipMetadataProviderInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $metadataProvider;
 
     /**

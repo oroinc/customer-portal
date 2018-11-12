@@ -1,11 +1,20 @@
 {% block _header_row_shopping_widget %}
-    <div class="header-row__container shopping-list-widget">
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " header-row__container shopping-list-widget"
+    }) %}
+    {% do block|merge_context({'togglerId': 'dropdown-'|uniqid }) %}
+    <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
 {% endblock %}
 
 {% block _header_row_shopping_trigger_widget %}
-    <div class="header-row__trigger" data-toggle="dropdown">
+    <div{% if togglerId is not empty %} id="{{ togglerId }}"{% endif %}
+         class="header-row__trigger"
+         data-toggle="dropdown"
+         data-popper="false"
+         role="button"
+         aria-haspopup="true" aria-expanded="false">
         <div class="nav-trigger">
             {{ block_widget(block) }}
         </div>

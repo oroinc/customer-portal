@@ -7,12 +7,12 @@ use Oro\Bundle\CustomerBundle\Placeholder\CustomerUserIdPlaceholder;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class CustomerUserIdPlaceholderTest extends \PHPUnit_Framework_TestCase
+class CustomerUserIdPlaceholderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CustomerUserIdPlaceholder */
     private $placeholder;
 
-    /** @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenStorage;
 
     protected function setUp()

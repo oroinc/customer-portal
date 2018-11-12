@@ -8,7 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\EventListener\FixCustomerAddressesDefaultSubscriber;
 use Symfony\Component\Form\FormEvents;
 
-class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit_Framework_TestCase
+class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FixCustomerAddressesDefaultSubscriber

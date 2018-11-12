@@ -2,22 +2,16 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Provider;
 
-use Doctrine\Common\Cache\ChainCache;
+use Doctrine\Common\Cache\Cache;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProvider;
 use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 
-class ScreensProviderTest extends \PHPUnit_Framework_TestCase
+class ScreensProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @internal
-     */
-    const SCREENS_CACHE_KEY = 'oro_frontend.provider.screens';
+    private const SCREENS_CACHE_KEY = 'oro_frontend.provider.screens';
 
-    /**
-     * @internal
-     */
-    const SCREENS_CONFIG_1 = [
+    private const SCREENS_CONFIG_1 = [
         'desktop' => [
             'label' => 'Sample desktop label',
             'hidingCssClass' => 'sample-desktop-class',
@@ -28,10 +22,7 @@ class ScreensProviderTest extends \PHPUnit_Framework_TestCase
         ],
     ];
 
-    /**
-     * @internal
-     */
-    const SCREENS_CONFIG_2 = [
+    private const SCREENS_CONFIG_2 = [
         'mobile' => [
             'label' => 'Sample mobile label',
             'hidingCssClass' => 'sample-mobile-class',
@@ -42,10 +33,7 @@ class ScreensProviderTest extends \PHPUnit_Framework_TestCase
         ],
     ];
 
-    /**
-     * @internal
-     */
-    const SCREENS_CONFIG_RESULT = [
+    private const SCREENS_CONFIG_RESULT = [
         'desktop' => [
             'label' => 'Sample desktop label',
             'hidingCssClass' => 'sample-desktop-class',
@@ -60,19 +48,13 @@ class ScreensProviderTest extends \PHPUnit_Framework_TestCase
         ],
     ];
 
-    /**
-     * @var ChainCache|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $chainCache;
+    /** @var Cache|\PHPUnit\Framework\MockObject\MockObject */
+    private $cache;
 
-    /**
-     * @var ThemeManager|\PHPUnit_Framework_MockObject_MockObject
-     */
+    /** @var ThemeManager|\PHPUnit\Framework\MockObject\MockObject */
     private $themeManager;
 
-    /**
-     * @var ScreensProvider
-     */
+    /** @var ScreensProvider */
     private $screensProvider;
 
     /**
@@ -80,21 +62,21 @@ class ScreensProviderTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->chainCache = $this->createMock(ChainCache::class);
+        $this->cache = $this->createMock(Cache::class);
         $this->themeManager = $this->createMock(ThemeManager::class);
-        $this->screensProvider = new ScreensProvider($this->themeManager, $this->chainCache);
+        $this->screensProvider = new ScreensProvider($this->themeManager, $this->cache);
     }
 
     public function testGetScreensWhenNoCache()
     {
-        $this->chainCache
-            ->expects(static::once())
-            ->method('contains')
+        $this->cache
+            ->expects(self::once())
+            ->method('fetch')
             ->with(self::SCREENS_CACHE_KEY)
             ->willReturn(false);
 
-        $this->chainCache
-            ->expects(static::once())
+        $this->cache
+            ->expects(self::once())
             ->method('save')
             ->with(self::SCREENS_CACHE_KEY, self::SCREENS_CONFIG_RESULT);
 
@@ -103,32 +85,26 @@ class ScreensProviderTest extends \PHPUnit_Framework_TestCase
             $this->createThemeMock(self::SCREENS_CONFIG_2),
         ];
         $this->themeManager
-            ->expects(static::once())
+            ->expects(self::once())
             ->method('getAllThemes')
             ->willReturn($allThemes);
 
         $screens = $this->screensProvider->getScreens();
 
-        static::assertEquals(self::SCREENS_CONFIG_RESULT, $screens);
+        self::assertEquals(self::SCREENS_CONFIG_RESULT, $screens);
     }
 
     public function testGetScreensFromCache()
     {
-        $this->chainCache
-            ->expects(static::once())
-            ->method('contains')
-            ->with(self::SCREENS_CACHE_KEY)
-            ->willReturn(true);
-
-        $this->chainCache
-            ->expects(static::once())
+        $this->cache
+            ->expects(self::once())
             ->method('fetch')
             ->with(self::SCREENS_CACHE_KEY)
             ->willReturn(self::SCREENS_CONFIG_RESULT);
 
         $screens = $this->screensProvider->getScreens();
 
-        static::assertEquals(self::SCREENS_CONFIG_RESULT, $screens);
+        self::assertEquals(self::SCREENS_CONFIG_RESULT, $screens);
     }
 
     /**
@@ -139,21 +115,15 @@ class ScreensProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetScreen($screenName, $expectedScreen)
     {
-        $this->chainCache
-            ->expects(static::atLeastOnce())
-            ->method('contains')
-            ->with(self::SCREENS_CACHE_KEY)
-            ->willReturn(true);
-
-        $this->chainCache
-            ->expects(static::atLeastOnce())
+        $this->cache
+            ->expects(self::atLeastOnce())
             ->method('fetch')
             ->with(self::SCREENS_CACHE_KEY)
             ->willReturn(self::SCREENS_CONFIG_RESULT);
 
         $screen = $this->screensProvider->getScreen($screenName);
 
-        static::assertSame($expectedScreen, $screen);
+        self::assertSame($expectedScreen, $screen);
     }
 
     /**
@@ -181,21 +151,15 @@ class ScreensProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasScreen($screenName, $expectedResult)
     {
-        $this->chainCache
-            ->expects(static::once())
-            ->method('contains')
-            ->with(self::SCREENS_CACHE_KEY)
-            ->willReturn(true);
-
-        $this->chainCache
-            ->expects(static::once())
+        $this->cache
+            ->expects(self::once())
             ->method('fetch')
             ->with(self::SCREENS_CACHE_KEY)
             ->willReturn(self::SCREENS_CONFIG_RESULT);
 
         $result = $this->screensProvider->hasScreen($screenName);
 
-        static::assertSame($expectedResult, $result);
+        self::assertSame($expectedResult, $result);
     }
 
     /**
@@ -218,13 +182,13 @@ class ScreensProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $screensConfig
      *
-     * @return Theme|\PHPUnit_Framework_MockObject_MockObject
+     * @return Theme|\PHPUnit\Framework\MockObject\MockObject
      */
     private function createThemeMock(array $screensConfig)
     {
         $theme = $this->createMock(Theme::class);
         $theme
-            ->expects(static::once())
+            ->expects(self::once())
             ->method('getConfig')
             ->willReturn(['screens' => $screensConfig]);
 

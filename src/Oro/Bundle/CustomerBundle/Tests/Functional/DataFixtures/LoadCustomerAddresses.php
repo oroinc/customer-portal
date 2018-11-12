@@ -76,9 +76,7 @@ class LoadCustomerAddresses extends AbstractAddressesFixture implements Dependen
      */
     public function getDependencies()
     {
-        return [
-            'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers'
-        ];
+        return [LoadCustomers::class];
     }
 
     /**

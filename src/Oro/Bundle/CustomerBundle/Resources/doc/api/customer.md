@@ -47,18 +47,18 @@ Example:
       },
       "group": {
         "data": {
-          "type": "customer_groups",
+          "type": "customergroups",
           "id": "1"
         }
       },
       "users": {
         "data": [
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "1"
           },
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "2"
           }
         ]
@@ -99,14 +99,14 @@ Example:
       },
       "group": {
         "data": {
-          "type": "customer_groups",
+          "type": "customergroups",
           "id": "1"
         }
       },
       "users": {
         "data": [
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "1"
           }
         ]
@@ -148,6 +148,16 @@ Delete a collection of customer records.
 *This field is **required** and must remain defined.*
 
 ## SUBRESOURCES
+
+### addresses
+
+#### get_subresource
+
+Retrieve records of addresses assigned to a specific customer record.
+
+#### get_relationship
+
+Retrieve IDs of address records assigned to a specific customer record.
 
 ### children
 
@@ -248,7 +258,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_groups",
+    "type": "customergroups",
     "id": "2"
   }
 }
@@ -275,7 +285,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_rating",
+    "type": "customerratings",
     "id": "3_of_5"
   }
 }
@@ -384,11 +394,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "3"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "11"
     }
   ]
@@ -407,11 +417,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "3"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "11"
     }
   ]
@@ -430,11 +440,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "3"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "11"
     }
   ]

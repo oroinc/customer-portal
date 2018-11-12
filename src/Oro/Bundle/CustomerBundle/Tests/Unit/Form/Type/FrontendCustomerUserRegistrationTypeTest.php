@@ -17,12 +17,12 @@ use Symfony\Component\Validator\Validation;
 class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ConfigManager
+     * @var \PHPUnit\Framework\MockObject\MockObject|ConfigManager
      */
     protected $configManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|UserManager
+     * @var \PHPUnit\Framework\MockObject\MockObject|UserManager
      */
     protected $userManager;
 
@@ -206,7 +206,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|ObjectRepository
+     * @return \PHPUnit\Framework\MockObject\MockObject|ObjectRepository
      */
     protected function assertUserRepositoryCall()
     {

@@ -4,6 +4,8 @@
     margin-left: $action-permissions-offset-left;
     margin-right: $action-permissions-offset-right;
 
+    @include clearfix();
+
     &__item {
         float: $action-permissions-item-float;
         width: $action-permissions-item-width;
@@ -20,20 +22,6 @@
 
         white-space: nowrap;
 
-        &.dropdown-toggle {
-            cursor: pointer;
-
-            &:after {
-                position: absolute;
-                right: $action-permissions-item-wrapper-toggle-icon-right;
-
-                margin-top: $action-permissions-item-wrapper-toggle-icon-offset-top;
-                margin-left: $action-permissions-item-wrapper-toggle-icon-offset-left;
-
-                vertical-align: top;
-            }
-        }
-
         &--no-access {
             opacity: $action-permissions-item-wrapper-no-access-opacity;
         }
@@ -43,14 +31,30 @@
             box-shadow: $action-permissions-item-wrapper-changed-box-shadow;
         }
     }
+
+    &__dropdown-toggle {
+        cursor: pointer;
+
+        &:after {
+            position: absolute;
+            right: $action-permissions-item-wrapper-toggle-icon-right;
+
+            margin-top: $action-permissions-item-wrapper-toggle-icon-offset-top;
+            margin-left: $action-permissions-item-wrapper-toggle-icon-offset-left;
+
+            vertical-align: top;
+
+            color: $action-permissions-item-wrapper-toggle-icon-color;
+
+            content: '';
+
+            @include caret-down();
+        }
+    }
 }
 
 .dropdown-menu__role-permissions-action {
     &.dropdown-menu {
-        top: $action-permissions-dropdown-menu-top;
-        right: $action-permissions-dropdown-menu-right;
-        left: $action-permissions-dropdown-menu-left;
-
         padding: $action-permissions-dropdown-offset-inner;
         min-width: $action-permissions-dropdown-min-width;
 

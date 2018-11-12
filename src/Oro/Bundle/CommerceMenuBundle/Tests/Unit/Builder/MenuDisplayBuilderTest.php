@@ -6,7 +6,7 @@ use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Builder\MenuDisplayBuilder;
 use Oro\Bundle\CommerceMenuBundle\Menu\ConditionEvaluator\ConditionEvaluatorInterface;
 
-class MenuDisplayBuilderTest extends \PHPUnit_Framework_TestCase
+class MenuDisplayBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var MenuDisplayBuilder
@@ -14,7 +14,7 @@ class MenuDisplayBuilderTest extends \PHPUnit_Framework_TestCase
     private $builder;
 
     /**
-     * @var ConditionEvaluatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ConditionEvaluatorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $conditionEvaluator;
 
@@ -56,7 +56,7 @@ class MenuDisplayBuilderTest extends \PHPUnit_Framework_TestCase
             ->method('setDisplay')
             ->willReturn(false);
 
-        /** @var $mainMenu ItemInterface|\PHPUnit_Framework_MockObject_MockObject */
+        /** @var $mainMenu ItemInterface|\PHPUnit\Framework\MockObject\MockObject */
         $mainMenu = $this->createMock(ItemInterface::class);
         $mainMenu->expects(static::once())
                  ->method('getChildren')

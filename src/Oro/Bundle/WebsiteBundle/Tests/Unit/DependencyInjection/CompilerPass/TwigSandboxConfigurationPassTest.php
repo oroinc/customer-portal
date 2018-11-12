@@ -6,11 +6,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class TwigSandboxConfigurationPassTest extends \PHPUnit_Framework_TestCase
+class TwigSandboxConfigurationPassTest extends \PHPUnit\Framework\TestCase
 {
     public function testProcessSkip()
     {
-        /** @var ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject $container */
+        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $container */
         $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
             ->setMethods(['has', 'getDefinition'])
             ->disableOriginalConstructor()
@@ -30,7 +30,7 @@ class TwigSandboxConfigurationPassTest extends \PHPUnit_Framework_TestCase
     
     public function testProcess()
     {
-        /** @var Definition|\PHPUnit_Framework_MockObject_MockObject $securityPolicyDefinition */
+        /** @var Definition|\PHPUnit\Framework\MockObject\MockObject $securityPolicyDefinition */
         $securityPolicyDefinition = $this->getMockBuilder(Definition::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -50,7 +50,7 @@ class TwigSandboxConfigurationPassTest extends \PHPUnit_Framework_TestCase
                 'website_secure_path'
             ]);
 
-        /** @var Definition|\PHPUnit_Framework_MockObject_MockObject $emailRendererDefinition */
+        /** @var Definition|\PHPUnit\Framework\MockObject\MockObject $emailRendererDefinition */
         $emailRendererDefinition = $this->getMockBuilder(Definition::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -59,7 +59,7 @@ class TwigSandboxConfigurationPassTest extends \PHPUnit_Framework_TestCase
             ->method('addMethodCall')
             ->with('addExtension', [new Reference(TwigSandboxConfigurationPass::WEBSITE_PATH_EXTENSION_SERVICE_KEY)]);
 
-        /** @var ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject $container */
+        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $container */
         $container = $this->getMockBuilder(ContainerBuilder::class)
             ->disableOriginalConstructor()
             ->getMock();

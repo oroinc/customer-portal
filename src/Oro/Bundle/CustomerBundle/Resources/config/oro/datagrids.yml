@@ -50,6 +50,8 @@ datagrids:
                         - { join: customer.group, alias: customer_group }
                         - { join: customer.parent, alias: parent }
                         - { join: customer.internal_rating, alias: internalRating }
+            hints:
+                - HINT_TRANSLATABLE
         columns:
             id:
                 label: oro.customer.customer.id.label
@@ -580,6 +582,10 @@ datagrids:
                 join:
                     left:
                         - { join: role.customer, alias: role_customer }
+                where:
+                    or:
+                        - role.customer IS NULL
+                        - role.customer IS NOT NULL AND role_customer.name IS NOT NULL
         columns:
             customer_name:
                 label: oro.customer.customeruserrole.customer.label
@@ -1064,7 +1070,8 @@ datagrids:
                     left:
                         - { join: address.country, alias: country}
                         - { join: address.region, alias: region}
-
+            hints:
+                - HINT_TRANSLATABLE
         properties:
             id: ~
         columns:

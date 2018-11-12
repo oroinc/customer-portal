@@ -13,12 +13,12 @@ use Oro\Bundle\SecurityBundle\Owner\EntityOwnerAccessor;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProvider;
 
-class AnonymousOwnershipDecisionMakerTest extends \PHPUnit_Framework_TestCase
+class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AnonymousOwnershipDecisionMaker */
     private $decisionMaker;
 
-    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
     /**

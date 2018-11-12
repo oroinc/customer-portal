@@ -163,7 +163,7 @@ class CustomerUserTest extends AbstractUserTest
         $updatedAt = new \DateTime('2015-01-01');
         $user->setUpdatedAt($updatedAt);
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|PreUpdateEventArgs $event */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|PreUpdateEventArgs $event */
         $event = $this->getMockBuilder('Doctrine\ORM\Event\PreUpdateEventArgs')
             ->disableOriginalConstructor()
             ->getMock();
@@ -183,7 +183,7 @@ class CustomerUserTest extends AbstractUserTest
         $updatedAt = new \DateTime('2015-01-01');
         $user->setUpdatedAt($updatedAt);
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|PreUpdateEventArgs $event */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|PreUpdateEventArgs $event */
         $event = $this->getMockBuilder('Doctrine\ORM\Event\PreUpdateEventArgs')
             ->disableOriginalConstructor()
             ->getMock();
@@ -314,5 +314,21 @@ class CustomerUserTest extends AbstractUserTest
         $user->removeApiKey($apiKey1);
         $this->assertCount(1, $user->getApiKeys());
         $this->assertSame($apiKey2, $user->getApiKeys()->first());
+    }
+
+    public function testSetEmailGetEmailLowercase()
+    {
+        $user = $this->getUser();
+        $user->setEmail('John.Doe@example.org');
+
+        $this->assertEquals('john.doe@example.org', $user->getEmailLowercase());
+    }
+
+    public function testSetUsernameGetEmailLowercase()
+    {
+        $user = $this->getUser();
+        $user->setUsername('John.Doe@example.org');
+
+        $this->assertEquals('john.doe@example.org', $user->getEmailLowercase());
     }
 }

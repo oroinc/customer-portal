@@ -38,7 +38,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         $entityIdentifierType = new EntityIdentifierTypeStub($this->getCustomerUsers());
         $customerSelectType = new CustomerSelectTypeStub($this->getCustomers(), CustomerSelectType::NAME);
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|TranslatableEntityType $registry */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|TranslatableEntityType $registry */
         $translatableEntity = $this->getMockBuilder('Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType')
             ->setMethods(['configureOptions', 'buildForm'])
             ->disableOriginalConstructor()

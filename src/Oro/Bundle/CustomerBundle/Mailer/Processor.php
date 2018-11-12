@@ -2,23 +2,25 @@
 
 namespace Oro\Bundle\CustomerBundle\Mailer;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
-use Oro\Bundle\EmailBundle\Provider\EmailRenderer;
-use Oro\Bundle\EmailBundle\Tools\EmailHolderHelper;
-use Oro\Bundle\UserBundle\Entity\UserInterface;
+use Oro\Bundle\UserBundle\Mailer\UserTemplateEmailSender;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Handles CustomerUser email sending logic
  */
-class Processor extends CustomerUserProcessor
+class Processor
 {
     const WELCOME_EMAIL_TEMPLATE_NAME = 'customer_user_welcome_email';
+    const WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME = 'customer_user_welcome_email_registered_by_admin';
     const CONFIRMATION_EMAIL_TEMPLATE_NAME = 'customer_user_confirmation_email';
     const RESET_PASSWORD_EMAIL_TEMPLATE_NAME = 'customer_user_reset_password';
+
+    /**
+     * @var UserTemplateEmailSender
+     */
+    private $userTemplateEmailSender;
 
     /**
      * @var EventDispatcherInterface
@@ -26,38 +28,40 @@ class Processor extends CustomerUserProcessor
     private $eventDispatcher;
 
     /**
-     * {@inheritdoc}
+     * @param UserTemplateEmailSender $userTemplateEmailSender
      * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        ConfigManager $configManager,
-        EmailRenderer $renderer,
-        EmailHolderHelper $emailHolderHelper,
-        \Swift_Mailer $mailer,
+        UserTemplateEmailSender $userTemplateEmailSender,
         EventDispatcherInterface $eventDispatcher
     ) {
-        $this->managerRegistry   = $managerRegistry;
-        $this->configManager     = $configManager;
-        $this->renderer          = $renderer;
-        $this->emailHolderHelper = $emailHolderHelper;
-        $this->mailer            = $mailer;
-        $this->eventDispatcher   = $eventDispatcher;
-
-        parent::__construct($managerRegistry, $configManager, $renderer, $emailHolderHelper, $mailer);
+        $this->userTemplateEmailSender = $userTemplateEmailSender;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
      * @param CustomerUser $customerUser
-     * @param string $password
      * @return int
      */
-    public function sendWelcomeNotification(CustomerUser $customerUser, $password)
+    public function sendWelcomeNotification(CustomerUser $customerUser)
     {
         return $this->getEmailTemplateAndSendEmail(
             $customerUser,
             static::WELCOME_EMAIL_TEMPLATE_NAME,
-            ['entity' => $customerUser, 'password' => $password]
+            ['entity' => $customerUser]
+        );
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     * @return int
+     */
+    public function sendWelcomeForRegisteredByAdminNotification(CustomerUser $customerUser)
+    {
+        return $this->getEmailTemplateAndSendEmail(
+            $customerUser,
+            static::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME,
+            ['entity' => $customerUser]
         );
     }
 
@@ -88,20 +92,24 @@ class Processor extends CustomerUserProcessor
     }
 
     /**
-     * {@inheritdoc}
+     * @param CustomerUser $user
+     * @param $emailTemplateName
+     * @param array $emailTemplateParams
+     * @return int
      */
-    public function getEmailTemplateAndSendEmail(
-        UserInterface $user,
+    private function getEmailTemplateAndSendEmail(
+        CustomerUser $user,
         $emailTemplateName,
-        array $emailTemplateParams = []
-    ) {
+        array $emailTemplateParams
+    ): int {
         $event = new CustomerUserEmailSendEvent($user, $emailTemplateName, $emailTemplateParams);
         $this->eventDispatcher->dispatch(CustomerUserEmailSendEvent::NAME, $event);
 
-        return parent::getEmailTemplateAndSendEmail(
+        return $this->userTemplateEmailSender->sendUserTemplateEmail(
             $user,
             $event->getEmailTemplate(),
-            $event->getEmailTemplateParams()
+            $event->getEmailTemplateParams(),
+            $user->getWebsite()
         );
     }
 }

@@ -5,7 +5,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\DataTransformer;
 use Oro\Bundle\EntityBundle\Entity\EntityFieldFallbackValue;
 use Oro\Bundle\FrontendBundle\Form\DataTransformer\PageTemplateEntityFieldFallbackValueTransformer;
 
-class PageTemplateEntityFieldFallbackValueTransformerTest extends \PHPUnit_Framework_TestCase
+class PageTemplateEntityFieldFallbackValueTransformerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PageTemplateEntityFieldFallbackValueTransformer */
     private $transformer;
@@ -37,6 +37,16 @@ class PageTemplateEntityFieldFallbackValueTransformerTest extends \PHPUnit_Frame
         $this->transformer->reverseTransform($value);
 
         $this->assertEquals(['route_name' => 'value'], $value->getArrayValue());
+        $this->assertNull($value->getScalarValue());
+    }
+
+    public function testReverseTransformEntityFieldFallbackValueWhenScalarValueIsNull()
+    {
+        $value = new EntityFieldFallbackValue();
+
+        $this->transformer->reverseTransform($value);
+
+        $this->assertNull($value->getArrayValue());
         $this->assertNull($value->getScalarValue());
     }
 }

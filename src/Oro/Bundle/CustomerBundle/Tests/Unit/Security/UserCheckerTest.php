@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Security\UserChecker;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 
-class UserCheckerTest extends \PHPUnit_Framework_TestCase
+class UserCheckerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var UserCheckerInterface
@@ -15,7 +15,7 @@ class UserCheckerTest extends \PHPUnit_Framework_TestCase
     private $userChecker;
 
     /**
-     * @var UserCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var UserCheckerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $innerUserChecker;
 

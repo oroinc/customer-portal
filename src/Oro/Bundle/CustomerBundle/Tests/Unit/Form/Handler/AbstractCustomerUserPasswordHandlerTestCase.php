@@ -6,25 +6,25 @@ use Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserPasswordHandler;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 
-abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Framework_TestCase
+abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $userManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $translator;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $form;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $request;
 
@@ -53,7 +53,7 @@ abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Fram
     }
 
     /**
-     * @param \PHPUnit_Framework_MockObject_MockObject|FormInterface $form
+     * @param \PHPUnit\Framework\MockObject\MockObject|FormInterface $form
      * @param string $message
      * @param array $messageParameters
      */
