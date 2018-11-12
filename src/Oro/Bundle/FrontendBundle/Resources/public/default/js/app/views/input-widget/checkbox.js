@@ -8,7 +8,7 @@ define(function(require) {
 
     CheckboxInputWidget = AbstractInputWidget.extend({
         widgetFunction: function() {
-            this.container().on('keydown keypress', _.bind(this._handleEnterPress, this));
+            this.getContainer().on('keydown keypress', _.bind(this._handleEnterPress, this));
             this.$el.on('change', _.bind(this._handleChange, this));
         },
 
