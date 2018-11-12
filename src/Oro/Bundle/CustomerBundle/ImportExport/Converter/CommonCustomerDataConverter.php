@@ -4,6 +4,11 @@ namespace Oro\Bundle\CustomerBundle\ImportExport\Converter;
 
 use Oro\Bundle\ImportExportBundle\Converter\ConfigurableTableDataConverter;
 
+/**
+ * This class is deprecated since 2.6 and will be removed.
+ * @see \Oro\Bundle\CustomerBundle\ImportExport\EventListener\CustomerHeadersListener
+ * and \Oro\Bundle\CustomerBundle\ImportExport\EventListener\CustomerUserHeadersListener instead
+ */
 abstract class CommonCustomerDataConverter extends ConfigurableTableDataConverter
 {
     /**

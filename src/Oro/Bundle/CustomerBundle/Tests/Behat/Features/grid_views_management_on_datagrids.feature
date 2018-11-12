@@ -1,3 +1,4 @@
+@ticket-BAP-17827
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 Feature: grid views management on datagrids
   In order to manage grid views on front store
@@ -9,6 +10,7 @@ Feature: grid views management on datagrids
     And I click "Account"
     And I click "Address Book"
     And I hide filter "State" in "Customer Company Addresses Grid" grid
+    And I hide column "State" in frontend grid
     When I click grid view list on "Customer Company Addresses Grid" grid
     And I click "Save As New"
     And I set "Test view" as grid view name for "Customer Company Addresses Grid" grid on frontend
@@ -17,6 +19,13 @@ Feature: grid views management on datagrids
     And I should see "View has been successfully created" flash message
     And I click "Flash Message Close Button"
     Then I should see a "Customer Company User Addresses Grid View List" element
+
+  Scenario: Check that new grid view is used as default
+    When I click "Account"
+    And I click "Address Book"
+    Then I should see "Test view"
+    And shouldn't see "State" column in "Customer Company Addresses Grid" frontend grid
+    And I shouldn't see "State" filter in frontend grid
 
   Scenario: Gridview can be renamed few times
     When I click grid view list on "Customer Company Addresses Grid" grid
