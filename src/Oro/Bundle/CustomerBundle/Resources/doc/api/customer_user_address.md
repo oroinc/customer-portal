@@ -233,6 +233,7 @@ Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/u
 {@inheritdoc}
 
 **Please note:**
+
 *Either **organization** or **firstName** and **lastName** must remain defined.*
 
 ### lastName
@@ -249,6 +250,7 @@ Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/u
 {@inheritdoc}
 
 **Please note:**
+
 *Either **organization** or **firstName** and **lastName** must remain defined.*
 
 ### organization
@@ -265,6 +267,7 @@ Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/u
 {@inheritdoc}
 
 **Please note:**
+
 *Either **organization** or **firstName** and **lastName** must remain defined.*
 
 ### country
