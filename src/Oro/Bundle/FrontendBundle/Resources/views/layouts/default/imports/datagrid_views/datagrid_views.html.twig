@@ -78,7 +78,7 @@
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid-views__subtitle'
     }) %}
-    <h3 {{ block('block_attributes') }}>Saved Views</h3>
+    <h3 {{ block('block_attributes') }}>{{ 'oro_frontend.datagrid_views.saved_views'|trans }}</h3>
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_list_widget %}

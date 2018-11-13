@@ -57,6 +57,9 @@ oro_frontend:
         back:
             label: "Back"
 
+    datagrid_views:
+        saved_views: 'Saved Views'
+
 oro_frontend_style_book:
     main_content:
           sub_title_main: 'Oro StyleBook: UI Component Library'

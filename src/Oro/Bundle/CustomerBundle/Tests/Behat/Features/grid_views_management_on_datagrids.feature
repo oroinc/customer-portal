@@ -1,4 +1,6 @@
 @ticket-BAP-17827
+@ticket-BB-15402
+@fixture-OroLocaleBundle:ZuluLocalization.yml
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 Feature: grid views management on datagrids
   In order to manage grid views on front store
@@ -41,3 +43,25 @@ Feature: grid views management on datagrids
     And I click "Save"
     And I should see "View has been successfully updated" flash message
     Then I should see "Test view 02"
+
+  Scenario: Add translation for Saved Views grid action
+    Given I login as administrator
+    And I enable the existing localizations
+    And I go to System / Configuration
+    And go to System/Localization/Translations
+    And filter Translated Value as is empty
+    And filter English translation as contains "Saved Views"
+    When I edit "oro_frontend.datagrid_views.saved_views" Translated Value as "Saved Views - Zulu"
+    Then I should see following records in grid:
+      | Saved Views - Zulu |
+    When I click "Update Cache"
+    Then I should see "Translation Cache has been updated" flash message
+
+  Scenario: Check translations for grid view list
+    Given I signed in as AmandaRCole@example.org on the store frontend
+    And I click "Account"
+    And I click "Address Book"
+    And I click "Localization Switcher"
+    And I select "Zulu" localization
+    When I click grid view list on "Customer Company Addresses Grid" grid
+    Then I should see "Saved Views - Zulu"
