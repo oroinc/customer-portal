@@ -26,7 +26,8 @@ Feature: Update customer user roles
       | Website | Default|
 
   Scenario: Customer user unable to update his roles
-    Given I signed in as AmandaRCole@example.org on the store frontend
+    Given I proceed as the User
+    And I signed in as AmandaRCole@example.org on the store frontend
     And I click "Account"
     And I click "Users"
     And I should not see following actions for AmandaRCole@example.org in grid:
