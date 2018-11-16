@@ -64,3 +64,6 @@ oro_frontend:
 
     combined_buttons:
         more_actions.label: More actions
+
+    datagrid_views:
+        saved_views: 'Saved Views'

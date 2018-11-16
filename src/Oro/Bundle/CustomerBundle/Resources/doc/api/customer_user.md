@@ -153,7 +153,7 @@ Delete a collection of customer user records.
 {@inheritdoc}
 
 **Conditionally required field:**
-This field is required when "enabled" field value is "true".
+*This field is required when **enabled** field value is `true`.*
 
 ### enabled
 

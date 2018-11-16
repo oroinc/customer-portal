@@ -16,33 +16,17 @@ class FrontendApiPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
-            $container,
-            'oro_api.collect_resources.load_dictionaries'
-        );
-        FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
-            $container,
-            'oro_api.collect_resources.load_custom_entities'
-        );
-        FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
-            $container,
-            'oro_api.create.rest.set_location_header'
-        );
-        FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
-            $container,
-            'oro_api.options.rest.set_cache_control'
-        );
-        FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
-            $container,
-            'oro_api.rest.cors.set_allow_origin'
-        );
-        FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
-            $container,
-            'oro_api.rest.cors.set_allow_and_expose_headers'
-        );
-        FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi(
-            $container,
-            'oro_api.options.rest.cors.set_max_age'
-        );
+        $processorsToBeDisabled = [
+            'oro_api.collect_resources.load_dictionaries',
+            'oro_api.collect_resources.load_custom_entities',
+            'oro_api.options.rest.set_cache_control',
+            'oro_api.rest.cors.set_allow_origin',
+            'oro_api.rest.cors.set_allow_and_expose_headers',
+            'oro_api.options.rest.cors.set_max_age',
+        ];
+
+        foreach ($processorsToBeDisabled as $serviceId) {
+            FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi($container, $serviceId);
+        }
     }
 }
