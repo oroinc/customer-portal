@@ -8,7 +8,7 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
             - Valid: ~
             # temporary disabled, because now this check does not make sense until BB-15134 is done
             #- Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
-            #    message: One of the addresses must be set as primary.
+            #    message: oro.address.validation.contains_primary
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
         parent:
             - Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference: ~
@@ -78,7 +78,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             - Valid: ~
             # temporary disabled, because now this check does not make sense until BB-15134 is done
             #- Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
-            #    message: One of the addresses must be set as primary.
+            #    message: oro.address.validation.contains_primary
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
         customer:
             - NotBlank: ~
