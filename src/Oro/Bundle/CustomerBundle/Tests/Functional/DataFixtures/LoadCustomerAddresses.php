@@ -86,8 +86,10 @@ class LoadCustomerAddresses extends AbstractAddressesFixture implements Dependen
     public function load(ObjectManager $manager)
     {
         foreach ($this->addresses as $addressData) {
+            $organization = $this->getOrganization($manager);
             $address = new CustomerAddress();
-            $address->setSystemOrganization($this->getOrganization($manager));
+            $address->setOrganization($organization->getName());
+            $address->setSystemOrganization($organization);
             $address->setFrontendOwner($this->getReference($addressData['customer']));
             $this->addAddress($manager, $addressData, $address);
         }

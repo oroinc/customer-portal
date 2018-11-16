@@ -7,8 +7,8 @@ use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\EmailBundle\Form\Type\EmailAddressType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Validator\Validation;
@@ -41,6 +41,46 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
         $this->assertInstanceOf(EmailAddressType::class, $form->getConfig()->getType()->getParent()->getInnerType());
         $this->assertTrue($form->getConfig()->getRequired());
+    }
+
+    public function testFormViewSetRequiredForGuest()
+    {
+        /** @var AnonymousCustomerUserToken|\PHPUnit\Framework\MockObject\MockObject $token */
+        $token = $this->createMock(AnonymousCustomerUserToken::class);
+
+        $this->tokenStorage->expects($this->exactly(2))
+            ->method('getToken')
+            ->will($this->returnValue($token));
+
+        /** @var CustomerVisitorEmailAddressType $formType */
+        $formType = new CustomerVisitorEmailAddressType($this->tokenStorage);
+        $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
+        $formView = new FormView();
+        $formView->vars['required'] = false;
+
+        $formType->finishView($formView, $form, []);
+
+        $this->assertTrue($formView->vars['required']);
+    }
+
+    public function testFormViewSetNotRequiredForCustomerUser()
+    {
+        /** @var AnonymousCustomerUserToken|\PHPUnit\Framework\MockObject\MockObject $token */
+        $token = $this->createMock(TokenInterface::class);
+
+        $this->tokenStorage->expects($this->exactly(2))
+            ->method('getToken')
+            ->will($this->returnValue($token));
+
+        /** @var CustomerVisitorEmailAddressType $formType */
+        $formType = new CustomerVisitorEmailAddressType($this->tokenStorage);
+        $form = $this->factory->create(CustomerVisitorEmailAddressType::class);
+        $formView = new FormView();
+        $formView->vars['required'] = false;
+
+        $formType->finishView($formView, $form, []);
+
+        $this->assertFalse($formView->vars['required']);
     }
 
     /**
