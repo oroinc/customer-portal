@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\RestJsonApi;
 
 use Doctrine\Common\Collections\Collection;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
