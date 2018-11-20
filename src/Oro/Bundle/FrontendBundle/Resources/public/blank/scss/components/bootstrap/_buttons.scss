@@ -30,11 +30,8 @@
         outline: $btn-hover-focus-outline;
     }
 
-    // Disabled comes first so active can properly restyle
-    &.disabled,
-    &:disabled {
-        opacity: $btn-disabled-opacity;
-
+    @include element-state('disabled') {
+        @include base-disabled-style(.75);
         @include box-shadow($btn-disabled-box-shadow);
     }
 

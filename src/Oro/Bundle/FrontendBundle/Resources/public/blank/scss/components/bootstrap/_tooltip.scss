@@ -1,0 +1,24 @@
+// @theme: blank;
+
+@import "bowerassets/bootstrap/scss/tooltip";
+
+.tooltip {
+    .arrow {
+        &::before {
+            @include base-disabled-style(.75);
+        }
+    }
+}
+
+.tooltip-inner {
+    &:not(.not-expand) {
+        text-align: $tooltip-text-align;
+    }
+
+    @include base-disabled-style(.75);
+}
+
+.tooltip-container {
+    position: $tooltip-container-position;
+    display: $tooltip-container-display;
+}
