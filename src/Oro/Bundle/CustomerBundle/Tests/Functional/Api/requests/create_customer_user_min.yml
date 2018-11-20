@@ -1,0 +1,18 @@
+data:
+    type: customer_users
+    attributes:
+        username: test2341@test.com
+        password: '123123123123'
+        email: test2341@test.com
+        firstName: Bob
+        lastName: Doo
+    relationships:
+        customer:
+            data:
+                type: customers
+                id: '<toString(@customer.level_1->id)>'
+        roles:
+            data:
+                -
+                    type: customer_user_roles
+                    id: '<toString(@ROLE_FRONTEND_ADMINISTRATOR->id)>'

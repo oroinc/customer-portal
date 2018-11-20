@@ -28,7 +28,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_users",    
+    "type": "customer_users",
     "attributes": {
       "confirmed": true,
       "email": "AmandaFCole@example.org",      

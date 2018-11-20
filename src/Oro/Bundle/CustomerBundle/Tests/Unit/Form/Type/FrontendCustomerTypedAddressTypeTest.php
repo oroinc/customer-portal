@@ -202,12 +202,7 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
                 'data_class' => CustomerAddress::class,
                 'single_form' => true,
                 'all_addresses_property_path' => 'frontendOwner.addresses',
-                'ownership_disabled' => true,
-                'validation_groups' => [
-                    'Default',
-                    'RequireName',
-                    'RequirePeriod'
-                ]
+                'ownership_disabled' => true
             ],
             $optionsResolver->resolve()
         );

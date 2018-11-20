@@ -12,8 +12,10 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraint;
 
+/**
+ * Manage Customer Typed Address from
+ */
 class CustomerTypedAddressType extends AbstractType
 {
     const NAME = 'oro_customer_typed_address';
@@ -90,8 +92,7 @@ class CustomerTypedAddressType extends AbstractType
                 'data_class' => $this->dataClass,
                 'single_form' => true,
                 'all_addresses_property_path' => 'frontendOwner.addresses',
-                'ownership_disabled' => true,
-                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequirePeriod'],
+                'ownership_disabled' => true
             ]
         );
     }

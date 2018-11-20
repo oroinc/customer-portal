@@ -56,7 +56,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         country: 'US'
         owner: '@admin'
         systemOrganization: '@organization'
-        primary: false
+        primary: true
         label: 'Address 2'
         street: '23400 Caldwell Road'
         city: 'Rochester'
@@ -94,7 +94,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         country: 'US'
         owner: '@admin'
         systemOrganization: '@organization'
-        primary: false
+        primary: true
         label: 'Address 2'
         street: '23400 Caldwell Road'
         city: 'Rochester'

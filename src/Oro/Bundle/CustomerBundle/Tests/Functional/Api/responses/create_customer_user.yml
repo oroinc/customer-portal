@@ -1,0 +1,41 @@
+data:
+    type: customer_users
+    id: new
+    attributes:
+        username: test2341@test.com
+        email: test2341@test.com
+        namePrefix: null
+        nameSuffix: null
+        firstName: Bob
+        middleName: null
+        lastName: Doo
+        birthday: null
+        confirmed: true
+        enabled: true
+        loginCount: 0
+        isGuest: false
+        lastLogin: null
+        passwordRequestedAt: null
+        passwordChangedAt: null
+    relationships:
+        roles:
+            data:
+                -
+                    type: customer_user_roles
+                    id: '<toString(@ROLE_FRONTEND_ADMINISTRATOR->id)>'
+        customer:
+            data:
+                type: customers
+                id: '<toString(@customer.level_1->id)>'
+        addresses:
+            data: []
+        owner:
+            data:
+                type: users
+                id: '<toString(@user->id)>'
+        salesRepresentatives:
+            data: []
+        organization:
+            data:
+                type: organizations
+                id: '<toString(@organization->id)>'

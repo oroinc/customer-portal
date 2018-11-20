@@ -149,6 +149,16 @@ Delete a collection of customer records.
 
 ## SUBRESOURCES
 
+### addresses
+
+#### get_subresource
+
+Retrieve records of addresses assigned to a specific customer record.
+
+#### get_relationship
+
+Retrieve IDs of address records assigned to a specific customer record.
+
 ### children
 
 #### get_subresource
