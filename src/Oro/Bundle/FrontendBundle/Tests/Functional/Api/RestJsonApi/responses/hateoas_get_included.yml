@@ -1,0 +1,25 @@
+data:
+    type: testproducts
+    id: '{productId}'
+    links:
+        self: '{baseUrl}/testproducts/{productId}'
+    attributes:
+        name: 'product 1'
+    relationships:
+        productType:
+            links:
+                self: '{baseUrl}/testproducts/{productId}/relationships/productType'
+                related: '{baseUrl}/testproducts/{productId}/productType'
+            data:
+                type: testproducttypes
+                id: '{productTypeId}'
+included:
+    -
+        type: testproducttypes
+        id: '{productTypeId}'
+        links:
+            self: '{baseUrl}/testproducttypes/{productTypeId}'
+        attributes:
+            label: null
+links:
+    self: '{baseUrl}/testproducts'

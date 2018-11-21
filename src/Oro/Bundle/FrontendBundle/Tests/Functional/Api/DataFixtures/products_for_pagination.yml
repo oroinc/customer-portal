@@ -1,0 +1,7 @@
+Oro\Bundle\TestFrameworkBundle\Entity\TestProductType:
+    product_type1:
+        name: type1
+Oro\Bundle\TestFrameworkBundle\Entity\TestProduct:
+    product{1..31}:
+        name: product <current()>
+        productType: '@product_type1'

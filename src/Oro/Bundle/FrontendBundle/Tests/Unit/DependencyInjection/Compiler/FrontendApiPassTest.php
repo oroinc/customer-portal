@@ -15,7 +15,7 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
         'oro_api.options.rest.set_cache_control',
         'oro_api.rest.cors.set_allow_origin',
         'oro_api.rest.cors.set_allow_and_expose_headers',
-        'oro_api.options.rest.cors.set_max_age'
+        'oro_api.options.rest.cors.set_max_age',
     ];
 
     /** @var ContainerBuilder */
@@ -64,12 +64,12 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider processorsDataProvider
      */
-    public function testProcessWhenSomeProcessorDoesNotExist($proccessorServiceId)
+    public function testProcessWhenSomeProcessorDoesNotExist($processorServiceId)
     {
-        $this->registerProcessors($proccessorServiceId);
+        $this->registerProcessors($processorServiceId);
 
         $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionMessage(sprintf('non-existent service "%s"', $proccessorServiceId));
+        $this->expectExceptionMessage(sprintf('non-existent service "%s"', $processorServiceId));
 
         $this->compilerPass->process($this->container);
     }

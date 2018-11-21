@@ -83,6 +83,11 @@ define(function(require) {
         $header: null,
 
         /**
+         * @property {boolean}
+         */
+        rendered: false,
+
+        /**
          * @property {Boolean}
          */
         useDialog: false,
@@ -133,7 +138,8 @@ define(function(require) {
          */
         show: function(options) {
             FrontendDialogWidget.__super__.show.call(this, options);
-            if (this.isApplicable && this.fullscreenMode) {
+            if (this.isApplicable && !this.rendered && this.fullscreenMode) {
+                this.rendered = true;
                 this.showFullscreen();
             }
         },
