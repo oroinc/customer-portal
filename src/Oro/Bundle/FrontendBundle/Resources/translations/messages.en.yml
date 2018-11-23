@@ -39,7 +39,7 @@ oro_frontend:
                     all_at_once: 'All at once'
         messages:
             no_page_templates: 'No templates available.'
-    copyright: '2017 Oro Inc. All Rights Reserved.'
+    copyright.label: '2017 Oro Inc. All Rights Reserved.'
     home_page:
         title: 'Home page'
         welcome: 'Welcome'
