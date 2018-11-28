@@ -42,6 +42,8 @@ services:
             - 'oro_frontend_rest_api_list'
             - 'oro_frontend_rest_api_subresource'
             - 'oro_frontend_rest_api_relationship'
+        tags:
+            - { name: oro.api.rest_routes, requestType: frontend&rest }
 
     oro_frontend.api.rest.action_mapper:
         class: Oro\Bundle\ApiBundle\ApiDoc\RestActionMapper
@@ -65,13 +67,6 @@ services:
     # and Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension::setDefaultHtmlFormatterForFrontendApiViews
     oro_frontend.api_doc.formatter.html_formatter:
         parent: oro_api.api_doc.formatter.html_formatter
-
-    oro_frontend.api.create.rest.set_location_header:
-        parent: oro_api.create.rest.set_location_header
-        arguments:
-            index_0: '@oro_frontend.api.rest.routes'
-        tags:
-            - { name: oro.api.processor, action: create, group: finalize, requestType: frontend&rest, priority: -10 }
 
     oro_frontend.api.rest.cors.set_allow_origin:
         class: Oro\Bundle\ApiBundle\Processor\Shared\Rest\SetCorsAllowOrigin

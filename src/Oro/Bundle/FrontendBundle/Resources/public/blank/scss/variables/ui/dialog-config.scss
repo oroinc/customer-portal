@@ -43,9 +43,16 @@ $dialog-icon-closethick-font-size: 21px !default;
 $dialog-btn-success-background: get-color('primary', 'base') !default;
 $dialog-btn-success-border: get-color('primary', 'base') !default;
 
+$dialog-frontend-fullscreen-position: static !default;
+$dialog-frontend-fullscreen-offset-inner-top: 20px !default;
+$dialog-frontend-fullscreen-titlebar-display: none !default;
+$dialog-frontend-fullscreen-content-offset-inner: 0 12px !default;
+
 // mobile-landscape
 $dialog-widget-content-offset-inner-mobile-landscape: 0 $offset-x !default;
 
 $dialog-titlebar-offset-inner-mobile-landscape: 40px $offset-x $offset-y !default;
 
 $dialog-buttonpane-offset-inner-mobile-landscape: 20px $offset-x !default;
+
+$dialog-frontend-fullscreen-content-offset-inner-mobile-landscape: 0 12px !default;
