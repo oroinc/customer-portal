@@ -1,0 +1,9 @@
+data:
+    type: testproducttypes
+    id: '{productTypeId}'
+    links:
+        self: '{baseUrl}/testproducttypes/{productTypeId}'
+    attributes:
+        label: null
+links:
+    self: '{baseUrl}/testproducts/{productId}/productType'

@@ -4,7 +4,8 @@ namespace Oro\Bundle\CustomerBundle\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\EmailBundle\Form\Type\EmailAddressType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\Email;
@@ -45,8 +46,7 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
     {
         parent::configureOptions($resolver);
 
-        $token = $this->tokenStorage->getToken();
-        if ($token instanceof AnonymousCustomerUserToken) {
+        if ($this->isGuest()) {
             $resolver->setDefaults([
                 'required' => true,
                 'multiple' => false,
@@ -58,6 +58,27 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
                'constraints' => [new Email()]
             ]);
         }
+    }
+
+    /**
+     * Forces setting required (asterisk) for Guest
+     * {@inheritdoc}
+     */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        if ($this->isGuest()) {
+            $view->vars['required'] = true;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    private function isGuest(): bool
+    {
+        $token = $this->tokenStorage->getToken();
+
+        return $token instanceof AnonymousCustomerUserToken;
     }
 
     /**

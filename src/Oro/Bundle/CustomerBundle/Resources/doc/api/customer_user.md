@@ -28,7 +28,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_users",    
+    "type": "customerusers",
     "attributes": {
       "confirmed": true,
       "email": "AmandaFCole@example.org",      
@@ -42,7 +42,7 @@ Example:
       "roles": {
         "data": [
           {
-            "type": "customer_user_roles",
+            "type": "customeruserroles",
             "id": "1"
           }
         ]
@@ -79,7 +79,7 @@ Example:
 ```JSON
 {
   "data": {
-    "type": "customer_users",
+    "type": "customerusers",
     "id": "1",    
     "attributes": {
       "confirmed": true,
@@ -93,7 +93,7 @@ Example:
       "roles": {
         "data": [
           {
-            "type": "customer_user_roles",
+            "type": "customeruserroles",
             "id": "1"
           }
         ]
@@ -153,7 +153,7 @@ Delete a collection of customer user records.
 {@inheritdoc}
 
 **Conditionally required field:**
-This field is required when "enabled" field value is "true".
+*This field is required when **enabled** field value is `true`.*
 
 ### enabled
 
@@ -374,11 +374,11 @@ Example:
 {
   "data": [
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "1"
     },
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "2"
     }
   ]
@@ -397,7 +397,7 @@ Example:
 {
   "data": [
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "2"
     }
   ]
@@ -416,7 +416,7 @@ Example:
 {
   "data": [
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "2"
     }
   ]
@@ -512,60 +512,3 @@ Retrieve a record of address assigned to a specific customer user record.
 #### get_relationship
 
 Retrieve IDs of address records assigned to a specific customer user record.
-
-#### update_relationship
-
-Replace the list of addresses assigned to a specific customer user record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customer_user_addresses",
-      "id": "1"
-    }
-  ]
-}
-```
-{@/request}
-
-#### add_relationship
-
-Set address records for a specific customer user record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customer_user_addresses",
-      "id": "1"
-    }
-  ]
-}
-```
-{@/request}
-
-#### delete_relationship
-
-Remove address records from a specific customer user record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customer_user_addresses",
-      "id": "1"
-    }
-  ]
-}
-```
-{@/request}

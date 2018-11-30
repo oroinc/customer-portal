@@ -1,0 +1,8 @@
+data:
+    type: testproducttypes
+    id: '{productTypeId}'
+    links:
+        self: '{baseUrl}/testproducttypes/{productTypeId}'
+links:
+    self: '{baseUrl}/testproducts/{productId}/relationships/productType'
+    related: '{baseUrl}/testproducts/{productId}/productType'

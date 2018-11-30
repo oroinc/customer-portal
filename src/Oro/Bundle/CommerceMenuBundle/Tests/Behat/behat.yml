@@ -32,7 +32,7 @@ oro_behat_extension:
     Commerce Menu Form Title Fallbacks:
       selector:
         type: xpath
-        locator: '(//span[@class="fallback-status"])[1]'
+        locator: '(//button[contains(@class, "fallback-status")])[1]'
 
     Information:
       selector:

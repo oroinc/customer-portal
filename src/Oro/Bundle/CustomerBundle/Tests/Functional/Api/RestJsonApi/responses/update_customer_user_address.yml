@@ -1,0 +1,38 @@
+data:
+    type: customeruseraddresses
+    id: '<toString(@other.user@test.com.address_1->id)>'
+    attributes:
+        city: 'City updated'
+        firstName: 'First name updated'
+        label: 'Address label updated'
+        lastName: 'Adrian'
+        middleName: null
+        namePrefix: null
+        nameSuffix: null
+        organization: null
+        phone: null
+        postalCode: '14608'
+        primary: true
+        street: '23405 Caldwell Road'
+        street2: null
+    relationships:
+        customerUser:
+            data:
+                type: customerusers
+                id: '<toString(@other.user@test.com->id)>'
+        owner:
+            data:
+                type: users
+                id: '<toString(@customer.1->owner->id)>'
+        systemOrganization:
+            data:
+                type: organizations
+                id: '<toString(@customer.1->organization->id)>'
+        country:
+            data:
+                type: countries
+                id: '<toString(@country.US->iso2Code)>'
+        region:
+            data:
+                type: regions
+                id: '<toString(@region.US-NY->combinedCode)>'
