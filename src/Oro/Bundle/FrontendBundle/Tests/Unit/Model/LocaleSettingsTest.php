@@ -102,24 +102,6 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $this->localeSettings->addLocaleData($usDataModified);
     }
 
-    public function testAddCurrencyData()
-    {
-        $usData = ['USD' => [LocaleSettings::CURRENCY_SYMBOL_KEY => '$']];
-        $usDataModified = ['USD' => [LocaleSettings::CURRENCY_SYMBOL_KEY => 'AU$']];
-
-        $this->inner->expects($this->once())
-            ->method('getCurrencyData')
-            ->willReturn($usData);
-
-        $this->assertEquals($usData, $this->localeSettings->getCurrencyData());
-
-        $this->inner->expects($this->once())
-            ->method('addCurrencyData')
-            ->with($usDataModified);
-
-        $this->localeSettings->addCurrencyData($usDataModified);
-    }
-
     public function testIsFormatAddressByAddressCountry()
     {
         $this->inner->expects($this->once())
