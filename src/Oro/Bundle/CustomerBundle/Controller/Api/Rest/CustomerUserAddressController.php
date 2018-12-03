@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * API controller for customer user address entity.
+ *
  * @NamePrefix("oro_api_customer_")
  */
 class CustomerUserAddressController extends RestController implements ClassResourceInterface
@@ -107,7 +109,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
         $address = $this->getManager()->find($addressId);
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getCustomerUserManager()->find($entityId);
-        if ($this->get('oro_customer.provider.frontend.address')->isCurrentCustomerUserAddressesContain($address)) {
+        if ($this->isGranted('DELETE', $address)) {
             $customerUser->removeAddress($address);
             return $this->handleDeleteRequest($addressId);
         } else {
