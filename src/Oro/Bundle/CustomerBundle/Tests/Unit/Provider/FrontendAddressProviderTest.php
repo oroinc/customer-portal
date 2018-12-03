@@ -11,6 +11,7 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerAddressRepository;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserAddressRepository;
 use Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class FrontendAddressProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,11 +30,16 @@ class FrontendAddressProviderTest extends \PHPUnit_Framework_TestCase
     /** @var string */
     private $customerUserAddressClass = 'customerUserAddressClass';
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    private $authorizationChecker;
+
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+
         $this->registry = $this->createMock(ManagerRegistry::class);
 
         $this->aclHelper = $this->getMockBuilder(AclHelper::class)
@@ -78,30 +84,58 @@ class FrontendAddressProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testIsCurrentCustomerAddressesContain()
     {
-        $addresses = $this->prepareCustomerAddresses();
+        $this->provider->setAuthorizationChecker($this->authorizationChecker);
 
-        $this->assertTrue($this->provider->isCurrentCustomerAddressesContain($addresses[0]));
+        $address = $this->prepareCustomerAddresses()[0];
+
+        $this->authorizationChecker->expects($this->once())
+            ->method('isGranted')
+            ->with('VIEW', $address)
+            ->willReturn(true);
+
+        $this->assertTrue($this->provider->isCurrentCustomerAddressesContain($address));
     }
 
     public function testIsCurrentCustomerAddressesContainFalse()
     {
-        $this->prepareCustomerAddresses();
+        $this->provider->setAuthorizationChecker($this->authorizationChecker);
 
-        $this->assertFalse($this->provider->isCurrentCustomerAddressesContain(new CustomerAddress()));
+        $address = new CustomerAddress();
+
+        $this->authorizationChecker->expects($this->once())
+            ->method('isGranted')
+            ->with('VIEW', $address)
+            ->willReturn(false);
+
+        $this->assertFalse($this->provider->isCurrentCustomerAddressesContain($address));
     }
 
     public function testIsCurrentCustomerUserAddressesContain()
     {
-        $addresses = $this->prepareCustomerUserAddresses();
+        $this->provider->setAuthorizationChecker($this->authorizationChecker);
 
-        $this->assertTrue($this->provider->isCurrentCustomerUserAddressesContain($addresses[0]));
+        $address = $this->prepareCustomerUserAddresses()[0];
+
+        $this->authorizationChecker->expects($this->once())
+            ->method('isGranted')
+            ->with('VIEW', $address)
+            ->willReturn(true);
+
+        $this->assertTrue($this->provider->isCurrentCustomerUserAddressesContain($address));
     }
 
     public function testIsCurrentCustomerUserAddressesContainFalse()
     {
-        $this->prepareCustomerUserAddresses();
+        $this->provider->setAuthorizationChecker($this->authorizationChecker);
 
-        $this->assertFalse($this->provider->isCurrentCustomerUserAddressesContain(new CustomerUserAddress()));
+        $address = new CustomerUserAddress();
+
+        $this->authorizationChecker->expects($this->once())
+            ->method('isGranted')
+            ->with('VIEW', $address)
+            ->willReturn(false);
+
+        $this->assertFalse($this->provider->isCurrentCustomerUserAddressesContain($address));
     }
 
     /**
@@ -117,7 +151,7 @@ class FrontendAddressProviderTest extends \PHPUnit_Framework_TestCase
         ];
 
         $repository = $this->prepareCustomerAddressRepository();
-        $repository->expects($this->once())
+        $repository->expects($this->any())
             ->method('getAddresses')
             ->with($this->aclHelper)
             ->willReturn($addresses);
@@ -138,7 +172,7 @@ class FrontendAddressProviderTest extends \PHPUnit_Framework_TestCase
         ];
 
         $repository = $this->prepareCustomerUserAddressRepository();
-        $repository->expects($this->once())
+        $repository->expects($this->any())
             ->method('getAddresses')
             ->with($this->aclHelper)
             ->willReturn($addresses);

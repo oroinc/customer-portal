@@ -957,6 +957,8 @@ services:
             - '@oro_security.acl_helper'
             - '%oro_customer.entity.customer_address.class%'
             - '%oro_customer.entity.customer_user_address.class%'
+        calls:
+            - [setAuthorizationChecker, ['@security.authorization_checker']]
 
     oro_customer.datagrid.frontend_customer_address.action_checker:
         class: Oro\Bundle\CustomerBundle\Datagrid\FrontendCustomerAddressActionChecker

@@ -98,7 +98,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
         $address = $this->getManager()->find($addressId);
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
-        if ($this->get('oro_customer.provider.frontend.address')->isCurrentCustomerAddressesContain($address)) {
+        if ($this->isGranted('DELETE', $address)) {
             $customer->removeAddress($address);
             return $this->handleDeleteRequest($addressId);
         } else {

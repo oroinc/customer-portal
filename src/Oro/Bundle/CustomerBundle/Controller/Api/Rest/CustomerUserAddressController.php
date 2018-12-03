@@ -110,7 +110,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
         $address = $this->getManager()->find($addressId);
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getCustomerUserManager()->find($entityId);
-        if ($this->get('oro_customer.provider.frontend.address')->isCurrentCustomerUserAddressesContain($address)) {
+        if ($this->isGranted('DELETE', $address)) {
             $customerUser->removeAddress($address);
             return $this->handleDeleteRequest($addressId);
         } else {

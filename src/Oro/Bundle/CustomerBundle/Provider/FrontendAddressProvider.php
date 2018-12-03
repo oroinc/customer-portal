@@ -9,6 +9,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerAddressRepository;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserAddressRepository;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class FrontendAddressProvider
 {
@@ -33,6 +34,11 @@ class FrontendAddressProvider
     protected $customerUserAddressClass;
 
     /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    /**
      * @var array
      */
     protected $cache = [];
@@ -54,6 +60,14 @@ class FrontendAddressProvider
 
         $this->customerAddressClass = $customerAddressClass;
         $this->customerUserAddressClass = $customerUserAddressClass;
+    }
+
+    /**
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     */
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -116,7 +130,7 @@ class FrontendAddressProvider
      */
     public function isCurrentCustomerAddressesContain(CustomerAddress $customerAddress)
     {
-        return in_array($customerAddress, $this->getCurrentCustomerAddresses(), true);
+        return $this->authorizationChecker->isGranted('VIEW', $customerAddress);
     }
 
     /**
@@ -125,6 +139,6 @@ class FrontendAddressProvider
      */
     public function isCurrentCustomerUserAddressesContain(CustomerUserAddress $customerUserAddress)
     {
-        return in_array($customerUserAddress, $this->getCurrentCustomerUserAddresses(), true);
+        return $this->authorizationChecker->isGranted('VIEW', $customerUserAddress);
     }
 }
