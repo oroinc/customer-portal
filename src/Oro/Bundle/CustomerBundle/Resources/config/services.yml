@@ -732,7 +732,7 @@ services:
         class: Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener
         arguments: ["@security.token_storage", "@oro_entity_config.provider.ownership"]
         tags:
-             - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: prePersist }
 
     oro_customer.event_listener.role_page_listener:
         class: 'Oro\Bundle\CustomerBundle\EventListener\CustomerRolePageListener'
