@@ -5,7 +5,7 @@ define(function(require) {
     var BaseChoiceFilter = require('oro/filter/choice-filter');
 
     ChoiceFilter = BaseChoiceFilter.extend({
-        choiceDropdownSelector: 'select[data-choice-value-select]',
+        choiceSelectSelector: 'select[data-choice-value-select]',
 
         events: {
             'change select[data-choice-value-select]': '_onClickChoiceValue'
@@ -24,12 +24,15 @@ define(function(require) {
          * @inheritDoc
          */
         _onValueUpdated: function(newValue, oldValue) {
-            var $menu = this.$(this.choiceDropdownSelector);
-            var name = $menu.data('name') || 'type';
-            $menu.val(newValue[name]);
+            this.$(this.choiceSelectSelector).each(function(i, elem) {
+                var $select = this.$(elem);
+                var name = $select.data('name') || 'type';
+                if (oldValue[name] !== newValue[name]) {
+                    $select.val(newValue[name]).trigger('change');
+                }
+            }.bind(this));
 
-            this._updateCriteriaHint();
-            this._triggerUpdate(newValue, oldValue);
+            ChoiceFilter.__super__._onValueUpdated.call(this, newValue, oldValue);
         }
     });
 
