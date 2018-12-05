@@ -26,7 +26,7 @@ $embedded-list-slider-arrow-side-offset: 3px !default;
 $embedded-list-slider-icon-color: lighten(get-color('additional', 'dark'), 16.5%) !default;
 
 $embedded-list-tiles-gap: $offset-x !default;
-$embedded-list-tiles-offset: 0 0 0 -($embedded-list-tiles-gap) !default;
+$embedded-list-tiles-offset: 0 0 0 (-$embedded-list-tiles-gap) !default;
 $embedded-list-tiles-justify-content: center !default;
 
 $embedded-list-tiles-item-width: 25% !default;

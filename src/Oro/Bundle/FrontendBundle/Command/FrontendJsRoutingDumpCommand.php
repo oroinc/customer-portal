@@ -2,12 +2,14 @@
 
 namespace Oro\Bundle\FrontendBundle\Command;
 
-use FOS\JsRoutingBundle\Command\DumpCommand;
 use FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractorInterface;
 use Oro\Bundle\UIBundle\Command\JsRoutingDumpCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Dumps JS routes for frontend application
+ */
 class FrontendJsRoutingDumpCommand extends JsRoutingDumpCommand
 {
     /**
@@ -22,9 +24,9 @@ class FrontendJsRoutingDumpCommand extends JsRoutingDumpCommand
     {
         parent::execute($input, $output);
 
-        $webRootDir = $this->getContainer()->getParameter('assetic.read_from');
+        $webRootDir = $this->getContainer()->getParameter('kernel.project_dir');
         if ($webRootDir) {
-            $input->setOption('target', $webRootDir . '/js/frontend_routes.js');
+            $input->setOption('target', $webRootDir . '/public/js/frontend_routes.js');
         }
         $this->routesExtractor = $this->getContainer()->get('oro_frontend.extractor.frontend_exposed_routes_extractor');
         $this->initialize($input, $output);

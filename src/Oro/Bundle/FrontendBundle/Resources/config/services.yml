@@ -60,23 +60,6 @@ services:
         calls:
             - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%']]
 
-    oro_frontend.assetic.configuration:
-        class: '%oro_assetic.configuration.class%'
-        public: false
-        arguments:
-            - '@event_dispatcher'
-            - '%oro_assetic.raw_configuration%'
-
-#    oro_frontend.twig_extension.demo_frontend_theme:
-#        class: 'Oro\Bundle\FrontendBundle\Twig\DemoThemeExtension'
-#        public: false
-#        arguments:
-#            - '@assetic.asset_factory'
-#            - '@oro_frontend.assetic.configuration'
-#            - '@oro_theme.registry'
-#        tags:
-#            - { name: twig.extension }
-
     oro_frontend.placeholder.theme_filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\ThemeFilter'
         arguments:
