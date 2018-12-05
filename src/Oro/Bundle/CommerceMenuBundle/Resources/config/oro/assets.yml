@@ -1,4 +1,4 @@
 assets:
     css:
-        ororeminder:
+        inputs:
             - 'bundles/orocommercemenu/css/scss/main.scss'
