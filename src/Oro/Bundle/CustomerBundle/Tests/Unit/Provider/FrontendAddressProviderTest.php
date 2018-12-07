@@ -75,34 +75,6 @@ class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($addresses, $this->provider->getCurrentCustomerUserAddresses());
     }
 
-    public function testIsCurrentCustomerAddressesContain()
-    {
-        $addresses = $this->prepareCustomerAddresses();
-
-        $this->assertTrue($this->provider->isCurrentCustomerAddressesContain($addresses[0]));
-    }
-
-    public function testIsCurrentCustomerAddressesContainFalse()
-    {
-        $this->prepareCustomerAddresses();
-
-        $this->assertFalse($this->provider->isCurrentCustomerAddressesContain(new CustomerAddress()));
-    }
-
-    public function testIsCurrentCustomerUserAddressesContain()
-    {
-        $addresses = $this->prepareCustomerUserAddresses();
-
-        $this->assertTrue($this->provider->isCurrentCustomerUserAddressesContain($addresses[0]));
-    }
-
-    public function testIsCurrentCustomerUserAddressesContainFalse()
-    {
-        $this->prepareCustomerUserAddresses();
-
-        $this->assertFalse($this->provider->isCurrentCustomerUserAddressesContain(new CustomerUserAddress()));
-    }
-
     /**
      * @return CustomerAddress[]
      */

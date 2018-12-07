@@ -5,9 +5,9 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator;
-use Oro\Component\Testing\Validator\AbstractConstraintValidatorTest;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class CircularCustomerReferenceValidatorTest extends AbstractConstraintValidatorTest
+class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
 {
     protected function setUp()
     {

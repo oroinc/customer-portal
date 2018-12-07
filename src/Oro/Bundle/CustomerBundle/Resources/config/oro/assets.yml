@@ -1,4 +1,4 @@
 assets:
     css:
-        'orocustomer':
+        inputs:
             - 'bundles/orocustomer/css/scss/main.scss'
