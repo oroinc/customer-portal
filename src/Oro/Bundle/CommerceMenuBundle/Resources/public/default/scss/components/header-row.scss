@@ -68,7 +68,7 @@
 
         z-index: z('base') + 2;
 
-        margin: 0 -($offset-x-m);
+        margin: 0 (-$offset-x-m);
 
         &__container {
             position: static;
