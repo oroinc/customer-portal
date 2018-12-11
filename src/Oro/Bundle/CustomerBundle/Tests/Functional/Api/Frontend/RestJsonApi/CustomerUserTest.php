@@ -5,6 +5,8 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadAdminCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
+use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -15,6 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CustomerUserTest extends FrontendRestJsonApiTestCase
 {
+    use RolePermissionExtension;
+
     protected function setUp()
     {
         parent::setUp();
@@ -397,6 +401,223 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [
                 'title'  => 'customer user check role constraint',
                 'detail' => 'Please select at least one role before you enable the customer user'
+            ],
+            $response
+        );
+    }
+
+    public function testTryToCreateWithCustomerFromAnotherDepartment()
+    {
+        $anotherCustomerId = $this->getReference('another_customer')->getId();
+
+        $data = $this->getRequestData('create_customer_user_min.yml');
+        $data['data']['relationships']['customer']['data'] = [
+            'type' => 'customers',
+            'id'   => (string)$anotherCustomerId
+        ];
+        $response = $this->post(
+            ['entity' => 'customerusers'],
+            $data,
+            [],
+            false
+        );
+
+        $this->assertResponseValidationErrors(
+            [
+                [
+                    'title'  => 'frontend owner constraint',
+                    'detail' => 'You have no access to set this value as customer.',
+                    'source' => ['pointer' => '/data/relationships/customer/data']
+                ],
+                [
+                    'title'  => 'access granted constraint',
+                    'detail' => 'The "VIEW" permission is denied for the related resource.',
+                    'source' => ['pointer' => '/data/relationships/customer/data']
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testTryToSetCustomerFromAnotherDepartment()
+    {
+        $customerUserId = $this->getReference('customer_user1')->getId();
+        $anotherCustomerId = $this->getReference('another_customer')->getId();
+
+        $data = [
+            'data' => [
+                'type'          => 'customerusers',
+                'id'            => (string)$customerUserId,
+                'relationships' => [
+                    'customer' => [
+                        'data' => ['type' => 'customers', 'id' => (string)$anotherCustomerId]
+                    ]
+                ]
+            ]
+        ];
+        $response = $this->patch(
+            ['entity' => 'customerusers', 'id' => $customerUserId],
+            $data,
+            [],
+            false
+        );
+
+        $this->assertResponseValidationErrors(
+            [
+                [
+                    'title'  => 'frontend owner constraint',
+                    'detail' => 'You have no access to set this value as customer.',
+                    'source' => ['pointer' => '/data/relationships/customer/data']
+                ],
+                [
+                    'title'  => 'access granted constraint',
+                    'detail' => 'The "VIEW" permission is denied for the related resource.',
+                    'source' => ['pointer' => '/data/relationships/customer/data']
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testTryToSetCustomerFromAnotherDepartmentViaUpdateCustomerRelationship()
+    {
+        $customerUserId = $this->getReference('customer_user1')->getId();
+        $anotherCustomerId = $this->getReference('another_customer')->getId();
+
+        $data = [
+            'data' => ['type' => 'customers', 'id' => (string)$anotherCustomerId]
+        ];
+        $response = $this->patchRelationship(
+            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'customer'],
+            $data,
+            [],
+            false
+        );
+
+        $this->assertResponseValidationErrors(
+            [
+                [
+                    'title'  => 'frontend owner constraint',
+                    'detail' => 'You have no access to set this value as customer.'
+                ],
+                [
+                    'title'  => 'access granted constraint',
+                    'detail' => 'The "VIEW" permission is denied for the related resource.'
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testTryToCreateWithChildCustomerWhenCreateAccessLevelIsLocal()
+    {
+        $this->updateRolePermissions(
+            $this->getReference('admin')->getRole(),
+            CustomerUser::class,
+            [
+                'VIEW'   => AccessLevel::DEEP_LEVEL,
+                'EDIT'   => AccessLevel::DEEP_LEVEL,
+                'ASSIGN' => AccessLevel::DEEP_LEVEL,
+                'CREATE' => AccessLevel::LOCAL_LEVEL
+            ]
+        );
+
+        $childCustomerId = $this->getReference('customer1')->getId();
+
+        $data = $this->getRequestData('create_customer_user_min.yml');
+        $data['data']['relationships']['customer']['data'] = [
+            'type' => 'customers',
+            'id'   => (string)$childCustomerId
+        ];
+        $response = $this->post(
+            ['entity' => 'customerusers'],
+            $data,
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'frontend owner constraint',
+                'detail' => 'You have no access to set this value as customer.',
+                'source' => ['pointer' => '/data/relationships/customer/data']
+            ],
+            $response
+        );
+    }
+
+    public function testTryToSetChildCustomerWhenAssignAccessLevelIsLocal()
+    {
+        $this->updateRolePermissions(
+            $this->getReference('admin')->getRole(),
+            CustomerUser::class,
+            [
+                'VIEW'   => AccessLevel::DEEP_LEVEL,
+                'EDIT'   => AccessLevel::DEEP_LEVEL,
+                'ASSIGN' => AccessLevel::LOCAL_LEVEL
+            ]
+        );
+
+        $customerUserId = $this->getReference('customer_user')->getId();
+        $childCustomerId = $this->getReference('customer1')->getId();
+
+        $data = [
+            'data' => [
+                'type'          => 'customerusers',
+                'id'            => (string)$customerUserId,
+                'relationships' => [
+                    'customer' => [
+                        'data' => ['type' => 'customers', 'id' => (string)$childCustomerId]
+                    ]
+                ]
+            ]
+        ];
+        $response = $this->patch(
+            ['entity' => 'customerusers', 'id' => $customerUserId],
+            $data,
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'frontend owner constraint',
+                'detail' => 'You have no access to set this value as customer.',
+                'source' => ['pointer' => '/data/relationships/customer/data']
+            ],
+            $response
+        );
+    }
+
+    public function testTryToSetChildCustomerWhenAssignAccessLevelIsLocalViaUpdateCustomerRelationship()
+    {
+        $this->updateRolePermissions(
+            $this->getReference('admin')->getRole(),
+            CustomerUser::class,
+            [
+                'VIEW'   => AccessLevel::DEEP_LEVEL,
+                'EDIT'   => AccessLevel::DEEP_LEVEL,
+                'ASSIGN' => AccessLevel::LOCAL_LEVEL
+            ]
+        );
+
+        $customerUserId = $this->getReference('customer_user')->getId();
+        $childCustomerId = $this->getReference('customer1')->getId();
+
+        $data = [
+            'data' => ['type' => 'customers', 'id' => (string)$childCustomerId]
+        ];
+        $response = $this->patchRelationship(
+            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'customer'],
+            $data,
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'frontend owner constraint',
+                'detail' => 'You have no access to set this value as customer.'
             ],
             $response
         );
