@@ -48,7 +48,6 @@ class LoadTestCustomerUser extends AbstractFixture implements ContainerAwareInte
         $user = $userManager->createUser();
         $user
             ->setWebsite($website)
-            ->setUsername('test_user')
             ->setEmail('test@test.com')
             ->setFirstName('test')
             ->setLastName('test')

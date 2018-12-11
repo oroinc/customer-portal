@@ -1,6 +1,6 @@
 # Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
 
-## ACTIONS  
+## ACTIONS
 
 ### get
 
@@ -127,12 +127,6 @@ Example:
       ]
     },
     "relationships": {
-      "customerUser": {
-        "data": {
-          "type": "customerusers",
-          "id": "2"
-        }
-      },
       "owner": {
         "data": {
           "type": "users",

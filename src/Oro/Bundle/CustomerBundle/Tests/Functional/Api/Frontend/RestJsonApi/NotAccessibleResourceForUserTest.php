@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 
-use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadFrontendApiCustomerUserData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadAdminCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +15,7 @@ class NotAccessibleResourceForUserTest extends FrontendRestJsonApiTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->loadFixtures([LoadFrontendApiCustomerUserData::class]);
+        $this->loadFixtures([LoadAdminCustomerUserData::class]);
     }
 
     public function testAccessGranted()

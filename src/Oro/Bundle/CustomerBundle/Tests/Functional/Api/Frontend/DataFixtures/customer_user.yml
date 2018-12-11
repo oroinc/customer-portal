@@ -1,0 +1,51 @@
+dependencies:
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser
+    - Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUserRoles
+    - Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadWebsiteData
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+    customer_user{1..2}:
+        confirmed: true
+        enabled: true
+        email: 'user<current()>@example.com'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        firstName: 'First Name <current()>'
+        lastName: 'Last Name <current()>'
+        roles: ['@admin']
+        website: '@website'
+        owner: '@user'
+        organization: '@organization'
+    another_customer_user:
+        confirmed: true
+        enabled: true
+        email: 'another_user@example.com'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        firstName: 'Another First Name'
+        lastName: 'Another Last Name'
+        roles: ['@admin']
+        website: '@website'
+        owner: '@user'
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer1:
+        parent: '@customer'
+        name: 'Customer 1'
+        users: ['@customer_user1']
+        group: '@customer_group'
+        owner: '@user'
+        organization: '@organization'
+    customer2:
+        parent: '@customer1'
+        name: 'Customer 2'
+        users: ['@customer_user2']
+        group: '@customer_group'
+        owner: '@user'
+        organization: '@organization'
+    another_customer:
+        name: 'Another Customer'
+        users: ['@another_customer_user']
+        group: '@customer_group'
+        owner: '@user'
+        organization: '@organization'

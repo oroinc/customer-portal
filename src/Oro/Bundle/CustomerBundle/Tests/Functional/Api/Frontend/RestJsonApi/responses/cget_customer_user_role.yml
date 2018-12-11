@@ -1,0 +1,30 @@
+data:
+    -
+        type: customeruserroles
+        id: '<toString(@admin->id)>'
+        attributes:
+            role: ROLE_FRONTEND_ADMINISTRATOR
+            label: Administrator
+        relationships:
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@customer->id)>'
+            customerUsers:
+                data:
+                    -
+                        type: customerusers
+                        id: '<toString(@customer_user->id)>'
+    -
+        type: customeruserroles
+        id: '<toString(@buyer->id)>'
+        attributes:
+            role: ROLE_FRONTEND_BUYER
+            label: Buyer
+        relationships:
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@customer->id)>'
+            customerUsers:
+                data: []

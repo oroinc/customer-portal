@@ -12,8 +12,7 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerData
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGroups;
 use Oro\Bundle\EntityExtendBundle\Entity\AbstractEnumValue;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
-use Oro\Bundle\UserBundle\Entity\BaseUserManager;
-use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
+use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * @dbIsolationPerTest
@@ -27,10 +26,7 @@ class CustomerTest extends RestJsonApiTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->loadFixtures([
-            LoadCustomerData::class,
-            LoadUserData::class
-        ]);
+        $this->loadFixtures([LoadCustomerData::class]);
         $this->getReferenceRepository()
             ->setReference('default_customer', $this->getDefaultCustomer());
         $this->getReferenceRepository()
@@ -85,9 +81,6 @@ class CustomerTest extends RestJsonApiTestCase
      */
     private function createCustomerUser($email, Customer $customer = null)
     {
-        /** @var BaseUserManager $userManager */
-        $userManager = self::getContainer()->get('oro_customer_user.manager');
-
         $role = $this->getEntityManager()
             ->getRepository(CustomerUserRole::class)
             ->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR']);
@@ -99,18 +92,42 @@ class CustomerTest extends RestJsonApiTestCase
             ->setEmail($email)
             ->addRole($role)
             ->setEnabled(true)
-            ->setPlainPassword($email);
+            ->setPlainPassword($email)
+            ->setPassword($email);
 
         if ($customer) {
             $customer->addUser($customerUser);
         }
 
-        $userManager->updateUser($customerUser);
-
         $this->getEntityManager()->persist($customerUser);
         $this->getEntityManager()->flush();
 
         return $customerUser;
+    }
+
+    /**
+     * @param string $username
+     *
+     * @return User
+     */
+    private function createUser($username)
+    {
+        $organization = $this->getReference('organization');
+        $user = new User();
+        $user->setUsername($username)
+            ->setPlainPassword($username)
+            ->setPassword($username)
+            ->setEmail($username . '@example.com')
+            ->setFirstName('John')
+            ->setLastName('Doo')
+            ->setOrganization($organization)
+            ->addOrganization($organization)
+            ->setEnabled(true);
+
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
+
+        return $user;
     }
 
     /**
@@ -513,7 +530,7 @@ class CustomerTest extends RestJsonApiTestCase
     public function testUpdateRelationshipForOwner()
     {
         $customerId = $this->getReference('customer.1')->getId();
-        $ownerId = $this->getReference(LoadUserData::SIMPLE_USER)->getId();
+        $ownerId = $this->createUser('another_user')->getId();
 
         $this->patchRelationship(
             ['entity' => 'customers', 'id' => $customerId, 'association' => 'owner'],
