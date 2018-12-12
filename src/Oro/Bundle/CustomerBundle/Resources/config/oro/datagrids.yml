@@ -617,8 +617,6 @@ datagrids:
     frontend-customer-customer-user-roles-grid:
         acl_resource: oro_customer_frontend_customer_user_role_index
         extends: basic-customer-customer-user-roles-grid
-        source:
-            skip_acl_apply: true
         properties:
             id: ~
             view_link:

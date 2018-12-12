@@ -6,8 +6,6 @@ data:
         label: Buyer
     relationships:
         customer:
-            data:
-                type: customers
-                id: '<toString(@customer->id)>'
+            data: null
         customerUsers:
             data: []

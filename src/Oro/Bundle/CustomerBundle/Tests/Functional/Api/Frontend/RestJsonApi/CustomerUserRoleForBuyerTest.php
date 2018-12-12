@@ -2,37 +2,41 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 
-use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadAdminCustomerUserData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadBuyerCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
-class CustomerUserRoleTest extends FrontendRestJsonApiTestCase
+class CustomerUserRoleForBuyerTest extends FrontendRestJsonApiTestCase
 {
     protected function setUp()
     {
         parent::setUp();
         $this->loadFixtures([
-            LoadAdminCustomerUserData::class,
+            LoadBuyerCustomerUserData::class,
             '@OroCustomerBundle/Tests/Functional/Api/Frontend/DataFixtures/customer_user_role.yml'
         ]);
     }
 
-    public function testGetList()
+    public function testTryToGetList()
     {
         $response = $this->cget(
             ['entity' => 'customeruserroles'],
-            ['page[size]' => 20]
+            [],
+            [],
+            false
         );
-
-        $this->assertResponseContains('cget_customer_user_role.yml', $response);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 
-    public function testGet()
+    public function testTryToGet()
     {
         $response = $this->get(
-            ['entity' => 'customeruserroles', 'id' => '<toString(@buyer->id)>']
+            ['entity' => 'customeruserroles', 'id' => '<toString(@buyer->id)>'],
+            [],
+            [],
+            false
         );
-
-        $this->assertResponseContains('get_customer_user_role.yml', $response);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 
     public function testTryToCreate()

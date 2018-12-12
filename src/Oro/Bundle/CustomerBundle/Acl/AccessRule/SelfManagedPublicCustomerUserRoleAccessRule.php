@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Acl\AccessRule;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\SecurityBundle\AccessRule\AccessRuleInterface;
 use Oro\Bundle\SecurityBundle\AccessRule\Criteria;
@@ -14,16 +15,11 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 /**
  * The access rule that adds "selfManaged = TRUE AND public = TRUE AND customer is NULL" expression
  * by OR operator for CustomerUserRole entity.
- * Adds additional check for organization if user is authenticated
+ * Adds additional check for organization if user is authenticated.
  */
 class SelfManagedPublicCustomerUserRoleAccessRule implements AccessRuleInterface
 {
-    /** The option that allows to enable the rule. Default value is false.  */
-    public const ENABLE_RULE = 'selfManagedPublicCustomerUserRoleEnable';
-
-    /**
-     * @var TokenAccessorInterface
-     */
+    /** @var TokenAccessorInterface */
     private $tokenAccessor;
 
     /**
@@ -40,8 +36,8 @@ class SelfManagedPublicCustomerUserRoleAccessRule implements AccessRuleInterface
     public function isApplicable(Criteria $criteria): bool
     {
         return
-            $criteria->getOption(self::ENABLE_RULE, false)
-            && $criteria->getEntityClass() === CustomerUserRole::class;
+            $criteria->getEntityClass() === CustomerUserRole::class
+            && $this->tokenAccessor->getUser() instanceof CustomerUser;
     }
 
     /**
@@ -52,14 +48,12 @@ class SelfManagedPublicCustomerUserRoleAccessRule implements AccessRuleInterface
         $expressions = [
             new Comparison(new Path('selfManaged'), Comparison::EQ, true),
             new Comparison(new Path('public'), Comparison::EQ, true),
-            new NullComparison(new Path('customer')),
+            new NullComparison(new Path('customer'))
         ];
 
         $organizationId = $this->tokenAccessor->getOrganizationId();
         if ($organizationId) {
-            // Adds expression to the beginning of array because it would not work in the end due to the specialty of
-            // NullComparison expression which causes AstVisitor to clear alias. See AstVisitor::walkNullComparison().
-            array_unshift($expressions, new Comparison(new Path('organization'), Comparison::EQ, $organizationId));
+            $expressions[] = new Comparison(new Path('organization'), Comparison::EQ, $organizationId);
         }
 
         $criteria->orExpression(new CompositeExpression(CompositeExpression::TYPE_AND, $expressions));

@@ -40,22 +40,27 @@ class UpdatePermissionsForCustomerEntity extends AbstractFixture implements Cont
 
         $roles = $manager->getRepository(CustomerUserRole::class)->findAll();
         $extension = $aclManager->getExtensionSelector()->select($oid);
-        $maskBuilders = $extension->getAllMaskBuilders();
 
         foreach ($roles as $role) {
+            $maskBuilders = $extension->getAllMaskBuilders();
+            $accessLevel = 'LOCAL';
+            if ($role->getRole() === 'ROLE_FRONTEND_ADMINISTRATOR') {
+                $accessLevel = 'DEEP';
+            }
             $sid = $aclManager->getSid($role);
             $aclPrivilegePermissions = $this->getPrivilegePermissions($privilegeRepository, $sid, $identityString);
-            foreach ($aclPrivilegePermissions as $permission) {
-                if ($permission->getAccessLevel() !== AccessLevel::SYSTEM_LEVEL) {
-                    continue;
-                }
-                $maskName = $permission->getName() . '_LOCAL';
-                foreach ($maskBuilders as $maskBuilder) {
+            foreach ($maskBuilders as $maskBuilder) {
+                foreach ($aclPrivilegePermissions as $permission) {
+                    if ($permission->getAccessLevel() === AccessLevel::NONE_LEVEL) {
+                        continue;
+                    }
+
+                    $maskName = $permission->getName() . '_' . $accessLevel;
                     if ($maskBuilder->hasMask('MASK_' . $maskName)) {
                         $maskBuilder->add($maskName);
-                        $aclManager->setPermission($sid, $oid, $maskBuilder->get());
                     }
                 }
+                $aclManager->setPermission($sid, $oid, $maskBuilder->get());
             }
         }
         $aclManager->flush();

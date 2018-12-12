@@ -54,11 +54,6 @@ class LoadCustomerUserData extends AbstractFixture implements
         $customerUser = $this->createCustomerUser($manager, $customer, $owner);
         $this->addReference('customer_user', $customerUser);
 
-        // @todo: temporary solution to avoid "The VIEW permission is denied"
-        // for customer user roles with Customer = NULL
-        $this->getReference('buyer')->setCustomer($customer);
-        $this->getReference('admin')->setCustomer($customer);
-
         $manager->flush();
     }
 

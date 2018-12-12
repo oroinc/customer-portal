@@ -27,10 +27,5 @@ class LoadBuyerCustomerUserData extends LoadCustomerUserData
         $customerUser
             ->setEmail(FrontendRestJsonApiTestCase::USER_NAME)
             ->addRole($this->getReference('buyer'));
-
-        // @todo: temporary solution to avoid "The VIEW permission is denied"
-        // for customer user roles with Customer = NULL
-        $this->getReference('buyer')->setCustomer($customerUser->getCustomer());
-        $this->getReference('admin')->setCustomer($customerUser->getCustomer());
     }
 }
