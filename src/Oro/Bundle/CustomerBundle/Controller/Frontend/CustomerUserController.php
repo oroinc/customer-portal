@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * CRUD controller for CustomerUser entity
+ */
 class CustomerUserController extends Controller
 {
     /**
