@@ -75,10 +75,6 @@ api:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/customer_user.md'
             delete_handler: oro_customer.customer_delete_handler
             fields:
-                enabled:
-                    exclude: true
-                confirmed:
-                    exclude: true
                 username:
                     exclude: true
                 salt:
@@ -102,6 +98,10 @@ api:
             actions:
                 create:
                     fields:
+                        enabled:
+                            exclude: true
+                        confirmed:
+                            exclude: true
                         createdAt:
                             exclude: true
                         updatedAt:
@@ -115,6 +115,10 @@ api:
                                     - NotBlank: ~
                 update:
                     fields:
+                        enabled:
+                            exclude: true
+                        confirmed:
+                            exclude: true
                         createdAt:
                             exclude: true
                         updatedAt:

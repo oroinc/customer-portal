@@ -3,6 +3,8 @@ data:
         type: customerusers
         id: '<toString(@customer_user->id)>'
         attributes:
+            confirmed: true
+            enabled: true
             email: frontend_admin_api@example.com
             namePrefix: null
             firstName: John
@@ -28,6 +30,8 @@ data:
         type: customerusers
         id: '<toString(@customer_user1->id)>'
         attributes:
+            confirmed: true
+            enabled: true
             email: user1@example.com
             namePrefix: null
             firstName: 'First Name 1'
@@ -53,6 +57,8 @@ data:
         type: customerusers
         id: '<toString(@customer_user2->id)>'
         attributes:
+            confirmed: false
+            enabled: false
             email: user2@example.com
             namePrefix: null
             firstName: 'First Name 2'

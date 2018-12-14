@@ -2,6 +2,8 @@ data:
     type: customerusers
     id: '<toString(@customer_user1->id)>'
     attributes:
+        confirmed: true
+        enabled: true
         email: user1@example.com
         namePrefix: null
         firstName: 'First Name 1'

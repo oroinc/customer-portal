@@ -163,6 +163,27 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         );
     }
 
+    public function testTryToCreateWithEnabledAndConfirmedFields()
+    {
+        $data = $this->getRequestData('create_customer_user_min.yml');
+        $data['data']['attributes']['enabled'] = true;
+        $data['data']['attributes']['confirmed'] = false;
+        $response = $this->post(
+            ['entity' => 'customerusers'],
+            $data,
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'extra fields constraint',
+                'detail' => 'This form should not contain extra fields: "enabled", "confirmed"'
+            ],
+            $response
+        );
+    }
+
     public function testUpdate()
     {
         $customerUserId = $this->getReference('customer_user1')->getId();
@@ -199,6 +220,36 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         self::assertEquals($customerId, $customerUser->getCustomer()->getId());
         self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_BUYER'));
         self::assertCount(1, $customerUser->getRoles());
+    }
+
+    public function testTryToUpdateEnabledAndConfirmedFields()
+    {
+        $customerUserId = $this->getReference('customer_user1')->getId();
+
+        $data = [
+            'data' => [
+                'type'       => 'customerusers',
+                'id'         => (string)$customerUserId,
+                'attributes' => [
+                    'enabled'   => false,
+                    'confirmed' => false
+                ]
+            ]
+        ];
+        $response = $this->patch(
+            ['entity' => 'customerusers', 'id' => $customerUserId],
+            $data,
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'extra fields constraint',
+                'detail' => 'This form should not contain extra fields: "enabled", "confirmed"'
+            ],
+            $response
+        );
     }
 
     public function testDelete()

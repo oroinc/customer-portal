@@ -2,6 +2,8 @@ data:
     type: customerusers
     id: '<toString(@customer_user->id)>'
     attributes:
+        confirmed: true
+        enabled: true
         email: frontend_admin_api@example.com
         namePrefix: null
         firstName: John

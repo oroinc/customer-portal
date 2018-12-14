@@ -5,13 +5,24 @@ dependencies:
     - Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadWebsiteData
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
-    customer_user{1..2}:
+    customer_user1:
         confirmed: true
         enabled: true
-        email: 'user<current()>@example.com'
+        email: 'user1@example.com'
         password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
-        firstName: 'First Name <current()>'
-        lastName: 'Last Name <current()>'
+        firstName: 'First Name 1'
+        lastName: 'Last Name 1'
+        roles: ['@admin']
+        website: '@website'
+        owner: '@user'
+        organization: '@organization'
+    customer_user2:
+        confirmed: false
+        enabled: false
+        email: 'user2@example.com'
+        password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
+        firstName: 'First Name 2'
+        lastName: 'Last Name 2'
         roles: ['@admin']
         website: '@website'
         owner: '@user'
