@@ -227,6 +227,30 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         self::assertTrue(null === $deletedCustomerUser);
     }
 
+    public function testTryToDeleteCurrentLoggedInUser()
+    {
+        $customerUserId = $this->getReference('customer_user')->getId();
+
+        $response = $this->delete(
+            ['entity' => 'customerusers', 'id' => $customerUserId],
+            [],
+            [],
+            false
+        );
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+    }
+
+    public function testTryToDeleteListForCurrentLoggedInUser()
+    {
+        $response = $this->cdelete(
+            ['entity' => 'customerusers'],
+            ['filter[id]' => '<toString(@customer_user->id)>'],
+            [],
+            false
+        );
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+    }
+
     public function testGetCustomerSubresourceByMineId()
     {
         $response = $this->getSubresource(

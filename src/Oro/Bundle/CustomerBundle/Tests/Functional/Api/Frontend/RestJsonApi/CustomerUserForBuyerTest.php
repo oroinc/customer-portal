@@ -156,4 +156,15 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
         );
         self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
+
+    public function testTryToDeleteListForCurrentLoggedInUser()
+    {
+        $response = $this->cdelete(
+            ['entity' => 'customerusers'],
+            ['filter[id]' => '<toString(@customer_user->id)>'],
+            [],
+            false
+        );
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+    }
 }

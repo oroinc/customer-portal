@@ -73,6 +73,7 @@ api:
 
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/customer_user.md'
+            delete_handler: oro_customer.customer_delete_handler
             fields:
                 enabled:
                     exclude: true
