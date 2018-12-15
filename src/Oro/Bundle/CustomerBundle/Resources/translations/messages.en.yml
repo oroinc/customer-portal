@@ -331,7 +331,7 @@ oro.customer:
             description: Name of customer user organization for the billing or shipping address. 
         system_organization:
             label: System Organization
-            description: Relationship with the system organization the customer user belongs to. 
+            description: Relationship with the system organization the customer user belongs to.
         frontend_owner:
             label: Frontend Owner
             description: A customer user who is assigned as a customer user address record owner in the front store.
@@ -453,6 +453,7 @@ oro.customer:
         types.singular_label: Type
         addresses_to_types.label:   Addresses to address types
         phone.label:         Phone
+        defaults.label:      Use this address as
 
         country_name.label:      Country name
         country_iso2_code.label: Country ISO2 code
