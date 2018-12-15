@@ -92,22 +92,6 @@ class LocaleSettings extends BaseLocaleSettings
     /**
      * {@inheritdoc}
      */
-    public function addCurrencyData(array $data)
-    {
-        $this->inner->addCurrencyData($data);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCurrencyData()
-    {
-        return $this->inner->getCurrencyData();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function isFormatAddressByAddressCountry()
     {
         return $this->inner->isFormatAddressByAddressCountry();
@@ -195,9 +179,9 @@ class LocaleSettings extends BaseLocaleSettings
     /**
      * {@inheritdoc}
      */
-    public function getCurrencySymbolByCurrency($currencyCode = null)
+    public function getCurrencySymbolByCurrency(string $currencyCode = null, string $locale = null)
     {
-        return $this->inner->getCurrencySymbolByCurrency($currencyCode ?: $this->getCurrency());
+        return $this->inner->getCurrencySymbolByCurrency($currencyCode ?: $this->getCurrency(), $locale);
     }
 
     /**
