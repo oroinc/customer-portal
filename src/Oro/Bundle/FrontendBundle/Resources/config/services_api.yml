@@ -68,6 +68,25 @@ services:
     oro_frontend.api_doc.formatter.html_formatter:
         parent: oro_api.api_doc.formatter.html_formatter
 
+    oro_frontend.api.initialize_config_extras:
+        class: Oro\Bundle\FrontendBundle\Api\Processor\InitializeConfigExtras
+        tags:
+            - { name: oro.api.processor, action: get, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: get_list, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: delete, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: delete_list, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: create, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: update, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: get_subresource, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: delete_subresource, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: add_subresource, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: update_subresource, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: get_relationship, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: delete_relationship, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: add_relationship, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: update_relationship, group: initialize, requestType: frontend, priority: 15 }
+            - { name: oro.api.processor, action: options, group: initialize, requestType: frontend, priority: 15 }
+
     oro_frontend.api.rest.cors.set_allow_origin:
         class: Oro\Bundle\ApiBundle\Processor\Shared\Rest\SetCorsAllowOrigin
         arguments:

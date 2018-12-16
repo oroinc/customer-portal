@@ -9,6 +9,9 @@ All approaches described in [ApiBundle](../../../../../../../platform/src/Oro/Bu
 to REST API resources for the storefront but there are several differences:
 
 - for configuration files use `Resources/config/oro/api_frontend.yml`, not `Resources/config/oro/api.yml`
+- the default value for `exclusion_policy` option is `custom_fields`, it means that all custom fields
+  (fields with `is_extend` = `true` and `owner` = `Custom` in `extend` scope in entity configuration)
+  that are not configured explicitly are excluded
 - for documentation files use `Resources/doc/api_frontend` folder, not `Resources/doc/api`
 - for API processors use `frontend` request type
 - for API routes use `frontend_rest_api` group instead of `rest_api`, and set `frontend` option to `true`
