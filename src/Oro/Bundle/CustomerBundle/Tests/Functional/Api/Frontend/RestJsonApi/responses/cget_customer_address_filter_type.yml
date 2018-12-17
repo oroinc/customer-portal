@@ -1,0 +1,40 @@
+data:
+    -
+        type: customeraddresses
+        id: '<toString(@customer_address1->id)>'
+        attributes:
+            phone: 123-456
+            primary: true
+            label: 'Address 1'
+            street: 'Street 1'
+            street2: 'Street 2'
+            city: 'Los Angeles'
+            postalCode: '90001'
+            organization: Acme
+            namePrefix: Mr.
+            firstName: John
+            middleName: Edgar
+            lastName: Doo
+            nameSuffix: M.D.
+            createdAt: '@customer_address1->created->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer_address1->updated->format("Y-m-d\TH:i:s\Z")'
+            types:
+                -
+                    default: false
+                    addressType: billing
+                -
+                    default: true
+                    addressType: shipping
+        relationships:
+            customer:
+                data:
+                    type: customers
+                    id: '<toString(@customer->id)>'
+            country:
+                data:
+                    type: countries
+                    id: '<toString(@country_usa->iso2Code)>'
+            region:
+                data:
+                    type: regions
+                    id: '<toString(@region_usa_california->combinedCode)>'

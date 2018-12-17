@@ -36,7 +36,6 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
 
         $data = $this->getData();
         $data['data']['id'] = (string)$user->getId();
-        $data['data']['attributes']['username'] = 'NewEmail@Test.Com';
         $data['data']['attributes']['email'] = 'NewEmail@Test.Com';
         $data['data']['attributes']['firstName'] = 'John';
         unset($data['data']['attributes']['password']);
@@ -63,14 +62,12 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         self::assertTrue(null === $this->getUser('Bob', 'Fedeson'));
 
         $data = $this->getData();
-        $data['data']['attributes']['username'] = 'Email@Test.Com';
         $data['data']['attributes']['email'] = 'Email@Test.Com';
 
         $this->post(['entity' => 'customerusers'], $data);
         $user = $this->assertRequestSuccess($data);
 
         $data['data']['id'] = (string)$user->getId();
-        $data['data']['attributes']['username'] = 'NewEmail@Test.Com';
         $data['data']['attributes']['email'] = 'NewEmail@Test.Com';
         $data['data']['attributes']['firstName'] = 'John';
         unset($data['data']['attributes']['password']);
@@ -90,8 +87,8 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         $user = $this->getUser($data['firstName'], $data['lastName']);
 
         self::assertNotNull($user);
-        self::assertEquals($data['username'], $user->getUsername());
         self::assertEquals($data['email'], $user->getEmail());
+        self::assertEquals($user->getEmail(), $user->getUsername());
 
         return $user;
     }
@@ -134,7 +131,6 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
             'data' => [
                 'type'          => 'customerusers',
                 'attributes'    => [
-                    'username'  => 'Test@Test.Com',
                     'email'     => 'Test@Test.Com',
                     'password'  => 'Password!123',
                     'firstName' => 'Bob',

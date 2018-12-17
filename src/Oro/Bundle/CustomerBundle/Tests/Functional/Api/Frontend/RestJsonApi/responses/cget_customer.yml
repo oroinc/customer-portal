@@ -1,0 +1,139 @@
+data:
+    -
+        type: customers
+        id: '<toString(@customer->id)>'
+        attributes:
+            name: Customer
+            createdAt: '@customer->createdAt->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer->updatedAt->format("Y-m-d\TH:i:s\Z")'
+        relationships:
+            parent:
+                data: null
+            children:
+                data:
+                    -
+                        type: customers
+                        id: '<toString(@customer2->id)>'
+                    -
+                        type: customers
+                        id: '<toString(@customer1->id)>'
+            addresses:
+                data: []
+            group:
+                data:
+                    type: customergroups
+                    id: '<toString(@customer_group->id)>'
+            users:
+                data:
+                    -
+                        type: customerusers
+                        id: '<toString(@customer_user->id)>'
+    -
+        type: customers
+        id: '<toString(@customer1->id)>'
+        attributes:
+            name: 'Customer 1'
+            createdAt: '@customer1->createdAt->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer1->updatedAt->format("Y-m-d\TH:i:s\Z")'
+        relationships:
+            parent:
+                data:
+                    type: customers
+                    id: '<toString(@customer->id)>'
+            children:
+                data:
+                    -
+                        type: customers
+                        id: '<toString(@customer4->id)>'
+                    -
+                        type: customers
+                        id: '<toString(@customer3->id)>'
+            addresses:
+                data:
+                    -
+                        type: customeraddresses
+                        id: '<toString(@customer_address2->id)>'
+                    -
+                        type: customeraddresses
+                        id: '<toString(@customer_address1->id)>'
+            group:
+                data:
+                    type: customergroups
+                    id: '<toString(@customer_group1->id)>'
+            users:
+                data:
+                    -
+                        type: customerusers
+                        id: '<toString(@customer_user1->id)>'
+    -
+        type: customers
+        id: '<toString(@customer2->id)>'
+        attributes:
+            name: 'Customer 2'
+            createdAt: '@customer2->createdAt->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer2->updatedAt->format("Y-m-d\TH:i:s\Z")'
+        relationships:
+            parent:
+                data:
+                    type: customers
+                    id: '<toString(@customer->id)>'
+            children:
+                data: []
+            addresses:
+                data: []
+            group:
+                data:
+                    type: customergroups
+                    id: '<toString(@customer_group1->id)>'
+            users:
+                data:
+                    -
+                        type: customerusers
+                        id: '<toString(@customer_user2->id)>'
+    -
+        type: customers
+        id: '<toString(@customer3->id)>'
+        attributes:
+            name: 'Customer 3'
+            createdAt: '@customer3->createdAt->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer3->updatedAt->format("Y-m-d\TH:i:s\Z")'
+        relationships:
+            parent:
+                data:
+                    type: customers
+                    id: '<toString(@customer1->id)>'
+            children:
+                data: []
+            addresses:
+                data: []
+            group:
+                data:
+                    type: customergroups
+                    id: '<toString(@customer_group1->id)>'
+            users:
+                data:
+                    -
+                        type: customerusers
+                        id: '<toString(@customer_user3->id)>'
+    -
+        type: customers
+        id: '<toString(@customer4->id)>'
+        attributes:
+            name: 'Customer 4'
+            createdAt: '@customer4->createdAt->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer4->updatedAt->format("Y-m-d\TH:i:s\Z")'
+        relationships:
+            parent:
+                data:
+                    type: customers
+                    id: '<toString(@customer1->id)>'
+            children:
+                data: []
+            addresses:
+                data: []
+            group:
+                data:
+                    type: customergroups
+                    id: '<toString(@customer_group1->id)>'
+            users:
+                data: []

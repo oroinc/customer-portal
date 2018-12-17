@@ -68,6 +68,12 @@ services:
     oro_frontend.api_doc.formatter.html_formatter:
         parent: oro_api.api_doc.formatter.html_formatter
 
+    oro_frontend.api.get_config.exclude_custom_fields_by_default:
+        class: Oro\Bundle\ApiBundle\Processor\Config\Shared\ExcludeCustomFieldsByDefault
+        tags:
+            - { name: oro.api.processor, action: get_config, extra: '!identifier_fields_only&definition', requestType: frontend, priority: -7 }
+            - { name: oro.api.processor, action: get_relation_config, extra: '!identifier_fields_only&definition', requestType: frontend, priority: -7 }
+
     oro_frontend.api.rest.cors.set_allow_origin:
         class: Oro\Bundle\ApiBundle\Processor\Shared\Rest\SetCorsAllowOrigin
         arguments:

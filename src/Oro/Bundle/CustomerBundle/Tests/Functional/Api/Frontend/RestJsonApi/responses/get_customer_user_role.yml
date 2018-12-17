@@ -1,0 +1,11 @@
+data:
+    type: customeruserroles
+    id: '<toString(@buyer->id)>'
+    attributes:
+        role: ROLE_FRONTEND_BUYER
+        label: Buyer
+    relationships:
+        customer:
+            data: null
+        customerUsers:
+            data: []

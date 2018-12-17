@@ -2,3 +2,5 @@ api:
     entities:
         Oro\Bundle\TestFrameworkBundle\Entity\TestProduct: ~
         Oro\Bundle\TestFrameworkBundle\Entity\TestProductType: ~
+        Oro\Bundle\ApiBundle\Tests\Functional\Environment\Entity\TestOwner: ~
+        Oro\Bundle\ApiBundle\Tests\Functional\Environment\Entity\TestTarget: ~

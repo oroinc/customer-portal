@@ -16,7 +16,7 @@ class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase
     /**
      * @param Response $response
      */
-    public static function assertUnauthorizedResponse(Response $response)
+    private static function assertUnauthorizedResponse(Response $response)
     {
         self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
         self::assertEquals(

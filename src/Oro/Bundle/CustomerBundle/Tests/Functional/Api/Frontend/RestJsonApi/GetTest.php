@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 
 use Oro\Bundle\ApiBundle\Request\ApiActions;
 use Oro\Bundle\ApiBundle\Request\JsonApi\JsonApiDocumentBuilder as JsonApiDoc;
-use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadFrontendApiCustomerUserData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadAdminCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 
 /**
@@ -17,7 +17,7 @@ class GetTest extends FrontendRestJsonApiTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->loadFixtures([LoadFrontendApiCustomerUserData::class]);
+        $this->loadFixtures([LoadAdminCustomerUserData::class]);
     }
 
     /**

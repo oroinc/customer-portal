@@ -1,0 +1,34 @@
+data:
+    type: customeruseraddresses
+    id: '<toString(@another_customer_user_address1->id)>'
+    attributes:
+        phone: null
+        primary: true
+        label: 'Another Address 1'
+        street: 'Street 1'
+        street2: null
+        city: 'Los Angeles'
+        postalCode: '90001'
+        organization: null
+        customRegion: null
+        namePrefix: null
+        firstName: John
+        middleName: null
+        lastName: Doo
+        nameSuffix: null
+        createdAt: '@another_customer_user_address1->created->format("Y-m-d\TH:i:s\Z")'
+        updatedAt: '@another_customer_user_address1->updated->format("Y-m-d\TH:i:s\Z")'
+        types: {  }
+    relationships:
+        customerUser:
+            data:
+                type: customerusers
+                id: '<toString(@another_customer_user->id)>'
+        country:
+            data:
+                type: countries
+                id: '<toString(@country_usa->iso2Code)>'
+        region:
+            data:
+                type: regions
+                id: '<toString(@region_usa_california->combinedCode)>'
