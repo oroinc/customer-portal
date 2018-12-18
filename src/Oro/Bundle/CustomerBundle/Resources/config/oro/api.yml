@@ -17,8 +17,6 @@ api:
                         exclude: false
                     updatedAt:
                         exclude: false
-                    lifetime:
-                        exclude: false
             actions:
                 create:
                     fields:
@@ -26,15 +24,11 @@ api:
                             exclude: true
                         updatedAt:
                             exclude: true
-                        lifetime:
-                            exclude: true
                 update:
                     fields:
                         createdAt:
                             exclude: true
                         updatedAt:
-                            exclude: true
-                        lifetime:
                             exclude: true
             subresources:
                 addresses:
@@ -55,6 +49,8 @@ api:
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer_user.md'
             fields:
+                username:
+                    exclude: true
                 salt:
                     exclude: true
                 password:

@@ -15,7 +15,6 @@ data:
             updatedAt: '@grzegorz.brzeczyszczykiewicz@example.com->updatedAt->format("Y-m-d\TH:i:s\Z")'
             enabled: true
             loginCount: 0
-            username: grzegorz.brzeczyszczykiewicz@example.com
             isGuest: false
             lastLogin: null
             passwordRequestedAt: null

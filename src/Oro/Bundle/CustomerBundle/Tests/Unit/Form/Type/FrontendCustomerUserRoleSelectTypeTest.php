@@ -98,8 +98,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
                     $this->assertArrayHasKey('acl_options', $options);
                     $this->assertEquals(
                         [
-                            'permission' => 'ASSIGN',
-                            'options' => ['selfManagedPublicCustomerUserRoleEnable' => true]
+                            'permission' => 'ASSIGN'
                         ],
                         $options['acl_options']
                     );

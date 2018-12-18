@@ -8,7 +8,7 @@ use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 
 /**
  * Tests that all registered frontend API resources are accessible for the anonymous user.
- * Both response status coded, 200 (OK) and 403 (Forbidden), are valid,
+ * Status codes 200 (OK), 401 (Unauthorized) and 403 (Forbidden) are valid
  * because the access for some resources can be granted, but for others can be denied for the anonymous user.
  * @group regression
  */
@@ -30,17 +30,17 @@ class GetTest extends FrontendRestJsonApiTestCase
 
         // test "get list" request
         $response = $this->cget(['entity' => $entityType, 'page[size]' => 1], [], [], false);
-        self::assertApiResponseStatusCodeEquals($response, [200, 403], $entityType, ApiActions::GET_LIST);
-        self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
+        self::assertApiResponseStatusCodeEquals($response, [200, 401, 403], $entityType, ApiActions::GET_LIST);
+        if ($response->getStatusCode() !== 401) {
+            self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
+        }
 
         $id = $this->getFirstEntityId(self::jsonToArray($response->getContent()));
-        if (null !== $id) {
-            // test "get" request
-            if (!in_array(ApiActions::GET, $excludedActions, true)) {
-                $response = $this->get(['entity' => $entityType, 'id' => $id], [], [], false);
-                self::assertApiResponseStatusCodeEquals($response, [200, 403], $entityType, ApiActions::GET);
-                self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
-            }
+        // test "get" request
+        if (null !== $id && !in_array(ApiActions::GET, $excludedActions, true)) {
+            $response = $this->get(['entity' => $entityType, 'id' => $id], [], [], false);
+            self::assertApiResponseStatusCodeEquals($response, [200, 403], $entityType, ApiActions::GET);
+            self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
         }
     }
 

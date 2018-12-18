@@ -24,7 +24,7 @@ class FrontendStartTransitionButtonProviderExtensionTest extends StartTransition
         return new FrontendStartTransitionButtonProviderExtension(
             $this->workflowRegistry,
             $this->routeProvider,
-            $this->destinationPageResolver
+            $this->originalUrlProvider
         );
     }
 }

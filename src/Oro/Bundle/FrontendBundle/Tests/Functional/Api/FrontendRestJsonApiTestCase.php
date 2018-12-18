@@ -48,6 +48,19 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     /**
      * {@inheritdoc}
      */
+    protected function getListenersThatShouldBeDisabledDuringDataFixturesLoading()
+    {
+        $listeners = parent::getListenersThatShouldBeDisabledDuringDataFixturesLoading();
+        if (self::getContainer()->has('oro_sales.customers.customer_association_listener')) {
+            $listeners[] = 'oro_sales.customers.customer_association_listener';
+        }
+
+        return $listeners;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getRequestType()
     {
         $requestType = parent::getRequestType();

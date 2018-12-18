@@ -1,3 +1,12 @@
+## 3.1.0
+
+### Changed
+#### CustomerBundle
+* The field `username` was removed from `/admin/api/customerusers` REST API resource.
+* The `frontend_owner_type` entity configuration attribute for Customer entity is set to `FRONTEND_CUSTOMER`.
+  The `Full` access level was changed to `Сorporate (All Levels)` for Customer entity for `ROLE_FRONTEND_ADMINISTRATOR` customer user role.
+  For all other customer user roles the `Full` access level was changed to `Department (Same Level)`.
+
 ## 3.1.0-rc (2018-11-30)
 [Show detailed list of changes](incompatibilities-3-1-rc.md)
 

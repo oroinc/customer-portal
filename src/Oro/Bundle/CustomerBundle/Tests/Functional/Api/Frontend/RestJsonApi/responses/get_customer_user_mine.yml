@@ -1,0 +1,20 @@
+data:
+    type: customerusers
+    id: '<toString(@customer_user->id)>'
+    attributes:
+        confirmed: true
+        enabled: true
+        email: frontend_admin_api@example.com
+        namePrefix: null
+        firstName: John
+        middleName: null
+        lastName: Doe
+        nameSuffix: null
+        birthday: null
+        createdAt: '@customer_user->createdAt->format("Y-m-d\TH:i:s\Z")'
+        updatedAt: '@customer_user->updatedAt->format("Y-m-d\TH:i:s\Z")'
+    relationships:
+        customer:
+            data:
+                type: customers
+                id: '<toString(@customer->id)>'

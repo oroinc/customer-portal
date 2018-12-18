@@ -31,11 +31,10 @@ Example:
     "type": "customerusers",
     "attributes": {
       "confirmed": true,
-      "email": "AmandaFCole@example.org",      
+      "email": "AmandaFCole@example.org",
       "firstName": "Amanda",     
       "lastName": "Cole",     
-      "enabled": true,      
-      "username": "AmandaFCole@example.org",
+      "enabled": true,
       "password": "Password000!"
     },
     "relationships": {
@@ -52,7 +51,7 @@ Example:
           "type": "customers",
           "id": "1"
         }
-      },      
+      },
       "website": {
         "data": {
           "type": "websites",
@@ -83,11 +82,10 @@ Example:
     "id": "1",    
     "attributes": {
       "confirmed": true,
-      "email": "AmandaMCole@example.org",      
+      "email": "AmandaMCole@example.org",
       "firstName": "Amanda",     
       "lastName": "Cole",     
-      "enabled": true,      
-      "username": "AmandaMCole@example.org"
+      "enabled": true
     },
     "relationships": {
       "roles": {
@@ -103,7 +101,7 @@ Example:
           "type": "customers",
           "id": "1"
         }
-      },      
+      },
       "website": {
         "data": {
           "type": "websites",
@@ -161,7 +159,9 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-'true' by default
+**Please note:**
+
+*The default value is `true`.*
 
 ### confirmed
 
@@ -169,25 +169,11 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-'true' by default
-
-### email
-
-#### create
-
-{@inheritdoc}
-
-**The required field**
-
-#### update
-
-{@inheritdoc}
-
 **Please note:**
 
-*This field is **required** and must remain defined.*
+*The default value is `true`.*
 
-### username
+### email
 
 #### create
 
