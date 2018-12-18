@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\AccessRule;
 
 use Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\SecurityBundle\AccessRule\Criteria;
 use Oro\Bundle\SecurityBundle\AccessRule\Expr\Comparison;
@@ -27,32 +28,29 @@ class SelfManagedPublicCustomerUserRoleAccessRuleTest extends TestCase
         $this->rule = new SelfManagedPublicCustomerUserRoleAccessRule($this->tokenAccessor);
     }
 
-    public function testIsApplicableWithoutOptionsInCriteriaAndNotSupportedEntity()
+    public function testIsApplicableWithNotSupportedEntity()
     {
         $criteria = new Criteria(AccessRuleWalker::ORM_RULES_TYPE, \stdClass::class, 'e');
 
         $this->assertFalse($this->rule->isApplicable($criteria));
     }
 
-    public function testIsApplicableWithOptionsInCriteriaAndNotSupportedEntity()
+    public function testIsApplicableWithoutSupportedUserInTokenAndSupportedEntity()
     {
-        $criteria = new Criteria(AccessRuleWalker::ORM_RULES_TYPE, \stdClass::class, 'e');
-        $criteria->setOption(SelfManagedPublicCustomerUserRoleAccessRule::ENABLE_RULE, true);
-
-        $this->assertFalse($this->rule->isApplicable($criteria));
-    }
-
-    public function testIsApplicableWithoutOptionsInCriteriaAndSupportedEntity()
-    {
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn(new \stdClass());
         $criteria = new Criteria(AccessRuleWalker::ORM_RULES_TYPE, CustomerUserRole::class, 'e');
 
         $this->assertFalse($this->rule->isApplicable($criteria));
     }
 
-    public function testIsApplicableWithOptionsInCriteriaAndSupportedEntity()
+    public function testIsApplicableWithSupportedUserInTokenAndSupportedEntity()
     {
+        $this->tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn(new CustomerUser());
         $criteria = new Criteria(AccessRuleWalker::ORM_RULES_TYPE, CustomerUserRole::class, 'e');
-        $criteria->setOption(SelfManagedPublicCustomerUserRoleAccessRule::ENABLE_RULE, true);
 
         $this->assertTrue($this->rule->isApplicable($criteria));
     }
@@ -117,10 +115,10 @@ class SelfManagedPublicCustomerUserRoleAccessRuleTest extends TestCase
             new CompositeExpression(
                 CompositeExpression::TYPE_AND,
                 [
-                    new Comparison(new Path('organization'), Comparison::EQ, $organizationId),
                     new Comparison(new Path('selfManaged'), Comparison::EQ, true),
                     new Comparison(new Path('public'), Comparison::EQ, true),
                     new NullComparison(new Path('customer')),
+                    new Comparison(new Path('organization'), Comparison::EQ, $organizationId)
                 ]
             ),
             $criteria->getExpression()

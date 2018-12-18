@@ -183,6 +183,10 @@ class CustomerUserTest extends RestJsonApiTestCase
 
     public function testDeleteRelationshipForRoles()
     {
+        $customerUserRoleId = $this->getEntityManager()
+            ->getRepository(CustomerUserRole::class)
+            ->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR'])
+            ->getId();
         $customerUser = $this->getReference(LoadCustomerUserData::EMAIL);
         $customerUserId = $customerUser->getId();
         $customerUser->addRole(
@@ -193,12 +197,6 @@ class CustomerUserTest extends RestJsonApiTestCase
         $this->getEntityManager()->flush();
         self::assertCount(2, $customerUser->getRoles());
         $this->getEntityManager()->clear();
-
-        $customerUserRoleId = $this->getEntityManager()
-            ->getRepository(CustomerUserRole::class)
-            ->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR'])
-            ->getId();
-
 
         $this->deleteRelationship(
             ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'roles'],
@@ -222,7 +220,6 @@ class CustomerUserTest extends RestJsonApiTestCase
             ->getRepository(CustomerUserRole::class)
             ->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR'])
             ->getId();
-
 
         $response = $this->deleteRelationship(
             ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'roles'],

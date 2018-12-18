@@ -2,7 +2,6 @@ data:
     type: customerusers
     id: new
     attributes:
-        username: test2341@test.com
         email: test2341@test.com
         namePrefix: null
         nameSuffix: null

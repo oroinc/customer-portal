@@ -97,3 +97,15 @@
         });
     </script>
 {% endblock %}
+
+{% block _require_js_bootstrap_config_widget %}
+    <script>
+        require({
+            config: {
+                'oroui/js/extend/bootstrap/bootstrap-dropdown': {
+                    displayArrow: false
+                }
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,130 @@
+dependencies:
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    child_customer:
+        parent: '@customer'
+        name: 'Child Customer'
+        group: '@customer_group'
+        owner: '@user'
+        organization: '@organization'
+    another_customer:
+        name: 'Another Customer'
+        group: '@customer_group'
+        owner: '@user'
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
+    role_system_not_self_managed_not_public:
+        role: 'ROLE_SYSTEM_1'
+        label: 'System Role (Not Self Managed, Not Public)'
+        selfManaged: false
+        public: false
+        organization: '@organization'
+    role_system_not_self_managed_public:
+        role: 'ROLE_SYSTEM_2'
+        label: 'System Role (Not Self Managed, Public)'
+        selfManaged: false
+        public: true
+        organization: '@organization'
+    role_system_self_managed_not_public:
+        role: 'ROLE_SYSTEM_3'
+        label: 'System Role (Self Managed, Not Public)'
+        selfManaged: true
+        public: false
+        organization: '@organization'
+    role_system_self_managed_public:
+        role: 'ROLE_SYSTEM_4'
+        label: 'System Role (Self Managed, Public)'
+        selfManaged: true
+        public: true
+        organization: '@organization'
+    role_customer_not_self_managed_not_public:
+        role: 'ROLE_CUSTOMER_1'
+        label: 'Customer Role (Not Self Managed, Not Public)'
+        selfManaged: false
+        public: false
+        customer: '@customer'
+        customerUsers: ['@customer_user']
+        organization: '@organization'
+    role_customer_not_self_managed_public:
+        role: 'ROLE_CUSTOMER_2'
+        label: 'Customer Role (Not Self Managed, Public)'
+        selfManaged: false
+        public: true
+        customer: '@customer'
+        customerUsers: ['@customer_user']
+        organization: '@organization'
+    role_customer_self_managed_not_public:
+        role: 'ROLE_CUSTOMER_3'
+        label: 'Customer Role (Self Managed, Not Public)'
+        selfManaged: true
+        public: false
+        customer: '@customer'
+        customerUsers: ['@customer_user']
+        organization: '@organization'
+    role_customer_self_managed_public:
+        role: 'ROLE_CUSTOMER_4'
+        label: 'Customer Role (Self Managed, Public)'
+        selfManaged: true
+        public: true
+        customer: '@customer'
+        customerUsers: ['@customer_user']
+        organization: '@organization'
+    role_child_customer_not_self_managed_not_public:
+        role: 'ROLE_CHILD_CUSTOMER_1'
+        label: 'Child Customer Role (Not Self Managed, Not Public)'
+        selfManaged: false
+        public: false
+        customer: '@child_customer'
+        organization: '@organization'
+    role_child_customer_not_self_managed_public:
+        role: 'ROLE_CHILD_CUSTOMER_2'
+        label: 'Child Customer Role (Not Self Managed, Public)'
+        selfManaged: false
+        public: true
+        customer: '@child_customer'
+        organization: '@organization'
+    role_child_customer_self_managed_not_public:
+        role: 'ROLE_CHILD_CUSTOMER_3'
+        label: 'Child Customer Role (Self Managed, Not Public)'
+        selfManaged: true
+        public: false
+        customer: '@child_customer'
+        organization: '@organization'
+    role_child_customer_self_managed_public:
+        role: 'ROLE_CHILD_CUSTOMER_4'
+        label: 'Child Customer Role (Self Managed, Public)'
+        selfManaged: true
+        public: true
+        customer: '@child_customer'
+        organization: '@organization'
+    role_another_customer_not_self_managed_not_public:
+        role: 'ROLE_ANOTHER_CUSTOMER_1'
+        label: 'Another Customer Role (Not Self Managed, Not Public)'
+        selfManaged: false
+        public: false
+        customer: '@another_customer'
+        organization: '@organization'
+    role_another_customer_not_self_managed_public:
+        role: 'ROLE_ANOTHER_CUSTOMER_2'
+        label: 'Another Customer Role (Not Self Managed, Public)'
+        selfManaged: false
+        public: true
+        customer: '@another_customer'
+        organization: '@organization'
+    role_another_customer_self_managed_not_public:
+        role: 'ROLE_ANOTHER_CUSTOMER_3'
+        label: 'Another Customer Role (Self Managed, Not Public)'
+        selfManaged: true
+        public: false
+        customer: '@another_customer'
+        organization: '@organization'
+    role_another_customer_self_managed_public:
+        role: 'ROLE_ANOTHER_CUSTOMER_4'
+        label: 'Another Customer Role (Self Managed, Public)'
+        selfManaged: true
+        public: true
+        customer: '@another_customer'
+        organization: '@organization'

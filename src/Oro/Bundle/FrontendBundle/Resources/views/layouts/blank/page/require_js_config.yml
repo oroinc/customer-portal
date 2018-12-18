@@ -12,3 +12,7 @@ layout:
             blockType: block
             options:
                 visible: '=data["system_config_provider"].getValue("oro_frontend.filter_value_selectors")=="all_at_once"'
+        - '@add':
+            id: require_js_bootstrap_config
+            parentId: require_js
+            blockType: block

@@ -55,6 +55,8 @@
 
         opacity: $dialog-titlebar-close-opacity;
 
+        cursor: $dialog-buttons-inner-cursor;
+
         &:hover {
             opacity: $dialog-titlebar-close-hover-opacity;
         }

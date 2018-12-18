@@ -27,7 +27,7 @@
             {% set label_attr = label_attr|merge({'for': form.value.vars.id}) %}
             {{ form_row(form, {'label_attr': label_attr}) }}
         {% else %}
-            {{ form_widget(form.value, { 'attr': {'class': 'control-subgroup'} }) }}
+            {{ form_widget(form.value, {'attr': {'class': 'control-subgroup'}}) }}
             {% if form.use_parent_scope_value is defined %}
                 <div class="parent-scope-checkbox control-subgroup">
                     <div class="oro-clearfix">

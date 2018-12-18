@@ -40,7 +40,10 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "owner_field_name"="owner",
  *              "owner_column_name"="owner_id",
  *              "organization_field_name"="organization",
- *              "organization_column_name"="organization_id"
+ *              "organization_column_name"="organization_id",
+ *              "frontend_owner_type"="FRONTEND_CUSTOMER",
+ *              "frontend_owner_field_name"="parent",
+ *              "frontend_owner_column_name"="parent_id",
  *          },
  *          "form"={
  *              "form_type"="Oro\Bundle\CustomerBundle\Form\Type\CustomerSelectType",

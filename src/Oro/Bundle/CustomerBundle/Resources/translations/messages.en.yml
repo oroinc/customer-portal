@@ -488,6 +488,8 @@ oro.customer:
         phone:
             label:           Phone
             description:     Phone of the contact person.
+        defaults:
+            label:           Use this address as
 
         country_name.label:      Country name
         country_iso2_code.label: Country ISO2 code

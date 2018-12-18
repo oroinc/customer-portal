@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -8,18 +8,17 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUserRoles;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
-use Oro\Bundle\UserBundle\Entity\BaseUserManager;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Creates the customer user entity with administrative permissions that can be used to test frontend REST API.
+ * Creates the customer user entity.
  */
-class LoadFrontendApiCustomerUserData extends AbstractFixture implements
+class LoadCustomerUserData extends AbstractFixture implements
     DependentFixtureInterface,
     ContainerAwareInterface
 {
@@ -39,7 +38,7 @@ class LoadFrontendApiCustomerUserData extends AbstractFixture implements
      */
     public function getDependencies()
     {
-        return [LoadUser::class];
+        return [LoadUser::class, LoadCustomerData::class, LoadCustomerUserRoles::class];
     }
 
     /**
@@ -47,11 +46,12 @@ class LoadFrontendApiCustomerUserData extends AbstractFixture implements
      */
     public function load(ObjectManager $manager)
     {
+        /** @var User $owner */
         $owner = $this->getReference('user');
+        /** @var Customer $customer */
+        $customer = $this->getReference('customer');
 
-        $customer = $this->createCustomer($manager, $owner);
-        $this->addReference('customer', $customer);
-        $customerUser = $this->createCustomerUser($customer, $owner);
+        $customerUser = $this->createCustomerUser($manager, $customer, $owner);
         $this->addReference('customer_user', $customerUser);
 
         $manager->flush();
@@ -59,50 +59,24 @@ class LoadFrontendApiCustomerUserData extends AbstractFixture implements
 
     /**
      * @param ObjectManager $manager
+     * @param Customer      $customer
      * @param User          $owner
-     *
-     * @return Customer
-     */
-    protected function createCustomer(ObjectManager $manager, User $owner)
-    {
-        $customer = new Customer();
-        $customer->setName('Customer');
-        $customer->setOwner($owner);
-        $customer->setOrganization($owner->getOrganization());
-        $manager->persist($customer);
-
-        return $customer;
-    }
-
-    /**
-     * @param Customer $customer
-     * @param User     $owner
      *
      * @return CustomerUser
      */
-    protected function createCustomerUser(Customer $customer, User $owner)
+    protected function createCustomerUser(ObjectManager $manager, Customer $customer, User $owner)
     {
-        /** @var BaseUserManager $userManager */
-        $userManager = $this->container->get('oro_customer_user.manager');
-
-        /** @var CustomerUser $customerUser */
-        $customerUser = $userManager->createUser();
-
-        $role = $this->container
-            ->get('doctrine')
-            ->getManagerForClass(CustomerUserRole::class)
-            ->getRepository(CustomerUserRole::class)
-            ->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR']);
+        $customerUser = new CustomerUser();
 
         $customerUser
             ->setFirstName('John')
             ->setLastName('Doe')
-            ->setEmail(FrontendRestJsonApiTestCase::USER_NAME)
-            ->setPlainPassword(FrontendRestJsonApiTestCase::AUTH_PW)
+            ->setEmail('test@example.com')
+            ->setPlainPassword('test')
+            ->setPassword('test')
             ->setSalt('')
             ->setOwner($owner)
             ->setOrganization($owner->getOrganization())
-            ->addRole($role)
             ->setCustomer($customer);
 
         $apiKey = new CustomerUserApi();
@@ -111,8 +85,18 @@ class LoadFrontendApiCustomerUserData extends AbstractFixture implements
             ->setUser($customerUser);
         $customerUser->addApiKey($apiKey);
 
-        $userManager->updateUser($customerUser, false);
+        $this->initializeCustomerUser($customerUser);
+
+        $manager->persist($customerUser);
+        $manager->flush();
 
         return $customerUser;
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     */
+    protected function initializeCustomerUser(CustomerUser $customerUser)
+    {
     }
 }

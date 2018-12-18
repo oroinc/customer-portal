@@ -1,7 +1,6 @@
 data:
     type: customerusers
     attributes:
-        username: test2341@test.com
         password: '123123123123'
         email: test2341@test.com
         firstName: Bob

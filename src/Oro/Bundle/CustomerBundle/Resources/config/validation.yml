@@ -67,11 +67,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
                 groups: [create]
             - Oro\Bundle\UserBundle\Validator\Constraints\PasswordComplexity:
                 groups: [create, Default]
-        username:
-            - NotBlank: ~
-            - Length:
-                min: 3
-                max: 255
         birthday:
             - Date: ~
         addresses:

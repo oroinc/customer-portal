@@ -27,16 +27,6 @@
 
 {% block oro_customer_typed_address_widget %}
     {{ form_row(form.primary, {label: 'oro.customer.customeraddress.primary.label'}) }}
-    {{ block('oro_address_rows') }}
-    {{ form_row(form.types, {label: 'oro.customer.customeraddress.types.label'}) }}
-    {{ form_row(form.defaults, {label: 'oro.customer.customeraddress.defaults.label'}) }}
-{% endblock %}
-
-{% block oro_customer_frontend_customer_user_typed_address_widget %}
-    {{ block('oro_customer_frontend_typed_address_widget') }}
-{% endblock %}
-
-{% block oro_address_rows %}
     {{ form_row(form.id) }}
     {{ form_row(form.label, {label: 'oro.customer.customeraddress.label.label'}) }}
     {{ form_row(form.namePrefix, {label: 'oro.customer.customeraddress.name_prefix.label'}) }}
@@ -52,7 +42,14 @@
     {{ form_row(form.region_text, {label: 'oro.customer.customeraddress.region_text.label'}) }}
     {{ form_row(form.region, {label: 'oro.customer.customeraddress.region.label'}) }}
     {{ form_row(form.postalCode, {label: 'oro.customer.customeraddress.postal_code.label'}) }}
+    {{ form_row(form.phone, {label: 'oro.customer.customeraddress.phone.label'}) }}
+    {{ form_row(form.types, {label: 'oro.customer.customeraddress.types.label'}) }}
+    {{ form_row(form.defaults, {label: 'oro.customer.customeraddress.defaults.label'}) }}
     {{ form_rest(form) }}
+{% endblock %}
+
+{% block oro_customer_frontend_customer_user_typed_address_widget %}
+    {{ block('oro_customer_frontend_typed_address_widget') }}
 {% endblock %}
 
 {% block oro_address_collection_widget %}
