@@ -33,7 +33,9 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit_Framework_TestCase
             '^/customer/user/registration$',
             '^/customer/user/confirm-email$',
             '^/customer/user/reset$',
+            'some other pattern',
         ];
+        $this->guestAccessAllowedUrlsProvider->addAllowedUrlPattern('some other pattern');
 
         static::assertSame($allowedUrls, $this->guestAccessAllowedUrlsProvider->getAllowedUrlsPatterns());
     }

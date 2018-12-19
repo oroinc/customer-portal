@@ -29,10 +29,25 @@ class GuestAccessAllowedUrlsProvider implements GuestAccessAllowedUrlsProviderIn
     ];
 
     /**
+     * @var array
+     */
+    private $allowedUrls = [];
+
+    /**
+     * Adds a pattern to the list of allowed URL patterns.
+     *
+     * @param string $pattern
+     */
+    public function addAllowedUrlPattern($pattern)
+    {
+        $this->allowedUrls[] = $pattern;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getAllowedUrlsPatterns()
     {
-        return static::ALLOWED_URLS;
+        return array_unique(array_merge(static::ALLOWED_URLS, $this->allowedUrls));
     }
 }
