@@ -6,25 +6,25 @@ use Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserPasswordHandler;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 
-abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Framework_TestCase
+abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $userManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $translator;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $form;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $request;
 
@@ -53,7 +53,7 @@ abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Fram
     }
 
     /**
-     * @param \PHPUnit_Framework_MockObject_MockObject|FormInterface $form
+     * @param \PHPUnit\Framework\MockObject\MockObject|FormInterface $form
      * @param string $message
      * @param array $messageParameters
      */
@@ -91,6 +91,9 @@ abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Fram
             ->method('handleRequest')
             ->with($this->request);
         $this->form->expects($this->once())
+            ->method('isSubmitted')
+            ->will($this->returnValue(true));
+        $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(false));
 
@@ -106,6 +109,9 @@ abstract class AbstractCustomerUserPasswordHandlerTestCase extends \PHPUnit_Fram
         $this->form->expects($this->once())
             ->method('handleRequest')
             ->with($this->request);
+        $this->form->expects($this->once())
+            ->method('isSubmitted')
+            ->will($this->returnValue(true));
         $this->form->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(true));

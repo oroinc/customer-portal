@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
@@ -11,13 +12,12 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
-use Oro\Bundle\FormBundle\Form\Type\OroDateType;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -35,12 +35,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     protected $formType;
 
     /**
-     * @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $authorizationChecker;
 
     /**
-     * @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $tokenAccessor;
 
@@ -59,14 +59,14 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-        parent::setUp();
-
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
         $this->formType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
         $this->formType->setDataClass(self::DATA_CLASS);
         $this->formType->setAddressClass(self::ADDRESS_CLASS);
+
+        parent::setUp();
     }
 
     /**
@@ -79,7 +79,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
             CustomerUserRoleSelectType::NAME,
             new CustomerUserRoleSelectType($this->createTranslator())
         );
-        $addressEntityType = new EntityType($this->getAddresses(), 'test_address_entity');
+        $addressEntityType = new EntityType($this->getAddresses(), EntityType::class);
         $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
 
         $userMultiSelectType = new EntityType(
@@ -96,12 +96,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    OroDateType::NAME => new OroDateType(),
-                    CustomerUserRoleSelectType::NAME => $customerUserRoleSelectType,
-                    $customerSelectType->getName() => $customerSelectType,
-                    AddressCollectionTypeStub::NAME => new AddressCollectionTypeStub(),
-                    $addressEntityType->getName() => $addressEntityType,
-                    $userMultiSelectType->getName() => $userMultiSelectType,
+                    CustomerUserType::class => $this->formType,
+                    CustomerUserRoleSelectType::class => $customerUserRoleSelectType,
+                    CustomerSelectType::class => $customerSelectType,
+                    AddressCollectionType::class => new AddressCollectionTypeStub(),
+                    EntityType::class => $addressEntityType,
+                    UserMultiSelectType::class => $userMultiSelectType,
                 ],
                 []
             ),
@@ -131,7 +131,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
 
         $this->tokenAccessor->expects($this->exactly(2))->method('getOrganization')->willReturn(new Organization());
 
-        $form = $this->factory->create($this->formType, $defaultData, []);
+        $form = $this->factory->create(CustomerUserType::class, $defaultData, []);
 
         $this->assertTrue($form->has('roles'));
         $options = $form->get('roles')->getConfig()->getOptions();
@@ -256,14 +256,6 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $callable($repository);
     }
 
-    /**
-     * Test getName
-     */
-    public function testGetName()
-    {
-        $this->assertEquals(CustomerUserType::NAME, $this->formType->getName());
-    }
-
     public function testHasNoAddress()
     {
         $customerUser = $this->createCustomerUser();
@@ -276,7 +268,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
             )
             ->willReturn(false);
 
-        $form = $this->factory->create($this->formType, $customerUser, []);
+        $form = $this->factory->create(get_class($this->formType), $customerUser, []);
         $this->assertFalse($form->has('addresses'));
     }
 
@@ -386,7 +378,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|TranslatorInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
      */
     private function createTranslator()
     {

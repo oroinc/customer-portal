@@ -8,17 +8,17 @@ use Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class FrontendCustomerUserRoleCapabilitySetOptionsProviderTest extends \PHPUnit_Framework_TestCase
+class FrontendCustomerUserRoleCapabilitySetOptionsProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
     /**
-     * @var RolePrivilegeCapabilityProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var RolePrivilegeCapabilityProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     private $capabilityProvider;
 
     /**
-     * @var RolePrivilegeCategoryProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var RolePrivilegeCategoryProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     private $categoryProvider;
 

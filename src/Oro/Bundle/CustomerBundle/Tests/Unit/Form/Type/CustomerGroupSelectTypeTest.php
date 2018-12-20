@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupSelectType;
 use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 
-class CustomerGroupSelectTypeTest extends \PHPUnit_Framework_TestCase
+class CustomerGroupSelectTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CustomerGroupSelectType
@@ -17,14 +17,9 @@ class CustomerGroupSelectTypeTest extends \PHPUnit_Framework_TestCase
         $this->type = new CustomerGroupSelectType();
     }
 
-    public function testGetName()
-    {
-        $this->assertEquals(CustomerGroupSelectType::NAME, $this->type->getName());
-    }
-
     public function testGetParent()
     {
-        $this->assertEquals(OroEntitySelectOrCreateInlineType::NAME, $this->type->getParent());
+        $this->assertEquals(OroEntitySelectOrCreateInlineType::class, $this->type->getParent());
     }
 
     public function testConfigureOptions()

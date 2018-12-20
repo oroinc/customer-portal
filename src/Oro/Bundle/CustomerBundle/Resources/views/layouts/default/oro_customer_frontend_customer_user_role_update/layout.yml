@@ -10,7 +10,7 @@ layout:
 
     actions:
         - '@setFormTheme':
-            themes: 'form.html.twig'
+            themes: 'OroCustomerBundle:layouts:default/oro_customer_frontend_customer_user_role_update/form.html.twig'
         - '@setOption':
             id: page_title
             optionName: defaultValue

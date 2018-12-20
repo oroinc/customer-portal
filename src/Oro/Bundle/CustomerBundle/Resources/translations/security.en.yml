@@ -1,0 +1,4 @@
+oro_customer:
+    login:
+        errors:
+            bad_credentials: 'Your login was unsuccessful. Please check your e-mail address and password before trying again. If you have forgotten your password, follow "Forgot Your Password?" link.'

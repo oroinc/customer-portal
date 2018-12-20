@@ -4,9 +4,12 @@ namespace Oro\Bundle\CustomerBundle\DependencyInjection\Security;
 
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 
+/**
+ * Configures Anonymous Customer User definitions
+ */
 class AnonymousCustomerUserFactory implements SecurityFactoryInterface
 {
     /**
@@ -18,14 +21,14 @@ class AnonymousCustomerUserFactory implements SecurityFactoryInterface
         $container
             ->setDefinition(
                 $providerId,
-                new DefinitionDecorator('oro_customer.authentication.provider.anonymous_customer_user')
+                new ChildDefinition('oro_customer.authentication.provider.anonymous_customer_user')
             )
             ->replaceArgument(2, $config['update_latency']);
 
         $listenerId = 'oro_customer.authentication.listener.anonymous_customer_user.'.$id;
         $container->setDefinition(
             $listenerId,
-            new DefinitionDecorator('oro_customer.authentication.listener.anonymous_customer_user')
+            new ChildDefinition('oro_customer.authentication.listener.anonymous_customer_user')
         );
 
         return [$providerId, $listenerId, $defaultEntryPoint];

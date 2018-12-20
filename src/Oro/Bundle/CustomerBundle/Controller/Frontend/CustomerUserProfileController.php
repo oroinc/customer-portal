@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
-use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,18 +9,27 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * Handles Customer user profile view and update actions
+ */
 class CustomerUserProfileController extends Controller
 {
     /**
      * @Route("/", name="oro_customer_frontend_customer_user_profile")
      * @Layout
-     * @AclAncestor("oro_customer_frontend_customer_user_view")
      *
      * @return array
      */
     public function profileAction()
     {
+        if (!$this->isGranted("oro_customer_frontend_update_own_profile")
+            && !$this->isGranted("oro_customer_frontend_customer_user_view")
+        ) {
+            throw new AccessDeniedException();
+        }
+
         return [
             'data' => [
                 'entity' => $this->getUser()
@@ -44,17 +52,13 @@ class CustomerUserProfileController extends Controller
         $customerUser = $this->getUser();
         $form = $this->get('oro_customer.provider.frontend_customer_user_form')
             ->getProfileForm($customerUser);
-        $handler = new FrontendCustomerUserHandler(
-            $form,
-            $request,
-            $this->get('oro_customer_user.manager')
-        );
-        $resultHandler = $this->get('oro_form.model.update_handler')->handleUpdate(
+
+        $handler = $this->get('oro_customer.handler.frontend_customer_user_handler');
+        $resultHandler = $this->get('oro_form.update_handler')->update(
             $customerUser,
             $form,
-            ['route' => 'oro_customer_frontend_customer_user_profile_update'],
-            ['route' => 'oro_customer_frontend_customer_user_profile'],
             $this->get('translator')->trans('oro.customer.controller.customeruser.profile_updated.message'),
+            $request,
             $handler
         );
 
@@ -62,8 +66,18 @@ class CustomerUserProfileController extends Controller
             return $resultHandler;
         }
 
+        $referer = $request->headers->get('referer');
+        $parsedReferer = parse_url($referer);
+
+        if (isset($parsedReferer['host']) && $request->getHost() === $parsedReferer['host']) {
+            $fromUrl = $referer;
+        } else {
+            $fromUrl = $this->get('router')->generate('oro_customer_frontend_customer_user_profile');
+        }
+
         return [
             'data' => [
+                'backToUrl' => $fromUrl,
                 'entity' => $customerUser
             ]
         ];

@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\DependencyInjection\Compiler;
 
-use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
+use Oro\Bundle\FrontendBundle\Api\FrontendApiDependencyInjectionUtil;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -16,16 +16,18 @@ class FrontendApiPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $this->disableApiProcessor($container, 'oro_api.collect_resources.load_dictionaries');
-        $this->disableApiProcessor($container, 'oro_api.collect_resources.load_custom_entities');
-    }
+        $processorsToBeDisabled = [
+            'oro_api.collect_resources.load_dictionaries',
+            'oro_api.collect_resources.load_custom_entities',
+            'oro_api.collect_resources.add_excluded_actions_for_dictionaries',
+            'oro_api.options.rest.set_cache_control',
+            'oro_api.rest.cors.set_allow_origin',
+            'oro_api.rest.cors.set_allow_and_expose_headers',
+            'oro_api.options.rest.cors.set_max_age',
+        ];
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $processorServiceId
-     */
-    private function disableApiProcessor(ContainerBuilder $container, string $processorServiceId)
-    {
-        DependencyInjectionUtil::disableApiProcessor($container, $processorServiceId, 'frontend');
+        foreach ($processorsToBeDisabled as $serviceId) {
+            FrontendApiDependencyInjectionUtil::disableProcessorForFrontendApi($container, $serviceId);
+        }
     }
 }

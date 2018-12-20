@@ -35,7 +35,7 @@ class Configuration implements ConfigurationInterface
                 'registration_allowed' => ['type' => 'boolean', 'value' => true],
                 'registration_link_enabled' => ['type' => 'boolean', 'value' => true],
                 'confirmation_required' => ['type' => 'boolean', 'value' => true],
-                'send_password_in_welcome_email' => ['type' => 'boolean', 'value' => false],
+                'auto_login_after_registration' => ['type' => 'boolean', 'value' => false],
                 'registration_instructions_enabled' => ['type' => 'boolean', 'value' => false],
                 'registration_instructions_text' => [
                     'type' => 'textarea',
@@ -46,7 +46,9 @@ class Configuration implements ConfigurationInterface
                 'enable_responsive_grids' => ['type' => 'boolean', 'value' => true],
                 'enable_swipe_actions_grids' => ['type' => 'boolean', 'value' => true],
                 'customer_visitor_cookie_lifetime_days' => ['type' => 'integer', 'value' => 30],
-                'maps_enabled' => ['type' => 'boolean', 'value' => true]
+                'maps_enabled' => ['type' => 'boolean', 'value' => true],
+                'api_key_generation_enabled' => ['type' => 'boolean', 'value' => true],
+                'case_insensitive_email_addresses_enabled' => ['type' => 'boolean', 'value' => false],
             ]
         );
 

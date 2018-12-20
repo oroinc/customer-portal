@@ -4,10 +4,13 @@ Oro\Bundle\UserBundle\Entity\User:
         email: user2@example.com
         firstName: New
         lastName: Owner
-        password: password
-        salt: salt
+        password: 3X+qGs+/6Ic/iL+5/t6C5C3C0hYEbhYLtZ/nwJDn5QUYArHkBy90HT220LVErWvKyVH7XoId15dv/uF2+pExiQ==
+        salt: eexx2a8mtsg8o4c8k4w08wo04ccsw8
         organization: '@organization'
+        organizations: ['@organization']
         owner: '@business_unit'
+        businessUnits: ['@business_unit']
+        roles: ['@userRole']
     user_with_assign:
         username: userWithAssign1
         email: userWithAssign1@example.com

@@ -9,7 +9,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class CustomerUserRoleTest extends \PHPUnit_Framework_TestCase
+class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 
@@ -49,7 +49,6 @@ class CustomerUserRoleTest extends \PHPUnit_Framework_TestCase
     public function testRelations()
     {
         static::assertPropertyCollections(new CustomerUserRole(), [
-            ['websites', new Website()],
             ['customerUsers', new CustomerUser()],
         ]);
 

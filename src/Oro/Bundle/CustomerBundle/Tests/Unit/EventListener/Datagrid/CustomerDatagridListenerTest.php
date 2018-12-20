@@ -9,7 +9,7 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\DatagridInterface;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 
-class CustomerDatagridListenerTest extends \PHPUnit_Framework_TestCase
+class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
 {
     private const COLUMN_NAME = 'testColumnName';
 
@@ -24,12 +24,12 @@ class CustomerDatagridListenerTest extends \PHPUnit_Framework_TestCase
     protected $entityClass = 'TestEntity';
 
     /**
-     * @var CustomerUserProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $securityProvider;
 
     /**
-     * @var DatagridInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var DatagridInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $datagrid;
 

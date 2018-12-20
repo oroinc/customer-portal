@@ -8,9 +8,9 @@ use Oro\Bundle\CustomerBundle\EventListener\NavigationListener;
 use Oro\Bundle\NavigationBundle\Event\ConfigureMenuEvent;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class NavigationListenerTest extends \PHPUnit_Framework_TestCase
+class NavigationListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $authorizationChecker;
 
     /** @var NavigationListener */
@@ -24,20 +24,23 @@ class NavigationListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param bool $isGrantedCustomer
-     * @param bool $isGrantedCustomerUser
+     * @param bool $isGrantedCustomerAddress
+     * @param bool $isGrantedCustomerUserAddress
      * @param bool $expectedIsDisplayed
      *
      * @dataProvider navigationConfigureDataProvider
      */
-    public function testOnNavigationConfigure($isGrantedCustomer, $isGrantedCustomerUser, $expectedIsDisplayed)
-    {
+    public function testOnNavigationConfigure(
+        $isGrantedCustomerAddress,
+        $isGrantedCustomerUserAddress,
+        $expectedIsDisplayed
+    ) {
         $this->authorizationChecker->expects($this->atLeastOnce())
             ->method('isGranted')
             ->will($this->returnValueMap(
                 [
-                    ['oro_customer_frontend_customer_view', null, $isGrantedCustomer],
-                    ['oro_customer_frontend_customer_user_view', null, $isGrantedCustomerUser]
+                    ['oro_customer_frontend_customer_address_view', null, $isGrantedCustomerAddress],
+                    ['oro_customer_frontend_customer_user_address_view', null, $isGrantedCustomerUserAddress]
                 ]
             ));
 

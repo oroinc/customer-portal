@@ -8,7 +8,7 @@ use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerCriteriaProvider;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class ScopeCustomerCriteriaProviderTest extends \PHPUnit_Framework_TestCase
+class ScopeCustomerCriteriaProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ScopeCustomerCriteriaProvider
@@ -16,7 +16,7 @@ class ScopeCustomerCriteriaProviderTest extends \PHPUnit_Framework_TestCase
     private $provider;
 
     /**
-     * @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $tokenStorage;
 

@@ -1,4 +1,4 @@
-// @theme: blank;
+/* @theme: blank; */
 
 .information-nav {
     padding: $information-nav-offset;
@@ -17,6 +17,10 @@
 
     &__list {
         @include list-normalize();
+    }
+
+    &__icon {
+        display: inline-block;
     }
 
     &__item {

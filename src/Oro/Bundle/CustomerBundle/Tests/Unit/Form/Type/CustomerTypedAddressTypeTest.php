@@ -6,15 +6,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
+use Oro\Bundle\AddressBundle\Form\Type\AddressType as AddressFormType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressType;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressWithDefaultType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\CustomerTypedAddressWithDefaultTypeStub;
 use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
+use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
 use Oro\Bundle\UIBundle\Tools\HtmlTagHelper;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
-use Symfony\Component\Form\PreloadedExtension;
+use Oro\Component\Testing\Unit\PreloadedExtension;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
@@ -28,10 +32,10 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
     /** @var AddressType */
     protected $shippingType;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|EntityManager */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityManager */
     protected $em;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|EntityRepository */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityRepository */
     protected $addressRepository;
 
     /**
@@ -74,11 +78,10 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-        parent::setUp();
-
         $this->formType = new CustomerTypedAddressType();
         $this->formType->setAddressTypeDataClass('Oro\Bundle\AddressBundle\Entity\AddressType');
         $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerAddress');
+        parent::setUp();
     }
 
     /**
@@ -99,7 +102,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
                 AddressType::TYPE_BILLING => $this->billingType,
                 AddressType::TYPE_SHIPPING => $this->shippingType,
             ],
-            'translatable_entity'
+            TranslatableEntityType::NAME
         );
 
         $addressTypeStub = new AddressTypeStub();
@@ -107,14 +110,15 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    $addressType->getName() => $addressType,
-                    CustomerTypedAddressWithDefaultTypeStub::NAME  => new CustomerTypedAddressWithDefaultTypeStub([
+                    $this->formType,
+                    TranslatableEntityType::class => $addressType,
+                    CustomerTypedAddressWithDefaultType::class  => new CustomerTypedAddressWithDefaultTypeStub([
                         $this->billingType,
                         $this->shippingType
                     ], $this->em),
-                    $addressTypeStub->getName()  => $addressTypeStub,
+                    AddressFormType::class => $addressTypeStub,
                 ],
-                ['form' => [new StripTagsExtensionStub($this->createMock(HtmlTagHelper::class))]]
+                [FormType::class => [new StripTagsExtensionStub($this->createMock(HtmlTagHelper::class))]]
             )
         ];
     }
@@ -136,7 +140,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
         $expectedData,
         $updateOwner = null
     ) {
-        $form = $this->factory->create($this->formType, $defaultData, $options);
+        $form = $this->factory->create(CustomerTypedAddressType::class, $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
         $this->assertEquals($viewData, $form->getViewData());
@@ -262,7 +266,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
 
     /**
      * @param array $entityModels
-     * @return \PHPUnit_Framework_MockObject_MockObject|EntityRepository
+     * @return \PHPUnit\Framework\MockObject\MockObject|EntityRepository
      */
     protected function createRepositoryMock(array $entityModels = [])
     {
@@ -282,7 +286,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|EntityManager
+     * @return \PHPUnit\Framework\MockObject\MockObject|EntityManager
      */
     protected function createEntityManagerMock()
     {

@@ -7,10 +7,10 @@ use Oro\Bundle\CustomerBundle\Voter\CustomerUserVoter;
 use Oro\Bundle\FeatureToggleBundle\Checker\Voter\VoterInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
-class CustomerUserVoterTest extends \PHPUnit_Framework_TestCase
+class CustomerUserVoterTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $tokenAccessor;
 

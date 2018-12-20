@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Doctrine\ORM\EntityManager;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressWithDefaultType;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -23,10 +24,10 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
     /** @var AddressType */
     protected $shippingType;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|ManagerRegistry */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry */
     protected $registry;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|EntityManager */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityManager */
     protected $em;
 
     /**
@@ -52,11 +53,25 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-        parent::setUp();
-
         $translator = $this->createTranslatorMock();
         $this->formType = new CustomerTypedAddressWithDefaultType($translator);
         $this->formType->setRegistry($this->registry);
+        parent::setUp();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getExtensions()
+    {
+        return [
+            new PreloadedExtension(
+                [
+                    CustomerTypedAddressWithDefaultType::class => $this->formType
+                ],
+                []
+            ),
+        ];
     }
 
     /**
@@ -82,7 +97,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
         $submittedData,
         $expectedData
     ) {
-        $form = $this->factory->create($this->formType, $defaultData, $options);
+        $form = $this->factory->create(CustomerTypedAddressWithDefaultType::class, $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
         $this->assertEquals($viewData, $form->getViewData());
@@ -148,15 +163,9 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    public function testGetName()
-    {
-        $this->assertInternalType('string', $this->formType->getName());
-        $this->assertEquals('oro_customer_typed_address_with_default', $this->formType->getName());
-    }
-
     /**
      * @param array $entityModels
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function createRepositoryMock(array $entityModels = [])
     {
@@ -191,7 +200,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 
     /**
      * @param $repo
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function createEntityManagerMock($repo)
     {
@@ -212,7 +221,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 
     /**
      * @param $em
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     private function createManagerRegistryMock($em)
     {
@@ -234,7 +243,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     private function createClassMetadataMock()
     {
@@ -257,7 +266,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 
     /**
      * @param $field
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     public function createReflectionProperty($field)
     {
@@ -275,7 +284,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|TranslatorInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
      */
     private function createTranslatorMock()
     {

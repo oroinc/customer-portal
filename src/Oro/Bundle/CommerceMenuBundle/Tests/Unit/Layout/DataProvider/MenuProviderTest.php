@@ -6,9 +6,9 @@ use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use Oro\Bundle\CommerceMenuBundle\Layout\DataProvider\MenuProvider;
 
-class MenuProviderTest extends \PHPUnit_Framework_TestCase
+class MenuProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var MenuProviderInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var MenuProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $builderChainProvider;
 
     /** @var MenuProvider */
@@ -28,7 +28,7 @@ class MenuProviderTest extends \PHPUnit_Framework_TestCase
         $menuName = 'menuName';
         $options = ['option1', 'option2'];
 
-        /** @var ItemInterface|\PHPUnit_Framework_MockObject_MockObject $item */
+        /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject $item */
         $item = $this->getMockBuilder(ItemInterface::class)->getMock();
 
         $this->builderChainProvider
@@ -45,7 +45,7 @@ class MenuProviderTest extends \PHPUnit_Framework_TestCase
         $menuName = 'menuName';
         $options = ['check_access_not_logged_in' => true];
 
-        /** @var ItemInterface|\PHPUnit_Framework_MockObject_MockObject $item */
+        /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject $item */
         $item = $this->getMockBuilder(ItemInterface::class)->getMock();
 
         $this->builderChainProvider

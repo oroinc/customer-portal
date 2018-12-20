@@ -7,14 +7,21 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\UIBundle\Route\Router;
+use Oro\Bundle\UserBundle\Util\ObfuscatedEmailTrait;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Handles request and reset password logic
+ */
 class ResetController extends Controller
 {
+    use ObfuscatedEmailTrait;
+
     const SESSION_EMAIL = 'oro_customer_user_reset_email';
 
     /**
@@ -36,7 +43,7 @@ class ResetController extends Controller
         $request = $this->get('request_stack')->getCurrentRequest();
         $user = $handler->process($form, $request);
         if ($user) {
-            $this->get('session')->set(static::SESSION_EMAIL, $this->getObfuscatedEmail($user));
+            $this->get('session')->set(static::SESSION_EMAIL, $this->getObfuscatedEmail($user->getEmail()));
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_reset_check_email'));
         }
 
@@ -108,6 +115,7 @@ class ResetController extends Controller
         $form = $this->get('oro_customer.provider.frontend_customer_user_form')
             ->getResetPasswordForm($user);
 
+        $actionParameter = $request->get(Router::ACTION_PARAMETER);
         if ($handler->process($form, $request)) {
             // force user logout
             $session->invalidate();
@@ -118,33 +126,22 @@ class ResetController extends Controller
                 'oro.customer.customeruser.profile.password_reset.message'
             );
 
-            return $this->redirect($this->generateUrl('oro_customer_customer_user_security_login'));
+            if ($actionParameter) {
+                $response = $this->get('oro_ui.router')->redirect($user);
+            } else {
+                $response = $this->redirect($this->generateUrl('oro_customer_customer_user_security_login'));
+            }
+
+            return $response;
         }
 
         return [
             'data' => [
-                'user' => $user
+                'user' => $user,
+                Router::ACTION_PARAMETER => $actionParameter ?
+                    $actionParameter : json_encode(['route' => 'oro_customer_customer_user_security_login'])
             ]
         ];
-    }
-
-    /**
-     * Get the truncated email displayed when requesting the resetting.
-     * The default implementation only keeps the part following @ in the address.
-     *
-     * @param CustomerUser $user
-     *
-     * @return string
-     */
-    protected function getObfuscatedEmail(CustomerUser $user)
-    {
-        $email = $user->getEmail();
-
-        if (false !== $pos = strpos($email, '@')) {
-            $email = '...' . substr($email, $pos);
-        }
-
-        return $email;
     }
 
     /**

@@ -15,27 +15,27 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class GridViewsExtensionTest extends \PHPUnit_Framework_TestCase
+class GridViewsExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $eventDispatcher;
 
-    /** @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $authorizationChecker;
 
-    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $tokenAccessor;
 
-    /** @var TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $translator;
 
-    /** @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
     protected $registry;
 
-    /** @var AclHelper|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AclHelper|\PHPUnit\Framework\MockObject\MockObject */
     protected $aclHelper;
 
-    /** @var GridViewManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var GridViewManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $gridViewManager;
 
     /** @var GridViewsExtension */
@@ -51,7 +51,7 @@ class GridViewsExtensionTest extends \PHPUnit_Framework_TestCase
         $this->aclHelper = $this->createMock(AclHelper::class);
         $this->gridViewManager = $this->createMock(GridViewManager::class);
 
-        /** @var ServiceLink|\PHPUnit_Framework_MockObject_MockObject $gridViewManagerLink */
+        /** @var ServiceLink|\PHPUnit\Framework\MockObject\MockObject $gridViewManagerLink */
         $gridViewManagerLink = $this->createMock(ServiceLink::class);
         $gridViewManagerLink->expects($this->any())->method('getService')->willReturn($this->gridViewManager);
 

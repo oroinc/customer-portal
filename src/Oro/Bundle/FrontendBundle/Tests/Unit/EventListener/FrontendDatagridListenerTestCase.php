@@ -7,7 +7,7 @@ use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 use Oro\Bundle\FrontendBundle\EventListener\AbstractFrontendDatagridListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
-abstract class FrontendDatagridListenerTestCase extends \PHPUnit_Framework_TestCase
+abstract class FrontendDatagridListenerTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var AbstractFrontendDatagridListener
@@ -15,12 +15,12 @@ abstract class FrontendDatagridListenerTestCase extends \PHPUnit_Framework_TestC
     protected $listener;
 
     /**
-     * @var DatagridConfiguration|\PHPUnit_Framework_MockObject_MockObject
+     * @var DatagridConfiguration|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $datagridConfig;
 
     /**
-     * @var FrontendHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $frontendHelper;
 
@@ -41,7 +41,7 @@ abstract class FrontendDatagridListenerTestCase extends \PHPUnit_Framework_TestC
 
     /**
      * @param DatagridConfiguration $datagridConfig
-     * @return BuildBefore|\PHPUnit_Framework_MockObject_MockObject
+     * @return BuildBefore|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getBuildBeforeEventMock(DatagridConfiguration $datagridConfig)
     {

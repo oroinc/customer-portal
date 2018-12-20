@@ -2,28 +2,26 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
-use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Oro\Bundle\SecurityBundle\AccessRule\AclAccessRule;
+use Oro\Bundle\SecurityBundle\AccessRule\AvailableOwnerAccessRule;
+use Oro\Bundle\TranslationBundle\Form\Type\Select2TranslatableEntityType;
 use Oro\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form type for selecting entity owner.
+ */
 class FrontendOwnerSelectType extends AbstractType
 {
     const NAME = 'oro_customer_frontend_owner_select';
-
-    /**
-     * @var AclHelper
-     */
-    protected $aclHelper;
 
     /**
      * @var ManagerRegistry
@@ -36,13 +34,11 @@ class FrontendOwnerSelectType extends AbstractType
     protected $configProvider;
 
     /**
-     * @param AclHelper $aclHelper
      * @param ManagerRegistry $registry
      * @param ConfigProvider $configProvider
      */
-    public function __construct(AclHelper $aclHelper, ManagerRegistry $registry, ConfigProvider $configProvider)
+    public function __construct(ManagerRegistry $registry, ConfigProvider $configProvider)
     {
-        $this->aclHelper = $aclHelper;
         $this->registry = $registry;
         $this->configProvider = $configProvider;
     }
@@ -69,44 +65,42 @@ class FrontendOwnerSelectType extends AbstractType
         $resolver->setDefined('query_builder');
         $resolver->setDefined('class');
 
-        $resolver->setNormalizer('query_builder', function (Options $options) {
+        $resolver->setNormalizer('acl_options', function (Options $options) {
             $data = $options['targetObject'];
             $class = ClassUtils::getClass($data);
+            $aclOptions = [
+                AclAccessRule::DISABLE_RULE => true,
+                AvailableOwnerAccessRule::ENABLE_RULE => true,
+                AvailableOwnerAccessRule::TARGET_ENTITY_CLASS => $class
+            ];
+
             $permission = 'CREATE';
+
             $em = $this->registry->getManagerForClass($class);
             $isObjectNew = !$em->contains($data);
             if (!$isObjectNew) {
                 $permission = 'ASSIGN';
-            }
-            $config = $this->configProvider->getConfig($class);
-            $ownerClass = $this->getOwnerClass($config);
-
-            $criteria = new Criteria();
-            $ownerFieldName = $config->get('frontend_owner_field_name');
-            $organizationFieldName = $config->get('organization_field_name');
-            $this->aclHelper->applyAclToCriteria(
-                $class,
-                $criteria,
-                $permission,
-                [$ownerFieldName => 'owner.id', $organizationFieldName => 'owner.organization']
-            );
-
-            /** @var EntityRepository $repo */
-            $repo = $this->registry->getRepository($ownerClass);
-            $qb = $repo
-                ->createQueryBuilder('owner')
-                ->addCriteria($criteria);
-
-            if (!$isObjectNew) {
+                $config = $this->configProvider->getConfig($class);
+                $ownerFieldName = $config->get('frontend_owner_field_name');
                 $propertyAccessor = new PropertyAccessor();
                 $currentOwner = $propertyAccessor->getValue($data, $ownerFieldName);
                 if ($currentOwner) {
-                    $qb->orWhere($qb->expr()->eq('owner.id', ':currentOwner'))
-                        ->setParameter('currentOwner', $currentOwner);
+                    $aclOptions[AvailableOwnerAccessRule::CURRENT_OWNER] = $currentOwner->getId();
                 }
             }
 
-            return $qb;
+            return [
+                'disable' => false,
+                'permission' => $permission,
+                'options' => $aclOptions
+            ];
+        });
+
+        $resolver->setNormalizer('query_builder', function (Options $options) {
+            $class = ClassUtils::getClass($options['targetObject']);
+            $ownerClass = $this->getOwnerClass($this->configProvider->getConfig($class));
+
+            return $this->registry->getRepository($ownerClass)->createQueryBuilder('owner');
         });
 
         $resolver->setNormalizer('class', function (Options $options) {
@@ -149,6 +143,6 @@ class FrontendOwnerSelectType extends AbstractType
      */
     public function getParent()
     {
-        return 'oro_select2_translatable_entity';
+        return Select2TranslatableEntityType::class;
     }
 }

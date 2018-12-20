@@ -1,0 +1,72 @@
+data:
+    -
+        type: customers
+        id: '<toString(@default_customer->id)>'
+        attributes:
+            name: '@default_customer->name'
+            createdAt: '@default_customer->createdAt->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@default_customer->updatedAt->format("Y-m-d\TH:i:s\Z")'
+        relationships:
+            parent:
+                data: null
+            children:
+                data:
+                    -
+                        type: customers
+                        id: '<toString(@customer.1->id)>'
+            group:
+                data: null
+            users:
+                data:
+                    -
+                        type: customerusers
+                        id: '<toString(@default_customer_user->id)>'
+            owner:
+                data:
+                    type: users
+                    id: '<toString(@default_customer->owner->id)>'
+            organization:
+                data:
+                    type: organizations
+                    id: '<toString(@default_customer->organization->id)>'
+            salesRepresentatives:
+                data: {  }
+            internal_rating:
+                data: null
+    -
+        type: customers
+        id: '<toString(@customer.1->id)>'
+        attributes:
+            name: 'customer.1'
+            createdAt: '@customer.1->createdAt->format("Y-m-d\TH:i:s\Z")'
+            updatedAt: '@customer.1->updatedAt->format("Y-m-d\TH:i:s\Z")'
+        relationships:
+            parent:
+                data:
+                    type: customers
+                    id: '<toString(@default_customer->id)>'
+            children:
+                data: {  }
+            group:
+                data:
+                    type: customergroups
+                    id: '<toString(@customer_group.group1->id)>'
+            users:
+                data: {  }
+            owner:
+                data:
+                    type: users
+                    id: '<toString(@default_customer->owner->id)>'
+            organization:
+                data:
+                    type: organizations
+                    id: '<toString(@default_customer->organization->id)>'
+            salesRepresentatives:
+                data:
+                    -
+                        type: users
+                        id: '<toString(@default_customer->owner->id)>'
+            internal_rating:
+                data:
+                    type: customerratings
+                    id: '<toString(@internal_rating.1 of 5->id)>'

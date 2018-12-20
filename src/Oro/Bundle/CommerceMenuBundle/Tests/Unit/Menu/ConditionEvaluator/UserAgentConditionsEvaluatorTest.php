@@ -13,25 +13,25 @@ use Oro\Bundle\CommerceMenuBundle\Menu\ConditionEvaluator\UserAgentConditionsEva
 use Oro\Bundle\UIBundle\Provider\UserAgentInterface;
 use Oro\Bundle\UIBundle\Provider\UserAgentProviderInterface;
 
-class UserAgentConditionsEvaluatorTest extends \PHPUnit_Framework_TestCase
+class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var UserAgentProviderInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var UserAgentProviderInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $userAgentProvider;
 
     /**
-     * @var ItemInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $menuItem;
 
     /**
-     * @var EntityManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $entityManager;
 
     /**
-     * @var ClassMetadata|\PHPUnit_Framework_MockObject_MockObject
+     * @var ClassMetadata|\PHPUnit\Framework\MockObject\MockObject
      */
     private $metadata;
 

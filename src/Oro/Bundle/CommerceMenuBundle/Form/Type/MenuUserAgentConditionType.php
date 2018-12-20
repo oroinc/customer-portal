@@ -61,14 +61,14 @@ class MenuUserAgentConditionType extends AbstractType
     private function getOperationChoices()
     {
         return [
-            MenuUserAgentCondition::OPERATION_CONTAINS =>
-                'oro.commercemenu.menu_user_agent_condition.operation.contains.label',
-            MenuUserAgentCondition::OPERATION_DOES_NOT_CONTAIN =>
-                'oro.commercemenu.menu_user_agent_condition.operation.does_not_contain.label',
-            MenuUserAgentCondition::OPERATION_MATCHES =>
-                'oro.commercemenu.menu_user_agent_condition.operation.matches.label',
-            MenuUserAgentCondition::OPERATION_DOES_NOT_MATCHES =>
-                'oro.commercemenu.menu_user_agent_condition.operation.does_not_match.label',
+            'oro.commercemenu.menu_user_agent_condition.operation.contains.label' =>
+                MenuUserAgentCondition::OPERATION_CONTAINS,
+            'oro.commercemenu.menu_user_agent_condition.operation.does_not_contain.label' =>
+                MenuUserAgentCondition::OPERATION_DOES_NOT_CONTAIN,
+            'oro.commercemenu.menu_user_agent_condition.operation.matches.label' =>
+                MenuUserAgentCondition::OPERATION_MATCHES,
+            'oro.commercemenu.menu_user_agent_condition.operation.does_not_match.label' =>
+                MenuUserAgentCondition::OPERATION_DOES_NOT_MATCHES
         ];
     }
 }

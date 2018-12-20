@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'layout.html.twig'
+            themes: 'OroCustomerBundle:layouts:blank/imports/oro_customer_user_address_list/layout.html.twig'
         - '@addTree':
             items:
                 __user_addresses_head:
@@ -43,7 +43,7 @@ layout:
                     options:
                         route_name: 'oro_customer_frontend_customer_user_address_index'
                         text: 'oro.customer.address.manage'
-                        visible: '=data["acl"].isGranted("oro_customer_frontend_customer_view") or data["acl"].isGranted("oro_customer_frontend_customer_user_view")'
+                        visible: '=data["acl"].isGranted("oro_customer_frontend_customer_address_view") or data["acl"].isGranted("oro_customer_frontend_customer_user_address_view")'
             tree:
                 __root:
                     __user_addresses_head:

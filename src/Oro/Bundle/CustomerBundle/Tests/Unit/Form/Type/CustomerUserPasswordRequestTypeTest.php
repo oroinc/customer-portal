@@ -10,23 +10,6 @@ use Symfony\Component\Validator\Validation;
 class CustomerUserPasswordRequestTypeTest extends FormIntegrationTestCase
 {
     /**
-     * @var CustomerUserPasswordRequestType
-     */
-    protected $formType;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->formType = new CustomerUserPasswordRequestType();
-    }
-
-    protected function tearDown()
-    {
-        unset($this->formType);
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function getExtensions()
@@ -46,7 +29,7 @@ class CustomerUserPasswordRequestTypeTest extends FormIntegrationTestCase
      */
     public function testSubmit(array $options, $defaultData, $viewData, $submittedData, $expectedData)
     {
-        $form = $this->factory->create($this->formType, $defaultData, $options);
+        $form = $this->factory->create(CustomerUserPasswordRequestType::class, $defaultData, $options);
 
         $this->assertEquals($defaultData, $form->getData());
         $this->assertEquals($viewData, $form->getViewData());
@@ -74,11 +57,5 @@ class CustomerUserPasswordRequestTypeTest extends FormIntegrationTestCase
                 ]
             ]
         ];
-    }
-
-    public function testGetName()
-    {
-        $this->assertInternalType('string', $this->formType->getName());
-        $this->assertEquals(CustomerUserPasswordRequestType::NAME, $this->formType->getName());
     }
 }

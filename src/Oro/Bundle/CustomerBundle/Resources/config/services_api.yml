@@ -1,10 +1,10 @@
 services:
-    oro_customer_user.api_doc.security_context:
+    oro_customer.api_doc.security_context:
         class: Oro\Bundle\CustomerBundle\Api\ApiDoc\SecurityContext
         public: false
         decorates: oro_api.api_doc.security_context
         arguments:
-            - '@oro_customer_user.api_doc.security_context.inner'
+            - '@oro_customer.api_doc.security_context.inner'
             - '@security.token_storage'
 
     oro_customer.api.sign_in_target_path_provider:
@@ -16,9 +16,141 @@ services:
             - '@request_stack'
             - '@oro_api.rest.doc_url_generator'
 
-    oro_customer_user.api.create.save_entity:
+    oro_customer.api.entity_accessor.address:
+        class: Oro\Bundle\CustomerBundle\Api\AddressEntityDataAccessor
+        public: false
+        decorates: oro_api.entity_accessor
+        arguments:
+            - '@oro_customer.api.entity_accessor.address.inner'
+
+    oro_customer.api.frontend.mine_customer_user_entity_id_resolver:
+        class: Oro\Bundle\CustomerBundle\Api\MineCustomerUserEntityIdResolver
+        arguments:
+            - '@oro_security.token_accessor'
+        tags:
+            - { name: oro.api.entity_id_resolver, id: mine, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser, requestType: frontend, priority: 11 }
+
+    oro_customer.api.frontend.mine_customer_entity_id_resolver:
+        class: Oro\Bundle\CustomerBundle\Api\MineCustomerEntityIdResolver
+        arguments:
+            - '@oro_security.token_accessor'
+        tags:
+            - { name: oro.api.entity_id_resolver, id: mine, class: Oro\Bundle\CustomerBundle\Entity\Customer, requestType: frontend, priority: 10 }
+
+    oro_customer.api.frontend.authentication_provider:
+        alias: oro_security.authentication.provider.username_password_organization.frontend
+        public: false
+
+    oro_customer.api.create.save_customer_user:
         class: Oro\Bundle\CustomerBundle\Api\Processor\Create\SaveCustomerUser
         arguments:
             - '@oro_customer_user.manager'
         tags:
-            - { name: oro.api.processor, action: create, group: save_data, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser}
+            - { name: oro.api.processor, action: create, group: save_data, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser }
+
+    oro_customer.api.addresses.fix_primary_addresses:
+        class: Oro\Bundle\AddressBundle\Api\Processor\FixPrimaryAddresses
+        arguments:
+            - 'frontendOwner.addresses'
+            - '@oro_api.form_property_accessor'
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress }
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress }
+
+    oro_customer.api.addresses.fix_default_customer_addresses:
+        class: Oro\Bundle\CustomerBundle\Api\Processor\FixDefaultCustomerAddresses
+        arguments:
+            - 'frontendOwner.addresses'
+            - '@oro_api.form_property_accessor'
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress }
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress }
+
+    oro_customer.api.frontend.login.handle:
+        class: Oro\Bundle\CustomerBundle\Api\Processor\HandleLogin
+        arguments:
+            - 'frontend'
+            - '@oro_customer.api.frontend.authentication_provider'
+            - '@oro_config.manager'
+            - '@oro_api.doctrine_helper'
+            - '@translator'
+        tags:
+            - { name: oro.api.processor, action: create, group: save_data, requestType: frontend, class: Oro\Bundle\CustomerBundle\Api\Model\Login }
+
+    oro_customer.api.frontend.login.normalize:
+        class: Oro\Bundle\ApiBundle\Processor\Shared\NormalizeEntity
+        arguments:
+            - '@oro_api.object_normalizer'
+        tags:
+            - { name: oro.api.processor, action: create, group: normalize_data, requestType: frontend, class: Oro\Bundle\CustomerBundle\Api\Model\Login }
+
+    # return HTTP_OK status code instead of HTTP_CREATED for "login" POST request
+    oro_customer.api.frontend.login.set_http_ok_response_status_code:
+        class: Oro\Bundle\ApiBundle\Processor\Shared\SetHttpResponseStatusCode
+        tags:
+            - { name: oro.api.processor, action: create, group: normalize_result, requestType: frontend&rest, class: Oro\Bundle\CustomerBundle\Api\Model\Login, priority: -29 }
+
+    oro_customer.api.frontend.handle_access_denied_for_visitors:
+        class: Oro\Bundle\CustomerBundle\Api\Processor\HandleAccessDeniedForVisitors
+        arguments:
+            - '@security.token_storage'
+            - ['Oro\Bundle\CustomerBundle\Api\Model\Login']
+        tags:
+            - { name: oro.api.processor, action: get, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: get_list, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: delete, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: delete_list, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: create, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: update, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: get_subresource, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: delete_subresource, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: add_subresource, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: update_subresource, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: get_relationship, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: delete_relationship, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: add_relationship, group: normalize_result, requestType: frontend&rest, priority: -34 }
+            - { name: oro.api.processor, action: update_relationship, group: normalize_result, requestType: frontend&rest, priority: -34 }
+
+    oro_customer.api.frontend.config.add_owner_validator:
+        class: Oro\Bundle\CustomerBundle\Api\Processor\Config\AddFrontendOwnerValidator
+        arguments:
+            - '@oro_api.doctrine_helper'
+            - '@oro_customer.owner.frontend_ownership_metadata_provider'
+            - '@oro_api.validation_helper'
+        tags:
+            - { name: oro.api.processor, action: get_config, extra: '!identifier_fields_only&definition', requestType: frontend, targetAction: update|create|update_relationship|add_relationship|delete_relationship|update_subresource|add_subresource|delete_subresource, priority: -50 }
+
+    oro_customer.api.frontend.customer_user.set_website:
+        class: Oro\Bundle\CustomerBundle\Api\Processor\InitializeCustomerUser
+        arguments:
+            - '@oro_api.doctrine_helper'
+            - '@oro_config.manager'
+            - '@oro_website.manager'
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser, requestType: frontend, priority: 20 }
+
+    oro_customer.api.frontend.customer_user.set_customer:
+        class: Oro\Bundle\CustomerBundle\Api\Processor\SetCustomer
+        arguments:
+            - '@oro_api.form_property_accessor'
+            - '@oro_security.token_accessor'
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser, requestType: frontend, priority: 10 }
+
+    oro_customer.api.frontend.customer_address.set_customer:
+        class: Oro\Bundle\CustomerBundle\Api\Processor\SetCustomer
+        arguments:
+            - '@oro_api.form_property_accessor'
+            - '@oro_security.token_accessor'
+            - 'frontendOwner'
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress, requestType: frontend, priority: 10 }
+
+    oro_customer.api.frontend.customer_user_address.set_customer_user:
+        class: Oro\Bundle\CustomerBundle\Api\Processor\SetCustomerUser
+        arguments:
+            - '@oro_api.form_property_accessor'
+            - '@oro_security.token_accessor'
+            - 'frontendOwner'
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress, requestType: frontend, priority: 10 }

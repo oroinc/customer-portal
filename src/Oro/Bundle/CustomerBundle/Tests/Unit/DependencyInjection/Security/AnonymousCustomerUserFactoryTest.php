@@ -6,9 +6,9 @@ use Oro\Bundle\CustomerBundle\DependencyInjection\Security\AnonymousCustomerUser
 use Oro\Bundle\TestFrameworkBundle\Test\DependencyInjection\ExtensionTestCase;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\IntegerNode;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 
 class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
 {
@@ -41,7 +41,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
             ]
         );
         $this->assertInstanceOf(
-            DefinitionDecorator::class,
+            ChildDefinition::class,
             $this->actualDefinitions['oro_customer.authentication.provider.anonymous_customer_user.fake_id']
         );
         $this->assertEquals(
@@ -58,7 +58,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
         );
 
         $this->assertInstanceOf(
-            DefinitionDecorator::class,
+            ChildDefinition::class,
             $this->actualDefinitions['oro_customer.authentication.listener.anonymous_customer_user.fake_id']
         );
         $this->assertEquals(
@@ -88,7 +88,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function getContainerMock()
     {

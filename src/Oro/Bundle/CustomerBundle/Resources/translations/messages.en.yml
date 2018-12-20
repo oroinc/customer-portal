@@ -2,7 +2,7 @@ oro:
     customer:
         entity_label:           'Customer'
         entity_plural_label:    'Customers'
-        entity_description:     Customers are companies who buy products using OroCommerce store frontend. Customer record contains information about the company, their place in the corporate structure, assigned sales representative, and sales metrics. Customers may be linked to:<ul><li>Customer Users who act on behalf of the company</li><li>Customer Roles that define permissions and capabilities the Customer Users may have</li><li>Sales Representatives that are assigned to support company purchases</li><li>Parent customer or subsidiaries that define customer position in the global company organization structure</li>
+        entity_description:     Customers are companies who buy products using OroCommerce store frontend. Customer record contains information about the company, their place in the corporate structure, assigned sales representative, and sales metrics. Customers may be linked to:<ul><li>Customer Users who act on behalf of the company</li><li>Customer Roles that define permissions and capabilities the Customer Users may have</li><li>Sales Representatives that are assigned to support company purchases</li><li>Parent customer or subsidiaries that define customer position in the global company organization structure</li></ul>
         name:
             label:              'Name'
             description:        A human-readable name that identifies a customer.
@@ -24,7 +24,9 @@ oro:
         users:
             label:              'Users'
             description:        Customer Users represent people who act on behalf of the company to buy products using OroCommerce store frontend.
-        addresses.label:        'Addresses'
+        addresses:
+            label:              'Addresses'
+            description:        A collection of customer addresses.
         form.choose:            'Choose a customer...'
         form.choose_parent:     'Choose parent customer...'
         address_book.label:     'Address Book'
@@ -41,13 +43,17 @@ oro:
         data_channel:
             label:              Data Channel
             description:        A service field.
-        previous_account:
-            label: 'Assigned Sales Representatives'
-            description: 'Assigned Sales Representatives'
         action:
             update_profile:
                 label: Update User Profile
                 description: Allows the Customer User to update their own profile regardless of Edit permissions for Customer User entity.
+    website:
+        default_role:
+            label: 'Default Self-Registration Role'
+            description: 'If self-registration is allowed this role will be assigned to new customer users who register themselves on the storefront.'
+        guest_role:
+            label: 'Guest Role'
+            description: 'This role is used to manage permissions for non-authenticated visitors.'
 
 oro.customer:
     customer:
@@ -206,6 +212,7 @@ oro.customer:
             register: 'Registration'
             register.description: 'Please register if you do not have an account. A sales representative will contact you shortly.'
             create_an_customer: 'Create An Account'
+            create_an_customer_and_continue: 'Create an Account and Continue'
             forgot_password: 'Forgot Your Password?'
             enter_password: 'Enter your password'
             reset_password:
@@ -213,6 +220,7 @@ oro.customer:
                 label: 'Create'
             remember_me: 'Remember Me'
             login: 'Sign In'
+            login_and_continue: 'Sign In and Continue'
             registration: 'Register'
             return_to_login: 'Return to Login'
             password_reset.message: 'Password was created successfully.'
@@ -322,12 +330,10 @@ oro.customer:
         organization:
             label: Organization
             description: Name of customer user organization for the billing or shipping address. 
-        system_organization:
-            label: System Organization
-            description: Relationship with the system organization the customer user belongs to. 
+        system_organization.label: System Organization
         frontend_owner:
             label: Frontend Owner
-            description: A customer user who is assigned as a customer user address record owner in the front store.
+            description: The contact person.
         owner:
             label: Owner
             description: A user who is assigned as a customer user address record owner in the management console.
@@ -342,7 +348,7 @@ oro.customer:
             description: State, the part of the customer user postal address.
         region_text:
             label: State
-            description: State, the part of the customer user postal address.
+            description: The region name for cases when a country does not have predefined regions.
         street:
             label: Street
             description: Street, the part of the customer user postal address.
@@ -420,32 +426,70 @@ oro.customer:
         password: 'Password'
 
     customeraddress:
-        city.label:          City
-        country.label:       Country
-        entity_description:  Represent customer's address
         entity_label:        Customer Address
         entity_plural_label: Customer Addresses
-        first_name.label:    First name
+        entity_description:  Represent customer's address
+        city:
+            label:           City
+            description:     The city specified in the address record.
+        country:
+            label:           Country
+            description:     The country specified in the address record.
+        first_name:
+            label:           First name
+            description:     First name of the contact person.
         id.label:            Id
-        label.label:         Label
-        last_name.label:     Last name
-        middle_name.label:   Middle name
-        name_prefix.label:   Name prefix
-        name_suffix.label:   Name suffix
-        organization.label:  Organization
+        label:
+            label:           Label
+            description:     The identifier for an address record
+        last_name:
+            label:           Last name
+            description:     Last name of the contact person.
+        middle_name:
+            label:           Middle name
+            description:     Middle name of the contact person.
+        name_prefix:
+            label:           Name prefix
+            description:     Name prefix or honorific of the contact person (Mr./Ms., Dr., Prof., etc.)
+        name_suffix:
+            label:           Name suffix
+            description:     Name suffix of the contact person (Sr./Jr., M.D., OBE, etc.)
+        organization:
+            label:           Organization
+            description:     Organization that the contact person belongs to.
         system_organization.label: System Organization
-        frontend_owner.label: Owner
+        frontend_owner:
+            label:           Owner
+            description:     Company that the contact person belongs to.
         owner.label:         Owner
-        postal_code.label:   Zip/Postal Code
-        primary.label:       Primary
-        region.label:        State
-        region_text.label:   State
-        street.label:        Street
-        street2.label:       Street 2
-        types.label:         Types
+        postal_code:
+            label:           Zip/Postal Code
+            description:     The postal code specified in the address record.
+        primary:
+            label:           Primary
+            description:     Defines whether the address is a primary customer address.
+        region:
+            label:           State
+            description:     The region specified in the address record.
+        region_text:
+            label:           State
+            description:     The region name for cases when a country does not have predefined regions.
+        street:
+            label:           Street
+            description:     The street specified in the address record.
+        street2:
+            label:           Street 2
+            description:     The street specified in the address record.
+        types:
+            label:           Types
+            description:     The address types, e.g. shipping, billing, etc.
         types.singular_label: Type
         addresses_to_types.label:   Addresses to address types
-        phone.label:         Phone
+        phone:
+            label:           Phone
+            description:     Phone of the contact person.
+        defaults:
+            label:           Use this address as
 
         country_name.label:      Country name
         country_iso2_code.label: Country ISO2 code
@@ -511,6 +555,7 @@ oro.customer:
         frontend_customer_user_roles.label: Roles
 
         how_to_use_pinbar: 'Learn how to use this space'
+        more_pintabs.label: 'More pintabs'
 
     controller:
         customer:
@@ -550,12 +595,13 @@ oro.customer:
             customer_visitor_section.title: 'Customer Visitor'
             map_settings.title: 'Map Settings'
             responsive_grid_settings.title: 'Grid Settings'
+            rest_api.title: 'REST API'
         fields:
             default_customer_owner.label: 'Default Customer Owner'
             registration_allowed.label: 'Registration Allowed'
             confirmation_required.label: 'Confirmation Required'
+            auto_login_after_registration.label: 'Auto login'
             registration_link_enabled.label: 'Show Registration Link'
-            send_password_in_welcome_email.label: 'Send plain text password in welcome emails'
             registration_instructions_enabled.label: 'Show Registration Instructions'
             registration_instructions_text.label: 'Registration Instructions Text'
             company_name_field_enabled.label: 'Require company name'
@@ -578,6 +624,12 @@ oro.customer:
                 option:
                     yes.label: 'Yes'
                     no.label: 'No'
+            api_key_generation_enabled.label: 'Enable API key generation'
+            oro_customer_confirmation_required.label: 'Enables customer user email confirmation'
+            oro_customer_confirmation_required.description: 'Enables customer user email confirmation'
+            case_insensitive_email_addresses_enabled:
+                label: 'Case-Insensitive Email Addresses'
+                tooltip: 'If this option is enabled, the letter case will be ignored when comparing email addresses. For example, john.doe@example.com and John.Doe@example.com will be considered equal.'
 
     security:
         permissions: 'Action Permissions'

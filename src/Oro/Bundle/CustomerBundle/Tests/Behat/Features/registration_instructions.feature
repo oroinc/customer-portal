@@ -82,7 +82,9 @@ Feature: Registration Instructions
     And go to System/ Websites
     And click "Create Website"
     And fill form with:
-    |Name|NewSite|
+      |Name                           |NewSite                   |
+      |Guest Role                     |Non-Authenticated Visitors|
+      |Default Self-Registration Role |Buyer                     |
     And save and close form
     And should see "Website has been saved" flash message
     And go to System/ Websites

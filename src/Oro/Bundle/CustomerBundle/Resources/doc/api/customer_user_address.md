@@ -1,6 +1,6 @@
 # Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
 
-## ACTIONS  
+## ACTIONS
 
 ### get
 
@@ -14,68 +14,73 @@ Retrieve a collection of <a href="https://www.oroinc.com/doc/orocommerce/current
 
 {@inheritdoc}
 
-The list of records that will be returned can be limited by filters.
-
 ### create
 
 Create a new <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
 
 {@inheritdoc}
 
-The created record is returned in the response, with a 201 Created status code.
+The created record is returned in the response.
 
 {@request:json_api}
 Example:
 
-`</admin/api/customer_user_addresses>`
-
 ```JSON
 {
-  "data":
-    {
-      "type": "customer_user_addresses",
-      "attributes": {
-        "city": "Rochester",
-        "firstName": "Branda",
-        "label": "Primary address",
-        "lastName": "Sanborn",
-        "middleName": null,
-        "namePrefix": null,
-        "nameSuffix": null,
-        "organization": null,
-        "phone": null,
-        "postalCode": "14608",
-        "primary": true,
-        "street": "23400 Caldwell Road",
-        "street2": null
+  "data": {
+    "type": "customeruseraddresses",
+    "attributes": {
+      "city": "Rochester",
+      "firstName": "Branda",
+      "label": "Primary address",
+      "lastName": "Sanborn",
+      "middleName": null,
+      "namePrefix": null,
+      "nameSuffix": null,
+      "organization": null,
+      "phone": null,
+      "postalCode": "14608",
+      "primary": true,
+      "street": "23400 Caldwell Road",
+      "street2": null,
+      "types": [
+        {
+          "default": true,
+          "addressType": "billing"
+        },
+        {
+          "default": true,
+          "addressType": "shipping"
+        }
+      ]
+    },
+    "relationships": {
+      "country": {
+        "data": {
+          "type": "countries",
+          "id": "US"
+        }
       },
-      "relationships": {
-        "country": {
-          "data": {
-            "type": "countries",
-            "id": "US"
-          }
-        },
-        "frontendOwner": {
-          "data": {
-            "type": "customer_users",
-            "id": "2"
-          }
-        },
-        "owner": {
-          "data": {
-            "type": "users",
-            "id": "1"
-          }
-        },
-        "region": {
-          "data": {
-            "type": "regions",
-            "id": "US-NY"
-          }
+      "customerUser": {
+        "data": {
+          "type": "customerusers",
+          "id": "2"
+        }
+      },
+      "owner": {
+        "data": {
+          "type": "users",
+          "id": "1"
+        }
+      },
+      "region": {
+        "data": {
+          "type": "regions",
+          "id": "US-NY"
         }
       }
     }
+  }
 }
 ```
 {@/request}
@@ -86,62 +91,62 @@ Update a specific <a href="https://www.oroinc.com/doc/orocommerce/current/user-g
 
 {@inheritdoc}
 
-The request can contain only the fields we wish to update.
-
 The updated record is returned in the response.
 
 {@request:json_api}
 Example:
 
-`</admin/api/customer_user_addresses/17>`
-
 ```JSON
 {
-   "data":{
-      "type":"customer_user_addresses",
-      "id":"17",
-      "attributes":{
-         "phone":null,
-         "primary":true,
-         "label":"Primary address",
-         "street":"23400 Caldwell Road",
-         "street2":null,
-         "city":"Rochester",
-         "postalCode":"14608",
-         "organization":null,
-         "namePrefix":null,
-         "firstName":"Branda",
-         "middleName":null,
-         "lastName":"Sanborn",
-         "nameSuffix":null
+  "data": {
+    "type": "customeruseraddresses",
+    "id": "17",
+    "attributes": {
+      "phone": null,
+      "primary": true,
+      "label": "Primary address",
+      "street": "23400 Caldwell Road",
+      "street2": null,
+      "city": "Rochester",
+      "postalCode": "14608",
+      "organization": null,
+      "namePrefix": null,
+      "firstName": "Branda",
+      "middleName": null,
+      "lastName": "Sanborn",
+      "nameSuffix": null,
+      "types": [
+        {
+          "default": true,
+          "addressType": "billing"
+        },
+        {
+          "default": true,
+          "addressType": "shipping"
+        }
+      ]
+    },
+    "relationships": {
+      "owner": {
+        "data": {
+          "type": "users",
+          "id": "1"
+        }
       },
-      "relationships":{
-         "frontendOwner":{
-            "data":{
-               "type":"customer_users",
-               "id":"2"
-            }
-         },
-         "owner":{
-            "data":{
-               "type":"users",
-               "id":"1"
-            }
-         },
-         "country":{
-            "data":{
-               "type":"countries",
-               "id":"RO"
-            }
-         },
-         "region":{
-            "data":{
-               "type":"regions",
-               "id":"RO-MS"
-            }
-         }
+      "country": {
+        "data": {
+          "type": "countries",
+          "id": "RO"
+        }
+      },
+      "region": {
+        "data": {
+          "type": "regions",
+          "id": "RO-MS"
+        }
       }
-   }
+    }
+  }
 }
 ```
 {@/request}
@@ -158,7 +163,151 @@ Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/u
 
 {@inheritdoc}
 
-The list of records that will be deleted must be limited by filters.
+## FIELDS
+
+### city
+
+#### create
+
+{@inheritdoc}
+
+**The required field**
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*This field is **required** and must remain defined.*
+
+### postalCode
+
+#### create
+
+{@inheritdoc}
+
+**The required field**
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*This field is **required** and must remain defined.*
+
+### street
+
+#### create
+
+{@inheritdoc}
+
+**The required field**
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*This field is **required** and must remain defined.*
+
+### firstName
+
+#### create
+
+{@inheritdoc}
+
+**Conditionally required field:**
+*Either **organization** or **firstName** and **lastName** must be defined.*
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*Either **organization** or **firstName** and **lastName** must remain defined.*
+
+### lastName
+
+#### create
+
+{@inheritdoc}
+
+**Conditionally required field:**
+*Either **organization** or **firstName** and **lastName** must be defined.*
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*Either **organization** or **firstName** and **lastName** must remain defined.*
+
+### organization
+
+#### create
+
+{@inheritdoc}
+
+**Conditionally required field:**
+*Either **organization** or **firstName** and **lastName** must be defined.*
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*Either **organization** or **firstName** and **lastName** must remain defined.*
+
+### country
+
+#### create
+
+{@inheritdoc}
+
+**The required field**
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*This field is **required** and must remain defined.*
+
+### region
+
+#### create, update
+
+{@inheritdoc}
+
+**Conditionally required field:**
+*State is required for some countries.*
+
+### customerUser
+
+#### create
+
+{@inheritdoc}
+
+**The required field**
+
+### types
+
+An array of address types.
+
+Each element of the array is an object with two properties, **addressType** and **default**.
+
+The **addressType** property is a string represents the type of the address, e.g. **shipping**, **billing**, etc. The full list of the address types can be received via `/api/addresstypes` resource.
+
+The **default** property is a boolean and defines whether the address is used as a default address for shipping, billing, etc.
+
+Example of data: **\[{"addressType": "billing", "default": false}, {"addressType": "shipping", "default": true}\]**
 
 ## SUBRESOURCES
 
@@ -170,55 +319,17 @@ Retrieve a record that contains information about the country that is mentioned 
 
 #### get_relationship
 
-Retrieve the id of the country that is mentioned in the customer user address.
+Retrieve the ID of the country that is mentioned in the customer user address.
 
-#### update_relationship
-
-Replace the country in the specific customer user address.
-
-{@request:json_api}
-Example:
-
-`</admin/api/customer_user_addresses/12/relationships/country>`
-
-```JSON
-{
-  "data": {
-    "type": "countries",
-    "id": "RO"
-  }
-}
-```
-{@/request}
-
-### frontendOwner
+### customerUser
 
 #### get_subresource
 
-Retrieve a record that contains information about a customer user who is assigned as a customer user address record owner in the front store.
+Retrieve a record of a contact person.
 
 #### get_relationship
 
-Retrieve the id of the customer user who is assigned as a customer user address record owner in the front store.
-
-#### update_relationship
-
-Replace the frontend owner - a customer user who is assigned as a customer user address record owner in the front store.
-
-{@request:json_api}
-Example:
-
-`</admin/api/customer_user_addresses/12/relationships/frontendOwner>`
-
-```JSON
-{
-  "data": {
-    "type": "customer_users",
-    "id": "11"
-  }
-}
-```
-{@/request}
+Retrieve the ID of a contact person.
 
 ### owner
 
@@ -228,7 +339,7 @@ Retrieve a record that contains information about the user who is assigned as a 
 
 #### get_relationship
 
-Retrieve the id of the user who is assigned as a customer user address record owner in the management console.
+Retrieve the ID of the user who is assigned as a customer user address record owner in the management console.
 
 #### update_relationship
 
@@ -236,8 +347,6 @@ Replace the user who is assigned as a customer user address record owner in the 
 
 {@request:json_api}
 Example:
-
-`</admin/api/customer_user_addresses/12/relationships/owner>`
 
 ```JSON
 {
@@ -257,33 +366,14 @@ Retrieve a record that contains information about the region mentioned in a spec
 
 #### get_relationship
 
-Retrieve the id of the region mentioned in a specific customer user address.
-
-#### update_relationship
-
-Replace the region mentioned in a specific customer user address.
-
-{@request:json_api}
-Example:
-
-`</admin/api/customer_user_addresses/12/relationships/region>`
-
-```JSON
-{
-  "data": {
-    "type": "regions",
-    "id":"RO-MS"
-  }
-}
-```
-{@/request}
+Retrieve the ID of the region mentioned in a specific customer user address.
 
 ### systemOrganization
 
 #### get_subresource
 
-Retrieve a record that contains information about the organization that is linked to a specific customer user address record.
+Retrieve the record of the organization a specific customer user address record belongs to.
 
 #### get_relationship
 
-Retrieve the id of the organization that is linked to a specific customer user address record.
+Retrieve the ID of the organization record which a specific customer user address record will belong to.

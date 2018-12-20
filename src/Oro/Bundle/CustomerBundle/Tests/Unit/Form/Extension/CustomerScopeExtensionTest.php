@@ -8,8 +8,8 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension\Stub\CustomerSelectTypeStub;
 use Oro\Bundle\ScopeBundle\Form\Type\ScopeType;
 use Oro\Bundle\ScopeBundle\Manager\ScopeManager;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
 
@@ -21,7 +21,7 @@ class CustomerScopeExtensionTest extends FormIntegrationTestCase
     protected $customerScopeExtension;
 
     /**
-     * @var ScopeManager|\PHPUnit_Framework_MockObject_MockObject $scopeManager
+     * @var ScopeManager|\PHPUnit\Framework\MockObject\MockObject $scopeManager
      */
     protected $scopeManager;
 
@@ -40,7 +40,7 @@ class CustomerScopeExtensionTest extends FormIntegrationTestCase
             ->willReturn(['customer' => Customer::class]);
 
         $form = $this->factory->create(
-            ScopeType::NAME,
+            ScopeType::class,
             null,
             [ScopeType::SCOPE_TYPE_OPTION => 'web_content']
         );
@@ -65,11 +65,11 @@ class CustomerScopeExtensionTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    ScopeType::NAME => new ScopeType($this->scopeManager),
-                    CustomerSelectType::NAME => new CustomerSelectTypeStub(),
+                    ScopeType::class => new ScopeType($this->scopeManager),
+                    CustomerSelectType::class => new CustomerSelectTypeStub(),
                 ],
                 [
-                    ScopeType::NAME => [$this->customerScopeExtension],
+                    ScopeType::class => [$this->customerScopeExtension],
                 ]
             ),
             new ValidatorExtension(Validation::createValidator()),

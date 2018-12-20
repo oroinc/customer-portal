@@ -1,4 +1,4 @@
-// @theme: blank;
+/* @theme: blank; */
 
 .ui-datepicker {
     padding: $ui-datepicker-inner-offset;
@@ -140,7 +140,14 @@
         margin: $ui-datepicker-select-offset;
         padding-top: $ui-datepicker-select-inner-offset-top;
         padding-bottom: $ui-datepicker-select-inner-offset-bottom;
+    }
 
-        width: $ui-datepicker-select-size;
+    .selector {
+        width: 100%;
+        max-width: $ui-datepicker-select-size;
+
+        > span {
+            width: 100%;
+        }
     }
 }

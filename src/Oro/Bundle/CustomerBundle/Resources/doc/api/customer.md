@@ -12,8 +12,6 @@ Retrieve a specific customer record.
 
 Retrieve a collection of customer records.
 
-The list of records that will be returned, could be limited by <a href="https://www.oroinc.com/doc/orocommerce/current/dev-guide/integration#filters">filters</a>.
-
 {@inheritdoc}
 
 ### create
@@ -26,8 +24,6 @@ The created record is returned in the response.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customers>`
 
 ```JSON
 {
@@ -51,18 +47,18 @@ Example:
       },
       "group": {
         "data": {
-          "type": "customer_groups",
+          "type": "customergroups",
           "id": "1"
         }
       },
       "users": {
         "data": [
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "1"
           },
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "2"
           }
         ]
@@ -84,8 +80,6 @@ The updated record is returned in the response.
 {@request:json_api}
 Example:
 
-`</admin/api/customers/1>`
-
 ```JSON
 {
   "data": {
@@ -105,14 +99,14 @@ Example:
       },
       "group": {
         "data": {
-          "type": "customer_groups",
+          "type": "customergroups",
           "id": "1"
         }
       },
       "users": {
         "data": [
           {
-            "type": "customer_users",
+            "type": "customerusers",
             "id": "1"
           }
         ]
@@ -132,8 +126,6 @@ Delete a specific customer record.
 ### delete_list
 
 Delete a collection of customer records.
-
-The list of records that will be deleted, could be limited by filters.
 
 {@inheritdoc}
 
@@ -157,24 +149,32 @@ The list of records that will be deleted, could be limited by filters.
 
 ## SUBRESOURCES
 
+### addresses
+
+#### get_subresource
+
+Retrieve records of addresses assigned to a specific customer record.
+
+#### get_relationship
+
+Retrieve IDs of address records assigned to a specific customer record.
+
 ### children
 
 #### get_subresource
 
-Retrieve a set of records of children customers assigned to a specific customer record.
+Retrieve a set of records of child customers assigned to a specific customer record.
 
 #### get_relationship
 
-Retrieve IDs of children customers records assigned to a specific customer record.
+Retrieve IDs of child customers records assigned to a specific customer record.
 
 #### update_relationship
 
-Replace the list of children customers assigned to a specific customer record.
+Replace the list of child customers assigned to a specific customer record.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customers/1/relationships/children>`
 
 ```JSON
 {
@@ -194,12 +194,10 @@ Example:
 
 #### add_relationship
 
-Set children customers records for a specific customer record.
+Set child customers records for a specific customer record.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customers/1/relationships/children>`
 
 ```JSON
 {
@@ -219,12 +217,10 @@ Example:
 
 #### delete_relationship
 
-Remove children customers records from a specific customer record.
+Remove child customers records from a specific customer record.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customers/1/relationships/children>`
 
 ```JSON
 {
@@ -259,12 +255,10 @@ Replace the list of customer group records a specific customer record is assigne
 {@request:json_api}
 Example:
 
-`</admin/api/customers/1/relationships/group>`
-
 ```JSON
 {
   "data": {
-    "type": "customer_groups",
+    "type": "customergroups",
     "id": "2"
   }
 }
@@ -288,12 +282,10 @@ Replace the internal rating record assigned to a specific customer record
 {@request:json_api}
 Example:
 
-`</admin/api/customers/1/relationships/internal_rating>`
-
 ```JSON
 {
   "data": {
-    "type": "customer_rating",
+    "type": "customerratings",
     "id": "3_of_5"
   }
 }
@@ -316,8 +308,6 @@ Replace the organization a specific customer record belongs to.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customers/1/relationships/organization>`
 
 ```JSON
 {
@@ -346,8 +336,6 @@ Replace the owner of a specific customer record.
 {@request:json_api}
 Example:
 
-`</admin/api/customers/1/relationships/owner>`
-
 ```JSON
 {
   "data": {
@@ -362,11 +350,11 @@ Example:
 
 #### get_subresource
 
-Retrieve a parent customers assigned to a specific customer record.
+Retrieve the parent customer assigned to a specific customer record.
 
 #### get_relationship
 
-Retrieve the IDs of the parent customers records assigned to a specific customer record.
+Retrieve the ID of the parent customer record assigned to a specific customer record.
 
 #### update_relationship
 
@@ -374,8 +362,6 @@ Replace the parent customer assigned to a specific customer record.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customers/1/relationships/parent>`
 
 ```JSON
 {
@@ -404,17 +390,15 @@ Replace the list of customer users assigned to a specific customer record.
 {@request:json_api}
 Example:
 
-`</admin/api/customers/1/relationships/users>`
-
 ```JSON
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "3"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "11"
     }
   ]
@@ -429,17 +413,15 @@ Set customer user records for a specific customer record.
 {@request:json_api}
 Example:
 
-`</admin/api/customers/1/relationships/users>`
-
 ```JSON
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "3"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "11"
     }
   ]
@@ -454,17 +436,15 @@ Remove customer user records from a specific customer record.
 {@request:json_api}
 Example:
 
-`</admin/api/customers/1/relationships/users>`
-
 ```JSON
 {
   "data": [
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "3"
     },
     {
-      "type": "customer_users",
+      "type": "customerusers",
       "id": "11"
     }
   ]
@@ -489,8 +469,6 @@ Replace the list of sales representatives assigned to a specific customer record
 {@request:json_api}
 Example:
 
-`</admin/api/customers/1/relationships/salesRepresentatives>`
-
 ```JSON
 {
   "data": [
@@ -514,8 +492,6 @@ Set sales representatives records for a specific customer record.
 {@request:json_api}
 Example:
 
-`</admin/api/customers/1/relationships/salesRepresentatives>`
-
 ```JSON
 {
   "data": [
@@ -538,8 +514,6 @@ Remove the sales representatives records from a specific customer record.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customers/1/relationships/salesRepresentatives>`
 
 ```JSON
 {
@@ -573,8 +547,6 @@ Replace the payment term assigned to a specific customer record.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customers/1/relationships/paymentTerm>`
 
 ```JSON
 {

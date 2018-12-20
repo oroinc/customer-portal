@@ -15,4 +15,9 @@ interface WebsiteProviderInterface
      * @return int[]
      */
     public function getWebsiteIds();
+
+    /**
+     * @return array
+     */
+    public function getWebsiteChoices();
 }

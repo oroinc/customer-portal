@@ -12,7 +12,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * CRUD controller for CustomerUserRole entity
+ */
 class CustomerUserRoleController extends Controller
 {
     /**
@@ -67,13 +71,14 @@ class CustomerUserRoleController extends Controller
      *      permission="CREATE"
      * )
      *
+     * @param Request $request
      * @return array
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         $roleClass = $this->container->getParameter('oro_customer.entity.customer_user_role.class');
 
-        return $this->update(new $roleClass());
+        return $this->update($request, new $roleClass());
     }
 
     /**
@@ -86,24 +91,27 @@ class CustomerUserRoleController extends Controller
      *      permission="EDIT"
      * )
      *
+     * @param Request $request
      * @param CustomerUserRole $role
      * @return array
      */
-    public function updateAction(CustomerUserRole $role)
+    public function updateAction(Request $request, CustomerUserRole $role)
     {
-        return $this->update($role);
+        return $this->update($request, $role);
     }
 
     /**
+     * @param Request $request
      * @param CustomerUserRole $role
      * @return array|RedirectResponse
      */
-    protected function update(CustomerUserRole $role)
+    protected function update(Request $request, CustomerUserRole $role)
     {
         $handler = $this->get('oro_customer.form.handler.update_customer_user_role');
         $handler->createForm($role);
+        $isWidgetContext = (bool)$request->get('_wid', false);
 
-        if ($handler->process($role)) {
+        if ($handler->process($role) && !$isWidgetContext) {
             $this->get('session')->getFlashBag()->add(
                 'success',
                 $this->get('translator')->trans('oro.customer.controller.customeruserrole.saved.message')
@@ -120,7 +128,9 @@ class CustomerUserRoleController extends Controller
                 'capabilitySetOptions' => [
                     'data' => $this->getRolePrivilegeCapabilityProvider()->getCapabilities($role),
                     'tabIds' => $this->getRolePrivilegeCategoryProvider()->getTabList()
-                ]
+                ],
+                'isWidgetContext' => $isWidgetContext,
+                'savedId' => $role->getId(),
             ];
         }
     }

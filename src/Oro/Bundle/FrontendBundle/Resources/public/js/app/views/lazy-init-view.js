@@ -70,11 +70,12 @@ define(function(require) {
         },
 
         initLazyView: function() {
-            return this.initLayout(this.options);
+            var layoutOptions = _.omit(this.options, 'el', 'name');
+            return this.initLayout(layoutOptions);
         },
 
         _onScrollDemand: function() {
-            if (this.$el.offset().top < (window.scrollY + window.innerHeight / 0.5)) {
+            if (this.$el.offset().top < (window.pageYOffset + window.innerHeight / 0.5)) {
                 this.initLazyView();
                 this.$window.off('scroll' + this.eventNamespace());
             }

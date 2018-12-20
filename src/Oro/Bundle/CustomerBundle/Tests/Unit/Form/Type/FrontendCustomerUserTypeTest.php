@@ -2,21 +2,23 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Form\Type\CustomerSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
-use Oro\Bundle\FormBundle\Form\Type\OroDateType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Forms;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
@@ -30,10 +32,10 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
      */
     protected $formType;
 
-    /** @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $authorizationChecker;
 
-    /** @var  TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $tokenAccessor;
 
     /**
@@ -67,7 +69,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
             new CustomerUserRoleSelectType($this->createTranslator())
         );
         $addressEntityType = new EntityType($this->getAddresses(), 'test_address_entity');
-        $customerSelectType = new EntityType($this->getCustomers(), 'oro_customer_customer_select');
+        $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
 
         $customerUserType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
         $customerUserType->setDataClass(self::DATA_CLASS);
@@ -76,13 +78,13 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         return [
             new PreloadedExtension(
                 [
-                    OroDateType::NAME => new OroDateType(),
-                    CustomerUserType::NAME => $customerUserType,
-                    FrontendCustomerUserRoleSelectType::NAME => $frontendUserRoleSelectType,
-                    $customerSelectType->getName() => $customerSelectType,
-                    FrontendOwnerSelectTypeStub::NAME => new FrontendOwnerSelectTypeStub(),
-                    AddressCollectionTypeStub::NAME => new AddressCollectionTypeStub(),
-                    $addressEntityType->getName() => $addressEntityType,
+                    FrontendCustomerUserType::class => $this->formType,
+                    CustomerUserType::class => $customerUserType,
+                    FrontendCustomerUserRoleSelectType::class => $frontendUserRoleSelectType,
+                    CustomerSelectType::class => $customerSelectType,
+                    FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub(),
+                    AddressCollectionType::class => new AddressCollectionTypeStub(),
+                    EntityType::class => $addressEntityType,
                 ],
                 []
             ),
@@ -114,7 +116,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
                 return true;
             });
 
-        $form = $this->factory->create($this->formType, $defaultData, []);
+        $form = $this->factory->create(FrontendCustomerUserType::class, $defaultData, []);
 
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
@@ -225,7 +227,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|TranslatorInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
      */
     private function createTranslator()
     {

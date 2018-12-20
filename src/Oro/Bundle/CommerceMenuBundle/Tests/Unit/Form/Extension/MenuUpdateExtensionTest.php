@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerMenuBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\CommerceMenuBundle\Form\DataTransformer\MenuUserAgentConditionsCollectionTransformer;
 use Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateExtension;
@@ -19,9 +20,9 @@ use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 use Oro\Bundle\NavigationBundle\Validator\Constraints\MaxNestedLevelValidator;
 use Oro\Bundle\TranslationBundle\Translation\Translator;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidatorFactoryInterface;
 
@@ -59,7 +60,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    new ImageTypeStub,
+                    ImageType::class => new ImageTypeStub,
                     CollectionType::class => new CollectionType(),
                     OroCollectionType::class => new OroCollectionType(),
                     MenuUserAgentConditionType::class => new MenuUserAgentConditionType(),
@@ -119,11 +120,11 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|ConstraintValidatorFactoryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|ConstraintValidatorFactoryInterface
      */
     protected function getConstraintValidatorFactory()
     {
-        /* @var $factory \PHPUnit_Framework_MockObject_MockObject|ConstraintValidatorFactoryInterface */
+        /* @var $factory \PHPUnit\Framework\MockObject\MockObject|ConstraintValidatorFactoryInterface */
         $factory = $this->createMock('Symfony\Component\Validator\ConstraintValidatorFactoryInterface');
 
         $mockedValidators = [MaxNestedLevelValidator::class, MenuUpdateExpressionValidator::class];

@@ -6,12 +6,12 @@ use Oro\Bundle\CommerceMenuBundle\Menu\Condition\ConfigValueExpressionLanguagePr
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 
-class ConfigValueExpressionLanguageProviderTest extends \PHPUnit_Framework_TestCase
+class ConfigValueExpressionLanguageProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ConfigValueExpressionLanguageProvider */
     private $provider;
 
-    /** @var ConfigManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
 
     /**

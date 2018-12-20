@@ -1,4 +1,4 @@
-// @theme: default;
+/* @theme: default; */
 
 .frontend-datagrid {
     &__filter {
@@ -42,13 +42,17 @@
                 display: $frontend-datagrid-responsive-grid-tablet-display;
 
                 &-header {
-                    .shortenable-label {
-                        display: $frontend-datagrid-responsive-header-tablet-display;
-                    }
-
                     &-cell {
+                        &:not(.action-column):not(.grid-header-cell-massAction) {
+                            display: $frontend-datagrid-responsive-header-tablet-display;
+                        }
+
                         &.action-column {
                             width: $frontend-datagrid-responsive-action-cell-tablet-action-width;
+
+                            &--disabled {
+                                display: $frontend-datagrid-responsive-body-tablet-disabled-display;
+                            }
                         }
                     }
                 }
@@ -94,6 +98,7 @@
                     border: $frontend-datagrid-responsive-body-cell-tablet-border;
                     margin: $frontend-datagrid-responsive-body-cell-tablet-offset;
                     padding: $frontend-datagrid-responsive-body-cell-tablet-inner-offset;
+                    word-wrap: $frontend-datagrid-responsive-body-cell-tablet-word-wrap;
 
                     &:before {
                         content: $frontend-datagrid-responsive-body-cell-before-tablet-content;
@@ -125,6 +130,7 @@
 
                         .action {
                             color: $frontend-datagrid-responsive-action-cell-tablet-icon-color;
+                            white-space: $frontend-datagrid-responsive-action-cell-tablet-white-space;
 
                             &-row {
                                 display: $frontend-datagrid-responsive-action-cell-tablet-row-display;
@@ -140,6 +146,10 @@
                                             margin: $frontend-datagrid-responsive-action-cell-tablet-column-outer-offset;
                                             width: $frontend-datagrid-responsive-action-cell-tablet-column-width;
                                             padding: $frontend-datagrid-responsive-action-cell-tablet-column-inner-offset;
+                                        }
+
+                                        &.mode-icon-only:last-child {
+                                            padding-right: $frontend-datagrid-responsive-action-cell-tablet-launchers-list-last-inner-offset;
                                         }
                                     }
                                 }

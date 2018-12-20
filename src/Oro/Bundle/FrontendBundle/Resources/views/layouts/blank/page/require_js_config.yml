@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'require_js_config.html.twig'
+            themes: 'OroFrontendBundle:layouts:blank/page/require_js_config.html.twig'
         - '@add':
             id: require_js_config
             parentId: require_js
@@ -12,3 +12,7 @@ layout:
             blockType: block
             options:
                 visible: '=data["system_config_provider"].getValue("oro_frontend.filter_value_selectors")=="all_at_once"'
+        - '@add':
+            id: require_js_bootstrap_config
+            parentId: require_js
+            blockType: block

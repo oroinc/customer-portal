@@ -3,13 +3,20 @@
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
 use Oro\Bundle\AddressBundle\Form\EventListener\FixAddressesPrimarySubscriber;
+use Oro\Bundle\AddressBundle\Form\Type\AddressType;
 use Oro\Bundle\CustomerBundle\Form\EventListener\FixCustomerAddressesDefaultSubscriber;
 use Oro\Bundle\FormBundle\Form\Extension\StripTagsExtension;
+use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * Manage Customer Typed Address from
+ */
 class CustomerTypedAddressType extends AbstractType
 {
     const NAME = 'oro_customer_typed_address';
@@ -37,7 +44,7 @@ class CustomerTypedAddressType extends AbstractType
         $builder
             ->add(
                 'phone',
-                'text',
+                TextType::class,
                 [
                     'required' => false,
                     StripTagsExtension::OPTION_NAME => true,
@@ -45,10 +52,10 @@ class CustomerTypedAddressType extends AbstractType
             )
             ->add(
                 'types',
-                'translatable_entity',
+                TranslatableEntityType::class,
                 [
-                    'class'    => $this->addressTypeDataClass,
-                    'property' => 'label',
+                    'class' => $this->addressTypeDataClass,
+                    'choice_label' => 'label',
                     'required' => false,
                     'multiple' => true,
                     'expanded' => true
@@ -56,7 +63,7 @@ class CustomerTypedAddressType extends AbstractType
             )
             ->add(
                 'defaults',
-                CustomerTypedAddressWithDefaultType::NAME,
+                CustomerTypedAddressWithDefaultType::class,
                 [
                     'class'    => $this->addressTypeDataClass,
                     'required' => false,
@@ -64,7 +71,7 @@ class CustomerTypedAddressType extends AbstractType
             )
             ->add(
                 'primary',
-                'checkbox',
+                CheckboxType::class,
                 [
                     'required' => false
                 ]
@@ -86,8 +93,7 @@ class CustomerTypedAddressType extends AbstractType
                 'data_class' => $this->dataClass,
                 'single_form' => true,
                 'all_addresses_property_path' => 'frontendOwner.addresses',
-                'ownership_disabled' => true,
-                'validation_groups' => [Constraint::DEFAULT_GROUP, 'RequireName', 'RequirePeriod'],
+                'ownership_disabled' => true
             ]
         );
     }
@@ -97,7 +103,7 @@ class CustomerTypedAddressType extends AbstractType
      */
     public function getParent()
     {
-        return 'oro_address';
+        return AddressType::class;
     }
 
     /**

@@ -12,8 +12,6 @@ Retrieve a specific customer group record.
 
 Retrieve a collection of customer group records.
 
-The list of records that will be returned, could be limited by filters.
-
 {@inheritdoc}
 
 ### create
@@ -27,12 +25,10 @@ The created record is returned in the response.
 {@request:json_api}
 Example:
 
-`</admin/api/customer_groups>`
-
 ```JSON
 {
   "data": {
-    "type": "customer_groups",
+    "type": "customergroups",
     "attributes": {
       "name": "Guests"
     }
@@ -52,12 +48,10 @@ The updated record is returned in the response.
 {@request:json_api}
 Example:
 
-`</admin/api/customer_groups/1>`
-
 ```JSON
 {
   "data": {
-    "type": "customer_groups",
+    "type": "customergroups",
     "id": "1",
     "attributes": {
       "name": "Guests"
@@ -76,8 +70,6 @@ Delete a specific customer group record.
 ### delete_list
 
 Delete a collection of customer group records.
-
-The list of records that will be deleted, could be limited by filters.
 
 {@inheritdoc}
 
@@ -118,8 +110,6 @@ Replace the organization a specific customer group record belongs to.
 {@request:json_api}
 Example:
 
-`</api/customer_groups/1/relationships/organization>`
-
 ```JSON
 {
   "data": {
@@ -147,8 +137,6 @@ Replace the owner of a specific customer group record.
 {@request:json_api}
 Example:
 
-`</api/customer_groups/1/relationships/owner>`
-
 ```JSON
 {
   "data": {
@@ -175,8 +163,6 @@ Replace the payment term assigned to a specific customer group record.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customer_groups/1/relationships/paymentTerm>`
 
 ```JSON
 {

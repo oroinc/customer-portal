@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -80,6 +81,6 @@ class CustomerUserRoleSelectType extends AbstractType
      */
     public function getParent()
     {
-        return 'entity';
+        return EntityType::class;
     }
 }

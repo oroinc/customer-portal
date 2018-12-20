@@ -50,6 +50,8 @@ datagrids:
                         - { join: customer.group, alias: customer_group }
                         - { join: customer.parent, alias: parent }
                         - { join: customer.internal_rating, alias: internalRating }
+            hints:
+                - HINT_TRANSLATABLE
         columns:
             id:
                 label: oro.customer.customer.id.label
@@ -85,10 +87,10 @@ datagrids:
                     type:      entity
                     data_name: customer_group.id
                     options:
-                        field_type: entity
+                        field_type: Symfony\Bridge\Doctrine\Form\Type\EntityType
                         field_options:
                             class:    '%oro_customer.entity.customer_group.class%'
-                            property: name
+                            choice_label: name
                 parent_name:
                     type:      string
                     data_name: parent.name
@@ -560,8 +562,8 @@ datagrids:
                     options:
                         field_options:
                             choices:
-                                true:  oro.customer.customeruserrole.type.predefined.label
-                                false: oro.customer.customeruserrole.type.customizable.label
+                                oro.customer.customeruserrole.type.predefined.label: 1
+                                oro.customer.customeruserrole.type.customizable.label: 0
         actions:
             view:
                 type:          navigate
@@ -580,6 +582,10 @@ datagrids:
                 join:
                     left:
                         - { join: role.customer, alias: role_customer }
+                where:
+                    or:
+                        - role.customer IS NULL
+                        - role.customer IS NOT NULL AND role_customer.name IS NOT NULL
         columns:
             customer_name:
                 label: oro.customer.customeruserrole.customer.label
@@ -611,8 +617,6 @@ datagrids:
     frontend-customer-customer-user-roles-grid:
         acl_resource: oro_customer_frontend_customer_user_role_index
         extends: basic-customer-customer-user-roles-grid
-        source:
-            skip_acl_apply: true
         properties:
             id: ~
             view_link:
@@ -837,8 +841,8 @@ datagrids:
                     options:
                         field_options:
                             choices:
-                                true:  oro.customer.frontend.customer_user.status_active.label
-                                false: oro.customer.frontend.customer_user.status_inactive.label
+                                oro.customer.frontend.customer_user.status_active.label: 1
+                                oro.customer.frontend.customer_user.status_inactive.label: 0
 
     customer-customer-users-grid-update:
         acl_resource: oro_customer_customer_user_view
@@ -908,8 +912,8 @@ datagrids:
                     options:
                         field_options:
                             choices:
-                                true:  oro.customer.frontend.customer_user.status_active.label
-                                false: oro.customer.frontend.customer_user.status_inactive.label
+                                oro.customer.frontend.customer_user.status_active.label: 1
+                                oro.customer.frontend.customer_user.status_inactive.label: 0
         sorters:
             columns:
                 hasRole:
@@ -1064,7 +1068,8 @@ datagrids:
                     left:
                         - { join: address.country, alias: country}
                         - { join: address.region, alias: region}
-
+            hints:
+                - HINT_TRANSLATABLE
         properties:
             id: ~
         columns:

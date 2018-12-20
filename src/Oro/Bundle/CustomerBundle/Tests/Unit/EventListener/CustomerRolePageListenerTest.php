@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class CustomerRolePageListenerTest extends \PHPUnit_Framework_TestCase
+class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CustomerRolePageListener */
     protected $listener;

@@ -51,6 +51,32 @@ class Grid extends BaseGrid
 
         $this->elementFactory->createElement($massActionHeadCheckboxElementName, $this)->clickForce();
 
-        $this->elementFactory->createElement('GridFloatingMenu')->clickLink($title);
+        $this->elementFactory->createElement('GridMassCheckMenu')->clickLink($title);
+    }
+
+    public function openGridViewDropdown(): void
+    {
+        $gridViewsDropdown = $this->getElement('FrontendGridViewsDropdown');
+        if ($gridViewsDropdown->isVisible()) {
+            return;
+        }
+
+        $gridViewListElement = $this->getElement($this->getMappedChildElementName('GridViewList'));
+        self::assertTrue($gridViewListElement->isValid(), 'Grid view list not found on the page');
+
+        $gridViewListElement->click();
+    }
+
+    public function closeGridViewDropdown(): void
+    {
+        $gridViewsDropdown = $this->getElement('FrontendGridViewsDropdown');
+        if (!$gridViewsDropdown->isVisible()) {
+            return;
+        }
+
+        $gridViewListElement = $this->getElement($this->getMappedChildElementName('GridViewList'));
+        self::assertTrue($gridViewListElement->isValid(), 'Grid view list not found on the page');
+
+        $gridViewListElement->click();
     }
 }

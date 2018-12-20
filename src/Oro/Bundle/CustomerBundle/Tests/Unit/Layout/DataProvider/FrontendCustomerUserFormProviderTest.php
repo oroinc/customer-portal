@@ -17,18 +17,18 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
+class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /** @var FormFactory|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var FormFactory|\PHPUnit\Framework\MockObject\MockObject */
     protected $formFactory;
 
     /** @var FrontendCustomerUserFormProvider */
     protected $provider;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|UrlGeneratorInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|UrlGeneratorInterface
      */
     protected $router;
 
@@ -107,7 +107,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(CustomerUserPasswordRequestType::NAME)
+            ->with(CustomerUserPasswordRequestType::class)
             ->willReturn($expectedForm);
 
         // Get form without existing data in locale cache
@@ -125,7 +125,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(CustomerUserPasswordRequestType::NAME)
+            ->with(CustomerUserPasswordRequestType::class)
             ->willReturn($expectedForm);
 
         // Get form without existing data in locale cache
@@ -148,7 +148,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(CustomerUserPasswordResetType::NAME)
+            ->with(CustomerUserPasswordResetType::class)
             ->willReturn($expectedForm);
 
         // Get form without existing data in locale cache
@@ -166,7 +166,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(CustomerUserPasswordResetType::NAME)
+            ->with(CustomerUserPasswordResetType::class)
             ->willReturn($expectedForm);
 
         // Get form without existing data in locale cache
@@ -191,7 +191,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
         $selectedCustomerUser = new CustomerUser();
         $this->formFactory->expects($this->once())
             ->method('create')
-            ->with(FrontendOwnerSelectType::NAME, $selectedCustomerUser, ['targetObject' => $target])
+            ->with(FrontendOwnerSelectType::class, $selectedCustomerUser, ['targetObject' => $target])
             ->willReturn($form);
         $this->assertSame($view, $this->provider->getCustomerUserSelectFormView($selectedCustomerUser, $target));
     }
@@ -276,20 +276,20 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $method
-     * @return \PHPUnit_Framework_MockObject_MockObject|FormInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|FormInterface
      */
     protected function assertCustomerUserFormHandlerCalled($method = 'TEST')
     {
-        /** @var FormConfigInterface|\PHPUnit_Framework_MockObject_MockObject $config */
+        /** @var FormConfigInterface|\PHPUnit\Framework\MockObject\MockObject $config */
         $config = $this->createMock('Symfony\Component\Form\FormConfigInterface');
         $config->expects($this->any())
             ->method('getMethod')
             ->willReturn($method);
 
-        /** @var FormView|\PHPUnit_Framework_MockObject_MockObject $config */
+        /** @var FormView|\PHPUnit\Framework\MockObject\MockObject $config */
         $view = $this->createMock('Symfony\Component\Form\FormView');
         $view->vars = ['multipart' => null];
-        /** @var FormInterface|\PHPUnit_Framework_MockObject_MockObject $form */
+        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock('Symfony\Component\Form\FormInterface');
 
         $form->expects($this->any())
@@ -308,20 +308,20 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $method
-     * @return \PHPUnit_Framework_MockObject_MockObject|FormInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|FormInterface
      */
     protected function assertCustomerUserProfileFormHandlerCalled($method = 'TEST')
     {
-        /** @var FormConfigInterface|\PHPUnit_Framework_MockObject_MockObject $config */
+        /** @var FormConfigInterface|\PHPUnit\Framework\MockObject\MockObject $config */
         $config = $this->createMock('Symfony\Component\Form\FormConfigInterface');
         $config->expects($this->any())
             ->method('getMethod')
             ->willReturn($method);
 
-        /** @var FormView|\PHPUnit_Framework_MockObject_MockObject $config */
+        /** @var FormView|\PHPUnit\Framework\MockObject\MockObject $config */
         $view = $this->createMock('Symfony\Component\Form\FormView');
         $view->vars = ['multipart' => null];
-        /** @var FormInterface|\PHPUnit_Framework_MockObject_MockObject $form */
+        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock('Symfony\Component\Form\FormInterface');
 
         $form->expects($this->any())

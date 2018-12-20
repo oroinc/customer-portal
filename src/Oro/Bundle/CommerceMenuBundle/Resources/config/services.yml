@@ -112,7 +112,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_menu.menu_update_change, method: onMenuUpdateScopeChange }
 
-    oro_commerce_menu.event_listener.pricelist_website_form_view:
+    oro_commerce_menu.event_listener.menu_update_form_view:
         class: 'Oro\Bundle\CommerceMenuBundle\EventListener\MenuUpdateFormViewListener'
         tags:
             - { name: kernel.event_listener, event: oro_ui.scroll_data.before.menu-update-edit, method: onEdit }

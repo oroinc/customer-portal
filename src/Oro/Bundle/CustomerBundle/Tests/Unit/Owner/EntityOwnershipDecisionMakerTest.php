@@ -29,13 +29,13 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
 {
     use EntityTrait;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|OwnerTreeProvider */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|OwnerTreeProvider */
     protected $treeProvider;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|EntityOwnershipDecisionMaker */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|EntityOwnershipDecisionMaker */
     protected $decisionMaker;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|TokenAccessorInterface */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
     protected $tokenAccessor;
 
     /** @var Customer */
@@ -92,7 +92,7 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
             )
         );
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|OwnerTreeProvider $treeProvider */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|OwnerTreeProvider $treeProvider */
         $treeProvider = $this->createMock(OwnerTreeProvider::class);
         $treeProvider->expects($this->any())
             ->method('getTree')
@@ -120,14 +120,14 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
                 ]
             );
 
-        /** @var ObjectManager|\PHPUnit_Framework_MockObject_MockObject $manager */
+        /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject $manager */
         $manager = $this->createMock(ObjectManager::class);
         $manager->expects($this->any())
             ->method('getRepository')
             ->with(Customer::class)
             ->willReturn($repository);
 
-        /** @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject $doctrine */
+        /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $doctrine */
         $doctrine = $this->createMock(ManagerRegistry::class);
         $doctrine->expects($this->any())
             ->method('getManagerForClass')

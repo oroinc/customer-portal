@@ -16,7 +16,7 @@ class CustomerUserRoleType extends AbstractCustomerUserRoleType
         parent::buildForm($builder, $options);
         $builder->add(
             'customer',
-            CustomerSelectType::NAME,
+            CustomerSelectType::class,
             [
                 'required' => false,
                 'label' => 'oro.customer.customeruserrole.customer.label'

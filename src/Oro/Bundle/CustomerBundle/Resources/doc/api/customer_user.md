@@ -12,8 +12,6 @@ Retrieve a specific customer user record.
 
 Retrieve a collection of customer user records.
 
-The list of records that will be returned, could be limited by filters.
-
 {@inheritdoc}
 
 ### create
@@ -27,26 +25,23 @@ The created record is returned in the response.
 {@request:json_api}
 Example:
 
-`</admin/api/customer_users>`
-
 ```JSON
 {
   "data": {
-    "type": "customer_users",    
+    "type": "customerusers",
     "attributes": {
       "confirmed": true,
-      "email": "AmandaFCole@example.org",      
+      "email": "AmandaFCole@example.org",
       "firstName": "Amanda",     
       "lastName": "Cole",     
-      "enabled": true,      
-      "username": "AmandaFCole@example.org",
+      "enabled": true,
       "password": "Password000!"
     },
     "relationships": {
       "roles": {
         "data": [
           {
-            "type": "customer_user_roles",
+            "type": "customeruserroles",
             "id": "1"
           }
         ]
@@ -56,7 +51,7 @@ Example:
           "type": "customers",
           "id": "1"
         }
-      },      
+      },
       "website": {
         "data": {
           "type": "websites",
@@ -72,6 +67,7 @@ Example:
 ### update
 
 Edit a specific customer user record.
+
 The updated record is returned in the response.
 
 {@inheritdoc}
@@ -79,26 +75,23 @@ The updated record is returned in the response.
 {@request:json_api}
 Example:
 
-`</admin/api/customer_users/1>`
-
 ```JSON
 {
   "data": {
-    "type": "customer_users",
+    "type": "customerusers",
     "id": "1",    
     "attributes": {
       "confirmed": true,
-      "email": "AmandaMCole@example.org",      
+      "email": "AmandaMCole@example.org",
       "firstName": "Amanda",     
       "lastName": "Cole",     
-      "enabled": true,      
-      "username": "AmandaMCole@example.org"
+      "enabled": true
     },
     "relationships": {
       "roles": {
         "data": [
           {
-            "type": "customer_user_roles",
+            "type": "customeruserroles",
             "id": "1"
           }
         ]
@@ -108,7 +101,7 @@ Example:
           "type": "customers",
           "id": "1"
         }
-      },      
+      },
       "website": {
         "data": {
           "type": "websites",
@@ -130,8 +123,6 @@ Delete a specific customer user record.
 ### delete_list
 
 Delete a collection of customer user records.
-
-The list of records that will be deleted, could be limited by filters.
 
 {@inheritdoc}
 
@@ -160,7 +151,7 @@ The list of records that will be deleted, could be limited by filters.
 {@inheritdoc}
 
 **Conditionally required field:**
-This field is required when "enabled" field value is "true".
+*This field is required when **enabled** field value is `true`.*
 
 ### enabled
 
@@ -168,7 +159,9 @@ This field is required when "enabled" field value is "true".
 
 {@inheritdoc}
 
-'true' by default
+**Please note:**
+
+*The default value is `true`.*
 
 ### confirmed
 
@@ -176,25 +169,11 @@ This field is required when "enabled" field value is "true".
 
 {@inheritdoc}
 
-'true' by default
-
-### email
-
-#### create
-
-{@inheritdoc}
-
-**The required field**
-
-#### update
-
-{@inheritdoc}
-
 **Please note:**
 
-*This field is **required** and must remain defined.*
+*The default value is `true`.*
 
-### username
+### email
 
 #### create
 
@@ -269,8 +248,6 @@ Replace customer record a specific customer user record is assigned to.
 {@request:json_api}
 Example:
 
-`</admin/api/customer_users/1/relationships/customer>`
-
 ```JSON
 {
   "data": {
@@ -297,8 +274,6 @@ Replace the organization a specific customer user record belongs to.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customer_users/1/relationships/organization>`
 
 ```JSON
 {
@@ -327,8 +302,6 @@ Replace the owner of a specific customer user record.
 {@request:json_api}
 Example:
 
-`</admin/api/customer_users/1/relationships/owner>`
-
 ```JSON
 {
   "data": {
@@ -355,8 +328,6 @@ Replace a website assigned to a specific customer user record.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customer_users/1/relationships/website>`
 
 ```JSON
 {
@@ -385,17 +356,15 @@ Replace the list of role records assigned to a specific customer user record.
 {@request:json_api}
 Example:
 
-`</admin/api/customer_users/1/relationships/roles>`
-
 ```JSON
 {
   "data": [
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "1"
     },
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "2"
     }
   ]
@@ -410,13 +379,11 @@ Set role records for a specific customer user record.
 {@request:json_api}
 Example:
 
-`</admin/api/customer_users/1/relationships/roles>`
-
 ```JSON
 {
   "data": [
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "2"
     }
   ]
@@ -431,13 +398,11 @@ Remove role records from a specific customer user record.
 {@request:json_api}
 Example:
 
-`</admin/api/customer_users/1/relationships/roles>`
-
 ```JSON
 {
   "data": [
     {
-      "type": "customer_user_roles",
+      "type": "customeruserroles",
       "id": "2"
     }
   ]
@@ -462,8 +427,6 @@ Replace the list of sales representatives assigned to a specific customer user r
 {@request:json_api}
 Example:
 
-`</admin/api/customer_users/1/relationships/salesRepresentatives>`
-
 ```JSON
 {
   "data": [
@@ -487,8 +450,6 @@ Set sales representatives records for a specific customer user record.
 {@request:json_api}
 Example:
 
-`</admin/api/customer_users/1/relationships/salesRepresentatives>`
-
 ```JSON
 {
   "data": [
@@ -511,8 +472,6 @@ Remove sales representatives records from a specific customer user record.
 
 {@request:json_api}
 Example:
-
-`</admin/api/customer_users/1/relationships/salesRepresentatives>`
 
 ```JSON
 {
@@ -539,66 +498,3 @@ Retrieve a record of address assigned to a specific customer user record.
 #### get_relationship
 
 Retrieve IDs of address records assigned to a specific customer user record.
-
-#### update_relationship
-
-Replace the list of addresses assigned to a specific customer user record.
-
-{@request:json_api}
-Example:
-
-`</admin/api/customer_users/1/relationships/addresses>`
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customer_user_addresses",
-      "id": "1"
-    }
-  ]
-}
-```
-{@/request}
-
-#### add_relationship
-
-Set address records for a specific customer user record.
-
-{@request:json_api}
-Example:
-
-`</admin/api/customer_users/1/relationships/addresses>`
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customer_user_addresses",
-      "id": "1"
-    }
-  ]
-}
-```
-{@/request}
-
-#### delete_relationship
-
-Remove address records from a specific customer user record.
-
-{@request:json_api}
-Example:
-
-`</admin/api/customer_users/1/relationships/addresses>`
-
-```JSON
-{
-  "data": [
-    {
-      "type": "customer_user_addresses",
-      "id": "1"
-    }
-  ]
-}
-```
-{@/request}

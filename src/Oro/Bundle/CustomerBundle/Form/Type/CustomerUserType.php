@@ -5,15 +5,25 @@ namespace Oro\Bundle\CustomerBundle\Form\Type;
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
+use Oro\Bundle\FormBundle\Form\Type\OroDateType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Constraint;
 
+/**
+ * Manage Customer User from
+ */
 class CustomerUserType extends AbstractType
 {
     const NAME = 'oro_customer_customer_user';
@@ -68,7 +78,7 @@ class CustomerUserType extends AbstractType
         $data = $builder->getData();
 
         $passwordOptions = [
-            'type' => 'password',
+            'type' => PasswordType::class,
             'required' => false,
             'first_options' => [
                 'label' => 'oro.customer.customeruser.password.label',
@@ -85,7 +95,7 @@ class CustomerUserType extends AbstractType
             $passwordOptions = array_merge($passwordOptions, ['required' => true, 'validation_groups' => ['create']]);
         }
 
-        $builder->add('plainPassword', 'repeated', $passwordOptions);
+        $builder->add('plainPassword', RepeatedType::class, $passwordOptions);
     }
 
     /**
@@ -97,7 +107,7 @@ class CustomerUserType extends AbstractType
         $builder
             ->add(
                 'namePrefix',
-                'text',
+                TextType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.name_prefix.label'
@@ -105,7 +115,7 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'firstName',
-                'text',
+                TextType::class,
                 [
                     'required' => true,
                     'label' => 'oro.customer.customeruser.first_name.label'
@@ -113,7 +123,7 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'middleName',
-                'text',
+                TextType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.middle_name.label'
@@ -121,7 +131,7 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'lastName',
-                'text',
+                TextType::class,
                 [
                     'required' => true,
                     'label' => 'oro.customer.customeruser.last_name.label'
@@ -129,7 +139,7 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'nameSuffix',
-                'text',
+                TextType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.name_suffix.label'
@@ -137,7 +147,7 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'email',
-                'email',
+                EmailType::class,
                 [
                     'required' => true,
                     'label' => 'oro.customer.customeruser.email.label'
@@ -145,7 +155,7 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'customer',
-                CustomerSelectType::NAME,
+                CustomerSelectType::class,
                 [
                     'required' => true,
                     'label' => 'oro.customer.customeruser.customer.label'
@@ -153,7 +163,7 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'enabled',
-                'checkbox',
+                CheckboxType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.enabled.label',
@@ -161,7 +171,7 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'birthday',
-                'oro_date',
+                OroDateType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.birthday.label',
@@ -169,14 +179,14 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'salesRepresentatives',
-                UserMultiSelectType::NAME,
+                UserMultiSelectType::class,
                 [
                     'label' => 'oro.customer.customer.sales_representatives.label',
                 ]
             )
             ->add(
                 'isGuest',
-                'checkbox',
+                CheckboxType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.is_guest.label',
@@ -192,7 +202,7 @@ class CustomerUserType extends AbstractType
         if ($this->authorizationChecker->isGranted('oro_customer_customer_user_address_update')) {
             $options = [
                 'label' => 'oro.customer.customeruser.addresses.label',
-                'entry_type' => CustomerUserTypedAddressType::NAME,
+                'entry_type' => CustomerUserTypedAddressType::class,
                 'required' => false,
                 'entry_options' => [
                     'data_class' => $this->addressClass,
@@ -211,7 +221,7 @@ class CustomerUserType extends AbstractType
             $builder
                 ->add(
                     'addresses',
-                    AddressCollectionType::NAME,
+                    AddressCollectionType::class,
                     $options
                 );
         }
@@ -225,7 +235,7 @@ class CustomerUserType extends AbstractType
         $builder
             ->add(
                 'passwordGenerate',
-                'checkbox',
+                CheckboxType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.password_generate.label',
@@ -234,7 +244,7 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'sendEmail',
-                'checkbox',
+                CheckboxType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.send_email.label',
@@ -256,7 +266,7 @@ class CustomerUserType extends AbstractType
 
         $form->add(
             'roles',
-            CustomerUserRoleSelectType::NAME,
+            CustomerUserRoleSelectType::class,
             [
                 'query_builder' => function (CustomerUserRoleRepository $repository) use ($data) {
                     return $repository->getAvailableRolesByCustomerUserQueryBuilder(
@@ -278,7 +288,7 @@ class CustomerUserType extends AbstractType
 
         $form->add(
             'roles',
-            CustomerUserRoleSelectType::NAME,
+            CustomerUserRoleSelectType::class,
             [
                 'query_builder' => function (CustomerUserRoleRepository $repository) use ($data) {
                     $customer = null;
@@ -304,7 +314,7 @@ class CustomerUserType extends AbstractType
 
         $resolver->setDefaults([
             'data_class' => $this->dataClass,
-            'csrf_token_id' => 'customer_user',
+            'csrf_token_id' => 'customer_user'
         ]);
     }
 

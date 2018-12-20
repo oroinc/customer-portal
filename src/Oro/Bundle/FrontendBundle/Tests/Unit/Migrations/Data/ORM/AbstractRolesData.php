@@ -8,14 +8,14 @@ use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
-class AbstractRolesData extends \PHPUnit_Framework_TestCase
+class AbstractRolesData extends \PHPUnit\Framework\TestCase
 {
     /**
      * Call Kernel::locateResource with $first=true, block all bundles data loading and should not happens.
      */
     public function testLoadRolesDataEnsureThatKernelsLocateResourceCalledProperly()
     {
-        /** @var ObjectManager|\PHPUnit_Framework_MockObject_MockObject $manager */
+        /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject $manager */
         $manager = $this->createMock(ObjectManager::class);
         $aclManager = $this->createMock(AclManager::class);
 
@@ -34,7 +34,7 @@ class AbstractRolesData extends \PHPUnit_Framework_TestCase
                 [$yamlContent]
             );
 
-        /** @var ContainerInterface|\PHPUnit_Framework_MockObject_MockObject $container */
+        /** @var ContainerInterface|\PHPUnit\Framework\MockObject\MockObject $container */
         $container = $this->createMock(ContainerInterface::class);
         $container->expects($this->any())
             ->method('get')
@@ -53,7 +53,7 @@ class AbstractRolesData extends \PHPUnit_Framework_TestCase
                 ['Oro\SomeBundle' => [], 'Oro\AnotherBundle' => [], 'Oro\AnotherOneBundle' => []]
             ));
 
-        /** @var AbstractRolesData|\PHPUnit_Framework_MockObject_MockObject $abstractRolesData */
+        /** @var AbstractRolesData|\PHPUnit\Framework\MockObject\MockObject $abstractRolesData */
         $abstractRolesData = $this->getMockForAbstractClass(AbstractRolesData::class);
         $abstractRolesData->setContainer($container);
 

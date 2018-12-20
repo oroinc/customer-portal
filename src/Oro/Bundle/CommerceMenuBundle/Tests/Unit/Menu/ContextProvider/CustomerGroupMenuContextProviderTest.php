@@ -8,7 +8,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class CustomerGroupMenuContextProviderTest extends \PHPUnit_Framework_TestCase
+class CustomerGroupMenuContextProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 

@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Model\ExtendCustomerVisitor;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 
 /**
+ * Represents guest user with related CustomerUser (which is empty by default)
  * @ORM\Table(
  *     name="oro_customer_visitor",
  *     indexes={@Index(name="id_session_id_idx", columns={"id", "session_id"})}
@@ -118,7 +119,7 @@ class CustomerVisitor extends ExtendCustomerVisitor
      * @param CustomerUser $customerUser
      * @return $this
      */
-    public function setCustomerUser(CustomerUser $customerUser)
+    public function setCustomerUser(CustomerUser $customerUser = null)
     {
         $this->customerUser = $customerUser;
 

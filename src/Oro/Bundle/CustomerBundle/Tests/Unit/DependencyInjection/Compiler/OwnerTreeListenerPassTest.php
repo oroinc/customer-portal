@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Compiler;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\OwnerTreeListenerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class OwnerTreeListenerPassTest extends \PHPUnit_Framework_TestCase
+class OwnerTreeListenerPassTest extends \PHPUnit\Framework\TestCase
 {
     public function testProcess()
     {
@@ -13,7 +13,7 @@ class OwnerTreeListenerPassTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject $containerBuilder */
+        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $containerBuilder */
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
             ->disableOriginalConstructor()
             ->getMock();
@@ -56,7 +56,7 @@ class OwnerTreeListenerPassTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessWithoutDefinition()
     {
-        /** @var ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject $containerBuilder */
+        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $containerBuilder */
         $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
             ->disableOriginalConstructor()
             ->getMock();

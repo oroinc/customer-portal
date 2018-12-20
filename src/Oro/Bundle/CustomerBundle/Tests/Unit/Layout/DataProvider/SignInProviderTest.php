@@ -15,27 +15,27 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
-class SignInProviderTest extends \PHPUnit_Framework_TestCase
+class SignInProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SignInProvider */
     protected $dataProvider;
 
-    /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
     protected $requestStack;
 
-    /** @var Request|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
     protected $request;
 
-    /** @var ParameterBag|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ParameterBag|\PHPUnit\Framework\MockObject\MockObject */
     protected $parameterBag;
 
-    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $tokenAccessor;
 
-    /** @var CsrfTokenManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CsrfTokenManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $csrfTokenManager;
 
-    /** @var SignInTargetPathProviderInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var SignInTargetPathProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $targetPathProvider;
 
     protected function setUp()
@@ -45,7 +45,7 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
         $this->request = $this->createMock(Request::class);
         $this->request->attributes = $this->parameterBag;
 
-        /** @var RequestStack|\PHPUnit_Framework_MockObject_MockObject $requestStack */
+        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $this->requestStack = $this->createMock(RequestStack::class);
         $this->requestStack->expects($this->any())
             ->method('getCurrentRequest')
@@ -65,7 +65,7 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLastNameWithSession()
     {
-        /** @var SessionInterface|\PHPUnit_Framework_MockObject_MockObject $session */
+        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
         $session = $this->createMock(SessionInterface::class);
         $this->request
             ->expects($this->once())
@@ -91,7 +91,7 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetErrorWithSession()
     {
-        /** @var SessionInterface|\PHPUnit_Framework_MockObject_MockObject $session */
+        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
         $session = $this->createMock(SessionInterface::class);
         $this->request
             ->expects($this->once())
@@ -103,19 +103,21 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
             ->with(Security::AUTHENTICATION_ERROR)
             ->will($this->returnValue(true));
 
+        $exception = new AuthenticationException('error');
+
         $session->expects($this->once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
-            ->will($this->returnValue(new AuthenticationException('error')));
+            ->willReturn($exception);
 
-        $this->assertEquals('error', $this->dataProvider->getError());
+        $this->assertEquals($exception, $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals('error', $this->dataProvider->getError());
+        $this->assertEquals($exception, $this->dataProvider->getError());
     }
 
     public function testGetErrorWithoutSession()
     {
-        /** @var SessionInterface|\PHPUnit_Framework_MockObject_MockObject $session */
+        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
         $session = $this->createMock(SessionInterface::class);
         $this->request
             ->expects($this->once())
@@ -129,7 +131,7 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetErrorFromRequestAttributes()
     {
-        /** @var SessionInterface|\PHPUnit_Framework_MockObject_MockObject $session */
+        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
         $session = $this->createMock(SessionInterface::class);
         $this->request
             ->expects($this->once())
@@ -142,20 +144,22 @@ class SignInProviderTest extends \PHPUnit_Framework_TestCase
             ->with(Security::AUTHENTICATION_ERROR)
             ->will($this->returnValue(true));
 
+        $exception = new AuthenticationException('error');
+
         $this->parameterBag
             ->expects($this->once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
-            ->will($this->returnValue(new AuthenticationException('error')));
+            ->willReturn($exception);
 
-        $this->assertEquals('error', $this->dataProvider->getError());
+        $this->assertEquals($exception, $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals('error', $this->dataProvider->getError());
+        $this->assertEquals($exception, $this->dataProvider->getError());
     }
 
     public function testGetCSRFToken()
     {
-        /** @var CsrfToken|\PHPUnit_Framework_MockObject_MockObject $csrfToken */
+        /** @var CsrfToken|\PHPUnit\Framework\MockObject\MockObject $csrfToken */
         $csrfToken = $this->createMock(CsrfToken::class);
         $csrfToken->expects($this->once())
             ->method('getValue')

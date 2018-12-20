@@ -1,4 +1,4 @@
-// @theme: blank
+/* @theme: blank; */
 
 .scroll-top {
     position: $scroll-top-position;
@@ -7,7 +7,15 @@
     display: none;
     height: $scroll-top-height;
 
+    color: $scroll-top-color;
+
     cursor: pointer;
+
+    transition: color linear 100ms;
+
+    &:hover {
+        color: $scroll-top-hover-color;
+    }
 
     &--bottom-left {
         left: $scroll-top-bl-left;

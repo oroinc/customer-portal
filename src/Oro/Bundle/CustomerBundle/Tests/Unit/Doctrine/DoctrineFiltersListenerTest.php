@@ -9,7 +9,7 @@ use Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class DoctrineFiltersListenerTest extends \PHPUnit_Framework_TestCase
+class DoctrineFiltersListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider onRequestDataProvider
@@ -61,7 +61,7 @@ class DoctrineFiltersListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|RegistryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|RegistryInterface
      */
     protected function getRegistryMock()
     {
@@ -71,7 +71,7 @@ class DoctrineFiltersListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|EntityManager
+     * @return \PHPUnit\Framework\MockObject\MockObject|EntityManager
      */
     protected function getEmMock()
     {
@@ -81,7 +81,7 @@ class DoctrineFiltersListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|FrontendHelper
+     * @return \PHPUnit\Framework\MockObject\MockObject|FrontendHelper
      */
     protected function getFrontendHelperMock()
     {
@@ -91,7 +91,7 @@ class DoctrineFiltersListenerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|FilterCollection
+     * @return \PHPUnit\Framework\MockObject\MockObject|FilterCollection
      */
     protected function getFilterCollectionMock()
     {

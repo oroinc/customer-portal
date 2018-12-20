@@ -6,7 +6,7 @@ use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Processor;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test Configuration
@@ -61,7 +61,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'value' => true,
                             'scope' => 'app'
                         ],
-                        'send_password_in_welcome_email' => [
+                        'auto_login_after_registration' => [
                             'value' => false,
                             'scope' => 'app'
                         ],
@@ -90,6 +90,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                             'value' => true,
                             'scope' => 'app',
                         ],
+                        'api_key_generation_enabled' => [
+                            'value' => true,
+                            'scope' => 'app',
+                        ],
                         'enable_responsive_grids' => [
                             'value' => true,
                             'scope' => 'app',
@@ -97,7 +101,11 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                         'enable_swipe_actions_grids' => [
                             'value' => true,
                             'scope' => 'app',
-                        ]
+                        ],
+                        'case_insensitive_email_addresses_enabled' => [
+                            'value' => false,
+                            'scope' => 'app',
+                        ],
                     ]
                 ]
             ]

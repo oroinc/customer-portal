@@ -8,14 +8,14 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class CustomerMenuContextProviderTest extends \PHPUnit_Framework_TestCase
+class CustomerMenuContextProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
     public function testGetContexts()
     {
         $website = $this->getEntity(Website::class, ['id' => 1]);
-        /** @var WebsiteManager|\PHPUnit_Framework_MockObject_MockObject $websiteManager */
+        /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject $websiteManager */
         $websiteManager = $this->createMock(WebsiteManager::class);
         $websiteManager->expects($this->once())
             ->method('getDefaultWebsite')

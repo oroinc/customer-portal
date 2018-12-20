@@ -9,10 +9,21 @@ oro_api:
             default: true
             headers:
                 Content-Type: application/vnd.api+json
+                X-Include:
+                    -
+                        value: noHateoas
+                        actions: [get, get_list, create, update, get_relationship, get_subresource]
+                    -
+                        value: totalCount
+                        actions: [get_list, delete_list, get_relationship, get_subresource]
+                    -
+                        value: deletedCount
+                        actions: [delete_list]
             request_type: ['rest', 'json_api', 'frontend']
 
 oro_frontend:
-    frontend_api_doc_views: [frontend_rest_json_api]
+    frontend_api:
+        api_doc_views: [frontend_rest_json_api]
 
 twig:
     globals:
@@ -33,10 +44,6 @@ security:
         # override pattern
         wsse_secured:
             pattern:                        '^%web_backend_prefix%/api/rest.*'
-
-        # override pattern
-        api_wsse_secured:
-            pattern:                        '^%web_backend_prefix%/api/(?!(doc|rest))($|.*)'
 
         # override pattern
         login:
@@ -61,12 +68,12 @@ security:
 oro_layout:
     active_theme: default
 
-assetic:
-    filters:
-        scssphp:
-            file: '%kernel.root_dir%/../vendor/leafo/scssphp/scss.inc.php'
-            apply_to: '\.scss$'
-            import_paths: ["%kernel.root_dir%/../web/bundles"]
+oro_theme:
+    themes:
+        oro:
+            logo: bundles/orofrontend/images/oro-commerce-logo.svg
+        demo:
+            logo: bundles/orofrontend/images/oro-commerce-logo.svg
 
 fos_rest:
     exception:

@@ -12,12 +12,12 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class GetActiveUserOrNullTest extends \PHPUnit_Framework_TestCase
+class GetActiveUserOrNullTest extends \PHPUnit\Framework\TestCase
 {
     const ATTRIBUTE_NAME = 'some_attribute';
 
     /**
-     * @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $tokenStorage;
 

@@ -11,15 +11,15 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 
-class GridViewManagerCompositeTest extends \PHPUnit_Framework_TestCase
+class GridViewManagerCompositeTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var GridViewManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var GridViewManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $defaultGridViewManager;
 
-    /** @var GridViewManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var GridViewManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $frontendGridViewManager;
 
-    /** @var TokenAccessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $tokenAccessor;
 
     /** @var GridViewManagerComposite */

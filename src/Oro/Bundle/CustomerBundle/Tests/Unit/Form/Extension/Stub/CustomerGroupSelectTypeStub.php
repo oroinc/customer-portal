@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension\Stub;
 
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupSelectType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerGroupSelectTypeStub extends AbstractType
@@ -11,7 +12,7 @@ class CustomerGroupSelectTypeStub extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return CustomerGroupSelectType::NAME;
     }
@@ -37,6 +38,6 @@ class CustomerGroupSelectTypeStub extends AbstractType
      */
     public function getParent()
     {
-        return 'choice';
+        return ChoiceType::class;
     }
 }

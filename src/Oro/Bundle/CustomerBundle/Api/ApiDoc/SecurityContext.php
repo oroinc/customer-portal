@@ -57,10 +57,27 @@ class SecurityContext implements SecurityContextInterface
     /**
      * {@inheritdoc}
      */
+    public function getApiKeyGenerationHint(): ?string
+    {
+        if ($this->isFrontentApi()) {
+            return
+                'To use WSSE authentication the API key should be already generated'
+                . ' for the current logged-in customer user.'
+                . ' To generate it, execute POST request to "/api/login" API resource.'
+                . ' If the "Enable API key generation" feature is enabled in the system configuration,'
+                . ' the API key will be generated.'
+                . ' After that reload this page.';
+        }
+
+        return $this->innerSecurityContext->getApiKeyGenerationHint();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getLoginRoute(): ?string
     {
-        $token = $this->tokenStorage->getToken();
-        if ($token instanceof AnonymousCustomerUserToken || $token->getUser() instanceof CustomerUser) {
+        if ($this->isFrontentApi()) {
             return 'oro_customer_customer_user_security_login';
         }
 
@@ -72,11 +89,25 @@ class SecurityContext implements SecurityContextInterface
      */
     public function getLogoutRoute(): ?string
     {
-        $token = $this->tokenStorage->getToken();
-        if ($token instanceof AnonymousCustomerUserToken || $token->getUser() instanceof CustomerUser) {
+        if ($this->isFrontentApi()) {
             return 'oro_customer_customer_user_security_logout';
         }
 
         return $this->innerSecurityContext->getLogoutRoute();
+    }
+
+    /**
+     * @return bool
+     */
+    private function isFrontentApi(): bool
+    {
+        $token = $this->tokenStorage->getToken();
+
+        return
+            null !== $token
+            && (
+                $token instanceof AnonymousCustomerUserToken
+                || $token->getUser() instanceof CustomerUser
+            );
     }
 }
