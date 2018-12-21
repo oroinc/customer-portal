@@ -271,6 +271,38 @@ oro_behat_extension:
     Account link:
       selector: 'li.topbar-navigation__item a:contains("Account")'
 
+    Frontend Address Default Billing Checkbox Label:
+      selector:
+        locator: '//*[contains(@class,"custom-checkbox__text") and contains(text(), "Default Billing")]'
+        type: xpath
+
+    Frontend Address Default Billing Checkbox:
+      selector: '[name$="[defaults][default][]"][value="billing"]'
+
+    Frontend Address Default Shipping Checkbox Label:
+      selector:
+        locator: '//*[contains(@class,"custom-checkbox__text") and contains(text(), "Default Shipping")]'
+        type: xpath
+
+    Frontend Address Default Shipping Checkbox:
+      selector: '[name$="[defaults][default][]"][value="shipping"]'
+
+    Frontend Address Billing Checkbox Label:
+      selector:
+        locator: '//*[contains(@class,"custom-checkbox__text") and contains(text(), "Billing")]'
+        type: xpath
+
+    Frontend Address Billing Checkbox:
+      selector: '[name$="[types][]"][value="billing"]'
+
+    Frontend Address Shipping Checkbox Label:
+      selector:
+        locator: '//*[contains(@class,"custom-checkbox__text") and contains(text(), "Shipping")]'
+        type: xpath
+
+    Frontend Address Shipping Checkbox:
+      selector: '[name$="[types][]"][value="shipping"]'
+
     First Address Default Billing Checkbox:
         selector: '[name="oro_customer_type[addresses][0][defaults][default][]"][value="billing"]'
 
