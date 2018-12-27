@@ -29,6 +29,7 @@ class CustomerTypeTest extends WebTestCase
      */
     public function testCreatePrimaryAddress(bool $primary): void
     {
+        $this->markTestSkipped('BAP-17722');
         $crawler = $this->submitCustomerForm($primary);
 
         $this->assertNotContains('One of the addresses must be set as primary.', $crawler->html());
