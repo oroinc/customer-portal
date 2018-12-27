@@ -85,14 +85,4 @@ class FrontendControllerTest extends WebTestCase
         $configManager->reset(self::FRONTEND_THEME_CONFIG_KEY);
         $configManager->flush();
     }
-
-    public function testExceptionAction()
-    {
-        $params = ['code' => 403, 'text' => 'you are not welcome here'];
-        $crawler = $this->client->request('GET', $this->getUrl('oro_frontend_exception', $params));
-
-        $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 403);
-        $this->assertContains('you are not welcome here', $crawler->html());
-    }
 }
