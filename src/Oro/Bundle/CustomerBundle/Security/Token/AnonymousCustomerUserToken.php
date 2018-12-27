@@ -7,12 +7,15 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenTrait;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
+use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenSerializerTrait;
 
+/**
+ * Token for anonymous customer user.
+ */
 class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationContextTokenInterface
 {
-    use OrganizationContextTokenTrait;
+    use OrganizationContextTokenSerializerTrait;
 
     /**
      * @var CustomerVisitor
