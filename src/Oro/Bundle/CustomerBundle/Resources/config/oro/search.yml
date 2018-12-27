@@ -62,6 +62,10 @@ search:
                 relation_type: many-to-one
                 relation_fields:
                     -
+                        name: id
+                        target_type: integer
+                        target_fields: [customer_id]
+                    -
                         name: name
                         target_type: text
                         target_fields: [customer]

@@ -2,6 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Autocomplete;
 
+use Doctrine\Common\Collections\Expr\Comparison;
+use Doctrine\Common\Collections\Expr\Value;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
@@ -12,76 +14,79 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 
 use Oro\Bundle\SearchBundle\Engine\Indexer;
+use Oro\Bundle\SearchBundle\Query\Criteria\Criteria;
+use Oro\Bundle\SearchBundle\Query\Query as SearchQuery;
 use Oro\Bundle\SearchBundle\Query\Result;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler;
 
 class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
 {
-    const DELIMITER = ';';
+    private const DELIMITER = ';';
 
-    const TEST_ENTITY_CLASS = 'TestCustomerUserEntity';
+    private const TEST_ENTITY_CLASS = 'TestCustomerUserEntity';
 
-    /**
-     * @var CustomerUserSearchHandler
-     */
-    protected $searchHandler;
+    private const CUSTOMER_ID = '1';
 
-    /**
-     * @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $managerRegistry;
+    private const PAGE = 1;
 
-    /**
-     * @var EntityManager|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $entityManager;
+    private const PER_PAGE = 5;
 
-    /**
-     * @var EntityRepository|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $entityRepository;
+    /** @var EntityManager|\PHPUnit_Framework_MockObject_MockObject */
+    private $entityManager;
 
-    /**
-     * @var Indexer|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $indexer;
+    /** @var EntityRepository|\PHPUnit_Framework_MockObject_MockObject */
+    private $entityRepository;
 
-    /**
-     * @var AclHelper|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $aclHelper;
+    /** @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject */
+    private $managerRegistry;
+
+    /** @var Indexer|\PHPUnit_Framework_MockObject_MockObject */
+    private $indexer;
+
+    /** @var AclHelper|\PHPUnit_Framework_MockObject_MockObject */
+    private $aclHelper;
+
+    /** @var CustomerUserSearchHandler */
+    private $searchHandler;
 
     protected function setUp()
     {
-        $this->entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
+        $this->indexer = self::createMock(Indexer::class);
+
+        /* @var $metadata ClassMetadata|\PHPUnit_Framework_MockObject_MockObject */
+        $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
+            ->setMethods(['getSingleIdentifierFieldName'])
             ->disableOriginalConstructor()
             ->getMock();
+        $metadata->expects(self::once())
+            ->method('getSingleIdentifierFieldName')
+            ->will($this->returnValue('id'));
 
-        $metadataFactory = $this->getMetaMocks();
-        $this->entityManager->expects($this->once())
+        /* @var $metadataFactory ClassMetadataFactory|\PHPUnit_Framework_MockObject_MockObject */
+        $metadataFactory = self::createMock(ClassMetadataFactory::class);
+        $metadataFactory->expects(self::once())
+            ->method('getMetadataFor')
+            ->with(self::TEST_ENTITY_CLASS)
+            ->will($this->returnValue($metadata));
+
+        $this->entityManager = self::createMock(EntityManager::class);
+        $this->entityManager->expects(self::once())
             ->method('getMetadataFactory')
             ->willReturn($metadataFactory);
-        $this->entityRepository = $this
-            ->getMockBuilder('Doctrine\ORM\EntityRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->entityManager->expects($this->once())
+
+        $this->entityRepository = self::createMock(EntityRepository::class);
+        $this->entityManager->expects(self::once())
             ->method('getRepository')
             ->with(self::TEST_ENTITY_CLASS)
             ->willReturn($this->entityRepository);
 
-        $this->managerRegistry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
-        $this->managerRegistry->expects($this->once())
+        $this->aclHelper = self::createMock(AclHelper::class);
+        $this->managerRegistry = $this->createMock(ManagerRegistry::class);
+        $this->managerRegistry->expects(self::once())
             ->method('getManagerForClass')
             ->with(self::TEST_ENTITY_CLASS)
             ->willReturn($this->entityManager);
-        $this->indexer = $this->getMockBuilder('Oro\Bundle\SearchBundle\Engine\Indexer')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->aclHelper = $this->getMockBuilder('Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
 
         $this->searchHandler = new CustomerUserSearchHandler(self::TEST_ENTITY_CLASS, ['email']);
         $this->searchHandler->initSearchIndexer($this->indexer, [self::TEST_ENTITY_CLASS => ['alias' => 'alias']]);
@@ -89,250 +94,218 @@ class CustomerUserSearchHandlerTest extends \PHPUnit_Framework_TestCase
         $this->searchHandler->setAclHelper($this->aclHelper);
     }
 
-    /**
-     * @dataProvider queryWithoutSeparatorDataProvider
-     * @param string $query
-     */
-    public function testSearchNoSeparator($query)
+    public function testSearchWithoutDelimiter(): void
     {
-        $this->indexer->expects($this->never())
-            ->method($this->anything());
-        $result = $this->searchHandler->search($query, 1, 10);
-        $this->assertInternalType('array', $result);
-        $this->assertArrayHasKey('more', $result);
-        $this->assertArrayHasKey('results', $result);
-        $this->assertFalse($result['more']);
-        $this->assertEmpty($result['results']);
+        self::assertEquals(
+            $this->getExpectedResult(),
+            $this->searchHandler->search('', self::PAGE, self::PER_PAGE)
+        );
+    }
+
+    public function testSearch(): void
+    {
+        $this->assertSearchEntities();
+        $this->assertSearchIdsByTermAndCustomer();
+
+        $search = sprintf('%s%s%s', 'search', self::DELIMITER, self::CUSTOMER_ID);
+        self::assertEquals(
+            $this->getExpectedResult([['id' => 1, 'email' => 'acme1']]),
+            $this->searchHandler->search($search, self::PAGE, self::PER_PAGE)
+        );
+    }
+
+    public function testSearchWithoutCustomer(): void
+    {
+        $this->assertSearchEntitiesWithoutCustomer();
+        $this->assertSearchIdsByTermAndCustomerIsNull();
+
+        $search = sprintf('%s%s', 'search', self::DELIMITER);
+        self::assertEquals(
+            $this->getExpectedResult([['id' => 1, 'email' => 'acme1']]),
+            $this->searchHandler->search($search, self::PAGE, self::PER_PAGE)
+        );
+    }
+
+    private function assertSearchIdsByTermAndCustomer(): void
+    {
+        $queryResult = self::createMock(Result::class);
+        $queryResult->expects(self::once())
+            ->method('getElements')
+            ->willReturn([$this->getResultItem(1)]);
+
+        $criteria = self::createMock(Criteria::class);
+        $criteria->expects(self::once())
+            ->method('andWhere')
+            ->with(new Comparison('integer.customer_id', Comparison::EQ, new Value(self::CUSTOMER_ID)))
+            ->willReturnSelf();
+
+        $searchQuery = self::createMock(SearchQuery::class);
+        $searchQuery->expects(self::once())
+            ->method('getCriteria')
+            ->willReturn($criteria);
+
+        $this->indexer->expects(self::once())
+            ->method('getSimpleSearchQuery')
+            ->willReturn($searchQuery);
+
+        $this->indexer->expects(self::once())
+            ->method('query')
+            ->willReturn($queryResult);
+    }
+
+    private function assertSearchIdsByTermAndCustomerIsNull(): void
+    {
+        $queryResult = self::createMock(Result::class);
+        $queryResult->expects(self::once())
+            ->method('getElements')
+            ->willReturn([$this->getResultItem(1)]);
+
+        $searchQuery = self::createMock(SearchQuery::class);
+        $searchQuery->expects(self::never())
+            ->method('andWhere');
+
+        $this->indexer->expects(self::once())
+            ->method('getSimpleSearchQuery')
+            ->willReturn($searchQuery);
+
+        $this->indexer->expects(self::once())
+            ->method('query')
+            ->willReturn($queryResult);
+    }
+
+    private function assertSearchEntities(): void
+    {
+        /* @var $expr Expr|\PHPUnit_Framework_MockObject_MockObject */
+        $expr = self::createMock(Expr::class);
+        $expr->expects(self::once())
+            ->method('asc')
+            ->willReturnSelf();
+
+        $expr->expects(self::once())
+            ->method('in')
+            ->willReturnSelf();
+
+        /* @var $queryBuilder QueryBuilder|\PHPUnit_Framework_MockObject_MockObject */
+        $queryBuilder = self::createMock(QueryBuilder::class);
+
+        $queryBuilder->expects(self::exactly(2))
+            ->method('expr')
+            ->willReturn($expr);
+
+        $queryBuilder->expects(self::once())
+            ->method('where')
+            ->with($expr)
+            ->willReturnSelf();
+
+        $queryBuilder->expects(self::once())
+            ->method('addOrderBy')
+            ->with($expr)
+            ->willReturnSelf();
+
+        $queryBuilder->expects(self::once())
+            ->method('andWhere')
+            ->with('e.customer = :customer')
+            ->willReturnSelf();
+
+        $this->entityRepository
+            ->expects(self::once())
+            ->method('createQueryBuilder')
+            ->willReturn($queryBuilder);
+
+        $query = self::createMock(AbstractQuery::class);
+        $query->expects(self::once())
+            ->method('getResult')
+            ->willReturn([$this->getResultStub(1, 'acme1')]);
+
+        $this->aclHelper->expects(self::once())
+            ->method('apply')
+            ->with($queryBuilder, 'VIEW')
+            ->willReturn($query);
+    }
+
+    private function assertSearchEntitiesWithoutCustomer(): void
+    {
+        /* @var $expr Expr|\PHPUnit_Framework_MockObject_MockObject */
+        $expr = self::createMock(Expr::class);
+        $expr->expects(self::once())
+            ->method('asc')
+            ->willReturnSelf();
+
+        $expr->expects(self::once())
+            ->method('in')
+            ->willReturnSelf();
+
+        /* @var $queryBuilder QueryBuilder|\PHPUnit_Framework_MockObject_MockObject */
+        $queryBuilder = self::createMock(QueryBuilder::class);
+
+        $queryBuilder->expects(self::exactly(2))
+            ->method('expr')
+            ->willReturn($expr);
+
+        $queryBuilder->expects(self::once())
+            ->method('where')
+            ->with($expr)
+            ->willReturnSelf();
+
+        $queryBuilder->expects(self::once())
+            ->method('addOrderBy')
+            ->with($expr)
+            ->willReturnSelf();
+
+        $queryBuilder->expects(self::never())->method('andWhere');
+
+        $this->entityRepository
+            ->expects(self::once())
+            ->method('createQueryBuilder')
+            ->willReturn($queryBuilder);
+
+        $query = self::createMock(AbstractQuery::class);
+        $query->expects(self::once())
+            ->method('getResult')
+            ->willReturn([$this->getResultStub(1, 'acme1')]);
+
+        $this->aclHelper->expects(self::once())
+            ->method('apply')
+            ->with($queryBuilder, 'VIEW')
+            ->willReturn($query);
     }
 
     /**
+     * @param array $result
+     * @param bool $hasMore
+     *
      * @return array
      */
-    public function queryWithoutSeparatorDataProvider()
+    private function getExpectedResult($result = [], $hasMore = false): array
     {
         return [
-            [''],
-            ['test']
+            'results' => $result,
+            'more' => $hasMore
         ];
-    }
-
-    /**
-     * @return array
-     */
-    public function queryFullDataProvider()
-    {
-        return [
-            [1, ''],
-            [2, 'test2'],
-        ];
-    }
-
-    /**
-     * @dataProvider queryWithoutSeparatorDataProvider
-     * @param string $search
-     */
-    public function testSearchEmptyCustomer($search)
-    {
-        $page = 1;
-        $perPage = 15;
-        $queryString = $search . self::DELIMITER;
-
-        $foundElements = [
-            $this->getSearchItem(1),
-            $this->getSearchItem(2)
-        ];
-        $resultData = [
-            $this->getResultStub(1, 'test1'),
-            $this->getResultStub(2, 'test2')
-        ];
-        $expectedResultData = [
-            ['id' => 1, 'email' => 'test1'],
-            ['id' => 2, 'email' => 'test2']
-        ];
-        $expectedIds = [1, 2];
-
-        $this->assertSearchCall($search, $page, $perPage, $foundElements, $resultData, $expectedIds);
-
-        $searchResult = $this->searchHandler->search($queryString, $page, $perPage);
-        $this->assertInternalType('array', $searchResult);
-        $this->assertArrayHasKey('more', $searchResult);
-        $this->assertArrayHasKey('results', $searchResult);
-        $this->assertEquals($expectedResultData, $searchResult['results']);
-    }
-
-
-    /**
-     * @dataProvider queryFullDataProvider
-     * @param int $customerId
-     * @param string $search
-     */
-    public function testSearchWithCustomer($customerId, $search)
-    {
-        $page = 1;
-        $perPage = 15;
-        $queryString = sprintf('%s%s%d', $search, self::DELIMITER, $customerId);
-
-        $foundElements = [
-            $this->getSearchItem($customerId)
-        ];
-        $resultData = [
-            $this->getResultStub($customerId, 'test1')
-        ];
-        $expectedResultData = [
-            ['id' => $customerId, 'email' => 'test1'],
-        ];
-        $expectedIds = [$customerId];
-        $this->assertSearchCall($search, $page, $perPage, $foundElements, $resultData, $expectedIds);
-
-        $searchResult = $this->searchHandler->search($queryString, $page, $perPage);
-
-        $this->assertInternalType('array', $searchResult);
-        $this->assertArrayHasKey('more', $searchResult);
-        $this->assertArrayHasKey('results', $searchResult);
-        $this->assertEquals($expectedResultData, $searchResult['results']);
     }
 
     /**
      * @param int $id
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     *
+     * @return Result\Item|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getSearchItem($id)
+    private function getResultItem($id)
     {
-        $element = $this->getMockBuilder('Oro\Bundle\SearchBundle\Query\Result\Item')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $element->expects($this->once())
+        $element = self::createMock(Result\Item::class);
+        $element->expects(self::once())
             ->method('getRecordId')
-            ->will($this->returnValue($id));
+            ->willReturn($id);
 
         return $element;
     }
 
     /**
-     * @return ClassMetadataFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getMetaMocks()
-    {
-        /* @var $metadata ClassMetadata|\PHPUnit_Framework_MockObject_MockObject */
-        $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
-            ->setMethods(['getSingleIdentifierFieldName'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $metadata->expects($this->once())
-            ->method('getSingleIdentifierFieldName')
-            ->will($this->returnValue('id'));
-        /* @var $metadataFactory ClassMetadataFactory|\PHPUnit_Framework_MockObject_MockObject */
-        $metadataFactory = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadataFactory')
-            ->setMethods(['getMetadataFor'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $metadataFactory->expects($this->once())
-            ->method('getMetadataFor')
-            ->with(self::TEST_ENTITY_CLASS)
-            ->will($this->returnValue($metadata));
-
-        return $metadataFactory;
-    }
-
-    /**
-     * @param string $search
-     * @param int $page
-     * @param int $perPage
-     * @param array $foundElements
-     * @param array $resultData
-     * @param array $expectedIds
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function assertSearchCall(
-        $search,
-        $page,
-        $perPage,
-        array $foundElements,
-        array $resultData,
-        array $expectedIds
-    ) {
-        /* @var $searchResult Result|\PHPUnit_Framework_MockObject_MockObject */
-        $searchResult = $this->getMockBuilder('Oro\Bundle\SearchBundle\Query\Result')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $searchResult->expects($this->once())
-            ->method('getElements')
-            ->willReturn($foundElements);
-
-        $this->indexer->expects($this->once())
-            ->method('simpleSearch')
-            ->with($search, $page - 1, $perPage + 1, 'alias')
-            ->willReturn($searchResult);
-
-        /* @var $queryBuilder QueryBuilder|\PHPUnit_Framework_MockObject_MockObject */
-        $queryBuilder = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        /* @var $query AbstractQuery|\PHPUnit_Framework_MockObject_MockObject */
-        $query = $this->getMockBuilder('Doctrine\ORM\AbstractQuery')
-            ->disableOriginalConstructor()
-            ->setMethods(['getResult'])
-            ->getMockForAbstractClass();
-
-        $query->expects($this->once())
-            ->method('getResult')
-            ->willReturn($resultData);
-
-        /* @var $expr Expr|\PHPUnit_Framework_MockObject_MockObject */
-        $expr = $this->getMockBuilder('Doctrine\ORM\Query\Expr')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $expr->expects($this->once())
-            ->method('in')
-            ->with('e.id', $expectedIds)
-            ->will($this->returnSelf());
-
-        $expr->expects($this->once())
-            ->method('asc')
-            ->with('e.email')
-            ->will($this->returnSelf());
-
-        $queryBuilder->expects($this->exactly(2))
-            ->method('expr')
-            ->willReturn($expr);
-
-        $queryBuilder->expects($this->once())
-            ->method('where')
-            ->with($expr)
-            ->will($this->returnSelf());
-
-        $queryBuilder->expects($this->once())
-            ->method('addOrderBy')
-            ->with($expr)
-            ->will($this->returnSelf());
-
-        $queryBuilder->expects($this->any())
-            ->method('andWhere')
-            ->with('e.customer = :customer')
-            ->will($this->returnSelf());
-
-        $this->aclHelper->expects($this->once())
-            ->method('apply')
-            ->with($queryBuilder, 'VIEW')
-            ->willReturn($query);
-
-        $this->entityRepository
-            ->expects($this->any())
-            ->method('createQueryBuilder')
-            ->willReturn($queryBuilder);
-
-        return $searchResult;
-    }
-
-    /**
      * @param int $id
      * @param string $email
+     *
      * @return \stdClass
      */
-    protected function getResultStub($id, $email)
+    private function getResultStub($id, $email)
     {
         $result = new \stdClass();
         $result->id = $id;
