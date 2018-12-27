@@ -5,10 +5,13 @@ namespace Oro\Bundle\FrontendBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 
+/**
+ * Default frontend controller.
+ */
 class FrontendController extends Controller
 {
     /**
@@ -24,16 +27,11 @@ class FrontendController extends Controller
      * @Route("/exception/{code}/{text}", name="oro_frontend_exception", requirements={"code"="\d+"})
      * @param string $code
      * @param string $text
-     * @return Response
-     * @throws \InvalidArgumentException
+     * @throws AccessDeniedException
      */
     public function exceptionAction($code, $text)
     {
-        $code = (int)$code;
-
-        $params = ['data' => ['status_code' => $code, 'status_text' => $text]];
-        $content = $this->get('layout')->render($params);
-
-        return new Response($content, $code);
+        // This action is left here for the BC reason. Please don't use it on production.
+        throw $this->createAccessDeniedException();
     }
 }

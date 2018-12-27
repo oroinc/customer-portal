@@ -8,6 +8,11 @@ use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 
 use FOS\RestBundle\Controller\ExceptionController as BaseExceptionController;
 
+use Oro\Component\Layout\LayoutContext;
+
+/**
+ * Handles rendering error pages.
+ */
 class ExceptionController extends BaseExceptionController
 {
     const EXCEPTION_ROUTE_NAME = 'oro_frontend_exception';
@@ -18,22 +23,18 @@ class ExceptionController extends BaseExceptionController
     public function showAction(Request $request, $exception, DebugLoggerInterface $logger = null)
     {
         if ($this->isLayoutRendering($request)) {
-            $container = $this->container;
+            $this->updateRequest($request);
+
             $code = $this->getStatusCode($exception);
             $text = $this->getStatusText($code);
-            $url = $container->get('router')
-                ->generate(self::EXCEPTION_ROUTE_NAME, ['code' => $code, 'text' => $text]);
 
-            $subRequest = Request::create(
-                $url,
-                'GET',
-                [],
-                $request->cookies->all(),
-                $request->files->all(),
-                $request->server->all()
-            );
+            $context = new LayoutContext(['data' => ['status_code' => $code , 'status_text' => $text]]);
+            $context->set('route_name', self::EXCEPTION_ROUTE_NAME);
 
-            return $container->get('kernel')->handle($subRequest);
+            $layout = $this->container->get('layout')
+                ->getLayout($context);
+
+            return new Response($layout->render());
         }
 
         return parent::showAction($request, $exception, $logger);
@@ -66,15 +67,45 @@ class ExceptionController extends BaseExceptionController
      */
     protected function getStatusText($code)
     {
-        return array_key_exists($code, Response::$statusTexts) ? Response::$statusTexts[$code] : "error";
+        return array_key_exists($code, Response::$statusTexts) ? Response::$statusTexts[$code] : 'error';
     }
 
     /**
      * @return bool
      */
-    private function isCircularHandlingException()
+    private function isCircularHandlingException(): bool
     {
-        $requestStack = $this->container->get('request_stack');
-        return $requestStack->getParentRequest()->get('_route') === self::EXCEPTION_ROUTE_NAME;
+        $parentRequest = $this->getParentRequest();
+
+        return $parentRequest && $parentRequest->get('_route') === self::EXCEPTION_ROUTE_NAME;
+    }
+
+    /**
+     * @param Request $request
+     */
+    private function updateRequest(Request $request): void
+    {
+        $parentRequest = $this->getParentRequest();
+        if (!$parentRequest) {
+            return;
+        }
+
+        // emulate original request to render valid layout page
+        $request->query->add($parentRequest->query->all());
+        $request->request->add($parentRequest->request->all());
+        $request->attributes->add($parentRequest->attributes->all());
+        $request->cookies->add($parentRequest->cookies->all());
+        $request->files->add($parentRequest->files->all());
+        $request->server->add($parentRequest->server->all());
+    }
+
+    /**
+     * @return Request|null
+     */
+    private function getParentRequest(): ?Request
+    {
+        return $this->container
+            ->get('request_stack')
+            ->getParentRequest();
     }
 }
