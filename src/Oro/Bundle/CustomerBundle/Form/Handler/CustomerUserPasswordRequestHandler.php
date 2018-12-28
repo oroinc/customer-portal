@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
+/**
+ * Customer user password reset form handler.
+ */
 class CustomerUserPasswordRequestHandler extends AbstractCustomerUserPasswordHandler
 {
     /**
@@ -25,9 +28,7 @@ class CustomerUserPasswordRequestHandler extends AbstractCustomerUserPasswordHan
                 /** @var CustomerUser $user */
                 $user = $this->userManager->findUserByUsernameOrEmail($email);
                 if ($this->validateUser($emailForm, $email, $user)) {
-                    if (null === $user->getConfirmationToken()) {
-                        $user->setConfirmationToken($user->generateToken());
-                    }
+                    $user->setConfirmationToken($user->generateToken());
 
                     try {
                         $this->userManager->sendResetPasswordEmail($user);

@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 
 class CustomerUserPasswordRequestHandlerTest extends AbstractCustomerUserPasswordHandlerTestCase
@@ -45,12 +46,11 @@ class CustomerUserPasswordRequestHandlerTest extends AbstractCustomerUserPasswor
             ->disableOriginalConstructor()
             ->getMock();
         $user->expects($this->once())
-            ->method('getConfirmationToken')
-            ->will($this->returnValue($token));
-        $user->expects($this->never())
-            ->method('generateToken');
-        $user->expects($this->never())
-            ->method('setConfirmationToken');
+            ->method('generateToken')
+            ->willReturn($token);
+        $user->expects($this->once())
+            ->method('setConfirmationToken')
+            ->with($token);
 
         $this->assertValidFormCall($email);
 
@@ -82,9 +82,6 @@ class CustomerUserPasswordRequestHandlerTest extends AbstractCustomerUserPasswor
             ->getMock();
 
         $user->expects($this->once())
-            ->method('getConfirmationToken')
-            ->will($this->returnValue(null));
-        $user->expects($this->once())
             ->method('generateToken')
             ->will($this->returnValue($token));
         $user->expects($this->once())
@@ -110,6 +107,32 @@ class CustomerUserPasswordRequestHandlerTest extends AbstractCustomerUserPasswor
             ->with($user);
 
         $this->assertEquals($user, $this->handler->process($this->form, $this->request));
+    }
+
+    public function testProcessForCustomerUserWithExistingToken()
+    {
+        $user = new CustomerUser();
+        $user->setConfirmationToken('test');
+
+        $email = 'test@test.com';
+
+        $this->assertValidFormCall($email);
+
+        $this->userManager->expects($this->once())
+            ->method('findUserByUsernameOrEmail')
+            ->with($email)
+            ->will($this->returnValue($user));
+
+        $this->userManager->expects($this->once())
+            ->method('sendResetPasswordEmail')
+            ->with($user);
+
+        $this->userManager->expects($this->once())
+            ->method('updateUser')
+            ->with($user);
+
+        $this->assertEquals($user, $this->handler->process($this->form, $this->request));
+        $this->assertNotEquals('test', $user->getConfirmationToken());
     }
 
     /**
