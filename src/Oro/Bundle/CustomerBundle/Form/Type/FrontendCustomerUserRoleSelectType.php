@@ -89,18 +89,30 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
             $repo = $this->registry->getManagerForClass($this->roleClass)
                 ->getRepository($this->roleClass);
             $criteria = new Criteria();
-            $qb = $repo->createQueryBuilder('customer');
+            $qb = $repo->createQueryBuilder('role');
             $this->aclHelper->applyAclToCriteria(
                 $this->roleClass,
                 $criteria,
                 'ASSIGN',
-                ['customer' => 'customer.customer', 'organization' => 'customer.organization']
+                ['customer' => 'role.customer', 'organization' => 'role.organization']
             );
             $qb->addCriteria($criteria);
-            $qb->orWhere(
-                'customer.selfManaged = :isActive AND customer.public = :isActive AND customer.customer is NULL'
+
+            $alias = 'role';
+            $expr = $qb->expr()->andX(
+                $qb->expr()->eq($alias . '.selfManaged', ':isActive'),
+                $qb->expr()->eq($alias . '.public', ':isActive'),
+                $qb->expr()->isNull($alias . '.customer')
             );
+            $qb->orWhere($expr);
+
             $qb->setParameter('isActive', true, \PDO::PARAM_BOOL);
+
+            $organizationId = $this->tokenAccessor->getOrganizationId();
+            if ($organizationId) {
+                $expr->add($qb->expr()->eq($alias . '.organization', ':currentCustomerOrganization'));
+                $qb->setParameter('currentCustomerOrganization', $organizationId);
+            }
 
             return new ORMQueryBuilderLoader($qb);
         });

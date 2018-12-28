@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Doctrine\ORM\Query\Expr;
 use Symfony\Bridge\Doctrine\Form\ChoiceList\ORMQueryBuilderLoader;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -55,6 +56,9 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $this->qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->qb->expects($this->any())
+            ->method('expr')
+            ->willReturn(new Expr());
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->tokenAccessor->expects($this->any())->method('getUser')->willReturn($user);
         $this->registry = $this->createMock(ManagerRegistry::class);
@@ -64,7 +68,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
             ->getMock();
         $repo->expects($this->any())
             ->method('createQueryBuilder')
-            ->with('customer')
+            ->with('role')
             ->willReturn($this->qb);
         /** @var $em ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
         $em = $this->createMock('Doctrine\Common\Persistence\ObjectManager');
