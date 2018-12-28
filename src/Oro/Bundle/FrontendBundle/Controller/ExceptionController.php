@@ -60,12 +60,14 @@ class ExceptionController extends BaseExceptionController
     }
 
     /**
-     * @param $code
+     * @param int $code
      * @return string
      */
     protected function getStatusText($code)
     {
-        return array_key_exists($code, Response::$statusTexts) ? Response::$statusTexts[$code] : 'error';
+        $translator = $this->container->get('translator');
+
+        return $translator->trans(sprintf('oro_frontend.exception.status_text.%d', $code));
     }
 
     /**
