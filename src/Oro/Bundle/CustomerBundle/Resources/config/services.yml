@@ -1071,3 +1071,12 @@ services:
         arguments:
             - '@oro_customer.acl.permission_granting_strategy.inner'
         public: false
+
+    oro_customer.filter.privilege_entity_filter.grid_view:
+        class: 'Oro\Bundle\SecurityBundle\Filter\AclPrivilegeEntityByConfigurableNameFilter'
+        public: false
+        arguments:
+            - 'default'
+            - ['Oro\Bundle\CustomerBundle\Entity\GridView']
+        tags:
+            - { name: oro.security.filter.acl_privilege, priority: -100 }
