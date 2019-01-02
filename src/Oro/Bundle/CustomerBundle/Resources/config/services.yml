@@ -1054,3 +1054,12 @@ services:
             - '@oro_security.acl_helper'
             - '@oro_datagrid.columns.helper'
             - '@oro_frontend.request.frontend_helper'
+
+    oro_customer.filter.privilege_entity_filter.grid_view:
+        class: 'Oro\Bundle\SecurityBundle\Filter\AclPrivilegeEntityByConfigurableNameFilter'
+        public: false
+        arguments:
+            - 'default'
+            - ['Oro\Bundle\CustomerBundle\Entity\GridView']
+        tags:
+            - { name: oro.security.filter.acl_privilege, priority: -100 }

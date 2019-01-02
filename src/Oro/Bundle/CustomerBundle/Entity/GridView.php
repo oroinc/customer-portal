@@ -12,6 +12,8 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 
 /**
+ * Grid view entity for customer users.
+ *
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\GridViewRepository")
  * @Config(
  *      defaultValues={
