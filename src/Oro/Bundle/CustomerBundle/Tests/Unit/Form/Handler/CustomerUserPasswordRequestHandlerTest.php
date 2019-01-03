@@ -3,48 +3,76 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\TranslatorInterface;
 
-class CustomerUserPasswordRequestHandlerTest extends AbstractCustomerUserPasswordHandlerTestCase
+class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var CustomerUserPasswordRequestHandler
-     */
-    protected $handler;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|CustomerUserManager */
+    private $userManager;
+
+    /** @var \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface */
+    private $translator;
+
+    /** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
+    private $logger;
+
+    /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface */
+    private $form;
+
+    /** @var \PHPUnit\Framework\MockObject\MockObject|Request */
+    private $request;
+
+    /** @var CustomerUserPasswordRequestHandler */
+    private $handler;
 
     protected function setUp()
     {
-        parent::setUp();
+        $this->userManager = $this->createMock(CustomerUserManager::class);
+        $this->translator = $this->createMock(TranslatorInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
-        $this->handler = new CustomerUserPasswordRequestHandler($this->userManager, $this->translator);
+        $this->handler = new CustomerUserPasswordRequestHandler(
+            $this->userManager,
+            $this->translator,
+            $this->logger
+        );
+
+        $this->form = $this->createMock(FormInterface::class);
+        $this->request = $this->createMock(Request::class);
     }
 
     public function testProcessInvalidUser()
     {
         $email = 'test@test.com';
-        $emailSubform = $this->assertValidFormCall($email);
+
+        $this->assertValidFormCall($email);
 
         $this->userManager->expects($this->once())
             ->method('findUserByUsernameOrEmail')
-            ->with($email);
+            ->with($email)
+            ->willReturn(null);
 
-        $this->assertFormErrorAdded(
-            $emailSubform,
-            'oro.customer.customeruser.profile.email_not_exists',
-            ['%email%' => $email]
-        );
+        $this->userManager->expects($this->never())
+            ->method('sendResetPasswordEmail');
+        $this->userManager->expects($this->never())
+            ->method('updateUser');
 
-        $this->assertFalse($this->handler->process($this->form, $this->request));
+        $this->assertEquals($email, $this->handler->process($this->form, $this->request));
     }
 
     public function testProcessEmailSendFail()
     {
         $email = 'test@test.com';
         $token = 'answerisfourtytwo';
+        $exception = new \Exception();
 
-        $user = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\CustomerUser')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $user = $this->createMock(CustomerUser::class);
         $user->expects($this->once())
             ->method('generateToken')
             ->willReturn($token);
@@ -57,19 +85,25 @@ class CustomerUserPasswordRequestHandlerTest extends AbstractCustomerUserPasswor
         $this->userManager->expects($this->once())
             ->method('findUserByUsernameOrEmail')
             ->with($email)
-            ->will($this->returnValue($user));
+            ->willReturn($user);
 
         $this->userManager->expects($this->once())
             ->method('sendResetPasswordEmail')
             ->with($user)
-            ->will($this->throwException(new \Exception()));
+            ->willThrowException($exception);
 
         $this->assertFormErrorAdded(
             $this->form,
             'oro.email.handler.unable_to_send_email'
         );
+        $this->logger->expects($this->once())
+            ->method('error')
+            ->with(
+                'Unable to sent the reset password email.',
+                ['email' => $email, 'exception' => $exception]
+            );
 
-        $this->assertFalse($this->handler->process($this->form, $this->request));
+        $this->assertNull($this->handler->process($this->form, $this->request));
     }
 
     public function testProcess()
@@ -77,26 +111,24 @@ class CustomerUserPasswordRequestHandlerTest extends AbstractCustomerUserPasswor
         $email = 'test@test.com';
         $token = 'answerisfourtytwo';
 
-        $user = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\CustomerUser')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $user = $this->createMock(CustomerUser::class);
 
         $user->expects($this->once())
             ->method('generateToken')
-            ->will($this->returnValue($token));
+            ->willReturn($token);
         $user->expects($this->once())
             ->method('setConfirmationToken')
             ->with($token);
         $user->expects($this->once())
             ->method('setPasswordRequestedAt')
-            ->with($this->isInstanceOf('\DateTime'));
+            ->with($this->isInstanceOf(\DateTime::class));
 
         $this->assertValidFormCall($email);
 
         $this->userManager->expects($this->once())
             ->method('findUserByUsernameOrEmail')
             ->with($email)
-            ->will($this->returnValue($user));
+            ->willReturn($user);
 
         $this->userManager->expects($this->once())
             ->method('sendResetPasswordEmail')
@@ -106,7 +138,7 @@ class CustomerUserPasswordRequestHandlerTest extends AbstractCustomerUserPasswor
             ->method('updateUser')
             ->with($user);
 
-        $this->assertEquals($user, $this->handler->process($this->form, $this->request));
+        $this->assertEquals($email, $this->handler->process($this->form, $this->request));
     }
 
     public function testProcessForCustomerUserWithExistingToken()
@@ -131,40 +163,55 @@ class CustomerUserPasswordRequestHandlerTest extends AbstractCustomerUserPasswor
             ->method('updateUser')
             ->with($user);
 
-        $this->assertEquals($user, $this->handler->process($this->form, $this->request));
+        $this->assertEquals($email, $this->handler->process($this->form, $this->request));
         $this->assertNotEquals('test', $user->getConfirmationToken());
+    }
+
+    /**
+     * @param \PHPUnit\Framework\MockObject\MockObject|FormInterface $form
+     * @param string $message
+     */
+    public function assertFormErrorAdded($form, $message)
+    {
+        $this->translator->expects($this->once())
+            ->method('trans')
+            ->with($message)
+            ->willReturn($message);
+
+        $form->expects($this->once())
+            ->method('addError')
+            ->with(new FormError($message));
     }
 
     /**
      * @param string $email
      */
-    protected function assertValidFormCall($email)
+    private function assertValidFormCall($email)
     {
-        parent::assertValidForm();
-
         $this->request->expects($this->once())
             ->method('isMethod')
             ->with('POST')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
+
         $this->form->expects($this->once())
             ->method('handleRequest')
             ->with($this->request);
         $this->form->expects($this->once())
             ->method('isSubmitted')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $this->form->expects($this->once())
             ->method('isValid')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $emailSubform = $this->createMock('Symfony\Component\Form\FormInterface');
+        $emailSubform = $this->createMock(FormInterface::class);
         $emailSubform->expects($this->once())
             ->method('getData')
-            ->will($this->returnValue($email));
+            ->willReturn($email);
 
         $this->form->expects($this->once())
             ->method('get')
             ->with('email')
-            ->will($this->returnValue($emailSubform));
+            ->willReturn($emailSubform);
 
         return $emailSubform;
     }

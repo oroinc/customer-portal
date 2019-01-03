@@ -13,7 +13,7 @@ Feature: Expired reset password token regeneration
     And I fill form with:
       | Email Address | test@example.org |
     And I confirm reset password
-    Then I should see "An email has been sent to ...@example.org. It contains a link you must click to reset your password."
+    Then I should see "If there is a user account associated with ...@example.org you will receive an email with a link to reset your password."
     And Email should contains the following:
       | To      | test@example.org            |
       | Subject | Reset Account User Password |

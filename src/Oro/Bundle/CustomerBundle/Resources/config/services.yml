@@ -254,20 +254,17 @@ services:
         arguments:
             - "@oro_security.token_accessor"
 
-    oro_customer.customer_user.password.handler.abstract:
-        class: 'Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserPasswordHandler'
-        abstract: true
+    oro_customer.customer_user.password_request.handler:
+        class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler'
         arguments:
             - "@oro_customer_user.manager"
             - "@translator"
-
-    oro_customer.customer_user.password_request.handler:
-        class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler'
-        parent: oro_customer.customer_user.password.handler.abstract
+            - "@logger"
 
     oro_customer.customer_user.password_reset.handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler'
-        parent: oro_customer.customer_user.password.handler.abstract
+        arguments:
+            - "@oro_customer_user.manager"
 
     oro_customer.acl.voter.customer_user_role:
         class: 'Oro\Bundle\CustomerBundle\Acl\Voter\CustomerUserRoleVoter'
