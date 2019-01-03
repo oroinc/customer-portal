@@ -67,7 +67,7 @@ class ClassMigration
         /** @var Connection $defaultConnection */
         $defaultConnection = $this->managerRegistry->getConnection();
 
-        if (!$this->isUpdateRequired($defaultConnection, $from)) {
+        if (!$this->isUpdateRequired($defaultConnection, $from, $to)) {
             return; // all data already was migrated
         }
 
@@ -110,9 +110,10 @@ class ClassMigration
     /**
      * @param Connection $defaultConnection
      * @param string $from
+     * @param string $to
      * @return bool
      */
-    protected function isUpdateRequired(Connection $defaultConnection, $from)
+    protected function isUpdateRequired(Connection $defaultConnection, $from, $to)
     {
         try {
             $preparedFrom = $this->prepareFrom($defaultConnection, $from);
