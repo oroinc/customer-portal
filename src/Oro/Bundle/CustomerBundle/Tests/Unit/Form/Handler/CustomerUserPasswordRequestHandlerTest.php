@@ -22,17 +22,16 @@ class CustomerUserPasswordRequestHandlerTest extends AbstractCustomerUserPasswor
     public function testProcessInvalidUser()
     {
         $email = 'test@test.com';
-        $emailSubform = $this->assertValidFormCall($email);
+        $this->assertValidFormCall($email);
 
         $this->userManager->expects($this->once())
             ->method('findUserByUsernameOrEmail')
             ->with($email);
 
-        $this->assertFormErrorAdded(
-            $emailSubform,
-            'oro.customer.customeruser.profile.email_not_exists',
-            ['%email%' => $email]
-        );
+        $this->userManager->expects($this->never())
+            ->method('sendResetPasswordEmail');
+        $this->userManager->expects($this->never())
+            ->method('updateUser');
 
         $this->assertFalse($this->handler->process($this->form, $this->request));
     }

@@ -55,8 +55,6 @@ class CustomerUserPasswordRequestHandler extends AbstractCustomerUserPasswordHan
     protected function validateUser(FormInterface $form, $email, CustomerUser $user = null)
     {
         if (!$user) {
-            $this->addFormError($form, 'oro.customer.customeruser.profile.email_not_exists', ['%email%' => $email]);
-
             return false;
         }
 
