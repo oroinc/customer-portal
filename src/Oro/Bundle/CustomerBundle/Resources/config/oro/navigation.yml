@@ -149,7 +149,7 @@ navigation:
                 label: 'oro.customer.menu.customer_user_profile.label'
                 route: 'oro_customer_frontend_customer_user_profile'
                 position: 10
-                acl_resource_id: 'oro_customer_frontend_customer_user_view'
+                display_children: false
 
             frontend_customer_users:
                 label: 'oro.customer.menu.customer_user.label'
