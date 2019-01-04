@@ -59,8 +59,18 @@ class CustomerUserProfileController extends Controller
             return $resultHandler;
         }
 
+        $referer = $request->headers->get('referer');
+        $parsedReferer = parse_url($referer);
+
+        if (isset($parsedReferer['host']) && $request->getHost() === $parsedReferer['host']) {
+            $fromUrl = $referer;
+        } else {
+            $fromUrl = $this->get('router')->generate('oro_customer_frontend_customer_user_profile');
+        }
+
         return [
             'data' => [
+                'backToUrl' => $fromUrl,
                 'entity' => $customerUser
             ]
         ];
