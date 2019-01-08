@@ -55,8 +55,8 @@ class ForgotPasswordHandler
             return false;
         }
         $form = $this->customerUserFormProvider->getForgotPasswordForm();
-        $user = $this->passwordRequestHandler->process($form, $request);
-        if (!$user) {
+        $email = $this->passwordRequestHandler->process($form, $request);
+        if (!$email) {
             return false;
         }
 
@@ -64,7 +64,7 @@ class ForgotPasswordHandler
         $request->query->add(['isCheckEmail' => true]);
         $this->session->set(
             'oro_customer_user_reset_email',
-            $this->getObfuscatedEmail($user->getEmail())
+            $this->getObfuscatedEmail($email)
         );
 
         return true;

@@ -992,62 +992,6 @@ datagrids:
         options:
             frontend: true
 
-    audit-grid:
-        source:
-            query:
-                select:
-                    author: |
-                        CASE WHEN u.email IS NOT NULL THEN CONCAT(u.firstName, ' ', u.lastName, ' - ', u.email)
-                        ELSE CONCAT(b2b_u.firstName, ' ', b2b_u.lastName, ' - ', b2b_u.email) END as author
-                join:
-                    left:
-                        b2b_audit:
-                            join: OroCustomerBundle:Audit
-                            alias: b2b_a
-                            conditionType: WITH
-                            condition: b2b_a.id = a.id
-                        b2b_user:
-                            join: b2b_a.customerUser
-                            alias: b2b_u
-
-    audit-history-grid:
-        source:
-            query:
-                select:
-                    author: |
-                        CASE WHEN u.email IS NOT NULL THEN CONCAT(u.firstName, ' ', u.lastName, ' - ', u.email)
-                        ELSE CONCAT(b2b_u.firstName, ' ', b2b_u.lastName, ' - ', b2b_u.email) END as author
-                join:
-                    left:
-                        b2b_audit:
-                            join: OroCustomerBundle:Audit
-                            alias: b2b_a
-                            conditionType: WITH
-                            condition: b2b_a.id = a.id
-                        b2b_user:
-                            join: b2b_a.customerUser
-                            alias: b2b_u
-                groupBy: a.id, author
-
-# Disabled as per BAP-9497
-#    frontend-audit-history-grid:
-#        acl_resource: oro_customer_dataaudit_history
-#        extends: audit-history-grid
-#        source:
-#            query:
-#                select:
-#                    author: |
-#                        CASE WHEN u.email IS NULL THEN CONCAT(b2b_u.firstName, ' ', b2b_u.lastName, ' - ', b2b_u.email)
-#                        ELSE '' END as author
-#                groupBy: b2b_u.firstName, b2b_u.lastName, b2b_u.email, a.id , u.email
-#        columns:
-#            author:
-#                label: oro.dataaudit.datagrid.author
-#                type: twig
-#                template: OroCustomerBundle:DataAudit:author.html.twig
-#                frontend_type: html
-#                data_name: author
-
     frontend-customer-address-grid-base:
         source:
             type: orm

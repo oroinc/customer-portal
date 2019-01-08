@@ -129,6 +129,17 @@ define(function(require) {
                 this.selectDropdownOpened = true;
                 this.toggleFilter();
             }
+        },
+
+        /**
+         * @inheritDoc
+         */
+        _getSelectWidgetPosition: function() {
+            var position = FrontendSelectFilter.__super__._getSelectWidgetPosition.call(this);
+
+            return _.extend({}, position, {
+                my: 'left top'
+            });
         }
     }));
 

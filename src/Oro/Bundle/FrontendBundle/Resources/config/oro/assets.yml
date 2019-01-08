@@ -1,4 +1,3 @@
-assets:
-    css:
-        inputs:
-            - 'bundles/orofrontend/css/style.css'
+css:
+    inputs:
+        - 'bundles/orofrontend/css/style.css'

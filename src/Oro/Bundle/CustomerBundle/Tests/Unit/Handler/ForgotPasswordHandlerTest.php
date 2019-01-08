@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Provider;
 
+use Oro\Bundle\CheckoutBundle\Handler\ForgotPasswordHandler;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Handler\ForgotPasswordHandler;
@@ -88,14 +89,10 @@ class ForgotPasswordHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('getForgotPasswordForm')
             ->willReturn($form);
 
-        $user = $this->createMock(CustomerUser::class);
-        $user->expects($this->once())
-            ->method('getEmail')
-            ->willReturn('test@example.org');
         $this->passwordRequestHandler->expects($this->once())
             ->method('process')
             ->with($form, $request)
-            ->willReturn($user);
+            ->willReturn('test@example.org');
 
         $this->session->expects($this->once())
             ->method('set')
