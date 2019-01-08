@@ -278,7 +278,6 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertEquals('Forgot Your Password?', $crawler->filter('h2')->html());
 
-        $this->assertUnknownEmail($crawler);
         $this->assertKnownEmail($crawler);
 
         // Follow reset password link
@@ -360,30 +359,6 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $this->client->followRedirects(false);
 
         return $this->client->submit($form, $submittedData);
-    }
-
-    /**
-     * @param Crawler $crawler
-     */
-    protected function assertUnknownEmail(Crawler $crawler)
-    {
-        $unknownEmail = 'unknown@example.com';
-        $form = $crawler->selectButton('Request')->form();
-        $submittedData = [
-            'oro_customer_customer_user_password_request' => [
-                '_token' => $form->get('oro_customer_customer_user_password_request[_token]')->getValue(),
-                'email' => $unknownEmail
-            ]
-        ];
-
-        $this->client->followRedirects(true);
-
-        $crawler = $this->client->submit($form, $submittedData);
-        $this->assertEquals('Forgot Your Password?', $crawler->filter('h2')->html());
-        $this->assertContains(
-            'Email address "'. $unknownEmail .'" does not exist.',
-            $crawler->html()
-        );
     }
 
     /**

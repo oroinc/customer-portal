@@ -14,18 +14,18 @@
 
 {% block breadcrumbs %}
     {{ parent() }}
-    <div class="pull-left">
+    <span class="page-title__status">
         {% if entity.enabled %}
-            <div class="badge badge-pill badge-enabled status-enabled"><i class="fa-circle"></i>{{ 'oro.customer.customeruser.profile.statuses.active'|trans }}</div>
+            {{ UI.badge('oro.customer.customeruser.profile.statuses.active'|trans, 'enabled') }}
         {% else %}
-            <div class="badge badge-pill badge-disabled status-disabled"><i class="fa-circle"></i>{{ 'oro.customer.customeruser.profile.statuses.inactive'|trans }}</div>
+            {{ UI.badge('oro.customer.customeruser.profile.statuses.inactive'|trans, 'disabled') }}
         {% endif %}
         {% if entity.confirmed %}
-            <div class="badge badge-pill badge-enabled status-enabled"><i class="fa-circle"></i>{{ 'oro.customer.customeruser.profile.statuses.confirmed'|trans }}</div>
+            {{ UI.badge('oro.customer.customeruser.profile.statuses.confirmed'|trans, 'enabled') }}
         {% else %}
-            <div class="badge badge-pill badge-disabled status-disabled"><i class="fa-circle"></i>{{ 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans }}</div>
+            {{ UI.badge('oro.customer.customeruser.profile.statuses.unconfirmed'|trans, 'disabled') }}
         {% endif %}
-    </div>
+    </span>
 {% endblock breadcrumbs %}
 
 {% block stats %}

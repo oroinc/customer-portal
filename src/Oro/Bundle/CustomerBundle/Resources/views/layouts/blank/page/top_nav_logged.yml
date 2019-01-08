@@ -33,7 +33,6 @@ layout:
                     options:
                         route_name: oro_customer_frontend_customer_user_profile
                         text: 'oro.customer.frontend.menu.customer_user_profile.label'
-                        visible: '=data["acl"].isGranted("oro_customer_frontend_update_own_profile") || data["acl"].isGranted("oro_customer_frontend_customer_user_view")'
             tree:
                 top_nav_container:
                     top_nav_controls:

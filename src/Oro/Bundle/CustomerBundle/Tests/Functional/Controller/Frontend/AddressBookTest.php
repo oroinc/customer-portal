@@ -26,7 +26,7 @@ class AddressBookTest extends WebTestCase
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_profile')
         );
-        $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertFalse($this->isAddressBookMenuVisible($crawler));
 
         $this->client->request(
