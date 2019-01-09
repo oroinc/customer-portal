@@ -1049,6 +1049,7 @@ services:
 
     oro_customer.access_rule.self_managed_public_customer_user_role:
         class: Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule
+        public: false
         arguments:
             - '@oro_security.token_accessor'
         tags:
