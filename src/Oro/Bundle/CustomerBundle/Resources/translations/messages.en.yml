@@ -227,7 +227,7 @@ oro.customer:
             email_not_exists: 'Email address "%email%" does not exist.'
             check_email:
                 title: 'Check Email'
-                message: 'An email has been sent to %email%. It contains a link you must click to reset your password.'
+                message: 'If there is a user account associated with %email% you will receive an email with a link to reset your password.'
             edit: 'Edit Profile'
             label: 'Profile'
             password.reset.ttl_expired.message: The create password link has expired.

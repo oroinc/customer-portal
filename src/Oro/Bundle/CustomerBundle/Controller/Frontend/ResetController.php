@@ -36,8 +36,14 @@ class ResetController extends Controller
 
         $request = $this->get('request_stack')->getCurrentRequest();
         $user = $handler->process($form, $request);
+        $userEmail = null;
         if ($user) {
-            $this->get('session')->set(static::SESSION_EMAIL, $this->getObfuscatedEmail($user));
+            $userEmail = $user->getEmail();
+        } elseif ($request->isMethod('POST') && $form->isValid()) {
+            $userEmail = $form->get('email')->getData();
+        }
+        if ($userEmail) {
+            $this->get('session')->set(static::SESSION_EMAIL, $this->getObfuscatedEmailAddress($userEmail));
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_reset_check_email'));
         }
 
@@ -138,8 +144,19 @@ class ResetController extends Controller
      */
     protected function getObfuscatedEmail(CustomerUser $user)
     {
-        $email = $user->getEmail();
+        return $this->getObfuscatedEmailAddress($user->getEmail());
+    }
 
+    /**
+     * Get the truncated email displayed when requesting the resetting.
+     * The default implementation only keeps the part following @ in the address.
+     *
+     * @param string $email
+     *
+     * @return string
+     */
+    private function getObfuscatedEmailAddress($email)
+    {
         if (false !== $pos = strpos($email, '@')) {
             $email = '...' . substr($email, $pos);
         }
