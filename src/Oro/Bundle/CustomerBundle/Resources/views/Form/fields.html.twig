@@ -53,7 +53,7 @@
 {% endblock %}
 
 {% block oro_address_collection_widget %}
-    {% set attr = attr|merge({'class': (attr.class is defined ? attr.class ~ ' ' : '') ~ 'oro-address-collection' }) %}
+    {% set attr = attr|merge({'class': (attr.class is defined ? attr.class ~ ' ' : '') ~ 'collection-fields-list-bg oro-address-collection' }) %}
         {% set options = {
             disableDefaultWithoutType: true,
             disableRepeatedTypes: true

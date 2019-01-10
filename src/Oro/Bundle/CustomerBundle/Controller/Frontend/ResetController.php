@@ -41,9 +41,9 @@ class ResetController extends Controller
             ->getForgotPasswordForm();
 
         $request = $this->get('request_stack')->getCurrentRequest();
-        $user = $handler->process($form, $request);
-        if ($user) {
-            $this->get('session')->set(static::SESSION_EMAIL, $this->getObfuscatedEmail($user->getEmail()));
+        $email = $handler->process($form, $request);
+        if ($email) {
+            $this->get('session')->set(static::SESSION_EMAIL, $this->getObfuscatedEmail($email));
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_reset_check_email'));
         }
 
