@@ -359,7 +359,7 @@ class CustomerTest extends RestJsonApiTestCase
         $this->assertResponseValidationError(
             [
                 'title'  => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "createdAt", "updatedAt"'
+                'detail' => 'This form should not contain extra fields: "createdAt", "updatedAt".'
             ],
             $response
         );
