@@ -53,28 +53,12 @@ class CustomerUserRegisterController extends Controller
      */
     protected function handleForm(Request $request)
     {
-        $form = $this->get('oro_customer.provider.frontend_customer_user_registration_form')
-            ->getRegisterForm();
-        $userManager = $this->get('oro_customer_user.manager');
-
-        $registrationMessage = 'oro.customer.controller.customeruser.registered.message';
-        if ($userManager->isConfirmationRequired()) {
-            $registrationMessage = 'oro.customer.controller.customeruser.registered_with_confirmation.message';
-        }
-
-        $handler = $this->get('oro_customer.handler.frontend_customer_user_handler');
-
-        $response = $this->get('oro_form.update_handler')->update(
-            $form->getData(),
-            $form,
-            $this->get('translator')->trans($registrationMessage),
-            $request,
-            $handler
-        );
+        $registrationHandler = $this->get('oro_customer.handler.customer_registration_handler');
+        $response = $registrationHandler->handleRegistration($request);
 
         if ($response instanceof Response) {
             /** @var CustomerUser $customerUser */
-            $customerUser = $form->getData();
+            $customerUser = $registrationHandler->getForm()->getData();
             $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
             $this->get('event_dispatcher')->dispatch(CustomerUserEvents::REGISTRATION_COMPLETED, $event);
 

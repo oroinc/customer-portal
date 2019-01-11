@@ -83,7 +83,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
                 ]
             ]);
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|TokenInterface $token */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|TokenInterface $token */
         $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
         $this->assertEquals(
             $expected,

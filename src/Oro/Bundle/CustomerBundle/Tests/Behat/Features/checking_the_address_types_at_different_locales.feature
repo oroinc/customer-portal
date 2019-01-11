@@ -16,11 +16,10 @@ Feature: Checking the address types at different locales
     Given I proceed as the Admin
     And I login as administrator
     When I go to System / Configuration
-    And I follow "System Configuration/General Setup/Language Settings" on configuration sidebar
+    And I follow "System Configuration/General Setup/Localization" on configuration sidebar
     And I fill form with:
-      | Supported Languages | [English, Zulu] |
-      | Use Default         | false           |
-      | Default Language    | Zulu            |
+      | Enabled Localizations | [English, Zulu_Loc] |
+      | Default Localization  | Zulu_Loc            |
     And I submit form
     Then I should see "Configuration saved" flash message
 

@@ -150,7 +150,7 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
                     'types' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING],
                     'defaults' => ['default' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING]],
                     'primary' => true,
-                    'frontendOwner' => $customer
+                    'frontendOwner' => $customer->getId()
                 ],
                 'expectedData' => $customerAddressExpected,
                 'otherAddresses' => [$customerAddress2],
@@ -171,7 +171,7 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
         $submittedData = [
             'types' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING],
             'defaults' => ['default' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING]],
-            'frontendOwner' => $customer
+            'frontendOwner' => $customer->getId()
         ];
 
         $form = $this->factory->create($this->getTypeClass(), $customerAddress1, []);

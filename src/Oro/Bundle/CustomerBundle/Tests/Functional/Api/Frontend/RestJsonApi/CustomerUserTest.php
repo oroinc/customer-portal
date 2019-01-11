@@ -178,7 +178,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         $this->assertResponseValidationError(
             [
                 'title'  => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "enabled", "confirmed"'
+                'detail' => 'This form should not contain extra fields: "enabled", "confirmed".'
             ],
             $response
         );
@@ -246,7 +246,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         $this->assertResponseValidationError(
             [
                 'title'  => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "enabled", "confirmed"'
+                'detail' => 'This form should not contain extra fields: "enabled", "confirmed".'
             ],
             $response
         );
