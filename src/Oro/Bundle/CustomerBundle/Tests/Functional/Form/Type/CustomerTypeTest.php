@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerAddresses;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
@@ -16,23 +15,29 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CustomerTypeTest extends WebTestCase
 {
+    private const PRIMARY_ADDRESS = 0;
+
     protected function setUp()
     {
         $this->initClient([], static::generateBasicAuthHeader());
-        $this->loadFixtures([LoadCustomerAddresses::class]);
+        $this->loadFixtures([LoadCustomers::class]);
     }
 
     /**
-     * @param bool $primary
+     * @param array $addressData
      *
      * @dataProvider formAddressTypeDataProvider
      */
-    public function testCreatePrimaryAddress(bool $primary): void
+    public function testCreatePrimaryAddress(array $addressData): void
     {
-        $crawler = $this->submitCustomerForm($primary);
+        $crawler = $this->submitCustomerForm($addressData);
 
-        $this->assertNotContains('One of the addresses must be set as primary.', $crawler->html());
-        $this->assertContains('Customer has been saved', $crawler->html());
+        $addresses = $this->getCustomer()->getAddresses();
+
+        self::assertCount(1, $addresses);
+        self::assertTrue($addresses->first()->isPrimary());
+        self::assertContains('Customer has been saved', $crawler->html());
+        self::assertNotContains('One of the addresses must be set as primary.', $crawler->html());
     }
 
     /**
@@ -40,28 +45,42 @@ class CustomerTypeTest extends WebTestCase
      */
     public function formAddressTypeDataProvider(): array
     {
+        $addressData = [
+            'label' => 'Address',
+            'firstName' => 'Acme',
+            'lastName' => 'ACme',
+            'country' => 'US',
+            'street' => '19200 Canis Heights Drive',
+            'city' => 'Los Angeles',
+            'region' => 'US-CA',
+            'postalCode' => '90071',
+            'types' => ['billing', 'shipping'],
+            'defaults' => ['default' => ['billing', 'shipping']],
+        ];
+
         return [
             'set address as not primary' => [
-                'primary' => false
+                'address' => array_merge($addressData, ['primary' => false])
             ],
             'set address as primary' => [
-                'primary' => true
+                'address' => array_merge($addressData, ['primary' => true])
             ]
         ];
     }
 
+
     /**
-     * @param bool $primary
+     * @param array $addressData
      *
      * @return Crawler
      */
-    private function submitCustomerForm(bool $primary): Crawler
+    private function submitCustomerForm(array $addressData): Crawler
     {
         $form = $this->getUpdateForm();
 
         $submittedData = $form->getPhpValues();
         $submittedData['input_action'] = 'save_and_stay';
-        $submittedData['oro_customer_type']['addresses'][0]['primary'] = $primary;
+        $submittedData['oro_customer_type']['addresses'][self::PRIMARY_ADDRESS] = $addressData;
 
         $this->client->followRedirects(true);
         $crawler = $this->client->request($form->getMethod(), $form->getUri(), $submittedData);
@@ -74,13 +93,13 @@ class CustomerTypeTest extends WebTestCase
     /**
      * @return Form
      */
-    private function getUpdateForm()
+    private function getUpdateForm(): Form
     {
         $crawler = $this->client->request(
             Request::METHOD_GET,
             $this->getUrl(
                 'oro_customer_customer_update',
-                ['id' => $this->getCustomerId()]
+                ['id' => $this->getCustomer()->getId()]
             )
         );
         $result = $this->client->getResponse();
@@ -90,13 +109,10 @@ class CustomerTypeTest extends WebTestCase
     }
 
     /**
-     * @return integer
+     * @return Customer
      */
-    private function getCustomerId(): int
+    private function getCustomer(): Customer
     {
-        /** @var Customer $customer */
-        $customer = $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1);
-
-        return $customer->getId();
+        return $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1);
     }
 }
