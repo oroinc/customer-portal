@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * CRUD controller for CustomerUser entity
+ */
 class CustomerUserController extends Controller
 {
     /**
@@ -112,21 +115,9 @@ class CustomerUserController extends Controller
             $this->get('logger')
         );
 
-        $result = $this->get('oro_form.model.update_handler')->handleUpdate(
+        $result = $this->get('oro_form.model.update_handler')->update(
             $customerUser,
             $form,
-            function (CustomerUser $customerUser) {
-                return [
-                    'route' => 'oro_customer_frontend_customer_user_update',
-                    'parameters' => ['id' => $customerUser->getId()]
-                ];
-            },
-            function (CustomerUser $customerUser) {
-                return [
-                    'route' => 'oro_customer_frontend_customer_user_view',
-                    'parameters' => ['id' => $customerUser->getId()]
-                ];
-            },
             $this->get('translator')->trans('oro.customer.controller.customeruser.saved.message'),
             $handler
         );

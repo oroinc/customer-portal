@@ -1,6 +1,8 @@
 /* @theme: blank; */
 
 .info-list {
+    width: $info-list-width;
+
     margin: $info-list-offset;
     padding: $info-list-inner-offset;
 
@@ -14,10 +16,14 @@
 
     &__name {
         width: $info-list-name-width;
+        min-width: $info-list-name-min-width;
         margin: $info-list-name-offset;
 
         &:after {
             content: $info-list-name-after-content;
+
+            margin-left: $info-list-name-after-offset-left;
+            position: $info-list-name-after-position;
         }
     }
 }
@@ -28,6 +34,7 @@
 
         &__name {
             width: $info-list-name-mobile-width;
+            max-width: $info-list-name-mobile-width;
             margin: $info-list-name-mobile-offset;
         }
     }

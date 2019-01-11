@@ -1047,6 +1047,23 @@ services:
             - '@oro_customer.security.orm.ownership_sql_walker_builder.inner'
             - '@oro_security.acl.group_provider.chain'
 
+    oro_customer.handler.customer_registration_handler:
+        class: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler
+        arguments:
+            - '@oro_customer.provider.frontend_customer_user_registration_form'
+            - '@oro_customer_user.manager'
+            - '@oro_customer.handler.frontend_customer_user_handler'
+            - '@oro_form.update_handler'
+            - '@translator'
+
+    oro_customer.handler.forgot_password:
+        class: 'Oro\Bundle\CustomerBundle\Handler\ForgotPasswordHandler'
+        lazy: true
+        arguments:
+            - '@oro_customer.customer_user.password_request.handler'
+            - '@oro_customer.provider.frontend_customer_user_form'
+            - '@session'
+
     oro_customer.access_rule.self_managed_public_customer_user_role:
         class: Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule
         public: false

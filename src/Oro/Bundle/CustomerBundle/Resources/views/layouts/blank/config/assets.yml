@@ -7,6 +7,7 @@ styles:
         - 'bundles/orocustomer/blank/scss/variables/customer-info-grid-config.scss'
         - 'bundles/orocustomer/blank/scss/variables/customer-line-items-config.scss'
         - 'bundles/orocustomer/blank/scss/variables/info-list-config.scss'
+        - 'bundles/orocustomer/blank/scss/variables/customer-profile-config.scss'
 
 
         - 'bundles/orocustomer/blank/scss/components/topbar-customer-menu.scss'
