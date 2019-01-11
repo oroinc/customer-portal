@@ -274,7 +274,7 @@ class RestCustomerUserAddressTest extends AbstractRestTest
         $this->assertResponseValidationError(
             [
                 'title' => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "systemOrganization"'
+                'detail' => 'This form should not contain extra fields: "systemOrganization".'
             ],
             $response
         );

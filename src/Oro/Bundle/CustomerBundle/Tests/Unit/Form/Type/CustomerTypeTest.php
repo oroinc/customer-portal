@@ -261,12 +261,13 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'name' => 'customer_name',
                     'group' => 1,
                     'parent' => 2,
-                    'internal_rating' => []
+                    'internal_rating' => ''
                 ],
                 'expectedData' => [
                     'name' => 'customer_name',
                     'group' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
                     'parent' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2),
+                    'internal_rating' => null,
                     'addresses' => [],
                     'salesRepresentatives' => [],
                 ]
@@ -278,13 +279,13 @@ class CustomerTypeTest extends FormIntegrationTestCase
                 'submittedData' => [
                     'name' => 'customer_name',
                     'group' => 1,
-                    'parent' => 2,
-                    'internal_rating' => []
+                    'parent' => 2
                 ],
                 'expectedData' => [
                     'name' => 'customer_name',
                     'group' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
                     'parent' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2),
+                    'internal_rating' => null,
                     'salesRepresentatives' => [],
                 ],
                 'addressGranted' => false
