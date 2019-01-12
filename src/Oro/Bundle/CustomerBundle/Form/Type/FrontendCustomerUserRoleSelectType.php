@@ -96,6 +96,9 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
                 'ASSIGN',
                 ['customer' => 'role.customer', 'organization' => 'role.organization']
             );
+            $criteria->andWhere(Criteria::expr()->eq('role.selfManaged', true));
+            $criteria->andWhere(Criteria::expr()->eq('role.public', true));
+
             $qb->addCriteria($criteria);
 
             $alias = 'role';

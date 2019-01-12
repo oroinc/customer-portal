@@ -51,6 +51,8 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $organization = $this->createOrganization(1);
         $user = new CustomerUser();
         $criteria = new Criteria();
+        $criteria->andWhere(Criteria::expr()->eq('role.selfManaged', true));
+        $criteria->andWhere(Criteria::expr()->eq('role.public', true));
         $user->setCustomer($customer);
         $user->setOrganization($organization);
         $this->qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')

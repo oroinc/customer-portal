@@ -59,6 +59,8 @@ class CustomerUserRoleDatagridListener
                 'VIEW',
                 ['customer' => $alias.'.customer', 'organization' => $alias.'.organization']
             );
+            $criteria->andWhere(Criteria::expr()->eq($alias . '.selfManaged', true));
+            $criteria->andWhere(Criteria::expr()->eq($alias . '.public', true));
 
             $qb->addCriteria($criteria);
 
