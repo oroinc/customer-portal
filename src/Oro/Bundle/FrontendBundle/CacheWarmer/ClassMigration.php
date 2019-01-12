@@ -118,7 +118,8 @@ class ClassMigration
         try {
             $preparedFrom = $this->prepareFrom($defaultConnection, $from);
             $configCheck = $defaultConnection->fetchColumn(
-                "SELECT id FROM oro_entity_config WHERE class_name LIKE '%$preparedFrom%' LIMIT 1"
+                'SELECT id FROM oro_entity_config WHERE class_name LIKE :preparedFrom LIMIT 1',
+                ['preparedFrom' => "%$preparedFrom%"]
             );
         } catch (\Exception $e) {
             return false;
@@ -221,7 +222,10 @@ class ClassMigration
     protected function migrateTableColumn(Connection $connection, $table, $column, $from, $to)
     {
         $preparedFrom = $this->prepareFrom($connection, $from);
-        $rows = $connection->fetchAll("SELECT id, $column FROM $table WHERE $column LIKE '%$preparedFrom%'");
+        $rows = $connection->fetchAll(
+            "SELECT id, $column FROM $table WHERE $column LIKE :preparedFrom",
+            ['preparedFrom' => "%$preparedFrom%"]
+        );
         foreach ($rows as $row) {
             $id = $row['id'];
             $originalValue = $row[$column];
