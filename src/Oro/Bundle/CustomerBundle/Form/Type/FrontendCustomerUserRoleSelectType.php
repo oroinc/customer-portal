@@ -83,7 +83,7 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
                 $repo = $this->registry->getManagerForClass($this->roleClass)->getRepository($this->roleClass);
                 return $repo->createQueryBuilder('customer');
             },
-            'acl_options' => ['permission' => 'ASSIGN']
+            'acl_options' => ['permission' => 'VIEW']
         ]);
     }
 

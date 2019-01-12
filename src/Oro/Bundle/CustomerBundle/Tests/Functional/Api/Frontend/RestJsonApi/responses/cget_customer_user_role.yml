@@ -36,42 +36,6 @@ data:
                 data: []
     -
         type: customeruserroles
-        id: '<toString(@role_customer_not_self_managed_not_public->id)>'
-        attributes:
-            label: 'Customer Role (Not Self Managed, Not Public)'
-        relationships:
-            customer:
-                data:
-                    type: customers
-                    id: '<toString(@customer->id)>'
-            customerUsers:
-                data: []
-    -
-        type: customeruserroles
-        id: '<toString(@role_customer_not_self_managed_public->id)>'
-        attributes:
-            label: 'Customer Role (Not Self Managed, Public)'
-        relationships:
-            customer:
-                data:
-                    type: customers
-                    id: '<toString(@customer->id)>'
-            customerUsers:
-                data: []
-    -
-        type: customeruserroles
-        id: '<toString(@role_customer_self_managed_not_public->id)>'
-        attributes:
-            label: 'Customer Role (Self Managed, Not Public)'
-        relationships:
-            customer:
-                data:
-                    type: customers
-                    id: '<toString(@customer->id)>'
-            customerUsers:
-                data: []
-    -
-        type: customeruserroles
         id: '<toString(@role_customer_self_managed_public->id)>'
         attributes:
             label: 'Customer Role (Self Managed, Public)'
@@ -80,42 +44,6 @@ data:
                 data:
                     type: customers
                     id: '<toString(@customer->id)>'
-            customerUsers:
-                data: []
-    -
-        type: customeruserroles
-        id: '<toString(@role_child_customer_not_self_managed_not_public->id)>'
-        attributes:
-            label: 'Child Customer Role (Not Self Managed, Not Public)'
-        relationships:
-            customer:
-                data:
-                    type: customers
-                    id: '<toString(@child_customer->id)>'
-            customerUsers:
-                data: []
-    -
-        type: customeruserroles
-        id: '<toString(@role_child_customer_not_self_managed_public->id)>'
-        attributes:
-            label: 'Child Customer Role (Not Self Managed, Public)'
-        relationships:
-            customer:
-                data:
-                    type: customers
-                    id: '<toString(@child_customer->id)>'
-            customerUsers:
-                data: []
-    -
-        type: customeruserroles
-        id: '<toString(@role_child_customer_self_managed_not_public->id)>'
-        attributes:
-            label: 'Child Customer Role (Self Managed, Not Public)'
-        relationships:
-            customer:
-                data:
-                    type: customers
-                    id: '<toString(@child_customer->id)>'
             customerUsers:
                 data: []
     -

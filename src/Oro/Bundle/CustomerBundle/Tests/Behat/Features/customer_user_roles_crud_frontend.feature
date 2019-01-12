@@ -1,10 +1,25 @@
 @ticket-BB-8128
+@ticket-BB-15477
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
+@fixture-OroCustomerBundle:CustomerUserRoleFixture.yml
 Feature: Customer user roles crud frontend
   In order to control customer user permissions
   As an Buyer
   I want to be able to manage user roles
+
+  Scenario: Customer user should not see not self-managed roles in grid list
+    Given I signed in as NancyJSallee@example.org on the store frontend
+    And I click "Account"
+    And I click "Roles"
+    Then I should see following grid:
+      | Role                               | Type         |
+      | Administrator                      | Predefined   |
+      | Buyer                              | Predefined   |
+      | customer assigned self managed     | Customizable |
+      | customer not assigned self managed | Predefined   |
+    And I should not see "customer assigned not self managed"
+    And I should not see "not customer not assigned not self managed"
 
   Scenario: Customer user role create
     Given I signed in as NancyJSallee@example.org on the store frontend
