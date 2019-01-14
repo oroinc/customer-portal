@@ -13,84 +13,29 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadTestCustomer
  */
 class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         parent::setUp();
         $this->loadFixtures([LoadTestCustomerUser::class]);
     }
 
-    public function testCreateAndUpdateCaseSensitive()
+    /**
+     * @param bool $value
+     */
+    private function setCaseInsensitiveEmailAddresses(bool $value)
     {
-        if ($this->getRepository()->isCaseInsensitiveCollation()) {
-            self::markTestSkipped('Case insensitive email option can\'t be disabled.');
-        }
-
-        $this->getConfigManager()->set('oro_customer.case_insensitive_email_addresses_enabled', false);
-        $this->getConfigManager()->flush();
-
-        $this->post(['entity' => 'customerusers'], $this->getData());
-        $user = $this->assertRequestSuccess($this->getData());
-
-        $data = $this->getData();
-        $data['data']['id'] = (string)$user->getId();
-        $data['data']['attributes']['email'] = 'NewEmail@Test.Com';
-        $data['data']['attributes']['firstName'] = 'John';
-        unset($data['data']['attributes']['password']);
-
-        $this->patch(['entity' => 'customerusers', 'id' => $user->getId()], $data);
-        $this->assertRequestSuccess($data);
-    }
-
-    public function testCreateAndUpdateCaseInsensitive()
-    {
-        $this->getConfigManager()->set('oro_customer.case_insensitive_email_addresses_enabled', true);
-        $this->getConfigManager()->flush();
-
-        $response = $this->post(['entity' => 'customerusers'], $this->getData(), [], false);
-
-        $this->assertResponseValidationError(
-            [
-                'title'  => 'unique customer user name and email constraint',
-                'detail' => 'This email is already used.',
-                'source' => ['pointer' => '/data/attributes/email']
-            ],
-            $response
-        );
-        self::assertTrue(null === $this->getUser('Bob', 'Fedeson'));
-
-        $data = $this->getData();
-        $data['data']['attributes']['email'] = 'Email@Test.Com';
-
-        $this->post(['entity' => 'customerusers'], $data);
-        $user = $this->assertRequestSuccess($data);
-
-        $data['data']['id'] = (string)$user->getId();
-        $data['data']['attributes']['email'] = 'NewEmail@Test.Com';
-        $data['data']['attributes']['firstName'] = 'John';
-        unset($data['data']['attributes']['password']);
-
-        $this->patch(['entity' => 'customerusers', 'id' => $user->getId()], $data);
-        $this->assertRequestSuccess($data);
+        /** @var ConfigManager $configManager */
+        $configManager = self::getContainer()->get('oro_config.global');
+        $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', $value);
+        $configManager->flush();
     }
 
     /**
-     * @param array $data
-     *
-     * @return CustomerUser
+     * @return CustomerUserRepository
      */
-    private function assertRequestSuccess(array $data): CustomerUser
+    private function getCustomerUserRepository(): CustomerUserRepository
     {
-        $data = $data['data']['attributes'];
-        $user = $this->getUser($data['firstName'], $data['lastName']);
-
-        self::assertNotNull($user);
-        self::assertEquals($data['email'], $user->getEmail());
-        self::assertEquals($user->getEmail(), $user->getUsername());
-
-        return $user;
+        return $this->getEntityManager()->getRepository(CustomerUser::class);
     }
 
     /**
@@ -99,27 +44,10 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
      *
      * @return CustomerUser|null
      */
-    private function getUser(string $firstName, string $lastName): ?CustomerUser
+    private function findCustomerUser(string $firstName, string $lastName): ?CustomerUser
     {
-        return $this->getRepository()
+        return $this->getCustomerUserRepository()
             ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
-    }
-
-    /**
-     * @return CustomerUserRepository
-     */
-    private function getRepository(): CustomerUserRepository
-    {
-        return $this->getEntityManager()
-            ->getRepository(CustomerUser::class);
-    }
-
-    /**
-     * @return ConfigManager
-     */
-    private function getConfigManager(): ConfigManager
-    {
-        return self::getContainer()->get('oro_config.global');
     }
 
     /**
@@ -154,5 +82,75 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
                 ]
             ]
         ];
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return CustomerUser
+     */
+    private function assertRequestSuccess(array $data): CustomerUser
+    {
+        $attributes = $data['data']['attributes'];
+
+        $user = $this->findCustomerUser($attributes['firstName'], $attributes['lastName']);
+        self::assertNotNull($user);
+        self::assertEquals($attributes['email'], $user->getEmail());
+        self::assertEquals($user->getEmail(), $user->getUsername());
+
+        return $user;
+    }
+
+    public function testCreateAndUpdateCaseSensitive()
+    {
+        if ($this->getCustomerUserRepository()->isCaseInsensitiveCollation()) {
+            self::markTestSkipped('Case insensitive email option cannot be disabled.');
+        }
+
+        $this->setCaseInsensitiveEmailAddresses(false);
+
+        $data = $this->getData();
+        $this->post(['entity' => 'customerusers'], $data);
+        $user = $this->assertRequestSuccess($data);
+
+        $data['data']['id'] = (string)$user->getId();
+        $data['data']['attributes']['email'] = 'NewEmail@Test.Com';
+        $data['data']['attributes']['firstName'] = 'John';
+        unset($data['data']['attributes']['password']);
+        $this->patch(['entity' => 'customerusers', 'id' => $user->getId()], $data);
+        $this->assertRequestSuccess($data);
+    }
+
+    public function testCreateAndUpdateCaseInsensitive()
+    {
+        $this->setCaseInsensitiveEmailAddresses(true);
+
+        $data = $this->getData();
+        $response = $this->post(['entity' => 'customerusers'], $data, [], false);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'unique customer user name and email constraint',
+                'detail' => 'This email is already used.',
+                'source' => ['pointer' => '/data/attributes/email']
+            ],
+            $response
+        );
+        self::assertTrue(
+            null === $this->findCustomerUser(
+                $data['data']['attributes']['firstName'],
+                $data['data']['attributes']['lastName']
+            )
+        );
+
+        $data['data']['attributes']['email'] = 'Email@Test.Com';
+        $this->post(['entity' => 'customerusers'], $data);
+        $user = $this->assertRequestSuccess($data);
+
+        $data['data']['id'] = (string)$user->getId();
+        $data['data']['attributes']['email'] = 'NewEmail@Test.Com';
+        $data['data']['attributes']['firstName'] = 'John';
+        unset($data['data']['attributes']['password']);
+        $this->patch(['entity' => 'customerusers', 'id' => $user->getId()], $data);
+        $this->assertRequestSuccess($data);
     }
 }

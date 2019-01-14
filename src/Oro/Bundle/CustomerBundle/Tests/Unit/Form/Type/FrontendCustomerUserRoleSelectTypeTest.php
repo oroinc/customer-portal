@@ -98,7 +98,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
                     $this->assertArrayHasKey('acl_options', $options);
                     $this->assertEquals(
                         [
-                            'permission' => 'ASSIGN'
+                            'permission' => 'VIEW'
                         ],
                         $options['acl_options']
                     );
