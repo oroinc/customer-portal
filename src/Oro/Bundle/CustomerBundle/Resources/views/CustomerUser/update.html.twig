@@ -61,7 +61,9 @@
     {% endset %}
 
     {% set secondPasswordValidation = form.plainPassword.second.vars.attr['data-validation'] %}
-    {% set secondPasswordValidation = '{"NotBlank": {"payload":null},' ~ secondPasswordValidation|trim('{') %}
+    {% if form.plainPassword.second.vars.required %}
+        {% set secondPasswordValidation = '{"NotBlank": {"payload":null},' ~ secondPasswordValidation|trim('{') %}
+    {% endif %}
 
     {% set plainPasswordForm %}
         <div class="password control-group-container">
