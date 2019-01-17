@@ -3,3 +3,4 @@ label: Default theme
 description: Default theme.
 groups: [ commerce ]
 icon: bundles/orofrontend/default/images/favicon.ico
+logo: bundles/orofrontend/default/images/logo/logo-oroacem.svg
