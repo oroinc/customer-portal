@@ -60,22 +60,6 @@
         </div>
     {% endset %}
 
-    {% set secondPasswordValidation = form.plainPassword.second.vars.attr['data-validation'] %}
-    {% if form.plainPassword.second.vars.required %}
-        {% set secondPasswordValidation = '{"NotBlank": {"payload":null},' ~ secondPasswordValidation|trim('{') %}
-    {% endif %}
-
-    {% set plainPasswordForm %}
-        <div class="password control-group-container">
-            {{ form_row(form.plainPassword.first) }}
-            {{ form_row(form.plainPassword.second, {
-                'attr': {
-                    'data-validation': secondPasswordValidation
-                }
-            }) }}
-        </div>
-    {% endset %}
-
     {% set formRows = [
         form_row(form.enabled),
         form_row(form.namePrefix),
@@ -85,7 +69,7 @@
         form_row(form.nameSuffix),
         form_row(form.email),
         form_row(form.birthday),
-        plainPasswordForm,
+        form_widget(form.plainPassword, { 'attr': {'class': 'password control-group-container'} }),
         customerForm,
         form_row(form.salesRepresentatives),
         form_row(form.isGuest),
