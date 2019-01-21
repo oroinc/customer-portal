@@ -2,12 +2,6 @@ parameters:
     oro_website.entity.website.class: Oro\Bundle\WebsiteBundle\Entity\Website
 
 services:
-    oro_website.repository.website:
-        class: Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository
-        parent: oro_entity.abstract_repository
-        arguments:
-            - '%oro_website.entity.website.class%'
-
     oro_website.manager:
         class: 'Oro\Bundle\WebsiteBundle\Manager\WebsiteManager'
         public: true
@@ -118,13 +112,6 @@ services:
             - '@oro_locale.manager.localization'
             - '@oro_entity.doctrine_helper'
 
-    oro_website.repository.website:
-        class: 'Doctrine\ORM\EntityRepository'
-        public: false
-        factory:  ["@oro_entity.doctrine_helper", getEntityRepository]
-        arguments:
-            - '%oro_website.entity.website.class%'
-
     oro_website.assetic_context:
         class: 'Oro\Bundle\WebsiteBundle\Asset\AssetsContext'
         decorates: assets.context
@@ -136,6 +123,12 @@ services:
         public: false
         arguments:
             - "@oro_website.manager"
+
+    oro_website.config.use_default_configurator:
+        parent: oro_config.form.configurator.use_default_configurator.abstract
+        calls:
+            - ['disableUseDefaultFor', ['app', 'oro_website', 'url']]
+            - ['disableUseDefaultFor', ['app', 'oro_website', 'secure_url']]
 
     oro_website.repository.website:
         class: 'Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository'

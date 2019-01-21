@@ -27,6 +27,9 @@ system_configuration:
             priority: 100
             options:
                 label: oro_frontend.system_configuration.fields.frontend_theme.label
+                required: true
+                constraints:
+                    - NotBlank: ~
 
         oro_frontend.page_templates:
             data_type: array

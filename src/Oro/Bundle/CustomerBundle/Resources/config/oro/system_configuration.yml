@@ -97,6 +97,8 @@ system_configuration:
             options:
                 label: oro.customer.system_configuration.fields.user_menu_show_items.label
                 required: true
+                constraints:
+                    - NotBlank: ~
                 choices:
                     all_at_once: oro.customer.system_configuration.fields.user_menu_show_items.option.all_at_once.label
                     subitems_in_popup: oro.customer.system_configuration.fields.user_menu_show_items.option.subitems_in_popup.label
@@ -105,11 +107,12 @@ system_configuration:
             type: integer
             search_type: text
             options:
-                required: false
+                required: true
                 label: oro.customer.system_configuration.fields.customer_visitor_cookie_lifetime_days.label
                 tooltip: oro.customer.system_configuration.fields.customer_visitor_cookie_lifetime_days.tooltip
                 constraints:
                     - NotBlank: ~
+                    - Type: integer
                     - Range:
                         min: 1
         oro_customer.maps_enabled:
