@@ -5,6 +5,7 @@ system_configuration:
         routing:
             title: oro.website.system_configuration.groups.routing.title
             icon: 'fa-sitemap'
+            configurator: '@oro_website.config.use_default_configurator::buildForm'
         websites_routing_general:
             title: oro.website.system_configuration.groups.general.title
     fields:
@@ -16,6 +17,7 @@ system_configuration:
             options:
                 default_protocol: 'http'
                 label: oro.website.system_configuration.fields.url.label
+                required: true
                 constraints:
                     - Url: ~
                     - NotBlank: ~
@@ -27,6 +29,7 @@ system_configuration:
             options:
                 default_protocol: 'https'
                 label: oro.website.system_configuration.fields.secure_url.label
+                required: true
                 constraints:
                     - Url: ~
                     - NotBlank: ~

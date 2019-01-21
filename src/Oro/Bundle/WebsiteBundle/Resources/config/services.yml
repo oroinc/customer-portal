@@ -124,6 +124,12 @@ services:
         arguments:
             - "@oro_website.manager"
 
+    oro_website.config.use_default_configurator:
+        parent: oro_config.form.configurator.use_default_configurator.abstract
+        calls:
+            - ['disableUseDefaultFor', ['app', 'oro_website', 'url']]
+            - ['disableUseDefaultFor', ['app', 'oro_website', 'secure_url']]
+
     oro_website.repository.website:
         class: 'Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository'
         parent: oro_entity.abstract_repository
