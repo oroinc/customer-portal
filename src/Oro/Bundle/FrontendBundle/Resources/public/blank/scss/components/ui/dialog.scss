@@ -7,10 +7,18 @@
     z-index: z('popup') + 1;
 
     display: flex;
-    flex-flow: column;
+    flex-direction: row;
+    flex-flow: row;
     min-height: $dialog-min-height !important;
 
     font-family: $base-font;
+
+    .ui-dialog-inner-wrapper {
+        // inner-wrapper fixes max-height for flex container in IE11 https://jsfiddle.net/d158647x/
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
 
     &.ui-widget-content,
     .ui-widget-content {
