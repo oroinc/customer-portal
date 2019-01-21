@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Security\Firewall;
 
+use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -23,6 +24,7 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
 {
     const COOKIE_ATTR_NAME = '_security_customer_visitor_cookie';
     const COOKIE_NAME = 'customer_visitor';
+    const CACHE_KEY = 'visitor_token';
 
     /**
      * @var TokenStorageInterface
@@ -50,6 +52,12 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     private $websiteManager;
 
     /**
+     * This property is assumed to be filled on Request basis only so no need permanent cache for it
+     * @var CacheProvider
+     */
+    private $cacheProvider;
+
+    /**
      * @param TokenStorageInterface $tokenStorage
      * @param AuthenticationManagerInterface $authenticationManager
      * @param LoggerInterface|null $logger
@@ -61,13 +69,15 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         AuthenticationManagerInterface $authenticationManager,
         LoggerInterface $logger,
         ConfigManager $configManager,
-        WebsiteManager $websiteManager
+        WebsiteManager $websiteManager,
+        CacheProvider $cacheProvider
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
         $this->logger = $logger;
         $this->configManager = $configManager;
         $this->websiteManager = $websiteManager;
+        $this->cacheProvider = $cacheProvider;
     }
 
     /**
@@ -75,6 +85,19 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
      */
     public function handle(GetResponseEvent $event)
     {
+        /**
+         * Oro\Bundle\RedirectBundle\Security\Firewall two times triggers GetResponseEvent event
+         * this causes current listener executes two times as well
+         * So check if we already created and saved token for current request
+         * If yes there is no need to do same actions once more
+         */
+        $cachedToken = $this->cacheProvider->fetch(self::CACHE_KEY);
+        if ($cachedToken) {
+            $this->tokenStorage->setToken($cachedToken);
+
+            return;
+        }
+
         $token = $this->tokenStorage->getToken();
         if (null === $token || $token instanceof AnonymousCustomerUserToken) {
             $request = $event->getRequest();
@@ -90,6 +113,8 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
 
                 $this->tokenStorage->setToken($newToken);
                 $this->saveCredentials($request, $newToken);
+                //Token storage is always reset so we need to save our token to more permanent property
+                $this->cacheProvider->save(self::CACHE_KEY, $newToken);
 
                 $this->logger->info('Populated the TokenStorage with an Anonymous Customer User Token.');
             } catch (AuthenticationException $e) {
