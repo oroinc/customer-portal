@@ -221,6 +221,12 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
+    oro_customer.visitor_token.cache:
+        parent: doctrine_cache.abstract.array
+        public: false
+        calls:
+            - [ setNamespace, [ 'visitor_token_cache' ] ]
+
     oro_customer.authentication.listener.anonymous_customer_user:
         class: Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener
         abstract: true
@@ -230,6 +236,7 @@ services:
             - '@logger'
             - '@oro_config.manager'
             - '@oro_website.manager'
+            - '@oro_customer.visitor_token.cache'
         public: false
         tags:
             - { name: monolog.logger, channel: security }
