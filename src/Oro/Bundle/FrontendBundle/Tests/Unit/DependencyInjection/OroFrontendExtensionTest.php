@@ -4,6 +4,8 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\FrontendBundle\Request\NotInstalledFrontendHelper;
 use Oro\Bundle\FrontendBundle\Tests\Unit\Fixtures\Bundle\TestBundle1\TestBundle1;
 use Oro\Component\Config\CumulativeResourceManager;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
@@ -14,6 +16,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
     public function testLoad()
     {
         $container = new ContainerBuilder();
+        $container->setParameter('installed', true);
 
         $config = [
             'routes_to_expose' => ['expose_route1']
@@ -28,6 +31,25 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(
             $config['routes_to_expose'],
             $container->getDefinition('oro_frontend.extractor.frontend_exposed_routes_extractor')->getArgument(1)
+        );
+
+        self::assertEquals(
+            FrontendHelper::class,
+            $container->getDefinition('oro_frontend.request.frontend_helper')->getClass()
+        );
+    }
+
+    public function testLoadForNotInstalled()
+    {
+        $container = new ContainerBuilder();
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $extension = new OroFrontendExtension();
+        $extension->load([], $container);
+
+        self::assertEquals(
+            NotInstalledFrontendHelper::class,
+            $container->getDefinition('oro_frontend.request.frontend_helper')->getClass()
         );
     }
 

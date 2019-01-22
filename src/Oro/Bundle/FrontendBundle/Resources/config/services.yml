@@ -69,20 +69,18 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\FrontendFilter'
         arguments:
             - '@oro_frontend.request.frontend_helper'
-            - '@request_stack'
 
     oro_frontend.request.frontend_helper:
         class: 'Oro\Bundle\FrontendBundle\Request\FrontendHelper'
         arguments:
             - '%web_backend_prefix%'
-            - '@service_container'
+            - '@request_stack'
 
     oro_frontend.activity_list.placeholder.filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\ActivityListPlaceholderFilter'
         arguments:
             - '@oro_activity_list.placeholder.filter'
             - '@oro_frontend.request.frontend_helper'
-            - '@request_stack'
         tags:
             - { name: kernel.event_listener, event: oro.ui.grouping_chain_widget.before, method: isAllowedButton, priority: 10 }
 
