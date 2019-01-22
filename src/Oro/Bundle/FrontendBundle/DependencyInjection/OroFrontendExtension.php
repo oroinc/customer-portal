@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\DependencyInjection;
 
 use Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension;
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
+use Oro\Bundle\FrontendBundle\Request\NotInstalledFrontendHelper;
 use Oro\Bundle\LayoutBundle\DependencyInjection\OroLayoutExtension;
 use Oro\Component\Config\CumulativeResourceInfo;
 use Oro\Component\Config\Loader\CumulativeConfigLoader;
@@ -56,6 +57,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 
         $container->setParameter('oro_frontend.debug_routes', $config['debug_routes']);
 
+        $this->configureFrontendHelper($container);
         $this->configureApiDocViews($container, $config);
         $this->configureApiCors($container, $config);
     }
@@ -195,6 +197,19 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         }
 
         $container->setExtensionConfig('fos_rest', $configs);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     */
+    private function configureFrontendHelper(ContainerBuilder $container)
+    {
+        if ($container->hasParameter('installed') && $container->getParameter('installed')) {
+            return;
+        }
+
+        $container->getDefinition('oro_frontend.request.frontend_helper')
+            ->setClass(NotInstalledFrontendHelper::class);
     }
 
     /**

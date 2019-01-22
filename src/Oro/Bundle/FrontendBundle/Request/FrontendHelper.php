@@ -2,29 +2,28 @@
 
 namespace Oro\Bundle\FrontendBundle\Request;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Helper class for check whether a request is a storefront or management console request.
+ */
 class FrontendHelper
 {
-    /**
-     * @var string
-     */
-    protected $backendPrefix;
+    /** @var string */
+    private $backendPrefix;
 
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    /** @var RequestStack */
+    private $requestStack;
 
     /**
      * @param string $backendPrefix
-     * @param ContainerInterface $container
+     * @param RequestStack $requestStack
      */
-    public function __construct($backendPrefix, ContainerInterface $container)
+    public function __construct($backendPrefix, RequestStack $requestStack)
     {
         $this->backendPrefix = $backendPrefix;
-        $this->container = $container;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -33,11 +32,11 @@ class FrontendHelper
      */
     public function isFrontendRequest(Request $request = null)
     {
-        if (!$request) {
-            $request = $this->container->get('request_stack')->getCurrentRequest();
+        if (null === $request) {
+            $request = $this->requestStack->getCurrentRequest();
         }
 
-        return $request && $this->isFrontendUrl($request->getPathInfo());
+        return null !== $request && $this->isFrontendUrl($request->getPathInfo());
     }
 
     /**
@@ -47,6 +46,6 @@ class FrontendHelper
     public function isFrontendUrl($url)
     {
         // the least time consuming method to check whether URL is frontend
-        return $this->container->getParameter('installed') && strpos($url, $this->backendPrefix) !== 0;
+        return strpos($url, $this->backendPrefix) !== 0;
     }
 }
