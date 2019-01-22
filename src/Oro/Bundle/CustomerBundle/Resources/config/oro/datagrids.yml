@@ -1075,12 +1075,10 @@ datagrids:
                 label: oro.customer.mass_actions.delete_customer_addresses.label
                 type: delete
                 icon: trash
-                entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
                 data_identifier: address.id
                 name: delete
                 frontend_type: delete-mass
                 route: oro_datagrid_front_mass_action
-                acl_resource:  oro_customer_frontend_customer_user_address_remove
                 launcherOptions:
                     iconClassName: fa-trash-o
                     className: datagrid-massaction__dropdown-item
@@ -1116,6 +1114,10 @@ datagrids:
                 link:          update_link
                 icon:          pencil
                 acl_resource:  oro_customer_frontend_customer_address_update
+        mass_actions:
+            delete:
+                entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
+                acl_resource:  oro_customer_frontend_customer_address_remove
 
     frontend-customer-customer-user-address-grid:
         acl_resource: oro_customer_frontend_customer_user_address_view
@@ -1138,3 +1140,7 @@ datagrids:
                 link:          update_link
                 icon:          pencil
                 acl_resource:  oro_customer_frontend_customer_user_address_update
+        mass_actions:
+            delete:
+                entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
+                acl_resource:  oro_customer_frontend_customer_user_address_remove
