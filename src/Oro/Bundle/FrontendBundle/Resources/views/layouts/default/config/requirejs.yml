@@ -2,3 +2,5 @@ config:
     map:
         '*':
             'orodatagrid/templates/datagrid/visible-items-counter.html': 'orofrontend/default/templates/datagrid/visible-items-counter.html'
+    paths:
+        'orofrontend/default/js/app/views/fake-masked-input-view': 'bundles/orofrontend/default/js/app/views/fake-masked-input-view.js'
