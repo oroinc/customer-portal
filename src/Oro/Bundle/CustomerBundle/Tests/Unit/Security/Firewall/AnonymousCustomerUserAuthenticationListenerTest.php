@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security\Firewall;
 
+use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
@@ -53,6 +54,9 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
     /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $websiteManager;
 
+    /** @var CacheProvider|\PHPUnit_Framework_MockObject_MockObject */
+    private $cacheProvider;
+
     protected function setUp()
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
@@ -60,13 +64,15 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
+        $this->cacheProvider = $this->createMock(CacheProvider::class);
 
         $this->listener = new AnonymousCustomerUserAuthenticationListener(
             $this->tokenStorage,
             $this->authenticationManager,
             $this->logger,
             $this->configManager,
-            $this->websiteManager
+            $this->websiteManager,
+            $this->cacheProvider
         );
     }
 
@@ -77,6 +83,11 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
      */
     public function testHandle($token)
     {
+        $this->cacheProvider->expects($this->once())
+            ->method('fetch')
+            ->with(AnonymousCustomerUserAuthenticationListener::CACHE_KEY)
+            ->willReturn(false);
+
         $request = new Request();
         $request->cookies->set(
             AnonymousCustomerUserAuthenticationListener::COOKIE_NAME,
@@ -186,6 +197,25 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
 
         $this->listener->handle($this->getEventMock());
     }
+
+    public function testHandleWithCachedToken()
+    {
+        $token = new AnonymousCustomerUserToken('User');
+        $this->cacheProvider->expects($this->once())
+            ->method('fetch')
+            ->with(AnonymousCustomerUserAuthenticationListener::CACHE_KEY)
+            ->willReturn($token);
+
+        $this->tokenStorage->expects($this->once())
+            ->method('setToken')
+            ->with($token);
+
+        $this->tokenStorage->expects($this->never())
+            ->method('getToken');
+
+        $this->listener->handle($this->getEventMock());
+    }
+
 
     /**
      * @return GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject
