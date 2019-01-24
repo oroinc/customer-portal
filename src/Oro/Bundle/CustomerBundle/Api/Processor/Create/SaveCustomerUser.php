@@ -8,12 +8,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Component\ChainProcessor\ContextInterface;
 use Oro\Component\ChainProcessor\ProcessorInterface;
 
+/**
+ * Saves new CustomerUser entity to the database.
+ */
 class SaveCustomerUser implements ProcessorInterface
 {
-    /**
-     * @var CustomerUserManager
-     */
-    protected $userManager;
+    /** @var CustomerUserManager */
+    private $userManager;
 
     /**
      * @param CustomerUserManager $userManager
@@ -35,6 +36,11 @@ class SaveCustomerUser implements ProcessorInterface
         if (!is_object($user)) {
             // entity does not exist
             return;
+        }
+
+        // generate random secure password for a user
+        if (!$user->getPlainPassword()) {
+            $user->setPlainPassword($this->userManager->generatePassword(30));
         }
 
         $this->userManager->updateUser($user);

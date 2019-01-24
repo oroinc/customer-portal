@@ -139,7 +139,7 @@ oro.customer:
             description:             Email of the customer user.
         password:
             label:                   'Password'
-            description:             Password that is used to log into the customer user account.
+            description:             Password that is used to log into the customer user account. The password must conform to the system security policy.
         new_password.label:          'New Password'
         current_password.label:      'Current Password'
         password_confirmation.label: 'Confirm Password'

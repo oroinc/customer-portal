@@ -77,15 +77,9 @@ api:
             fields:
                 username:
                     exclude: true
-                salt:
-                    exclude: true
-                password:
-                    exclude: true
                 passwordChangedAt:
                     exclude: true
                 passwordRequestedAt:
-                    exclude: true
-                confirmationToken:
                     exclude: true
                 emailLowercase:
                     exclude: true
@@ -110,9 +104,6 @@ api:
                             exclude: false # set manually because this field is excluded globally
                             form_options:
                                 property_path: plainPassword
-                                constraints:
-                                    - NotNull: ~
-                                    - NotBlank: ~
                 update:
                     fields:
                         enabled:
