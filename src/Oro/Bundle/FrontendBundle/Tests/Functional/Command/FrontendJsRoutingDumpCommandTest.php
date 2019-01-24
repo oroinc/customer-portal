@@ -33,15 +33,13 @@ class FrontendJsRoutingDumpCommandTest extends WebTestCase
         $projectDir = $this->getContainer()
             ->getParameter('kernel.project_dir');
 
-        $endPath = $this->getEndPath('custom_routes', 'json');
-
         $result = $this->runCommand(
             FrontendJsRoutingDumpCommand::NAME,
-            ['-vvv', sprintf('--target=%s%s', $projectDir, $endPath)]
+            ['-vvv', sprintf('--target=%s%s', $projectDir, $this->getEndPath('custom_routes', 'json'))]
         );
 
         $this->assertNotEmpty($result);
-        $this->assertContains($endPath, $result);
+        $this->assertContains($this->getEndPath('frontend_custom_routes', 'json'), $result);
     }
 
     /**
