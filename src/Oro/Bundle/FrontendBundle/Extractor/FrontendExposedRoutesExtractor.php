@@ -5,19 +5,19 @@ namespace Oro\Bundle\FrontendBundle\Extractor;
 use FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractor;
 use Symfony\Component\Routing\Route;
 
+/**
+ * Expose routes which marked with option `frontend: true`.
+ */
 class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
 {
     /**
      * {@inheritdoc}
      */
-    public function getExposedRoutes()
+    public function isRouteExposed(Route $route, $name)
     {
-        $routes = parent::getExposedRoutes();
-        $routes = array_filter($routes, function (Route $route) {
-            return $route->hasOption('frontend') && $route->getOption('frontend');
-        });
-
-        return $routes;
+        return parent::isRouteExposed($route, $name) &&
+            $route->hasOption('frontend') &&
+            $route->getOption('frontend');
     }
 
     /**

@@ -2,46 +2,81 @@
 
 namespace Oro\Bundle\FrontendBundle\Command;
 
+use FOS\JsRoutingBundle\Command\DumpCommand;
 use FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractorInterface;
-use Oro\Bundle\UIBundle\Command\JsRoutingDumpCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Dumps JS routes for frontend application
  */
-class FrontendJsRoutingDumpCommand extends JsRoutingDumpCommand
+class FrontendJsRoutingDumpCommand extends DumpCommand
 {
+    public const NAME = 'oro:frontend:js-routing:dump';
+
+    /** @var string */
+    private $projectDir;
+
     /**
-     * @var ExposedRoutesExtractorInterface
+     * @param ExposedRoutesExtractorInterface $extractor
+     * @param SerializerInterface $serializer
+     * @param string $projectDir
+     * @param string|null $requestContextBaseUrl
      */
-    protected $routesExtractor;
+    public function __construct(
+        ExposedRoutesExtractorInterface $extractor,
+        SerializerInterface $serializer,
+        $projectDir,
+        $requestContextBaseUrl = null
+    ) {
+        parent::__construct($extractor, $serializer, $projectDir, $requestContextBaseUrl);
+
+        $this->projectDir = $projectDir;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+
+        $this->setName(self::NAME)
+            ->setHidden(true);
+
+        $definition = $this->getDefinition();
+        $definition->getOption('format')
+            ->setDefault('json');
+    }
 
     /**
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        parent::execute($input, $output);
+        $target = $input->getOption('target');
+        if ($target) {
+            $parts = explode(DIRECTORY_SEPARATOR, $target);
+            $parts[] = 'frontend_' . array_pop($parts);
 
-        $webRootDir = $this->getContainer()->getParameter('kernel.project_dir');
-        if ($webRootDir) {
-            $input->setOption('target', $webRootDir . '/public/js/frontend_routes.js');
+            $input->setOption('target', implode(DIRECTORY_SEPARATOR, $parts));
+        } else {
+            $input->setOption(
+                'target',
+                implode(
+                    DIRECTORY_SEPARATOR,
+                    [
+                        $this->projectDir,
+                        'public',
+                        'media',
+                        'js',
+                        'frontend_routes.' . $input->getOption('format')
+                    ]
+                )
+            );
         }
-        $this->routesExtractor = $this->getContainer()->get('oro_frontend.extractor.frontend_exposed_routes_extractor');
-        $this->initialize($input, $output);
-        parent::execute($input, $output);
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getExposedRoutesExtractor()
-    {
-        if ($this->routesExtractor === null) {
-            $this->routesExtractor = $this->getContainer()->get('fos_js_routing.extractor');
-        }
-
-        return $this->routesExtractor;
+        return parent::execute($input, $output);
     }
 }
