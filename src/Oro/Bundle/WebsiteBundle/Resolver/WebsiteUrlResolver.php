@@ -3,11 +3,18 @@
 namespace Oro\Bundle\WebsiteBundle\Resolver;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\EmailBundle\Provider\UrlProviderTrait;
 use Oro\Component\Website\WebsiteInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Provides website url/secure url based on configuration settings (application url) as well as
+ * generated value by UrlGenerator
+ */
 class WebsiteUrlResolver
 {
+    use UrlProviderTrait;
+
     const CONFIG_URL = 'oro_website.url';
     const CONFIG_SECURE_URL = 'oro_website.secure_url';
 
@@ -99,16 +106,5 @@ class WebsiteUrlResolver
     protected function getDefaultConfigValue($configKey, WebsiteInterface $website = null)
     {
         return $this->configManager->get($configKey, true, false, $website);
-    }
-
-    /**
-     * @param string $url
-     * @param string $route
-     * @param array $routeParams
-     * @return string
-     */
-    protected function preparePath($url, $route, array $routeParams)
-    {
-        return rtrim($url, '/') . $this->urlGenerator->generate($route, $routeParams);
     }
 }

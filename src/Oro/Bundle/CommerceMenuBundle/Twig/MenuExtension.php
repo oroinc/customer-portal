@@ -7,6 +7,10 @@ use Knp\Menu\Matcher\MatcherInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Provides twig functions to work with menu items:
+ * check if it is current build website link for passed uri
+ */
 class MenuExtension extends \Twig_Extension
 {
     const NAME = 'oro_commercemenu';
@@ -87,8 +91,9 @@ class MenuExtension extends \Twig_Extension
 
         $baseUrl = $request->getBaseUrl();
 
-        //Url is already with base url so we use it as is
-        if ($baseUrl && stripos($url, $baseUrl) !== false) {
+        // Url is already with base url so we use it as is
+        // 0 - means we check occurrences at the very beginning of the url
+        if ($baseUrl && stripos($url, $baseUrl) === 0) {
             return $url;
         }
 
