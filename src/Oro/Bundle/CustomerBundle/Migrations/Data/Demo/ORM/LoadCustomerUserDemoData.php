@@ -11,6 +11,9 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Loads customer users.
+ */
 class LoadCustomerUserDemoData extends AbstractFixture implements ContainerAwareInterface, DependentFixtureInterface
 {
     const ACCOUNT_USERS_REFERENCE_PREFIX = 'customer_user_demo_data_';
@@ -57,8 +60,6 @@ class LoadCustomerUserDemoData extends AbstractFixture implements ContainerAware
 
         $organization = $manager->getRepository('OroOrganizationBundle:Organization')->findOneBy([]);
 
-        $storageManager = $userManager->getStorageManager();
-
         $roles = [];
 
         while (($data = fgetcsv($handler, 1000, ',')) !== false) {
@@ -102,7 +103,7 @@ class LoadCustomerUserDemoData extends AbstractFixture implements ContainerAware
         }
 
         fclose($handler);
-        $storageManager->flush();
+        $manager->flush();
     }
 
     /**

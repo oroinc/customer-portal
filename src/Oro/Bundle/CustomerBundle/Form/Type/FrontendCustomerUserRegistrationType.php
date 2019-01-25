@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Entity\UserManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -17,33 +17,30 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * The registration form for storefront.
+ */
 class FrontendCustomerUserRegistrationType extends AbstractType
 {
     const NAME = 'oro_customer_frontend_customer_user_register';
 
-    /**
-     * @var ConfigManager
-     */
-    protected $configManager;
+    /** @var ConfigManager */
+    private $configManager;
 
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
+    /** @var ManagerRegistry */
+    private $doctrine;
 
-    /**
-     * @var string
-     */
-    protected $dataClass;
+    /** @var string */
+    private $dataClass;
 
     /**
      * @param ConfigManager $configManager
-     * @param UserManager $userManager
+     * @param ManagerRegistry $doctrine
      */
-    public function __construct(ConfigManager $configManager, UserManager $userManager)
+    public function __construct(ConfigManager $configManager, ManagerRegistry $doctrine)
     {
         $this->configManager = $configManager;
-        $this->userManager = $userManager;
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -122,7 +119,7 @@ class FrontendCustomerUserRegistrationType extends AbstractType
     /**
      * @param FormBuilderInterface $builder
      */
-    protected function addBuilderListeners(FormBuilderInterface $builder)
+    private function addBuilderListeners(FormBuilderInterface $builder)
     {
         $builder->addEventListener(
             FormEvents::SUBMIT,
@@ -134,7 +131,7 @@ class FrontendCustomerUserRegistrationType extends AbstractType
                     $userId = $this->configManager->get('oro_customer.default_customer_owner');
 
                     /** @var User $user */
-                    $user = $this->userManager->getRepository()->find($userId);
+                    $user = $this->doctrine->getManagerForClass(User::class)->find(User::class, $userId);
 
                     if ($user) {
                         $customerUser->setOwner($user);
