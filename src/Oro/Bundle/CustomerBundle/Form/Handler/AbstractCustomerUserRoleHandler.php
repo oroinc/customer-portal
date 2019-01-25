@@ -15,6 +15,9 @@ use Oro\Bundle\UserBundle\Entity\AbstractRole;
 use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Abstract logic for Customer User Role handling.
+ */
 abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
 {
     /** @var  RequestStack */
@@ -105,26 +108,6 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
         }
 
         return $privileges;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function processPrivileges(AbstractRole $role, $className = null)
-    {
-        $objectIdentityDescriptor = 'entity:Oro\Bundle\ProductBundle\Entity\Product';
-
-        $extension = $this->aclManager->getExtensionSelector()->select($objectIdentityDescriptor);
-        $maskBuilder = $extension->getMaskBuilder('VIEW');
-
-        // product view always must be set
-        $this->aclManager->setPermission(
-            $this->aclManager->getSid($role),
-            $this->aclManager->getOid($objectIdentityDescriptor),
-            $maskBuilder->getMask('MASK_VIEW_SYSTEM')
-        );
-
-        parent::processPrivileges($role);
     }
 
     /**
