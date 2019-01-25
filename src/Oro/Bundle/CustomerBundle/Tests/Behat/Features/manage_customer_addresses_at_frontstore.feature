@@ -12,10 +12,10 @@ Feature: Manage Customer addresses at front-store
     And I go to Customers/ Customer User Roles
     And I click edit Buyer in grid
     And select following permissions:
-      | Address               | Create:Department |
-      | Address               | Edit:Department   |
-      | Customer User Address | Create:User       |
-      | Customer User Address | Edit:User         |
+      | Customer Address      | Create:Department (Same Level) |
+      | Customer Address      | Edit:Department (Same Level)   |
+      | Customer User Address | Create:User (Own)              |
+      | Customer User Address | Edit:User (Own)                |
     When I save and close form
     Then I should see "Customer User Role has been saved" flash message
     And I click Logout in user menu
@@ -90,5 +90,5 @@ Feature: Manage Customer addresses at front-store
     And I click "Address Book"
     And I click "New Company Address"
     Then "OroForm" must contains values:
-      | First Name | Amanda  |
-      | Last Name  | Cole |
+      | First Name | Amanda |
+      | Last Name  | Cole   |
