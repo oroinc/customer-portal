@@ -195,8 +195,6 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**The required field**
-
 ### firstName
 
 #### create
