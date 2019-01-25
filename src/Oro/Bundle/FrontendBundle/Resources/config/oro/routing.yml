@@ -66,10 +66,10 @@ oro_frontend_attachment_file:
         frontend: true
 
 oro_frontend_js_routing_js:
-    path: "/js/frontend_routes.{_format}"
-    defaults: { _controller: oro_frontend.js_routing_controller:indexAction, _format: js }
+    path: "/media/js/frontend_routes.{_format}"
+    defaults: { _controller: oro_frontend.js_routing_controller:indexAction }
     requirements:
-        _format: js|json
+        _format: json
     options:
         frontend: true
 
