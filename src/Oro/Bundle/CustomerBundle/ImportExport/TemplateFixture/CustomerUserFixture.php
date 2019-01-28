@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\ImportExport\TemplateFixture;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;

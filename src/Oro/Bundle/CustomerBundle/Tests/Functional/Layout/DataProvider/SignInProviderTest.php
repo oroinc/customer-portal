@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Layout\DataProvider;
 
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInProvider;
-use Oro\Bundle\FrontendTestFrameworkBundle\DependencyInjection\AddSignInProviderNonSharedCompilerPass;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
