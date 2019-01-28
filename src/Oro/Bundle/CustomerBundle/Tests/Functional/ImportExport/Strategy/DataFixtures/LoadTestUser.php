@@ -38,10 +38,7 @@ class LoadTestUser extends AbstractFixture implements ContainerAwareInterface, D
         /** @var Organization $organization */
         $organization = $this->getReference('organization');
 
-        /** @var Role $role */
-        $role = $userManager
-            ->getStorageManager()
-            ->getRepository('OroUserBundle:Role')
+        $role = $manager->getRepository(Role::class)
             ->findBy(['role' => 'ROLE_ADMINISTRATOR']);
 
         /** @var User $userWithoutMainOrganizationAccess */

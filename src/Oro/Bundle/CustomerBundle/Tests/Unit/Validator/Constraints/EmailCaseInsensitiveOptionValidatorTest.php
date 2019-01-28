@@ -2,7 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\EmailCaseInsensitiveOptionConstraint;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\EmailCaseInsensitiveOptionValidator;
@@ -19,9 +21,6 @@ class EmailCaseInsensitiveOptionValidatorTest extends \PHPUnit\Framework\TestCas
 {
     /** @var CustomerUserRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $userRepository;
-
-    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $userManager;
 
     /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $translator;
@@ -45,14 +44,22 @@ class EmailCaseInsensitiveOptionValidatorTest extends \PHPUnit\Framework\TestCas
     {
         $this->userRepository = $this->createMock(CustomerUserRepository::class);
 
-        $this->userManager = $this->createMock(CustomerUserManager::class);
-        $this->userManager->expects($this->any())->method('getRepository')->willReturn($this->userRepository);
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $em = $this->createMock(EntityManagerInterface::class);
+        $doctrine->expects($this->any())
+            ->method('getManagerForClass')
+            ->with(CustomerUser::class)
+            ->willReturn($em);
+        $em->expects($this->any())
+            ->method('getRepository')
+            ->with(CustomerUser::class)
+            ->willReturn($this->userRepository);
 
         $this->translator = $this->createMock(TranslatorInterface::class);
         $this->datagridRouteHelper = $this->createMock(DatagridRouteHelper::class);
 
         $this->validator = new EmailCaseInsensitiveOptionValidator(
-            $this->userManager,
+            $doctrine,
             $this->translator,
             $this->datagridRouteHelper
         );

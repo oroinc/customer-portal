@@ -2,7 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\DataGridBundle\Tools\DatagridRouteHelper;
 use Oro\Bundle\FilterBundle\Form\Type\Filter\TextFilterType;
@@ -20,8 +21,8 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
 {
     private const LIMIT = 10;
 
-    /** @var CustomerUserManager */
-    private $userManager;
+    /** @var ManagerRegistry */
+    private $doctrine;
 
     /** @var TranslatorInterface */
     private $translator;
@@ -30,16 +31,16 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
     private $datagridRouteHelper;
 
     /**
-     * @param CustomerUserManager $userManager
+     * @param ManagerRegistry     $doctrine
      * @param TranslatorInterface $translator
      * @param DatagridRouteHelper $datagridRouteHelper
      */
     public function __construct(
-        CustomerUserManager $userManager,
+        ManagerRegistry $doctrine,
         TranslatorInterface $translator,
         DatagridRouteHelper $datagridRouteHelper
     ) {
-        $this->userManager = $userManager;
+        $this->doctrine = $doctrine;
         $this->translator = $translator;
         $this->datagridRouteHelper = $datagridRouteHelper;
     }
@@ -106,6 +107,8 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
      */
     private function getRepository()
     {
-        return $this->userManager->getRepository();
+        return $this->doctrine
+            ->getManagerForClass(CustomerUser::class)
+            ->getRepository(CustomerUser::class);
     }
 }

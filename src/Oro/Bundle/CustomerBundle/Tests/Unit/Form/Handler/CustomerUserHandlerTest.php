@@ -5,7 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\FormHandlerTestCase;
@@ -249,7 +248,7 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
             ->method('getOrganization')
             ->willReturn($organization);
         $this->userManager->expects($this->never())
-            ->method('sendWelcomeEmail');
+            ->method('sendWelcomeRegisteredByAdminEmail');
         $this->userManager->expects($this->once())
             ->method('updateUser')
             ->with($customerUser);

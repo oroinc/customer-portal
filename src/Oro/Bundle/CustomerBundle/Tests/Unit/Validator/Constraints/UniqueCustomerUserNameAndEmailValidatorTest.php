@@ -136,4 +136,18 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit\Framework\Tes
 
         $this->validator->validate($newCustomerUser, $this->constraint);
     }
+
+    public function testValidateCustomerUserEmailIsNull()
+    {
+        /** @var CustomerUser $newCustomerUser */
+        $newCustomerUser = $this->getEntity(CustomerUser::class, ['email' => null, 'id' => 1]);
+
+        $this->customerUserManager->expects(self::never())
+            ->method('findUserByEmail');
+
+        $this->constraintViolationBuilder->expects(self::never())
+            ->method('addViolation');
+
+        $this->validator->validate($newCustomerUser, $this->constraint);
+    }
 }

@@ -69,16 +69,9 @@ class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
     public function testProcessEmailSendFail()
     {
         $email = 'test@test.com';
-        $token = 'answerisfourtytwo';
         $exception = new \Exception();
 
         $user = $this->createMock(CustomerUser::class);
-        $user->expects($this->once())
-            ->method('generateToken')
-            ->willReturn($token);
-        $user->expects($this->once())
-            ->method('setConfirmationToken')
-            ->with($token);
 
         $this->assertValidFormCall($email);
 
@@ -109,19 +102,8 @@ class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
     public function testProcess()
     {
         $email = 'test@test.com';
-        $token = 'answerisfourtytwo';
 
         $user = $this->createMock(CustomerUser::class);
-
-        $user->expects($this->once())
-            ->method('generateToken')
-            ->willReturn($token);
-        $user->expects($this->once())
-            ->method('setConfirmationToken')
-            ->with($token);
-        $user->expects($this->once())
-            ->method('setPasswordRequestedAt')
-            ->with($this->isInstanceOf(\DateTime::class));
 
         $this->assertValidFormCall($email);
 
@@ -139,32 +121,6 @@ class CustomerUserPasswordRequestHandlerTest extends \PHPUnit\Framework\TestCase
             ->with($user);
 
         $this->assertEquals($email, $this->handler->process($this->form, $this->request));
-    }
-
-    public function testProcessForCustomerUserWithExistingToken()
-    {
-        $user = new CustomerUser();
-        $user->setConfirmationToken('test');
-
-        $email = 'test@test.com';
-
-        $this->assertValidFormCall($email);
-
-        $this->userManager->expects($this->once())
-            ->method('findUserByUsernameOrEmail')
-            ->with($email)
-            ->will($this->returnValue($user));
-
-        $this->userManager->expects($this->once())
-            ->method('sendResetPasswordEmail')
-            ->with($user);
-
-        $this->userManager->expects($this->once())
-            ->method('updateUser')
-            ->with($user);
-
-        $this->assertEquals($email, $this->handler->process($this->form, $this->request));
-        $this->assertNotEquals('test', $user->getConfirmationToken());
     }
 
     /**

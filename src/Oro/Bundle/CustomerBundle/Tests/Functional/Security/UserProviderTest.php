@@ -1,14 +1,14 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Functional\Entity;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Security;
 
 use Doctrine\Common\Util\ClassUtils;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Bundle\UserBundle\Security\UserProvider;
 
-class CustomerUserManagerTest extends WebTestCase
+class UserProviderTest extends WebTestCase
 {
     /**
      * {@inheritdoc}
@@ -20,6 +20,14 @@ class CustomerUserManagerTest extends WebTestCase
             $this->generateBasicAuthHeader(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD)
         );
         $this->loadFixtures([LoadCustomerUserData::class]);
+    }
+
+    private function refreshUser($user)
+    {
+        /** @var UserProvider $userProvider */
+        $userProvider = $this->getContainer()->get('oro_customer.tests.security.provider');
+
+        return $userProvider->refreshUser($user);
     }
 
     public function testUserReloadWhenEntityIsChangedByReference()
@@ -41,9 +49,7 @@ class CustomerUserManagerTest extends WebTestCase
         $this->assertSame($originalId, $customerUser->getId());
         $this->assertSame($originalId, $loggedUser->getId());
 
-        /** @var CustomerUserManager $customerUserManager */
-        $customerUserManager = $this->getContainer()->get('oro_customer_user.manager');
-        $customerUserManager->refreshUser($customerUser);
+        $this->refreshUser($customerUser);
 
         $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUsername(), 'email after refresh');
         $this->assertSame($originalId, $loggedUser->getId());
@@ -66,9 +72,7 @@ class CustomerUserManagerTest extends WebTestCase
         $loggedUser->setEmail(LoadCustomerUserData::LEVEL_1_EMAIL);
         $em->detach($loggedUser);
 
-        /** @var CustomerUserManager $customerUserManager */
-        $customerUserManager = $this->getContainer()->get('oro_customer_user.manager');
-        $loggedUser = $customerUserManager->refreshUser($loggedUser);
+        $loggedUser = $this->refreshUser($loggedUser);
 
         $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUsername(), 'email after refresh');
         $this->assertSame($originalId, $loggedUser->getId());

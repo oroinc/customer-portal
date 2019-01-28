@@ -133,7 +133,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType'
         arguments:
             - '@oro_config.manager'
-            - '@oro_user.manager'
+            - '@doctrine'
         calls:
             - [setDataClass, ['%oro_customer.entity.customer_user.class%']]
         tags:

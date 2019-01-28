@@ -56,18 +56,10 @@ class CustomerUserPasswordRequestHandler
                 /** @var CustomerUser|null $user */
                 $user = $this->userManager->findUserByUsernameOrEmail($email);
                 if ($user) {
-                    $user->setConfirmationToken($user->generateToken());
-
-                    try {
-                        $this->userManager->sendResetPasswordEmail($user);
-                        $user->setPasswordRequestedAt(new \DateTime('now', new \DateTimeZone('UTC')));
+                    if ($this->sendResetPasswordEmail($user, $email)) {
                         $this->userManager->updateUser($user);
                         $result = $email;
-                    } catch (\Exception $e) {
-                        $this->logger->error(
-                            'Unable to sent the reset password email.',
-                            ['email' => $email, 'exception' => $e]
-                        );
+                    } else {
                         $form->addError(
                             new FormError($this->translator->trans('oro.email.handler.unable_to_send_email'))
                         );
@@ -76,6 +68,28 @@ class CustomerUserPasswordRequestHandler
                     $result = $email;
                 }
             }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param CustomerUser $user
+     * @param string       $email
+     *
+     * @return bool
+     */
+    private function sendResetPasswordEmail(CustomerUser $user, string $email): bool
+    {
+        $result = true;
+        try {
+            $this->userManager->sendResetPasswordEmail($user);
+        } catch (\Exception $e) {
+            $result = false;
+            $this->logger->error(
+                'Unable to sent the reset password email.',
+                ['email' => $email, 'exception' => $e]
+            );
         }
 
         return $result;
