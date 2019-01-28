@@ -303,3 +303,30 @@ Feature: Import Customer Users
       | Company A - West Division | Ruth         | Maxwell   | RuthWMaxwell@example.org   | Yes     | Yes       |
       | Company A - West Division | NewFirst     | NewLast   | NewUser_UP@example.org     | Yes     | Yes       |
       | Company A                 | test         | test      | tester@example.org         | No      | Yes       |
+
+  Scenario: Update Customer Users data with BOM import file
+    Given go to Customers/ Customer Users
+    And I fill template with data:
+      | ID | First Name | Middle Name      | Email Address              |
+      | 2  | Amanda_upd | AmandaMiddleName | NewAmandaRCole@example.org |
+    And I save import file with BOM
+    When I import file
+    And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 0, updated: 0, replaced: 1" text
+    And I reload the page
+    And I should see following grid:
+      | Customer                  | First Name   | Last Name | Email Address              | Enabled | Confirmed |
+      | Company A                 | CustomerUser | One       | user1@example.org          | Yes     | Yes       |
+      | Company A                 | Amanda_upd   | Cole      | NewAmandaRCole@example.org | No      | Yes       |
+      | Company A - West Division | Branda       | Sanborn   | BrandaJSanborn@example.org | Yes     | No        |
+      | Company A - West Division | Ruth         | Maxwell   | RuthWMaxwell@example.org   | Yes     | Yes       |
+      | Company A - West Division | NewFirst     | NewLast   | NewUser_UP@example.org     | Yes     | Yes       |
+      | Company A                 | test         | test      | tester@example.org         | No      | Yes       |
+    And I click view "NewAmandaRCole@example.org" in grid
+    And I should see "Owner: John Doe"
+    And I should see Customer User with:
+      | Name Prefix | Amanda Pre       |
+      | First Name  | Amanda_upd       |
+      | Middle Name | AmandaMiddleName |
+      | Name Suffix | Cole Suff        |
+      | Birthday    | Oct 21, 1980     |
+      | Website     | Default          |
