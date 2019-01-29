@@ -1,6 +1,10 @@
 services:
     Oro\Bundle\FrontendBundle\Command\FrontendJsRoutingDumpCommand:
         public: false
+        parent: fos_js_routing.dump_command
         class: Oro\Bundle\FrontendBundle\Command\FrontendJsRoutingDumpCommand
+        arguments:
+            index_0: '@oro_frontend.extractor.frontend_exposed_routes_extractor'
+            index_2: '%kernel.project_dir%'
         tags:
             - { name: console.command }

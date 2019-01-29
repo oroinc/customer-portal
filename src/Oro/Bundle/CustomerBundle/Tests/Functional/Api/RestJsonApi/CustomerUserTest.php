@@ -7,9 +7,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 /**
  * @dbIsolationPerTest
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class CustomerUserTest extends RestJsonApiTestCase
 {
@@ -44,6 +48,10 @@ class CustomerUserTest extends RestJsonApiTestCase
         );
 
         $this->assertResponseContains('get_customer_user.yml', $response);
+        $this->assertResponseNotHasAttributes(
+            ['password', 'plainPassword', 'salt', 'confirmationToken', 'emailLowercase', 'username'],
+            $response
+        );
     }
 
     public function testDelete()
@@ -76,10 +84,12 @@ class CustomerUserTest extends RestJsonApiTestCase
     {
         $ownerId = $this->getReference('user')->getId();
         $organizationId = $this->getReference('organization')->getId();
+        $customerId = $this->getReference('customer.level_1')->getId();
 
+        $data = $this->getRequestData('create_customer_user.yml');
         $response = $this->post(
             ['entity' => 'customerusers'],
-            'create_customer_user.yml'
+            $data
         );
 
         $customerUserId = (int)$this->getResourceId($response);
@@ -89,8 +99,142 @@ class CustomerUserTest extends RestJsonApiTestCase
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntityManager()
             ->find(CustomerUser::class, $customerUserId);
+        self::assertEquals($data['data']['attributes']['firstName'], $customerUser->getFirstName());
+        self::assertEquals($data['data']['attributes']['lastName'], $customerUser->getLastName());
+        self::assertEquals($data['data']['attributes']['email'], $customerUser->getEmail());
+        self::assertEquals($customerUser->getEmail(), $customerUser->getUsername());
+        self::assertEquals($customerId, $customerUser->getCustomer()->getId());
         self::assertEquals($organizationId, $customerUser->getOrganization()->getId());
         self::assertEquals($ownerId, $customerUser->getOwner()->getId());
+
+        self::assertEmpty($customerUser->getPlainPassword());
+        self::assertNotEmpty($customerUser->getPassword());
+        self::assertNotEmpty($customerUser->getSalt());
+        /** @var PasswordEncoderInterface $passwordEncoder */
+        $passwordEncoder = self::getContainer()->get('security.encoder_factory')->getEncoder($customerUser);
+        self::assertTrue(
+            $passwordEncoder->isPasswordValid(
+                $customerUser->getPassword(),
+                $data['data']['attributes']['password'],
+                $customerUser->getSalt()
+            )
+        );
+    }
+
+    public function testCreateWithRequiredDataOnly()
+    {
+        $ownerId = $this->getReference('user')->getId();
+        $organizationId = $this->getReference('organization')->getId();
+        $customerId = $this->getReference('customer.level_1')->getId();
+
+        $data = $this->getRequestData('create_customer_user_min.yml');
+        $response = $this->post(
+            ['entity' => 'customerusers'],
+            $data
+        );
+
+        $customerUserId = (int)$this->getResourceId($response);
+        $responseContent = $data;
+        $responseContent['data']['relationships']['customer']['data'] = [
+            'type' => 'customers',
+            'id'   => (string)$customerId
+        ];
+        $this->assertResponseContains($responseContent, $response);
+
+        /** @var CustomerUser $customerUser */
+        $customerUser = $this->getEntityManager()
+            ->find(CustomerUser::class, $customerUserId);
+        self::assertEquals($data['data']['attributes']['firstName'], $customerUser->getFirstName());
+        self::assertEquals($data['data']['attributes']['lastName'], $customerUser->getLastName());
+        self::assertEquals($data['data']['attributes']['email'], $customerUser->getEmail());
+        self::assertEquals($customerUser->getEmail(), $customerUser->getUsername());
+        self::assertEquals($organizationId, $customerUser->getOrganization()->getId());
+        self::assertEquals($ownerId, $customerUser->getOwner()->getId());
+        self::assertEquals($customerId, $customerUser->getCustomer()->getId());
+
+        self::assertEmpty($customerUser->getPlainPassword());
+        self::assertNotEmpty($customerUser->getPassword());
+        self::assertNotEmpty($customerUser->getSalt());
+    }
+
+    public function testTryToCreateWithoutData()
+    {
+        $response = $this->post(
+            ['entity' => 'customerusers'],
+            ['data' => ['type' => 'customerusers']],
+            [],
+            false
+        );
+
+        $this->assertResponseValidationErrors(
+            [
+                [
+                    'title'  => 'customer user check role constraint',
+                    'detail' => 'Please select at least one role before you enable the customer user'
+                ],
+                ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/email']],
+                ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/firstName']],
+                ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/lastName']],
+                ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/relationships/customer/data']]
+            ],
+            $response
+        );
+    }
+
+    public function testCreateWithNullPassword()
+    {
+        $data = $this->getRequestData('create_customer_user_min.yml');
+        $data['data']['attributes']['password'] = null;
+        $response = $this->post(
+            ['entity' => 'customerusers'],
+            $data
+        );
+
+        /** @var CustomerUser $customerUser */
+        $customerUser = $this->getEntityManager()
+            ->find(CustomerUser::class, (int)$this->getResourceId($response));
+
+        self::assertEmpty($customerUser->getPlainPassword());
+        self::assertNotEmpty($customerUser->getPassword());
+        self::assertNotEmpty($customerUser->getSalt());
+    }
+
+    public function testCreateWithEmptyPassword()
+    {
+        $data = $this->getRequestData('create_customer_user_min.yml');
+        $data['data']['attributes']['password'] = '';
+        $response = $this->post(
+            ['entity' => 'customerusers'],
+            $data
+        );
+
+        /** @var CustomerUser $customerUser */
+        $customerUser = $this->getEntityManager()
+            ->find(CustomerUser::class, (int)$this->getResourceId($response));
+
+        self::assertEmpty($customerUser->getPlainPassword());
+        self::assertNotEmpty($customerUser->getPassword());
+        self::assertNotEmpty($customerUser->getSalt());
+    }
+
+    public function testTryToCreateWithInvalidPassword()
+    {
+        $data = $this->getRequestData('create_customer_user_min.yml');
+        $data['data']['attributes']['password'] = '1';
+        $response = $this->post(
+            ['entity' => 'customerusers'],
+            $data,
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'password complexity constraint',
+                'source' => ['pointer' => '/data/attributes/password']
+            ],
+            $response
+        );
     }
 
     public function testUpdate()
