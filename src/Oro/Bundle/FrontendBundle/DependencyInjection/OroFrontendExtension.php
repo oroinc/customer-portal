@@ -113,16 +113,14 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
      */
     protected function loadScreensConfigResources(ContainerBuilder $container)
     {
-        $resourceLoaders = [];
-        $resourceLoaders[] = new FolderingCumulativeFileLoader(
-            self::RESOURCES_FOLDER_PLACEHOLDER,
-            self::RESOURCES_FOLDER_PATTERN,
-            [
-                new YamlCumulativeFileLoader('Resources/views/layouts/{folder}/config/screens.yml'),
-            ]
+        $configLoader = new CumulativeConfigLoader(
+            OroLayoutExtension::ALIAS,
+            new FolderingCumulativeFileLoader(
+                self::RESOURCES_FOLDER_PLACEHOLDER,
+                self::RESOURCES_FOLDER_PATTERN,
+                new YamlCumulativeFileLoader('Resources/views/layouts/{folder}/config/screens.yml')
+            )
         );
-
-        $configLoader = new CumulativeConfigLoader(OroLayoutExtension::ALIAS, $resourceLoaders);
 
         return $configLoader->load($container);
     }

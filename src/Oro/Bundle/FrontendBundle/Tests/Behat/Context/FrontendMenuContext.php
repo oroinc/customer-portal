@@ -5,26 +5,15 @@ namespace Oro\Bundle\FrontendBundle\Tests\Behat\Context;
 use Oro\Bundle\FrontendBundle\Tests\Behat\Element\FrontendMainMenu;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 use Oro\Bundle\TestFrameworkBundle\Behat\Element\OroPageObjectAware;
-use Oro\Bundle\TestFrameworkBundle\Behat\Isolation\MessageQueueIsolatorInterface;
 use Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\PageObjectDictionary;
 
+/**
+ * Provides a set of steps to test storefront menu.
+ */
 class FrontendMenuContext extends OroFeatureContext implements
     OroPageObjectAware
 {
     use PageObjectDictionary;
-
-    /**
-     * @var MessageQueueIsolatorInterface
-     */
-    protected $messageQueueIsolator;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setMessageQueueIsolator(MessageQueueIsolatorInterface $messageQueueIsolator)
-    {
-        $this->messageQueueIsolator = $messageQueueIsolator;
-    }
 
     /**
      * Assert main menu item existing
