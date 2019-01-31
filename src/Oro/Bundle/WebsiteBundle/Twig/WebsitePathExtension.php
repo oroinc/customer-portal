@@ -58,7 +58,7 @@ class WebsitePathExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function getWebsitePath($route, array $routeParams, Website $website = null)
+    public function getWebsitePath($route, array $routeParams = [], Website $website = null)
     {
         return $this->getWebsiteUrlResolver()->getWebsitePath($route, $routeParams, $website);
     }
@@ -70,7 +70,7 @@ class WebsitePathExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function getWebsiteSecurePath($route, array $routeParams, Website $website = null)
+    public function getWebsiteSecurePath($route, array $routeParams = [], Website $website = null)
     {
         return $this->getWebsiteUrlResolver()->getWebsiteSecurePath($route, $routeParams, $website);
     }
