@@ -4,7 +4,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -15,9 +14,6 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
 use Oro\Bundle\ProductBundle\Entity\Product;
-use Oro\Bundle\SecurityBundle\Acl\Extension\AclExtensionInterface;
-use Oro\Bundle\SecurityBundle\Acl\Extension\AclExtensionSelector;
-use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
 use Oro\Bundle\SecurityBundle\Model\AclPermission;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;

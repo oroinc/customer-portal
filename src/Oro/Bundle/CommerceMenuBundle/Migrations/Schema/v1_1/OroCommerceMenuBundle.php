@@ -4,7 +4,6 @@ namespace Oro\Bundle\CommerceMenuBundle\Migrations\Schema\v1_1;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\StringType;
-use Oro\Bundle\CommerceMenuBundle\Migrations\Schema\OroCommerceMenuBundleInstaller;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtension;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Migration;

@@ -4,7 +4,6 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 use Oro\Bundle\EntityExtendBundle\Grid\AdditionalFieldsExtension;
-use Oro\Bundle\EntityExtendBundle\Grid\DynamicFieldsExtension;
 use Oro\Bundle\FrontendBundle\EventListener\DatagridFieldsListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 

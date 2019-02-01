@@ -191,6 +191,29 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testGetWebsitePathWithSubfolderPath()
+    {
+        $route = 'test';
+        $routeParams = ['id' =>1 ];
+        $url = 'http://global.website.url/some/subfolder/';
+
+        /** @var Website $website */
+        $website = $this->getEntity(Website::class, ['id' => 2]);
+        $this->configManager->expects($this->once())
+            ->method('get')
+            ->with(WebsiteUrlResolver::CONFIG_URL, false, false, $website)
+            ->willReturn($url);
+        $this->urlGenerator->expects($this->once())
+            ->method('generate')
+            ->with($route, $routeParams)
+            ->willReturn('/some/subfolder/test/1');
+
+        $this->assertSame(
+            'http://global.website.url/some/subfolder/test/1',
+            $this->websiteUrlResolver->getWebsitePath($route, $routeParams, $website)
+        );
+    }
+
     public function testGetWebsiteSecurePath()
     {
         $route = 'test';
@@ -213,6 +236,32 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
 
         $this->assertSame(
             'https://website.url/test/1',
+            $this->websiteUrlResolver->getWebsiteSecurePath($route, $routeParams, $website)
+        );
+    }
+
+    public function testGetWebsiteSecurePathWithSubfolderPathAndPort()
+    {
+        $route = 'test';
+        $routeParams = ['id' =>1 ];
+        $url = 'https://website.url:8080/some/subfolder/';
+        $urlConfig = [
+            'value' => $url
+        ];
+
+        /** @var Website $website */
+        $website = $this->getEntity(Website::class, ['id' => 2]);
+        $this->configManager->expects($this->once())
+            ->method('get')
+            ->with(WebsiteUrlResolver::CONFIG_SECURE_URL, false, true, $website)
+            ->willReturn($urlConfig);
+        $this->urlGenerator->expects($this->once())
+            ->method('generate')
+            ->with($route, $routeParams)
+            ->willReturn('/some/subfolder/test/1');
+
+        $this->assertSame(
+            'https://website.url:8080/some/subfolder/test/1',
             $this->websiteUrlResolver->getWebsiteSecurePath($route, $routeParams, $website)
         );
     }

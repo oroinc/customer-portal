@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\UserBundle\Migrations\Data\ORM\LoadAdminUserData;
 
 class LoadAddressBookUserData extends AbstractLoadCustomerUserFixture

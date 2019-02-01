@@ -10,6 +10,9 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
+/**
+ * Sets parameters to request the that determine the layout structure
+ */
 class ThemeListener
 {
     const FRONTEND_THEME = 'demo';
@@ -59,10 +62,6 @@ class ThemeListener
     public function onKernelRequest(GetResponseEvent $event)
     {
         if (!$this->installed) {
-            return;
-        }
-
-        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
             return;
         }
 
