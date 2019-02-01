@@ -42,14 +42,15 @@ define(function(require) {
             }
 
             var options = $.extend(true, {}, data.options || {});
+            var that = this;
             _.each(options, function(option) {
-                option.count = this.counts[option.value] || 0;
-                if (option.count === 0) {
-                    if (!_.contains(this.disabledOptions, option.value)) {
-                        options = _.without(options, option);
-                    }
+                option.count = that.counts[option.value] || 0;
+                if (option.count === 0 &&
+                    !_.contains(that.disabledOptions, option.value) &&
+                    !_.contains(data.selected.value, option.value)) {
+                    options = _.without(options, option);
                 }
-            }, this);
+            });
 
             this.visible = !(_.isEmpty(options) && _.isEmpty(this.disabledOptions));
             data.options = options;
