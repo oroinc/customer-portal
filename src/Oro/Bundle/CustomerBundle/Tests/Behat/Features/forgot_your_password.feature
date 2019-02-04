@@ -41,3 +41,9 @@ Feature: Forgot your password
       | Email Address | AmandaRCole@example.org |
     And I click "Request"
     Then I should see "If there is a user account associated with ...@example.org you will receive an email with a link to reset your password."
+    And Email should contains the following:
+      | Subject | Reset Account User Password                                          |
+      | To      | AmandaRCole@example.org                                              |
+      | Body    | Hello, AmandaRCole@example.org!                                      |
+      | Body    |  To reset your password - please visit                               |
+      | Body    |  customer/user/reset?token=                                          |
