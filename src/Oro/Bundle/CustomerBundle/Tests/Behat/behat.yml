@@ -28,7 +28,7 @@ oro_behat_extension:
   elements:
     CustomerUserRoleForm:
       selector: "form[id*='_customer_user_role']"
-      class: Oro\Bundle\CustomerBundle\Tests\Behat\Element\CustomerUserRoleForm
+      class: Oro\Bundle\UserBundle\Tests\Behat\Element\UserRoleForm
     Customer User Form:
       selector: 'form[name="oro_customer_customer_user"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
@@ -53,6 +53,11 @@ oro_behat_extension:
     Customer Users Grid:
       selector: '[id^="grid-frontend-customer-customer-user-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+
+    Customers Grid:
+      selector: 'div[data-page-component-name="customer-customers-grid"]'
+      class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+
     Customer Company Addresses Grid:
       selector: '[id^="grid-frontend-customer-customer-address-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -114,6 +119,13 @@ oro_behat_extension:
         mapping:
           Use Default: 'theme[oro_customer___user_menu_show_items][use_parent_scope_value]'
           User Menu: 'theme[oro_customer___user_menu_show_items][value]'
+    Theme Templates Form:
+      selector: 'form[name="theme"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Theme: 'theme[oro_frontend___frontend_theme][value]'
+          Use Default: 'theme[oro_frontend___frontend_theme][use_parent_scope_value]'
     Popup User Menu trigger:
       selector: '.topbar-customer-menu .topbar-customer-menu__trigger'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element

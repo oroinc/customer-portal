@@ -1,0 +1,57 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+<metadata>
+Created by FontForge 20170731 at Fri Jan 18 19:43:58 2019
+ By Aleksey,,,
+Copyright (c) 2010-2011 by tyPoland Lukasz Dziedzic with Reserved Font Name "Lato". Licensed under the SIL Open Font License, Version 1.1.
+</metadata>
+<defs>
+<font id="Lato-Regular" horiz-adv-x="1187" >
+  <font-face 
+    font-family="Lato"
+    font-weight="400"
+    font-stretch="normal"
+    units-per-em="2048"
+    panose-1="2 15 5 2 2 2 4 3 2 3"
+    ascent="1649"
+    descent="-399"
+    bbox="68 0 974 1365"
+    underline-thickness="122"
+    underline-position="-570"
+    unicode-range="U+0020-0039"
+  />
+<missing-glyph horiz-adv-x="748" 
+d="M68 0v1365h544v-1365h-544zM136 68h408v1229h-408v-1229z" />
+    <glyph glyph-name=".notdef" horiz-adv-x="748" 
+d="M68 0v1365h544v-1365h-544zM136 68h408v1229h-408v-1229z" />
+    <glyph glyph-name="glyph1" horiz-adv-x="0" 
+ />
+    <glyph glyph-name="uni000D" horiz-adv-x="0" 
+ />
+    <glyph glyph-name="glyph3" horiz-adv-x="0" 
+ />
+    <glyph glyph-name="space" unicode=" " horiz-adv-x="395" 
+ />
+    <glyph glyph-name="zero" unicode="0" 
+d="M213 609q0 79 30 148.5t81.5 121.5t120.5 82t147 30q79 0 148.5 -30t121 -82t82 -121.5t30.5 -148.5t-30.5 -148t-82 -120t-121 -81.5t-148.5 -30.5q-78 0 -147 30.5t-120.5 81.5t-81.5 120t-30 148z" />
+    <glyph glyph-name="one" unicode="1" 
+d="M213 609q0 79 30 148.5t81.5 121.5t120.5 82t147 30q79 0 148.5 -30t121 -82t82 -121.5t30.5 -148.5t-30.5 -148t-82 -120t-121 -81.5t-148.5 -30.5q-78 0 -147 30.5t-120.5 81.5t-81.5 120t-30 148z" />
+    <glyph glyph-name="two" unicode="2" 
+d="M213 609q0 79 30 148.5t81.5 121.5t120.5 82t147 30q79 0 148.5 -30t121 -82t82 -121.5t30.5 -148.5t-30.5 -148t-82 -120t-121 -81.5t-148.5 -30.5q-78 0 -147 30.5t-120.5 81.5t-81.5 120t-30 148z" />
+    <glyph glyph-name="three" unicode="3" 
+d="M213 609q0 79 30 148.5t81.5 121.5t120.5 82t147 30q79 0 148.5 -30t121 -82t82 -121.5t30.5 -148.5t-30.5 -148t-82 -120t-121 -81.5t-148.5 -30.5q-78 0 -147 30.5t-120.5 81.5t-81.5 120t-30 148z" />
+    <glyph glyph-name="four" unicode="4" 
+d="M213 609q0 79 30 148.5t81.5 121.5t120.5 82t147 30q79 0 148.5 -30t121 -82t82 -121.5t30.5 -148.5t-30.5 -148t-82 -120t-121 -81.5t-148.5 -30.5q-78 0 -147 30.5t-120.5 81.5t-81.5 120t-30 148z" />
+    <glyph glyph-name="five" unicode="5" 
+d="M213 609q0 79 30 148.5t81.5 121.5t120.5 82t147 30q79 0 148.5 -30t121 -82t82 -121.5t30.5 -148.5t-30.5 -148t-82 -120t-121 -81.5t-148.5 -30.5q-78 0 -147 30.5t-120.5 81.5t-81.5 120t-30 148z" />
+    <glyph glyph-name="six" unicode="6" 
+d="M213 609q0 79 30 148.5t81.5 121.5t120.5 82t147 30q79 0 148.5 -30t121 -82t82 -121.5t30.5 -148.5t-30.5 -148t-82 -120t-121 -81.5t-148.5 -30.5q-78 0 -147 30.5t-120.5 81.5t-81.5 120t-30 148z" />
+    <glyph glyph-name="seven" unicode="7" 
+d="M213 609q0 79 30 148.5t81.5 121.5t120.5 82t147 30q79 0 148.5 -30t121 -82t82 -121.5t30.5 -148.5t-30.5 -148t-82 -120t-121 -81.5t-148.5 -30.5q-78 0 -147 30.5t-120.5 81.5t-81.5 120t-30 148z" />
+    <glyph glyph-name="eight" unicode="8" 
+d="M213 609q0 79 30 148.5t81.5 121.5t120.5 82t147 30q79 0 148.5 -30t121 -82t82 -121.5t30.5 -148.5t-30.5 -148t-82 -120t-121 -81.5t-148.5 -30.5q-78 0 -147 30.5t-120.5 81.5t-81.5 120t-30 148z" />
+    <glyph glyph-name="nine" unicode="9" 
+d="M213 609q0 79 30 148.5t81.5 121.5t120.5 82t147 30q79 0 148.5 -30t121 -82t82 -121.5t30.5 -148.5t-30.5 -148t-82 -120t-121 -81.5t-148.5 -30.5q-78 0 -147 30.5t-120.5 81.5t-81.5 120t-30 148z" />
+  </font>
+</defs></svg>

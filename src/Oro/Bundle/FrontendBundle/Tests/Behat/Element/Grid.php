@@ -8,6 +8,7 @@ class Grid extends BaseGrid
 {
     const DEFAULT_MAPPINGS = [
         'GridRow' => 'FrontendGridRow',
+        'GridRowStrict' => 'FrontendGridRow',
         'GridToolbarPaginator' => 'FrontendGridToolbarPaginator',
         'MassActionHeadCheckbox' => 'FrontendMassActionHeadCheckbox',
         'GridColumnManager' => 'FrontendGridColumnManager',

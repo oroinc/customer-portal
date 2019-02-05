@@ -13,6 +13,7 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -204,6 +205,23 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             ->method('get')
             ->with('oro_customer.confirmation_required')
             ->will($this->returnValue(true));
+
+        $encoder = $this->createMock(PasswordEncoderInterface::class);
+        $encoder->expects($this->once())
+            ->method('encodePassword')
+            ->with($user->getPlainPassword(), $user->getSalt());
+
+        $this->ef->expects($this->once())
+            ->method('getEncoder')
+            ->with($user)
+            ->will($this->returnValue($encoder));
+
+        $this->registry->expects($this->any())
+            ->method('getManagerForClass')
+            ->will($this->returnValue($this->om));
+
+        $this->om->expects($this->once())->method('persist')->with($this->equalTo($user));
+        $this->om->expects($this->once())->method('flush');
 
         $this->emailProcessor->expects($this->once())
             ->method('sendConfirmationEmail')

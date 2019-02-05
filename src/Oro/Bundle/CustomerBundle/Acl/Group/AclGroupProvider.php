@@ -3,9 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Acl\Group;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\SecurityBundle\Acl\Group\AclGroupProviderInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
+/**
+ * Detect ACL group for commerce.
+ */
 class AclGroupProvider implements AclGroupProviderInterface
 {
     /** @var TokenAccessorInterface */
@@ -25,8 +29,9 @@ class AclGroupProvider implements AclGroupProviderInterface
     public function supports()
     {
         $user = $this->tokenAccessor->getUser();
+        $token = $this->tokenAccessor->getToken();
 
-        return null === $user || $user instanceof CustomerUser;
+        return $token instanceof AnonymousCustomerUserToken || $user instanceof CustomerUser;
     }
 
     /**

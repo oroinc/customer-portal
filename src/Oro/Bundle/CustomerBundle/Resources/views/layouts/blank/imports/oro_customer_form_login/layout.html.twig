@@ -64,6 +64,7 @@
     {% set attr = layout_attr_defaults(attr, {
         'required': 'required',
         'autofocus': true,
+        'autocomplete': 'username',
         'data-validation': {"NotBlank":{"payload":null}, "Email":{"payload": null}},
         '~class': " input input--full"
     }) %}
@@ -80,7 +81,9 @@
 
 {% block __oro_customer_form_login__login_form_password_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        'data-validation': {"NotBlank":{"payload":null}},
+        'autofocus': null,
+        'autocomplete': 'current-password',
+        'data-validation': {"NotBlank":{"payload":null}}
     }) %}
 
     {{ block('__oro_customer_form_login__login_form_username_widget') }}

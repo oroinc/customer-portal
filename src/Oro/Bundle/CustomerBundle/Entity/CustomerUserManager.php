@@ -173,6 +173,9 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
     {
         $user->setConfirmed(false)
             ->setConfirmationToken($user->generateToken());
+
+        $this->updateUser($user);
+
         try {
             $this->getEmailProcessor()->sendConfirmationEmail($user);
         } catch (\Swift_SwiftException $exception) {
