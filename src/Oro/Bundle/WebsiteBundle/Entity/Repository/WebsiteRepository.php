@@ -8,6 +8,9 @@ use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorInterface;
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorTrait;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
+/**
+ * Entity repository for Website dictionary.
+ */
 class WebsiteRepository extends EntityRepository implements BatchIteratorInterface
 {
     use BatchIteratorTrait;
