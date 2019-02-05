@@ -93,12 +93,6 @@ define(function(require) {
 
             this.options._sourceElement.off('change');
 
-            if (this.changeCustomerConfirmDialog) {
-                this.changeCustomerConfirmDialog.off();
-                this.changeCustomerConfirmDialog.dispose();
-                delete this.changeCustomerConfirmDialog;
-            }
-
             CustomerUserRoleComponent.__super__.dispose.call(this);
         },
 
@@ -110,15 +104,13 @@ define(function(require) {
          * @private
          */
         _getCustomerConfirmDialog: function(okCallback, cancelCallback) {
-            if (!this.changeCustomerConfirmDialog) {
-                this.changeCustomerConfirmDialog = this._createChangeCustomerConfirmationDialog();
-            }
+            var changeCustomerConfirmDialog = this._createChangeCustomerConfirmationDialog();
 
-            this.changeCustomerConfirmDialog
-                .off('ok').on('ok', _.bind(okCallback, this))
-                .off('cancel').on('cancel', _.bind(cancelCallback, this));
+            changeCustomerConfirmDialog
+                .on('ok', _.bind(okCallback, this))
+                .on('cancel', _.bind(cancelCallback, this));
 
-            this.changeCustomerConfirmDialog.open();
+            changeCustomerConfirmDialog.open();
         },
 
         /**
