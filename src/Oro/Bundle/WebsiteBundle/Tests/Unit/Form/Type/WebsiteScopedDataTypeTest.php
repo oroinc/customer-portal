@@ -3,10 +3,13 @@
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\SearchBundle\Tests\Unit\Fixture\Entity\Product;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Form\Type\WebsiteScopedDataType;
-use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use Oro\Bundle\WebsiteBundle\Tests\Unit\Form\Type\Stub\StubType;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\PreloadedExtension;
@@ -43,48 +46,46 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
 
     protected function setUp()
     {
-        $website = $this->getEntity(Website::class, ['id' => self::WEBSITE_ID]);
-
-        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $em = $this->createMock(EntityManager::class);
         $em->expects($this->any())
             ->method('getReference')
-            ->with('TestWebsiteClass', self::WEBSITE_ID)
-            ->willReturn($website);
+            ->with(Website::class, self::WEBSITE_ID)
+            ->willReturn($this->getEntity(Website::class, ['id' => self::WEBSITE_ID]));
 
-        $repository = $this->getMockBuilder('Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository')
+        $websites = [self::WEBSITE_ID => $this->getEntity(Website::class, ['id' => self::WEBSITE_ID])];
+        $websiteQB = $this->getMockBuilder(QueryBuilder::class)
             ->disableOriginalConstructor()
+            ->setMethods(['getResult'])
             ->getMock();
+        $websiteQB
+            ->expects($this->any())
+            ->method('getResult')
+            ->willReturn($websites);
 
-        $repository->expects($this->any())
-            ->method('getAllWebsites')
-            ->willReturn([$website]);
+        $websiteRepository = $this->createMock(WebsiteRepository::class);
+        $websiteRepository->expects($this->any())
+            ->method('createQueryBuilder')
+            ->with('website')
+            ->willReturn($websiteQB);
 
-        /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $registry */
-        $registry = $this->getMockBuilder('\Doctrine\Common\Persistence\ManagerRegistry')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $registry*/
+        $registry = $this->createMock(ManagerRegistry::class);
         $registry->expects($this->any())
             ->method('getRepository')
-            ->with('TestWebsiteClass')
-            ->willReturn($repository);
-
+            ->with(Website::class)
+            ->willReturn($websiteRepository);
         $registry->expects($this->any())
             ->method('getManagerForClass')
-            ->with('TestWebsiteClass')
+            ->with(Website::class)
             ->willReturn($em);
 
-        /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject $websiteProvider */
-        $websiteProvider = $this->createMock('Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface');
-        $websiteProvider->expects($this->any())
-            ->method('getWebsites')
-            ->willReturn([$website]);
+        $aclHelper = $this->createMock(AclHelper::class);
+        $aclHelper->expects($this->any())
+            ->method('apply')
+            ->willReturn($websiteQB);
 
-        $this->formType = new WebsiteScopedDataType($registry, $websiteProvider);
-        $this->formType->setWebsiteClass('TestWebsiteClass');
+        $this->formType = new WebsiteScopedDataType($registry, $aclHelper);
+        $this->formType->setWebsiteClass(Website::class);
         parent::setUp();
     }
 
@@ -147,7 +148,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             $view->vars['websites']
         );
 
-        $this->assertEquals([self::WEBSITE_ID], $websiteIds);
+        $this->assertEquals([self::WEBSITE_ID => self::WEBSITE_ID], $websiteIds);
     }
 
     /**

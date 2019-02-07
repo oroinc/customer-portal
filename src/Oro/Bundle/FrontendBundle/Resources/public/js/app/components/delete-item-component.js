@@ -49,21 +49,14 @@ define(function(require) {
         },
 
         deleteWithConfirmation: function() {
-            var options = {
+            var options = _.extend(_.pick(this, 'okButtonClass', 'cancelButtonClass'), {
                 content: this.confirmMessage
-            };
-
-            if (this.okButtonClass) {
-                options = _.extend(options, {okButtonClass: this.okButtonClass});
-            }
-
-            if (this.cancelButtonClass) {
-                options = _.extend(options, {cancelButtonClass: this.cancelButtonClass});
-            }
-
+            });
             var confirm = new DeleteConfirmation(options);
-            confirm.on('ok', _.bind(this.deleteWithoutConfirmation, this));
-            confirm.open();
+
+            confirm
+                .on('ok', this.deleteWithoutConfirmation.bind(this))
+                .open();
         },
 
         deleteWithoutConfirmation: function(e) {
