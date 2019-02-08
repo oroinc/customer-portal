@@ -115,6 +115,8 @@
     }
 
     &.select2-container-disabled {
+        pointer-events: none;
+
         .select2-choice {
             background-color: get-color('additional', 'base');
             cursor: default;
