@@ -18,21 +18,27 @@ class FrontendJsRoutingDumpCommand extends DumpCommand
     /** @var string */
     private $projectDir;
 
+    /** @var string */
+    private $backendFilenamePrefix;
+
     /**
      * @param ExposedRoutesExtractorInterface $extractor
      * @param SerializerInterface $serializer
      * @param string $projectDir
      * @param string|null $requestContextBaseUrl
+     * @param string $backendFilenamePrefix
      */
     public function __construct(
         ExposedRoutesExtractorInterface $extractor,
         SerializerInterface $serializer,
         $projectDir,
-        $requestContextBaseUrl = null
+        $requestContextBaseUrl = null,
+        string $backendFilenamePrefix = ''
     ) {
         parent::__construct($extractor, $serializer, $projectDir, $requestContextBaseUrl);
 
         $this->projectDir = $projectDir;
+        $this->backendFilenamePrefix = $backendFilenamePrefix;
     }
 
     /**
@@ -58,7 +64,7 @@ class FrontendJsRoutingDumpCommand extends DumpCommand
         $target = $input->getOption('target');
         if ($target) {
             $parts = explode(DIRECTORY_SEPARATOR, $target);
-            $parts[] = 'frontend_' . array_pop($parts);
+            $parts[] = $this->getFilename(array_pop($parts));
 
             $input->setOption('target', implode(DIRECTORY_SEPARATOR, $parts));
         } else {
@@ -78,5 +84,16 @@ class FrontendJsRoutingDumpCommand extends DumpCommand
         }
 
         return parent::execute($input, $output);
+    }
+
+    /**
+     * @param string $backendFilename
+     * @return string
+     */
+    private function getFilename(string $backendFilename): string
+    {
+        $filename = ltrim(str_replace($this->backendFilenamePrefix, '', $backendFilename), '_');
+
+        return sprintf('frontend_%s', $filename);
     }
 }
