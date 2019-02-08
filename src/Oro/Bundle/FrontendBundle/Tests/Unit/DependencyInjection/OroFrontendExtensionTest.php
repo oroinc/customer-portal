@@ -11,6 +11,11 @@ use Oro\Component\Config\CumulativeResourceManager;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ */
 class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoad()
@@ -50,6 +55,44 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(
             NotInstalledFrontendHelper::class,
             $container->getDefinition('oro_frontend.request.frontend_helper')->getClass()
+        );
+    }
+
+    public function testConfigurationForNotConfiguredFrontendSession()
+    {
+        $container = new ContainerBuilder();
+
+        $config = [];
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $extension = new OroFrontendExtension();
+        $extension->load([$config], $container);
+
+        self::assertSame([], $container->getParameter('oro_frontend.session.storage.options'));
+    }
+
+    public function testConfigurationForFrontendSession()
+    {
+        $container = new ContainerBuilder();
+
+        $config = [
+            'session' => [
+                'name'            => 'TEST',
+                'cookie_lifetime' => null,
+                'cookie_path'     => '/test'
+            ]
+        ];
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $extension = new OroFrontendExtension();
+        $extension->load([$config], $container);
+
+        self::assertEquals(
+            [
+                'name'        => 'TEST',
+                'cookie_path' => '/test'
+            ],
+            $container->getParameter('oro_frontend.session.storage.options')
         );
     }
 
