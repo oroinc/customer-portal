@@ -18,9 +18,14 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ */
 class OroFrontendExtension extends Extension implements PrependExtensionInterface
 {
     public const ALIAS = 'oro_frontend';
+
+    public const FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME = 'oro_frontend.session.storage.options';
 
     public const API_DOC_VIEWS_PARAMETER_NAME        = 'oro_frontend.api_doc.views';
     public const API_DOC_DEFAULT_VIEW_PARAMETER_NAME = 'oro_frontend.api_doc.default_view';
@@ -58,6 +63,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $container->setParameter('oro_frontend.debug_routes', $config['debug_routes']);
 
         $this->configureFrontendHelper($container);
+        $this->configureFrontendSession($container, $config);
         $this->configureApiDocViews($container, $config);
         $this->configureApiCors($container, $config);
     }
@@ -208,6 +214,33 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 
         $container->getDefinition('oro_frontend.request.frontend_helper')
             ->setClass(NotInstalledFrontendHelper::class);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function configureFrontendSession(ContainerBuilder $container, array $config)
+    {
+        $options = [];
+        if (!empty($config['session']['name'])) {
+            $sessionConfig = $config['session'];
+            $keys = [
+                'name',
+                'cookie_lifetime',
+                'cookie_path',
+                'gc_maxlifetime',
+                'gc_probability',
+                'gc_divisor'
+            ];
+            foreach ($keys as $key) {
+                if (isset($sessionConfig[$key])) {
+                    $options[$key] = $sessionConfig[$key];
+                }
+            }
+        }
+
+        $container->setParameter(self::FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME, $options);
     }
 
     /**

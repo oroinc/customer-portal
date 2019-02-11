@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\FrontendBundle\Tests\Unit\GuestAccess;
+namespace Oro\Bundle\FrontendBundle\Tests\Unit\GuestAccess\Provider;
 
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider;
 
@@ -24,6 +24,7 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
             '^/_wdt',
             '^/_fragment',
             '^/js/',
+            '^/media/js/',
             '^/embedded-form',
             '^/customer/user/login$',
             '^/customer/user/reset-request$',
