@@ -158,7 +158,7 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
 
         // Role moved to another customer OR customer added
         if ($role->getId() && (
-                ($this->originalCustomer !== $role->getCustomer() &&
+            ($this->originalCustomer !== $role->getCustomer() &&
                     $this->originalCustomer !== null && $role->getCustomer() !== null) ||
                 ($this->originalCustomer === null && $role->getCustomer() !== null)
             )
