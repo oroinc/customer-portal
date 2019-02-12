@@ -20,6 +20,7 @@ oro:
             descriptions.label: Description
             icon.label: Icon
             screens.label: Screens
+            menu_user_agent_conditions.label: User Agent Conditions
             roots_plural_label: 'Frontend Menus'
             website_with_label: 'Website: %website%'
             reset_message: "Menu \"%menuKey%\" was successfully reset."

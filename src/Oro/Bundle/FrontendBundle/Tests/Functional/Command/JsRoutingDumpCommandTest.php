@@ -6,9 +6,15 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class JsRoutingDumpCommandTest extends WebTestCase
 {
+    /** @var string */
+    private $filenamePrefix;
+
     protected function setUp()
     {
         $this->initClient();
+        $this->filenamePrefix = $this->getContainer()->getParameter('oro_navigation.js_routing_filename_prefix');
+
+        $this->assertNotEmpty($this->filenamePrefix);
     }
 
     public function testExecute(): void
@@ -16,7 +22,7 @@ class JsRoutingDumpCommandTest extends WebTestCase
         $result = $this->runCommand('fos:js-routing:dump', ['-vvv']);
 
         $this->assertNotEmpty($result);
-        $this->assertContains($this->getEndPath('routes', 'json'), $result);
+        $this->assertContains($this->getEndPath($this->getFilename(), 'json'), $result);
         $this->assertContains($this->getEndPath('frontend_routes', 'json'), $result);
     }
 
@@ -25,7 +31,7 @@ class JsRoutingDumpCommandTest extends WebTestCase
         $result = $this->runCommand('fos:js-routing:dump', ['-vvv', '--format=js']);
 
         $this->assertNotEmpty($result);
-        $this->assertContains($this->getEndPath('routes', 'js'), $result);
+        $this->assertContains($this->getEndPath($this->getFilename(), 'js'), $result);
         $this->assertContains($this->getEndPath('frontend_routes', 'js'), $result);
     }
 
@@ -51,5 +57,13 @@ class JsRoutingDumpCommandTest extends WebTestCase
     private function getEndPath(string $filename, string $format): string
     {
         return implode(DIRECTORY_SEPARATOR, ['', 'public', 'media', 'js', $filename . '.' . $format]);
+    }
+
+    /**
+     * @return string
+     */
+    private function getFilename(): string
+    {
+        return implode('_', array_filter([$this->filenamePrefix, 'routes']));
     }
 }

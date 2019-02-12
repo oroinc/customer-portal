@@ -45,6 +45,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->prototype('scalar')->end()
             ->end();
+        $this->appendSessionNode($rootNodeChildren);
         $frontendApiChildren = $rootNodeChildren
             ->arrayNode('frontend_api')
                 ->info('The configuration of API for the storefront')
@@ -58,6 +59,36 @@ class Configuration implements ConfigurationInterface
         $this->appendFrontendApiCorsNode($frontendApiChildren);
 
         return $treeBuilder;
+    }
+
+    /**
+     * @param NodeBuilder $node
+     */
+    private function appendSessionNode(NodeBuilder $node)
+    {
+        $node
+            ->arrayNode('session')
+                ->info('The configuration of storefront session')
+                ->children()
+                    ->scalarNode('name')
+                        ->isRequired()
+                        ->cannotBeEmpty()
+                        ->validate()
+                            ->ifTrue(function ($v) {
+                                parse_str($v, $parsed);
+
+                                return implode('&', array_keys($parsed)) !== (string)$v;
+                            })
+                            ->thenInvalid('Session name %s contains illegal character(s).')
+                        ->end()
+                    ->end()
+                    ->scalarNode('cookie_lifetime')->end()
+                    ->scalarNode('cookie_path')->end()
+                    ->scalarNode('gc_maxlifetime')->end()
+                    ->scalarNode('gc_probability')->end()
+                    ->scalarNode('gc_divisor')->end()
+                ->end()
+            ->end();
     }
 
     /**
