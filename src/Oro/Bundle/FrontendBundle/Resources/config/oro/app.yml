@@ -25,6 +25,9 @@ oro_frontend:
     frontend_api:
         api_doc_views: [frontend_rest_json_api]
 
+oro_navigation:
+    js_routing_filename_prefix: '%web_backend_prefix%'
+
 twig:
     globals:
         commerce:
