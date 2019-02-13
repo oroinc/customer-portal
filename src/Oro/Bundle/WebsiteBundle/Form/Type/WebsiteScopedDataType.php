@@ -4,8 +4,8 @@ namespace Oro\Bundle\WebsiteBundle\Form\Type;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -15,17 +15,14 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
+ * The form type to select websites.
+ *
  * @deprecated use Oro\Bundle\ScopeBundle\Form\Type\ScopedDataType instead
  */
 class WebsiteScopedDataType extends AbstractType
 {
     const NAME = 'oro_website_scoped_data_type';
     const WEBSITE_OPTION = 'website';
-
-    /**
-     * @var ManagerRegistry
-     */
-    protected $registry;
 
     /**
      * @return Website[]
@@ -38,9 +35,14 @@ class WebsiteScopedDataType extends AbstractType
     protected $websiteCLass = 'Oro\Bundle\WebsiteBundle\Entity\Website';
 
     /**
-     * @var WebsiteProviderInterface
+     * @var ManagerRegistry
      */
-    protected $websiteProvider;
+    protected $registry;
+
+    /**
+     * @var AclHelper
+     */
+    protected $aclHelper;
 
     /**
      * {@inheritdoc}
@@ -60,12 +62,12 @@ class WebsiteScopedDataType extends AbstractType
 
     /**
      * @param ManagerRegistry $registry
-     * @param WebsiteProviderInterface $websiteProvider
+     * @param AclHelper $aclHelper
      */
-    public function __construct(ManagerRegistry $registry, WebsiteProviderInterface $websiteProvider)
+    public function __construct(ManagerRegistry $registry, AclHelper $aclHelper)
     {
         $this->registry = $registry;
-        $this->websiteProvider = $websiteProvider;
+        $this->aclHelper = $aclHelper;
     }
 
     /**
@@ -135,7 +137,6 @@ class WebsiteScopedDataType extends AbstractType
 
             /** @var EntityManager $em */
             $em = $this->registry->getManagerForClass($this->websiteCLass);
-
             $formOptions['options'][self::WEBSITE_OPTION] = $em
                 ->getReference($this->websiteCLass, $websiteId);
 
@@ -191,11 +192,19 @@ class WebsiteScopedDataType extends AbstractType
      */
     protected function getWebsites()
     {
-        if (null === $this->websites) {
-            $this->websites = $this->websiteProvider->getWebsites();
+        $queryBuilder = $this->registry
+            ->getRepository(Website::class)
+            ->createQueryBuilder('website')
+            ->addOrderBy('website.id', 'ASC');
+
+        $websites = $this->aclHelper->apply($queryBuilder)->getResult();
+        $result = [];
+
+        foreach ($websites as $website) {
+            $result[$website->getId()] = $website;
         }
 
-        return $this->websites;
+        return $result;
     }
 
     /**

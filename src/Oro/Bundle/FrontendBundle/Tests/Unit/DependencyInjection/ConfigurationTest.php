@@ -3,6 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Processor;
 
 class ConfigurationTest extends \PHPUnit\Framework\TestCase
@@ -11,10 +12,7 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
     {
         $configuration = new Configuration();
 
-        $this->assertInstanceOf(
-            'Symfony\Component\Config\Definition\Builder\TreeBuilder',
-            $configuration->getConfigTreeBuilder()
-        );
+        $this->assertInstanceOf(TreeBuilder::class, $configuration->getConfigTreeBuilder());
     }
 
     public function testProcessEmptyConfiguration()
@@ -57,5 +55,53 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $configuration = new Configuration();
         $processor = new Processor();
         $this->assertEquals($expected, $processor->processConfiguration($configuration, $configs));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedExceptionMessage The path "oro_frontend.session.name" cannot contain an empty value, but got "".
+     */
+    public function testProcessWithEmptyFrontendSessionName()
+    {
+        $configs = [['session' => ['name' => '']]];
+
+        $configuration = new Configuration();
+        $processor = new Processor();
+        $processor->processConfiguration($configuration, $configs);
+    }
+
+    // @codingStandardsIgnoreStart
+    /**
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedExceptionMessage Invalid configuration for path "oro_frontend.session.name": Session name "a+b" contains illegal character(s).
+     */
+    // @codingStandardsIgnoreEnd
+    public function testProcessWithInvalidFrontendSessionName()
+    {
+        $configs = [['session' => ['name' => 'a+b']]];
+
+        $configuration = new Configuration();
+        $processor = new Processor();
+        $processor->processConfiguration($configuration, $configs);
+    }
+
+    public function testProcessSessionConfiguration()
+    {
+        $configs = [
+            [
+                'session' => [
+                    'name'            => 'TEST',
+                    'cookie_lifetime' => 10,
+                    'cookie_path'     => '/test',
+                    'gc_maxlifetime'  => 20,
+                    'gc_probability'  => 1,
+                    'gc_divisor'      => 2
+                ]
+            ]
+        ];
+        $configuration = new Configuration();
+        $processor = new Processor();
+        $processedConfig = $processor->processConfiguration($configuration, $configs);
+        $this->assertEquals($configs[0]['session'], $processedConfig['session']);
     }
 }

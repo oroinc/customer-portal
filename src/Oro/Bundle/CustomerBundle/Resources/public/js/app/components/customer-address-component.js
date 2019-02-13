@@ -83,7 +83,7 @@ define(function(require) {
          */
         processDefaultsChange: function(el) {
             if (el.checked) {
-                var items = $(el.closest(this.options.containerSelector))
+                var items = $(el).closest(this.options.containerSelector)
                     .find(this.options.typesSelector + '[value="' + el.value + '"]');
 
                 items.each(function(idx, typeEl) {
@@ -96,7 +96,7 @@ define(function(require) {
          * @param {Element} el
          */
         processTypeChange: function(el) {
-            var items = $(el.closest(this.options.containerSelector))
+            var items = $(el).closest(this.options.containerSelector)
                 .find(this.options.defaultsSelector + '[value="' + el.value + '"]');
 
             if (!el.checked) {
