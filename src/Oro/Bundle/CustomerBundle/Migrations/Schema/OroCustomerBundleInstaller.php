@@ -77,7 +77,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_20';
+        return 'v1_21';
     }
 
     /**

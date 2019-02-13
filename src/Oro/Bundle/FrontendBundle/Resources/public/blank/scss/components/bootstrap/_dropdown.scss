@@ -105,6 +105,12 @@
             }
         }
     }
+
+    &[x-placement] {
+        .dropdown-item {
+            white-space: normal;
+        }
+    }
 }
 
 .dropdown-toggle--no-caret {

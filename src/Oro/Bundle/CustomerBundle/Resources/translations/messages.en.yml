@@ -122,6 +122,7 @@ oro.customer:
         entity_plural_label:         'Customer Users'
         entity_description:          Customer User represents a person who acts on behalf of the company to buy products using OroCommerce store frontend.
         id.label:                    'ID'
+        api_keys.label:              API keys
         first_name:
             label:                   'First Name'
             description:             First name of the customer user.
@@ -517,11 +518,13 @@ oro.customer:
         entity_label: Grid View
         entity_plural_label: Grid Views
         id.label: Id
+        appearance_type.label: Appearance type
         appearance_data.label: Appearance data
         columns_data.label: Columns
         filters_data.label: Filters
         grid_name.label: Grid Name
         name.label: Name
+        users.label: Users
         sorters_data.label: Sorters
         type.label: Type
         discr_type.label: Discriminator Type

@@ -5,6 +5,7 @@ define(function(require) {
      * This helper use in the context of component View
      */
     var _ = require('underscore');
+    var $ = require('jquery');
 
     return {
         /**
@@ -13,15 +14,21 @@ define(function(require) {
         counts: null,
 
         /**
+         * @property {Object}
+         */
+        disabledOptions: null,
+
+        /**
          * @param {Object} metadata
          */
         onMetadataLoaded: function(metadata) {
             this.counts = metadata.counts || null;
+            this.disabledOptions = metadata.disabledOptions || null;
             this.rerenderFilter();
         },
 
         rerenderFilter: function() {
-            if (this.counts !== null && this.isRendered()) {
+            if (this.isRendered()) {
                 this.render();
             }
         },
@@ -34,15 +41,18 @@ define(function(require) {
                 return data;
             }
 
-            var options = data.options || {};
-            options = _.filter(options, function(option) {
-                option.count = this.counts[option.value] || 0;
-                var normalizedValue = this.value.value || this.value;
+            var options = $.extend(true, {}, data.options || {});
+            var that = this;
+            _.each(options, function(option) {
+                option.count = that.counts[option.value] || 0;
+                if (option.count === 0 &&
+                    !_.contains(that.disabledOptions, option.value) &&
+                    !_.contains(data.selected.value, option.value)) {
+                    options = _.without(options, option);
+                }
+            });
 
-                return normalizedValue.indexOf(option.value) >= 0 || option.count > 0;
-            }, this);
-
-            this.visible = !_.isEmpty(options);
+            this.visible = !(_.isEmpty(options) && _.isEmpty(this.disabledOptions));
             data.options = options;
 
             return data;
