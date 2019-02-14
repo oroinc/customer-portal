@@ -97,7 +97,7 @@ Feature: Disable map previews on the store frontend by config option
     And I click on Default in grid
     And I click "Organization Configuration"
     And I follow "System Configuration/General Setup/Display Settings" on configuration sidebar
-    And uncheck "Use System" for "Enable Map Preview" field
+    And uncheck "Use Organization" for "Enable Map Preview" field
     And I fill in "Enable Map Preview" with "No"
     And I save form
     Then I continue as the Buyer
@@ -111,7 +111,7 @@ Feature: Disable map previews on the store frontend by config option
     And I click on Default in grid
     And I click "Organization Configuration"
     And I follow "System Configuration/General Setup/Display Settings" on configuration sidebar
-    And check "Use System" for "Enable Map Preview" field
+    And check "Use Organization" for "Enable Map Preview" field
     And I save form
 
   Scenario: Check that map previews are hidden when disabled in system config in default theme
@@ -163,7 +163,7 @@ Feature: Disable map previews on the store frontend by config option
     And I click on Default in grid
     And I click "Organization Configuration"
     And I follow "System Configuration/General Setup/Display Settings" on configuration sidebar
-    And uncheck "Use System" for "Enable Map Preview" field
+    And uncheck "Use Organization" for "Enable Map Preview" field
     And I fill in "Enable Map Preview" with "No"
     And I save form
     Then I continue as the Buyer
@@ -186,7 +186,7 @@ Feature: Disable map previews on the store frontend by config option
     And I click on Default in grid
     And I click "Organization Configuration"
     And I follow "System Configuration/General Setup/Display Settings" on configuration sidebar
-    And uncheck "Use System" for "Enable Map Preview" field
+    And uncheck "Use Organization" for "Enable Map Preview" field
     And I fill in "Enable Map Preview" with "Yes"
     And I save form
     Then I continue as the Buyer
