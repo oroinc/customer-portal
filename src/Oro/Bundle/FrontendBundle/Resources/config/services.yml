@@ -199,6 +199,12 @@ services:
         tags:
            - { name: oro.action.extension.button_provider, priority: 120 }
 
+    oro_frontend.layout_theme_config_extension.screens:
+        class: 'Oro\Bundle\FrontendBundle\Layout\Extension\ScreensThemeConfigurationExtension'
+        public: false
+        tags:
+            - { name: layout.theme_config_extension }
+
     oro_frontend.layout_context_configurator.page_template:
         class: 'Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplateContextConfigurator'
         arguments:

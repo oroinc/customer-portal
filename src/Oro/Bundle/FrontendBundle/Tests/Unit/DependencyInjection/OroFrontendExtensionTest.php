@@ -6,8 +6,6 @@ use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\FrontendBundle\Request\NotInstalledFrontendHelper;
-use Oro\Bundle\FrontendBundle\Tests\Unit\Fixtures\Bundle\TestBundle1\TestBundle1;
-use Oro\Component\Config\CumulativeResourceManager;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -305,34 +303,5 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->prepend($container);
 
         self::assertEquals($expected, $container->getExtensionConfig('fos_rest'));
-    }
-
-    public function testPrependScreensConfigs()
-    {
-        CumulativeResourceManager::getInstance()
-                                 ->clear()
-                                 ->setBundles(['TestBundle1' => TestBundle1::class]);
-
-        $container = new ContainerBuilder();
-        $extension = new OroFrontendExtension();
-        $extension->prepend($container);
-
-        $expected = [[
-            'themes' => [
-                'sample_theme' => [
-                    'config' => [
-                        'screens' => [
-                            'sample_screen' => [
-                                'label' => 'Sample screen',
-                                'hidingCssClass' => 'sample-css-class',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ]];
-        $actual = $container->getExtensionConfig('oro_layout');
-
-        $this->assertEquals($expected, $actual);
     }
 }

@@ -5,11 +5,6 @@ namespace Oro\Bundle\FrontendBundle\DependencyInjection;
 use Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension;
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
 use Oro\Bundle\FrontendBundle\Request\NotInstalledFrontendHelper;
-use Oro\Bundle\LayoutBundle\DependencyInjection\OroLayoutExtension;
-use Oro\Component\Config\CumulativeResourceInfo;
-use Oro\Component\Config\Loader\CumulativeConfigLoader;
-use Oro\Component\Config\Loader\FolderingCumulativeFileLoader;
-use Oro\Component\Config\Loader\YamlCumulativeFileLoader;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,9 +13,6 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-/**
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- */
 class OroFrontendExtension extends Extension implements PrependExtensionInterface
 {
     public const ALIAS = 'oro_frontend';
@@ -34,9 +26,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     private const API_MAX_AGE_PROCESSOR_SERVICE_ID       = 'oro_frontend.api.options.rest.cors.set_max_age';
     private const API_ALLOW_ORIGIN_PROCESSOR_SERVICE_ID  = 'oro_frontend.api.rest.cors.set_allow_origin';
     private const API_CORS_HEADERS_PROCESSOR_SERVICE_ID  = 'oro_frontend.api.rest.cors.set_allow_and_expose_headers';
-
-    private const RESOURCES_FOLDER_PLACEHOLDER = '{folder}';
-    private const RESOURCES_FOLDER_PATTERN     = '[a-zA-Z][a-zA-Z0-9_\-:]*';
 
     /**
      * {@inheritdoc}
@@ -77,8 +66,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
             $this->modifySecurityConfig($container);
             $this->modifyFosRestConfig($container);
         }
-
-        $this->prependScreensConfigs($container);
     }
 
     /**
@@ -87,66 +74,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     public function getAlias()
     {
         return self::ALIAS;
-    }
-
-    /**
-     * Put screens configurations to oro_layout.themes.*.config.screens.
-     *
-     * @param ContainerBuilder $container
-     */
-    protected function prependScreensConfigs(ContainerBuilder $container)
-    {
-        $resources = $this->loadScreensConfigResources($container);
-        if ($resources) {
-            $screenConfigs = [];
-            foreach ($resources as $resource) {
-                $screenConfigs[] = $this->getScreensConfigArray($resource);
-            }
-
-            $layoutBundleConfiguration = new ScreensConfiguration();
-            $processedScreenConfigs = $this->processConfiguration($layoutBundleConfiguration, $screenConfigs);
-
-            $container->prependExtensionConfig(OroLayoutExtension::ALIAS, $processedScreenConfigs);
-        }
-    }
-
-    /**
-     * Load screens config files.
-     *
-     * @param ContainerBuilder $container
-     *
-     * @return CumulativeResourceInfo[]
-     */
-    protected function loadScreensConfigResources(ContainerBuilder $container)
-    {
-        $configLoader = new CumulativeConfigLoader(
-            OroLayoutExtension::ALIAS,
-            new FolderingCumulativeFileLoader(
-                self::RESOURCES_FOLDER_PLACEHOLDER,
-                self::RESOURCES_FOLDER_PATTERN,
-                new YamlCumulativeFileLoader('Resources/views/layouts/{folder}/config/screens.yml')
-            )
-        );
-
-        return $configLoader->load($container);
-    }
-
-    /**
-     * @param CumulativeResourceInfo $resource
-     *
-     * @return array
-     */
-    protected function getScreensConfigArray(CumulativeResourceInfo $resource)
-    {
-        $themeName = basename(dirname(dirname($resource->path)));
-
-        return [
-            'themes' => [
-                $themeName => [
-                    'config' => $resource->data,
-                ],
-            ],
-        ];
     }
 
     /**
