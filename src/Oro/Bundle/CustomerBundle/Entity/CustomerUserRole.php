@@ -18,7 +18,8 @@ use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository")
  * @ORM\Table(name="oro_customer_user_role",
  *      uniqueConstraints={
- *          @ORM\UniqueConstraint(name="oro_customer_user_role_customer_id_label_idx", columns={
+ *          @ORM\UniqueConstraint(name="UNIQ_552B533832C8A3DE9395C3F3E", columns={
+ *              "organization_id",
  *              "customer_id",
  *              "label"
  *          })
