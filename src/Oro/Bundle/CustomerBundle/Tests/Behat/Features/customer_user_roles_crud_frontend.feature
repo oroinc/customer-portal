@@ -3,6 +3,8 @@
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 @fixture-OroCustomerBundle:CustomerUserRoleFixture.yml
+@fixture-OroOrganizationProBundle:SecondOrganizationFixture.yml
+
 Feature: Customer user roles crud frontend
   In order to control customer user permissions
   As an Buyer
@@ -58,3 +60,22 @@ Feature: Customer user roles crud frontend
     Then I should see Test customer user role in grid
     When I click Delete Test customer user role in grid
     Then I should not see "Test customer user role"
+
+  Scenario: Create Customer User Role in second Organization
+    Given I login as administrator
+    And I am logged in under ORO Pro organization
+    And I go to Customers / Customer User Roles
+    And I click "Create Customer User Role"
+    And I fill form with:
+      | Role | Buyer |
+    When I save and close form
+    Then I should see "Customer User Role has been saved"
+
+  Scenario: Validate Customer User Role in second Organization
+    Given I go to Customers / Customer User Roles
+    And I click "Create Customer User Role"
+    And I fill form with:
+      | Role | Buyer |
+    When I save and close form
+    Then I should see validation errors:
+      | Role | Role with this name already exists |
