@@ -1,3 +1,6 @@
 groups: [ commerce ]
 icon: bundles/orofrontend/blank/images/favicon/favicon.ico
 logo: bundles/orofrontend/blank/images/logo/logo-oroacem.svg
+#image_placeholders:
+#    product: '/bundles/oroproduct/images/no_image.png'
+#    category: '/bundles/orocatalog/images/no_image.png'

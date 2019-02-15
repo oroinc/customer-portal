@@ -57,7 +57,7 @@ Feature: Visibility of Company Name Field on registration page
     And go to System/ Websites
     And click "Configuration" on row "Default" in grid
     And I follow "Commerce/Customer/Customer Users" on configuration sidebar
-    And uncheck "Use System" for "Require company name" field
+    And uncheck "Use Organization" for "Require company name" field
     And fill in "Require company name" with "false"
     And submit form
     And I should see "Configuration saved" flash message
