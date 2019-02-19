@@ -105,7 +105,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
 Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
-            fields: [label, customer]
+            fields: [label, customer, organization]
             message: "Role with this name already exists"
             ignoreNull: false
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: role

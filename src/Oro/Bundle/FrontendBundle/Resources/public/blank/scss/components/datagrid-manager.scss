@@ -76,7 +76,8 @@
 
         // Rewrite ui-* styles
         &.ui-rewrite {
-            overflow-y: inherit;
+            // Break inline styles
+            overflow-y: inherit !important;
         }
     }
 

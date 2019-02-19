@@ -16,6 +16,8 @@ class LoadWebsiteData extends AbstractFixture implements
     InitialFixtureInterface,
     DependentFixtureInterface
 {
+    const DEFAULT_WEBSITE = 'website';
+
     /**
      * {@inheritdoc}
      */
@@ -38,6 +40,6 @@ class LoadWebsiteData extends AbstractFixture implements
             ->getQuery()
             ->setMaxResults(1)
             ->getSingleResult();
-        $this->addReference('website', $website);
+        $this->addReference(self::DEFAULT_WEBSITE, $website);
     }
 }

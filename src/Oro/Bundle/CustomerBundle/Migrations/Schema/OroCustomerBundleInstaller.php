@@ -77,7 +77,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_20';
+        return 'v1_21';
     }
 
     /**
@@ -360,7 +360,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('public', 'boolean', ['notnull' => true, 'default' => true]);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['role']);
-        $table->addUniqueIndex(['customer_id', 'label'], 'oro_customer_user_role_customer_id_label_idx');
+        $table->addUniqueIndex(['organization_id', 'customer_id', 'label']);
 
         $this->activityExtension->addActivityAssociation(
             $schema,

@@ -24,7 +24,8 @@ define(function(require) {
             dots: false,
             infinite: false,
             additionalClass: 'embedded-list__slider no-transform',
-            embeddedArrowsClass: 'embedded-arrows'
+            embeddedArrowsClass: 'embedded-arrows',
+            loadingClass: 'loading'
         },
 
         /**
@@ -51,9 +52,12 @@ define(function(require) {
                 if (self.options.additionalClass) {
                     self.$el.addClass(self.options.additionalClass);
                 }
+
+                self.$el.removeClass(self.options.loadingClass);
             });
 
             if (this.options.mobileEnabled) {
+                this.$el.addClass(this.options.loadingClass);
                 this.refreshPositions();
                 $(this.$el).slick(this.options);
             }
