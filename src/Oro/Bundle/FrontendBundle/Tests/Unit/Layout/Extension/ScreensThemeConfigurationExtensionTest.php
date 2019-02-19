@@ -8,7 +8,6 @@ use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfiguration;
 use Oro\Bundle\LayoutBundle\Layout\Extension\ThemeConfigurationProvider;
 use Oro\Component\Config\CumulativeResourceManager;
 use Oro\Component\Testing\TempDirExtension;
-use Symfony\Component\Config\ConfigCacheFactory;
 
 class ScreensThemeConfigurationExtensionTest extends \PHPUnit\Framework\TestCase
 {
@@ -32,7 +31,7 @@ class ScreensThemeConfigurationExtensionTest extends \PHPUnit\Framework\TestCase
 
         $this->themeConfigurationProvider = new ThemeConfigurationProvider(
             $this->cacheFile,
-            new ConfigCacheFactory(false),
+            false,
             $themeConfiguration,
             '[\w\-]+'
         );
