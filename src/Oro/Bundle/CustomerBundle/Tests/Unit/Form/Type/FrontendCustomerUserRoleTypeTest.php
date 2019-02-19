@@ -13,8 +13,7 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeS
 use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
 use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType;
 use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType as EntityIdentifierTypeStub;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as CustomerSelectTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
@@ -35,8 +34,8 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
      */
     protected function getExtensions()
     {
-        $entityIdentifierType = new EntityIdentifierTypeStub($this->getCustomerUsers());
-        $customerSelectType = new CustomerSelectTypeStub($this->getCustomers(), CustomerSelectType::NAME);
+        $entityIdentifierType = new EntityType($this->getCustomerUsers());
+        $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
 
         /** @var \PHPUnit\Framework\MockObject\MockObject|TranslatableEntityType $registry */
         $translatableEntity = $this->getMockBuilder('Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType')

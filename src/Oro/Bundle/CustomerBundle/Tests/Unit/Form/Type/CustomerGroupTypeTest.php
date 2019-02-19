@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
 use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityIdentifierType as EntityIdentifierTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
@@ -44,7 +44,7 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
      */
     protected function getExtensions()
     {
-        $entityIdentifierType = new EntityIdentifierTypeStub([]);
+        $entityIdentifierType = new EntityType([]);
 
         return [
             new PreloadedExtension(
