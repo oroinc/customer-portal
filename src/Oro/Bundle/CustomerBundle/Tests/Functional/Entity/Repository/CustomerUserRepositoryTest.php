@@ -42,9 +42,39 @@ class CustomerUserRepositoryTest extends WebTestCase
         /** @var CustomerUser $user */
         $user = $this->getReference(LoadCustomerUserData::EMAIL);
 
-        $this->assertTrue(null === $this->repository->findUserByEmail(strtoupper($user->getEmail()), false));
-        $this->assertTrue(null === $this->repository->findUserByEmail(ucfirst($user->getEmail()), false));
+        $this->assertNull($this->repository->findUserByEmail(strtoupper($user->getEmail()), false));
+        $this->assertNull($this->repository->findUserByEmail(ucfirst($user->getEmail()), false));
         $this->assertEquals($user, $this->repository->findUserByEmail($user->getEmail(), false));
+    }
+
+    public function testFindUserByEmailAndOrganizationSensitive()
+    {
+        $this->loadFixtures([LoadCustomerUserData::class]);
+
+        /** @var CustomerUser $user */
+        $user = $this->getReference(LoadCustomerUserData::EMAIL);
+
+        $this->assertEquals($user, $this->repository
+            ->findUserByEmailAndOrganization(strtoupper($user->getEmail()), $user->getOrganization(), true));
+        $this->assertEquals($user, $this->repository
+            ->findUserByEmailAndOrganization(ucfirst($user->getEmail()), $user->getOrganization(), true));
+        $this->assertEquals($user, $this->repository
+            ->findUserByEmailAndOrganization($user->getEmail(), $user->getOrganization(), true));
+    }
+
+    public function testFindUserByEmailAndOrganizationInsensitive()
+    {
+        $this->loadFixtures([LoadCustomerUserData::class]);
+
+        /** @var CustomerUser $user */
+        $user = $this->getReference(LoadCustomerUserData::EMAIL);
+
+        $this->assertNull($this->repository
+            ->findUserByEmailAndOrganization(strtoupper($user->getEmail()), $user->getOrganization(), false));
+        $this->assertNull($this->repository
+            ->findUserByEmailAndOrganization(ucfirst($user->getEmail()), $user->getOrganization(), false));
+        $this->assertEquals($user, $this->repository
+            ->findUserByEmailAndOrganization($user->getEmail(), $user->getOrganization(), false));
     }
 
     public function testFindLowercaseNonDuplicatedEmails()

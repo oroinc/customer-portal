@@ -212,6 +212,8 @@ services:
         arguments:
             - '@doctrine'
             - '@oro_config.manager'
+            - '@oro_website.manager'
+            - '@oro_security.token_accessor'
 
     oro_customer.security.provider:
         class: '%oro_user.security.provider.class%'
