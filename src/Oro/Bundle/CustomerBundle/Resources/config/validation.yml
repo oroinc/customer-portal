@@ -129,3 +129,17 @@ Oro\Bundle\WebsiteBundle\Entity\Website:
             - NotBlank: ~
         default_role:
             - NotBlank: ~
+
+Oro\Bundle\CustomerBundle\Entity\PinbarTab:
+    constraints:
+        - Oro\Bundle\NavigationBundle\Validator\Constraints\UniquePinbarTabUrl:
+              pinbarTabClass: 'Oro\Bundle\CustomerBundle\Entity\PinbarTab'
+    properties:
+        item:
+            - NotBlank: ~
+        title:
+            - Length:
+                  max: 255
+        titleShort:
+            - Length:
+                  max: 255
