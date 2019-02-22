@@ -1,3 +1,6 @@
+parameters:
+    oro_platform.collector.template: '@@OroFrontend/Collector/commerce.html.twig'
+
 services:
     oro_frontend.extension.transtation_packages_provider:
         parent: oro_translation.extension.transtation_packages_provider.abstract
