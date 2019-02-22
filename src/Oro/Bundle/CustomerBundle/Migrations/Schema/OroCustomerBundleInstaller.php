@@ -534,6 +534,8 @@ class OroCustomerBundleInstaller implements
         $table = $schema->createTable('oro_cus_nav_item_pinbar');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('item_id', 'integer', []);
+        $table->addColumn('title', 'string', ['length' => 255, 'notnull' => true]);
+        $table->addColumn('title_short', 'string', ['length' => 255, 'notnull' => true]);
         $table->addColumn('maximized', 'datetime', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['item_id'], 'UNIQ_F6DC70B5126F525E');
