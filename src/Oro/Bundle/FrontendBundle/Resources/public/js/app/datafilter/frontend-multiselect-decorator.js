@@ -58,12 +58,12 @@ define(function(require) {
             var widget = this.getWidget();
             var instance = this.multiselect('instance');
 
-            if (this.desingConfiguration.hideHeader) {
-                instance.header.hide();
-            }
-
             if (!_.isObject(instance)) {
                 return;
+            }
+
+            if (this.desingConfiguration.hideHeader) {
+                instance.header.hide();
             }
 
             switch (this.desingConfiguration.themeName) {
