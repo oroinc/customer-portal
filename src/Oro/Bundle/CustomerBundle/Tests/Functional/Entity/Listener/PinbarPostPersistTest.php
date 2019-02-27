@@ -34,6 +34,8 @@ class PinbarPostPersistTest extends WebTestCase
 
         $pinbarTab = new PinbarTab();
         $pinbarTab->setItem($item1);
+        $pinbarTab->setTitle('test title');
+        $pinbarTab->setTitleShort('test title short');
 
         $doctrineHelper = self::getContainer()->get('oro_entity.doctrine_helper');
         $pinbarEm = $doctrineHelper->getEntityManager(PinbarTab::class);
