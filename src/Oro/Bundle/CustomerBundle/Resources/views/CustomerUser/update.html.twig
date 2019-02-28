@@ -124,11 +124,11 @@
         }] ) %}
     {% endif %}
 
-    {# Mark roles field af rendered, because it rendered by oro_widget_render #}
-    {% do form.roles.setRendered %}
-
     {% set hasRoles = form.roles is defined %}
     {% if hasRoles %}
+        {# Mark roles field as rendered, because it rendered by oro_widget_render #}
+        {% do form.roles.setRendered %}
+
         {% set userRoles %}
             {% set widgetOptions = {} %}
             {% set widgetUrl = 'oro_customer_customer_user_roles' %}
