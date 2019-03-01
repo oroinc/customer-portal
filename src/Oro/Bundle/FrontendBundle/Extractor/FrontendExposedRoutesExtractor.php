@@ -15,9 +15,11 @@ class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
      */
     public function isRouteExposed(Route $route, $name)
     {
-        return parent::isRouteExposed($route, $name) &&
-            $route->hasOption('frontend') &&
-            $route->getOption('frontend');
+        $pattern = $this->buildPattern();
+
+        return true === $route->getOption('frontend')
+            || 'true' === $route->getOption('frontend')
+            || ('' !== $pattern && preg_match('#' . $pattern . '#', $name));
     }
 
     /**
