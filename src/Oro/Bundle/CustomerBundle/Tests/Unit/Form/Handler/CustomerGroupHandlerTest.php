@@ -5,6 +5,8 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
+use Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent;
+use Oro\Bundle\CustomerBundle\Event\CustomerMassEvent;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerGroupHandler;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
@@ -120,6 +122,19 @@ class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->manager->expects($this->once())
             ->method('flush');
+
+        $this->dispatcher->expects($this->exactly(2))
+            ->method('dispatch')
+            ->withConsecutive(
+                [
+                    CustomerGroupEvent::BEFORE_FLUSH,
+                    new CustomerGroupEvent($this->entity, $this->form)
+                ],
+                [
+                    CustomerMassEvent::ON_CUSTOMER_GROUP_MASS_CHANGE,
+                    new CustomerMassEvent([$appendedCustomer, $removedCustomer])
+                ]
+            );
 
         $this->assertTrue($this->handler->process($this->entity));
 
