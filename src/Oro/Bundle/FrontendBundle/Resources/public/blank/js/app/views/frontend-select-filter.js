@@ -77,19 +77,11 @@ define(function(require) {
         },
 
         /**
-         * Set container for dropdown
+         * @inheritDoc
          * @return {jQuery}
          */
-        _setDropdownContainer: function() {
-            var $container = null;
-
-            if (this.toggleMode) {
-                $container = this.$el.find('.filter-criteria');
-            } else {
-                $container = this.dropdownContainer;
-            }
-
-            return $container;
+        _appendToContainer: function() {
+            return this.toggleMode ? this.$el.find('.filter-criteria') : this.dropdownContainer;
         },
 
         /**

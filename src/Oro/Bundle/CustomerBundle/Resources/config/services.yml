@@ -372,6 +372,8 @@ services:
         public: false
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@oro_navigation.utils.pinbar_tab_url_normalizer"
+            - "@oro_navigation.provider.pinbar_tab_title"
         calls:
             - [ setClassName, ['%oro_customer.entity.pinbar_tab.class%']]
             - [ setNavigationItemClassName, ['%oro_customer.entity.navigation_item.class%']]
@@ -393,53 +395,40 @@ services:
         public: false
         arguments:
             - "@oro_security.token_accessor"
-            - "@doctrine.orm.entity_manager"
-            - "@oro_navigation.item.factory"
-            - "@router"
+            - "@oro_navigation.provider.navigation_items"
         tags:
             - { name: oro_menu.builder, alias: frontend_pinbar }
-            - { name: oro_featuretogle.feature, feature: email }
 
     oro_customer.favorites_menu.builder:
         class: 'Oro\Bundle\NavigationBundle\Menu\NavigationItemBuilder'
         public: false
         arguments:
             - "@oro_security.token_accessor"
-            - "@doctrine.orm.entity_manager"
-            - "@oro_navigation.item.factory"
-            - "@router"
+            - "@oro_navigation.provider.navigation_items"
         tags:
             - { name: oro_menu.builder, alias: frontend_favorite }
-            - { name: oro_featuretogle.feature, feature: email }
 
     oro_customer.history_menu.builder:
         class: 'Oro\Bundle\NavigationBundle\Menu\NavigationHistoryBuilder'
         public: false
         arguments:
-            - "@oro_security.token_accessor"
-            - "@doctrine.orm.entity_manager"
-            - "@oro_navigation.item.factory"
-            - "@router"
-        calls:
-            - [ setMatcher, [ "@knp_menu.matcher" ]]
-            - [ setConfigManager, [ "@oro_config.user" ]]
+            - '@oro_security.token_accessor'
+            - '@oro_navigation.provider.navigation_items'
+            - '@knp_menu.matcher'
+            - '@oro_menu.manipulator'
+            - '@oro_config.user'
         tags:
             - { name: oro_menu.builder, alias: frontend_history }
-            - { name: oro_featuretogle.feature, feature: email }
 
     oro_customer.mostviewed_menu.builder:
         class: 'Oro\Bundle\NavigationBundle\Menu\NavigationMostviewedBuilder'
         public: false
         arguments:
-            - "@oro_security.token_accessor"
-            - "@doctrine.orm.entity_manager"
-            - "@oro_navigation.item.factory"
-            - "@router"
-        calls:
-            - [ setConfigManager, [ "@oro_config.user" ]]
+            - '@oro_security.token_accessor'
+            - '@oro_navigation.provider.navigation_items'
+            - '@oro_config.user'
         tags:
             - { name: oro_menu.builder, alias: frontend_mostviewed }
-            - { name: oro_featuretogle.feature, feature: email }
 
     oro_customer.item.builder.history:
         class: 'Oro\Bundle\NavigationBundle\Entity\Builder\HistoryItemBuilder'
