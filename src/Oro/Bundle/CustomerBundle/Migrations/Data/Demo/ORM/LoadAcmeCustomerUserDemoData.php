@@ -3,25 +3,22 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadAcmeCustomerUserRoles;
+use Oro\Bundle\OrganizationBundle\Migrations\Data\Demo\ORM\LoadAcmeOrganizationAndBusinessUnitData;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
- * Loads customer users.
+ * Loads customer users demo data for acme organization.
  */
-class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
+class LoadAcmeCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
 {
-    /**
-     * @var Organization
-     */
-    private $organization;
 
     /**
      * {@inheritdoc}
      */
     public function getDependencies()
     {
-        return [LoadCustomerDemoData::class];
+        return [LoadAcmeCustomerDemoData::class, LoadAcmeCustomerUserRoles::class];
     }
 
     /**
@@ -29,15 +26,7 @@ class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
      */
     protected function getOrganization(ObjectManager $manager)
     {
-        //Can not use reference here because this fixture is used in tests
-        if (!$this->organization) {
-            $this->organization = $manager->getRepository('OroOrganizationBundle:Organization')->findOneBy(
-                [],
-                ['id' => 'ASC']
-            );
-        }
-
-        return $this->organization;
+        return $this->getReference(LoadAcmeOrganizationAndBusinessUnitData::REFERENCE_DEMO_ORGANIZATION);
     }
 
     /**
@@ -45,7 +34,7 @@ class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
      */
     protected function getWebsite(ObjectManager $manager)
     {
-        return $manager->getRepository(Website::class)->findOneBy(['default' => true]);
+        return $manager->getRepository(Website::class)->findOneBy(['name' => 'ACME']);
     }
 
     /**
@@ -53,7 +42,7 @@ class LoadCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
      */
     protected function getCustomerUsersCSV()
     {
-        return '@OroCustomerBundle/Migrations/Data/Demo/ORM/data/customer-users.csv';
+        return '@OroCustomerBundle/Migrations/Data/Demo/ORM/data/acme_customer_users.csv';
     }
 
     /**

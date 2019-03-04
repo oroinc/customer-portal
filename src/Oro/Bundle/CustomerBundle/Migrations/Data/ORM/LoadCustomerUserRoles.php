@@ -159,7 +159,7 @@ class LoadCustomerUserRoles extends AbstractRolesData
      * @param CustomerUserRole $role
      * @param array            $roleConfigData
      */
-    private function setUpSelfManagedData(CustomerUserRole $role, array $roleConfigData)
+    protected function setUpSelfManagedData(CustomerUserRole $role, array $roleConfigData)
     {
         $role->setSelfManaged(isset($roleConfigData['self_managed']) ? $roleConfigData['self_managed'] : false);
         $role->setPublic(isset($roleConfigData['public']) ? $roleConfigData['public'] : true);
