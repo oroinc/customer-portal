@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * This fixture adds root permissions to all existing acme frontend roles same as in LoadWorkflowAcl.
  */
-class LoadWorkflowAcl extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
+class LoadAcmeWorkflowAcl extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
