@@ -386,6 +386,8 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@oro_navigation.item.factory"
             - "@router"
+        calls:
+            - [ setNavigationItemsProvider, [ "@oro_navigation.provider.navigation_items" ]]
         tags:
             - { name: oro_menu.builder, alias: frontend_pinbar }
             - { name: oro_featuretogle.feature, feature: email }
@@ -398,6 +400,8 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@oro_navigation.item.factory"
             - "@router"
+        calls:
+            - [ setNavigationItemsProvider, [ "@oro_navigation.provider.navigation_items" ]]
         tags:
             - { name: oro_menu.builder, alias: frontend_favorite }
             - { name: oro_featuretogle.feature, feature: email }
@@ -413,6 +417,7 @@ services:
         calls:
             - [ setMatcher, [ "@knp_menu.matcher" ]]
             - [ setConfigManager, [ "@oro_config.user" ]]
+            - [ setNavigationItemsProvider, [ "@oro_navigation.provider.navigation_items" ]]
         tags:
             - { name: oro_menu.builder, alias: frontend_history }
             - { name: oro_featuretogle.feature, feature: email }
@@ -1093,3 +1098,44 @@ services:
         public: false
         tags:
             - { name: oro_entity.name_provider, priority: 100 }
+
+    oro_customer.event_listener.pinbar_tab_subscriber:
+        class: 'Oro\Bundle\NavigationBundle\EventListener\PinbarTabSubscriber'
+        arguments:
+            - '@oro_navigation.utils.pinbar_tab_url_normalizer'
+            - '@oro_navigation.provider.pinbar_tab_title'
+            - '%oro_customer.entity.pinbar_tab.class%'
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    oro_customer.updater.customer_user_reassign_updater:
+        class: 'Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignUpdater'
+        public: false
+
+    oro_customer.event_listener.customer_user_reassign:
+        class: 'Oro\Bundle\CustomerBundle\EventListener\CustomerUserReassignEventListener'
+        arguments:
+            - '@oro_customer.updater.customer_user_reassign_updater'
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: '%oro_customer.entity.customer_user.class%', event: preUpdate }
+
+    oro_customer.validator.customer_user_related_entities_validator:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerRelatedEntitiesValidator
+        arguments:
+            - '@security.authorization_checker'
+            - '@oro_customer.updater.customer_user_reassign_updater'
+            - '@doctrine'
+            - '@oro_entity.entity_class_name_provider'
+        tags:
+            - { name: validator.constraint_validator }
+
+    oro_customer.updater.customer_user_reassign.abstract:
+        class: 'Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignEntityUpdater'
+        arguments:
+            - '@doctrine'
+            - '@oro_dataaudit.converter.entity_to_entity_change_array'
+            - '@oro_dataaudit.provider.audit_message_body_provider'
+            - '@oro_message_queue.message_producer'
+            - '@security.token_storage'
+        abstract: true
+        public: false

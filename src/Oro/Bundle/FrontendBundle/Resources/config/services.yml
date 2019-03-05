@@ -1,3 +1,6 @@
+parameters:
+    oro_platform.collector.template: '@@OroFrontend/Collector/commerce.html.twig'
+
 services:
     oro_frontend.extension.transtation_packages_provider:
         parent: oro_translation.extension.transtation_packages_provider.abstract
@@ -138,16 +141,6 @@ services:
         tags:
             # Must be executed before all listeners to change route for enum filters
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before, method: onBuildBefore, priority: 255 }
-
-    oro_frontend.namespace_migration_provider:
-        class: 'Oro\Bundle\FrontendBundle\CacheWarmer\NamespaceMigrationProvider'
-        tags:
-            - {name: oro_installer.namespace_migration_provider, priority: 10}
-
-    oro_frontend.namespace_migration_fix_product_provider:
-        class: 'Oro\Bundle\FrontendBundle\CacheWarmer\NamespaceMigrationFixProductProvider'
-        tags:
-            - {name: oro_installer.namespace_migration_provider, priority: 25}
 
     oro_frontend.provider.current_application:
         class: 'Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider'

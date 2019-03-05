@@ -47,6 +47,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     constraints:
         - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmail: ~
         - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRole: ~
+        - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerRelatedEntities: ~
     properties:
         firstName:
             - NotBlank: ~
@@ -129,3 +130,17 @@ Oro\Bundle\WebsiteBundle\Entity\Website:
             - NotBlank: ~
         default_role:
             - NotBlank: ~
+
+Oro\Bundle\CustomerBundle\Entity\PinbarTab:
+    constraints:
+        - Oro\Bundle\NavigationBundle\Validator\Constraints\UniquePinbarTabUrl:
+              pinbarTabClass: 'Oro\Bundle\CustomerBundle\Entity\PinbarTab'
+    properties:
+        item:
+            - NotBlank: ~
+        title:
+            - Length:
+                  max: 255
+        titleShort:
+            - Length:
+                  max: 255

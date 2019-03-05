@@ -39,7 +39,7 @@ Feature: Get customer entity name
       | Customer User | Amanda Cole    |
       | Product       | PSKU1          |
       | Quantity      | 500            |
-      | Price         | 12,99          |
+      | Price         | 12.99          |
     When I click "Save and Close"
     And I click "Save" in modal window
     Then I should see "Order has been saved" flash message
