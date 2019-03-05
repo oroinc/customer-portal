@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
 use Oro\Bundle\FrontendBundle\Migrations\Data\ORM\AbstractRolesData;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
@@ -48,13 +49,14 @@ class LoadCustomerUserRoles extends AbstractRolesData
         $organization = $manager->getRepository('OroOrganizationBundle:Organization')->findOneBy([]);
         foreach ($roleData as $roleName => $roleConfigData) {
             $role = $this->createEntity($roleName, $roleConfigData['label']);
+            $role->setOrganization($organization);
             if (!empty($roleConfigData['website_default_role'])) {
                 $this->setWebsiteDefaultRoles($role);
             }
             if (!empty($roleConfigData['website_guest_role'])) {
                 $this->setWebsiteGuestRoles($role);
             }
-            $role->setOrganization($organization);
+
             $manager->persist($role);
 
             $this->setUpSelfManagedData($role, $roleConfigData);
@@ -123,7 +125,7 @@ class LoadCustomerUserRoles extends AbstractRolesData
      */
     protected function setWebsiteDefaultRoles(CustomerUserRole $role)
     {
-        foreach ($this->getWebsites() as $website) {
+        foreach ($this->getWebsites($role->getOrganization()) as $website) {
             $website->setDefaultRole($role);
         }
     }
@@ -133,23 +135,22 @@ class LoadCustomerUserRoles extends AbstractRolesData
      */
     protected function setWebsiteGuestRoles(CustomerUserRole $role)
     {
-        foreach ($this->getWebsites() as $website) {
+        foreach ($this->getWebsites($role->getOrganization()) as $website) {
             $website->setGuestRole($role);
         }
     }
 
     /**
+     * @param Organization $organization
      * @return Website[]
      */
-    protected function getWebsites()
+    protected function getWebsites(Organization $organization)
     {
         if (!$this->websites) {
-            $websitesIterator = $this->container->get('doctrine')
+            $this->websites = $this->container->get('doctrine')
                 ->getManagerForClass('OroWebsiteBundle:Website')
                 ->getRepository('OroWebsiteBundle:Website')
-                ->getBatchIterator();
-
-            $this->websites = iterator_to_array($websitesIterator);
+                ->findBy(['organization' => $organization]);
         }
 
         return $this->websites;

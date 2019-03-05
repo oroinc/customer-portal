@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadAcmeCustomerUserRoles;
 use Oro\Bundle\OrganizationBundle\Migrations\Data\Demo\ORM\LoadAcmeOrganizationAndBusinessUnitData;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 

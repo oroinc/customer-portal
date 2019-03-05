@@ -1,8 +1,9 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Migrations\Data\ORM;
+namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadCustomerUserRoles;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
 use Oro\Bundle\OrganizationBundle\Migrations\Data\Demo\ORM\LoadAcmeOrganizationAndBusinessUnitData;
 
@@ -36,13 +37,14 @@ class LoadAcmeCustomerUserRoles extends LoadCustomerUserRoles
         $organization = $this->getReference(LoadAcmeOrganizationAndBusinessUnitData::REFERENCE_DEMO_ORGANIZATION);
         foreach ($roleData as $roleName => $roleConfigData) {
             $role = $this->createEntity($roleName, $roleConfigData['label']);
+            $role->setOrganization($organization);
             if (!empty($roleConfigData['website_default_role'])) {
                 $this->setWebsiteDefaultRoles($role);
             }
             if (!empty($roleConfigData['website_guest_role'])) {
                 $this->setWebsiteGuestRoles($role);
             }
-            $role->setOrganization($organization);
+
             $manager->persist($role);
 
             $this->setUpSelfManagedData($role, $roleConfigData);
