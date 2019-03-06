@@ -1,0 +1,40 @@
+/* @theme: blank; */
+
+.datagrid-toolbar-sticky-container {
+    .filter-box.dropdown-mode {
+        margin: 0;
+        border-top: 1px solid get-color('additional', 'light');
+    }
+}
+
+.filters-state {
+    height: $datagrid-filters-state-height;
+    min-width: $datagrid-filters-state-min-width;
+    margin: $datagrid-filters-state-margin;
+
+    color: $datagrid-filters-state-color;
+    font-size: $base-font-size;
+    text-align: center;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all $datagrid-filters-state-animation-speed;
+}
+
+.animated-init .filters-state {
+    animation: fadein $datagrid-filters-state-animation-speed;
+}
+
+.filters-state:empty {
+    display: none;
+}
+
+@keyframes fadein {
+    from {
+        height: 0;
+        margin: 0;
+
+        opacity: 0;
+    }
+}
