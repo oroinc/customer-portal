@@ -6,6 +6,7 @@ define(function(require) {
     var $ = require('jquery');
     var mediator = require('oroui/js/mediator');
     var ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
+    var FiltersManager = require('orofilter/js/filters-manager');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var CounterBadgeView = require('orofrontend/js/app/views/counter-badge-view');
     var module = require('module');
@@ -14,7 +15,8 @@ define(function(require) {
     config = _.extend({
         filtersPopupOptions: {},
         filtersManagerPopupOptions: {},
-        hidePreviousOpenFilters: false
+        hidePreviousOpenFilters: false,
+        showCounterBadge: false
     }, config);
 
     FrontendFullScreenFiltersAction = ToggleFiltersAction.extend({
@@ -100,7 +102,9 @@ define(function(require) {
 
             FrontendFullScreenFiltersAction.__super__.initialize.apply(this, arguments);
 
-            this.counterBadgeView = new this.counterBadgeView();
+            if (config.showCounterBadge) {
+                this.counterBadgeView = new this.counterBadgeView();
+            }
 
             mediator.on('filterManager:selectedFilters:count:' + this.datagrid.name, this.onUpdateFiltersCount, this);
             mediator.on('filterManager:changedFilters:count:' + this.datagrid.name, this.onChangeFiltersCount, this);
@@ -110,10 +114,16 @@ define(function(require) {
         /**
          * {@inheritdoc}
          */
-        execute: function() {
+        toggleFilters: function(mode) {
             var filterManager = this.datagrid.filterManager;
 
-            if (!filterManager) {
+            if (!filterManager || filterManager.$el.is(':visible') === (mode === FiltersManager.MANAGE_VIEW_MODE)) {
+                return;
+            }
+
+            if (mode === FiltersManager.STATE_VIEW_MODE && this.fullscreenView) {
+                this.fullscreenView.close();
+
                 return;
             }
 
@@ -144,8 +154,6 @@ define(function(require) {
 
                 this.closeEmptyFilters();
 
-                this.$filters.show();
-
                 this.datagrid.filterManager.hidePreviousOpenFilters = config.hidePreviousOpenFilters;
             }, this);
 
@@ -160,9 +168,11 @@ define(function(require) {
                 delete this.fullscreenView;
 
                 this.disposeFiltersManagerPopup();
+                this.datagrid.filterManager.setViewMode(FiltersManager.STATE_VIEW_MODE);
             }, this);
 
             this.fullscreenView.show();
+            this.$filters.show();
 
             filterManager._publishCountSelectedFilters();
 
@@ -307,13 +317,6 @@ define(function(require) {
             return state;
         },
 
-        /**
-         * {@inheritdoc}
-         */
-        onFilterManagerModeChange: function(mode) {
-            // Must be empty, nothing to do
-        },
-
         closeEmptyFilters: function() {
             var filters = this.datagrid.filterManager.filters;
 
@@ -351,7 +354,7 @@ define(function(require) {
                 }
             }
 
-            if (_.isNumber(count)) {
+            if (config.showCounterBadge && _.isNumber(count)) {
                 this.counterBadgeView.setCount(count);
             }
         },
@@ -370,12 +373,15 @@ define(function(require) {
         },
 
         createLauncher: function(options) {
-            var self = this;
             var launcher = FrontendFullScreenFiltersAction.__super__.createLauncher.apply(this, arguments);
 
-            this.launcherInstanse.on('render', function() {
-                this.$el.prepend(self.counterBadgeView.$el);
-            });
+            if (config.showCounterBadge) {
+                var self = this;
+
+                this.launcherInstanse.on('render', function() {
+                    this.$el.prepend(self.counterBadgeView.$el);
+                });
+            }
 
             return launcher;
         }
