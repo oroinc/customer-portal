@@ -20,6 +20,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
     transition: all $datagrid-filters-state-animation-speed;
+
+    // Added to avoid showing Safari's hint for elements with ellipsis
+    &:before {
+        content: '';
+        display: block;
+    }
+
+    .sticky-panel & {
+        padding: $datagrid-filters-state-sticky-padding;
+    }
 }
 
 .animated-init .filters-state {
@@ -28,6 +38,10 @@
 
 .filters-state:empty {
     display: none;
+}
+
+.filters-state-popover {
+    z-index: $datagrid-filters-state-popover-z-index;
 }
 
 @keyframes fadein {
