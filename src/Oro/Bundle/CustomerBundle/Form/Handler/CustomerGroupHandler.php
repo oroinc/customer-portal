@@ -6,10 +6,18 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent;
+use Oro\Bundle\CustomerBundle\Event\CustomerMassEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Form handler for customer group
+ * - process customer group form
+ * - save changes to customer group entity
+ * - assign/unassign customers to customer group
+ * - trigger oro_customer.customer_group.before_flush and oro_customer.customer.on_customer_group_mass_change events
+ */
 class CustomerGroupHandler
 {
     /** @var FormInterface */
@@ -80,10 +88,18 @@ class CustomerGroupHandler
     {
         $this->setGroup($entity, $append);
         $this->removeFromGroup($entity, $remove);
+
         $event = new CustomerGroupEvent($entity, $this->form);
         $this->dispatcher->dispatch(CustomerGroupEvent::BEFORE_FLUSH, $event);
+
         $this->manager->persist($entity);
         $this->manager->flush();
+
+        $changedCustomers = array_merge($append, $remove);
+        if ($changedCustomers) {
+            $customerMassEvent = new CustomerMassEvent($changedCustomers);
+            $this->dispatcher->dispatch(CustomerMassEvent::ON_CUSTOMER_GROUP_MASS_CHANGE, $customerMassEvent);
+        }
     }
 
     /**

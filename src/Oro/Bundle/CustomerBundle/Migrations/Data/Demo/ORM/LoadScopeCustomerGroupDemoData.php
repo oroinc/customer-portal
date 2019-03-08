@@ -9,10 +9,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\ScopeBundle\Entity\Scope;
 
+/**
+ * Loads ScopeCustomerGroup demo data
+ */
 class LoadScopeCustomerGroupDemoData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
-    const SCOPE_ACCOUNT_GROUP_REFERENCE_PREFIX = 'scope_customer_group_demo_data';
-
     /**
      * {@inheritdoc}
      */
@@ -33,7 +34,6 @@ class LoadScopeCustomerGroupDemoData extends AbstractFixture implements FixtureI
         foreach ($customerGroups as $customerGroup) {
             $scope = new Scope();
             $scope->setCustomerGroup($customerGroup);
-            $this->addReference(static::SCOPE_ACCOUNT_GROUP_REFERENCE_PREFIX . $customerGroup->getName(), $scope);
             $manager->persist($scope);
         }
 

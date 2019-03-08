@@ -55,7 +55,7 @@ Feature: Checking the address types at different locales
     Then should see following "Customers Address Book Grid" grid:
       | Customer Address     | Zip/Postal Code | Country       | Type                                            |
       | 801 Scenic Hwy       | 33844           | United States | Default Shipping - Zulu, Default Billing - Zulu |
-      | 23400 Caldwell Road  | 14608           | United States | Default Billing - Zulu                          |
+      | 23400 Caldwell Road  | 14608           | United States |                                                 |
       | 34500 Capitol Avenue | 47981           | United States |                                                 |
     When I click "New Address"
     Then "OroForm" must contains values:
@@ -71,7 +71,7 @@ Feature: Checking the address types at different locales
     Then should see following "Customers Address Book Grid" grid:
       | Customer Address     | Zip/Postal Code | Country       | Type                              |
       | 801 Scenic Hwy       | 33844           | United States | Default Shipping, Default Billing |
-      | 23400 Caldwell Road  | 14608           | United States | Default Billing                   |
+      | 23400 Caldwell Road  | 14608           | United States |                                   |
       | 34500 Capitol Avenue | 47981           | United States |                                   |
     When I click "New Address"
     Then "OroForm" must contains values:
