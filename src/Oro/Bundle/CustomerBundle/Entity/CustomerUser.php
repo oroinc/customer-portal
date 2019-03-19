@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Model\ExtendCustomerUser;
+use Oro\Bundle\EmailBundle\Entity\EmailInterface;
 use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
@@ -73,6 +74,7 @@ class CustomerUser extends ExtendCustomerUser implements
     FullNameInterface,
     EmailHolderInterface,
     EmailOwnerInterface,
+    EmailInterface,
     WebsiteAwareInterface,
     CustomerUserIdentity,
     AdvancedApiUserInterface
@@ -1176,5 +1178,21 @@ class CustomerUser extends ExtendCustomerUser implements
     public function getEmailFields()
     {
         return ['email'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEmailField()
+    {
+        return 'email';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEmailOwner()
+    {
+        return $this;
     }
 }
