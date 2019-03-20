@@ -12,6 +12,15 @@ The current file describes significant changes in the code that may affect the u
 #### FrontendBundle
 * Services `oro_frontend.namespace_migration_provider`, `oro_frontend.namespace_migration_fix_product_provider` and the logic that used them were removed.
 
+### Changed
+#### FrontendBundle
+* In `Oro\Bundle\FrontendBundle\Controller\Api\Rest\WorkflowController::startAction` 
+ (`/api/rest/{version}/workflow/start/{workflowName}/{transitionName}` path)
+ action the request method was changed to POST. 
+* In `Oro\Bundle\FrontendBundle\Controller\Api\Rest\WorkflowController::transitAction` 
+ (`/api/rest/{version}/workflow/transit/{workflowItemId}/{transitionName}` path)
+ action the request method was changed to POST. 
+
 ## 3.1.3 (2019-02-19)
 [Show detailed list of changes](incompatibilities-3-1-3.md)
 
