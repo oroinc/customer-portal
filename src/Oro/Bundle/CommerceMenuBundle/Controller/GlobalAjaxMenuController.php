@@ -3,12 +3,15 @@
 namespace Oro\Bundle\CommerceMenuBundle\Controller;
 
 use Oro\Bundle\NavigationBundle\Controller\AbstractAjaxMenuController;
+use Oro\Bundle\SecurityBundle\Annotation\CsrfProtection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
+ * Ajax Commerce Global Menu Controller
  * @Route("/menu/frontend/global")
+ * @CsrfProtection()
  */
 class GlobalAjaxMenuController extends AbstractAjaxMenuController
 {
