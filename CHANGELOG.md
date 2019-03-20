@@ -2,6 +2,16 @@ Please refer first to [UPGRADE.md](UPGRADE.md) for the most important items that
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+## 4.0.0-beta
+### Changed
+#### FrontendBundle
+* In `Oro\Bundle\FrontendBundle\Controller\Api\Rest\WorkflowController::startAction` 
+ (`/api/rest/{version}/workflow/start/{workflowName}/{transitionName}` path)
+ action the request method was changed to POST. 
+* In `Oro\Bundle\FrontendBundle\Controller\Api\Rest\WorkflowController::transitAction` 
+ (`/api/rest/{version}/workflow/transit/{workflowItemId}/{transitionName}` path)
+ action the request method was changed to POST.
+
 ## 3.1.4 
 [Show detailed list of changes](incompatibilities-3-1-4.md)
 
