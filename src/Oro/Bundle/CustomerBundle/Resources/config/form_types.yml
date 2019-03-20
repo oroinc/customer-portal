@@ -114,6 +114,7 @@ services:
         arguments:
             - '@security.authorization_checker'
             - '@oro_security.token_accessor'
+            - '@oro_website.manager'
         calls:
             - [setCustomerUserClass, ['%oro_customer.entity.customer_user.class%']]
         tags:

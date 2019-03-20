@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle;
 
 use Oro\Bundle\ApiBundle\DependencyInjection\Compiler\ProcessorBagCompilerPass;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\CustomerUserReassignUpdaterPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappingPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\LoginManagerPass;
@@ -30,6 +31,7 @@ class OroCustomerBundle extends Bundle
         $container->addCompilerPass(new DataAuditEntityMappingPass());
         $container->addCompilerPass(new WindowsStateManagerPass());
         $container->addCompilerPass(new LoginManagerPass());
+        $container->addCompilerPass(new CustomerUserReassignUpdaterPass());
 
         if ($container instanceof ExtendedContainerBuilder) {
             $container->addCompilerPass(new FrontendApiPass());
