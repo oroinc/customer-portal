@@ -3,6 +3,7 @@ Please refer first to [UPGRADE.md](UPGRADE.md) for the most important items that
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
 ## 3.1.4 
+[Show detailed list of changes](incompatibilities-3-1-4.md)
 
 ### Removed
 #### CommerceMenuBundle
@@ -11,7 +12,14 @@ The current file describes significant changes in the code that may affect the u
 #### FrontendBundle
 * Services `oro_frontend.namespace_migration_provider`, `oro_frontend.namespace_migration_fix_product_provider` and the logic that used them were removed.
 
-## 3.1.0
+## 3.1.3 (2019-02-19)
+[Show detailed list of changes](incompatibilities-3-1-3.md)
+
+## 3.1.2 (2019-02-05)
+[Show detailed list of changes](incompatibilities-3-1-2.md)
+
+## 3.1.0 (2019-01-30)
+[Show detailed list of changes](incompatibilities-3-1.md)
 
 ### Changed
 #### CustomerBundle
