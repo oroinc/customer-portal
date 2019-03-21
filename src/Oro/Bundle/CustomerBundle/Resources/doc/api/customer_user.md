@@ -51,12 +51,6 @@ Example:
           "type": "customers",
           "id": "1"
         }
-      },
-      "website": {
-        "data": {
-          "type": "websites",
-          "id": "1"
-        }
       }
     }
   }
@@ -101,12 +95,6 @@ Example:
           "type": "customers",
           "id": "1"
         }
-      },
-      "website": {
-        "data": {
-          "type": "websites",
-          "id": "1"
-        }
       }
     }
   }
@@ -127,14 +115,6 @@ Delete a collection of customer user records.
 {@inheritdoc}
 
 ## FIELDS
-
-### website
-
-#### create
-
-{@inheritdoc}
-
-**The required field**
 
 ### customer
 
@@ -304,33 +284,6 @@ Example:
 {
   "data": {
     "type": "users",
-    "id": "1"
-  }
-}
-```
-{@/request}
-
-### website
-
-#### get_subresource
-
-Retrieve a record of website assigned to a specific customer user record.
-
-#### get_relationship
-
-Retrieve IDs of website records assigned to a specific customer user record.
-
-#### update_relationship
-
-Replace a website assigned to a specific customer user record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": {
-    "type": "websites",
     "id": "1"
   }
 }
