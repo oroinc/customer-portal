@@ -6,13 +6,16 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider;
 use Oro\Bundle\NavigationBundle\Controller\AbstractAjaxMenuController;
 use Oro\Bundle\OrganizationBundle\Provider\ScopeOrganizationCriteriaProvider;
+use Oro\Bundle\SecurityBundle\Annotation\CsrfProtection;
 use Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
+ * Ajax Commerce Customer Group Menu Controller
  * @Route("/menu/customer-group")
+ * @CsrfProtection()
  */
 class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
 {

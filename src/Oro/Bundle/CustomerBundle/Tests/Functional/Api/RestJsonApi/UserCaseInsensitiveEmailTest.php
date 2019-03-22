@@ -9,6 +9,8 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadTestCustomerUser;
 
 /**
+ * @group CommunityEdition
+ *
  * @dbIsolationPerTest
  */
 class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
@@ -53,7 +55,7 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
     /**
      * @return array
      */
-    private function getData(): array
+    protected function getData(): array
     {
         return [
             'data' => [

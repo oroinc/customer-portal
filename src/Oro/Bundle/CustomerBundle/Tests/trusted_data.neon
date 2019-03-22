@@ -16,6 +16,11 @@ trusted_data:
         Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider:
             executeQuery:
                 executableQuery: true
+        Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository:
+            getPrimaryEmailsQb:
+                fullNameQueryPart: true
+            getSecondaryEmailsQb:
+                fullNameQueryPart: true
     properties:
         Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler:
             searchEntities:

@@ -36,14 +36,6 @@ Example:
       "public": true
     },
     "relationships": {
-      "websites": {
-        "data": [         
-          {
-            "type": "websites",
-            "id": "7"
-          }
-        ]
-      },
       "customerUsers": {
         "data": [
           {
@@ -85,14 +77,6 @@ Example:
       "public": true
     },
     "relationships": {
-      "websites": {
-        "data": [         
-          {
-            "type": "websites",
-            "id": "7"
-          }
-        ]
-      },
       "customerUsers": {
         "data": [
           {
@@ -288,85 +272,6 @@ Example:
     "type": "organizations",
     "id": "1"
   }
-}
-```
-{@/request}
-
-### websites
-
-#### get_subresource
-
-Retrieve the website records assigned to a specific customer user role record.
-
-#### get_relationship
-
-Retrieve the IDs of website records assigned to a specific customer user role record.
-
-#### update_relationship
-
-Replace the list of website assigned to a specific customer user role record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "websites",
-      "id": "2"
-    },
-    {
-      "type": "websites",
-      "id": "3"
-    }
-  ]
-}
-```
-{@/request}
-
-#### add_relationship
-
-Set website records for a specific customer user role record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "websites",
-      "id": "2"
-    },
-    {
-      "type": "websites",
-      "id": "3"
-    }
-  ]
-}
-```
-{@/request}
-
-#### delete_relationship
-
-Remove website records from a specific customer user role record.
-
-{@request:json_api}
-Example:
-
-```JSON
-{
-  "data": [
-    {
-      "type": "websites",
-      "id": "2"
-    },
-    {
-      "type": "websites",
-      "id": "3"
-    }
-  ]
 }
 ```
 {@/request}

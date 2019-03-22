@@ -11,6 +11,8 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 
 /**
+ * @group CommunityEdition
+ *
  * @dbIsolationPerTest
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)

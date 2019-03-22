@@ -34,7 +34,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'POST',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_create', $parameters),
             [
@@ -58,7 +58,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'DELETE',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_delete', $parameters),
             ['ownerId' => 0]
@@ -80,7 +80,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'PUT',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_show', $parameters),
             ['ownerId' => 0]
@@ -102,7 +102,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'PUT',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_hide', $parameters),
             ['ownerId' => 0]
@@ -123,7 +123,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'PUT',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_move', $parameters),
             [
@@ -149,7 +149,7 @@ class CustomerGroupAjaxMenuControllerTest extends WebTestCase
             ]
         ];
 
-        $this->client->request(
+        $this->ajaxRequest(
             'DELETE',
             $this->getUrl('oro_commerce_menu_customer_group_menu_ajax_reset', $parameters),
             ['ownerId' => 0]

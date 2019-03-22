@@ -115,6 +115,7 @@ services:
             - '@security.authorization_checker'
             - '@oro_security.token_accessor'
         calls:
+            - [setWebsiteManager, ['@oro_website.manager']]
             - [setCustomerUserClass, ['%oro_customer.entity.customer_user.class%']]
         tags:
             - { name: form.type, alias: oro_customer_frontend_customer_user }
