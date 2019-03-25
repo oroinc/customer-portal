@@ -27,6 +27,7 @@ config:
             'oro/filter/select-filter': 'orofrontend/js/app/views/frontend-select-filter'
             'oro/filter/multiselect-filter': 'orofrontend/js/app/views/frontend-multiselect-filter'
             'oro/filter/boolean-filter': 'orofrontend/js/app/views/frontend-boolean-filter'
+            'oro/filter/search-boolean-filter': 'orofrontend/js/app/views/frontend-search-boolean-filter'
             'orodatagrid/js/app/components/datagrid-component': 'orofrontend/js/app/components/frontend-datagrid-component'
             'orodatagrid/js/datagrid/grid': 'orofrontend/js/datagrid/frontend-grid'
             'oro/datagrid/cell/action-cell': 'orofrontend/js/datagrid/cell/frontend-action-cell'
@@ -39,6 +40,8 @@ config:
             'oro/filter/multiselect-filter': 'oro/filter/multiselect-filter'
         'orofrontend/js/app/views/frontend-boolean-filter':
             'oro/filter/boolean-filter': 'oro/filter/boolean-filter'
+        'orofrontend/js/app/views/frontend-search-boolean-filter':
+            'oro/filter/search-boolean-filter': 'oro/filter/search-boolean-filter'
         'orofrontend/js/app/datafilter/plugins/frontend-filters-plugin':
             'orofilter/js/plugins/filters-toggle-plugin': 'orofilter/js/plugins/filters-toggle-plugin'
         'orofrontend/js/app/views/page/content-view':
@@ -87,6 +90,7 @@ config:
         'orofrontend/js/app/views/frontend-select-filter': 'bundles/orofrontend/blank/js/app/views/frontend-select-filter.js'
         'orofrontend/js/app/views/frontend-multiselect-filter': 'bundles/orofrontend/blank/js/app/views/frontend-multiselect-filter.js'
         'orofrontend/js/app/views/frontend-boolean-filter': 'bundles/orofrontend/blank/js/app/views/frontend-boolean-filter.js'
+        'orofrontend/js/app/views/frontend-search-boolean-filter': 'bundles/orofrontend/blank/js/app/views/frontend-search-boolean-filter.js'
         'orofrontend/js/app/elements-helper': 'bundles/orofrontend/js/app/elements-helper.js'
         'orofrontend/js/app/datafilter/frontend-collection-filters-manager': 'bundles/orofrontend/js/app/datafilter/frontend-collection-filters-manager.js'
         'orofrontend/js/app/datafilter/frontend-multiselect-decorator': 'bundles/orofrontend/js/app/datafilter/frontend-multiselect-decorator.js'
