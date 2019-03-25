@@ -1084,3 +1084,12 @@ services:
             - ['Oro\Bundle\CustomerBundle\Entity\GridView']
         tags:
             - { name: oro.security.filter.acl_privilege, priority: -100 }
+
+    oro_customer.event_listener.preferred_localization_form_view:
+        class: Oro\Bundle\CustomerBundle\EventListener\PreferredLocalizationFormViewListener
+        public: false
+        arguments:
+            - '@oro_website.manager'
+        tags:
+            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.customer-user-edit, method: onEntityEdit }
+            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.customer-user-view, method: onEntityView }
