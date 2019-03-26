@@ -122,10 +122,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
         address: '@amandaAddress1'
         type: 'billing'
         default: true
-    amandaAddress2BillingDefault:
-        address: '@amandaAddress2'
-        type: 'billing'
-        default: true
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
     customerAddress1ShippingDefault:
@@ -134,9 +130,5 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
         default: true
     customerAddress1BillingDefault:
         address: '@customerAddress1'
-        type: 'billing'
-        default: true
-    customerAddress2BillingDefault:
-        address: '@customerAddress2'
         type: 'billing'
         default: true

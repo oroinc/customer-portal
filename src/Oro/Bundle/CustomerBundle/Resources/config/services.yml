@@ -212,6 +212,8 @@ services:
         arguments:
             - '@doctrine'
             - '@oro_config.manager'
+            - '@oro_website.manager'
+            - '@oro_security.token_accessor'
 
     oro_customer.security.provider:
         class: '%oro_user.security.provider.class%'
@@ -1069,6 +1071,38 @@ services:
         tags:
             - { name: oro_locale.preferred_language_provider }
 
+    oro_customer.updater.customer_user_reassign_updater:
+        class: 'Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignUpdater'
+        public: false
+
+    oro_customer.event_listener.customer_user_reassign:
+        class: 'Oro\Bundle\CustomerBundle\EventListener\CustomerUserReassignEventListener'
+        arguments:
+            - '@oro_customer.updater.customer_user_reassign_updater'
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: '%oro_customer.entity.customer_user.class%', event: preUpdate }
+
+    oro_customer.validator.customer_user_related_entities_validator:
+        class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerRelatedEntitiesValidator
+        arguments:
+            - '@security.authorization_checker'
+            - '@oro_customer.updater.customer_user_reassign_updater'
+            - '@doctrine'
+            - '@oro_entity.entity_class_name_provider'
+        tags:
+            - { name: validator.constraint_validator }
+
+    oro_customer.updater.customer_user_reassign.abstract:
+        class: 'Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignEntityUpdater'
+        arguments:
+            - '@doctrine'
+            - '@oro_dataaudit.converter.entity_to_entity_change_array'
+            - '@oro_dataaudit.provider.audit_message_body_provider'
+            - '@oro_message_queue.message_producer'
+            - '@security.token_storage'
+        abstract: true
+        public: false
+
     oro_customer.acl.permission_granting_strategy:
         class: Oro\Bundle\CustomerBundle\Acl\Domain\PermissionGrantingStrategy
         decorates: oro_security.acl.permission_granting_strategy
@@ -1084,6 +1118,19 @@ services:
             - ['Oro\Bundle\CustomerBundle\Entity\GridView']
         tags:
             - { name: oro.security.filter.acl_privilege, priority: -100 }
+
+    oro_customer.email.owner.provider:
+        class: Oro\Bundle\CustomerBundle\Entity\Provider\EmailOwnerProvider
+        tags:
+            - { name: oro_email.owner.provider, order: 4 }
+
+    oro_customer.email_recipients_provider:
+        class: Oro\Bundle\CustomerBundle\Provider\EmailRecipientsProvider
+        arguments:
+            - '@doctrine'
+            - '@oro_email.provider.email_recipients.helper'
+        tags:
+            - { name: oro_email.recipients_provider, priority: 40 }
 
     oro_customer.event_listener.preferred_localization_form_view:
         class: Oro\Bundle\CustomerBundle\EventListener\PreferredLocalizationFormViewListener

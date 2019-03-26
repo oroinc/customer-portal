@@ -8,12 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * REST API Workflow controller
  * @Rest\NamePrefix("oro_api_frontend_workflow_")
  */
 class WorkflowController extends FOSRestController
 {
     /**
-     * @Rest\Get(
+     * @Rest\Post(
      *      "/api/rest/{version}/workflow/start/{workflowName}/{transitionName}",
      *      requirements={"version"="latest|v1"},
      *      defaults={"version"="latest", "_format"="json"}
@@ -33,7 +34,7 @@ class WorkflowController extends FOSRestController
     }
 
     /**
-     * @Rest\Get(
+     * @Rest\Post(
      *      "/api/rest/{version}/workflow/transit/{workflowItemId}/{transitionName}",
      *      requirements={"version"="latest|v1", "workflowItemId"="\d+"},
      *      defaults={"version"="latest", "_format"="json"}

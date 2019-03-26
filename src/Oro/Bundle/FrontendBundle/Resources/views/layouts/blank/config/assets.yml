@@ -19,6 +19,7 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/datagrid/datagrid-massaction-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/datagrid/launcher-item-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/datagrid/grid-views-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/datagrid/datagrid-filters-config.scss'
 
         - 'bundles/orofrontend/blank/scss/variables/filters/filters-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/filters/filters-dropdown-mode-config.scss'
@@ -48,6 +49,7 @@ styles:
         - 'bundles/orofrontend/blank/scss/components/ui/datepicker.scss'
         - 'bundles/orofrontend/blank/scss/components/embedded-list/embedded-list.scss'
         - 'bundles/orofrontend/blank/scss/components/datagrid/datagrid-toolbar.scss'
+        - 'bundles/orofrontend/blank/scss/components/datagrid/datagrid-filters.scss'
         - 'bundles/orofrontend/blank/scss/components/datagrid-manager.scss'
         - 'bundles/orofrontend/blank/scss/components/datagrid-manager-search.scss'
         - 'bundles/orofrontend/blank/scss/components/datagrid-manager-table.scss'

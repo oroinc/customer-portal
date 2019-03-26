@@ -15,18 +15,19 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStu
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\Forms;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
 
 class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
 {
-    const DATA_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
-
     /**
      * @var FrontendCustomerUserType
      */
@@ -35,8 +36,11 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
     /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $authorizationChecker;
 
-    /** @var  TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $tokenAccessor;
+
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
+    protected $websiteManager;
 
     /**
      * {@inheritdoc}
@@ -45,12 +49,16 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $this->websiteManager = $this->createMock(WebsiteManager::class);
 
-        $this->formType = new FrontendCustomerUserType($this->authorizationChecker, $this->tokenAccessor);
-        $this->formType->setCustomerUserClass(self::DATA_CLASS);
-        $this->factory = Forms::createFormFactoryBuilder()
-            ->addExtensions($this->getExtensions())
-            ->getFormFactory();
+        $this->formType = new FrontendCustomerUserType(
+            $this->authorizationChecker,
+            $this->tokenAccessor,
+            $this->websiteManager
+        );
+        $this->formType->setCustomerUserClass(CustomerUser::class);
+
+        FormIntegrationTestCase::setUp();
     }
 
     /**
@@ -72,7 +80,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
 
         $customerUserType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
-        $customerUserType->setDataClass(self::DATA_CLASS);
+        $customerUserType->setDataClass(CustomerUser::class);
         $customerUserType->setAddressClass(self::ADDRESS_CLASS);
 
         return [
@@ -215,9 +223,13 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        $formType = new FrontendCustomerUserType($authorizationChecker, $tokenAccessor);
+        $formType = new FrontendCustomerUserType(
+            $authorizationChecker,
+            $tokenAccessor,
+            $this->websiteManager
+        );
 
-        $event = $this->getMockBuilder('Symfony\Component\Form\FormEvent')
+        $event = $this->getMockBuilder(FormEvent::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -227,11 +239,53 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
     }
 
     /**
+     * @dataProvider onSubmitDataProvider
+     * @param int|null $customerUserId
+     * @param Website|null $website
+     * @param Website|null $expectedWebsite
+     */
+    public function testOnSubmit($customerUserId, Website $website = null, Website $expectedWebsite = null)
+    {
+        $this->authorizationChecker->expects($this->any())
+            ->method('isGranted')
+            ->willReturn(false);
+
+        $this->websiteManager->expects($this->any())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
+
+        $customer = new Customer();
+        $newCustomerUser = $this->getEntity(CustomerUser::class, $customerUserId);
+        $newCustomerUser->setCustomer($customer);
+        $form = $this->factory->create(FrontendCustomerUserType::class, $newCustomerUser, []);
+
+        $form->submit([]);
+        $result = $form->isValid();
+        $this->assertTrue($result);
+        $this->assertEquals($expectedWebsite, $form->getData()->getWebsite());
+    }
+
+    /**
+     * @return array
+     */
+    public function onSubmitDataProvider()
+    {
+        $website = new Website();
+
+        return [
+            'no id with website' => [null, $website, $website],
+            'id with website' => [1, new Website(), null],
+            'id without website' => [1, null, null],
+            'no id without website' => [null, null, null],
+        ];
+    }
+
+    /**
      * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
      */
     private function createTranslator()
     {
-        $translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects($this->any())
             ->method('trans')
             ->willReturnCallback(

@@ -22,7 +22,7 @@ define(function(require) {
                 e.preventDefault();
                 var el = $(this);
                 $.ajax({
-                    url: el.prop('href'),
+                    url: el.attr('href'),
                     type: 'GET',
                     success: function(response) {
                         if (response && response.message) {

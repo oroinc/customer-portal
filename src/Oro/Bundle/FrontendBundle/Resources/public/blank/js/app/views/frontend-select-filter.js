@@ -48,11 +48,6 @@ define(function(require) {
         containerSelector: '.filter-criteria-selector',
 
         /**
-         * @inheritDoc
-         */
-        populateDefault: false,
-
-        /**
          * @property {Object}
          */
         listen: {
