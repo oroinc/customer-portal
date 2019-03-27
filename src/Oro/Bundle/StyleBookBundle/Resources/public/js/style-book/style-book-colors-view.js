@@ -81,7 +81,7 @@ define(function(require) {
 
             props.unshift(this.prefix);
 
-            return this.computedStyle.getPropertyValue(props.join(this.separator));
+            return this.computedStyle.getPropertyValue(props.join(this.separator)).trim();
         }
     });
 

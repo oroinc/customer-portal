@@ -7,11 +7,11 @@
     @each $palette, $colors in $color-palette {
         $keyIndex: 0;
 
-        --style-book-color-palette-#{$paletteIndex}: $palette;
+        --style-book-color-palette-#{$paletteIndex}: #{$palette};
 
         @each $key, $color in $colors {
-            --style-book-color-#{$palette}-#{$keyIndex}: $key;
-            --style-book-color-#{$palette}-#{$key}: $color;
+            --style-book-color-#{$palette}-#{$keyIndex}: #{$key};
+            --style-book-color-#{$palette}-#{$key}: #{$color};
             $keyIndex: $keyIndex + 1;
         }
 
