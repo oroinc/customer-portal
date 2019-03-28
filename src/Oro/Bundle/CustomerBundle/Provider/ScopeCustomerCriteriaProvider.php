@@ -7,15 +7,18 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\ScopeBundle\Manager\AbstractScopeCriteriaProvider;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * Provide Customer for Scope Criteria
+ */
 class ScopeCustomerCriteriaProvider extends AbstractScopeCriteriaProvider
 {
     const ACCOUNT = 'customer';
-    
+
     /**
      * @var TokenStorageInterface
      */
     protected $tokenStorage;
-    
+
     /**
      * @param TokenStorageInterface $tokenStorage
      */
@@ -23,22 +26,31 @@ class ScopeCustomerCriteriaProvider extends AbstractScopeCriteriaProvider
     {
         $this->tokenStorage = $tokenStorage;
     }
-    
+
     /**
      * @return array
      */
     public function getCriteriaForCurrentScope()
     {
+        return [$this->getCriteriaField() => $this->getCustomer()];
+    }
+
+    /**
+     * @return Customer|null
+     */
+    private function getCustomer()
+    {
         $token = $this->tokenStorage->getToken();
         if (!$token) {
-            return [];
+            return null;
         }
+
         $loggedUser = $token->getUser();
         if (null !== $loggedUser && $loggedUser instanceof CustomerUser) {
-            return [self::ACCOUNT => $loggedUser->getCustomer()];
+            return $loggedUser->getCustomer();
         }
-    
-        return [];
+
+        return null;
     }
     
     /**

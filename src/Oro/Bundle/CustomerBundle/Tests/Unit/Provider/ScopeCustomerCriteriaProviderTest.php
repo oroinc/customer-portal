@@ -26,24 +26,55 @@ class ScopeCustomerCriteriaProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider = new ScopeCustomerCriteriaProvider($this->tokenStorage);
     }
 
-    public function testGetCriteriaForCurrentScope()
+    /**
+     * @dataProvider currentScopeDataProvider
+     * @param bool $hasToken
+     * @param object|string|null $loggedUser
+     * @param array $criteria
+     */
+    public function testGetCriteriaForCurrentScope($hasToken, $loggedUser, array $criteria)
     {
-        $accUser = new CustomerUser();
+        $token = null;
+        if ($hasToken) {
+            $token = $this->createMock(TokenInterface::class);
+            $token->expects($this->any())
+                ->method('getUser')
+                ->willReturn($loggedUser);
+        }
+
+        $this->tokenStorage->expects($this->any())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $actual = $this->provider->getCriteriaForCurrentScope();
+        $this->assertEquals($criteria, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    public function currentScopeDataProvider()
+    {
+        $customerUser = new CustomerUser();
         $customer = new Customer();
+        $customerUser->setCustomer($customer);
 
-        $token = $this->createMock(TokenInterface::class);
-        $accUser->setCustomer($customer);
+        return [
+            'no token' => [false, null, ['customer' => null]],
+            'no logged user' => [true, null, ['customer' => null]],
+            'not supported logged user' => [true, new \stdClass(), ['customer' => null]],
+            'supported logged user' => [true, $customerUser, ['customer' => $customer]]
+        ];
+    }
 
-        $token->expects($this->once())
-            ->method('getUser')
-            ->willReturn($accUser);
-
+    public function testGetCriteriaForCurrentScopeNoToken()
+    {
         $this->tokenStorage
             ->expects($this->once())
             ->method('getToken')
-            ->willReturn($token);
+            ->willReturn(null);
         $actual = $this->provider->getCriteriaForCurrentScope();
-        $this->assertEquals(['customer' => $customer], $actual);
+        $this->assertEquals(['customer' => null], $actual);
     }
 
     /**
