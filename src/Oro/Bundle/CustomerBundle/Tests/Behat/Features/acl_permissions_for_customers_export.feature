@@ -18,10 +18,11 @@ Feature: ACL permissions for customers export
     And select following permissions:
       | Import/Export result | View:User |
     And I save and close form
+    And I go to Customers/Customers
 
+  @skipWait
   Scenario: Export Customers and check permissions
-    Given I go to Customers/Customers
-    When I click "Export"
+    Given I click "Export"
     Then I should see "Export started successfully. You will receive email notification upon completion." flash message
     And Email should contains the following "Export performed successfully. 6 customers were exported. Download" text
     And Exported file for "Customers" contains at least the following columns:
@@ -35,10 +36,10 @@ Feature: ACL permissions for customers export
     And An email containing the following was sent:
       | To   | admin@example.com                                                  |
       | Body | Export performed successfully. 6 customers were exported. Download |
-    When I follow "Download" link from the email without wait for ajax
+    When I follow "Download" link from the email
     Then I should not see "403. Forbidden You don't have permission to access this page."
     # Check Sales Manager permissions
     When I proceed as the Ethan
     And I login as "ethan" user
-    And I follow "Download" link from the email without wait for ajax
+    And I follow "Download" link from the email
     Then I should see "403. Forbidden You don't have permission to access this page."
