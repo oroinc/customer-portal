@@ -205,6 +205,9 @@ oro.customer:
             description:             Identifies customer users either as registered on the frontstore, or guests.
         is_guest_yes.label:          'Yes'
         is_guest_no.label:           'No'
+        preferred_localization:
+            label: 'Preferred Localization'
+            placeholder: 'Select enabled localization...'
 
         profile:
             company_name: 'Company Name'
