@@ -132,6 +132,9 @@ oro_behat_extension:
     Popup User Menu:
       selector: '.topbar-customer-menu .topbar-customer-menu-list'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Preferred Localization:
+      selector: '[name="oro_customer_customer_user[preferredLocalization]"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Popup User Menu Link Users:
       selector:
