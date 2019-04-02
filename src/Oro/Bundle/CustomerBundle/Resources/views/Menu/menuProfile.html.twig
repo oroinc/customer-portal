@@ -3,7 +3,7 @@
         {% if isMobileVersion() %}
             <i class="fa-user"></i>
         {% else %}
-            {{ app.user|oro_format_name|escape }}
+            {{ app.user|oro_format_name }}
             <i class="fa-sort-down"></i>
         {% endif %}
     </a>
