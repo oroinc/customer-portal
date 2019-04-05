@@ -28,7 +28,7 @@ datagrids:
         extended_entity_name: '%oro_customer.entity.customer.class%'
         acl_resource: oro_customer_customer_view
         options:
-            entityHint:        customers
+            entityHint: oro.customer.customer.entity_plural_label
         inline_editing:
             enable: true
             behaviour: enable_selected
@@ -155,7 +155,7 @@ datagrids:
         extended_entity_name: '%oro_customer.entity.customer_group.class%'
         acl_resource: oro_customer_customer_group_view
         options:
-            entityHint:        customer groups
+            entityHint: oro.customer.customergroup.entity_plural_label
         source:
             type:         orm
             query:
@@ -252,7 +252,7 @@ datagrids:
                 icon:         eye
                 acl_resource: oro_customer_customer_view
         options:
-            entityHint: customers
+            entityHint: oro.customer.customer.entity_plural_label
 
     customer-group-customers-grid-view:
         extends: customer-group-customers-grid-basic
@@ -330,7 +330,7 @@ datagrids:
         extended_entity_name: '%oro_customer.entity.customer_user.class%'
         acl_resource: oro_customer_customer_user_view
         options:
-            entityHint:        customer users
+            entityHint: oro.customer.customeruser.entity_plural_label
             entity_pagination: true
         source:
             type:         orm
@@ -514,7 +514,7 @@ datagrids:
     basic-customer-customer-user-roles-grid:
         extended_entity_name: '%oro_customer.entity.customer_user_role.class%'
         options:
-            entityHint: roles
+            entityHint: oro.customer.customeruserrole.entity_plural_label
             entity_pagination: true
         source:
             type: orm
@@ -711,7 +711,7 @@ datagrids:
             default:
                 hasRole: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC'
         options:
-            entityHint: users
+            entityHint: oro.customer.customeruser.entity_plural_label
             rowSelection:
                 dataField: id
                 columnName: hasRole
@@ -799,7 +799,7 @@ datagrids:
         entity_name: '%oro_customer.entity.customer_user.class%'
         options:
             frontend: true
-            entityHint: customer users
+            entityHint: oro.customer.customeruser.entity_plural_label
         acl_resource: oro_customer_frontend_customer_user_view
         source:
             type: orm
@@ -958,7 +958,7 @@ datagrids:
             default:
                 hasRole: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC'
         options:
-            entityHint: users
+            entityHint: oro.customer.customeruser.frontstore_entity_plural_label
             rowSelection:
                 dataField: id
                 columnName: hasRole

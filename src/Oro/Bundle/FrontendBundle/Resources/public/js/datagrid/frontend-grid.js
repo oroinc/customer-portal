@@ -3,8 +3,6 @@ define(function(require) {
 
     var FrontendGrid;
     var Grid = require('orodatagrid/js/datagrid/grid');
-    var $ = require('jquery');
-    var _ = require('underscore');
     var __ = require('orotranslation/js/translator');
 
     FrontendGrid = Grid.extend({
@@ -17,6 +15,7 @@ define(function(require) {
 
         /** @property {Object} */
         noDataTranslations: {
+            entityHint: 'oro.datagrid.entityHint',
             noColumns: 'oro.datagrid.no.columns',
             noEntities: 'oro.datagrid.no.entities',
             noResults: 'oro_frontend.datagrid.no.results'
@@ -77,19 +76,42 @@ define(function(require) {
         },
 
         /**
-         * Define no data block.
+         * @inheritDoc
          */
-        _defineNoDataBlock: function() {
-            var placeholders = {
-                entityHint: (this.entityHint || __('oro.datagrid.entityHint')).toLowerCase()
-            };
-            var message = _.isEmpty(this.collection.state.filters)
-                ? this.noDataTranslations.noEntities : this.noDataTranslations.noResults;
-            message = this.noColumnsFlag ? this.noDataTranslations.noColumns : message;
+        getEmptyGridMessage: function(placeholders) {
+            var translation = this.noColumnsFlag
+                ? this.noDataTranslations.noColumns : this.noDataTranslations.noEntities;
 
-            this.$(this.selectors.noDataBlock).html($(this.noDataTemplate({
-                hints: __(message, placeholders).replace('\n', '<br />')
-            })));
+            return this.noDataTemplate({
+                hints: __(translation, placeholders).replace('\n', '<br />')
+            });
+        },
+
+        /**
+         * @inheritDoc
+         */
+        getEmptyGridCustomMessage: function(message) {
+            return this.noDataTemplate({
+                hints: message
+            });
+        },
+
+        /**
+         * @inheritDoc
+         */
+        getEmptySearchResultMessage: function(placeholders) {
+            return this.noDataTemplate({
+                hints: __(this.noDataTranslations.noResults, placeholders).replace('\n', '<br />')
+            });
+        },
+
+        /**
+         * @inheritDoc
+         */
+        getEmptySearchResultCustomMessage: function(message) {
+            return this.noDataTemplate({
+                hints: message
+            });
         }
     });
 
