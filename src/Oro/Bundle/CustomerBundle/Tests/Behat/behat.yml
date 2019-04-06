@@ -132,6 +132,9 @@ oro_behat_extension:
     Popup User Menu:
       selector: '.topbar-customer-menu .topbar-customer-menu-list'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
+    Preferred Localization:
+      selector: '[name="oro_customer_customer_user[preferredLocalization]"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Popup User Menu Link Users:
       selector:
@@ -338,6 +341,18 @@ oro_behat_extension:
 
     Second Address Shipping Checkbox:
         selector: '[name="oro_customer_type[addresses][2][types][]"][value="shipping"]'
+
+    New Address Default Billing Checkbox:
+        selector: '[name="oro_customer_typed_address[defaults][default][]"][value="billing"]'
+
+    New Address Billing Checkbox:
+        selector: '[name="oro_customer_typed_address[types][]"][value="billing"]'
+
+    New Address Default Shipping Checkbox:
+      selector: '[name="oro_customer_typed_address[defaults][default][]"][value="shipping"]'
+
+    New Address Shipping Checkbox:
+      selector: '[name="oro_customer_typed_address[types][]"][value="shipping"]'
 
   pages:
     Customer User Role View:

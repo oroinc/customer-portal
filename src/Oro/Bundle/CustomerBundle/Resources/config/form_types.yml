@@ -114,6 +114,7 @@ services:
         arguments:
             - '@security.authorization_checker'
             - '@oro_security.token_accessor'
+            - '@oro_website.manager'
         calls:
             - [setCustomerUserClass, ['%oro_customer.entity.customer_user.class%']]
         tags:
@@ -268,3 +269,17 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\ConfirmPasswordType'
         tags:
             - { name: form.type }
+
+    oro_customer.form.extension.preferred_localization_customer_user:
+        class: Oro\Bundle\CustomerBundle\Form\Extension\PreferredLocalizationCustomerUserExtension
+        arguments:
+            - '@oro_customer.form.event_listener.preferred_localization_customer_user'
+        tags:
+            - { name: form.type_extension, extended_type: Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType }
+
+    oro_customer.form.event_listener.preferred_localization_customer_user:
+        class: Oro\Bundle\CustomerBundle\Form\EventListener\PreferredLocalizationCustomerUserSubscriber
+        arguments:
+            - '@oro_website.manager'
+            - '@oro_config.manager'
+            - '@doctrine'

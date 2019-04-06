@@ -77,7 +77,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_22';
+        return 'v1_23';
     }
 
     /**
@@ -155,6 +155,8 @@ class OroCustomerBundleInstaller implements
         $this->addOroGridViewUserForeignKeys($schema);
 
         $this->addCustomerVisitorForeignKeys($schema);
+
+        $this->addOwnerToOroEmailAddress($schema);
     }
 
     /**
@@ -1293,5 +1295,23 @@ class OroCustomerBundleInstaller implements
             ['onDelete' => 'SET NULL']
         );
         $table->addUniqueIndex(['customer_user_id'], 'idx_customer_visitor_id_customer_user_id');
+    }
+
+    /**
+     * @param Schema $schema
+     * @throws \Doctrine\DBAL\Schema\SchemaException
+     */
+    protected function addOwnerToOroEmailAddress(Schema $schema)
+    {
+        $table = $schema->getTable('oro_email_address');
+        $table->addColumn('owner_customeruser_id', 'integer', ['notnull' => false]);
+        $table->addIndex(['owner_customeruser_id'], 'IDX_FC9DBBC5720EE070', []);
+
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_customer_user'),
+            ['owner_customeruser_id'],
+            ['id'],
+            ['onDelete' => null, 'onUpdate' => null]
+        );
     }
 }

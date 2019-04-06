@@ -7,7 +7,7 @@ define(function(require) {
     var __ = require('orotranslation/js/translator');
     var viewportManager = require('oroui/js/viewport-manager');
     var CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
-    var MultiselectDecorator = require('orofrontend/js/app/datafilter/fronend-manage-filters-decorator');
+    var MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-manage-filters-decorator');
 
     var config = require('module').config();
     config = _.extend({

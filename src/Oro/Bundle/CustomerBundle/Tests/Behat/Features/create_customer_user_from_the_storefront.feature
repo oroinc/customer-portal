@@ -1,4 +1,5 @@
 @ticket-BB-15477
+@ticket-BB-16456
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 @fixture-OroCustomerBundle:CustomerUserRoleFixture.yml
 Feature: Create customer user from the store-front
@@ -46,3 +47,9 @@ Feature: Create customer user from the store-front
     And I should see "customer not assigned self managed"
     And I should not see "customer assigned not self managed"
     And I should not see "not customer not assigned not self managed"
+
+  Scenario: Check created customer user at admin area
+    Given I login as administrator
+    And I go to Customers / Customer Users
+    And I click View "newuser@test.com" in grid
+    And I should see "Website Default"

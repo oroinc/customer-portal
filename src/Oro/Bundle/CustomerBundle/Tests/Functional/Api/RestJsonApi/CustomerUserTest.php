@@ -5,11 +5,14 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\RestJsonApi;
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadWebsiteData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 /**
+ * @group CommunityEdition
+ *
  * @dbIsolationPerTest
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -22,7 +25,8 @@ class CustomerUserTest extends RestJsonApiTestCase
         parent::setUp();
         $this->loadFixtures([
             LoadOrganization::class,
-            LoadCustomerUserData::class
+            LoadCustomerUserData::class,
+            LoadWebsiteData::class
         ]);
         $role = $this->getEntityManager()
             ->getRepository(CustomerUserRole::class)

@@ -18,7 +18,7 @@ define(function(require) {
         options: {
             defaultsSelector: '[name$="[defaults][default][]"]',
             typesSelector: '[name$="[types][]"]',
-            containerSelector: '*[data-content]'
+            containerSelector: '[data-content="address-form"]'
         },
 
         /**
@@ -61,21 +61,17 @@ define(function(require) {
             /**
              * Switch off default checkbox when type unselected
              */
-            var self = this;
+            _.each(this.targetElement.find(this.options.defaultsSelector), this.processDefaultsChange, this);
 
-            this.targetElement.find(this.options.defaultsSelector).each(function(idx, defaultsEl) {
-                self.processDefaultsChange(defaultsEl);
-            });
-            this.targetElement.on('click', this.options.defaultsSelector, function() {
-                self.processDefaultsChange(this);
-            });
+            this.targetElement.on('click', this.options.defaultsSelector, function(event) {
+                this.processDefaultsChange(event.target);
+            }.bind(this));
 
-            this.targetElement.find(this.options.typesSelector).each(function(idx, typeEl) {
-                self.processTypeChange(typeEl);
-            });
-            this.targetElement.on('click', this.options.typesSelector, function() {
-                self.processTypeChange(this);
-            });
+            _.each(this.targetElement.find(this.options.typesSelector), this.processTypeChange, this);
+
+            this.targetElement.on('click', this.options.typesSelector, function(event) {
+                this.processTypeChange(event.target);
+            }.bind(this));
         },
 
         /**
@@ -83,12 +79,9 @@ define(function(require) {
          */
         processDefaultsChange: function(el) {
             if (el.checked) {
-                var items = $(el).closest(this.options.containerSelector)
-                    .find(this.options.typesSelector + '[value="' + el.value + '"]');
-
-                items.each(function(idx, typeEl) {
-                    typeEl.checked = true;
-                });
+                $(el).closest(this.options.containerSelector)
+                    .find(this.options.typesSelector + '[value="' + el.value + '"]')
+                    .prop('checked', true);
             }
         },
 
@@ -96,13 +89,10 @@ define(function(require) {
          * @param {Element} el
          */
         processTypeChange: function(el) {
-            var items = $(el).closest(this.options.containerSelector)
-                .find(this.options.defaultsSelector + '[value="' + el.value + '"]');
-
             if (!el.checked) {
-                items.each(function(idx, defaultsEl) {
-                    defaultsEl.checked = false;
-                });
+                $(el).closest(this.options.containerSelector)
+                    .find(this.options.defaultsSelector + '[value="' + el.value + '"]')
+                    .prop('checked', false);
             }
         },
 
@@ -110,16 +100,14 @@ define(function(require) {
             /**
              * Allow only 1 item with selected default type
              */
-            var self = this;
-            this.targetElement.on('click', this.options.defaultsSelector, function() {
-                if (this.checked) {
-                    var selector = self.options.defaultsSelector + '[value="' + this.value + '"]';
-                    self.targetElement.find(selector).each(function(idx, el) {
-                        el.checked = false;
-                    });
-                    this.checked = true;
+            this.targetElement.on('click', this.options.defaultsSelector, function(event) {
+                if (event.target.checked) {
+                    this.targetElement
+                        .find(this.options.defaultsSelector + '[value="' + event.target.value + '"]')
+                        .not(event.target)
+                        .prop('checked', false);
                 }
-            });
+            }.bind(this));
         }
     });
 
