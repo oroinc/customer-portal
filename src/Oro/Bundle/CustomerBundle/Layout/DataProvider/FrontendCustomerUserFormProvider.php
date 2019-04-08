@@ -125,10 +125,6 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     {
         $options = [];
 
-        if (isset($options['action'])) {
-            return $options;
-        }
-
         if ($customerUser->getId()) {
             $options['action'] = $this->generateUrl(
                 static::ACCOUNT_USER_UPDATE_ROUTE_NAME,
@@ -151,10 +147,6 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
     private function getProfilerFormOptions(CustomerUser $customerUser)
     {
         $options = [];
-
-        if (isset($options['action'])) {
-            return $options;
-        }
 
         if ($customerUser->getId()) {
             $options['action'] = $this->generateUrl(
