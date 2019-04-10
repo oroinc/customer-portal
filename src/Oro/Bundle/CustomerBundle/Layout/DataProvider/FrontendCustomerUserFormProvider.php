@@ -51,7 +51,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
      */
     public function getForgotPasswordFormView(array $options = [])
     {
-        $options['action'] = isset($options['action']) ?: $this->generateUrl(static::ACCOUNT_USER_RESET_REQUEST_ROUTE_NAME);
+        $options['action'] = $options['action'] ?? $this->generateUrl(static::ACCOUNT_USER_RESET_REQUEST_ROUTE_NAME);
 
         return $this->getFormView(CustomerUserPasswordRequestType::class, null, $options);
     }
@@ -63,7 +63,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
      */
     public function getForgotPasswordForm(array $options = [])
     {
-        $options['action'] = isset($options['action']) ?: $this->generateUrl(static::ACCOUNT_USER_RESET_REQUEST_ROUTE_NAME);
+        $options['action'] = $options['action'] ?? $this->generateUrl(static::ACCOUNT_USER_RESET_REQUEST_ROUTE_NAME);
 
         return $this->getForm(CustomerUserPasswordRequestType::class, null, $options);
     }
@@ -75,7 +75,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
      */
     public function getResetPasswordFormView(CustomerUser $customerUser = null)
     {
-        $options['action'] = isset($options['action']) ?: $this->generateUrl(static::ACCOUNT_USER_PASSWORD_RESET_ROUTE_NAME);
+        $options['action'] = $options['action'] ?? $this->generateUrl(static::ACCOUNT_USER_PASSWORD_RESET_ROUTE_NAME);
 
         return $this->getFormView(CustomerUserPasswordResetType::class, $customerUser, $options);
     }
@@ -87,7 +87,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
      */
     public function getResetPasswordForm(CustomerUser $customerUser = null)
     {
-        $options['action'] = isset($options['action']) ?: $this->generateUrl(static::ACCOUNT_USER_PASSWORD_RESET_ROUTE_NAME);
+        $options['action'] = $options['action'] ?? $this->generateUrl(static::ACCOUNT_USER_PASSWORD_RESET_ROUTE_NAME);
 
         return $this->getForm(CustomerUserPasswordResetType::class, $customerUser, $options);
     }
