@@ -363,6 +363,14 @@ oro_behat_extension:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserProfileUpdate
       route: 'oro_customer_frontend_customer_user_profile_update'
 
+    Customer User Login:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserLogin
+      route: 'oro_customer_customer_user_security_login'
+
+    Customer User Profile:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserProfile
+      route: 'oro_customer_frontend_customer_user_profile'
+
     Customer User Forgot Password:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserForgotPassword
       route: 'oro_customer_frontend_customer_user_reset_request'
