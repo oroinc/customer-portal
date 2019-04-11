@@ -23,6 +23,11 @@ class AddOwnerToOroEmailAddress implements Migration
     protected function addOwnerToOroEmailAddress(Schema $schema)
     {
         $table = $schema->getTable('oro_email_address');
+
+        if ($table->hasColumn('owner_customeruser_id')) {
+            return;
+        }
+
         $table->addColumn('owner_customeruser_id', 'integer', ['notnull' => false]);
         $table->addIndex(['owner_customeruser_id'], 'IDX_FC9DBBC5720EE070', []);
 
