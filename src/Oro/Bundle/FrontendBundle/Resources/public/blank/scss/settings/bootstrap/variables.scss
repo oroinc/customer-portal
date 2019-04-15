@@ -5,7 +5,7 @@ $grid-gutter-width: 16px;
 
 $font-size-base: 14px;
 
-$input-line-height: normal;
+$input-line-height: $base-ui-element-line-height;
 $input-btn-padding-y: 10px;
 $input-btn-padding-y-sm: $offset-y-s;
 $input-btn-padding-y-lg: $offset-y-m;
