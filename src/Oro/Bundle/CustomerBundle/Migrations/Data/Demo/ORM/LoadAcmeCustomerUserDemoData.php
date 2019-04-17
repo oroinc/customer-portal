@@ -17,7 +17,11 @@ class LoadAcmeCustomerUserDemoData extends AbstractLoadCustomerUserDemoData
      */
     public function getDependencies()
     {
-        return [LoadAcmeCustomerDemoData::class, LoadAcmeCustomerUserRoles::class];
+        return [
+            LoadCustomerUserDemoData::class,
+            LoadAcmeCustomerDemoData::class,
+            LoadAcmeCustomerUserRoles::class
+        ];
     }
 
     /**

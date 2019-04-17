@@ -12,9 +12,13 @@ Feature: Customer login
       | User  | second_session |
     And I enable the existing localizations
 
-  Scenario: Check unsuccessful login error
+  Scenario: Check redirect to login page
     Given I proceed as the User
-    And I am on the homepage
+    When I go to "/customer/user/login-check"
+    Then I should be on Customer User Login page
+
+  Scenario: Check unsuccessful login error
+    Given I am on the homepage
     And I click "Sign In"
     And I fill form with:
       | Email Address | NotExistingAddress@example.com |
@@ -27,6 +31,11 @@ Feature: Customer login
     And I should see text matching "Signed in as: Amanda Cole"
     Then click "Sign Out"
     And I should not see text matching "Signed in as: Amanda Cole"
+
+  Scenario: Check redirect to profile
+    Given I signed in as AmandaRCole@example.org on the store frontend
+    When I go to "/customer/user/login-check"
+    Then I should be on Customer User Profile page
 
   Scenario: Proper email validation message
     Given I login as usernameNotEmail buyer

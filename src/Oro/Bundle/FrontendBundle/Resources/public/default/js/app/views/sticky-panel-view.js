@@ -131,6 +131,8 @@ define(function(require) {
             this.collectElements();
             this.applyAlwaysStickyElem();
             this.hasContent();
+            this.rendered = true;
+
             return this;
         },
 
@@ -181,6 +183,10 @@ define(function(require) {
          * Reset sticky panel
          */
         reset: function() {
+            if (!this.rendered) {
+                return;
+            }
+
             var oldElements = this.elements;
             this.getElements();
             if (!_.isEqual(oldElements, this.elements)) {

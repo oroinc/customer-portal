@@ -74,7 +74,7 @@ Feature: Manage Customer addresses at front-store
   Scenario: Verify address on profile page
     When I click "My Profile"
     Then I should see "alert(9)"
-    And I should see "alert(11), alert(12),"
+    And I should see "alert(11), alert(12), DE-BE"
     And I click "Sign Out"
 
   Scenario: Check addresses of assigned user
@@ -83,7 +83,7 @@ Feature: Manage Customer addresses at front-store
     And I click "Users"
     When I click view "Nancy" in grid
     Then I should see "alert(9)"
-    And I should see "alert(11), alert(12),"
+    And I should see "alert(11), alert(12), DE-BE"
 
   Scenario: First and Last name, default for current customer user's info, during company address addition
     Given I click "Account"
@@ -92,3 +92,21 @@ Feature: Manage Customer addresses at front-store
     Then "OroForm" must contains values:
       | First Name | Amanda |
       | Last Name  | Cole   |
+
+  Scenario: Create address using country without region
+    Given I click "Account"
+    When I click "Address Book"
+    And I click "New Address"
+    And I fill form with:
+      | Street           | Test street |
+      | City             | Test city   |
+      | Country          | Anguilla    |
+      | Zip/Postal Code  | 12345       |
+      | Billing          | true        |
+      | Shipping         | true        |
+      | Default Billing  | true        |
+      | Default Shipping | true        |
+    And I click "Save"
+    And I click "My Profile"
+    Then I should see "Test street"
+    And I should see "Test city, 12345, AI"
