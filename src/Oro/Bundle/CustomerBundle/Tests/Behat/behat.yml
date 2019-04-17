@@ -342,6 +342,18 @@ oro_behat_extension:
     Second Address Shipping Checkbox:
         selector: '[name="oro_customer_type[addresses][2][types][]"][value="shipping"]'
 
+    New Address Default Billing Checkbox:
+        selector: '[name="oro_customer_typed_address[defaults][default][]"][value="billing"]'
+
+    New Address Billing Checkbox:
+        selector: '[name="oro_customer_typed_address[types][]"][value="billing"]'
+
+    New Address Default Shipping Checkbox:
+      selector: '[name="oro_customer_typed_address[defaults][default][]"][value="shipping"]'
+
+    New Address Shipping Checkbox:
+      selector: '[name="oro_customer_typed_address[types][]"][value="shipping"]'
+
   pages:
     Customer User Role View:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView
@@ -350,6 +362,14 @@ oro_behat_extension:
     Customer User Profile Update:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserProfileUpdate
       route: 'oro_customer_frontend_customer_user_profile_update'
+
+    Customer User Login:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserLogin
+      route: 'oro_customer_customer_user_security_login'
+
+    Customer User Profile:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserProfile
+      route: 'oro_customer_frontend_customer_user_profile'
 
     Customer User Forgot Password:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserForgotPassword

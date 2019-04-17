@@ -120,6 +120,7 @@ oro.customer:
         full_name:                   '%name_prefix% %first_name% %middle_name% %last_name% %name_suffix%'
         entity_label:                'Customer User'
         entity_plural_label:         'Customer Users'
+        frontstore_entity_plural_label: 'Users'
         entity_description:          Customer User represents a person who acts on behalf of the company to buy products using OroCommerce store frontend.
         id.label:                    'ID'
         api_keys.label:              API keys
@@ -332,7 +333,7 @@ oro.customer:
             description: Name Suffix of the customer user for the billing or shipping address. For example, M.D., Jr., I, II, etc.
         organization:
             label: Organization
-            description: Name of customer user organization for the billing or shipping address. 
+            description: Name of customer user organization for the billing or shipping address.
         system_organization.label: System Organization
         frontend_owner:
             label: Frontend Owner
@@ -366,7 +367,7 @@ oro.customer:
             description: Addresses to address types
         phone:
             label: Phone
-            description: Customer user phone that may be used for shipping or payment related communication. 
+            description: Customer user phone that may be used for shipping or payment related communication.
         country_name:
             label: Country name
             description: Country name, the part of the customer user postal address.
