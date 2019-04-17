@@ -50,7 +50,10 @@ class CustomerUserContext extends OroFeatureContext
      */
     public function iConfirmRegistrationEmail(string $username): void
     {
-        $customerUser = $this->getCustomerUser($username);
+        $customerUser = $this->getRepository(CustomerUser::class)->findOneBy([
+            'username' => $username,
+            'isGuest' => 0
+        ]);
         self::assertNotNull($customerUser, sprintf('Could not found customer user "%s",', $username));
 
         $path = $this->getContainer()->get('oro_website.resolver.website_url_resolver')->getWebsitePath(
