@@ -17,6 +17,9 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * The registration form for storefront.
+ */
 class FrontendCustomerUserRegistrationType extends AbstractType
 {
     const NAME = 'oro_customer_frontend_customer_user_register';
@@ -104,7 +107,10 @@ class FrontendCustomerUserRegistrationType extends AbstractType
                 'type' => PasswordType::class,
                 'first_options' => [
                     'label' => 'oro.customer.customeruser.password.label',
-                    'attr' => ['placeholder' => 'oro.customer.customeruser.placeholder.password']
+                    'attr' => [
+                        'placeholder' => 'oro.customer.customeruser.placeholder.password',
+                        'autocomplete' => 'new-password',
+                    ],
                 ],
                 'second_options' => [
                     'label' => 'oro.customer.customeruser.password_confirmation.label',
