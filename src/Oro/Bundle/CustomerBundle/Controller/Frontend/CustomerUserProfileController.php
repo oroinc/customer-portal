@@ -23,6 +23,8 @@ class CustomerUserProfileController extends Controller
      */
     public function profileAction()
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return [
             'data' => [
                 'entity' => $this->getUser()
