@@ -2,27 +2,18 @@
 
 namespace Oro\Bundle\FrontendBundle\Request;
 
-use Oro\Component\PhpUtils\ReflectionUtil;
+use Oro\Bundle\SecurityBundle\Request\SessionHttpKernelDecorator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\TerminableInterface;
 
 /**
  * The decorator for HTTP kernel that provides a possibility to use separate sessions
  * for storefront and management console.
+ * Sets cookie path for storefront session cookie if application was installed in subfolder.
  */
-class DynamicSessionHttpKernelDecorator implements HttpKernelInterface, TerminableInterface
+class DynamicSessionHttpKernelDecorator extends SessionHttpKernelDecorator
 {
-    private const SESSION_OPTIONS_PARAMETER_NAME = 'session.storage.options';
-
-    /** @var HttpKernelInterface */
-    private $kernel;
-
-    /** @var ContainerInterface */
-    private $container;
-
     /** @var FrontendHelper */
     private $frontendHelper;
 
@@ -31,9 +22,6 @@ class DynamicSessionHttpKernelDecorator implements HttpKernelInterface, Terminab
 
     /** @var array|null */
     private $backendSessionOptions;
-
-    /** @var bool */
-    private $isFrontendSessionOptionsApplied = false;
 
     /**
      * @param HttpKernelInterface $kernel
@@ -47,8 +35,7 @@ class DynamicSessionHttpKernelDecorator implements HttpKernelInterface, Terminab
         FrontendHelper $frontendHelper,
         array $frontendSessionOptions
     ) {
-        $this->kernel = $kernel;
-        $this->container = $container;
+        parent::__construct($kernel, $container);
         $this->frontendHelper = $frontendHelper;
         $this->frontendSessionOptions = $frontendSessionOptions;
     }
@@ -58,54 +45,26 @@ class DynamicSessionHttpKernelDecorator implements HttpKernelInterface, Terminab
      */
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
+        $basePath = $request->getBasePath();
         if ($this->frontendHelper->isFrontendRequest($request)) {
+            $frontendSessionOptions = $this->applyBasePathToCookiePath($basePath, $this->frontendSessionOptions);
             $options = $this->getSessionOptions();
             if (null === $this->backendSessionOptions) {
                 $this->backendSessionOptions = $options;
             }
-            $this->setSessionOptions(array_replace($options, $this->frontendSessionOptions));
-            $this->isFrontendSessionOptionsApplied = true;
-        } elseif ($this->isFrontendSessionOptionsApplied && null !== $this->backendSessionOptions) {
-            $this->setSessionOptions($this->backendSessionOptions);
-            $this->isFrontendSessionOptionsApplied = false;
+            $this->setSessionOptions(array_replace($options, $frontendSessionOptions));
+        } else {
+            if (null !== $this->backendSessionOptions) {
+                $options = $this->backendSessionOptions;
+            } else {
+                $options = $this->getSessionOptions();
+                $this->backendSessionOptions = $options;
+            }
+
+            $options = $this->applyBasePathToCookiePath($basePath, $options);
+            $this->setSessionOptions($options);
         }
 
         return $this->kernel->handle($request, $type, $catch);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function terminate(Request $request, Response $response)
-    {
-        if ($this->kernel instanceof TerminableInterface) {
-            $this->kernel->terminate($request, $response);
-        }
-    }
-
-    /**
-     * @return array
-     */
-    private function getSessionOptions(): array
-    {
-        return $this->container->getParameter(self::SESSION_OPTIONS_PARAMETER_NAME);
-    }
-
-    /**
-     * @param array $options
-     */
-    private function setSessionOptions(array $options): void
-    {
-        $parametersProperty = ReflectionUtil::getProperty(new \ReflectionClass($this->container), 'parameters');
-        if (null === $parametersProperty) {
-            throw new \LogicException(sprintf(
-                'The class "%s" does not have "parameters" property.',
-                get_class($this->container)
-            ));
-        }
-        $parametersProperty->setAccessible(true);
-        $parameters = $parametersProperty->getValue($this->container);
-        $parameters[self::SESSION_OPTIONS_PARAMETER_NAME] = $options;
-        $parametersProperty->setValue($this->container, $parameters);
     }
 }

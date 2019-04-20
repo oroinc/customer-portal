@@ -6,13 +6,20 @@ use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Controller responsible for customer user authorization
+ */
 class SecurityController extends Controller
 {
     /**
      * @Route("/login", name="oro_customer_customer_user_security_login")
      * @Layout()
+     *
+     * @param Request $request
+     * @return array|RedirectResponse
      */
     public function loginAction(Request $request)
     {
@@ -38,9 +45,20 @@ class SecurityController extends Controller
 
     /**
      * @Route("/login-check", name="oro_customer_customer_user_security_check")
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function checkAction()
+    public function checkAction(Request $request)
     {
+        if (!$request->isMethod('POST')) {
+            return $this->redirectToRoute(
+                $this->getUser()
+                    ? 'oro_customer_frontend_customer_user_profile'
+                    : 'oro_customer_customer_user_security_login'
+            );
+        }
+
         throw new \RuntimeException(
             'You must configure the check path to be handled by the firewall ' .
             'using form_login in your security firewall configuration.'

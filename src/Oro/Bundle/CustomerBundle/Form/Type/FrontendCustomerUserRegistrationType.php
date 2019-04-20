@@ -101,7 +101,10 @@ class FrontendCustomerUserRegistrationType extends AbstractType
                 'type' => PasswordType::class,
                 'first_options' => [
                     'label' => 'oro.customer.customeruser.password.label',
-                    'attr' => ['placeholder' => 'oro.customer.customeruser.placeholder.password']
+                    'attr' => [
+                        'placeholder' => 'oro.customer.customeruser.placeholder.password',
+                        'autocomplete' => 'new-password',
+                    ],
                 ],
                 'second_options' => [
                     'label' => 'oro.customer.customeruser.password_confirmation.label',

@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\DependencyInjection\Compiler;
 
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\FrontendBundle\Request\DynamicSessionHttpKernelDecorator;
+use Oro\Bundle\SecurityBundle\DependencyInjection\Compiler\SessionPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -33,16 +34,10 @@ class FrontendSessionPass implements CompilerPassInterface
      */
     private function configureHttpKernel(ContainerBuilder $container): void
     {
-        $httpKernelDecoratorServiceId = 'oro_frontend.http_kernel.dynamic_session';
         $container
-            ->register($httpKernelDecoratorServiceId, DynamicSessionHttpKernelDecorator::class)
-            ->setArguments([
-                new Reference($httpKernelDecoratorServiceId . '.inner'),
-                new Reference('service_container'),
-                new Reference('oro_frontend.request.frontend_helper'),
-                '%' . OroFrontendExtension::FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME . '%'
-            ])
-            ->setDecoratedService('http_kernel', null, 250)
-            ->setPublic(false);
+            ->getDefinition(SessionPass::HTTP_KERNEL_DECORATOR_SERVICE)
+            ->setClass(DynamicSessionHttpKernelDecorator::class)
+            ->addArgument(new Reference('oro_frontend.request.frontend_helper'))
+            ->addArgument('%' . OroFrontendExtension::FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME . '%');
     }
 }
