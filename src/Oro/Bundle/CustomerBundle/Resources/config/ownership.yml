@@ -57,6 +57,8 @@ services:
             - '@oro_customer.owner.frontend_ownership_tree_provider.cache'
             - '@oro_customer.owner.frontend_ownership_metadata_provider'
             - '@security.token_storage'
+        calls:
+            - [setLogger, ['@logger']]
         tags:
             - { name: oro_security.ownership.tree_provider }
 

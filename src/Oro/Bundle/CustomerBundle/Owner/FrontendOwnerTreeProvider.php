@@ -16,6 +16,9 @@ use Oro\Bundle\SecurityBundle\Owner\OwnerTreeBuilderInterface;
 use Oro\Component\DoctrineUtils\ORM\QueryUtil;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * This class is used to build the tree of owners for customers.
+ */
 class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider
 {
     /** @var ManagerRegistry */
@@ -82,16 +85,19 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider
                 ->addOrderBy('ORD, parentId', 'ASC')
                 ->getQuery()
         );
+
+        $businessUnitRelations = [];
+
         foreach ($customers as $customer) {
             $orgId = $this->getId($customer, $columnMap['orgId']);
             if (null !== $orgId) {
                 $buId = $this->getId($customer, $columnMap['id']);
                 $tree->addBusinessUnit($buId, $orgId);
-                $tree->addBusinessUnitRelation($buId, $this->getId($customer, $columnMap['parentId']));
+                $businessUnitRelations[$buId] = $this->getId($customer, $columnMap['parentId']);
             }
         }
 
-        $tree->buildTree();
+        $this->setSubordinateBusinessUnitIds($tree, $this->buildTree($businessUnitRelations, $customerClass));
 
         list($customerUsers, $columnMap) = $this->executeQuery(
             $connection,
@@ -154,6 +160,17 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider
             $connection->executeQuery($executableQuery),
             array_flip($parsedQuery->getResultSetMapping()->scalarMappings)
         ];
+    }
+
+    /**
+     * @param OwnerTreeBuilderInterface $tree
+     * @param $businessUnits
+     */
+    protected function setSubordinateBusinessUnitIds(OwnerTreeBuilderInterface $tree, $businessUnits)
+    {
+        foreach ($businessUnits as $parentId => $businessUnitIds) {
+            $tree->setSubordinateBusinessUnitIds($parentId, $businessUnitIds);
+        }
     }
 
     /**

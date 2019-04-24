@@ -92,9 +92,9 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
             )
         );
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|OwnerTreeProvider $treeProvider */
-        $treeProvider = $this->createMock(OwnerTreeProvider::class);
-        $treeProvider->expects($this->any())
+        /** @var \PHPUnit\Framework\MockObject\MockObject|OwnerTreeProvider $this->treeProvider */
+        $this->treeProvider = $this->createMock(OwnerTreeProvider::class);
+        $this->treeProvider->expects($this->any())
             ->method('getTree')
             ->will($this->returnValue($this->tree));
 
@@ -135,7 +135,7 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
             ->willReturn($manager);
 
         $this->decisionMaker = new EntityOwnershipDecisionMaker(
-            $treeProvider,
+            $this->treeProvider,
             new ObjectIdAccessor($doctrineHelper),
             new EntityOwnerAccessor($this->metadataProvider),
             $this->metadataProvider,
@@ -231,17 +231,16 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
         $this->tree->addBusinessUnit('cust41', 'org4');
         $this->tree->addBusinessUnit('cust411', 'org4');
 
-        $this->tree->addBusinessUnitRelation('cust1', null);
-        $this->tree->addBusinessUnitRelation('cust2', null);
-        $this->tree->addBusinessUnitRelation('cust3', null);
-        $this->tree->addBusinessUnitRelation('cust31', 'cust3');
-        $this->tree->addBusinessUnitRelation('cust3a', null);
-        $this->tree->addBusinessUnitRelation('cust3a1', 'cust3a');
-        $this->tree->addBusinessUnitRelation('cust4', null);
-        $this->tree->addBusinessUnitRelation('cust41', 'cust4');
-        $this->tree->addBusinessUnitRelation('cust411', 'cust41');
+        $subordinateBusinessUnits  = [
+            'cust3'  => ['cust31'],
+            'cust3a' => ['cust3a1'],
+            'cust41' => ['cust411'],
+            'cust4'  => ['cust41', 'cust411'],
+        ];
 
-        $this->tree->buildTree();
+        foreach ($subordinateBusinessUnits as $parentBuId => $buIds) {
+            $this->tree->setSubordinateBusinessUnitIds($parentBuId, $buIds);
+        }
 
         $this->tree->addUser('custUsr1', null);
         $this->tree->addUser('custUsr2', 'cust2');

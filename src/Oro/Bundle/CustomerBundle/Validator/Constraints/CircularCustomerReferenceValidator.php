@@ -3,41 +3,47 @@
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Validator that checks that parent for the customer is not his child.
+ */
 class CircularCustomerReferenceValidator extends ConstraintValidator
 {
+    /** @var OwnerTreeProviderInterface */
+    private $ownerTreeProvider;
+
     /**
-     * {@inheritdoc}
-     * @param Customer $value
+     * @param OwnerTreeProviderInterface $ownerTreeProvider
      */
-    public function validate($value, Constraint $constraint)
+    public function __construct(OwnerTreeProviderInterface $ownerTreeProvider)
     {
-        $customer = $this->context->getObject();
-        if ($this->isAncestor($customer, $value)) {
-            $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ parentName }}', $value->getName())
-                ->setParameter('{{ customerName }}', $customer->getName())
-                ->addViolation();
-        }
+        $this->ownerTreeProvider = $ownerTreeProvider;
     }
 
     /**
-     * @param Customer $customer
-     * @param Customer|null $parent
-     * @return bool
+     * {@inheritdoc}
      */
-    protected function isAncestor(Customer $customer, Customer $parent = null)
+    public function validate($value, Constraint $constraint)
     {
-        if ($parent && ($ancestor = $parent->getParent())) {
-            if ($customer->getId() !== $ancestor->getId()) {
-                return $this->isAncestor($customer, $ancestor);
-            }
+        /** @var Customer $value */
+        $parentCustomer = $value->getParent();
 
-            return true;
+        if (null === $parentCustomer) {
+            return;
         }
 
-        return false;
+        if (in_array(
+            $parentCustomer->getId(),
+            $this->ownerTreeProvider->getTree()->getSubordinateBusinessUnitIds($value->getId()),
+            true
+        )) {
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ parentName }}', $parentCustomer->getName())
+                ->setParameter('{{ customerName }}', $value->getName())
+                ->addViolation();
+        }
     }
 }

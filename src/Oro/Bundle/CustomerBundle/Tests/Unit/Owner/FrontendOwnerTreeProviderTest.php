@@ -11,14 +11,20 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
 use Oro\Bundle\EntityBundle\Tools\DatabaseChecker;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
+use Oro\Bundle\SecurityBundle\Owner\OwnerTree;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeBuilderInterface;
+use Oro\Bundle\SecurityBundle\Tests\Util\ReflectionUtil;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\TestUtils\ORM\Mocks\ConnectionMock;
 use Oro\Component\TestUtils\ORM\Mocks\DriverMock;
 use Oro\Component\TestUtils\ORM\Mocks\EntityManagerMock;
 use Oro\Component\TestUtils\ORM\OrmTestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * @SuppressWarnings(PHPMD)
+ */
 class FrontendOwnerTreeProviderTest extends OrmTestCase
 {
     const ENTITY_NAMESPACE = 'Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Fixtures\Entity';
@@ -62,6 +68,9 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
      * @var FrontendOwnerTreeProvider
      */
     protected $treeProvider;
+
+    /** @var LoggerInterface */
+    protected $logger;
 
     protected function setUp()
     {
@@ -110,6 +119,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
             ->willReturn(self::ENTITY_NAMESPACE . '\TestCustomer');
 
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->treeProvider = new FrontendOwnerTreeProvider(
             $doctrine,
@@ -118,6 +128,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
             $this->ownershipMetadataProvider,
             $this->tokenStorage
         );
+        $this->treeProvider->setLogger($this->logger);
     }
 
     /**
@@ -602,5 +613,151 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
             ->willReturn(null);
 
         $this->assertFalse($this->treeProvider->supports());
+    }
+
+    /**
+     * @dataProvider addBusinessUnitDirectCyclicRelationProvider
+     */
+    public function testDirectCyclicRelationshipBetweenBusinessUnits($src, $expected, $criticalMessageArguments)
+    {
+        $this->logger->expects($this->once())
+            ->method('critical')
+            ->with(
+                sprintf(
+                    'Cyclic relationship in "%s" with problem id "%s"',
+                    $criticalMessageArguments['businessUnitClass'],
+                    $criticalMessageArguments['buId']
+                )
+            );
+
+        /** @var OwnerTree $tree */
+        $tree = $this->treeProvider->getTree();
+        $businessUnitClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
+        $subordinateBusinessUnitIds = ReflectionUtil::callProtectedMethod(
+            $this->treeProvider,
+            'buildTree',
+            [$src, $businessUnitClass]
+        );
+
+        foreach ($subordinateBusinessUnitIds as $parentBusinessUnit => $businessUnits) {
+            $tree->setSubordinateBusinessUnitIds($parentBusinessUnit, $businessUnits);
+        }
+
+        foreach ($expected as $parentBusinessUnit => $businessUnits) {
+            $this->assertEquals($businessUnits, $tree->getSubordinateBusinessUnitIds($parentBusinessUnit));
+        }
+    }
+
+    /**
+     * @dataProvider addBusinessUnitNotDirectCyclicRelationProvider
+     */
+    public function testNotDirectCyclicRelationshipBetweenBusinessUnits($src, $expected, $criticalMessageArguments)
+    {
+        $this->logger->expects($this->exactly(count($criticalMessageArguments)))
+            ->method('critical')
+            ->withConsecutive(
+                [sprintf(
+                    'Cyclic relationship in "%s" with problem id "%s"',
+                    $criticalMessageArguments[0]['businessUnitClass'],
+                    $criticalMessageArguments[0]['buId']
+                )],
+                [sprintf(
+                    'Cyclic relationship in "%s" with problem id "%s"',
+                    $criticalMessageArguments[1]['businessUnitClass'],
+                    $criticalMessageArguments[1]['buId']
+                )],
+                [sprintf(
+                    'Cyclic relationship in "%s" with problem id "%s"',
+                    $criticalMessageArguments[2]['businessUnitClass'],
+                    $criticalMessageArguments[2]['buId']
+                )]
+            );
+
+        /** @var OwnerTree $tree */
+        $tree = $this->treeProvider->getTree();
+        $businessUnitClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
+        $subordinateBusinessUnitIds = ReflectionUtil::callProtectedMethod(
+            $this->treeProvider,
+            'buildTree',
+            [$src, $businessUnitClass]
+        );
+
+        foreach ($subordinateBusinessUnitIds as $parentBusinessUnit => $businessUnits) {
+            $tree->setSubordinateBusinessUnitIds($parentBusinessUnit, $businessUnits);
+        }
+
+        foreach ($expected as $parentBusinessUnit => $businessUnits) {
+            $this->assertEquals($businessUnits, $tree->getSubordinateBusinessUnitIds($parentBusinessUnit));
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function addBusinessUnitDirectCyclicRelationProvider()
+    {
+        return [
+            'direct cyclic relationship' => [
+                [
+                    2 => 4,
+                    1 => null,
+                    3 => 1,
+                    4 => 2,
+                    5 => 1,
+                    6 => 5
+                ],
+                [
+                    1 => [3, 5, 6],
+                    5 => [6]
+                ],
+                [
+
+                    'businessUnitClass' => self::ENTITY_NAMESPACE . '\TestCustomer',
+                    'buId' => 2
+
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function addBusinessUnitNotDirectCyclicRelationProvider()
+    {
+        return [
+            'not direct cyclic relationship' => [
+                [
+                    1  => null,
+                    3  => 1,
+                    4  => 1,
+                    5 => 7,
+                    6 => 5,
+                    7  => 6,
+                    8 => 14,
+                    11 =>8,
+                    12 => 11,
+                    13 => 12,
+                    14 => 13
+                ],
+                [
+                    1 => [3, 4]
+                ],
+                [
+                    [
+                        'businessUnitClass' => self::ENTITY_NAMESPACE . '\TestCustomer',
+                        'buId' => 5
+                    ],
+                    [
+                        'businessUnitClass' => self::ENTITY_NAMESPACE . '\TestCustomer',
+                        'buId' => 8
+                    ],
+                    [
+                        'businessUnitClass' => self::ENTITY_NAMESPACE . '\TestCustomer',
+                        'buId' => 12
+                    ]
+                ]
+            ]
+        ];
     }
 }
