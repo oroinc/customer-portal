@@ -1,4 +1,6 @@
 Oro\Bundle\CustomerBundle\Entity\Customer:
+    constraints:
+        - Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference: ~
     properties:
         name:
             - NotBlank: ~
@@ -10,8 +12,6 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
             #- Oro\Bundle\FormBundle\Validator\Constraints\ContainsPrimary:
             #    message: oro.address.validation.contains_primary
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
-        parent:
-            - Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference: ~
         users:
             - Valid: ~
 

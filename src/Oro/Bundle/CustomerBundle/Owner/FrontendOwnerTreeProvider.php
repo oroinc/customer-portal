@@ -8,6 +8,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityBundle\Tools\DatabaseChecker;
 use Oro\Bundle\SecurityBundle\Owner\AbstractOwnerTreeProvider;
@@ -16,6 +17,9 @@ use Oro\Bundle\SecurityBundle\Owner\OwnerTreeBuilderInterface;
 use Oro\Component\DoctrineUtils\ORM\QueryUtil;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * This class is used to build the tree of owners for customers.
+ */
 class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider
 {
     /** @var ManagerRegistry */
@@ -65,6 +69,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider
      */
     protected function fillTree(OwnerTreeBuilderInterface $tree)
     {
+        $tree->setBusinessUnitClass(Customer::class);
         $ownershipMetadataProvider = $this->getOwnershipMetadataProvider();
         $customerUserClass = $ownershipMetadataProvider->getUserClass();
         $customerClass = $ownershipMetadataProvider->getBusinessUnitClass();

@@ -17,6 +17,7 @@ use Oro\Component\TestUtils\ORM\Mocks\ConnectionMock;
 use Oro\Component\TestUtils\ORM\Mocks\DriverMock;
 use Oro\Component\TestUtils\ORM\Mocks\EntityManagerMock;
 use Oro\Component\TestUtils\ORM\OrmTestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class FrontendOwnerTreeProviderTest extends OrmTestCase
@@ -62,6 +63,9 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
      * @var FrontendOwnerTreeProvider
      */
     protected $treeProvider;
+
+    /** @var LoggerInterface */
+    protected $logger;
 
     protected function setUp()
     {
@@ -111,6 +115,8 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
 
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
 
+        $this->logger = $this->createMock(LoggerInterface::class);
+
         $this->treeProvider = new FrontendOwnerTreeProvider(
             $doctrine,
             $this->databaseChecker,
@@ -118,6 +124,8 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
             $this->ownershipMetadataProvider,
             $this->tokenStorage
         );
+
+        $this->treeProvider->setLogger($this->logger);
     }
 
     /**
