@@ -14,14 +14,6 @@ placeholders:
             items:
                 customer_dots_menu:
                     order: 100
-        pin_tabs_list:
-            items:
-                customer_pin_tabs_list:
-                    order: 100
-        pin_button:
-            items:
-                customer_pin_button:
-                    order: 100
         right_panel:
             items:
                 frontend_sidebar:
@@ -67,12 +59,6 @@ placeholders:
             applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
         customer_dots_menu:
             template: OroCustomerBundle:ApplicationMenu:dotsMenu.html.twig
-            applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
-        customer_pin_tabs_list:
-            template: OroCustomerBundle:Menu:pinTabsList.html.twig
-            applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
-        customer_pin_button:
-            template: OroCustomerBundle:ApplicationMenu:pinButton.html.twig
             applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
         frontend_sidebar:
             template: OroCustomerBundle:Sidebar:sidebar.html.twig
