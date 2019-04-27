@@ -2,7 +2,15 @@ Please refer first to [UPGRADE.md](UPGRADE.md) for the most important items that
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
-## 4.0.0-beta
+## 4.0.0-rc
+
+### Changed
+#### FrontendBundle
+* The format of `Resources/views/layouts/{folder}/config/screens.yml` was changed. The `screens` root node was removed. It was done to make format of this file consistent with other config files, such as `Resources/views/layouts/{folder}/config/assets.yml`, `Resources/views/layouts/{folder}/config/images.yml` and `Resources/views/layouts/{folder}/config/page_templates.yml`.
+
+## 4.0.0-beta (2019-03-28)
+[Show detailed list of changes](incompatibilities-4-0-beta.md)
+
 ### Changed
 #### FrontendBundle
 * In `Oro\Bundle\FrontendBundle\Controller\Api\Rest\WorkflowController::startAction` 

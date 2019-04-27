@@ -294,12 +294,7 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
         $this->tree->addBusinessUnit('c32', 'org3');
         $this->tree->addBusinessUnit('c321', 'org3');
 
-        $this->tree->addBusinessUnitRelation('c3', null);
-        $this->tree->addBusinessUnitRelation('c31', 'c3');
-        $this->tree->addBusinessUnitRelation('c32', 'c3');
-        $this->tree->addBusinessUnitRelation('c321', 'c32');
-
-        $this->tree->buildTree();
+        $this->buildTree();
 
         $this->tree->addUser('user3', 'c3');
         $this->tree->addUser('user31', 'c31');
@@ -309,5 +304,17 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
 
         $this->tree->addUserBusinessUnit('user3', 'org3', 'c3');
         $this->tree->addUserBusinessUnit('user31', 'org3', 'c31');
+    }
+
+    protected function buildTree()
+    {
+        $subordinateBusinessUnits = [
+            'c3'  => ['c31', 'c32', 'c321'],
+            'c32' => ['c321'],
+        ];
+
+        foreach ($subordinateBusinessUnits as $parentBuId => $buIds) {
+            $this->tree->setSubordinateBusinessUnitIds($parentBuId, $buIds);
+        }
     }
 }

@@ -103,12 +103,6 @@ oro_customer_bundle_api:
     defaults:
         version:  latest
 
-oro_customer_pinbar_help:
-    path: /pinbar/help
-    defaults: { _controller: FrameworkBundle:Template:template, template: "OroNavigationBundle:Pinbar:help.html.twig" }
-    options:
-        frontend: true
-
 oro_customer_frontend_customer_user_role:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserRoleController.php"
     type:     annotation
