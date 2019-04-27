@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 /**
  * Throws AuthenticationException if response status code is 403 (Forbidden)
- * and current secutity context is a customer visitor.
+ * and current security context is a customer visitor.
  * It allows exception listeners build correct 401 (Unauthorized) response in this case.
  */
 class HandleAccessDeniedForVisitors implements ProcessorInterface
