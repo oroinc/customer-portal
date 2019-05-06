@@ -77,7 +77,8 @@
 
                 'oro/dialog-widget': {
                     messengerContainerClass: 'ui-dialog-messages',
-                    mobileLoadingBar: false
+                    mobileLoadingBar: false,
+                    limitTo: '{{ NotMobileVersion }}' ? 'viewport': 'body'
                 },
 
                 'oronavigation/js/routes-loader': {
