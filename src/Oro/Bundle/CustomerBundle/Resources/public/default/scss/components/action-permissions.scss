@@ -20,7 +20,7 @@
         padding-right: $action-permissions-item-wrapper-offset-inner-right;
         box-sizing: content-box;
 
-        white-space: nowrap;
+        @include ellipsis();
 
         &--no-access {
             opacity: $action-permissions-item-wrapper-no-access-opacity;
