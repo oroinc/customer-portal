@@ -108,3 +108,6 @@ oro_frontend:
 
     datagrid_views:
         saved_views: 'Saved Views'
+
+    ui:
+        tab_view_more: 'View more...'
