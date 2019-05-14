@@ -1,4 +1,4 @@
-/* @theme: default; */
+/* @theme: blank; */
 
 .notification-flash {
     margin: 0;
@@ -79,5 +79,9 @@
         padding: $notification-flash-text-offset;
         
         flex: 1 1 auto;
+        
+        &--center {
+            text-align: center;
+        }
     }
 }
