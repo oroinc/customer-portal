@@ -3,22 +3,42 @@
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Validator that checks that parent for the customer is not his child.
+ */
 class CircularCustomerReferenceValidator extends ConstraintValidator
 {
+    /** @var OwnerTreeProviderInterface */
+    private $ownerTreeProvider;
+
+    /**
+     * @param OwnerTreeProviderInterface $ownerTreeProvider
+     */
+    public function __construct(OwnerTreeProviderInterface $ownerTreeProvider)
+    {
+        $this->ownerTreeProvider = $ownerTreeProvider;
+    }
+
     /**
      * {@inheritdoc}
-     * @param Customer $value
      */
     public function validate($value, Constraint $constraint)
     {
-        $customer = $this->context->getObject();
-        if ($this->isAncestor($customer, $value)) {
+        /** @var Customer $value */
+        $parentCustomer = $value->getParent();
+
+        if (null === $parentCustomer) {
+            return;
+        }
+
+        if ($this->isAncestor($value, $parentCustomer)) {
             $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ parentName }}', $value->getName())
-                ->setParameter('{{ customerName }}', $customer->getName())
+                ->setParameter('{{ parentName }}', $parentCustomer->getName())
+                ->setParameter('{{ customerName }}', $value->getName())
                 ->addViolation();
         }
     }
@@ -30,11 +50,11 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
      */
     protected function isAncestor(Customer $customer, Customer $parent = null)
     {
-        if ($parent && ($ancestor = $parent->getParent())) {
-            if ($customer->getId() !== $ancestor->getId()) {
-                return $this->isAncestor($customer, $ancestor);
-            }
-
+        if (in_array(
+            $parent->getId(),
+            $this->ownerTreeProvider->getTree()->getSubordinateBusinessUnitIds($customer->getId()),
+            true
+        )) {
             return true;
         }
 

@@ -5,3 +5,14 @@
 .nav--block {
     display: block;
 }
+
+.nav {
+    .dropdown-toggle:after {
+        content: none;
+    }
+    
+    .active.dropdown-toggle:after,
+    .active > .dropdown-toggle:after {
+        content: '';
+    }
+}

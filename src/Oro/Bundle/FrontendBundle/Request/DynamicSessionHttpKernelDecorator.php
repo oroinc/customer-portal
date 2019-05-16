@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\TerminableInterface;
 class DynamicSessionHttpKernelDecorator implements HttpKernelInterface, TerminableInterface
 {
     private const SESSION_OPTIONS_PARAMETER_NAME = 'session.storage.options';
+    private const COOKIE_PATH_OPTION = 'cookie_path';
 
     /** @var HttpKernelInterface */
     private $kernel;
@@ -58,12 +59,14 @@ class DynamicSessionHttpKernelDecorator implements HttpKernelInterface, Terminab
      */
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
+        $basePath = $request->getBasePath();
         if ($this->frontendHelper->isFrontendRequest($request)) {
+            $frontendSessionOptions = $this->applyBasePathToCookiePath($basePath, $this->frontendSessionOptions);
             $options = $this->getSessionOptions();
             if (null === $this->backendSessionOptions) {
                 $this->backendSessionOptions = $options;
             }
-            $this->setSessionOptions(array_replace($options, $this->frontendSessionOptions));
+            $this->setSessionOptions(array_replace($options, $frontendSessionOptions));
             $this->isFrontendSessionOptionsApplied = true;
         } elseif ($this->isFrontendSessionOptionsApplied && null !== $this->backendSessionOptions) {
             $this->setSessionOptions($this->backendSessionOptions);
@@ -81,6 +84,22 @@ class DynamicSessionHttpKernelDecorator implements HttpKernelInterface, Terminab
         if ($this->kernel instanceof TerminableInterface) {
             $this->kernel->terminate($request, $response);
         }
+    }
+
+    /**
+     * @param string $basePath
+     * @param array $options
+     *
+     * @return array
+     */
+    private function applyBasePathToCookiePath(string $basePath, array $options): array
+    {
+        if ($basePath && '/' !== $basePath) {
+            $existingCookiePath = $options[self::COOKIE_PATH_OPTION] ?? '/';
+            $options[self::COOKIE_PATH_OPTION] = $basePath . $existingCookiePath;
+        }
+
+        return $options;
     }
 
     /**

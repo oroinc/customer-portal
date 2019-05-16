@@ -1131,6 +1131,8 @@ datagrids:
     frontend-customer-customer-address-grid:
         acl_resource: oro_customer_frontend_customer_address_view
         extends: frontend-customer-address-grid-base
+        options:
+            entityHint: oro.customer.frontend.customer_user_address_book.customer_addresses
         source:
             type: orm
             query:

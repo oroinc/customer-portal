@@ -332,8 +332,6 @@ navigation:
                     shortcut_list_customer_user_groups: ~
 
     titles:
-        oro_customer_pinbar_help: 'How To Use Pinbar'
-
         oro_customer_customer_index: ~
         oro_customer_customer_view:  '%title%'
         oro_customer_customer_update: '%customerName% - oro.ui.edit'

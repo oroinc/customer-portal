@@ -885,8 +885,10 @@ services:
 
     oro_customer.validation.constraint.circular_customer_reference_validator:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator
+        arguments:
+            - '@oro_customer.owner.tree_provider'
         tags:
-            - { name: validator.constraint_validator }
+            - { name: validator.constraint_validator, alias: parent_customer_validator }
 
     oro_customer.event_listener.disabled_user_session_listener:
         class: Oro\Bundle\CustomerBundle\EventListener\DisabledUserSessionListener
