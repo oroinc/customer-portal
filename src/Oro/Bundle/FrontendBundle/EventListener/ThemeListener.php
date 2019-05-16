@@ -15,7 +15,6 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class ThemeListener
 {
-    const FRONTEND_THEME = 'demo';
     const DEFAULT_LAYOUT_THEME_CONFIG_VALUE_KEY = 'oro_frontend.frontend_theme';
 
     /**
@@ -66,8 +65,6 @@ class ThemeListener
         }
 
         if ($this->helper->isFrontendRequest($event->getRequest())) {
-            // set oro theme
-            $this->themeRegistry->setActiveTheme(self::FRONTEND_THEME);
             // set layout theme
             $request = $event->getRequest();
             $layoutTheme = $this->configManager->get(self::DEFAULT_LAYOUT_THEME_CONFIG_VALUE_KEY);

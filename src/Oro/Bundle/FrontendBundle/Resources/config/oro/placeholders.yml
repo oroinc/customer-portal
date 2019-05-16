@@ -7,13 +7,6 @@ placeholders:
                 frontend_logo:
                     order: 100
 
-        head_style:
-            items:
-                assets_css:
-                    order: 100
-                frontend_assets_css:
-                    order: 100
-
         scripts_after:
             items:
                 window_bundle_js:
@@ -31,12 +24,6 @@ placeholders:
         frontend_logo:
             template: OroFrontendBundle:Organization:logo_frontend.html.twig
             applicable: "@oro_frontend.placeholder.filter->isFrontendRoute()"
-        assets_css:
-            template: OroUIBundle:Assets:oro_css.html.twig
-            applicable: "@oro_frontend.placeholder.theme_filter->isDefaultTheme()"
-        frontend_assets_css:
-            template: OroFrontendBundle:Assets:demo_css.html.twig
-            applicable: "@oro_frontend.placeholder.theme_filter->isDemoTheme()"
         window_bundle_js:
             template: OroWindowsBundle:Include:javascript.html.twig
             applicable: "@oro_frontend.placeholder.filter->isBackendRoute()"
