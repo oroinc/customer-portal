@@ -69,11 +69,6 @@ services:
             - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%']]
         tags: ['oro_frontend.guest_access_urls_provider']
 
-    oro_frontend.placeholder.theme_filter:
-        class: 'Oro\Bundle\FrontendBundle\Placeholder\ThemeFilter'
-        arguments:
-            - '@oro_theme.registry'
-
     oro_frontend.placeholder.filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\FrontendFilter'
         arguments:

@@ -42,8 +42,7 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
 
         $this->themeRegistry = new ThemeRegistry(
             [
-                'oro' => [],
-                'demo' => [],
+                'oro' => []
             ]
         );
 
@@ -119,7 +118,7 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
                 'installed' => true,
                 'requestType' => HttpKernelInterface::SUB_REQUEST,
                 'isFrontendRequest' => true,
-                'expectedOroTheme' => 'demo',
+                'expectedOroTheme' => 'oro',
                 'expectedLayoutTheme' => 'test_layout_theme',
                 'hashNavigation' => false,
                 'fullRedirect' => false,
@@ -128,7 +127,7 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
                 'installed' => true,
                 'requestType' => HttpKernelInterface::MASTER_REQUEST,
                 'isFrontendRequest' => true,
-                'expectedOroTheme' => 'demo',
+                'expectedOroTheme' => 'oro',
                 'expectedLayoutTheme' => 'test_layout_theme',
                 'hashNavigation' => true,
                 'fullRedirect' => true,

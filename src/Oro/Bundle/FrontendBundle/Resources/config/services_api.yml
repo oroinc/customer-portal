@@ -68,6 +68,20 @@ services:
     oro_frontend.api_doc.formatter.html_formatter:
         parent: oro_api.api_doc.formatter.html_formatter
 
+    oro_frontend.api.localized_fallback_value_completer:
+        class: Oro\Bundle\LocaleBundle\Api\LocalizedFallbackValueCompleter
+        public: false
+        tags:
+            - { name: oro.api.custom_data_type_completer, requestType: frontend }
+
+    oro_frontend.api.compute_localized_fallback_values:
+        class: Oro\Bundle\LocaleBundle\Api\Processor\ComputeLocalizedFallbackValues
+        arguments:
+            - '@oro_api.doctrine_helper'
+            - '@oro_locale.helper.localization'
+        tags:
+            - { name: oro.api.processor, action: customize_loaded_data, requestType: frontend }
+
     oro_frontend.api.get_config.exclude_custom_fields_by_default:
         class: Oro\Bundle\ApiBundle\Processor\Config\Shared\ExcludeCustomFieldsByDefault
         tags:
