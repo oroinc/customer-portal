@@ -33,7 +33,6 @@ Feature: ACL permissions for customers import
       |    | Partner C                 |           | Partners            | Tax_code_3         | 5          | 4_of_5             | net 30             | 1        |
       |    | Wholesaler B              |           | All Customers       | Tax_code_undefined | 6          | 4_of_5             | net 60             | 3        |
 
-  @skipWait
   Scenario: Import new Customers
     When I import file
     And reload the page
