@@ -42,6 +42,10 @@ $btn-border-radius-s: $border-radius-s;
 $btn-border-radius-m: $border-radius-m;
 $btn-border-radius-l: $border-radius-l;
 
+$popover-font-size: .875rem;
+
+$tooltip-font-size: .875rem;
+
 // Z-index master list
 $zindex-dropdown-backdrop: z('dropdown');
 $zindex-navbar:            z('dropdown') + 1;

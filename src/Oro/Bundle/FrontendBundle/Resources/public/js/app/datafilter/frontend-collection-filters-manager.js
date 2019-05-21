@@ -97,7 +97,7 @@ define(function(require) {
         _createButtonReset: function() {
             return $(
                 '<div class="datagrid-manager__footer">' +
-                    '<a href="javascript:void(0);" class="link" data-role="reset-filters">' +
+                    '<a href="#" class="link" data-role="reset-filters">' +
                         '<i class="fa-refresh"></i>' + this.multiselectResetButtonLabel + '' +
                     '</a>' +
                 '</div>'
