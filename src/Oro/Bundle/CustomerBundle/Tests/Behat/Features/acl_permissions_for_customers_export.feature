@@ -20,7 +20,6 @@ Feature: ACL permissions for customers export
     And I save and close form
     And I go to Customers/Customers
 
-  @skipWait
   Scenario: Export Customers and check permissions
     Given I click "Export"
     Then I should see "Export started successfully. You will receive email notification upon completion." flash message
