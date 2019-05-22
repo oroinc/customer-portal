@@ -10,6 +10,9 @@ use Oro\Bundle\AddressBundle\Tests\Functional\Api\RestJsonApi\UnchangeableAddres
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
+use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
 
 /**
  * @dbIsolationPerTest
@@ -25,6 +28,7 @@ class CustomerAddressTest extends RestJsonApiTestCase
     use PrimaryAddressTestTrait;
     use UnchangeableAddressOwnerTestTrait;
     use AddressTypeTestTrait;
+    use RolePermissionExtension;
 
     private const ENTITY_CLASS                     = CustomerAddress::class;
     private const ENTITY_TYPE                      = 'customeraddresses';
@@ -46,6 +50,22 @@ class CustomerAddressTest extends RestJsonApiTestCase
     {
         parent::setUp();
         $this->loadFixtures(['@OroCustomerBundle/Tests/Functional/Api/DataFixtures/customer_addresses.yml']);
+
+        $role = $this->getEntityManager()
+            ->getRepository(CustomerUserRole::class)
+            ->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR']);
+        $this->getReferenceRepository()->addReference('ROLE_FRONTEND_ADMINISTRATOR', $role);
+
+        $this->updateRolePermissions(
+            $role,
+            CustomerAddress::class,
+            [
+                'CREATE' => AccessLevel::GLOBAL_LEVEL,
+                'EDIT' => AccessLevel::GLOBAL_LEVEL,
+                'VIEW' => AccessLevel::GLOBAL_LEVEL,
+                'DELETE' => AccessLevel::GLOBAL_LEVEL,
+            ]
+        );
     }
 
     /**

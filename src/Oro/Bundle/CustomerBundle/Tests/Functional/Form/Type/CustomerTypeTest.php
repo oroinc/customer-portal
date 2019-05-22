@@ -3,7 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
+use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Form;
@@ -15,12 +18,25 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CustomerTypeTest extends WebTestCase
 {
+    use RolePermissionExtension;
+
     private const PRIMARY_ADDRESS = 0;
 
     protected function setUp()
     {
         $this->initClient([], static::generateBasicAuthHeader());
         $this->loadFixtures([LoadCustomers::class]);
+
+        $this->updateRolePermissions(
+            'ROLE_ADMINISTRATOR',
+            CustomerAddress::class,
+            [
+                'CREATE' => AccessLevel::GLOBAL_LEVEL,
+                'EDIT' => AccessLevel::GLOBAL_LEVEL,
+                'VIEW' => AccessLevel::GLOBAL_LEVEL,
+                'DELETE' => AccessLevel::GLOBAL_LEVEL,
+            ]
+        );
     }
 
     /**

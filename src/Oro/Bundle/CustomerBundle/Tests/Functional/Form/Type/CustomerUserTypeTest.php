@@ -3,8 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserAddresses;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
+use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Form;
@@ -16,12 +19,25 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CustomerUserTypeTest extends WebTestCase
 {
+    use RolePermissionExtension;
+
     protected function setUp()
     {
         $this->initClient([], static::generateBasicAuthHeader());
         $this->loadFixtures([
             LoadCustomerUserAddresses::class
         ]);
+
+        $this->updateRolePermissions(
+            'ROLE_ADMINISTRATOR',
+            CustomerUserAddress::class,
+            [
+                'CREATE' => AccessLevel::GLOBAL_LEVEL,
+                'EDIT' => AccessLevel::GLOBAL_LEVEL,
+                'VIEW' => AccessLevel::GLOBAL_LEVEL,
+                'DELETE' => AccessLevel::GLOBAL_LEVEL,
+            ]
+        );
     }
 
     /**
@@ -162,12 +178,13 @@ class CustomerUserTypeTest extends WebTestCase
 
         /** @var Form $form */
         $form = $crawler->selectButton('Save')->form();
+        $formValues = $form->getPhpValues();
         foreach ($data as $field => $value) {
-            $form[sprintf('oro_customer_customer_user[addresses][0][%s]', $field)] = $value;
+            $formValues['oro_customer_customer_user']['addresses'][0][$field] = $value;
         }
 
         $this->client->followRedirects(true);
-        $crawler = $this->client->submit($form);
+        $crawler = $this->client->request($form->getMethod(), $form->getUri(), $formValues);
 
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, Response::HTTP_OK);

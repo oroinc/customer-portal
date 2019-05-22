@@ -9,6 +9,8 @@ use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
+use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
 
 /**
  * @group CommunityEdition
@@ -26,6 +28,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
     use PrimaryAddressTestTrait;
     use UnchangeableAddressOwnerTestTrait;
     use AddressTypeTestTrait;
+    use RolePermissionExtension;
 
     private const ENTITY_CLASS                     = CustomerUserAddress::class;
     private const ENTITY_TYPE                      = 'customeruseraddresses';
@@ -52,6 +55,17 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
             ->getRepository(CustomerUserRole::class)
             ->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR']);
         $this->getReferenceRepository()->addReference('ROLE_FRONTEND_ADMINISTRATOR', $role);
+
+        $this->updateRolePermissions(
+            $role,
+            CustomerUserAddress::class,
+            [
+                'CREATE' => AccessLevel::GLOBAL_LEVEL,
+                'EDIT' => AccessLevel::GLOBAL_LEVEL,
+                'VIEW' => AccessLevel::GLOBAL_LEVEL,
+                'DELETE' => AccessLevel::GLOBAL_LEVEL,
+            ]
+        );
     }
 
     /**
