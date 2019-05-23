@@ -535,7 +535,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleFormProvider'
         arguments:
             - '@form.factory'
-            - '@oro_customer.form.handler.update_customer_user_role_frontend='
+            - '@oro_customer.form.handler.update_customer_user_role_frontend'
             - '@router'
         tags:
             - { name: layout.data_provider, alias: oro_customer_frontend_customer_user_role_form }
@@ -593,14 +593,14 @@ services:
         arguments:
             - '@translator'
             - '@oro_user.provider.role_privilege_category_provider'
-            - '@oro_customer.form.handler.update_customer_user_role_frontend='
+            - '@oro_customer.form.handler.update_customer_user_role_frontend'
 
     oro_customer.datagrid.datasource.customer_role_frontend_permission_datasource:
         class: 'Oro\Bundle\CustomerBundle\Datagrid\RolePermissionDatasource'
         arguments:
             - '@translator'
             - '@oro_security.acl.permission_manager'
-            - '@oro_customer.form.handler.update_customer_user_role_frontend='
+            - '@oro_customer.form.handler.update_customer_user_role_frontend'
             - '@oro_user.provider.role_privilege_category_provider'
             - '@oro_entity_config.config_manager'
             - '@oro_customer.acl.resolver.role_translation_prefix'
@@ -612,7 +612,7 @@ services:
         arguments:
             - '@translator'
             - '@oro_security.acl.permission_manager'
-            - '@oro_customer.form.handler.update_customer_user_role='
+            - '@oro_customer.form.handler.update_customer_user_role'
             - '@oro_user.provider.role_privilege_category_provider'
             - '@oro_entity_config.config_manager'
             - '@oro_customer.acl.resolver.role_translation_prefix'
@@ -715,7 +715,7 @@ services:
         arguments:
             - '@translator'
             - '@oro_security.acl.permission_manager'
-            - '@oro_customer.form.handler.update_customer_user_role='
+            - '@oro_customer.form.handler.update_customer_user_role'
             - '@oro_user.provider.role_privilege_category_provider'
             - '@oro_entity_config.config_manager'
             - '@oro_customer.acl.resolver.role_translation_prefix'
@@ -727,7 +727,7 @@ services:
         arguments:
             - '@translator'
             - '@oro_user.provider.role_privilege_category_provider'
-            - '@oro_customer.form.handler.acl_role.commerce='
+            - '@oro_customer.form.handler.acl_role.commerce'
 
     oro_customer.provider.role_privilege_capability_provider.decorator:
         class: '%oro_user.provider.role_privilege_capability_provider.class%'
@@ -735,7 +735,7 @@ services:
         arguments:
             - '@translator'
             - '@oro_user.provider.role_privilege_category_provider'
-            - '@oro_customer.form.handler.acl_role.backend='
+            - '@oro_customer.form.handler.acl_role.backend'
         public: false
 
     oro_customer.customer_id.placeholder:
