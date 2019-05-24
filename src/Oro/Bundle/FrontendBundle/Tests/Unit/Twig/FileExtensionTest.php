@@ -8,25 +8,29 @@ use Oro\Bundle\AttachmentBundle\Tests\Unit\Fixtures\TestTemplate;
 use Oro\Bundle\FrontendBundle\Manager\AttachmentManager;
 use Oro\Bundle\FrontendBundle\Twig\FileExtension;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
+use Twig\Environment;
+use Twig\Loader\LoaderInterface;
 
 class FileExtensionTest extends \PHPUnit\Framework\TestCase
 {
     use TwigExtensionTestCaseTrait;
 
     /** @var FileExtension */
-    protected $extension;
+    private $extension;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|AttachmentManager */
-    protected $manager;
+    private $manager;
 
     /** @var TestAttachment */
-    protected $attachment;
+    private $attachment;
+
+    /** @var \PHPUnit\Framework\MockObject\MockObject|LoaderInterface */
+    private $loader;
 
     public function setUp()
     {
-        $this->manager = $this->getMockBuilder(AttachmentManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->manager = $this->createMock(AttachmentManager::class);
+        $this->loader = $this->createMock(LoaderInterface::class);
 
         $container = self::getContainerBuilder()
             ->add('oro_frontend.attachment.manager', $this->manager)
@@ -44,9 +48,7 @@ class FileExtensionTest extends \PHPUnit\Framework\TestCase
     public function testGetEmptyFileView()
     {
         $parentEntity = new TestClass();
-        $environment = $this->getMockBuilder('\Twig_Environment')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $environment = $this->createMock(Environment::class);
 
         $this->assertEquals(
             '',
@@ -63,16 +65,17 @@ class FileExtensionTest extends \PHPUnit\Framework\TestCase
         $parentEntity = new TestClass();
         $parentField = 'test_field';
         $this->attachment->setFilename('test.doc');
-        $environment = $this->getMockBuilder('\Twig_Environment')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $template = new TestTemplate(new \Twig_Environment());
+        $environment = $this->createMock(Environment::class);
+
+        $template = new TestTemplate(new Environment($this->loader));
         $environment->expects($this->once())
             ->method('loadTemplate')
-            ->will($this->returnValue($template));
+            ->willReturn($template);
+
         $this->manager->expects($this->once())
             ->method('getAttachmentIconClass')
             ->with($this->attachment);
+
         $this->manager->expects($this->once())
             ->method('getFileUrl');
 
@@ -85,9 +88,7 @@ class FileExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testGetEmptyImageView()
     {
-        $environment = $this->getMockBuilder('\Twig_Environment')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $environment = $this->createMock(Environment::class);
 
         $this->assertEquals(
             '',
@@ -99,16 +100,17 @@ class FileExtensionTest extends \PHPUnit\Framework\TestCase
     {
         $parentEntity = new TestClass();
         $this->attachment->setFilename('test.doc');
-        $environment = $this->getMockBuilder('\Twig_Environment')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $template = new TestTemplate(new \Twig_Environment());
+        $environment = $this->createMock(Environment::class);
+
+        $template = new TestTemplate(new Environment($this->loader));
         $environment->expects($this->once())
             ->method('loadTemplate')
-            ->will($this->returnValue($template));
+            ->willReturn($template);
+
         $this->manager->expects($this->once())
             ->method('getResizedImageUrl')
             ->with($this->attachment, 16, 16);
+
         $this->manager->expects($this->once())
             ->method('getFileUrl');
 
