@@ -51,20 +51,27 @@ define(function(require) {
         _afterChange: function() {
             this.trigger('oro:embedded-list:shown', this.$initItems);
 
-            this.$el.on('click', this.options.itemSelector + ' a', this._onClickLink.bind(this));
+            // Both click and mouseup needed to be able to track both left and middle buttons clicks.
+            this.$el.on('click mouseup', this.options.itemSelector + ' a', this._onClickLink.bind(this));
         },
 
         _onClickLink: function(event) {
-            // Not handle link without new url ("javascript:void(null)", "#" and equal)
-            if (event.currentTarget.protocol !== window.location.protocol
+            if (event.type === 'mouseup' && event.which !== 2) {
+                // Skips when mouseup triggered for the left mouse button, as it will be fired by click afterwards.
+                return;
+            }
+
+            // Skips links without new url ("javascript:void(null)", "#" and equal)
+            var link = event.currentTarget;
+            if (link.protocol !== window.location.protocol
                 || (
-                    event.currentTarget.pathname === window.location.pathname
-                    && event.currentTarget.search === window.location.search
+                    link.pathname === window.location.pathname
+                    && link.search === window.location.search
                 )) {
                 return;
             }
 
-            var clickedItem = $(event.target).parents(this.options.itemSelector);
+            var clickedItem = $(event.currentTarget).parents(this.options.itemSelector);
             this.trigger('oro:embedded-list:clicked', clickedItem, event);
         },
 
@@ -76,7 +83,7 @@ define(function(require) {
                 return;
             }
 
-            this.$el.off('click', this.options.itemSelector + ' a', this._onClickLink.bind(this));
+            this.$el.off('click mouseup', this.options.itemSelector + ' a', this._onClickLink.bind(this));
 
             EmbeddedListComponent.__super__.dispose.apply(this, arguments);
         }
