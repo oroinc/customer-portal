@@ -29,7 +29,10 @@ class GetTest extends FrontendRestJsonApiTestCase
         $entityType = $this->getEntityType($entityClass);
 
         // test "get list" request
-        $response = $this->cget(['entity' => $entityType, 'page[size]' => 1], [], [], false);
+        $response = $this->cget(['entity' => $entityType], ['page[size]' => 1], [], false);
+        if ($response->getStatusCode() === 400) {
+            $response = $this->cget(['entity' => $entityType], [], [], false);
+        }
         self::assertApiResponseStatusCodeEquals($response, [200, 401, 403], $entityType, ApiActions::GET_LIST);
         if ($response->getStatusCode() !== 401) {
             self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
