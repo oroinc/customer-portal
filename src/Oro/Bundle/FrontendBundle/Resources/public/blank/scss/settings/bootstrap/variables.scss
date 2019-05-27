@@ -5,12 +5,16 @@ $grid-gutter-width: 16px;
 
 $font-size-base: 14px;
 
-$input-line-height: normal;
+$input-line-height: $base-ui-element-line-height;
 $input-btn-padding-y: 10px;
 $input-btn-padding-y-sm: $offset-y-s;
 $input-btn-padding-y-lg: $offset-y-m;
 $nav-link-padding-y: 7px;
 $nav-link-padding-x: 14px;
+
+$dropdown-font-size: 1rem;
+
+$btn-font-size: 1rem;
 
 $btn-line-height--s: 1.6;
 
@@ -38,6 +42,10 @@ $btn-border-radius-s: $border-radius-s;
 $btn-border-radius-m: $border-radius-m;
 $btn-border-radius-l: $border-radius-l;
 
+$popover-font-size: .875rem;
+
+$tooltip-font-size: .875rem;
+
 // Z-index master list
 $zindex-dropdown-backdrop: z('dropdown');
 $zindex-navbar:            z('dropdown') + 1;
@@ -49,7 +57,7 @@ $zindex-navbar-sticky:     z('dropdown') + 3;
 $zindex-modal-bg:          z('popup');
 $zindex-modal:             z('popup') + 1;
 
-@import "bowerassets/bootstrap/scss/variables";
+@import "npmassets/bootstrap/scss/variables";
 
 $dt-font-weight: $font-weight-normal;
 
