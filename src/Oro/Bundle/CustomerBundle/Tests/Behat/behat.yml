@@ -63,25 +63,19 @@ oro_behat_extension:
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
     Customer Company Addresses Grid View List:
       selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer Company User Addresses Grid:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
     Customer Company User Addresses Grid View List:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Enable Customer User checkbox:
       selector: 'form[name="oro_customer_frontend_customer_user"] label[for*="oro_customer_frontend_customer_user_enabled"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer New Company Address Button:
       selector: '[id^="grid-frontend-customer-customer-address-grid"] .grid-views .grid-views__aditional .btn'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer Company Address Button:
       selector: '[id^="grid-frontend-customer-customer-user-address-grid"] .grid-views .grid-views__aditional .btn'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer User Registration Error Container:
       selector: ".form-row span.validation-failed"
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Customer User Responsive Datagrid:
       selector: ".frontend-datagrid--responsive"
     Customer Users Registration form:
@@ -128,13 +122,10 @@ oro_behat_extension:
           Use Default: 'theme[oro_frontend___frontend_theme][use_parent_scope_value]'
     Popup User Menu trigger:
       selector: '.topbar-customer-menu .topbar-customer-menu__trigger'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Popup User Menu:
       selector: '.topbar-customer-menu .topbar-customer-menu-list'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
     Preferred Localization:
       selector: '[name="oro_customer_customer_user[preferredLocalization]"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Popup User Menu Link Users:
       selector:
@@ -148,11 +139,9 @@ oro_behat_extension:
 
     Configuration:
       selector: '[title="Organization Configuration"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     FrontendGridColumnManagerButton:
       selector: 'div.datagrid-manager.dropdown a'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     FrontendGridColumnManager:
       selector: 'div.datagrid-manager div.dropdown-menu'
@@ -186,7 +175,6 @@ oro_behat_extension:
 
     FrontendGridAddViewButton:
       selector: 'button[data-text="Add"]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     FrontendGridViewSetAsDefaultCheckbox:
       selector: '.grid-views input[name="is_default"]+.custom-checkbox__icon'
@@ -217,7 +205,6 @@ oro_behat_extension:
 
     FrontendGridFilterManagerButton:
       selector: 'button.select-filter-widget'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Customer User Form Admin:
       selector: '[id^="oro_customer_customer_user-uid"]'
@@ -366,6 +353,10 @@ oro_behat_extension:
     Customer User Login:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserLogin
       route: 'oro_customer_customer_user_security_login'
+
+    Customer User Password Reset:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserPasswordReset
+      route: 'oro_customer_frontend_customer_user_password_reset'
 
     Customer User Profile:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserProfile

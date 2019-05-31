@@ -1,7 +1,18 @@
 /* @theme: blank; */
 
-@import "bowerassets/bootstrap/scss/nav";
+@import "npmassets/bootstrap/scss/nav";
 
 .nav--block {
     display: block;
+}
+
+.nav {
+    .dropdown-toggle:after {
+        content: none;
+    }
+    
+    .active.dropdown-toggle:after,
+    .active > .dropdown-toggle:after {
+        content: '';
+    }
 }

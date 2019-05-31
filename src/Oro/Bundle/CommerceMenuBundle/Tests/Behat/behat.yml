@@ -43,23 +43,19 @@ oro_behat_extension:
       selector:
         type: xpath
         locator: '//div[contains(@class,"header-row")]//button[contains(@class, "header-row__trigger")]//span[contains(@class, "fa-navicon")]/ancestor::button'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     And User Agent Condition:
       selector: '.control-group-collection .add-list-item'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Add User Agent Condition:
       selector:
         type: xpath
         locator: '(//a[contains(@class,"add-list-item")])[last()]'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Main Menu Search Button:
       selector:
         type: xpath
         locator: '//div[contains(@class,"header-row")]//button[contains(@class, "header-row__trigger")]//span[contains(@class, "fa-search")]/ancestor::button'
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
 
     Customer Visible Contact Info Form:
       selector: 'form[name="sale_contact_info"]'
@@ -75,13 +71,11 @@ oro_behat_extension:
           Guest Contact Default: 'sale_contact_info[oro_sale___guest_contact_info_text][use_parent_scope_value]'
 
     Contacts:
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
       selector:
         locator: '//i[@class="fa-id-card-o"]/../../a[@href="/admin/config/system/commerce/sale_contact_info"]'
         type: xpath
 
     User Configuration:
-      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Element
       selector:
         locator: '//a[contains (@href,"/admin/config/user/") and @title="Configuration"]'
         type: xpath
