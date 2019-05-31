@@ -62,6 +62,7 @@ class PageTemplateTypeTest extends FormIntegrationTestCase
 
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
 
         $formData = $form->getData();
         $this->assertEquals('some_key2', $formData);

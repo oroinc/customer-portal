@@ -147,6 +147,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
 
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
         if (is_object($expectedData) && $updateOwner) {
             $expectedData->setFrontendOwner($updateOwner);
         }

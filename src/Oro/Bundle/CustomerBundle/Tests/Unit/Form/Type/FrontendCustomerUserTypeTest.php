@@ -128,8 +128,8 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
 
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
-        $result = $form->isValid();
-        $this->assertTrue($result);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expectedData, $form->getData());
     }
 
@@ -260,8 +260,8 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $form = $this->factory->create(FrontendCustomerUserType::class, $newCustomerUser, []);
 
         $form->submit([]);
-        $result = $form->isValid();
-        $this->assertTrue($result);
+        $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expectedWebsite, $form->getData()->getWebsite());
     }
 

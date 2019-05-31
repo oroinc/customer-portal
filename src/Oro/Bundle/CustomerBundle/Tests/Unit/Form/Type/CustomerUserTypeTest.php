@@ -141,6 +141,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $this->assertEquals($defaultData, $form->getData());
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expectedData, $form->getData());
 
         $this->assertTrue($form->has('roles'));

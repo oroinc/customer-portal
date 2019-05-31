@@ -34,6 +34,7 @@ class CustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
 
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
 
         $actualData = $form->getData();
         $this->assertEquals($expectedData, $actualData);

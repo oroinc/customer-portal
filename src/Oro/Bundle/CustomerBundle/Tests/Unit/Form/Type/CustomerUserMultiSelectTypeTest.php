@@ -62,7 +62,8 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
 
         $form->submit($submittedData);
 
-        $this->assertEquals($isValid, $form->isValid());
+        $this->assertEquals($isValid, $form->isValid(), $form->getErrors(true));
+        $this->assertEquals($isValid, $form->isSynchronized());
         $this->assertEquals($expectedData, $form->getData());
     }
 

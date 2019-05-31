@@ -50,6 +50,7 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
 
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
 
         $formData = $form->getData();
         $this->assertEquals(['route_name_1' => 'some_key2'], $formData);

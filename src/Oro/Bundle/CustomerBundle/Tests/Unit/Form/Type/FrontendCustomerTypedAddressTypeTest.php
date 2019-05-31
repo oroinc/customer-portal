@@ -107,6 +107,7 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
         $this->assertEquals($viewData, $form->getViewData());
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
         $expectedData->setFrontendOwner($updateOwner);
         $this->assertEquals($expectedData, $form->getData());
     }
@@ -179,6 +180,7 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
         $this->assertFalse($form->has('primary'));
         $form->submit($submittedData);
         $this->assertTrue($form->isValid());
+        $this->assertTrue($form->isSynchronized());
     }
 
     public function testGetName()
