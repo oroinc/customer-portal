@@ -9,14 +9,15 @@ use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\EntityBundle\Exception\NotManageableEntityException;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterface
+/**
+ * Handles custom attributes for classes which implements CustomerOwnerAwareInterface.
+ */
+class CustomerVoter extends AbstractEntityVoter
 {
     const ATTRIBUTE_VIEW = 'ACCOUNT_VIEW';
     const ATTRIBUTE_EDIT = 'ACCOUNT_EDIT';
@@ -28,11 +29,6 @@ class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterfa
         self::ATTRIBUTE_VIEW,
         self::ATTRIBUTE_EDIT,
     ];
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
 
     /**
      * @var CustomerOwnerAwareInterface
@@ -50,37 +46,39 @@ class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterfa
     private $authenticationTrustResolver;
 
     /**
-     * Constructor.
-     *
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    /**
+     * @var CustomerUserProvider
+     */
+    private $customerUserProvider;
+
+    /**
+     * @var CustomerUserRelationsProvider
+     */
+    private $customerUserRelationsProvider;
+
+    /**
      * @param DoctrineHelper $doctrineHelper
      * @param AuthenticationTrustResolverInterface $authenticationTrustResolver
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param CustomerUserProvider $customerUserProvider
+     * @param CustomerUserRelationsProvider $customerUserRelationsProvider
      */
     public function __construct(
         DoctrineHelper $doctrineHelper,
-        AuthenticationTrustResolverInterface $authenticationTrustResolver
+        AuthenticationTrustResolverInterface $authenticationTrustResolver,
+        AuthorizationCheckerInterface $authorizationChecker,
+        CustomerUserProvider $customerUserProvider,
+        CustomerUserRelationsProvider $customerUserRelationsProvider
     ) {
         parent::__construct($doctrineHelper);
         $this->authenticationTrustResolver = $authenticationTrustResolver;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * @return ContainerInterface
-     */
-    public function getContainer()
-    {
-        if (!$this->container) {
-            throw new \InvalidArgumentException('ContainerInterface not injected');
-        }
-
-        return $this->container;
+        $this->authorizationChecker = $authorizationChecker;
+        $this->customerUserProvider = $customerUserProvider;
+        $this->customerUserRelationsProvider = $customerUserRelationsProvider;
     }
 
     /**
@@ -129,11 +127,9 @@ class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterfa
      */
     protected function getUser(TokenInterface $token)
     {
-        $trustResolver = $this->getAuthenticationTrustResolver();
-        if ($trustResolver->isAnonymous($token)) {
+        if ($this->authenticationTrustResolver->isAnonymous($token)) {
             $user = new CustomerUser();
-            $relationsProvider = $this->getRelationsProvider();
-            $user->setCustomer($relationsProvider->getCustomerIncludingEmpty());
+            $user->setCustomer($this->customerUserRelationsProvider->getCustomerIncludingEmpty());
 
             return $user;
         }
@@ -198,12 +194,12 @@ class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterfa
 
         switch ($attribute) {
             case self::ATTRIBUTE_VIEW:
-                $isGranted = $this->getAuthorizationChecker()
+                $isGranted = $this->authorizationChecker
                     ->isGranted(BasicPermissionMap::PERMISSION_VIEW, $descriptor);
                 break;
 
             case self::ATTRIBUTE_EDIT:
-                $isGranted = $this->getAuthorizationChecker()
+                $isGranted = $this->authorizationChecker
                     ->isGranted(BasicPermissionMap::PERMISSION_EDIT, $descriptor);
                 break;
 
@@ -221,7 +217,7 @@ class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterfa
      */
     protected function isGrantedBasicPermission($attribute, $class)
     {
-        $securityProvider = $this->getSecurityProvider();
+        $securityProvider = $this->customerUserProvider;
 
         switch ($attribute) {
             case self::ATTRIBUTE_VIEW:
@@ -246,7 +242,7 @@ class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterfa
      */
     protected function isGrantedLocalPermission($attribute, $class)
     {
-        $securityProvider = $this->getSecurityProvider();
+        $securityProvider = $this->customerUserProvider;
 
         switch ($attribute) {
             case self::ATTRIBUTE_VIEW:
@@ -262,38 +258,6 @@ class CustomerVoter extends AbstractEntityVoter implements ContainerAwareInterfa
         }
 
         return $isGranted;
-    }
-
-    /**
-     * @return CustomerUserProvider
-     */
-    protected function getSecurityProvider()
-    {
-        return $this->getContainer()->get('oro_customer.security.customer_user_provider');
-    }
-
-    /**
-     * @return AuthenticationTrustResolverInterface
-     */
-    protected function getAuthenticationTrustResolver()
-    {
-        return $this->authenticationTrustResolver;
-    }
-
-    /**
-     * @return AuthorizationCheckerInterface
-     */
-    protected function getAuthorizationChecker()
-    {
-        return $this->getContainer()->get('security.authorization_checker');
-    }
-
-    /**
-     * @return CustomerUserRelationsProvider
-     */
-    protected function getRelationsProvider()
-    {
-        return $this->getContainer()->get('oro_customer.provider.customer_user_relations_provider');
     }
 
     /**

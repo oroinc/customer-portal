@@ -10,7 +10,6 @@ use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\EntityBundle\Exception\NotManageableEntityException;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
@@ -57,38 +56,19 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
      */
     protected function setUp()
     {
-        $this->doctrineHelper = $this->getMockBuilder(DoctrineHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->securityProvider = $this->getMockBuilder(CustomerUserProvider::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
+        $this->securityProvider = $this->createMock(CustomerUserProvider::class);
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
-
         $this->trustResolver = $this->createMock(AuthenticationTrustResolverInterface::class);
+        $this->relationsProvider = $this->createMock(CustomerUserRelationsProvider::class);
 
-        $this->relationsProvider = $this->getMockBuilder(CustomerUserRelationsProvider::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $services = [
-            'oro_customer.security.customer_user_provider' => $this->securityProvider,
-            'security.authorization_checker' => $this->authorizationChecker,
-            'oro_customer.provider.customer_user_relations_provider' => $this->relationsProvider,
-        ];
-
-        /* @var $container ContainerInterface|\PHPUnit\Framework\MockObject\MockObject */
-        $container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $container->expects($this->any())
-            ->method('get')
-            ->willReturnCallback(function ($id) use ($services) {
-                return $services[$id];
-            });
-
-        $this->voter = new CustomerVoter($this->doctrineHelper, $this->trustResolver);
-        $this->voter->setContainer($container);
+        $this->voter = new CustomerVoter(
+            $this->doctrineHelper,
+            $this->trustResolver,
+            $this->authorizationChecker,
+            $this->securityProvider,
+            $this->relationsProvider
+        );
     }
 
     public function testNotManageableEntityException()
@@ -614,35 +594,6 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
         }
 
         return $entities[$className][$id];
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage ContainerInterface not injected
-     */
-    public function testWithoutContainer()
-    {
-        $voter = new CustomerVoter($this->doctrineHelper, $this->trustResolver);
-        $customerUser = $this->getCustomerUser(1);
-        $object = $this->getObject(1);
-
-        $this->doctrineHelper->expects($this->any())
-            ->method('getEntityClass')
-            ->with($object)
-            ->willReturn(get_class($object));
-
-        $this->doctrineHelper->expects($this->any())
-            ->method('getSingleEntityIdentifier')
-            ->with($object, false)
-            ->willReturn(1);
-
-        $voter->setClassName(get_class($object));
-
-        /* @var $token TokenInterface|\PHPUnit\Framework\MockObject\MockObject */
-        $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-        $token->expects($this->any())->method('getUser')->willReturn($customerUser);
-
-        $voter->vote($token, $object, [CustomerVoter::ATTRIBUTE_VIEW]);
     }
 
     /**

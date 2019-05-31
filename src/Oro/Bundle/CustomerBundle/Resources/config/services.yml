@@ -35,10 +35,11 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Acl\Voter\CustomerVoter'
         public: false
         arguments:
-            - "@oro_entity.doctrine_helper"
-            - "@security.authentication.trust_resolver"
-        calls:
-            - [setContainer, ["@service_container"]]
+            - '@oro_entity.doctrine_helper'
+            - '@security.authentication.trust_resolver'
+            - '@security.authorization_checker'
+            - '@oro_customer.security.customer_user_provider'
+            - '@oro_customer.provider.customer_user_relations_provider'
         tags:
             - { name: security.voter }
 
