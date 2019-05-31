@@ -5,6 +5,7 @@ define(function(require) {
     var BaseComponent = require('oroui/js/app/components/base/component');
     var mediator = require('oroui/js/mediator');
     var $ = require('jquery');
+    var _ = require('underscore');
 
     /**
      * Fires oro:embedded-list show and click events for embedded list items.
@@ -63,11 +64,9 @@ define(function(require) {
 
             // Skips links without new url ("javascript:void(null)", "#" and equal)
             var link = event.currentTarget;
-            if (link.protocol !== window.location.protocol
-                || (
-                    link.pathname === window.location.pathname
-                    && link.search === window.location.search
-                )) {
+            if (link.protocol !== window.location.protocol ||
+                (link.pathname === window.location.pathname && link.search === window.location.search)
+            ) {
                 return;
             }
 
