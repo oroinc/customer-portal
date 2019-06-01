@@ -183,15 +183,13 @@ class CustomerForBuyerTest extends FrontendRestJsonApiTestCase
     public function testTryToGetSubresourceForParentWhenAccessDenied()
     {
         $response = $this->getSubresource(
-            ['entity' => 'customers', 'id' => '@customer3->id', 'association' => 'parent']
+            ['entity' => 'customers', 'id' => '@customer3->id', 'association' => 'parent'],
+            [],
+            [],
+            false
         );
 
-        $this->assertResponseContains(
-            [
-                'data' => null
-            ],
-            $response
-        );
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
     }
 
     public function testGetSubresourceForChildren()
@@ -211,14 +209,12 @@ class CustomerForBuyerTest extends FrontendRestJsonApiTestCase
     public function testTryToGetSubresourceForChildrenWhenAccessDenied()
     {
         $response = $this->getSubresource(
-            ['entity' => 'customers', 'id' => '@customer1->id', 'association' => 'children']
+            ['entity' => 'customers', 'id' => '@customer1->id', 'association' => 'children'],
+            [],
+            [],
+            false
         );
 
-        $this->assertResponseContains(
-            [
-                'data' => []
-            ],
-            $response
-        );
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
     }
 }
