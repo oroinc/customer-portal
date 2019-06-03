@@ -3,6 +3,8 @@ define(function(require) {
 
     var StickyPanelView;
     var viewportManager = require('oroui/js/viewport-manager');
+    var inputWidgetManager = require('oroui/js/input-widget-manager');
+    var Select2InputWidget = require('oroui/js/app/views/input-widget/select2');
     var BaseView = require('oroui/js/app/views/base/view');
     var mediator = require('oroui/js/mediator');
     var _ = require('underscore');
@@ -435,6 +437,10 @@ define(function(require) {
             $element.data('sticky', options);
 
             mediator.trigger('sticky-panel:toggle-state', {$element: $element, state: state});
+
+            var select2Widgets = inputWidgetManager.findWidgetsInContainer($element, Select2InputWidget);
+
+            _.invoke(select2Widgets, 'updateFixedMode', true);
         },
 
         /**

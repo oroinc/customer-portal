@@ -16,7 +16,7 @@
 
     .grid-row {
         &:first-child {
-            .grid-cell {
+            > .grid-cell {
                 padding-top: $customer-line-items-grid-row-first-grid-cell-offset-inner-top;
             }
         }
@@ -51,6 +51,7 @@
             white-space: nowrap;
 
             .input {
+                vertical-align: $customer-line-items-table-cell-vertical-align;
                 margin-right: $offset-y-m;
             }
         }
@@ -58,6 +59,10 @@
 
     &__sku-value {
         color: $customer-line-items-sku-value-color;
+    }
+
+    .custom-radio__text {
+        vertical-align: top;
     }
 }
 
@@ -83,7 +88,7 @@
             flex-wrap: wrap;
 
             &:first-child {
-                .grid-cell {
+                > .grid-cell {
                     padding-top: $customer-line-items-grid-row-first-grid-cell-offset-inner-top-tablet-small;
                 }
             }

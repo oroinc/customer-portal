@@ -70,7 +70,7 @@
     <ul{{ block('block_attributes') }}>
         {% for button in buttons %}
             <li>
-                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true}) %}
+                {% include button.template with button.templateData|merge({onlyLink: true, noIconText: true, aClass:'btn btn--link'}) %}
             </li>
         {% endfor %}
     </ul>
@@ -143,6 +143,7 @@
             }) %}
         {% else %}
             {% set attr = layout_attr_defaults(attr, {
+                'data-page-component-module': 'orofrontend/js/app/components/embedded-list-component',
                 '~class': ' embedded-list__tiles '
             }) %}
         {% endif %}
