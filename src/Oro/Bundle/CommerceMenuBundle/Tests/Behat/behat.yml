@@ -80,6 +80,11 @@ oro_behat_extension:
         locator: '//a[contains (@href,"/admin/config/user/") and @title="Configuration"]'
         type: xpath
 
+  pages:
+    Frontend Menus:
+      class: Oro\Bundle\CommerceMenuBundle\Tests\Behat\Page\FrontendMenus
+      route: 'oro_commerce_menu_global_menu_index'
+
   suites:
     OroCommerceMenuBundle:
       contexts:
