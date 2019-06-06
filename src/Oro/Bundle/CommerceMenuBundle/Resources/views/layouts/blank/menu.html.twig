@@ -1,11 +1,12 @@
 {% extends 'OroNavigationBundle:Menu:menu_base.html.twig' %}
 {% import 'OroUIBundle::macros.html.twig' as UI %}
 {% import 'OroNavigationBundle::macros.html.twig' as Navigation %}
+{% import '@OroCommerceMenu/layouts/blank/menu.html.twig' as menuMacros %}
 
 {% macro attributes(attributes) %}
     {%- for name, value in attributes -%}
-        {%- if value is not none and value is not sameas(false) -%}
-            {{- ' %s="%s"'|format(name, value is sameas(true) ? name|e : value|e)|raw -}}
+        {%- if value is not none and value is not same as(false) -%}
+            {{- ' %s="%s"'|format(name, value is same as(true) ? name|e : value|e)|raw -}}
         {%- endif -%}
     {%- endfor -%}
 {% endmacro %}
@@ -34,14 +35,15 @@
     {% set listAttributes = item.childrenAttributes|merge(attr) %}
 
     {% if options.rootClass is defined %}
-        {% set listAttributes = listAttributes|merge({'class': _self.add_attribute_values(listAttributes, 'class', [options.rootClass])}) %}
+        {% set listAttributes = listAttributes|merge({'class': menuMacros.add_attribute_values(listAttributes, 'class', [options.rootClass])}) %}
     {% endif %}
     {{ block('list') -}}
 {% endblock %}
 
 {% block list %}
-    {% if item.hasChildren and options.depth is not sameas(0) and item.displayChildren %}
-        <ul{{ _self.attributes(listAttributes) }}>
+    {% import _self as oro_menu %}
+    {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
+        <ul{{ oro_menu.attributes(listAttributes) }}>
             {{ block('children') }}
         </ul>
     {% endif %}
@@ -88,8 +90,9 @@
         {%- if classes is not empty %}
             {%- set itemAttributes = itemAttributes|merge({'class': classes|join(' ')}) %}
         {%- endif %}
-        {# displaying the item #}
-        <li{{ _self.attributes(itemAttributes) }}>
+
+        {% import _self as oro_menu %}
+        <li{{ oro_menu.attributes(itemAttributes) }}>
             {{ block('item_content') }}
         </li>
     {% endif %}
@@ -115,6 +118,7 @@
 {% endblock %}
 
 {% block linkElement %}
+    {% import _self as oro_menu %}
     {% set extras = item.extras %}
 
     {% if extras.dialog is defined and extras.dialog %}
@@ -123,13 +127,14 @@
             entityId: app.user.id
         }) }}
     {%- else %}
-        <a href="{{ oro_commercemenu_get_url(item.uri) }}"{{ _self.attributes(linkAttributes) }}>{{ block('label') }}</a>
+        <a href="{{ oro_commercemenu_get_url(item.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>{{ block('label') }}</a>
     {% endif %}
 
 {% endblock %}
 
 {% block spanElement %}
-    <span{{ _self.attributes(labelAttributes) }}>{{ block('label') }}</span>
+    {% import _self as oro_menu %}
+    <span{{ oro_menu.attributes(labelAttributes) }}>{{ block('label') }}</span>
 {% endblock %}
 
 {% block label %}

@@ -8,6 +8,8 @@
 {% oro_title_set({params : {"%label%": entity.label|default('N/A'|trans), '%entityName%': 'oro.customer.customeruserrole.entity_label'|trans} }) %}
 
 {% block navButtons %}
+    {% import 'OroUIBundle::macros.html.twig' as UI %}
+
     {% set fields = [] %}
     {% for name, child in form %}
         {% if name not in ['appendUsers', 'removeUsers', 'entity', 'privileges', 'action'] %}
@@ -64,6 +66,8 @@
 {% endblock pageHeader %}
 
 {% block content_data %}
+    {% import 'OroUIBundle::macros.html.twig' as UI %}
+
     {% set id = 'customer-user-role-edit' %}
 
     {% set customerSelectorComponentOptions = {

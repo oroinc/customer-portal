@@ -5,8 +5,14 @@ namespace Oro\Bundle\WebsiteBundle\Twig;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class OroWebsiteExtension extends \Twig_Extension
+/**
+ * Provides a Twig function to retrieve the current website information:
+ *   - oro_website_get_current_website
+ */
+class OroWebsiteExtension extends AbstractExtension
 {
     const NAME = 'oro_website_extension';
 
@@ -35,7 +41,7 @@ class OroWebsiteExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('oro_website_get_current_website', [$this, 'getCurrentWebsite'])
+            new TwigFunction('oro_website_get_current_website', [$this, 'getCurrentWebsite'])
         ];
     }
 

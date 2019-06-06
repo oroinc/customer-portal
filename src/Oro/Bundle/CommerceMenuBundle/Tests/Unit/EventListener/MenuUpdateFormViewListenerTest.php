@@ -7,6 +7,7 @@ use Oro\Bundle\CommerceMenuBundle\EventListener\MenuUpdateFormViewListener;
 use Oro\Bundle\UIBundle\Event\BeforeListRenderEvent;
 use Oro\Bundle\UIBundle\View\ScrollData;
 use Symfony\Component\Form\FormView;
+use Twig\Environment;
 
 class MenuUpdateFormViewListenerTest extends \PHPUnit\Framework\TestCase
 {
@@ -16,7 +17,7 @@ class MenuUpdateFormViewListenerTest extends \PHPUnit\Framework\TestCase
         $formView = new FormView();
         $formView->vars['value'] = $menuUpdate;
 
-        $environment = $this->createMock(\Twig_Environment::class);
+        $environment = $this->createMock(Environment::class);
         $template = 'rendered_template_content';
         $environment->expects($this->once())
             ->method('render')
