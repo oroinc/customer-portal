@@ -103,7 +103,7 @@ define(function(require) {
 
             if (this.isApplicable) {
                 var state = this.$window.scrollTop() > this.options.togglePoint;
-                this.$el.toggle(state);
+                this.$el.toggleClass('scroll-top-visible', state);
                 this.land();
             } else {
                 this.$el.hide();
