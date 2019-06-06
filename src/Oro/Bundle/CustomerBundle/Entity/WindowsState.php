@@ -3,10 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Oro\Bundle\WindowsBundle\Entity\AbstractWindowsState;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * Window state entity
+ *
  * @ORM\Entity(repositoryClass="Oro\Bundle\CustomerBundle\Entity\Repository\WindowsStateRepository")
  * @ORM\Table(name="oro_cus_windows_state",
  *      indexes={@ORM\Index(name="oro_cus_windows_state_acu_idx", columns={"customer_user_id"})})
@@ -18,6 +21,7 @@ class WindowsState extends AbstractWindowsState
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUserIdentity")
      * @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @Serializer\Exclude()
      */
     protected $user;
 
