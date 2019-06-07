@@ -4,7 +4,15 @@ namespace Oro\Bundle\FrontendBundle\Twig;
 
 use Oro\Bundle\AttachmentBundle\Twig\FileExtension as BaseFileExtension;
 use Oro\Bundle\FrontendBundle\Manager\AttachmentManager;
+use Twig\TwigFunction;
 
+/**
+ * Provides Twig functions to work with files and images on the storefront,
+ * and to retrieve oro_frontend.debug_routes container parameter value:
+ *   - oro_frontend_file_view
+ *   - oro_frontend_image_view
+ *   - oro_frontend_debug_routes
+ */
 class FileExtension extends BaseFileExtension
 {
     /**
@@ -21,17 +29,17 @@ class FileExtension extends BaseFileExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'oro_frontend_file_view',
                 [$this, 'getFileView'],
                 ['is_safe' => ['html'], 'needs_environment' => true]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'oro_frontend_image_view',
                 [$this, 'getImageView'],
                 ['is_safe' => ['html'], 'needs_environment' => true]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'oro_frontend_debug_routes',
                 [$this, 'getIsDebugRoutes'],
                 ['is_safe' => ['html'], 'needs_environment' => true]

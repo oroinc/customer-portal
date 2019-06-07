@@ -40,6 +40,8 @@
 {% endmacro %}
 
 {% macro oro_collection_item_prototype_child(widget) %}
+    {% import _self as commerceMenuFormFields %}
+
     {% set form = widget %}
     {% set name = widget.vars.full_name %}
     {% set disabled = widget.parent.vars.disabled %}
@@ -49,23 +51,27 @@
         {% set allow_delete = allow_delete and widget.vars.allow_delete %}
     {% endif %}
 
-    {{ _self.oro_collection_item_prototype(form, name, disabled, allow_delete, allow_add_after) }}
+    {{ commerceMenuFormFields.oro_collection_item_prototype(form, name, disabled, allow_delete, allow_add_after) }}
 {% endmacro %}
 
 {% macro oro_collection_item_prototype_html(widget) %}
+    {% import _self as commerceMenuFormFields %}
+
     {% set form = widget.vars.prototype %}
     {% set name = widget.vars.prototype.vars.name %}
     {% set disabled = widget.vars.disabled %}
     {% set allow_delete = widget.vars.allow_delete %}
     {% set allow_add_after = widget.vars.allow_add_after %}
 
-    {{ _self.oro_collection_item_prototype(form, name, disabled, allow_delete, allow_add_after) }}
+    {{ commerceMenuFormFields.oro_collection_item_prototype(form, name, disabled, allow_delete, allow_add_after) }}
 {% endmacro %}
 
 {% block oro_commerce_menu_user_agent_conditions_collection_widget %}
+    {% import _self as commerceMenuFormFields %}
+
     {% spaceless %}
         {% if prototype is defined %}
-            {% set prototype_html = _self.oro_collection_item_prototype_html(form) %}
+            {% set prototype_html = commerceMenuFormFields.oro_collection_item_prototype_html(form) %}
         {% endif %}
         {% set attr = attr|merge({'class': (attr.class is defined ? attr.class ~ ' ' : '') ~ 'oro-item-collection collection-fields-list' }) %}
         {% set id = id ~ '_collection' %}
@@ -75,7 +81,7 @@
                 <input type="hidden" name="validate_{{ full_name }}" data-collection-name="{{ full_name }}" data-name="collection-validation" disabled data-validate-element>
                 {% if form.children|length %}
                     {% for child in form.children %}
-                        {{ _self.oro_collection_item_prototype_child(child) }}
+                        {{ commerceMenuFormFields.oro_collection_item_prototype_child(child) }}
                     {% endfor %}
                 {% elseif show_form_when_empty and prototype_html is defined %}
                     {% for i in 0..(form.vars.row_count_initial - 1) %}
@@ -88,7 +94,7 @@
             {% endif %}
         </div>
         {% if handle_primary and (prototype is not defined or prototype.primary is defined) %}
-            {{ _self.oro_collection_validate_primary_js(_context) }}
+            {{ commerceMenuFormFields.oro_collection_validate_primary_js(_context) }}
         {% endif %}
     {% endspaceless %}
 {% endblock %}

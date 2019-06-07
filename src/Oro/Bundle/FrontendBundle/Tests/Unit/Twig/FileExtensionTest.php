@@ -9,7 +9,6 @@ use Oro\Bundle\FrontendBundle\Manager\AttachmentManager;
 use Oro\Bundle\FrontendBundle\Twig\FileExtension;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
 use Twig\Environment;
-use Twig\Loader\LoaderInterface;
 
 class FileExtensionTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,13 +23,9 @@ class FileExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var TestAttachment */
     private $attachment;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|LoaderInterface */
-    private $loader;
-
     public function setUp()
     {
         $this->manager = $this->createMock(AttachmentManager::class);
-        $this->loader = $this->createMock(LoaderInterface::class);
 
         $container = self::getContainerBuilder()
             ->add('oro_frontend.attachment.manager', $this->manager)
@@ -67,7 +62,7 @@ class FileExtensionTest extends \PHPUnit\Framework\TestCase
         $this->attachment->setFilename('test.doc');
         $environment = $this->createMock(Environment::class);
 
-        $template = new TestTemplate(new Environment($this->loader));
+        $template = new TestTemplate(new Environment($this->getLoader()));
         $environment->expects($this->once())
             ->method('loadTemplate')
             ->willReturn($template);
@@ -102,7 +97,7 @@ class FileExtensionTest extends \PHPUnit\Framework\TestCase
         $this->attachment->setFilename('test.doc');
         $environment = $this->createMock(Environment::class);
 
-        $template = new TestTemplate(new Environment($this->loader));
+        $template = new TestTemplate(new Environment($this->getLoader()));
         $environment->expects($this->once())
             ->method('loadTemplate')
             ->willReturn($template);

@@ -11,6 +11,7 @@ use Oro\Bundle\UIBundle\View\ScrollData;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\Form\FormView;
+use Twig\Environment;
 
 class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestCase
 {
@@ -34,8 +35,8 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
     {
         $template = '<div>Some template</div>';
         $formView = new FormView();
-        /** @var \Twig_Environment|\PHPUnit\Framework\MockObject\MockObject $env */
-        $env = $this->createMock(\Twig_Environment::class);
+        /** @var Environment|\PHPUnit\Framework\MockObject\MockObject $env */
+        $env = $this->createMock(Environment::class);
         $env->expects($this->once())
             ->method('render')
             ->with(
@@ -68,8 +69,8 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
         $this->websiteManager->expects($this->once())
             ->method('getDefaultWebsite')
             ->willReturn(new Website());
-        /** @var \Twig_Environment|\PHPUnit\Framework\MockObject\MockObject $env */
-        $env = $this->createMock(\Twig_Environment::class);
+        /** @var Environment|\PHPUnit\Framework\MockObject\MockObject $env */
+        $env = $this->createMock(Environment::class);
         $env->expects($this->never())
             ->method('render');
         $scrollData = new ScrollData(['dataBlocks' => [0 => ['subblocks' => [0 => []]]]]);
@@ -87,8 +88,8 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
         $this->websiteManager->expects($this->once())
             ->method('getDefaultWebsite')
             ->willReturn($defaultWebsite);
-        /** @var \Twig_Environment|\PHPUnit\Framework\MockObject\MockObject $env */
-        $env = $this->createMock(\Twig_Environment::class);
+        /** @var Environment|\PHPUnit\Framework\MockObject\MockObject $env */
+        $env = $this->createMock(Environment::class);
         $env->expects($this->never())
             ->method('render');
         $scrollData = new ScrollData(['dataBlocks' => [0 => ['subblocks' => [0 => []]]]]);
@@ -110,8 +111,8 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
             ->method('getDefaultWebsite')
             ->willReturn($defaultWebsite);
         $template = '<div>Some template</div>';
-        /** @var \Twig_Environment|\PHPUnit\Framework\MockObject\MockObject $env */
-        $env = $this->createMock(\Twig_Environment::class);
+        /** @var Environment|\PHPUnit\Framework\MockObject\MockObject $env */
+        $env = $this->createMock(Environment::class);
         $env->expects($this->once())
             ->method('render')
             ->with(

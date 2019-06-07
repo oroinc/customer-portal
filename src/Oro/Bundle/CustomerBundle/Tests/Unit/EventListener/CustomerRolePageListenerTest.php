@@ -9,6 +9,7 @@ use Oro\Bundle\UIBundle\Event\BeforeViewRenderEvent;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\Environment;
 
 class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
 {
@@ -36,7 +37,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $event = new BeforeFormRenderEvent(
             $this->createMock('Symfony\Component\Form\FormView'),
             [],
-            $this->createMock('\Twig_Environment'),
+            $this->createMock(Environment::class),
             null
         );
 
@@ -50,7 +51,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $event = new BeforeFormRenderEvent(
             $this->createMock('Symfony\Component\Form\FormView'),
             [],
-            $this->createMock('\Twig_Environment'),
+            $this->createMock(Environment::class),
             null
         );
 
@@ -66,7 +67,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $event = new BeforeFormRenderEvent(
             $this->createMock('Symfony\Component\Form\FormView'),
             [],
-            $this->createMock('\Twig_Environment'),
+            $this->createMock(Environment::class),
             null
         );
 
@@ -92,7 +93,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $entity = new CustomerUserRole();
         $form = new FormView();
         $form->vars['value'] = $entity;
-        $twig = $this->createMock('\Twig_Environment');
+        $twig = $this->createMock(Environment::class);
         $event = new BeforeFormRenderEvent(
             $form,
             [
@@ -147,7 +148,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnViewPageRenderWithoutRequest()
     {
         $event = new BeforeViewRenderEvent(
-            $this->createMock('\Twig_Environment'),
+            $this->createMock(Environment::class),
             [],
             new \stdClass()
         );
@@ -160,7 +161,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnViewPageRenderOnNonUpdateRolePage()
     {
         $event = new BeforeViewRenderEvent(
-            $this->createMock('\Twig_Environment'),
+            $this->createMock(Environment::class),
             [],
             new \stdClass()
         );
@@ -175,7 +176,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnViewPageRender()
     {
         $entity = new CustomerUserRole();
-        $twig = $this->createMock('\Twig_Environment');
+        $twig = $this->createMock(Environment::class);
         $event = new BeforeViewRenderEvent(
             $twig,
             [

@@ -5,11 +5,15 @@ namespace Oro\Bundle\WebsiteBundle\Twig;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
- * Adds twig functions for url generation
+ * Provides Twig functions to retrieve website path values:
+ *   - website_path
+ *   - website_secure_path
  */
-class WebsitePathExtension extends \Twig_Extension
+class WebsitePathExtension extends AbstractExtension
 {
     const NAME = 'oro_website_path';
 
@@ -46,8 +50,8 @@ class WebsitePathExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('website_path', [$this, 'getWebsitePath']),
-            new \Twig_SimpleFunction('website_secure_path', [$this, 'getWebsiteSecurePath'])
+            new TwigFunction('website_path', [$this, 'getWebsitePath']),
+            new TwigFunction('website_secure_path', [$this, 'getWebsiteSecurePath'])
         ];
     }
 
