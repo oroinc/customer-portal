@@ -11,7 +11,7 @@ use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
 
 /**
- * Commerce Menu Update entity
+ * Holds frontend menu item information.
  *
  * @ORM\Entity(repositoryClass="Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository")
  * @ORM\Table(
@@ -109,6 +109,13 @@ class MenuUpdate extends ExtendMenuUpdate implements
      * @ORM\Column(name="screens", type="array", nullable=true)
      */
     protected $screens = [];
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="uri", type="string", length=8190, nullable=true)
+     */
+    protected $uri;
 
     /**
      * {@inheritdoc}
