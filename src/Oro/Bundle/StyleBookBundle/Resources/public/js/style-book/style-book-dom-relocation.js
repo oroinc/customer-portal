@@ -3,6 +3,7 @@ define(function(require) {
 
     var StyleBookDomRelocation;
     var BaseView = require('oroui/js/app/views/base/view');
+    var _ = require('underscore');
     var mediator = require('oroui/js/mediator');
 
     StyleBookDomRelocation = BaseView.extend({
@@ -17,22 +18,31 @@ define(function(require) {
         },
 
         initialize: function(options) {
+            this.options = _.omit(options, ['el']);
             StyleBookDomRelocation.__super__.initialize.apply(this, arguments);
         },
 
         onMove: function() {
-            this.$el.find('[data-relocate]').removeData().attr('data-dom-relocation-options', JSON.stringify({
+            var $element = this.$el.find('[data-relocate]');
+            $element.removeData().attr('data-dom-relocation-options', JSON.stringify({
                 responsive: [
                     {
                         viewport: {
                             maxScreenType: 'desktop'
                         },
-                        moveTo: this.moved ? '.dom-relocation-point' : '.dom-relocation-target'
+                        moveTo: this.moved ? '.dom-relocation-point' : '.dom-relocation-target',
+                        prepend: !this.moved ? this.options.prepend : false,
+                        sibling: !this.moved ? this.options.sibling : '.sibling-1',
+                        endpointClass: !this.moved ? this.options.endpointClass : null
                     }
                 ]
             }));
 
             this.moved = !this.moved;
+
+            if (!this.moved) {
+                $element.removeClass(this.options.endpointClass);
+            }
 
             mediator.trigger('layout:reposition');
         }
