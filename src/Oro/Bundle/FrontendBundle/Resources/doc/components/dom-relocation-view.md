@@ -1,4 +1,4 @@
-# Dom Relocation View
+# Dom Relocation Global View
 
 Dom Relocation View uses when you need to move dom element from one container to another on browser window resize.
 For example: move menu list from top bar to hamburger menu dropdown in cases when you cannot do this using css @media queries.
@@ -13,7 +13,10 @@ attributes to corresponding element as it is showing below:
             responsive: [
                 {
                     viewport: {maxScreenType: 'tablet'},
-                    moveTo: '#container' // jQuery selector
+                    moveTo: '#parent_container' // jQuery selector,
+                    sibling: '#sibling_element' // jQuery selector,
+                    prepend: true // Boolean,
+                    endpointClass: 'some-class-add-after-move' // String
                 }
             ]
          }"
@@ -33,11 +36,15 @@ Like this:
 responsive: [
     {
         viewport: {maxScreenType: 'tablet'},
-        moveTo: '[data-target-example-1]' // jQuery selector
+        moveTo: '[data-target-example-1]', // jQuery selector
+        sibling: '[data-target-example-1] > div:eq(2)', // jQuery selector
+        prepend: true // Boolean
     },
     {
         viewport: {maxScreenType: 'mobile'},
-        moveTo: '[data-target-example-2]' // jQuery selector
+        moveTo: '[data-target-example-2]', // jQuery selector
+        prepend: true, // Boolean
+        endpointClass: 'moved-to-parent' // String
     }
 ]
 ```
@@ -54,3 +61,20 @@ Option describes when should relocate DOM element. All available screen type def
 **Type:** String
 
 Set target selector where should move element.
+
+### sibling
+**Type:** String
+
+Set sibling element for position moved element
+
+### prepend
+**Type:** String
+
+Change behavior to append element into target parent
+If set `true` element going to prepend target element
+If set `false` element append to end of parent
+
+### endpointClass
+**Type:** String
+
+Set class name, going to add class after move on need breakpoint
