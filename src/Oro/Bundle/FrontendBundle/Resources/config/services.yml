@@ -51,6 +51,7 @@ services:
             - '@oro_config.manager'
             - '@oro_frontend.guest_access.guest_access_decision_maker'
             - '@router'
+            - '%oro_api.rest.prefix%'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 5 }
 
@@ -66,7 +67,7 @@ services:
         class: 'Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider'
         public: false
         calls:
-            - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%']]
+            - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%doc|login$']]
         tags: ['oro_frontend.guest_access_urls_provider']
 
     oro_frontend.placeholder.filter:
