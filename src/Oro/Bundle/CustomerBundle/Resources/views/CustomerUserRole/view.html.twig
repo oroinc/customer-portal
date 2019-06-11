@@ -18,6 +18,8 @@
 {% endblock pageHeader %}
 
 {% block content_data %}
+    {% import 'OroUIBundle::macros.html.twig' as UI %}
+
     {% set selfManagedProperty = '' %}
     {% if entity.public %}
         {% set selfManagedPropertyValue = '' %}

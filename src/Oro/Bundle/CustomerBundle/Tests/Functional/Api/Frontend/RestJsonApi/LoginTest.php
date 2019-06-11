@@ -291,6 +291,18 @@ class LoginTest extends FrontendWebTestCase
         self::assertEquals($existingApiKey, $user->getApiKeys()->first()->getApiKey());
     }
 
+    public function testLoginShouldBeAvailableEvenIfGuestsHaveNoAccessToSystem()
+    {
+        $this->setCurrentWebsite();
+        $configManager = self::getContainer()->get('oro_config.manager');
+        $configManager->set('oro_frontend.guest_access_enabled', false);
+        $configManager->flush();
+
+        $response = $this->sendLoginRequest(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
+
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
+    }
+
     public function testLoginForDisabledCustomerUser()
     {
         /** @var CustomerUser $user */

@@ -1,3 +1,5 @@
+imports:
+    - { resource: controllers.yml }
 parameters:
     oro_platform.collector.template: '@@OroFrontend/Collector/commerce.html.twig'
 
@@ -51,6 +53,7 @@ services:
             - '@oro_config.manager'
             - '@oro_frontend.guest_access.guest_access_decision_maker'
             - '@router'
+            - '%oro_api.rest.prefix%'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 5 }
 
@@ -66,7 +69,7 @@ services:
         class: 'Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider'
         public: false
         calls:
-            - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%']]
+            - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%doc|login$']]
         tags: ['oro_frontend.guest_access_urls_provider']
 
     oro_frontend.placeholder.filter:
@@ -79,6 +82,9 @@ services:
         arguments:
             - '%web_backend_prefix%'
             - '@request_stack'
+
+    Oro\Bundle\FrontendBundle\Request\FrontendHelper:
+        alias: oro_frontend.request.frontend_helper
 
     oro_frontend.activity_list.placeholder.filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\ActivityListPlaceholderFilter'

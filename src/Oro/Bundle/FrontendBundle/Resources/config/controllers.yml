@@ -1,0 +1,23 @@
+services:
+    _defaults:
+        public: true
+
+    Oro\Bundle\FrontendBundle\Controller\ExceptionController:
+        arguments:
+            - '@oro_frontend.request.frontend_helper'
+            - '@translator'
+            - '@request_stack'
+            - '@layout'
+            - '@kernel'
+
+    Oro\Bundle\FrontendBundle\Controller\Workflow\WidgetController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+
+    Oro\Bundle\FrontendBundle\Controller\Workflow\WorkflowController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }

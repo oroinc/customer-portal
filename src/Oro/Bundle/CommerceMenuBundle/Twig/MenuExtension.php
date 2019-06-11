@@ -6,12 +6,16 @@ use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\MatcherInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
- * Provides twig functions to work with menu items:
- * check if it is current build website link for passed uri
+ * Provides Twig functions to work with storefront menus:
+ *   - oro_commercemenu_is_current
+ *   - oro_commercemenu_is_ancestor
+ *   - oro_commercemenu_get_url
  */
-class MenuExtension extends \Twig_Extension
+class MenuExtension extends AbstractExtension
 {
     const NAME = 'oro_commercemenu';
 
@@ -48,9 +52,9 @@ class MenuExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('oro_commercemenu_is_current', [$this, 'isCurrent']),
-            new \Twig_SimpleFunction('oro_commercemenu_is_ancestor', [$this, 'isAncestor']),
-            new \Twig_SimpleFunction('oro_commercemenu_get_url', [$this, 'getUrl']),
+            new TwigFunction('oro_commercemenu_is_current', [$this, 'isCurrent']),
+            new TwigFunction('oro_commercemenu_is_ancestor', [$this, 'isAncestor']),
+            new TwigFunction('oro_commercemenu_get_url', [$this, 'getUrl']),
         ];
     }
 

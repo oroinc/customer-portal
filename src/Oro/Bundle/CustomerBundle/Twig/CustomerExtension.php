@@ -4,8 +4,14 @@ namespace Oro\Bundle\CustomerBundle\Twig;
 
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class CustomerExtension extends \Twig_Extension
+/**
+ * Provides a Twig function to check if custom user has access to view an entity:
+ *   - is_granted_view_customer_user
+ */
+class CustomerExtension extends AbstractExtension
 {
     const NAME = 'customer_extension';
 
@@ -34,7 +40,7 @@ class CustomerExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('is_granted_view_customer_user', [$this, 'isGrantedViewCustomerUser']),
+            new TwigFunction('is_granted_view_customer_user', [$this, 'isGrantedViewCustomerUser']),
         ];
     }
 

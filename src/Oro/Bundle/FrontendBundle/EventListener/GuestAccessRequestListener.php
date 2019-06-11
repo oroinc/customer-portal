@@ -6,10 +6,16 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\GuestAccess\GuestAccessDecisionMakerInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
+ * Checks guest access.
+ * If access is denied and was triggered regular request - returns redirect response to login page.
+ * If access is denied and was triggered API request - returns 401 response.
+ *
  * This listener should be triggered only after firewall and authentication are passed, routing and slugs are resolved
  * in Oro\Bundle\RedirectBundle\Security\Firewall (security.firewall service). Otherwise it'll become bug prone due to:
  *  - Prematurely initialized user configuration scope (user is not authenticated yet, but ConfigManager is called)
@@ -39,22 +45,28 @@ class GuestAccessRequestListener
      */
     private $router;
 
+    /** @var string */
+    private $restApiPrefix;
+
     /**
      * @param TokenAccessorInterface            $tokenAccessor
      * @param ConfigManager                     $configManager
      * @param GuestAccessDecisionMakerInterface $guestAccessDeniedDecisionMaker
      * @param RouterInterface                   $router
+     * @param string                            $restApiPrefix
      */
     public function __construct(
         TokenAccessorInterface $tokenAccessor,
         ConfigManager $configManager,
         GuestAccessDecisionMakerInterface $guestAccessDeniedDecisionMaker,
-        RouterInterface $router
+        RouterInterface $router,
+        string $restApiPrefix
     ) {
         $this->tokenAccessor = $tokenAccessor;
         $this->configManager = $configManager;
         $this->guestAccessDecisionMaker = $guestAccessDeniedDecisionMaker;
         $this->router = $router;
+        $this->restApiPrefix = $restApiPrefix;
     }
 
     /**
@@ -76,10 +88,16 @@ class GuestAccessRequestListener
             return;
         }
 
-        $decision = $this->guestAccessDecisionMaker->decide($event->getRequest()->getPathInfo());
-        if ($decision === GuestAccessDecisionMakerInterface::URL_DISALLOW) {
-            $redirectResponse = $this->createRedirectResponse($this->getCustomerUserLoginUrl());
-            $event->setResponse($redirectResponse);
+        $requestPathInfo = $event->getRequest()->getPathInfo();
+        $decision = $this->guestAccessDecisionMaker->decide($requestPathInfo);
+        if ($decision === GuestAccessDecisionMakerInterface::URL_DISALLOW
+            && $event->getRequest()->getMethod() !== Request::METHOD_OPTIONS
+        ) {
+            $response = $this->createResponse(
+                $this->getCustomerUserLoginUrl(),
+                $this->isApiRequest($requestPathInfo) ? Response::HTTP_UNAUTHORIZED : Response::HTTP_FOUND
+            );
+            $event->setResponse($response);
         }
     }
 
@@ -87,11 +105,13 @@ class GuestAccessRequestListener
      * @param string $url
      * @param int    $status
      *
-     * @return RedirectResponse
+     * @return RedirectResponse|Response
      */
-    private function createRedirectResponse($url, $status = 302)
+    private function createResponse(string $url, $status = Response::HTTP_FOUND)
     {
-        return new RedirectResponse($url, $status);
+        return Response::HTTP_UNAUTHORIZED === $status
+            ? new Response('', $status)
+            : new RedirectResponse($url, $status);
     }
 
     /**
@@ -100,5 +120,15 @@ class GuestAccessRequestListener
     private function getCustomerUserLoginUrl()
     {
         return $this->router->generate('oro_customer_customer_user_security_login');
+    }
+
+    /**
+     * @param string $pathInfo
+     *
+     * @return bool
+     */
+    private function isApiRequest(string $pathInfo)
+    {
+        return 0 === strpos($pathInfo, $this->restApiPrefix);
     }
 }

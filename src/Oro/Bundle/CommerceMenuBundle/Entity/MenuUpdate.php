@@ -11,6 +11,8 @@ use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
 
 /**
+ * Commerce Menu Update entity
+ *
  * @ORM\Entity(repositoryClass="Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository")
  * @ORM\Table(
  *      name="oro_commerce_menu_upd",
@@ -66,6 +68,7 @@ use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
  *      )
  * })
  * @Config(
+ *      routeName="oro_commerce_menu_global_menu_index",
  *      defaultValues={
  *          "entity"={
  *              "icon"="fa-th"
