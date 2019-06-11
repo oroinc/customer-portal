@@ -1,0 +1,10 @@
+/* @theme: blank; */
+
+@each $heading, $values in $heading-variants {
+    #{$heading} {
+        @each $prop, $value in $values {
+            #{$prop}: $value;
+        }
+    }
+}
+

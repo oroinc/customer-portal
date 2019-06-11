@@ -1,0 +1,34 @@
+/* @theme: blank; */
+
+$heading-variants: (
+    'h1': (
+        'font-size': $base-font-size--l + 7px,
+        'font-family': $base-font,
+        'font-weight': 700
+    ),
+    'h2': (
+        'font-size': $base-font-size--l,
+        'font-family': $base-font,
+        'font-weight': 500
+    ),
+    'h3': (
+        'font-size': $base-font-size--m + 2px,
+        'font-family': $base-font,
+        'font-weight': 500
+    ),
+    'h4': (
+        'font-size': $base-font-size--m,
+        'font-family': $base-font,
+        'font-weight': 500
+    ),
+    'h5': (
+        'font-size': $base-font-size--large + 2px,
+        'font-family': $base-font,
+        'font-weight': 500
+    ),
+    'h6': (
+        'font-size': $base-font-size--large,
+        'font-family': $base-font,
+        'font-weight': 500
+    )
+) !default;
