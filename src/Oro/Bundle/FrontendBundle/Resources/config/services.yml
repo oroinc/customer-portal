@@ -1,3 +1,5 @@
+imports:
+    - { resource: controllers.yml }
 parameters:
     oro_platform.collector.template: '@@OroFrontend/Collector/commerce.html.twig'
 
@@ -80,6 +82,9 @@ services:
         arguments:
             - '%web_backend_prefix%'
             - '@request_stack'
+
+    Oro\Bundle\FrontendBundle\Request\FrontendHelper:
+        alias: oro_frontend.request.frontend_helper
 
     oro_frontend.activity_list.placeholder.filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\ActivityListPlaceholderFilter'
