@@ -1,34 +1,55 @@
 /* @theme: blank; */
 
-$heading-variants: (
-    'h1': (
-        'font-size': $base-font-size--l + 7px,
-        'font-family': $base-font,
-        'font-weight': 700
-    ),
-    'h2': (
-        'font-size': $base-font-size--l,
-        'font-family': $base-font,
-        'font-weight': 500
-    ),
-    'h3': (
-        'font-size': $base-font-size--m + 2px,
-        'font-family': $base-font,
-        'font-weight': 500
-    ),
-    'h4': (
-        'font-size': $base-font-size--m,
-        'font-family': $base-font,
-        'font-weight': 500
-    ),
-    'h5': (
-        'font-size': $base-font-size--large + 2px,
-        'font-family': $base-font,
-        'font-weight': 500
-    ),
-    'h6': (
-        'font-size': $base-font-size--large,
-        'font-family': $base-font,
-        'font-weight': 500
-    )
-) !default;
+// H1
+
+$headline1-font-size: $base-font-size--l + 7px !default;
+$headline1-font-family: $base-font !default;
+$headline1-font-weight: 500 !default;
+$headline1-line-height: null !default;
+$headline1-text-transform: null !default;
+$headline1-color: get-color('additional', 'dark');
+
+// H2
+
+$headline2-font-size: $base-font-size--l !default;
+$headline2-font-family: $base-font !default;
+$headline2-font-weight: 500 !default;
+$headline2-line-height: null !default;
+$headline2-text-transform: null !default;
+$headline2-color: get-color('additional', 'dark');
+
+// H3
+
+$headline3-font-size: $base-font-size--m + 2px !default;
+$headline3-font-family: $base-font !default;
+$headline3-font-weight: 500 !default;
+$headline3-line-height: null !default;
+$headline3-text-transform: null !default;
+$headline3-color: get-color('additional', 'dark');
+
+// H4
+
+$headline4-font-size: $base-font-size--m !default;
+$headline4-font-family: $base-font !default;
+$headline4-font-weight: 500 !default;
+$headline4-line-height: null !default;
+$headline4-text-transform: null !default;
+$headline4-color: get-color('additional', 'dark');
+
+// H5
+
+$headline5-font-size: $base-font-size--large + 2px !default;
+$headline5-font-family: $base-font !default;
+$headline5-font-weight: 500 !default;
+$headline5-line-height: null !default;
+$headline5-text-transform: null !default;
+$headline5-color: get-color('additional', 'dark');
+
+// H6
+
+$headline6-font-size: $base-font-size--large !default;
+$headline6-font-family: $base-font !default;
+$headline6-font-weight: 500 !default;
+$headline6-line-height: null !default;
+$headline6-text-transform: null !default;
+$headline6-color: get-color('additional', 'dark');

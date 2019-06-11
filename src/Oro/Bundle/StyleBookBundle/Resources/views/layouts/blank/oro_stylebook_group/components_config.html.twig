@@ -24,6 +24,12 @@
 
 {% endblock %}
 
+{% block _style_book_components_headings_widget %}
+    {% set sourcePath = sourcePath|default('@OroFrontendBundle/Resources/public/blank/scss/variables/headings-config.scss') %}
+
+    {{ parent_block_widget(block) }}
+{% endblock %}
+
 {% block _style_book_components_sizes_widget %}
     {% set sourcePath = sourcePath|default('@OroUIBundle/Resources/public/blank/scss/settings/partials/_sizes.scss') %}
 
