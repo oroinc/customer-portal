@@ -68,7 +68,7 @@ Set target selector where should move element.
 Set sibling element for position moved element
 
 ### prepend
-**Type:** String
+**Type:** Boolean
 
 Change behavior to append element into target parent
 If set `true` element going to prepend target element

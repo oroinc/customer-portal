@@ -45,7 +45,7 @@ define(function(require) {
             responsive: [],
             targetViewport: null,
             _moved: false,
-            addedClass: null
+            _addedClass: null
         },
 
         /**
@@ -136,7 +136,6 @@ define(function(require) {
         /**
          * Return element to original position
          * @param {jQuery.Element} $el
-         * @param {Object} targetOptions
          */
         returnByIndex: function($el) {
             var options = $el.data('dom-relocation-options');
@@ -147,8 +146,8 @@ define(function(require) {
                 options.$originalPosition.children().eq(options.originalOrder - 1).after($el);
             }
 
-            if (options.addedClass) {
-                $el.removeClass(options.addedClass);
+            if (options._addedClass) {
+                $el.removeClass(options._addedClass);
             }
 
             options.targetViewport = null;
@@ -175,13 +174,13 @@ define(function(require) {
                     : $target.append($el);
             }
 
-            if (options.addedClass) {
-                $el.removeClass(options.addedClass);
+            if (options._addedClass) {
+                $el.removeClass(options._addedClass);
             }
 
             if (targetOptions.endpointClass) {
                 $el.addClass(targetOptions.endpointClass);
-                options.addedClass = targetOptions.endpointClass;
+                options._addedClass = targetOptions.endpointClass;
             }
 
             options.targetViewport = targetOptions.viewport;
@@ -200,7 +199,6 @@ define(function(require) {
                 if (options._loaded) {
                     return;
                 }
-
                 _.extend(
                     _.defaults(options, this.defaultOptions),
                     {
@@ -209,7 +207,6 @@ define(function(require) {
                         _loaded: true
                     }
                 );
-
             }, this);
         }
     });
