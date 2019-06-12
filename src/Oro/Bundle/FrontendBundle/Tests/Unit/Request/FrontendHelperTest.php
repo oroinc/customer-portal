@@ -22,7 +22,7 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
 
         /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock('Symfony\Component\HttpFoundation\RequestStack');
-        $requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
+        $requestStack->expects($this->once())->method('getMasterRequest')->willReturn($request);
 
         /** @var ContainerInterface|\PHPUnit\Framework\MockObject\MockObject $container */
         $container = $this->createMock(ContainerInterface::class);
@@ -69,7 +69,7 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
     {
         /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock('Symfony\Component\HttpFoundation\RequestStack');
-        $requestStack->expects($this->once())->method('getCurrentRequest')->willReturn(null);
+        $requestStack->expects($this->once())->method('getMasterRequest')->willReturn(null);
 
         /** @var ContainerInterface|\PHPUnit\Framework\MockObject\MockObject $container */
         $container = $this->createMock(ContainerInterface::class);
@@ -91,7 +91,7 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
         /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock('Symfony\Component\HttpFoundation\RequestStack');
         $requestStack->expects($this->never())
-            ->method('getCurrentRequest');
+            ->method('getMasterRequest');
 
         /** @var ContainerInterface|\PHPUnit\Framework\MockObject\MockObject $container */
         $container = $this->createMock(ContainerInterface::class);

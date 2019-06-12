@@ -7,6 +7,10 @@ use Doctrine\ORM\EntityManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
+/**
+ * Basic website manager.
+ * Provides current website.
+ */
 class WebsiteManager
 {
     /**
@@ -39,11 +43,19 @@ class WebsiteManager
      */
     public function getCurrentWebsite()
     {
-        if (!$this->frontendHelper->isFrontendRequest()) {
-            return null;
+        if (!$this->currentWebsite) {
+            $this->currentWebsite = $this->getResolvedWebsite();
         }
 
-        return $this->getResolvedWebsite();
+        return $this->currentWebsite;
+    }
+
+    /**
+     * @param Website|null $currentWebsite
+     */
+    public function setCurrentWebsite(?Website $currentWebsite): void
+    {
+        $this->currentWebsite = $currentWebsite;
     }
 
     /**
@@ -69,11 +81,11 @@ class WebsiteManager
      */
     protected function getResolvedWebsite()
     {
-        if (!$this->currentWebsite) {
-            $this->currentWebsite = $this->getDefaultWebsite();
+        if (!$this->frontendHelper->isFrontendRequest()) {
+            return null;
         }
 
-        return $this->currentWebsite;
+        return $this->getDefaultWebsite();
     }
 
     /**

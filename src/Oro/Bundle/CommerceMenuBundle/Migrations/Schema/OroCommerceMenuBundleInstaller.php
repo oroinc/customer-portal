@@ -159,7 +159,11 @@ class OroCommerceMenuBundleInstaller implements
             $schema,
             self::ORO_COMMERCE_MENU_UPDATE_TABLE_NAME,
             self::ORO_COMMERCE_MENU_UPDATE_IMAGE_FIELD_NAME,
-            [],
+            [
+                'attachment' => [
+                    'acl_protected' => false,
+                ]
+            ],
             self::MAX_MENU_UPDATE_IMAGE_SIZE_IN_MB,
             self::THUMBNAIL_WIDTH_SIZE_IN_PX,
             self::THUMBNAIL_HEIGHT_SIZE_IN_PX

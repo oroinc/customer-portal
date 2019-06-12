@@ -39,7 +39,7 @@ oro_frontend_action:
 oro_frontend_workflow:
     resource: "@OroFrontendBundle/Resources/config/oro/routing_workflow.yml"
 
-oro_filtered_attachment:
+oro_frontend_attachment_filter_image:
     path: "media/cache/attachment/resize/{id}/{filter}/{filename}"
     defaults: { _controller: OroAttachmentBundle:File:getFilteredImage}
     requirements:
@@ -47,7 +47,7 @@ oro_filtered_attachment:
     options:
         frontend: true
 
-oro_resize_attachment:
+oro_frontend_attachment_resize_image:
     path: "media/cache/attachment/resize/{id}/{width}/{height}/{filename}"
     defaults: { _controller: OroAttachmentBundle:File:getResizedAttachmentImage}
     requirements:
@@ -62,6 +62,15 @@ oro_frontend_attachment_file:
     defaults: { _controller: OroAttachmentBundle:File:getAttachment}
     requirements:
         extension: '\w+'
+    options:
+        frontend: true
+
+oro_frontend_attachment_get_file:
+    path: "attachment/{action}/{id}/{filename}"
+    defaults: { _controller: OroAttachmentBundle:File:getFile}
+    requirements:
+        id: '\d+'
+        action: '(get|download)'
     options:
         frontend: true
 
