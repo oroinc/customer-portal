@@ -11,6 +11,9 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onClear }
 
+    Oro\Bundle\WebsiteBundle\Manager\WebsiteManager:
+        alias: 'oro_website.manager'
+
     oro_website.twig.website_extension:
         class: 'Oro\Bundle\WebsiteBundle\Twig\OroWebsiteExtension'
         public: false
