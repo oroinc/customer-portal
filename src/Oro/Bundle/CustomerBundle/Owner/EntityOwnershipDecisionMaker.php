@@ -69,7 +69,7 @@ class EntityOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
     {
         $isAssociated = parent::isAssociatedWithBusinessUnit($user, $domainObject, $deep, $organization);
 
-        if (!$isAssociated && $deep) {
+        if (!$isAssociated) {
             $metadata = $this->getObjectMetadata($domainObject);
 
             /** @var CustomerUser $user */
@@ -84,7 +84,7 @@ class EntityOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
                 $ownerId = $this->getObjectIdIgnoreNull($customer);
 
                 $isAssociated = $customerId === $ownerId;
-                if (!$isAssociated) {
+                if (!$isAssociated && $deep) {
                     $childrenIds = $this->getCustomerRepository()->getChildrenIds($customerId);
                     $isAssociated = in_array($ownerId, $childrenIds, true);
                 }

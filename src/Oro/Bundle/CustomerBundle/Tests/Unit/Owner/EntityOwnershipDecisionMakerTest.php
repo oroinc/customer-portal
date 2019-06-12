@@ -271,24 +271,89 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
     }
 
     /**
+     * @dataProvider isAssociatedWithBusinessUnitDataProvider
+     * @param string $organization
+     * @param string $customer
+     * @param string $customerUser
+     * @param bool $deep
+     * @param bool $isAssociated
+     */
+    public function testIsAssociatedWithBusinessUnitWhenNoCustomerUserForDomainObject(
+        string $organization,
+        string $customer,
+        string $customerUser,
+        bool $deep,
+        bool $isAssociated
+    ) {
+        $this->buildTestTree();
+        $this->configureMetadataProvider();
+
+        $domainObject = new TestEntity(1, null, $this->{$organization}, null, $this->{$customer});
+
+        $this->assertEquals(
+            $isAssociated,
+            $this->decisionMaker->isAssociatedWithBusinessUnit($this->{$customerUser}, $domainObject, $deep)
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function isAssociatedWithBusinessUnitDataProvider(): array
+    {
+        return [
+            'with local access and same customer' => [
+                'organization' => 'org2',
+                'customer' => 'cust2',
+                'customerUser' => 'custUsr2',
+                'deep' => false,
+                'isAssociated' => true
+            ],
+            'with deep access and same customer' => [
+                'organization' => 'org2',
+                'customer' => 'cust2',
+                'customerUser' => 'custUsr2',
+                'deep' => true,
+                'isAssociated' => true
+            ],
+            'with local access and subordinate customer' => [
+                'organization' => 'org4',
+                'customer' => 'cust411',
+                'customerUser' => 'custUsr4',
+                'deep' => false,
+                'isAssociated' => false
+            ],
+            'with deep access and subordinate customer' => [
+                'organization' => 'org4',
+                'customer' => 'cust411',
+                'customerUser' => 'custUsr4',
+                'deep' => true,
+                'isAssociated' => true
+            ],
+            'with local access and not subordinate customer' => [
+                'organization' => 'org4',
+                'customer' => 'cust4',
+                'customerUser' => 'custUsr411',
+                'deep' => false,
+                'isAssociated' => false
+            ],
+            'with deep access and not subordinate customer' => [
+                'organization' => 'org4',
+                'customer' => 'cust4',
+                'customerUser' => 'custUsr411',
+                'deep' => true,
+                'isAssociated' => false
+            ],
+        ];
+    }
+
+    /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testIsAssociatedWithBusinessUnit()
     {
         $this->buildTestTree();
-
-        $this->metadataProvider->setMetadata(
-            TestEntity::class,
-            new FrontendOwnershipMetadata(
-                'FRONTEND_USER',
-                'customerUser',
-                'customer_user_id',
-                'organization',
-                'organization_id',
-                'customer',
-                'customer_id'
-            )
-        );
+        $this->configureMetadataProvider();
 
         $obj = new TestEntity(1, null, $this->org1);
         $obj1 = new TestEntity(1, null, $this->org1, $this->custUsr1, $this->cust1);
@@ -387,5 +452,21 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
         $this->assertFalse($this->decisionMaker->isAssociatedWithBusinessUnit($this->custUsr411, $obj4, true));
         $this->assertTrue($this->decisionMaker->isAssociatedWithBusinessUnit($this->custUsr411, $obj411));
         $this->assertTrue($this->decisionMaker->isAssociatedWithBusinessUnit($this->custUsr411, $obj411, true));
+    }
+
+    private function configureMetadataProvider(): void
+    {
+        $this->metadataProvider->setMetadata(
+            TestEntity::class,
+            new FrontendOwnershipMetadata(
+                'FRONTEND_USER',
+                'customerUser',
+                'customer_user_id',
+                'organization',
+                'organization_id',
+                'customer',
+                'customer_id'
+            )
+        );
     }
 }
