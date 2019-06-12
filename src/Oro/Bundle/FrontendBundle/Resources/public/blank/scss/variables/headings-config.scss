@@ -12,7 +12,7 @@ $headline1-font-family: $headline-font-family !default;
 $headline1-font-weight: font-weight('bold') !default;
 $headline1-line-height: $headline-line-height !default;
 $headline1-text-transform: $headline-text-transform !default;
-$headline1-color: $headline-color;
+$headline1-color: $headline-color !default;
 
 // H2
 $headline2-font-size: $base-font-size--m !default;
@@ -20,7 +20,7 @@ $headline2-font-family: $headline-font-family !default;
 $headline2-font-weight: font-weight('bold') !default;
 $headline2-line-height: $headline-line-height !default;
 $headline2-text-transform: $headline-text-transform !default;
-$headline2-color: $headline-color;
+$headline2-color: $headline-color !default;
 
 // H3
 $headline3-font-size: $base-font-size--large + 2px !default;
@@ -28,7 +28,7 @@ $headline3-font-family: $headline-font-family !default;
 $headline3-font-weight: font-weight('medium') !default;
 $headline3-line-height: $headline-line-height !default;
 $headline3-text-transform: $headline-text-transform !default;
-$headline3-color: $headline-color;
+$headline3-color: $headline-color !default;
 
 // H4
 $headline4-font-size: $base-font-size--large !default;
@@ -36,7 +36,7 @@ $headline4-font-family: $headline-font-family !default;
 $headline4-font-weight: font-weight('medium') !default;
 $headline4-line-height: $headline-line-height !default;
 $headline4-text-transform: $headline-text-transform !default;
-$headline4-color: $headline-color;
+$headline4-color: $headline-color !default;
 
 // H5
 $headline5-font-size: $base-font-size !default;
@@ -52,4 +52,4 @@ $headline6-font-family: $headline-font-family !default;
 $headline6-font-weight: font-weight('normal') !default;
 $headline6-line-height: $headline-line-height !default;
 $headline6-text-transform: $headline-text-transform !default;
-$headline6-color: $headline-color;
+$headline6-color: $headline-color !default;
