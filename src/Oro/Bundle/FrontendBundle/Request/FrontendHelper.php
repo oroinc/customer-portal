@@ -33,7 +33,7 @@ class FrontendHelper
     public function isFrontendRequest(Request $request = null)
     {
         if (null === $request) {
-            $request = $this->requestStack->getCurrentRequest();
+            $request = $this->requestStack->getMasterRequest();
         }
 
         return null !== $request && $this->isFrontendUrl($request->getPathInfo());

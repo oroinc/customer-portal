@@ -100,7 +100,7 @@
             },
             paths: {
                 'oronavigation/js/routes-loader': 'oronavigation/js/routes-loader',
-                {% if app.debug and oro_frontend_debug_routes() %}
+                {% if app.debug and oro_frontend.debug_routes %}
                     'oro/routes': '{{ path('oro_frontend_js_routing_js', {_format: 'json'}) }}'
                 {% else %}
                     'oro/routes': '{{ asset_path('oro_frontend_js_routing_js', {_format: 'json'}) }}'
