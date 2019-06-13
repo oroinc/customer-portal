@@ -135,10 +135,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             $owner = $this->findExistingEntity($entity->getOwner());
             if ($owner) {
                 $entity->setOwner($owner);
-                if (false === $this->ownerChecker->isOwnerCanBeSet($entity)) {
-                    $error = $this->translator->trans('oro.importexport.import.errors.wrong_owner');
-                    $this->strategyHelper->addValidationErrors([$error], $this->context);
-
+                if (!$this->strategyHelper->checkEntityOwnerPermissions($this->context, $entity)) {
                     return null;
                 }
             }
