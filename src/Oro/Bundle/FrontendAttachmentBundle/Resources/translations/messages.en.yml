@@ -1,0 +1,15 @@
+oro:
+    frontendattachment:
+        entity_config:
+            attachment:
+                field:
+                    items:
+                        file_applications:
+                            label: 'File applications'
+                            tooltip: 'The list of allowed file applications'
+                            options:
+                                default: 'default'
+                                commerce: 'commerce'
+                        acl_protected:
+                            label: 'ACL protected'
+                            tooltip: 'Enable ACL check for attachments'

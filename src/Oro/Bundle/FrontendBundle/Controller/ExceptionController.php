@@ -2,11 +2,16 @@
 
 namespace Oro\Bundle\FrontendBundle\Controller;
 
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\LayoutBundle\Layout\LayoutManager;
 use Oro\Bundle\UIBundle\Controller\ExceptionController as BaseExceptionController;
 use Oro\Component\Layout\LayoutContext;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Handles rendering error pages.
@@ -14,6 +19,42 @@ use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 class ExceptionController extends BaseExceptionController
 {
     const EXCEPTION_ROUTE_NAME = 'oro_frontend_exception';
+
+    /** @var FrontendHelper */
+    private $frontendHelper;
+
+    /** @var TranslatorInterface */
+    private $translator;
+
+    /** @var RequestStack */
+    private $requestStack;
+
+    /** @var LayoutManager */
+    private $layout;
+
+    /** @var Kernel */
+    private $kernel;
+
+    /**
+     * @param FrontendHelper $frontendHelper
+     * @param TranslatorInterface $translator
+     * @param RequestStack $requestStack
+     * @param LayoutManager $layout
+     * @param Kernel $kernel
+     */
+    public function __construct(
+        FrontendHelper $frontendHelper,
+        TranslatorInterface $translator,
+        RequestStack $requestStack,
+        LayoutManager $layout,
+        Kernel $kernel
+    ) {
+        $this->frontendHelper = $frontendHelper;
+        $this->translator = $translator;
+        $this->requestStack = $requestStack;
+        $this->layout = $layout;
+        $this->kernel = $kernel;
+    }
 
     /**
      * {@inheritdoc}
@@ -29,7 +70,7 @@ class ExceptionController extends BaseExceptionController
             $context = new LayoutContext(['data' => ['status_code' => $code , 'status_text' => $text]]);
             $context->set('route_name', self::EXCEPTION_ROUTE_NAME);
 
-            $layout = $this->container->get('layout')
+            $layout = $this->layout
                 ->getLayout($context);
 
             return new Response($layout->render());
@@ -44,7 +85,7 @@ class ExceptionController extends BaseExceptionController
      */
     protected function isLayoutRendering(Request $request)
     {
-        return $this->container->get('oro_frontend.request.frontend_helper')->isFrontendRequest($request)
+        return $this->frontendHelper->isFrontendRequest($request)
             && $request->getRequestFormat() === 'html'
             && !$this->showException($request)
             && !$this->isCircularHandlingException();
@@ -56,7 +97,7 @@ class ExceptionController extends BaseExceptionController
      */
     protected function showException(Request $request)
     {
-        return $request->attributes->get('showException', $this->container->get('kernel')->isDebug());
+        return $request->attributes->get('showException', $this->kernel->isDebug());
     }
 
     /**
@@ -65,9 +106,7 @@ class ExceptionController extends BaseExceptionController
      */
     protected function getStatusText($code)
     {
-        $translator = $this->container->get('translator');
-
-        return $translator->trans(sprintf('oro_frontend.exception.status_text.%d', $code));
+        return $this->translator->trans(sprintf('oro_frontend.exception.status_text.%d', $code));
     }
 
     /**
@@ -104,8 +143,6 @@ class ExceptionController extends BaseExceptionController
      */
     private function getParentRequest(): ?Request
     {
-        return $this->container
-            ->get('request_stack')
-            ->getParentRequest();
+        return $this->requestStack->getParentRequest();
     }
 }

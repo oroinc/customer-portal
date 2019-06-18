@@ -10,8 +10,7 @@ define(function(require) {
     var config = module.config();
 
     config = _.extend({
-        closeAfterChose: !_.isMobile(),
-        toggleMode: _.isMobile()
+        closeAfterChose: true
     }, config);
 
     FrontendSelectFilter = SelectFilter.extend(_.extend({}, FilterCountHelper, {
@@ -19,11 +18,6 @@ define(function(require) {
          * @property
          */
         closeAfterChose: config.closeAfterChose,
-
-        /**
-         * @property
-         */
-        toggleMode: config.toggleMode,
 
         /**
          * @property
@@ -76,7 +70,20 @@ define(function(require) {
          * @return {jQuery}
          */
         _appendToContainer: function() {
-            return this.toggleMode ? this.$el.find('.filter-criteria') : this.dropdownContainer;
+            return this.isToggleMode() ? this.$el.find('.filter-criteria') : this.dropdownContainer;
+        },
+
+        /**
+         * @inheritDoc
+         */
+        render: function() {
+            if (this.isToggleMode()) {
+                this.widgetOptions = _.defaults(this.widgetOptions, {
+                    hideHeader: true,
+                    additionalClass: false
+                });
+            }
+            return FrontendSelectFilter.__super__.render.apply(this, arguments);
         },
 
         /**
@@ -88,7 +95,7 @@ define(function(require) {
         _onClickFilterArea: function(e) {
             e.stopPropagation();
 
-            if (this.toggleMode) {
+            if (this.isToggleMode()) {
                 this.toggleFilter();
             } else {
                 FrontendSelectFilter.__super__._onClickFilterArea.apply(this, arguments);
@@ -112,7 +119,7 @@ define(function(require) {
         reset: function() {
             FrontendSelectFilter.__super__.reset.apply(this, arguments);
 
-            if (this.toggleMode) {
+            if (this.isToggleMode()) {
                 this.selectDropdownOpened = true;
                 this.toggleFilter();
             }
@@ -127,6 +134,10 @@ define(function(require) {
             return _.extend({}, position, {
                 my: 'left top'
             });
+        },
+
+        isToggleMode: function() {
+            return this.renderMode === 'toggle-mode';
         }
     }));
 

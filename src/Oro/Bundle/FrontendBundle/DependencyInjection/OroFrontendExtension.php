@@ -41,6 +41,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $loader->load('form_type.yml');
         $loader->load('block_types.yml');
         $loader->load('commands.yml');
+        $loader->load('controllers.yml');
 
         $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
 

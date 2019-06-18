@@ -493,7 +493,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('organization_id', 'integer', ['notnull' => false]);
         $table->addColumn('customer_user_id', 'integer', []);
-        $table->addColumn('url', 'string', ['length' => 1023]);
+        $table->addColumn('url', 'string', ['length' => 8190]);
         $table->addColumn('title', 'text', []);
         $table->addColumn('visited_at', 'datetime', []);
         $table->addColumn('visit_count', 'integer', []);
@@ -517,7 +517,7 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('organization_id', 'integer', ['notnull' => false]);
         $table->addColumn('customer_user_id', 'integer', []);
         $table->addColumn('type', 'string', ['length' => 20]);
-        $table->addColumn('url', 'string', ['length' => 1023]);
+        $table->addColumn('url', 'string', ['length' => 8190]);
         $table->addColumn('title', 'text', []);
         $table->addColumn('position', 'smallint', []);
         $table->addColumn('created_at', 'datetime', []);

@@ -51,6 +51,18 @@ services:
         arguments:
             - '@oro_frontend.api.rest.routes'
 
+    oro_frontend.api.rest.routing_options_resolver.remove_single_item_routes:
+        class: Oro\Bundle\ApiBundle\ApiDoc\RemoveSingleItemRestRouteOptionsResolver
+        public: false
+        abstract: true
+        arguments:
+            - ~
+            - ~
+            - '@oro_api.rest.doc_view_detector'
+            - '@oro_api.value_normalizer'
+            - '@oro_frontend.api.rest.routes'
+            - '@oro_frontend.api.rest.action_mapper'
+
     oro_frontend.api.rest.doc_url_generator:
         class: Oro\Bundle\FrontendBundle\Api\ApiDoc\RestDocUrlGenerator
         public: false

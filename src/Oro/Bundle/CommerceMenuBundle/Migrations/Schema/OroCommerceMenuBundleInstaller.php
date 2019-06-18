@@ -28,7 +28,7 @@ class OroCommerceMenuBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_4';
+        return 'v1_5';
     }
 
     /**
@@ -63,7 +63,7 @@ class OroCommerceMenuBundleInstaller implements
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('key', 'string', ['length' => 100]);
         $table->addColumn('parent_key', 'string', ['length' => 100, 'notnull' => false]);
-        $table->addColumn('uri', 'string', ['length' => 1023, 'notnull' => false]);
+        $table->addColumn('uri', 'string', ['length' => 8190, 'notnull' => false]);
         $table->addColumn('menu', 'string', ['length' => 100]);
         $table->addColumn('icon', 'string', ['length' => 150, 'notnull' => false]);
         $table->addColumn('is_active', 'boolean', []);
@@ -159,7 +159,11 @@ class OroCommerceMenuBundleInstaller implements
             $schema,
             self::ORO_COMMERCE_MENU_UPDATE_TABLE_NAME,
             self::ORO_COMMERCE_MENU_UPDATE_IMAGE_FIELD_NAME,
-            [],
+            [
+                'attachment' => [
+                    'acl_protected' => false,
+                ]
+            ],
             self::MAX_MENU_UPDATE_IMAGE_SIZE_IN_MB,
             self::THUMBNAIL_WIDTH_SIZE_IN_PX,
             self::THUMBNAIL_HEIGHT_SIZE_IN_PX
