@@ -1,5 +1,3 @@
-imports:
-    - { resource: controllers.yml }
 parameters:
     oro_platform.collector.template: '@@OroFrontend/Collector/commerce.html.twig'
     oro_attachment.provider.resized_image_path.skip_prefix: 'admin/media/cache'
