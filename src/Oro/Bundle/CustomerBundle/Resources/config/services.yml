@@ -1058,13 +1058,21 @@ services:
             - '@oro_customer.provider.frontend_customer_user_form'
             - '@session'
 
+    oro_customer.frontend_access_rule_option_matcher:
+        class: Oro\Bundle\CustomerBundle\Acl\AccessRule\FrontendAccessRuleOptionMatcher
+        public: false
+        decorates: oro_security.access_rule_option_matcher
+        arguments:
+            - '@oro_customer.frontend_access_rule_option_matcher.inner'
+            - '@security.token_storage'
+
     oro_customer.access_rule.self_managed_public_customer_user_role:
         class: Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule
         public: false
         arguments:
             - '@oro_security.token_accessor'
         tags:
-            - { name: oro_security.access_rule, priority: -200 }
+            - { name: oro_security.access_rule, priority: -200, entityClass: Oro\Bundle\CustomerBundle\Entity\CustomerUserRole, loggedUserClass: Oro\Bundle\CustomerBundle\Entity\CustomerUser }
 
     oro_customer.provider.customer_user_preferred_language_provider:
         class: Oro\Bundle\CustomerBundle\Provider\CustomerUserPreferredLanguageProvider
