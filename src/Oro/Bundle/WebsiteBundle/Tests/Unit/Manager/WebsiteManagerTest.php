@@ -110,6 +110,12 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($this->manager->getCurrentWebsite());
     }
 
+    public function testSetCurrentWebsite()
+    {
+        $this->manager->setCurrentWebsite($website = $this->createMock(Website::class));
+
+        $this->assertSame($website, $this->manager->getCurrentWebsite());
+    }
 
     public function testOnClear()
     {

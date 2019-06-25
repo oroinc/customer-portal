@@ -9,12 +9,18 @@ define(function(require) {
     var config = require('module').config();
 
     config = $.extend(true, {
-        hideHeader: _.isMobile(),
+        hideHeader: false,
         themeName: 'default',
-        additionalClass: !_.isMobile()
+        additionalClass: true
     }, config);
 
     FrontendMultiSelectDecorator = function(options) {
+        var params = _.pick(options.parameters, ['additionalClass', 'hideHeader', 'themeName']);
+
+        if (!_.isEmpty(params)) {
+            this.parameters = _.extend({}, this.parameters, params);
+        }
+
         MultiSelectDecorator.apply(this, arguments);
     };
 
@@ -34,14 +40,14 @@ define(function(require) {
         applyMarkup: true,
 
         /**
-         * @property {bool}
+         * Optional parameters of multiselect widget
+         * @property {object}
          */
-        additionalClass: config.additionalClass,
-
-        /**
-         * @inheritDoc
-         */
-        desingConfiguration: config,
+        parameters: {
+            additionalClass: config.additionalClass,
+            hideHeader: config.hideHeader,
+            themeName: config.themeName
+        },
 
         /**
          * @inheritDoc
@@ -62,11 +68,11 @@ define(function(require) {
                 return;
             }
 
-            if (this.desingConfiguration.hideHeader) {
+            if (this.parameters.hideHeader) {
                 instance.header.hide();
             }
 
-            switch (this.desingConfiguration.themeName) {
+            switch (this.parameters.themeName) {
                 case 'all-at-once':
                     this.applyAllToOnceTheme(widget, instance);
                     break;
@@ -189,7 +195,7 @@ define(function(require) {
          * @param {object} widget
          */
         addAdditionalClassesForContainer: function(widget) {
-            if (this.additionalClass) {
+            if (this.parameters.additionalClass) {
                 widget
                     .removeAttr('class')
                     .addClass('dropdown-menu');

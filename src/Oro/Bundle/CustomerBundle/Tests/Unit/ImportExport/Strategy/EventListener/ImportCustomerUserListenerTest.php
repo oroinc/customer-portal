@@ -15,6 +15,7 @@ use Oro\Bundle\ImportExportBundle\Converter\ConfigurableTableDataConverter;
 use Oro\Bundle\ImportExportBundle\Event\StrategyEvent;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ImportStrategyHelper;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\SecurityBundle\Owner\OwnerChecker;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -69,6 +70,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $configurableDataConverter = $this->createMock(ConfigurableTableDataConverter::class);
         $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $ownerChecker = $this->createMock(OwnerChecker::class);
 
         $this->strategyHelper = new ImportStrategyHelper(
             $this->registry,
@@ -79,6 +81,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
             $authorizationChecker,
             $tokenAccessor
         );
+        $this->strategyHelper->setOwnerChecker($ownerChecker);
 
         $this->websiteRepository = $this->createMock(WebsiteRepository::class);
         $this->event = $this->createMock(StrategyEvent::class);

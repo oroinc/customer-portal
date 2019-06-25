@@ -5,6 +5,9 @@ namespace Oro\Bundle\FrontendBundle\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Helper class for check whether a request is a storefront or management console request.
+ */
 class FrontendHelper
 {
     /**
@@ -34,7 +37,7 @@ class FrontendHelper
     public function isFrontendRequest(Request $request = null)
     {
         if (!$request) {
-            $request = $this->container->get('request_stack')->getCurrentRequest();
+            $request = $this->container->get('request_stack')->getMasterRequest();
         }
 
         return $request && $this->isFrontendUrl($request->getPathInfo());

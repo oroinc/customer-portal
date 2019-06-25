@@ -30,4 +30,11 @@ class NavigationItem extends AbstractNavigationItem
      * @ORM\Column(name="type", type="string", length=20, nullable=false)
      */
     protected $type;
+
+    /**
+     * @var string $url
+     *
+     * @ORM\Column(name="url", type="string", length=8190)
+     */
+    protected $url;
 }

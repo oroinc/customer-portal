@@ -11,6 +11,8 @@ use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
 
 /**
+ * Holds frontend menu item information.
+ *
  * @ORM\Entity(repositoryClass="Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository")
  * @ORM\Table(
  *      name="oro_commerce_menu_upd",
@@ -66,6 +68,7 @@ use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
  *      )
  * })
  * @Config(
+ *      routeName="oro_commerce_menu_global_menu_index",
  *      defaultValues={
  *          "entity"={
  *              "icon"="fa-th"
@@ -106,6 +109,13 @@ class MenuUpdate extends ExtendMenuUpdate implements
      * @ORM\Column(name="screens", type="array", nullable=true)
      */
     protected $screens = [];
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="uri", type="string", length=8190, nullable=true)
+     */
+    protected $uri;
 
     /**
      * {@inheritdoc}
