@@ -324,10 +324,10 @@ oro_behat_extension:
         selector: '[name="oro_customer_type[addresses][0][types][]"][value="shipping"]'
 
     Second Address Billing Checkbox:
-        selector: '[name="oro_customer_type[addresses][2][types][]"][value="billing"]'
+        selector: '[name="oro_customer_type[addresses][1][types][]"][value="billing"]'
 
     Second Address Shipping Checkbox:
-        selector: '[name="oro_customer_type[addresses][2][types][]"][value="shipping"]'
+        selector: '[name="oro_customer_type[addresses][1][types][]"][value="shipping"]'
 
     New Address Default Billing Checkbox:
         selector: '[name="oro_customer_typed_address[defaults][default][]"][value="billing"]'
