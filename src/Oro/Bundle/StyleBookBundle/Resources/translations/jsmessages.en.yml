@@ -48,8 +48,6 @@ oro_stylebook:
             title: nav-tabs
         mixins-list-separator:
             title: list-separator
-        mixins-list-separator:
-            title: list-separator
         mixins-base-transition:
             title: base-transition
         mixins-table-base:

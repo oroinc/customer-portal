@@ -57,14 +57,6 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
     }
 
     /**
-     * {@inheritDoc}
-     */
-    protected function getMenuUpdateManager()
-    {
-        return $this->get('oro_commerce_menu.manager.menu_update');
-    }
-
-    /**
      * @Route("/reset/{menuName}", name="oro_commerce_menu_customer_group_menu_ajax_reset")
      * @Method({"DELETE"})
      *

@@ -46,14 +46,6 @@ class CustomerAjaxMenuController extends AbstractAjaxMenuController
     /**
      * {@inheritDoc}
      */
-    protected function getMenuUpdateManager()
-    {
-        return $this->get('oro_commerce_menu.manager.menu_update');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     protected function getMenu($menuName, array $context)
     {
         if (array_key_exists(ScopeCustomerCriteriaProvider::ACCOUNT, $context)) {
