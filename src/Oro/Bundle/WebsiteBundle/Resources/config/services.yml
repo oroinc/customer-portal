@@ -18,7 +18,7 @@ services:
         class: 'Oro\Bundle\WebsiteBundle\Twig\OroWebsiteExtension'
         public: false
         arguments:
-            - "@service_container"
+            - "@oro_platform.twig.service_locator"
         tags:
             - { name: twig.extension }
 
@@ -99,7 +99,7 @@ services:
         class: Oro\Bundle\WebsiteBundle\Twig\WebsitePathExtension
         public: false
         arguments:
-            - '@service_container'
+            - '@oro_platform.twig.service_locator'
         tags:
             - { name: twig.extension }
 

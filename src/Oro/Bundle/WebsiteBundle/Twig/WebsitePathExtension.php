@@ -4,7 +4,8 @@ namespace Oro\Bundle\WebsiteBundle\Twig;
 
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -13,7 +14,7 @@ use Twig\TwigFunction;
  *   - website_path
  *   - website_secure_path
  */
-class WebsitePathExtension extends AbstractExtension
+class WebsitePathExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
     const NAME = 'oro_website_path';
 
@@ -77,5 +78,15 @@ class WebsitePathExtension extends AbstractExtension
     public function getWebsiteSecurePath($route, array $routeParams = [], Website $website = null)
     {
         return $this->getWebsiteUrlResolver()->getWebsiteSecurePath($route, $routeParams, $website);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return [
+            'oro_website.resolver.website_url_resolver' => WebsiteUrlResolver::class,
+        ];
     }
 }

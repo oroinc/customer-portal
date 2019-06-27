@@ -4,7 +4,8 @@ namespace Oro\Bundle\CommerceMenuBundle\Twig;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\MatcherInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -15,7 +16,7 @@ use Twig\TwigFunction;
  *   - oro_commercemenu_is_ancestor
  *   - oro_commercemenu_get_url
  */
-class MenuExtension extends AbstractExtension
+class MenuExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
     const NAME = 'oro_commercemenu';
 
@@ -106,5 +107,16 @@ class MenuExtension extends AbstractExtension
         }
 
         return $request->getUriForPath($url);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return [
+            'knp_menu.matcher' => MatcherInterface::class,
+            'request_stack' => RequestStack::class,
+        ];
     }
 }
