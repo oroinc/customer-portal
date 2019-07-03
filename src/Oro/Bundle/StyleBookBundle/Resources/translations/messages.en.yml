@@ -213,6 +213,9 @@ oro_stylebook:
             typography:
                 title: Typography
                 description: 'This section provides a preview for the text-based elements with the existing typography properties applied. The following settings apply to all text elements: <code class="language-markup">font-family: $base-font</code>, <code class="language-markup">font-size: $base-font-size</code>, and <code class="language-markup">line-height: $base-line-height</code>. The iconic font (<code class="language-markup">font-family: $icon-font</code>) is used for rendering graphic elements, like icons. The default and recommended parameters are shown in the preview.'
+            custom_fonts:
+                title: Custom fonts
+                description: 'This section provide how add custom font for you application. You can use Google fonts CDN method or plug to custom font local, witch use <code class="language-markup">@font-face</code> mixin'
             sizes:
                 title: Sizes
                 description: 'This section provides a preview of the scss properties related to the common screen sizes and offsets used in Oro application.'
