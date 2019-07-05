@@ -25,18 +25,15 @@
 {% endblock %}
 
 {% block _style_book_components_custom_font_widget %}
-
     <pre class="language-markup">
         <code class="style-book-group-element__code language-scss" data-config>
-            // @import google font from CDN
-            // https://fonts.google.com
-            // You can add somewhere, webpack should move to the top of css file
+            // You can use a native @import for google fonts
             @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
 
-            // If you want disable default theme font, reset next variable
+            // If you want disable default theme fonts you can reset the variable
             $theme-fonts: ();
 
-            // To use local fonts, add config
+            // Enable your local fonts
             $theme-fonts: (
                 'main': (
                     'family': 'Lato',
@@ -52,12 +49,12 @@
                             'style': normal
                         )
                     ),
-                    'formats': ('woff2', 'woff')
+                    'formats': ('woff2', 'woff', 'ttf', 'eot', 'svg') // Add only needed formats
                 )
             )
 
-            // Fonts families
-            $base-font: get-font-name('main'),'Helvetica', Arial, sans-serif;
+            // Font families
+            $base-font: get-font-name('main'), 'Helvetica', Arial, sans-serif;
         </code>
     </pre>
 
