@@ -3,7 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Twig;
 
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -11,7 +12,7 @@ use Twig\TwigFunction;
  * Provides a Twig function to check if custom user has access to view an entity:
  *   - is_granted_view_customer_user
  */
-class CustomerExtension extends AbstractExtension
+class CustomerExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
     const NAME = 'customer_extension';
 
@@ -60,5 +61,15 @@ class CustomerExtension extends AbstractExtension
     public function getName()
     {
         return self::NAME;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return [
+            'oro_customer.security.customer_user_provider' => CustomerUserProvider::class,
+        ];
     }
 }

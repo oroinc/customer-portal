@@ -4,7 +4,8 @@ namespace Oro\Bundle\WebsiteBundle\Twig;
 
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -12,7 +13,7 @@ use Twig\TwigFunction;
  * Provides a Twig function to retrieve the current website information:
  *   - oro_website_get_current_website
  */
-class OroWebsiteExtension extends AbstractExtension
+class OroWebsiteExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
     const NAME = 'oro_website_extension';
 
@@ -59,5 +60,15 @@ class OroWebsiteExtension extends AbstractExtension
     public function getCurrentWebsite()
     {
         return $this->getWebsiteManager()->getCurrentWebsite();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return [
+            'oro_website.manager' => WebsiteManager::class,
+        ];
     }
 }

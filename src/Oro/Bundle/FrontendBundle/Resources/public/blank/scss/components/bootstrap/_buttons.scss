@@ -191,6 +191,14 @@ fieldset:disabled a.btn {
     }
 }
 
+.btn--full {
+    width: 100%;
+}
+
+.btn--clip-text {
+    @include ellipsis();
+}
+
 // Specificity overrides
 input[type="submit"],
 input[type="reset"],

@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\AccessRule;
 
 use Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\SecurityBundle\AccessRule\Criteria;
 use Oro\Bundle\SecurityBundle\AccessRule\Expr\Comparison;
@@ -28,31 +27,9 @@ class SelfManagedPublicCustomerUserRoleAccessRuleTest extends TestCase
         $this->rule = new SelfManagedPublicCustomerUserRoleAccessRule($this->tokenAccessor);
     }
 
-    public function testIsApplicableWithNotSupportedEntity()
+    public function testIsApplicable()
     {
-        $criteria = new Criteria(AccessRuleWalker::ORM_RULES_TYPE, \stdClass::class, 'e');
-
-        $this->assertFalse($this->rule->isApplicable($criteria));
-    }
-
-    public function testIsApplicableWithoutSupportedUserInTokenAndSupportedEntity()
-    {
-        $this->tokenAccessor->expects($this->once())
-            ->method('getUser')
-            ->willReturn(new \stdClass());
-        $criteria = new Criteria(AccessRuleWalker::ORM_RULES_TYPE, CustomerUserRole::class, 'e');
-
-        $this->assertFalse($this->rule->isApplicable($criteria));
-    }
-
-    public function testIsApplicableWithSupportedUserInTokenAndSupportedEntity()
-    {
-        $this->tokenAccessor->expects($this->once())
-            ->method('getUser')
-            ->willReturn(new CustomerUser());
-        $criteria = new Criteria(AccessRuleWalker::ORM_RULES_TYPE, CustomerUserRole::class, 'e');
-
-        $this->assertTrue($this->rule->isApplicable($criteria));
+        $this->assertTrue($this->rule->isApplicable($this->createMock(Criteria::class)));
     }
 
     public function testProcessOnEmptyExistingExpression()

@@ -10,6 +10,8 @@ parameters:
 services:
     oro_frontend.api.rest.request_handler:
         class: Oro\Bundle\ApiBundle\Request\Rest\RequestHandler
+        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
+        public: true
         arguments:
             - '@oro_frontend.api.rest.request_action_handler'
 
@@ -50,6 +52,18 @@ services:
         public: false
         arguments:
             - '@oro_frontend.api.rest.routes'
+
+    oro_frontend.api.rest.routing_options_resolver.remove_single_item_routes:
+        class: Oro\Bundle\ApiBundle\ApiDoc\RemoveSingleItemRestRouteOptionsResolver
+        public: false
+        abstract: true
+        arguments:
+            - ~
+            - ~
+            - '@oro_api.rest.doc_view_detector'
+            - '@oro_api.value_normalizer'
+            - '@oro_frontend.api.rest.routes'
+            - '@oro_frontend.api.rest.action_mapper'
 
     oro_frontend.api.rest.doc_url_generator:
         class: Oro\Bundle\FrontendBundle\Api\ApiDoc\RestDocUrlGenerator

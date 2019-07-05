@@ -20,7 +20,6 @@
                     type: 'textarea',
                     value: 'Hello'
                 },
-                handleClose: false,
                 allowCancel: true,
                 allowOk: true
             }
@@ -1058,7 +1057,11 @@
         'data-page-component-view': 'orostylebook/js/style-book/style-book-playground',
         'data-page-component-options': {
             viewConstructor: 'orostylebook/js/style-book/style-book-dom-relocation',
-            props: {}
+            props: {
+                prepend: false,
+                sibling: '.sibling-1',
+                endpointClass: 'relocated'
+            }
         }
     }) %}
 
@@ -1068,13 +1071,26 @@
 
             <div class="dom-relocation">
                 <div class="dom-relocation-point">
+                    <div class="sibling-1">.sibling-1</div>
                     <div data-relocate>Relocated Element</div>
+                    <div class="sibling-2">.sibling-2</div>
                 </div>
-                <div class="dom-relocation-target"></div>
+                <div class="dom-relocation-target">
+                    <div class="sibling-1">.sibling-1</div>
+                    <div class="sibling-2">.sibling-2</div>
+                </div>
             </div>
         </div>
         {{ block_widget(block) }}
     </div>
+{% endblock %}
+
+{% block _style_book_grid_element_dom_relocation_config_widget %}
+    <div class="playground-source">
+        <pre class="language-markup"><code class="style-book-group-element__code language-markup" data-config></code></pre>
+    </div>
+
+    <div class="playground-props" data-props></div>
 {% endblock %}
 
 {% block _style_book_grid_element_dom_relocation_html_widget %}
@@ -1095,13 +1111,16 @@
                         viewport: {
                             maxScreenType: 'tablet',
                         },
-                        moveTo: '[data-target-container]'
+                        moveTo: '[data-target-container]',
+                        sibling: '[data-target-container]',
+                        prepend: true,
+                        endpointClass: 'test-class'
                     }
                 ]
             }
         }) %}
 
-        <div class="some-element" data-dom-relocation-options='{"responsive":[{"viewport":{"maxScreenType":"tablet"},"moveTo":"[data-target-container]"}]}'>Some content...</div>
+        <div class="some-element" data-dom-relocation-options='{"responsive":[{"viewport":{"maxScreenType":"tablet"},"moveTo":"[data-target-container]", "sibling": "[data-target-container] > div:eq(1)"}]}'>Some content...</div>
 
         <!-- Define target element -->
 

@@ -93,6 +93,14 @@ class WebsiteManagerStub extends WebsiteManager
         $this->stubDefaultWebsite = $defaultWebsite;
     }
 
+    /**
+     * @param Website|null $currentWebsite
+     */
+    public function setCurrentWebsite(?Website $currentWebsite): void
+    {
+        $this->websiteManager->setCurrentWebsite($currentWebsite);
+    }
+
 
     /**
      * @param string $method

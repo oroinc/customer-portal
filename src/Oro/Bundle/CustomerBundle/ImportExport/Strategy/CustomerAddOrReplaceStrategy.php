@@ -94,14 +94,14 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     /**
      * {@inheritdoc}
      */
-    protected function isPermissionGrantedForEntity($permission, $entity, $entityClass)
+    protected function isPermissionGrantedForEntity($permission, $entity, $entityName)
     {
         // do not check permissions for ENUM entities
-        if ($entityClass === ExtendHelper::buildEnumValueClassName(Customer::INTERNAL_RATING_CODE)) {
+        if ($entityName === ExtendHelper::buildEnumValueClassName(Customer::INTERNAL_RATING_CODE)) {
             return true;
         }
 
-        return parent::isPermissionGrantedForEntity($permission, $entity, $entityClass);
+        return parent::isPermissionGrantedForEntity($permission, $entity, $entityName);
     }
 
     /**
@@ -135,10 +135,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             $owner = $this->findExistingEntity($entity->getOwner());
             if ($owner) {
                 $entity->setOwner($owner);
-                if (false === $this->ownerChecker->isOwnerCanBeSet($entity)) {
-                    $error = $this->translator->trans('oro.importexport.import.errors.wrong_owner');
-                    $this->strategyHelper->addValidationErrors([$error], $this->context);
-
+                if (!$this->strategyHelper->checkEntityOwnerPermissions($this->context, $entity)) {
                     return null;
                 }
             }
