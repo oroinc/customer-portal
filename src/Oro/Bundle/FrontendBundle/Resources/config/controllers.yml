@@ -4,11 +4,12 @@ services:
 
     Oro\Bundle\FrontendBundle\Controller\ExceptionController:
         arguments:
-            - '@oro_frontend.request.frontend_helper'
-            - '@translator'
-            - '@request_stack'
-            - '@layout'
-            - '@kernel'
+            - '@Psr\Container\ContainerInterface'
+            - '%kernel.debug%'
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: 'fos_rest.view_handler' }
+            - { name: container.service_subscriber, id: 'fos_rest.exception.codes_map' }
 
     Oro\Bundle\FrontendBundle\Controller\Workflow\WidgetController:
         calls:
