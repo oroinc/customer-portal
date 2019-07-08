@@ -158,6 +158,8 @@ oro_stylebook:
                 title: Colors
             typography:
                 title: Typography
+            headings:
+                title: Headings
             sizes:
                 title: Sizes
             functions:
