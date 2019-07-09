@@ -143,6 +143,7 @@
             }) %}
         {% else %}
             {% set attr = layout_attr_defaults(attr, {
+                'data-page-component-module': 'orofrontend/js/app/components/embedded-list-component',
                 '~class': ' embedded-list__tiles '
             }) %}
         {% endif %}
@@ -173,5 +174,5 @@
 {% endblock %}
 
 {% block attribute_file_widget %}
-    {{ oro_frontend_file_view(entity, fieldName, value) }}
+    {{ oro_file_view(value) }}
 {% endblock %}

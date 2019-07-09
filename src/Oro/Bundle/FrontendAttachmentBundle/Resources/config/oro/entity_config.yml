@@ -1,0 +1,43 @@
+entity_config:
+    attachment:
+        field:
+            items:
+                # indicates whether acl check should be applied for attachments loading or displaying
+                acl_protected:
+                    options:
+                        value_type: boolean
+                        default_value: true
+                        allowed_type: [file, image]
+                        create_only: true
+                    form:
+                        type: Oro\Bundle\EntityConfigBundle\Form\Type\ChoiceType
+                        options:
+                            choices:
+                                Yes: 1
+                                No: 0
+                            placeholder: false
+                            block: general
+                            subblock: properties
+                            label: oro.frontendattachment.entity_config.attachment.field.items.acl_protected.label
+                            tooltip: oro.frontendattachment.entity_config.attachment.field.items.acl_protected.tooltip
+
+                # the list of all allowed file applications
+                file_applications:
+                    options:
+                        allowed_type: [file, image]
+                        default_value: ['default']
+                    constraints:
+                        - NotBlank: ~
+                    form:
+                        type: Oro\Bundle\FormBundle\Form\Type\OroChoiceType
+                        options:
+                            required: true
+                            choices:
+                                oro.frontendattachment.entity_config.attachment.field.items.file_applications.options.default: 'default'
+                                oro.frontendattachment.entity_config.attachment.field.items.file_applications.options.commerce: 'commerce'
+                            multiple: true
+                            block: general
+                            subblock: properties
+                            empty_data: ['default']
+                            label: oro.frontendattachment.entity_config.attachment.field.items.file_applications.label
+                            tooltip: oro.frontendattachment.entity_config.attachment.field.items.file_applications.tooltip

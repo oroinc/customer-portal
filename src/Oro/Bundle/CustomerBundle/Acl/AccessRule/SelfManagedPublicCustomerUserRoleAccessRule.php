@@ -2,8 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Acl\AccessRule;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\SecurityBundle\AccessRule\AccessRuleInterface;
 use Oro\Bundle\SecurityBundle\AccessRule\Criteria;
 use Oro\Bundle\SecurityBundle\AccessRule\Expr\Comparison;
@@ -33,9 +31,7 @@ class SelfManagedPublicCustomerUserRoleAccessRule implements AccessRuleInterface
      */
     public function isApplicable(Criteria $criteria): bool
     {
-        return
-            $criteria->getEntityClass() === CustomerUserRole::class
-            && $this->tokenAccessor->getUser() instanceof CustomerUser;
+        return true;
     }
 
     /**

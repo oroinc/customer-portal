@@ -6,54 +6,36 @@ use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LayoutBundle\Layout\LayoutManager;
 use Oro\Bundle\UIBundle\Controller\ExceptionController as BaseExceptionController;
 use Oro\Component\Layout\LayoutContext;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * Handles rendering error pages.
+ * Handles rendering error pages for front store.
  */
 class ExceptionController extends BaseExceptionController
 {
     const EXCEPTION_ROUTE_NAME = 'oro_frontend_exception';
 
-    /** @var FrontendHelper */
-    private $frontendHelper;
+    /** @var ContainerInterface */
+    private $container;
 
-    /** @var TranslatorInterface */
-    private $translator;
-
-    /** @var RequestStack */
-    private $requestStack;
-
-    /** @var LayoutManager */
-    private $layout;
-
-    /** @var Kernel */
-    private $kernel;
+    /** @var bool */
+    private $showException;
 
     /**
-     * @param FrontendHelper $frontendHelper
-     * @param TranslatorInterface $translator
-     * @param RequestStack $requestStack
-     * @param LayoutManager $layout
-     * @param Kernel $kernel
+     * @param ContainerInterface $container
+     * @param bool $showException
      */
-    public function __construct(
-        FrontendHelper $frontendHelper,
-        TranslatorInterface $translator,
-        RequestStack $requestStack,
-        LayoutManager $layout,
-        Kernel $kernel
-    ) {
-        $this->frontendHelper = $frontendHelper;
-        $this->translator = $translator;
-        $this->requestStack = $requestStack;
-        $this->layout = $layout;
-        $this->kernel = $kernel;
+    public function __construct(ContainerInterface $container, $showException)
+    {
+        $this->container = $container;
+        $this->showException = $showException;
+
+        parent::__construct($container, $showException);
     }
 
     /**
@@ -70,7 +52,7 @@ class ExceptionController extends BaseExceptionController
             $context = new LayoutContext(['data' => ['status_code' => $code , 'status_text' => $text]]);
             $context->set('route_name', self::EXCEPTION_ROUTE_NAME);
 
-            $layout = $this->layout
+            $layout = $this->container->get(LayoutManager::class)
                 ->getLayout($context);
 
             return new Response($layout->render());
@@ -85,7 +67,7 @@ class ExceptionController extends BaseExceptionController
      */
     protected function isLayoutRendering(Request $request)
     {
-        return $this->frontendHelper->isFrontendRequest($request)
+        return $this->container->get(FrontendHelper::class)->isFrontendRequest($request)
             && $request->getRequestFormat() === 'html'
             && !$this->showException($request)
             && !$this->isCircularHandlingException();
@@ -97,7 +79,7 @@ class ExceptionController extends BaseExceptionController
      */
     protected function showException(Request $request)
     {
-        return $request->attributes->get('showException', $this->kernel->isDebug());
+        return $request->attributes->get('showException', $this->showException);
     }
 
     /**
@@ -106,7 +88,8 @@ class ExceptionController extends BaseExceptionController
      */
     protected function getStatusText($code)
     {
-        return $this->translator->trans(sprintf('oro_frontend.exception.status_text.%d', $code));
+        return $this->container->get(TranslatorInterface::class)
+            ->trans(sprintf('oro_frontend.exception.status_text.%d', $code));
     }
 
     /**
@@ -143,6 +126,22 @@ class ExceptionController extends BaseExceptionController
      */
     private function getParentRequest(): ?Request
     {
-        return $this->requestStack->getParentRequest();
+        return $this->container->get(RequestStack::class)->getParentRequest();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices(): array
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                FrontendHelper::class,
+                LayoutManager::class,
+                RequestStack::class,
+                TranslatorInterface::class,
+            ]
+        );
     }
 }

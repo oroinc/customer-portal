@@ -11,11 +11,14 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onClear }
 
+    Oro\Bundle\WebsiteBundle\Manager\WebsiteManager:
+        alias: 'oro_website.manager'
+
     oro_website.twig.website_extension:
         class: 'Oro\Bundle\WebsiteBundle\Twig\OroWebsiteExtension'
         public: false
         arguments:
-            - "@service_container"
+            - "@oro_platform.twig.service_locator"
         tags:
             - { name: twig.extension }
 
@@ -83,6 +86,9 @@ services:
             - '@oro_config.manager'
             - '@router'
 
+    Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver:
+        alias: oro_website.resolver.website_url_resolver
+
     oro_website.resolver.website_system_url_resolver:
         class: 'Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver'
         arguments:
@@ -93,7 +99,7 @@ services:
         class: Oro\Bundle\WebsiteBundle\Twig\WebsitePathExtension
         public: false
         arguments:
-            - '@service_container'
+            - '@oro_platform.twig.service_locator'
         tags:
             - { name: twig.extension }
 
@@ -140,3 +146,13 @@ services:
         class: 'Oro\Bundle\WebsiteBundle\Form\EventSubscriber\DefaultWebsiteSubscriber'
         arguments:
             - '@oro_website.manager'
+
+    oro_website.event_listener.redirect:
+        class: 'Oro\Bundle\WebsiteBundle\EventListener\RedirectListener'
+        arguments:
+            - '@oro_config.manager'
+            - '@oro_website.manager'
+            - '@oro_website.resolver.website_url_resolver'
+            - '@oro_frontend.request.frontend_helper'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onRequest, priority: 255 }

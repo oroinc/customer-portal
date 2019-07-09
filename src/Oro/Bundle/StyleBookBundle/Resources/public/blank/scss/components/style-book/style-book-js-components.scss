@@ -155,24 +155,39 @@ $collapse-preview-item-content-color-hover: get-color('ui', 'focus') !default;
 }
 
 .dom-relocation-example {
+    .dom-relocation {
+        display: flex;
+    }
     .dom-relocation-point, .dom-relocation-target {
-        width: 200px;
+        width: 400px;
         height: 200px;
-        display: inline-block;
         border: 1px solid get-color('additional', 'light');
         position: relative;
+        display: flex;
+        margin-right: 10px;
     }
 
     [data-relocate] {
-        background-color: get-color('additional', 'light');
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: 10px;
+        background-color: get-color('secondary', 'base');
+        color: get-color('additional', 'ultra');
+        font-weight: 700;
+        margin: 10px 5px;
         line-height: 178px;
         text-align: center;
+        width: 180px;
+
+        &.relocated {
+            background-color: get-color('secondary', 'lighten');
+        }
+    }
+
+    .sibling-1,
+    .sibling-2 {
+        width: 100px;
+        background-color: get-color('additional', 'light');
+        line-height: 178px;
+        text-align: center;
+        margin: 10px 5px;
     }
 }
 

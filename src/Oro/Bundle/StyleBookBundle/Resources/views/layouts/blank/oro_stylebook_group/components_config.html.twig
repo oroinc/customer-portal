@@ -57,7 +57,12 @@
             $base-font: get-font-name('main'), 'Helvetica', Arial, sans-serif;
         </code>
     </pre>
+{% endblock %}
 
+{% block _style_book_components_headings_widget %}
+    {% set sourcePath = sourcePath|default('@OroFrontendBundle/Resources/public/blank/scss/variables/headings-config.scss') %}
+
+    {{ parent_block_widget(block) }}
 {% endblock %}
 
 {% block _style_book_components_sizes_widget %}
