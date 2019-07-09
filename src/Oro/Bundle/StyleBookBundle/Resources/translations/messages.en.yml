@@ -216,6 +216,9 @@ oro_stylebook:
             custom_fonts:
                 title: Custom fonts
                 description: 'This section describe how add custom fonts to your application. You can use Google fonts import or import local fonts, which use <code class="language-markup">@font-face</code> mixin'
+            headings:
+                title: Headings
+                description: 'Global config for all headings'
             sizes:
                 title: Sizes
                 description: 'This section provides a preview of the scss properties related to the common screen sizes and offsets used in Oro application.'

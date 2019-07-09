@@ -54,6 +54,7 @@ layout:
                           type: email
                           id: userNameSignIn
                           name: _username
+                          required: required
                           value: '=data["oro_customer_sign_in"].getLastName()'
                           placeholder: oro.customer.customeruser.placeholder.email
                           label: oro.customer.customeruser.email.label
@@ -63,6 +64,7 @@ layout:
                           type: password
                           id: passwordSignIn
                           name: _password
+                          required: required
                           placeholder: oro.customer.customeruser.placeholder.password
                           label: oro.customer.customeruser.password.label
                 __login_form_remember:

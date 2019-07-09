@@ -53,6 +53,9 @@
         &.has-icon {
             position: relative;
             padding-left: $grid-views-title-icon-inner-offset;
+
+            display: flex;
+            align-items: center;
         }
     }
 

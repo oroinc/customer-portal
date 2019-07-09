@@ -108,6 +108,10 @@
 
     &.dropdown {
         display: inline-block;
+        
+        &.show {
+            z-index: z('base') + 1;
+        }
     }
 
     .dropdown-menu {
