@@ -12,6 +12,9 @@ Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate:
             - NotBlank:
                 groups: [UserDefined]
 
+            - Oro\Bundle\SecurityBundle\Validator\Constraints\NotDangerousProtocol:
+                message: oro.commercemenu.validator.menu_update.not_dangerous_protocol.message
+
 Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition:
     properties:
         value:

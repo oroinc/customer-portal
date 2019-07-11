@@ -41,6 +41,7 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/datagrid-manager-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/warning-list-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/tiny-container-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/headings-config.scss'
 
         # Bootstrap Optional Components
         - 'bundles/orofrontend/blank/scss/components/bootstrap/bootstrap.scss'
