@@ -24,6 +24,47 @@
 
 {% endblock %}
 
+{% block _style_book_components_custom_font_widget %}
+    <pre class="language-markup">
+        <code class="style-book-group-element__code language-scss" data-config>
+            // You can use a native @import for google fonts
+            @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
+
+            // If you want disable default theme fonts you can reset the variable
+            $theme-fonts: ();
+
+            // Enable your local fonts
+            $theme-fonts: (
+                'main': (
+                    'family': 'Lato',
+                    'variants': (
+                        (
+                            'path': '#{$global-url}/orofrontend/default/fonts/lato/lato-regular-webfont',
+                            'weight': 400,
+                            'style': normal
+                        ),
+                        (
+                            'path': '#{$global-url}/orofrontend/default/fonts/lato/lato-bold-webfont',
+                            'weight': 700,
+                            'style': normal
+                        )
+                    ),
+                    'formats': ('woff2', 'woff', 'ttf', 'eot', 'svg') // Add only needed formats
+                )
+            )
+
+            // Font families
+            $base-font: get-font-name('main'), 'Helvetica', Arial, sans-serif;
+        </code>
+    </pre>
+{% endblock %}
+
+{% block _style_book_components_headings_widget %}
+    {% set sourcePath = sourcePath|default('@OroFrontendBundle/Resources/public/blank/scss/variables/headings-config.scss') %}
+
+    {{ parent_block_widget(block) }}
+{% endblock %}
+
 {% block _style_book_components_sizes_widget %}
     {% set sourcePath = sourcePath|default('@OroUIBundle/Resources/public/blank/scss/settings/partials/_sizes.scss') %}
 

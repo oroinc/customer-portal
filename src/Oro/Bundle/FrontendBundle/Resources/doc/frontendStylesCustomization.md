@@ -71,6 +71,7 @@ $theme-custom-fonts: (
               'style': normal
              )
          ),
+         'formats': ('woff', 'woff2')
     ),
     'secondary': (
         'family': 'Roboto',
@@ -80,7 +81,8 @@ $theme-custom-fonts: (
                 'weight': 700,
                 'style': normal
             )
-        )
+        ),
+        'formats': ('woff', 'woff2')
     )
 );
 
@@ -113,6 +115,7 @@ $your-fonts: (
               'style': normal
              )
          ),
+         'formats': ('woff', 'woff2')
     ),
     'secondary': (
         'family': '...',
@@ -122,7 +125,8 @@ $your-fonts: (
                 'weight': normal,
                 'style': normal
             )
-        )
+        ),
+        'formats': ('woff', 'woff2')
     )
 );
 

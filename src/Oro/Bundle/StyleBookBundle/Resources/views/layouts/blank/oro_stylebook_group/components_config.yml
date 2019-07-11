@@ -40,7 +40,31 @@ layout:
                         source: false
                 style_book_components_typography:
                     blockType: block
-
+                group_element_components_custom_font_view:
+                    blockType: group_element
+                    options:
+                        anchor: custom_font
+                        label: oro_stylebook.groups.configs.custom_fonts.title
+                group_element_components_custom_font:
+                    blockType: group_element_item
+                    options:
+                        description: oro_stylebook.groups.configs.custom_fonts.description
+                        source: false
+                style_book_components_custom_font:
+                    blockType: block
+                group_element_components_headings_view:
+                    blockType: group_element
+                    options:
+                        anchor: headings
+                        label: oro_stylebook.groups.configs.headings.title
+                group_element_components_headings:
+                    blockType: group_element_item
+                    options:
+                        description: oro_stylebook.groups.configs.headings.description
+                        preview: false
+                        source_language: scss
+                style_book_components_headings:
+                    blockType: file_printer
                 group_element_components_sizes_view:
                     blockType: group_element
                     options:
@@ -103,6 +127,12 @@ layout:
                     group_element_components_typography_view:
                         group_element_components_typography:
                             style_book_components_typography: ~
+                    group_element_components_custom_font_view:
+                        group_element_components_custom_font:
+                            style_book_components_custom_font: ~
+                    group_element_components_headings_view:
+                        group_element_components_headings:
+                            style_book_components_headings: ~
                     group_element_components_sizes_view:
                         group_element_components_sizes:
                             style_book_components_sizes: ~
