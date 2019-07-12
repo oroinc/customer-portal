@@ -113,15 +113,15 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
 
         return [
             'edit predefined role should pass it to from and' => [
-                (new CustomerUserRole()),
-                (new CustomerUserRole())->setCustomer($customer),
+                (new CustomerUserRole('')),
+                (new CustomerUserRole(''))->setCustomer($customer),
                 $customerUser,
-                (new CustomerUserRole()),
+                (new CustomerUserRole('')),
             ],
             'edit customer role should not pass predefined role to form' => [
 
-                (new CustomerUserRole())->setCustomer($customer),
-                (new CustomerUserRole())->setCustomer($customer),
+                (new CustomerUserRole(''))->setCustomer($customer),
+                (new CustomerUserRole(''))->setCustomer($customer),
                 $customerUser,
             ],
         ];
@@ -211,14 +211,14 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
 
         return [
             'edit predefined role should use privileges form predefined' => [
-                (new CustomerUserRole()),
-                (new CustomerUserRole()),
+                (new CustomerUserRole('')),
+                (new CustomerUserRole('')),
                 $customerUser,
                 ['valid' => $privilege, 'action' => $privilege2, 'no_owner' => $privilege3, 'root' => $privilege4],
             ],
             'edit customer role should use own privileges' => [
-                (new CustomerUserRole())->setCustomer($customer),
-                (new CustomerUserRole())->setCustomer($customer),
+                (new CustomerUserRole(''))->setCustomer($customer),
+                (new CustomerUserRole(''))->setCustomer($customer),
                 $customerUser,
                 ['valid' => $privilege, 'action' => $privilege2, 'no_owner' => $privilege3, 'root' => $privilege4],
             ],
@@ -240,7 +240,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $token->expects($this->any())->method('getUser')->willReturn(new \stdClass());
         $this->tokenStorage->expects($this->any())->method('getToken')->willReturn($token);
 
-        $this->handler->createForm(new CustomerUserRole());
+        $this->handler->createForm(new CustomerUserRole(''));
     }
 
     /**

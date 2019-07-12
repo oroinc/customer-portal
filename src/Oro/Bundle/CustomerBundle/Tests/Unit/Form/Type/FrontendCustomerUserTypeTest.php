@@ -23,7 +23,7 @@ use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
 
 class FrontendCustomerUserTypeTest extends CustomerUserTypeTest

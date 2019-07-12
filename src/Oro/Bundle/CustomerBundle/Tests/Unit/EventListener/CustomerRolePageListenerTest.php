@@ -21,7 +21,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp()
     {
-        $translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
         $translator->expects($this->any())
             ->method('trans')
             ->willReturnCallback(function ($value) {
@@ -90,7 +90,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
      */
     public function testOnUpdatePageRender($routeName)
     {
-        $entity = new CustomerUserRole();
+        $entity = new CustomerUserRole('');
         $form = new FormView();
         $form->vars['value'] = $entity;
         $twig = $this->createMock(Environment::class);
@@ -175,7 +175,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnViewPageRender()
     {
-        $entity = new CustomerUserRole();
+        $entity = new CustomerUserRole('');
         $twig = $this->createMock(Environment::class);
         $event = new BeforeViewRenderEvent(
             $twig,

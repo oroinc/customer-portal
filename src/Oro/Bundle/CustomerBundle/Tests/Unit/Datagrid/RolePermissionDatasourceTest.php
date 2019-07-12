@@ -19,7 +19,7 @@ use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
 use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
 {
@@ -43,7 +43,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp()
     {
-        $this->translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
         $this->translator->expects($this->any())
             ->method('trans')
             ->willReturnCallback(
@@ -126,7 +126,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
      */
     protected function retrieveResultsFromPermissionsDatasource(RolePermissionDatasource $datasource, $identity)
     {
-        $role = new Role();
+        $role = new Role('');
         
         $datasource->process($this->getDatagrid($role), []);
         

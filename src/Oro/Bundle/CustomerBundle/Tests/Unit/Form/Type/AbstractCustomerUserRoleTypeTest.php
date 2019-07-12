@@ -15,6 +15,7 @@ use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
+use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Validator\Validation;
 
 abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
@@ -87,7 +88,7 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
         $roleLabel = 'customer_role_label';
         $alteredRoleLabel = 'altered_role_label';
 
-        $defaultRole = new CustomerUserRole();
+        $defaultRole = new CustomerUserRole('');
         $defaultRole->setLabel($roleLabel);
 
         /** @var CustomerUserRole $existingRoleBefore */

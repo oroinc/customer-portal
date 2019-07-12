@@ -58,7 +58,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
      */
     public function testVoteAttribute($attribute, $isCustomerGranted, $withCustomer, $expected)
     {
-        $object = new CustomerUserRole();
+        $object = new CustomerUserRole('');
 
         $customer = new Customer();
         if ($withCustomer) {
@@ -165,7 +165,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
      */
     public function testVoteDelete($isDefaultWebsiteRole, $hasUsers, $isCustomerGranted, $withCustomer, $expected)
     {
-        $object = new CustomerUserRole();
+        $object = new CustomerUserRole('');
 
         $customer = new Customer();
         if ($withCustomer) {
@@ -287,7 +287,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
         if ($failCustomerUserRole) {
             $customerUserRole = new \stdClass();
         } else {
-            $customerUserRole = new CustomerUserRole();
+            $customerUserRole = new CustomerUserRole('');
             $customerUserRole->setCustomer($roleCustomer);
         }
 
@@ -337,7 +337,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
         if ($failCustomerUserRole) {
             $customerUserRole = new \stdClass();
         } else {
-            $customerUserRole = new CustomerUserRole();
+            $customerUserRole = new CustomerUserRole('');
             $customerUserRole->setCustomer($roleCustomer);
         }
 

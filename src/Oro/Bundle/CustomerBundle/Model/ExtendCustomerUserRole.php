@@ -13,9 +13,9 @@ abstract class ExtendCustomerUserRole extends AbstractRole
      *
      * IMPORTANT: If the derived class has own constructor it must call parent constructor.
      *
-     * @param string|null $role
+     * @param string $role
      */
-    public function __construct($role = null)
+    public function __construct(string $role = '')
     {
         parent::__construct($role);
     }

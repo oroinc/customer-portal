@@ -6,7 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\UIBundle\Event\BeforeFormRenderEvent;
 use Oro\Bundle\UIBundle\Event\BeforeViewRenderEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 /**

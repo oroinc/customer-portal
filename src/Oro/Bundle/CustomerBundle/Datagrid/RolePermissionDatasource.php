@@ -8,7 +8,7 @@ use Oro\Bundle\SecurityBundle\Acl\Permission\PermissionManager;
 use Oro\Bundle\UserBundle\Datagrid\RolePermissionDatasource as BaseRolePermissionDatasource;
 use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RolePermissionDatasource extends BaseRolePermissionDatasource
 {

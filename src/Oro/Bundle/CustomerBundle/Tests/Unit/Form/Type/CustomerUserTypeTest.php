@@ -20,7 +20,7 @@ use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validation;
 
 class CustomerUserTypeTest extends FormIntegrationTestCase
@@ -383,7 +383,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
      */
     private function createTranslator()
     {
-        $translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
         $translator->expects($this->any())
             ->method('trans')
             ->willReturnCallback(

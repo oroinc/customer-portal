@@ -108,7 +108,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         $alteredRoleLabel = 'altered_role_label';
         $customer = new Customer();
 
-        $defaultRole = new CustomerUserRole();
+        $defaultRole = new CustomerUserRole('');
         $defaultRole->setLabel($roleLabel);
         $defaultRole->setCustomer($customer);
         /** @var CustomerUserRole $existingRoleBefore */

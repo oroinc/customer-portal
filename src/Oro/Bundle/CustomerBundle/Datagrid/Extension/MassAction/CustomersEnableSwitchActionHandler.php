@@ -10,7 +10,7 @@ use Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionHandlerInterface;
 use Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionResponse;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomersEnableSwitchActionHandler implements MassActionHandlerInterface
 {

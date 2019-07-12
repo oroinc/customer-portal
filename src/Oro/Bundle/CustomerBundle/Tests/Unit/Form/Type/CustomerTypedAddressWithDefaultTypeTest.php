@@ -8,7 +8,7 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressWithDefaultType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -289,7 +289,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
      */
     private function createTranslatorMock()
     {
-        $translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
         $translator->expects($this->any())->method('trans')->will(
             $this->returnCallback(
                 function ($message) {

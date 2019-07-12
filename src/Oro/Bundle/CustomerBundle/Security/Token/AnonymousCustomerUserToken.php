@@ -7,7 +7,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenSerializerTrait;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
-use Symfony\Component\Security\Core\Role\RoleInterface;
+use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * AnonymousCustomerUserToken which represents authenticated CustomerUser

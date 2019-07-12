@@ -15,7 +15,7 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
     public function testRole()
     {
         $name = 'test role#$%';
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
         $customer = new Customer();
         $organization = new Organization();
 
@@ -47,11 +47,11 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
      */
     public function testRelations()
     {
-        static::assertPropertyCollections(new CustomerUserRole(), [
+        static::assertPropertyCollections(new CustomerUserRole(''), [
             ['customerUsers', new CustomerUser()],
         ]);
 
-        static::assertPropertyAccessors(new CustomerUserRole(), [
+        static::assertPropertyAccessors(new CustomerUserRole(''), [
             ['customer', new Customer()],
             ['organization', new Organization()]
         ]);

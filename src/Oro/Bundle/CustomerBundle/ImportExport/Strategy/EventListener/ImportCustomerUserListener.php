@@ -10,7 +10,7 @@ use Oro\Bundle\ImportExportBundle\Context\ContextInterface;
 use Oro\Bundle\ImportExportBundle\Event\StrategyEvent;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ImportStrategyHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Listener that updates imported CustomerUser entity website, roles & password

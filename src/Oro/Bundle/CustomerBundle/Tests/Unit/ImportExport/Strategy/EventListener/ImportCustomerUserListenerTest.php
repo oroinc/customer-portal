@@ -19,7 +19,7 @@ use Oro\Bundle\SecurityBundle\Owner\OwnerChecker;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
