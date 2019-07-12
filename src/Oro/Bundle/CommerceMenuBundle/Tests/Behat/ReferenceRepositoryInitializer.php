@@ -3,8 +3,8 @@
 namespace Oro\Bundle\CommerceMenuBundle\Tests\Behat;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Nelmio\Alice\Instances\Collection as AliceCollection;
 use Oro\Bundle\TestFrameworkBundle\Behat\Isolation\ReferenceRepositoryInitializerInterface;
+use Oro\Bundle\TestFrameworkBundle\Test\DataFixtures\Collection;
 use Oro\Bundle\TranslationBundle\Entity\TranslationKey;
 
 /**
@@ -12,7 +12,10 @@ use Oro\Bundle\TranslationBundle\Entity\TranslationKey;
  */
 class ReferenceRepositoryInitializer implements ReferenceRepositoryInitializerInterface
 {
-    public function init(Registry $doctrine, AliceCollection $referenceRepository)
+    /**
+     * {@inheritdoc}
+     */
+    public function init(Registry $doctrine, Collection $referenceRepository)
     {
         $translationKeyRepository = $doctrine->getRepository(TranslationKey::class);
 

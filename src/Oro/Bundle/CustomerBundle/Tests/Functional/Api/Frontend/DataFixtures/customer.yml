@@ -15,7 +15,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     customer_user{1..3}:
         confirmed: true
         enabled: true
-        email: 'user<current()>@example.com'
+        email: 'user<current()>\@example.com'
         password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
         firstName: 'First Name <current()>'
         lastName: 'Last Name <current()>'
