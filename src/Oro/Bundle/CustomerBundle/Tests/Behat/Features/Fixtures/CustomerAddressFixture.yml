@@ -9,9 +9,9 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     customerAddress1:
-        region: 'US-FL'
+        region: '@florida'
         frontendOwner: '@customer1'
-        country: 'US'
+        country: '@united_states'
         owner: '@admin'
         systemOrganization: '@organization'
         primary: false
@@ -21,9 +21,9 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         postalCode: '33844'
         organization: '@organization'
     customerAddress2:
-        region: 'US-NY'
+        region: '@new_york'
         frontendOwner: '@customer1'
-        country: 'US'
+        country: '@united_states'
         owner: '@admin'
         systemOrganization: '@organization'
         primary: false
@@ -33,9 +33,9 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         postalCode: '14608'
         organization: '@organization'
     customerAddress3:
-        region: 'US-IN'
+        region: '@indiana'
         frontendOwner: '@customer1'
-        country: 'US'
+        country: '@united_states'
         owner: '@admin'
         systemOrganization: '@organization'
         primary: false
@@ -48,13 +48,13 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
 Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
     customerAddress1ShippingDefault:
         address: '@customerAddress1'
-        type: 'shipping'
+        type: '@shippingType'
         default: true
     customerAddress1BillingDefault:
         address: '@customerAddress1'
-        type: 'billing'
+        type: '@billingType'
         default: true
     customerAddress2BillingDefault:
         address: '@customerAddress2'
-        type: 'billing'
+        type: '@billingType'
         default: true
