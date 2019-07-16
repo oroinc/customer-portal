@@ -75,7 +75,7 @@ search:
         label: oro.customer.customeruserrole.entity_plural_label
         title_fields: [label]
         route:
-            name: oro_customer_customer_user_role_update
+            name: oro_customer_customer_user_role_view
             parameters:
                 id: id
         search_template: OroCustomerBundle:CustomerUserRole:searchResult.html.twig
