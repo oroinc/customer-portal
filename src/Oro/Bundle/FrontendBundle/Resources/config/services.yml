@@ -74,6 +74,7 @@ services:
 
     oro_frontend.placeholder.filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\FrontendFilter'
+        public: true
         arguments:
             - '@oro_frontend.request.frontend_helper'
 
