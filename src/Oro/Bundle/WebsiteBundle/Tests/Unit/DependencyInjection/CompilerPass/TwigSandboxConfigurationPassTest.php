@@ -8,26 +8,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class TwigSandboxConfigurationPassTest extends \PHPUnit\Framework\TestCase
 {
-    public function testProcessSkip()
-    {
-        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $container */
-        $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
-            ->setMethods(['has', 'getDefinition'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $container->expects($this->once())
-            ->method('has')
-            ->with(TwigSandboxConfigurationPass::EMAIL_TEMPLATE_SANDBOX_SECURITY_POLICY_SERVICE_KEY)
-            ->willReturn(false);
-
-        $container->expects($this->never())
-            ->method('getDefinition');
-
-        $compilerPass = new TwigSandboxConfigurationPass();
-        $compilerPass->process($container);
-    }
-    
     public function testProcess()
     {
         /** @var Definition|\PHPUnit\Framework\MockObject\MockObject $securityPolicyDefinition */
@@ -35,35 +15,51 @@ class TwigSandboxConfigurationPassTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $securityPolicyDefinition->expects($this->once())
+        $securityPolicyDefinition->expects($this->exactly(2))
             ->method('getArgument')
-            ->with(4)
-            ->willReturn([
-                'some_existing_function'
-            ]);
+            ->withConsecutive([4], [1])
+            ->willReturnOnConsecutiveCalls(
+                ['some_existing_function'],
+                ['some_existing_filter']
+            );
 
-        $securityPolicyDefinition->expects($this->once())
+        $securityPolicyDefinition->expects($this->exactly(2))
             ->method('replaceArgument')
-            ->with(4, [
-                'some_existing_function',
-                'website_path',
-                'website_secure_path'
-            ]);
+            ->withConsecutive(
+                [
+                    4,
+                    [
+                        'some_existing_function',
+                        'website_path',
+                        'website_secure_path',
+                    ]
+                ],
+                [
+                    1,
+                    [
+                        'some_existing_filter',
+                        'oro_format_datetime_by_entity',
+                        'oro_format_date_by_entity',
+                        'oro_format_day_by_entity',
+                        'oro_format_time_by_entity',
+                    ]
+                ]
+            );
 
         /** @var Definition|\PHPUnit\Framework\MockObject\MockObject $emailRendererDefinition */
         $emailRendererDefinition = $this->getMockBuilder(Definition::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $emailRendererDefinition->expects($this->once())
+        $emailRendererDefinition->expects($this->exactly(2))
             ->method('addMethodCall')
-            ->with('addExtension', [new Reference(TwigSandboxConfigurationPass::WEBSITE_PATH_EXTENSION_SERVICE_KEY)]);
+            ->withConsecutive(
+                ['addExtension', [new Reference(TwigSandboxConfigurationPass::WEBSITE_PATH_EXTENSION_SERVICE_KEY)]],
+                ['addExtension', [new Reference('oro_website.twig.entity_date_time_extension')]]
+            );
 
         /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $container */
-        $container = $this->getMockBuilder(ContainerBuilder::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $container = $this->createMock(ContainerBuilder::class);
         $container->expects($this->any())
             ->method('has')
             ->willReturnMap([

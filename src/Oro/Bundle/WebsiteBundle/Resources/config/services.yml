@@ -19,6 +19,15 @@ services:
         tags:
             - { name: twig.extension }
 
+    oro_website.twig.entity_date_time_extension:
+        class: Oro\Bundle\WebsiteBundle\Twig\EntityDateTimeExtension
+        public: false
+        arguments:
+            - '@service_container'
+            - '@oro_locale.twig.date_time'
+        tags:
+            - { name: twig.extension }
+
     oro_website.website.manager.api:
         class: 'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'
         parent: oro_soap.manager.entity_manager.abstract
