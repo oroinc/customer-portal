@@ -89,6 +89,7 @@ services:
 
     oro_frontend.activity_list.placeholder.filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\ActivityListPlaceholderFilter'
+        public: true
         arguments:
             - '@oro_activity_list.placeholder.filter'
             - '@oro_frontend.request.frontend_helper'
