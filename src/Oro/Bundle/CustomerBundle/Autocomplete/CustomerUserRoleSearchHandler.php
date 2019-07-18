@@ -25,10 +25,11 @@ class CustomerUserRoleSearchHandler extends SearchHandler
             $queryBuilder = $this->entityRepository->createQueryBuilder('e');
             $queryBuilder->where(
                 $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->in(QueryBuilderUtil::getField('e', $this->idFieldName), $entityIds),
+                    $queryBuilder->expr()->in(QueryBuilderUtil::getField('e', $this->idFieldName), ':entityIds'),
                     $queryBuilder->expr()->isNull('e.customer')
                 )
             );
+            $queryBuilder->setParameter('entityIds', $entityIds);
 
             return $queryBuilder->getQuery()->getResult();
         }
