@@ -145,6 +145,7 @@ services:
 
     oro_website.form_subscriber.default_website:
         class: 'Oro\Bundle\WebsiteBundle\Form\EventSubscriber\DefaultWebsiteSubscriber'
+        public: true
         arguments:
             - '@oro_website.manager'
 
