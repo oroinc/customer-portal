@@ -158,6 +158,14 @@ services:
         arguments:
             - '@oro_website.manager'
 
+    oro_website.acl_helper:
+        class: 'Oro\Bundle\WebsiteBundle\ORM\Walker\AclHelper'
+        decorates: oro_security.acl_helper
+        arguments:
+            - '@security.token_storage'
+            - '@oro_security.access_rule_executor'
+            - '@oro_website.manager'
+
     oro_website.event_listener.redirect:
         class: 'Oro\Bundle\WebsiteBundle\EventListener\RedirectListener'
         arguments:
