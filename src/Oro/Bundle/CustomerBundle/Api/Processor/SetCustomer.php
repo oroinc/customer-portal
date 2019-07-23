@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Api\Processor;
 
-use Oro\Bundle\ApiBundle\Form\FormUtil;
 use Oro\Bundle\ApiBundle\Processor\CustomizeFormData\CustomizeFormDataContext;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -47,10 +46,7 @@ class SetCustomer implements ProcessorInterface
     {
         /** @var CustomizeFormDataContext $context */
 
-        $customerUserFormField = FormUtil::findFormFieldByPropertyPath(
-            $context->getForm(),
-            $this->customerFieldName
-        );
+        $customerUserFormField = $context->findFormField($this->customerFieldName);
         if (null === $customerUserFormField || !$customerUserFormField->isSubmitted()) {
             $this->setCustomer($context->getData());
         }
