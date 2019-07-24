@@ -2,42 +2,47 @@
 
 namespace Oro\Bundle\WebsiteBundle\DependencyInjection\CompilerPass;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
+use Oro\Bundle\EmailBundle\DependencyInjection\Compiler\AbstractTwigSandboxConfigurationPass;
 
 /**
  * Configure allowed twig functions within sandbox
  */
-class TwigSandboxConfigurationPass implements CompilerPassInterface
+class TwigSandboxConfigurationPass extends AbstractTwigSandboxConfigurationPass
 {
-    const EMAIL_TEMPLATE_SANDBOX_SECURITY_POLICY_SERVICE_KEY = 'oro_email.twig.email_security_policy';
-    const EMAIL_TEMPLATE_RENDERER_SERVICE_KEY = 'oro_email.email_renderer';
     const WEBSITE_PATH_EXTENSION_SERVICE_KEY = 'oro_website.twig.website_path';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    protected function getFunctions()
     {
-        if ($container->has(self::EMAIL_TEMPLATE_SANDBOX_SECURITY_POLICY_SERVICE_KEY) &&
-            $container->has(self::EMAIL_TEMPLATE_RENDERER_SERVICE_KEY)
-        ) {
-            // register 'website_path' and 'website_secure_path' functions
-            $securityPolicyDef = $container->getDefinition(self::EMAIL_TEMPLATE_SANDBOX_SECURITY_POLICY_SERVICE_KEY);
-            $functions = $securityPolicyDef->getArgument(4);
-            $functions = array_merge(
-                $functions,
-                [
-                    'website_path',
-                    'website_secure_path'
-                ]
-            );
-            $securityPolicyDef->replaceArgument(4, $functions);
+        return [
+            'website_path',
+            'website_secure_path',
+        ];
+    }
 
-            // register an twig extension implements this function
-            $rendererDef = $container->getDefinition(self::EMAIL_TEMPLATE_RENDERER_SERVICE_KEY);
-            $rendererDef->addMethodCall('addExtension', [new Reference(self::WEBSITE_PATH_EXTENSION_SERVICE_KEY)]);
-        }
+    /**
+     * {@inheritdoc}
+     */
+    protected function getFilters()
+    {
+        return [
+            'oro_format_datetime_by_entity',
+            'oro_format_date_by_entity',
+            'oro_format_day_by_entity',
+            'oro_format_time_by_entity',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getExtensions()
+    {
+        return [
+            self::WEBSITE_PATH_EXTENSION_SERVICE_KEY,
+            'oro_website.twig.entity_date_time_extension'
+        ];
     }
 }

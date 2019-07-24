@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\WebsiteBundle\Entity\Repository;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorInterface;
 use Oro\Bundle\EntityBundle\ORM\Repository\BatchIteratorTrait;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
@@ -16,14 +16,23 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
     use BatchIteratorTrait;
 
     /**
-     * @return Website[]|Collection
+     * @param Organization $organization
+     *
+     * @return Website[]
      */
-    public function getAllWebsites()
+    public function getAllWebsites(Organization $organization = null)
     {
-        $websites = $this->createQueryBuilder('website')
-            ->addOrderBy('website.id', 'ASC')
-            ->getQuery()
-            ->getResult();
+        $qb = $this->createQueryBuilder('website');
+        $qb->addOrderBy('website.id', 'ASC');
+
+        if ($organization) {
+            $qb->where($qb->expr()->eq('website.organization', ':organization'))
+                ->setParameter('organization', $organization);
+        }
+
+        /** @var Website[] $websites */
+        $websites = $qb->getQuery()->getResult();
+
         $result = [];
         foreach ($websites as $website) {
             $result[$website->getId()] = $website;

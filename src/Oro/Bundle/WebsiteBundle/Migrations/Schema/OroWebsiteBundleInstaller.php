@@ -53,7 +53,7 @@ class OroWebsiteBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_6';
+        return 'v1_7';
     }
 
     /**
@@ -104,7 +104,7 @@ class OroWebsiteBundleInstaller implements
 
         $table->setPrimaryKey(['id']);
 
-        $table->addUniqueIndex(['name']);
+        $table->addUniqueIndex(['name', 'organization_id'], 'uidx_oro_website_name_organization');
         $table->addIndex(['created_at'], 'idx_oro_website_created_at', []);
         $table->addIndex(['updated_at'], 'idx_oro_website_updated_at', []);
     }

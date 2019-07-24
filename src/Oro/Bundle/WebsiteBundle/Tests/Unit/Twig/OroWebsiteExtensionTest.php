@@ -21,9 +21,7 @@ class OroWebsiteExtensionTest extends \PHPUnit\Framework\TestCase
      */
     protected function setUp()
     {
-        $this->websiteManager = $this->getMockBuilder(WebsiteManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->websiteManager = $this->createMock(WebsiteManager::class);
 
         $container = self::getContainerBuilder()
             ->add('oro_website.manager', $this->websiteManager)

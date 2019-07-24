@@ -168,7 +168,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 
         $searchQuery = self::createMock(SearchQuery::class);
         $searchQuery->expects(self::never())
-            ->method('andWhere');
+            ->method('getCriteria');
 
         $this->indexer->expects(self::once())
             ->method('getSimpleSearchQuery')

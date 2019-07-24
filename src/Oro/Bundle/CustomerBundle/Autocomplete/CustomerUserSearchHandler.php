@@ -31,8 +31,9 @@ class CustomerUserSearchHandler extends BaseSearchHandler
 
         $queryBuilder = $this->entityRepository->createQueryBuilder('e');
         $queryBuilder
-            ->where($queryBuilder->expr()->in('e.' . $this->idFieldName, $entityIds))
-            ->addOrderBy($queryBuilder->expr()->asc('e.email'));
+            ->where($queryBuilder->expr()->in('e.' . $this->idFieldName, ':entityIds'))
+            ->addOrderBy($queryBuilder->expr()->asc('e.email'))
+            ->setParameter('entityIds', $entityIds);
 
         if ($customerId) {
             $queryBuilder

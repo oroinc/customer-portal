@@ -1,6 +1,6 @@
 Oro\Bundle\WebsiteBundle\Entity\Website:
     constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [ name, organization ]
     properties:
         name:
             - NotBlank: ~

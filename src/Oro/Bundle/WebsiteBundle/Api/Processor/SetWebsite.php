@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\WebsiteBundle\Api\Processor;
 
-use Oro\Bundle\ApiBundle\Form\FormUtil;
 use Oro\Bundle\ApiBundle\Processor\CustomizeFormData\CustomizeFormDataContext;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -46,10 +45,7 @@ class SetWebsite implements ProcessorInterface
     {
         /** @var CustomizeFormDataContext $context */
 
-        $websiteFormField = FormUtil::findFormFieldByPropertyPath(
-            $context->getForm(),
-            $this->websiteFieldName
-        );
+        $websiteFormField = $context->findFormField($this->websiteFieldName);
         if (null === $websiteFormField || !$websiteFormField->isSubmitted()) {
             $this->setWebsite($context->getData());
         }
