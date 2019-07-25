@@ -29,7 +29,7 @@ class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationC
 
     /**
      * @param string|object $user
-     * @param RoleInterface[] $roles
+     * @param Role[] $roles
      * @param CustomerVisitor|null $visitor
      * @param Organization|null $organizationContext
      */

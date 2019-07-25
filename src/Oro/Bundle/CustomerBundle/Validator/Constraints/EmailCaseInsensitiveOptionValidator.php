@@ -8,10 +8,10 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\DataGridBundle\Tools\DatagridRouteHelper;
 use Oro\Bundle\FilterBundle\Form\Type\Filter\TextFilterType;
 use Oro\Bundle\FilterBundle\Grid\Extension\AbstractFilterExtension;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Validates a case insensitive option which can be edited in system configuration.

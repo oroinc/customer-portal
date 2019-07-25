@@ -874,12 +874,14 @@ services:
 
     oro_customer.datagrid.extension.mass_action.handler.delete:
         parent: oro_datagrid.extension.mass_action.handler.delete
+        public: true
         class: Oro\Bundle\CustomerBundle\Datagrid\Extension\MassAction\CustomersDeleteActionHandler
         calls:
             - [setTokenAccessor, ['@oro_security.token_accessor']]
 
     oro_customer.datagrid.mass_action.customers_enable_switch.handler.disable:
         class: Oro\Bundle\CustomerBundle\Datagrid\Extension\MassAction\CustomersEnableSwitchActionHandler
+        public: true
         shared: false
         arguments:
             - '@oro_security.acl_helper'
@@ -891,6 +893,7 @@ services:
 
     oro_customer.datagrid.mass_action.customers_enable_switch.handler.enable:
         class: Oro\Bundle\CustomerBundle\Datagrid\Extension\MassAction\CustomersEnableSwitchActionHandler
+        public: true
         shared: false
         arguments:
             - '@oro_security.acl_helper'
@@ -946,6 +949,7 @@ services:
 
     oro_customer.customer.mass_action.handler.delete:
         class: Oro\Bundle\CustomerBundle\Handler\CustomersDeleteMassActionHandler
+        public: true
         parent: oro_datagrid.extension.mass_action.handler.delete
         calls:
            - [setCustomerAssignHelper, ['@oro_customer.customer.assign.helper']]

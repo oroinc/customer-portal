@@ -94,6 +94,7 @@ services:
 
     oro_website.resolver.website_url_resolver:
         class: 'Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver'
+        public: true
         arguments:
             - '@oro_config.manager'
             - '@router'

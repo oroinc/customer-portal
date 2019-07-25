@@ -11,11 +11,11 @@ use Oro\Bundle\CustomerBundle\Validator\Constraints\EmailCaseInsensitiveOptionVa
 use Oro\Bundle\DataGridBundle\Tools\DatagridRouteHelper;
 use Oro\Bundle\FilterBundle\Form\Type\Filter\TextFilterType;
 use Oro\Bundle\FilterBundle\Grid\Extension\AbstractFilterExtension;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EmailCaseInsensitiveOptionValidatorTest extends \PHPUnit\Framework\TestCase
 {
