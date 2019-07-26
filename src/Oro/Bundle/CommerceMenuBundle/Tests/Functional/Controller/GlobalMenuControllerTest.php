@@ -39,7 +39,7 @@ class GlobalMenuControllerTest extends WebTestCase
 
         $this->assertContains(
             'Select existing menu item or create new.',
-            $crawler->filter('[data-role="content"] .tree-empty-content')->html()
+            $crawler->filter('[data-role="content"] .tree-empty-content .no-data')->html()
         );
     }
 
