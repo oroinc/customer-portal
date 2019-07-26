@@ -9,7 +9,7 @@ use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRegistrati
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerRegistrationHandlerTest extends \PHPUnit\Framework\TestCase
 {

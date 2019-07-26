@@ -18,7 +18,6 @@ use Oro\Bundle\UserBundle\Migrations\Data\ORM\LoadRolesData;
 use Oro\Bundle\WorkflowBundle\Acl\Extension\WorkflowMaskBuilder;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Security\Core\Role\RoleInterface;
 
 abstract class AbstractLoadACLData extends AbstractFixture implements
     FixtureInterface,
@@ -215,7 +214,7 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
                     ->setPlainPassword($item['email']);
                 $this->setReference($item['email'], $customerUser);
             }
-            /** @var RoleInterface $role */
+            /** @var Role $role */
             $role = $this->getReference($item['role']);
             $customerUser
                 ->addRole($role)

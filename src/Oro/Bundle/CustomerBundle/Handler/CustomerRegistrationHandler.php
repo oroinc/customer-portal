@@ -9,7 +9,7 @@ use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Handles submit of frontend customer registration form

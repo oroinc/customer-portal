@@ -1,7 +1,6 @@
 services:
     oro_customer.api_doc.security_context:
         class: Oro\Bundle\CustomerBundle\Api\ApiDoc\SecurityContext
-        public: false
         decorates: oro_api.api_doc.security_context
         arguments:
             - '@oro_customer.api_doc.security_context.inner'

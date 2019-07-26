@@ -101,7 +101,7 @@ class PermissionGrantingStrategyTest extends TestCase
     {
         $innerStrategyResult = false;
 
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
 
         $this->securityToken->expects($this->once())
             ->method('getUser')
@@ -126,7 +126,7 @@ class PermissionGrantingStrategyTest extends TestCase
     {
         $innerStrategyResult = false;
 
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
 
         $organization = new Organization();
         $organization->setId(2);
@@ -159,7 +159,7 @@ class PermissionGrantingStrategyTest extends TestCase
     {
         $innerStrategyResult = false;
 
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
         $role->setSelfManaged(false);
 
         $organization = new Organization();
@@ -193,7 +193,7 @@ class PermissionGrantingStrategyTest extends TestCase
     {
         $innerStrategyResult = false;
 
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
         $role->setSelfManaged(true);
         $role->setPublic(false);
 
@@ -228,7 +228,7 @@ class PermissionGrantingStrategyTest extends TestCase
     {
         $innerStrategyResult = false;
 
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
         $role->setSelfManaged(true);
         $role->setPublic(true);
 
@@ -284,7 +284,7 @@ class PermissionGrantingStrategyTest extends TestCase
         $organization = new Organization();
         $organization->setId(2);
 
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
         $role->setSelfManaged(true);
         $role->setPublic(true);
         $role->setOrganization($organization);
@@ -316,7 +316,7 @@ class PermissionGrantingStrategyTest extends TestCase
         $organization = new Organization();
         $organization->setId(2);
 
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
         $role->setSelfManaged(true);
         $role->setPublic(true);
         $role->setOrganization($organization);
@@ -351,7 +351,7 @@ class PermissionGrantingStrategyTest extends TestCase
         $organization = new Organization();
         $organization->setId(2);
 
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
         $role->setSelfManaged(true);
         $role->setPublic(true);
         $role->setOrganization($organization);

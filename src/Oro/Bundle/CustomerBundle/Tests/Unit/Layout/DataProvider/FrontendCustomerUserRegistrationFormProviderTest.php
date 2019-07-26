@@ -72,7 +72,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $action = 'form_action';
 
         $defaultOwnerId = 1;
-        $defaultRole = new CustomerUserRole();
+        $defaultRole = new CustomerUserRole('');
 
         $organization = $this->getEntity(Organization::class);
         $website = $this->getEntity(WebsiteStub::class, ['organization' => $organization]);
@@ -154,7 +154,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $action = 'form_action';
 
         $defaultOwnerId = 1;
-        $defaultRole = new CustomerUserRole();
+        $defaultRole = new CustomerUserRole('');
 
         $organization = $this->getEntity(Organization::class);
         $website = $this->getEntity(WebsiteStub::class, ['organization' => $organization]);

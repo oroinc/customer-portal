@@ -10,7 +10,7 @@ use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\FormHandlerTestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerUserHandlerTest extends FormHandlerTestCase
 {
@@ -74,7 +74,7 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
 
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        $this->translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
         $this->logger = $this->createMock('Psr\Log\LoggerInterface');
 
         $this->handler = new CustomerUserHandler(

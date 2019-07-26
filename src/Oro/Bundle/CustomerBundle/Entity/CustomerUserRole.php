@@ -156,9 +156,9 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
     protected $public = true;
 
     /**
-     * @param string|null $role
+     * @param string $role
      */
-    public function __construct($role = null)
+    public function __construct(string $role = '')
     {
         if ($role) {
             $this->setRole($role, false);
@@ -166,7 +166,7 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
 
         $this->customerUsers = new ArrayCollection();
 
-        parent::__construct($this->getRole());
+        parent::__construct($role ? $this->getRole() : '');
     }
 
     /**

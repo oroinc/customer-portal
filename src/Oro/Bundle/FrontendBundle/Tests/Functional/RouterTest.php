@@ -18,7 +18,7 @@ class RouterTest extends WebTestCase
     {
         $router = $this->getContainer()->get('oro_test.router.default.alias');
         $generator = $router->getGenerator();
-        $this->assertInstanceOf('\srcTestProjectContainerUrlGenerator', $generator);
+        $this->assertInstanceOf('\srcAppKernelTestContainerUrlGenerator', $generator);
 
         $declaredRoutesProperty = new \ReflectionProperty(get_class($generator), 'declaredRoutes');
         $declaredRoutesProperty->setAccessible(true);

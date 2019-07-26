@@ -10,7 +10,7 @@ use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\UserBundle\Model\PrivilegeCategory;
 use Oro\Bundle\UserBundle\Provider\PrivilegeCategoryProviderInterface;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -61,7 +61,7 @@ class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit\Framework\
 
     public function testGetTabOptions()
     {
-        $role = new CustomerUserRole();
+        $role = new CustomerUserRole('');
         $privileges = [
             'other' => new ArrayCollection([
                 $this->getPrivilegeWithCategory('4'),

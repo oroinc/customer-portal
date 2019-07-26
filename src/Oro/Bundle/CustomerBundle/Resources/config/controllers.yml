@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        public: true
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerAddressController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: 'fragment.handler' }
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerUserAddressController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: 'fragment.handler' }

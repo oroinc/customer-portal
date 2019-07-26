@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Role\RoleInterface;
+use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
 use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
@@ -82,7 +82,7 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
 
     public function testLogInUserWithRequest()
     {
-        $roles = [$this->createMock(RoleInterface::class)];
+        $roles = [$this->createMock(Role::class)];
 
         $user = new CustomerUser();
         $user->setOrganization(new Organization());
@@ -124,7 +124,7 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
     {
         $response = $this->getMockBuilder(Response::class)->getMock();
 
-        $roles = [$this->createMock(RoleInterface::class)];
+        $roles = [$this->createMock(Role::class)];
 
         $user = new CustomerUser();
         $user->setOrganization(new Organization());

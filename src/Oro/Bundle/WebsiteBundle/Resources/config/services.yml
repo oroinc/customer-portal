@@ -42,6 +42,7 @@ services:
 
     oro_website.website.provider:
         class: 'Oro\Bundle\WebsiteBundle\Provider\WebsiteProvider'
+        public: true
         arguments:
             - "@doctrine"
 
@@ -93,6 +94,7 @@ services:
 
     oro_website.resolver.website_url_resolver:
         class: 'Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver'
+        public: true
         arguments:
             - '@oro_config.manager'
             - '@router'
@@ -155,6 +157,7 @@ services:
 
     oro_website.form_subscriber.default_website:
         class: 'Oro\Bundle\WebsiteBundle\Form\EventSubscriber\DefaultWebsiteSubscriber'
+        public: true
         arguments:
             - '@oro_website.manager'
 

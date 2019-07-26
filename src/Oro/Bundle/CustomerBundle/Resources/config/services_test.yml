@@ -1,6 +1,7 @@
 services:
     oro_customer.tests.security.provider:
         alias: oro_customer.security.provider
+        public: true
 
     oro_customer.tests.api.frontend.handle_special_identifiers:
         class: Oro\Bundle\CustomerBundle\Tests\Functional\Environment\Api\Processor\HandleSpecialIdentifiers

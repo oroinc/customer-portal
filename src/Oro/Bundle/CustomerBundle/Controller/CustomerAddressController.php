@@ -10,11 +10,15 @@ use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 
-class CustomerAddressController extends Controller
+/**
+ * Handles CRUD of CustomerAddress entity.
+ */
+class CustomerAddressController extends AbstractController
 {
     /**
      * @Route("/address-book/{id}", name="oro_customer_address_book", requirements={"id"="\d+"})
@@ -101,9 +105,7 @@ class CustomerAddressController extends Controller
         $handler = new AddressHandler(
             $form,
             $this->get('request_stack'),
-            $this->getDoctrine()->getManagerForClass(
-                $this->container->getParameter('oro_customer.entity.customer_address.class')
-            )
+            $this->getDoctrine()->getManagerForClass(CustomerAddress::class)
         );
 
         if ($handler->process($address)) {
@@ -159,5 +161,18 @@ class CustomerAddressController extends Controller
             'addressCreate' => 'oro_customer_customer_address_create',
             'addressRemove' => 'oro_customer_customer_address_remove',
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                'fragment.handler' => FragmentHandler::class,
+            ]
+        );
     }
 }

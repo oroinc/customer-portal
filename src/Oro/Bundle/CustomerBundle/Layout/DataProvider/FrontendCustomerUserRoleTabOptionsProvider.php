@@ -9,7 +9,7 @@ use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
 use Oro\Bundle\UserBundle\Model\PrivilegeCategory;
 use Oro\Bundle\UserBundle\Provider\PrivilegeCategoryProviderInterface;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FrontendCustomerUserRoleTabOptionsProvider implements FrontendCustomerUserRoleOptionsProviderInterface
 {

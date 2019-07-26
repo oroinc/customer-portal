@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Functional\Request;
 
 use Oro\Bundle\FrontendBundle\Request\DynamicSessionHttpKernelDecorator;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\TestContainer;
 use Symfony\Component\HttpFoundation\Request;
 
 class DynamicSessionHttpKernelDecoratorTest extends WebTestCase
@@ -16,11 +17,12 @@ class DynamicSessionHttpKernelDecoratorTest extends WebTestCase
     public function testContainerShouldBePossibleToChangeSessionOptionsForFrontendRequest()
     {
         $frontendSessionName = 'TESTSFID';
-        $container = self::getContainer();
+        /** @var TestContainer $container */
+        $container = (static::$kernel ?? static::bootKernel())->getContainer();
         $kernelDecorator = new DynamicSessionHttpKernelDecorator(
             $container->get('kernel'),
             $container,
-            $container->get('oro_frontend.request.frontend_helper'),
+            $container->get('oro_frontend.request.frontend_helper.stub'),
             ['name' => $frontendSessionName]
         );
 

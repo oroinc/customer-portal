@@ -38,7 +38,7 @@ class WorkflowPermissionDatasourceTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp()
     {
-        $this->translator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
         $this->permissionManager = $this->getMockBuilder('Oro\Bundle\SecurityBundle\Acl\Permission\PermissionManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -72,7 +72,7 @@ class WorkflowPermissionDatasourceTest extends \PHPUnit\Framework\TestCase
 
     public function testGetResults()
     {
-        $role = new Role();
+        $role = new Role('');
         $parameters = new ParameterBag();
         $parameters->add(['role' => $role]);
         $datagridConfig = $this->getMockBuilder('Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration')

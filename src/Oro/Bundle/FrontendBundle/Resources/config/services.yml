@@ -74,6 +74,7 @@ services:
 
     oro_frontend.placeholder.filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\FrontendFilter'
+        public: true
         arguments:
             - '@oro_frontend.request.frontend_helper'
 
@@ -88,6 +89,7 @@ services:
 
     oro_frontend.activity_list.placeholder.filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\ActivityListPlaceholderFilter'
+        public: true
         arguments:
             - '@oro_activity_list.placeholder.filter'
             - '@oro_frontend.request.frontend_helper'
@@ -216,6 +218,7 @@ services:
 
     oro_frontend.js_routing_controller:
        class: '%fos_js_routing.controller.class%'
+       public: true
        arguments:
             - '@fos_js_routing.serializer'
             - '@oro_frontend.extractor.frontend_exposed_routes_extractor'
@@ -230,6 +233,7 @@ services:
 
     oro_frontend.form.configurator.theme:
         class: 'Oro\Bundle\FrontendBundle\Form\Configurator\ThemeConfigurator'
+        public: true
         arguments:
             - '@oro_config.config_bag'
             - '@security.authorization_checker'

@@ -87,7 +87,7 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
         $roleLabel = 'customer_role_label';
         $alteredRoleLabel = 'altered_role_label';
 
-        $defaultRole = new CustomerUserRole();
+        $defaultRole = new CustomerUserRole('');
         $defaultRole->setLabel($roleLabel);
 
         /** @var CustomerUserRole $existingRoleBefore */
