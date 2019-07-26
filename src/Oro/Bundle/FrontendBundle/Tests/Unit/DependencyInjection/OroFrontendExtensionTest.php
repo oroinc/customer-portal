@@ -18,7 +18,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoad()
     {
-        $container = new ContainerBuilder();
+        $container = $this->getContainerBuilder();
         $container->setParameter('installed', true);
 
         $config = [
@@ -40,11 +40,26 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
             FrontendHelper::class,
             $container->getDefinition('oro_frontend.request.frontend_helper')->getClass()
         );
+
+        self::assertFalse($container->hasDefinition('oro_frontend.request.frontend_helper.stub'));
+    }
+
+    public function testLoadWhenTestEnvironment()
+    {
+        $container = $this->getContainerBuilder();
+        $container->setParameter('kernel.environment', 'test');
+
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $extension = new OroFrontendExtension();
+        $extension->load([[]], $container);
+
+        self::assertTrue($container->hasDefinition('oro_frontend.request.frontend_helper.stub'));
     }
 
     public function testLoadForNotInstalled()
     {
-        $container = new ContainerBuilder();
+        $container = $this->getContainerBuilder();
         DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
         $extension = new OroFrontendExtension();
@@ -58,7 +73,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigurationForNotConfiguredFrontendSession()
     {
-        $container = new ContainerBuilder();
+        $container = $this->getContainerBuilder();
 
         $config = [];
         DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
@@ -71,7 +86,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigurationForFrontendSession()
     {
-        $container = new ContainerBuilder();
+        $container = $this->getContainerBuilder();
 
         $config = [
             'session' => [
@@ -96,7 +111,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigurationForFrontendApiViews()
     {
-        $container = new ContainerBuilder();
+        $container = $this->getContainerBuilder();
 
         $config = [
             'frontend_api' => [
@@ -142,7 +157,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
     // @codingStandardsIgnoreEnd
     public function testShouldThrowExceptionIfFrontendApiDocViewIsUnknown()
     {
-        $container = new ContainerBuilder();
+        $container = $this->getContainerBuilder();
 
         $config = [
             'frontend_api' => [
@@ -162,7 +177,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigurationForFrontendApiCors()
     {
-        $container = new ContainerBuilder();
+        $container = $this->getContainerBuilder();
         DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
 
         $config = [
@@ -303,5 +318,16 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->prepend($container);
 
         self::assertEquals($expected, $container->getExtensionConfig('fos_rest'));
+    }
+
+    /**
+     * @return ContainerBuilder
+     */
+    private function getContainerBuilder(): ContainerBuilder
+    {
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+
+        return $container;
     }
 }

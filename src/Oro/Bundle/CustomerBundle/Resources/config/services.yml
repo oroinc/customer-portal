@@ -493,6 +493,7 @@ services:
 
     oro_customer.customer_delete_handler:
         class: 'Oro\Bundle\CustomerBundle\Handler\UserDeleteHandler'
+        public: true
         arguments:
             - "@oro_security.token_accessor"
 
@@ -935,6 +936,7 @@ services:
     oro_customer.customer.handler.delete:
         parent: oro_soap.handler.delete.abstract
         class: Oro\Bundle\CustomerBundle\Handler\CustomerDeleteHandler
+        public: true
         calls:
            - [setCustomerAssignHelper, ['@oro_customer.customer.assign.helper']]
 
