@@ -62,7 +62,14 @@ class CustomerAddressForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to the entity.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testGetAddressForChildCustomer()
@@ -73,7 +80,14 @@ class CustomerAddressForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to the entity.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testTryToCreate()
@@ -84,7 +98,14 @@ class CustomerAddressForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to this type of entities.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testTryToUpdateAddressForCustomerOfCurrentLoggedInUser()
@@ -105,7 +126,14 @@ class CustomerAddressForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to this type of entities.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testTryToUpdateAddressForCustomerFromAnotherDepartment()
@@ -126,7 +154,14 @@ class CustomerAddressForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to this type of entities.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testTryToUpdateAddressForChildCustomer()
@@ -147,7 +182,14 @@ class CustomerAddressForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to this type of entities.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testTryToDeleteAddressForCustomerOfCurrentLoggedInUser()
@@ -160,7 +202,14 @@ class CustomerAddressForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to this type of entities.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testTryToDeleteAddressForCustomerFromAnotherDepartment()
@@ -173,7 +222,14 @@ class CustomerAddressForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to this type of entities.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testTryToDeleteAddressForChildCustomer()
@@ -186,7 +242,14 @@ class CustomerAddressForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to this type of entities.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testTryToDeleteList()
@@ -199,6 +262,13 @@ class CustomerAddressForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to this type of entities.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 }

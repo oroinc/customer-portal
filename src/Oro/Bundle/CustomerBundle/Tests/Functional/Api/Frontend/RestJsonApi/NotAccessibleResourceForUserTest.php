@@ -58,7 +58,10 @@ class NotAccessibleResourceForUserTest extends FrontendRestJsonApiTestCase
             false
         );
         $this->assertResponseValidationError(
-            ['title' => 'forbidden exception'],
+            [
+                'title'  => 'forbidden exception',
+                'detail' => 'The access for this entity is forbidden.'
+            ],
             $response,
             Response::HTTP_FORBIDDEN
         );

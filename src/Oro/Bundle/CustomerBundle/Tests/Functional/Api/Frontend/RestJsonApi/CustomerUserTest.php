@@ -98,7 +98,14 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to the entity.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testCreate()
@@ -382,7 +389,14 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'forbidden exception',
+                'detail' => 'self delete.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testTryToDeleteListForCurrentLoggedInUser()
@@ -393,7 +407,14 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'forbidden exception',
+                'detail' => 'self delete.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testGetCustomerSubresourceByMineId()

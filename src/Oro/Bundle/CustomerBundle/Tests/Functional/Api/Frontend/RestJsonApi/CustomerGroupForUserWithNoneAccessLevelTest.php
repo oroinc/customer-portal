@@ -35,7 +35,14 @@ class CustomerGroupForUserWithNoneAccessLevelTest extends FrontendRestJsonApiTes
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to this type of entities.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testTryGet()
@@ -46,6 +53,13 @@ class CustomerGroupForUserWithNoneAccessLevelTest extends FrontendRestJsonApiTes
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to this type of entities.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 }

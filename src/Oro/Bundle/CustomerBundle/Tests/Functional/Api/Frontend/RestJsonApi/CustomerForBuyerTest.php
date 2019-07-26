@@ -114,8 +114,14 @@ class CustomerForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to the entity.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testTryToCreate()
@@ -188,8 +194,14 @@ class CustomerForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to the parent entity.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 
     public function testGetSubresourceForChildren()
@@ -214,7 +226,13 @@ class CustomerForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'access denied exception',
+                'detail' => 'No access to the parent entity.'
+            ],
+            $response,
+            Response::HTTP_FORBIDDEN
+        );
     }
 }
