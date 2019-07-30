@@ -20,7 +20,7 @@ define(function(require) {
          * {Object}
          */
         filtersActions: {
-            maxScreenType: 'tablet'
+            tablet: FullScreenFiltersAction
         },
 
         /**
@@ -35,10 +35,11 @@ define(function(require) {
          * @private
          */
         _getApplicableAction: function() {
-            var Action;
-            if (viewportManager.isApplicable(this.filtersActions)) {
-                Action = FullScreenFiltersAction;
-            }
+            var Action = _.find(this.filtersActions, function(action, name) {
+                if (viewportManager.isApplicable({maxScreenType: name})) {
+                    return action;
+                }
+            });
 
             return _.isMobile() && _.isFunction(Action) ? Action : ToggleFiltersAction;
         },

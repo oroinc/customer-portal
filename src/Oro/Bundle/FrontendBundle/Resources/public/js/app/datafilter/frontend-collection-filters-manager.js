@@ -133,7 +133,7 @@ define(function(require) {
          */
         _updateRenderMode: function() {
             var breakpoints = {
-                screenType: ['tablet', 'tablet-small', 'mobile-landscape', 'mobile']
+                screenType: 'tablet'
             };
 
             if (viewportManager.isApplicable(breakpoints)) {
