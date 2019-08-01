@@ -3,7 +3,6 @@ styles:
         - 'bundles/orocommercemenu/default/scss/variables/main-menu-config.scss'
         - 'bundles/orocommercemenu/default/scss/variables/top-bar-config.scss'
         - 'bundles/orocommercemenu/default/scss/variables/information-nav-config.scss'
-        - 'bundles/orocommercemenu/default/scss/variables/header-row-config.scss'
 
         - 'bundles/orocommercemenu/default/scss/components/header-row.scss'
         - 'bundles/orocommercemenu/default/scss/components/quick-access.scss'
