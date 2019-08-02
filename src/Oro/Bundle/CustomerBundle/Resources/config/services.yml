@@ -522,6 +522,8 @@ services:
             - "@oro_security.token_accessor"
             - "@security.csrf.token_manager"
             - "@oro_customer.provider.sign_in.target_path"
+        calls:
+            - [setTranslator, ["@translator"]]
         tags:
             - { name: layout.data_provider, alias: oro_customer_sign_in }
 

@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class SignInProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -38,6 +39,9 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
     /** @var SignInTargetPathProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $targetPathProvider;
 
+    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    protected $translator;
+
     protected function setUp()
     {
         $this->parameterBag = $this->createMock(ParameterBag::class);
@@ -54,6 +58,7 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->csrfTokenManager = $this->createMock(CsrfTokenManagerInterface::class);
         $this->targetPathProvider = $this->createMock(SignInTargetPathProviderInterface::class);
+        $this->translator = $this->createMock(TranslatorInterface::class);
 
         $this->dataProvider = new SignInProvider(
             $this->requestStack,
@@ -61,6 +66,7 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
             $this->csrfTokenManager,
             $this->targetPathProvider
         );
+        $this->dataProvider->setTranslator($this->translator);
     }
 
     public function testGetLastNameWithSession()
@@ -104,15 +110,20 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
             ->will($this->returnValue(true));
 
         $exception = new AuthenticationException('error');
+        $translatedErrorMessage = 'trans error';
+        $this->translator->expects($this->once())
+            ->method('trans')
+            ->with($exception->getMessageKey(), $exception->getMessageData(), 'security')
+            ->willReturn($translatedErrorMessage);
 
         $session->expects($this->once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
             ->willReturn($exception);
 
-        $this->assertEquals($exception, $this->dataProvider->getError());
+        $this->assertEquals($translatedErrorMessage, $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals($exception, $this->dataProvider->getError());
+        $this->assertEquals($translatedErrorMessage, $this->dataProvider->getError());
     }
 
     public function testGetErrorWithoutSession()
@@ -131,12 +142,9 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetErrorFromRequestAttributes()
     {
-        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
-        $session = $this->createMock(SessionInterface::class);
         $this->request
-            ->expects($this->once())
-            ->method('getSession')
-            ->will($this->returnValue($session));
+            ->expects($this->never())
+            ->method('getSession');
 
         $this->parameterBag
             ->expects($this->once())
@@ -145,6 +153,11 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
             ->will($this->returnValue(true));
 
         $exception = new AuthenticationException('error');
+        $translatedErrorMessage = 'trans error';
+        $this->translator->expects($this->once())
+            ->method('trans')
+            ->with($exception->getMessageKey(), $exception->getMessageData(), 'security')
+            ->willReturn($translatedErrorMessage);
 
         $this->parameterBag
             ->expects($this->once())
@@ -152,9 +165,32 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
             ->with(Security::AUTHENTICATION_ERROR)
             ->willReturn($exception);
 
-        $this->assertEquals($exception, $this->dataProvider->getError());
+        $this->assertEquals($translatedErrorMessage, $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals($exception, $this->dataProvider->getError());
+        $this->assertEquals($translatedErrorMessage, $this->dataProvider->getError());
+    }
+
+    public function testGetErrorWhenNotAuthenticationExceptionOccurred()
+    {
+        $this->parameterBag
+            ->expects($this->once())
+            ->method('has')
+            ->with(Security::AUTHENTICATION_ERROR)
+            ->will($this->returnValue(true));
+
+        $exception = new \Exception('error');
+        $this->translator->expects($this->never())
+            ->method('trans');
+
+        $this->parameterBag
+            ->expects($this->once())
+            ->method('get')
+            ->with(Security::AUTHENTICATION_ERROR)
+            ->willReturn($exception);
+
+        $this->assertEquals($exception->getMessage(), $this->dataProvider->getError());
+        /** test local cache */
+        $this->assertEquals($exception->getMessage(), $this->dataProvider->getError());
     }
 
     public function testGetCSRFToken()
