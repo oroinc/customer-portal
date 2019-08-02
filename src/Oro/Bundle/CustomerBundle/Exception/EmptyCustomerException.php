@@ -5,15 +5,15 @@ namespace Oro\Bundle\CustomerBundle\Exception;
 use Symfony\Component\Security\Core\Exception\AccountStatusException;
 
 /**
- * Throws during authentication when a guest customer user tries to log in.
+ * Throws during authentication if customer user has no assigned customer.
  */
-class GuestCustomerUserLoginException extends AccountStatusException
+class EmptyCustomerException extends AccountStatusException
 {
     /**
      * {@inheritdoc}
      */
     public function getMessageKey()
     {
-        return 'oro_customer.login.errors.guest';
+        return 'oro_customer.login.errors.empty_customer';
     }
 }

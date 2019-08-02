@@ -2,3 +2,5 @@ oro_customer:
     login:
         errors:
             bad_credentials: 'Your login was unsuccessful. Please check your e-mail address and password before trying again. If you have forgotten your password, follow "Forgot Your Password?" link.'
+            guest: 'The customer user is a guest.'
+            empty_customer: 'There was an issue with your authentication, please contact the system administrator.'
