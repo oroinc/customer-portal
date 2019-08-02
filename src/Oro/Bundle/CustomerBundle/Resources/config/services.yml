@@ -542,6 +542,7 @@ services:
             - "@oro_security.token_accessor"
             - "@security.csrf.token_manager"
             - "@oro_customer.provider.sign_in.target_path"
+            - "@translator"
         tags:
             - { name: layout.data_provider, alias: oro_customer_sign_in }
 
