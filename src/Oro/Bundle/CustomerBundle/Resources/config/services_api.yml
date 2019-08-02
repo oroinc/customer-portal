@@ -153,3 +153,8 @@ services:
             - 'frontendOwner'
         tags:
             - { name: oro.api.processor, action: customize_form_data, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress, requestType: frontend, priority: 10 }
+
+    oro_customer.api.customize_form_data.disable_customer_user:
+        class: Oro\Bundle\UserBundle\Api\Processor\DisableUserByDefault
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: post_submit, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser, priority: 10 }

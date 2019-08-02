@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
@@ -363,7 +362,6 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $user = new CustomerUser();
         $user->setPlainPassword($password);
         $user->setSalt($salt);
-        $user->addRole(new CustomerUserRole(CustomerUserRole::PREFIX_ROLE . 'TEST'));
 
         $encoder = $this->expectGetPasswordEncoder($user);
         $encoder->expects(self::once())
@@ -382,35 +380,6 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 
         self::assertNull($user->getPlainPassword());
         self::assertEquals($encodedPassword, $user->getPassword());
-    }
-
-    public function testUpdateUserForDisabledCustomerWithoutRole()
-    {
-        $user = new CustomerUser();
-        $user->setEnabled(false);
-
-        $em = $this->expectGetEntityManager();
-        $em->expects(self::once())
-            ->method('persist')
-            ->with(self::identicalTo($user));
-        $em->expects(self::once())
-            ->method('flush');
-
-        $this->userManager->updateUser($user);
-
-        self::assertCount(0, $user->getRoles());
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Enabled customer has not default role
-     */
-    public function testUpdateUserForEnabledCustomerWithoutRole()
-    {
-        $user = new CustomerUser();
-        $user->setEnabled(true);
-
-        $this->userManager->updateUser($user);
     }
 
     public function testFindUserBy()

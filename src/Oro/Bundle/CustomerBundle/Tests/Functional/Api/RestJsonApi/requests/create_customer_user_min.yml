@@ -9,8 +9,4 @@ data:
             data:
                 type: customers
                 id: '<toString(@customer.level_1->id)>'
-        roles:
-            data:
-                -
-                    type: customeruserroles
-                    id: '<toString(@ROLE_FRONTEND_ADMINISTRATOR->id)>'
+

@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Entity\UserManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -48,7 +49,9 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface
     public function load(ObjectManager $manager)
     {
         /** @var Organization $organization */
-        $organization = $manager->getRepository('OroOrganizationBundle:Organization')->getFirst();
+        $organization = $manager->getRepository(Organization::class)->getFirst();
+        /** @var Role $role */
+        $role = $manager->getRepository(Role::class)->findOneBy(['role' => User::ROLE_DEFAULT]);
 
         foreach ($this->users as $item) {
             /* @var $user User */
@@ -59,7 +62,8 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface
                 ->setLastName($item['lastname'])
                 ->setEnabled(true)
                 ->setPlainPassword($item['email'])
-                ->setOrganization($organization);
+                ->setOrganization($organization)
+                ->addRole($role);
 
             $this->userManager->updateUser($user);
 

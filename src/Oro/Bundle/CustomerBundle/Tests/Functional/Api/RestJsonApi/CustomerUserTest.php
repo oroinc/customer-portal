@@ -172,10 +172,6 @@ class CustomerUserTest extends RestJsonApiTestCase
 
         $this->assertResponseValidationErrors(
             [
-                [
-                    'title'  => 'customer user check role constraint',
-                    'detail' => 'Please select at least one role before you enable the customer user'
-                ],
                 ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/email']],
                 ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/firstName']],
                 ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/lastName']],
@@ -359,33 +355,5 @@ class CustomerUserTest extends RestJsonApiTestCase
             ->find(CustomerUser::class, $customerUserId);
         self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_BUYER'));
         self::assertCount(1, $customerUser->getRoles());
-    }
-
-    public function testDeleteRelationshipForRolesWhenAllUserRolesAreRemoved()
-    {
-        $customerUserId = $this->getReference(LoadCustomerUserData::EMAIL)->getId();
-        $customerUserRoleId = $this->getEntityManager()
-            ->getRepository(CustomerUserRole::class)
-            ->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR'])
-            ->getId();
-
-        $response = $this->deleteRelationship(
-            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'roles'],
-            [
-                'data' => [
-                    ['type' => 'customeruserroles', 'id' => (string)$customerUserRoleId]
-                ]
-            ],
-            [],
-            false
-        );
-
-        $this->assertResponseValidationError(
-            [
-                'title'  => 'customer user check role constraint',
-                'detail' => 'Please select at least one role before you enable the customer user'
-            ],
-            $response
-        );
     }
 }

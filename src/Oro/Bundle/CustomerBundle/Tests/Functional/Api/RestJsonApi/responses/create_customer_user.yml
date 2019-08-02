@@ -10,7 +10,7 @@ data:
         lastName: Doo
         birthday: null
         confirmed: true
-        enabled: true
+        enabled: false
         loginCount: 0
         isGuest: false
         lastLogin: null

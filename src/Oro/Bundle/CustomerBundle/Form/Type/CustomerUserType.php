@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Constraint;
 
 /**
  * Manage Customer User from
@@ -317,7 +318,8 @@ class CustomerUserType extends AbstractType
 
         $resolver->setDefaults([
             'data_class' => $this->dataClass,
-            'csrf_token_id' => 'customer_user'
+            'csrf_token_id' => 'customer_user',
+            'validation_groups' => [Constraint::DEFAULT_GROUP, 'ui'],
         ]);
     }
 
