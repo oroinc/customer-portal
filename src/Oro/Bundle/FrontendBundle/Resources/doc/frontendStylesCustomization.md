@@ -167,6 +167,8 @@ $breakpoint-tablet-small: 992px;
 $breakpoint-mobile-big: 767px;
 $breakpoint-mobile-landscape: 640px;
 $breakpoint-mobile: 414px;
+$breakpoint-mobile-small: 360px;
+
 ````
 
 To add, update media queries theme developer must create files with global-settings `your-theme/settings/global-settings.scss`
