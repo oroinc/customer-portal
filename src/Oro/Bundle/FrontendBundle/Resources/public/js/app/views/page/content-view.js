@@ -1,17 +1,17 @@
 define(function(require) {
     'use strict';
 
-    var PageContentView;
+    var FrontendPageContentView;
     var $ = require('jquery');
     var tools = require('oroui/js/tools');
     var BaseContentView = require('oroui/js/app/views/page/content-view');
 
-    PageContentView = BaseContentView.extend({
+    FrontendPageContentView = BaseContentView.extend({
         /**
          * @inheritDoc
          */
-        constructor: function PageContentView() {
-            PageContentView.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendPageContentView() {
+            FrontendPageContentView.__super__.constructor.apply(this, arguments);
         },
 
         /**
@@ -29,5 +29,5 @@ define(function(require) {
         }
     });
 
-    return PageContentView;
+    return FrontendPageContentView;
 });
