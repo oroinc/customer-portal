@@ -46,7 +46,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     constraints:
         - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmail: ~
-        - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRole: ~
+        - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRole:
+              groups: [ui]
         - Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerRelatedEntities: ~
     properties:
         firstName:

@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @dbIsolationPerTest
@@ -21,11 +21,14 @@ class SignInProviderTest extends WebTestCase
     /** @var SignInProvider */
     protected $dataProvider;
 
-    /** @var  RequestStack */
+    /** @var RequestStack */
     protected $requestStack;
 
-    /** @var  CsrfTokenManagerInterface */
+    /** @var CsrfTokenManagerInterface */
     protected $tokenManager;
+
+    /** @var TranslatorInterface */
+    protected $translator;
 
     protected function setUp()
     {
@@ -34,6 +37,7 @@ class SignInProviderTest extends WebTestCase
         $this->requestStack = $this->getContainer()->get('request_stack');
         $this->tokenManager = $this->getContainer()->get('security.csrf.token_manager');
         $this->dataProvider = $this->getContainer()->get('oro_customer.provider.sign_in');
+        $this->translator = $this->getContainer()->get('translator');
     }
 
     public function testGetLastName()
@@ -54,12 +58,7 @@ class SignInProviderTest extends WebTestCase
         $this->assertEquals($lastUsername, $this->dataProvider->getLastName());
     }
 
-    /**
-     * @dataProvider getErrorDataProvider
-     *
-     * @param \Exception $exception
-     */
-    public function testGetError(\Exception $exception)
+    public function testGetError()
     {
         $request = new Request();
         $request->setDefaultLocale('test');
@@ -68,22 +67,17 @@ class SignInProviderTest extends WebTestCase
         $session = new Session(new MockArraySessionStorage());
         $request->setSession($session);
 
+        $exception = new AuthenticationException('Test Error');
         $session->set(Security::AUTHENTICATION_ERROR, $exception);
 
         $this->requestStack->push($request);
 
-        $this->assertSame($exception, $this->dataProvider->getError());
-    }
-
-    /**
-     * @return array
-     */
-    public function getErrorDataProvider()
-    {
-        return [
-            [new AuthenticationException('Test Error')],
-            [new BadCredentialsException()],
-        ];
+        $translatedMessage = $this->translator->trans(
+            $exception->getMessageKey(),
+            $exception->getMessageData(),
+            'security'
+        );
+        $this->assertSame($translatedMessage, $this->dataProvider->getError());
     }
 
     public function testGetCSRFToken()

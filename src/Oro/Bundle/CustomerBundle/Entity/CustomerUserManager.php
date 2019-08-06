@@ -181,16 +181,6 @@ class CustomerUserManager extends BaseUserManager
     }
 
     /**
-     * @param UserInterface $user
-     */
-    protected function assertRoles(UserInterface $user): void
-    {
-        if ($user->isEnabled() && !$user->getRoles()) {
-            throw new \RuntimeException('Enabled customer has not default role');
-        }
-    }
-
-    /**
      * @return Processor
      */
     private function getEmailProcessor(): Processor

@@ -112,7 +112,7 @@ class HandleLogin implements ProcessorInterface
         } catch (AuthenticationException $e) {
             throw new AccessDeniedException(sprintf(
                 'The user authentication fails. Reason: %s',
-                $this->translator->trans($e->getMessageKey(), [], 'security')
+                $this->translator->trans($e->getMessageKey(), $e->getMessageData(), 'security')
             ));
         }
     }
