@@ -16,6 +16,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: console.terminate, method: afterConsoleCommand }
 
+    oro_frontend.listener.asset_build:
+        class: Oro\Bundle\FrontendBundle\EventListener\AssetBuildCommandListener
+        tags:
+            - { name: kernel.event_listener, event: console.command, method: onConsoleCommand }
+
     oro_frontend.listener.frontend_route_collection:
         class: 'Oro\Bundle\FrontendBundle\EventListener\FrontendRouteCollectionListener'
         arguments:
