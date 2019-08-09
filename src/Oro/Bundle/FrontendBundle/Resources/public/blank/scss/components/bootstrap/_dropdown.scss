@@ -3,6 +3,11 @@
 @import "npmassets/bootstrap/scss/dropdown";
 
 .dropdown-menu {
+
+    &[x-adjusted-height] {
+        overflow-y: auto;
+    }
+
     &[x-displayed-arrow] {
         $arrow-offset: -5px;
         $placeholder: 8px;

@@ -101,12 +101,13 @@ define(function(require) {
                 return;
             }
 
-            if (this.isApplicable) {
-                var state = this.$window.scrollTop() > this.options.togglePoint;
-                this.$el.toggleClass('scroll-top-visible', state);
+            if (this.isApplicable && this.$window.scrollTop() > this.options.togglePoint) {
+                this.$el.addClass('scroll-top-visible');
+                this.$el.attr('aria-hidden', false);
                 this.land();
             } else {
-                this.$el.hide();
+                this.$el.removeClass('scroll-top-visible');
+                this.$el.attr('aria-hidden', true);
             }
         },
 
