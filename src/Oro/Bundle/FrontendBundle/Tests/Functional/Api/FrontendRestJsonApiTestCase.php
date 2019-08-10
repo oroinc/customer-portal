@@ -11,7 +11,7 @@ use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Routing\RequestContext;
 
 /**
- * The base class for store frontend REST API that conforms JSON.API specification functional tests.
+ * The base class for store frontend REST API that conforms JSON:API specification functional tests.
  */
 abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
 {

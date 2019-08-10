@@ -171,7 +171,7 @@ api:
                         update_relationship: false
 
         Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
-            # this entity does not have own Data API resource,
+            # this entity does not have own API resource,
             # but it should be defined to correct work of "types" property
             # of the customer address API resource
             actions: false
@@ -253,7 +253,7 @@ api:
                         update_relationship: false
 
         Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
-            # this entity does not have own Data API resource,
+            # this entity does not have own API resource,
             # but it should be defined to correct work of "types" property
             # of the customer user address API resource
             actions: false

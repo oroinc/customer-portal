@@ -1,0 +1,23 @@
+api:
+    entities:
+        Oro\Bundle\CustomerBundle\Entity\Customer:
+            fields:
+                addresses:
+                    collapse: false
+                    fields:
+                        owner:
+                            exclude: true
+                        types:
+                            order_by:
+                                name: ASC
+
+        Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+            fields:
+                addresses:
+                    collapse: false
+                    fields:
+                        owner:
+                            exclude: true
+                        types:
+                            order_by:
+                                name: ASC
