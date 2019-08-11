@@ -14,7 +14,10 @@ to REST API resources for the storefront but there are several differences:
   that are not configured explicitly are excluded
 - for documentation files use `Resources/doc/api_frontend` folder, not `Resources/doc/api`
 - for API processors use `frontend` request type
-- for API routes use `frontend_rest_api` group instead of `rest_api`, and set `frontend` option to `true`
+- for API routes use `Oro\Bundle\FrontendBundle\Controller\FrontendRestApiController` controller
+  instead of `Oro\Bundle\ApiBundle\Controller\RestApiController`,
+  `frontend_rest_api` group instead of `rest_api`
+  and set `frontend` option to `true`
 - for [CORS requests configuration](../../../../../../../platform/src/Oro/Bundle/ApiBundle/Resources/doc/cors.md)
   use `oro_frontend / frontend_api / cors` section, not `oro_api / cors`
 - for API functional tests use `Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase` instead of

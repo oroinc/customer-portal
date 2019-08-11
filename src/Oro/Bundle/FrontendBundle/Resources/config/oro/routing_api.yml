@@ -12,10 +12,9 @@ oro_frontend_rest_api_doc:
 # * PATCH method: updates the specified fields of the given entity
 oro_frontend_rest_api_item:
     path: '%oro_api.rest.prefix%{entity}/{id}'
+    controller: Oro\Bundle\FrontendBundle\Controller\FrontendRestApiController::itemAction
     requirements:
         entity: (?:(?!(soap|rest)(/|$))[^/]+)
-    defaults:
-        _controller: OroFrontendBundle:FrontendRestApi:item
     options:
         frontend: true
         group: frontend_rest_api
@@ -26,10 +25,9 @@ oro_frontend_rest_api_item:
 # * POST method: creates an entity of the given type
 oro_frontend_rest_api_list:
     path: '%oro_api.rest.prefix%{entity}'
+    controller: Oro\Bundle\FrontendBundle\Controller\FrontendRestApiController::listAction
     requirements:
         entity: (?:(?!(soap|rest)(/|$))[^/]+)
-    defaults:
-        _controller: OroFrontendBundle:FrontendRestApi:list
     options:
         frontend: true
         group: frontend_rest_api
@@ -52,10 +50,9 @@ oro_frontend_rest_api_list:
 #   additional processors should be added for each association requires it.
 oro_frontend_rest_api_subresource:
     path: '%oro_api.rest.prefix%{entity}/{id}/{association}'
+    controller: Oro\Bundle\FrontendBundle\Controller\FrontendRestApiController::subresourceAction
     requirements:
         entity: (?:(?!(soap|rest)(/|$))[^/]+)
-    defaults:
-        _controller: OroFrontendBundle:FrontendRestApi:subresource
     options:
         frontend: true
         group: frontend_rest_api
@@ -71,10 +68,9 @@ oro_frontend_rest_api_subresource:
 # * DELETE method: deletes the specified entities from the relationship represented by the given to-many association
 oro_frontend_rest_api_relationship:
     path: '%oro_api.rest.prefix%{entity}/{id}/relationships/{association}'
+    controller: Oro\Bundle\FrontendBundle\Controller\FrontendRestApiController::relationshipAction
     requirements:
         entity: (?:(?!(soap|rest)(/|$))[^/]+)
-    defaults:
-        _controller: OroFrontendBundle:FrontendRestApi:relationship
     options:
         frontend: true
         group: frontend_rest_api
