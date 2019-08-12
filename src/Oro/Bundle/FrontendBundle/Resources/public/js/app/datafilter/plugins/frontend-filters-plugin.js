@@ -35,15 +35,11 @@ define(function(require) {
          * @private
          */
         _getApplicableAction: function() {
-            var Action = this.filtersActions[viewportManager.getViewport().type];
-
-            if (_.isUndefined(Action)) {
-                Action = _.find(this.filtersActions, function(action, name) {
-                    if (viewportManager.isApplicable({maxScreenType: name})) {
-                        return action;
-                    }
-                });
-            }
+            var Action = _.find(this.filtersActions, function(action, name) {
+                if (viewportManager.isApplicable({maxScreenType: name})) {
+                    return action;
+                }
+            });
 
             return _.isMobile() && _.isFunction(Action) ? Action : ToggleFiltersAction;
         },

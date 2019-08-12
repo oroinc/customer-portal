@@ -132,9 +132,11 @@ define(function(require) {
          * @protected
          */
         _updateRenderMode: function() {
-            var breakpoints = ['tablet', 'tablet-small', 'mobile-landscape', 'mobile'];
+            var breakpoints = {
+                screenType: 'tablet'
+            };
 
-            if (_.contains(breakpoints, viewportManager.getViewport().type)) {
+            if (viewportManager.isApplicable(breakpoints)) {
                 this.renderMode = 'toggle-mode';
             }
         },
