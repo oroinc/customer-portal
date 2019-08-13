@@ -64,7 +64,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
             'email' => self::EMAIL,
             'enabled' => true,
             'password' => self::PASSWORD,
-            'customer' => 'customer.level_1'
+            'customer' => LoadCustomers::CUSTOMER_LEVEL_1
         ],
         [
             'first_name' => self::LEVEL_1_FIRST_NAME,
@@ -72,7 +72,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
             'email' => self::LEVEL_1_EMAIL,
             'enabled' => true,
             'password' => self::LEVEL_1_PASSWORD,
-            'customer' => 'customer.level_1'
+            'customer' => LoadCustomers::CUSTOMER_LEVEL_1
         ],
         [
             'first_name' => self::LEVEL_1_1_FIRST_NAME,
@@ -80,7 +80,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
             'email' => self::LEVEL_1_1_EMAIL,
             'enabled' => true,
             'password' => self::LEVEL_1_1_PASSWORD,
-            'customer' => 'customer.level_1.1'
+            'customer' => LoadCustomers::CUSTOMER_LEVEL_1_DOT_1
         ],
         [
             'first_name' => self::ORPHAN_FIRST_NAME,
@@ -103,7 +103,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
             'email' => self::GROUP2_EMAIL,
             'password' => self::GROUP2_PASSWORD,
             'enabled' => true,
-            'customer' => 'customer.level_1.2'
+            'customer' => LoadCustomers::CUSTOMER_LEVEL_1_DOT_2
         ],
         [
             'first_name' => self::RESET_FIRST_NAME,

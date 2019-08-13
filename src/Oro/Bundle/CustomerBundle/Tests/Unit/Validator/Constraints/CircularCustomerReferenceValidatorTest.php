@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
+use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Fixtures\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReference;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceValidator;
@@ -86,5 +87,33 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
             ->setParameter('{{ parentName }}', 'test parent customer')
             ->setParameter('{{ customerName }}', 'test customer')
             ->assertRaised();
+    }
+
+    public function testValidateWithFrontendOwnerTreeProvider()
+    {
+        /** @var FrontendOwnerTreeProvider $ownerTreeProvider */
+        $ownerTreeProvider = $this->createMock(FrontendOwnerTreeProvider::class);
+        $ownerTreeProvider->expects($this->atLeastOnce())
+            ->method('getTreeByBusinessUnit')
+            ->willReturn($this->ownerTree);
+
+        $this->ownerTree->expects($this->once())
+            ->method('getSubordinateBusinessUnitIds')
+            ->with(1)
+            ->willReturn([4, 6, 7]);
+
+        $this->validator = new CircularCustomerReferenceValidator($ownerTreeProvider);
+        $this->validator->initialize($this->context);
+
+        $customer = new Customer();
+        $customer->setId(1);
+        $parentCustomer = new Customer();
+        $parentCustomer->setId(5);
+        $customer->setParent($parentCustomer);
+        $constraint = new CircularCustomerReference();
+
+        $this->validator->validate($customer, $constraint);
+
+        $this->assertNoViolation();
     }
 }

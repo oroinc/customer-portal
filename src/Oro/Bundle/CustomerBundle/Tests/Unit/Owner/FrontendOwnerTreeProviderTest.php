@@ -7,7 +7,9 @@ use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Oro\Bundle\CustomerBundle\Async\Topics;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Model\OwnerTreeMessageFactory;
 use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
 use Oro\Bundle\EntityBundle\Tools\DatabaseChecker;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
@@ -15,12 +17,15 @@ use Oro\Bundle\SecurityBundle\Owner\OwnerTree;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeBuilderInterface;
 use Oro\Bundle\SecurityBundle\Tests\Util\ReflectionUtil;
 use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Component\MessageQueue\Client\Message;
+use Oro\Component\MessageQueue\Client\MessageProducer;
 use Oro\Component\TestUtils\ORM\Mocks\ConnectionMock;
 use Oro\Component\TestUtils\ORM\Mocks\DriverMock;
 use Oro\Component\TestUtils\ORM\Mocks\EntityManagerMock;
 use Oro\Component\TestUtils\ORM\OrmTestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * @SuppressWarnings(PHPMD)
@@ -63,6 +68,16 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
      * @var \PHPUnit\Framework\MockObject\MockObject|TokenStorageInterface
      */
     protected $tokenStorage;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|MessageProducer
+     */
+    protected $messageProducer;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|OwnerTreeMessageFactory
+     */
+    protected $ownerTreeMessageFactory;
 
     /**
      * @var FrontendOwnerTreeProvider
@@ -119,6 +134,8 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
             ->willReturn(self::ENTITY_NAMESPACE . '\TestCustomer');
 
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $this->messageProducer = $this->createMock(MessageProducer::class);
+        $this->ownerTreeMessageFactory = $this->createMock(OwnerTreeMessageFactory::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->treeProvider = new FrontendOwnerTreeProvider(
@@ -126,7 +143,9 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
             $this->databaseChecker,
             $this->cache,
             $this->ownershipMetadataProvider,
-            $this->tokenStorage
+            $this->tokenStorage,
+            $this->messageProducer,
+            $this->ownerTreeMessageFactory
         );
         $this->treeProvider->setLogger($this->logger);
     }
@@ -218,375 +237,13 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         }
     }
 
-    public function testCustomersWithoutOrganization()
-    {
-        $tree = $this->setupTree(
-            [
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => null,
-                    'id'       => self::MAIN_ACCOUNT_1,
-                ],
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => self::MAIN_ACCOUNT_1,
-                    'id'       => self::ACCOUNT_1,
-                ],
-                [
-                    'orgId'    => null,
-                    'parentId' => self::MAIN_ACCOUNT_1,
-                    'id'       => self::ACCOUNT_2,
-                ],
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => self::ACCOUNT_2,
-                    'id'       => self::ACCOUNT_2_1,
-                ],
-            ]
-        );
-
-        $this->assertOwnerTreeEquals(
-            [
-                'userOwningOrganizationId'         => [
-                    self::USER_1 => self::ORG_1
-                ],
-                'userOrganizationIds'              => [
-                    self::USER_1 => [self::ORG_1]
-                ],
-                'userOwningBusinessUnitId'         => [
-                    self::USER_1 => self::MAIN_ACCOUNT_1
-                ],
-                'userBusinessUnitIds'              => [
-                    self::USER_1 => [self::MAIN_ACCOUNT_1]
-                ],
-                'userOrganizationBusinessUnitIds'  => [
-                    self::USER_1 => [self::ORG_1 => [self::MAIN_ACCOUNT_1]]
-                ],
-                'businessUnitOwningOrganizationId' => [
-                    self::MAIN_ACCOUNT_1 => self::ORG_1,
-                    self::ACCOUNT_1      => self::ORG_1,
-                    self::ACCOUNT_2_1    => self::ORG_1,
-                ],
-                'assignedBusinessUnitUserIds'      => [
-                    self::MAIN_ACCOUNT_1 => [self::USER_1],
-                ],
-                'subordinateBusinessUnitIds'       => [
-                    self::MAIN_ACCOUNT_1 => [self::ACCOUNT_1],
-                ],
-                'organizationBusinessUnitIds'      => [
-                    self::ORG_1 => [self::MAIN_ACCOUNT_1, self::ACCOUNT_1, self::ACCOUNT_2_1]
-                ],
-            ],
-            $tree
-        );
-    }
-
-    /**
-     * @param array $customers
-     * @param array $users
-     * @return OwnerTreeBuilderInterface
-     */
-    protected function setupTree(array $customers, array $users = [])
-    {
-        $this->databaseChecker->expects(self::once())
-            ->method('checkDatabase')
-            ->willReturn(true);
-
-        $connection = $this->getDriverConnectionMock($this->em);
-        $this->setGetCustomersExpectation($connection, $customers);
-        if (!$users) {
-            $users = [
-                [
-                    'orgId' => self::ORG_1,
-                    'userId' => self::USER_1,
-                    'customerId' => self::MAIN_ACCOUNT_1,
-                ]
-            ];
-        }
-        $this->setGetUsersExpectation($connection, $users);
-
-        return $this->treeProvider->getTree();
-    }
-
-    /**
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     */
-    public function testCustomerTree()
-    {
-        $tree = $this->setupTree(
-            [
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => null,
-                    'id'       => self::MAIN_ACCOUNT_1,
-                ],
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => self::MAIN_ACCOUNT_1,
-                    'id'       => self::ACCOUNT_2,
-                ],
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => self::MAIN_ACCOUNT_1,
-                    'id'       => self::ACCOUNT_1,
-                ],
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => self::ACCOUNT_2,
-                    'id'       => self::ACCOUNT_2_1,
-                ],
-            ]
-        );
-
-        $this->assertOwnerTreeEquals(
-            [
-                'userOwningOrganizationId'         => [
-                    self::USER_1 => self::ORG_1
-                ],
-                'userOrganizationIds'              => [
-                    self::USER_1 => [self::ORG_1]
-                ],
-                'userOwningBusinessUnitId'         => [
-                    self::USER_1 => self::MAIN_ACCOUNT_1
-                ],
-                'userBusinessUnitIds'              => [
-                    self::USER_1 => [self::MAIN_ACCOUNT_1]
-                ],
-                'userOrganizationBusinessUnitIds'  => [
-                    self::USER_1 => [self::ORG_1 => [self::MAIN_ACCOUNT_1]]
-                ],
-                'businessUnitOwningOrganizationId' => [
-                    self::MAIN_ACCOUNT_1 => self::ORG_1,
-                    self::ACCOUNT_1      => self::ORG_1,
-                    self::ACCOUNT_2      => self::ORG_1,
-                    self::ACCOUNT_2_1    => self::ORG_1,
-                ],
-                'assignedBusinessUnitUserIds'      => [
-                    self::MAIN_ACCOUNT_1 => [self::USER_1],
-                ],
-                'subordinateBusinessUnitIds'       => [
-                    self::MAIN_ACCOUNT_1 => [self::ACCOUNT_2, self::ACCOUNT_2_1, self::ACCOUNT_1],
-                    self::ACCOUNT_2      => [self::ACCOUNT_2_1],
-                ],
-                'organizationBusinessUnitIds'      => [
-                    self::ORG_1 => [self::MAIN_ACCOUNT_1, self::ACCOUNT_2, self::ACCOUNT_1, self::ACCOUNT_2_1]
-                ],
-            ],
-            $tree
-        );
-    }
-
-    /**
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     */
-    public function testCustomerTreeWhenChildCustomerAreLoadedBeforeParentCustomer()
-    {
-        $tree = $this->setupTree(
-            [
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => null,
-                    'id'       => self::MAIN_ACCOUNT_1,
-                ],
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => self::ACCOUNT_2,
-                    'id'       => self::ACCOUNT_2_1,
-                ],
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => self::MAIN_ACCOUNT_1,
-                    'id'       => self::ACCOUNT_1,
-                ],
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => self::MAIN_ACCOUNT_1,
-                    'id'       => self::ACCOUNT_2,
-                ],
-            ]
-        );
-
-        $this->assertOwnerTreeEquals(
-            [
-                'userOwningOrganizationId'         => [
-                    self::USER_1 => self::ORG_1
-                ],
-                'userOrganizationIds'              => [
-                    self::USER_1 => [self::ORG_1]
-                ],
-                'userOwningBusinessUnitId'         => [
-                    self::USER_1 => self::MAIN_ACCOUNT_1
-                ],
-                'userBusinessUnitIds'              => [
-                    self::USER_1 => [self::MAIN_ACCOUNT_1]
-                ],
-                'userOrganizationBusinessUnitIds'  => [
-                    self::USER_1 => [self::ORG_1 => [self::MAIN_ACCOUNT_1]]
-                ],
-                'businessUnitOwningOrganizationId' => [
-                    self::MAIN_ACCOUNT_1 => self::ORG_1,
-                    self::ACCOUNT_1      => self::ORG_1,
-                    self::ACCOUNT_2      => self::ORG_1,
-                    self::ACCOUNT_2_1    => self::ORG_1,
-                ],
-                'assignedBusinessUnitUserIds'      => [
-                    self::MAIN_ACCOUNT_1 => [self::USER_1],
-                ],
-                'subordinateBusinessUnitIds'       => [
-                    self::MAIN_ACCOUNT_1 => [self::ACCOUNT_1, self::ACCOUNT_2, self::ACCOUNT_2_1],
-                    self::ACCOUNT_2      => [self::ACCOUNT_2_1],
-                ],
-                'organizationBusinessUnitIds'      => [
-                    self::ORG_1 => [self::MAIN_ACCOUNT_1, self::ACCOUNT_2_1, self::ACCOUNT_1, self::ACCOUNT_2]
-                ],
-            ],
-            $tree
-        );
-    }
-
-    public function testUserDoesNotHaveParentCustomer()
-    {
-        $tree = $this->setupTree(
-            [
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => null,
-                    'id'       => self::MAIN_ACCOUNT_1,
-                ],
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => self::MAIN_ACCOUNT_1,
-                    'id'       => self::ACCOUNT_1,
-                ],
-            ],
-            [
-                [
-                    'orgId'     => self::ORG_1,
-                    'userId'    => self::USER_1,
-                    'customerId' => null,
-                ],
-            ]
-        );
-
-        $this->assertOwnerTreeEquals(
-            [
-                'userOwningOrganizationId'         => [],
-                'userOrganizationIds'              => [
-                    self::USER_1 => [self::ORG_1],
-                ],
-                'userOwningBusinessUnitId'         => [],
-                'userBusinessUnitIds'              => [],
-                'userOrganizationBusinessUnitIds'  => [],
-                'businessUnitOwningOrganizationId' => [
-                    self::MAIN_ACCOUNT_1 => self::ORG_1,
-                    self::ACCOUNT_1      => self::ORG_1,
-                ],
-                'assignedBusinessUnitUserIds'      => [],
-                'subordinateBusinessUnitIds'       => [
-                    self::MAIN_ACCOUNT_1 => [self::ACCOUNT_1],
-                ],
-                'organizationBusinessUnitIds'      => [
-                    self::ORG_1 => [self::MAIN_ACCOUNT_1, self::ACCOUNT_1],
-                ],
-            ],
-            $tree
-        );
-    }
-
-    /**
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     */
-    public function testSeveralOrganizations()
-    {
-        $tree = $this->setupTree(
-            [
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => null,
-                    'id'       => self::MAIN_ACCOUNT_1,
-                ],
-                [
-                    'orgId'    => self::ORG_2,
-                    'parentId' => null,
-                    'id'       => self::ACCOUNT_2,
-                ],
-                [
-                    'orgId'    => self::ORG_1,
-                    'parentId' => self::MAIN_ACCOUNT_1,
-                    'id'       => self::ACCOUNT_1,
-                ],
-                [
-                    'orgId'    => self::ORG_2,
-                    'parentId' => self::ACCOUNT_2,
-                    'id'       => self::ACCOUNT_2_1,
-                ],
-            ],
-            [
-                [
-                    'orgId'     => self::ORG_1,
-                    'userId'    => self::USER_1,
-                    'customerId' => self::ACCOUNT_1,
-                ],
-                [
-                    'orgId'     => self::ORG_2,
-                    'userId'    => self::USER_2,
-                    'customerId' => self::ACCOUNT_2,
-                ],
-            ]
-        );
-
-        $this->assertOwnerTreeEquals(
-            [
-                'userOwningOrganizationId'         => [
-                    self::USER_1 => self::ORG_1,
-                    self::USER_2 => self::ORG_2,
-                ],
-                'userOrganizationIds'              => [
-                    self::USER_1 => [self::ORG_1],
-                    self::USER_2 => [self::ORG_2],
-                ],
-                'userOwningBusinessUnitId'         => [
-                    self::USER_1 => self::ACCOUNT_1,
-                    self::USER_2 => self::ACCOUNT_2,
-                ],
-                'userBusinessUnitIds'              => [
-                    self::USER_1 => [self::ACCOUNT_1],
-                    self::USER_2 => [self::ACCOUNT_2],
-                ],
-                'userOrganizationBusinessUnitIds'  => [
-                    self::USER_1 => [self::ORG_1 => [self::ACCOUNT_1]],
-                    self::USER_2 => [self::ORG_2 => [self::ACCOUNT_2]],
-                ],
-                'businessUnitOwningOrganizationId' => [
-                    self::MAIN_ACCOUNT_1 => self::ORG_1,
-                    self::ACCOUNT_1      => self::ORG_1,
-                    self::ACCOUNT_2      => self::ORG_2,
-                    self::ACCOUNT_2_1    => self::ORG_2,
-                ],
-                'assignedBusinessUnitUserIds'      => [
-                    self::ACCOUNT_1 => [self::USER_1],
-                    self::ACCOUNT_2 => [self::USER_2],
-                ],
-                'subordinateBusinessUnitIds'       => [
-                    self::MAIN_ACCOUNT_1 => [self::ACCOUNT_1],
-                    self::ACCOUNT_2      => [self::ACCOUNT_2_1],
-                ],
-                'organizationBusinessUnitIds'      => [
-                    self::ORG_1 => [self::MAIN_ACCOUNT_1, self::ACCOUNT_1],
-                    self::ORG_2 => [self::ACCOUNT_2, self::ACCOUNT_2_1],
-                ],
-            ],
-            $tree
-        );
-    }
-
     public function testSupportsForSupportedUser()
     {
-        $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
+        $token = $this->createMock(TokenInterface::class);
         $this->tokenStorage->expects(self::once())
             ->method('getToken')
             ->willReturn($token);
-        $token->expects(self::once())
+        $token->expects(self::atLeastOnce())
             ->method('getUser')
             ->willReturn(new CustomerUser());
 
@@ -595,7 +252,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
 
     public function testSupportsForNotSupportedUser()
     {
-        $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
+        $token = $this->createMock(TokenInterface::class);
         $this->tokenStorage->expects(self::once())
             ->method('getToken')
             ->willReturn($token);
@@ -759,5 +416,25 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
                 ]
             ]
         ];
+    }
+
+    public function testWarmUpCache(): void
+    {
+        $cacheTtl = 100000;
+        $data = ['cache_ttl' => $cacheTtl];
+
+        $this->ownerTreeMessageFactory
+            ->expects(self::once())
+            ->method('createMessage')
+            ->with($cacheTtl)
+            ->willReturn($data);
+
+        $this->messageProducer
+            ->expects(self::once())
+            ->method('send')
+            ->with(Topics::CALCULATE_OWNER_TREE_CACHE, new Message($data));
+
+        $this->treeProvider->setCacheTtl($cacheTtl);
+        $this->treeProvider->warmUpCache();
     }
 }
