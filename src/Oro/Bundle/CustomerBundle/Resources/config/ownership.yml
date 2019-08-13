@@ -3,6 +3,9 @@ parameters:
         business_unit: '%oro_customer.entity.customer.class%'
         user: '%oro_customer.entity.customer_user.class%'
 
+    # default ttl for frontend owner tree provider cache is set to one week
+    oro_customer.frontend_owner_tree_provider.cache_ttl: 604800
+
 services:
     oro_customer.owner.frontend_ownership_metadata_provider:
         class: 'Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider'
@@ -59,6 +62,9 @@ services:
             - '@security.token_storage'
         calls:
             - [setLogger, ['@logger']]
+            - [setCacheTtl, ['%oro_customer.frontend_owner_tree_provider.cache_ttl%']]
+            - [setMessageProducer, ['@oro_message_queue.client.message_producer']]
+            - [setOwnerTreeMessageFactory, ['@oro_customer.model.owner_tree_message_factory']]
         tags:
             - { name: oro_security.ownership.tree_provider }
 
@@ -77,3 +83,34 @@ services:
         public: true
         calls:
             - [ setNamespace, [ 'oro_acl_owner_tree_frontend' ] ]
+
+    oro_customer.model.business_unit_message_factory:
+        class: Oro\Bundle\CustomerBundle\Model\BusinessUnitMessageFactory
+        arguments:
+            - '@oro_entity.doctrine_helper'
+
+    oro_customer.model.owner_tree_message_factory:
+        class: Oro\Bundle\CustomerBundle\Model\OwnerTreeMessageFactory
+
+    oro_customer.async.owner_tree_cache_job_processor:
+        class: Oro\Bundle\CustomerBundle\Async\OwnerTreeCacheJobProcessor
+        arguments:
+            - '@oro_message_queue.job.runner'
+            - '@oro_message_queue.client.message_producer'
+            - '@doctrine'
+            - '@oro_customer.owner.frontend_ownership_metadata_provider'
+            - '@oro_customer.model.business_unit_message_factory'
+            - '@oro_customer.model.owner_tree_message_factory'
+            - '@logger'
+        tags:
+            - { name: oro_message_queue.client.message_processor }
+
+    oro_customer.async.business_unit_owner_tree_cache_job_processor:
+        class: Oro\Bundle\CustomerBundle\Async\BusinessUnitOwnerTreeCacheJobProcessor
+        arguments:
+            - '@oro_message_queue.job.runner'
+            - '@oro_customer.owner.tree_provider'
+            - '@oro_customer.model.business_unit_message_factory'
+            - '@logger'
+        tags:
+            - { name: oro_message_queue.client.message_processor }

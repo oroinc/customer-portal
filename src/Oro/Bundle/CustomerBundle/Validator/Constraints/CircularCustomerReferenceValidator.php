@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Owner\CustomerAwareOwnerTreeInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -50,9 +51,15 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
      */
     protected function isAncestor(Customer $customer, Customer $parent = null)
     {
+        if ($this->ownerTreeProvider instanceof CustomerAwareOwnerTreeInterface) {
+            $tree = $this->ownerTreeProvider->getTreeByBusinessUnit($parent);
+        } else {
+            $tree = $this->ownerTreeProvider->getTree();
+        }
+
         if (in_array(
             $parent->getId(),
-            $this->ownerTreeProvider->getTree()->getSubordinateBusinessUnitIds($customer->getId()),
+            $tree->getSubordinateBusinessUnitIds($customer->getId()),
             true
         )) {
             return true;
