@@ -3,9 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
+use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\BaseUserManager;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -23,7 +27,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 class CustomerUserManager extends BaseUserManager implements ContainerAwareInterface, LoggerAwareInterface
 {
     /**
-     * @varConfigManager
+     * @var ConfigManager
      */
     protected $configManager;
 
@@ -56,6 +60,11 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
      * @var WebsiteManager
      */
     private $websiteManager;
+
+    /**
+     * @var TokenAccessorInterface
+     */
+    private $tokenAccessor;
 
     /**
      * @param string $class,
@@ -232,6 +241,18 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
     }
 
     /**
+     * @return TokenAccessorInterface
+     */
+    protected function getTokenAccessor(): TokenAccessorInterface
+    {
+        if (!$this->tokenAccessor) {
+            $this->tokenAccessor = $this->container->get('oro_security.token_accessor');
+        }
+
+        return $this->tokenAccessor;
+    }
+
+    /**
      * @return string
      */
     protected function generateToken()
@@ -278,6 +299,24 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
     /**
      * {@inheritdoc}
      */
+    public function findUserByEmail($email)
+    {
+        $organization = $this->getOrganization();
+        $repository = $this->getRepository();
+        if ($organization !== null && $repository instanceof CustomerUserRepository) {
+            return $repository->findUserByEmailAndOrganization(
+                $email,
+                $organization,
+                $this->isCaseInsensitiveEmailAddressesEnabled()
+            );
+        }
+
+        return parent::findUserByEmail($email);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findUserBy(array $criteria)
     {
         return parent::findUserBy(array_merge($criteria, ['isGuest' => false]));
@@ -289,5 +328,18 @@ class CustomerUserManager extends BaseUserManager implements ContainerAwareInter
     protected function isCaseInsensitiveEmailAddressesEnabled(): bool
     {
         return (bool) $this->getConfigValue('oro_customer.case_insensitive_email_addresses_enabled');
+    }
+
+    /**
+     * @return OrganizationInterface|null
+     */
+    protected function getOrganization()
+    {
+        $website = $this->websiteManager->getCurrentWebsite();
+        if ($website !== null) {
+            return $website->getOrganization();
+        }
+
+        return $this->getTokenAccessor()->getOrganization();
     }
 }

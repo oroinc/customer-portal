@@ -2,17 +2,25 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ObjectManager;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
+use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
+use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\Repository\AbstractUserRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 /**
@@ -64,6 +72,11 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     private $websiteManager;
 
     /**
+     * @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $tokenAccessor;
+
+    /**
      * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $configManager;
@@ -75,19 +88,14 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp()
     {
-        $this->ef = $this->createMock('Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface');
-        $this->om = $this->createMock('Doctrine\Common\Persistence\ObjectManager');
-        $this->registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $this->ef = $this->createMock(EncoderFactoryInterface::class);
+        $this->om = $this->createMock(ObjectManager::class);
+        $this->registry = $this->createMock(ManagerRegistry::class);
+        $this->configManager = $this->createMock(ConfigManager::class);
+        $this->emailProcessor = $this->createMock(Processor::class);
+        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        $this->configManager = $this->getMockBuilder('Oro\Bundle\ConfigBundle\Config\ConfigManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->emailProcessor = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Mailer\Processor')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects($this->any())
             ->method('get')
             ->will(
@@ -102,6 +110,11 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
                             'oro_customer.mailer.processor',
                             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
                             $this->emailProcessor
+                        ],
+                        [
+                            'oro_security.token_accessor',
+                            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+                            $this->tokenAccessor
                         ]
                     ]
                 )
@@ -521,18 +534,93 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         self::assertSame($user, $this->userManager->findUserByUsername($email));
     }
 
+    public function testFindUserByEmailWithWebsiteOrganization()
+    {
+        $email = 'Test@test.com';
+
+        $user = new CustomerUser();
+        $user->setEmail($email);
+
+        $website = new Website();
+        $org = new Organization();
+        $website->setOrganization($org);
+
+        $this->assertConfigManagerCalled();
+
+        $this->registry->expects($this->any())
+            ->method('getManagerForClass')
+            ->willReturn($this->om);
+
+        $repository = $this->createMock(CustomerUserRepository::class);
+        $repository->expects($this->once())
+            ->method('findUserByEmailAndOrganization')
+            ->with($user->getEmail(), $org, true)
+            ->willReturn($user);
+
+        $this->om->expects($this->any())
+            ->method('getRepository')
+            ->with($this->userManager->getClass())
+            ->willReturn($repository);
+
+        $this->websiteManager->expects($this->once())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
+
+        $this->tokenAccessor->expects($this->never())
+            ->method('getOrganization');
+
+        $this->assertSame($user, $this->userManager->findUserByUsername($email));
+    }
+
+    public function testFindUserByEmailWithTokenOrganization()
+    {
+        $email = 'Test@test.com';
+
+        $user = new CustomerUser();
+        $user->setEmail($email);
+
+        $org = new Organization();
+
+        $this->assertConfigManagerCalled();
+
+        $this->registry->expects($this->any())
+            ->method('getManagerForClass')
+            ->willReturn($this->om);
+
+        $repository = $this->createMock(CustomerUserRepository::class);
+        $repository->expects($this->once())
+            ->method('findUserByEmailAndOrganization')
+            ->with($user->getEmail(), $org, true)
+            ->willReturn($user);
+
+        $this->om->expects($this->any())
+            ->method('getRepository')
+            ->with($this->userManager->getClass())
+            ->willReturn($repository);
+
+        $this->websiteManager->expects($this->once())
+            ->method('getCurrentWebsite')
+            ->willReturn(null);
+
+        $this->tokenAccessor->expects($this->once())
+            ->method('getOrganization')
+            ->willReturn($org);
+
+        $this->assertSame($user, $this->userManager->findUserByUsername($email));
+    }
+
     /**
      * @param CustomerUser $user
      */
     private function assertRepositoryCalled(CustomerUser $user)
     {
         $this->registry
-            ->expects(self::once())
+            ->expects(self::any())
             ->method('getManagerForClass')
             ->willReturn($this->om);
 
         $this->om
-            ->expects(self::once())
+            ->expects(self::any())
             ->method('getRepository')
             ->with($this->userManager->getClass())
             ->willReturn($repository = $this->createMock(AbstractUserRepository::class));
