@@ -23,9 +23,14 @@ class FrontendOwnerValidator extends AbstractOwnerValidator
             return true;
         }
 
+        $currentUser = $this->tokenAccessor->getUser();
+        if (null === $currentUser) {
+            return true;
+        }
+
         if ($ownershipMetadata->isUserOwned()) {
             return $this->canUserBeSetAsOwner(
-                $this->tokenAccessor->getUser(),
+                $currentUser,
                 $owner,
                 $accessLevel,
                 $this->getOrganization()
@@ -34,7 +39,7 @@ class FrontendOwnerValidator extends AbstractOwnerValidator
 
         if ($ownershipMetadata->isBusinessUnitOwned()) {
             return $this->canCustomerBeSetAsOwner(
-                $this->tokenAccessor->getUser(),
+                $currentUser,
                 $owner,
                 $accessLevel,
                 $this->getOrganization()
