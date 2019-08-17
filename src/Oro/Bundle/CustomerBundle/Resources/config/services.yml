@@ -61,6 +61,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before, method: onBuildBefore }
 
+    oro_customer.security.authentication.organization_guesser:
+        class: Oro\Bundle\CustomerBundle\Security\Guesser\OrganizationGuesser
+        decorates: oro_security.authentication.organization_guesser
+        arguments:
+            - '@oro_customer.security.authentication.organization_guesser.inner'
+            - '@oro_frontend.request.frontend_helper'
+            - '@oro_website.manager'
+
     oro_customer.security.authentication.trust_resolver_decorator:
         class: Oro\Bundle\CustomerBundle\Security\AuthenticationTrustResolver
         decorates: security.authentication.trust_resolver
@@ -222,7 +230,6 @@ services:
         arguments:
             - '@doctrine'
             - '@oro_config.manager'
-            - '@oro_website.manager'
             - '@oro_security.token_accessor'
 
     oro_customer.security.provider:

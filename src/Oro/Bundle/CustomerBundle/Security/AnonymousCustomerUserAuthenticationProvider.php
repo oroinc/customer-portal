@@ -7,22 +7,20 @@ use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
+/**
+ * The authentication provider for the storefront anonymous user.
+ */
 class AnonymousCustomerUserAuthenticationProvider implements AuthenticationProviderInterface
 {
-    /**
-     * @var CustomerVisitorManager
-     */
+    /** @var CustomerVisitorManager */
     private $visitorManager;
 
-    /**
-     * @var WebsiteManager
-     */
+    /** @var WebsiteManager */
     private $websiteManager;
 
-    /**
-     * @var integer
-     */
+    /** @var int */
     private $updateLatency;
 
     /**
@@ -53,20 +51,19 @@ class AnonymousCustomerUserAuthenticationProvider implements AuthenticationProvi
      */
     public function authenticate(TokenInterface $token)
     {
-        if (!$this->supports($token)) {
-            return null;
+        $website = $this->websiteManager->getCurrentWebsite();
+        if (null === $website) {
+            throw new AuthenticationException('The current website cannot be found.');
+        }
+
+        $organization = $website->getOrganization();
+        if (null === $organization) {
+            throw new AuthenticationException('The current website is not assigned to an organization.');
         }
 
         $credentials = $token->getCredentials();
         $visitor = $this->visitorManager->findOrCreate($credentials['visitor_id'], $credentials['session_id']);
-
         $this->visitorManager->updateLastVisitTime($visitor, $this->updateLatency);
-
-        $organization = null;
-        $website = $this->websiteManager->getCurrentWebsite();
-        if ($website !== null) {
-            $organization = $website->getOrganization();
-        }
 
         return new AnonymousCustomerUserToken(
             $token->getUser(),

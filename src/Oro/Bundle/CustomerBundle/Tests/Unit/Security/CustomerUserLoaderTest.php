@@ -10,8 +10,6 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserLoader;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessor;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -23,9 +21,6 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
 
     /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
-
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
 
     /** @var TokenAccessor|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
@@ -40,13 +35,11 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
     {
         $this->doctrine = $this->createMock(ManagerRegistry::class);
         $this->configManager = $this->createMock(ConfigManager::class);
-        $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->tokenAccessor = $this->createMock(TokenAccessor::class);
 
         $this->userLoader = new CustomerUserLoader(
             $this->doctrine,
             $this->configManager,
-            $this->websiteManager,
             $this->tokenAccessor
         );
     }
@@ -97,43 +90,6 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
         $caseInsensitiveEmailAddressesEnabled = true;
 
         $organization = new Organization();
-        $website = new Website();
-        $website->setOrganization($organization);
-        $this->websiteManager->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->willReturn($website);
-        $this->tokenAccessor->expects($this->never())
-            ->method('getOrganization');
-
-        $this->configManager->expects($this->once())
-            ->method('get')
-            ->with('oro_customer.case_insensitive_email_addresses_enabled')
-            ->willReturn($caseInsensitiveEmailAddressesEnabled);
-
-        $repository = $this->expectGetRepository();
-        $repository->expects($this->once())
-            ->method('findUserByEmailAndOrganization')
-            ->with($username, $organization, $caseInsensitiveEmailAddressesEnabled)
-            ->willReturn($user);
-        $repository->expects($this->never())
-            ->method('findUserByEmail');
-
-        $this->assertSame($user, $this->userLoader->loadUserByUsername($username));
-    }
-
-    /**
-     * @dataProvider findUserDataProvider
-     * @param CustomerUser|\PHPUnit\Framework\MockObject\MockObject $user
-     */
-    public function testLoadUserByUsernameWithoutWebsite($user)
-    {
-        $username = 'test';
-        $caseInsensitiveEmailAddressesEnabled = true;
-
-        $organization = new Organization();
-        $this->websiteManager->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->willReturn(null);
         $this->tokenAccessor->expects($this->once())
             ->method('getOrganization')
             ->willReturn($organization);
@@ -163,9 +119,6 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
         $username = 'test';
         $caseInsensitiveEmailAddressesEnabled = true;
 
-        $this->websiteManager->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->willReturn(null);
         $this->tokenAccessor->expects($this->once())
             ->method('getOrganization')
             ->willReturn(null);
@@ -196,43 +149,6 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
         $caseInsensitiveEmailAddressesEnabled = true;
 
         $organization = new Organization();
-        $website = new Website();
-        $website->setOrganization($organization);
-        $this->websiteManager->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->willReturn($website);
-        $this->tokenAccessor->expects($this->never())
-            ->method('getOrganization');
-
-        $this->configManager->expects($this->once())
-            ->method('get')
-            ->with('oro_customer.case_insensitive_email_addresses_enabled')
-            ->willReturn($caseInsensitiveEmailAddressesEnabled);
-
-        $repository = $this->expectGetRepository();
-        $repository->expects($this->once())
-            ->method('findUserByEmailAndOrganization')
-            ->with($email, $organization, $caseInsensitiveEmailAddressesEnabled)
-            ->willReturn($user);
-        $repository->expects($this->never())
-            ->method('findUserByEmail');
-
-        $this->assertSame($user, $this->userLoader->loadUserByEmail($email));
-    }
-
-    /**
-     * @dataProvider findUserDataProvider
-     * @param CustomerUser|\PHPUnit\Framework\MockObject\MockObject $user
-     */
-    public function testLoadUserByEmailWithoutWebsite($user)
-    {
-        $email = 'test@example.com';
-        $caseInsensitiveEmailAddressesEnabled = true;
-
-        $organization = new Organization();
-        $this->websiteManager->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->willReturn(null);
         $this->tokenAccessor->expects($this->once())
             ->method('getOrganization')
             ->willReturn($organization);
@@ -262,9 +178,6 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
         $email = 'test@example.com';
         $caseInsensitiveEmailAddressesEnabled = true;
 
-        $this->websiteManager->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->willReturn(null);
         $this->tokenAccessor->expects($this->once())
             ->method('getOrganization')
             ->willReturn(null);
@@ -295,43 +208,6 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
         $caseInsensitiveEmailAddressesEnabled = false;
 
         $organization = new Organization();
-        $website = new Website();
-        $website->setOrganization($organization);
-        $this->websiteManager->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->willReturn($website);
-        $this->tokenAccessor->expects($this->never())
-            ->method('getOrganization');
-
-        $this->configManager->expects($this->once())
-            ->method('get')
-            ->with('oro_customer.case_insensitive_email_addresses_enabled')
-            ->willReturn($caseInsensitiveEmailAddressesEnabled);
-
-        $repository = $this->expectGetRepository();
-        $repository->expects($this->once())
-            ->method('findUserByEmailAndOrganization')
-            ->with($login, $organization, $caseInsensitiveEmailAddressesEnabled)
-            ->willReturn($user);
-        $repository->expects($this->never())
-            ->method('findUserByEmail');
-
-        $this->assertSame($user, $this->userLoader->loadUser($login));
-    }
-
-    /**
-     * @dataProvider findUserDataProvider
-     * @param CustomerUser|\PHPUnit\Framework\MockObject\MockObject $user
-     */
-    public function testLoadUserWithoutWebsite($user)
-    {
-        $login = 'test@example.com';
-        $caseInsensitiveEmailAddressesEnabled = false;
-
-        $organization = new Organization();
-        $this->websiteManager->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->willReturn(null);
         $this->tokenAccessor->expects($this->once())
             ->method('getOrganization')
             ->willReturn($organization);
@@ -361,9 +237,6 @@ class CustomerUserLoaderTest extends \PHPUnit\Framework\TestCase
         $login = 'test@example.com';
         $caseInsensitiveEmailAddressesEnabled = false;
 
-        $this->websiteManager->expects($this->once())
-            ->method('getCurrentWebsite')
-            ->willReturn(null);
         $this->tokenAccessor->expects($this->once())
             ->method('getOrganization')
             ->willReturn(null);

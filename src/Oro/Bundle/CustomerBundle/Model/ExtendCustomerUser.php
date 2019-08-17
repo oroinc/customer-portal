@@ -4,7 +4,10 @@ namespace Oro\Bundle\CustomerBundle\Model;
 
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 
-class ExtendCustomerUser extends AbstractUser
+/**
+ * This class is required to make CustomerUser entity extendable.
+ */
+abstract class ExtendCustomerUser extends AbstractUser
 {
     /**
      * Constructor

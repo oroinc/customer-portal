@@ -28,8 +28,8 @@ class LoginTest extends FrontendWebTestCase
     protected function setUp()
     {
         $this->initClient();
-        $this->setCurrentWebsite();
         $this->loadFixtures([LoadCustomerUserData::class]);
+        $this->setCurrentWebsite();
     }
 
     /**
@@ -293,7 +293,6 @@ class LoginTest extends FrontendWebTestCase
 
     public function testLoginShouldBeAvailableEvenIfGuestsHaveNoAccessToSystem()
     {
-        $this->setCurrentWebsite();
         $configManager = self::getContainer()->get('oro_config.manager');
         $configManager->set('oro_frontend.guest_access_enabled', false);
         $configManager->flush();

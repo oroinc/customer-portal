@@ -1200,4 +1200,19 @@ class CustomerUser extends ExtendCustomerUser implements
     {
         return $this;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrganizations(bool $onlyEnabled = false)
+    {
+        $organizations = new ArrayCollection();
+        if ($this->organization) {
+            if (!$onlyEnabled || $this->organization->isEnabled()) {
+                $organizations->add($this->organization);
+            }
+        }
+
+        return $organizations;
+    }
 }

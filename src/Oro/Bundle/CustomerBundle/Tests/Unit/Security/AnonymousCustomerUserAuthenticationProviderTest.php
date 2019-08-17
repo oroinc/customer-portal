@@ -64,13 +64,6 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework
         );
     }
 
-    public function testAuthenticateNotSupported()
-    {
-        $this->visitorManager->expects($this->never())
-            ->method('findOrCreate');
-        $this->assertNull($this->provider->authenticate($this->createMock(TokenInterface::class)));
-    }
-
     public function testAuthenticate()
     {
         $token = new AnonymousCustomerUserToken('User', ['ROLE_FOO', 'ROLE_BAR']);
