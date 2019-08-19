@@ -8,8 +8,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 /**
- * Decorates LoginListener from MessageQueueBundle to allow for FrontendHelper usage
- * which is not available in platform and other applications without customer-portal
+ * The decorator for {@see \Oro\Bundle\MessageQueueBundle\EventListener\LoginListener}
+ * to disable the message queue consumer alive message for storefront users.
  */
 class FrontendLoginListenerDecorator
 {
@@ -24,8 +24,8 @@ class FrontendLoginListenerDecorator
 
     /**
      * @param KernelInterface $kernel
-     * @param LoginListener $loginListener
-     * @param FrontendHelper $frontendHelper
+     * @param LoginListener   $loginListener
+     * @param FrontendHelper  $frontendHelper
      */
     public function __construct(
         KernelInterface $kernel,
@@ -38,13 +38,11 @@ class FrontendLoginListenerDecorator
     }
 
     /**
-     * Does nothing in case of frontend request to disable message queue consumer error message for store front users
-     *
      * @param InteractiveLoginEvent $event
      */
     public function onLogin(InteractiveLoginEvent $event)
     {
-        if ($this->frontendHelper->isFrontendRequest($event->getRequest())
+        if ($this->frontendHelper->isFrontendUrl($event->getRequest()->getPathInfo())
             && $this->kernel->getEnvironment() === 'prod'
         ) {
             return;

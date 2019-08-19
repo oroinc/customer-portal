@@ -4,16 +4,22 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Extension;
 
 use Oro\Bundle\AddressBundle\Form\Type\AddressType;
 use Oro\Bundle\CustomerBundle\Form\Extension\AddressExtension;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AddressExtensionTest extends AbstractCustomerUserAwareExtensionTest
+class AddressExtensionTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendHelper;
+
+    /** @var AddressExtension */
+    private $extension;
+
     protected function setUp()
     {
-        parent::setUp();
+        $this->frontendHelper = $this->createMock(FrontendHelper::class);
 
-        $this->extension = new AddressExtension($this->tokenStorage);
+        $this->extension = new AddressExtension($this->frontendHelper);
     }
 
     public function testGetExtendedType()
@@ -21,37 +27,26 @@ class AddressExtensionTest extends AbstractCustomerUserAwareExtensionTest
         $this->assertEquals(AddressType::class, $this->extension->getExtendedType());
     }
 
-    public function testConfigureOptionsNonCustomerUser()
+    public function testConfigureOptionsForBackend()
     {
-        $this->assertOptionsNotChangedForNonCustomerUser();
-    }
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(false);
 
-    public function testConfigureOptionsCustomerUser()
-    {
-        $this->assertCustomerUserTokenCall();
-
-        /** @var \PHPUnit\Framework\MockObject\MockObject|OptionsResolver $resolver */
-        $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $resolver->expects($this->once())
-            ->method('setDefault')
-            ->with('region_route', 'oro_api_frontend_country_get_regions');
+        $resolver = $this->createMock(OptionsResolver::class);
+        $resolver->expects($this->never())
+            ->method($this->anything());
 
         $this->extension->configureOptions($resolver);
     }
 
-    public function testConfigureOptionsCustomerVisitor()
+    public function testConfigureOptionsForFrontend()
     {
-        $token = $this->createMock(AnonymousCustomerUserToken::class);
-        $this->tokenStorage->expects($this->once())
-            ->method('getToken')
-            ->will($this->returnValue($token));
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|OptionsResolver $resolver */
-        $resolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects($this->once())
             ->method('setDefault')
             ->with('region_route', 'oro_api_frontend_country_get_regions');

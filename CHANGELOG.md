@@ -2,6 +2,15 @@ Please refer first to [UPGRADE.md](UPGRADE.md) for the most important items that
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+## 4.1.0-beta
+
+#### FrontendBundle
+* The method `isFrontendRequest(Request $request = null): bool` of `Oro\Bundle\FrontendBundle\Request\FrontendHelper`
+  was changed to `isFrontendRequest(): bool`. To check whether a request is a storefront request use
+  `isFrontendUrl($request->getPathInfo())`.
+* The class `Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider`
+  was renamed to `Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider`.
+
 ## 4.0.0-rc (2019-05-29)
 [Show detailed list of changes](incompatibilities-4-0-rc.md)
 

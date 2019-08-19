@@ -8,7 +8,7 @@ use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\AttachmentBundle\Provider\FileApplicationsProvider;
 use Oro\Bundle\AttachmentBundle\Provider\FileUrlProviderInterface;
 use Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider;
-use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
+use Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
@@ -172,7 +172,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     {
         $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
 
-        $this->mockApplications($fileApplications, ActionCurrentApplicationProvider::COMMERCE_APPLICATION);
+        $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
         $this->urlGenerator
             ->method('generate')
@@ -220,7 +220,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
-                'fileApplications' => [ActionCurrentApplicationProvider::COMMERCE_APPLICATION],
+                'fileApplications' => [FrontendCurrentApplicationProvider::COMMERCE_APPLICATION],
                 'isCoveredByAcl' => true,
             ],
             [
@@ -228,11 +228,11 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
                 'isCoveredByAcl' => true,
             ],
             [
-                'fileApplications' => [ActionCurrentApplicationProvider::DEFAULT_APPLICATION],
+                'fileApplications' => [FrontendCurrentApplicationProvider::DEFAULT_APPLICATION],
                 'isCoveredByAcl' => false,
             ],
             [
-                'fileApplications' => [ActionCurrentApplicationProvider::COMMERCE_APPLICATION],
+                'fileApplications' => [FrontendCurrentApplicationProvider::COMMERCE_APPLICATION],
                 'isCoveredByAcl' => false,
             ],
         ];
@@ -248,7 +248,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     {
         $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
 
-        $this->mockApplications($fileApplications, ActionCurrentApplicationProvider::COMMERCE_APPLICATION);
+        $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
         $this->urlGenerator
             ->method('generate')
@@ -280,7 +280,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     {
         $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
 
-        $this->mockApplications($fileApplications, ActionCurrentApplicationProvider::COMMERCE_APPLICATION);
+        $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
         $this->urlGenerator
             ->method('generate')

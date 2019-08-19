@@ -43,10 +43,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $loader->load('commands.yml');
         $loader->load('controllers.yml');
 
-        if ('test' === $container->getParameter('kernel.environment')) {
-            $loader->load('services_test.yml');
-        }
-
         $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
 
         $config = $this->processConfiguration($configuration, $configs);
@@ -145,7 +141,8 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         }
 
         $container->getDefinition('oro_frontend.request.frontend_helper')
-            ->setClass(NotInstalledFrontendHelper::class);
+            ->setClass(NotInstalledFrontendHelper::class)
+            ->setArguments([]);
     }
 
     /**

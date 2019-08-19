@@ -3,9 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Api\ApiDoc;
 
 use Oro\Bundle\ApiBundle\ApiDoc\SecurityContextInterface;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
 /**
  * The implementation of the security context for the frontend API Sandbox.
@@ -15,19 +13,19 @@ class SecurityContext implements SecurityContextInterface
     /** @var SecurityContextInterface */
     private $innerSecurityContext;
 
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
+    /** @var FrontendHelper */
+    private $frontendHelper;
 
     /**
      * @param SecurityContextInterface $innerSecurityContext
-     * @param TokenStorageInterface    $tokenStorage
+     * @param FrontendHelper           $frontendHelper
      */
     public function __construct(
         SecurityContextInterface $innerSecurityContext,
-        TokenStorageInterface $tokenStorage
+        FrontendHelper $frontendHelper
     ) {
         $this->innerSecurityContext = $innerSecurityContext;
-        $this->tokenStorage = $tokenStorage;
+        $this->frontendHelper = $frontendHelper;
     }
 
     /**
@@ -59,7 +57,7 @@ class SecurityContext implements SecurityContextInterface
      */
     public function getApiKeyGenerationHint(): ?string
     {
-        if ($this->isFrontentApi()) {
+        if ($this->frontendHelper->isFrontendRequest()) {
             return
                 'To use WSSE authentication the API key should be already generated'
                 . ' for the current logged-in customer user.'
@@ -77,7 +75,7 @@ class SecurityContext implements SecurityContextInterface
      */
     public function getLoginRoute(): ?string
     {
-        if ($this->isFrontentApi()) {
+        if ($this->frontendHelper->isFrontendRequest()) {
             return 'oro_customer_customer_user_security_login';
         }
 
@@ -89,25 +87,10 @@ class SecurityContext implements SecurityContextInterface
      */
     public function getLogoutRoute(): ?string
     {
-        if ($this->isFrontentApi()) {
+        if ($this->frontendHelper->isFrontendRequest()) {
             return 'oro_customer_customer_user_security_logout';
         }
 
         return $this->innerSecurityContext->getLogoutRoute();
-    }
-
-    /**
-     * @return bool
-     */
-    private function isFrontentApi(): bool
-    {
-        $token = $this->tokenStorage->getToken();
-
-        return
-            null !== $token
-            && (
-                $token instanceof AnonymousCustomerUserToken
-                || $token->getUser() instanceof CustomerUser
-            );
     }
 }

@@ -3,39 +3,50 @@
 namespace Oro\Bundle\FrontendBundle\Provider;
 
 use Oro\Bundle\ActionBundle\Provider\RouteProviderInterface;
-use Oro\Bundle\ActionBundle\Provider\RouteProviderTrait;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
+/**
+ * The provider for action routes that returns storefront routes for storefront requests
+ * and default routes for management console requests.
+ */
 class RouteProvider implements RouteProviderInterface
 {
-    use RouteProviderTrait;
-
     /** @var RouteProviderInterface */
-    protected $routeProvider;
+    private $routeProvider;
 
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
+    /** @var FrontendHelper */
+    private $frontendHelper;
+
+    /** @var string */
+    private $formDialogRoute;
+
+    /** @var string */
+    private $formPageRoute;
+
+    /** @var string */
+    private $executionRoute;
+
+    /** @var string|null */
+    private $widgetRoute;
 
     /**
      * @param RouteProviderInterface $routeProvider
-     * @param TokenStorageInterface $tokenStorage
-     * @param string $formDialogRoute
-     * @param string $formPageRoute
-     * @param string $executionRoute
-     * @param string|null $widgetRoute
+     * @param FrontendHelper         $frontendHelper
+     * @param string                 $formDialogRoute
+     * @param string                 $formPageRoute
+     * @param string                 $executionRoute
+     * @param string|null            $widgetRoute
      */
     public function __construct(
         RouteProviderInterface $routeProvider,
-        TokenStorageInterface $tokenStorage,
+        FrontendHelper $frontendHelper,
         $formDialogRoute,
         $formPageRoute,
         $executionRoute,
         $widgetRoute = null
     ) {
         $this->routeProvider = $routeProvider;
-        $this->tokenStorage = $tokenStorage;
+        $this->frontendHelper = $frontendHelper;
         $this->formDialogRoute = $formDialogRoute;
         $this->formPageRoute = $formPageRoute;
         $this->executionRoute = $executionRoute;
@@ -47,7 +58,9 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getWidgetRoute()
     {
-        return $this->isFrontend() ? $this->widgetRoute : $this->routeProvider->getWidgetRoute();
+        return $this->frontendHelper->isFrontendRequest()
+            ? $this->widgetRoute
+            : $this->routeProvider->getWidgetRoute();
     }
 
     /**
@@ -55,7 +68,9 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getFormDialogRoute()
     {
-        return $this->isFrontend() ? $this->formDialogRoute : $this->routeProvider->getFormDialogRoute();
+        return $this->frontendHelper->isFrontendRequest()
+            ? $this->formDialogRoute
+            : $this->routeProvider->getFormDialogRoute();
     }
 
     /**
@@ -63,7 +78,9 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getFormPageRoute()
     {
-        return $this->isFrontend() ? $this->formPageRoute : $this->routeProvider->getFormPageRoute();
+        return $this->frontendHelper->isFrontendRequest()
+            ? $this->formPageRoute
+            : $this->routeProvider->getFormPageRoute();
     }
 
     /**
@@ -71,16 +88,8 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getExecutionRoute()
     {
-        return $this->isFrontend() ? $this->executionRoute : $this->routeProvider->getExecutionRoute();
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isFrontend()
-    {
-        $token = $this->tokenStorage->getToken();
-
-        return $token && ($token->getUser() instanceof CustomerUser || $token instanceof AnonymousCustomerUserToken);
+        return $this->frontendHelper->isFrontendRequest()
+            ? $this->executionRoute
+            : $this->routeProvider->getExecutionRoute();
     }
 }

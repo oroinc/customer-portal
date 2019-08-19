@@ -5,11 +5,14 @@ namespace Oro\Bundle\FrontendBundle\EventListener;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
 use Oro\Bundle\EntityExtendBundle\Grid\AdditionalFieldsExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendBundle\Request\FrontendHelperTrait;
 
+/**
+ * Disables custom fields for storefront grids.
+ */
 class DatagridFieldsListener
 {
-    use FrontendHelperTrait;
+    /** @var FrontendHelper */
+    private $frontendHelper;
 
     /**
      * @param FrontendHelper $frontendHelper
@@ -24,11 +27,11 @@ class DatagridFieldsListener
      */
     public function onBuildBefore(BuildBefore $event)
     {
-        $config = $event->getConfig();
-        if (!$this->isFrontendRequest()) {
+        if (!$this->frontendHelper->isFrontendRequest()) {
             return;
         }
 
+        $config = $event->getConfig();
         $config->offsetSetByPath(AdditionalFieldsExtension::ADDITIONAL_FIELDS_CONFIG_PATH, []);
         $config->setExtendedEntityClassName(null);
     }

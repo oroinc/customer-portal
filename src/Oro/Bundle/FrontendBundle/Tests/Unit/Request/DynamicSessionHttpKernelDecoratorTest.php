@@ -63,8 +63,8 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         $response = $this->createMock(Response::class);
 
         $this->frontendHelper->expects(self::once())
-            ->method('isFrontendRequest')
-            ->with(self::identicalTo($request))
+            ->method('isFrontendUrl')
+            ->with($request->getPathInfo())
             ->willReturn(false);
         $this->kernel->expects(self::once())
             ->method('handle')
@@ -99,8 +99,8 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         $response = $this->createMock(Response::class);
 
         $this->frontendHelper->expects(self::once())
-            ->method('isFrontendRequest')
-            ->with(self::identicalTo($request))
+            ->method('isFrontendUrl')
+            ->with($request->getPathInfo())
             ->willReturn(true);
         $this->kernel->expects(self::once())
             ->method('handle')
@@ -126,7 +126,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testHandleForBackendRequestAfterFrontendRequest()
     {
         $this->frontendHelper->expects(self::exactly(2))
-            ->method('isFrontendRequest')
+            ->method('isFrontendUrl')
             ->willReturnOnConsecutiveCalls(true, false);
         $this->kernel->expects(self::exactly(2))
             ->method('handle')
@@ -149,7 +149,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testHandleForFrontendRequestAfterBackendRequest()
     {
         $this->frontendHelper->expects(self::exactly(2))
-            ->method('isFrontendRequest')
+            ->method('isFrontendUrl')
             ->willReturnOnConsecutiveCalls(false, true);
         $this->kernel->expects(self::exactly(2))
             ->method('handle')
@@ -172,6 +172,9 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testHandleForBackendRequestForApplicationInSubDir()
     {
         $request = $this->createMock(Request::class);
+        $request->expects(self::any())
+            ->method('getPathInfo')
+            ->willReturn('/subDir');
         $request->expects(self::once())
             ->method('getBasePath')
             ->willReturn('/subDir');
@@ -180,8 +183,8 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         $response = $this->createMock(Response::class);
 
         $this->frontendHelper->expects(self::once())
-            ->method('isFrontendRequest')
-            ->with(self::identicalTo($request))
+            ->method('isFrontendUrl')
+            ->with($request->getPathInfo())
             ->willReturn(false);
         $this->kernel->expects(self::once())
             ->method('handle')
@@ -211,6 +214,9 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testHandleForFrontendRequestForApplicationInSubDir()
     {
         $request = $this->createMock(Request::class);
+        $request->expects(self::any())
+            ->method('getPathInfo')
+            ->willReturn('/subDir');
         $request->expects(self::once())
             ->method('getBasePath')
             ->willReturn('/subDir');
@@ -219,8 +225,8 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         $response = $this->createMock(Response::class);
 
         $this->frontendHelper->expects(self::once())
-            ->method('isFrontendRequest')
-            ->with(self::identicalTo($request))
+            ->method('isFrontendUrl')
+            ->with($request->getPathInfo())
             ->willReturn(true);
         $this->kernel->expects(self::once())
             ->method('handle')
@@ -250,12 +256,15 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testHandleForBackendRequestAfterFrontendRequestForApplicationInSubDir()
     {
         $request = $this->createMock(Request::class);
+        $request->expects(self::any())
+            ->method('getPathInfo')
+            ->willReturn('/subDir');
         $request->expects(self::exactly(2))
             ->method('getBasePath')
             ->willReturn('/subDir');
 
         $this->frontendHelper->expects(self::exactly(2))
-            ->method('isFrontendRequest')
+            ->method('isFrontendUrl')
             ->willReturnOnConsecutiveCalls(true, false);
         $this->kernel->expects(self::exactly(2))
             ->method('handle')
@@ -284,12 +293,15 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
     public function testHandleForFrontendRequestAfterBackendRequestForApplicationInSubDir()
     {
         $request = $this->createMock(Request::class);
+        $request->expects(self::any())
+            ->method('getPathInfo')
+            ->willReturn('/subDir');
         $request->expects(self::exactly(2))
             ->method('getBasePath')
             ->willReturn('/subDir');
 
         $this->frontendHelper->expects(self::exactly(2))
-            ->method('isFrontendRequest')
+            ->method('isFrontendUrl')
             ->willReturnOnConsecutiveCalls(false, true);
         $this->kernel->expects(self::exactly(2))
             ->method('handle')

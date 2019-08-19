@@ -37,9 +37,7 @@ class FrontendLoginListenerDecoratorTest extends \PHPUnit\Framework\TestCase
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
 
         $this->request = new Request();
-        /** @var TokenInterface|\PHPUnit\Framework\MockObject\MockObject $token */
-        $token = $this->createMock(TokenInterface::class);
-        $this->event = new InteractiveLoginEvent($this->request, $token);
+        $this->event = new InteractiveLoginEvent($this->request, $this->createMock(TokenInterface::class));
 
         $this->loginListener = new FrontendLoginListenerDecorator(
             $this->kernel,
@@ -49,9 +47,9 @@ class FrontendLoginListenerDecoratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param bool $frontend
+     * @param bool   $frontend
      * @param string $env
-     * @param bool $expected
+     * @param bool   $expected
      *
      * @dataProvider onLoginProvider
      */
@@ -62,8 +60,8 @@ class FrontendLoginListenerDecoratorTest extends \PHPUnit\Framework\TestCase
             ->willReturn($env);
 
         $this->frontendHelper->expects(self::any())
-            ->method('isFrontendRequest')
-            ->with($this->request)
+            ->method('isFrontendUrl')
+            ->with($this->request->getPathInfo())
             ->willReturn($frontend);
 
         if ($expected) {
@@ -83,24 +81,24 @@ class FrontendLoginListenerDecoratorTest extends \PHPUnit\Framework\TestCase
         return [
             'frontend request, prod env' => [
                 'frontend' => true,
-                'env' => 'prod',
-                'expected' => false,
+                'env'      => 'prod',
+                'expected' => false
             ],
-            'frontend request, dev env' => [
+            'frontend request, dev env'  => [
                 'frontend' => true,
-                'env' => 'dev',
-                'expected' => true,
+                'env'      => 'dev',
+                'expected' => true
             ],
-            'backend request, prod env' => [
+            'backend request, prod env'  => [
                 'frontend' => false,
-                'env' => 'prod',
-                'expected' => true,
+                'env'      => 'prod',
+                'expected' => true
             ],
-            'backend request, dev env' => [
+            'backend request, dev env'   => [
                 'frontend' => false,
-                'env' => 'dev',
-                'expected' => true,
-            ],
+                'env'      => 'dev',
+                'expected' => true
+            ]
         ];
     }
 }

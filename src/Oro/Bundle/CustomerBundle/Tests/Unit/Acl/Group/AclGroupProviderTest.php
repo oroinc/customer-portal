@@ -4,85 +4,37 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Acl\Group;
 
 use Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationToken;
-use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
 class AclGroupProviderTest extends \PHPUnit\Framework\TestCase
 {
-    const LOCAL_LEVEL = 'Oro\Bundle\CustomerBundle\Entity\Customer';
-    const BASIC_LEVEL = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
-    protected $tokenAccessor;
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendHelper;
 
     /** @var AclGroupProvider */
-    protected $provider;
+    private $provider;
 
     protected function setUp()
     {
-        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $this->frontendHelper = $this->createMock(FrontendHelper::class);
 
-        $this->provider = new AclGroupProvider($this->tokenAccessor);
+        $this->provider = new AclGroupProvider($this->frontendHelper);
     }
 
-    protected function tearDown()
+    public function testSupportsForFrontend()
     {
-        unset($this->tokenAccessor, $this->provider);
-    }
-
-    public function testSupportsAnonymous()
-    {
-        $this->tokenAccessor->expects($this->once())
-            ->method('getUser')
-            ->willReturn(null);
-
-        $token = $this->createMock(AnonymousCustomerUserToken::class);
-        $this->tokenAccessor->expects($this->once())
-            ->method('getToken')
-            ->willReturn($token);
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
 
         $this->assertTrue($this->provider->supports());
     }
 
-    public function testSupportsCustomerUser()
+    public function testSupportsForBackend()
     {
-        $this->tokenAccessor->expects($this->once())
-            ->method('getUser')
-            ->willReturn(new CustomerUser());
-
-        $token = $this->createMock(OrganizationToken::class);
-        $this->tokenAccessor->expects($this->once())
-            ->method('getToken')
-            ->willReturn($token);
-
-        $this->assertTrue($this->provider->supports());
-    }
-
-    public function testSupportsNoTokenNoUser()
-    {
-        $this->tokenAccessor->expects($this->once())
-            ->method('getUser')
-            ->willReturn(null);
-
-        $this->tokenAccessor->expects($this->once())
-            ->method('getToken')
-            ->willReturn(null);
-
-        $this->assertFalse($this->provider->supports());
-    }
-
-    public function testSupportsUnsupportedUser()
-    {
-        $this->tokenAccessor->expects($this->once())
-            ->method('getUser')
-            ->willReturn($this->createMock(User::class));
-
-        $token = $this->createMock(OrganizationToken::class);
-        $this->tokenAccessor->expects($this->once())
-            ->method('getToken')
-            ->willReturn($token);
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(false);
 
         $this->assertFalse($this->provider->supports());
     }

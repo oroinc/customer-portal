@@ -3,7 +3,6 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Request;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendBundle\Request\NotInstalledFrontendHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -43,22 +42,22 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
     public function isFrontendRequestDataProvider()
     {
         return [
-            'backend' => [
-                'path' => self::BACKEND_PREFIX . '/backend',
-                'isFrontend' => false,
+            'backend'                             => [
+                'path'       => self::BACKEND_PREFIX . '/backend',
+                'isFrontend' => false
             ],
-            'frontend' => [
-                'path' => '/frontend',
-                'isFrontend' => true,
+            'frontend'                            => [
+                'path'       => '/frontend',
+                'isFrontend' => true
             ],
-            'frontend with backend part' => [
-                'path' => '/frontend' . self::BACKEND_PREFIX,
-                'isFrontend' => true,
+            'frontend with backend part'          => [
+                'path'       => '/frontend' . self::BACKEND_PREFIX,
+                'isFrontend' => true
             ],
             'frontend with backend part and slug' => [
-                'path' => '/frontend' . self::BACKEND_PREFIX . '/slug',
-                'isFrontend' => true,
-            ],
+                'path'       => '/frontend' . self::BACKEND_PREFIX . '/slug',
+                'isFrontend' => true
+            ]
         ];
     }
 
@@ -66,18 +65,6 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
     {
         $helper = new FrontendHelper(self::BACKEND_PREFIX, $this->getRequestStack());
         $this->assertFalse($helper->isFrontendRequest());
-    }
-
-    public function testIsFrontendRequestNotInstalled()
-    {
-        $helper = new NotInstalledFrontendHelper(self::BACKEND_PREFIX, $this->getRequestStack());
-        $this->assertFalse($helper->isFrontendRequest(new Request([], [], ['_route' => 'test'])));
-    }
-
-    public function testIsFrontendUrlForNotInstalled()
-    {
-        $helper = new NotInstalledFrontendHelper(self::BACKEND_PREFIX, $this->getRequestStack());
-        $this->assertFalse($helper->isFrontendUrl('/test'));
     }
 
     public function testIsFrontendUrlForBackendUrl()

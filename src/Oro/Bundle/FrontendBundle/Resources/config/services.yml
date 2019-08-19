@@ -43,10 +43,8 @@ services:
     oro_frontend.listener.theme:
         class: 'Oro\Bundle\FrontendBundle\EventListener\ThemeListener'
         arguments:
-            - '@oro_theme.registry'
             - '@oro_frontend.request.frontend_helper'
             - '@oro_config.manager'
-            - '%installed%'
         tags:
             - {name: kernel.event_listener, event: kernel.request, method: onKernelRequest}
             - {name: kernel.event_listener, event: kernel.view, method: onKernelView, priority: 20 }
@@ -67,7 +65,6 @@ services:
         arguments:
             - '@oro_frontend.guest_access.provider.chain_guest_access_urls_provider'
             - '@oro_frontend.request.frontend_helper'
-            - '%installed%'
         public: false
 
     oro_frontend.guest_access.provider.guest_access_urls_provider:
@@ -148,19 +145,12 @@ services:
             # Must be executed before all listeners to change route for enum filters
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before, method: onBuildBefore, priority: 255 }
 
-    oro_frontend.provider.current_application:
-        class: 'Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider'
-        decorates: oro_action.provider.current_application
-        arguments:
-            - '@oro_frontend.provider.current_application.inner'
-            - '@security.token_storage'
-
     oro_frontend.provider.action_route:
         class: 'Oro\Bundle\FrontendBundle\Provider\RouteProvider'
         decorates: oro_action.provider.route
         arguments:
             - '@oro_frontend.provider.action_route.inner'
-            - '@security.token_storage'
+            - '@oro_frontend.request.frontend_helper'
             - 'oro_frontend_action_widget_form'
             - 'oro_frontend_action_widget_form'
             - 'oro_frontend_action_operation_execute'
@@ -171,7 +161,7 @@ services:
         decorates: oro_workflow.provider.start_transition_route
         arguments:
             - '@oro_frontend.provider.start_transition_route.inner'
-            - '@security.token_storage'
+            - '@oro_frontend.request.frontend_helper'
             - 'oro_frontend_workflow_widget_start_transition_form'
             - 'oro_frontend_workflow_start_transition_form'
             - 'oro_api_frontend_workflow_start'
@@ -182,7 +172,7 @@ services:
         decorates: oro_workflow.provider.transition_route
         arguments:
             - '@oro_frontend.provider.transition_route.inner'
-            - '@security.token_storage'
+            - '@oro_frontend.request.frontend_helper'
             - 'oro_frontend_workflow_widget_transition_form'
             - 'oro_frontend_workflow_transition_form'
             - 'oro_api_frontend_workflow_transit'
@@ -246,7 +236,7 @@ services:
     oro_frontend.datagrid.extension.frontend_datagrid:
         class: Oro\Bundle\FrontendBundle\Datagrid\Extension\FrontendDatagridExtension
         arguments:
-            - '@security.token_storage'
+            - '@oro_frontend.request.frontend_helper'
         tags:
             - { name: oro_datagrid.extension }
 

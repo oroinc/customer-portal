@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\FrontendBundle\Request;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Helper class for check whether a request is a storefront or management console request.
+ * The helper class to check whether the current request is a storefront or management console request.
  */
 class FrontendHelper
 {
@@ -17,7 +16,7 @@ class FrontendHelper
     private $requestStack;
 
     /**
-     * @param string $backendPrefix
+     * @param string       $backendPrefix
      * @param RequestStack $requestStack
      */
     public function __construct($backendPrefix, RequestStack $requestStack)
@@ -27,23 +26,23 @@ class FrontendHelper
     }
 
     /**
-     * @param Request|null $request
      * @return bool
      */
-    public function isFrontendRequest(Request $request = null)
+    public function isFrontendRequest(): bool
     {
-        if (null === $request) {
-            $request = $this->requestStack->getMasterRequest();
-        }
+        $request = $this->requestStack->getMasterRequest();
 
-        return null !== $request && $this->isFrontendUrl($request->getPathInfo());
+        return
+            null !== $request
+            && $this->isFrontendUrl($request->getPathInfo());
     }
 
     /**
      * @param string $url
+     *
      * @return bool
      */
-    public function isFrontendUrl($url)
+    public function isFrontendUrl(string $url): bool
     {
         // the least time consuming method to check whether URL is frontend
         return strpos($url, $this->backendPrefix) !== 0;

@@ -1,4 +1,0 @@
-services:
-    oro_frontend.request.frontend_helper.stub:
-        parent: oro_frontend.request.frontend_helper
-        public: true

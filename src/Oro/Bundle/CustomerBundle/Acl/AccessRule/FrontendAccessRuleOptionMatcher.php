@@ -2,11 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Acl\AccessRule;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\SecurityBundle\AccessRule\AccessRuleOptionMatcherInterface;
 use Oro\Bundle\SecurityBundle\AccessRule\Criteria;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * A class that checks whether access rules are applicable for a criteria object.
@@ -20,19 +18,19 @@ class FrontendAccessRuleOptionMatcher implements AccessRuleOptionMatcherInterfac
     /** @var AccessRuleOptionMatcherInterface */
     private $innerMatcher;
 
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
+    /** @var FrontendHelper */
+    private $frontendHelper;
 
     /**
      * @param AccessRuleOptionMatcherInterface $innerMatcher
-     * @param TokenStorageInterface            $tokenStorage
+     * @param FrontendHelper                   $frontendHelper
      */
     public function __construct(
         AccessRuleOptionMatcherInterface $innerMatcher,
-        TokenStorageInterface $tokenStorage
+        FrontendHelper $frontendHelper
     ) {
         $this->innerMatcher = $innerMatcher;
-        $this->tokenStorage = $tokenStorage;
+        $this->frontendHelper = $frontendHelper;
     }
 
     /**
@@ -41,7 +39,7 @@ class FrontendAccessRuleOptionMatcher implements AccessRuleOptionMatcherInterfac
     public function matches(Criteria $criteria, string $optionName, $optionValue): bool
     {
         if (self::OPTION_FRONTEND === $optionName) {
-            $isFrontend = $this->isFrontend();
+            $isFrontend = $this->frontendHelper->isFrontendRequest();
 
             return
                 (true === $optionValue && $isFrontend)
@@ -49,20 +47,5 @@ class FrontendAccessRuleOptionMatcher implements AccessRuleOptionMatcherInterfac
         }
 
         return $this->innerMatcher->matches($criteria, $optionName, $optionValue);
-    }
-
-    /**
-     * @return bool
-     */
-    private function isFrontend(): bool
-    {
-        $token = $this->tokenStorage->getToken();
-
-        return
-            null !== $token
-            && (
-                $token instanceof AnonymousCustomerUserToken
-                || $token->getUser() instanceof CustomerUser
-            );
     }
 }

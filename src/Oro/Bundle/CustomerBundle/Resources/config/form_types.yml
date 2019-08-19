@@ -234,21 +234,21 @@ services:
     oro_customer.form.extension.select_or_create_inline:
         class: 'Oro\Bundle\CustomerBundle\Form\Extension\OroEntitySelectOrCreateInlineExtension'
         arguments:
-            - '@security.token_storage'
+            - '@oro_frontend.request.frontend_helper'
         tags:
             - { name: form.type_extension, alias: "oro_entity_create_or_select_inline", extended_type: Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType }
 
     oro_customer.form.extension.frontend_product_select:
         class: 'Oro\Bundle\CustomerBundle\Form\Extension\FrontendProductSelectExtension'
         arguments:
-            - '@security.token_storage'
+            - '@oro_frontend.request.frontend_helper'
         tags:
             - { name: form.type_extension, alias: oro_product_select, extended_type: Oro\Bundle\ProductBundle\Form\Type\ProductSelectType }
 
     oro_customer.form.extension.address:
         class: 'Oro\Bundle\CustomerBundle\Form\Extension\AddressExtension'
         arguments:
-            - '@security.token_storage'
+            - '@oro_frontend.request.frontend_helper'
         tags:
             - { name: form.type_extension, alias: "oro_address", extended_type: Oro\Bundle\AddressBundle\Form\Type\AddressType }
 

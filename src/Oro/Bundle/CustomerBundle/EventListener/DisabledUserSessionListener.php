@@ -8,16 +8,15 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 
+/**
+ * Sets the redirect to logout URL if the storefront user is locked.
+ */
 class DisabledUserSessionListener
 {
-    /**
-     * @var FrontendHelper
-     */
+    /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @var LogoutUrlGenerator
-     */
+    /** @var LogoutUrlGenerator */
     private $logoutUrlGenerator;
 
     /**
@@ -35,10 +34,10 @@ class DisabledUserSessionListener
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        $exception = $event->getException();
-        if ($exception instanceof LockedException && $this->frontendHelper->isFrontendRequest($event->getRequest())) {
-            $response = new RedirectResponse($this->logoutUrlGenerator->getLogoutUrl());
-            $event->setResponse($response);
+        if ($event->getException() instanceof LockedException
+            && $this->frontendHelper->isFrontendUrl($event->getRequest()->getPathInfo())
+        ) {
+            $event->setResponse(new RedirectResponse($this->logoutUrlGenerator->getLogoutUrl()));
         }
     }
 }

@@ -3,24 +3,23 @@
 namespace Oro\Bundle\CustomerBundle\Acl\Group;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\SecurityBundle\Acl\Group\AclGroupProviderInterface;
-use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 /**
- * Detect ACL group for commerce.
+ * Detects ACL group for the storefront.
  */
 class AclGroupProvider implements AclGroupProviderInterface
 {
-    /** @var TokenAccessorInterface */
-    private $tokenAccessor;
+    /** @var FrontendHelper */
+    private $frontendHelper;
 
     /**
-     * @param TokenAccessorInterface $tokenAccessor
+     * @param FrontendHelper $frontendHelper
      */
-    public function __construct(TokenAccessorInterface $tokenAccessor)
+    public function __construct(FrontendHelper $frontendHelper)
     {
-        $this->tokenAccessor = $tokenAccessor;
+        $this->frontendHelper = $frontendHelper;
     }
 
     /**
@@ -28,10 +27,7 @@ class AclGroupProvider implements AclGroupProviderInterface
      */
     public function supports()
     {
-        $user = $this->tokenAccessor->getUser();
-        $token = $this->tokenAccessor->getToken();
-
-        return $token instanceof AnonymousCustomerUserToken || $user instanceof CustomerUser;
+        return $this->frontendHelper->isFrontendRequest();
     }
 
     /**

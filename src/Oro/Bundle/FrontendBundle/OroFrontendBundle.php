@@ -6,6 +6,7 @@ use Oro\Bundle\ApiBundle\DependencyInjection\Compiler\ApiDocCompilerPass;
 use Oro\Bundle\ApiBundle\DependencyInjection\Compiler\ProcessorBagCompilerPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiDocPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiPass;
+use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendCurrentApplicationProviderPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendDebugRoutesPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendSessionPass;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
@@ -27,6 +28,7 @@ class OroFrontendBundle extends Bundle
 
         $container->addCompilerPass(new FrontendDebugRoutesPass());
         $container->addCompilerPass(new FrontendSessionPass());
+        $container->addCompilerPass(new FrontendCurrentApplicationProviderPass());
         if ($container instanceof ExtendedContainerBuilder) {
             $container->addCompilerPass(new FrontendApiPass());
             $container->moveCompilerPassBefore(FrontendApiPass::class, ProcessorBagCompilerPass::class);

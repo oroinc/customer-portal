@@ -36,25 +36,9 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
             $container->getDefinition('oro_frontend.extractor.frontend_exposed_routes_extractor')->getArgument(1)
         );
 
-        self::assertEquals(
-            FrontendHelper::class,
-            $container->getDefinition('oro_frontend.request.frontend_helper')->getClass()
-        );
-
-        self::assertFalse($container->hasDefinition('oro_frontend.request.frontend_helper.stub'));
-    }
-
-    public function testLoadWhenTestEnvironment()
-    {
-        $container = $this->getContainerBuilder();
-        $container->setParameter('kernel.environment', 'test');
-
-        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
-
-        $extension = new OroFrontendExtension();
-        $extension->load([[]], $container);
-
-        self::assertTrue($container->hasDefinition('oro_frontend.request.frontend_helper.stub'));
+        $frontendHelperDef = $container->getDefinition('oro_frontend.request.frontend_helper');
+        self::assertEquals(FrontendHelper::class, $frontendHelperDef->getClass());
+        self::assertCount(2, $frontendHelperDef->getArguments());
     }
 
     public function testLoadForNotInstalled()
@@ -65,10 +49,9 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension = new OroFrontendExtension();
         $extension->load([], $container);
 
-        self::assertEquals(
-            NotInstalledFrontendHelper::class,
-            $container->getDefinition('oro_frontend.request.frontend_helper')->getClass()
-        );
+        $frontendHelperDef = $container->getDefinition('oro_frontend.request.frontend_helper');
+        self::assertEquals(NotInstalledFrontendHelper::class, $frontendHelperDef->getClass());
+        self::assertCount(0, $frontendHelperDef->getArguments());
     }
 
     public function testConfigurationForNotConfiguredFrontendSession()

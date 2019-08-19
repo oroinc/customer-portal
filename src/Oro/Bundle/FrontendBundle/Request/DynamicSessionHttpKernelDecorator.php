@@ -46,7 +46,7 @@ class DynamicSessionHttpKernelDecorator extends SessionHttpKernelDecorator
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
         $basePath = $request->getBasePath();
-        if ($this->frontendHelper->isFrontendRequest($request)) {
+        if ($this->frontendHelper->isFrontendUrl($request->getPathInfo())) {
             $frontendSessionOptions = $this->applyBasePathToCookiePath($basePath, $this->frontendSessionOptions);
             $options = $this->getSessionOptions();
             if (null === $this->backendSessionOptions) {

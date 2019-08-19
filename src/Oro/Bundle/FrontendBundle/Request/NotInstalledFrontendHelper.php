@@ -2,8 +2,6 @@
 
 namespace Oro\Bundle\FrontendBundle\Request;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * This class is used to substitute FrontendHelper during installation of the application.
  * It is supposed that all requests are management console requests until the installation is finished.
@@ -11,10 +9,15 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class NotInstalledFrontendHelper extends FrontendHelper
 {
+    public function __construct()
+    {
+        // no any parameters are required for this class
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function isFrontendRequest(Request $request = null)
+    public function isFrontendRequest(): bool
     {
         return false;
     }
@@ -22,7 +25,7 @@ class NotInstalledFrontendHelper extends FrontendHelper
     /**
      * {@inheritdoc}
      */
-    public function isFrontendUrl($url)
+    public function isFrontendUrl(string $url): bool
     {
         return false;
     }

@@ -4,7 +4,7 @@ services:
         decorates: oro_api.api_doc.security_context
         arguments:
             - '@oro_customer.api_doc.security_context.inner'
-            - '@security.token_storage'
+            - '@oro_frontend.request.frontend_helper'
 
     oro_customer.api.sign_in_target_path_provider:
         class: Oro\Bundle\CustomerBundle\Api\ApiDoc\SignInTargetPathProvider

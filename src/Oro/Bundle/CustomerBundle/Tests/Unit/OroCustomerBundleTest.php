@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit;
 
 use Oro\Bundle\ApiBundle\DependencyInjection\Compiler\ProcessorBagCompilerPass;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\ConfigureFrontendHelperPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\CustomerUserReassignUpdaterPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappingPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\FrontendApiPass;
@@ -46,6 +47,9 @@ class OroCustomerBundleTest extends \PHPUnit\Framework\TestCase
             ->method('addCompilerPass')
             ->with(self::isInstanceOf(CustomerUserReassignUpdaterPass::class));
         $container->expects(self::at(5))
+            ->method('addCompilerPass')
+            ->with(self::isInstanceOf(ConfigureFrontendHelperPass::class));
+        $container->expects(self::at(6))
             ->method('addCompilerPass')
             ->with(self::isInstanceOf(FrontendApiPass::class));
 

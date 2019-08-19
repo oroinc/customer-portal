@@ -67,7 +67,8 @@ class ExceptionController extends BaseExceptionController
      */
     protected function isLayoutRendering(Request $request)
     {
-        return $this->container->get(FrontendHelper::class)->isFrontendRequest($request)
+        return
+            $this->container->get(FrontendHelper::class)->isFrontendUrl($request->getPathInfo())
             && $request->getRequestFormat() === 'html'
             && !$this->showException($request)
             && !$this->isCircularHandlingException();

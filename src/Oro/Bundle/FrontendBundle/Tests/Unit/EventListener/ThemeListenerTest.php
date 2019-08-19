@@ -6,7 +6,6 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\EventListener\ThemeListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\NavigationBundle\Event\ResponseHashnavListener;
-use Oro\Bundle\ThemeBundle\Model\ThemeRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
@@ -14,67 +13,43 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class ThemeListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ThemeRegistry
-     */
-    protected $themeRegistry;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|FrontendHelper */
+    private $helper;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|FrontendHelper
-     */
-    protected $helper;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|HttpKernelInterface */
+    private $kernel;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|HttpKernelInterface
-     */
-    protected $kernel;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ConfigManager */
+    private $configManager;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ConfigManager
-     */
-    protected $configManager;
+    /** @var ThemeListener */
+    private $listener;
 
     protected function setUp()
     {
-        $this->helper = $this->getMockBuilder('Oro\Bundle\FrontendBundle\Request\FrontendHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->helper = $this->createMock(FrontendHelper::class);
+        $this->kernel = $this->createMock(HttpKernelInterface::class);
+        $this->configManager = $this->createMock(ConfigManager::class);
 
-        $this->themeRegistry = new ThemeRegistry(
-            [
-                'oro' => []
-            ]
-        );
-
-        $this->kernel = $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface');
-
-        $this->configManager = $this->getMockBuilder('Oro\Bundle\ConfigBundle\Config\ConfigManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->listener = new ThemeListener($this->helper, $this->configManager);
     }
 
     /**
-     * @param boolean $installed
-     * @param int $requestType
+     * @param int     $requestType
      * @param boolean $isFrontendRequest
-     * @param string $expectedOroTheme
-     * @param string $expectedLayoutTheme
+     * @param string  $expectedLayoutTheme
      * @param boolean $hashNavigation
      * @param boolean $fullRedirect
      *
      * @dataProvider onKernelRequestProvider
      */
     public function testOnKernelRequest(
-        $installed,
         $requestType,
         $isFrontendRequest,
-        $expectedOroTheme,
         $expectedLayoutTheme,
         $hashNavigation,
         $fullRedirect
     ) {
-        $this->themeRegistry->setActiveTheme('oro');
-
         $request = new Request();
         if ($hashNavigation) {
             $request->headers->set(ResponseHashnavListener::HASH_NAVIGATION_HEADER, true);
@@ -82,19 +57,17 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
         $event = new GetResponseEvent($this->kernel, $request, $requestType);
 
         $this->helper->expects($this->any())
-            ->method('isFrontendRequest')
-            ->with($request)
+            ->method('isFrontendUrl')
+            ->with($request->getPathInfo())
             ->willReturn($isFrontendRequest);
 
         $this->configManager->expects($this->any())
             ->method('get')
-            ->with(ThemeListener::DEFAULT_LAYOUT_THEME_CONFIG_VALUE_KEY)
+            ->with('oro_frontend.frontend_theme')
             ->willReturn('test_layout_theme');
 
-        $listener = new ThemeListener($this->themeRegistry, $this->helper, $this->configManager, $installed);
-        $listener->onKernelRequest($event);
+        $this->listener->onKernelRequest($event);
 
-        $this->assertEquals($expectedOroTheme, $this->themeRegistry->getActiveTheme()->getName());
         $this->assertEquals($expectedLayoutTheme, $request->attributes->get('_theme'));
         $this->assertEquals($fullRedirect, $request->attributes->has('_fullRedirect'));
     }
@@ -105,79 +78,54 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
     public function onKernelRequestProvider()
     {
         return [
-            'not installed application' => [
-                'installed' => false,
-                'requestType' => HttpKernelInterface::MASTER_REQUEST,
-                'isFrontendRequest' => true,
-                'expectedOroTheme' => 'oro',
-                'expectedLayoutTheme' => null,
-                'hashNavigation' => false,
-                'fullRedirect' => false,
-            ],
             'not master request' => [
-                'installed' => true,
-                'requestType' => HttpKernelInterface::SUB_REQUEST,
-                'isFrontendRequest' => true,
-                'expectedOroTheme' => 'oro',
+                'requestType'         => HttpKernelInterface::SUB_REQUEST,
+                'isFrontendRequest'   => true,
                 'expectedLayoutTheme' => 'test_layout_theme',
-                'hashNavigation' => false,
-                'fullRedirect' => false,
+                'hashNavigation'      => false,
+                'fullRedirect'        => false
             ],
-            'frontend' => [
-                'installed' => true,
-                'requestType' => HttpKernelInterface::MASTER_REQUEST,
-                'isFrontendRequest' => true,
-                'expectedOroTheme' => 'oro',
+            'frontend'           => [
+                'requestType'         => HttpKernelInterface::MASTER_REQUEST,
+                'isFrontendRequest'   => true,
                 'expectedLayoutTheme' => 'test_layout_theme',
-                'hashNavigation' => true,
-                'fullRedirect' => true,
+                'hashNavigation'      => true,
+                'fullRedirect'        => true
             ],
-            'backend' => [
-                'installed' => true,
-                'requestType' => HttpKernelInterface::MASTER_REQUEST,
-                'isFrontendRequest' => false,
-                'expectedOroTheme' => 'oro',
+            'backend'            => [
+                'requestType'         => HttpKernelInterface::MASTER_REQUEST,
+                'isFrontendRequest'   => false,
                 'expectedLayoutTheme' => null,
-                'hashNavigation' => false,
-                'fullRedirect' => false,
-            ],
+                'hashNavigation'      => false,
+                'fullRedirect'        => false
+            ]
         ];
     }
 
     /**
      * @dataProvider onKernelViewProvider
      *
-     * @param bool $installed
-     * @param string $requestType
-     * @param bool $isFrontendRequest
-     * @param bool $hasTheme
+     * @param string      $requestType
+     * @param bool        $isFrontendRequest
+     * @param bool        $hasTheme
      * @param bool|string $deletedAnnotation
      */
-    public function testOnKernelView($installed, $requestType, $isFrontendRequest, $hasTheme, $deletedAnnotation)
+    public function testOnKernelView($requestType, $isFrontendRequest, $hasTheme, $deletedAnnotation)
     {
-        $this->themeRegistry->setActiveTheme('oro');
-
         $request = new Request();
         $request->attributes->set('_template', true);
         $request->attributes->set('_layout', true);
         if ($hasTheme) {
             $request->attributes->set('_theme', 'test');
         }
-        $event = new GetResponseForControllerResultEvent(
-            $this->kernel,
-            $request,
-            $requestType,
-            []
-        );
+        $event = new GetResponseForControllerResultEvent($this->kernel, $request, $requestType, []);
 
         $this->helper->expects($this->any())
-            ->method('isFrontendRequest')
-            ->with($request)
+            ->method('isFrontendUrl')
+            ->with($request->getPathInfo())
             ->willReturn($isFrontendRequest);
 
-        $listener = new ThemeListener($this->themeRegistry, $this->helper, $this->configManager, $installed);
-
-        $listener->onKernelView($event);
+        $this->listener->onKernelView($event);
 
         if ($deletedAnnotation && $requestType === HttpKernelInterface::MASTER_REQUEST) {
             $this->assertFalse($request->attributes->has($deletedAnnotation));
@@ -190,48 +138,36 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
     public function onKernelViewProvider()
     {
         return [
-            'not installed application' => [
-                'installed' => false,
-                'requestType' => HttpKernelInterface::MASTER_REQUEST,
+            'backend sub-request'                       => [
+                'requestType'       => HttpKernelInterface::SUB_REQUEST,
                 'isFrontendRequest' => false,
-                'hasTheme' => false,
+                'hasTheme'          => false,
                 'deletedAnnotation' => false
             ],
-            'backend sub-request' => [
-                'installed' => true,
-                'requestType' => HttpKernelInterface::SUB_REQUEST,
+            'backend master request'                    => [
+                'requestType'       => HttpKernelInterface::MASTER_REQUEST,
                 'isFrontendRequest' => false,
-                'hasTheme' => false,
-                'deletedAnnotation' => false
-            ],
-            'backend master request' => [
-                'installed' => true,
-                'requestType' => HttpKernelInterface::MASTER_REQUEST,
-                'isFrontendRequest' => false,
-                'hasTheme' => false,
+                'hasTheme'          => false,
                 'deletedAnnotation' => false
             ],
             'frontend sub-request without layout theme' => [
-                'installed' => true,
-                'requestType' => HttpKernelInterface::SUB_REQUEST,
-                'isFrontendRequest' => true,
-                'hasTheme' => false,
+                'requestType'        => HttpKernelInterface::SUB_REQUEST,
+                'isFrontendRequest'  => true,
+                'hasTheme'           => false,
                 'deletedAnnotations' => '_layout'
             ],
             'frontend master request with layout theme' => [
-                'installed' => true,
-                'requestType' => HttpKernelInterface::MASTER_REQUEST,
-                'isFrontendRequest' => true,
-                'hasTheme' => true,
+                'requestType'        => HttpKernelInterface::MASTER_REQUEST,
+                'isFrontendRequest'  => true,
+                'hasTheme'           => true,
                 'deletedAnnotations' => '_template'
             ],
-            'frontend sub-request with layout theme' => [
-                'installed' => true,
-                'requestType' => HttpKernelInterface::SUB_REQUEST,
-                'isFrontendRequest' => true,
-                'hasTheme' => true,
+            'frontend sub-request with layout theme'    => [
+                'requestType'        => HttpKernelInterface::SUB_REQUEST,
+                'isFrontendRequest'  => true,
+                'hasTheme'           => true,
                 'deletedAnnotations' => '_template'
-            ],
+            ]
         ];
     }
 }
