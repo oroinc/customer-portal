@@ -26,7 +26,7 @@ define(function(require) {
          * Selector for find swiped container
          * @property {String}
          */
-        containerSelector: null,
+        containerSelector: '.grid-row',
 
         /**
          * Control point for moving to the end position
@@ -75,14 +75,14 @@ define(function(require) {
          * Dynamic size for container offset
          * @property {String}
          */
-        sizerSelector: null,
+        sizerSelector: '.action-cell',
 
         /**
          * Viewport manager options
          * @property {Object}
          */
         viewport: {
-            minScreenType: 'any'
+            maxScreenType: 'tablet'
         },
 
         /**

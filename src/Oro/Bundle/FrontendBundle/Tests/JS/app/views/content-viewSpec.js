@@ -4,10 +4,6 @@ define(function(require) {
     var ContentView = require('orofrontend/js/app/views/page/content-view');
     var $ = require('jquery');
 
-    beforeEach(function() {
-        window.ontouchstart = false;
-    });
-
     describe('Content View', function() {
         it('Autofocus on frontend form without data-focusable', function() {
             window.setFixtures([

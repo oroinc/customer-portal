@@ -1142,4 +1142,55 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->setParameters(['{{ owner }}' => 'owner'])
             ->assertRaised();
     }
+
+    public function testValidExistingEntityWithCustomerOwnerAndLocalAccessLevelAndWithoutUserInToken()
+    {
+        $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $tokenAccessor->expects(self::any())
+            ->method('getUser')
+            ->willReturn(null);
+        $this->validator = new FrontendOwnerValidator(
+            $this->doctrine,
+            $this->ownershipMetadataProvider,
+            $this->authorizationChecker,
+            $tokenAccessor,
+            $this->ownerTreeProvider,
+            $this->aclVoter,
+            $this->aclGroupProvider
+        );
+
+        $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_CUSTOMER');
+        $entityMetadata = $this->createMock(ClassMetadata::class);
+        $accessLevel = AccessLevel::LOCAL_LEVEL;
+
+        $owner = $this->createCustomer(123);
+        $this->testEntity->setId(234);
+        $this->testEntity->setOwner($owner);
+
+        $this->expectManageableEntity($entityMetadata, [$ownershipMetadata->getOwnerFieldName() => null]);
+        $entityMetadata->expects(self::once())
+            ->method('getFieldValue')
+            ->with($this->testEntity, $ownershipMetadata->getOwnerFieldName())
+            ->willReturn($owner);
+        $entityMetadata->expects(self::once())
+            ->method('getIdentifierValues')
+            ->with($this->testEntity)
+            ->willReturn([$this->testEntity->getId()]);
+
+        $this->ownershipMetadataProvider->expects(self::once())
+            ->method('getMetadata')
+            ->with(Entity::class)
+            ->willReturn($ownershipMetadata);
+
+        $this->expectAddOneShotIsGrantedObserver($accessLevel);
+        $this->authorizationChecker->expects(self::once())
+            ->method('isGranted')
+            ->with('ASSIGN', 'entity:' . Entity::class)
+            ->willReturn(true);
+        $this->ownerTree->expects(self::never())
+            ->method('getUserBusinessUnitIds');
+
+        $this->validator->validate($this->testEntity, $this->constraint);
+        $this->assertNoViolation();
+    }
 }

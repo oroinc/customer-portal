@@ -34,7 +34,7 @@
                         }
 
                         &.action-column {
-                            width: $frontend-datagrid-responsive-action-cell-tablet-action-width;
+                            width: $frontend-datagrid-has-swipe-action-cell-tablet-action-width;
 
                             &--disabled {
                                 display: $frontend-datagrid-responsive-body-tablet-disabled-display;
@@ -104,46 +104,82 @@
                     }
 
                     &.action-cell {
-                        width: auto;
-                        max-width: $frontend-datagrid-responsive-action-cell-tablet-width;
-                        position: $frontend-datagrid-responsive-action-cell-tablet-position;
-                        top: $frontend-datagrid-responsive-action-cell-tablet-top;
-                        right: $frontend-datagrid-responsive-action-cell-tablet-right;
-                        bottom: $frontend-datagrid-responsive-action-cell-tablet-bottom;
-                        background: $frontend-datagrid-responsive-action-cell-tablet-bg-color;
-                        margin: $frontend-datagrid-responsive-action-cell-tablet-outer-offset;
-                        padding: $frontend-datagrid-responsive-action-cell-tablet-inner-offset;
+                        text-align: left;
+                    }
 
-                        .action {
-                            color: $frontend-datagrid-responsive-action-cell-tablet-icon-color;
-                            white-space: $frontend-datagrid-responsive-action-cell-tablet-white-space;
+                    .launcher-item {
+                        // fix rendering in iOS
+                        position: static;
 
-                            &-row {
-                                display: $frontend-datagrid-responsive-action-cell-tablet-row-display;
-                                height: $frontend-datagrid-responsive-action-cell-tablet-row-height;
-                                align-items: $frontend-datagrid-responsive-action-cell-tablet-row-align-items;
+                        &.mode-icon-only:first-child {
+                            padding-left: $frontend-datagrid-responsive-action-cell-tablet-launchers-first-last-inner-offset;
+                        }
 
-                                .launchers-list {
-                                    display: $frontend-datagrid-responsive-action-cell-tablet-launchers-list-display;
-                                    flex-wrap: $frontend-datagrid-responsive-action-cell-tablet-launchers-list-flex-wrap;
+                        // fix rendering in iOS
+                        &.mode-icon-only:not(:first-child):before {
+                            top: auto;
+                            bottom: auto;
+                            left: auto;
+                            height: $frontend-datagrid-launchers-separator-height;
+                            margin: $frontend-datagrid-responsive-body-cell-tablet-offset;
+                            margin-left: -$frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-inner-offset;
+                        }
+                    }
 
-                                    .launcher-item {
-                                        &:not(.mode-icon-only) {
-                                            margin: $frontend-datagrid-responsive-action-cell-tablet-column-outer-offset;
-                                            width: $frontend-datagrid-responsive-action-cell-tablet-column-width;
-                                            padding: $frontend-datagrid-responsive-action-cell-tablet-column-inner-offset;
-                                        }
+                    .more-bar-holder {
+                        // fix rendering in iOS
+                        position: static;
 
-                                        &.mode-icon-only:last-child {
-                                            padding-right: $frontend-datagrid-responsive-action-cell-tablet-launchers-list-last-inner-offset;
-                                        }
+                        .dropdown-toggle {
+                            padding-left: $frontend-datagrid-responsive-action-cell-tablet-launchers-first-last-inner-offset;
+                        }
+                    }
+                }
+            }
+        }
+
+        &--has-swipe {
+            .grid-body-cell {
+                &.action-cell {
+                    width: auto;
+                    max-width: $frontend-datagrid-has-swipe-action-cell-tablet-width;
+                    position: $frontend-datagrid-has-swipe-action-cell-tablet-position;
+                    top: $frontend-datagrid-has-swipe-action-cell-tablet-top;
+                    right: $frontend-datagrid-has-swipe-action-cell-tablet-right;
+                    bottom: $frontend-datagrid-has-swipe-action-cell-tablet-bottom;
+                    background: $frontend-datagrid-has-swipe-action-cell-tablet-bg-color;
+                    margin: $frontend-datagrid-has-swipe-action-cell-tablet-outer-offset;
+                    padding: $frontend-datagrid-has-swipe-action-cell-tablet-inner-offset;
+
+                    .action {
+                        color: $frontend-datagrid-has-swipe-action-cell-tablet-icon-color;
+                        white-space: $frontend-datagrid-has-swipe-action-cell-tablet-white-space;
+
+                        &-row {
+                            display: $frontend-datagrid-has-swipe-action-cell-tablet-row-display;
+                            height: $frontend-datagrid-has-swipe-action-cell-tablet-row-height;
+                            align-items: $frontend-datagrid-has-swipe-action-cell-tablet-row-align-items;
+
+                            .launchers-list {
+                                display: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-display;
+                                flex-wrap: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-flex-wrap;
+
+                                .launcher-item {
+                                    &:not(.mode-icon-only) {
+                                        margin: $frontend-datagrid-has-swipe-action-cell-tablet-column-outer-offset;
+                                        width: $frontend-datagrid-has-swipe-action-cell-tablet-column-width;
+                                        padding: $frontend-datagrid-has-swipe-action-cell-tablet-column-inner-offset;
+                                    }
+
+                                    &.mode-icon-only:last-child {
+                                        padding-right: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-inner-offset;
                                     }
                                 }
                             }
+                        }
 
-                            &.mode-icon-only:first-child [class^="fa-"] {
-                                padding-left: $frontend-datagrid-responsive-action-cell-tablet-left-inner-offset;
-                            }
+                        &.mode-icon-only:first-child [class^="fa-"] {
+                            padding-left: $frontend-datagrid-has-swipe-action-cell-tablet-left-inner-offset;
                         }
                     }
                 }

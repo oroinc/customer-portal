@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Owner\CustomerAwareOwnerTreeInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -35,9 +36,15 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
             return;
         }
 
+        if ($this->ownerTreeProvider instanceof CustomerAwareOwnerTreeInterface) {
+            $tree = $this->ownerTreeProvider->getTreeByBusinessUnit($parentCustomer);
+        } else {
+            $tree = $this->ownerTreeProvider->getTree();
+        }
+
         if (in_array(
             $parentCustomer->getId(),
-            $this->ownerTreeProvider->getTree()->getSubordinateBusinessUnitIds($value->getId()),
+            $tree->getSubordinateBusinessUnitIds($value->getId()),
             true
         )) {
             $this->context->buildViolation($constraint->message)

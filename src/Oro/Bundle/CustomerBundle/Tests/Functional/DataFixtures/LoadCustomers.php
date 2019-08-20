@@ -14,6 +14,18 @@ class LoadCustomers extends AbstractFixture implements DependentFixtureInterface
 {
     const DEFAULT_ACCOUNT_NAME = 'customer.orphan';
     const CUSTOMER_LEVEL_1_1 = 'customer.level_1_1';
+    const CUSTOMER_LEVEL_1_DOT_1 = 'customer.level_1.1';
+    const CUSTOMER_LEVEL_1_DOT_1_DOT_1 = 'customer.level_1.1.1';
+    const CUSTOMER_LEVEL_1_DOT_1_DOT_2 = 'customer.level_1.1.2';
+    const CUSTOMER_LEVEL_1_DOT_2 = 'customer.level_1.2';
+    const CUSTOMER_LEVEL_1_DOT_2_DOT_1 = 'customer.level_1.2.1';
+    const CUSTOMER_LEVEL_1_DOT_2_DOT_1_DOT_1 = 'customer.level_1.2.1.1';
+    const CUSTOMER_LEVEL_1_DOT_3 = 'customer.level_1.3';
+    const CUSTOMER_LEVEL_1_DOT_3_DOT_1 = 'customer.level_1.3.1';
+    const CUSTOMER_LEVEL_1_DOT_3_DOT_1_DOT_1 = 'customer.level_1.3.1.1';
+    const CUSTOMER_LEVEL_1_DOT_4 = 'customer.level_1.4';
+    const CUSTOMER_LEVEL_1_DOT_4_DOT_1 = 'customer.level_1.4.1';
+    const CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1 = 'customer.level_1.4.1.1';
     const CUSTOMER_LEVEL_1 = 'customer.level_1';
 
     /**
