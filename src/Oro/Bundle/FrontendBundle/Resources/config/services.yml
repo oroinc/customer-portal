@@ -287,7 +287,7 @@ services:
         decoration_priority: 500
         arguments:
             - '@oro_frontend.provider.file_url.inner'
-            - '@router'
+            - '@oro_attachment.url_generator'
             - '@oro_attachment.provider.file_applications'
             - '@oro_action.provider.current_application'
             - '@oro_attachment.acl.file_access_control_checker'
