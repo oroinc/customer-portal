@@ -1,0 +1,8 @@
+"customer","email","firstName","lastName","role","street","city","state","zipCode","country","types","defaultTypes","isGuest"
+"Company Acme",HannaBoleman@example.org,Hanna,Boleman,Administrator,"801 Scenic Hwy","Haines City",FL,33844,US,"billing,shipping","billing,shipping",0
+"Company Acme",BettySandon@example.org,Betty,Sandon,Buyer,"801 Scenic Hwy","Haines City",FL,33844,US,"billing,shipping","billing,shipping",0
+"Company Acme",LauraBless@example.org,Laura,Bless,Buyer,"801 Scenic Hwy","Haines City",FL,33844,US,"billing,shipping","billing,shipping",0
+"Company Acme - East Division",JohnTrend@example.org,John,Trend,Administrator,"801 Scenic Hwy","Haines City",FL,33844,US,"billing,shipping","billing,shipping",0
+"Company Acme - East Division",JudithWalkman@example.org,Judith,Walkman,Buyer,"801 Scenic Hwy","Haines City",FL,33844,US,"billing,shipping","billing,shipping",0
+"Company Acme - West Division",NickMaverick@example.org,Nick,Maverick,Administrator,"801 Scenic Hwy","Haines City",FL,33844,US,"billing,shipping","billing,shipping",0
+"Company Acme - West Division",BrandonSohnson@example.org,Brandon,Sohnson,Buyer,"801 Scenic Hwy","Haines City",FL,33844,US,"billing,shipping","billing,shipping",0

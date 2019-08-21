@@ -12,7 +12,6 @@
     cursor: pointer;
 
     transition: color linear 100ms;
-    background-color: get-color('additional', 'ultra');
 
     &:hover {
         color: $scroll-top-hover-color;
@@ -57,6 +56,31 @@
 
     &--landed {
         position: static;
+    }
+
+    span {
+        position: relative;
+
+        &:before {
+            z-index: 1;
+            position: relative;
+        }
+
+        &:after {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+
+            width: $scroll-top-background-dumper-size;
+            height: $scroll-top-background-dumper-size;
+            margin: $scroll-top-background-dumper-size / -2;
+
+            background-color: $scroll-top-background-color;
+
+            border-radius: $scroll-top-background-dumper-size / 2;
+            content: '';
+            z-index: 0;
+        }
     }
 }
 

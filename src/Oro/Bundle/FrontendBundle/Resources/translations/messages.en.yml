@@ -110,3 +110,5 @@ oro_frontend:
         saved_views: 'Saved Views'
     ui:
         tab_view_more: 'View more...'
+
+    scroll_to_the_top: 'Scroll to the top'

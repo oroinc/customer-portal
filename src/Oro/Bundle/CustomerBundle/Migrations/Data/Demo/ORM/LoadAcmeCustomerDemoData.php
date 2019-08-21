@@ -8,43 +8,31 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\MigrationBundle\Fixture\AbstractEntityReferenceFixture;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\OrganizationBundle\Migrations\Data\Demo\ORM\LoadAcmeOrganizationAndBusinessUnitData;
 
 /**
- * Loads Customers demo data for default organization
+ * Loads Customer demo data for Acme organization
  */
-class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements DependentFixtureInterface
+class LoadAcmeCustomerDemoData extends AbstractEntityReferenceFixture implements DependentFixtureInterface
 {
     use CreateCustomerTrait;
 
-    const ACCOUNT_REFERENCE_PREFIX = 'customer_demo_data';
-
     /** @var array */
     protected $customers = [
-        'Company A' => [
+        'Company Acme' => [
             'group' => 'All Customers',
             'subsidiaries' => [
-                'Company A - East Division' => [
+                'Company Acme - East Division' => [
                     'group' => 'All Customers',
                 ],
-                'Company A - West Division' => [
+                'Company Acme - West Division' => [
                     'group' => 'All Customers',
                 ],
             ],
         ],
-        'Wholesaler B' => [
-            'group' => 'Wholesale Customers',
-        ],
-        'Partner C' => [
-            'group' => 'Partners',
-        ],
-        'Customer G' => [
+        'Customer BrandCo' => [
             'group' => 'All Customers',
-        ],
-        'Anonymous 1' => [
-            'group' => 'Non-Authenticated Visitors',
-        ],
-        'Anonymous 2' => [
-            'group' => 'Non-Authenticated Visitors',
         ],
     ];
 
@@ -56,6 +44,7 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
         return [
             LoadCustomerInternalRatingDemoData::class,
             LoadCustomerGroupDemoData::class,
+            LoadAcmeOrganizationAndBusinessUnitData::class
         ];
     }
 
@@ -73,43 +62,42 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
         /** @var \Oro\Bundle\UserBundle\Entity\User $customerOwner */
         $customerOwner = $manager->getRepository('OroUserBundle:User')->findOneBy([]);
 
+        /** @var Organization $acmeOrganization */
+        $acmeOrganization = $this->getReference(LoadAcmeOrganizationAndBusinessUnitData::REFERENCE_DEMO_ORGANIZATION);
+
+        $customerGroup = $this->getReference(
+            LoadCustomerGroupDemoData::ACCOUNT_GROUP_REFERENCE_SECOND_ORGANIZATION_PREFIX . 'All Customers'
+        );
+
         foreach ($this->customers as $customerName => $customerData) {
             /** @var CustomerGroup $customerGroup */
-            $customerGroup = $this->getReference(
-                LoadCustomerGroupDemoData::ACCOUNT_GROUP_REFERENCE_PREFIX . $customerData['group']
-            );
 
+            $rating = $internalRatings[array_rand($internalRatings)];
             $parent =
                 $this->createCustomer(
                     $manager,
                     $customerName,
                     $customerOwner,
                     $customerGroup,
-                    $internalRatings[array_rand($internalRatings)],
-                    $customerOwner->getOrganization()
+                    $rating,
+                    $acmeOrganization
                 );
 
-
-            $this->addReference(static::ACCOUNT_REFERENCE_PREFIX . $parent->getName(), $parent);
+            $this->addReference(LoadCustomerDemoData::ACCOUNT_REFERENCE_PREFIX . $parent->getName(), $parent);
 
             if (isset($customerData['subsidiaries'])) {
                 foreach ($customerData['subsidiaries'] as $subsidiaryName => $subsidiaryData) {
-                    /** @var CustomerGroup $subsidiaryGroup */
-                    $subsidiaryGroup = $this->getReference(
-                        LoadCustomerGroupDemoData::ACCOUNT_GROUP_REFERENCE_PREFIX . $subsidiaryData['group']
+                    $customer = $this->createCustomer(
+                        $manager,
+                        $subsidiaryName,
+                        $customerOwner,
+                        $customerGroup,
+                        $rating,
+                        $acmeOrganization,
+                        $parent
                     );
-                    $subsidiary =
-                        $this->createCustomer(
-                            $manager,
-                            $subsidiaryName,
-                            $customerOwner,
-                            $subsidiaryGroup,
-                            $internalRatings[array_rand($internalRatings)],
-                            $customerOwner->getOrganization(),
-                            $parent
-                        );
 
-                    $this->addReference(static::ACCOUNT_REFERENCE_PREFIX . $subsidiary->getName(), $subsidiary);
+                    $this->addReference(LoadCustomerDemoData::ACCOUNT_REFERENCE_PREFIX . $subsidiaryName, $customer);
                 }
             }
         }

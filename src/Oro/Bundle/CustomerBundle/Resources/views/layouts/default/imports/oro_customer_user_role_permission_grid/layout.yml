@@ -25,6 +25,16 @@ layout:
             optionValue: 'inner-permissions-grid'
 
         - '@setOption':
+              id: __datagrid
+              optionName: grid_render_parameters.responsiveGrids.enable
+              optionValue: false
+
+        - '@setOption':
+              id: __datagrid
+              optionName: grid_render_parameters.swipeActionsGrid.enable
+              optionValue: false
+
+        - '@setOption':
             id: __datagrid
             optionName: vars
             optionValue:
