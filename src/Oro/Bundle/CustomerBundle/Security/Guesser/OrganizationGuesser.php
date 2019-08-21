@@ -6,7 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\Guesser\OrganizationGuesserInterface;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
+use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -52,8 +52,8 @@ class OrganizationGuesser implements OrganizationGuesserInterface
         }
 
         if ($user instanceof CustomerUser) {
-            if ($token instanceof OrganizationContextTokenInterface) {
-                $organization = $token->getOrganizationContext();
+            if ($token instanceof OrganizationAwareTokenInterface) {
+                $organization = $token->getOrganization();
                 if (null !== $organization) {
                     return $organization;
                 }

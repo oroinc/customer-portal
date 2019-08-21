@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\SecurityBundle\Acl\Domain\DomainObjectWrapper;
 use Oro\Bundle\SecurityBundle\Acl\Domain\PermissionGrantingStrategy as InnerStrategy;
 use Oro\Bundle\SecurityBundle\Acl\Domain\PermissionGrantingStrategyContextInterface;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
+use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
 use Symfony\Component\Security\Acl\Model\AclInterface;
 use Symfony\Component\Security\Acl\Model\PermissionGrantingStrategyInterface;
 
@@ -83,8 +83,8 @@ class PermissionGrantingStrategy implements PermissionGrantingStrategyInterface
         }
 
         $organizationId = null;
-        if ($securityToken instanceof OrganizationContextTokenInterface) {
-            $organizationId = $securityToken->getOrganizationContext()->getId();
+        if ($securityToken instanceof OrganizationAwareTokenInterface) {
+            $organizationId = $securityToken->getOrganization()->getId();
         }
 
         return $this->isCustomerRoleAccessible($object, $masks, $organizationId);

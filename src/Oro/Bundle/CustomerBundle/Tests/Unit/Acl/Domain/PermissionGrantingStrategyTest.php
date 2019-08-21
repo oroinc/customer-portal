@@ -11,7 +11,7 @@ use Oro\Bundle\SecurityBundle\Acl\Domain\DomainObjectWrapper;
 use Oro\Bundle\SecurityBundle\Acl\Domain\PermissionGrantingStrategy as InnerStrategy;
 use Oro\Bundle\SecurityBundle\Acl\Domain\PermissionGrantingStrategyContextInterface;
 use Oro\Bundle\SecurityBundle\Acl\Extension\AclExtensionInterface;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationContextTokenInterface;
+use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -39,7 +39,7 @@ class PermissionGrantingStrategyTest extends TestCase
     protected function setUp()
     {
         $this->innerStrategy = $this->createMock(InnerStrategy::class);
-        $this->securityToken = $this->createMock(OrganizationContextTokenInterface::class);
+        $this->securityToken = $this->createMock(OrganizationAwareTokenInterface::class);
         $this->aclExtension = $this->createMock(AclExtensionInterface::class);
         $this->context = $this->createMock(PermissionGrantingStrategyContextInterface::class);
 
@@ -135,7 +135,7 @@ class PermissionGrantingStrategyTest extends TestCase
             ->method('getUser')
             ->willReturn(new CustomerUser());
         $this->securityToken->expects($this->once())
-            ->method('getOrganizationContext')
+            ->method('getOrganization')
             ->willReturn($organization);
 
         $this->context->expects($this->any())
@@ -169,7 +169,7 @@ class PermissionGrantingStrategyTest extends TestCase
             ->method('getUser')
             ->willReturn(new CustomerUser());
         $this->securityToken->expects($this->once())
-            ->method('getOrganizationContext')
+            ->method('getOrganization')
             ->willReturn($organization);
 
         $this->context->expects($this->any())
@@ -204,7 +204,7 @@ class PermissionGrantingStrategyTest extends TestCase
             ->method('getUser')
             ->willReturn(new CustomerUser());
         $this->securityToken->expects($this->once())
-            ->method('getOrganizationContext')
+            ->method('getOrganization')
             ->willReturn($organization);
 
         $this->context->expects($this->any())
@@ -243,7 +243,7 @@ class PermissionGrantingStrategyTest extends TestCase
             ->method('getUser')
             ->willReturn(new CustomerUser());
         $this->securityToken->expects($this->once())
-            ->method('getOrganizationContext')
+            ->method('getOrganization')
             ->willReturn($organization);
 
         $this->context->expects($this->any())
@@ -325,7 +325,7 @@ class PermissionGrantingStrategyTest extends TestCase
             ->method('getUser')
             ->willReturn(new CustomerUser());
         $this->securityToken->expects($this->once())
-            ->method('getOrganizationContext')
+            ->method('getOrganization')
             ->willReturn($organization);
 
         $this->context->expects($this->any())
@@ -362,7 +362,7 @@ class PermissionGrantingStrategyTest extends TestCase
             ->method('getUser')
             ->willReturn(new CustomerUser());
         $this->securityToken->expects($this->once())
-            ->method('getOrganizationContext')
+            ->method('getOrganization')
             ->willReturn($organization);
 
         $this->context->expects($this->any())

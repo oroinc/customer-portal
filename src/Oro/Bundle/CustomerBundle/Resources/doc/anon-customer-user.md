@@ -14,8 +14,7 @@ Anonymous customer user functionality consists of the following sections:
 ## The AnonymousCustomerUserToken
 The token is [`Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken`](../../Security/Token/AnonymousCustomerUserToken.php) class which 
 extends from `AnonymousToken`. It is tied with `CustomerVisitor` entity class which persisted anonymous customer user data for later use. Besides it, token  
-stores info taken from cookie: `visitor_id` and `session_id`. If user belongs to Organization it can have `organizationContext` thanks to 
-`OrganizationContextTokenTrait`. To provide compatibility with Symfony security system in case of first token initialization it filled with `Anonymous Customer User` string:
+stores info taken from cookie: `visitor_id` and `session_id`. To provide compatibility with Symfony security system in case of first token initialization it filled with `Anonymous Customer User` string:
 
 ```php
 $token = new AnonymousCustomerUserToken(
