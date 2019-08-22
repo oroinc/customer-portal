@@ -118,7 +118,7 @@ layout:
                     blockType: meta
                     options:
                         name: theme-color
-                        content: '#ffffff'
+                        content: '#fcb91d'
             tree:
                 head:
                     apple_57x57: ~

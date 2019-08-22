@@ -80,6 +80,10 @@ class ValidateApiDocViewListener extends BaseValidateApiDocViewListener
      */
     protected function isFrontendRequest(Request $request): bool
     {
-        return RestDocUrlGenerator::ROUTE === $request->attributes->get('_route');
+        $route = $request->attributes->get('_route');
+
+        return
+            RestDocUrlGenerator::ROUTE === $route
+            || RestDocUrlGenerator::RESOURCE_ROUTE === $route;
     }
 }

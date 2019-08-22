@@ -73,6 +73,14 @@ class SecurityContext implements SecurityContextInterface
     /**
      * {@inheritdoc}
      */
+    public function getCsrfCookieName(): ?string
+    {
+        return $this->innerSecurityContext->getCsrfCookieName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getLoginRoute(): ?string
     {
         if ($this->frontendHelper->isFrontendRequest()) {
