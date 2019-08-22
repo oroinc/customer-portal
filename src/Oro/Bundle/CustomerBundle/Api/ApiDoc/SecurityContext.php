@@ -59,7 +59,7 @@ class SecurityContext implements SecurityContextInterface
      */
     public function getApiKeyGenerationHint(): ?string
     {
-        if ($this->isFrontentApi()) {
+        if ($this->isFrontendApi()) {
             return
                 'To use WSSE authentication the API key should be already generated'
                 . ' for the current logged-in customer user.'
@@ -75,9 +75,17 @@ class SecurityContext implements SecurityContextInterface
     /**
      * {@inheritdoc}
      */
+    public function getCsrfCookieName(): ?string
+    {
+        return $this->innerSecurityContext->getCsrfCookieName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getLoginRoute(): ?string
     {
-        if ($this->isFrontentApi()) {
+        if ($this->isFrontendApi()) {
             return 'oro_customer_customer_user_security_login';
         }
 
@@ -89,7 +97,7 @@ class SecurityContext implements SecurityContextInterface
      */
     public function getLogoutRoute(): ?string
     {
-        if ($this->isFrontentApi()) {
+        if ($this->isFrontendApi()) {
             return 'oro_customer_customer_user_security_logout';
         }
 
@@ -99,7 +107,7 @@ class SecurityContext implements SecurityContextInterface
     /**
      * @return bool
      */
-    private function isFrontentApi(): bool
+    private function isFrontendApi(): bool
     {
         $token = $this->tokenStorage->getToken();
 
