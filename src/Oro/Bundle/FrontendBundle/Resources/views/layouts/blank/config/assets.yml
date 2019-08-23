@@ -12,6 +12,7 @@ styles:
         # Bootstrap Configs
         - 'bundles/orofrontend/blank/scss/variables/bootstrap/buttons-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/bootstrap/tooltip.scss'
+        - 'bundles/orofrontend/blank/scss/variables/bootstrap/table-config.scss'
 
         - 'bundles/orofrontend/blank/scss/variables/breadcrumbs-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/layout/page-area-container-config.scss'
