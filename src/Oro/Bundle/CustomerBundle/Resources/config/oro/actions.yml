@@ -545,7 +545,7 @@ action_groups:
         acl_resource: [DELETE, $.data]
         actions:
             - '@call_service_method':
-                service: oro_customer.customer.action_group.handler.delete
+                service: oro_action.handler.delete
                 method: handleDelete
                 method_parameters: [$.data]
     oro_customer_customeruser_set_enabled:

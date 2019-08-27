@@ -391,8 +391,8 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         );
         $this->assertResponseValidationError(
             [
-                'title'  => 'forbidden exception',
-                'detail' => 'self delete.'
+                'title'  => 'access denied exception',
+                'detail' => 'The delete operation is forbidden. Reason: self delete.'
             ],
             $response,
             Response::HTTP_FORBIDDEN
@@ -409,8 +409,8 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         );
         $this->assertResponseValidationError(
             [
-                'title'  => 'forbidden exception',
-                'detail' => 'self delete.'
+                'title'  => 'access denied exception',
+                'detail' => 'The delete operation is forbidden. Reason: self delete.'
             ],
             $response,
             Response::HTTP_FORBIDDEN

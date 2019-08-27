@@ -57,17 +57,6 @@ class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase
         self::assertUnauthorizedResponse($response);
     }
 
-    public function testForbidden()
-    {
-        $response = $this->get(
-            ['entity' => 'testapiunaccessiblemodel', 'id' => 'forbidden'],
-            [],
-            [],
-            false
-        );
-        self::assertUnauthorizedResponse($response);
-    }
-
     public function testNotFound()
     {
         $response = $this->get(

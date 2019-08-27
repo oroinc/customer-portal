@@ -498,11 +498,14 @@ services:
         tags:
             - { name: oro_ui.content_provider }
 
-    oro_customer.customer_delete_handler:
-        class: 'Oro\Bundle\CustomerBundle\Handler\UserDeleteHandler'
-        public: true
+    oro_customer.delete_handler_extension.customer_user:
+        class: Oro\Bundle\CustomerBundle\Handler\CustomerUserDeleteHandlerExtension
+        parent: oro_entity.delete_handler_extension
         arguments:
-            - "@oro_security.token_accessor"
+            - '@oro_security.token_accessor'
+            - '@oro_organization.owner_deletion_manager'
+        tags:
+            - { name: oro_entity.delete_handler_extension, entity: Oro\Bundle\CustomerBundle\Entity\CustomerUser }
 
     oro_customer.discriminator_map_listener:
         class: 'Oro\Bundle\EntityBundle\ORM\DiscriminatorMapListener'
@@ -941,21 +944,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
-    oro_customer.customer.handler.delete:
-        parent: oro_soap.handler.delete.abstract
-        class: Oro\Bundle\CustomerBundle\Handler\CustomerDeleteHandler
-        public: true
-        calls:
-           - [setCustomerAssignHelper, ['@oro_customer.customer.assign.helper']]
-
-    oro_customer.customer.action_group.handler.delete:
-        class: Oro\Bundle\ActionBundle\Handler\DeleteHandler
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
-        public: true
+    oro_customer.delete_handler_extension.customer:
+        class: Oro\Bundle\CustomerBundle\Handler\CustomerDeleteHandlerExtension
+        parent: oro_entity.delete_handler_extension
         arguments:
-           - '@oro_customer.customer.handler.delete'
-           - '@oro_action.api_manager'
-           - '@oro_entity.doctrine_helper'
+            - '@oro_customer.customer.assign.helper'
+        tags:
+            - { name: oro_entity.delete_handler_extension, entity: Oro\Bundle\CustomerBundle\Entity\Customer }
 
     oro_customer.customer.mass_action.handler.delete:
         class: Oro\Bundle\CustomerBundle\Handler\CustomersDeleteMassActionHandler

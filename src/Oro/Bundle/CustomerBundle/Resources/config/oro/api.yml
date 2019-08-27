@@ -7,7 +7,6 @@ api:
     entities:
         Oro\Bundle\CustomerBundle\Entity\Customer:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer.md'
-            delete_handler: oro_customer.customer.handler.delete
             fields:
                 dataChannel:
                     exclude: true

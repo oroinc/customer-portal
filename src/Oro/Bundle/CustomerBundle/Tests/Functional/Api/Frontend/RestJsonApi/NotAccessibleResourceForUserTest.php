@@ -49,24 +49,6 @@ class NotAccessibleResourceForUserTest extends FrontendRestJsonApiTestCase
         );
     }
 
-    public function testForbidden()
-    {
-        $response = $this->get(
-            ['entity' => 'testapiunaccessiblemodel', 'id' => 'forbidden'],
-            [],
-            [],
-            false
-        );
-        $this->assertResponseValidationError(
-            [
-                'title'  => 'forbidden exception',
-                'detail' => 'The access for this entity is forbidden.'
-            ],
-            $response,
-            Response::HTTP_FORBIDDEN
-        );
-    }
-
     public function testNotFound()
     {
         $response = $this->get(
