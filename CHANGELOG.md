@@ -11,6 +11,9 @@ The current file describes significant changes in the code that may affect the u
 * The class `Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider`
   was renamed to `Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider`.
 
+## 4.0.0 (2019-07-31)
+[Show detailed list of changes](incompatibilities-4-0.md)
+
 ## 4.0.0-rc (2019-05-29)
 [Show detailed list of changes](incompatibilities-4-0-rc.md)
 
