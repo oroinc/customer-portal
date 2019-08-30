@@ -2,6 +2,8 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api;
 
+use Oro\Bundle\ApiBundle\ApiDoc\RestDocUrlGenerator as BackendRestDocUrlGenerator;
+use Oro\Bundle\FrontendBundle\Api\ApiDoc\RestDocUrlGenerator as FrontendRestDocUrlGenerator;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,19 +19,46 @@ class ApiDocControllerTest extends WebTestCase
 
     /**
      * @param string|null $view
-     * @param string      $route
+     * @param string|null $route
      *
      * @return Response
      */
-    private function sendApiDocRequest(string $view = null, string $route = 'oro_frontend_rest_api_doc'): Response
+    private function sendApiDocRequest(string $view = null, string $route = null): Response
     {
         $parameters = [];
         if (null !== $view) {
             $parameters['view'] = $view;
         }
+        if (!$route) {
+            $route = FrontendRestDocUrlGenerator::ROUTE;
+        }
         $this->client->request(
             'GET',
             $this->getUrl($route, $parameters)
+        );
+
+        return $this->client->getResponse();
+    }
+
+    /**
+     * @param string $view
+     * @param string $method
+     * @param string $resource
+     *
+     * @return Response
+     */
+    private function sendApiDocResourceRequest(string $view, string $method, string $resource): Response
+    {
+        $resourceId = '/api/' . $resource;
+        $resourceId = str_replace('/', '-', $resourceId);
+        $resourceId = $method . '-' . $resourceId;
+
+        $this->client->request(
+            'GET',
+            $this->getUrl(
+                FrontendRestDocUrlGenerator::RESOURCE_ROUTE,
+                ['view' => $view, 'resource' => $resourceId]
+            )
         );
 
         return $this->client->getResponse();
@@ -43,17 +72,7 @@ class ApiDocControllerTest extends WebTestCase
 
     public function testDefaultView()
     {
-        try {
-            $this->sendApiDocRequest();
-        } catch (\PHPUnit\Framework\AssertionFailedError $e) {
-            // ignore checkForBackendUrls,
-            // because urls on API sandbox are updated by JS
-            // due to hardcode in NelmioApiDocBuntle TWIG template
-            // see NelmioApiDocBundle/Resources/views/layout.html.twig
-            if (false === strpos($e->getMessage(), 'contains backend prefix')) {
-                throw $e;
-            }
-        }
+        $this->sendApiDocRequest();
         self::assertResponseStatusCodeEquals($this->client->getResponse(), 200);
     }
 
@@ -65,7 +84,25 @@ class ApiDocControllerTest extends WebTestCase
 
     public function testFrontendViewViaBackendController()
     {
-        $response = $this->sendApiDocRequest('frontend_rest_json_api', 'nelmio_api_doc_index');
+        $response = $this->sendApiDocRequest('frontend_rest_json_api', BackendRestDocUrlGenerator::ROUTE);
         self::assertResponseStatusCodeEquals($response, 404);
+    }
+
+    public function testResource()
+    {
+        $response = $this->sendApiDocResourceRequest('frontend_rest_json_api', 'get', 'countries');
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
+    }
+
+    public function testResourceForUnknownView()
+    {
+        $response = $this->sendApiDocResourceRequest('unknown', 'get', 'countries');
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+    }
+
+    public function testUnknownResource()
+    {
+        $response = $this->sendApiDocResourceRequest('frontend_rest_json_api', 'get', 'unknown');
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
     }
 }

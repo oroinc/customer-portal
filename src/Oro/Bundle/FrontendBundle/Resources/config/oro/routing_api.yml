@@ -2,8 +2,20 @@ oro_frontend_rest_api_doc:
     path: '%oro_api.rest.prefix%doc/{view}'
     methods: [GET]
     defaults:
-        _controller: NelmioApiDocBundle:ApiDoc:index
+        _controller: OroApiBundle:RestApiDoc:index
         view: frontend_rest_json_api
+    requirements:
+        view: '[\w-]+'
+    options:
+        frontend: true
+
+oro_frontend_rest_api_doc_resource:
+    path: '%oro_api.rest.prefix%doc/{view}/{resource}'
+    methods: [GET]
+    defaults:
+        _controller: OroApiBundle:RestApiDoc:resource
+    requirements:
+        view: '[\w-]+'
     options:
         frontend: true
 
