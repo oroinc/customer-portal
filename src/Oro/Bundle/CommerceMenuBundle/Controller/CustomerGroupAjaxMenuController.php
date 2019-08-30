@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Ajax Commerce Customer Group Menu Controller
+ * The AJAX controller for the customer group menu.
  * @Route("/menu/customer-group")
  * @CsrfProtection()
  */
@@ -26,7 +26,7 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
     {
         if (!$this->isGranted(
             'oro_customer_account_group_update',
-            $context[ScopeCustomerGroupCriteriaProvider::FIELD_NAME]
+            $context[ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP]
         )
         ) {
             throw $this->createAccessDeniedException();
@@ -39,7 +39,7 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
      */
     protected function getAllowedContextKeys()
     {
-        return [ScopeCustomerGroupCriteriaProvider::FIELD_NAME, ScopeCriteriaProvider::WEBSITE];
+        return [ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP, ScopeCriteriaProvider::WEBSITE];
     }
 
     /**
@@ -47,10 +47,10 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
      */
     protected function getMenu($menuName, array $context)
     {
-        if (array_key_exists(ScopeCustomerGroupCriteriaProvider::FIELD_NAME, $context)) {
+        if (array_key_exists(ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP, $context)) {
             /** @var CustomerGroup $customerGroup */
-            $customerGroup = $context[ScopeCustomerGroupCriteriaProvider::FIELD_NAME];
-            $context[ScopeOrganizationCriteriaProvider::SCOPE_KEY] = $customerGroup->getOrganization();
+            $customerGroup = $context[ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP];
+            $context[ScopeOrganizationCriteriaProvider::ORGANIZATION] = $customerGroup->getOrganization();
         }
 
         return parent::getMenu($menuName, $context);

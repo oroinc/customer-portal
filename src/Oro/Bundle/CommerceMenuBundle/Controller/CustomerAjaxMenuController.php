@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * AJAX Commerce Customer Menu Controller
+ * The AJAX controller for the customer menu.
  * @Route("/menu/customer")
  * @CsrfProtection()
  */
@@ -25,11 +25,7 @@ class CustomerAjaxMenuController extends AbstractAjaxMenuController
      */
     protected function checkAcl(array $context)
     {
-        if (!$this->isGranted(
-            'oro_customer_customer_update',
-            $context[ScopeCustomerCriteriaProvider::ACCOUNT]
-        )
-        ) {
+        if (!$this->isGranted('oro_customer_customer_update', $context[ScopeCustomerCriteriaProvider::CUSTOMER])) {
             throw $this->createAccessDeniedException();
         }
         parent::checkAcl($context);
@@ -40,7 +36,7 @@ class CustomerAjaxMenuController extends AbstractAjaxMenuController
      */
     protected function getAllowedContextKeys()
     {
-        return [ScopeCustomerCriteriaProvider::ACCOUNT, ScopeCriteriaProvider::WEBSITE];
+        return [ScopeCustomerCriteriaProvider::CUSTOMER, ScopeCriteriaProvider::WEBSITE];
     }
 
     /**
@@ -48,11 +44,11 @@ class CustomerAjaxMenuController extends AbstractAjaxMenuController
      */
     protected function getMenu($menuName, array $context)
     {
-        if (array_key_exists(ScopeCustomerCriteriaProvider::ACCOUNT, $context)) {
+        if (array_key_exists(ScopeCustomerCriteriaProvider::CUSTOMER, $context)) {
             /** @var Customer $customer */
-            $customer = $context[ScopeCustomerCriteriaProvider::ACCOUNT];
-            $context[ScopeOrganizationCriteriaProvider::SCOPE_KEY] = $customer->getOrganization();
-            $context[ScopeCustomerGroupCriteriaProvider::FIELD_NAME] = $customer->getGroup();
+            $customer = $context[ScopeCustomerCriteriaProvider::CUSTOMER];
+            $context[ScopeOrganizationCriteriaProvider::ORGANIZATION] = $customer->getOrganization();
+            $context[ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP] = $customer->getGroup();
         }
 
         return parent::getMenu($menuName, $context);

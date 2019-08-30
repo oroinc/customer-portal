@@ -10,6 +10,13 @@ use Oro\Bundle\ScopeBundle\Manager\ScopeManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
+/**
+ * Loads the following items the storefront menu:
+ * * Catalog
+ * * Order History
+ * * New Arrivals
+ * * Contact us
+ */
 class LoadFeaturedMenuData extends AbstractFixture implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
@@ -116,11 +123,10 @@ class LoadFeaturedMenuData extends AbstractFixture implements ContainerAwareInte
      */
     protected function getScope()
     {
-        $scopeType = $this->container->getParameter('oro_commerce_menu.menu_update.scope_type');
         /** @var ScopeManager $scopeManager */
         $scopeManager = $this->container->get('oro_scope.scope_manager');
 
-        return $scopeManager->findOrCreate($scopeType, []);
+        return $scopeManager->findOrCreate('menu_frontend_visibility', []);
     }
 
     /**

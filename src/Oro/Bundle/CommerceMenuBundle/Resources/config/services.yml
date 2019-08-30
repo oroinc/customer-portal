@@ -1,18 +1,16 @@
 parameters:
     oro_commerce_menu.entity.menu_update.class: 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
 
-    oro_commerce_menu.menu_update.scope_type: 'menu_frontend_visibility'
-
 services:
     oro_commerce_menu.scope_criteria_provider.customer:
         parent: oro_customer.customer_scope_criteria_provider
         tags:
-            - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 40}
+            - { name: oro_scope.provider, scopeType: menu_frontend_visibility, priority: 40 }
 
     oro_commerce_menu.scope_criteria_provider.customer_group:
         parent: oro_customer.customer_group_scope_criteria_provider
         tags:
-            - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 30}
+            - { name: oro_scope.provider, scopeType: menu_frontend_visibility, priority: 30 }
 
     oro_commerce_menu.menu_update.builder.menu_frontend_visibility:
         class: 'Oro\Bundle\NavigationBundle\Builder\MenuUpdateBuilder'
@@ -36,7 +34,7 @@ services:
             - "@doctrine"
             - "@oro_navigation.menu_helper.menu_update"
             - '%oro_commerce_menu.entity.menu_update.class%'
-            - '%oro_commerce_menu.menu_update.scope_type%'
+            - 'menu_frontend_visibility'
 
     oro_commerce_menu.menu.condition.config_value_expression_language_provider:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\Condition\ConfigValueExpressionLanguageProvider'
@@ -79,7 +77,7 @@ services:
         arguments:
             - '@oro_scope.scope_manager'
             - '@oro_website.website.provider'
-            - '%oro_commerce_menu.menu_update.scope_type%'
+            - 'menu_frontend_visibility'
 
     oro_commerce_menu.menu_context_provider.customer:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvider'
@@ -109,7 +107,7 @@ services:
             - '@oro_navigation.repository.menu_update'
             - '@oro_navigation.menu_update.cache'
             - '@oro_scope.scope_manager'
-            - '%oro_commerce_menu.menu_update.scope_type%'
+            - 'menu_frontend_visibility'
         tags:
             - { name: kernel.event_listener, event: oro_menu.menu_update_change, method: onMenuUpdateScopeChange }
 
@@ -136,7 +134,7 @@ services:
     oro_commerce_menu.scope_criteria_provider.website:
         parent: oro_website.website_scope_criteria_provider
         tags:
-            - {name: oro_scope.provider, scopeType: '%oro_commerce_menu.menu_update.scope_type%', priority: 20}
+            - { name: oro_scope.provider, scopeType: menu_frontend_visibility, priority: 20 }
 
     oro_commerce_menu.expression_language.cache:
         public: false

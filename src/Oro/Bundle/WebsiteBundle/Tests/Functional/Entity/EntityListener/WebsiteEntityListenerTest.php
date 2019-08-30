@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Functional\Entity\EntityListener;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Oro\Bundle\ScopeBundle\Entity\Repository\ScopeRepository;
 use Oro\Bundle\ScopeBundle\Entity\Scope;
 use Oro\Bundle\ScopeBundle\Model\ScopeCriteria;
@@ -24,7 +25,7 @@ class WebsiteEntityListenerTest extends WebTestCase
         $em->persist($website);
         $em->flush();
 
-        $criteria = new ScopeCriteria(['website' => $website], []);
+        $criteria = new ScopeCriteria(['website' => $website], new ClassMetadata(Scope::class));
         /** @var ScopeRepository $repository */
         $repository = $em->getRepository(Scope::class);
 

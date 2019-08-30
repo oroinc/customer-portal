@@ -4,20 +4,18 @@ namespace Oro\Bundle\CustomerBundle\Provider;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\ScopeBundle\Manager\AbstractScopeCriteriaProvider;
+use Oro\Bundle\ScopeBundle\Manager\ScopeCriteriaProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
- * Provide Customer for Scope Criteria
+ * The scope criteria provider for the current customer.
  */
-class ScopeCustomerCriteriaProvider extends AbstractScopeCriteriaProvider
+class ScopeCustomerCriteriaProvider implements ScopeCriteriaProviderInterface
 {
-    const ACCOUNT = 'customer';
+    public const CUSTOMER = 'customer';
 
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
+    /** @var TokenStorageInterface */
+    private $tokenStorage;
 
     /**
      * @param TokenStorageInterface $tokenStorage
@@ -28,39 +26,29 @@ class ScopeCustomerCriteriaProvider extends AbstractScopeCriteriaProvider
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
-    public function getCriteriaForCurrentScope()
+    public function getCriteriaField()
     {
-        return [$this->getCriteriaField() => $this->getCustomer()];
+        return self::CUSTOMER;
     }
 
     /**
-     * @return Customer|null
+     * {@inheritdoc}
      */
-    private function getCustomer()
+    public function getCriteriaValue()
     {
         $token = $this->tokenStorage->getToken();
-        if (!$token) {
-            return null;
-        }
-
-        $loggedUser = $token->getUser();
-        if (null !== $loggedUser && $loggedUser instanceof CustomerUser) {
-            return $loggedUser->getCustomer();
+        if (null !== $token) {
+            $user = $token->getUser();
+            if ($user instanceof CustomerUser) {
+                return $user->getCustomer();
+            }
         }
 
         return null;
     }
-    
-    /**
-     * @return string
-     */
-    public function getCriteriaField()
-    {
-        return static::ACCOUNT;
-    }
-    
+
     /**
      * {@inheritdoc}
      */

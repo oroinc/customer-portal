@@ -10,7 +10,7 @@ class ScopeCustomerGroupCriteriaProviderServiceTest extends AbstractScopeProvide
     public function testProviderRegisteredWithScopeTypes()
     {
         self::assertProviderRegisteredWithScopeTypes(
-            ScopeCustomerGroupCriteriaProvider::FIELD_NAME,
+            ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP,
             [
                 'customer_group_category_visibility',
                 'customer_group_product_visibility',

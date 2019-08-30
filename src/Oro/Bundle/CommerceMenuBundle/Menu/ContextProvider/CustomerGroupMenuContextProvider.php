@@ -7,6 +7,9 @@ use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider;
 
+/**
+ * Adds the current customer group and the default website to the customer group menu context.
+ */
 class CustomerGroupMenuContextProvider implements CustomerGroupMenuContextProviderInterface
 {
     /** @var WebsiteManager */
@@ -27,7 +30,7 @@ class CustomerGroupMenuContextProvider implements CustomerGroupMenuContextProvid
     {
         return [
             [
-                ScopeCustomerGroupCriteriaProvider::FIELD_NAME => $customerGroup->getId(),
+                ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP => $customerGroup->getId(),
                 ScopeCriteriaProvider::WEBSITE => $this->websiteManager->getDefaultWebsite()->getId()
             ]
         ];

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
+ * The controller for the customer menu.
  * @Route("/menu/customer")
  */
 class CustomerMenuController extends AbstractFrontendMenuController
@@ -122,7 +123,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
     {
         if (!$this->isGranted(
             'oro_customer_customer_update',
-            $context[ScopeCustomerCriteriaProvider::ACCOUNT]
+            $context[ScopeCustomerCriteriaProvider::CUSTOMER]
         )
         ) {
             throw $this->createAccessDeniedException();
@@ -135,11 +136,11 @@ class CustomerMenuController extends AbstractFrontendMenuController
      */
     protected function getMenu($menuName, array $context)
     {
-        if (array_key_exists(ScopeCustomerCriteriaProvider::ACCOUNT, $context)) {
+        if (array_key_exists(ScopeCustomerCriteriaProvider::CUSTOMER, $context)) {
             /** @var Customer $customer */
-            $customer = $context[ScopeCustomerCriteriaProvider::ACCOUNT];
-            $context[ScopeOrganizationCriteriaProvider::SCOPE_KEY] = $customer->getOrganization();
-            $context[ScopeCustomerGroupCriteriaProvider::FIELD_NAME] = $customer->getGroup();
+            $customer = $context[ScopeCustomerCriteriaProvider::CUSTOMER];
+            $context[ScopeOrganizationCriteriaProvider::ORGANIZATION] = $customer->getOrganization();
+            $context[ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP] = $customer->getGroup();
         }
 
         return parent::getMenu($menuName, $context);
@@ -150,6 +151,6 @@ class CustomerMenuController extends AbstractFrontendMenuController
      */
     protected function getAllowedContextKeys()
     {
-        return [ScopeCustomerCriteriaProvider::ACCOUNT, ScopeCriteriaProvider::WEBSITE];
+        return [ScopeCustomerCriteriaProvider::CUSTOMER, ScopeCriteriaProvider::WEBSITE];
     }
 }

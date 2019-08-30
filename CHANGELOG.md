@@ -4,6 +4,14 @@ The current file describes significant changes in the code that may affect the u
 
 ## 4.1.0-beta
 
+### Changed
+
+#### CustomerBundle
+* The constant `ACCOUNT` in `Oro\Bundle\CustomerBundle\Provider\ScopeCustomerCriteriaProvider`
+  was replaced with `CUSTOMER`.
+* The constant `FIELD_NAME` in `Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider`
+  was replaced with `CUSTOMER_GROUP`.
+
 #### FrontendBundle
 * The method `isFrontendRequest(Request $request = null): bool` of `Oro\Bundle\FrontendBundle\Request\FrontendHelper`
   was changed to `isFrontendRequest(): bool`. To check whether a request is a storefront request use
