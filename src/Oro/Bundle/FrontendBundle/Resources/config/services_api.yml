@@ -93,7 +93,7 @@ services:
             - '@oro_api.doctrine_helper'
             - '@oro_locale.helper.localization'
         tags:
-            - { name: oro.api.processor, action: customize_loaded_data, requestType: frontend }
+            - { name: oro.api.processor, action: customize_loaded_data, requestType: frontend, collection: true }
 
     oro_frontend.api.get_config.exclude_custom_fields_by_default:
         class: Oro\Bundle\ApiBundle\Processor\Config\Shared\ExcludeCustomFieldsByDefault
