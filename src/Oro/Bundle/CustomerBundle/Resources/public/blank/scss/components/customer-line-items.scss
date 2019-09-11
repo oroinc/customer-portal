@@ -54,6 +54,10 @@
                 vertical-align: $customer-line-items-table-cell-vertical-align;
                 margin-right: $offset-y-m;
             }
+
+            .fields-row-error {
+                white-space: normal;
+            }
         }
     }
 
@@ -63,6 +67,16 @@
 
     .custom-radio__text {
         vertical-align: top;
+    }
+}
+
+@include breakpoint('tablet') {
+    .customer-line-items {
+        .grid-cell {
+            &.qty-cell {
+                width: 160px;
+            }
+        }
     }
 }
 
