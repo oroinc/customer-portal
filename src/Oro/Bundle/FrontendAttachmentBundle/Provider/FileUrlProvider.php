@@ -7,6 +7,7 @@ use Oro\Bundle\AttachmentBundle\Acl\FileAccessControlChecker;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\AttachmentBundle\Provider\FileApplicationsProvider;
 use Oro\Bundle\AttachmentBundle\Provider\FileUrlProviderInterface;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -29,25 +30,31 @@ class FileUrlProvider implements FileUrlProviderInterface
     /** @var FileAccessControlChecker */
     private $fileAccessControlChecker;
 
+    /** @var ConfigManager */
+    private $configManager;
+
     /**
      * @param FileUrlProviderInterface $innerFileUrlProvider
      * @param UrlGeneratorInterface $urlGenerator
      * @param FileApplicationsProvider $fileApplicationsProvider
      * @param CurrentApplicationProviderInterface $currentApplicationProvider
      * @param FileAccessControlChecker $fileAccessControlChecker
+     * @param ConfigManager $configManager
      */
     public function __construct(
         FileUrlProviderInterface $innerFileUrlProvider,
         UrlGeneratorInterface $urlGenerator,
         FileApplicationsProvider $fileApplicationsProvider,
         CurrentApplicationProviderInterface $currentApplicationProvider,
-        FileAccessControlChecker $fileAccessControlChecker
+        FileAccessControlChecker $fileAccessControlChecker,
+        ConfigManager $configManager
     ) {
         $this->innerFileUrlProvider = $innerFileUrlProvider;
         $this->urlGenerator = $urlGenerator;
         $this->fileApplicationsProvider = $fileApplicationsProvider;
         $this->currentApplicationProvider = $currentApplicationProvider;
         $this->fileAccessControlChecker = $fileAccessControlChecker;
+        $this->configManager = $configManager;
     }
 
     /**
@@ -124,23 +131,28 @@ class FileUrlProvider implements FileUrlProviderInterface
      */
     private function isPublicOrFrontend(File $file): bool
     {
-        if (!$this->fileAccessControlChecker->isCoveredByAcl($file)) {
-            // File is publicly accessible.
-            return true;
-        }
-
         $fileApplications = $this->fileApplicationsProvider->getFileApplications($file);
         if (!\in_array(CurrentApplicationProviderInterface::DEFAULT_APPLICATION, $fileApplications, false)) {
             // File does not belong to backoffice.
             return true;
         }
 
+        if (!$this->configManager->get('oro_frontend.guest_access_enabled')) {
+            return false;
+        }
+
+        if (!$this->fileAccessControlChecker->isCoveredByAcl($file)) {
+            // File is publicly accessible.
+            return true;
+        }
+
         $currentApplication = $this->currentApplicationProvider->getCurrentApplication();
 
-        // If no application is resolved via token we consider this is not frontend request
+        // If no application is resolved via token we consider this is not frontend request.
         if (!$currentApplication) {
             return false;
         }
+
         // If we are not currently in backoffice application.
         return $currentApplication
             !== CurrentApplicationProviderInterface::DEFAULT_APPLICATION;
