@@ -39,7 +39,12 @@ use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
  *      routeUpdate="oro_customer_customer_user_update",
  *      defaultValues={
  *          "entity"={
- *              "icon"="fa-briefcase"
+ *              "icon"="fa-briefcase",
+ *              "contact_information"={
+ *                  "email"={
+ *                      {"fieldName"="contactInformation"}
+ *                  }
+ *              }
  *          },
  *          "ownership"={
  *              "owner_type"="USER",
