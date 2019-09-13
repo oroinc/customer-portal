@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\RestJsonApi;
 
 use Doctrine\Common\Collections\Collection;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
-use Oro\Bundle\ApiBundle\Request\ApiActions;
+use Oro\Bundle\ApiBundle\Request\ApiAction;
 use Oro\Bundle\CustomerBundle\Entity\AbstractAddressToAddressType;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 
@@ -873,7 +873,7 @@ trait AddressTypeTestTrait
 
     public function testCreateOneMoreDefaultAddressViaOwnerEntityUpdateResource()
     {
-        if (!$this->isActionEnabled($this->getEntityClass(self::OWNER_ENTITY_TYPE), ApiActions::UPDATE)) {
+        if (!$this->isActionEnabled($this->getEntityClass(self::OWNER_ENTITY_TYPE), ApiAction::UPDATE)) {
             self::markTestSkipped('The "update" action is disabled for owner entity');
         }
 
@@ -949,7 +949,7 @@ trait AddressTypeTestTrait
 
     public function testCreateSeveralDefaultAddressesWithOwnerEntityRelationshipViaOwnerEntityUpdateResource()
     {
-        if (!$this->isActionEnabled($this->getEntityClass(self::OWNER_ENTITY_TYPE), ApiActions::UPDATE)) {
+        if (!$this->isActionEnabled($this->getEntityClass(self::OWNER_ENTITY_TYPE), ApiAction::UPDATE)) {
             self::markTestSkipped('The "update" action is disabled for owner entity');
         }
 
@@ -1026,7 +1026,7 @@ trait AddressTypeTestTrait
 
     public function testCreateSeveralDefaultAddressesWithoutOwnerEntityRelationshipViaOwnerEntityUpdateResource()
     {
-        if (!$this->isActionEnabled($this->getEntityClass(self::OWNER_ENTITY_TYPE), ApiActions::UPDATE)) {
+        if (!$this->isActionEnabled($this->getEntityClass(self::OWNER_ENTITY_TYPE), ApiAction::UPDATE)) {
             self::markTestSkipped('The "update" action is disabled for owner entity');
         }
 

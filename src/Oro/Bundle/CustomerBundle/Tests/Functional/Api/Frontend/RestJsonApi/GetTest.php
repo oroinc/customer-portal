@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 
-use Oro\Bundle\ApiBundle\Request\ApiActions;
+use Oro\Bundle\ApiBundle\Request\ApiAction;
 use Oro\Bundle\ApiBundle\Request\JsonApi\JsonApiDocumentBuilder as JsonApiDoc;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadAdminCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
@@ -28,7 +28,7 @@ class GetTest extends FrontendRestJsonApiTestCase
      */
     public function testRestRequests($entityClass, $excludedActions)
     {
-        if (in_array(ApiActions::GET_LIST, $excludedActions, true)) {
+        if (in_array(ApiAction::GET_LIST, $excludedActions, true)) {
             return;
         }
 
@@ -39,15 +39,15 @@ class GetTest extends FrontendRestJsonApiTestCase
         if ($response->getStatusCode() === 400) {
             $response = $this->cget(['entity' => $entityType], [], [], false);
         }
-        self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiActions::GET_LIST);
+        self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiAction::GET_LIST);
         self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
 
         $id = $this->getFirstEntityId(self::jsonToArray($response->getContent()));
         if (null !== $id) {
             // test "get" request
-            if (!in_array(ApiActions::GET, $excludedActions, true)) {
+            if (!in_array(ApiAction::GET, $excludedActions, true)) {
                 $response = $this->get(['entity' => $entityType, 'id' => $id], [], [], false);
-                self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiActions::GET);
+                self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiAction::GET);
                 self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
             }
         }
