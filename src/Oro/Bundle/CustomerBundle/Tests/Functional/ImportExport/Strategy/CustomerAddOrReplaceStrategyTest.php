@@ -57,10 +57,11 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
 
     public function testWithInvalidOwner()
     {
+        $this->context->setValue('read_offset', 1);
         $customer = $this->createCustomer($this->getReference('user_without_main_organization_access'));
 
         $processedCustomer = $this->strategy->process($customer);
-        $this->assertEquals(['Error in row #. You have no access to set given owner'], $this->context->getErrors());
+        $this->assertEquals(['Error in row #1. You have no access to set given owner'], $this->context->getErrors());
         $this->assertTrue(null === $processedCustomer);
     }
 
