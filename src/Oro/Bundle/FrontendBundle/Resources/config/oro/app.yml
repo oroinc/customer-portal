@@ -62,7 +62,7 @@ security:
 
         # override pattern and config
         main:
-            pattern:                        '^%web_backend_prefix%/'
+            pattern:                        '^%web_backend_prefix%'
             organization-form-login:
                 default_target_path:        oro_default
             logout:

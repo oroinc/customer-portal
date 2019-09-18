@@ -13,6 +13,8 @@ The current file describes significant changes in the code that may affect the u
   was replaced with `CUSTOMER_GROUP`.
 
 #### FrontendBundle
+* A validation of `web_backend_prefix` container parameter was added.
+  The parameter value must not be null and must start with a slash and not end with a slash.
 * The method `isFrontendRequest(Request $request = null): bool` of `Oro\Bundle\FrontendBundle\Request\FrontendHelper`
   was changed to `isFrontendRequest(): bool`. To check whether a request is a storefront request use
   `isFrontendUrl($request->getPathInfo())`.

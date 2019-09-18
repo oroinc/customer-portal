@@ -6,6 +6,7 @@ use Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension;
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
 use Oro\Bundle\FrontendBundle\Request\NotInstalledFrontendHelper;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
@@ -64,6 +65,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     public function prepend(ContainerBuilder $container)
     {
         if ($container instanceof ExtendedContainerBuilder) {
+            $this->validateBackendPrefix($container);
             $this->modifySecurityConfig($container);
             $this->modifyFosRestConfig($container);
         }
@@ -75,6 +77,34 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     public function getAlias()
     {
         return self::ALIAS;
+    }
+
+    /**
+     * Validates the web_backend_prefix parameter.
+     *
+     * @param ContainerBuilder $container
+     */
+    private function validateBackendPrefix(ContainerBuilder $container): void
+    {
+        $prefix = $container->getParameter('web_backend_prefix');
+
+        if (strlen($prefix) === 0) {
+            throw new InvalidConfigurationException(
+                'The "web_backend_prefix" parameter value should not be null.'
+            );
+        }
+
+        if (substr($prefix, 0, 1) !== '/') {
+            throw new InvalidConfigurationException(
+                'The "web_backend_prefix" parameter should start with a "/" character.'
+            );
+        }
+
+        if (substr($prefix, -1) === '/') {
+            throw new InvalidConfigurationException(
+                'The "web_backend_prefix" parameter should not end with a "/" character.'
+            );
+        }
     }
 
     /**

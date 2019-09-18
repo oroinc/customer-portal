@@ -304,6 +304,54 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedExceptionMessage The "web_backend_prefix" parameter value should not be null.
+     */
+    public function testValidateBackendPrefixWithNullValue()
+    {
+        $container = new ExtendedContainerBuilder();
+        $container->setParameter('web_backend_prefix', '');
+
+        $extension = new OroFrontendExtension();
+        $extension->prepend($container);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedExceptionMessage The "web_backend_prefix" parameter should start with a "/" character.
+     */
+    public function testValidateBackendPrefixWhenItNotStartsWithSlash()
+    {
+        $container = new ExtendedContainerBuilder();
+        $container->setParameter('web_backend_prefix', 'admin');
+
+        $extension = new OroFrontendExtension();
+        $extension->prepend($container);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedExceptionMessage The "web_backend_prefix" parameter should not end with a "/" character.
+     */
+    public function testValidateBackendPrefixWhenItEndsWithSlash()
+    {
+        $container = new ExtendedContainerBuilder();
+        $container->setParameter('web_backend_prefix', '/admin/');
+
+        $extension = new OroFrontendExtension();
+        $extension->prepend($container);
+    }
+
+    public function testValidateBackendPrefixWithValidPrefixValue()
+    {
+        $container = new ExtendedContainerBuilder();
+        $container->setParameter('web_backend_prefix', '/admin');
+
+        $extension = new OroFrontendExtension();
+        $extension->prepend($container);
+    }
+
+    /**
      * @return ContainerBuilder
      */
     private function getContainerBuilder(): ContainerBuilder
