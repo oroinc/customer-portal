@@ -1122,7 +1122,7 @@ services:
         arguments:
             - '@oro_security.token_accessor'
         tags:
-            - { name: oro_security.access_rule, priority: -200, entityClass: Oro\Bundle\CustomerBundle\Entity\CustomerUserRole, loggedUserClass: Oro\Bundle\CustomerBundle\Entity\CustomerUser }
+            - { name: oro_security.access_rule, priority: -255, entityClass: Oro\Bundle\CustomerBundle\Entity\CustomerUserRole, loggedUserClass: Oro\Bundle\CustomerBundle\Entity\CustomerUser }
 
     oro_customer.provider.customer_user_preferred_language_provider:
         class: Oro\Bundle\CustomerBundle\Provider\CustomerUserPreferredLanguageProvider

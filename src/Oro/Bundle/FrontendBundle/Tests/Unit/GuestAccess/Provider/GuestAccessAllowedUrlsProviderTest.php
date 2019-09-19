@@ -25,6 +25,7 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
             '^/_fragment',
             '^/js/',
             '^/media/js/',
+            '^/media/cache/',
             '^/embedded-form',
             '^/customer/user/login$',
             '^/customer/user/reset-request$',

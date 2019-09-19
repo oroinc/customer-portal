@@ -17,6 +17,8 @@ class GuestAccessAllowedUrlsProvider implements GuestAccessAllowedUrlsProviderIn
         '^/_fragment',
         '^/js/',
         '^/media/js/',
+        // Images
+        '^/media/cache/',
         // Allow embedded forms.
         '^/embedded-form',
         // Explicitly allowed URLs.

@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\ApiBundle\ApiDoc\Extractor\CachingApiDocExtractor;
-use Oro\Bundle\ApiBundle\Request\ApiActions;
+use Oro\Bundle\ApiBundle\Request\ApiAction;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
@@ -407,7 +407,7 @@ class LoginTest extends FrontendWebTestCase
             $annotation = $doc['annotation'];
             $route = $annotation->getRoute();
             if ($route->getDefault('entity') === 'login'
-                && $route->getDefault('_action') === ApiActions::OPTIONS
+                && $route->getDefault('_action') === ApiAction::OPTIONS
             ) {
                 $docs[] = $doc;
                 break;
