@@ -66,8 +66,7 @@ class WYSIWYGTypeExtensionTest extends \PHPUnit\Framework\TestCase
         $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects($this->once())
             ->method('setDefault')
-            ->with('page-component', function() {
-
+            ->with('page-component', function () {
             })
             ->will($this->returnSelf());
 
