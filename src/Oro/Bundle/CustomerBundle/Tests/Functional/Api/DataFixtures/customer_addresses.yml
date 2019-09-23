@@ -3,6 +3,11 @@ dependencies:
   - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization
   - Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerAddresses
 
+Oro\Bundle\OrganizationBundle\Entity\Organization:
+    another_organization:
+        name: 'Another Organization'
+        enabled: true
+
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     customer.level_1.1.address_2:
         systemOrganization: '@organization'

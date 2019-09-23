@@ -43,6 +43,7 @@ class CustomerAddressTest extends RestJsonApiTestCase
     private const BILLING_ADDRESS_REF              = 'customer.level_1.address_2';
     private const BILLING_AND_SHIPPING_ADDRESS_REF = 'customer.level_1.address_1';
     private const UNCHANGEABLE_ADDRESS_REF         = 'customer.level_1.address_1';
+    private const OWNER_REF                        = 'customer.level_1';
     private const ANOTHER_OWNER_REF                = 'customer.level_1.1';
     private const ANOTHER_OWNER_ADDRESS_2_REF      = 'customer.level_1.1.address_2';
 
@@ -450,7 +451,10 @@ class CustomerAddressTest extends RestJsonApiTestCase
 
     public function testTryToUpdateCustomer()
     {
-        $addressId = $this->getReference('customer.level_1.address_1')->getId();
+        /** @var CustomerAddress $address */
+        $address = $this->getReference('customer.level_1.address_1');
+        $addressId = $address->getId();
+        $customerId = $address->getFrontendOwner()->getId();
         $data = [
             'data' => [
                 'type'          => self::ENTITY_TYPE,
@@ -459,7 +463,7 @@ class CustomerAddressTest extends RestJsonApiTestCase
                     self::OWNER_RELATIONSHIP => [
                         'data' => [
                             'type' => self::OWNER_ENTITY_TYPE,
-                            'id'   => '<toString(@customer.level_1->id)>'
+                            'id'   => '<toString(@customer.level_1.1->id)>'
                         ]
                     ]
                 ]
@@ -468,17 +472,14 @@ class CustomerAddressTest extends RestJsonApiTestCase
 
         $response = $this->patch(
             ['entity' => self::ENTITY_TYPE, 'id' => (string)$addressId],
-            $data,
-            [],
-            false
+            $data
         );
 
-        $this->assertResponseValidationError(
-            [
-                'title'  => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "customer".'
-            ],
-            $response
+        $data['data']['relationships'][self::OWNER_RELATIONSHIP]['data']['id'] = (string)$customerId;
+        $this->assertResponseContains($data, $response);
+        self::assertSame(
+            $customerId,
+            $this->getEntityManager()->find(self::ENTITY_CLASS, $addressId)->getFrontendOwner()->getId()
         );
     }
 
@@ -504,7 +505,10 @@ class CustomerAddressTest extends RestJsonApiTestCase
 
     public function testTryToUpdateSystemOrganization()
     {
-        $addressId = $this->getReference('customer.level_1.address_1')->getId();
+        /** @var CustomerAddress $address */
+        $address = $this->getReference('customer.level_1.address_1');
+        $addressId = $address->getId();
+        $organizationId = $address->getSystemOrganization()->getId();
 
         $response = $this->patch(
             ['entity' => self::ENTITY_TYPE, 'id' => $addressId],
@@ -516,22 +520,19 @@ class CustomerAddressTest extends RestJsonApiTestCase
                         'systemOrganization' => [
                             'data' => [
                                 'type' => 'organizations',
-                                'id'   => '<toString(@organization->id)>'
+                                'id'   => '<toString(@another_organization->id)>'
                             ]
                         ]
                     ]
                 ]
-            ],
-            [],
-            false
+            ]
         );
 
-        $this->assertResponseValidationError(
-            [
-                'title'  => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "systemOrganization".'
-            ],
-            $response
+        $data['data']['relationships']['systemOrganization']['data']['id'] = (string)$organizationId;
+        $this->assertResponseContains($data, $response);
+        self::assertSame(
+            $organizationId,
+            $this->getEntityManager()->find(self::ENTITY_CLASS, $addressId)->getSystemOrganization()->getId()
         );
     }
 

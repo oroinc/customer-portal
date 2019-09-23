@@ -88,31 +88,19 @@ api:
                     exclude: true
                 loginCount:
                     exclude: true
+                enabled:
+                    form_options:
+                        mapped: false
+                confirmed:
+                    form_options:
+                        mapped: false
             actions:
                 create:
                     fields:
-                        enabled:
-                            exclude: true
-                        confirmed:
-                            exclude: true
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
                         password:
                             exclude: false # set manually because this field is excluded globally
                             form_options:
                                 property_path: plainPassword
-                update:
-                    fields:
-                        enabled:
-                            exclude: true
-                        confirmed:
-                            exclude: true
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
             subresources:
                 addresses:
                     actions:
@@ -164,20 +152,11 @@ api:
                         property_path: types.type
                         allow_array: true
             actions:
-                create:
-                    fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
                 update:
                     fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
                         customer:
-                            exclude: true
+                            form_options:
+                                mapped: false
             subresources:
                 customer:
                     actions:
@@ -236,20 +215,11 @@ api:
                         property_path: types.type
                         allow_array: true
             actions:
-                create:
-                    fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
                 update:
                     fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
                         customerUser:
-                            exclude: true
+                            form_options:
+                                mapped: false
             subresources:
                 customerUser:
                     actions:

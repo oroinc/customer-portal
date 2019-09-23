@@ -171,7 +171,7 @@ Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/u
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -187,7 +187,7 @@ Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/u
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -203,7 +203,7 @@ Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/u
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -270,7 +270,7 @@ Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/u
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -295,7 +295,13 @@ Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/u
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
+
+#### update
+
+{@inheritdoc}
+
+**The read-only field. A passed value will be ignored.**
 
 ### types
 
@@ -308,6 +314,14 @@ The **addressType** property is a string represents the type of the address, e.g
 The **default** property is a boolean and defines whether the address is used as a default address for shipping, billing, etc.
 
 Example of data: **\[{"addressType": "billing", "default": false}, {"addressType": "shipping", "default": true}\]**
+
+### systemOrganization
+
+#### create, update
+
+{@inheritdoc}
+
+**The read-only field. A passed value will be ignored.**
 
 ## SUBRESOURCES
 

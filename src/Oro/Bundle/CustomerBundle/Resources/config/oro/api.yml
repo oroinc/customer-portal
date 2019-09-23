@@ -16,19 +16,6 @@ api:
                         exclude: false
                     updatedAt:
                         exclude: false
-            actions:
-                create:
-                    fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
-                update:
-                    fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
             subresources:
                 addresses:
                     actions:
@@ -52,40 +39,25 @@ api:
                     exclude: true
                 emailLowercase:
                     exclude: true
+                passwordChangedAt:
+                    form_options:
+                        mapped: false
+                passwordRequestedAt:
+                    form_options:
+                        mapped: false
+                loginCount:
+                    form_options:
+                        mapped: false
+                lastLogin:
+                    form_options:
+                        mapped: false
             actions:
                 create:
                     fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
-                        passwordChangedAt:
-                            exclude: true
-                        passwordRequestedAt:
-                            exclude: true
-                        loginCount:
-                            exclude: true
-                        lastLogin:
-                            exclude: true
                         password:
                             exclude: false # set manually because this field is excluded globally
                             form_options:
                                 property_path: plainPassword
-
-                update:
-                    fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
-                        passwordChangedAt:
-                            exclude: true
-                        passwordRequestedAt:
-                            exclude: true
-                        loginCount:
-                            exclude: true
-                        lastLogin:
-                            exclude: true
             subresources:
                 addresses:
                     actions:
@@ -125,6 +97,9 @@ api:
                                 property_path: type
                     form_options:
                         property_path: addressTypes
+                systemOrganization:
+                    form_options:
+                        mapped: false
             filters:
                 fields:
                     country:
@@ -137,24 +112,11 @@ api:
                         property_path: types.type
                         allow_array: true
             actions:
-                create:
-                    fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
-                        systemOrganization:
-                            exclude: true
                 update:
                     fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
-                        systemOrganization:
-                            exclude: true
                         customer:
-                            exclude: true
+                            form_options:
+                                mapped: false
             subresources:
                 systemOrganization:
                     actions:
@@ -207,6 +169,9 @@ api:
                                 property_path: type
                     form_options:
                         property_path: addressTypes
+                systemOrganization:
+                    form_options:
+                        mapped: false
             filters:
                 fields:
                     country:
@@ -219,24 +184,11 @@ api:
                         property_path: types.type
                         allow_array: true
             actions:
-                create:
-                    fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
-                        systemOrganization:
-                            exclude: true
                 update:
                     fields:
-                        createdAt:
-                            exclude: true
-                        updatedAt:
-                            exclude: true
-                        systemOrganization:
-                            exclude: true
                         customerUser:
-                            exclude: true
+                            form_options:
+                                mapped: false
             subresources:
                 systemOrganization:
                     actions:

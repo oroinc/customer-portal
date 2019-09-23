@@ -115,7 +115,7 @@ Delete a collection of customer user role records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -131,7 +131,7 @@ Delete a collection of customer user role records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 

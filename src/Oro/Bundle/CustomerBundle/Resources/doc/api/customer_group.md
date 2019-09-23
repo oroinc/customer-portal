@@ -81,7 +81,7 @@ Delete a collection of customer group records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
