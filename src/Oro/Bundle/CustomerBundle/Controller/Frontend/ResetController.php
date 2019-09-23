@@ -9,11 +9,10 @@ use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\UIBundle\Route\Router;
 use Oro\Bundle\UserBundle\Util\ObfuscatedEmailTrait;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Handles request and reset password logic
@@ -26,8 +25,7 @@ class ResetController extends Controller
 
     /**
      * @Layout()
-     * @Route("/reset-request", name="oro_customer_frontend_customer_user_reset_request")
-     * @Method({"GET", "POST"})
+     * @Route("/reset-request", name="oro_customer_frontend_customer_user_reset_request", methods={"GET", "POST"})
      */
     public function requestAction()
     {
@@ -54,8 +52,7 @@ class ResetController extends Controller
      * Tell the user to check his email
      *
      * @Layout()
-     * @Route("/check-email", name="oro_customer_frontend_customer_user_reset_check_email")
-     * @Method({"GET"})
+     * @Route("/check-email", name="oro_customer_frontend_customer_user_reset_check_email", methods={"GET"})
      */
     public function checkEmailAction()
     {
@@ -79,8 +76,7 @@ class ResetController extends Controller
      * Reset user password
      *
      * @Layout
-     * @Route("/reset", name="oro_customer_frontend_customer_user_password_reset")
-     * @Method({"GET", "POST"})
+     * @Route("/reset", name="oro_customer_frontend_customer_user_password_reset", methods={"GET", "POST"})
      * @param Request $request
      * @return array|RedirectResponse
      */

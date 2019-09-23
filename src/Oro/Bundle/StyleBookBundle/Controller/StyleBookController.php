@@ -3,9 +3,9 @@
 namespace Oro\Bundle\StyleBookBundle\Controller;
 
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Provides actions to show style book pages on frontend
