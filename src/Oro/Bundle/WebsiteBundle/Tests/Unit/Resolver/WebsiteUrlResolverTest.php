@@ -12,27 +12,23 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /**
-     * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $configManager;
+    private const CONFIG_URL        = 'oro_website.url';
+    private const CONFIG_SECURE_URL = 'oro_website.secure_url';
 
-    /**
-     * @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $urlGenerator;
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $configManager;
 
-    /**
-     * @var WebsiteUrlResolver
-     */
-    protected $websiteUrlResolver;
+    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $urlGenerator;
+
+    /** @var WebsiteUrlResolver */
+    private $websiteUrlResolver;
 
     protected function setUp()
     {
-        $this->configManager = $this->getMockBuilder(ConfigManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->configManager = $this->createMock(ConfigManager::class);
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+
         $this->websiteUrlResolver = new WebsiteUrlResolver($this->configManager, $this->urlGenerator);
     }
 
@@ -44,7 +40,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         $website = $this->getEntity(Website::class, ['id' => 2]);
         $this->configManager->expects($this->once())
             ->method('get')
-            ->with(WebsiteUrlResolver::CONFIG_URL, false, false, $website)
+            ->with(self::CONFIG_URL, false, false, $website)
             ->willReturn($url);
 
         $this->assertSame($url, $this->websiteUrlResolver->getWebsiteUrl($website));
@@ -62,7 +58,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
 
         $this->configManager->expects($this->once())
             ->method('get')
-            ->with(WebsiteUrlResolver::CONFIG_SECURE_URL, false, true, $website)
+            ->with(self::CONFIG_SECURE_URL, false, true, $website)
             ->willReturn($urlConfig);
 
         $this->assertSame($url, $this->websiteUrlResolver->getWebsiteSecureUrl($website));
@@ -86,15 +82,13 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         $this->configManager->expects($this->exactly(2))
             ->method('get')
             ->withConsecutive(
-                [WebsiteUrlResolver::CONFIG_SECURE_URL, false, true, $website],
-                [WebsiteUrlResolver::CONFIG_URL, false, true, $website]
+                [self::CONFIG_SECURE_URL, false, true, $website],
+                [self::CONFIG_URL, false, true, $website]
             )
-            ->willReturnMap(
-                [
-                    [WebsiteUrlResolver::CONFIG_SECURE_URL, false, true, $website, $secureUrlConfig],
-                    [WebsiteUrlResolver::CONFIG_URL, false, true, $website, $urlConfig]
-                ]
-            );
+            ->willReturnMap([
+                [self::CONFIG_SECURE_URL, false, true, $website, $secureUrlConfig],
+                [self::CONFIG_URL, false, true, $website, $urlConfig]
+            ]);
 
         $this->assertSame($url, $this->websiteUrlResolver->getWebsiteSecureUrl($website));
     }
@@ -118,17 +112,15 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         $this->configManager->expects($this->exactly(3))
             ->method('get')
             ->withConsecutive(
-                [WebsiteUrlResolver::CONFIG_SECURE_URL, false, true, $website],
-                [WebsiteUrlResolver::CONFIG_URL, false, true, $website],
-                [WebsiteUrlResolver::CONFIG_SECURE_URL, true, false, $website]
+                [self::CONFIG_SECURE_URL, false, true, $website],
+                [self::CONFIG_URL, false, true, $website],
+                [self::CONFIG_SECURE_URL, true, false, $website]
             )
-            ->willReturnMap(
-                [
-                    [WebsiteUrlResolver::CONFIG_SECURE_URL, false, true, $website, $secureUrlConfig],
-                    [WebsiteUrlResolver::CONFIG_URL, false, true, $website, $urlConfig],
-                    [WebsiteUrlResolver::CONFIG_SECURE_URL, true, false, $website, $secureUrl]
-                ]
-            );
+            ->willReturnMap([
+                [self::CONFIG_SECURE_URL, false, true, $website, $secureUrlConfig],
+                [self::CONFIG_URL, false, true, $website, $urlConfig],
+                [self::CONFIG_SECURE_URL, true, false, $website, $secureUrl]
+            ]);
 
         $this->assertSame($secureUrl, $this->websiteUrlResolver->getWebsiteSecureUrl($website));
     }
@@ -151,19 +143,17 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         $this->configManager->expects($this->exactly(4))
             ->method('get')
             ->withConsecutive(
-                [WebsiteUrlResolver::CONFIG_SECURE_URL, false, true, $website],
-                [WebsiteUrlResolver::CONFIG_URL, false, true, $website],
-                [WebsiteUrlResolver::CONFIG_SECURE_URL, true, false, $website],
-                [WebsiteUrlResolver::CONFIG_URL, true, false, $website]
+                [self::CONFIG_SECURE_URL, false, true, $website],
+                [self::CONFIG_URL, false, true, $website],
+                [self::CONFIG_SECURE_URL, true, false, $website],
+                [self::CONFIG_URL, true, false, $website]
             )
-            ->willReturnMap(
-                [
-                    [WebsiteUrlResolver::CONFIG_SECURE_URL, false, true, $website, $secureUrlConfig],
-                    [WebsiteUrlResolver::CONFIG_URL, false, true, $website, $urlConfig],
-                    [WebsiteUrlResolver::CONFIG_SECURE_URL, true, false, $website, null],
-                    [WebsiteUrlResolver::CONFIG_URL, true, false, $website, $url]
-                ]
-            );
+            ->willReturnMap([
+                [self::CONFIG_SECURE_URL, false, true, $website, $secureUrlConfig],
+                [self::CONFIG_URL, false, true, $website, $urlConfig],
+                [self::CONFIG_SECURE_URL, true, false, $website, null],
+                [self::CONFIG_URL, true, false, $website, $url]
+            ]);
 
         $this->assertSame($url, $this->websiteUrlResolver->getWebsiteSecureUrl($website));
     }
@@ -178,7 +168,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         $website = $this->getEntity(Website::class, ['id' => 2]);
         $this->configManager->expects($this->once())
             ->method('get')
-            ->with(WebsiteUrlResolver::CONFIG_URL, false, false, $website)
+            ->with(self::CONFIG_URL, false, false, $website)
             ->willReturn($url);
         $this->urlGenerator->expects($this->once())
             ->method('generate')
@@ -201,7 +191,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         $website = $this->getEntity(Website::class, ['id' => 2]);
         $this->configManager->expects($this->once())
             ->method('get')
-            ->with(WebsiteUrlResolver::CONFIG_URL, false, false, $website)
+            ->with(self::CONFIG_URL, false, false, $website)
             ->willReturn($url);
         $this->urlGenerator->expects($this->once())
             ->method('generate')
@@ -227,7 +217,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         $website = $this->getEntity(Website::class, ['id' => 2]);
         $this->configManager->expects($this->once())
             ->method('get')
-            ->with(WebsiteUrlResolver::CONFIG_SECURE_URL, false, true, $website)
+            ->with(self::CONFIG_SECURE_URL, false, true, $website)
             ->willReturn($urlConfig);
         $this->urlGenerator->expects($this->once())
             ->method('generate')
@@ -253,7 +243,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         $website = $this->getEntity(Website::class, ['id' => 2]);
         $this->configManager->expects($this->once())
             ->method('get')
-            ->with(WebsiteUrlResolver::CONFIG_SECURE_URL, false, true, $website)
+            ->with(self::CONFIG_SECURE_URL, false, true, $website)
             ->willReturn($urlConfig);
         $this->urlGenerator->expects($this->once())
             ->method('generate')

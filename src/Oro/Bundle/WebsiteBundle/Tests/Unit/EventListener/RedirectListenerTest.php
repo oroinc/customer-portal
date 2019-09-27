@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\EventListener;
 
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\EventListener\RedirectListener;
@@ -20,29 +19,16 @@ class RedirectListenerTest extends TestCase
 {
     use EntityTrait;
 
-    /**
-     * @var RedirectListener
-     */
+    /** @var RedirectListener */
     private $listener;
 
-    /**
-     * @var WebsiteManager|MockObject
-     */
+    /** @var WebsiteManager|MockObject */
     private $websiteManager;
 
-    /**
-     * @var ConfigManager|MockObject
-     */
-    private $configManager;
-
-    /**
-     * @var WebsiteUrlResolver|MockObject
-     */
+    /** @var WebsiteUrlResolver|MockObject */
     private $urlResolver;
 
-    /**
-     * @var FrontendHelper
-     */
+    /** @var FrontendHelper */
     private $frontendHelper;
 
     /**
@@ -50,14 +36,11 @@ class RedirectListenerTest extends TestCase
      */
     protected function setUp()
     {
-        $this->configManager = $this->createMock(ConfigManager::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->urlResolver = $this->createMock(WebsiteUrlResolver::class);
-
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
 
         $this->listener = new RedirectListener(
-            $this->configManager,
             $this->websiteManager,
             $this->urlResolver,
             $this->frontendHelper
@@ -97,11 +80,9 @@ class RedirectListenerTest extends TestCase
 
         $this->urlResolver->expects($this->once())
             ->method('getWebsiteUrl')
-            ->willReturnMap(
-                [
-                    [$website, 'https://eu.orocommerce.com/'],
-                ]
-            );
+            ->willReturnMap([
+                [$website, true, 'https://eu.orocommerce.com']
+            ]);
 
         $event->expects($this->never())
             ->method('setResponse')
@@ -143,11 +124,9 @@ class RedirectListenerTest extends TestCase
 
         $this->urlResolver->expects($this->once())
             ->method('getWebsiteUrl')
-            ->willReturnMap(
-                [
-                    [$website, 'https://eu.orocommerce.com/'],
-                ]
-            );
+            ->willReturnMap([
+                [$website, true, 'https://eu.orocommerce.com']
+            ]);
 
         $event->expects($this->once())
             ->method('setResponse')

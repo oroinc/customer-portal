@@ -12,13 +12,10 @@ class ApiFirewallTest extends FrontendRestJsonApiTestCase
     protected function setUp()
     {
         $this->initClient();
-        $this->setCurrentWebsite();
-        $this->loadFixtures(
-            [
-                LoadTestUser::class,
-                LoadTestCustomerUser::class
-            ]
-        );
+        $this->loadFixtures([
+            LoadTestUser::class,
+            LoadTestCustomerUser::class
+        ]);
     }
 
     public function testCustomerUserShouldBeAbleToLoginWithSameEmailAsBackendUser()

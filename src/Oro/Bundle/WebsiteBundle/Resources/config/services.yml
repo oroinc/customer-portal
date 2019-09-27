@@ -85,12 +85,11 @@ services:
         tags:
             - { name: oro_translation.extension.translation_strategy, priority: -100 }
 
-    oro_website.event_listener.routing:
-        class: 'Oro\Bundle\WebsiteBundle\EventListener\RoutingListener'
+    oro_website.request_website_provider:
+        class: 'Oro\Bundle\WebsiteBundle\Provider\RequestWebsiteProvider'
         arguments:
+            - '@request_stack'
             - '@oro_website.manager'
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onRequest, priority: -50 }
 
     oro_website.resolver.website_url_resolver:
         class: 'Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver'
@@ -164,7 +163,6 @@ services:
     oro_website.event_listener.redirect:
         class: 'Oro\Bundle\WebsiteBundle\EventListener\RedirectListener'
         arguments:
-            - '@oro_config.manager'
             - '@oro_website.manager'
             - '@oro_website.resolver.website_url_resolver'
             - '@oro_frontend.request.frontend_helper'
