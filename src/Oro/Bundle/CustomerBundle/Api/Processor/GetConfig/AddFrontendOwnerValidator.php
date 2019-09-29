@@ -1,9 +1,9 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Api\Processor\Config;
+namespace Oro\Bundle\CustomerBundle\Api\Processor\GetConfig;
 
 use Oro\Bundle\CustomerBundle\Validator\Constraints\FrontendOwner;
-use Oro\Bundle\OrganizationBundle\Api\Processor\Config\AddOwnerValidator;
+use Oro\Bundle\OrganizationBundle\Api\Processor\GetConfig\AddOwnerValidator;
 
 /**
  * Adds the validation constraint that is used to validate that

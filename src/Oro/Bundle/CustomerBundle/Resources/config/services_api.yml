@@ -111,7 +111,7 @@ services:
             - { name: oro.api.processor, action: update_relationship, group: normalize_result, requestType: frontend&rest, priority: -34 }
 
     oro_customer.api.frontend.config.add_owner_validator:
-        class: Oro\Bundle\CustomerBundle\Api\Processor\Config\AddFrontendOwnerValidator
+        class: Oro\Bundle\CustomerBundle\Api\Processor\GetConfig\AddFrontendOwnerValidator
         arguments:
             - '@oro_api.doctrine_helper'
             - '@oro_customer.owner.frontend_ownership_metadata_provider'
