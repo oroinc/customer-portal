@@ -17,6 +17,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class WYSIWYGTypeExtension extends AbstractTypeExtension
 {
+    private const COMMERCE_GROUP = 'commerce';
+
     /**
      * @var ThemeManager
      */
@@ -85,7 +87,11 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
         $layoutThemeName = $this->configManager->get('oro_frontend.frontend_theme', false, false, $defaultWebsite);
 
         $themesData = [];
-        foreach ($themes as $key => $theme) {
+        foreach ($themes as $theme) {
+            if (!$theme->hasGroup(self::COMMERCE_GROUP)) {
+                continue;
+            }
+
             $themeName = $theme->getName();
             $themeData = [
                 'name' => $themeName,
@@ -96,7 +102,7 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
                 $themeData['active'] = true;
             }
 
-            $themesData[$key] = $themeData;
+            $themesData[] = $themeData;
         }
 
         return $themesData;
