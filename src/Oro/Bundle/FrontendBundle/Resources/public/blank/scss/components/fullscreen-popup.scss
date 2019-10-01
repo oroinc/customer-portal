@@ -1,6 +1,7 @@
 .fullscreen-popup {
     display: $fullscreen-popup-display;
     flex-direction: $fullscreen-popup-flex-direction;
+    min-width: $body-min-width;
 
     position: $fullscreen-popup-position;
     z-index: $fullscreen-popup-z-index;
@@ -140,7 +141,7 @@
             }
         }
     }
-    
+
     //TODO: Make corrent padding of popup content for any content
     .tab-content__wrapper {
         padding: 20px;
