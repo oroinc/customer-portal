@@ -347,6 +347,10 @@ oro_behat_extension:
     New Address Shipping Checkbox:
       selector: '[name="oro_customer_typed_address[types][]"][value="shipping"]'
 
+    Subsidiaries Grid:
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      selector: 'div[data-page-component-name="children-by-customer-grid"]'
+
   pages:
     Customer User Role View:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView
