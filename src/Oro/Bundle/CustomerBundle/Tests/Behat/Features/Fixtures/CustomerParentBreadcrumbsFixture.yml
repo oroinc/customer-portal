@@ -1,0 +1,25 @@
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer1:
+        name: 'root customer'
+        organization: '@organization'
+        owner: '@admin'
+    customer1-1:
+        name: 'second-level customer'
+        organization: '@organization'
+        owner: '@admin'
+        parent: '@customer1'
+    customer1-1-1:
+        name: 'third-level customer'
+        organization: '@organization'
+        owner: '@admin'
+        parent: '@customer1-1'
+    customer1-1-1-1:
+        name: 'forth-level customer'
+        organization: '@organization'
+        owner: '@admin'
+        parent: '@customer1-1-1'
+    customer1-1-1-1-1:
+        name: 'last-level customer'
+        organization: '@organization'
+        owner: '@admin'
+        parent: '@customer1-1-1-1'
