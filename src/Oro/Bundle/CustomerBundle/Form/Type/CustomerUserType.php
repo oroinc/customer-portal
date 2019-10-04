@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Form\Type;
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
-use Oro\Bundle\FormBundle\Form\Type\OroDateType;
+use Oro\Bundle\FormBundle\Form\Type\OroBirthdayType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Symfony\Component\Form\AbstractType;
@@ -175,7 +175,7 @@ class CustomerUserType extends AbstractType
             )
             ->add(
                 'birthday',
-                OroDateType::class,
+                OroBirthdayType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.birthday.label',
