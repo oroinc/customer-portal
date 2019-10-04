@@ -24,6 +24,26 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
 
         $this->assertArrayHasKey('themes', $actualOptions);
         $this->assertIsArray($actualOptions['themes']);
-        $this->assertEquals($themeManager->getThemeNames(), array_keys($actualOptions['themes']));
+        $this->assertEquals(
+            [
+                [
+                    'name' => 'blank',
+                    'label' => 'Blank theme',
+                    'stylesheet' => 'css/layout/blank/styles.css'
+                ],
+                [
+                    'name' => 'default',
+                    'label' => 'Default theme',
+                    'stylesheet' => 'css/layout/default/styles.css',
+                    'active' => true
+                ],
+                [
+                    'name' => 'custom',
+                    'label' => 'Custom theme',
+                    'stylesheet' => 'css/layout/custom/styles.css'
+                ]
+            ],
+            $actualOptions['themes']
+        );
     }
 }
