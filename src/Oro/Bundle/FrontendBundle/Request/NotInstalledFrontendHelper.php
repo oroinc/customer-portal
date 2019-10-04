@@ -25,7 +25,7 @@ class NotInstalledFrontendHelper extends FrontendHelper
     /**
      * {@inheritdoc}
      */
-    public function isFrontendUrl(string $url): bool
+    public function isFrontendUrl(string $pathinfo): bool
     {
         return false;
     }

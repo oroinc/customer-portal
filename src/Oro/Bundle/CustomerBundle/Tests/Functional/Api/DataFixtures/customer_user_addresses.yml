@@ -5,6 +5,11 @@ dependencies:
   - Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserAddresses
   - Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadWebsiteData
 
+Oro\Bundle\OrganizationBundle\Entity\Organization:
+    another_organization:
+        name: 'Another Organization'
+        enabled: true
+
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
     other.user@test.com.address_2:
         systemOrganization: '@organization'

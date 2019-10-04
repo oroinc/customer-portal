@@ -2,56 +2,40 @@
 
 namespace Oro\Bundle\WebsiteBundle\EventListener;
 
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Oro\Bundle\WebsiteBundle\Provider\RequestWebsiteProvider;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
- * Redirect listener which make redirect to the default site url
+ * Makes redirect to the default site URL if URL does not contain the default site URL.
  */
 class RedirectListener
 {
-    const CURRENT_WEBSITE = 'current_website';
+    /** @var WebsiteManager */
+    private $websiteManager;
+
+    /** @var WebsiteUrlResolver */
+    private $urlResolver;
+
+    /** @var FrontendHelper */
+    private $frontendHelper;
 
     /**
-     * @var ConfigManager
-     */
-    protected $configManager;
-
-    /**
-     * @var WebsiteManager
-     */
-    protected $websiteManager;
-
-    /**
-     * @var WebsiteUrlResolver
-     */
-    protected $urlResolver;
-
-    /**
-     * @var FrontendHelper
-     */
-    protected $frontendHelper;
-
-    /**
-     * @param ConfigManager $configManager
-     * @param WebsiteManager $websiteManager
+     * @param WebsiteManager     $websiteManager
      * @param WebsiteUrlResolver $websiteUrlResolver
-     * @param FrontendHelper $frontendHelper
+     * @param FrontendHelper     $frontendHelper
      */
     public function __construct(
-        ConfigManager $configManager,
         WebsiteManager $websiteManager,
         WebsiteUrlResolver $websiteUrlResolver,
         FrontendHelper $frontendHelper
     ) {
         $this->websiteManager = $websiteManager;
-        $this->configManager = $configManager;
         $this->urlResolver = $websiteUrlResolver;
         $this->frontendHelper = $frontendHelper;
     }
@@ -67,56 +51,60 @@ class RedirectListener
 
         $request = $event->getRequest();
 
-        /** @var Website $website */
-        $website = $request->attributes->get(
-            self::CURRENT_WEBSITE,
-            $this->websiteManager->getCurrentWebsite()
-        );
-        if (!$website) {
+        $website = $this->getWebsite($request);
+        if (null === $website) {
             return;
         }
 
         $redirectUrl = $this->getRedirectUrl($request, $website);
         if ($redirectUrl) {
-            $response = new RedirectResponse($redirectUrl);
-            $event->setResponse($response);
-
-            return;
+            $event->setResponse(new RedirectResponse($redirectUrl));
         }
     }
 
     /**
      * @param GetResponseEvent $event
+     *
      * @return bool
      */
-    protected function isSupported(GetResponseEvent $event)
+    private function isSupported(GetResponseEvent $event)
     {
-        return $event->isMasterRequest()
+        return
+            $event->isMasterRequest()
             && $this->frontendHelper->isFrontendRequest()
             && !$event->getResponse() instanceof RedirectResponse;
     }
 
     /**
-     * @param string $url
-     * @return string
+     * @param Request $request
+     *
+     * @return Website|null
      */
-    protected function getCleanUrl($url)
+    private function getWebsite(Request $request): ?Website
     {
-        return rtrim(explode('?', $url)[0], '/');
+        $website = $request->attributes->get(RequestWebsiteProvider::REQUEST_WEBSITE_ATTRIBUTE);
+        if (!$website) {
+            $website = $this->websiteManager->getCurrentWebsite();
+        }
+
+        return $website;
     }
 
     /**
      * @param Request $request
      * @param Website $website
-     * @return null|string
+     *
+     * @return string|null
      */
-    protected function getRedirectUrl(Request $request, Website $website)
+    private function getRedirectUrl(Request $request, Website $website)
     {
-        $redirectUrl = null;
-        $requestUri = $request->getUri();
-        $websiteUrl = $this->getCleanUrl($this->urlResolver->getWebsiteUrl($website));
+        $websiteUrl = $this->urlResolver->getWebsiteUrl($website, true);
+        if (!$websiteUrl) {
+            return null;
+        }
 
-        if ($websiteUrl && false === strpos($requestUri, $websiteUrl)) {
+        $redirectUrl = null;
+        if (false === strpos($request->getUri(), $websiteUrl)) {
             $queryString = http_build_query($request->query->all());
             $queryString = $queryString ? '?' . $queryString : $queryString;
             $redirectUrl = $websiteUrl . $request->getPathInfo() . $queryString;

@@ -11,8 +11,6 @@ use Oro\Component\EntitySerializer\DataAccessorInterface;
  * This is required because this entity has "types" property, but its "getTypes()" method returns
  * completely different data.
  * @see \Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress::getTypes
- * This class can be removed if EntitySerializer component will be reimplemented
- * to use DBAL instead of ORM (BAP-10066).
  */
 class AddressEntityDataAccessor implements DataAccessorInterface
 {

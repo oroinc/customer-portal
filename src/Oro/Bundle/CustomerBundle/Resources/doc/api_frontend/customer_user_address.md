@@ -159,7 +159,7 @@ Delete a collection of customer user address records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -175,7 +175,7 @@ Delete a collection of customer user address records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -191,7 +191,7 @@ Delete a collection of customer user address records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -258,7 +258,7 @@ Delete a collection of customer user address records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -283,7 +283,13 @@ Delete a collection of customer user address records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
+
+#### update
+
+{@inheritdoc}
+
+**The read-only field. A passed value will be ignored.**
 
 ### types
 

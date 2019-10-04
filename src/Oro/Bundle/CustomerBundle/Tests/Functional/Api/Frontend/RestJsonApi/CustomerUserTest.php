@@ -267,22 +267,17 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
     public function testTryToCreateWithEnabledAndConfirmedFields()
     {
         $data = $this->getRequestData('create_customer_user_min.yml');
-        $data['data']['attributes']['enabled'] = true;
+        $data['data']['attributes']['enabled'] = false;
         $data['data']['attributes']['confirmed'] = false;
         $response = $this->post(
             ['entity' => 'customerusers'],
-            $data,
-            [],
-            false
+            $data
         );
 
-        $this->assertResponseValidationError(
-            [
-                'title'  => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "enabled", "confirmed".'
-            ],
-            $response
-        );
+        $customerUser = $this->getEntityManager()
+            ->find(CustomerUser::class, (int)$this->getResourceId($response));
+        self::assertTrue($customerUser->isEnabled());
+        self::assertTrue($customerUser->isConfirmed());
     }
 
     public function testUpdate()
@@ -327,30 +322,24 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
     {
         $customerUserId = $this->getReference('customer_user1')->getId();
 
-        $data = [
-            'data' => [
-                'type'       => 'customerusers',
-                'id'         => (string)$customerUserId,
-                'attributes' => [
-                    'enabled'   => false,
-                    'confirmed' => false
+        $this->patch(
+            ['entity' => 'customerusers', 'id' => $customerUserId],
+            [
+                'data' => [
+                    'type'       => 'customerusers',
+                    'id'         => (string)$customerUserId,
+                    'attributes' => [
+                        'enabled'   => false,
+                        'confirmed' => false
+                    ]
                 ]
             ]
-        ];
-        $response = $this->patch(
-            ['entity' => 'customerusers', 'id' => $customerUserId],
-            $data,
-            [],
-            false
         );
 
-        $this->assertResponseValidationError(
-            [
-                'title'  => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "enabled", "confirmed".'
-            ],
-            $response
-        );
+        $customerUser = $this->getEntityManager()
+            ->find(CustomerUser::class, $customerUserId);
+        self::assertTrue($customerUser->isEnabled());
+        self::assertTrue($customerUser->isConfirmed());
     }
 
     public function testDelete()

@@ -153,6 +153,14 @@ Delete a collection of customer address records.
 
 ## FIELDS
 
+### customer
+
+#### update
+
+{@inheritdoc}
+
+**The read-only field. A passed value will be ignored.**
+
 ### types
 
 An array of address types.

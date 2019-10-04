@@ -112,7 +112,7 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -134,7 +134,7 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -150,7 +150,7 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
@@ -159,6 +159,22 @@ Delete a collection of customer user records.
 **Please note:**
 
 *This field is **required** and must remain defined.*
+
+### enabled
+
+#### create, update
+
+{@inheritdoc}
+
+**The read-only field. A passed value will be ignored.**
+
+### confirmed
+
+#### create, update
+
+{@inheritdoc}
+
+**The read-only field. A passed value will be ignored.**
 
 ## SUBRESOURCES
 

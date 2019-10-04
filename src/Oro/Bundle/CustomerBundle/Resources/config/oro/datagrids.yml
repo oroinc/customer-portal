@@ -1181,3 +1181,28 @@ datagrids:
             delete:
                 entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
                 acl_resource:  oro_customer_frontend_customer_user_address_remove
+
+    children-by-customer-grid:
+        extends: customer-group-customers-grid-basic
+        extended_entity_name: '%oro_customer.entity.customer_user.class%'
+        options:
+            entityHint: oro.customer.customer.entity_plural_label
+            entity_pagination: true
+        source:
+            query:
+                where:
+                    and:
+                        - IDENTITY(customer.parent) = :customer_id
+            bind_parameters:
+                - customer_id
+        columns:
+            name:
+                label: oro.customer.customer.entity_label
+            parent_name:
+                label: oro.customer.customer.parent.label
+        sorters:
+            default:
+                name: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC'
+        actions:
+            view:
+                rowAction: true

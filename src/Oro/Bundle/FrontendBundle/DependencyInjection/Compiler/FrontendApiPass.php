@@ -24,6 +24,7 @@ class FrontendApiPass implements CompilerPassInterface
             'oro_api.rest.cors.set_allow_origin',
             'oro_api.rest.cors.set_allow_and_expose_headers',
             'oro_api.options.rest.cors.set_max_age',
+            'oro_locale.api.complete_localized_values'
         ];
 
         foreach ($processorsToBeDisabled as $serviceId) {

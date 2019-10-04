@@ -43,6 +43,7 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
     private const BILLING_ADDRESS_REF              = 'grzegorz.brzeczyszczykiewicz@example.com.address_2';
     private const BILLING_AND_SHIPPING_ADDRESS_REF = 'grzegorz.brzeczyszczykiewicz@example.com.address_1';
     private const UNCHANGEABLE_ADDRESS_REF         = 'grzegorz.brzeczyszczykiewicz@example.com.address_1';
+    private const OWNER_REF                        = 'grzegorz.brzeczyszczykiewicz@example.com';
     private const ANOTHER_OWNER_REF                = 'other.user@test.com';
     private const ANOTHER_OWNER_ADDRESS_2_REF      = 'other.user@test.com.address_2';
 
@@ -434,7 +435,10 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
 
     public function testTryToUpdateCustomerUser()
     {
-        $addressId = $this->getReference('other.user@test.com.address_1')->getId();
+        /** @var CustomerUserAddress $address */
+        $address = $this->getReference('other.user@test.com.address_1');
+        $addressId = $address->getId();
+        $customerUserId = $address->getFrontendOwner()->getId();
 
         $response = $this->patch(
             ['entity' => self::ENTITY_TYPE, 'id' => $addressId],
@@ -446,22 +450,19 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
                         'customerUser' => [
                             'data' => [
                                 'type' => 'customerusers',
-                                'id'   => '<toString(@other.user@test.com->id)>'
+                                'id'   => '<toString(@grzegorz.brzeczyszczykiewicz@example.com->id)>'
                             ]
                         ]
                     ]
                 ]
-            ],
-            [],
-            false
+            ]
         );
 
-        $this->assertResponseValidationError(
-            [
-                'title'  => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "customerUser".'
-            ],
-            $response
+        $data['data']['relationships']['customerUser']['data']['id'] = (string)$customerUserId;
+        $this->assertResponseContains($data, $response);
+        self::assertSame(
+            $customerUserId,
+            $this->getEntityManager()->find(self::ENTITY_CLASS, $addressId)->getFrontendOwner()->getId()
         );
     }
 
@@ -487,7 +488,10 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
 
     public function testTryToUpdateSystemOrganization()
     {
-        $addressId = $this->getReference('other.user@test.com.address_1')->getId();
+        /** @var CustomerUserAddress $address */
+        $address = $this->getReference('other.user@test.com.address_1');
+        $addressId = $address->getId();
+        $organizationId = $address->getSystemOrganization()->getId();
 
         $response = $this->patch(
             ['entity' => self::ENTITY_TYPE, 'id' => $addressId],
@@ -499,22 +503,19 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
                         'systemOrganization' => [
                             'data' => [
                                 'type' => 'organizations',
-                                'id'   => '<toString(@organization->id)>'
+                                'id'   => '<toString(@another_organization->id)>'
                             ]
                         ]
                     ]
                 ]
-            ],
-            [],
-            false
+            ]
         );
 
-        $this->assertResponseValidationError(
-            [
-                'title'  => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "systemOrganization".'
-            ],
-            $response
+        $data['data']['relationships']['systemOrganization']['data']['id'] = (string)$organizationId;
+        $this->assertResponseContains($data, $response);
+        self::assertSame(
+            $organizationId,
+            $this->getEntityManager()->find(self::ENTITY_CLASS, $addressId)->getSystemOrganization()->getId()
         );
     }
 

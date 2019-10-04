@@ -337,7 +337,12 @@ class CustomerTest extends RestJsonApiTestCase
 
     public function testTryToUpdateCreatedAtAndUpdatedAt()
     {
-        $customerId = $this->getReference('customer.1')->getId();
+        /** @var Customer $customer */
+        $customer = $this->getReference('customer.1');
+        $customerId = $customer->getId();
+        $createdAt = $customer->getCreatedAt();
+        $updatedAt = $customer->getUpdatedAt();
+        $dateTime = new \DateTime('2019-01-01');
 
         $response = $this->patch(
             ['entity' => 'customers', 'id' => $customerId],
@@ -347,19 +352,30 @@ class CustomerTest extends RestJsonApiTestCase
                     'id'         => (string)$customerId,
                     'attributes' => [
                         'name'      => 'customer updated',
-                        'createdAt' => (new \DateTime())->format('Y-m-d\TH:i:s\Z'),
-                        'updatedAt' => (new \DateTime())->format('Y-m-d\TH:i:s\Z')
+                        'createdAt' => $dateTime->format('Y-m-d\TH:i:s\Z'),
+                        'updatedAt' => $dateTime->format('Y-m-d\TH:i:s\Z')
 
                     ]
                 ]
-            ],
-            [],
-            false
+            ]
         );
-        $this->assertResponseValidationError(
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $entity = $this->getEntityManager()->find(Customer::class, $customerId);
+        self::assertEquals('customer updated', $entity->getName());
+        self::assertEquals($createdAt, $entity->getCreatedAt());
+        self::assertTrue($entity->getUpdatedAt() >= $updatedAt && $entity->getUpdatedAt() <= $now);
+        $this->assertResponseContains(
             [
-                'title'  => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "createdAt", "updatedAt".'
+                'data' => [
+                    'type'       => 'customers',
+                    'id'         => (string)$customerId,
+                    'attributes' => [
+                        'name'      => 'customer updated',
+                        'createdAt' => $entity->getCreatedAt()->format('Y-m-d\TH:i:s\Z'),
+                        'updatedAt' => $entity->getUpdatedAt()->format('Y-m-d\TH:i:s\Z')
+
+                    ]
+                ]
             ],
             $response
         );

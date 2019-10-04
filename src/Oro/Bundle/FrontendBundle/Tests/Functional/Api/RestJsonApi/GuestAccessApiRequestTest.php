@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api\RestJsonApi;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -10,9 +11,36 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
 {
+    private const GUEST_ACCESS_ENABLED_CONFIG_NAME = 'oro_frontend.guest_access_enabled';
+
+    /** @var bool */
+    private $originalGuestAccessEnabled;
+
     protected function tearDown()
     {
-        $this->setGuestAccess(true);
+        $configManager = $this->getConfigManager();
+        $configManager->set(self::GUEST_ACCESS_ENABLED_CONFIG_NAME, $this->originalGuestAccessEnabled);
+        $configManager->flush();
+        parent::tearDown();
+    }
+
+    /**
+     * @param bool $guestAccessEnabled
+     */
+    private function setGuestAccess($guestAccessEnabled)
+    {
+        $configManager = $this->getConfigManager();
+        $this->originalGuestAccessEnabled = $configManager->get(self::GUEST_ACCESS_ENABLED_CONFIG_NAME);
+        $configManager->set(self::GUEST_ACCESS_ENABLED_CONFIG_NAME, $guestAccessEnabled);
+        $configManager->flush();
+    }
+
+    /**
+     * @return ConfigManager
+     */
+    private function getConfigManager(): ConfigManager
+    {
+        return self::getContainer()->get('oro_config.manager');
     }
 
     /**
@@ -22,7 +50,6 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
      */
     public function testTryToGeResourcesWithDisallowedAccessForGuest($entityResource)
     {
-        $this->setCurrentWebsite();
         $this->setGuestAccess(false);
         $response = $this->cget(
             ['entity' => $entityResource],
@@ -41,7 +68,6 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
      */
     public function testGetResourcesWithAllowedAccessForGuest($entityResource)
     {
-        $this->setCurrentWebsite();
         $this->setGuestAccess(true);
         $response = $this->cget(
             ['entity' => $entityResource],
@@ -62,14 +88,5 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
             ['countries'],
             ['regions']
         ];
-    }
-
-    /**
-     * @param bool $guestAccessEnabled
-     */
-    private function setGuestAccess($guestAccessEnabled)
-    {
-        $configManager = static::getContainer()->get('oro_config.manager');
-        $configManager->set('oro_frontend.guest_access_enabled', $guestAccessEnabled);
     }
 }

@@ -11,11 +11,11 @@ use Oro\Bundle\FormBundle\Event\FormHandler\AfterFormProcessEvent;
 use Oro\Bundle\FormBundle\Event\FormHandler\Events;
 use Oro\Bundle\FormBundle\Event\FormHandler\FormProcessEvent;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Provider\RequestWebsiteProvider;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -29,6 +29,9 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
 
     /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $eventDispatcher;
+
+    /** @var RequestWebsiteProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $requestWebsiteProvider;
 
     /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
     private $request;
@@ -47,17 +50,14 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->userManager = $this->createMock(CustomerUserManager::class);
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+        $this->requestWebsiteProvider = $this->createMock(RequestWebsiteProvider::class);
         $this->request = new Request();
-        $requestStack = $this->createMock(RequestStack::class);
-        $requestStack->expects($this->any())
-            ->method('getMasterRequest')
-            ->willReturn($this->request);
 
         $this->form = $this->createMock(FormInterface::class);
         $this->handler = new FrontendCustomerUserHandler(
             $this->eventDispatcher,
             $this->doctrineHelper,
-            $requestStack,
+            $this->requestWebsiteProvider,
             $this->userManager
         );
     }
@@ -160,8 +160,9 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('commit');
 
         $website = new Website();
-        $website->setName('Current Website');
-        $this->request->attributes->set('current_website', $website);
+        $this->requestWebsiteProvider->expects($this->once())
+            ->method('getWebsite')
+            ->willReturn($website);
 
         $this->userManager->expects($this->once())
             ->method('register')
@@ -173,7 +174,50 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertProcessAfterEventsTriggered($this->form, $entity);
 
         $this->assertTrue($this->handler->process($entity, $this->form, $this->request));
-        $this->assertEquals('Current Website', $website);
+        $this->assertSame($website, $entity->getWebsite());
+    }
+
+    public function testProcessNewCustomerUserAndNoCurrentWebsite()
+    {
+        $entity = new CustomerUser();
+
+        $this->form->expects($this->once())
+            ->method('setData')
+            ->with($entity);
+        $this->form->expects($this->once())
+            ->method('submit')
+            ->with([], true);
+        $this->form->expects($this->once())
+            ->method('isValid')
+            ->will($this->returnValue(true));
+
+        $this->request->setMethod('POST');
+
+        $em = $this->createMock(EntityManager::class);
+        $this->doctrineHelper->expects($this->once())
+            ->method('getEntityManager')
+            ->with($entity)
+            ->will($this->returnValue($em));
+        $em->expects($this->once())
+            ->method('beginTransaction');
+        $em->expects($this->once())
+            ->method('commit');
+
+        $this->requestWebsiteProvider->expects($this->once())
+            ->method('getWebsite')
+            ->willReturn(null);
+
+        $this->userManager->expects($this->once())
+            ->method('register')
+            ->with($entity);
+        $this->userManager->expects($this->once())
+            ->method('updateUser')
+            ->with($entity);
+
+        $this->assertProcessAfterEventsTriggered($this->form, $entity);
+
+        $this->assertTrue($this->handler->process($entity, $this->form, $this->request));
+        $this->assertNull($entity->getWebsite());
     }
 
     public function testProcessExistingCustomerUser()

@@ -3,11 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Controller responsible for customer user authorization

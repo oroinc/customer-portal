@@ -39,14 +39,6 @@ class WebsiteManagerStub extends WebsiteManager
         $this->stubDefaultWebsite = null;
     }
 
-    public function resetStub()
-    {
-        if ($this->enabled) {
-            $this->disableStub();
-            $this->enableStub();
-        }
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -100,7 +92,6 @@ class WebsiteManagerStub extends WebsiteManager
     {
         $this->websiteManager->setCurrentWebsite($currentWebsite);
     }
-
 
     /**
      * @param string $method

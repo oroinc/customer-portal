@@ -8,10 +8,10 @@ use Oro\Bundle\WorkflowBundle\Processor\Context\LayoutDialogResultType;
 use Oro\Bundle\WorkflowBundle\Processor\Context\TransitionContext;
 use Oro\Bundle\WorkflowBundle\Processor\TransitActionProcessor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Frontend workflow widget controller

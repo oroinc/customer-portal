@@ -22,10 +22,11 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     const USER_PASSWORD = 'frontend_admin_api_key';
 
     /**
-     * @before
+     * {@inheritdoc}
      */
-    public function beforeFrontendTest()
+    protected function assertPreConditions()
     {
+        parent::assertPreConditions();
         // set the current website after all fixtures are loaded,
         // to make sure that its the ORM state is "managed".
         // if fixtures are loaded in a test method, not in setUp() method,

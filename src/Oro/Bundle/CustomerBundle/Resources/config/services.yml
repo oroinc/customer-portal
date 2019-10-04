@@ -1063,7 +1063,7 @@ services:
         arguments:
             - '@oro_form.event.event_dispatcher'
             - '@oro_entity.doctrine_helper'
-            - '@request_stack'
+            - '@oro_website.request_website_provider'
             - '@oro_customer_user.manager'
 
     oro_customer.event_listener.auto_login:

@@ -40,6 +40,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
     private const BILLING_ADDRESS_REF              = 'customer_user_address3';
     private const BILLING_AND_SHIPPING_ADDRESS_REF = 'customer_user_address1';
     private const UNCHANGEABLE_ADDRESS_REF         = 'customer_user_address1';
+    private const OWNER_REF                        = 'customer_user1';
     private const ANOTHER_OWNER_REF                = 'another_customer_user';
     private const ANOTHER_OWNER_ADDRESS_2_REF      = 'another_customer_user_address2';
 
@@ -394,7 +395,10 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
 
     public function testTryToUpdateCustomerUser()
     {
-        $addressId = $this->getReference('another_customer_user_address1')->getId();
+        /** @var CustomerUserAddress $address */
+        $address = $this->getReference('another_customer_user_address1');
+        $addressId = $address->getId();
+        $customerUserId = $address->getFrontendOwner()->getId();
 
         $response = $this->patch(
             ['entity' => 'customeruseraddresses', 'id' => (string)$addressId],
@@ -406,22 +410,19 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
                         'customerUser' => [
                             'data' => [
                                 'type' => 'customerusers',
-                                'id'   => '<toString(@another_customer_user->id)>'
+                                'id'   => '<toString(@customer_user1->id)>'
                             ]
                         ]
                     ]
                 ]
-            ],
-            [],
-            false
+            ]
         );
 
-        $this->assertResponseValidationError(
-            [
-                'title'  => 'extra fields constraint',
-                'detail' => 'This form should not contain extra fields: "customerUser".'
-            ],
-            $response
+        $data['data']['relationships']['customerUser']['data']['id'] = (string)$customerUserId;
+        $this->assertResponseContains($data, $response);
+        self::assertSame(
+            $customerUserId,
+            $this->getEntityManager()->find(CustomerUserAddress::class, $addressId)->getFrontendOwner()->getId()
         );
     }
 

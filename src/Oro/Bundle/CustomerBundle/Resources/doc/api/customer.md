@@ -137,7 +137,7 @@ Delete a collection of customer records.
 
 {@inheritdoc}
 
-**The required field**
+**The required field.**
 
 #### update
 
