@@ -70,6 +70,9 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
                 groups: [create, Default]
         birthday:
             - Date: ~
+            - LessThanOrEqual:
+                value: now UTC
+                message: 'The birth date cannot be in the future.'
         addresses:
             - Valid: ~
             # temporary disabled, because now this check does not make sense until BB-15134 is done
