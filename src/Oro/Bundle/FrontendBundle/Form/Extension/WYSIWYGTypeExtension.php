@@ -9,8 +9,8 @@ use Oro\Component\Layout\Extension\Theme\DataProvider\ThemeProvider;
 use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Adds information about layout themes to the WYSIWYGType options
@@ -68,15 +68,13 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $componentOptions = [];
-        if (isset($view->vars['attr']['data-page-component-options'])) {
-            $componentOptions = json_decode($view->vars['attr']['data-page-component-options'], \JSON_OBJECT_AS_ARRAY);
-        }
-        $componentOptions['themes'] = $this->getThemes();
+        $resolver->setDefault('page-component', function (Options $options, $value) {
+            $value['options']['themes'] = $this->getThemes();
 
-        $view->vars['attr']['data-page-component-options'] = json_encode($componentOptions);
+            return $value;
+        });
     }
 
     /**
