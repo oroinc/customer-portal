@@ -76,10 +76,14 @@ class CustomerUserRegisterController extends Controller
     public function confirmEmailAction(Request $request)
     {
         $userManager = $this->get('oro_customer_user.manager');
-        /** @var CustomerUser $customerUser */
-        $customerUser = $userManager->findUserByUsernameOrEmail($request->get('username'));
         $token = $request->get('token');
-        if ($customerUser === null || empty($token) || $customerUser->getConfirmationToken() !== $token) {
+        if (empty($token)) {
+            throw $this->createNotFoundException('CustomerUser not found or incorrect confirmation token');
+        }
+
+        /** @var CustomerUser $customerUser */
+        $customerUser = $userManager->findUserByConfirmationToken($token);
+        if ($customerUser === null) {
             throw $this->createNotFoundException('CustomerUser not found or incorrect confirmation token');
         }
 
