@@ -58,7 +58,7 @@ class CustomerUserContext extends OroFeatureContext
 
         $path = $this->getContainer()->get('oro_website.resolver.website_url_resolver')->getWebsitePath(
             'oro_customer_frontend_customer_user_confirmation',
-            ['username' => $customerUser->getUsername(),  'token' => $customerUser->getConfirmationToken()],
+            ['token' => $customerUser->getConfirmationToken()],
             $customerUser->getWebsite()
         );
         $this->visitPath($path);

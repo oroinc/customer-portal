@@ -39,7 +39,6 @@ trait EmailMessageAssertionTrait
             'oro_customer_frontend_customer_user_password_reset',
             [
                 'token' => $user->getConfirmationToken(),
-                'username' => $user->getUsername()
             ]
         );
         $this->assertContains(htmlentities($resetUrl), $welcomeMessage->getBody());

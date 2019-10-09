@@ -151,7 +151,6 @@ class CustomerUserControllerRegisterTest extends WebTestCase
             . htmlspecialchars($this->getUrl(
                 'oro_customer_frontend_customer_user_confirmation',
                 [
-                    'username' => $user->getUsername(),
                     'token' => $user->getConfirmationToken()
                 ]
             ))
@@ -178,7 +177,6 @@ class CustomerUserControllerRegisterTest extends WebTestCase
             $this->getUrl(
                 'oro_customer_frontend_customer_user_confirmation',
                 [
-                    'username' => $user->getUsername(),
                     'token' => $user->getConfirmationToken()
                 ]
             )
@@ -235,7 +233,6 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 'oro_customer_frontend_customer_user_password_reset',
                 [
                     'token' => $user->getConfirmationToken(),
-                    'username' => $user->getUsername()
                 ]
             )
         );
@@ -288,7 +285,6 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 'oro_customer_frontend_customer_user_password_reset',
                 [
                     'token' => $user->getConfirmationToken(),
-                    'username' => $user->getUsername()
                 ]
             )
         );
@@ -398,7 +394,6 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 'oro_customer_frontend_customer_user_password_reset',
                 [
                     'token' => $user->getConfirmationToken(),
-                    'username' => $user->getUsername()
                 ]
             ));
 
@@ -425,7 +420,6 @@ class CustomerUserControllerRegisterTest extends WebTestCase
             $this->getUrl(
                 'oro_customer_frontend_customer_user_confirmation',
                 [
-                    'username' => $user->getUsername(),
                     'token' => $user->getConfirmationToken()
                 ]
             )
