@@ -8,6 +8,7 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Layout\Extension\Theme\DataProvider\ThemeProvider;
 use Oro\Component\Layout\Extension\Theme\Model\Theme;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -40,21 +41,29 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
     private $websiteManager;
 
     /**
+     * @var Packages
+     */
+    private $packages;
+
+    /**
      * @param ThemeManager $themeManager
      * @param ThemeProvider $themeProvider
      * @param ConfigManager $configManager
      * @param WebsiteManager $websiteManager
+     * @param Packages $packages
      */
     public function __construct(
         ThemeManager $themeManager,
         ThemeProvider $themeProvider,
         ConfigManager $configManager,
-        WebsiteManager $websiteManager
+        WebsiteManager $websiteManager,
+        Packages $packages
     ) {
         $this->themeManager = $themeManager;
         $this->themeProvider = $themeProvider;
         $this->configManager = $configManager;
         $this->websiteManager = $websiteManager;
+        $this->packages = $packages;
     }
 
     /**
@@ -93,10 +102,11 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
             }
 
             $themeName = $theme->getName();
+            $styleOutput = $this->themeProvider->getStylesOutput($themeName);
             $themeData = [
                 'name' => $themeName,
                 'label' => $theme->getLabel(),
-                'stylesheet' => $this->themeProvider->getStylesOutput($themeName),
+                'stylesheet' => $this->packages->getUrl($styleOutput),
             ];
             if ($layoutThemeName === $themeName) {
                 $themeData['active'] = true;

@@ -61,5 +61,6 @@ services:
             - '@oro_layout.data_provider.theme'
             - '@oro_config.manager'
             - '@oro_website.manager'
+            - '@assets.packages'
         tags:
             - { name: form.type_extension }

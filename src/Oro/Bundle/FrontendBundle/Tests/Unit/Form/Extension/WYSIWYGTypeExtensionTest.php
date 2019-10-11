@@ -9,6 +9,7 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Layout\Extension\Theme\DataProvider\ThemeProvider;
 use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 use Oro\Component\Testing\Unit\EntityTrait;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class WYSIWYGTypeExtensionTest extends \PHPUnit\Framework\TestCase
@@ -36,6 +37,11 @@ class WYSIWYGTypeExtensionTest extends \PHPUnit\Framework\TestCase
     private $websiteManager;
 
     /**
+     * @var Packages|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $packages;
+
+    /**
      * @var WYSIWYGTypeExtension
      */
     protected $extension;
@@ -46,12 +52,14 @@ class WYSIWYGTypeExtensionTest extends \PHPUnit\Framework\TestCase
         $this->themeProvider = $this->createMock(ThemeProvider::class);
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
+        $this->packages = $this->createMock(Packages::class);
 
         $this->extension = new WYSIWYGTypeExtension(
             $this->themeManager,
             $this->themeProvider,
             $this->configManager,
-            $this->websiteManager
+            $this->websiteManager,
+            $this->packages
         );
     }
 
