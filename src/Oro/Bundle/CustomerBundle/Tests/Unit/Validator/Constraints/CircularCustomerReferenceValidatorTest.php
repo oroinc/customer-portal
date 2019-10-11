@@ -89,6 +89,25 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
+    public function testValidateNotValidOwnerCustomerPointingToItseld()
+    {
+        $customer = new Customer();
+        $customer->setId(1);
+        $customer->setName('test customer');
+        $customer->setParent($customer);
+
+        $this->ownerTree->expects($this->never())
+            ->method('getSubordinateBusinessUnitIds');
+
+        $constraint = new CircularCustomerReference();
+
+        $this->validator->validate($customer, $constraint);
+
+        $this->buildViolation($constraint->messageItself)
+            ->setParameter('{{ customerName }}', 'test customer')
+            ->assertRaised();
+    }
+
     public function testValidateWithFrontendOwnerTreeProvider()
     {
         /** @var FrontendOwnerTreeProvider $ownerTreeProvider */
