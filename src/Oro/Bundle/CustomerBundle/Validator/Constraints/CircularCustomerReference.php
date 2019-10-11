@@ -10,7 +10,10 @@ use Symfony\Component\Validator\Constraint;
 class CircularCustomerReference extends Constraint
 {
     /** @var string */
-    public $message = 'oro.customer.message.circular_customer_reference';
+    public $messageCircular = 'oro.customer.message.circular_customer_reference';
+
+    /** @var string */
+    public $messageItself = 'oro.customer.message.customer_reference_to_itself';
 
     /**
      * {@inheritdoc}

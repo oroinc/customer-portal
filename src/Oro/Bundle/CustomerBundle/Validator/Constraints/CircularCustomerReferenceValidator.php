@@ -26,6 +26,7 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
 
     /**
      * {@inheritdoc}
+     * @param CircularCustomerReference $constraint
      */
     public function validate($value, Constraint $constraint)
     {
@@ -36,21 +37,41 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
             return;
         }
 
-        if ($this->ownerTreeProvider instanceof CustomerAwareOwnerTreeInterface) {
-            $tree = $this->ownerTreeProvider->getTreeByBusinessUnit($parentCustomer);
-        } else {
-            $tree = $this->ownerTreeProvider->getTree();
+        if ($value === $parentCustomer) {
+            $this->context->buildViolation($constraint->messageItself)
+                ->setParameter('{{ customerName }}', $value->getName())
+                ->addViolation();
+
+            return;
         }
 
-        if (in_array(
-            $parentCustomer->getId(),
-            $tree->getSubordinateBusinessUnitIds($value->getId()),
-            true
-        )) {
-            $this->context->buildViolation($constraint->message)
+        if ($this->isAncestor($value, $parentCustomer)) {
+            $this->context->buildViolation($constraint->messageCircular)
                 ->setParameter('{{ parentName }}', $parentCustomer->getName())
                 ->setParameter('{{ customerName }}', $value->getName())
                 ->addViolation();
         }
+    }
+
+    /**
+     * @param Customer $customer
+     * @param Customer|null $parent
+     * @return bool
+     */
+    protected function isAncestor(Customer $customer, Customer $parent = null)
+    {
+        if ($this->ownerTreeProvider instanceof CustomerAwareOwnerTreeInterface) {
+            $tree = $this->ownerTreeProvider->getTreeByBusinessUnit($parent);
+        } else {
+            $tree = $this->ownerTreeProvider->getTree();
+        }
+        if (in_array(
+            $parent->getId(),
+            $tree->getSubordinateBusinessUnitIds($customer->getId()),
+            true
+        )) {
+            return true;
+        }
+        return false;
     }
 }
