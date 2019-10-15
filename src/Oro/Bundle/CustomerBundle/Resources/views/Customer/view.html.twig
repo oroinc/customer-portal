@@ -44,6 +44,19 @@
 
     {% set dataBlocks = dataBlocks|merge([
         {
+            'title' : 'oro.customer.children.label'|trans,
+            'subblocks': [
+                {
+                    'title' : '',
+                    'useSpan': false,
+                    'data' : [dataGrid.renderGrid('children-by-customer-grid', {customer_id: entity.id}, { cssClass: 'inner-grid' })]
+                }
+            ]
+        }
+    ]) %}
+
+    {% set dataBlocks = dataBlocks|merge([
+        {
             'title' : 'oro.customer.customeruser.entity_plural_label'|trans,
             'subblocks': [
                 {

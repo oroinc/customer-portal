@@ -56,17 +56,12 @@
             </div>
 
             {% if customerUser.birthday is not empty %}
-                {% set birthday_string %}
-                    {{- customerUser.birthday|oro_format_date -}}
-                    ({{- customerUser.birthday|age_string({'default': 'N/A'}) -}})
-                {% endset %}
-
                 <div class="info-list__item">
                     <div class="info-list__name">
                         {{- 'oro.customer.customeruser.birthday.label'|trans -}}
                     </div>
                     <div class="info-list__desc">
-                        {{- birthday_string -}}
+                        {{- UI.render_birthday(customerUser.birthday) -}}
                     </div>
                 </div>
             {% endif %}

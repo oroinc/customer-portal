@@ -26,6 +26,7 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
 
     /**
      * {@inheritdoc}
+     * @param CircularCustomerReference $constraint
      */
     public function validate($value, Constraint $constraint)
     {
@@ -33,6 +34,14 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
         $parentCustomer = $value->getParent();
 
         if (null === $parentCustomer) {
+            return;
+        }
+
+        if ($value === $parentCustomer) {
+            $this->context->buildViolation($constraint->messageItself)
+                ->setParameter('{{ customerName }}', $value->getName())
+                ->addViolation();
+
             return;
         }
 

@@ -47,6 +47,15 @@ oro_behat_extension:
             locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_region-uid")]/input'
             type: xpath
 
+    Customer User Profile Form:
+      selector: 'form[name="oro_customer_frontend_customer_user_profile"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Birthday:
+            locator: 'input[id^="date_selector_oro_customer_frontend_customer_user_profile_birthday-uid"]'
+            type: css
+
     CustomerUserRoleGrid:
       selector: '[id^="grid-customer-user-role-permission-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -341,6 +350,10 @@ oro_behat_extension:
 
     New Address Shipping Checkbox:
       selector: '[name="oro_customer_typed_address[types][]"][value="shipping"]'
+
+    Subsidiaries Grid:
+      class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
+      selector: 'div[data-page-component-name="children-by-customer-grid"]'
 
   pages:
     Customer User Role View:
