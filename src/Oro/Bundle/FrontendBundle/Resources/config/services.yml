@@ -65,11 +65,9 @@ services:
         arguments:
             - '@oro_frontend.guest_access.provider.chain_guest_access_urls_provider'
             - '@oro_frontend.request.frontend_helper'
-        public: false
 
     oro_frontend.guest_access.provider.guest_access_urls_provider:
         class: 'Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider'
-        public: false
         calls:
             - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%doc|login$']]
         tags: ['oro_frontend.guest_access_urls_provider']
@@ -192,7 +190,6 @@ services:
 
     oro_frontend.layout_theme_config_extension.screens:
         class: 'Oro\Bundle\FrontendBundle\Layout\Extension\ScreensThemeConfigurationExtension'
-        public: false
         tags:
             - { name: layout.theme_config_extension }
 
@@ -249,15 +246,15 @@ services:
             - '@oro_frontend.request.frontend_helper'
             - '@oro_frontend_localization.manager.user_localization'
 
-    #  this provider should be run before the last one
-    oro_frontend.provider.default_frontend_preferred_language_provider:
-        class: Oro\Bundle\FrontendBundle\Provider\DefaultFrontendPreferredLanguageProvider
-        public: false
+    # Website default localization
+    # This provider should be run before the last one
+    oro_frontend.provider.default_frontend_preferred_localization_provider:
+        class: Oro\Bundle\FrontendBundle\Provider\DefaultFrontendPreferredLocalizationProvider
         arguments:
             - '@oro_frontend_localization.manager.user_localization'
             - '@oro_frontend.request.frontend_helper'
         tags:
-            - { name: oro_locale.preferred_language_provider, priority: 254 }
+            - { name: oro_locale.preferred_localization_provider, priority: -254 }
 
     oro_frontend.guest_access.provider.chain_guest_access_urls_provider:
         class: Oro\Bundle\FrontendBundle\GuestAccess\Provider\ChainGuestAccessAllowedUrlsProvider

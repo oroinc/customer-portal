@@ -4,24 +4,23 @@ namespace Oro\Bundle\CustomerBundle\Provider;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManager;
-use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
-use Oro\Bundle\LocaleBundle\Provider\BasePreferredLanguageProvider;
+use Oro\Bundle\LocaleBundle\Provider\AbstractPreferredLocalizationProvider;
 
 /**
- * Returns preferred language for CustomerUser entity based on customer user settings on frontend.
+ * Returns preferred localization for CustomerUser entity based on customer user settings on frontend.
  */
-class CustomerUserPreferredLanguageProvider extends BasePreferredLanguageProvider
+class CustomerUserPreferredLocalizationProvider extends AbstractPreferredLocalizationProvider
 {
     /**
-     * @var UserLocalizationManager
+     * @var UserLocalizationManager|null
      */
     private $userLocalizationManager;
 
     /**
-     * @param UserLocalizationManager $userLocalizationManager
+     * @param UserLocalizationManager|null $userLocalizationManager
      */
-    public function __construct(UserLocalizationManager $userLocalizationManager)
+    public function __construct(?UserLocalizationManager $userLocalizationManager)
     {
         $this->userLocalizationManager = $userLocalizationManager;
     }
@@ -35,29 +34,26 @@ class CustomerUserPreferredLanguageProvider extends BasePreferredLanguageProvide
     }
 
     /**
-     * {@inheritdoc}
+     * @param CustomerUser $entity
+     * @return Localization|null
      */
-    public function getPreferredLanguageForEntity($entity): string
+    protected function getPreferredLocalizationForEntity($entity): ?Localization
     {
-        /** @var CustomerUser $entity */
-        $localization = $this->getLocalizationByCurrentWebsite($entity)
-            ?? $this->getLocalizationByPrimaryWebsite($entity);
-
-        return $localization ? $localization->getLanguageCode() : Configuration::DEFAULT_LANGUAGE;
+        return $this->getLocalizationByCurrentWebsite($entity) ?? $this->getLocalizationByPrimaryWebsite($entity);
     }
 
     /**
      * @param CustomerUser $entity
-     * @return null|Localization
+     * @return Localization|null
      */
-    private function getLocalizationByCurrentWebsite($entity): ?Localization
+    private function getLocalizationByCurrentWebsite(CustomerUser $entity): ?Localization
     {
         return $this->userLocalizationManager->getCurrentLocalizationByCustomerUser($entity);
     }
 
     /**
      * @param CustomerUser $customerUser
-     * @return null|Localization
+     * @return Localization|null
      */
     private function getLocalizationByPrimaryWebsite(CustomerUser $customerUser): ?Localization
     {

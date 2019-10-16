@@ -33,7 +33,6 @@ services:
 
     oro_customer.acl.voter.customer:
         class: 'Oro\Bundle\CustomerBundle\Acl\Voter\CustomerVoter'
-        public: false
         arguments:
             - '@oro_entity.doctrine_helper'
             - '@security.authentication.trust_resolver'
@@ -45,7 +44,6 @@ services:
 
     oro_customer.acl.voter.customer_group:
         class: 'Oro\Bundle\CustomerBundle\Acl\Voter\CustomerGroupVoter'
-        public: false
         arguments:
             - "@oro_entity.doctrine_helper"
         calls:
@@ -73,7 +71,6 @@ services:
         class: Oro\Bundle\CustomerBundle\Security\AuthenticationTrustResolver
         decorates: security.authentication.trust_resolver
         arguments: ['@oro_customer.security.authentication.trust_resolver_decorator.inner']
-        public: false
 
     oro_customer.customer_tree_handler:
         class: 'Oro\Bundle\CustomerBundle\JsTree\CustomerTreeHandler'
@@ -108,7 +105,6 @@ services:
               - { name: kernel.event_listener, event: oro_search.search_mapping_collect, method: collectEntityMapEvent }
 
     oro_customer.form.autocomplete.customer_group.search_handler:
-        public: false
         parent: oro_form.autocomplete.search_handler
         arguments:
             - '%oro_customer.entity.customer_group.class%'
@@ -117,7 +113,6 @@ services:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_group, acl_resource: oro_customer_customer_group_view }
 
     oro_customer_customer.form.autocomplete.customer.search_handler:
-        public: false
         parent: oro_form.autocomplete.search_handler
         arguments:
             - '%oro_customer.entity.customer.class%'
@@ -126,7 +121,6 @@ services:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_customer, acl_resource: oro_customer_customer_view }
 
     oro_customer.form.autocomplete.customer_parent.search_handler:
-        public: false
         parent: oro_form.autocomplete.search_handler
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\ParentCustomerSearchHandler'
         arguments:
@@ -136,7 +130,6 @@ services:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_parent, acl_resource: oro_customer_customer_view }
 
     oro_customer.form.autocomplete.customer_user_customer.search_handler:
-        public: false
         parent: oro_form.autocomplete.search_handler
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler'
         arguments:
@@ -146,7 +139,6 @@ services:
             - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType, acl_resource: oro_customer_customer_user_view }
 
     oro_customer.frontend_form.autocomplete.customer_user_customer.search_handler:
-        public: false
         parent: oro_form.autocomplete.search_handler
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler'
         arguments:
@@ -156,7 +148,6 @@ services:
             - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType, acl_resource: oro_customer_frontend_customer_user_view }
 
     oro_customer_customer.form.autocomplete.customer_user_role.search_handler:
-        public: false
         parent: oro_form.autocomplete.search_handler
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserRoleSearchHandler'
         arguments:
@@ -183,7 +174,6 @@ services:
 
     oro_customer.datagrid.extension.accoun_user:
         class: 'Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserExtension'
-        public: false
         arguments:
             - '@oro_security.token_accessor'
         tags:
@@ -191,7 +181,6 @@ services:
 
     oro_customer.datagrid.extension.accoun_user_by_customer:
         class: 'Oro\Bundle\CustomerBundle\Datagrid\Extension\CustomerUserByCustomerExtension'
-        public: false
         calls:
             - [setRequestStack, ["@request_stack"]]
         tags:
@@ -199,7 +188,6 @@ services:
 
     oro_customer.mailer.processor:
         class: 'Oro\Bundle\CustomerBundle\Mailer\Processor'
-        public: false
         arguments:
             - "@oro_user.mailer.user_template_email_sender"
             - "@event_dispatcher"
@@ -220,13 +208,11 @@ services:
             - "@logger"
 
     oro_customer_user.manager.mailer_processor_link:
-        public: false
         tags:
             - { name: oro_service_link, service: oro_customer.mailer.processor }
 
     oro_customer.security.user_loader:
         class: 'Oro\Bundle\CustomerBundle\Security\CustomerUserLoader'
-        public: false
         arguments:
             - '@doctrine'
             - '@oro_config.manager'
@@ -234,7 +220,6 @@ services:
 
     oro_customer.security.provider:
         class: '%oro_user.security.provider.class%'
-        public: false
         arguments:
             - '@oro_customer.security.user_loader'
             - '@doctrine'
@@ -252,7 +237,6 @@ services:
 
     oro_customer.visitor_token.cache:
         parent: doctrine_cache.abstract.array
-        public: false
         calls:
             - [ setNamespace, [ 'visitor_token_cache' ] ]
 
@@ -266,7 +250,6 @@ services:
             - '@oro_config.manager'
             - '@oro_website.manager'
             - '@oro_customer.visitor_token.cache'
-        public: false
         tags:
             - { name: monolog.logger, channel: security }
 
@@ -277,11 +260,9 @@ services:
             - '@oro_website.manager'
             - '%oro_customer.anonymous_customer_user.update_latency%'
         abstract: true
-        public: false
 
     oro_customer.customer_user_menu:
         class: 'Oro\Bundle\CustomerBundle\Menu\CustomerUserMenuBuilder'
-        public: false
         tags:
             - { name: oro_menu.builder, alias: customer_usermenu }
 
@@ -309,7 +290,6 @@ services:
 
     oro_customer.acl.voter.customer_user_role:
         class: 'Oro\Bundle\CustomerBundle\Acl\Voter\CustomerUserRoleVoter'
-        public: false
         arguments:
             - "@oro_entity.doctrine_helper"
         calls:
@@ -342,7 +322,6 @@ services:
 
     oro_customer.acl.group_provider:
         class: 'Oro\Bundle\CustomerBundle\Acl\Group\AclGroupProvider'
-        public: false
         arguments:
             - '@oro_frontend.request.frontend_helper'
         tags:
@@ -372,7 +351,6 @@ services:
 
     oro_customer.twig.security_extension:
         class: 'Oro\Bundle\CustomerBundle\Twig\CustomerExtension'
-        public: false
         arguments:
             - "@oro_platform.twig.service_locator"
         tags:
@@ -397,7 +375,6 @@ services:
 
     oro_customer.item.builder.pinbar:
         class: 'Oro\Bundle\NavigationBundle\Entity\Builder\PinbarTabBuilder'
-        public: false
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@oro_navigation.utils.pinbar_tab_url_normalizer"
@@ -410,7 +387,6 @@ services:
 
     oro_customer.item.builder.favorite:
         class: 'Oro\Bundle\NavigationBundle\Entity\Builder\NavigationItemBuilder'
-        public: false
         arguments:
             - "@doctrine.orm.entity_manager"
         calls:
@@ -420,7 +396,6 @@ services:
 
     oro_customer.pinbar_menu.builder:
         class: 'Oro\Bundle\NavigationBundle\Menu\NavigationItemBuilder'
-        public: false
         arguments:
             - "@oro_security.token_accessor"
             - "@oro_navigation.provider.navigation_items"
@@ -429,7 +404,6 @@ services:
 
     oro_customer.favorites_menu.builder:
         class: 'Oro\Bundle\NavigationBundle\Menu\NavigationItemBuilder'
-        public: false
         arguments:
             - "@oro_security.token_accessor"
             - "@oro_navigation.provider.navigation_items"
@@ -438,7 +412,6 @@ services:
 
     oro_customer.history_menu.builder:
         class: 'Oro\Bundle\NavigationBundle\Menu\NavigationHistoryBuilder'
-        public: false
         arguments:
             - '@oro_security.token_accessor'
             - '@oro_navigation.provider.navigation_items'
@@ -450,7 +423,6 @@ services:
 
     oro_customer.mostviewed_menu.builder:
         class: 'Oro\Bundle\NavigationBundle\Menu\NavigationMostviewedBuilder'
-        public: false
         arguments:
             - '@oro_security.token_accessor'
             - '@oro_navigation.provider.navigation_items'
@@ -460,7 +432,6 @@ services:
 
     oro_customer.item.builder.history:
         class: 'Oro\Bundle\NavigationBundle\Entity\Builder\HistoryItemBuilder'
-        public: false
         arguments:
             - "@doctrine.orm.entity_manager"
         calls:
@@ -470,7 +441,6 @@ services:
 
     oro_customer.item.builder.mostviewed:
         class: 'Oro\Bundle\NavigationBundle\Entity\Builder\HistoryItemBuilder'
-        public: false
         arguments:
             - "@doctrine.orm.entity_manager"
         calls:
@@ -480,7 +450,6 @@ services:
 
     oro_customer.content_provider.menu.history_menu:
         class: 'Oro\Bundle\NavigationBundle\ContentProvider\MenuContentProvider'
-        public: false
         arguments:
             - "@oro_menu.twig.extension"
             - "frontend_history"
@@ -490,7 +459,6 @@ services:
 
     oro_customer.content_provider.menu.mostviewed_menu:
         class: 'Oro\Bundle\NavigationBundle\ContentProvider\MenuContentProvider'
-        public: false
         arguments:
             - "@oro_menu.twig.extension"
             - "frontend_mostviewed"
@@ -509,7 +477,6 @@ services:
 
     oro_customer.discriminator_map_listener:
         class: 'Oro\Bundle\EntityBundle\ORM\DiscriminatorMapListener'
-        public: false
         calls:
             - [ addClass, ['oro_audit', '%oro_customer.entity.audit.class%'] ]
             - [ addClass, ['oro_grid_view', '%oro_customer.entity.grid_view.class%'] ]
@@ -558,7 +525,6 @@ services:
 
     oro_customer.provider.sign_in.target_path:
         class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInTargetPathProvider'
-        public: false
 
     oro_customer.doctrine.filters_listener:
         class: 'Oro\Bundle\CustomerBundle\Doctrine\DoctrineFiltersListener'
@@ -704,7 +670,6 @@ services:
 
     oro_customer.customer_scope_criteria_provider:
         class: 'Oro\Bundle\CustomerBundle\Provider\ScopeCustomerCriteriaProvider'
-        public: false
         arguments:
             - "@security.token_storage"
         tags:
@@ -716,7 +681,6 @@ services:
 
     oro_customer.customer_group_scope_criteria_provider:
         class: 'Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider'
-        public: false
         arguments:
             - "@security.token_storage"
             - "@oro_customer.provider.customer_user_relations_provider"
@@ -773,11 +737,9 @@ services:
             - '@translator'
             - '@oro_user.provider.role_privilege_category_provider'
             - '@oro_customer.form.handler.acl_role.backend'
-        public: false
 
     oro_customer.customer_id.placeholder:
         class: 'Oro\Bundle\CustomerBundle\Placeholder\CustomerIdPlaceholder'
-        public: false
         arguments:
             - '@security.token_storage'
         tags:
@@ -785,7 +747,6 @@ services:
 
     oro_customer.customer_user_id.placeholder:
         class: 'Oro\Bundle\CustomerBundle\Placeholder\CustomerUserIdPlaceholder'
-        public: false
         arguments:
             - '@security.token_storage'
         tags:
@@ -953,7 +914,6 @@ services:
 
     oro_customer.customer.assign.helper:
         class: Oro\Bundle\CustomerBundle\Handler\CustomerAssignHelper
-        public: false
         arguments:
             - '@doctrine'
         calls:
@@ -1052,7 +1012,6 @@ services:
     oro_customer.security.user_checker.decorator:
         decorates: security.user_checker
         class: Oro\Bundle\CustomerBundle\Security\UserChecker
-        public: false
         arguments:
             - '@oro_customer.security.user_checker.decorator.inner'
 
@@ -1110,7 +1069,6 @@ services:
 
     oro_customer.frontend_access_rule_option_matcher:
         class: Oro\Bundle\CustomerBundle\Acl\AccessRule\FrontendAccessRuleOptionMatcher
-        public: false
         decorates: oro_security.access_rule_option_matcher
         arguments:
             - '@oro_customer.frontend_access_rule_option_matcher.inner'
@@ -1118,23 +1076,20 @@ services:
 
     oro_customer.access_rule.self_managed_public_customer_user_role:
         class: Oro\Bundle\CustomerBundle\Acl\AccessRule\SelfManagedPublicCustomerUserRoleAccessRule
-        public: false
         arguments:
             - '@oro_security.token_accessor'
         tags:
             - { name: oro_security.access_rule, priority: -255, entityClass: Oro\Bundle\CustomerBundle\Entity\CustomerUserRole, loggedUserClass: Oro\Bundle\CustomerBundle\Entity\CustomerUser }
 
-    oro_customer.provider.customer_user_preferred_language_provider:
-        class: Oro\Bundle\CustomerBundle\Provider\CustomerUserPreferredLanguageProvider
-        public: false
+    oro_customer.provider.customer_user_preferred_localization_provider:
+        class: 'Oro\Bundle\CustomerBundle\Provider\CustomerUserPreferredLocalizationProvider'
         arguments:
             - '@oro_frontend_localization.manager.user_localization'
         tags:
-            - { name: oro_locale.preferred_language_provider }
+            - { name: oro_locale.preferred_localization_provider }
 
     oro_customer.updater.customer_user_reassign_updater:
         class: 'Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignUpdater'
-        public: false
 
     oro_customer.event_listener.customer_user_reassign:
         class: 'Oro\Bundle\CustomerBundle\EventListener\CustomerUserReassignEventListener'
@@ -1162,18 +1117,15 @@ services:
             - '@oro_message_queue.message_producer'
             - '@security.token_storage'
         abstract: true
-        public: false
 
     oro_customer.acl.permission_granting_strategy:
         class: Oro\Bundle\CustomerBundle\Acl\Domain\PermissionGrantingStrategy
         decorates: oro_security.acl.permission_granting_strategy
         arguments:
             - '@oro_customer.acl.permission_granting_strategy.inner'
-        public: false
 
     oro_customer.filter.privilege_entity_filter.grid_view:
         class: 'Oro\Bundle\SecurityBundle\Filter\AclPrivilegeEntityByConfigurableNameFilter'
-        public: false
         arguments:
             - 'default'
             - ['Oro\Bundle\CustomerBundle\Entity\GridView']
@@ -1195,7 +1147,6 @@ services:
 
     oro_customer.event_listener.preferred_localization_form_view:
         class: Oro\Bundle\CustomerBundle\EventListener\PreferredLocalizationFormViewListener
-        public: false
         arguments:
             - '@oro_website.manager'
         tags:
