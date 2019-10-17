@@ -56,6 +56,10 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
             $listeners[] = 'oro_sales.customers.customer_association_listener';
         }
 
+        if (self::getContainer()->has('oro_pricing.entity_listener.send_changed_product_prices_to_message_queue')) {
+            $listeners[] = 'oro_pricing.entity_listener.send_changed_product_prices_to_message_queue';
+        }
+
         return $listeners;
     }
 
