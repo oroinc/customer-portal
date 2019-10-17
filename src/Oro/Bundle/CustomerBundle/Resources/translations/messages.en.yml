@@ -762,6 +762,7 @@ oro.customer:
         logged_at.label: Logged at
         object_class.label: Audit class
         object_id.label: Id
+        entity_id.label: Id
         object_name.label: Audit
         owner_description.label: Audit owner description
         transaction_id.label: Audit transaction id
