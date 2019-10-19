@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var FrontendDatagridSettingsColumnView;
@@ -7,8 +7,7 @@ define(function(require) {
     var DatagridSettingsListView = require('orodatagrid/js/app/views/datagrid-settings-list/datagrid-settings-list-view');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var viewportManager = require('oroui/js/viewport-manager');
-    var module = require('module');
-    var config = module.config();
+    var config = require('module-config').default(module.id);
 
     config = _.extend({
         className: 'dropdown-menu',

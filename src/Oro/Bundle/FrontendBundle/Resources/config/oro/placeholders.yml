@@ -44,7 +44,8 @@ placeholders:
         email_filter_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
         oro_reminder_subscribe_script:
-            applicable: "@oro_layout.helper->isTemplateRequest()"
+            applicable:
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
         sync_js:
             applicable:
                 - "@oro_security.token_accessor->hasUser()"

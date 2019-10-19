@@ -115,7 +115,6 @@ oro_stylebook:
                     html: 'How to add in HTML?'
                     js: 'How to add in JS?'
                     mediator: 'Use with mediator'
-                    require: 'RequireJS config'
                 mediator:
                     common: 'Common'
                     grid: 'Grid'

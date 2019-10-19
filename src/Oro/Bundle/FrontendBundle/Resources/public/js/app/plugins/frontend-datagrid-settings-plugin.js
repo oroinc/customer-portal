@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var FrontendDatagridSettingsPlugin;
@@ -8,7 +8,7 @@ define(function(require) {
     var DatagridSettingsPlugin = require('orodatagrid/js/app/plugins/grid/datagrid-settings-plugin');
     var DatagridSettingView = require('orodatagrid/js/app/views/grid/datagrid-settings-view');
 
-    var config = require('module').config();
+    var config = require('module-config').default(module.id);
     config = _.extend({
         icon: 'cog',
         wrapperClassName: 'datagrid-settings',

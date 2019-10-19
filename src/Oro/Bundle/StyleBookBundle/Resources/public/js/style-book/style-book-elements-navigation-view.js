@@ -12,7 +12,7 @@ define(function(require) {
         /**
          * @property {String}
          */
-        template: require('tpl!orostylebook/templates/style-book/style-book-elements-nav-item.html'),
+        template: require('tpl-loader!orostylebook/templates/style-book/style-book-elements-nav-item.html'),
 
         /**
          * @property {String}

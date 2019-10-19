@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var FrontendFiltersTogglePlugin;
@@ -8,7 +8,7 @@ define(function(require) {
     var FullScreenFiltersAction = require('orofrontend/js/app/datafilter/actions/fullscreen-filters-action');
     var FiltersTogglePlugin = require('orofilter/js/plugins/filters-toggle-plugin');
     var viewportManager = require('oroui/js/viewport-manager');
-    var config = require('module').config();
+    var config = require('module-config').default(module.id);
     var launcherOptions = _.extend({
         className: 'btn',
         icon: 'filter',

@@ -24,7 +24,7 @@ define(function(require) {
     var TextView = BaseView.extend(/** @lends TextView.prototype */{
         showDefault: true,
 
-        template: require('tpl!orofrontend/templates/viewer/text-view.html'),
+        template: require('tpl-loader!orofrontend/templates/viewer/text-view.html'),
 
         listen: {
             'change model': 'render'

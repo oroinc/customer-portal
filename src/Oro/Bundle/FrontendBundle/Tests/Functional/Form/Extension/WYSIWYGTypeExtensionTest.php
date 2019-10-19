@@ -29,18 +29,18 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
                 [
                     'name' => 'blank',
                     'label' => 'Blank theme',
-                    'stylesheet' => '/css/layout/blank/styles.css'
+                    'stylesheet' => '/layout-build/blank/css/styles.css'
                 ],
                 [
                     'name' => 'default',
                     'label' => 'Default theme',
-                    'stylesheet' => '/css/layout/default/styles.css',
+                    'stylesheet' => '/layout-build/default/css/styles.css',
                     'active' => true
                 ],
                 [
                     'name' => 'custom',
                     'label' => 'Custom theme',
-                    'stylesheet' => '/css/layout/custom/styles.css'
+                    'stylesheet' => '/layout-build/custom/css/styles.css'
                 ]
             ],
             $actualOptions['themes']

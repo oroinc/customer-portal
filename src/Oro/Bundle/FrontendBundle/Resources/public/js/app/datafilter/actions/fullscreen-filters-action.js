@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var FrontendFullScreenFiltersAction;
@@ -9,8 +9,7 @@ define(function(require) {
     var FiltersManager = require('orofilter/js/filters-manager');
     var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
     var CounterBadgeView = require('orofrontend/js/app/views/counter-badge-view');
-    var module = require('module');
-    var config = module.config();
+    var config = require('module-config').default(module.id);
 
     config = _.extend({
         filtersPopupOptions: {},

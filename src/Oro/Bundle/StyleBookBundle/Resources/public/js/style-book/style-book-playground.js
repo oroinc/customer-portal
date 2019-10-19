@@ -3,7 +3,7 @@ define(function(require) {
 
     var StyleBookPlayground;
     var BaseView = require('oroui/js/app/views/base/view');
-    var styleBookPlaygroundTemplate = require('tpl!orostylebook/templates/style-book/style-book-playground.html');
+    var styleBookPlaygroundTemplate = require('tpl-loader!orostylebook/templates/style-book/style-book-playground.html');
     var tools = require('oroui/js/tools');
     var _ = require('underscore');
     var $ = require('jquery');

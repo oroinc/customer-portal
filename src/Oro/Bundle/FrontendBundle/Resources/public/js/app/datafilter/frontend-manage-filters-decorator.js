@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var FrontendManageFiltersDecorator;
@@ -6,7 +6,7 @@ define(function(require) {
     var __ = require('orotranslation/js/translator');
     var $ = require('jquery');
     var FrontendMultiSelectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
-    var config = require('module').config();
+    var config = require('module-config').default(module.id);
 
     config = $.extend(true, {
         hideHeader: false,

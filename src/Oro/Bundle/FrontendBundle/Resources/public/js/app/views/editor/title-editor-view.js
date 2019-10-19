@@ -11,7 +11,7 @@ define(function(require) {
     var TextEditorView = require('oroform/js/app/views/editor/text-editor-view');
 
     TitleEditorView = TextEditorView.extend(/** @lends TitleEditorView.prototype */{
-        template: require('tpl!../../../../templates/editor/title-editor.html'),
+        template: require('tpl-loader!../../../../templates/editor/title-editor.html'),
 
         className: 'inline-view-editor',
 

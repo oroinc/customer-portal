@@ -2,9 +2,9 @@ define(function(require) {
     'use strict';
 
     var FullscreenPopupView;
-    var template = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup.html');
-    var footerTemplate = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-footer.html');
-    var headerTemplate = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-header.html');
+    var template = require('tpl-loader!orofrontend/templates/fullscreen-popup/fullscreen-popup.html');
+    var footerTemplate = require('tpl-loader!orofrontend/templates/fullscreen-popup/fullscreen-popup-footer.html');
+    var headerTemplate = require('tpl-loader!orofrontend/templates/fullscreen-popup/fullscreen-popup-header.html');
     var BaseView = require('oroui/js/app/views/base/view');
     var tools = require('oroui/js/tools');
     var mediator = require('oroui/js/mediator');

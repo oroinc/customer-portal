@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var FrontendCollectionFiltersManager;
@@ -8,8 +8,7 @@ define(function(require) {
     var viewportManager = require('oroui/js/viewport-manager');
     var CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
     var MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-manage-filters-decorator');
-
-    var config = require('module').config();
+    var config = require('module-config').default(module.id);
     config = _.extend({
         templateData: {
             attributes: ''

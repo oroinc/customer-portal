@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var FrontendSelectFilter;
@@ -6,8 +6,7 @@ define(function(require) {
     var SelectFilter = require('oro/filter/select-filter');
     var MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
     var FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
-    var module = require('module');
-    var config = module.config();
+    var config = require('module-config').default(module.id);
 
     config = _.extend({
         closeAfterChose: true

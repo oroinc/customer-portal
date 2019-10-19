@@ -1,11 +1,10 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var FrontendActionCell;
     var ActionCell = require('oro/datagrid/cell/action-cell');
     var _ = require('underscore');
-    var module = require('module');
-    var config = module.config();
+    var config = require('module-config').default(module.id);
 
     FrontendActionCell = ActionCell.extend({
         constructor: function FrontendActionCell() {

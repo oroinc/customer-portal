@@ -6,7 +6,7 @@ define(function(require) {
      * @class
      */
     var InlineEditorWrapperView = BaseView.extend({
-        template: require('tpl!../../../templates/editor/inline-editable-wrapper-view.html'),
+        template: require('tpl-loader!../../../templates/editor/inline-editable-wrapper-view.html'),
 
         events: {
             'click [data-role="start-editing"]': 'onInlineEditingStart'

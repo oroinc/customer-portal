@@ -24,7 +24,7 @@ define(function(require) {
     var TitleView = BaseView.extend(/** @lends TitleView.prototype */{
         showDefault: true,
 
-        template: require('tpl!orofrontend/templates/viewer/title-view.html'),
+        template: require('tpl-loader!orofrontend/templates/viewer/title-view.html'),
 
         listen: {
             'change model': 'render'

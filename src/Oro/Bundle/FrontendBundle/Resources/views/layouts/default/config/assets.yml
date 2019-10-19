@@ -50,4 +50,4 @@ styles:
 
         - 'bundles/orofrontend/default/scss/components/custom-icons.scss'
         - 'bundles/orofrontend/default/scss/styles.scss'
-    output: 'css/layout/default/styles.css'
+    output: 'css/styles.css'

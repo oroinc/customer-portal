@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var ScrollTopView;
@@ -6,9 +6,7 @@ define(function(require) {
     var BaseView = require('oroui/js/app/views/base/view');
     var _ = require('underscore');
     var $ = require('jquery');
-    var module = require('module');
-
-    var config = module.config();
+    var config = require('module-config').default(module.id);
 
     config = _.extend({
         togglePoint: 165,

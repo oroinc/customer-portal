@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     var StyleBookColorsView;
-    var template = require('tpl!orostylebook/templates/style-book/style-book-colors-view.html');
+    var template = require('tpl-loader!orostylebook/templates/style-book/style-book-colors-view.html');
     var BaseView = require('oroui/js/app/views/base/view');
     var _ = require('underscore');
 

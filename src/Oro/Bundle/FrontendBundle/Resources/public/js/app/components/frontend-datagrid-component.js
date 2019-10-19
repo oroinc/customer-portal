@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var FrontendDataGridComponent;
@@ -6,7 +6,7 @@ define(function(require) {
     var ElasticSwipeActionsPlugin = require('orofrontend/js/app/plugins/plugin-elastic-swipe-actions');
     var _ = require('underscore');
 
-    var config = require('module').config();
+    var config = require('module-config').default(module.id);
 
     config = _.extend({
         responsiveGridClassName: 'frontend-datagrid--responsive',

@@ -16,7 +16,7 @@ define(function(require) {
         /**
          * @property {Object}
          */
-        template: require('tpl!orofrontend/templates/gallery-popup/gallery-popup.html'),
+        template: require('tpl-loader!orofrontend/templates/gallery-popup/gallery-popup.html'),
 
         /**
          * @property {Object}

@@ -8,7 +8,7 @@ define(function(require) {
     var __ = require('orotranslation/js/translator');
     var GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
     var DeleteConfirmation = require('oroui/js/delete-confirmation');
-    var errorTemplate = require('tpl!orodatagrid/templates/datagrid/view-name-error-modal.html');
+    var errorTemplate = require('tpl-loader!orodatagrid/templates/datagrid/view-name-error-modal.html');
 
     FrontendGridViewsView = GridViewsView.extend({
         /**

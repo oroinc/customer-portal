@@ -1,4 +1,4 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
     var DomRelocationView;
@@ -6,9 +6,8 @@ define(function(require) {
     var BaseView = require('oroui/js/app/views/base/view');
     var _ = require('underscore');
     var $ = require('jquery');
-    var module = require('module');
+    var config = require('module-config').default(module.id);
 
-    var config = module.config();
     config = _.extend({
         resizeTimeout: 250,
         layoutTimeout: 250
