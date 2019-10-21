@@ -31,6 +31,7 @@ define(function(require) {
             thumbnailsFilter: null,
             alt: '',
             use_thumb: false,
+            initialSlide: false,
             imageOptions: {
                 fade: true,
                 slidesToShow: 1,
@@ -179,11 +180,14 @@ define(function(require) {
                     mediator.execute('showLoading');
                 }, this),
                 success: _.bind(function(data) {
-                    _.each(data, function(item) {
+                    _.each(data, function(item, key) {
                         var image = {
                             src: item[this.options.galleryFilter],
                             alt: this.options.alt
                         };
+                        if (_.has(item, 'isInitial') && item['isInitial']) {
+                            this.options.initialSlide = key;
+                        }
                         if (this.useThumb()) {
                             image.thumb = item[this.options.thumbnailsFilter];
                         }
@@ -234,6 +238,11 @@ define(function(require) {
                 this.$gallery.slick('slickGoTo', dependentSlide, true);
                 if (this.useThumb()) {
                     this.$thumbnails.slick('slickGoTo', dependentSlide, true);
+                }
+            } else if (_.isNumber(this.options.initialSlide)) {
+                this.$gallery.slick('slickGoTo', this.options.initialSlide, true);
+                if (this.useThumb()) {
+                    this.$thumbnails.slick('slickGoTo', this.options.initialSlide, true);
                 }
             }
         },
