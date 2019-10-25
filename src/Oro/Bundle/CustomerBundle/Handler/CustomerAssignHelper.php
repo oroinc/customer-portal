@@ -108,7 +108,7 @@ class CustomerAssignHelper
         if ((
             $association['type'] === ClassMetadataInfo::MANY_TO_ONE
                 && $association['joinColumns'][0]['onDelete'] === 'CASCADE'
-            )
+        )
             || ($association['type'] === ClassMetadataInfo::MANY_TO_MANY
                 && $association['joinTable']['inverseJoinColumns'][0]['onDelete'] === 'CASCADE')
         ) {
