@@ -36,7 +36,7 @@ class HateoasTest extends FrontendRestJsonApiTestCase
     private function getExpectedContent($expectedContent, $entityId = null): array
     {
         if (is_string($expectedContent)) {
-            $expectedContent = $this->loadData($expectedContent, 'responses');
+            $expectedContent = $this->loadData($expectedContent, $this->getResponseDataFolderName());
         } else {
             $expectedContent = Yaml::dump($expectedContent);
         }
