@@ -34,4 +34,4 @@ For implementation this feature you can use next approach:
     ```
 
 Now when you refer to the address http://localhost/yoursitename/index_dev.php
-asset files (styles.css, require.js etc) will be taken from main domain instead of subfolder.
+asset files (styles.css, app.js etc) will be taken from main domain instead of subfolder.
