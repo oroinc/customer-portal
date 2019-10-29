@@ -1,29 +1,28 @@
 define(function(require) {
     'use strict';
 
-    var StyleBookDomRelocation;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
-    var mediator = require('oroui/js/mediator');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const _ = require('underscore');
+    const mediator = require('oroui/js/mediator');
 
-    StyleBookDomRelocation = BaseView.extend({
+    const StyleBookDomRelocation = BaseView.extend({
         events: {
             'click [data-relocation-trigger]': 'onMove'
         },
 
         moved: false,
 
-        constructor: function StyleBookDomRelocation() {
-            return StyleBookDomRelocation.__super__.constructor.apply(this, arguments);
+        constructor: function StyleBookDomRelocation(options) {
+            return StyleBookDomRelocation.__super__.constructor.call(this, options);
         },
 
         initialize: function(options) {
             this.options = _.omit(options, ['el']);
-            StyleBookDomRelocation.__super__.initialize.apply(this, arguments);
+            StyleBookDomRelocation.__super__.initialize.call(this, options);
         },
 
         onMove: function() {
-            var $element = this.$el.find('[data-relocate]');
+            const $element = this.$el.find('[data-relocate]');
             $element.removeData().attr('data-dom-relocation-options', JSON.stringify({
                 responsive: [
                     {

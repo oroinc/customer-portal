@@ -1,15 +1,14 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var FrontendFullScreenFiltersAction;
-    var _ = require('underscore');
-    var $ = require('jquery');
-    var mediator = require('oroui/js/mediator');
-    var ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
-    var FiltersManager = require('orofilter/js/filters-manager');
-    var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
-    var CounterBadgeView = require('orofrontend/js/app/views/counter-badge-view');
-    var config = require('module-config').default(module.id);
+    const _ = require('underscore');
+    const $ = require('jquery');
+    const mediator = require('oroui/js/mediator');
+    const ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
+    const FiltersManager = require('orofilter/js/filters-manager');
+    const FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+    const CounterBadgeView = require('orofrontend/js/app/views/counter-badge-view');
+    let config = require('module-config').default(module.id);
 
     config = _.extend({
         filtersPopupOptions: {},
@@ -18,7 +17,7 @@ define(function(require, exports, module) {
         showCounterBadge: false
     }, config);
 
-    FrontendFullScreenFiltersAction = ToggleFiltersAction.extend({
+    const FrontendFullScreenFiltersAction = ToggleFiltersAction.extend({
         /**
          * @property;
          */
@@ -79,8 +78,8 @@ define(function(require, exports, module) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendFullScreenFiltersAction() {
-            FrontendFullScreenFiltersAction.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendFullScreenFiltersAction(options) {
+            FrontendFullScreenFiltersAction.__super__.constructor.call(this, options);
         },
 
         /**
@@ -99,7 +98,7 @@ define(function(require, exports, module) {
                 config.filtersManagerPopupOptions
             );
 
-            FrontendFullScreenFiltersAction.__super__.initialize.apply(this, arguments);
+            FrontendFullScreenFiltersAction.__super__.initialize.call(this, options);
 
             if (config.showCounterBadge) {
                 this.counterBadgeView = new this.counterBadgeView();
@@ -114,7 +113,7 @@ define(function(require, exports, module) {
          * {@inheritdoc}
          */
         toggleFilters: function(mode) {
-            var filterManager = this.datagrid.filterManager;
+            const filterManager = this.datagrid.filterManager;
 
             if (!filterManager || filterManager.$el.is(':visible') === (mode === FiltersManager.MANAGE_VIEW_MODE)) {
                 return;
@@ -131,12 +130,12 @@ define(function(require, exports, module) {
             this.fullscreenView = new FullScreenPopupView(this.filtersPopupOptions);
 
             this.fullscreenView.on('show', function() {
-                var enteredState = this.getChangedFiltersState(this.datagrid);
+                const enteredState = this.getChangedFiltersState(this.datagrid);
 
                 this.applyAllFiltersBtn = this.fullscreenView.footer.$el.find(this.applyAllFiltersSelector);
 
                 this.applyAllFiltersBtn.on('click', _.bind(function() {
-                    var state = this.getChangedFiltersState(this.datagrid);
+                    const state = this.getChangedFiltersState(this.datagrid);
 
                     if (state.errorsCount === 0) {
                         _.extend(filterManager.collection.state.filters, state.filters);
@@ -194,7 +193,7 @@ define(function(require, exports, module) {
          * @param {object} filterManager
          */
         unbindFiltersEvents: function(filterManager) {
-            var self = this;
+            const self = this;
 
             if (!_.isObject(filterManager) || this.isLocked) {
                 return;
@@ -223,13 +222,13 @@ define(function(require, exports, module) {
                 return;
             }
 
-            var selectWidget = filterManager.selectWidget;
+            const selectWidget = filterManager.selectWidget;
 
             if (!_.isObject(selectWidget)) {
                 return;
             }
-            var $popupMenu = selectWidget.multiselect('getMenu');
-            var $popupContent = filterManager.$el;
+            const $popupMenu = selectWidget.multiselect('getMenu');
+            const $popupContent = filterManager.$el;
 
             this.$filterManagerButton = selectWidget.multiselect('getButton');
             this.$filterManagerButtonContent = this.$filterManagerButton.find('span');
@@ -253,7 +252,7 @@ define(function(require, exports, module) {
                     .hide();
             }, this);
 
-            var handler = _.bind(function() {
+            const handler = _.bind(function() {
                 this.filterManagerPopup.show();
             }, this);
 
@@ -287,7 +286,7 @@ define(function(require, exports, module) {
          * @returns {Object}
          */
         getChangedFiltersState: function(datagrid) {
-            var state = {
+            const state = {
                 filters: {},
                 errorsCount: 0
             };
@@ -296,15 +295,15 @@ define(function(require, exports, module) {
                 return state;
             }
 
-            var filterManager = datagrid.filterManager;
-            var changedFilters = _.clone(filterManager.getChangedFilters());
+            const filterManager = datagrid.filterManager;
+            const changedFilters = _.clone(filterManager.getChangedFilters());
 
             if (!changedFilters.length) {
                 return state;
             }
 
             _.each(changedFilters, function(filter) {
-                var isValid = _.isFunction(filter._isValid) ? filter._isValid() : true;
+                const isValid = _.isFunction(filter._isValid) ? filter._isValid() : true;
 
                 if (isValid) {
                     state.filters[filter.name] = filter._formatRawValue(filter._readDOMValue());
@@ -317,7 +316,7 @@ define(function(require, exports, module) {
         },
 
         closeEmptyFilters: function() {
-            var filters = this.datagrid.filterManager.filters;
+            const filters = this.datagrid.filterManager.filters;
 
             _.each(filters, function(filter) {
                 if (
@@ -363,7 +362,7 @@ define(function(require, exports, module) {
         },
 
         _toggleApplyAllBtn: function(state) {
-            var disable = _.isUndefined(state) ? true : state;
+            const disable = _.isUndefined(state) ? true : state;
             if (this.applyAllFiltersBtn && this.applyAllFiltersBtn.length) {
                 this.applyAllFiltersBtn.attr({
                     disabled: disable
@@ -372,10 +371,10 @@ define(function(require, exports, module) {
         },
 
         createLauncher: function(options) {
-            var launcher = FrontendFullScreenFiltersAction.__super__.createLauncher.apply(this, arguments);
+            const launcher = FrontendFullScreenFiltersAction.__super__.createLauncher.call(this, options);
 
             if (config.showCounterBadge) {
-                var self = this;
+                const self = this;
 
                 this.launcherInstanse.on('render', function() {
                     this.$el.prepend(self.counterBadgeView.$el);

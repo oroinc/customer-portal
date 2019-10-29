@@ -1,16 +1,15 @@
 define(function(require) {
     'use strict';
 
-    var StickyPanelView;
-    var viewportManager = require('oroui/js/viewport-manager');
-    var inputWidgetManager = require('oroui/js/input-widget-manager');
-    var Select2InputWidget = require('oroui/js/app/views/input-widget/select2');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var mediator = require('oroui/js/mediator');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const viewportManager = require('oroui/js/viewport-manager');
+    const inputWidgetManager = require('oroui/js/input-widget-manager');
+    const Select2InputWidget = require('oroui/js/app/views/input-widget/select2');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const mediator = require('oroui/js/mediator');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    StickyPanelView = BaseView.extend({
+    const StickyPanelView = BaseView.extend({
         /**
          * @inheritDoc
          */
@@ -54,8 +53,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function StickyPanelView() {
-            StickyPanelView.__super__.constructor.apply(this, arguments);
+        constructor: function StickyPanelView(options) {
+            StickyPanelView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -63,7 +62,7 @@ define(function(require) {
          */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options || {});
-            StickyPanelView.__super__.initialize.apply(this, arguments);
+            StickyPanelView.__super__.initialize.call(this, options);
 
             this.scrollState = {
                 directionClass: '',
@@ -99,8 +98,8 @@ define(function(require) {
          * @inheritDoc
          * Enable DOM document events
          */
-        delegateEvents: function() {
-            StickyPanelView.__super__.delegateEvents.apply(this, arguments);
+        delegateEvents: function(events) {
+            StickyPanelView.__super__.delegateEvents.call(this, events);
 
             this.$document.on(
                 'scroll' + this.eventNamespace(),
@@ -122,7 +121,7 @@ define(function(require) {
             if (this.$document) {
                 this.$document.off(this.eventNamespace());
             }
-            return StickyPanelView.__super__.undelegateEvents.apply(this, arguments);
+            return StickyPanelView.__super__.undelegateEvents.call(this);
         },
 
         /**
@@ -142,7 +141,7 @@ define(function(require) {
          * Update element collection after page change
          */
         onAfterPageChange: function() {
-            var oldElements = this.elements;
+            const oldElements = this.elements;
             this.getElements();
             if (!_.isEqual(oldElements, this.elements)) {
                 this.collectElements();
@@ -164,7 +163,7 @@ define(function(require) {
                 delete this[key];
             }, this);
 
-            return StickyPanelView.__super__.dispose.apply(this, arguments);
+            return StickyPanelView.__super__.dispose.call(this);
         },
 
         /**
@@ -189,7 +188,7 @@ define(function(require) {
                 return;
             }
 
-            var oldElements = this.elements;
+            const oldElements = this.elements;
             this.getElements();
             if (!_.isEqual(oldElements, this.elements)) {
                 this.resetElement();
@@ -203,8 +202,9 @@ define(function(require) {
          * Collect sticky elements
          */
         getElements: function() {
-            var elementName = this.$el.data('sticky-name');
-            var elSelector = elementName ? '[data-sticky-target="' + elementName + '"][data-sticky]' : '[data-sticky]';
+            const elementName = this.$el.data('sticky-name');
+            const elSelector = elementName
+                ? '[data-sticky-target="' + elementName + '"][data-sticky]' : '[data-sticky]';
             this.elements = $(elSelector).get();
         },
 
@@ -212,18 +212,18 @@ define(function(require) {
          * Collect sticky element with serialize
          */
         collectElements: function() {
-            var $placeholder = this.$el.children();
+            const $placeholder = this.$el.children();
 
             this.$elements = _.map(this.elements, function(element) {
-                var $element = $(element);
+                const $element = $(element);
 
                 if ($element.data('sticky.initialized')) {
                     return $element;
                 }
 
-                var $elementPlaceholder = this.createPlaceholder()
+                const $elementPlaceholder = this.createPlaceholder()
                     .data('stickyElement', $element);
-                var options = _.defaults($element.data('sticky') || {}, {
+                const options = _.defaults($element.data('sticky') || {}, {
                     $elementPlaceholder: $elementPlaceholder,
                     viewport: {},
                     placeholderId: '',
@@ -256,8 +256,8 @@ define(function(require) {
          */
         applyAlwaysStickyElem: function() {
             this.$el.find('[data-sticky]').each(function() {
-                var $element = $(this);
-                var sticky = $element.data('sticky');
+                const $element = $(this);
+                const sticky = $element.data('sticky');
                 sticky.alwaysInSticky = true;
                 $element.data('sticky', sticky);
             });
@@ -282,10 +282,10 @@ define(function(require) {
             this.updateScrollState();
             this.updateViewport();
 
-            var contentChanged = false;
+            let contentChanged = false;
 
             _.each(this.$elements, function($element) {
-                var newState = this.getNewElementState($element);
+                const newState = this.getNewElementState($element);
                 if (newState !== null) {
                     contentChanged = true;
                     this.toggleElementState($element, newState);
@@ -310,10 +310,10 @@ define(function(require) {
          * @returns {*}
          */
         getNewElementState: function($element) {
-            var options = $element.data('sticky');
-            var isEmpty = $element.is(':empty');
-            var onBottom = options.affixed ? this.onBottom(options) : false;
-            var screenTypeState = viewportManager.isApplicable(options.viewport);
+            const options = $element.data('sticky');
+            const isEmpty = $element.is(':empty');
+            const onBottom = options.affixed ? this.onBottom(options) : false;
+            const screenTypeState = viewportManager.isApplicable(options.viewport);
 
             if (options.isSticky) {
                 if (options.currentState) {
@@ -351,8 +351,8 @@ define(function(require) {
          * @returns {boolean}
          */
         onBottom: function(options) {
-            var documentHeight = this.$document.height();
-            var footerHeight = $('[data-page-footer]').outerHeight();
+            const documentHeight = this.$document.height();
+            const footerHeight = $('[data-page-footer]').outerHeight();
             return (documentHeight - footerHeight) <= (this.scrollState.position + options.stickyHeight);
         },
 
@@ -364,11 +364,11 @@ define(function(require) {
          * @returns {boolean}
          */
         inViewport: function($element, backMargin, affixed) {
-            var elementTop = $element.offset().top;
-            var elementHeight = $element.height();
-            var backMarginValue = (backMargin ? elementHeight : 0);
-            var elementBottom = elementTop + elementHeight;
-            var stick = this._getStickyPanelSize();
+            const elementTop = $element.offset().top;
+            const elementHeight = $element.height();
+            const backMarginValue = (backMargin ? elementHeight : 0);
+            const elementBottom = elementTop + elementHeight;
+            const stick = this._getStickyPanelSize();
 
             if ((affixed && elementBottom >= this.viewport.bottom) || this.viewport.top + stick.stickTop < elementTop) {
                 return true;
@@ -384,8 +384,8 @@ define(function(require) {
          * Check global scroll state
          */
         updateScrollState: function() {
-            var position = this.$document.scrollTop();
-            var directionClass = this.scrollState.position > position ? 'scroll-up' : 'scroll-down';
+            const position = this.$document.scrollTop();
+            const directionClass = this.scrollState.position > position ? 'scroll-up' : 'scroll-down';
 
             if (this.scrollState.directionClass !== directionClass) {
                 this.$el.removeClass(this.scrollState.directionClass)
@@ -403,7 +403,7 @@ define(function(require) {
          * @param state
          */
         toggleElementState: function($element, state) {
-            var options = $element.data('sticky');
+            const options = $element.data('sticky');
 
             if (!options.alwaysInSticky && options.$elementPlaceholder) {
                 if (state) {
@@ -438,7 +438,7 @@ define(function(require) {
 
             mediator.trigger('sticky-panel:toggle-state', {$element: $element, state: state});
 
-            var select2Widgets = inputWidgetManager.findWidgetsInContainer($element, Select2InputWidget);
+            const select2Widgets = inputWidgetManager.findWidgetsInContainer($element, Select2InputWidget);
 
             _.invoke(select2Widgets, 'updateFixedMode', true);
         },
@@ -466,7 +466,7 @@ define(function(require) {
          * @returns {string}
          */
         getElementMargin: function(element) {
-            var values = _.map(['top', 'right', 'bottom', 'left'], function(pos) {
+            const values = _.map(['top', 'right', 'bottom', 'left'], function(pos) {
                 return window.getComputedStyle(element)['margin-' + pos];
             });
             return values.join(' ');
@@ -478,11 +478,11 @@ define(function(require) {
          * @private
          */
         _getStickyPanelSize: function() {
-            var stickTop = 0;
-            var stickBottom = 0;
+            let stickTop = 0;
+            let stickBottom = 0;
 
             $('[data-sticky-name]').each(function() {
-                var $el = $(this);
+                const $el = $(this);
                 switch ($el.data('stick-to')) {
                     case 'top':
                         stickTop += $el.height();
@@ -504,7 +504,7 @@ define(function(require) {
          * @private
          */
         _setFixed: function($element, state) {
-            var options = $element.data('sticky');
+            const options = $element.data('sticky');
             $element.css(state ? {
                 position: 'fixed',
                 left: options.$elementPlaceholder.offset().left,

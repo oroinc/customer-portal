@@ -1,11 +1,10 @@
 define(function(require) {
     'use strict';
 
-    var ThemeSelectView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const _ = require('underscore');
 
-    ThemeSelectView = BaseView.extend({
+    const ThemeSelectView = BaseView.extend({
         /**
          * @property {String}
          */
@@ -23,8 +22,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function ThemeSelectView() {
-            ThemeSelectView.__super__.constructor.apply(this, arguments);
+        constructor: function ThemeSelectView(options) {
+            ThemeSelectView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -44,7 +43,7 @@ define(function(require) {
          * @inheritDoc
          */
         getTemplateData: function() {
-            var selectedTheme = this.$selector.val();
+            const selectedTheme = this.$selector.val();
 
             if (_.has(this.options.metadata, selectedTheme)) {
                 return this.options.metadata[selectedTheme];
@@ -57,8 +56,8 @@ define(function(require) {
          * @inheritDoc
          */
         render: function() {
-            var templateFunction = this.getTemplateFunction();
-            var data = this.getTemplateData();
+            const templateFunction = this.getTemplateFunction();
+            const data = this.getTemplateData();
 
             if (data !== false) {
                 this.$descriptionContainer.html(

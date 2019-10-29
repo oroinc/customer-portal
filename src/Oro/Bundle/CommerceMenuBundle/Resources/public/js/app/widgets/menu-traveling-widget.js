@@ -1,13 +1,12 @@
 define(function(require) {
     'use strict';
 
-    var MenuTravelingWidget;
-    var AbstractWidget = require('oroui/js/widget/abstract-widget');
-    var mediator = require('oroui/js/mediator');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const AbstractWidget = require('oroui/js/widget/abstract-widget');
+    const mediator = require('oroui/js/mediator');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    MenuTravelingWidget = AbstractWidget.extend({
+    const MenuTravelingWidget = AbstractWidget.extend({
         /**
          * @property {Object}
          */
@@ -41,8 +40,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function MenuTravelingWidget() {
-            MenuTravelingWidget.__super__.constructor.apply(this, arguments);
+        constructor: function MenuTravelingWidget(options) {
+            MenuTravelingWidget.__super__.constructor.call(this, options);
         },
 
         /**
@@ -65,8 +64,8 @@ define(function(require) {
          * @param {Object} event
          */
         goToSection: function(event) {
-            var $trigger = $(event.currentTarget);
-            var goTo = $trigger.data('go-to');
+            const $trigger = $(event.currentTarget);
+            const goTo = $trigger.data('go-to');
 
             if (goTo === 'next') {
                 this.$relatedTrigger = $trigger;
@@ -135,8 +134,8 @@ define(function(require) {
                 return;
             }
 
-            var $container = this.$el.parents(this.options.parentContainerSelector);
-            var containerHeight = 0;
+            const $container = this.$el.parents(this.options.parentContainerSelector);
+            let containerHeight = 0;
 
             if ($container.length) {
                 containerHeight = $container.height();
@@ -175,7 +174,7 @@ define(function(require) {
             delete this.nestingLevel;
             delete this.consideringTopPosition;
 
-            MenuTravelingWidget.__super__.dispose.apply(this, arguments);
+            MenuTravelingWidget.__super__.dispose.call(this);
         }
     });
 

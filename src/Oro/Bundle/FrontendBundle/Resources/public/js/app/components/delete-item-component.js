@@ -1,21 +1,20 @@
 define(function(require) {
     'use strict';
 
-    var DeleteItemComponent;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var DeleteConfirmation = require('oroui/js/delete-confirmation');
-    var mediator = require('oroui/js/mediator');
-    var routing = require('routing');
-    var __ = require('orotranslation/js/translator');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const DeleteConfirmation = require('oroui/js/delete-confirmation');
+    const mediator = require('oroui/js/mediator');
+    const routing = require('routing');
+    const __ = require('orotranslation/js/translator');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    DeleteItemComponent = BaseComponent.extend({
+    const DeleteItemComponent = BaseComponent.extend({
         /**
          * @inheritDoc
          */
-        constructor: function DeleteItemComponent() {
-            DeleteItemComponent.__super__.constructor.apply(this, arguments);
+        constructor: function DeleteItemComponent(options) {
+            DeleteItemComponent.__super__.constructor.call(this, options);
         },
 
         /**
@@ -49,10 +48,10 @@ define(function(require) {
         },
 
         deleteWithConfirmation: function() {
-            var options = _.extend(_.pick(this, 'okButtonClass', 'cancelButtonClass'), {
+            const options = _.extend(_.pick(this, 'okButtonClass', 'cancelButtonClass'), {
                 content: this.confirmMessage
             });
-            var confirm = new DeleteConfirmation(options);
+            const confirm = new DeleteConfirmation(options);
 
             confirm
                 .on('ok', this.deleteWithoutConfirmation.bind(this))
@@ -60,7 +59,7 @@ define(function(require) {
         },
 
         deleteWithoutConfirmation: function(e) {
-            var self = this;
+            const self = this;
             $.ajax({
                 url: self.url,
                 type: this.requestMethod,
