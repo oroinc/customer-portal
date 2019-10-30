@@ -48,6 +48,13 @@ services:
         tags:
             - { name: oro.api.processor, action: create, group: save_data, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser }
 
+    oro_customer.api.update_new_customer_user:
+        class: Oro\Bundle\CustomerBundle\Api\Processor\UpdateNewCustomerUser
+        arguments:
+            - '@oro_customer_user.manager'
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: post_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser }
+
     oro_customer.api.addresses.fix_primary_addresses:
         class: Oro\Bundle\AddressBundle\Api\Processor\FixPrimaryAddresses
         arguments:
@@ -119,6 +126,15 @@ services:
             - '@oro_api.validation_helper'
         tags:
             - { name: oro.api.processor, action: get_config, extra: '!identifier_fields_only&definition', requestType: frontend, targetAction: update|create|update_relationship|add_relationship|delete_relationship|update_subresource|add_subresource|delete_subresource, priority: -50 }
+
+    oro_customer.api.frontend.set_system_organization:
+        class: Oro\Bundle\CustomerBundle\Api\Processor\SetSystemOrganization
+        arguments:
+            - '@property_accessor'
+            - '@oro_security.token_accessor'
+            - '@oro_customer.owner.frontend_ownership_metadata_provider'
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, requestType: frontend, parentAction: create, priority: 10 }
 
     oro_customer.api.frontend.customer_user.set_website:
         class: Oro\Bundle\CustomerBundle\Api\Processor\InitializeCustomerUser
