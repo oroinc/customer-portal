@@ -124,8 +124,9 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetResizedImageUrlWhenNotFrontend(): void
     {
+        $file = new File();
         $this->mockGuestAccessMode(true);
-        $this->mockCoveredByAcl($file = new File(), true);
+        $this->mockCoveredByAcl($file, true);
 
         $this->mockApplications(
             [CurrentApplicationProviderInterface::DEFAULT_APPLICATION],
@@ -135,7 +136,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         $this->innerFileUrlProvider
             ->expects(self::once())
             ->method('getResizedImageUrl')
-            ->with($file = new File(), self::WIDTH, self::HEIGHT, self::REFERENCE_TYPE)
+            ->with($file, self::WIDTH, self::HEIGHT, self::REFERENCE_TYPE)
             ->willReturn(self::URL);
 
         self::assertEquals(
@@ -146,8 +147,9 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testFilteredImageUrlWhenNotFrontend(): void
     {
+        $file = new File();
         $this->mockGuestAccessMode(true);
-        $this->mockCoveredByAcl($file = new File(), true);
+        $this->mockCoveredByAcl($file, true);
 
         $this->mockApplications(
             [CurrentApplicationProviderInterface::DEFAULT_APPLICATION],
@@ -157,7 +159,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         $this->innerFileUrlProvider
             ->expects(self::once())
             ->method('getFilteredImageUrl')
-            ->with($file = new File(), self::FILTER, self::REFERENCE_TYPE)
+            ->with($file, self::FILTER, self::REFERENCE_TYPE)
             ->willReturn(self::URL);
 
         self::assertEquals(
