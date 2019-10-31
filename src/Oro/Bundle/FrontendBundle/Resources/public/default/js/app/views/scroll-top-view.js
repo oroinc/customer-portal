@@ -1,12 +1,11 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var ScrollTopView;
-    var viewportManager = require('oroui/js/viewport-manager');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
-    var $ = require('jquery');
-    var config = require('module-config').default(module.id);
+    const viewportManager = require('oroui/js/viewport-manager');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const _ = require('underscore');
+    const $ = require('jquery');
+    let config = require('module-config').default(module.id);
 
     config = _.extend({
         togglePoint: 165,
@@ -19,7 +18,7 @@ define(function(require, exports, module) {
         }
     }, config);
 
-    ScrollTopView = BaseView.extend({
+    const ScrollTopView = BaseView.extend({
         autoRender: true,
 
         options: {
@@ -47,8 +46,8 @@ define(function(require, exports, module) {
         /**
          * @inheritDoc
          */
-        constructor: function ScrollTopView() {
-            ScrollTopView.__super__.constructor.apply(this, arguments);
+        constructor: function ScrollTopView(options) {
+            ScrollTopView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -56,7 +55,7 @@ define(function(require, exports, module) {
          */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options || {});
-            ScrollTopView.__super__.initialize.apply(this, arguments);
+            ScrollTopView.__super__.initialize.call(this, options);
         },
 
         /**
@@ -71,8 +70,8 @@ define(function(require, exports, module) {
         /**
          * @inheritDoc
          */
-        delegateEvents: function() {
-            ScrollTopView.__super__.delegateEvents.apply(this, arguments);
+        delegateEvents: function(events) {
+            ScrollTopView.__super__.delegateEvents.call(this, events);
             this.$window.on('scroll' + this.eventNamespace(), _.debounce(_.bind(this.toggle, this), 5));
         },
 
@@ -83,7 +82,7 @@ define(function(require, exports, module) {
             if (this.$window) {
                 this.$window.off(this.eventNamespace());
             }
-            ScrollTopView.__super__.undelegateEvents.apply(this, arguments);
+            ScrollTopView.__super__.undelegateEvents.call(this);
         },
 
         /**
@@ -119,11 +118,11 @@ define(function(require, exports, module) {
             if (!this.options.allowLanding) {
                 return;
             }
-            var footerHeight = this.$document.find('[data-page-footer]').height();
-            var windowHeight = this.$window.height();
-            var elementHeight = this.$el.height() + this.options.bottomOffset;
-            var scrollY = this.$document.height() - this.$window.scrollTop();
-            var footerOffset = footerHeight + windowHeight + elementHeight;
+            const footerHeight = this.$document.find('[data-page-footer]').height();
+            const windowHeight = this.$window.height();
+            const elementHeight = this.$el.height() + this.options.bottomOffset;
+            const scrollY = this.$document.height() - this.$window.scrollTop();
+            const footerOffset = footerHeight + windowHeight + elementHeight;
             this.$el.toggleClass('scroll-top--landed', footerOffset >= scrollY);
         },
 

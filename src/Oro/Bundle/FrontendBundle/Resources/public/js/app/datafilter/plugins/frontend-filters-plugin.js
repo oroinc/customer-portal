@@ -1,21 +1,20 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var FrontendFiltersTogglePlugin;
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
-    var FullScreenFiltersAction = require('orofrontend/js/app/datafilter/actions/fullscreen-filters-action');
-    var FiltersTogglePlugin = require('orofilter/js/plugins/filters-toggle-plugin');
-    var viewportManager = require('oroui/js/viewport-manager');
-    var config = require('module-config').default(module.id);
-    var launcherOptions = _.extend({
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
+    const FullScreenFiltersAction = require('orofrontend/js/app/datafilter/actions/fullscreen-filters-action');
+    const FiltersTogglePlugin = require('orofilter/js/plugins/filters-toggle-plugin');
+    const viewportManager = require('oroui/js/viewport-manager');
+    const config = require('module-config').default(module.id);
+    const launcherOptions = _.extend({
         className: 'btn',
         icon: 'filter',
         label: __('oro.filter.datagrid-toolbar.filters')
     }, config.launcherOptions || {});
 
-    FrontendFiltersTogglePlugin = FiltersTogglePlugin.extend({
+    const FrontendFiltersTogglePlugin = FiltersTogglePlugin.extend({
         /**
          * {Object}
          */
@@ -26,8 +25,8 @@ define(function(require, exports, module) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendFiltersTogglePlugin() {
-            FrontendFiltersTogglePlugin.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendFiltersTogglePlugin(main, options) {
+            FrontendFiltersTogglePlugin.__super__.constructor.call(this, main, options);
         },
 
         /**
@@ -35,7 +34,7 @@ define(function(require, exports, module) {
          * @private
          */
         _getApplicableAction: function() {
-            var Action = _.find(this.filtersActions, function(action, name) {
+            const Action = _.find(this.filtersActions, function(action, name) {
                 if (viewportManager.isApplicable({maxScreenType: name})) {
                     return action;
                 }
@@ -45,9 +44,9 @@ define(function(require, exports, module) {
         },
 
         onBeforeToolbarInit: function(toolbarOptions) {
-            var Action = this._getApplicableAction();
+            const Action = this._getApplicableAction();
 
-            var options = {
+            const options = {
                 datagrid: this.main,
                 launcherOptions: launcherOptions,
                 order: config.order || 50

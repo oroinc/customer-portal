@@ -1,16 +1,15 @@
 define(function(require) {
     'use strict';
 
-    var EmbeddedListComponent;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var mediator = require('oroui/js/mediator');
-    var $ = require('jquery');
-    var _ = require('underscore');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const mediator = require('oroui/js/mediator');
+    const $ = require('jquery');
+    const _ = require('underscore');
 
     /**
      * Fires oro:embedded-list show and click events for embedded list items.
      */
-    EmbeddedListComponent = BaseComponent.extend({
+    const EmbeddedListComponent = BaseComponent.extend({
         /**
          * @property {Object}
          */
@@ -26,8 +25,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function EmbeddedListComponent() {
-            EmbeddedListComponent.__super__.constructor.apply(this, arguments);
+        constructor: function EmbeddedListComponent(options) {
+            EmbeddedListComponent.__super__.constructor.call(this, options);
         },
 
         /**
@@ -44,7 +43,7 @@ define(function(require) {
          * @inheritDoc
          */
         delegateListeners: function() {
-            EmbeddedListComponent.__super__.delegateListeners.apply(this, arguments);
+            EmbeddedListComponent.__super__.delegateListeners.call(this);
 
             mediator.once('page:afterChange', this._afterChange.bind(this));
         },
@@ -63,14 +62,14 @@ define(function(require) {
             }
 
             // Skips links without new url ("javascript:void(null)", "#" and equal)
-            var link = event.currentTarget;
+            const link = event.currentTarget;
             if (link.protocol !== window.location.protocol ||
                 (link.pathname === window.location.pathname && link.search === window.location.search)
             ) {
                 return;
             }
 
-            var clickedItem = $(event.currentTarget).parents(this.options.itemSelector);
+            const clickedItem = $(event.currentTarget).parents(this.options.itemSelector);
             this.trigger('oro:embedded-list:clicked', clickedItem, event);
         },
 
@@ -84,7 +83,7 @@ define(function(require) {
 
             this.$el.off('click mouseup', this.options.itemSelector + ' a', this._onClickLink.bind(this));
 
-            EmbeddedListComponent.__super__.dispose.apply(this, arguments);
+            EmbeddedListComponent.__super__.dispose.call(this);
         }
     });
 

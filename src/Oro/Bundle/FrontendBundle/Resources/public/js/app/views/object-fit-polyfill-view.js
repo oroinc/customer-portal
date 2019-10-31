@@ -1,15 +1,14 @@
 define(function(require) {
     'use strict';
 
-    var ObjectFitPolyfillView;
-    var BaseView = require('oroui/js/app/views/base/view');
+    const BaseView = require('oroui/js/app/views/base/view');
 
-    ObjectFitPolyfillView = BaseView.extend({
+    const ObjectFitPolyfillView = BaseView.extend({
         /**
          * @inheritDoc
          */
-        constructor: function ObjectFitPolyfillView() {
-            ObjectFitPolyfillView.__super__.constructor.apply(this, arguments);
+        constructor: function ObjectFitPolyfillView(options) {
+            ObjectFitPolyfillView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -21,7 +20,7 @@ define(function(require) {
                 this.render();
             }
 
-            ObjectFitPolyfillView.__super__.initialize.apply(this, arguments);
+            ObjectFitPolyfillView.__super__.initialize.call(this, options);
         },
 
         /**

@@ -1,24 +1,23 @@
 define(function(require) {
     'use strict';
 
-    var StyleBookStickyPanel;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var mediator = require('oroui/js/mediator');
-    var _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const mediator = require('oroui/js/mediator');
+    const _ = require('underscore');
 
-    StyleBookStickyPanel = BaseView.extend({
+    const StyleBookStickyPanel = BaseView.extend({
         events: {
             'click [data-toggle]': 'toggle'
         },
 
         moved: false,
 
-        constructor: function StyleBookStickyPanel() {
-            return StyleBookStickyPanel.__super__.constructor.apply(this, arguments);
+        constructor: function StyleBookStickyPanel(options) {
+            return StyleBookStickyPanel.__super__.constructor.call(this, options);
         },
 
         initialize: function(options) {
-            StyleBookStickyPanel.__super__.initialize.apply(this, arguments);
+            StyleBookStickyPanel.__super__.initialize.call(this, options);
         },
 
         toggle: function() {

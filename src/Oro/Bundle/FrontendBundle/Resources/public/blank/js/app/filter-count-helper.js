@@ -4,8 +4,8 @@ define(function(require) {
     /**
      * This helper use in the context of component View
      */
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
     return {
         /**
@@ -41,8 +41,8 @@ define(function(require) {
                 return data;
             }
 
-            var options = $.extend(true, {}, data.options || {});
-            var that = this;
+            let options = $.extend(true, {}, data.options || {});
+            const that = this;
             _.each(options, function(option) {
                 option.count = that.counts[option.value] || 0;
                 if (option.count === 0 &&

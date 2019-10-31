@@ -1,15 +1,14 @@
 define(function(require) {
     'use strict';
 
-    var ContentSliderComponent;
-    var EmbeddedListComponent = require('orofrontend/js/app/components/embedded-list-component');
-    var tools = require('oroui/js/tools');
-    var mediator = require('oroui/js/mediator');
-    var $ = require('jquery');
-    var _ = require('underscore');
+    const EmbeddedListComponent = require('orofrontend/js/app/components/embedded-list-component');
+    const tools = require('oroui/js/tools');
+    const mediator = require('oroui/js/mediator');
+    const $ = require('jquery');
+    const _ = require('underscore');
     require('slick');
 
-    ContentSliderComponent = EmbeddedListComponent.extend({
+    const ContentSliderComponent = EmbeddedListComponent.extend({
         /**
          * @property {Object}
          */
@@ -36,8 +35,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function ContentSliderComponent() {
-            ContentSliderComponent.__super__.constructor.apply(this, arguments);
+        constructor: function ContentSliderComponent(options) {
+            ContentSliderComponent.__super__.constructor.call(this, options);
         },
 
         /**
@@ -45,7 +44,7 @@ define(function(require) {
          * @param options
          */
         initialize: function(options) {
-            var self = this;
+            const self = this;
 
             this.options = _.defaults(options || {}, this.options);
             this.$el = options._sourceElement;
@@ -99,12 +98,12 @@ define(function(require) {
                 return;
             }
 
-            var firstSlide = $(this.$el).slick('slickCurrentSlide');
+            let firstSlide = $(this.$el).slick('slickCurrentSlide');
             if (currentSlide > this.previousSlide ) {
                 firstSlide += (slick.options.slidesToShow * slick.options.slidesPerRow) - 1;
             }
 
-            var $shownItems = slick.$slides.slice(
+            const $shownItems = slick.$slides.slice(
                 firstSlide,
                 firstSlide + (slick.options.slidesToScroll * slick.options.slidesPerRow)
             );
@@ -115,7 +114,7 @@ define(function(require) {
         },
 
         refreshPositions: function() {
-            var updatePosition = _.bind(this.updatePosition, this);
+            const updatePosition = _.bind(this.updatePosition, this);
             $(this.$el).on('init', function(event, slick) {
                 // This delay needed for waiting when slick initialized
                 setTimeout(updatePosition, 100);
@@ -123,9 +122,9 @@ define(function(require) {
         },
 
         onChange: function() {
-            var self = this;
+            const self = this;
 
-            var currentSlide = $(this.$el).slick('slickCurrentSlide');
+            const currentSlide = $(this.$el).slick('slickCurrentSlide');
             this.changeHandler(currentSlide, 'slider:activeImage');
 
             this.$el.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
@@ -134,7 +133,7 @@ define(function(require) {
         },
 
         changeHandler: function(nextSlide, eventName) {
-            var activeImage = this.$el.find('.slick-slide[data-slick-index=' + nextSlide + '] img').get(0);
+            const activeImage = this.$el.find('.slick-slide[data-slick-index=' + nextSlide + '] img').get(0);
             this.$el.find('.slick-slide img')
                 .data(eventName, activeImage)
                 .trigger(eventName, activeImage);
@@ -145,7 +144,7 @@ define(function(require) {
         },
 
         addEmbeddedArrowsClass: function(slider, bool) {
-            var self = this;
+            const self = this;
 
             slider.toggleClass(self.options.embeddedArrowsClass, bool);
         },
@@ -163,7 +162,7 @@ define(function(require) {
             this.$el.off('breakpoint');
             this.$el.off('afterChange');
 
-            EmbeddedListComponent.__super__.dispose.apply(this, arguments);
+            EmbeddedListComponent.__super__.dispose.call(this);
         }
     });
 

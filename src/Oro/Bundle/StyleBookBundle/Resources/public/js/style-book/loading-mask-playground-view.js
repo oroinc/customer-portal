@@ -1,13 +1,12 @@
 define(function(require) {
     'use strict';
 
-    var LoadingMaskPlaygroundView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
-    var mediator = require('oroui/js/mediator');
-    var _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
+    const mediator = require('oroui/js/mediator');
+    const _ = require('underscore');
 
-    LoadingMaskPlaygroundView = BaseView.extend({
+    const LoadingMaskPlaygroundView = BaseView.extend({
         optionNames: BaseView.prototype.optionNames.concat(['el', 'loadingContainerSelector']),
 
         loadingContainerSelector: '[data-loading-container]',
@@ -23,12 +22,12 @@ define(function(require) {
 
         options: {},
 
-        constructor: function LoadingMaskPlaygroundView() {
-            return LoadingMaskPlaygroundView.__super__.constructor.apply(this, arguments);
+        constructor: function LoadingMaskPlaygroundView(options) {
+            return LoadingMaskPlaygroundView.__super__.constructor.call(this, options);
         },
 
         initialize: function(options) {
-            LoadingMaskPlaygroundView.__super__.initialize.apply(this, arguments);
+            LoadingMaskPlaygroundView.__super__.initialize.call(this, options);
 
             this.options = _.extend({}, _.omit(options, this.optionNames), {
                 container: this.$(this.loadingContainerSelector)

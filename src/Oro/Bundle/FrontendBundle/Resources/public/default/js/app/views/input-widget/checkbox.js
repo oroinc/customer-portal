@@ -1,12 +1,11 @@
 define(function(require) {
     'use strict';
 
-    var CheckboxInputWidget;
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var AbstractInputWidget = require('oroui/js/app/views/input-widget/abstract');
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const AbstractInputWidget = require('oroui/js/app/views/input-widget/abstract');
 
-    CheckboxInputWidget = AbstractInputWidget.extend({
+    const CheckboxInputWidget = AbstractInputWidget.extend({
         widgetFunction: function() {
             this.getContainer().on('keydown keypress', _.bind(this._handleEnterPress, this));
             this.$el.on('change', _.bind(this._handleChange, this));
@@ -20,7 +19,7 @@ define(function(require) {
         },
 
         _handleChange: function() {
-            var $content = $('[data-checkbox-triggered-content]');
+            const $content = $('[data-checkbox-triggered-content]');
             if (this.$el.prop('checked')) {
                 this._on();
                 $content.show();

@@ -1,13 +1,12 @@
 define(function(require) {
     'use strict';
 
-    var CustomerUser;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var _ = require('underscore');
-    var routing = require('routing');
-    var widgetManager = require('oroui/js/widget-manager');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const _ = require('underscore');
+    const routing = require('routing');
+    const widgetManager = require('oroui/js/widget-manager');
 
-    CustomerUser = BaseComponent.extend({
+    const CustomerUser = BaseComponent.extend({
         /**
          * @property {Object}
          */
@@ -20,8 +19,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function CustomerUser() {
-            CustomerUser.__super__.constructor.apply(this, arguments);
+        constructor: function CustomerUser(options) {
+            CustomerUser.__super__.constructor.call(this, options);
         },
 
         /**
@@ -51,11 +50,11 @@ define(function(require) {
          * @param {Event} e
          */
         reloadRoleWidget: function(e) {
-            var customerUserId = this.options.customerUserId;
-            var customerId = e.target.value;
+            const customerUserId = this.options.customerUserId;
+            const customerId = e.target.value;
 
             widgetManager.getWidgetInstanceByAlias(this.options.widgetAlias, function(widget) {
-                var params = {customerId: customerId};
+                const params = {customerId: customerId};
                 if (customerUserId) {
                     params.customerUserId = customerUserId;
                 }
