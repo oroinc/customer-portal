@@ -1,17 +1,16 @@
 define(function(require) {
     'use strict';
 
-    var StyleBookZoomWidgetView;
-    var BaseView = require('oroui/js/app/views/base/view');
+    const BaseView = require('oroui/js/app/views/base/view');
     require('oroproduct/js/widget/zoom-widget');
 
-    StyleBookZoomWidgetView = BaseView.extend({
-        constructor: function StyleBookZoomWidgetView() {
-            return StyleBookZoomWidgetView.__super__.constructor.apply(this, arguments);
+    const StyleBookZoomWidgetView = BaseView.extend({
+        constructor: function StyleBookZoomWidgetView(options) {
+            return StyleBookZoomWidgetView.__super__.constructor.call(this, options);
         },
 
         initialize: function(options) {
-            StyleBookZoomWidgetView.__super__.initialize.apply(this, arguments);
+            StyleBookZoomWidgetView.__super__.initialize.call(this, options);
             this.$el.zoomWidget(options);
         },
 

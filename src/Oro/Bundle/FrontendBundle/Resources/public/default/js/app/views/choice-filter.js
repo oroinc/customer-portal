@@ -1,11 +1,10 @@
 define(function(require) {
     'use strict';
 
-    var ChoiceFilter;
-    var _ = require('underscore');
-    var BaseChoiceFilter = require('oro/filter/choice-filter');
+    const _ = require('underscore');
+    const BaseChoiceFilter = require('oro/filter/choice-filter');
 
-    ChoiceFilter = BaseChoiceFilter.extend({
+    const ChoiceFilter = BaseChoiceFilter.extend({
         /**
          * @inheritDoc
          */
@@ -20,8 +19,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function ChoiceFilter() {
-            ChoiceFilter.__super__.constructor.apply(this, arguments);
+        constructor: function ChoiceFilter(options) {
+            ChoiceFilter.__super__.constructor.call(this, options);
         },
 
         _renderCriteria: function() {
@@ -47,8 +46,8 @@ define(function(require) {
          */
         _onValueUpdated: function(newValue, oldValue) {
             this.$(this.criteriaValueSelectors.type).each(function(i, elem) {
-                var $select = this.$(elem);
-                var name = $select.data('name') || 'type';
+                const $select = this.$(elem);
+                const name = $select.data('name') || 'type';
                 if (oldValue[name] !== newValue[name]) {
                     $select.inputWidget('val', newValue[name]);
                     $select.trigger('change');

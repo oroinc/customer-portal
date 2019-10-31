@@ -1,19 +1,18 @@
 define(function(require) {
     'use strict';
 
-    var LazyInitView;
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var mediator = require('oroui/js/mediator');
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const mediator = require('oroui/js/mediator');
 
     /**
      * @class LazyInitView
      * @extends BaseView
      */
-    LazyInitView = BaseView.extend({
-        constructor: function LazyInitView() {
-            LazyInitView.__super__.constructor.apply(this, arguments);
+    const LazyInitView = BaseView.extend({
+        constructor: function LazyInitView(options) {
+            LazyInitView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -66,11 +65,11 @@ define(function(require) {
                 mediator.on('page:afterChange', this._onPageAfterChange, this);
             }
 
-            return LazyInitView.__super__.initialize.apply(this, arguments);
+            return LazyInitView.__super__.initialize.call(this, options);
         },
 
         initLazyView: function() {
-            var layoutOptions = _.omit(this.options, 'el', 'name');
+            const layoutOptions = _.omit(this.options, 'el', 'name');
             return this.initLayout(layoutOptions);
         },
 

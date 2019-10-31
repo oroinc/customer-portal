@@ -1,12 +1,11 @@
 define(function(require) {
     'use strict';
 
-    var ElasticSwipeActions;
-    var BasePlugin = require('oroui/js/app/plugins/base/plugin');
-    var ViewportManager = require('oroui/js/viewport-manager');
-    var mediator = require('oroui/js/mediator');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const BasePlugin = require('oroui/js/app/plugins/base/plugin');
+    const ViewportManager = require('oroui/js/viewport-manager');
+    const mediator = require('oroui/js/mediator');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
     /**
      * Elastic swipe actions plugin for frontend grid
@@ -15,7 +14,7 @@ define(function(require) {
      * @augments BasePlugin
      * @exports ElasticSwipeActions
      */
-    ElasticSwipeActions = BasePlugin.extend({
+    const ElasticSwipeActions = BasePlugin.extend({
         /**
          * Current swiped element container
          * @property {jQuery}
@@ -93,8 +92,8 @@ define(function(require) {
         /**
          * @Constructor
          */
-        constructor: function ElasticSwipeActions() {
-            ElasticSwipeActions.__super__.constructor.apply(this, arguments);
+        constructor: function ElasticSwipeActions(grid, options) {
+            ElasticSwipeActions.__super__.constructor.call(this, grid, options);
         },
         /**
          * @Initialize
@@ -112,7 +111,7 @@ define(function(require) {
             ));
 
             mediator.on('viewport:change', this.onViewportChange, this);
-            return ElasticSwipeActions.__super__.initialize.apply(this, arguments);
+            return ElasticSwipeActions.__super__.initialize.call(this, grid, options);
         },
 
         /**
@@ -134,7 +133,7 @@ define(function(require) {
 
             this._bindEvents();
 
-            return ElasticSwipeActions.__super__.enable.apply(this, arguments);
+            return ElasticSwipeActions.__super__.enable.call(this);
         },
         /**
          * Disable swipe handler
@@ -150,7 +149,7 @@ define(function(require) {
             delete this.currentSwipedContainer;
             delete this.storedPos;
 
-            return ElasticSwipeActions.__super__.disable.apply(this, arguments);
+            return ElasticSwipeActions.__super__.disable.call(this);
         },
 
         /**
@@ -163,7 +162,7 @@ define(function(require) {
 
             this.disable();
 
-            return ElasticSwipeActions.__super__.dispose.apply(this, arguments);
+            return ElasticSwipeActions.__super__.dispose.call(this);
         },
 
         /**
@@ -186,13 +185,13 @@ define(function(require) {
          * @private
          */
         _applyDynamicOffset: function(container) {
-            var sizer = container.find(this.sizerSelector);
+            const sizer = container.find(this.sizerSelector);
 
             if (!sizer.length) {
                 return;
             }
 
-            var size = container.find(this.sizerSelector).outerWidth();
+            const size = container.find(this.sizerSelector).outerWidth();
 
             this.maxLimit = size;
             this.breakPointPosition = size * this.breakFactor;
@@ -232,7 +231,7 @@ define(function(require) {
          * @private
          */
         _onStart: function(data, target) {
-            var container = $(target).closest(this.containerSelector);
+            const container = $(target).closest(this.containerSelector);
 
             if (this.sizerSelector) {
                 this._applyDynamicOffset(container);
@@ -264,7 +263,7 @@ define(function(require) {
          * @private
          */
         _onMove: function(data) {
-            var xAxe = data.x - this.storedPos;
+            const xAxe = data.x - this.storedPos;
 
             if (!this.elastic &&
                 (
@@ -288,7 +287,7 @@ define(function(require) {
          * @private
          */
         _onEnd: function(data) {
-            var xAxe = data.x - this.storedPos;
+            let xAxe = data.x - this.storedPos;
             if (data.direction === 'right' && xAxe > 0) {
                 xAxe = 0;
             }

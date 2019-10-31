@@ -1,13 +1,12 @@
 define(function(require) {
     'use strict';
 
-    var ScrollableTableView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var mediator = require('oroui/js/mediator');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const mediator = require('oroui/js/mediator');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    ScrollableTableView = BaseView.extend({
+    const ScrollableTableView = BaseView.extend({
         defaults: {
             head: '[data-scrollable-content-head]',
             body: '[data-scrollable-content-body]',
@@ -20,15 +19,15 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function ScrollableTableView() {
-            ScrollableTableView.__super__.constructor.apply(this, arguments);
+        constructor: function ScrollableTableView(options) {
+            ScrollableTableView.__super__.constructor.call(this, options);
         },
 
         /**
          * @inheritDoc
          */
         initialize: function(options) {
-            ScrollableTableView.__super__.initialize.apply(this, arguments);
+            ScrollableTableView.__super__.initialize.call(this, options);
 
             this.render();
         },
@@ -51,7 +50,7 @@ define(function(require) {
         },
 
         alignCell: function() {
-            var self = this;
+            const self = this;
 
             this.$tableBodyItems.each(function(index) {
                 self.$tableHeadItems
@@ -61,16 +60,16 @@ define(function(require) {
         },
 
         hasScroll: function() {
-            var self = this;
-            var $scrollableContent = this.$el.find(this.defaults.content);
-            var $scrollableInnerContent = this.$el.find(this.defaults.innerContent);
-            var $itemHasOffset = this.$el.find(this.defaults.itemHasOffset);
+            const self = this;
+            const $scrollableContent = this.$el.find(this.defaults.content);
+            const $scrollableInnerContent = this.$el.find(this.defaults.innerContent);
+            const $itemHasOffset = this.$el.find(this.defaults.itemHasOffset);
 
             // The browser settings should the inner scroll
             if ($scrollableInnerContent.width() < $scrollableContent.width()) {
                 // Has scroll
                 if ($scrollableInnerContent.width() > $scrollableContent.height()) {
-                    var scrollWidth = $scrollableContent.width() - $scrollableInnerContent.width();
+                    const scrollWidth = $scrollableContent.width() - $scrollableInnerContent.width();
 
                     $itemHasOffset.each(function(index) {
                         $(this).css({

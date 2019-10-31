@@ -1,11 +1,10 @@
 define(function(require) {
     'use strict';
 
-    var FrontendGrid;
-    var Grid = require('orodatagrid/js/datagrid/grid');
-    var __ = require('orotranslation/js/translator');
+    const Grid = require('orodatagrid/js/datagrid/grid');
+    const __ = require('orotranslation/js/translator');
 
-    FrontendGrid = Grid.extend({
+    const FrontendGrid = Grid.extend({
         /**
          * Frontend currently grid options
          *
@@ -24,15 +23,15 @@ define(function(require) {
         /**
          * @constructor
          */
-        constructor: function FrontendGrid() {
-            FrontendGrid.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendGrid(options) {
+            FrontendGrid.__super__.constructor.call(this, options);
         },
 
         /**
          * @initialze
          */
-        initialize: function() {
-            FrontendGrid.__super__.initialize.apply(this, arguments);
+        initialize: function(options) {
+            FrontendGrid.__super__.initialize.call(this, options);
 
             if (this.body) {
                 this.collection.on('reset', function() {
@@ -51,7 +50,7 @@ define(function(require) {
             this.gridOptions = options;
             this.updateRowClassNames();
 
-            FrontendGrid.__super__._initColumns.apply(this, arguments);
+            FrontendGrid.__super__._initColumns.call(this, options);
         },
 
         /**
@@ -79,7 +78,7 @@ define(function(require) {
          * @inheritDoc
          */
         getEmptyGridMessage: function(placeholders) {
-            var translation = this.noColumnsFlag
+            const translation = this.noColumnsFlag
                 ? this.noDataTranslations.noColumns : this.noDataTranslations.noEntities;
 
             return this.noDataTemplate({

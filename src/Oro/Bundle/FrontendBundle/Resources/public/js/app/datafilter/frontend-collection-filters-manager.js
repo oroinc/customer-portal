@@ -1,21 +1,20 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var FrontendCollectionFiltersManager;
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var viewportManager = require('oroui/js/viewport-manager');
-    var CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
-    var MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-manage-filters-decorator');
-    var config = require('module-config').default(module.id);
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const viewportManager = require('oroui/js/viewport-manager');
+    const CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
+    const MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-manage-filters-decorator');
+    let config = require('module-config').default(module.id);
     config = _.extend({
         templateData: {
             attributes: ''
         }
     }, config);
 
-    FrontendCollectionFiltersManager = CollectionFiltersManager.extend({
+    const FrontendCollectionFiltersManager = CollectionFiltersManager.extend({
         /**
          * Select widget object
          *
@@ -54,8 +53,8 @@ define(function(require, exports, module) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendCollectionFiltersManager() {
-            FrontendCollectionFiltersManager.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendCollectionFiltersManager(options) {
+            FrontendCollectionFiltersManager.__super__.constructor.call(this, options);
         },
 
         /**
@@ -63,7 +62,7 @@ define(function(require, exports, module) {
          */
         initialize: function(options) {
             this._updateRenderMode();
-            FrontendCollectionFiltersManager.__super__.initialize.apply(this, arguments);
+            FrontendCollectionFiltersManager.__super__.initialize.call(this, options);
         },
 
         /**
@@ -111,7 +110,7 @@ define(function(require, exports, module) {
          * @inheritDoc
          */
         getTemplateData: function() {
-            var data = FrontendCollectionFiltersManager.__super__.getTemplateData.call(this);
+            let data = FrontendCollectionFiltersManager.__super__.getTemplateData.call(this);
             data = $.extend(data, this.templateData || {});
             return data;
         },
@@ -121,7 +120,7 @@ define(function(require, exports, module) {
          */
         _onCollectionReset: function(collection) {
             if (!_.isMobile()) {
-                FrontendCollectionFiltersManager.__super__._onCollectionReset.apply(this, arguments);
+                FrontendCollectionFiltersManager.__super__._onCollectionReset.call(this, collection);
             }
         },
 
@@ -131,7 +130,7 @@ define(function(require, exports, module) {
          * @protected
          */
         _updateRenderMode: function() {
-            var breakpoints = {
+            const breakpoints = {
                 screenType: 'tablet'
             };
 

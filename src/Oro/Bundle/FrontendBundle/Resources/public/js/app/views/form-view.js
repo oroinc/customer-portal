@@ -1,12 +1,11 @@
 define(function(require) {
     'use strict';
 
-    var FormView;
-    var _ = require('underscore');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var mediator = require('oroui/js/mediator');
+    const _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const mediator = require('oroui/js/mediator');
 
-    FormView = BaseView.extend({
+    const FormView = BaseView.extend({
         options: {
             selectors: {}
         },
@@ -16,8 +15,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FormView() {
-            FormView.__super__.constructor.apply(this, arguments);
+        constructor: function FormView(options) {
+            FormView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -25,7 +24,7 @@ define(function(require) {
          */lize: function(options) {
             this.options = _.defaults(options || {}, this.options);
             _.each(this.options.selectors, function(selector, key) {
-                var $root = this.options._sourceElement || this.$el;
+                const $root = this.options._sourceElement || this.$el;
                 this.fields[key] = $root.find(selector);
             }, this);
 

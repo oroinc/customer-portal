@@ -1,10 +1,9 @@
 define(function(require) {
     'use strict';
 
-    var FrontendNumberInputWidget;
-    var NumberInputWidget = require('oroui/js/app/views/input-widget/number');
+    const NumberInputWidget = require('oroui/js/app/views/input-widget/number');
 
-    FrontendNumberInputWidget = NumberInputWidget.extend({
+    const FrontendNumberInputWidget = NumberInputWidget.extend({
         allowZero: false
     });
 

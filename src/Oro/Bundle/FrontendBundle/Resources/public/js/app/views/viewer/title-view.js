@@ -1,14 +1,15 @@
 define(function(require) {
     'use strict';
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
+
+    const BaseView = require('oroui/js/app/views/base/view');
+    const _ = require('underscore');
 
     /**
      * Title view, able to handle title rendering.
      *
      * Usage sample:
      * ```javascript
-     * var titleView = new TitleView({
+     * const titleView = new TitleView({
      *     model: new Backbone.Model({
      *         title: "Title text"
      *     }),
@@ -21,7 +22,7 @@ define(function(require) {
      * @augments BaseView
      * @exports TitleView
      */
-    var TitleView = BaseView.extend(/** @lends TitleView.prototype */{
+    const TitleView = BaseView.extend(/** @lends TitleView.prototype */{
         showDefault: true,
 
         template: require('tpl-loader!orofrontend/templates/viewer/title-view.html'),
@@ -33,8 +34,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function TitleView() {
-            TitleView.__super__.constructor.apply(this, arguments);
+        constructor: function TitleView(options) {
+            TitleView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -44,7 +45,7 @@ define(function(require) {
             this.fieldName = _.result(options, 'fieldName', 'value');
             this.tooltip = _.result(options, 'tooltip', null);
             this.additionalClass = _.result(options, 'additionalClass', '');
-            return TitleView.__super__.initialize.apply(this, arguments);
+            return TitleView.__super__.initialize.call(this, options);
         },
 
         getTemplateData: function() {

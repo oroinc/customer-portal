@@ -7,10 +7,9 @@ define(function(require) {
      * @augments TextEditorView
      * @exports TitleEditorView
      */
-    var TitleEditorView;
-    var TextEditorView = require('oroform/js/app/views/editor/text-editor-view');
+    const TextEditorView = require('oroform/js/app/views/editor/text-editor-view');
 
-    TitleEditorView = TextEditorView.extend(/** @lends TitleEditorView.prototype */{
+    const TitleEditorView = TextEditorView.extend(/** @lends TitleEditorView.prototype */{
         template: require('tpl-loader!../../../../templates/editor/title-editor.html'),
 
         className: 'inline-view-editor',
@@ -18,8 +17,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function TitleEditorView() {
-            TitleEditorView.__super__.constructor.apply(this, arguments);
+        constructor: function TitleEditorView(options) {
+            TitleEditorView.__super__.constructor.call(this, options);
         }
     });
 

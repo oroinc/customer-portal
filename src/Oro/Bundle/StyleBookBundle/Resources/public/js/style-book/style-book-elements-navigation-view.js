@@ -1,14 +1,13 @@
 define(function(require) {
     'use strict';
 
-    var StyleBookElementsNavigationView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var $ = require('jquery');
-    var _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const $ = require('jquery');
+    const _ = require('underscore');
 
     require('bootstrap-scrollspy');
 
-    StyleBookElementsNavigationView = BaseView.extend({
+    const StyleBookElementsNavigationView = BaseView.extend({
         /**
          * @property {String}
          */
@@ -55,8 +54,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function StyleBookElementsNavigationView() {
-            StyleBookElementsNavigationView.__super__.constructor.apply(this, arguments);
+        constructor: function StyleBookElementsNavigationView(options) {
+            StyleBookElementsNavigationView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -73,7 +72,7 @@ define(function(require) {
 
             this.initState();
 
-            StyleBookElementsNavigationView.__super__.initialize.apply(this, arguments);
+            StyleBookElementsNavigationView.__super__.initialize.call(this, options);
         },
 
         initState: function() {
@@ -98,8 +97,8 @@ define(function(require) {
          * @param {String} anchor
          */
         scrollToElement: function(anchor) {
-            var $element = $(anchor);
-            var scrollPos = $element.offset().top - this.offset;
+            const $element = $(anchor);
+            const scrollPos = $element.offset().top - this.offset;
 
             $('body, html').animate({
                 scrollTop: scrollPos
@@ -112,8 +111,8 @@ define(function(require) {
          * @inheritDoc
          */
         getElementsList: function() {
-            var $elemList = $(this.options.elementSelector);
-            var items = [];
+            const $elemList = $(this.options.elementSelector);
+            const items = [];
             $elemList.each(_.bind(function(index, elem) {
                 items.push($(elem).data('style-book-element'));
             }, this));
