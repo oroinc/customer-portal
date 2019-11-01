@@ -111,20 +111,7 @@
         }]
     %}
 
-    {% set additionalData = [] %}
-    {% for child in form.children if child.vars.extra_field is defined and child.vars.extra_field %}
-        {% set additionalData = additionalData|merge([form_row(child)]) %}
-    {% endfor %}
-    {% if additionalData is not empty %}
-        {% set dataBlocks = dataBlocks|merge([{
-            'title': 'oro.customer.sections.additional'|trans,
-            'subblocks': [{
-                'title': '',
-                'useSpan': false,
-                'data' : additionalData
-            }]
-        }] ) %}
-    {% endif %}
+    {% set dataBlocks = dataBlocks|merge(oro_form_additional_data(form, 'oro.customer.sections.additional'|trans)) %}
 
     {% set hasRoles = form.roles is defined %}
     {% if hasRoles %}
