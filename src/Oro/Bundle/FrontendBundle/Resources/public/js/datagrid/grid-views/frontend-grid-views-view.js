@@ -1,16 +1,14 @@
 define(function(require) {
     'use strict';
 
-    var FrontendGridViewsView;
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
+    const DeleteConfirmation = require('oroui/js/delete-confirmation');
+    const errorTemplate = require('tpl-loader!orodatagrid/templates/datagrid/view-name-error-modal.html');
 
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var GridViewsView = require('orodatagrid/js/datagrid/grid-views/view');
-    var DeleteConfirmation = require('oroui/js/delete-confirmation');
-    var errorTemplate = require('tpl-loader!orodatagrid/templates/datagrid/view-name-error-modal.html');
-
-    FrontendGridViewsView = GridViewsView.extend({
+    const FrontendGridViewsView = GridViewsView.extend({
         /**
          * @inheritDoc
          */
@@ -126,8 +124,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendGridViewsView() {
-            FrontendGridViewsView.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendGridViewsView(options) {
+            FrontendGridViewsView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -136,7 +134,7 @@ define(function(require) {
          */
         initialize: function(options) {
             // get template by datagrid name or first template on page
-            var $selector = $(this.templateSelector).filter('[data-datagrid-views-name =' + options.gridName + ']');
+            let $selector = $(this.templateSelector).filter('[data-datagrid-views-name =' + options.gridName + ']');
             if (!$selector.length) {
                 $selector = $(this.templateSelector);
             }
@@ -170,7 +168,7 @@ define(function(require) {
          * @returns {FrontendGridViewsView}
          */
         render: function() {
-            FrontendGridViewsView.__super__.render.apply(this, arguments);
+            FrontendGridViewsView.__super__.render.call(this);
 
             this.$gridViewName = this.$(this.defaults.elements.gridViewName);
             this.$gridViewDefault = this.$(this.defaults.elements.gridViewDefault);
@@ -210,20 +208,20 @@ define(function(require) {
          * @inheritDoc
          */
         _bindEventListeners: function() {
-            var self = this;
+            const self = this;
 
             this.$el.on('hide.bs.dropdown', function() {
                 self.switchEditMode({}, 'hide');
             });
 
-            FrontendGridViewsView.__super__._bindEventListeners.apply(this, arguments);
+            FrontendGridViewsView.__super__._bindEventListeners.call(this);
         },
 
         /**
          * @param e
          */
         onSave: function(e) {
-            var model = this._getEditableViewModel(e.currentTarget);
+            const model = this._getEditableViewModel(e.currentTarget);
 
             this._onSaveModel(model);
         },
@@ -241,7 +239,7 @@ define(function(require) {
          * @param e
          */
         onSaveNew: function(e) {
-            var self = this;
+            const self = this;
 
             this.switchEditMode(e, 'show');
 
@@ -250,8 +248,8 @@ define(function(require) {
                 .text(this.$gridViewUpdate.data('text-add'))
                 .on('click', function(e) {
                     e.stopPropagation();
-                    var data = self.getInputData(self.$el);
-                    var model = self._createBaseViewModel(data);
+                    const data = self.getInputData(self.$el);
+                    const model = self._createBaseViewModel(data);
 
                     self._onSaveAsModel(model);
                 });
@@ -261,8 +259,8 @@ define(function(require) {
          * @param e
          */
         onRename: function(e) {
-            var self = this;
-            var model = this._getEditableViewModel(e.currentTarget);
+            const self = this;
+            const model = this._getEditableViewModel(e.currentTarget);
 
             this.switchEditMode(e, 'show', model.get('is_default'));
 
@@ -275,7 +273,7 @@ define(function(require) {
                 .off()
                 .text(this.$gridViewUpdate.data('text-save'))
                 .on('click', function(e) {
-                    var data = self.getInputData(self.$el);
+                    const data = self.getInputData(self.$el);
 
                     e.stopPropagation();
 
@@ -292,8 +290,8 @@ define(function(require) {
          */
 
         switchEditMode: function(event, mode, hideCheckbox) {
-            var $this = $(event.currentTarget);
-            var modeState = $this.data('switch-edit-mode') || mode; // 'hide' | 'show'
+            const $this = $(event.currentTarget);
+            const modeState = $this.data('switch-edit-mode') || mode; // 'hide' | 'show'
 
             hideCheckbox = hideCheckbox || false;
 
@@ -311,8 +309,8 @@ define(function(require) {
          * @param {string} mode
          */
         toggleEditForm: function(mode) {
-            var $buttonMain = this.$('[data-switch-edit-button]');
-            var $switchEditModeContainer = this.$('[data-edit-container]');
+            const $buttonMain = this.$('[data-switch-edit-button]');
+            const $switchEditModeContainer = this.$('[data-edit-container]');
 
             if (mode === 'show') {
                 $buttonMain.hide();
@@ -327,7 +325,7 @@ define(function(require) {
          * @param data
          */
         fillForm: function(data) {
-            var obj = _.extend({
+            const obj = _.extend({
                 name: '',
                 is_default: false
             }, data);
@@ -350,8 +348,8 @@ define(function(require) {
          * @inheritDoc
          */
         onChange: function(e) {
-            var $this = $(e.target);
-            var value = $this.val();
+            const $this = $(e.target);
+            const value = $this.val();
 
             this.changeView(value);
             this._updateTitle();
@@ -376,8 +374,8 @@ define(function(require) {
             this.$el.trigger('show.bs.dropdown');
 
             if (response.status === 400) {
-                var jsonResponse = JSON.parse(response.responseText);
-                var errors = jsonResponse.errors.children.label.errors;
+                const jsonResponse = JSON.parse(response.responseText);
+                const errors = jsonResponse.errors.children.label.errors;
 
                 if (errors) {
                     this.fillForm({
@@ -425,7 +423,7 @@ define(function(require) {
          * @private
          */
         _getEditableViewModel: function(element) {
-            var viewModel = $(element).data('choice-value');
+            const viewModel = $(element).data('choice-value');
 
             return this.viewsCollection.get({
                 name: viewModel
@@ -446,13 +444,13 @@ define(function(require) {
          * @private
          */
         _getViewActions: function() {
-            var actions = [];
-            var actionsOptions = this.defaults.actionsOptions;
-            var onlySystemView = this.viewsCollection.length === 1;
+            const actions = [];
+            const actionsOptions = this.defaults.actionsOptions;
+            const onlySystemView = this.viewsCollection.length === 1;
 
             this.viewsCollection.each(function(GridView) {
-                var actionsForView = this._getActions(GridView);
-                var useAsDefaultAction = _.find(actionsOptions, {name: 'use_as_default'});
+                let actionsForView = this._getActions(GridView);
+                const useAsDefaultAction = _.find(actionsOptions, {name: 'use_as_default'});
 
                 if (_.isObject(useAsDefaultAction)) {
                     if (GridView.get('type') === 'system') {
@@ -483,7 +481,7 @@ define(function(require) {
          * @private
          */
         _getViewIsDirty: function(GridView) {
-            var isCurrent = this.collection.state.gridView === GridView.id;
+            const isCurrent = this.collection.state.gridView === GridView.id;
 
             return this.viewDirty && isCurrent;
         },
@@ -497,8 +495,8 @@ define(function(require) {
             actionsOptions = actionsOptions || {};
 
             _.each(actions, function(item, iterate) {
-                var currentOptions = _.find(actionsOptions, {name: item.name}) || {};
-                var filteredOptions = _.omit(currentOptions, 'name'); // skip 'name'
+                const currentOptions = _.find(actionsOptions, {name: item.name}) || {};
+                const filteredOptions = _.omit(currentOptions, 'name'); // skip 'name'
 
                 _.extend(item, filteredOptions || {});
             }, this);
@@ -529,10 +527,10 @@ define(function(require) {
          * @returns {Array}
          */
         showActions: function(actions) {
-            var showActions = [];
+            const showActions = [];
 
             _.each(actions, function(action) {
-                var showAction = _.some(action, function(actionItem) {
+                const showAction = _.some(action, function(actionItem) {
                     return actionItem.enabled;
                 });
 

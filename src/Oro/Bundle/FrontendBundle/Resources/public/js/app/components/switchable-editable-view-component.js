@@ -1,16 +1,15 @@
 define(function(require) {
     'use strict';
 
-    var SwitchableEditableViewComponent;
-    var AttachedEditableViewComponent = require('orofrontend/js/app/components/attached-editable-view-component');
-    var _ = require('underscore');
+    const AttachedEditableViewComponent = require('orofrontend/js/app/components/attached-editable-view-component');
+    const _ = require('underscore');
 
-    SwitchableEditableViewComponent = AttachedEditableViewComponent.extend(/** @lends SwitchableEditableViewComponent.prototype */{
+    const SwitchableEditableViewComponent = AttachedEditableViewComponent.extend(/** @lends SwitchableEditableViewComponent.prototype */{
         /**
          * @inheritDoc
          */
-        constructor: function SwitchableEditableViewComponent() {
-            SwitchableEditableViewComponent.__super__.constructor.apply(this, arguments);
+        constructor: function SwitchableEditableViewComponent(options) {
+            SwitchableEditableViewComponent.__super__.constructor.call(this, options);
         },
 
         /**

@@ -2,8 +2,8 @@
 define(function(require) {
     'use strict';
 
-    var $ = require('jquery');
-    var mediator = require('oroui/js/mediator');
+    const $ = require('jquery');
+    const mediator = require('oroui/js/mediator');
     require('jquery-ui');
 
     $.widget('oroui.lineClampWidget', {
@@ -40,8 +40,8 @@ define(function(require) {
         },
 
         _getCountLines: function() {
-            var lineHeight = parseInt(this.$el.css('line-height'), 10);
-            var height = Math.max(this.$el.height(), this.$el.get(0).scrollHeight);
+            const lineHeight = parseInt(this.$el.css('line-height'), 10);
+            const height = Math.max(this.$el.height(), this.$el.get(0).scrollHeight);
 
             return Math.round(height / lineHeight);
         },

@@ -2,10 +2,10 @@ define(function(require) {
     'use strict';
 
     require('oroui/js/app/modules/input-widgets');
-    var InputWidgetManager = require('oroui/js/input-widget-manager');
-    var CheckboxInputWidget = require('orofrontend/default/js/app/views/input-widget/checkbox');
-    var Select2InputWidget = require('oroui/js/app/views/input-widget/select2');
-    var FrontendNumberInputWidget = require('orofrontend/default/js/app/views/input-widget/number');
+    const InputWidgetManager = require('oroui/js/input-widget-manager');
+    const CheckboxInputWidget = require('orofrontend/default/js/app/views/input-widget/checkbox');
+    const Select2InputWidget = require('oroui/js/app/views/input-widget/select2');
+    const FrontendNumberInputWidget = require('orofrontend/default/js/app/views/input-widget/number');
 
     InputWidgetManager.removeWidget('uniform-select');
     InputWidgetManager.removeWidget('select2');

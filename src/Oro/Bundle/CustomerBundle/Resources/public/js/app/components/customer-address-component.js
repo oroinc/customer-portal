@@ -1,12 +1,11 @@
 define(function(require) {
     'use strict';
 
-    var CustomerAddressComponent;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var $ = require('jquery');
-    var _ = require('underscore');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const $ = require('jquery');
+    const _ = require('underscore');
 
-    CustomerAddressComponent = BaseComponent.extend({
+    const CustomerAddressComponent = BaseComponent.extend({
         /**
          * @property {Object}
          */
@@ -24,8 +23,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function CustomerAddressComponent() {
-            CustomerAddressComponent.__super__.constructor.apply(this, arguments);
+        constructor: function CustomerAddressComponent(options) {
+            CustomerAddressComponent.__super__.constructor.call(this, options);
         },
 
         /**

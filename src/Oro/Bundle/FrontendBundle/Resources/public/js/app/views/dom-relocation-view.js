@@ -1,12 +1,11 @@
 define(function(require, exports, module) {
     'use strict';
 
-    var DomRelocationView;
-    var viewportManager = require('oroui/js/viewport-manager');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var _ = require('underscore');
-    var $ = require('jquery');
-    var config = require('module-config').default(module.id);
+    const viewportManager = require('oroui/js/viewport-manager');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const _ = require('underscore');
+    const $ = require('jquery');
+    let config = require('module-config').default(module.id);
 
     config = _.extend({
         resizeTimeout: 250,
@@ -18,7 +17,7 @@ define(function(require, exports, module) {
      *
      *
      */
-    DomRelocationView = BaseView.extend({
+    const DomRelocationView = BaseView.extend({
         autoRender: true,
 
         optionNames: BaseView.prototype.optionNames.concat([
@@ -50,8 +49,8 @@ define(function(require, exports, module) {
         /**
          * @inheritDoc
          */
-        constructor: function DomRelocationView() {
-            DomRelocationView.__super__.constructor.apply(this, arguments);
+        constructor: function DomRelocationView(options) {
+            DomRelocationView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -62,7 +61,7 @@ define(function(require, exports, module) {
             this.onViewportChange = _.debounce(_.bind(this.onViewportChange, this), this.resizeTimeout);
             this.onContentChange = _.debounce(_.bind(this.onContentChange, this), this.layoutTimeout);
 
-            return DomRelocationView.__super__.initialize.apply(this, arguments);
+            return DomRelocationView.__super__.initialize.call(this, options);
         },
 
         /**
@@ -92,7 +91,7 @@ define(function(require, exports, module) {
 
             delete this.$elements;
 
-            return DomRelocationView.__super__.dispose.apply(this, arguments);
+            return DomRelocationView.__super__.dispose.call(this);
         },
 
         /**
@@ -102,11 +101,11 @@ define(function(require, exports, module) {
             if (!this.$elements.length) {
                 return;
             }
-            var viewport = viewportManager.getViewport();
+            const viewport = viewportManager.getViewport();
             _.each(this.$elements, function(el) {
-                var $el = $(el);
-                var options = $el.data('dom-relocation-options');
-                var targetOptions = this.checkTargetOptions(viewport, options.responsive);
+                const $el = $(el);
+                const options = $el.data('dom-relocation-options');
+                const targetOptions = this.checkTargetOptions(viewport, options.responsive);
 
                 if (_.isObject(targetOptions)) {
                     if (!_.isEqual(options.targetViewport, targetOptions.viewport)) {
@@ -125,7 +124,7 @@ define(function(require, exports, module) {
          * @returns {Object}
          */
         checkTargetOptions: function(viewport, responsiveOptions) {
-            for (var i = responsiveOptions.length - 1; i >= 0; i--) {
+            for (let i = responsiveOptions.length - 1; i >= 0; i--) {
                 if (viewport.isApplicable(responsiveOptions[i].viewport)) {
                     return responsiveOptions[i];
                 }
@@ -137,7 +136,7 @@ define(function(require, exports, module) {
          * @param {jQuery.Element} $el
          */
         returnByIndex: function($el) {
-            var options = $el.data('dom-relocation-options');
+            const options = $el.data('dom-relocation-options');
 
             if (options.originalOrder === 0) {
                 options.$originalPosition.prepend($el);
@@ -159,8 +158,8 @@ define(function(require, exports, module) {
          * @param targetOptions
          */
         moveToTarget: function($el, targetOptions) {
-            var options = $el.data('dom-relocation-options');
-            var $target = $(targetOptions.moveTo).first();
+            const options = $el.data('dom-relocation-options');
+            let $target = $(targetOptions.moveTo).first();
 
             if (targetOptions.sibling) {
                 $target = $target.find(targetOptions.sibling).first();
@@ -193,8 +192,8 @@ define(function(require, exports, module) {
             // data-dom-relocation deprecated, keep fo BC
             this.$elements = $('[data-dom-relocation], [data-dom-relocation-options]');
             _.each(this.$elements, function(el) {
-                var $el = $(el);
-                var options = $el.data('dom-relocation-options');
+                const $el = $(el);
+                const options = $el.data('dom-relocation-options');
                 if (options._loaded) {
                     return;
                 }

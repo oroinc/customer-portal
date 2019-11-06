@@ -1,16 +1,15 @@
 define(function(require) {
     'use strict';
 
-    var FrontendMapAction;
-    var _ = require('underscore');
-    var MapAction = require('oro/datagrid/action/map-action');
-    var ViewportManager = require('oroui/js/viewport-manager');
-    var Popover = require('bootstrap-popover');
-    var FullscreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+    const _ = require('underscore');
+    const MapAction = require('oro/datagrid/action/map-action');
+    const ViewportManager = require('oroui/js/viewport-manager');
+    const Popover = require('bootstrap-popover');
+    const FullscreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
 
     require('jquery');
 
-    FrontendMapAction = MapAction.extend({
+    const FrontendMapAction = MapAction.extend({
         /**
          * @property {String}
          */
@@ -27,23 +26,23 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendMapAction() {
-            FrontendMapAction.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendMapAction(options) {
+            FrontendMapAction.__super__.constructor.call(this, options);
         },
 
         /**
          * @inheritDoc
          */
         initialize: function(options) {
-            FrontendMapAction.__super__.initialize.apply(this, arguments);
+            FrontendMapAction.__super__.initialize.call(this, options);
             this.mapView.on('mapRendered', _.bind(this.onMapRendered, this));
             this.listenTo(this.model, 'change:isDropdownActions', this.actionsDropdownListener);
         },
 
         onMapRendered: function() {
-            var placement = this.getPopoverConfig().placement;
-            var $popoverTrigger = this.subviews[0].$el;
-            var popover = $popoverTrigger.data(Popover.DATA_KEY);
+            const placement = this.getPopoverConfig().placement;
+            const $popoverTrigger = this.subviews[0].$el;
+            const popover = $popoverTrigger.data(Popover.DATA_KEY);
             if (popover !== void 0) {
                 popover.applyPlacement('', placement);
             }
@@ -65,7 +64,7 @@ define(function(require) {
         },
 
         handleFullScreenView: function() {
-            var onClose = _.bind(function() {
+            const onClose = _.bind(function() {
                 this.fullscreenView.dispose();
                 delete this.fullscreenView;
             }, this);

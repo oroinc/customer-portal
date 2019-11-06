@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    var $ = require('jquery');
+    const $ = require('jquery');
     require('jquery-ui');
 
     $.widget('oroui.printPageWidget', {
@@ -21,7 +21,7 @@ define(function(require) {
         },
 
         _windowPrint: function(event) {
-            var $trigger = $(event.currentTarget);
+            const $trigger = $(event.currentTarget);
 
             if ($trigger.attr('href')) {
                 event.preventDefault();

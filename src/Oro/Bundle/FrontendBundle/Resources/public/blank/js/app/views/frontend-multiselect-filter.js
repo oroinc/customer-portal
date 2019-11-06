@@ -1,12 +1,11 @@
 define(function(require) {
     'use strict';
 
-    var FrontendMultiSelectFilter;
-    var _ = require('underscore');
-    var MultiSelectFilter = require('oro/filter/multiselect-filter');
-    var FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
+    const _ = require('underscore');
+    const MultiSelectFilter = require('oro/filter/multiselect-filter');
+    const FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
 
-    FrontendMultiSelectFilter = MultiSelectFilter.extend(_.extend({}, FilterCountHelper, {
+    const FrontendMultiSelectFilter = MultiSelectFilter.extend(_.extend({}, FilterCountHelper, {
         /**
          * @inheritDoc
          */
@@ -23,15 +22,15 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendMultiSelectFilter() {
-            FrontendMultiSelectFilter.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendMultiSelectFilter(options) {
+            FrontendMultiSelectFilter.__super__.constructor.call(this, options);
         },
 
         /**
          * @inheritDoc
          */
         getTemplateData: function() {
-            var templateData = FrontendMultiSelectFilter.__super__.getTemplateData.apply(this, arguments);
+            const templateData = FrontendMultiSelectFilter.__super__.getTemplateData.call(this);
 
             return this.filterTemplateData(templateData);
         }

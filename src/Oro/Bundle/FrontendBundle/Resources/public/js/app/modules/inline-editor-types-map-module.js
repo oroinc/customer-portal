@@ -1,7 +1,7 @@
 define(function(require) {
     'use strict';
 
-    var frontendTypeMap = require('oroform/js/tools/frontend-type-map');
+    const frontendTypeMap = require('oroform/js/tools/frontend-type-map');
 
     frontendTypeMap.title = {
         viewer: require('orofrontend/js/app/views/viewer/title-view'),
