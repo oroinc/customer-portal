@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Api\Rest;
 
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -24,7 +25,9 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * REST GET address
      *
      * @param int $entityId
-     * @param string $addressId
+     * @param int $addressId
+     *
+     * @Rest\Get(requirements={"entityId"="\d+", "addressId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get customer address",
@@ -33,7 +36,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
-    public function getAction($entityId, $addressId)
+    public function getAction(int $entityId, int $addressId)
     {
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
@@ -52,6 +55,8 @@ class CommerceCustomerAddressController extends RestController implements ClassR
     /**
      * REST GET list
      *
+     * @Rest\Get(requirements={"entityId"="\d+"})
+     *
      * @ApiDoc(
      *      description="Get all addresses items",
      *      resource=true
@@ -61,7 +66,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      *
      * @return JsonResponse
      */
-    public function cgetAction($entityId)
+    public function cgetAction(int $entityId)
     {
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
@@ -81,6 +86,8 @@ class CommerceCustomerAddressController extends RestController implements ClassR
     /**
      * REST DELETE address
      *
+     * @Rest\Delete(requirements={"entityId"="\d+", "addressId"="\d+"})
+     *
      * @ApiDoc(
      *      description="Delete address items",
      *      resource=true
@@ -91,7 +98,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      *
      * @return Response
      */
-    public function deleteAction($entityId, $addressId)
+    public function deleteAction(int $entityId, int $addressId)
     {
         /** @var CustomerAddress $address */
         $address = $this->getManager()->find($addressId);
@@ -111,6 +118,8 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * @param int $entityId
      * @param string $typeName
      *
+     * @Rest\Get(requirements={"entityId"="\d+"})
+     *
      * @ApiDoc(
      *      description="Get customer address by type",
      *      resource=true
@@ -118,7 +127,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
-    public function getByTypeAction($entityId, $typeName)
+    public function getByTypeAction(int $entityId, $typeName)
     {
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
@@ -139,6 +148,8 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      *
      * @param int $entityId
      *
+     * @Rest\Get(requirements={"entityId"="\d+"})
+     *
      * @ApiDoc(
      *      description="Get customer primary address",
      *      resource=true
@@ -146,7 +157,7 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * @AclAncestor("oro_customer_customer_address_view")
      * @return Response
      */
-    public function getPrimaryAction($entityId)
+    public function getPrimaryAction(int $entityId)
     {
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
