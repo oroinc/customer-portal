@@ -30,9 +30,12 @@ define(function(require) {
          * @inheritDoc
          */
         getTemplateData: function() {
-            const templateData = FrontendSearchBooleanFilter.__super__.getTemplateData.call(this);
+            let templateData = FrontendSearchBooleanFilter.__super__.getTemplateData.call(this);
 
-            return this.filterTemplateData(templateData);
+            templateData = this.filterTemplateData(templateData);
+            this.visible = (_.size(templateData.options) > 1);
+
+            return templateData;
         }
     }));
 
