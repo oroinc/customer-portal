@@ -33,7 +33,10 @@ define(function(require) {
         getTemplateData: function() {
             var templateData = FrontendSearchBooleanFilter.__super__.getTemplateData.apply(this, arguments);
 
-            return this.filterTemplateData(templateData);
+            templateData = this.filterTemplateData(templateData);
+            this.visible = (_.size(templateData.options) > 1);
+
+            return templateData;
         }
     }));
 
