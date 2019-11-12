@@ -7,6 +7,10 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 
+/**
+ * The decorator for WebsiteManager that allows to substitute
+ * the default website and the current website in functional tests.
+ */
 class WebsiteManagerStub extends WebsiteManager
 {
     /** @var WebsiteManager */
@@ -26,6 +30,7 @@ class WebsiteManagerStub extends WebsiteManager
 
     /**
      * @param WebsiteManager $websiteManager
+     * @param CacheProvider  $cacheProvider
      */
     public function __construct(WebsiteManager $websiteManager, CacheProvider $cacheProvider)
     {

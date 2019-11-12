@@ -219,7 +219,7 @@ services:
             - '@oro_security.token_accessor'
 
     oro_customer.security.provider:
-        class: '%oro_user.security.provider.class%'
+        class: Oro\Bundle\UserBundle\Security\UserProvider
         arguments:
             - '@oro_customer.security.user_loader'
             - '@doctrine'
@@ -598,7 +598,7 @@ services:
             - { name: layout.data_provider, alias: oro_customer_fronted_customer_user_role_tab_options }
 
     oro_customer.provider.role_privilege_capability_provider:
-        class: '%oro_user.provider.role_privilege_capability_provider.class%'
+        class: Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider
         arguments:
             - '@translator'
             - '@oro_user.provider.role_privilege_category_provider'
@@ -722,7 +722,7 @@ services:
             - { name: oro_datagrid.datasource, type: customer-user-workflow-permission-grid-provider }
 
     oro_user.provider.role_privilege_capability_provider_commerce:
-        class: '%oro_user.provider.role_privilege_capability_provider.class%'
+        class: Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider
         # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
@@ -731,7 +731,7 @@ services:
             - '@oro_customer.form.handler.acl_role.commerce'
 
     oro_customer.provider.role_privilege_capability_provider.decorator:
-        class: '%oro_user.provider.role_privilege_capability_provider.class%'
+        class: Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider
         decorates: oro_user.provider.role_privilege_capability_provider
         arguments:
             - '@translator'
@@ -1067,11 +1067,19 @@ services:
             - '@oro_customer.provider.frontend_customer_user_form'
             - '@session'
 
-    oro_customer.frontend_access_rule_option_matcher:
-        class: Oro\Bundle\CustomerBundle\Acl\AccessRule\FrontendAccessRuleOptionMatcher
-        decorates: oro_security.access_rule_option_matcher
+    oro_customer.website_access_rule_walker_context_factory:
+        class: Oro\Bundle\WebsiteBundle\Acl\ORM\Walker\WebsiteAccessRuleWalkerContextFactory
+        decorates: oro_security.access_rule_walker_context_factory
         arguments:
-            - '@oro_customer.frontend_access_rule_option_matcher.inner'
+            - '@oro_customer.website_access_rule_walker_context_factory.inner'
+            - '@oro_website.manager'
+
+    oro_customer.frontend_access_rule_walker_context_factory:
+        class: Oro\Bundle\CustomerBundle\Acl\ORM\Walker\FrontendAccessRuleWalkerContextFactory
+        decorates: oro_security.access_rule_walker_context_factory
+        decoration_priority: 100
+        arguments:
+            - '@oro_customer.frontend_access_rule_walker_context_factory.inner'
             - '@oro_frontend.request.frontend_helper'
 
     oro_customer.access_rule.self_managed_public_customer_user_role:

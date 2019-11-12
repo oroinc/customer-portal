@@ -77,7 +77,7 @@ datagrids:
                 internal_rating_name:
                     data_name: internal_rating_name
             default:
-                name: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC'
+                name: ASC
         filters:
             columns:
                 name:
@@ -174,7 +174,7 @@ datagrids:
                 name:
                     data_name: customer_group.name
             default:
-                name: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC'
+                name: ASC
         filters:
             columns:
                 name:
@@ -270,7 +270,7 @@ datagrids:
                 label: oro.customer.customer.parent.label
         sorters:
             default:
-                name: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC'
+                name: ASC
         actions:
             view:
                 rowAction: true
@@ -296,7 +296,7 @@ datagrids:
                 hasGroup:
                     data_name: hasGroup
             default:
-                hasGroup: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC'
+                hasGroup: DESC
         options:
             rowSelection:
                 dataField: id
@@ -550,7 +550,7 @@ datagrids:
                 isRolePredefined:
                     data_name: isRolePredefined
             default:
-                label: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC'
+                label: ASC
         filters:
             columns:
                 label:
@@ -709,7 +709,7 @@ datagrids:
                 hasRole:
                     data_name: hasRole
             default:
-                hasRole: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC'
+                hasRole: DESC
         options:
             entityHint: oro.customer.customeruser.entity_plural_label
             rowSelection:
@@ -956,7 +956,7 @@ datagrids:
                 hasRole:
                     data_name: hasRole
             default:
-                hasRole: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_DESC'
+                hasRole: DESC
         options:
             entityHint: oro.customer.customeruser.frontstore_entity_plural_label
             rowSelection:
@@ -1202,7 +1202,7 @@ datagrids:
                 label: oro.customer.customer.parent.label
         sorters:
             default:
-                name: '%oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC'
+                name: ASC
         actions:
             view:
                 rowAction: true
