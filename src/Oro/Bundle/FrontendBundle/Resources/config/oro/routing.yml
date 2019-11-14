@@ -44,6 +44,7 @@ oro_frontend_attachment_filter_image:
     defaults: { _controller: OroAttachmentBundle:File:getFilteredImage}
     requirements:
         id: '\d+'
+        filterMd5: '^[0-9a-f]{32}$'
     options:
         frontend: true
 
