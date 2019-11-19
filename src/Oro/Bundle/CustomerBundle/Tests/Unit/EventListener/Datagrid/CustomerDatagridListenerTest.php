@@ -121,6 +121,16 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
                     'config' => $this->getConfig(),
                 ],
             ],
+            'acl skipped in datagrid config' => [
+                'input' => [
+                    'user' => new CustomerUser(),
+                    'config' => $this->getConfig(false, false, 'orm', true),
+                    'grantedViewCustomerUser' => true,
+                ],
+                'expected' => [
+                    'config' => $this->getConfig(false, false, 'orm', true),
+                ],
+            ],
         ];
     }
 
@@ -128,9 +138,10 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
      * @param bool $empty
      * @param bool $sourceQueryFrom
      * @param string $sourceType
+     * @param bool $skipAcl
      * @return array
      */
-    protected function getConfig($empty = false, $sourceQueryFrom = true, $sourceType = 'orm')
+    protected function getConfig($empty = false, $sourceQueryFrom = true, $sourceType = 'orm', $skipAcl = false)
     {
         $config = [
             'options' => [],
@@ -161,6 +172,10 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
             $config['columns'][self::COLUMN_NAME] = true;
             $config['sorters']['columns'][self::COLUMN_NAME] = true;
             $config['filters']['columns'][self::COLUMN_NAME] = true;
+        }
+
+        if ($skipAcl) {
+            $config['source']['skip_acl_apply'] = true;
         }
 
         return $config;
