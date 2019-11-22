@@ -11,6 +11,12 @@ use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
  */
 class CountryTest extends FrontendRestJsonApiTestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->loadVisitor();
+    }
+
     public function testGetList()
     {
         $response = $this->cget(

@@ -250,6 +250,8 @@ services:
             - '@oro_config.manager'
             - '@oro_website.manager'
             - '@oro_customer.visitor_token.cache'
+            - '@oro_security.csrf_request_manager'
+            - '%oro_api.rest.pattern%'
         tags:
             - { name: monolog.logger, channel: security }
 

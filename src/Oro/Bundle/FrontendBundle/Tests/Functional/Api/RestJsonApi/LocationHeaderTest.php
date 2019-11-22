@@ -11,6 +11,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class LocationHeaderTest extends FrontendRestJsonApiTestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->loadVisitor();
+    }
+
     public function testPostShouldReturnLocationHeader()
     {
         $entityType = $this->getEntityType(TestProduct::class);
