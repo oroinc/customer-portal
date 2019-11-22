@@ -250,6 +250,8 @@ services:
             - '@oro_config.manager'
             - '@oro_website.manager'
             - '@oro_customer.visitor_token.cache'
+            - '@oro_security.csrf_request_manager'
+            - '%oro_api.rest.pattern%'
         tags:
             - { name: monolog.logger, channel: security }
 
@@ -1067,11 +1069,19 @@ services:
             - '@oro_customer.provider.frontend_customer_user_form'
             - '@session'
 
-    oro_customer.frontend_access_rule_option_matcher:
-        class: Oro\Bundle\CustomerBundle\Acl\AccessRule\FrontendAccessRuleOptionMatcher
-        decorates: oro_security.access_rule_option_matcher
+    oro_customer.website_access_rule_walker_context_factory:
+        class: Oro\Bundle\WebsiteBundle\Acl\ORM\Walker\WebsiteAccessRuleWalkerContextFactory
+        decorates: oro_security.access_rule_walker_context_factory
         arguments:
-            - '@oro_customer.frontend_access_rule_option_matcher.inner'
+            - '@oro_customer.website_access_rule_walker_context_factory.inner'
+            - '@oro_website.manager'
+
+    oro_customer.frontend_access_rule_walker_context_factory:
+        class: Oro\Bundle\CustomerBundle\Acl\ORM\Walker\FrontendAccessRuleWalkerContextFactory
+        decorates: oro_security.access_rule_walker_context_factory
+        decoration_priority: 100
+        arguments:
+            - '@oro_customer.frontend_access_rule_walker_context_factory.inner'
             - '@oro_frontend.request.frontend_helper'
 
     oro_customer.access_rule.self_managed_public_customer_user_role:

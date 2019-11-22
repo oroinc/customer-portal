@@ -13,6 +13,12 @@ use Symfony\Component\Yaml\Yaml;
  */
 class HateoasTest extends FrontendRestJsonApiTestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->loadVisitor();
+    }
+
     private function loadProductEntities()
     {
         $this->loadFixtures([

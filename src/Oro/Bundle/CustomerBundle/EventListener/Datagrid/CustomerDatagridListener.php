@@ -6,6 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Event\BuildBefore;
+use Symfony\Component\Security\Acl\Exception\InvalidDomainObjectException;
 
 /**
  * Removes columns from datagrid when front user is able to see only entities which owned by him.
@@ -45,7 +46,11 @@ class CustomerDatagridListener
         }
 
         $entityClass = $config->getOrmQuery()->getRootEntity();
-        if (!$entityClass || $this->securityProvider->isGrantedViewCustomerUser($entityClass)) {
+        try {
+            if (!$entityClass || $this->securityProvider->isGrantedViewCustomerUser($entityClass)) {
+                return;
+            }
+        } catch (InvalidDomainObjectException $e) {
             return;
         }
 

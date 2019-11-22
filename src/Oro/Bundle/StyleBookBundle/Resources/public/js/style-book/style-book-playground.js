@@ -3,7 +3,7 @@ define(function(require) {
 
     const BaseView = require('oroui/js/app/views/base/view');
     const styleBookPlaygroundTemplate = require('tpl-loader!orostylebook/templates/style-book/style-book-playground.html');
-    const tools = require('oroui/js/tools');
+    const loadModules = require('oroui/js/app/services/load-modules');
     const _ = require('underscore');
     const $ = require('jquery');
 
@@ -96,7 +96,7 @@ define(function(require) {
             this.prepearProps(options.props);
             StyleBookPlayground.__super__.initialize.call(this, options);
 
-            tools.loadModules([this.viewConstructor], this.createView, this);
+            loadModules(this.viewConstructor, this.createView, this);
             this.createPlayground();
             this._onChangeProps = _.debounce(this._onChangeProps, 500);
         },

@@ -7,6 +7,8 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
 use Oro\Bundle\FrontendTestFrameworkBundle\Test\WebsiteManagerTrait;
+use Oro\Bundle\SecurityBundle\Csrf\CsrfRequestManager;
+use Oro\Bundle\TestFrameworkBundle\Test\Client;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Routing\RequestContext;
 
@@ -34,6 +36,35 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         if (null !== $this->client) {
             $this->setCurrentWebsite();
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function postFixtureLoad()
+    {
+        parent::postFixtureLoad();
+        if (!$this->hasReference('customer_user')
+            || $this->getReference('customer_user')->getEmail() !== static::USER_NAME
+        ) {
+            $this->loadVisitor();
+        }
+    }
+
+    /**
+     * Creates a visitor and adds it to cookies to execute API requests under this visitor.
+     */
+    protected function loadVisitor()
+    {
+        if (null !== $this->client->getCookieJar()->get(AnonymousCustomerUserAuthenticationListener::COOKIE_NAME)) {
+            return;
+        }
+
+        $visitor = new CustomerVisitor();
+        $em = $this->getEntityManager();
+        $em->persist($visitor);
+        $em->flush();
+        $this->setVisitorCookie($visitor);
     }
 
     /**
@@ -79,10 +110,19 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
      */
     protected function setVisitorCookie(CustomerVisitor $visitor)
     {
-        $value = base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()]));
-        $this->client->getCookieJar()->set(
-            new Cookie(AnonymousCustomerUserAuthenticationListener::COOKIE_NAME, $value)
-        );
+        $cookieJar = $this->client->getCookieJar();
+        $cookieJar->set(new Cookie(
+            AnonymousCustomerUserAuthenticationListener::COOKIE_NAME,
+            base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()]))
+        ));
+        // set "_csrf" cookie with domain to be sure it was rewritten after previous request
+        $cookieJar->set(new Cookie(
+            CsrfRequestManager::CSRF_TOKEN_ID,
+            'test_csrf_token',
+            null,
+            null,
+            str_replace('http://', '', Client::LOCAL_URL)
+        ));
     }
 
     /**

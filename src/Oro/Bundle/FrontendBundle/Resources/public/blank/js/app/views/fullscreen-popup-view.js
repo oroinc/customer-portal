@@ -5,7 +5,7 @@ define(function(require) {
     const footerTemplate = require('tpl-loader!orofrontend/templates/fullscreen-popup/fullscreen-popup-footer.html');
     const headerTemplate = require('tpl-loader!orofrontend/templates/fullscreen-popup/fullscreen-popup-header.html');
     const BaseView = require('oroui/js/app/views/base/view');
-    const tools = require('oroui/js/tools');
+    const loadModules = require('oroui/js/app/services/load-modules');
     const mediator = require('oroui/js/mediator');
     const scrollHelper = require('oroui/js/tools/scroll-helper');
     const _ = require('underscore');
@@ -252,10 +252,10 @@ define(function(require) {
 
         _renderSectionView: function(deferred, section, sectionOptions, option, View) {
             if (_.isString(View)) {
-                tools.loadModules(View, _.bind(function(View) {
+                loadModules(View, function(View) {
                     sectionOptions.View = View;
                     this._renderSectionView(deferred, section, sectionOptions, option, View);
-                }, this));
+                }, this);
             } else {
                 this.subview(section, new View(
                     _.extend(this[section].options, {

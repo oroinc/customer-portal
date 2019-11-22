@@ -337,12 +337,11 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
      * @dataProvider frontendOrPublicWhenGuestModeDisabledDataProvider
      *
      * @param array $fileApplications
-     * @param bool $isCoveredByAcl
      */
-    public function testResizedImageUrlWhenGuestModeDisabled(array $fileApplications, bool $isCoveredByAcl): void
+    public function testResizedImageUrlWhenGuestModeDisabled(array $fileApplications): void
     {
         $this->mockGuestAccessMode(false);
-        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
+        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), true);
 
         $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
@@ -367,18 +366,11 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
                     FrontendCurrentApplicationProvider::DEFAULT_APPLICATION,
                     FrontendCurrentApplicationProvider::COMMERCE_APPLICATION,
                 ],
-                'isCoveredByAcl' => true,
-            ],
-            [
-                'fileApplications' => [FrontendCurrentApplicationProvider::DEFAULT_APPLICATION],
-                'isCoveredByAcl' => false,
             ],
             [
                 'fileApplications' => [
-                    FrontendCurrentApplicationProvider::DEFAULT_APPLICATION,
-                    FrontendCurrentApplicationProvider::COMMERCE_APPLICATION,
+                    FrontendCurrentApplicationProvider::DEFAULT_APPLICATION
                 ],
-                'isCoveredByAcl' => false,
             ],
         ];
     }
@@ -387,12 +379,11 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
      * @dataProvider frontendOrPublicWhenGuestModeDisabledDataProvider
      *
      * @param array $fileApplications
-     * @param bool $isCoveredByAcl
      */
-    public function testGetFilteredImageUrlWhenGuestModeDisabled(array $fileApplications, bool $isCoveredByAcl): void
+    public function testGetFilteredImageUrlWhenGuestModeDisabled(array $fileApplications): void
     {
         $this->mockGuestAccessMode(false);
-        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
+        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), true);
 
         $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 

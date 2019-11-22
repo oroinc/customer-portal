@@ -9,11 +9,15 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\WebsiteStub;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\SecurityBundle\Csrf\CsrfRequestManager;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ServerBag;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -57,6 +61,9 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
     /** @var CacheProvider|\PHPUnit_Framework_MockObject_MockObject */
     private $cacheProvider;
 
+    /** @var CsrfRequestManager|\PHPUnit_Framework_MockObject_MockObject */
+    private $csrfRequestManager;
+
     protected function setUp()
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
@@ -65,6 +72,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->cacheProvider = $this->createMock(CacheProvider::class);
+        $this->csrfRequestManager = $this->createMock(CsrfRequestManager::class);
 
         $this->listener = new AnonymousCustomerUserAuthenticationListener(
             $this->tokenStorage,
@@ -72,7 +80,9 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
             $this->logger,
             $this->configManager,
             $this->websiteManager,
-            $this->cacheProvider
+            $this->cacheProvider,
+            $this->csrfRequestManager,
+            '^/api/'
         );
     }
 
@@ -83,10 +93,15 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
      */
     public function testHandle($token)
     {
-        $this->cacheProvider->expects($this->once())
-            ->method('fetch')
-            ->with(AnonymousCustomerUserAuthenticationListener::CACHE_KEY)
-            ->willReturn(false);
+        if (null === $token) {
+            $this->cacheProvider->expects($this->once())
+                ->method('fetch')
+                ->with(AnonymousCustomerUserAuthenticationListener::CACHE_KEY)
+                ->willReturn(false);
+        } else {
+            $this->cacheProvider->expects($this->never())
+                ->method('fetch');
+        }
 
         $request = new Request();
         $request->cookies->set(
@@ -188,6 +203,17 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
 
     public function testHandleWithUnsupportedToken()
     {
+        $request = new Request();
+        $request->cookies->set(
+            AnonymousCustomerUserAuthenticationListener::COOKIE_NAME,
+            base64_encode(json_encode(self::VISITOR_CREDENTIALS))
+        );
+
+        $event = $this->getEventMock();
+        $event->expects($this->once())
+            ->method('getRequest')
+            ->willReturn($request);
+
         $this->tokenStorage->expects($this->once())
             ->method('getToken')
             ->willReturn($this->createMock(TokenInterface::class));
@@ -195,7 +221,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
         $this->authenticationManager->expects($this->never())
             ->method('authenticate');
 
-        $this->listener->handle($this->getEventMock());
+        $this->listener->handle($event);
     }
 
     public function testHandleWithCachedToken()
@@ -210,12 +236,145 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
             ->method('setToken')
             ->with($token);
 
-        $this->tokenStorage->expects($this->never())
-            ->method('getToken');
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn(null);
 
         $this->listener->handle($this->getEventMock());
     }
 
+    public function testHandleWithAlreadyAuthenticatedAnonymousToken()
+    {
+        $token = new AnonymousCustomerUserToken(
+            'User',
+            [new CustomerUserRole('anon')],
+            new CustomerVisitor(),
+            new Organization()
+        );
+        $request = new Request();
+
+        $event = $this->getEventMock();
+
+        $event->expects($this->once())
+            ->method('getRequest')
+            ->willReturn($request);
+
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $this->tokenStorage->expects($this->never())
+            ->method('setToken');
+
+        $this->listener->handle($event);
+    }
+
+    public function testHandleWithApiGetAjaxRequest()
+    {
+        $newToken = new AnonymousCustomerUserToken('Anonymous Customer User');
+        $visitor = $this->getEntity(CustomerVisitor::class, ['id' => 4, 'session_id' => 'someSessionId']);
+        $newToken->setVisitor($visitor);
+
+        $request = new Request([], [], ['_route' => 'foo']);
+        $request->server = new ServerBag(['REQUEST_URI' => 'http://test.com/api/test']);
+        $request->headers->set('X-CSRF-Header', 1);
+
+        $session = $this->createMock(SessionInterface::class);
+        $session->expects($this->once())
+            ->method('getName')
+            ->willReturn('TEST_SESSION_ID');
+
+        $request->setSession($session);
+        $request->cookies->add(['TEST_SESSION_ID'=> 'o595fqdg5214u4e4nfcs3uc923']);
+        $request->setMethod('GET');
+
+        $event = $this->getEventMock();
+
+        $event->expects($this->once())
+            ->method('getRequest')
+            ->willReturn($request);
+
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn(null);
+
+        $this->authenticationManager->expects($this->once())
+            ->method('authenticate')
+            ->willReturn($newToken);
+
+        $this->tokenStorage->expects($this->once())
+            ->method('setToken')
+            ->with($newToken);
+
+        $this->listener->handle($event);
+    }
+
+    public function testHandleWithApiNotAjaxRequest()
+    {
+        $request = new Request([], [], ['_route' => 'foo']);
+        $request->server = new ServerBag(['REQUEST_URI' => 'http://test.com/api/test']);
+        $request->setMethod('GET');
+
+        $event = $this->getEventMock();
+
+        $event->expects($this->once())
+            ->method('getRequest')
+            ->willReturn($request);
+
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn(null);
+
+        $this->tokenStorage->expects($this->never())
+            ->method('setToken');
+
+        $this->listener->handle($event);
+    }
+
+    public function testHandleWithApiPostAjaxRequest()
+    {
+        $newToken = new AnonymousCustomerUserToken('Anonymous Customer User');
+        $visitor = $this->getEntity(CustomerVisitor::class, ['id' => 4, 'session_id' => 'someSessionId']);
+        $newToken->setVisitor($visitor);
+
+        $request = new Request([], [], ['_route' => 'foo']);
+        $request->server = new ServerBag(['REQUEST_URI' => 'http://test.com/api/test']);
+        $request->headers->set('X-CSRF-Header', 1);
+
+        $session = $this->createMock(SessionInterface::class);
+        $session->expects(self::any())
+            ->method('getName')
+            ->willReturn('TEST_SESSION_ID');
+
+        $request->setSession($session);
+        $request->cookies->add(['TEST_SESSION_ID'=> 'o595fqdg5214u4e4nfcs3uc923']);
+        $request->setMethod('POST');
+
+        $event = $this->getEventMock();
+
+        $event->expects($this->once())
+            ->method('getRequest')
+            ->willReturn($request);
+
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn(null);
+
+        $this->csrfRequestManager->expects($this->once())
+            ->method('isRequestTokenValid')
+            ->with($request, false)
+            ->willReturn(true);
+
+        $this->authenticationManager->expects($this->once())
+            ->method('authenticate')
+            ->willReturn($newToken);
+
+        $this->tokenStorage->expects($this->once())
+            ->method('setToken')
+            ->with($newToken);
+
+        $this->listener->handle($event);
+    }
 
     /**
      * @return GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject
