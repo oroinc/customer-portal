@@ -23,6 +23,25 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     const USER_NAME     = 'frontend_admin_api@example.com';
     const USER_PASSWORD = 'frontend_admin_api_key';
 
+    /** @var bool */
+    private $isVisitorEnabled = false;
+
+    /**
+     * Enables an authorization as a visitor.
+     */
+    protected function enableVisitor()
+    {
+        $this->isVisitorEnabled = true;
+    }
+
+    /**
+     * Disables an authorization as a visitor.
+     */
+    protected function disableVisitor()
+    {
+        $this->isVisitorEnabled = false;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -44,8 +63,11 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     protected function postFixtureLoad()
     {
         parent::postFixtureLoad();
-        if (!$this->hasReference('customer_user')
-            || $this->getReference('customer_user')->getEmail() !== static::USER_NAME
+        if ($this->isVisitorEnabled
+            && (
+                !$this->hasReference('customer_user')
+                || $this->getReference('customer_user')->getEmail() !== static::USER_NAME
+            )
         ) {
             $this->loadVisitor();
         }
@@ -56,6 +78,8 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
      */
     protected function loadVisitor()
     {
+        $this->assertVisitorEnabled();
+
         if (null !== $this->client->getCookieJar()->get(AnonymousCustomerUserAuthenticationListener::COOKIE_NAME)) {
             return;
         }
@@ -105,11 +129,20 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         return $requestType;
     }
 
+    protected function assertVisitorEnabled()
+    {
+        if (!$this->isVisitorEnabled) {
+            throw new \LogicException('An authorization as a visitor is disabled. Call enableVisitor() method before');
+        }
+    }
+
     /**
      * @param CustomerVisitor $visitor
      */
     protected function setVisitorCookie(CustomerVisitor $visitor)
     {
+        $this->assertVisitorEnabled();
+
         $cookieJar = $this->client->getCookieJar();
         $cookieJar->set(new Cookie(
             AnonymousCustomerUserAuthenticationListener::COOKIE_NAME,

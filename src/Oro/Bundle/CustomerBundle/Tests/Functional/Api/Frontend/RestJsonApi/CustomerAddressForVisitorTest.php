@@ -11,6 +11,7 @@ class CustomerAddressForVisitorTest extends FrontendRestJsonApiTestCase
     protected function setUp()
     {
         parent::setUp();
+        $this->enableVisitor();
         $this->loadFixtures([
             LoadCustomerData::class,
             '@OroCustomerBundle/Tests/Functional/Api/Frontend/DataFixtures/customer_address.yml'

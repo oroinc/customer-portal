@@ -16,6 +16,7 @@ class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase
     protected function setUp()
     {
         parent::setUp();
+        $this->enableVisitor();
         $this->loadVisitor();
     }
 
