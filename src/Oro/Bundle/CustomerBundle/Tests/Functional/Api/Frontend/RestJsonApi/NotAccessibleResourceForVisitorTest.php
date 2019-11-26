@@ -13,6 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->enableVisitor();
+        $this->loadVisitor();
+    }
+
     /**
      * @param Response $response
      */

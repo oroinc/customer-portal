@@ -88,6 +88,7 @@ fieldset:disabled a.btn {
 
     &:focus,
     &.focus {
+        background: $btn-link-focus-background;
         text-decoration: $btn-link-focus-text-decoration;
         border-color: $btn-link-focus-border-color;
         box-shadow: $btn-link-focus-box-shadow;
