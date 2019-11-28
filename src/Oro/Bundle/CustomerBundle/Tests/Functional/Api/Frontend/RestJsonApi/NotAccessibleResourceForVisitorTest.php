@@ -20,20 +20,6 @@ class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase
         $this->loadVisitor();
     }
 
-    /**
-     * @param Response $response
-     */
-    private static function assertUnauthorizedResponse(Response $response)
-    {
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
-        self::assertEquals(
-            [
-                'WSSE realm="Secured Frontend API", profile="UsernameToken"'
-            ],
-            $response->headers->get('WWW-Authenticate', [], false)
-        );
-    }
-
     public function testAccessGranted()
     {
         $response = $this->get(
@@ -61,7 +47,7 @@ class NotAccessibleResourceForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertUnauthorizedResponse($response);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 
     public function testNotFound()
