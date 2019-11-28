@@ -1,6 +1,6 @@
 /* @theme: blank; */
 
-.btn {
+%base-button {
     display: $btn-display;
     font-family: $btn-font-family;
     font-weight: $btn-font-weight;
@@ -50,6 +50,10 @@
             @include box-shadow($btn-focus-box-shadow, $btn-active-box-shadow);
         }
     }
+}
+
+.btn {
+    @extend %base-button;
 }
 
 // Future-proof disabling of clicks on `<a>` elements

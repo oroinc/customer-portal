@@ -24,7 +24,9 @@ define(function(require) {
             infinite: false,
             additionalClass: 'embedded-list__slider no-transform',
             embeddedArrowsClass: 'embedded-arrows',
-            loadingClass: 'loading'
+            loadingClass: 'loading',
+            itemLinkSelector: null,
+            processClick: null
         }),
 
         /**
@@ -52,7 +54,7 @@ define(function(require) {
             this.listenTo(mediator, 'layout:reposition', this.updatePosition);
             this.addEmbeddedArrowsClass(this.$el, this.options.arrows || false);
 
-            $(this.$el).on('init', function(event, slick) {
+            $(this.$el).on('init' + this.eventNamespace(), function(event, slick) {
                 if (self.options.additionalClass) {
                     self.$el.addClass(self.options.additionalClass);
                 }
@@ -75,16 +77,20 @@ define(function(require) {
                 this.onChange();
             }
 
-            $(this.$el).on('destroy', function(event, slick) {
+            $(this.$el).on('destroy' + this.eventNamespace(), function(event, slick) {
                 self.$el.removeClass(self.options.additionalClass);
             });
 
-            $(this.$el).on('breakpoint', function(event, slick) {
+            $(this.$el).on('breakpoint' + this.eventNamespace(), function(event, slick) {
                 self.addEmbeddedArrowsClass(slick.$slider, slick.options.arrows || false);
             });
 
             this.previousSlide = this.$el.slick('slickCurrentSlide');
-            this.$el.on('afterChange', this._slickAfterChange.bind(this));
+            this.$el.on('afterChange' + this.eventNamespace(), this._slickAfterChange.bind(this));
+
+            if (this.options.processClick) {
+                this.$el.on('click' + this.eventNamespace(), this.options.processClick, this.toProcessClick.bind(this));
+            }
         },
 
         /**
@@ -150,6 +156,32 @@ define(function(require) {
         },
 
         /**
+         * @param {object} event
+         */
+        toProcessClick: function(event) {
+            if (event.target.tagName !== 'A') {
+                event.stopPropagation();
+
+                const $link = $(event.currentTarget)
+                    .closest(this.options.itemSelector).find(this.options.itemLinkSelector);
+
+                if ($link.length) {
+                    const mouseEvent = document.createEvent('MouseEvents');
+
+                    mouseEvent.initEvent( 'click', true, true );
+                    $link[0].dispatchEvent(mouseEvent);
+                }
+            }
+        },
+
+        /**
+         * @returns {string}
+         */
+        eventNamespace: function() {
+            return '.sliderEvents' + this.cid;
+        },
+
+        /**
          * @inheritDoc
          */
         dispose: function() {
@@ -157,10 +189,7 @@ define(function(require) {
                 return;
             }
 
-            this.$el.off('init');
-            this.$el.off('destroy');
-            this.$el.off('breakpoint');
-            this.$el.off('afterChange');
+            this.$el.off(this.eventNamespace());
 
             EmbeddedListComponent.__super__.dispose.call(this);
         }

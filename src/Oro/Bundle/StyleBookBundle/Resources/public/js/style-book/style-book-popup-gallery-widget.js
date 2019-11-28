@@ -15,18 +15,18 @@ define(function(require) {
             const galleryOptions = {
                 galleryImages: [
                     {
-                        thumb: '/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg',
-                        src: '/bundles/orocatalog/images/promo-slider/promo-slider-1.jpg',
+                        thumb: '/bundles/orostylebook/images/promo-slider/promo-slider-small-1.jpg',
+                        src: '/bundles/orostylebook/images/promo-slider/promo-slider-1.jpg',
                         alt: 'Slide 1'
                     },
                     {
-                        thumb: '/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg',
-                        src: '/bundles/orocatalog/images/promo-slider/promo-slider-2.jpg',
+                        thumb: '/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg',
+                        src: '/bundles/orostylebook/images/promo-slider/promo-slider-2.jpg',
                         alt: 'Slide 2'
                     },
                     {
-                        thumb: '/bundles/orocatalog/images/promo-slider/promo-slider-small-3.jpg',
-                        src: '/bundles/orocatalog/images/promo-slider/promo-slider-3.jpg',
+                        thumb: '/bundles/orostylebook/images/promo-slider/promo-slider-small-3.jpg',
+                        src: '/bundles/orostylebook/images/promo-slider/promo-slider-3.jpg',
                         alt: 'Slide 3'
                     }
                 ]
