@@ -154,7 +154,6 @@ services:
 
     oro_customer.form.handler.update_customer_user_role:
         parent: oro_user.form.handler.abstract.acl_role
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateHandler'
         shared: false
@@ -169,7 +168,6 @@ services:
 
     oro_customer.form.handler.update_customer_user_role_frontend:
         parent: oro_customer.form.handler.update_customer_user_role
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler'
         shared: false

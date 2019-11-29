@@ -95,7 +95,7 @@ class LoginTest extends FrontendWebTestCase
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
         self::assertSame('', $response->getContent());
-        self::assertSame(0, $response->headers->get('Content-Length'));
+        self::assertSame('0', $response->headers->get('Content-Length'));
         self::assertEquals('max-age=600, public', $response->headers->get('Cache-Control'));
         self::assertEquals('Origin', $response->headers->get('Vary'));
 

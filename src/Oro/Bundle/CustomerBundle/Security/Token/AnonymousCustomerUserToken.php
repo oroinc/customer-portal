@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Security\Token;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\SecurityBundle\Authentication\Token\AuthenticatedTokenTrait;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenTrait;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
@@ -14,6 +15,7 @@ use Symfony\Component\Security\Core\Role\Role;
  */
 class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationAwareTokenInterface
 {
+    use AuthenticatedTokenTrait;
     use OrganizationAwareTokenTrait;
 
     /** @var CustomerVisitor */

@@ -6,6 +6,9 @@ use Oro\Bundle\SearchBundle\Event\PrepareEntityMapEvent;
 use Oro\Bundle\SearchBundle\Event\SearchMappingCollectEvent;
 use Oro\Bundle\SecurityBundle\EventListener\SearchListener;
 
+/**
+ * Adds fields configuration to the search entity map based on frontend ownership metadata.
+ */
 class FrontendSearchListener extends SearchListener
 {
     /**
@@ -16,8 +19,14 @@ class FrontendSearchListener extends SearchListener
         $mapConfig = $event->getMappingConfig();
         foreach ($mapConfig as $className => $mapping) {
             $metadata = $this->metadataProvider->getMetadata($className);
+
+            $fieldName = $metadata->getOwnerFieldName();
+            if (!$fieldName) {
+                continue;
+            }
+
             $mapConfig[$className]['fields'][] = [
-                'name'          => $metadata->getOwnerFieldName(),
+                'name'          => $fieldName,
                 'target_type'   => 'integer',
                 'target_fields' => [$this->getOwnerKey($metadata, $mapping['alias'])]
             ];
