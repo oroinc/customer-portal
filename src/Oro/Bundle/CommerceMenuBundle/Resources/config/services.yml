@@ -28,7 +28,6 @@ services:
 
     oro_commerce_menu.manager.menu_update:
         class: Oro\Bundle\NavigationBundle\Manager\MenuUpdateManager
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - "@doctrine"
@@ -81,14 +80,12 @@ services:
 
     oro_commerce_menu.menu_context_provider.customer:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvider'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - '@oro_website.manager'
 
     oro_commerce_menu.menu_context_provider.customer_group:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerGroupMenuContextProvider'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - '@oro_website.manager'
