@@ -80,3 +80,12 @@
         display: inline;
     }
 }
+
+@include breakpoint('mobile-big') {
+    .role-capability {
+        &__item {
+            width: 100%;
+            padding-right: 0;
+        }
+    }
+}
