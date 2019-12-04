@@ -388,3 +388,7 @@ oro_behat_extension:
     Customer User Index:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserIndex
       route: 'oro_customer_customer_user_index'
+
+    Customer User View:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserView
+      route: 'oro_customer_customer_user_view'

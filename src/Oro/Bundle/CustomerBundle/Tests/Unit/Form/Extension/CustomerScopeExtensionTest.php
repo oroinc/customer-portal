@@ -48,9 +48,9 @@ class CustomerScopeExtensionTest extends FormIntegrationTestCase
         $this->assertTrue($form->has('customer'));
     }
 
-    public function testGetExtendedType()
+    public function testGetExtendedTypes()
     {
-        $this->assertEquals(ScopeType::class, $this->customerScopeExtension->getExtendedType());
+        $this->assertEquals([ScopeType::class], CustomerScopeExtension::getExtendedTypes());
     }
 
     /**

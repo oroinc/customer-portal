@@ -37,8 +37,8 @@ class AddressExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtendedType()
+    public static function getExtendedTypes(): iterable
     {
-        return AddressType::class;
+        return [AddressType::class];
     }
 }

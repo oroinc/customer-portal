@@ -2,12 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Doctrine;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\FilterCollection;
 use Oro\Bundle\CustomerBundle\Doctrine\DoctrineFiltersListener;
 use Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class DoctrineFiltersListenerTest extends \PHPUnit\Framework\TestCase
 {
@@ -61,11 +61,11 @@ class DoctrineFiltersListenerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|RegistryInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry
      */
     protected function getRegistryMock()
     {
-        return $this->getMockBuilder('Symfony\Bridge\Doctrine\RegistryInterface')
+        return $this->getMockBuilder('Doctrine\Common\Persistence\ManagerRegistry')
             ->disableOriginalConstructor()
             ->getMock();
     }

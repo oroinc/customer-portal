@@ -2,7 +2,7 @@
 $charset: 'UTF-8';
 
 // List with theme fonts
-$theme-fonts: (
+$theme-default-fonts: (
     'main': (
         'family': 'Lato',
         'variants': (
@@ -54,6 +54,8 @@ $theme-fonts: (
         'formats': ('woff2', 'woff')
     )
 );
+
+$theme-fonts: map_merge($theme-fonts, $theme-default-fonts);
 
 // Fonts families
 $base-font: get-font-name('main'),'Helvetica', Arial, sans-serif;
