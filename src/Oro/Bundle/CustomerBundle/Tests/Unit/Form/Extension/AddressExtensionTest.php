@@ -22,9 +22,9 @@ class AddressExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension = new AddressExtension($this->frontendHelper);
     }
 
-    public function testGetExtendedType()
+    public function testGetExtendedTypes()
     {
-        $this->assertEquals(AddressType::class, $this->extension->getExtendedType());
+        $this->assertEquals([AddressType::class], AddressExtension::getExtendedTypes());
     }
 
     public function testConfigureOptionsForBackend()

@@ -31,9 +31,9 @@ class PreferredLocalizationCustomerUserExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtendedType()
+    public static function getExtendedTypes(): iterable
     {
-        return CustomerUserType::class;
+        return [CustomerUserType::class];
     }
 
     /**

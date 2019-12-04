@@ -2,14 +2,14 @@
 
 namespace Oro\Bundle\CustomerBundle\Doctrine;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class DoctrineFiltersListener
 {
     /**
-     * @var RegistryInterface
+     * @var ManagerRegistry
      */
     protected $registry;
 
@@ -24,10 +24,10 @@ class DoctrineFiltersListener
     protected $frontendHelper;
 
     /**
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      * @param FrontendHelper $frontendHelper
      */
-    public function __construct(RegistryInterface $registry, FrontendHelper $frontendHelper)
+    public function __construct(ManagerRegistry $registry, FrontendHelper $frontendHelper)
     {
         $this->registry = $registry;
         $this->frontendHelper = $frontendHelper;
