@@ -153,6 +153,130 @@ Delete a collection of customer address records.
 
 ## FIELDS
 
+### city
+
+#### create
+
+{@inheritdoc}
+
+**The required field.**
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*This field is **required** and must remain defined.*
+
+### postalCode
+
+#### create
+
+{@inheritdoc}
+
+**The required field.**
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*This field is **required** and must remain defined.*
+
+### street
+
+#### create
+
+{@inheritdoc}
+
+**The required field.**
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*This field is **required** and must remain defined.*
+
+### firstName
+
+#### create
+
+{@inheritdoc}
+
+**Conditionally required field:**
+*Either **organization** or **firstName** and **lastName** must be defined.*
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*Either **organization** or **firstName** and **lastName** must remain defined.*
+
+### lastName
+
+#### create
+
+{@inheritdoc}
+
+**Conditionally required field:**
+*Either **organization** or **firstName** and **lastName** must be defined.*
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*Either **organization** or **firstName** and **lastName** must remain defined.*
+
+### organization
+
+#### create
+
+{@inheritdoc}
+
+**Conditionally required field:**
+*Either **organization** or **firstName** and **lastName** must be defined.*
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*Either **organization** or **firstName** and **lastName** must remain defined.*
+
+### country
+
+#### create
+
+{@inheritdoc}
+
+**The required field.**
+
+#### update
+
+{@inheritdoc}
+
+**Please note:**
+
+*This field is **required** and must remain defined.*
+
+### region
+
+#### create, update
+
+{@inheritdoc}
+
+**Conditionally required field:**
+*State is required for some countries.*
+
 ### customer
 
 #### update
