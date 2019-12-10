@@ -96,7 +96,7 @@ services:
             - '@oro_customer.owner.frontend_ownership_metadata_provider'
             - '@oro_api.validation_helper'
         tags:
-            - { name: oro.api.processor, action: get_config, extra: '!identifier_fields_only', requestType: frontend, targetAction: update|create|update_relationship|add_relationship|delete_relationship|update_subresource|add_subresource|delete_subresource, priority: -50 }
+            - { name: oro.api.processor, action: get_config, extra: '!identifier_fields_only&!descriptions', requestType: frontend, targetAction: update|create|update_relationship|add_relationship|delete_relationship|update_subresource|add_subresource|delete_subresource, priority: -50 }
 
     oro_customer.api.frontend.set_system_organization:
         class: Oro\Bundle\CustomerBundle\Api\Processor\SetSystemOrganization
