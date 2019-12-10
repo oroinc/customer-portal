@@ -18,9 +18,11 @@
     <div class="form-group">
         <div class="grid">
             <div class="grid__row grid__row--offset-none">
-                <div class="grid__column grid__column--12 grid__column--offset-y">
-                    {{ form_row(form.customer, {'attr': {'placeholder': 'oro.customer.form.placeholder.customer'|trans}})}}
-                </div>
+                {% if form.customer is defined %}
+                    <div class="grid__column grid__column--12 grid__column--offset-y">
+                        {{ form_row(form.customer, {'attr': {'placeholder': 'oro.customer.form.placeholder.customer'|trans}})}}
+                    </div>
+                {% endif %}
                 {% if form.enabled is defined %}
                     <div class="grid__column grid__column--6 grid__column--offset-y">
                         {{ form_row(form.enabled, {'attr': {'placeholder': ''|trans}}) }}

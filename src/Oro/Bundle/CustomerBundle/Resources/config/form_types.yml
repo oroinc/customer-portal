@@ -104,6 +104,8 @@ services:
 
     oro_customer.form.type.frontend.customer_user_profile:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfileType'
+        arguments:
+            - '@oro_config.manager'
         calls:
             - [setDataClass, ['%oro_customer.entity.customer_user.class%']]
         tags:
