@@ -1,7 +1,7 @@
--[CustomerBundle](#customerbundle)
--[FrontendAttachmentBundle](#frontendattachmentbundle)
--[FrontendBundle](#frontendbundle)
--[WebsiteBundle](#websitebundle)
+- [CustomerBundle](#customerbundle)
+- [FrontendAttachmentBundle](#frontendattachmentbundle)
+- [FrontendBundle](#frontendbundle)
+- [WebsiteBundle](#websitebundle)
 
 CustomerBundle
 --------------
