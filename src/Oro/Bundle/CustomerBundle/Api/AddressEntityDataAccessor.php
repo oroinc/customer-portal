@@ -8,7 +8,7 @@ use Oro\Component\EntitySerializer\DataAccessorInterface;
 /**
  * The entity data accessor decorator that substitutes "types" property of AbstractDefaultTypedAddress
  * with "addressTypes" property.
- * This is required because this entity has "types" property, but its "getTypes()" method returns
+ * It is required because this entity has "types" property, but its "getTypes()" method returns
  * completely different data.
  * @see \Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress::getTypes
  */

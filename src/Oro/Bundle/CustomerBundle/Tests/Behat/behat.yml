@@ -286,7 +286,7 @@ oro_behat_extension:
         locator: '//h1[contains(., "Create Address")]/ancestor::section/descendant::form'
 
     Edit Profile Button:
-      selector: 'div.customer-profile__controls a[title="Edit"]'
+      selector: 'div.customer-profile__title-wrapper a[title="Edit"]'
 
     My Profile Menu Item:
       selector: 'li.primary-menu__item a:contains("My Profile")'
@@ -388,3 +388,7 @@ oro_behat_extension:
     Customer User Index:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserIndex
       route: 'oro_customer_customer_user_index'
+
+    Customer User View:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserView
+      route: 'oro_customer_customer_user_view'

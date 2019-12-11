@@ -74,7 +74,6 @@ services:
 
     oro_customer.customer_tree_handler:
         class: 'Oro\Bundle\CustomerBundle\JsTree\CustomerTreeHandler'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - '%oro_customer.entity.customer.class%'
@@ -82,7 +81,6 @@ services:
 
     oro_customer.manager.customer.api.attribute:
         class:  'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
@@ -158,7 +156,6 @@ services:
 
     oro_customer.customer_user.manager.api:
         class: 'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
@@ -194,7 +191,6 @@ services:
 
     oro_customer_user.manager:
         class: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserManager'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - "@oro_customer.security.user_loader"
@@ -250,6 +246,8 @@ services:
             - '@oro_config.manager'
             - '@oro_website.manager'
             - '@oro_customer.visitor_token.cache'
+            - '@oro_security.csrf_request_manager'
+            - '%oro_api.rest.pattern%'
         tags:
             - { name: monolog.logger, channel: security }
 
@@ -274,7 +272,6 @@ services:
 
     oro_customer.customer_user.password_request.handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - "@oro_customer_user.manager"
@@ -283,7 +280,6 @@ services:
 
     oro_customer.customer_user.password_reset.handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - "@oro_customer_user.manager"
@@ -300,7 +296,6 @@ services:
 
     oro_customer.customer_address.manager.api:
         class: 'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
@@ -329,14 +324,12 @@ services:
 
     oro_customer.acl.resolver.role_translation_prefix:
         class: 'Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - "@oro_security.token_accessor"
 
     oro_customer.customer_user_address.manager.api:
         class: 'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
@@ -493,7 +486,6 @@ services:
 
     oro_customer.provider.frontend_customer_user_registration_form:
         class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRegistrationFormProvider'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - "@form.factory"
@@ -506,7 +498,6 @@ services:
 
     oro_customer.manager.windows_state:
         parent: oro_windows.manager.windows_state.abstract
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - '%oro_customer.entity.windows_state.class%'
@@ -545,7 +536,6 @@ services:
 
     oro_customer.provider.fronted_customer_user_address_form:
         class: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserAddressFormProvider
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - '@form.factory'
@@ -555,7 +545,6 @@ services:
 
     oro_customer.provider.frontend_customer_address_form:
         class: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerAddressFormProvider
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - '@form.factory'
@@ -565,7 +554,6 @@ services:
 
     oro_customer.provider.frontend_customer_user_form:
         class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
               - '@form.factory'
@@ -723,7 +711,6 @@ services:
 
     oro_user.provider.role_privilege_capability_provider_commerce:
         class: Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - '@translator'
@@ -794,7 +781,6 @@ services:
 
     oro_customer.grid_view.manager.api:
         class: 'Oro\Bundle\DataGridBundle\Entity\Manager\GridViewApiEntityManager'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
@@ -929,7 +915,6 @@ services:
 
     oro_customer.provider.frontend.address:
         class: 'Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - '@doctrine'
@@ -975,7 +960,6 @@ services:
 
     oro_customer.manager.guest_customer_user:
         class: Oro\Bundle\CustomerBundle\Entity\GuestCustomerUserManager
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         lazy: true
         arguments:
@@ -998,7 +982,6 @@ services:
 
     oro_customer.security.login_manager:
         class: Oro\Bundle\CustomerBundle\Security\LoginManager
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
            - '@security.token_storage'
@@ -1017,7 +1000,6 @@ services:
 
     oro_customer.handler.frontend_customer_user_handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler'
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - '@oro_form.event.event_dispatcher'
@@ -1050,7 +1032,6 @@ services:
 
     oro_customer.handler.customer_registration_handler:
         class: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler
-        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
         public: true
         arguments:
             - '@oro_customer.provider.frontend_customer_user_registration_form'

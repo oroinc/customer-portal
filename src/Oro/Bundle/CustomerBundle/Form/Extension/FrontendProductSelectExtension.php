@@ -37,8 +37,8 @@ class FrontendProductSelectExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtendedType()
+    public static function getExtendedTypes(): iterable
     {
-        return ProductSelectType::class;
+        return [ProductSelectType::class];
     }
 }

@@ -14,6 +14,13 @@ use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
  */
 class GetTest extends FrontendRestJsonApiTestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->enableVisitor();
+        $this->loadVisitor();
+    }
+
     /**
      * @param string   $entityClass
      * @param string[] $excludedActions

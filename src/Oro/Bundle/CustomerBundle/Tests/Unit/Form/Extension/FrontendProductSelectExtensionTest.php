@@ -22,9 +22,9 @@ class FrontendProductSelectExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension = new FrontendProductSelectExtension($this->frontendHelper);
     }
 
-    public function testGetExtendedType()
+    public function testGetExtendedTypes()
     {
-        $this->assertEquals(ProductSelectType::class, $this->extension->getExtendedType());
+        $this->assertEquals([ProductSelectType::class], FrontendProductSelectExtension::getExtendedTypes());
     }
 
     public function testConfigureOptionsForBackend()

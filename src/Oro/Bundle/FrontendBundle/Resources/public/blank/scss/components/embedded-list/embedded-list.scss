@@ -5,13 +5,13 @@
     margin-bottom: $embedded-list-bottom-offset;
 
     &__slider {
-        // Hide content before slick slider is united
+        // Hide content before slick slider is initialized
         overflow: hidden;
 
         white-space: nowrap;
 
         &.slick-initialized {
-            // Show content after slick slider is inited
+            // Show content after slick slider is initialized
             overflow: visible;
 
             &:before {

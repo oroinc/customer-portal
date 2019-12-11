@@ -32,6 +32,8 @@ Additional notes:
 
 - The [SetWebsite](../../../WebsiteBundle/Api/Processor/SetWebsite.php) processor can be used to assign an entity
   to the current website.
+- The [SetCurrency](../../../../../../../platform/src/Oro/Bundle/CurrencyBundle/Api/Processor/SetCurrency.php)
+  processor can be used to set the current currency to an entity.
 - The [SetCustomer](../../../CustomerBundle/Api/Processor/SetCustomer.php) processor can be used to assign an entity
   to the current customer.
 - The [SetCustomerUser](../../../CustomerBundle/Api/Processor/SetCustomerUser.php) processor can be used
@@ -47,7 +49,15 @@ services:
             - '@oro_api.form_property_accessor'
             - '@oro_website.manager'
         tags:
-            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser, requestType: frontend, priority: 20 }
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, requestType: frontend, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser, parentAction: create, priority: 20 }
+
+    oro_order.api.set_currency_to_order:
+        class: Oro\Bundle\CurrencyBundle\Api\Processor\SetCurrency
+        arguments:
+            - '@oro_api.form_property_accessor'
+            - '@oro_locale.settings'
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, requestType: frontend, class: Oro\Bundle\OrderBundle\Entity\Order, parentAction: create, priority: 15 }
 
     oro_customer.api.frontend.customer_address.set_customer:
         class: Oro\Bundle\CustomerBundle\Api\Processor\SetCustomer
@@ -56,7 +66,7 @@ services:
             - '@oro_security.token_accessor'
             - 'frontendOwner'
         tags:
-            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress, requestType: frontend, priority: 10 }
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, requestType: frontend, class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress, parentAction: create, priority: 10 }
 
     oro_customer.api.frontend.customer_user_address.set_customer_user:
         class: Oro\Bundle\CustomerBundle\Api\Processor\SetCustomerUser
@@ -65,5 +75,5 @@ services:
             - '@oro_security.token_accessor'
             - 'frontendOwner'
         tags:
-            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress, requestType: frontend, priority: 10 }
+            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, requestType: frontend, class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress, parentAction: create, priority: 10 }
 ```

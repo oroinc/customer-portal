@@ -14,10 +14,21 @@
     {% endif %}
 {% endblock %}
 
+{% block _customer_user_view_information_title_wrapper_widget %}
+    {% if block.children is not empty %}
+        {% set attr = attr|merge({ class: attr.class|default('') ~ " customer-profile__title-wrapper" }) %}
+        <div{{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+        </div>
+    {% endif %}
+{% endblock %}
+
 {% block _customer_user_profile_controls_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " customer-profile__controls" }) %}
+    {% set attr = attr|merge({ class: attr.class|default('') ~ " controls-list" }) %}
     <div{{ block('block_attributes') }}>
+        {% spaceless %}
         {{ block_widget(block) }}
+        {% endspaceless %}
     </div>
 {% endblock %}
 

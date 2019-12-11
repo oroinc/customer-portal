@@ -24,9 +24,12 @@ class OroEntitySelectOrCreateInlineExtensionTest extends \PHPUnit\Framework\Test
         $this->extension = new OroEntitySelectOrCreateInlineExtension($this->frontendHelper);
     }
 
-    public function testGetExtendedType()
+    public function testGetExtendedTypes()
     {
-        $this->assertEquals(OroEntitySelectOrCreateInlineType::class, $this->extension->getExtendedType());
+        $this->assertEquals(
+            [OroEntitySelectOrCreateInlineType::class],
+            OroEntitySelectOrCreateInlineExtension::getExtendedTypes()
+        );
     }
 
     public function testConfigureOptionsForBackend()

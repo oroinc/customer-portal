@@ -71,6 +71,36 @@ class SetCustomerTest extends TypeTestCase
         self::assertInstanceOf(Customer::class, $entity->getFrontendOwner());
     }
 
+    public function testProcessWhenFormHasSubmittedCustomerFieldButItIsNotMapped()
+    {
+        $entity = new CustomerAddress();
+        $customer = new Customer();
+        $user = new CustomerUser();
+        $user->setCustomer($customer);
+
+        $formBuilder = $this->getFormBuilder();
+        $formBuilder->add(
+            self::CUSTOMER_USER_FIELD_NAME,
+            FormType::class,
+            ['data_class' => Customer::class, 'mapped' => false]
+        );
+        $form = $formBuilder->getForm();
+        $form->setData($entity);
+        $form->submit([self::CUSTOMER_USER_FIELD_NAME => []], false);
+        self::assertTrue($form->isSynchronized());
+
+        $this->tokenAccessor->expects(self::once())
+            ->method('getUser')
+            ->willReturn($user);
+
+        $context = new CustomizeFormDataContext();
+        $context->setForm($form);
+        $context->setData($entity);
+        $this->processor->process($context);
+
+        self::assertSame($customer, $entity->getFrontendOwner());
+    }
+
     public function testProcessWhenFormDoesNotHaveCustomerField()
     {
         $entity = new CustomerAddress();

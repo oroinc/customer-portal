@@ -4,10 +4,12 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
 use Oro\Bundle\CustomerBundle\Entity\Audit;
 use Oro\Bundle\DataAuditBundle\Entity\AuditField;
-use Oro\Component\Testing\Unit\EntityTestCase;
+use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class AuditFieldTest extends EntityTestCase
+class AuditFieldTest extends \PHPUnit\Framework\TestCase
 {
+    use EntityTestCaseTrait;
+
     public function testAccessors()
     {
         $properties = [

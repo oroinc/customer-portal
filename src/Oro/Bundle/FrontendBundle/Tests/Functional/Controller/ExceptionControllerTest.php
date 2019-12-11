@@ -22,7 +22,7 @@ class ExceptionControllerTest extends WebTestCase
 
         $this->assertLastResponseStatus(404);
         $this->assertLastResponseContentTypeHtml();
-        $this->assertContains('Not Found', $this->getClient()->getResponse()->getContent());
+        $this->assertContains('Not Found', $this->getClientInstance()->getResponse()->getContent());
     }
 
     public function testShowActionNotFoundBackend()
@@ -35,6 +35,6 @@ class ExceptionControllerTest extends WebTestCase
 
         $this->assertLastResponseStatus(404);
         $this->assertLastResponseContentTypeHtml();
-        $this->assertContains('Not Found', $this->getClient()->getResponse()->getContent());
+        $this->assertContains('Not Found', $this->getClientInstance()->getResponse()->getContent());
     }
 }

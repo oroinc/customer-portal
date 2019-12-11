@@ -89,27 +89,6 @@ services:
         tags:
             - { name: oro.api.processor, action: create, group: normalize_result, requestType: frontend&rest, class: Oro\Bundle\CustomerBundle\Api\Model\Login, priority: -29 }
 
-    oro_customer.api.frontend.handle_access_denied_for_visitors:
-        class: Oro\Bundle\CustomerBundle\Api\Processor\HandleAccessDeniedForVisitors
-        arguments:
-            - '@security.token_storage'
-            - ['Oro\Bundle\CustomerBundle\Api\Model\Login']
-        tags:
-            - { name: oro.api.processor, action: get, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: get_list, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: delete, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: delete_list, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: create, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: update, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: get_subresource, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: delete_subresource, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: add_subresource, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: update_subresource, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: get_relationship, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: delete_relationship, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: add_relationship, group: normalize_result, requestType: frontend&rest, priority: -34 }
-            - { name: oro.api.processor, action: update_relationship, group: normalize_result, requestType: frontend&rest, priority: -34 }
-
     oro_customer.api.frontend.config.add_owner_validator:
         class: Oro\Bundle\CustomerBundle\Api\Processor\GetConfig\AddFrontendOwnerValidator
         arguments:
@@ -117,7 +96,7 @@ services:
             - '@oro_customer.owner.frontend_ownership_metadata_provider'
             - '@oro_api.validation_helper'
         tags:
-            - { name: oro.api.processor, action: get_config, extra: '!identifier_fields_only', requestType: frontend, targetAction: update|create|update_relationship|add_relationship|delete_relationship|update_subresource|add_subresource|delete_subresource, priority: -50 }
+            - { name: oro.api.processor, action: get_config, extra: '!identifier_fields_only&!descriptions', requestType: frontend, targetAction: update|create|update_relationship|add_relationship|delete_relationship|update_subresource|add_subresource|delete_subresource, priority: -50 }
 
     oro_customer.api.frontend.set_system_organization:
         class: Oro\Bundle\CustomerBundle\Api\Processor\SetSystemOrganization

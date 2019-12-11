@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api\RestJsonApi;
 
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,6 +14,13 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
 
     /** @var bool */
     private $originalGuestAccessEnabled;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->enableVisitor();
+        $this->loadVisitor();
+    }
 
     protected function tearDown()
     {
@@ -33,14 +39,6 @@ class GuestAccessApiRequestTest extends FrontendRestJsonApiTestCase
         $this->originalGuestAccessEnabled = $configManager->get(self::GUEST_ACCESS_ENABLED_CONFIG_NAME);
         $configManager->set(self::GUEST_ACCESS_ENABLED_CONFIG_NAME, $guestAccessEnabled);
         $configManager->flush();
-    }
-
-    /**
-     * @return ConfigManager
-     */
-    private function getConfigManager(): ConfigManager
-    {
-        return self::getContainer()->get('oro_config.manager');
     }
 
     /**

@@ -38,9 +38,9 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
         unset($this->roleTranslationPrefixResolver, $this->extension);
     }
 
-    public function testGetExtendedType()
+    public function testGetExtendedTypes()
     {
-        $this->assertEquals(AclAccessLevelSelectorType::class, $this->extension->getExtendedType());
+        $this->assertEquals([AclAccessLevelSelectorType::class], AclAccessLevelSelectorExtension::getExtendedTypes());
     }
 
     /**

@@ -8,6 +8,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class InvalidRequestDataTest extends FrontendRestJsonApiTestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->enableVisitor();
+        $this->loadVisitor();
+    }
+
     public function testEmptyJsonInRequestData()
     {
         $response = $this->request(

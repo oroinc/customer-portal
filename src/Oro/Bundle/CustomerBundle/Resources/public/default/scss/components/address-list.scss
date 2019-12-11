@@ -67,5 +67,9 @@
 @include breakpoint('tablet-small') {
     .address-list {
         margin-left: 0;
+
+        &__item {
+            padding-right: 75px;
+        }
     }
 }
