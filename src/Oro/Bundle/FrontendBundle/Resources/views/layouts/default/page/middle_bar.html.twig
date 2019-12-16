@@ -25,9 +25,10 @@
                method="GET"
                novalidate="novalidate"
                class="search-widget"
+               role="search"
                data-dom-relocation-options="{{ dom_relocation_options }}"
         >
-            <label class="hidden" for="search">{{ 'oro.website_search.search_label'|trans }}</label>
+            <label class="sr-only" for="search">{{ 'oro.website_search.search_label'|trans }}</label>
             <input class="search-widget__input input input--full" type="text" placeholder="{{ 'oro.website_search.search_field_placeholder'|trans({}, translation_domain) }}" value="" name="search" id="search"/>
             <button name="oro_website_search_search_button" class="search-widget__submit" type="submit">
                 <i class="fa-search"></i>
