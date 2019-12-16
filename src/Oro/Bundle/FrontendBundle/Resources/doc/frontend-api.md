@@ -43,7 +43,7 @@ An example of registration of such processors:
 
 ```yaml
 services:
-    oro_customer.api.frontend.customer_user.set_website:
+    oro_customer.api.customer_user.set_website:
         class: Oro\Bundle\WebsiteBundle\Api\Processor\SetWebsite
         arguments:
             - '@oro_api.form_property_accessor'
@@ -59,7 +59,7 @@ services:
         tags:
             - { name: oro.api.processor, action: customize_form_data, requestType: frontend, event: pre_validate, parentAction: create, class: Oro\Bundle\OrderBundle\Entity\Order, priority: 15 }
 
-    oro_customer.api.frontend.customer_address.set_customer:
+    oro_customer.api.customer_address.set_customer:
         class: Oro\Bundle\CustomerBundle\Api\Processor\SetCustomer
         arguments:
             - '@oro_api.form_property_accessor'
@@ -68,7 +68,7 @@ services:
         tags:
             - { name: oro.api.processor, action: customize_form_data, requestType: frontend, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress, priority: 10 }
 
-    oro_customer.api.frontend.customer_user_address.set_customer_user:
+    oro_customer.api.customer_user_address.set_customer_user:
         class: Oro\Bundle\CustomerBundle\Api\Processor\SetCustomerUser
         arguments:
             - '@oro_api.form_property_accessor'
