@@ -14,7 +14,7 @@
         'href': path(route_name)
     }) %}
     <a {{ block('block_attributes') }}>
-        <i class="fa-sign-in"></i> {{ text|trans }}
+        <i class="fa-sign-in" aria-hidden="true"></i> {{ text|trans }}
     </a>
 {% endblock %}
 
