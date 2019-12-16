@@ -3,11 +3,11 @@
         <span class="fullscreen-popup__text" <% if (closeOnLabel) { %> data-role="close"<% } %>>
             <% if (icon) { %>
                 <% if (badge) { %>
-                    <span class="fullscreen-popup__badge">
+                    <span class="fullscreen-popup__badge" aria-hidden="true">
                         <i class="<%= icon %>"></i>
                     </span>
                 <% } else { %>
-                    <i class="<%= icon %>"></i>
+                    <i class="<%= icon %>" aria-hidden="true"></i>
                 <% } %>
             <% } %>
             <span class="fullscreen-popup__words" data-role="title"><%= label %></span>

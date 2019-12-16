@@ -12,6 +12,7 @@
 
 {% block _header_row_customer_trigger_widget %}
     <button class="header-row__trigger hidden-on-desktop"
+            aria-label="{{ 'oro.customer.frontend.aria_label.my_account'|trans }}"
             data-page-component-module="oroui/js/app/components/viewport-component"
             data-page-component-options="{{ {
                 viewport: {
@@ -28,7 +29,7 @@
                 }
             }|json_encode() }}"
     >
-        <span class="nav-trigger__icon">
+        <span class="nav-trigger__icon" aria-hidden="true">
             <span class="fa-user fa--no-offset"></span>
         </span>
     </button>

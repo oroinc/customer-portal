@@ -78,3 +78,5 @@ oro:
                     help.label: 'Help'
                     sales.label: 'Sales Representative'
                     view.label: 'VIEW'
+        aria_label:
+            menu: 'Menu'
