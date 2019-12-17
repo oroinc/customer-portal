@@ -34,9 +34,7 @@
 
             <li class="quick-access__item">
                 <a class="quick-access__link"  href="{{ child.uri }}">
-                    <span class="quick-access__icon {{ badgeClass }}">
-                        <i class="{{ iconClass }}" aria-hidden="true"></i>
-                    </span>
+                    <span class="quick-access__icon {{ badgeClass }} {{ iconClass }}" aria-hidden="true"></span>
                     {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
                     <span class="quick-access__text">{{ label }}</span>
                 </a>
