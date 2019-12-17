@@ -4,10 +4,10 @@
             <% if (icon) { %>
                 <% if (badge) { %>
                     <span class="fullscreen-popup__badge" aria-hidden="true">
-                        <i class="<%= icon %>"></i>
+                        <span class="<%= icon %>"></span>
                     </span>
                 <% } else { %>
-                    <i class="<%= icon %>" aria-hidden="true"></i>
+                    <span class="<%= icon %>" aria-hidden="true"></span>
                 <% } %>
             <% } %>
             <span class="fullscreen-popup__words" data-role="title"><%= label %></span>
