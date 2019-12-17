@@ -746,8 +746,6 @@ oro.customer:
             customer_user_welcome.label: 'Welcome, '
             customer_user_sign_out.label: 'Sign Out'
             customer_user_profile.label: 'Account'
-        aria_label:
-            my_account: 'My Account'
     customer_typed_address_with_default_type:
         choice.default_text: 'Default %type_name%'
 
