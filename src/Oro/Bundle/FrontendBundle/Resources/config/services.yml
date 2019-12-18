@@ -293,6 +293,7 @@ services:
             - '@oro_attachment.acl.file_access_control_checker'
         calls:
             - [setConfigManager, ['@oro_config.manager']]
+            - [setFileNameProvider, ['@oro_attachment.provider.attachment_file_name_provider']]
 
     oro_frontend.provider.resized_image_path.skip_prefix:
         class: 'Oro\Bundle\AttachmentBundle\Provider\ResizedImagePathProviderDecorator'
