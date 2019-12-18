@@ -20,6 +20,8 @@ oro_api:
                         value: deletedCount
                         actions: [delete_list]
             request_type: ['rest', 'json_api', 'frontend']
+    api_doc_cache:
+        excluded_features: [ frontend_web_api ]
 
 oro_frontend:
     frontend_api:
