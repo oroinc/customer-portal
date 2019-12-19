@@ -6,11 +6,11 @@ use Oro\Bundle\ActionBundle\Provider\CurrentApplicationProviderInterface;
 use Oro\Bundle\AttachmentBundle\Acl\FileAccessControlChecker;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\AttachmentBundle\Provider\FileApplicationsProvider;
+use Oro\Bundle\AttachmentBundle\Provider\FileNameProviderInterface;
 use Oro\Bundle\AttachmentBundle\Provider\FileUrlProviderInterface;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider;
 use Oro\Bundle\FrontendBundle\Provider\ActionCurrentApplicationProvider;
-use Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -45,6 +45,9 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
 
+    /** @var FileNameProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $filenameProvider;
+
     /** @var FileUrlProvider */
     private $provider;
 
@@ -56,6 +59,8 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $this->fileAccessControlChecker = $this->createMock(FileAccessControlChecker::class);
         $this->configManager = $this->createMock(ConfigManager::class);
+        $this->filenameProvider = $this->createMock(FileNameProviderInterface::class);
+
         $this->provider = new FileUrlProvider(
             $this->innerFileUrlProvider,
             $this->urlGenerator,
@@ -65,6 +70,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->provider->setConfigManager($this->configManager);
+        $this->provider->setFileNameProvider($this->filenameProvider);
     }
 
     public function testGetFileUrlWhenNotFrontend(): void
@@ -281,6 +287,10 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         $this->mockGuestAccessMode(true);
         $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
 
+        $this->filenameProvider->expects($this->once())
+            ->method('getFileName')
+            ->with($file)
+            ->willReturn(self::FILENAME);
         $this->mockApplications($fileApplications, ActionCurrentApplicationProvider::COMMERCE_APPLICATION);
 
         $this->urlGenerator
@@ -314,6 +324,10 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         $this->mockGuestAccessMode(true);
         $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
 
+        $this->filenameProvider->expects($this->once())
+            ->method('getFileName')
+            ->with($file)
+            ->willReturn(self::FILENAME);
         $this->mockApplications($fileApplications, ActionCurrentApplicationProvider::COMMERCE_APPLICATION);
 
         $this->urlGenerator
