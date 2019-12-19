@@ -1,0 +1,16 @@
+/* @theme: blank; */
+
+$skip-to-content-position: absolute !default;
+$skip-to-content-z-index: 1000 !default;
+$skip-to-content-top: -60px !default;
+$skip-to-content-left: 0 !default;
+
+$skip-to-content-padding: 20px !default;
+
+$skip-to-content-color: get-color('primary', 'main') !default;
+$skip-to-content-bg: get-color('additional', 'ultra') !default;
+
+$skip-to-content-top-focus: 0 !default;
+
+$skip-to-content-color-focus: get-color('primary', 'base') !default;
+$skip-to-content-box-shadow: 3px 4px 4px get-color('additional', 'middle') !default;

@@ -1,0 +1,20 @@
+/* @theme: blank; */
+
+.skip-to-content {
+    position: $skip-to-content-position;
+    z-index: $skip-to-content-z-index;
+    top: $skip-to-content-top;
+    left: $skip-to-content-left;
+
+    padding: $skip-to-content-padding;
+
+    color: $skip-to-content-color;
+    background: $skip-to-content-bg;
+
+    &:focus {
+        top: $skip-to-content-top-focus;
+
+        color: $skip-to-content-color-focus;
+        box-shadow: $skip-to-content-box-shadow;
+    }
+}
