@@ -125,7 +125,7 @@ define(function(require) {
             if (this.useThumb()) {
                 this.renderThumbnails();
             }
-            this.setDependentSlide();
+            this.setDependentSlide(e);
 
             $(document).on('keydown.popup-gallery-widget', function(e) {
                 if (e.keyCode === 37) {
@@ -229,7 +229,7 @@ define(function(require) {
             }
         },
 
-        setDependentSlide: function() {
+        setDependentSlide: function(e) {
             const dependentSlider = this.options.bindWithSlider;
             const dependentSliderItems = $(dependentSlider).find('.slick-slide');
             if (dependentSlider && dependentSliderItems.length) {
