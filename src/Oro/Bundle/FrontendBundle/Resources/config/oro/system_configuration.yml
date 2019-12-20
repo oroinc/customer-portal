@@ -62,9 +62,24 @@ system_configuration:
                 choices:
                     oro_frontend.system_configuration.fields.filter_value_selectors.option.dropdown: dropdown
                     oro_frontend.system_configuration.fields.filter_value_selectors.option.all_at_once: all_at_once
+        oro_frontend.web_api:
+            data_type: boolean
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
+            priority: 10
+            options:
+                label: oro_frontend.system_configuration.fields.web_api.label
 
     tree:
         system_configuration:
+            platform:
+                children:
+                    general_setup:
+                        children:
+                            application_settings:
+                                children:
+                                    web_api_settings:
+                                        children:
+                                            - oro_frontend.web_api
             commerce:
                 children:
                     design:

@@ -43,13 +43,13 @@ An example of registration of such processors:
 
 ```yaml
 services:
-    oro_customer.api.frontend.customer_user.set_website:
+    oro_customer.api.customer_user.set_website:
         class: Oro\Bundle\WebsiteBundle\Api\Processor\SetWebsite
         arguments:
             - '@oro_api.form_property_accessor'
             - '@oro_website.manager'
         tags:
-            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, requestType: frontend, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser, parentAction: create, priority: 20 }
+            - { name: oro.api.processor, action: customize_form_data, requestType: frontend, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerUser, priority: 20 }
 
     oro_order.api.set_currency_to_order:
         class: Oro\Bundle\CurrencyBundle\Api\Processor\SetCurrency
@@ -57,23 +57,23 @@ services:
             - '@oro_api.form_property_accessor'
             - '@oro_locale.settings'
         tags:
-            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, requestType: frontend, class: Oro\Bundle\OrderBundle\Entity\Order, parentAction: create, priority: 15 }
+            - { name: oro.api.processor, action: customize_form_data, requestType: frontend, event: pre_validate, parentAction: create, class: Oro\Bundle\OrderBundle\Entity\Order, priority: 15 }
 
-    oro_customer.api.frontend.customer_address.set_customer:
+    oro_customer.api.customer_address.set_customer:
         class: Oro\Bundle\CustomerBundle\Api\Processor\SetCustomer
         arguments:
             - '@oro_api.form_property_accessor'
             - '@oro_security.token_accessor'
             - 'frontendOwner'
         tags:
-            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, requestType: frontend, class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress, parentAction: create, priority: 10 }
+            - { name: oro.api.processor, action: customize_form_data, requestType: frontend, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress, priority: 10 }
 
-    oro_customer.api.frontend.customer_user_address.set_customer_user:
+    oro_customer.api.customer_user_address.set_customer_user:
         class: Oro\Bundle\CustomerBundle\Api\Processor\SetCustomerUser
         arguments:
             - '@oro_api.form_property_accessor'
             - '@oro_security.token_accessor'
             - 'frontendOwner'
         tags:
-            - { name: oro.api.processor, action: customize_form_data, event: pre_validate, requestType: frontend, class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress, parentAction: create, priority: 10 }
+            - { name: oro.api.processor, action: customize_form_data, requestType: frontend, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress, priority: 10 }
 ```

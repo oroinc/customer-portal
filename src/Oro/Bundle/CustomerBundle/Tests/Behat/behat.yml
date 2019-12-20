@@ -360,6 +360,11 @@ oro_behat_extension:
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
       selector: 'div[data-page-component-name="children-by-customer-grid"]'
 
+    Enter The Shipping Address Manually For Checkout:
+      selector:
+        type: xpath
+        locator: '//h5[contains(.,"Checkout")]/parent::*[contains(@class,"role-capability")]//label[text()="Enter the shipping address manually"]//input[@type="checkbox"]'
+
   pages:
     Customer User Role View:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView

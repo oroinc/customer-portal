@@ -27,6 +27,7 @@ class Configuration implements ConfigurationInterface
                 'page_templates' => ['type' => 'array', 'value' => []],
                 'guest_access_enabled' => ['type' => 'boolean', 'value' => true],
                 'filter_value_selectors' => ['type' => 'string', 'value' => self::FILTER_VALUE_SELECTORS_DROPDOWN],
+                'web_api' => ['type' => 'boolean', 'value' => false]
             ]
         );
         $rootNodeChildren = $rootNode->children();
@@ -48,12 +49,12 @@ class Configuration implements ConfigurationInterface
         $this->appendSessionNode($rootNodeChildren);
         $frontendApiChildren = $rootNodeChildren
             ->arrayNode('frontend_api')
-                ->info('The configuration of API for the storefront')
+                ->info('The configuration of API for the storefront.')
                 ->addDefaultsIfNotSet()
                 ->children();
         $frontendApiChildren
             ->arrayNode('api_doc_views')
-                ->info('The API views that are available for the storefront')
+                ->info('The API views that are available for the storefront.')
                 ->prototype('scalar')->end()
             ->end();
         $this->appendFrontendApiCorsNode($frontendApiChildren);
@@ -68,7 +69,7 @@ class Configuration implements ConfigurationInterface
     {
         $node
             ->arrayNode('session')
-                ->info('The configuration of storefront session')
+                ->info('The configuration of storefront session.')
                 ->children()
                     ->scalarNode('name')
                         ->isRequired()
@@ -98,30 +99,30 @@ class Configuration implements ConfigurationInterface
     {
         $node
             ->arrayNode('cors')
-                ->info('The configuration of CORS requests for the storefront')
+                ->info('The configuration of CORS requests for the storefront.')
                 ->addDefaultsIfNotSet()
                 ->children()
                     ->integerNode('preflight_max_age')
-                        ->info('The amount of seconds the user agent is allowed to cache CORS preflight requests')
+                        ->info('The amount of seconds the user agent is allowed to cache CORS preflight requests.')
                         ->defaultValue(600)
                         ->min(0)
                     ->end()
                     ->arrayNode('allow_origins')
-                        ->info('The list of origins that are allowed to send CORS requests')
+                        ->info('The list of origins that are allowed to send CORS requests.')
                         ->example(['https://foo.com', 'https://bar.com'])
                         ->prototype('scalar')->cannotBeEmpty()->end()
                     ->end()
                     ->booleanNode('allow_credentials')
-                        ->info('Indicates whether CORS request can include user credentials')
+                        ->info('Indicates whether CORS request can include user credentials.')
                         ->defaultValue(false)
                     ->end()
                     ->arrayNode('allow_headers')
-                        ->info('The list of headers that are allowed to send by CORS requests')
+                        ->info('The list of headers that are allowed to send by CORS requests.')
                         ->example(['X-Foo', 'X-Bar'])
                         ->prototype('scalar')->cannotBeEmpty()->end()
                     ->end()
                     ->arrayNode('expose_headers')
-                        ->info('The list of headers that can be exposed by CORS responses')
+                        ->info('The list of headers that can be exposed by CORS responses.')
                         ->example(['X-Foo', 'X-Bar'])
                         ->prototype('scalar')->cannotBeEmpty()->end()
                     ->end()

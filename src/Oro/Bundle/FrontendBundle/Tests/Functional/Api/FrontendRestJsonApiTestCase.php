@@ -159,7 +159,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     protected function getWsseAuthHeader()
     {
