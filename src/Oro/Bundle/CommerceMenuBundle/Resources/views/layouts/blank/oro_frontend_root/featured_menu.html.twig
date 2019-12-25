@@ -18,14 +18,14 @@
                             {% if child.extras.image is defined and child.extras.image is not empty %}
                                 <img width="90" height="90" src="{{ resized_image_url(child.extras.image, 90, 90) }}" class="featured-menu__img img-fluid">
                             {% elseif child.extras.icon is defined and child.extras.icon is not empty %}
-                                <span class="{{ child.extras.icon }} featured-menu__icon"></span>
+                                <span class="{{ child.extras.icon }} featured-menu__icon" aria-hidden="true"></span>
                             {% else %}
                                 <svg width="90" height="90">
                                     <rect width="90" height="90" fill="none"/>
                                 </svg>
                             {% endif %}
                         </div>
-                        <h4 class="featured-menu__title">{{ label }}</h4>
+                        <h3 class="featured-menu__title">{{ label }}</h3>
                         <div class="featured-menu__description"
                              data-page-component-module="oroui/js/app/components/viewport-component"
                              data-page-component-options="{{ {
