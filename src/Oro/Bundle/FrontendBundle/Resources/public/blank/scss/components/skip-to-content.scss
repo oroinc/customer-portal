@@ -10,7 +10,8 @@
 
     color: $skip-to-content-color;
     background: $skip-to-content-bg;
-
+    border-radius: $skip-to-content-radius;
+  
     &:focus {
         top: $skip-to-content-top-focus;
 
