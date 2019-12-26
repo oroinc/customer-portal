@@ -2,16 +2,16 @@
 
 $skip-to-content-position:  absolute !default;
 $skip-to-content-z-index:   1000 !default;
-$skip-to-content-top:       -60px !default;
+$skip-to-content-top:       -160px !default;
+$skip-to-content-top-focus: 0 !default;
 $skip-to-content-left:      0 !default;
 
-$skip-to-content-padding: 10px 15px !default;
+$skip-to-content-padding:    6px 8px !default;
+$skip-to-content-box-shadow: 0 3px 9px rgba(0, 0, 0, .5) !default;
 
-$skip-to-content-color:   get-color('primary', 'main') !default;
-$skip-to-content-bg:      get-color('additional', 'ultra') !default;
-$skip-to-content-radius:  $btn-border-radius;
 
-$skip-to-content-top-focus: 0 !default;
+$skip-to-content-bg:     get-color('additional', 'ultra') !default;
+$skip-to-content-border: 1px solid get-color('additional', 'ultra') !default;
+$skip-to-content-radius: $border-radius;
 
-$skip-to-content-color-focus: get-color('primary', 'base') !default;
 $skip-to-content-box-shadow:  3px 4px 4px get-color('additional', 'middle') !default;

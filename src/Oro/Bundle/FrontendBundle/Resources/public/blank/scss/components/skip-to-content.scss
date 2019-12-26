@@ -1,21 +1,21 @@
 /* @theme: blank; */
 
 .skip-to-content {
-    position: $skip-to-content-position;
-    z-index: $skip-to-content-z-index;
+    position: absolute;
     top: $skip-to-content-top;
-    left: $skip-to-content-left;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: $skip-to-content-z-index;
 
-    padding: $skip-to-content-padding;
-
-    color: $skip-to-content-color;
     background: $skip-to-content-bg;
     border-radius: $skip-to-content-radius;
-  
+    padding: $skip-to-content-padding;
+    box-shadow: $skip-to-content-box-shadow;
+    border: $skip-to-content-border;
+    .btn {
+        font-weight: bold;
+    }
     &:focus {
         top: $skip-to-content-top-focus;
-
-        color: $skip-to-content-color-focus;
-        box-shadow: $skip-to-content-box-shadow;
     }
 }
