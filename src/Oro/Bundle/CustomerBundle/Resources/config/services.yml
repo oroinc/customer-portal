@@ -446,18 +446,16 @@ services:
         arguments:
             - "@oro_menu.twig.extension"
             - "frontend_history"
-            - "frontend_history"
         tags:
-            - { name: oro_ui.content_provider }
+            - { name: oro_ui.content_provider, alias: frontend_history }
 
     oro_customer.content_provider.menu.mostviewed_menu:
         class: 'Oro\Bundle\NavigationBundle\ContentProvider\MenuContentProvider'
         arguments:
             - "@oro_menu.twig.extension"
             - "frontend_mostviewed"
-            - "frontend_mostviewed"
         tags:
-            - { name: oro_ui.content_provider }
+            - { name: oro_ui.content_provider, alias: frontend_mostviewed }
 
     oro_customer.delete_handler_extension.customer_user:
         class: Oro\Bundle\CustomerBundle\Handler\CustomerUserDeleteHandlerExtension
