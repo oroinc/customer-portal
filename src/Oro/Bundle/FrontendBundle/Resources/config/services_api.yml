@@ -81,6 +81,20 @@ services:
     oro_frontend.api_doc.formatter.html_formatter:
         parent: oro_api.api_doc.formatter.html_formatter
 
+    oro_frontend.api.resource_type_resolver:
+        class: Oro\Bundle\FrontendBundle\Api\ChainResourceTypeResolver
+        arguments:
+            - [] # resolvers
+            - ~ # service locator
+            - '@oro_api.request_expression_matcher'
+
+    oro_frontend.api.resource_api_url_resolver:
+        class: Oro\Bundle\FrontendBundle\Api\ChainResourceApiUrlResolver
+        arguments:
+            - [] # resolvers
+            - ~ # service locator
+            - '@oro_api.request_expression_matcher'
+
     oro_frontend.api.localized_fallback_value_completer:
         class: Oro\Bundle\LocaleBundle\Api\LocalizedFallbackValueCompleter
         public: false

@@ -77,3 +77,47 @@ services:
         tags:
             - { name: oro.api.processor, action: customize_form_data, requestType: frontend, event: pre_validate, parentAction: create, class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress, priority: 10 }
 ```
+## Resource Type and Resource API URL Resolvers 
+
+Storefront API has an API resource, named as `routes`, that returns the information about the frontend URL.
+This information includes a resource type and the relative URL of an API resource that be used to get the data.
+
+To provide this information, the two types of resolvers are used:
+
+ - the resource type resolver, that is represented by [ResourceTypeResolverInterface](../../Api/ResourceTypeResolverInterface.php);
+ - the API URL resolver, that is represented by [ResourceApiUrlResolverInterface](../../Api/ResourceApiUrlResolverInterface.php).
+ 
+The resource type resolvers should be registered in service container with a tag `oro_frontend.api.resource_type_resolver`,
+and optionally the `routeName` tag attribute can be used to specify the route for which the resolver is applicable.
+
+The API URL resolvers should be registered in service container with a tag `oro_frontend.api.resource_api_url_resolver`,
+and optionally the `routeName` tag attribute can be used to specify the route for which the resolver is applicable.
+
+An example of resolvers registration in `services_api.yml` file:
+
+```yaml
+services:
+    oro_cms.api.resource_type_resolver.landing_page:
+        class: Oro\Bundle\FrontendBundle\Api\ResourceTypeResolver
+        arguments:
+            - 'landing_page' # the resource type should be returned for the route oro_cms_frontend_page_view
+        tags:
+            - { name: oro_frontend.api.resource_type_resolver, routeName: oro_cms_frontend_page_view }
+
+    oro_cms.api.resource_api_url_resolver.landing_page:
+        class: Oro\Bundle\FrontendBundle\Api\ResourceRestApiGetActionUrlResolver
+        arguments:
+            - '@router'
+            - '@oro_api.rest.routes_registry'
+            - '@oro_api.value_normalizer'
+            - Oro\Bundle\CMSBundle\Entity\Page
+        tags:
+            - { name: oro_frontend.api.resource_api_url_resolver, routeName: oro_cms_frontend_page_view, requestType: rest }
+```
+
+Here are some useful implementations of [ResourceTypeResolverInterface](../../Api/ResourceTypeResolverInterface.php)
+and [ResourceApiUrlResolverInterface](../../Api/ResourceApiUrlResolverInterface.php):
+
+- [ResourceTypeResolver](../../Api/ResourceTypeResolver.php) - resolves a resource type by a route name.
+- [ResourceRestApiGetActionUrlResolver](../../Api/ResourceRestApiGetActionUrlResolver.php) - resolves the URL of the "get" action REST API resource by a route name.
+- [ResourceRestApiGetListActionUrlResolver](../../Api/ResourceRestApiGetListActionUrlResolver.php) - resolves the URL of the "get_list" action REST API resource by a route name.
