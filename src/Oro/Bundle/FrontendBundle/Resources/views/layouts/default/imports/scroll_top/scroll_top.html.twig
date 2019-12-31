@@ -12,8 +12,8 @@
         'title': 'oro_frontend.scroll_to_the_top'|trans
     }) %}
     {% if enabled is defined and enabled == true %}
-        <a href="#" role="button" {{ block('block_attributes') }}>
+        <div role="button" tabindex="0" {{ block('block_attributes') }} aria-label="{{ 'oro_frontend.scroll_to_the_top'|trans }}">
             <span class="fa-arrow-circle-up fa--no-offset fa--xxxl" aria-hidden="true"></span>
-        </a>
+        </div>
     {% endif %}
 {% endblock %}
