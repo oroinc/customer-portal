@@ -107,11 +107,6 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
         $class  = is_object($object) ? get_class($object) : null;
 
         $this->doctrineHelper->expects($this->any())
-            ->method('getEntityClass')
-            ->with($object)
-            ->willReturn($class);
-
-        $this->doctrineHelper->expects($this->any())
             ->method('getSingleEntityIdentifier')
             ->with($object, false)
             ->willReturn($inputData['objectId']);

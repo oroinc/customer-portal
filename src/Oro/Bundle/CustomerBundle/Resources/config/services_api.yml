@@ -40,6 +40,27 @@ services:
         alias: oro_security.authentication.provider.username_password_organization.frontend
         public: false
 
+    oro_customer.api.resource_type_resolver.customer_user:
+        class: Oro\Bundle\FrontendBundle\Api\ResourceTypeResolver
+        arguments:
+            - 'customer_user'
+        tags:
+            - { name: oro_frontend.api.resource_type_resolver, routeName: oro_customer_frontend_customer_user_profile }
+            - { name: oro_frontend.api.resource_type_resolver, routeName: oro_customer_frontend_customer_user_view }
+
+    oro_customer.api.resource_api_url_resolver.customer_user_profile:
+        class: Oro\Bundle\FrontendBundle\Api\ResourceRestApiGetActionUrlResolver
+        arguments:
+            - '@router'
+            - '@oro_api.rest.routes_registry'
+            - '@oro_api.value_normalizer'
+            - Oro\Bundle\CustomerBundle\Entity\CustomerUser
+        calls:
+            - [setDefaultEntityId, ['mine']]
+        tags:
+            - { name: oro_frontend.api.resource_api_url_resolver, routeName: oro_customer_frontend_customer_user_profile, requestType: rest }
+            - { name: oro_frontend.api.resource_api_url_resolver, routeName: oro_customer_frontend_customer_user_view, requestType: rest }
+
     oro_customer.api.update_new_customer_user:
         class: Oro\Bundle\CustomerBundle\Api\Processor\UpdateNewCustomerUser
         arguments:
