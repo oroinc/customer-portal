@@ -6,6 +6,7 @@ use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\CommerceMenuBundle\Tests\Unit\Entity\Stub\MenuUpdateStub;
+use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
 class MenuUpdateTest extends \PHPUnit\Framework\TestCase
@@ -17,6 +18,8 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
         $properties = [
             ['condition', 'condition'],
             ['screens', ['mobile' => ['class' => 'test']]],
+            ['contentNode', new ContentNode(), false],
+            ['systemPageRoute', 'sampleRoute', false],
         ];
 
         static::assertPropertyAccessors(new MenuUpdate(), $properties);
@@ -53,6 +56,8 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
             'divider' => true,
             'userAgentConditions' => $update->getMenuUserAgentConditions(),
             'translate_disabled' => false,
+            'content_node' => null,
+            'system_page_route' => null,
             'position' => $priority,
             'icon' => 'test-icon',
         ];

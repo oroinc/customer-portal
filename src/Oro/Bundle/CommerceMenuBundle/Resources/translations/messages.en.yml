@@ -29,6 +29,8 @@ oro:
             menu_user_agent_conditions_collection.label: "User Agent"
             menu_screens_condition:
                 label: "Exclude on Screens"
+            content_node.label: "Content Node"
+            system_page_route.label: "System Page"
         menu_user_agent_conditions_collection:
             add_label.label: "Add"
         menu_user_agent_conditions_collection_group:

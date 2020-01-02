@@ -9,6 +9,7 @@ use Oro\Bundle\CommerceMenuBundle\Model\ExtendMenuUpdate;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
+use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 
 /**
  * Commerce Menu Update entity
@@ -111,6 +112,21 @@ class MenuUpdate extends ExtendMenuUpdate implements
     protected $screens = [];
 
     /**
+     * @var ContentNode|null
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WebCatalogBundle\Entity\ContentNode")
+     * @ORM\JoinColumn(name="content_node_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
+     */
+    protected $contentNode;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="system_page_route", type="string", length=255, nullable=true)
+     */
+    protected $systemPageRoute;
+
+    /**
      * {@inheritdoc}
      */
     public function __construct()
@@ -132,7 +148,9 @@ class MenuUpdate extends ExtendMenuUpdate implements
             'condition' => $this->getCondition(),
             'divider' => $this->isDivider(),
             'userAgentConditions' => $this->getMenuUserAgentConditions(),
-            'translate_disabled' => $this->getId() ? true : false
+            'translate_disabled' => $this->getId() ? true : false,
+            'content_node' => $this->getContentNode(),
+            'system_page_route' => $this->getSystemPageRoute(),
         ];
 
         if ($this->getPriority() !== null) {
@@ -217,5 +235,45 @@ class MenuUpdate extends ExtendMenuUpdate implements
         $this->screens = $screens;
 
         return $this;
+    }
+
+    /**
+     * @param ContentNode|null $contentNode
+     *
+     * @return self
+     */
+    public function setContentNode(?ContentNode $contentNode): self
+    {
+        $this->contentNode = $contentNode;
+
+        return $this;
+    }
+
+    /**
+     * @return ContentNode|null
+     */
+    public function getContentNode(): ?ContentNode
+    {
+        return $this->contentNode;
+    }
+
+    /**
+     * @param string|null $systemPageRoute
+     *
+     * @return MenuUpdate
+     */
+    public function setSystemPageRoute(?string $systemPageRoute): self
+    {
+        $this->systemPageRoute = $systemPageRoute;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSystemPageRoute(): ?string
+    {
+        return $this->systemPageRoute;
     }
 }
