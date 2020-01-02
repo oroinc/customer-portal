@@ -85,6 +85,10 @@ class MenuUpdate extends ExtendMenuUpdate implements
         MenuUpdateTrait::__construct as traitConstructor;
     }
 
+    public const TARGET_URI = 'uri';
+    public const TARGET_SYSTEM_PAGE = 'system_page';
+    public const TARGET_CONTENT_NODE = 'content_node';
+
     /**
      * @var string
      *
@@ -275,5 +279,25 @@ class MenuUpdate extends ExtendMenuUpdate implements
     public function getSystemPageRoute(): ?string
     {
         return $this->systemPageRoute;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTargetType(): ?string
+    {
+        if ($this->getContentNode()) {
+            return self::TARGET_CONTENT_NODE;
+        }
+
+        if ($this->getSystemPageRoute()) {
+            return self::TARGET_SYSTEM_PAGE;
+        }
+
+        if ($this->getUri()) {
+            return self::TARGET_URI;
+        }
+
+        return null;
     }
 }

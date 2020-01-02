@@ -77,6 +77,7 @@ class CustomerGroupMenuControllerTest extends WebTestCase
         $form = $crawler->selectButton('Save')->form();
         $form['menu_update[titles][values][default]'] = 'menu_update.new.title.default';
         $form['menu_update[descriptions][values][default]'] = 'menu_update.new.description.default';
+        $form['menu_update[targetType]'] = 'uri';
         $form['menu_update[uri]'] = '#menu_update.new';
 
         $this->client->followRedirects(true);
@@ -110,6 +111,7 @@ class CustomerGroupMenuControllerTest extends WebTestCase
         $form = $crawler->selectButton('Save')->form();
         $form['menu_update[titles][values][default]'] = 'menu_update.child.title.default';
         $form['menu_update[descriptions][values][default]'] = 'menu_update.child.description.default';
+        $form['menu_update[targetType]'] = 'uri';
         $form['menu_update[uri]'] = '#menu_update.child';
 
         $this->client->followRedirects(true);
@@ -146,6 +148,7 @@ class CustomerGroupMenuControllerTest extends WebTestCase
         $form = $crawler->selectButton('Save')->form();
         $form['menu_update[titles][values][default]'] = 'menu_update.changed.title.default';
         $form['menu_update[descriptions][values][default]'] = 'menu_update.changed.description.default';
+        $form['menu_update[targetType]'] = 'uri';
         $form['menu_update[uri]'] = '#menu_update.changed';
 
         $this->client->followRedirects(true);

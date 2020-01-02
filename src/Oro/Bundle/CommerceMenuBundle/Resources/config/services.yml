@@ -108,11 +108,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: oro_menu.menu_update_change, method: onMenuUpdateScopeChange }
 
-    oro_commerce_menu.event_listener.menu_update_form_view:
-        class: 'Oro\Bundle\CommerceMenuBundle\EventListener\MenuUpdateFormViewListener'
-        tags:
-            - { name: kernel.event_listener, event: oro_ui.scroll_data.before.menu-update-edit, method: onEdit }
-
     oro_commerce_menu.event_listener.frontend_menu_item_listener:
         class: Oro\Bundle\CommerceMenuBundle\EventListener\MenuListFrontendItemNavigationListener
         arguments:
@@ -124,7 +119,7 @@ services:
     oro_commerce_menu.form.extension.menu_update_type:
         class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateExtension'
         arguments:
-            - "@oro_pricing.entity_listener.customer"
+            - '@oro_web_catalog.web_catalog_provider'
         tags:
             - { name: form.type_extension, extended_type: 'Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType' }
 
