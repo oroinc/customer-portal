@@ -56,10 +56,47 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
             'divider' => true,
             'userAgentConditions' => $update->getMenuUserAgentConditions(),
             'translate_disabled' => false,
-            'content_node' => null,
-            'system_page_route' => null,
             'position' => $priority,
             'icon' => 'test-icon',
+        ];
+
+        $this->assertSame($expected, $update->getExtras());
+    }
+
+    public function testGetExtraWhenContentNode(): void
+    {
+        $update = new MenuUpdateStub();
+        $update
+            ->setContentNode($contentNode = $this->createMock(ContentNode::class))
+            ->setSystemPageRoute('sample_route');
+
+        $expected = [
+            'image' => null,
+            'screens' => [],
+            'condition' => null,
+            'divider' => false,
+            'userAgentConditions' => $update->getMenuUserAgentConditions(),
+            'translate_disabled' => false,
+            'content_node' => $contentNode,
+        ];
+
+        $this->assertSame($expected, $update->getExtras());
+    }
+
+    public function testGetExtraWhenSystemPageRoute(): void
+    {
+        $update = new MenuUpdateStub();
+        $update
+            ->setSystemPageRoute($route = 'sample_route');
+
+        $expected = [
+            'image' => null,
+            'screens' => [],
+            'condition' => null,
+            'divider' => false,
+            'userAgentConditions' => $update->getMenuUserAgentConditions(),
+            'translate_disabled' => false,
+            'system_page_route' => $route,
         ];
 
         $this->assertSame($expected, $update->getExtras());

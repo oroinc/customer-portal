@@ -153,9 +153,15 @@ class MenuUpdate extends ExtendMenuUpdate implements
             'divider' => $this->isDivider(),
             'userAgentConditions' => $this->getMenuUserAgentConditions(),
             'translate_disabled' => $this->getId() ? true : false,
-            'content_node' => $this->getContentNode(),
-            'system_page_route' => $this->getSystemPageRoute(),
         ];
+
+        if ($this->getTargetType() === self::TARGET_CONTENT_NODE) {
+            $extras['content_node'] = $this->getContentNode();
+        }
+
+        if ($this->getTargetType() === self::TARGET_SYSTEM_PAGE) {
+            $extras['system_page_route'] = $this->getSystemPageRoute();
+        }
 
         if ($this->getPriority() !== null) {
             $extras['position'] = $this->getPriority();
