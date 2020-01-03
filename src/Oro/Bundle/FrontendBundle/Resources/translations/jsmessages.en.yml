@@ -49,6 +49,7 @@ oro_frontend:
         cancel: "Cancel"
         save_as_new: "Save As New"
         set_as_default: "Set as Default"
+        label: "List Name input"
         placeholder: "Enter new list name"
 
     fullscreen_popup:
