@@ -80,7 +80,7 @@ oro_datagrid_front_mass_action:
     defaults:
         _controller: OroDataGridBundle:Grid:massAction
     requirements:
-        gridName:   '[\w\:-]+'
-        actionName: '[\w-]+'
+        gridName:   '[\w\:\-]+'
+        actionName: '[\w\-]+'
     options:
         frontend: true
