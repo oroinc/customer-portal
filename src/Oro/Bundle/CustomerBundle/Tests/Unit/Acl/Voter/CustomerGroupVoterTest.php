@@ -40,12 +40,6 @@ class CustomerGroupVoterTest extends \PHPUnit\Framework\TestCase
                 return $group instanceof CustomerGroup ? $group->getId() : null;
             });
 
-        $doctrineHelper->expects($this->any())
-            ->method('getEntityClass')
-            ->willReturnCallback(function ($group) {
-                return get_class($group);
-            });
-
         /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject $configManager */
         $configManager = $this->getMockBuilder('Oro\Bundle\ConfigBundle\Config\ConfigManager')
             ->disableOriginalConstructor()

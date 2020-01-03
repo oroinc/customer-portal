@@ -258,7 +258,8 @@ services:
 
     oro_frontend.guest_access.provider.chain_guest_access_urls_provider:
         class: Oro\Bundle\FrontendBundle\GuestAccess\Provider\ChainGuestAccessAllowedUrlsProvider
-        arguments: [!tagged oro_frontend.guest_access_urls_provider]
+        arguments:
+            - !tagged_iterator oro_frontend.guest_access_urls_provider
 
     oro_frontend.listener.authentication:
         class: 'Oro\Bundle\FrontendBundle\EventListener\FrontendLoginListenerDecorator'
