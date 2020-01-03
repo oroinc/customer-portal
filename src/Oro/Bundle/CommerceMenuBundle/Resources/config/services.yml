@@ -191,6 +191,15 @@ services:
         tags:
             - { name: oro_menu.builder, priority: 220 }
 
+    oro_commerce_menu.builder.content_node_target_builder:
+        class: Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTargetBuilder
+        arguments:
+            - '@oro_web_catalog.request_web_content_scope_provider'
+            - '@oro_scope.scope_manager'
+            - '@oro_locale.helper.localization'
+        tags:
+            - { name: oro_menu.builder, priority: 205 }
+
     oro_commerce_menu.builder.system_page_target_builder:
         class: Oro\Bundle\CommerceMenuBundle\Builder\SystemPageTargetBuilder
         arguments:
@@ -201,11 +210,9 @@ services:
         tags:
             - { name: oro_menu.builder, priority: 207 }
 
-    oro_commerce_menu.builder.content_node_target_builder:
-        class: Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTargetBuilder
+    oro_commerce_menu.listener.content_node_delete:
+        class: Oro\Bundle\CommerceMenuBundle\EventListener\ContentNodeDeleteListener
         arguments:
-            - '@oro_web_catalog.request_web_content_scope_provider'
-            - '@oro_scope.scope_manager'
-            - '@oro_locale.helper.localization'
+            - '@oro_navigation.menu_update.cache'
         tags:
-            - { name: oro_menu.builder, priority: 205 }
+            - { name: doctrine.event_listener, event: postRemove, connection: default }
