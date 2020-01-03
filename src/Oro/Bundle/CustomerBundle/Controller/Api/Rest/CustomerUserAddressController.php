@@ -219,6 +219,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
 
     /**
      * {@inheritDoc}
+     * @param CustomerUserAddress $entity
      */
     protected function getPreparedItem($entity, $resultFields = [])
     {
@@ -245,6 +246,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
         $result['regionCode']  = $entity->getRegionCode();
         $result['combinedCode'] = $entity->getRegion() ? $entity->getRegion()->getCombinedCode() : null;
         $result['country'] = $entity->getCountryName();
+        $result['ownerId'] = $entity->getFrontendOwner() ? $entity->getFrontendOwner()->getId() : null;
 
         unset($result['frontendOwner']);
 
