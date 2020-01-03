@@ -205,7 +205,7 @@ services:
         arguments:
             - '@router'
             - []
-            - '%kernel.cache_dir%'
+            - '%kernel.cache_dir%/oro_data'
             - '%kernel.bundles%'
 
     oro_frontend.js_routing_controller:
