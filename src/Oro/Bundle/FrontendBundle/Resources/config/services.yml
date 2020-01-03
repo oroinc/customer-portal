@@ -289,3 +289,12 @@ services:
         arguments:
             - '@oro_frontend.provider.resized_image_path.skip_prefix.inner'
             - '%oro_frontend.provider.resized_image_path.skip_prefix%'
+
+    oro_frontend.event_listener.draftable_filter_listener:
+        class: Oro\Bundle\FrontendBundle\EventListener\DraftableFilterListener
+        decorates: oro_draft.event_listener.draftable_filter_listener
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_frontend.request.frontend_helper'
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

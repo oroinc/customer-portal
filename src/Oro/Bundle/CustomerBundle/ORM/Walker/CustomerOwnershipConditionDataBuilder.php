@@ -6,7 +6,7 @@ use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadata;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Acl\Domain\OneShotIsGrantedObserver;
 use Oro\Bundle\SecurityBundle\Acl\Group\AclGroupProviderInterface;
-use Oro\Bundle\SecurityBundle\Acl\Voter\AclVoter;
+use Oro\Bundle\SecurityBundle\Acl\Voter\AclVoterInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AbstractOwnershipConditionDataBuilder;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclConditionDataBuilderInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
@@ -22,7 +22,7 @@ class CustomerOwnershipConditionDataBuilder extends AbstractOwnershipConditionDa
     /** @var AclConditionDataBuilderInterface */
     protected $ownerConditionBuilder;
 
-    /** @var AclVoter */
+    /** @var AclVoterInterface */
     protected $aclVoter;
 
     /** @var OwnerTreeProviderInterface */
@@ -36,7 +36,7 @@ class CustomerOwnershipConditionDataBuilder extends AbstractOwnershipConditionDa
      * @param TokenStorageInterface              $tokenStorage
      * @param OwnershipMetadataProviderInterface $metadataProvider
      * @param OwnerTreeProviderInterface         $treeProvider
-     * @param AclVoter                           $aclVoter
+     * @param AclVoterInterface                  $aclVoter
      * @param AclConditionDataBuilderInterface   $ownerConditionBuilder
      * @param AclGroupProviderInterface          $aclGroupProvider
      */
@@ -45,7 +45,7 @@ class CustomerOwnershipConditionDataBuilder extends AbstractOwnershipConditionDa
         TokenStorageInterface $tokenStorage,
         OwnershipMetadataProviderInterface $metadataProvider,
         OwnerTreeProviderInterface $treeProvider,
-        AclVoter $aclVoter,
+        AclVoterInterface $aclVoter,
         AclConditionDataBuilderInterface $ownerConditionBuilder,
         AclGroupProviderInterface $aclGroupProvider
     ) {
