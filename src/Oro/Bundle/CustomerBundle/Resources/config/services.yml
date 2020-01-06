@@ -700,6 +700,16 @@ services:
             - { name: oro_scope.provider, scopeType: cms_content_block, priority: 1000 }
             - { name: oro_scope.provider, scopeType: workflow_definition, priority: 30 }
 
+    oro_customer.customer_user_scope_cache_key_builder:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerUserScopeCacheKeyBuilder
+        decorates: oro_scope.scope_cache_key_builder
+        decoration_priority: 90
+        arguments:
+            - '@oro_customer.customer_user_scope_cache_key_builder.inner'
+            - '@security.token_storage'
+            - '@oro_website.manager'
+            - '@oro_frontend.request.frontend_helper'
+
     oro_customer.entity_ownership.listener:
         class: Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener
         arguments:

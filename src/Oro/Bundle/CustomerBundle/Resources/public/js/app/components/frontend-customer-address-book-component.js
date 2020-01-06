@@ -49,14 +49,14 @@ define(function(require) {
                     var address = arguments[0];
                     return routing.generate(
                         options.addressUpdateRouteName,
-                        {id: address.get('id'), entityId: options.entityId}
+                        {id: address.get('id'), entityId: address.get('ownerId')}
                     );
                 },
                 addressDeleteUrl: function() {
                     var address = arguments[0];
                     return routing.generate(
                         options.addressDeleteRouteName,
-                        {addressId: address.get('id'), entityId: options.entityId}
+                        {addressId: address.get('id'), entityId: address.get('ownerId')}
                     );
                 },
                 addressMapOptions: {phone: 'phone'},
