@@ -865,14 +865,12 @@ services:
     oro_customer.datagrid.mass_action.disable_customers:
         class: Oro\Bundle\DataGridBundle\Extension\MassAction\Actions\Ajax\AjaxMassAction
         shared: false
-        public: true
         tags:
             - { name: oro_datagrid.extension.mass_action.type, type: disablecustomers }
 
     oro_customer.datagrid.mass_action.enable_customers:
         class: Oro\Bundle\DataGridBundle\Extension\MassAction\Actions\Ajax\AjaxMassAction
         shared: false
-        public: true
         tags:
             - { name: oro_datagrid.extension.mass_action.type, type: enablecustomers }
 
