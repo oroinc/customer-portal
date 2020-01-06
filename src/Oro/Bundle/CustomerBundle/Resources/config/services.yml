@@ -1088,6 +1088,8 @@ services:
 
     oro_customer.updater.customer_user_reassign_updater:
         class: 'Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignUpdater'
+        arguments:
+            - !tagged_iterator oro_customer.updater.customer_user_reassign
 
     oro_customer.event_listener.customer_user_reassign:
         class: 'Oro\Bundle\CustomerBundle\EventListener\CustomerUserReassignEventListener'
