@@ -495,11 +495,14 @@ services:
             - { name: layout.data_provider, alias: oro_customer_frontend_customer_user_register }
 
     oro_customer.manager.windows_state:
-        parent: oro_windows.manager.windows_state.abstract
-        public: true
+        class: Oro\Bundle\WindowsBundle\Manager\WindowsStateManager
         arguments:
+            - '@security.token_storage'
+            - '@doctrine'
+            - '@oro_windows.manager.windows_state_request'
             - '%oro_customer.entity.windows_state.class%'
-            - '%oro_customer.entity.customer_user.class%'
+        tags:
+            - { name: oro_windows.windows_state_manager, user_class: Oro\Bundle\CustomerBundle\Entity\CustomerUser }
 
     oro_customer.provider.sign_in:
         class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInProvider'

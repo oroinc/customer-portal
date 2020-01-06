@@ -9,7 +9,6 @@ use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappin
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\FrontendApiPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\LoginManagerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\OwnerTreeListenerPass;
-use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\WindowsStateManagerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Security\AnonymousCustomerUserFactory;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
@@ -30,7 +29,6 @@ class OroCustomerBundle extends Bundle
 
         $container->addCompilerPass(new OwnerTreeListenerPass());
         $container->addCompilerPass(new DataAuditEntityMappingPass());
-        $container->addCompilerPass(new WindowsStateManagerPass());
         $container->addCompilerPass(new LoginManagerPass());
         $container->addCompilerPass(new CustomerUserReassignUpdaterPass());
         $container->addCompilerPass(new ConfigureFrontendHelperPass());
