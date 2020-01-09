@@ -8,6 +8,9 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 
+/**
+ * Provide getting Customer and CustomerGroup for CustomerUser
+ */
 class CustomerUserRelationsProvider
 {
     /**
@@ -79,7 +82,7 @@ class CustomerUserRelationsProvider
             $customer = new Customer();
             $customer->setGroup($this->getCustomerGroup($customerUser));
         }
-        
+
         return $customer;
     }
 }

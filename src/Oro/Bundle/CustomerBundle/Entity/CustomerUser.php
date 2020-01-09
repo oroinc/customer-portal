@@ -12,13 +12,11 @@ use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-use Oro\Bundle\LocaleBundle\Model\FullNameInterface;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Security\AdvancedApiUserInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
 
 /**
  * The entity that represents a person who acts on behalf of the company
@@ -76,12 +74,10 @@ use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class CustomerUser extends ExtendCustomerUser implements
-    FullNameInterface,
+    CustomerUserInterface,
     EmailHolderInterface,
     EmailOwnerInterface,
     EmailInterface,
-    WebsiteAwareInterface,
-    CustomerUserIdentity,
     AdvancedApiUserInterface
 {
     const SECURITY_GROUP = 'commerce';
@@ -921,9 +917,9 @@ class CustomerUser extends ExtendCustomerUser implements
     }
 
     /**
-     * @return User
+     * {@inheritdoc}
      */
-    public function getOwner()
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
