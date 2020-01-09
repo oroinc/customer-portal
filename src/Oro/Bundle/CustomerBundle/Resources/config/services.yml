@@ -223,8 +223,7 @@ services:
     oro_customer.customer_visitor_manager:
         class: 'Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager'
         arguments:
-            - '@oro_entity.doctrine_helper'
-            - '%oro_customer.entity.customer_visitor.class%'
+            - '@doctrine'
 
     oro_customer.customer_visitor.credentials_cookie_response_listener:
         class:  'Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseListener'
