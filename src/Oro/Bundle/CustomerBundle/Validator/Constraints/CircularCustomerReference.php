@@ -13,6 +13,9 @@ class CircularCustomerReference extends Constraint
     public $messageCircular = 'oro.customer.message.circular_customer_reference';
 
     /** @var string */
+    public $messageCircularChild = 'oro.customer.message.circular_child_customer_reference';
+
+    /** @var string */
     public $messageItself = 'oro.customer.message.customer_reference_to_itself';
 
     /**

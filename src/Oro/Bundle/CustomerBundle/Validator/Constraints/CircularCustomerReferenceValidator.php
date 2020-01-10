@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Validator\Constraints;
 
+use Doctrine\Common\Collections\AbstractLazyCollection;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Owner\CustomerAwareOwnerTreeInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
@@ -27,13 +28,16 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      * @param CircularCustomerReference $constraint
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function validate($value, Constraint $constraint)
     {
         /** @var Customer $value */
         $parentCustomer = $value->getParent();
 
-        if (null === $parentCustomer) {
+        if (null === $parentCustomer || null === $parentCustomer->getId()) {
             return;
         }
 
@@ -47,9 +51,28 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
 
         if ($this->isAncestor($value, $parentCustomer)) {
             $this->context->buildViolation($constraint->messageCircular)
+                ->atPath('parent')
                 ->setParameter('{{ parentName }}', $parentCustomer->getName())
                 ->setParameter('{{ customerName }}', $value->getName())
                 ->addViolation();
+
+            return;
+        }
+
+        $children = $value->getChildren();
+        if ($children instanceof AbstractLazyCollection && !$children->isInitialized()) {
+            return;
+        }
+
+        foreach ($children as $child) {
+            if (($parentCustomer && $child->getId() === $parentCustomer->getId())
+                || ($value->getId() && $this->isAncestor($child, $value))) {
+                $this->context->buildViolation($constraint->messageCircularChild)
+                    ->atPath('children')
+                    ->setParameter('{{ childName }}', $child->getName())
+                    ->setParameter('{{ customerName }}', $value->getName())
+                    ->addViolation();
+            }
         }
     }
 
