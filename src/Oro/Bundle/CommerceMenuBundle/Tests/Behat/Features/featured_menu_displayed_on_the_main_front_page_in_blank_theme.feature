@@ -23,6 +23,7 @@ Feature: Featured menu, displayed on the main front page in blank theme
     And I click "Create Menu Item"
     When I fill "Commerce Menu Form" with:
       | Title       | Test Item        |
+      | Target Type | URI              |
       | URI         | /about           |
       | Description | test description |
     And I save form
@@ -61,6 +62,7 @@ Feature: Featured menu, displayed on the main front page in blank theme
     And I click "Create Menu Item"
     When I fill "Commerce Menu Form" with:
       | Title       | Featured Item_1        |
+      | Target Type | URI                    |
       | URI         | http://www.example.com |
       | Description | test description       |
     And I save form

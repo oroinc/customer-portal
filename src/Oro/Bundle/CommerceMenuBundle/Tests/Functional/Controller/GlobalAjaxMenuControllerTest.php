@@ -109,7 +109,7 @@ class GlobalAjaxMenuControllerTest extends WebTestCase
             $this->getUrl('oro_commerce_menu_global_menu_ajax_move', $parameters),
             [
                 'ownerId' => 0,
-                'key' => GlobalMenuUpdateData::MENU_UPDATE_1,
+                'key' => GlobalMenuUpdateData::MENU_UPDATE_1_1,
                 'parentKey' => self::MENU_NAME,
                 'position' => 33
             ]
