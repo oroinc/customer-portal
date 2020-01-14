@@ -7,6 +7,7 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\SecurityBundle\Csrf\CsrfRequestManager;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
@@ -57,12 +59,21 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
      */
     private $cacheProvider;
 
+    /** @var CsrfRequestManager */
+    private $csrfRequestManager;
+
+    /** @var string */
+    private $apiPattern;
+
     /**
-     * @param TokenStorageInterface $tokenStorage
+     * @param TokenStorageInterface          $tokenStorage
      * @param AuthenticationManagerInterface $authenticationManager
-     * @param LoggerInterface|null $logger
-     * @param ConfigManager $configManager
-     * @param WebsiteManager $websiteManager
+     * @param LoggerInterface                $logger
+     * @param ConfigManager                  $configManager
+     * @param WebsiteManager                 $websiteManager
+     * @param CacheProvider                  $cacheProvider
+     * @param CsrfRequestManager             $csrfRequestManager
+     * @param string                         $apiPattern
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
@@ -70,7 +81,9 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         LoggerInterface $logger,
         ConfigManager $configManager,
         WebsiteManager $websiteManager,
-        CacheProvider $cacheProvider
+        CacheProvider $cacheProvider,
+        CsrfRequestManager $csrfRequestManager,
+        string $apiPattern
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
@@ -78,6 +91,8 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         $this->configManager = $configManager;
         $this->websiteManager = $websiteManager;
         $this->cacheProvider = $cacheProvider;
+        $this->csrfRequestManager = $csrfRequestManager;
+        $this->apiPattern = $apiPattern;
     }
 
     /**
@@ -85,23 +100,24 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
      */
     public function handle(GetResponseEvent $event)
     {
-        /**
-         * Oro\Bundle\RedirectBundle\Security\Firewall two times triggers GetResponseEvent event
-         * this causes current listener executes two times as well
-         * So check if we already created and saved token for current request
-         * If yes there is no need to do same actions once more
-         */
-        $cachedToken = $this->cacheProvider->fetch(self::CACHE_KEY);
-        if ($cachedToken) {
-            $this->tokenStorage->setToken($cachedToken);
+        $token = $this->tokenStorage->getToken();
+        if (null === $token) {
+            /**
+             * Oro\Bundle\RedirectBundle\Security\Firewall two times triggers GetResponseEvent event
+             * this causes current listener executes two times as well
+             * So check if we already created and saved token for current request
+             * If yes there is no need to do same actions once more
+             */
+            $cachedToken = $this->cacheProvider->fetch(self::CACHE_KEY);
+            if ($cachedToken) {
+                $this->tokenStorage->setToken($cachedToken);
 
-            return;
+                return;
+            }
         }
 
-        $token = $this->tokenStorage->getToken();
-        if (null === $token || $token instanceof AnonymousCustomerUserToken) {
-            $request = $event->getRequest();
-
+        $request = $event->getRequest();
+        if ($this->shouldBeAuthenticatedAsCustomerVisitor($request, $token)) {
             $token = new AnonymousCustomerUserToken(
                 'Anonymous Customer User',
                 $this->getRoles()
@@ -167,8 +183,7 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         $visitor = $token->getVisitor();
 
         $cookieLifetime = $this->configManager->get('oro_customer.customer_visitor_cookie_lifetime_days');
-
-        $cookieLifetime = $cookieLifetime * Configuration::SECONDS_IN_DAY;
+        $cookieLifetime *= Configuration::SECONDS_IN_DAY;
 
         $request->attributes->set(
             self::COOKIE_ATTR_NAME,
@@ -178,5 +193,55 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
                 time() + $cookieLifetime
             )
         );
+    }
+
+    /**
+     * @param Request             $request
+     * @param TokenInterface|null $token
+     *
+     * @return bool
+     */
+    private function shouldBeAuthenticatedAsCustomerVisitor(Request $request, TokenInterface $token = null): bool
+    {
+        if (null === $token) {
+            return
+                !$this->isApiRequest($request)
+                || $this->isAjaxApiRequest($request);
+        }
+
+        return
+            $token instanceof AnonymousCustomerUserToken
+            && $token->getVisitor() === null;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return bool
+     */
+    private function isApiRequest(Request $request): bool
+    {
+        return preg_match('{' . $this->apiPattern . '}', $request->getPathInfo()) === 1;
+    }
+
+    /**
+     * Checks whether the request is AJAX request to API resource
+     * (cookies has the session cookie and the request has "X-CSRF-Header" header with valid CSRF token).
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    private function isAjaxApiRequest(Request $request): bool
+    {
+        $isGetRequest = $request->isMethod('GET');
+
+        return
+            null !== $request->getSession()
+            && $request->cookies->has($request->getSession()->getName())
+            && (
+                (!$isGetRequest && $this->csrfRequestManager->isRequestTokenValid($request))
+                || ($isGetRequest && $request->headers->has(CsrfRequestManager::CSRF_HEADER))
+            );
     }
 }

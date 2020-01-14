@@ -1,20 +1,19 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var FrontendManageFiltersDecorator;
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var $ = require('jquery');
-    var FrontendMultiSelectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
-    var config = require('module').config();
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const $ = require('jquery');
+    const FrontendMultiSelectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
+    let config = require('module-config').default(module.id);
 
     config = $.extend(true, {
         hideHeader: false,
         themeName: 'default'
     }, config);
 
-    FrontendManageFiltersDecorator = function(options) {
-        FrontendMultiSelectDecorator.apply(this, arguments);
+    const FrontendManageFiltersDecorator = function(options) {
+        FrontendMultiSelectDecorator.call(this, options);
     };
 
     FrontendManageFiltersDecorator.prototype = _.extend(Object.create(FrontendMultiSelectDecorator.prototype), {
@@ -50,23 +49,23 @@ define(function(require) {
          * @private
          */
         _setDropdownDesign: function() {
-            var instance = this.multiselect('instance');
+            const instance = this.multiselect('instance');
 
             if (this.applyMarkup) {
                 this.updateDropdownMarkup(instance);
             }
 
-            FrontendMultiSelectDecorator.prototype._setDropdownDesign.apply(this, arguments);
+            FrontendMultiSelectDecorator.prototype._setDropdownDesign.call(this);
         },
 
         /**
          * Action on multiselect widget refresh
          */
         onRefresh: function() {
-            var instance = this.multiselect('instance');
+            const instance = this.multiselect('instance');
             this.updateFooterPosition(instance);
 
-            FrontendMultiSelectDecorator.prototype.onRefresh.apply(this, arguments);
+            FrontendMultiSelectDecorator.prototype.onRefresh.call(this);
         },
 
         /**
@@ -118,7 +117,7 @@ define(function(require) {
          * @param {object} instance
          */
         setActionsState: function(instance) {
-            var checked = instance.getChecked().length;
+            const checked = instance.getChecked().length;
 
             instance.header
                 .find('.ui-multiselect-none')
@@ -135,8 +134,8 @@ define(function(require) {
          * @param {object} instance
          */
         updateFooterPosition: function(instance) {
-            var $footerContainer = instance.menu.parent().find('.datagrid-manager__footer');
-            var $checkboxContainer = instance.menu.find('.ui-multiselect-checkboxes');
+            const $footerContainer = instance.menu.parent().find('.datagrid-manager__footer');
+            const $checkboxContainer = instance.menu.find('.ui-multiselect-checkboxes');
             if ($footerContainer.length && $checkboxContainer.length) {
                 $checkboxContainer.after($footerContainer);
             }
@@ -147,7 +146,7 @@ define(function(require) {
          * @param {object} widget
          */
         addAdditionalClassesForContainer: function(widget) {
-            FrontendMultiSelectDecorator.prototype.addAdditionalClassesForContainer.apply(this, arguments);
+            FrontendMultiSelectDecorator.prototype.addAdditionalClassesForContainer.call(this, widget);
 
             widget.addClass('ui-rewrite');
         },
@@ -156,7 +155,7 @@ define(function(require) {
          * @param {object} instance
          */
         setDesignForCheckboxesDefaultTheme: function(instance) {
-            FrontendMultiSelectDecorator.prototype.setDesignForCheckboxesDefaultTheme.apply(this, arguments);
+            FrontendMultiSelectDecorator.prototype.setDesignForCheckboxesDefaultTheme.call(this, instance);
 
             instance.menu
                 .find('.datagrid-manager__list-item')

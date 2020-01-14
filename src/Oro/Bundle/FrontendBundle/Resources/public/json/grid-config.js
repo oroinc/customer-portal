@@ -10,7 +10,7 @@ define(function() {
             'orodatagrid\/js\/totals-builder'
         ],
         metadata: {
-            requireJSModules: [
+            jsmodules: [
                 'orofilter\/js\/datafilter-builder',
                 'orosync\/js\/content\/grid-builder',
                 'orodatagrid\/js\/totals-builder'

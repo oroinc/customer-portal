@@ -1,12 +1,12 @@
 define(function(require) {
     'use strict';
-    var BaseView = require('oroui/js/app/views/base/view');
+    const BaseView = require('oroui/js/app/views/base/view');
 
     /**
      * @class
      */
-    var InlineEditorWrapperView = BaseView.extend({
-        template: require('tpl!../../../templates/editor/inline-editable-wrapper-view.html'),
+    const InlineEditorWrapperView = BaseView.extend({
+        template: require('tpl-loader!../../../templates/editor/inline-editable-wrapper-view.html'),
 
         events: {
             'click [data-role="start-editing"]': 'onInlineEditingStart'
@@ -15,8 +15,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function InlineEditorWrapperView() {
-            InlineEditorWrapperView.__super__.constructor.apply(this, arguments);
+        constructor: function InlineEditorWrapperView(options) {
+            InlineEditorWrapperView.__super__.constructor.call(this, options);
         },
 
         onInlineEditingStart: function() {

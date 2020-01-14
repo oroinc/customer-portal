@@ -1,11 +1,10 @@
 define(function(require) {
     'use strict';
 
-    var FakeMaskedInput;
-    var _ = require('underscore');
-    var BaseView = require('oroui/js/app/views/base/view');
+    const _ = require('underscore');
+    const BaseView = require('oroui/js/app/views/base/view');
 
-    FakeMaskedInput = BaseView.extend({
+    const FakeMaskedInput = BaseView.extend({
         /**
          * @inheritDoc
          */
@@ -30,8 +29,8 @@ define(function(require) {
          * @inheritDoc
          * @returns {*}
          */
-        constructor: function FakeMaskedInput() {
-            return FakeMaskedInput.__super__.constructor.apply(this, arguments);
+        constructor: function FakeMaskedInput(options) {
+            return FakeMaskedInput.__super__.constructor.call(this, options);
         },
 
         /**
@@ -48,7 +47,7 @@ define(function(require) {
             }
 
             this.toClear();
-            FakeMaskedInput.__super__.initialize.apply(this, arguments);
+            FakeMaskedInput.__super__.initialize.call(this, options);
         },
 
         /**
@@ -57,7 +56,7 @@ define(function(require) {
          * @param {jQuery.Event} event
          */
         enterOnlyNumbers: function(event) {
-            var charCode = (event.which) ? event.which : event.keyCode;
+            const charCode = (event.which) ? event.which : event.keyCode;
 
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
                 event.preventDefault();
@@ -77,7 +76,7 @@ define(function(require) {
          * Forbidden selection if it browser support
          */
         removeSelection: function() {
-            var selection = null;
+            let selection = null;
 
             if ('getSelection' in window) {
                 selection = window.getSelection();
@@ -86,7 +85,7 @@ define(function(require) {
                 return;
             }
 
-            var selectedText = this.el.value.substring(this.el.selectionStart, this.el.selectionEnd);
+            const selectedText = this.el.value.substring(this.el.selectionStart, this.el.selectionEnd);
 
             // Nothing selected
             if (!selectedText.length) {
@@ -115,7 +114,7 @@ define(function(require) {
             if (this.toChangeType) {
                 this.$el.attr('type', this._originalType);
             }
-            FakeMaskedInput.__super__.dispose.apply(this, arguments);
+            FakeMaskedInput.__super__.dispose.call(this);
         }
     });
 

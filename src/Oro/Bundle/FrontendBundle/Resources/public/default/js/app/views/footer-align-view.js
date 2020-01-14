@@ -1,14 +1,13 @@
 define(function(require) {
     'use strict';
 
-    var FooterAlignView;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var ElementsHelper = require('orofrontend/js/app/elements-helper');
-    var mediator = require('oroui/js/mediator');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const ElementsHelper = require('orofrontend/js/app/elements-helper');
+    const mediator = require('oroui/js/mediator');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    FooterAlignView = BaseView.extend(_.extend({}, ElementsHelper, {
+    const FooterAlignView = BaseView.extend(_.extend({}, ElementsHelper, {
         elements: {
             items: '',
             footer: ''
@@ -19,8 +18,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FooterAlignView() {
-            FooterAlignView.__super__.constructor.apply(this, arguments);
+        constructor: function FooterAlignView(options) {
+            FooterAlignView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -32,14 +31,14 @@ define(function(require) {
             }
             this.initializeElements(options);
 
-            FooterAlignView.__super__.initialize.apply(this, arguments);
+            FooterAlignView.__super__.initialize.call(this, options);
         },
 
         /**
          * @inheritDoc
          */
-        delegateEvents: function() {
-            FooterAlignView.__super__.delegateEvents.apply(this, arguments);
+        delegateEvents: function(events) {
+            FooterAlignView.__super__.delegateEvents.call(this, events);
             mediator.on('layout:reposition', _.debounce(this.alignFooter, this.timeout), this);
             return this;
         },
@@ -49,7 +48,7 @@ define(function(require) {
          */
         undelegateEvents: function() {
             mediator.off(null, null, this);
-            return FooterAlignView.__super__.undelegateEvents.apply(this, arguments);
+            return FooterAlignView.__super__.undelegateEvents.call(this);
         },
 
         alignFooter: function() {
@@ -59,19 +58,19 @@ define(function(require) {
         },
 
         getItemsByRow: function() {
-            var itemsByRow = [];
-            var items;
-            var previousLeft = 0;
+            const itemsByRow = [];
+            let items;
+            let previousLeft = 0;
 
             _.each(this.getElement('items'), function(item) {
-                var $item = $(item);
+                const $item = $(item);
 
-                var $footer = $item.find(this.elements.footer);
+                const $footer = $item.find(this.elements.footer);
                 if (!$footer.length) {
                     return;
                 }
 
-                var offset = $footer.offset();
+                const offset = $footer.offset();
                 if (!items || offset.left <= previousLeft) {
                     items = [];
                     itemsByRow.push(items);
@@ -91,12 +90,12 @@ define(function(require) {
             if (items.length < 2) {
                 return;
             }
-            var maxHeight = _.max(items, function(item) {
+            const maxHeight = _.max(items, function(item) {
                 return item.height;
             }).height;
 
             _.each(items, function(item) {
-                var changeHeight = maxHeight - item.height;
+                const changeHeight = maxHeight - item.height;
                 if (changeHeight) {
                     item.$footer.css('padding-top', changeHeight);
                 }

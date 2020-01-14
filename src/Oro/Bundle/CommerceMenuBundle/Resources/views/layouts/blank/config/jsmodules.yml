@@ -1,0 +1,4 @@
+dynamic-imports:
+    orocommercemenu:
+        - orocommercemenu/js/app/views/header-row-view
+        - orocommercemenu/js/app/widgets/menu-traveling-widget

@@ -21,6 +21,7 @@ Feature: Unable and dislable menu item with different User Agent and screens rul
     And I click "Add User Agent Condition"
     When I fill "Commerce Menu Form" with:
       | Title                             | Screens Menu Item      |
+      | Target Type                       | URI                    |
       | URI                               | http://www.example.com |
       | User Agent Contains Value         | containsTestAgent      |
       | Matches Operation                 | matches                |

@@ -97,9 +97,8 @@
         <button class="btn btn--default" data-role="animate" data-animation="slide-in-up">Slide In Up</button>
     </div>
     <div class="style-book-animation" data-role="animate-me"></div>
-
     <script>
-        require(['jquery'], function($) {
+        loadModules(['jquery'], function($) {
             var $animateMe = $('[data-role="animate-me"]');
 
             $('[data-role="animate"]').on({

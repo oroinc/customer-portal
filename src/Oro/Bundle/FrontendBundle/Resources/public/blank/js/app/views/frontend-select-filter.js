@@ -1,19 +1,17 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var FrontendSelectFilter;
-    var _ = require('underscore');
-    var SelectFilter = require('oro/filter/select-filter');
-    var MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
-    var FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
-    var module = require('module');
-    var config = module.config();
+    const _ = require('underscore');
+    const SelectFilter = require('oro/filter/select-filter');
+    const MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-multiselect-decorator');
+    const FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
+    let config = require('module-config').default(module.id);
 
     config = _.extend({
         closeAfterChose: true
     }, config);
 
-    FrontendSelectFilter = SelectFilter.extend(_.extend({}, FilterCountHelper, {
+    const FrontendSelectFilter = SelectFilter.extend(_.extend({}, FilterCountHelper, {
         /**
          * @property
          */
@@ -52,15 +50,15 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendSelectFilter() {
-            FrontendSelectFilter.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendSelectFilter(options) {
+            FrontendSelectFilter.__super__.constructor.call(this, options);
         },
 
         /**
          * @inheritDoc
          */
         getTemplateData: function() {
-            var templateData = FrontendSelectFilter.__super__.getTemplateData.apply(this, arguments);
+            const templateData = FrontendSelectFilter.__super__.getTemplateData.call(this);
 
             return this.filterTemplateData(templateData);
         },
@@ -83,7 +81,7 @@ define(function(require) {
                     additionalClass: false
                 });
             }
-            return FrontendSelectFilter.__super__.render.apply(this, arguments);
+            return FrontendSelectFilter.__super__.render.call(this);
         },
 
         /**
@@ -98,7 +96,7 @@ define(function(require) {
             if (this.isToggleMode()) {
                 this.toggleFilter();
             } else {
-                FrontendSelectFilter.__super__._onClickFilterArea.apply(this, arguments);
+                FrontendSelectFilter.__super__._onClickFilterArea.call(this, e);
             }
         },
 
@@ -117,7 +115,7 @@ define(function(require) {
          * @inheritDoc
          */
         reset: function() {
-            FrontendSelectFilter.__super__.reset.apply(this, arguments);
+            FrontendSelectFilter.__super__.reset.call(this);
 
             if (this.isToggleMode()) {
                 this.selectDropdownOpened = true;
@@ -129,7 +127,7 @@ define(function(require) {
          * @inheritDoc
          */
         _getSelectWidgetPosition: function() {
-            var position = FrontendSelectFilter.__super__._getSelectWidgetPosition.call(this);
+            const position = FrontendSelectFilter.__super__._getSelectWidgetPosition.call(this);
 
             return _.extend({}, position, {
                 my: 'left top'

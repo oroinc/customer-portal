@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\ApiBundle\ApiDoc\Extractor\CachingApiDocExtractor;
 use Oro\Bundle\ApiBundle\Request\ApiAction;
+use Oro\Bundle\ApiBundle\Tests\Functional\ApiFeatureTrait;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
@@ -20,7 +21,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class LoginTest extends FrontendWebTestCase
 {
-    const JSON_API_CONTENT_TYPE = 'application/vnd.api+json';
+    use ApiFeatureTrait;
+
+    private const JSON_API_CONTENT_TYPE = 'application/vnd.api+json';
+    private const API_FEATURE_NAME      = 'oro_frontend.web_api';
 
     /**
      * {@inheritdoc}
@@ -30,6 +34,14 @@ class LoginTest extends FrontendWebTestCase
         $this->initClient();
         $this->loadFixtures([LoadCustomerUserData::class]);
         $this->setCurrentWebsite();
+    }
+
+    /**
+     * @return ConfigManager
+     */
+    private function getConfigManager(): ConfigManager
+    {
+        return self::getContainer()->get('oro_config.global');
     }
 
     /**
@@ -95,7 +107,7 @@ class LoginTest extends FrontendWebTestCase
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
         self::assertSame('', $response->getContent());
-        self::assertSame(0, $response->headers->get('Content-Length'));
+        self::assertSame('0', $response->headers->get('Content-Length'));
         self::assertEquals('max-age=600, public', $response->headers->get('Cache-Control'));
         self::assertEquals('Origin', $response->headers->get('Vary'));
 
@@ -440,5 +452,25 @@ class LoginTest extends FrontendWebTestCase
             empty($resourceData['response']),
             'The "response" section should be empty'
         );
+    }
+
+    public function testTryToLoginWithValidCredentialsAndDisabledFeature()
+    {
+        $this->disableApiFeature(self::API_FEATURE_NAME);
+        try {
+            $response = $this->request(
+                'POST',
+                [
+                    'meta' => [
+                        'email'    => LoadCustomerUserData::EMAIL,
+                        'password' => LoadCustomerUserData::PASSWORD
+                    ]
+                ]
+            );
+        } finally {
+            $this->enableApiFeature(self::API_FEATURE_NAME);
+        }
+
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
     }
 }

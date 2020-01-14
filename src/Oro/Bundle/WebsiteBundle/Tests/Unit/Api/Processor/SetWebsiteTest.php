@@ -69,6 +69,34 @@ class SetWebsiteTest extends TypeTestCase
         self::assertInstanceOf(Website::class, $entity->getWebsite());
     }
 
+    public function testProcessWhenFormHasSubmittedWebsiteFieldButItIsNotMapped()
+    {
+        $entity = new WebsiteAwareStub();
+        $website = new Website();
+
+        $formBuilder = $this->getFormBuilder();
+        $formBuilder->add(
+            self::WEBSITE_FIELD_NAME,
+            FormType::class,
+            ['data_class' => Website::class, 'mapped' => false]
+        );
+        $form = $formBuilder->getForm();
+        $form->setData($entity);
+        $form->submit([self::WEBSITE_FIELD_NAME => []], false);
+        self::assertTrue($form->isSynchronized());
+
+        $this->websiteManager->expects(self::once())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
+
+        $context = new CustomizeFormDataContext();
+        $context->setForm($form);
+        $context->setData($entity);
+        $this->processor->process($context);
+
+        self::assertSame($website, $entity->getWebsite());
+    }
+
     public function testProcessWhenFormDoesNotHaveWebsiteField()
     {
         $entity = new WebsiteAwareStub();

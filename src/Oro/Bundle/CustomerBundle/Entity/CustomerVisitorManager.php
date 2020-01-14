@@ -2,26 +2,30 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
+/**
+ * Provides a set of methods to simplify manage of the CustomerVisitor entity.
+ */
 class CustomerVisitorManager
 {
-    /**
-     * @var DoctrineHelper
-     */
-    private $doctrineHelper;
+    /** @var ManagerRegistry */
+    private $doctrine;
 
     /**
-     * @param DoctrineHelper $doctrineHelper
+     * @param ManagerRegistry $doctrine
      */
-    public function __construct(DoctrineHelper $doctrineHelper)
+    public function __construct(ManagerRegistry $doctrine)
     {
-        $this->doctrineHelper = $doctrineHelper;
+        $this->doctrine = $doctrine;
     }
 
     /**
-     * @param integer|null $id
-     * @param string|null  $sessionId
+     * @param int|null    $id
+     * @param string|null $sessionId
+     *
      * @return CustomerVisitor
      */
     public function findOrCreate($id = null, $sessionId = null)
@@ -36,8 +40,9 @@ class CustomerVisitorManager
     }
 
     /**
-     * @param integer|null $id
-     * @param string|null  $sessionId
+     * @param int|null    $id
+     * @param string|null $sessionId
+     *
      * @return CustomerVisitor|null
      */
     public function find($id = null, $sessionId = null)
@@ -46,24 +51,26 @@ class CustomerVisitorManager
             return null;
         }
 
-        $user = $this->doctrineHelper
-            ->getEntityRepositoryForClass(CustomerVisitor::class)
-            ->findOneBy(['id' => $id, 'sessionId' => $sessionId]);
-
-        return $user;
+        return $this->getRepository()->findOneBy(['id' => $id, 'sessionId' => $sessionId]);
     }
 
     /**
      * @param CustomerVisitor $user
-     * @param integer         $updateLatency
+     * @param int             $updateLatency
      */
     public function updateLastVisitTime(CustomerVisitor $user, $updateLatency)
     {
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
-
         if ($updateLatency < $now->getTimestamp() - $user->getLastVisit()->getTimestamp()) {
-            $user->setLastVisit($now);
-            $this->getEntityManager()->flush();
+            $this->getEntityManager()
+                ->createQueryBuilder()
+                ->update(CustomerVisitor::class, 'v')
+                ->set('v.lastVisit', ':lastVisit')
+                ->where('v.id = :id')
+                ->setParameter('lastVisit', $now)
+                ->setParameter('id', $user->getId())
+                ->getQuery()
+                ->execute();
         }
     }
 
@@ -82,10 +89,18 @@ class CustomerVisitorManager
     }
 
     /**
-     * @return \Doctrine\ORM\EntityManager
+     * @return EntityManagerInterface
      */
     private function getEntityManager()
     {
-        return $this->doctrineHelper->getEntityManagerForClass(CustomerVisitor::class);
+        return $this->doctrine->getManagerForClass(CustomerVisitor::class);
+    }
+
+    /**
+     * @return EntityRepository
+     */
+    private function getRepository()
+    {
+        return $this->getEntityManager()->getRepository(CustomerVisitor::class);
     }
 }

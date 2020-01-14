@@ -161,7 +161,7 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
             ($this->originalCustomer !== $role->getCustomer() &&
                     $this->originalCustomer !== null && $role->getCustomer() !== null) ||
                 ($this->originalCustomer === null && $role->getCustomer() !== null)
-            )
+        )
         ) {
             // Remove assigned users
             $assignedUsers = $roleRepository->getAssignedUsers($role);

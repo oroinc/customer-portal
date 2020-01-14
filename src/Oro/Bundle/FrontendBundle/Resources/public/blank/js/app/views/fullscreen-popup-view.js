@@ -1,18 +1,17 @@
 define(function(require) {
     'use strict';
 
-    var FullscreenPopupView;
-    var template = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup.html');
-    var footerTemplate = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-footer.html');
-    var headerTemplate = require('tpl!orofrontend/templates/fullscreen-popup/fullscreen-popup-header.html');
-    var BaseView = require('oroui/js/app/views/base/view');
-    var tools = require('oroui/js/tools');
-    var mediator = require('oroui/js/mediator');
-    var scrollHelper = require('oroui/js/tools/scroll-helper');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const template = require('tpl-loader!orofrontend/templates/fullscreen-popup/fullscreen-popup.html');
+    const footerTemplate = require('tpl-loader!orofrontend/templates/fullscreen-popup/fullscreen-popup-footer.html');
+    const headerTemplate = require('tpl-loader!orofrontend/templates/fullscreen-popup/fullscreen-popup-header.html');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const loadModules = require('oroui/js/app/services/load-modules');
+    const mediator = require('oroui/js/mediator');
+    const scrollHelper = require('oroui/js/tools/scroll-helper');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    FullscreenPopupView = BaseView.extend({
+    const FullscreenPopupView = BaseView.extend({
         /**
          * @property
          */
@@ -100,8 +99,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FullscreenPopupView() {
-            FullscreenPopupView.__super__.constructor.apply(this, arguments);
+        constructor: function FullscreenPopupView(options) {
+            FullscreenPopupView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -109,7 +108,7 @@ define(function(require) {
          */
         initialize: function(options) {
             _.each(this.sections, this._initializeSection.bind(this, options));
-            return FullscreenPopupView.__super__.initialize.apply(this, arguments);
+            return FullscreenPopupView.__super__.initialize.call(this, options);
         },
 
         /**
@@ -120,7 +119,7 @@ define(function(require) {
                 return;
             }
             this.close();
-            FullscreenPopupView.__super__.dispose.apply(this, arguments);
+            FullscreenPopupView.__super__.dispose.call(this);
         },
 
         show: function() {
@@ -129,12 +128,12 @@ define(function(require) {
 
             this.$popup.appendTo($('body'));
 
-            var promises = _.map(this.sections, this.showSection, this);
-            $.when.apply($, promises).then(this._onShow.bind(this));
+            const promises = _.map(this.sections, this.showSection, this);
+            $.when(...promises).then(this._onShow.bind(this));
         },
 
         showSection: function(section) {
-            var deferred = $.Deferred();
+            const deferred = $.Deferred();
             this[section].$el = this.$popup.find('[data-role="' + section + '"]');
             if (false === this._eachSectionVariant(section, '_renderSection', deferred)) {
                 deferred.resolve();
@@ -146,7 +145,7 @@ define(function(require) {
          * @inheritDoc
          */
         getTemplateData: function() {
-            var data = FullscreenPopupView.__super__.getTemplateData.apply(this, arguments);
+            let data = FullscreenPopupView.__super__.getTemplateData.call(this);
             data = _.extend({}, data, {
                 close: this.popupCloseButton
             });
@@ -182,16 +181,15 @@ define(function(require) {
             this._eachSectionVariant(section, '_closeSection');
         },
 
-        _eachSectionVariant: function(section, callback) {
-            var args = _.rest(arguments, 2);
-            var sectionOptions = this[section];
-            var variant;
-            for (var i = 0; i < this.sectionOptionVariants.length; i++) {
+        _eachSectionVariant: function(section, callback, ...args) {
+            const sectionOptions = this[section];
+            let variant;
+            for (let i = 0; i < this.sectionOptionVariants.length; i++) {
                 variant = this.sectionOptionVariants[i];
-                var func = callback + variant;
-                var variantValue = sectionOptions[variant];
+                const func = callback + variant;
+                const variantValue = sectionOptions[variant];
                 if (this[func] && variantValue !== null) {
-                    return this[func].apply(this, args.concat([
+                    return this[func](...args.concat([
                         section,
                         sectionOptions,
                         variant,
@@ -202,12 +200,12 @@ define(function(require) {
         },
 
         _initializeSection: function(options, section) {
-            var sectionOptions = this[section] = _.extend({}, this[section] || {});
+            const sectionOptions = this[section] = _.extend({}, this[section] || {});
             sectionOptions.options = _.extend({}, sectionOptions.options || {}, options[section + 'Options'] || {});
             sectionOptions.attr = options[section + 'Attributes'] || {};
 
             this.sectionOptionVariants = _.map(this.sectionOptionVariants, function(variant) {
-                var value = options[section + variant];
+                const value = options[section + variant];
                 variant = variant || 'Content';
                 sectionOptions[variant] = value !== undefined ? value : (sectionOptions[variant] || null);
 
@@ -237,7 +235,7 @@ define(function(require) {
         },
 
         _renderSectionElement: function(deferred, section, sectionOptions, option, element) {
-            var $element = $(element);
+            const $element = $(element);
             sectionOptions.$placeholder = $('<div/>');
 
             this._savePreviousClasses($element);
@@ -254,10 +252,10 @@ define(function(require) {
 
         _renderSectionView: function(deferred, section, sectionOptions, option, View) {
             if (_.isString(View)) {
-                tools.loadModules(View, _.bind(function(View) {
+                loadModules(View, function(View) {
                     sectionOptions.View = View;
                     this._renderSectionView(deferred, section, sectionOptions, option, View);
-                }, this));
+                }, this);
             } else {
                 this.subview(section, new View(
                     _.extend(this[section].options, {
@@ -269,7 +267,7 @@ define(function(require) {
         },
 
         _renderSectionTemplate: function(deferred, section, sectionOptions, option, template) {
-            var templateData = sectionOptions.options.templateData;
+            const templateData = sectionOptions.options.templateData;
             if (!templateData) {
                 return false;
             }
@@ -280,7 +278,7 @@ define(function(require) {
             if (!sectionOptions.$placeholder) {
                 return;
             }
-            var $element = $(element);
+            const $element = $(element);
 
             sectionOptions.$placeholder
                 .after($element)

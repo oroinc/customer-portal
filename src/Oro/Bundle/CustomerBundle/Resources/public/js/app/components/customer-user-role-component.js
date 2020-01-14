@@ -1,15 +1,14 @@
 define(function(require) {
     'use strict';
 
-    var CustomerUserRoleComponent;
-    var BaseComponent = require('oroui/js/app/components/base/component');
-    var mediator = require('oroui/js/mediator');
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var Modal = require('oroui/js/modal');
+    const BaseComponent = require('oroui/js/app/components/base/component');
+    const mediator = require('oroui/js/mediator');
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const Modal = require('oroui/js/modal');
 
-    CustomerUserRoleComponent = BaseComponent.extend({
+    const CustomerUserRoleComponent = BaseComponent.extend({
         /**
          * @property {Object}
          */
@@ -35,8 +34,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function CustomerUserRoleComponent() {
-            CustomerUserRoleComponent.__super__.constructor.apply(this, arguments);
+        constructor: function CustomerUserRoleComponent(options) {
+            CustomerUserRoleComponent.__super__.constructor.call(this, options);
         },
 
         /**
@@ -56,7 +55,7 @@ define(function(require) {
          * @param {jQuery.Event} e
          */
         onCustomerSelectorChange: function(e) {
-            var value = e.target.value;
+            const value = e.target.value;
 
             if (value === this.options.originalValue || !this.options.enableConfirmation) {
                 this._updateGridAndSaveParameters(value);
@@ -104,7 +103,7 @@ define(function(require) {
          * @private
          */
         _getCustomerConfirmDialog: function(okCallback, cancelCallback) {
-            var changeCustomerConfirmDialog = this._createChangeCustomerConfirmationDialog();
+            const changeCustomerConfirmDialog = this._createChangeCustomerConfirmationDialog();
 
             changeCustomerConfirmDialog
                 .on('ok', _.bind(okCallback, this))

@@ -1,6 +1,6 @@
 /* @theme: blank; */
 
-.btn {
+%base-button {
     display: $btn-display;
     font-family: $btn-font-family;
     font-weight: $btn-font-weight;
@@ -52,6 +52,10 @@
     }
 }
 
+.btn {
+    @extend %base-button;
+}
+
 // Future-proof disabling of clicks on `<a>` elements
 a.btn.disabled,
 fieldset:disabled a.btn {
@@ -88,6 +92,7 @@ fieldset:disabled a.btn {
 
     &:focus,
     &.focus {
+        background: $btn-link-focus-background;
         text-decoration: $btn-link-focus-text-decoration;
         border-color: $btn-link-focus-border-color;
         box-shadow: $btn-link-focus-box-shadow;

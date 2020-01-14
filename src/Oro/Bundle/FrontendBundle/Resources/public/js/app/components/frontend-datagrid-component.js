@@ -1,19 +1,18 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var FrontendDataGridComponent;
-    var DataGridComponent = require('orodatagrid/js/app/components/datagrid-component');
-    var ElasticSwipeActionsPlugin = require('orofrontend/js/app/plugins/plugin-elastic-swipe-actions');
-    var _ = require('underscore');
+    const DataGridComponent = require('orodatagrid/js/app/components/datagrid-component');
+    const ElasticSwipeActionsPlugin = require('orofrontend/js/app/plugins/plugin-elastic-swipe-actions');
+    const _ = require('underscore');
 
-    var config = require('module').config();
+    let config = require('module-config').default(module.id);
 
     config = _.extend({
         responsiveGridClassName: 'frontend-datagrid--responsive',
         gridHasSwipeClassName: 'frontend-datagrid--has-swipe'
     }, config);
 
-    FrontendDataGridComponent = DataGridComponent.extend({
+    const FrontendDataGridComponent = DataGridComponent.extend({
         options: {
             rowActionsClass: 'has-actions',
             rowSelectClass: 'has-select-action'
@@ -22,15 +21,15 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendDataGridComponent() {
-            FrontendDataGridComponent.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendDataGridComponent(options) {
+            FrontendDataGridComponent.__super__.constructor.call(this, options);
         },
 
         /**
          * @inheritDoc
          */
         initDataGrid: function(options) {
-            FrontendDataGridComponent.__super__.initDataGrid.apply(this, arguments);
+            FrontendDataGridComponent.__super__.initDataGrid.call(this, options);
 
             if ((this.metadata.responsiveGrids && this.metadata.responsiveGrids.enable)) {
                 this.$componentEl.addClass(config.responsiveGridClassName);
@@ -45,7 +44,7 @@ define(function(require) {
          * @inheritDoc
          */
         combineGridOptions: function() {
-            var options = FrontendDataGridComponent.__super__.combineGridOptions.apply(this, arguments);
+            const options = FrontendDataGridComponent.__super__.combineGridOptions.call(this);
 
             _.extend(options, this.options);
 

@@ -5,4 +5,4 @@ stylebook_styles:
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-menu-config.scss'
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-sticky-elements-nav-config.scss'
         - 'bundles/orostylebook/default/scss/style-book.scss'
-    output: 'css/layout/default/stylebook.css'
+    output: 'css/stylebook.css'

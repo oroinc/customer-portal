@@ -1,12 +1,11 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var FrontendMultiSelectDecorator;
-    var _ = require('underscore');
-    var __ = require('orotranslation/js/translator');
-    var $ = require('jquery');
-    var MultiSelectDecorator = require('orofilter/js/multiselect-decorator');
-    var config = require('module').config();
+    const _ = require('underscore');
+    const __ = require('orotranslation/js/translator');
+    const $ = require('jquery');
+    const MultiSelectDecorator = require('orofilter/js/multiselect-decorator');
+    let config = require('module-config').default(module.id);
 
     config = $.extend(true, {
         hideHeader: false,
@@ -14,14 +13,14 @@ define(function(require) {
         additionalClass: true
     }, config);
 
-    FrontendMultiSelectDecorator = function(options) {
-        var params = _.pick(options.parameters, ['additionalClass', 'hideHeader', 'themeName']);
+    const FrontendMultiSelectDecorator = function(options) {
+        const params = _.pick(options.parameters, ['additionalClass', 'hideHeader', 'themeName']);
 
         if (!_.isEmpty(params)) {
             this.parameters = _.extend({}, this.parameters, params);
         }
 
-        MultiSelectDecorator.apply(this, arguments);
+        MultiSelectDecorator.call(this, options);
     };
 
     FrontendMultiSelectDecorator.prototype = _.extend(Object.create(MultiSelectDecorator.prototype), {
@@ -61,8 +60,8 @@ define(function(require) {
          * @private
          */
         _setDropdownDesign: function() {
-            var widget = this.getWidget();
-            var instance = this.multiselect('instance');
+            const widget = this.getWidget();
+            const instance = this.multiselect('instance');
 
             if (!_.isObject(instance)) {
                 return;
@@ -119,8 +118,8 @@ define(function(require) {
          * @param {object} instance
          */
         setDesignForCheckboxesDefaultTheme: function(instance) {
-            var className = instance.options.multiple ? 'checkbox' : 'radio';
-            var $icon = instance.labels.find('.custom-' + className + '__icon');
+            const className = instance.options.multiple ? 'checkbox' : 'radio';
+            const $icon = instance.labels.find('.custom-' + className + '__icon');
 
             instance.menu
                 .children('.ui-multiselect-checkboxes')
@@ -160,7 +159,7 @@ define(function(require) {
          */
         onRefresh: function() {
             if (_.isFunction(this.setActionsState)) {
-                var instance = this.multiselect('instance');
+                const instance = this.multiselect('instance');
                 this.setActionsState(instance);
             }
 

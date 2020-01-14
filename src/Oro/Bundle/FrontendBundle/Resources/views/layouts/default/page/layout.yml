@@ -23,9 +23,9 @@ layout:
             parentId: head
 
         - '@add':
-            id: requirejs_scripts_after
+            id: layout_js_build_scripts_after
             blockType: container
-            parentId: require_js
+            parentId: layout_js
 
         - '@add':
             id: notification

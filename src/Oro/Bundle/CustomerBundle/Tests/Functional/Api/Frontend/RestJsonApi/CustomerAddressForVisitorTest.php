@@ -11,6 +11,7 @@ class CustomerAddressForVisitorTest extends FrontendRestJsonApiTestCase
     protected function setUp()
     {
         parent::setUp();
+        $this->enableVisitor();
         $this->loadFixtures([
             LoadCustomerData::class,
             '@OroCustomerBundle/Tests/Functional/Api/Frontend/DataFixtures/customer_address.yml'
@@ -25,7 +26,7 @@ class CustomerAddressForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 
     public function testTryToGet()
@@ -36,7 +37,7 @@ class CustomerAddressForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 
     public function testTryToCreate()
@@ -47,7 +48,7 @@ class CustomerAddressForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 
     public function testTryToUpdate()
@@ -68,7 +69,7 @@ class CustomerAddressForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 
     public function testTryToDelete()
@@ -81,7 +82,7 @@ class CustomerAddressForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 
     public function testTryToDeleteList()
@@ -94,6 +95,6 @@ class CustomerAddressForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 }

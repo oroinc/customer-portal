@@ -1,14 +1,12 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var FrontendDatagridSettingsColumnView;
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var DatagridSettingsListView = require('orodatagrid/js/app/views/datagrid-settings-list/datagrid-settings-list-view');
-    var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
-    var viewportManager = require('oroui/js/viewport-manager');
-    var module = require('module');
-    var config = module.config();
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const DatagridSettingsListView = require('orodatagrid/js/app/views/datagrid-settings-list/datagrid-settings-list-view');
+    const FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+    const viewportManager = require('oroui/js/viewport-manager');
+    let config = require('module-config').default(module.id);
 
     config = _.extend({
         className: 'dropdown-menu',
@@ -18,7 +16,7 @@ define(function(require) {
         popupOptions: {}
     }, config);
 
-    FrontendDatagridSettingsColumnView = DatagridSettingsListView.extend({
+    const FrontendDatagridSettingsColumnView = DatagridSettingsListView.extend({
         /**
          * @property
          */
@@ -42,8 +40,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendDatagridSettingsColumnView() {
-            FrontendDatagridSettingsColumnView.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendDatagridSettingsColumnView(options) {
+            FrontendDatagridSettingsColumnView.__super__.constructor.call(this, options);
         },
 
         /**
@@ -63,7 +61,7 @@ define(function(require) {
          * @param {jQuery.Event} showEvent
          */
         beforeOpen: function(showEvent) {
-            var dropdown = $(showEvent.target).find('[data-toggle="dropdown"]').data('bs.dropdown');
+            const dropdown = $(showEvent.target).find('[data-toggle="dropdown"]').data('bs.dropdown');
             if (dropdown) {
                 // prevent usage popper in dropdown, if it's fullscreen mode (_inNavbar doesn't use popper)
                 dropdown._inNavbar = viewportManager.isApplicable(this.viewport) ? true : dropdown._detectNavbar();
@@ -87,7 +85,7 @@ define(function(require) {
 
                 this.fullscreenView.show();
             } else {
-                FrontendDatagridSettingsColumnView.__super__.updateStateView.apply(this, arguments);
+                FrontendDatagridSettingsColumnView.__super__.updateStateView.call(this);
             }
         },
 

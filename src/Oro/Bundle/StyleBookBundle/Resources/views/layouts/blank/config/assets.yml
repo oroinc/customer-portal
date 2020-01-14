@@ -1,6 +1,6 @@
 stylebook_styles:
     inputs:
-        - 'bundles/bowerassets/prism/themes/prism-coy.css'
+        - 'bundles/npmassets/prismjs/themes/prism-coy.css'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-colors-config.scss'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-config.scss'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-menu-container-config.scss'
@@ -15,4 +15,4 @@ stylebook_styles:
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-title-config.scss'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-tabs-config.scss'
         - 'bundles/orostylebook/blank/scss/style-book.scss'
-    output: 'css/layout/blank/stylebook.css'
+    output: 'css/stylebook.css'

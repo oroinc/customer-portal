@@ -44,6 +44,7 @@ oro_frontend_attachment_filter_image:
     defaults: { _controller: OroAttachmentBundle:File:getFilteredImage}
     requirements:
         id: '\d+'
+        filterMd5: '^[0-9a-f]{32}$'
     options:
         frontend: true
 
@@ -79,7 +80,7 @@ oro_datagrid_front_mass_action:
     defaults:
         _controller: OroDataGridBundle:Grid:massAction
     requirements:
-        gridName:   '[\w\:-]+'
-        actionName: '[\w-]+'
+        gridName:   '[\w\:\-]+'
+        actionName: '[\w\-]+'
     options:
         frontend: true

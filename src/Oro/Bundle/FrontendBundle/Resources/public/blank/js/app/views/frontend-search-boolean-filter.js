@@ -1,12 +1,11 @@
 define(function(require) {
     'use strict';
 
-    var FrontendSearchBooleanFilter;
-    var _ = require('underscore');
-    var MultiSelectFilter = require('oro/filter/multiselect-filter');
-    var FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
+    const _ = require('underscore');
+    const MultiSelectFilter = require('oro/filter/multiselect-filter');
+    const FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
 
-    FrontendSearchBooleanFilter = MultiSelectFilter.extend(_.extend({}, FilterCountHelper, {
+    const FrontendSearchBooleanFilter = MultiSelectFilter.extend(_.extend({}, FilterCountHelper, {
         /**
          * @inheritDoc
          */
@@ -23,17 +22,20 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendBooleanFilter() {
-            FrontendSearchBooleanFilter.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendBooleanFilter(options) {
+            FrontendSearchBooleanFilter.__super__.constructor.call(this, options);
         },
 
         /**
          * @inheritDoc
          */
         getTemplateData: function() {
-            var templateData = FrontendSearchBooleanFilter.__super__.getTemplateData.apply(this, arguments);
+            let templateData = FrontendSearchBooleanFilter.__super__.getTemplateData.call(this);
 
-            return this.filterTemplateData(templateData);
+            templateData = this.filterTemplateData(templateData);
+            this.visible = (_.size(templateData.options) > 1);
+
+            return templateData;
         }
     }));
 

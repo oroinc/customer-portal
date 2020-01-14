@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfileType;
@@ -17,9 +18,14 @@ use Symfony\Component\Validator\Validation;
 class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
 {
     /**
+     * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $configManager;
+
+    /**
      * @var FrontendCustomerUserProfileType
      */
-    protected $formType;
+    private $formType;
 
     /**
      * @var Customer[]
@@ -31,7 +37,8 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
      */
     protected function setUp()
     {
-        $this->formType = new FrontendCustomerUserProfileType();
+        $this->configManager = $this->createMock(ConfigManager::class);
+        $this->formType = new FrontendCustomerUserProfileType($this->configManager);
         $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerUser');
         parent::setUp();
     }
@@ -73,6 +80,10 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
      */
     public function testSubmit($defaultData, array $submittedData, $expectedData)
     {
+        $this->configManager->expects($this->once())
+            ->method('get')
+            ->with('oro_customer.company_name_field_enabled')
+            ->willReturn(true);
         $form = $this->factory->create(FrontendCustomerUserProfileType::class, $defaultData, []);
 
         $this->assertEquals($defaultData, $form->getData());

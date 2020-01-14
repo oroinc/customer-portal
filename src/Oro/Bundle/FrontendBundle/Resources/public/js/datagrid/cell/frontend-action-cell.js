@@ -1,19 +1,17 @@
-define(function(require) {
+define(function(require, exports, module) {
     'use strict';
 
-    var FrontendActionCell;
-    var ActionCell = require('oro/datagrid/cell/action-cell');
-    var _ = require('underscore');
-    var module = require('module');
-    var config = module.config();
+    const ActionCell = require('oro/datagrid/cell/action-cell');
+    const _ = require('underscore');
+    const config = require('module-config').default(module.id);
 
-    FrontendActionCell = ActionCell.extend({
-        constructor: function FrontendActionCell() {
-            return FrontendActionCell.__super__.constructor.apply(this, arguments);
+    const FrontendActionCell = ActionCell.extend({
+        constructor: function FrontendActionCell(options) {
+            return FrontendActionCell.__super__.constructor.call(this, options);
         },
 
         initialize: function(options) {
-            FrontendActionCell.__super__.initialize.apply(this, arguments);
+            FrontendActionCell.__super__.initialize.call(this, options);
 
             if (_.isMobile() && config.actionsHideCount) {
                 this.actionsHideCount = config.actionsHideCount;

@@ -5,7 +5,6 @@
     flex-direction: row;
 
     margin-left: 25px;
-    padding-top: 20px;
 
     border-top: 1px solid get-color('additional', 'light');
 
@@ -28,6 +27,8 @@
     }
 
     &__button {
+        display: inline-flex;
+
         &.item-map-button {
             display: none;
         }
@@ -75,6 +76,10 @@
 .map-address-list {
     flex-basis: 44%;
     flex-grow: 1;
+
+    .map-item {
+        padding-top: $address-list-item-v-space;
+    }
 }
 
 .list-item {
@@ -93,6 +98,7 @@
 
 .map-visual-frame {
     height: 320px;
+    margin-top: $address-list-item-v-space;
     margin-left: 2%;
 
     flex-basis: 54%;
@@ -101,7 +107,6 @@
 @include breakpoint('tablet-small') {
     .address-list {
         margin-left: 0;
-        padding-top: 0;
 
         &__button.item-map-button {
             display: inline-flex;

@@ -1,22 +1,21 @@
 define(function(require) {
     'use strict';
 
-    var PopupGalleryWidget;
-    var AbstractWidget = require('oroui/js/widget/abstract-widget');
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var mediator = require('oroui/js/mediator');
-    var routing = require('routing');
-    var error = require('oroui/js/error');
+    const AbstractWidget = require('oroui/js/widget/abstract-widget');
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const mediator = require('oroui/js/mediator');
+    const routing = require('routing');
+    const error = require('oroui/js/error');
     require('slick');
 
-    var BROWSER_SCROLL_SIZE = mediator.execute('layout:scrollbarWidth');
+    const BROWSER_SCROLL_SIZE = mediator.execute('layout:scrollbarWidth');
 
-    PopupGalleryWidget = AbstractWidget.extend({
+    const PopupGalleryWidget = AbstractWidget.extend({
         /**
          * @property {Object}
          */
-        template: require('tpl!orofrontend/templates/gallery-popup/gallery-popup.html'),
+        template: require('tpl-loader!orofrontend/templates/gallery-popup/gallery-popup.html'),
 
         /**
          * @property {Object}
@@ -31,6 +30,7 @@ define(function(require) {
             thumbnailsFilter: null,
             alt: '',
             use_thumb: false,
+            initialSlide: false,
             imageOptions: {
                 fade: true,
                 slidesToShow: 1,
@@ -59,8 +59,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function PopupGalleryWidget() {
-            PopupGalleryWidget.__super__.constructor.apply(this, arguments);
+        constructor: function PopupGalleryWidget(options) {
+            PopupGalleryWidget.__super__.constructor.call(this, options);
         },
 
         /**
@@ -73,7 +73,7 @@ define(function(require) {
             this.$galleryWidgetOpen = this.$el.find('[data-trigger-gallery-open]');
 
             if (_.has(options, 'productModel')) {
-                var o = {};
+                const o = {};
 
                 options.productModel.on('backgrid:canSelected', _.bind(function(checked) {
                     this.toggleGalleryTrigger(checked);
@@ -115,7 +115,7 @@ define(function(require) {
 
         onOpen: function(e) {
             e.preventDefault();
-            var self = this;
+            const self = this;
 
             this.render();
             $('html').css('margin-right', BROWSER_SCROLL_SIZE);
@@ -125,7 +125,7 @@ define(function(require) {
             if (this.useThumb()) {
                 this.renderThumbnails();
             }
-            this.setDependentSlide();
+            this.setDependentSlide(e);
 
             $(document).on('keydown.popup-gallery-widget', function(e) {
                 if (e.keyCode === 37) {
@@ -153,7 +153,7 @@ define(function(require) {
                 return;
             }
 
-            var data = {
+            const data = {
                 id: this.options.id,
                 filters: []
             };
@@ -179,11 +179,14 @@ define(function(require) {
                     mediator.execute('showLoading');
                 }, this),
                 success: _.bind(function(data) {
-                    _.each(data, function(item) {
-                        var image = {
+                    _.each(data, function(item, key) {
+                        const image = {
                             src: item[this.options.galleryFilter],
                             alt: this.options.alt
                         };
+                        if (_.has(item, 'isInitial') && item['isInitial']) {
+                            this.options.initialSlide = key;
+                        }
                         if (this.useThumb()) {
                             image.thumb = item[this.options.thumbnailsFilter];
                         }
@@ -226,21 +229,26 @@ define(function(require) {
             }
         },
 
-        setDependentSlide: function() {
-            var dependentSlider = this.options.bindWithSlider;
-            var dependentSliderItems = $(dependentSlider).find('.slick-slide');
+        setDependentSlide: function(e) {
+            const dependentSlider = this.options.bindWithSlider;
+            const dependentSliderItems = $(dependentSlider).find('.slick-slide');
             if (dependentSlider && dependentSliderItems.length) {
-                var dependentSlide = $(dependentSlider).slick('slickCurrentSlide');
+                const dependentSlide = $(dependentSlider).slick('slickCurrentSlide');
                 this.$gallery.slick('slickGoTo', dependentSlide, true);
                 if (this.useThumb()) {
                     this.$thumbnails.slick('slickGoTo', dependentSlide, true);
+                }
+            } else if (_.isNumber(this.options.initialSlide)) {
+                this.$gallery.slick('slickGoTo', this.options.initialSlide, true);
+                if (this.useThumb()) {
+                    this.$thumbnails.slick('slickGoTo', this.options.initialSlide, true);
                 }
             }
         },
 
         checkSlickNoSlide: function() {
             if (this.$thumbnails.length) {
-                var getSlick = this.$thumbnails.slick('getSlick');
+                const getSlick = this.$thumbnails.slick('getSlick');
                 if (this.$thumbnails && getSlick.slideCount <= getSlick.options.slidesToShow) {
                     this.$thumbnails.addClass('slick-no-slide');
                 } else {

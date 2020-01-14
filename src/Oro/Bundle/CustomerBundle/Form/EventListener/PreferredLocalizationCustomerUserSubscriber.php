@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\EventListener;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
@@ -9,7 +10,6 @@ use Oro\Bundle\CustomerBundle\Form\Extension\PreferredLocalizationCustomerUserEx
 use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -30,19 +30,19 @@ class PreferredLocalizationCustomerUserSubscriber implements EventSubscriberInte
     protected $configManager;
 
     /**
-     * @var RegistryInterface
+     * @var ManagerRegistry
      */
     protected $registry;
 
     /**
      * @param WebsiteManager $websiteManager
      * @param ConfigManager $configManager
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
     public function __construct(
         WebsiteManager $websiteManager,
         ConfigManager $configManager,
-        RegistryInterface $registry
+        ManagerRegistry $registry
     ) {
         $this->websiteManager = $websiteManager;
         $this->configManager = $configManager;

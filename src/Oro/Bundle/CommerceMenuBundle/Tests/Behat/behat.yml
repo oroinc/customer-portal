@@ -101,5 +101,6 @@ oro_behat_extension:
         - OroEntityExtendBundle::EntityExtendContext
         - OroNavigationBundle::FeatureContext
         - OroLocaleBundle::LocalizationContext
+        - OroWebCatalogBundle::FeatureContext
       paths:
         - '@OroCommerceMenuBundle/Tests/Behat/Features'

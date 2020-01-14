@@ -83,10 +83,9 @@ class ResetController extends Controller
     public function resetAction(Request $request)
     {
         $token = $request->get('token');
-        $username = $request->get('username');
         /** @var CustomerUser $user */
-        $user = $this->getUserManager()->findUserByUsernameOrEmail($username);
-        if (!$token || null === $user || $user->getConfirmationToken() !== $token) {
+        $user = $this->getUserManager()->findUserByConfirmationToken($token);
+        if (null === $user) {
             throw $this->createNotFoundException(
                 $this->get('translator')->trans(
                     'oro.customer.controller.customeruser.token_not_found.message',

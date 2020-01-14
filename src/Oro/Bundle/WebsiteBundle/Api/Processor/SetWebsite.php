@@ -46,7 +46,10 @@ class SetWebsite implements ProcessorInterface
         /** @var CustomizeFormDataContext $context */
 
         $websiteFormField = $context->findFormField($this->websiteFieldName);
-        if (null === $websiteFormField || !$websiteFormField->isSubmitted()) {
+        if (null === $websiteFormField
+            || !$websiteFormField->isSubmitted()
+            || !$websiteFormField->getConfig()->getMapped()
+        ) {
             $this->setWebsite($context->getData());
         }
     }

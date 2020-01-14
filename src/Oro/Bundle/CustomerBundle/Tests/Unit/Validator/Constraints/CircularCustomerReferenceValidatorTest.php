@@ -83,8 +83,93 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
 
         $this->validator->validate($customer, $constraint);
 
-        $this->buildViolation($constraint->message)
+        $this->buildViolation($constraint->messageCircular)
+            ->atPath('property.path.parent')
             ->setParameter('{{ parentName }}', 'test parent customer')
+            ->setParameter('{{ customerName }}', 'test customer')
+            ->assertRaised();
+    }
+
+    public function testValidateCircularChildCustomer()
+    {
+        $customer = new Customer();
+        $customer->setId(1);
+        $customer->setName('test customer');
+
+        $parentCustomer = new Customer();
+        $parentCustomer->setId(10);
+
+        $customer->setParent($parentCustomer);
+
+        $cyclicCustomer = new Customer();
+        $cyclicCustomer->setId(5);
+        $cyclicCustomer->setName('test cyclic customer');
+        $customer->addChild($cyclicCustomer);
+
+        $this->ownerTree->expects($this->at(0))
+            ->method('getSubordinateBusinessUnitIds')
+            ->with(1)
+            ->willReturn([4, 6, 7]);
+        $this->ownerTree->expects($this->at(1))
+            ->method('getSubordinateBusinessUnitIds')
+            ->with(5)
+            ->willReturn([4, 1, 7]);
+
+        $constraint = new CircularCustomerReference();
+
+        $this->validator->validate($customer, $constraint);
+
+        $this->buildViolation($constraint->messageCircularChild)
+            ->atPath('property.path.children')
+            ->setParameter('{{ childName }}', 'test cyclic customer')
+            ->setParameter('{{ customerName }}', 'test customer')
+            ->assertRaised();
+    }
+
+    public function testValidateCircularParentChildCustomer()
+    {
+        $customer = new Customer();
+        $customer->setId(1);
+        $customer->setName('test customer');
+
+        $parentCustomer = new Customer();
+        $parentCustomer->setId(5);
+        $parentCustomer->setName('test parent customer');
+
+        $customer->setParent($parentCustomer);
+        $customer->addChild($parentCustomer);
+
+        $this->ownerTree->expects($this->once())
+            ->method('getSubordinateBusinessUnitIds')
+            ->with(1)
+            ->willReturn([4, 6, 7]);
+
+        $constraint = new CircularCustomerReference();
+
+        $this->validator->validate($customer, $constraint);
+
+        $this->buildViolation($constraint->messageCircularChild)
+            ->atPath('property.path.children')
+            ->setParameter('{{ childName }}', 'test parent customer')
+            ->setParameter('{{ customerName }}', 'test customer')
+            ->assertRaised();
+    }
+
+    public function testValidateNotValidOwnerCustomerPointingToItseld()
+    {
+        $customer = new Customer();
+        $customer->setId(1);
+        $customer->setName('test customer');
+        $customer->setParent($customer);
+
+        $this->ownerTree->expects($this->never())
+            ->method('getSubordinateBusinessUnitIds');
+
+        $constraint = new CircularCustomerReference();
+
+        $this->validator->validate($customer, $constraint);
+
+        $this->buildViolation($constraint->messageItself)
             ->setParameter('{{ customerName }}', 'test customer')
             ->assertRaised();
     }

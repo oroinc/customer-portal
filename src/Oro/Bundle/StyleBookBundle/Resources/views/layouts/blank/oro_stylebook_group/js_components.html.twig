@@ -52,9 +52,8 @@
         <div class="example-container">
             <button class="btn btn--info" id="modal-toggle">Open Some Modal</button>
         </div>
-
         <script>
-            require(['jquery', 'oroui/js/modal'], function ($, Modal) {
+            loadModules(['jquery', 'oroui/js/modal'], function ($, Modal) {
                 $('#modal-toggle').on('click', function(event) {
                     var ModalExample = new Modal({
                         title: 'Some Title',
@@ -883,7 +882,7 @@
         'data-page-component-options': {
             viewConstructor: 'orostylebook/js/style-book/style-book-list-slider-view',
             props: {
-                slidesToShow: 4,
+                slidesToShow: 1,
                 slidesToScroll: 1,
                 autoplay: false,
                 autoplaySpeed: 2000,
@@ -898,42 +897,28 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
+        {% set imageSlides = [
+            {
+                main: '/bundles/orostylebook/images/promo-slider/promo-slider-1.jpg',
+                title: 'Slide 1'
+            },
+            {
+                main: '/bundles/orostylebook/images/promo-slider/promo-slider-2.jpg',
+                title: 'Slide 2'
+            },
+            {
+                main: '/bundles/orostylebook/images/promo-slider/promo-slider-3.jpg',
+                title: 'Slide 3'
+            }
+        ] %}
         <div class="promo-slider" data-example-view>
-            <div class="promo-slider__item">
-                <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
+            {% for imageSlide in imageSlides|merge(imageSlides) %}
+                <div class="promo-slider__item">
+                    <div class="promo-slider__picture">
+                        <img src="{{ imageSlide.main }}" class="promo-slider__img" alt="{{ imageSlide.title }}">
+                    </div>
                 </div>
-            </div>
-
-            <div class="promo-slider__item">
-                <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg" alt="Image 1" />
-                </div>
-            </div>
-
-            <div class="promo-slider__item">
-                <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-3.jpg" alt="Image 1" />
-                </div>
-            </div>
-
-            <div class="promo-slider__item">
-                <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
-                </div>
-            </div>
-
-            <div class="promo-slider__item">
-                <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg" alt="Image 1" />
-                </div>
-            </div>
-
-            <div class="promo-slider__item">
-                <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-3.jpg" alt="Image 1" />
-                </div>
-            </div>
+            {% endfor %}
         </div>
         {{ block_widget(block) }}
     </div>
@@ -970,22 +955,43 @@
         {{ options|raw }}
 
         <div class="promo-slider" data-page-component-module="{{ '{{ imageListOptions|json_encode }}'|raw }}">
-            <div class="promo-slider__item">
-                <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
-                </div>
-            </div>
+            {% set imageSlides = [
+                {
+                    main: '/bundles/orostylebook/images/promo-slider/promo-slider-1.jpg',
+                    medium: '/bundles/orostylebook/images/promo-slider/promo-slider-medium-1.jpg',
+                    small: '/bundles/orostylebook/images/promo-slider/promo-slider-small-1.jpg',
+                    title: 'Slide 1'
+                },
+                {
+                    main: '/bundles/orostylebook/images/promo-slider/promo-slider-2.jpg',
+                    medium: '/bundles/orostylebook/images/promo-slider/promo-slider-medium-2.jpg',
+                    small: '/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg',
+                    title: 'Slide 2'
+                },
+                {
+                    main: '/bundles/orostylebook/images/promo-slider/promo-slider-3.jpg',
+                    medium: '/bundles/orostylebook/images/promo-slider/promo-slider-medium-3.jpg',
+                    small: '/bundles/orostylebook/images/promo-slider/promo-slider-small-3.jpg',
+                    title: 'Slide 3'
+                }
 
-            <div class="promo-slider__item">
-                <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg" alt="Image 2" />
-                </div>
-            </div>
-
-            <div class="promo-slider__item">
-                <div class="promo-slider__picture">
-                    <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-3.jpg" alt="Image 3" />
-                </div>
+            ] %}
+            <div class="promo-slider" data-example-view>
+                {% for imageSlide in imageSlides %}
+                    <div class="promo-slider__item">
+                        <div class="promo-slider__picture">
+                            <picture>
+                                <source srcset="{{ imageSlide.small }}"
+                                        media="(max-width: 414px)">
+                                <source srcset="{{ imageSlide.medium }}"
+                                        media="(max-width: 992px)">
+                                <img src="{{ imageSlide.main }}"
+                                     class="promo-slider__img"
+                                     alt="{{ imageSlide.title }}">
+                            </picture>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     {% endset %}
@@ -1610,7 +1616,7 @@
     <div {{ block('block_attributes') }}>
         <div data-example-view>
             <div class="popup-gallery" data-trigger-gallery-open>
-                <img class="promo-slider__img" src="/bundles/orocatalog/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
+                <img class="promo-slider__img" src="/bundles/orostylebook/images/promo-slider/promo-slider-small-1.jpg" alt="Image 1" />
             </div>
         </div>
         {{ block_widget(block) }}
@@ -1760,64 +1766,61 @@
     }) %}
 
     {% set source_code %}
-        <script>
-            require({
-                config: {
-                    'oroui/js/viewport-manager': {
-                        screenMap: [
-                            {
-                                name: 'desktop',
-                                min: 1100
-                            },
-                            {
-                                name: 'tablet',
-                                max: 1099
-                            },
-                            {
-                                name: 'strict-tablet',
-                                max: 1099,
-                                min: 993
-                            },
-                            {
-                                name: 'tablet-small',
-                                max: 992
-                            },
-                            {
-                                name: 'strict-tablet-small',
-                                max: 992,
-                                min: 641
-                            },
-                            {
-                                name: 'mobile-big',
-                                max: 767
-                            },
-                            {
-                                name: 'strict-mobile-big',
-                                max: 767,
-                                min: 641,
-                            },
-                            {
-                                name: 'mobile-landscape',
-                                max: 640
-                            },
-                            {
-                                name: 'strict-mobile-landscape',
-                                max: 640,
-                                min: 415
-                            },
-                            {
-                                name: 'mobile',
-                                max: 414
-                            },
-                            {
-                                name: 'mobile-small',
-                                max: 360
-                            }
-                        ]
+        {% import '@OroAsset/Asset.html.twig' as Asset %}
+        {{ Asset.js_modules_config({
+            'oroui/js/viewport-manager': {
+                screenMap: [
+                    {
+                        name: 'desktop',
+                        min: 1100
+                    },
+                    {
+                        name: 'tablet',
+                        max: 1099
+                    },
+                    {
+                        name: 'strict-tablet',
+                        max: 1099,
+                        min: 993
+                    },
+                    {
+                        name: 'tablet-small',
+                        max: 992
+                    },
+                    {
+                        name: 'strict-tablet-small',
+                        max: 992,
+                        min: 641
+                    },
+                    {
+                        name: 'mobile-big',
+                        max: 767
+                    },
+                    {
+                        name: 'strict-mobile-big',
+                        max: 767,
+                        min: 641,
+                    },
+                    {
+                        name: 'mobile-landscape',
+                        max: 640
+                    },
+                    {
+                        name: 'strict-mobile-landscape',
+                        max: 640,
+                        min: 415
+                    },
+                    {
+                        name: 'mobile',
+                        max: 414
+                    },
+                    {
+                        name: 'mobile-small',
+                        max: 360
                     }
-                }
-            });
-        </script>
+                ]
+            }
+        }) }}
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -2100,10 +2103,10 @@
    <div {{ block('block_attributes') }}>
        <img data-example-view class="product-view-media-gallery__image"
             alt="Image"
-            data-zoom-image="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg"
-            src="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg"
+            data-zoom-image="/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg"
+            src="/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg"
             itemprop="image"
-            data-lazy="/bundles/orocatalog/images/promo-slider/promo-slider-small-2.jpg"
+            data-lazy="/bundles/orostylebook/images/promo-slider/promo-slider-small-2.jpg"
             />
        <div id="zoom-container"></div>
        {{ block_widget(block) }}

@@ -24,8 +24,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root(OroCustomerExtension::ALIAS);
+        $treeBuilder = new TreeBuilder(OroCustomerExtension::ALIAS);
+        $rootNode = $treeBuilder->getRootNode();
 
         SettingsBuilder::append(
             $rootNode,

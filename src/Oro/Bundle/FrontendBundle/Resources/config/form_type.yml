@@ -52,3 +52,15 @@ services:
             - '@oro_frontend.form.options_configurator.rule_editor_options_configurator'
         tags:
             - { name: form.type, alias: oro_frontend_rule_editor_text }
+
+    oro_frontend.form.extension.wysiwyg:
+        class: Oro\Bundle\FrontendBundle\Form\Extension\WYSIWYGTypeExtension
+        public: false
+        arguments:
+            - '@oro_layout.theme_manager'
+            - '@oro_layout.data_provider.theme'
+            - '@oro_config.manager'
+            - '@oro_website.manager'
+            - '@assets.packages'
+        tags:
+            - { name: form.type_extension }

@@ -1,15 +1,14 @@
 define(function(require) {
     'use strict';
 
-    var FrontendDialogWidget;
-    var DialogWidget = require('oro/dialog-widget');
-    var FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
-    var ViewportManager = require('oroui/js/viewport-manager');
-    var actionsTemplate = require('tpl!orofrontend/templates/frontend-dialog/dialog-actions.html');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const DialogWidget = require('oro/dialog-widget');
+    const FullScreenPopupView = require('orofrontend/blank/js/app/views/fullscreen-popup-view');
+    const ViewportManager = require('oroui/js/viewport-manager');
+    const actionsTemplate = require('tpl-loader!orofrontend/templates/frontend-dialog/dialog-actions.html');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
-    FrontendDialogWidget = DialogWidget.extend({
+    const FrontendDialogWidget = DialogWidget.extend({
         /**
          * @inheritDoc
          */
@@ -100,8 +99,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function FrontendDialogWidget() {
-            FrontendDialogWidget.__super__.constructor.apply(this, arguments);
+        constructor: function FrontendDialogWidget(options) {
+            FrontendDialogWidget.__super__.constructor.call(this, options);
         },
 
         /**
@@ -160,7 +159,7 @@ define(function(require) {
          */
         _setHeader: function() {
             if (this.options.header) {
-                var $title = this.widget.dialog('instance').uiDialogTitlebar;
+                const $title = this.widget.dialog('instance').uiDialogTitlebar;
                 if (this.$header) {
                     this.$header.remove();
                 }
@@ -200,7 +199,7 @@ define(function(require) {
          * Render actions button into footer
          */
         renderActionsContainer: function() {
-            var fullscreen = this.subview('fullscreenView');
+            const fullscreen = this.subview('fullscreenView');
             if (fullscreen) {
                 fullscreen.footer.Element = this.getActionsElement();
                 fullscreen.footer.attr = {'class': 'fullscreen-popup__actions-wrapper'};
@@ -226,7 +225,7 @@ define(function(require) {
          * @returns {*}
          */
         prepareContentRequestOptions: function(data, method, url) {
-            var options = FrontendDialogWidget.__super__.prepareContentRequestOptions.apply(this, arguments);
+            const options = FrontendDialogWidget.__super__.prepareContentRequestOptions.call(this, data, method, url);
 
             if (this.staticPage) {
                 options.data = '';
@@ -263,10 +262,10 @@ define(function(require) {
          * @returns {*}
          * @private
          */
-        _onAdoptedFormSubmitClick: function(form) {
+        _onAdoptedFormSubmitClick: function(form, widget) {
             this.trigger('frontend-dialog:accept');
             if (form) {
-                return FrontendDialogWidget.__super__._onAdoptedFormSubmitClick.apply(this, arguments);
+                return FrontendDialogWidget.__super__._onAdoptedFormSubmitClick.call(this, form, widget);
             }
 
             this.dispose();
@@ -282,7 +281,7 @@ define(function(require) {
         _onAdoptedFormResetClick: function(form) {
             this.trigger('frontend-dialog:cancel');
             if (form) {
-                return FrontendDialogWidget.__super__._onAdoptedFormResetClick.apply(this, arguments);
+                return FrontendDialogWidget.__super__._onAdoptedFormResetClick.call(this, form);
             }
 
             this.dispose();

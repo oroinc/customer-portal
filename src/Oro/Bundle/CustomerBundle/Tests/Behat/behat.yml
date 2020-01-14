@@ -47,6 +47,15 @@ oro_behat_extension:
             locator: '//div[contains(@id,"s2id_oro_customer_customer_user_addresses_1_region-uid")]/input'
             type: xpath
 
+    Customer User Profile Form:
+      selector: 'form[name="oro_customer_frontend_customer_user_profile"]'
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
+      options:
+        mapping:
+          Birthday:
+            locator: 'input[id^="date_selector_oro_customer_frontend_customer_user_profile_birthday-uid"]'
+            type: css
+
     CustomerUserRoleGrid:
       selector: '[id^="grid-customer-user-role-permission-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -277,7 +286,7 @@ oro_behat_extension:
         locator: '//h1[contains(., "Create Address")]/ancestor::section/descendant::form'
 
     Edit Profile Button:
-      selector: 'div.customer-profile__controls a[title="Edit"]'
+      selector: 'div.customer-profile__title-wrapper a[title="Edit"]'
 
     My Profile Menu Item:
       selector: 'li.primary-menu__item a:contains("My Profile")'
@@ -351,6 +360,11 @@ oro_behat_extension:
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid
       selector: 'div[data-page-component-name="children-by-customer-grid"]'
 
+    Enter The Shipping Address Manually For Checkout:
+      selector:
+        type: xpath
+        locator: '//h5[contains(.,"Checkout")]/parent::*[contains(@class,"role-capability")]//label[text()="Enter the shipping address manually"]//input[@type="checkbox"]'
+
   pages:
     Customer User Role View:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView
@@ -379,3 +393,7 @@ oro_behat_extension:
     Customer User Index:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserIndex
       route: 'oro_customer_customer_user_index'
+
+    Customer User View:
+      class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserView
+      route: 'oro_customer_customer_user_view'

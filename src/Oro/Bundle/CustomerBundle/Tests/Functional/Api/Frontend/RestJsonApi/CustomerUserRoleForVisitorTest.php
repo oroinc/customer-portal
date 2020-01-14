@@ -11,6 +11,7 @@ class CustomerUserRoleForVisitorTest extends FrontendRestJsonApiTestCase
     protected function setUp()
     {
         parent::setUp();
+        $this->enableVisitor();
         $this->loadFixtures([
             LoadCustomerUserData::class,
             '@OroCustomerBundle/Tests/Functional/Api/Frontend/DataFixtures/customer_user_role.yml'
@@ -25,7 +26,7 @@ class CustomerUserRoleForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 
     public function testTryToGet()
@@ -36,7 +37,7 @@ class CustomerUserRoleForVisitorTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_FORBIDDEN);
     }
 
     public function testTryToCreate()

@@ -26,9 +26,9 @@ class PreferredLocalizationCustomerUserExtensionTest extends \PHPUnit\Framework\
         $this->extension = new PreferredLocalizationCustomerUserExtension($this->eventSubscriber);
     }
 
-    public function testGetExtendedType()
+    public function testGetExtendedTypes()
     {
-        self::assertEquals(CustomerUserType::class, $this->extension->getExtendedType());
+        self::assertEquals([CustomerUserType::class], PreferredLocalizationCustomerUserExtension::getExtendedTypes());
     }
 
     public function testBuildForm()

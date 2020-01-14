@@ -4,8 +4,10 @@ oro:
     customer:
         message:
             password_mismatch: 'The password fields must match.'
-            circular_customer_reference: 'Circular reference detected. ''{{ parentName }}'' cannot be parent of ''{{ customerName }}'' because it''s his child'
-            user_without_role: 'Please select at least one role before you enable the customer user'
+            circular_customer_reference: 'Circular reference detected. ''{{ parentName }}'' cannot be a parent of ''{{ customerName }}'' because it is its child.'
+            circular_child_customer_reference: 'Circular reference detected. ''{{ childName }}'' cannot be a child of ''{{ customerName }}'' because it is its parent.'
+            customer_reference_to_itself: 'Circular reference detected. ''{{ customerName }}'' cannot be its own parent.'
+            user_without_role: 'Please select at least one role before you enable the customer user.'
             user_customer_exists: 'This email is already used.'
             scope_with_customer_and_group: 'Should be chosen only one field. Customer Group or Customer.'
             no_permission_for_customer_related_entities: "Can't change customer because you don't have permissions for updating the following related entities: {{ entityNames }}"

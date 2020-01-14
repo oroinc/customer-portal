@@ -67,10 +67,10 @@ define([
         },
 
         getRowsHeight: function(rows) {
-            var self = this;
-            var $rows = this.$el.find(self.options.rowSelector);
-            var height = this.$el.find(self.options.headerSelector).outerHeight();
-            var rowsCount = rows || $rows.length;
+            const self = this;
+            const $rows = this.$el.find(self.options.rowSelector);
+            let height = this.$el.find(self.options.headerSelector).outerHeight();
+            const rowsCount = rows || $rows.length;
 
             $rows.each(_.bind(function(index, row) {
                 if (index >= rowsCount) {

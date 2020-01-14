@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\EventListener;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
@@ -11,7 +12,6 @@ use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormInterface;
 
@@ -28,7 +28,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
     private $configManager;
 
     /**
-     * @var RegistryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
      */
     private $registry;
 
@@ -41,7 +41,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->configManager = $this->createMock(ConfigManager::class);
-        $this->registry = $this->createMock(RegistryInterface::class);
+        $this->registry = $this->createMock(ManagerRegistry::class);
         $this->subscriber = new PreferredLocalizationCustomerUserSubscriber(
             $this->websiteManager,
             $this->configManager,

@@ -1,17 +1,16 @@
 define(function(require) {
     'use strict';
 
-    var StyleBookPlayground;
-    var BaseView = require('oroui/js/app/views/base/view');
-    var styleBookPlaygroundTemplate = require('tpl!orostylebook/templates/style-book/style-book-playground.html');
-    var tools = require('oroui/js/tools');
-    var _ = require('underscore');
-    var $ = require('jquery');
+    const BaseView = require('oroui/js/app/views/base/view');
+    const styleBookPlaygroundTemplate = require('tpl-loader!orostylebook/templates/style-book/style-book-playground.html');
+    const loadModules = require('oroui/js/app/services/load-modules');
+    const _ = require('underscore');
+    const $ = require('jquery');
 
     /**
      * @exports StyleBookPlayground
      */
-    StyleBookPlayground = BaseView.extend({
+    const StyleBookPlayground = BaseView.extend({
         /**
          * @inheritDoc
          * @property {Array}
@@ -83,8 +82,8 @@ define(function(require) {
          * @inheritDoc
          * @returns {*}
          */
-        constructor: function StyleBookPlayground() {
-            return StyleBookPlayground.__super__.constructor.apply(this, arguments);
+        constructor: function StyleBookPlayground(options) {
+            return StyleBookPlayground.__super__.constructor.call(this, options);
         },
 
         /**
@@ -95,9 +94,9 @@ define(function(require) {
         initialize: function(options) {
             this.viewOptions = _.extend({}, this.viewOptions);
             this.prepearProps(options.props);
-            StyleBookPlayground.__super__.initialize.apply(this, arguments);
+            StyleBookPlayground.__super__.initialize.call(this, options);
 
-            tools.loadModules([this.viewConstructor], this.createView, this);
+            loadModules(this.viewConstructor, this.createView, this);
             this.createPlayground();
             this._onChangeProps = _.debounce(this._onChangeProps, 500);
         },
@@ -133,8 +132,8 @@ define(function(require) {
                 }
 
                 if (this.renderAfter === 'action') {
-                    var actionEl = this.$('[data-action]');
-                    var actions = actionEl.data('action').split(' ');
+                    const actionEl = this.$('[data-action]');
+                    const actions = actionEl.data('action').split(' ');
                     actionEl.on(actions[0], _.bind(this.renderViewViaMethod, this, actions[1]));
                 }
             }
@@ -243,9 +242,9 @@ define(function(require) {
          * @private
          */
         _onChangeProps: function(event) {
-            var $target = $(event.target);
-            var name = $target.data('name');
-            var value = $target.is(':checkbox') ? $target.is(':checked') : $target.val();
+            const $target = $(event.target);
+            const name = $target.data('name');
+            let value = $target.is(':checkbox') ? $target.is(':checked') : $target.val();
 
             if ($target.attr('type') === 'number') {
                 value = parseFloat(value);
@@ -272,7 +271,7 @@ define(function(require) {
          * @private
          */
         _setBindOption: function(names, value, options) {
-            var index = _.first(names);
+            const index = _.first(names);
             if (names.length === 1) {
                 options[index] = value;
                 return;
@@ -281,8 +280,8 @@ define(function(require) {
                 options[index] = {};
             }
 
-            var _rest = _.rest(names);
-            var option = options[index];
+            const _rest = _.rest(names);
+            const option = options[index];
 
             if (_rest.length > 1) {
                 return this._setBindOption(_rest, value, option);
