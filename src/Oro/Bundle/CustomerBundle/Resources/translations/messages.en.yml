@@ -607,7 +607,7 @@ oro.customer:
             registration_link_enabled.label: 'Show Registration Link'
             registration_instructions_enabled.label: 'Show Registration Instructions'
             registration_instructions_text.label: 'Registration Instructions Text'
-            company_name_field_enabled.label: 'Require company name'
+            company_name_field_enabled.label: 'Require Company Name'
             user_menu_show_items:
                 label: 'User Menu'
                 option:
