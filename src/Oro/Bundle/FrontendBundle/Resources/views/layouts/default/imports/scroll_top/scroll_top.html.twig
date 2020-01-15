@@ -8,8 +8,7 @@
             }
         },
         'data-scroll-top': '',
-        '~class': ' scroll-top scroll-top--' ~ scroll_top_position,
-        'title': 'oro_frontend.scroll_to_the_top'|trans
+        '~class': ' scroll-top scroll-top--' ~ scroll_top_position
     }) %}
     {% if enabled is defined and enabled == true %}
         <div role="button" tabindex="0" {{ block('block_attributes') }} aria-label="{{ 'oro_frontend.scroll_to_the_top'|trans }}">
