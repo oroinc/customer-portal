@@ -1,7 +1,6 @@
 {% block _footer_menu_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' information-nav__list',
-        'data-collapse-container-footer': true
+        '~class': ' information-nav__list'
     }) %}
     {% set child_attr = layout_attr_defaults(child_attr, {
         '~class': ' information-nav__item'
@@ -33,12 +32,12 @@
                         <h2
                             class="information-nav__title"
                             data-collapse-trigger-footer aria-controls="{{ footerSectionId }}">
-                            <span class="information-nav__icon">
+                            <span class="information-nav__icon" aria-hidden="true">
                                 <span class="collapse-view__trigger-icon fa-caret-right"></span>
                             </span>
                             {{- label -}}
                         </h2>
-                        <div id="{{ footerSectionId }}" role="region">
+                        <div id="{{ footerSectionId }}" role="region" data-collapse-container-footer="true">
                             {% set item = child %}
                             {{ block('menu_widget') }}
                         </div>
