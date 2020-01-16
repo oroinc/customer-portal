@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Provider;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserInterface;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 
 /**
@@ -34,10 +34,10 @@ class CustomerUserRelationsProvider
     }
 
     /**
-     * @param CustomerUser|null $customerUser
+     * @param CustomerUserInterface|null $customerUser
      * @return null|Customer
      */
-    public function getCustomer(CustomerUser $customerUser = null)
+    public function getCustomer(CustomerUserInterface $customerUser = null)
     {
         if ($customerUser) {
             return $customerUser->getCustomer();
@@ -47,10 +47,10 @@ class CustomerUserRelationsProvider
     }
 
     /**
-     * @param CustomerUser|null $customerUser
+     * @param CustomerUserInterface|null $customerUser
      * @return null|CustomerGroup
      */
-    public function getCustomerGroup(CustomerUser $customerUser = null)
+    public function getCustomerGroup(CustomerUserInterface $customerUser = null)
     {
         if ($customerUser) {
             $customer = $this->getCustomer($customerUser);
@@ -72,10 +72,10 @@ class CustomerUserRelationsProvider
     }
 
     /**
-     * @param CustomerUser|null $customerUser
+     * @param CustomerUserInterface|null $customerUser
      * @return null|Customer
      */
-    public function getCustomerIncludingEmpty(CustomerUser $customerUser = null)
+    public function getCustomerIncludingEmpty(CustomerUserInterface $customerUser = null)
     {
         $customer = $this->getCustomer($customerUser);
         if (!$customer) {

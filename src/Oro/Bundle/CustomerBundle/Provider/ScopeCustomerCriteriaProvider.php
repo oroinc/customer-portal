@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Provider;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserInterface;
 use Oro\Bundle\ScopeBundle\Manager\ScopeCriteriaProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -41,7 +41,7 @@ class ScopeCustomerCriteriaProvider implements ScopeCriteriaProviderInterface
         $token = $this->tokenStorage->getToken();
         if (null !== $token) {
             $user = $token->getUser();
-            if ($user instanceof CustomerUser) {
+            if ($user instanceof CustomerUserInterface) {
                 return $user->getCustomer();
             }
         }
