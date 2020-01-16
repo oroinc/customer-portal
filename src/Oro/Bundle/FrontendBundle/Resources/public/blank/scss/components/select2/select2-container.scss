@@ -16,6 +16,12 @@
 
     vertical-align: middle;
 
+    @include element-state('hover') {
+        &:not(.select2-container-active){
+            border-color: $select-border-color-hover-state;
+        }
+    }
+
     &.input {
         padding: 0;
     }
@@ -104,8 +110,9 @@
 
     // Open select
     &.select2-container-active {
-        border: 1px solid get-color(additional, 'light');
-        box-shadow: 0 1px 5px rgba(0, 0, 0,.15);
+        box-shadow: $focused-element-shadow;
+
+        z-index: z('base') +1;
     }
 
     &.select2-dropdown-open {

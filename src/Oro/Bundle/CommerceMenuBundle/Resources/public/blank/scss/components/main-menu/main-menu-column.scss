@@ -104,6 +104,8 @@
 
         &__inner {
             display: $main-menu-column-inner-display;
+
+            @include clearfix();
         }
 
         &--splited {

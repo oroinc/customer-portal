@@ -117,6 +117,9 @@
         position: absolute;
         top: $filter-dropdown-mode-reset-filter-button-top-pos;
         right: $filter-dropdown-mode-reset-filter-button-right-pos;
+
+        border-radius: 0;
+        padding: 0;
     }
 
     .ui-multiselect {

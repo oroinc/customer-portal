@@ -58,6 +58,9 @@
 
         &__link {
             white-space: nowrap;
+
+            position: relative;
+            z-index: z('base');
         }
     }
 }

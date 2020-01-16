@@ -11,4 +11,6 @@ a {
     @include element-state('hover') {
         text-decoration: underline;
     }
+
+    @include focus-visible(none, false);
 }

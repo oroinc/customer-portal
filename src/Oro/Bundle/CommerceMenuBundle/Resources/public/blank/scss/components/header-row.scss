@@ -5,10 +5,13 @@
 
     margin-top: $offset-y;
 
-    border: 1px solid get-color('additional', 'light');
+    border: solid get-color('additional', 'light');
     border-width: 1px 0;
 
     &__trigger {
+        position: relative;
+        z-index: z('base');
+
         width: 100%;
 
         display: block;
@@ -18,6 +21,12 @@
 
         background-color: get-color('additional', 'base');
         border: 0;
+
+        @include focus-visible();
+
+        &.focus-visible {
+            z-index: z('base') + 1;
+        }
     }
 
     &__toggle {

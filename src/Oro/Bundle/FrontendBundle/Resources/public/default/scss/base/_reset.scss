@@ -13,6 +13,14 @@ textarea {
     color: inherit;
 }
 
+button,
+a.btn,
+input,
+select,
+textarea {
+    @include focus-visible();
+}
+
 :focus {
     outline: none;
 }
