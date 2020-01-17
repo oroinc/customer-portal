@@ -556,6 +556,7 @@ oro.customer:
         customer_user_profile.label: My Profile
         customer_user_login.label: Login
         customer_user_logout.label: Logout
+        not_logged_user.label: Sign In
 
         frontend_configuration_tab: Configuration
         frontend_customer_user_roles.label: Roles
