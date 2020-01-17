@@ -10,7 +10,9 @@
 
 {% block _top_nav_customer_dropdown_menu_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-customer-menu__dropdown dropdown-menu"
+        '~class': " topbar-customer-menu__dropdown dropdown-menu",
+        'aria-labelledby': "topbar-customer-menu-trigger",
+        'role': "menu"
     }) %}
 
     <div {{ block('block_attributes') }}>
@@ -22,7 +24,8 @@
     {% set attr = layout_attr_defaults(attr, {
         '~class': " topbar-customer-menu__trigger",
         'type': 'button',
-        'data-toggle': 'dropdown'
+        'data-toggle': 'dropdown',
+        'id': 'topbar-customer-menu-trigger'
     }) %}
 
     <button {{ block('block_attributes') }}>
