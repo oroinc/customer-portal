@@ -53,7 +53,7 @@ oro:
             navigation:
                 items:
                     telephone.label: '1-800-555-5555'
-                    free_shipping.label: '<span>Fast & Free Shipping</span> for orders over $45'
+                    free_shipping.label: '<span class="decorated--orange">Fast & Free Shipping</span> for orders over $45'
                     orders.label: 'Orders'
                     quotes.label: 'Quotes'
                     quick_order_form.label: 'Quick Order Form'
