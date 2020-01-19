@@ -92,21 +92,21 @@
         }
     }) %}
     <button {{ block('block_attributes_underscore') }} aria-label="{{ "oro.customer.action.customer_frontend_address.map"|trans }}">
-        <i class="fa-map-o"></i>
+        <span class="fa-map-o" aria-hidden="true"></span>
     </button>
 {% endblock %}
 
 {% block __oro_customer_user_address_list__user_addresses_list_template_item_actions_edit_widget %}
     {% set attr = layout_attr_defaults(attr, {'~class': " address-list__button item-edit-button"}) %}
     <button {{ block('block_attributes') }} aria-label="{{ "oro.customer.action.customer_frontend_address.edit"|trans }}">
-        <i class="fa-pencil"></i>
+        <span class="fa-pencil" aria-hidden="true"></span>
     </button>
 {% endblock %}
 
 {% block __oro_customer_user_address_list__user_addresses_list_template_item_actions_remove_widget %}
     {% set attr = layout_attr_defaults(attr, {'~class': " address-list__button item-remove-button"}) %}
     <button {{ block('block_attributes') }} aria-label="{{ "oro.customer.action.customer_user_frontend_address.delete"|trans }}">
-        <i class="fa-trash-o"></i>
+        <span class="fa-trash-o" aria-hidden="true"></span>
     </button>
 {% endblock %}
 
