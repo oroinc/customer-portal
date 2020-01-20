@@ -12,7 +12,6 @@
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' input input--full'
     }) %}
-    {{- form_label(form, null, { 'label_attr': {'class': 'sr-only'}}) -}}
     {{ parent() }}
 {% endblock %}
 
