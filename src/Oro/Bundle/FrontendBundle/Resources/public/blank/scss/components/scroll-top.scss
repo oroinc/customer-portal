@@ -16,8 +16,6 @@
 
     transition: color linear 100ms;
 
-    @include focus-visible();
-
     &:hover {
         color: $scroll-top-hover-color;
         text-decoration: none;

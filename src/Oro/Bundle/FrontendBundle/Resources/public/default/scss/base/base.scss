@@ -12,5 +12,9 @@ a {
         text-decoration: underline;
     }
 
-    @include focus-visible(none, false);
+    &.focus-visible {
+        &:not(.btn){
+            @include focus-visible(no-inner-border);
+        }
+    }
 }

@@ -22,8 +22,6 @@
         background-color: get-color('additional', 'base');
         border: 0;
 
-        @include focus-visible();
-
         &.focus-visible {
             z-index: z('base') + 1;
         }

@@ -110,7 +110,8 @@
 
     // Open select
     &.select2-container-active {
-        box-shadow: $focused-element-shadow;
+        border-color: $select-border-color-focus-state;
+        box-shadow: $select-box-shadow-focus-state;
 
         z-index: z('base') +1;
     }
