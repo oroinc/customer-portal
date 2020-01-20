@@ -55,6 +55,8 @@ oro_frontend:
         actions:
             labels:
                 close: 'Close'
+    gallery_popup:
+        label: 'Gallery pop up'
 
     rows_collapse:
         trigger:

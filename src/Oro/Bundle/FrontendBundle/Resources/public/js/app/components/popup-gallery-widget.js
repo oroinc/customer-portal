@@ -7,6 +7,7 @@ define(function(require) {
     const mediator = require('oroui/js/mediator');
     const routing = require('routing');
     const error = require('oroui/js/error');
+    const manageFocus = require('oroui/js/tools/manage-focus').default;
     require('slick');
 
     const BROWSER_SCROLL_SIZE = mediator.execute('layout:scrollbarWidth');
@@ -127,6 +128,14 @@ define(function(require) {
             }
             this.setDependentSlide(e);
 
+            manageFocus.focusTabbable(this.$galleryWidget);
+            this.$galleryWidget
+                .one('transitionend.popup-gallery-widget',
+                    () => manageFocus.focusTabbable(this.$galleryWidget)
+                )
+                .on('keydown.popup-gallery-widget',
+                    event => manageFocus.preventTabOutOfContainer(event, this.$galleryWidget)
+                );
             $(document).on('keydown.popup-gallery-widget', function(e) {
                 if (e.keyCode === 37) {
                     self.$gallery.slick('slickPrev');
@@ -208,6 +217,7 @@ define(function(require) {
                 $('body').removeClass('gallery-popup-opened');
             }, this));
 
+            this.$galleryWidget.off('keydown.popup-gallery-widget');
             $(document).off('keydown.popup-gallery-widget');
             mediator.off('layout:reposition', this.onResize, this);
 
