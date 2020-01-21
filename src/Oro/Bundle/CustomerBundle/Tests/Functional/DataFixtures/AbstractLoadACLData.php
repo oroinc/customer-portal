@@ -250,10 +250,14 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
             if (!in_array($key, $this->getSupportedRoles())) {
                 continue;
             }
-            $role = new CustomerUserRole(CustomerUserRole::PREFIX_ROLE.$key);
-            $role->setLabel($key)
-                ->setSelfManaged(true)
-                ->setOrganization($user->getOrganization());
+            $role = $manager->getRepository(CustomerUserRole::class)
+                ->findOneBy(['role' => CustomerUserRole::PREFIX_ROLE.$key]);
+            if (!$role) {
+                $role = new CustomerUserRole(CustomerUserRole::PREFIX_ROLE.$key);
+                $role->setLabel($key)
+                    ->setSelfManaged(true)
+                    ->setOrganization($user->getOrganization());
+            }
             $classnames = (array) $this->getAclResourceClassName();
             foreach ($classnames as $class) {
                 $this->setRolePermissions($role, $class, $permissions);

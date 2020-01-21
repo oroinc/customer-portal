@@ -1,0 +1,3 @@
+dynamic-imports:
+    orocommercemenu:
+        - orocommercemenu/js/app/views/target-fields-view

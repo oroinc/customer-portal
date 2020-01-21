@@ -75,8 +75,20 @@ define(function(require) {
                             .trigger('content:remove').remove();
                     }
                 },
-                error: function() {
+                error: function(jqXHR) {
                     mediator.execute('hideLoading');
+
+                    const errorCode = 'responseJSON' in jqXHR ? jqXHR.responseJSON.code : jqXHR.status;
+                    const errors = 'responseJSON' in jqXHR ? jqXHR.responseJSON.errors.errors : [];
+                    if (errorCode === 403) {
+                        errors.push(__('oro.ui.forbidden_error'));
+                    } else {
+                        errors.push(__('oro.ui.unexpected_error'));
+                    }
+
+                    _.each(errors, function(value) {
+                        mediator.execute('showFlashMessage', 'error', value);
+                    });
                 }
             });
         },
