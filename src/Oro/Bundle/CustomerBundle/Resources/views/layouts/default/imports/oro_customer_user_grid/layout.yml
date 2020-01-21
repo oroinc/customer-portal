@@ -15,11 +15,6 @@ layout:
 
         - '@setOption':
             id: __datagrid
-            optionName: grid_render_parameters.gridViewsOptions.text
-            optionValue: 'oro.customer.customer_user.entity_plural_label'
-
-        - '@setOption':
-            id: __datagrid
             optionName: grid_render_parameters.gridViewsOptions.hideTitle
             optionValue: '.page-title-wrapper'
 

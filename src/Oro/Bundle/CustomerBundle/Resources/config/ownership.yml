@@ -65,7 +65,7 @@ services:
         calls:
             - [setCacheTtl, ['%oro_customer.frontend_owner_tree_provider.cache_ttl%']]
         tags:
-            - { name: oro_security.ownership.tree_provider }
+            - { name: oro_security.ownership.tree_provider, priority: 10 }
 
     oro_customer.owner.database_checker:
         public: false

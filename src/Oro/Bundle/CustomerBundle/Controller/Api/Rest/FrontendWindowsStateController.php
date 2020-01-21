@@ -7,18 +7,11 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use Oro\Bundle\WindowsBundle\Controller\Api\WindowsStateController;
 
 /**
- * Controller of windows states API.
+ * The controller for storefront windows state API.
  *
  * @RouteResource("windows")
  * @NamePrefix("oro_api_customer_")
  */
 class FrontendWindowsStateController extends WindowsStateController
 {
-    /**
-     * @return WindowsStateManager
-     */
-    protected function getWindowsStatesManager()
-    {
-        return $this->get('oro_customer.manager.windows_state');
-    }
 }

@@ -410,11 +410,6 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
      */
     protected function getMocksForVote($customerUserRole)
     {
-        $this->doctrineHelper->expects($this->any())
-            ->method('getEntityClass')
-            ->with($customerUserRole)
-            ->will($this->returnValue(get_class($customerUserRole)));
-
         $this->voter->setClassName(get_class($customerUserRole));
 
         $this->doctrineHelper->expects($this->any())

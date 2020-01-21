@@ -2,6 +2,7 @@ oro:
     customer:
         entity_label:           'Customer'
         entity_plural_label:    'Customers'
+        entity_grid_all_view_label: 'All %entity_plural_label%'
         entity_description:     Customers are companies who buy products using OroCommerce store frontend. Customer record contains information about the company, their place in the corporate structure, assigned sales representative, and sales metrics. Customers may be linked to:<ul><li>Customer Users who act on behalf of the company</li><li>Customer Roles that define permissions and capabilities the Customer Users may have</li><li>Sales Representatives that are assigned to support company purchases</li><li>Parent customer or subsidiaries that define customer position in the global company organization structure</li></ul>
         name:
             label:              'Name'
@@ -59,6 +60,7 @@ oro.customer:
     customer:
         entity_label: 'Customer'
         entity_plural_label: 'Customers'
+        entity_grid_all_view_label: 'All %entity_plural_label%'
         name.label:          'Name'
         group.label: 'Group'
         internal_rating.label: 'Internal rating'
@@ -104,6 +106,7 @@ oro.customer:
     customergroup:
         entity_label:           'Customer Group'
         entity_plural_label:    'Customer Groups'
+        entity_grid_all_view_label: 'All %entity_plural_label%'
         entity_description:     Customers (companies who buy products using OroCommerce store frontend) may be organized into customer groups to simplify sharing configuration, payment and tax-related settings, and price lists among multiple customers, for example those with the same service level. See <a href="https://www.oroinc.com/doc/orocommerce/current/customers/customer-groups">Managing Customer Groups</a> in OroCommerce documentation for more information.
         name:
             label:              'Name'
@@ -120,6 +123,8 @@ oro.customer:
         full_name:                   '%name_prefix% %first_name% %middle_name% %last_name% %name_suffix%'
         entity_label:                'Customer User'
         entity_plural_label:         'Customer Users'
+        entity_grid_all_view_label: 'All %entity_plural_label%'
+        entity_frontend_grid_all_view_label: 'All Users'
         frontstore_entity_plural_label: 'Users'
         entity_description:          Customer User represents a person who acts on behalf of the company to buy products using OroCommerce store frontend.
         id.label:                    'ID'
@@ -265,6 +270,8 @@ oro.customer:
     customeruserrole:
         entity_label:                    'Customer User Role'
         entity_plural_label:             'Customer User Roles'
+        entity_grid_all_view_label:      'All %entity_plural_label%'
+        entity_frontend_grid_all_view_label: 'All Roles'
         entity_description:               Customer User Roles define the level of permissions and access to the actions and data in OroCommerce store frontend for the users of this role.
         id.label:                        'ID'
         label:
@@ -304,6 +311,8 @@ oro.customer:
         entity_description:         A customer user address is an address created for customer user in their address book. Customer user address contains information about the customer user formal name and their postal address. Customer user address may be flagged as billing and/or shipping address, marked as default for billing and/or shipping, and/or marked as a primary address.
         entity_label:               Customer User Address
         entity_plural_label:        Customer User Addresses
+        entity_grid_all_view_label: All %entity_plural_label%
+        entity_frontend_grid_all_view_label: All My Addresses
         city:
             label: City
             description: City, a part of the customer user postal address.
@@ -432,6 +441,8 @@ oro.customer:
     customeraddress:
         entity_label:        Customer Address
         entity_plural_label: Customer Addresses
+        entity_grid_all_view_label: All %entity_plural_label%
+        entity_frontend_grid_all_view_label: All Company Addresses
         entity_description:  Represent customer's address
         city:
             label:           City
@@ -504,6 +515,7 @@ oro.customer:
     customerusersettings:
         entity_label:           Customer User Settings
         entity_plural_label:    Customer User Settings
+        entity_grid_all_view_label: All %entity_plural_label%
         currency.label:         Currency
         id.label:               ID
         customer_user.label:     Customer User
@@ -513,6 +525,7 @@ oro.customer:
     customervisitor:
         entity_label: Customer Visitor
         entity_plural_label: Customer Visitor
+        entity_grid_all_view_label: All %entity_plural_label%
         id.label: ID
         last_visit.label: Last Visit
         session_id.label: Session ID
@@ -521,6 +534,7 @@ oro.customer:
     gridview:
         entity_label: Grid View
         entity_plural_label: Grid Views
+        entity_grid_all_view_label: All %entity_plural_label%
         id.label: Id
         appearance_type.label: Appearance type
         appearance_data.label: Appearance data
@@ -607,7 +621,7 @@ oro.customer:
             registration_link_enabled.label: 'Show Registration Link'
             registration_instructions_enabled.label: 'Show Registration Instructions'
             registration_instructions_text.label: 'Registration Instructions Text'
-            company_name_field_enabled.label: 'Require company name'
+            company_name_field_enabled.label: 'Require Company Name'
             user_menu_show_items:
                 label: 'User Menu'
                 option:
@@ -757,6 +771,7 @@ oro.customer:
     audit:
         entity_label: Audit
         entity_plural_label: Audits
+        entity_grid_all_view_label: All %entity_plural_label%
         action.label: Audit action
         id.label: Id
         logged_at.label: Logged at

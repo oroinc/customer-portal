@@ -1,0 +1,10 @@
+include:
+    - '@OroCustomerBundle:BuyerCustomerFixture.yml'
+    - '@OroLocaleBundle:ZuluLocalization.yml'
+
+Oro\Bundle\TranslationBundle\Entity\Translation:
+    customer_user_all_grid_view_label_translation:
+        translationKey: '@oro_customer_user_all_grid_view_label'
+        value: 'All ZuluUsers'
+        language: '@zulu_lang'
+        scope: 1
