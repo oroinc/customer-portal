@@ -2,7 +2,8 @@ oro:
     commercemenu:
         menuupdate:
             entity_label: Menu Update
-            entity_plural_label: Menu Update
+            entity_plural_label: Menu Updates
+            entity_grid_all_view_label: All %entity_plural_label%
             id.label: Id
             key.label: Key
             parent_key.label: Parent Key
