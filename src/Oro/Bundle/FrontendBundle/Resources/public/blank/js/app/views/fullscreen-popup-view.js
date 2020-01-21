@@ -10,6 +10,7 @@ define(function(require) {
     const scrollHelper = require('oroui/js/tools/scroll-helper');
     const _ = require('underscore');
     const $ = require('jquery');
+    const manageFocus = require('oroui/js/tools/manage-focus').default;
 
     const FullscreenPopupView = BaseView.extend({
         /**
@@ -147,6 +148,7 @@ define(function(require) {
         getTemplateData: function() {
             let data = FullscreenPopupView.__super__.getTemplateData.call(this);
             data = _.extend({}, data, {
+                id: this.cid,
                 close: this.popupCloseButton
             });
             return data;
@@ -214,6 +216,7 @@ define(function(require) {
 
             if (section === 'header' && _.isObject(sectionOptions.options.templateData)) {
                 sectionOptions.options.templateData = _.extend({
+                    id: this.cid,
                     label: this.popupLabel,
                     closeOnLabel: this.popupCloseOnLabel,
                     icon: this.popupIcon,
@@ -224,6 +227,7 @@ define(function(require) {
 
         _onShow: function() {
             this._initPopupEvents();
+            manageFocus.focusTabbable(this.$popup);
             mediator.trigger('layout:reposition');
             scrollHelper.disableBodyTouchScroll();
             this.trigger('show');
@@ -294,8 +298,10 @@ define(function(require) {
 
         _initPopupEvents: function() {
             this.$popup
-                .on('click', '[data-role="close"]', _.bind(this.close, this))
-                .on('touchstart', '[data-scroll="true"]', _.bind(scrollHelper.removeIOSRubberEffect, this));
+                .on('click', '[data-role="close"]', this.close.bind(this))
+                .on('touchstart', '[data-scroll="true"]', scrollHelper.removeIOSRubberEffect.bind(this))
+                .on('keydown', event => manageFocus.preventTabOutOfContainer(event, this.$popup))
+                .one('transitionend', () => manageFocus.focusTabbable(this.$popup));
 
             if (this.stopEventsPropagation) {
                 this.$popup.on(this.stopEventsList, function(e) {

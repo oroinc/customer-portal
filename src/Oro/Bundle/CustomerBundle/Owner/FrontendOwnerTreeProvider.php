@@ -83,7 +83,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
      */
     public function supports(): bool
     {
-        return (bool)$this->getCustomerUser();
+        return null !== $this->getCustomerUser();
     }
 
     /**
@@ -390,7 +390,12 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
             return null;
         }
 
-        return ($token->getUser() instanceof CustomerUser) ? $token->getUser() : null;
+        $user = $token->getUser();
+        if (!$user instanceof CustomerUser) {
+            return null;
+        }
+
+        return $user;
     }
 
     /**

@@ -47,13 +47,13 @@ define(function(require) {
                 addressUpdateUrl: function(address) {
                     return routing.generate(
                         options.addressUpdateRouteName,
-                        {id: address.get('id'), entityId: options.entityId}
+                        {id: address.get('id'), entityId: address.get('ownerId')}
                     );
                 },
                 addressDeleteUrl: function(address) {
                     return routing.generate(
                         options.addressDeleteRouteName,
-                        {addressId: address.get('id'), entityId: options.entityId}
+                        {addressId: address.get('id'), entityId: address.get('ownerId')}
                     );
                 },
                 addressMapOptions: {phone: 'phone'},

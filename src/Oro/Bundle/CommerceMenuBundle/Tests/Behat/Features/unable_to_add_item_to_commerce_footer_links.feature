@@ -15,8 +15,9 @@ Scenario: Add new menu item
   And I click Information in menu tree
   And I click "Create Menu Item"
   When I fill "Commerce Menu Form" with:
-    | Title | New Menu Item          |
-    | URI   | http://www.example.com |
+    | Title       | New Menu Item          |
+    | Target Type | URI                    |
+    | URI         | http://www.example.com |
   And I save form
   Then I should see "Menu item saved successfully." flash message
 

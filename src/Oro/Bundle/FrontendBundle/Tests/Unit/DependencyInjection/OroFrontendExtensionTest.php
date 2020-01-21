@@ -30,7 +30,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->load([$config], $container);
 
         $extensionConfig = $container->getExtensionConfig($extension->getAlias());
-        self::assertCount(5, $extensionConfig[0]['settings']);
+        self::assertCount(6, $extensionConfig[0]['settings']);
         self::assertEquals(
             $config['routes_to_expose'],
             $container->getDefinition('oro_frontend.extractor.frontend_exposed_routes_extractor')->getArgument(1)

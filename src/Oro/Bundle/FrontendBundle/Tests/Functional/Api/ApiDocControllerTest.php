@@ -3,6 +3,8 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api;
 
 use Oro\Bundle\ApiBundle\ApiDoc\RestDocUrlGenerator as BackendRestDocUrlGenerator;
+use Oro\Bundle\ApiBundle\Tests\Functional\ApiFeatureTrait;
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\Api\ApiDoc\RestDocUrlGenerator as FrontendRestDocUrlGenerator;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,9 +14,21 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ApiDocControllerTest extends WebTestCase
 {
+    use ApiFeatureTrait;
+
+    private const API_FEATURE_NAME = 'oro_frontend.web_api';
+
     protected function setUp()
     {
         $this->initClient();
+    }
+
+    /**
+     * @return ConfigManager
+     */
+    private function getConfigManager(): ConfigManager
+    {
+        return self::getContainer()->get('oro_config.global');
     }
 
     /**
@@ -103,6 +117,28 @@ class ApiDocControllerTest extends WebTestCase
     public function testUnknownResource()
     {
         $response = $this->sendApiDocResourceRequest('frontend_rest_json_api', 'get', 'unknown');
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+    }
+
+    public function testViewOnDisabledFeature()
+    {
+        $this->disableApiFeature(self::API_FEATURE_NAME);
+        try {
+            $response = $this->sendApiDocRequest('frontend_rest_json_api');
+        } finally {
+            $this->enableApiFeature(self::API_FEATURE_NAME);
+        }
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
+    }
+
+    public function testResourceOnDisabledFeature()
+    {
+        $this->disableApiFeature(self::API_FEATURE_NAME);
+        try {
+            $response = $this->sendApiDocResourceRequest('frontend_rest_json_api', 'get', 'countries');
+        } finally {
+            $this->enableApiFeature(self::API_FEATURE_NAME);
+        }
         self::assertResponseStatusCodeEquals($response, Response::HTTP_NOT_FOUND);
     }
 }
