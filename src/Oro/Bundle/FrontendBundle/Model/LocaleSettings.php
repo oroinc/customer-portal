@@ -3,7 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\Model;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManager;
+use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManagerInterface;
 use Oro\Bundle\LocaleBundle\Model\LocaleSettings as BaseLocaleSettings;
 
 /**
@@ -22,19 +22,19 @@ class LocaleSettings extends BaseLocaleSettings
     protected $frontendHelper;
 
     /**
-     * @var UserLocalizationManager
+     * @var UserLocalizationManagerInterface
      */
     protected $localizationManager;
 
     /**
      * @param BaseLocaleSettings $inner
      * @param FrontendHelper $frontendHelper
-     * @param UserLocalizationManager $localizationManager
+     * @param UserLocalizationManagerInterface $localizationManager
      */
     public function __construct(
         BaseLocaleSettings $inner,
         FrontendHelper $frontendHelper,
-        UserLocalizationManager $localizationManager
+        UserLocalizationManagerInterface $localizationManager
     ) {
         $this->inner = $inner;
         $this->frontendHelper = $frontendHelper;

@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Provider;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManager;
+use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManagerInterface;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Provider\AbstractPreferredLocalizationProvider;
 
@@ -13,14 +13,14 @@ use Oro\Bundle\LocaleBundle\Provider\AbstractPreferredLocalizationProvider;
 class CustomerUserPreferredLocalizationProvider extends AbstractPreferredLocalizationProvider
 {
     /**
-     * @var UserLocalizationManager|null
+     * @var UserLocalizationManagerInterface|null
      */
     private $userLocalizationManager;
 
     /**
-     * @param UserLocalizationManager|null $userLocalizationManager
+     * @param UserLocalizationManagerInterface|null $userLocalizationManager
      */
-    public function __construct(?UserLocalizationManager $userLocalizationManager)
+    public function __construct(?UserLocalizationManagerInterface $userLocalizationManager)
     {
         $this->userLocalizationManager = $userLocalizationManager;
     }
