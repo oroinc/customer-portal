@@ -9,6 +9,7 @@ use Oro\Bundle\CommerceMenuBundle\Model\ExtendMenuUpdate;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Oro\Bundle\NavigationBundle\Entity\MenuUpdateTrait;
+use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 
 /**
  * Holds frontend menu item information.
@@ -84,6 +85,10 @@ class MenuUpdate extends ExtendMenuUpdate implements
         MenuUpdateTrait::__construct as traitConstructor;
     }
 
+    public const TARGET_URI = 'uri';
+    public const TARGET_SYSTEM_PAGE = 'system_page';
+    public const TARGET_CONTENT_NODE = 'content_node';
+
     /**
      * @var string
      *
@@ -118,6 +123,21 @@ class MenuUpdate extends ExtendMenuUpdate implements
     protected $uri;
 
     /**
+     * @var ContentNode|null
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\WebCatalogBundle\Entity\ContentNode")
+     * @ORM\JoinColumn(name="content_node_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
+     */
+    protected $contentNode;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="system_page_route", type="string", length=255, nullable=true)
+     */
+    protected $systemPageRoute;
+
+    /**
      * {@inheritdoc}
      */
     public function __construct()
@@ -139,8 +159,16 @@ class MenuUpdate extends ExtendMenuUpdate implements
             'condition' => $this->getCondition(),
             'divider' => $this->isDivider(),
             'userAgentConditions' => $this->getMenuUserAgentConditions(),
-            'translate_disabled' => $this->getId() ? true : false
+            'translate_disabled' => $this->getId() ? true : false,
         ];
+
+        if ($this->getTargetType() === self::TARGET_CONTENT_NODE) {
+            $extras['content_node'] = $this->getContentNode();
+        }
+
+        if ($this->getTargetType() === self::TARGET_SYSTEM_PAGE) {
+            $extras['system_page_route'] = $this->getSystemPageRoute();
+        }
 
         if ($this->getPriority() !== null) {
             $extras['position'] = $this->getPriority();
@@ -224,5 +252,65 @@ class MenuUpdate extends ExtendMenuUpdate implements
         $this->screens = $screens;
 
         return $this;
+    }
+
+    /**
+     * @param ContentNode|null $contentNode
+     *
+     * @return self
+     */
+    public function setContentNode(?ContentNode $contentNode): self
+    {
+        $this->contentNode = $contentNode;
+
+        return $this;
+    }
+
+    /**
+     * @return ContentNode|null
+     */
+    public function getContentNode(): ?ContentNode
+    {
+        return $this->contentNode;
+    }
+
+    /**
+     * @param string|null $systemPageRoute
+     *
+     * @return MenuUpdate
+     */
+    public function setSystemPageRoute(?string $systemPageRoute): self
+    {
+        $this->systemPageRoute = $systemPageRoute;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSystemPageRoute(): ?string
+    {
+        return $this->systemPageRoute;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTargetType(): ?string
+    {
+        if ($this->getContentNode()) {
+            return self::TARGET_CONTENT_NODE;
+        }
+
+        if ($this->getSystemPageRoute()) {
+            return self::TARGET_SYSTEM_PAGE;
+        }
+
+        if ($this->getUri()) {
+            return self::TARGET_URI;
+        }
+
+        return null;
     }
 }

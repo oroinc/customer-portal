@@ -28,7 +28,7 @@ class OroCommerceMenuBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_4_1';
+        return 'v1_4_2';
     }
 
     /**
@@ -73,6 +73,8 @@ class OroCommerceMenuBundleInstaller implements
         $table->addColumn('scope_id', 'integer', ['notnull' => true]);
         $table->addColumn('condition', 'string', ['length' => 512, 'notnull' => false]);
         $table->addColumn('screens', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
+        $table->addColumn('system_page_route', 'string', ['length' => 255, 'notnull' => false]);
+        $table->addColumn('content_node_id', 'integer', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['key', 'scope_id', 'menu'], 'oro_commerce_menu_upd_uidx');
     }
@@ -182,6 +184,12 @@ class OroCommerceMenuBundleInstaller implements
             $schema->getTable('oro_scope'),
             ['scope_id'],
             ['id']
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_web_catalog_content_node'),
+            ['content_node_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'notnull' => false]
         );
     }
 
