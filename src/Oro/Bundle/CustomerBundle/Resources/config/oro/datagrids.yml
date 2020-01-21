@@ -1184,7 +1184,7 @@ datagrids:
 
     children-by-customer-grid:
         extends: customer-group-customers-grid-basic
-        extended_entity_name: '%oro_customer.entity.customer_user.class%'
+        extended_entity_name: 'Oro\Bundle\CustomerBundle\Entity\Customer'
         options:
             entityHint: oro.customer.customer.entity_plural_label
             entity_pagination: true
