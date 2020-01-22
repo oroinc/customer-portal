@@ -302,3 +302,13 @@ services:
         arguments:
             - '@oro_frontend.provider.resized_image_path.skip_prefix.inner'
             - '%oro_frontend.provider.resized_image_path.skip_prefix%'
+
+    oro_frontend.event_listener.default_grid_view_load:
+        class: Oro\Bundle\FrontendBundle\EventListener\DefaultGridViewLoadListener
+        arguments:
+            - '@oro_entity.orm.entity_class_resolver'
+            - '@oro_search.provider.search_mapping'
+            - '@oro_entity_config.config_manager'
+            - '@translator'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.grid_views_load, method: onViewsLoad }

@@ -1,0 +1,3 @@
+config:
+    paths:
+        'orocommercemenu/js/app/views/target-fields-view': 'bundles/orocommercemenu/js/app/views/target-fields-view.js'

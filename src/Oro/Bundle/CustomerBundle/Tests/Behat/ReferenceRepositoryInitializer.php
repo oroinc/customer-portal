@@ -7,6 +7,7 @@ use Nelmio\Alice\Instances\Collection as AliceCollection;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\TestFrameworkBundle\Behat\Isolation\ReferenceRepositoryInitializerInterface;
+use Oro\Bundle\TranslationBundle\Entity\TranslationKey;
 
 class ReferenceRepositoryInitializer implements ReferenceRepositoryInitializerInterface
 {
@@ -24,5 +25,13 @@ class ReferenceRepositoryInitializer implements ReferenceRepositoryInitializerIn
         /** @var CustomerUserRole $administrator */
         $administrator = $repository->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR']);
         $referenceRepository->set('front_admin', $administrator);
+
+        $referenceRepository->set(
+            'oro_customer_user_all_grid_view_label',
+            $doctrine->getManager()->getRepository(TranslationKey::class)->findOneBy([
+                'key' => 'oro.customer.customeruser.entity_frontend_grid_all_view_label',
+                'domain' => 'messages'
+            ])
+        );
     }
 }
