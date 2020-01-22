@@ -43,14 +43,16 @@
             color: get-color('additional', 'darker');
             cursor: pointer;
 
-            &:not(:focus){
-                border-color: $input-border-color-hover-state;
-            }
+            border-color: $input-border-color-hover-state;
+        }
+
+        &:focus,
+        &.focus-visible {
+            border-color: $input-border-color-focus-state;
         }
 
         &.focus-visible {
-            border-color: $input-border-color-focus-state;
-            box-shadow: $input-box-shadow-focus-state;
+            box-shadow: $base-ui-element-focus-style;
         }
     }
 }

@@ -11,10 +11,6 @@
         &-item {
             display: inline-block;
         }
-
-        a {
-            display: block;
-        }
     }
 
     &__separator {
@@ -113,7 +109,7 @@
 
     &.dropdown {
         display: inline-block;
-        
+
         &.show {
             z-index: z('base') + 1;
         }

@@ -56,7 +56,6 @@
 
     .ui-dialog-titlebar-close {
         border: $dialog-titlebar-close-border;
-        border-radius: $focused-element-border-radius;
 
         background: $dialog-titlebar-close-background;
         color: rgba($dialog-titlebar-close-color, $dialog-titlebar-close-opacity);

@@ -16,7 +16,3 @@ textarea {
 :focus {
     outline: none;
 }
-
-.focus-visible {
-    @include focus-visible();
-}

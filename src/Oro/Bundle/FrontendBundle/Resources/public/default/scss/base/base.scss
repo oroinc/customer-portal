@@ -11,10 +11,4 @@ a {
     @include element-state('hover') {
         text-decoration: underline;
     }
-
-    &.focus-visible {
-        &:not(.btn){
-            @include focus-visible(no-inner-border);
-        }
-    }
 }

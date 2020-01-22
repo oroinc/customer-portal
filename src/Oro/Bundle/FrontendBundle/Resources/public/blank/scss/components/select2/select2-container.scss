@@ -16,12 +16,6 @@
 
     vertical-align: middle;
 
-    @include element-state('hover') {
-        &:not(.select2-container-active){
-            border-color: $select-border-color-hover-state;
-        }
-    }
-
     &.input {
         padding: 0;
     }
@@ -112,8 +106,6 @@
     &.select2-container-active {
         border-color: $select-border-color-focus-state;
         box-shadow: $select-box-shadow-focus-state;
-
-        z-index: z('base') +1;
     }
 
     &.select2-dropdown-open {
@@ -171,8 +163,8 @@
     display: inline-block;
     width: 100%;
     min-height: 26px;
-    margin-bottom: $offset-y-m /2;
-    padding: 0 $offset-x-m  ($offset-y-m / 2);
+    margin-bottom: $offset-y-m / 2;
+    padding: $offset-x-m  $offset-y-m / 2;
 
     border-bottom: 1px solid get-color('additional', 'light');
 
@@ -191,10 +183,13 @@
     margin: 0;
     padding: $select2-container-input-inner-offset;
 
-    @include element-state('focus') {
-        border: $select2-container-input-focus-border;
-        box-shadow: $select2-container-input-focus-box-shadow;
+    @include element-state('hover') {
+        border-color: $input-border-color-hover-state;
+    }
 
+    @include element-state('focus') {
+        border-color: $input-border-color-focus-state;
+        box-shadow: $input-box-shadow-focus-state;
         outline: 0;
     }
 
