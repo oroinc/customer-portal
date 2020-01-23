@@ -17,7 +17,7 @@ class UpdateCustomerUserRoleUniqueIndex implements Migration
     public function up(Schema $schema, QueryBag $queries)
     {
         $table = $schema->getTable('oro_customer_user_role');
-        if ($table->getIndex('oro_customer_user_role_customer_id_label_idx')) {
+        if ($table->hasIndex('oro_customer_user_role_customer_id_label_idx')) {
             $table->dropIndex('oro_customer_user_role_customer_id_label_idx');
             $table->addUniqueIndex(['organization_id', 'customer_id', 'label']);
         }
