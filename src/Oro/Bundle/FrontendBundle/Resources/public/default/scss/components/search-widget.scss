@@ -49,9 +49,6 @@
         &:focus,
         &.focus-visible {
             border-color: $input-border-color-focus-state;
-        }
-
-        &.focus-visible {
             box-shadow: $base-ui-element-focus-style;
         }
     }
