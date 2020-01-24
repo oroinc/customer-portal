@@ -1,4 +1,13 @@
 services:
+    oro_customer.api.validate_customer_new_included_entity_existence:
+        class: Oro\Bundle\ApiBundle\Processor\Shared\ValidateNewIncludedEntityExistence
+        arguments:
+            - '@oro_api.form_property_accessor'
+            - '@translator'
+            - { parent: false, children: true }
+        tags:
+            - { name: oro.api.processor, action: customize_form_data, event: post_validate, class: Oro\Bundle\CustomerBundle\Entity\Customer }
+
     oro_customer.api_doc.security_context:
         class: Oro\Bundle\CustomerBundle\Api\ApiDoc\SecurityContext
         decorates: oro_api.api_doc.security_context
