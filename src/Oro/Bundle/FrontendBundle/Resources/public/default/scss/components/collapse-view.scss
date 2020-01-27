@@ -60,6 +60,7 @@
 
             position: relative;
 
+            padding: 0;
             width: 100%;
             height: $collapse-view-trigger-height;
 
@@ -67,7 +68,6 @@
             font-size: 20px;
 
             border: $collapse-view-trigger-border;
-
             background: $collapse-view-trigger-background;
 
             &:after {
