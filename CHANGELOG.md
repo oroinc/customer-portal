@@ -5,6 +5,13 @@ The current file describes significant changes in the code that may affect the u
 ## 4.1.0 (2020-01-31)
 [Show detailed list of changes](incompatibilities-4-1.md)
 
+### Removed
+* `*.class` parameters for all entities were removed from the dependency injection container.
+The entity class names should be used directly, e.g. `'Oro\Bundle\EmailBundle\Entity\Email'`
+instead of `'%oro_email.email.entity.class%'` (in service definitions, datagrid config files, placeholders, etc.), and
+`\Oro\Bundle\EmailBundle\Entity\Email::class` instead of `$container->getParameter('oro_email.email.entity.class')`
+(in PHP code).
+
 ## 4.1.0-rc (2019-12-10)
 [Show detailed list of changes](incompatibilities-4-1-rc.md)
 

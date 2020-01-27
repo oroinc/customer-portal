@@ -92,7 +92,7 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
 
             foreach ($items as $acls) {
                 if (isset($acls['class'])) {
-                    $identity = $this->container->getParameter($acls['class']);
+                    $identity = $acls['class'];
                 } else {
                     $identity = $acls['oid'];
                 }

@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Operation;
 
 use Oro\Bundle\ActionBundle\Tests\Functional\ActionTestCase;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 
 class CustomerUserDeleteOperationTest extends ActionTestCase
@@ -31,7 +32,7 @@ class CustomerUserDeleteOperationTest extends ActionTestCase
 
         $this->assertDeleteOperation(
             $id,
-            'oro_customer.entity.customer_user.class',
+            CustomerUser::class,
             'oro_customer_customer_user_index'
         );
 
