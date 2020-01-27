@@ -32,10 +32,6 @@ class DataAuditEntityMappingPassTest extends \PHPUnit\Framework\TestCase
             ->with(DataAuditEntityMappingPass::MAPPER_SERVICE)
             ->willReturn($definition);
 
-        $containerBuilder->expects($this->exactly(3))
-            ->method('getParameter')
-            ->with($this->isType('string'));
-
         $compilerPass = new DataAuditEntityMappingPass();
         $compilerPass->process($containerBuilder);
     }
@@ -48,7 +44,6 @@ class DataAuditEntityMappingPassTest extends \PHPUnit\Framework\TestCase
             ->getMock();
 
         $containerBuilder->expects($this->never())->method('getDefinition');
-        $containerBuilder->expects($this->never())->method('getParameter');
 
         $containerBuilder->expects($this->once())
             ->method('hasDefinition')

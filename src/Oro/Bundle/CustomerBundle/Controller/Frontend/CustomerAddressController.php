@@ -75,9 +75,7 @@ class CustomerAddressController extends Controller
         $form = $this->get('oro_customer.provider.frontend_customer_address_form')
             ->getAddressForm($customerAddress, $customer);
 
-        $manager = $this->getDoctrine()->getManagerForClass(
-            $this->container->getParameter('oro_customer.entity.customer_address.class')
-        );
+        $manager = $this->getDoctrine()->getManagerForClass(CustomerAddress::class);
 
         $handler = new AddressHandler($form, $this->get('request_stack'), $manager);
 
