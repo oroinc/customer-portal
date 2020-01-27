@@ -20,6 +20,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class CustomerTest extends RestJsonApiTestCase
 {
@@ -295,6 +296,48 @@ class CustomerTest extends RestJsonApiTestCase
         self::assertEquals($customer->getUpdatedAt(), $customer->getCreatedAt());
     }
 
+    public function testTryToCreateWithNewParentCustomerInIncludes()
+    {
+        $response = $this->post(
+            ['entity' => 'customers'],
+            'create_customer_with_new_parent_in_includes.yml',
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'new included entity existence constraint',
+                'detail' => 'Creation a new include entity that can lead to a circular dependency is forbidden.',
+                'source' => [
+                    'pointer' => '/included/0'
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testTryToCreateWithNewChildCustomerInIncludes()
+    {
+        $response = $this->post(
+            ['entity' => 'customers'],
+            'create_customer_with_new_child_in_includes.yml',
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'new included entity existence constraint',
+                'detail' => 'Creation a new include entity that can lead to a circular dependency is forbidden.',
+                'source' => [
+                    'pointer' => '/included/0'
+                ]
+            ],
+            $response
+        );
+    }
+
     public function testUpdate()
     {
         $customerId = $this->getReference('customer.1')->getId();
@@ -337,6 +380,48 @@ class CustomerTest extends RestJsonApiTestCase
         self::assertEquals($parentCustomerId, $customer->getParent()->getId());
         self::assertEquals($internalRatingId, $customer->getInternalRating()->getId());
         self::assertEquals($groupId, $customer->getGroup()->getId());
+    }
+
+    public function testTryToUpdateWithNewParentCustomerInIncludes()
+    {
+        $response = $this->patch(
+            ['entity' => 'customers', 'id' => '<toString(@customer.1->id)>'],
+            'update_customer_with_new_parent_in_includes.yml',
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'new included entity existence constraint',
+                'detail' => 'Creation a new include entity that can lead to a circular dependency is forbidden.',
+                'source' => [
+                    'pointer' => '/included/0'
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testTryToUpdateWithNewChildCustomerInIncludes()
+    {
+        $response = $this->patch(
+            ['entity' => 'customers', 'id' => '<toString(@customer.1->id)>'],
+            'update_customer_with_new_child_in_includes.yml',
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'new included entity existence constraint',
+                'detail' => 'Creation a new include entity that can lead to a circular dependency is forbidden.',
+                'source' => [
+                    'pointer' => '/included/0'
+                ]
+            ],
+            $response
+        );
     }
 
     public function testTryToSetCirculiarParent()
