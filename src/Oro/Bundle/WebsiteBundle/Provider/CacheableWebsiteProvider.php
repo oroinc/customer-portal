@@ -4,7 +4,9 @@ namespace Oro\Bundle\WebsiteBundle\Provider;
 
 use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * The provider that uses a cache to prevent unneeded loading of website identifiers from the database.
@@ -22,19 +24,25 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
     /** @var DoctrineHelper */
     private $doctrineHelper;
 
+    /** @var TokenStorageInterface */
+    private $tokenStorage;
+
     /**
      * @param WebsiteProviderInterface $websiteProvider
      * @param CacheProvider $cacheProvider
      * @param DoctrineHelper $doctrineHelper
+     * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
         WebsiteProviderInterface $websiteProvider,
         CacheProvider $cacheProvider,
-        DoctrineHelper $doctrineHelper
+        DoctrineHelper $doctrineHelper,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->websiteProvider = $websiteProvider;
         $this->cacheProvider = $cacheProvider;
         $this->doctrineHelper = $doctrineHelper;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -54,10 +62,11 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
      */
     public function getWebsiteIds()
     {
-        $websiteIds = $this->cacheProvider->fetch(self::WEBSITE_IDS_CACHE_KEY);
+        $cacheKey = $this->getCacheKey();
+        $websiteIds = $this->cacheProvider->fetch($cacheKey);
         if (false === $websiteIds) {
             $websiteIds = $this->websiteProvider->getWebsiteIds();
-            $this->cacheProvider->save(self::WEBSITE_IDS_CACHE_KEY, $websiteIds);
+            $this->cacheProvider->save($cacheKey, $websiteIds);
         }
 
         return $websiteIds;
@@ -79,24 +88,23 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
     }
 
     /**
-     * Checks if this provider has data in the internal cache.
-     *
-     * @return bool
-     */
-    public function hasCache()
-    {
-        return $this->cacheProvider->contains(self::WEBSITE_IDS_CACHE_KEY);
-    }
-
-    /**
      * Removes all data from the internal cache.
      */
     public function clearCache()
     {
-        if (!$this->hasCache()) {
-            return;
-        }
+        $this->cacheProvider->deleteAll();
+    }
 
-        $this->cacheProvider->delete(self::WEBSITE_IDS_CACHE_KEY);
+    /**
+     * @return string
+     */
+    private function getCacheKey(): string
+    {
+        $token = $this->tokenStorage->getToken();
+        $organizationId = $token instanceof OrganizationAwareTokenInterface
+            ? $token->getOrganization()->getId()
+            : 'all';
+
+        return self::WEBSITE_IDS_CACHE_KEY . '_' . $organizationId;
     }
 }
