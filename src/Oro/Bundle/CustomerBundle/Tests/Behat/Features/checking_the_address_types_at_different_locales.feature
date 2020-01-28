@@ -18,15 +18,15 @@ Feature: Checking the address types at different locales
     When I go to System / Configuration
     And I follow "System Configuration/General Setup/Localization" on configuration sidebar
     And I fill form with:
-      | Enabled Localizations | [English, Zulu_Loc] |
-      | Default Localization  | Zulu_Loc            |
+      | Enabled Localizations | [English (United States), Zulu_Loc] |
+      | Default Localization  | Zulu_Loc                            |
     And I submit form
     Then I should see "Configuration saved" flash message
 
     When I follow "System Configuration/General Setup/Localization" on configuration sidebar
     And fill form with:
-      | Enabled Localizations | [English, Zulu] |
-      | Default Localization  | English         |
+      | Enabled Localizations | [English (United States), Zulu] |
+      | Default Localization  | English (United States)         |
     And I submit form
     Then I should see "Configuration saved" flash message
 
