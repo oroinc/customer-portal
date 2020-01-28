@@ -35,7 +35,7 @@
     {% set row_attr = layout_attr_defaults(row_attr|default({}), {
         '~class': [' form-row', parentClass, class_prefix]|join(' ')
     }) %}
-    
+
     {% set widget_attr = attr %}
     {% set attr = row_attr %}
 
@@ -113,7 +113,6 @@
     {% set label_attr = layout_attr_defaults(label_attr, {
         '~class': ' custom-radio',
         'data-radio': true,
-        'tabindex': 0,
         'for': id
     }) %}
 
