@@ -4,12 +4,13 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\GuestCustomerUserManager;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\WebsiteStub as Website;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
@@ -33,7 +34,7 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->customerUserManager = $this->createMock(CustomerUserManager::class);
@@ -49,7 +50,7 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGenerateGuestCustomerUser()
+    public function testGenerateGuestCustomerUser(): void
     {
         $this->customerUserManager
             ->expects($this->once())
@@ -73,6 +74,7 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $website = new Website();
         $website->setName('Default Website');
         $website->setOrganization(new Organization());
+        $website->setDefaultRole(new CustomerUserRole());
         $this->websiteManager
             ->expects($this->once())
             ->method('getCurrentWebsite')
@@ -101,5 +103,6 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Default Website', $customerUser->getWebsite()->getName());
         $this->assertEquals('Default Group', $customerUser->getCustomer()->getGroup()->getName());
         $this->assertEquals($owner->getFirstName(), $customerUser->getOwner()->getFirstName());
+        $this->assertSame($customerUser->getRoles(), [$website->getDefaultRole()]);
     }
 }
