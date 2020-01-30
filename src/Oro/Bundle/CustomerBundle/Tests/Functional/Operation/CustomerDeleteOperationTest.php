@@ -25,7 +25,7 @@ class CustomerDeleteOperationTest extends ActionTestCase
 
         $this->assertDeleteOperation(
             $customer->getId(),
-            'oro_customer.entity.customer.class',
+            Customer::class,
             'oro_customer_customer_index'
         );
     }

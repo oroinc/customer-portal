@@ -1,23 +1,4 @@
 parameters:
-    oro_customer.entity.customer.class: Oro\Bundle\CustomerBundle\Entity\Customer
-    oro_customer.entity.customer_address.class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress
-    oro_customer.entity.customer_group.class: Oro\Bundle\CustomerBundle\Entity\CustomerGroup
-    oro_customer.entity.customer_user.class: Oro\Bundle\CustomerBundle\Entity\CustomerUser
-    oro_customer.entity.customer_user_settings.class: Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings
-    oro_customer.entity.customer_user_address.class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
-    oro_customer.entity.customer_user_role.class: Oro\Bundle\CustomerBundle\Entity\CustomerUserRole
-    oro_customer.entity.audit.class: Oro\Bundle\CustomerBundle\Entity\Audit
-    oro_customer.entity.navigation_item.class: Oro\Bundle\CustomerBundle\Entity\NavigationItem
-    oro_customer.entity.navigation_history_item.class: Oro\Bundle\CustomerBundle\Entity\NavigationHistoryItem
-    oro_customer.entity.pinbar_tab.class: Oro\Bundle\CustomerBundle\Entity\PinbarTab
-    oro_customer.entity.sidebar_state.class: Oro\Bundle\CustomerBundle\Entity\CustomerUserSidebarState
-    oro_customer.entity.widget.class: Oro\Bundle\CustomerBundle\Entity\CustomerUserSidebarWidget
-    oro_customer.entity.page_state.class: Oro\Bundle\CustomerBundle\Entity\PageState
-    oro_customer.entity.windows_state.class: Oro\Bundle\CustomerBundle\Entity\WindowsState
-    oro_customer.entity.grid_view.class: Oro\Bundle\CustomerBundle\Entity\GridView
-    oro_customer.entity.grid_view_user.class: Oro\Bundle\CustomerBundle\Entity\GridViewUser
-    oro_customer.entity.customer_visitor.class: Oro\Bundle\CustomerBundle\Entity\CustomerVisitor
-
     oro_customer.anonymous_customer_user.update_latency: 600 # 10 minutes in seconds
     oro_customer.firewall_name: frontend
 
@@ -29,7 +10,7 @@ services:
             - "@oro_security.token_accessor"
             - "@oro_security.acl.manager"
         calls:
-            - [setCustomerUserClass, ['%oro_customer.entity.customer_user.class%']]
+            - [setCustomerUserClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
 
     oro_customer.acl.voter.customer:
         class: 'Oro\Bundle\CustomerBundle\Acl\Voter\CustomerVoter'
@@ -47,7 +28,7 @@ services:
         arguments:
             - "@oro_entity.doctrine_helper"
         calls:
-            - [setClassName, ["%oro_customer.entity.customer_group.class%"]]
+            - [setClassName, ['Oro\Bundle\CustomerBundle\Entity\CustomerGroup']]
             - [setConfigManager, ["@oro_config.global"]]
         tags:
             - { name: security.voter }
@@ -76,7 +57,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\JsTree\CustomerTreeHandler'
         public: true
         arguments:
-            - '%oro_customer.entity.customer.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\Customer'
             - "@doctrine"
 
     oro_customer.manager.customer.api.attribute:
@@ -84,14 +65,14 @@ services:
         public: true
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
-            - '%oro_customer.entity.customer.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\Customer'
             - "@doctrine.orm.entity_manager"
 
     oro_customer.manager.group.api.attribute:
         class:  'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
-            - '%oro_customer.entity.customer_group.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerGroup'
             - "@doctrine.orm.entity_manager"
 
     oro_customer.listener.search_listener:
@@ -105,7 +86,7 @@ services:
     oro_customer.form.autocomplete.customer_group.search_handler:
         parent: oro_form.autocomplete.search_handler
         arguments:
-            - '%oro_customer.entity.customer_group.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerGroup'
             - ["name"]
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_group, acl_resource: oro_customer_customer_group_view }
@@ -113,7 +94,7 @@ services:
     oro_customer_customer.form.autocomplete.customer.search_handler:
         parent: oro_form.autocomplete.search_handler
         arguments:
-            - '%oro_customer.entity.customer.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\Customer'
             - ["name"]
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_customer, acl_resource: oro_customer_customer_view }
@@ -122,7 +103,7 @@ services:
         parent: oro_form.autocomplete.search_handler
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\ParentCustomerSearchHandler'
         arguments:
-            - '%oro_customer.entity.customer.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\Customer'
             - ["name"]
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_parent, acl_resource: oro_customer_customer_view }
@@ -131,7 +112,7 @@ services:
         parent: oro_form.autocomplete.search_handler
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler'
         arguments:
-            - '%oro_customer.entity.customer_user.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
             - ["firstname", "lastname"]
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType, acl_resource: oro_customer_customer_user_view }
@@ -140,7 +121,7 @@ services:
         parent: oro_form.autocomplete.search_handler
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserSearchHandler'
         arguments:
-            - '%oro_customer.entity.customer_user.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
             - ["firstname", "lastname"]
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType, acl_resource: oro_customer_frontend_customer_user_view }
@@ -149,7 +130,7 @@ services:
         parent: oro_form.autocomplete.search_handler
         class: 'Oro\Bundle\CustomerBundle\Autocomplete\CustomerUserRoleSearchHandler'
         arguments:
-            - '%oro_customer.entity.customer_user_role.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole'
             - ["label"]
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: customer_user_role_select_or_create_type, acl_resource: oro_customer_customer_user_role_view }
@@ -159,7 +140,7 @@ services:
         public: true
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
-            - '%oro_customer.entity.customer_user.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
             - "@doctrine.orm.entity_manager"
 
     oro_customer.datagrid.action_permission_provider:
@@ -223,8 +204,7 @@ services:
     oro_customer.customer_visitor_manager:
         class: 'Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager'
         arguments:
-            - '@oro_entity.doctrine_helper'
-            - '%oro_customer.entity.customer_visitor.class%'
+            - '@doctrine'
 
     oro_customer.customer_visitor.credentials_cookie_response_listener:
         class:  'Oro\Bundle\CustomerBundle\Security\Listener\CustomerVisitorCookieResponseListener'
@@ -290,7 +270,7 @@ services:
             - "@oro_entity.doctrine_helper"
         calls:
             - [setContainer, ["@service_container"]]
-            - [setClassName, ['%oro_customer.entity.customer_user_role.class%']]
+            - [setClassName, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserRole']]
         tags:
             - { name: security.voter, priority: 10 }
 
@@ -299,7 +279,7 @@ services:
         public: true
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
-            - '%oro_customer.entity.customer_address.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerAddress'
             - "@doctrine.orm.entity_manager"
 
     oro_customer.event_listener.login:
@@ -333,7 +313,7 @@ services:
         public: true
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
-            - '%oro_customer.entity.customer_user_address.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress'
             - "@doctrine.orm.entity_manager"
 
     oro_customer.event_listener.datagrid.customer_user:
@@ -353,7 +333,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\EventListener\SystemConfigListener'
         arguments:
             - "@doctrine"
-            - '%oro_user.entity.class%'
+            - 'Oro\Bundle\UserBundle\Entity\User'
         tags:
             - { name: kernel.event_listener, event: oro_config.settings_form_preset, method: onFormPreSetData }
             - { name: kernel.event_listener, event: oro_config.settings_before_save.oro_customer.default_customer_owner, method: onSettingsSaveBefore }
@@ -373,8 +353,8 @@ services:
             - "@oro_navigation.utils.pinbar_tab_url_normalizer"
             - "@oro_navigation.provider.pinbar_tab_title"
         calls:
-            - [ setClassName, ['%oro_customer.entity.pinbar_tab.class%']]
-            - [ setNavigationItemClassName, ['%oro_customer.entity.navigation_item.class%']]
+            - [ setClassName, ['Oro\Bundle\CustomerBundle\Entity\PinbarTab']]
+            - [ setNavigationItemClassName, ['Oro\Bundle\CustomerBundle\Entity\NavigationItem']]
         tags:
             - { name: oro_navigation.item.builder, alias: frontend_pinbar }
 
@@ -383,7 +363,7 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
         calls:
-            - [ setClassName, ['%oro_customer.entity.navigation_item.class%']]
+            - [ setClassName, ['Oro\Bundle\CustomerBundle\Entity\NavigationItem']]
         tags:
             - { name: oro_navigation.item.builder, alias: frontend_favorite }
 
@@ -428,7 +408,7 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
         calls:
-            - [ setClassName, ['%oro_customer.entity.navigation_history_item.class%']]
+            - [ setClassName, ['Oro\Bundle\CustomerBundle\Entity\NavigationHistoryItem']]
         tags:
             - { name: oro_navigation.item.builder, alias: frontend_history }
 
@@ -437,7 +417,7 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
         calls:
-            - [ setClassName, ['%oro_customer.entity.navigation_history_item.class%']]
+            - [ setClassName, ['Oro\Bundle\CustomerBundle\Entity\NavigationHistoryItem']]
         tags:
             - { name: oro_navigation.item.builder, alias: frontend_mostviewed }
 
@@ -469,9 +449,9 @@ services:
     oro_customer.discriminator_map_listener:
         class: 'Oro\Bundle\EntityBundle\ORM\DiscriminatorMapListener'
         calls:
-            - [ addClass, ['oro_audit', '%oro_customer.entity.audit.class%'] ]
-            - [ addClass, ['oro_grid_view', '%oro_customer.entity.grid_view.class%'] ]
-            - [ addClass, ['oro_grid_view_user_rel', '%oro_customer.entity.grid_view_user.class%'] ]
+            - [ addClass, ['oro_audit', 'Oro\Bundle\CustomerBundle\Entity\Audit'] ]
+            - [ addClass, ['oro_grid_view', 'Oro\Bundle\CustomerBundle\Entity\GridView'] ]
+            - [ addClass, ['oro_grid_view_user_rel', 'Oro\Bundle\CustomerBundle\Entity\GridViewUser'] ]
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata }
 
@@ -495,11 +475,14 @@ services:
             - { name: layout.data_provider, alias: oro_customer_frontend_customer_user_register }
 
     oro_customer.manager.windows_state:
-        parent: oro_windows.manager.windows_state.abstract
-        public: true
+        class: Oro\Bundle\WindowsBundle\Manager\WindowsStateManager
         arguments:
-            - '%oro_customer.entity.windows_state.class%'
-            - '%oro_customer.entity.customer_user.class%'
+            - '@security.token_storage'
+            - '@doctrine'
+            - '@oro_windows.manager.windows_state_request'
+            - 'Oro\Bundle\CustomerBundle\Entity\WindowsState'
+        tags:
+            - { name: oro_windows.windows_state_manager, user_class: Oro\Bundle\CustomerBundle\Entity\CustomerUser }
 
     oro_customer.provider.sign_in:
         class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInProvider'
@@ -792,15 +775,15 @@ services:
         public: true
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
-            - '%oro_customer.entity.grid_view.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\GridView'
             - '@doctrine.orm.entity_manager'
             - '@oro_datagrid.grid_view.manager'
 
     oro_customer.grid_view.manager:
         parent: oro_datagrid.grid_view.manager
         calls:
-            - [setGridViewClassName, ['%oro_customer.entity.grid_view.class%']]
-            - [setGridViewUserClassName, ['%oro_customer.entity.grid_view_user.class%']]
+            - [setGridViewClassName, ['Oro\Bundle\CustomerBundle\Entity\GridView']]
+            - [setGridViewUserClassName, ['Oro\Bundle\CustomerBundle\Entity\GridViewUser']]
 
     oro_customer.grid_view.manager.composite:
         class: 'Oro\Bundle\CustomerBundle\Entity\Manager\GridViewManagerComposite'
@@ -865,14 +848,12 @@ services:
     oro_customer.datagrid.mass_action.disable_customers:
         class: Oro\Bundle\DataGridBundle\Extension\MassAction\Actions\Ajax\AjaxMassAction
         shared: false
-        public: true
         tags:
             - { name: oro_datagrid.extension.mass_action.type, type: disablecustomers }
 
     oro_customer.datagrid.mass_action.enable_customers:
         class: Oro\Bundle\DataGridBundle\Extension\MassAction\Actions\Ajax\AjaxMassAction
         shared: false
-        public: true
         tags:
             - { name: oro_datagrid.extension.mass_action.type, type: enablecustomers }
 
@@ -927,8 +908,8 @@ services:
         arguments:
             - '@doctrine'
             - '@oro_security.acl_helper'
-            - '%oro_customer.entity.customer_address.class%'
-            - '%oro_customer.entity.customer_user_address.class%'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerAddress'
+            - 'Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress'
 
     oro_customer.datagrid.frontend_customer_address.action_checker:
         class: Oro\Bundle\CustomerBundle\Datagrid\FrontendCustomerAddressActionChecker
@@ -1087,13 +1068,15 @@ services:
 
     oro_customer.updater.customer_user_reassign_updater:
         class: 'Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignUpdater'
+        arguments:
+            - !tagged_iterator oro_customer.updater.customer_user_reassign
 
     oro_customer.event_listener.customer_user_reassign:
         class: 'Oro\Bundle\CustomerBundle\EventListener\CustomerUserReassignEventListener'
         arguments:
             - '@oro_customer.updater.customer_user_reassign_updater'
         tags:
-            - { name: doctrine.orm.entity_listener, entity: '%oro_customer.entity.customer_user.class%', event: preUpdate }
+            - { name: doctrine.orm.entity_listener, entity: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser', event: preUpdate }
 
     oro_customer.validator.customer_user_related_entities_validator:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerRelatedEntitiesValidator

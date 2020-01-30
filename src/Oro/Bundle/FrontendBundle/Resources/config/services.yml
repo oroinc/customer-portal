@@ -205,7 +205,7 @@ services:
         arguments:
             - '@router'
             - []
-            - '%kernel.cache_dir%'
+            - '%kernel.cache_dir%/oro_data'
             - '%kernel.bundles%'
 
     oro_frontend.js_routing_controller:
@@ -289,3 +289,22 @@ services:
         arguments:
             - '@oro_frontend.provider.resized_image_path.skip_prefix.inner'
             - '%oro_frontend.provider.resized_image_path.skip_prefix%'
+
+    oro_frontend.event_listener.draftable_filter_listener:
+        class: Oro\Bundle\FrontendBundle\EventListener\DraftableFilterListener
+        decorates: oro_draft.event_listener.draftable_filter_listener
+        arguments:
+            - '@oro_entity.doctrine_helper'
+            - '@oro_frontend.request.frontend_helper'
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    oro_frontend.event_listener.default_grid_view_load:
+        class: Oro\Bundle\FrontendBundle\EventListener\DefaultGridViewLoadListener
+        arguments:
+            - '@oro_entity.orm.entity_class_resolver'
+            - '@oro_search.provider.search_mapping'
+            - '@oro_entity_config.config_manager'
+            - '@translator'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.grid_views_load, method: onViewsLoad }

@@ -100,9 +100,7 @@ class WebsiteRepositoryTest extends WebTestCase
      */
     protected function getRepository()
     {
-        return $this->getContainer()->get('doctrine')->getRepository(
-            $this->getContainer()->getParameter('oro_website.entity.website.class')
-        );
+        return $this->getContainer()->get('doctrine')->getRepository(Website::class);
     }
 
     public function testCheckWebsiteExists()

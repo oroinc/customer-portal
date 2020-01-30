@@ -38,7 +38,7 @@ class CustomerUserAddressController extends Controller
         $addressProvider = $this->get('oro_customer.provider.frontend.address');
 
         return [
-            'entity_class' => $this->container->getParameter('oro_customer.entity.customer_user_address.class'),
+            'entity_class' => CustomerUserAddress::class,
             'customer_user_address_count' => count($addressProvider->getCurrentCustomerUserAddresses()),
             'customer_address_count' => count($addressProvider->getCurrentCustomerAddresses()),
             'data' => [
@@ -103,9 +103,7 @@ class CustomerUserAddressController extends Controller
 
         $currentUser = $this->getUser();
 
-        $manager = $this->getDoctrine()->getManagerForClass(
-            $this->container->getParameter('oro_customer.entity.customer_user_address.class')
-        );
+        $manager = $this->getDoctrine()->getManagerForClass(CustomerUserAddress::class);
 
         $handler = new AddressHandler($form, $this->get('request_stack'), $manager);
 

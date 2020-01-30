@@ -142,7 +142,7 @@ oro_stylebook:
                 description: 'Preview of the horizontal and vertical scroll.'
             googlemaps_view:
                 title: 'Google Map View'
-                description: 'Preview of the Google Map embedded into the Oro application content. Note: The valid API key is necessary for the preview to render. Ensure you have generated and provided the Google API key in the <a href="https://oroinc.com/b2b-ecommerce/doc/current/admin-guide/integrations/google-integration-settings">Google integartion settings</a> in Oro application configuration.'
+                description: 'Preview of the Google Map embedded into the Oro application content. Note: The valid API key is necessary for the preview to render. Ensure you have generated and provided the Google API key in the <a href="https://doc.oroinc.com/user/back-office/system/configuration/system/integrations/google-integration-settings/">Google integartion settings</a> in Oro application configuration.'
             list_slider:
                 title: 'List Slider Component'
                 description: 'The promo image slider helps you embed and configure the responsive carousel in the Oro application. It the carousel you may display a set of blocks with html content (e.g. images, landing pages, banners).'
@@ -160,7 +160,7 @@ oro_stylebook:
                 description: 'This section previews the existing mediators. The mediators are handlers for event triggers that help inform the related processes of the changes or the events. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/mediator-handlers.md">Oro bundle documentation</a>'
             popup_gallery:
                 title: 'Popup Gallery Widget'
-                description: 'The popup gallery widget helps you display the set of images as a gallery. See <a href="https://oroinc.com/b2b-ecommerce/doc/current/admin-guide/landing-commerce/product/products/global-gallery#sys-commerce-product-product-images-gallery-slider-global">image gallery configuration</a> as a sample use case.'
+                description: 'The popup gallery widget helps you display the set of images as a gallery. See <a href="https://doc.oroinc.com/user/back-office/system/configuration/commerce/product/global-product-images/#image-gallery">image gallery configuration</a> as a sample use case.'
             viewport_manager:
                 title: 'Viewport Manager'
                 description: 'The viewport manager previews available screen types that can be used in Oro application styles. For more information, see the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/UIBundle/Resources/doc/reference/client-side/viewport-manager.md">Oro bundle documentation</a>.'

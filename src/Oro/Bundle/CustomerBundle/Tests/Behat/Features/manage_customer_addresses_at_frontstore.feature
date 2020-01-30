@@ -110,3 +110,29 @@ Feature: Manage Customer addresses at front-store
     And I click "My Profile"
     Then I should see "Test street"
     And I should see "Test city, 12345, AI"
+    And I click "Sign Out"
+
+  Scenario: Enable permissions to manage addresses for customer users from the same department
+    Given I login as administrator
+    And I go to Customers/ Customer User Roles
+    And I click edit Buyer in grid
+    And select following permissions:
+      | Customer User Address | View:Department (Same Level) |
+      | Customer User Address | Create:Department (Same Level) |
+      | Customer User Address | Edit:Department (Same Level)   |
+      | Customer User Address | Delete:Department (Same Level)   |
+    When I save and close form
+    Then I should see "Customer User Role has been saved" flash message
+    And I click Logout in user menu
+
+  Scenario: Check Edit and Delete address buttons for not own address on profile page
+    Given I signed in as AmandaRCole@example.org on the store frontend
+    And I click "Account"
+    When I click "My Profile"
+    And click edit alert(9) address
+    Then "OroForm" must contains values:
+      | Street | alert(9) |
+    When I click "My Profile"
+    And delete alert(9) address
+    And click "Yes, Delete" in confirmation dialogue
+    Then should not see "alert(9)"

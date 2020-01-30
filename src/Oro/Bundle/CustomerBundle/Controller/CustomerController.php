@@ -11,6 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Back-office CRUD for customers.
+ */
 class CustomerController extends Controller
 {
     /**
@@ -23,7 +26,7 @@ class CustomerController extends Controller
     public function indexAction()
     {
         return [
-            'entity_class' => $this->container->getParameter('oro_customer.entity.customer.class')
+            'entity_class' => Customer::class
         ];
     }
 
