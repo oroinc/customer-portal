@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
@@ -15,6 +16,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Back-office CRUD for customer users.
+ */
 class CustomerUserController extends Controller
 {
     /**
@@ -47,7 +51,7 @@ class CustomerUserController extends Controller
     public function indexAction()
     {
         return [
-            'entity_class' => $this->container->getParameter('oro_customer.entity.customer_user.class')
+            'entity_class' => CustomerUser::class
         ];
     }
 
@@ -86,10 +90,7 @@ class CustomerUserController extends Controller
         $doctrineHelper = $this->get('oro_entity.doctrine_helper');
 
         if ($customerUserId) {
-            $customerUser = $doctrineHelper->getEntityReference(
-                $this->getParameter('oro_customer.entity.customer_user.class'),
-                $customerUserId
-            );
+            $customerUser = $doctrineHelper->getEntityReference(CustomerUser::class, $customerUserId);
         } else {
             $customerUser = new CustomerUser();
         }
@@ -97,7 +98,7 @@ class CustomerUserController extends Controller
         $customer = null;
         if ($customerId) {
             $customer = $doctrineHelper->getEntityReference(
-                $this->getParameter('oro_customer.entity.customer.class'),
+                Customer::class,
                 $customerId
             );
         }

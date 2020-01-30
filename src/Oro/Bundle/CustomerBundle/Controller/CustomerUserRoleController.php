@@ -29,7 +29,7 @@ class CustomerUserRoleController extends Controller
     public function indexAction()
     {
         return [
-            'entity_class' => $this->container->getParameter('oro_customer.entity.customer_user_role.class')
+            'entity_class' => CustomerUserRole::class
         ];
     }
 
@@ -76,7 +76,7 @@ class CustomerUserRoleController extends Controller
      */
     public function createAction(Request $request)
     {
-        $roleClass = $this->container->getParameter('oro_customer.entity.customer_user_role.class');
+        $roleClass = CustomerUserRole::class;
 
         return $this->update($request, new $roleClass());
     }
