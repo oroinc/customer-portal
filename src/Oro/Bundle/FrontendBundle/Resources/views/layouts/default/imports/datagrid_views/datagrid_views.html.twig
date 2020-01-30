@@ -23,7 +23,8 @@
 {% block __datagrid_views__datagrid_views_toolbar_header_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid-views__header',
-        'data-toggle': 'dropdown'
+        'data-toggle': 'dropdown',
+        'tabindex': 0
     }) %}
     <% if (choices.length) { %>
     <div {{ block('block_attributes') }}>

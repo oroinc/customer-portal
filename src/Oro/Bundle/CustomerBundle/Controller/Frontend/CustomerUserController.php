@@ -51,7 +51,7 @@ class CustomerUserController extends Controller
     public function indexAction()
     {
         return [
-            'entity_class' => $this->container->getParameter('oro_customer.entity.customer_user.class')
+            'entity_class' => CustomerUser::class
         ];
     }
 

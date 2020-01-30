@@ -58,18 +58,7 @@
             }
         }
 
-        .custom-radio {
-            padding-right: $offset-y;
-
-            line-height: 13px;
-
-            &__text {
-                &:before {
-                    vertical-align: bottom;
-                }
-            }
-        }
-
+        .custom-radio,
         .custom-checkbox {
             padding-right: $offset-y;
         }

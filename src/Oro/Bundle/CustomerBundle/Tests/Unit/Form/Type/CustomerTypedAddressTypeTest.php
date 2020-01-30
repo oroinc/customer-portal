@@ -15,7 +15,6 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\CustomerTypedAddressWithDefaultTypeStub;
 use Oro\Bundle\FormBundle\Tests\Unit\Stub\StripTagsExtensionStub;
 use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
-use Oro\Bundle\UIBundle\Tools\HtmlTagHelper;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -118,7 +117,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
                     ], $this->em),
                     AddressFormType::class => $addressTypeStub,
                 ],
-                [FormType::class => [new StripTagsExtensionStub($this->createMock(HtmlTagHelper::class))]]
+                [FormType::class => [new StripTagsExtensionStub($this)]]
             )
         ];
     }

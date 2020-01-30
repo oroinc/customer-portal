@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Storefront CRUD for customer user roles.
+ */
 class CustomerUserRoleController extends Controller
 {
     /**
@@ -28,7 +31,7 @@ class CustomerUserRoleController extends Controller
     public function indexAction()
     {
         return [
-            'entity_class' => $this->container->getParameter('oro_customer.entity.customer_user_role.class'),
+            'entity_class' => CustomerUserRole::class,
         ];
     }
 

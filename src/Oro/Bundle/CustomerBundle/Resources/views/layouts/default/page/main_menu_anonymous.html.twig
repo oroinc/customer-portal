@@ -1,7 +1,7 @@
 {% block _header_row_customer_widget %}
     <div class="header-row__container hidden-on-desktop">
-        <a href="{{ path(route_name) }}" class="header-row__trigger">
-            <span class="nav-trigger__icon"><i class="fa-user"></i></span>
+        <a href="{{ path(route_name) }}" class="header-row__trigger" aria-label="{{ 'oro.customer.menu.not_logged_user.label'|trans }}">
+            <span class="nav-trigger__icon fa-user fa--no-offset" aria-hidden="true"></span>
         </a>
     </div>
 {% endblock %}

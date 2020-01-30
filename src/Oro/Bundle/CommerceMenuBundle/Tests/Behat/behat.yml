@@ -37,7 +37,7 @@ oro_behat_extension:
     Information:
       selector:
         type: xpath
-        locator: '//h3[contains(@class, "information-nav__title")]'
+        locator: '//h6[contains(@class, "information-nav__title")]'
 
     Main Menu Button:
       selector:
@@ -101,5 +101,6 @@ oro_behat_extension:
         - OroEntityExtendBundle::EntityExtendContext
         - OroNavigationBundle::FeatureContext
         - OroLocaleBundle::LocalizationContext
+        - OroWebCatalogBundle::FeatureContext
       paths:
         - '@OroCommerceMenuBundle/Tests/Behat/Features'

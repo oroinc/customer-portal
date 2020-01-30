@@ -5,26 +5,19 @@ namespace Oro\Bundle\CustomerBundle\Handler;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 /**
- * Combines CustomerUserReassignEntityUpdaters which it gets from CustomerUserReassignUpdaterPass compiler pass.
- * Used to call update methods from all CustomerUserReassignEntityUpdaters and to get entity class names which
- * need to be updated
+ * Delegates the handling of customer user reassign to child updaters.
  */
 class CustomerUserReassignUpdater implements CustomerUserReassignUpdaterInterface
 {
-    /**
-     * @var CustomerUserReassignEntityUpdater[]
-     */
-    private $customerUserReassignEntityUpdaters = [];
+    /** @var iterable|CustomerUserReassignEntityUpdater[] */
+    private $updaters;
 
     /**
-     * @param CustomerUserReassignEntityUpdater $customerUserReassignEntityUpdater
+     * @param iterable|CustomerUserReassignEntityUpdater[] $updaters
      */
-    public function addCustomerUserReassignEntityUpdater(
-        CustomerUserReassignEntityUpdater $customerUserReassignEntityUpdater
-    ) {
-        $this->customerUserReassignEntityUpdaters[
-            $customerUserReassignEntityUpdater->getEntityClass()
-        ] = $customerUserReassignEntityUpdater;
+    public function __construct(iterable $updaters)
+    {
+        $this->updaters = $updaters;
     }
 
     /**
@@ -32,8 +25,8 @@ class CustomerUserReassignUpdater implements CustomerUserReassignUpdaterInterfac
      */
     public function update(CustomerUser $customerUser)
     {
-        foreach ($this->customerUserReassignEntityUpdaters as $customerUserReassignEntityUpdater) {
-            $customerUserReassignEntityUpdater->update($customerUser);
+        foreach ($this->updaters as $updater) {
+            $updater->update($customerUser);
         }
     }
 
@@ -43,10 +36,9 @@ class CustomerUserReassignUpdater implements CustomerUserReassignUpdaterInterfac
     public function getClassNamesToUpdate(CustomerUser $customerUser): array
     {
         $classNames = [];
-
-        foreach ($this->customerUserReassignEntityUpdaters as $customerUserReassignEntityUpdater) {
-            if ($customerUserReassignEntityUpdater->hasEntitiesToUpdate($customerUser)) {
-                $classNames[] = $customerUserReassignEntityUpdater->getEntityClass();
+        foreach ($this->updaters as $updater) {
+            if ($updater->hasEntitiesToUpdate($customerUser)) {
+                $classNames[] = $updater->getEntityClass();
             }
         }
 

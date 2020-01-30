@@ -150,10 +150,6 @@
         background: transparent;
     }
 
-    .select2-container-active {
-        @extend .input--focus;
-    }
-
     &.dropdown-mode {
         margin: $filter-box-dropdown-mode-offset;
         padding: $filter-box-dropdown-mode-inner-offset;

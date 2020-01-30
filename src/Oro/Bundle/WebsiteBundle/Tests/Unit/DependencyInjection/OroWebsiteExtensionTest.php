@@ -11,11 +11,6 @@ class OroWebsiteExtensionTest extends ExtensionTestCase
     {
         $this->loadExtension(new OroWebsiteExtension());
 
-        $expectedParameters = [
-            'oro_website.entity.website.class'
-        ];
-
-        $this->assertParametersLoaded($expectedParameters);
         $this->assertExtensionConfigsLoaded([OroWebsiteExtension::ALIAS]);
     }
 
