@@ -1,7 +1,7 @@
 parameters:
     oro_customer.entity.owners:
-        business_unit: '%oro_customer.entity.customer.class%'
-        user: '%oro_customer.entity.customer_user.class%'
+        business_unit: 'Oro\Bundle\CustomerBundle\Entity\Customer'
+        user: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
 
     # default ttl for frontend owner tree provider cache is set to one week
     oro_customer.frontend_owner_tree_provider.cache_ttl: 604800

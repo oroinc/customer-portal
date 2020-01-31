@@ -41,7 +41,7 @@ class CustomerUserProviderTest extends WebTestCase
         $roleName = 'DENIED';
         $role = new CustomerUserRole(CustomerUserRole::PREFIX_ROLE . $roleName);
         $role->setLabel($roleName);
-        $className = $this->getContainer()->getParameter('oro_customer.entity.customer_user_role.class');
+        $className = CustomerUserRole::class;
         $em = $this->getContainer()->get('doctrine')->getManagerForClass($className);
         $em->persist($role);
         $em->flush();
@@ -55,7 +55,7 @@ class CustomerUserProviderTest extends WebTestCase
      */
     protected function assertRoleHasPermission($roleName, array $expected)
     {
-        $className = $this->getContainer()->getParameter('oro_customer.entity.customer_user_role.class');
+        $className = CustomerUserRole::class;
         $em = $this->getContainer()->get('doctrine')->getManagerForClass($className);
         $repository = $em->getRepository($className);
 
@@ -72,7 +72,7 @@ class CustomerUserProviderTest extends WebTestCase
         $user->setRoles([$role]);
         $em->flush();
 
-        $userClassName = $this->getContainer()->getParameter('oro_customer.entity.customer_user.class');
+        $userClassName = CustomerUser::class;
 
         list(
             $isGrantedViewCustomerUser,

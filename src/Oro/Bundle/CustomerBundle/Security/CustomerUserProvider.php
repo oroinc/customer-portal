@@ -171,7 +171,7 @@ class CustomerUserProvider
     {
         return $this->isGrantedEntityMask(
             $class,
-            $this->getMaskBuilderForPermission($permission)->getMask('MASK_' . $permission . '_' . $level)
+            $this->getMaskBuilderForPermission($permission)->getMaskForPermission($permission . '_' . $level)
         );
     }
 
@@ -233,7 +233,7 @@ class CustomerUserProvider
                 return $this->isGrantedOidMask(
                     $rootOid,
                     $class,
-                    $this->getMaskBuilderForMask($requiredMask)->getMask('GROUP_DEEP')
+                    $this->getMaskBuilderForMask($requiredMask)->getMaskForGroup('DEEP')
                 );
             }
 

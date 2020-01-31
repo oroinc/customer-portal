@@ -1344,8 +1344,10 @@ class OroAccountBundle implements
             'Oro\Bundle\ShoppingListBundle\Entity\LineItem',
         ];
         foreach ($classes as $class) {
-            $migration->migrate($class, 'account_user_id', 'customer_user_id');
-            $migration->migrate($class, 'accountUser', 'customerUser');
+            if (\class_exists($class)) {
+                $migration->migrate($class, 'account_user_id', 'customer_user_id');
+                $migration->migrate($class, 'accountUser', 'customerUser');
+            }
         }
         $migration->migrate('Oro\Bundle\CustomerBundle\Entity\CustomerUser', 'account', 'customer');
         $migration->migrate('Oro\Bundle\CustomerBundle\Entity\CustomerUserRole', 'account', 'customer');

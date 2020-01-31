@@ -2,9 +2,14 @@
 
 namespace Oro\Bundle\CustomerBundle\DependencyInjection\Compiler;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * Registers Customer and CustomerUser as supported by the owner tree.
+ */
 class OwnerTreeListenerPass implements CompilerPassInterface
 {
     const LISTENER_SERVICE = 'oro_security.ownership_tree_subscriber';
@@ -22,14 +27,14 @@ class OwnerTreeListenerPass implements CompilerPassInterface
         $listenerDefinition->addMethodCall(
             'addSupportedClass',
             [
-                $container->getParameter('oro_customer.entity.customer.class'),
+                Customer::class,
                 ['parent', 'organization']
             ]
         );
         $listenerDefinition->addMethodCall(
             'addSupportedClass',
             [
-                $container->getParameter('oro_customer.entity.customer_user.class'),
+                CustomerUser::class,
                 ['customer', 'organization'],
             ]
         );
