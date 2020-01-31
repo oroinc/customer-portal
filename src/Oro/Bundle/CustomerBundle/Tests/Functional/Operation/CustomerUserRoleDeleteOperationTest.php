@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Operation;
 
 use Oro\Bundle\ActionBundle\Tests\Functional\ActionTestCase;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData;
 
 class CustomerUserRoleDeleteOperationTest extends ActionTestCase
@@ -33,7 +34,7 @@ class CustomerUserRoleDeleteOperationTest extends ActionTestCase
 
         $this->assertDeleteOperation(
             $id,
-            'oro_customer.entity.customer_user_role.class',
+            CustomerUserRole::class,
             'oro_customer_customer_user_role_index'
         );
 

@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * CRUD for customer groups.
+ */
 class CustomerGroupController extends Controller
 {
     /**
@@ -26,7 +29,7 @@ class CustomerGroupController extends Controller
     public function indexAction()
     {
         return [
-            'entity_class' => $this->container->getParameter('oro_customer.entity.customer_group.class')
+            'entity_class' => CustomerGroup::class
         ];
     }
 

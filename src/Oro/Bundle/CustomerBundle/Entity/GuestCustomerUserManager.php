@@ -10,6 +10,9 @@ use Oro\Bundle\UserBundle\Provider\DefaultUserProvider;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
+/**
+ * Provides a set of methods to simplify manage of the guest CustomerUser entities.
+ */
 class GuestCustomerUserManager
 {
     /**
@@ -79,6 +82,7 @@ class GuestCustomerUserManager
         $customerUser->setWebsite($website);
         if ($website && $website->getOrganization()) {
             $customerUser->setOrganization($website->getOrganization());
+            $customerUser->addRole($website->getDefaultRole());
         }
 
         foreach ($properties as $propertyPath => $value) {

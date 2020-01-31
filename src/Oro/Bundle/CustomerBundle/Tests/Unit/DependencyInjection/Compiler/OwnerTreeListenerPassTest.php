@@ -3,6 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\OwnerTreeListenerPass;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class OwnerTreeListenerPassTest extends \PHPUnit\Framework\TestCase
@@ -28,26 +30,17 @@ class OwnerTreeListenerPassTest extends \PHPUnit\Framework\TestCase
             ->with(OwnerTreeListenerPass::LISTENER_SERVICE)
             ->willReturn(true);
 
-        $containerBuilder->expects($this->exactly(2))
-            ->method('getParameter')
-            ->willReturnMap(
-                [
-                    ['oro_customer.entity.customer.class', 'Entity\Customer'],
-                    ['oro_customer.entity.customer_user.class', 'Entity\CustomerUser'],
-                ]
-            );
-
         $listenerDefinition->expects($this->at(0))
             ->method('addMethodCall')
             ->with(
                 'addSupportedClass',
-                ['Entity\Customer', ['parent', 'organization']]
+                [Customer::class, ['parent', 'organization']]
             );
         $listenerDefinition->expects($this->at(1))
             ->method('addMethodCall')
             ->with(
                 'addSupportedClass',
-                ['Entity\CustomerUser', ['customer', 'organization']]
+                [CustomerUser::class, ['customer', 'organization']]
             );
 
         $compilerPass = new OwnerTreeListenerPass();
