@@ -1,19 +1,19 @@
 <div class="datagrid-manager">
     <div class="datagrid-manager__header">
-        <div class="datagrid-manager__title"><%= _.__('oro_frontend.settings.title') %></div>
-        <span class="close">×</span>
+        <div class="datagrid-manager__title"><%- _.__('oro_frontend.settings.title') %></div>
+        <button class="btn btn--plain close" title="<%- _.__('Close') %>" aria-label="<%- _.__('oro_frontend.settings.close.aria_label') %>"><span class="fa-close fa--no-offset" aria-hidden="true"></span></button>
     </div>
     <div class="datagrid-manager-filter" data-role="datagrid-settings-filter"></div>
     <div class="datagrid-manager__actions">
-        <a href="#" data-role="datagrid-settings-select-all"><%= _.__('oro.datagrid.settings.select_all')%></a>
-        <span class="datagrid-manager__separator">|</span>
-        <a href="#" data-role="datagrid-settings-unselect-all"><%= _.__('oro.datagrid.settings.deselect_all')%></a>
+        <a href="#" data-role="datagrid-settings-select-all"><%- _.__('oro.datagrid.settings.select_all')%></a>
+        <span class="datagrid-manager__separator" aria-hidden="true">|</span>
+        <a href="#" data-role="datagrid-settings-unselect-all"><%- _.__('oro.datagrid.settings.deselect_all')%></a>
     </div>
     <div class="datagrid-manager-table" data-role="datagrid-settings-table"></div>
     <div class="datagrid-manager__footer" data-role="datagrid-settings-footer">
         <a href="#" class="link datagrid-manager__reset-btn" data-role="datagrid-settings-reset">
-            <i class="fa fa-refresh"></i>
-            <span><%= _.__('oro.datagrid.settings.reset')%></span>
+            <span class="fa fa-refresh" aria-hidden="true"></span>
+            <span><%- _.__('oro.datagrid.settings.reset')%></span>
         </a>
     </div>
 </div>

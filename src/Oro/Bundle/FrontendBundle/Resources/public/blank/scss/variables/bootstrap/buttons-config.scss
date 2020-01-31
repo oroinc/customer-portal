@@ -66,6 +66,9 @@ $btn-plain-focus-background-color: transparent !default;
 $btn-plain-focus-border-color: transparent !default;
 
 $btn-plain-active-box-shadow: none !default;
+$btn-plain-active-background-color: get-color('additional', 'ultra') !default;
+$btn-plain-active-border-color: $btn-plain-focus-border-color !default;
+$btn-plain-active-color: $btn-plain-hover-color !default;
 
 $btn-plain-pressed-box-shadow: $btn-plain-active-box-shadow !default;
 

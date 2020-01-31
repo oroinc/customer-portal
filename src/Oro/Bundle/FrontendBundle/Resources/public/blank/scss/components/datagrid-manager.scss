@@ -108,7 +108,7 @@
 
     &.dropdown {
         display: inline-block;
-        
+
         &.show {
             z-index: z('base') + 1;
         }
@@ -144,18 +144,6 @@
         position: absolute;
         top: $datagrid-manager-close-top;
         right: $datagrid-manager-close-right;
-
-        font-size: $datagrid-manager-close-font-size;
-        text-align: $datagrid-manager-close-text-align;
-        line-height: $datagrid-manager-close-line-height;
-
-        color: $datagrid-manager-close-color;
-
-        cursor: pointer;
-
-        @include element-state('hover') {
-            opacity: $datagrid-manager-close-color-hover-opacity;
-        }
     }
 
     .disabled {

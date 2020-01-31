@@ -59,6 +59,7 @@
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active,
+    // In case when buttons are rendered in datagrid toolbar
     .show > &.dropdown-toggle {
         color: $active-color;
         background-color: $active-background;

@@ -81,9 +81,14 @@ define(function(require, exports, module) {
          */
         _setButtonDesign: function($button) {
             $button
-                .addClass('filters-manager-trigger btn btn--default btn--size-s')
+                .attr({
+                    'class': `${$button.attr('class')} filters-manager-trigger btn btn--default btn--size-s`,
+                    'title': __('oro_frontend.filter_manager.label'),
+                    'aria-label': __('oro_frontend.filter_manager.aria_label')
+                })
                 .find('span')
-                .addClass('fa--no-offset fa-plus hide-text');
+                .addClass('fa--no-offset fa-plus hide-text')
+                .text('');
         },
 
         /**

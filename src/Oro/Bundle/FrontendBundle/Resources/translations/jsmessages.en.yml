@@ -9,6 +9,9 @@ oro_frontend:
         save_flash_success: Saved successfully
     settings:
         title: "Manage Grid"
+        title_aria_label: "Expand or Collapse Grid Settings"
+        close:
+            aria_label: "Close the Manage Grid drop-down"
 
     datagrid:
         pagination:
@@ -29,7 +32,6 @@ oro_frontend:
         no:
             results: "No {{ entityHint }} were found to match your search. Try modifying your search criteria..."
 
-
     filter_manager:
         checkAll: 'Select All'
         unCheckAll: 'Deselect All'
@@ -37,10 +39,14 @@ oro_frontend:
         placeholder: "Search Filters"
         title: 'Filters Manager'
         button_label: 'Manage Filters'
+        aria_label: 'Expand or Collapse Manage Filters'
+        close:
+            aria_label: 'Close the Filter Management drop-down'
 
     filters:
         apply: 'Apply'
         apply_all: 'Apply Filters'
+        aria_label: 'Expand or Collapse Filters'
 
     datagrid_views:
         all: "All "
