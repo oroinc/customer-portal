@@ -26,4 +26,6 @@ $dropdown-item-padding-x: 20px;
 
 $table-color: get-color('additional', 'dark');
 
+$nav-tabs-link-active-color-focus-visible: $base-ui-bth-focus-style;
+
 @import "npmassets/bootstrap/scss/variables";

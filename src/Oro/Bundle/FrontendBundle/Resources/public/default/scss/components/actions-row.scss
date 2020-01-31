@@ -15,6 +15,7 @@
         &:before {
             display: inline-block;
             height: $base-font-size - 2px;
+            margin: 0 2px;
 
             border-left: 1px solid;
 
@@ -48,6 +49,14 @@
         }
     }
 
+    &__icon {
+        margin-right: 0;
+
+        opacity: .65;
+
+        @extend %base-transition;
+    }
+
     &__button {
         display: inline-block;
         padding: 2px 4px;
@@ -57,19 +66,11 @@
         border: 0;
         background: transparent;
 
-        cursor: pointer;
-
-        opacity: .65;
-
-        @extend %base-transition;
-
         &:hover {
-            opacity: 1;
+            .actions-row__icon {
+                opacity: 1;
+            }
         }
-    }
-
-    &__icon {
-        margin-right: 0;
     }
 }
 

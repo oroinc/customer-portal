@@ -58,14 +58,12 @@
         border: $dialog-titlebar-close-border;
 
         background: $dialog-titlebar-close-background;
-        color: $dialog-titlebar-close-color;
-
-        opacity: $dialog-titlebar-close-opacity;
+        color: rgba($dialog-titlebar-close-color, $dialog-titlebar-close-opacity);
 
         cursor: $dialog-buttons-inner-cursor;
 
         &:hover {
-            opacity: $dialog-titlebar-close-hover-opacity;
+            color: rgba($dialog-titlebar-close-color, $dialog-titlebar-close-hover-opacity)
         }
 
         .ui-icon-closethick {

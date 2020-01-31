@@ -3,11 +3,15 @@
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Provider;
 
 use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
+use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
 {
@@ -16,8 +20,14 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
     /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteProvider;
 
+    /** @var ArrayCache */
+    private $cacheProvider;
+
     /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
+
+    /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenStorage;
 
     /** @var CacheableWebsiteProvider */
     private $cacheableProvider;
@@ -25,25 +35,32 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
     protected function setUp()
     {
         $this->websiteProvider = $this->createMock(WebsiteProviderInterface::class);
+        $this->cacheProvider = new ArrayCache();
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
+        $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
 
         $this->cacheableProvider = new CacheableWebsiteProvider(
             $this->websiteProvider,
-            new ArrayCache(),
-            $this->doctrineHelper
+            $this->cacheProvider,
+            $this->doctrineHelper,
+            $this->tokenStorage
         );
     }
 
-    public function testGetWebsites()
+    public function testGetWebsites(): void
     {
         $websiteId = 123;
         $website = $this->getWebsite($websiteId, 'some');
+
+        $this->tokenStorage->expects($this->exactly(2))
+            ->method('getToken')
+            ->willReturn(null);
 
         $this->websiteProvider->expects($this->once())
             ->method('getWebsiteIds')
             ->willReturn([$websiteId]);
 
-        $this->doctrineHelper->expects($this->atLeastOnce())
+        $this->doctrineHelper->expects($this->exactly(2))
             ->method('getEntityReference')
             ->with(Website::class, $websiteId)
             ->willReturn($website);
@@ -53,17 +70,21 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$website->getId() => $website], $this->cacheableProvider->getWebsites());
     }
 
-    public function testGetWebsiteChoices()
+    public function testGetWebsiteChoices(): void
     {
         $websiteId = 123;
         $websiteName = 'test-website';
         $website = $this->getWebsite($websiteId, $websiteName);
 
+        $this->tokenStorage->expects($this->exactly(2))
+            ->method('getToken')
+            ->willReturn(null);
+
         $this->websiteProvider->expects($this->once())
             ->method('getWebsiteIds')
             ->willReturn([$websiteId]);
 
-        $this->doctrineHelper->expects($this->atLeastOnce())
+        $this->doctrineHelper->expects($this->exactly(2))
             ->method('getEntityReference')
             ->with(Website::class, $websiteId)
             ->willReturn($website);
@@ -73,9 +94,13 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$website->getName() => $website->getId()], $this->cacheableProvider->getWebsiteChoices());
     }
 
-    public function testGetWebsiteIds()
+    public function testGetWebsiteIds(): void
     {
         $ids = [1001, 1002, 1003];
+
+        $this->tokenStorage->expects($this->exactly(2))
+            ->method('getToken')
+            ->willReturn(null);
 
         $this->websiteProvider->expects($this->once())
             ->method('getWebsiteIds')
@@ -86,42 +111,68 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($ids, $this->cacheableProvider->getWebsiteIds());
     }
 
-    public function testHasCacheAndClearCacheForGetWebsites()
+    public function testGetWebsiteIdsPerOrganization(): void
     {
-        $websiteId = 123;
-        $website = $this->getWebsite($websiteId, 'some');
+        $organizationA = $this->createMock(OrganizationInterface::class);
+        $tokenA = $this->createMock(OrganizationAwareTokenInterface::class);
+        $tokenA->expects($this->atLeastOnce())
+            ->method('getOrganization')
+            ->willReturn($organizationA);
+        $organizationA->expects($this->atLeastOnce())
+            ->method('getId')
+            ->willReturn(1);
 
-        $this->websiteProvider->expects($this->once())
+        $organizationB = $this->createMock(OrganizationInterface::class);
+        $tokenB = $this->createMock(OrganizationAwareTokenInterface::class);
+        $tokenB->expects($this->atLeastOnce())
+            ->method('getOrganization')
+            ->willReturn($organizationB);
+        $organizationB->expects($this->atLeastOnce())
+            ->method('getId')
+            ->willReturn(2);
+
+        $this->tokenStorage->expects($this->exactly(4))
+            ->method('getToken')
+            ->willReturnOnConsecutiveCalls(
+                $tokenA,
+                $tokenB,
+                $tokenA,
+                $tokenB
+            );
+
+        $this->websiteProvider->expects($this->exactly(2))
             ->method('getWebsiteIds')
-            ->willReturn([$websiteId]);
+            ->willReturnOnConsecutiveCalls(
+                [1, 2, 3],
+                [41, 42, 43]
+            );
 
-        $this->doctrineHelper->expects($this->atLeastOnce())
-            ->method('getEntityReference')
-            ->with(Website::class, $websiteId)
-            ->willReturn($website);
+        // Get websites for tokenA with organizationA
+        $this->assertEquals([1, 2, 3], $this->cacheableProvider->getWebsiteIds());
 
-        $this->assertFalse($this->cacheableProvider->hasCache());
+        // Get websites for tokenB with organizationB
+        $this->assertEquals([41, 42, 43], $this->cacheableProvider->getWebsiteIds());
 
-        $this->cacheableProvider->getWebsites();
-        $this->assertTrue($this->cacheableProvider->hasCache());
-
-        $this->cacheableProvider->clearCache();
-        $this->assertFalse($this->cacheableProvider->hasCache());
+        // Same data from cache
+        $this->assertEquals([1, 2, 3], $this->cacheableProvider->getWebsiteIds());
+        $this->assertEquals([41, 42, 43], $this->cacheableProvider->getWebsiteIds());
     }
 
-    public function testHasCacheAndClearCacheForGetWebsiteIds()
+    public function testClearCache(): void
     {
-        $this->websiteProvider->expects($this->once())
-            ->method('getWebsiteIds')
-            ->willReturn([1001, 1002, 1003]);
+        $this->cacheProvider = $this->createMock(CacheProvider::class);
 
-        $this->assertFalse($this->cacheableProvider->hasCache());
+        $this->cacheableProvider = new CacheableWebsiteProvider(
+            $this->websiteProvider,
+            $this->cacheProvider,
+            $this->doctrineHelper,
+            $this->tokenStorage
+        );
 
-        $this->cacheableProvider->getWebsiteIds();
-        $this->assertTrue($this->cacheableProvider->hasCache());
+        $this->cacheProvider->expects($this->exactly(1))
+            ->method('deleteAll');
 
         $this->cacheableProvider->clearCache();
-        $this->assertFalse($this->cacheableProvider->hasCache());
     }
 
     /**
@@ -129,7 +180,7 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
      * @param string $name
      * @return object|Website
      */
-    protected function getWebsite($id, string $name)
+    protected function getWebsite($id, string $name): Website
     {
         return $this->getEntity(Website::class, ['id' => $id, 'name' => $name]);
     }
