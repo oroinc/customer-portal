@@ -135,7 +135,7 @@
 {% block label %}
     {% set label = item.extras.custom is defined and item.extras.custom == true ? item.label : item.label|trans %}
     {%- if options.allow_safe_labels -%}
-        {{- label|raw -}}
+        {{- label|oro_html_sanitize|raw -}}
     {% else %}
         {{- label -}}
     {%- endif -%}

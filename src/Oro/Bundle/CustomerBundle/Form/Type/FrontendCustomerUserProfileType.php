@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
-use Oro\Bundle\FormBundle\Form\Type\OroDateType;
+use Oro\Bundle\FormBundle\Form\Type\OroBirthdayType;
 use Oro\Bundle\UserBundle\Form\Type\ChangePasswordType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -12,6 +12,9 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form type for customer profile at storefront
+ */
 class FrontendCustomerUserProfileType extends AbstractType
 {
     const NAME = 'oro_customer_frontend_customer_user_profile';
@@ -77,7 +80,7 @@ class FrontendCustomerUserProfileType extends AbstractType
             )
             ->add(
                 'birthday',
-                OroDateType::class,
+                OroBirthdayType::class,
                 [
                     'required' => false,
                     'label' => 'oro.customer.customeruser.birthday.label'

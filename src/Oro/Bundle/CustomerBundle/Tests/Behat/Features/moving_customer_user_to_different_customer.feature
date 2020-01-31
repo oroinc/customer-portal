@@ -87,8 +87,8 @@ Feature: Moving customer user to different customer
   Scenario: Check data audit is tracking resetting customer user in shopping lists after moving customer user to another customer
     When I click "Change History"
     Then I should see following "Audit History Grid" grid:
-      | Old Values                 | New Values     |
-      | Customer User: Amanda Cole | Customer User: |
+      | Old Values                                         | New Values     |
+      | Customer User: Customer User "Amanda Cole" removed | Customer User: |
     And I close ui dialog
 
   Scenario: Check quote customer user after moving to another customer
@@ -99,8 +99,8 @@ Feature: Moving customer user to different customer
   Scenario: Check data audit is tracking resetting customer user in quotes after moving customer user to another customer
     When I click "Change History"
     Then I should see following "Audit History Grid" grid:
-      | Old Values                 | New Values     |
-      | Customer User: Amanda Cole | Customer User: |
+      | Old Values                                         | New Values     |
+      | Customer User: Customer User "Amanda Cole" removed | Customer User: |
     And I close ui dialog
 
   Scenario: Check order customer user after moving to another customer
@@ -111,8 +111,8 @@ Feature: Moving customer user to different customer
   Scenario: Check data audit is tracking resetting customer user in orders after moving customer user to another customer
     When I click "Change History"
     Then I should see following "Audit History Grid" grid:
-      | Old Values                 | New Values     |
-      | Customer User: Amanda Cole | Customer User: |
+      | Old Values                                         | New Values     |
+      | Customer User: Customer User "Amanda Cole" removed | Customer User: |
     And I close ui dialog
 
   Scenario: Check RFQ customer user after moving to another customer
@@ -123,6 +123,6 @@ Feature: Moving customer user to different customer
   Scenario: Check data audit is tracking resetting customer user in RFQs after moving customer user to another customer
     When I click "Change History"
     Then I should see following "Audit History Grid" grid:
-      | Old Values                | New Values    |
-      | Submitted By: Amanda Cole | Submitted By: |
+      | Old Values                                        | New Values    |
+      | Submitted By: Customer User "Amanda Cole" removed | Submitted By: |
     And I close ui dialog

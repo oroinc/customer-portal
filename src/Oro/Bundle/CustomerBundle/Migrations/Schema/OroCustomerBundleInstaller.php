@@ -77,7 +77,7 @@ class OroCustomerBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_22_1';
+        return 'v1_22_3';
     }
 
     /**
@@ -590,7 +590,7 @@ class OroCustomerBundleInstaller implements
         $table = $schema->createTable('oro_cus_pagestate');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('customer_user_id', 'integer', []);
-        $table->addColumn('page_id', 'string', ['length' => 4000]);
+        $table->addColumn('page_id', 'string', ['length' => 10920]);
         $table->addColumn('page_hash', 'string', ['length' => 32]);
         $table->addColumn('data', 'text', []);
         $table->addColumn('created_at', 'datetime', []);

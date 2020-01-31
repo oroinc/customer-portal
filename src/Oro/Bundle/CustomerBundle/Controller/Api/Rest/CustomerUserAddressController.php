@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Api\Rest;
 
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -27,7 +28,9 @@ class CustomerUserAddressController extends RestController implements ClassResou
      * REST GET address
      *
      * @param int $entityId
-     * @param string $addressId
+     * @param int $addressId
+     *
+     * @Rest\Get(requirements={"entityId"="\d+", "addressId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get customer user address",
@@ -54,6 +57,8 @@ class CustomerUserAddressController extends RestController implements ClassResou
 
     /**
      * REST GET list
+     *
+     * @Rest\Get(requirements={"entityId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get all addresses items",
@@ -93,6 +98,8 @@ class CustomerUserAddressController extends RestController implements ClassResou
     /**
      * REST DELETE address
      *
+     * @Rest\Delete(requirements={"entityId"="\d+", "addressId"="\d+"})
+     *
      * @ApiDoc(
      *      description="Delete address items",
      *      resource=true
@@ -123,6 +130,8 @@ class CustomerUserAddressController extends RestController implements ClassResou
      * @param int $entityId
      * @param string $typeName
      *
+     * @Rest\Get(requirements={"entityId"="\d+"})
+     *
      * @ApiDoc(
      *      description="Get customer user address by type",
      *      resource=true
@@ -150,6 +159,8 @@ class CustomerUserAddressController extends RestController implements ClassResou
      * REST GET primary address
      *
      * @param int $entityId
+     *
+     * @Rest\Get(requirements={"entityId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get customer user primary address",
@@ -208,6 +219,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
 
     /**
      * {@inheritDoc}
+     * @param CustomerUserAddress $entity
      */
     protected function getPreparedItem($entity, $resultFields = [])
     {
@@ -234,6 +246,7 @@ class CustomerUserAddressController extends RestController implements ClassResou
         $result['regionCode']  = $entity->getRegionCode();
         $result['combinedCode'] = $entity->getRegion() ? $entity->getRegion()->getCombinedCode() : null;
         $result['country'] = $entity->getCountryName();
+        $result['ownerId'] = $entity->getFrontendOwner() ? $entity->getFrontendOwner()->getId() : null;
 
         unset($result['frontendOwner']);
 

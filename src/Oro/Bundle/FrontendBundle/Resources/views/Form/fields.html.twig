@@ -30,7 +30,7 @@
             {{ form_widget(form.value, {'attr': {'class': 'control-subgroup'}}) }}
             {% if form.use_parent_scope_value is defined %}
                 <div class="parent-scope-checkbox control-subgroup">
-                    <div class="oro-clearfix">
+                    <div class="parent-scope-checkbox__wrapper">
                         {{ form_row(form.use_parent_scope_value, { 'attr': {'data-role': 'changeUseDefault'}, 'label': 'oro.dashboard.title.use_default.label'|trans }) }}
                     </div>
                 </div>

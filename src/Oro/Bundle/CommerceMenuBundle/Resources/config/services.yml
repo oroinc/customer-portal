@@ -124,6 +124,8 @@ services:
         class: 'Oro\Bundle\CommerceMenuBundle\Form\Extension\MenuUpdateExtension'
         arguments:
             - "@oro_pricing.entity_listener.customer"
+        calls:
+            - [setWebCatalogProvider, ['@oro_web_catalog.web_catalog_provider']]
         tags:
             - { name: form.type_extension, extended_type: 'Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType' }
 
@@ -194,3 +196,29 @@ services:
             - '@oro_commerce_menu.user_agent_conditions_evaluator'
         tags:
             - { name: oro_menu.builder, priority: 220 }
+
+    oro_commerce_menu.builder.content_node_target_builder:
+        class: Oro\Bundle\CommerceMenuBundle\Builder\ContentNodeTargetBuilder
+        arguments:
+            - '@oro_web_catalog.request_web_content_scope_provider'
+            - '@oro_scope.scope_manager'
+            - '@oro_locale.helper.localization'
+        tags:
+            - { name: oro_menu.builder, priority: 205 }
+
+    oro_commerce_menu.builder.system_page_target_builder:
+        class: Oro\Bundle\CommerceMenuBundle\Builder\SystemPageTargetBuilder
+        arguments:
+            - '@router'
+            - '@oro_featuretoggle.checker.feature_checker'
+        calls:
+            - ['setLogger', ['@logger']]
+        tags:
+            - { name: oro_menu.builder, priority: 207 }
+
+    oro_commerce_menu.listener.content_node_delete:
+        class: Oro\Bundle\CommerceMenuBundle\EventListener\ContentNodeDeleteListener
+        arguments:
+            - '@oro_navigation.menu_update.cache'
+        tags:
+            - { name: doctrine.event_listener, event: postRemove, connection: default }

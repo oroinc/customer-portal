@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Api\Rest;
 
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -24,7 +25,9 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * REST GET address
      *
      * @param int $entityId
-     * @param string $addressId
+     * @param int $addressId
+     *
+     * @Rest\Get(requirements={"entityId"="\d+", "addressId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get customer address",
@@ -51,6 +54,8 @@ class CommerceCustomerAddressController extends RestController implements ClassR
 
     /**
      * REST GET list
+     *
+     * @Rest\Get(requirements={"entityId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get all addresses items",
@@ -80,6 +85,8 @@ class CommerceCustomerAddressController extends RestController implements ClassR
 
     /**
      * REST DELETE address
+     *
+     * @Rest\Delete(requirements={"entityId"="\d+", "addressId"="\d+"})
      *
      * @ApiDoc(
      *      description="Delete address items",
@@ -111,6 +118,8 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * @param int $entityId
      * @param string $typeName
      *
+     * @Rest\Get(requirements={"entityId"="\d+"})
+     *
      * @ApiDoc(
      *      description="Get customer address by type",
      *      resource=true
@@ -138,6 +147,8 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * REST GET primary address
      *
      * @param int $entityId
+     *
+     * @Rest\Get(requirements={"entityId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get customer primary address",

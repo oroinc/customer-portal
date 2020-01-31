@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\RestJsonApi;
 
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadWebsiteData;
@@ -156,6 +157,39 @@ class CustomerUserTest extends RestJsonApiTestCase
         self::assertEquals($ownerId, $customerUser->getOwner()->getId());
         self::assertEquals($customerId, $customerUser->getCustomer()->getId());
 
+        self::assertEmpty($customerUser->getPlainPassword());
+        self::assertNotEmpty($customerUser->getPassword());
+        self::assertNotEmpty($customerUser->getSalt());
+    }
+
+    public function testCreateAsIncludedDataWithRequiredDataOnly()
+    {
+        $data = [
+            'data' => [
+                'type'       => 'customers',
+                'id'         => 'new_customer',
+                'attributes' => [
+                    'name' => 'New Customer'
+                ]
+            ]
+        ];
+        $userData = $this->getRequestData('create_customer_user_min.yml')['data'];
+        $userData['id'] = 'new_user';
+        $userData['relationships']['customer']['data']['id'] = 'new_customer';
+        $data['included'][] = $userData;
+
+        $response = $this->post(
+            ['entity' => 'customers'],
+            $data
+        );
+
+        $customerId = (int)$this->getResourceId($response);
+        /** @var Customer $customer */
+        $customer = $this->getEntityManager()
+            ->find(Customer::class, $customerId);
+        /** @var CustomerUser $customerUser */
+        $customerUser = $customer->getUsers()->first();
+        self::assertInstanceOf(CustomerUser::class, $customerUser);
         self::assertEmpty($customerUser->getPlainPassword());
         self::assertNotEmpty($customerUser->getPassword());
         self::assertNotEmpty($customerUser->getSalt());

@@ -6,6 +6,7 @@ use Oro\Bundle\ActionBundle\Provider\CurrentApplicationProviderInterface;
 use Oro\Bundle\AttachmentBundle\Acl\FileAccessControlChecker;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\AttachmentBundle\Provider\FileApplicationsProvider;
+use Oro\Bundle\AttachmentBundle\Provider\FileNameProviderInterface;
 use Oro\Bundle\AttachmentBundle\Provider\FileUrlProviderInterface;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -34,12 +35,16 @@ class FileUrlProvider implements FileUrlProviderInterface
     private $configManager;
 
     /**
+     * @var FileNameProviderInterface
+     */
+    private $filenameProvider;
+
+    /**
      * @param FileUrlProviderInterface $innerFileUrlProvider
      * @param UrlGeneratorInterface $urlGenerator
      * @param FileApplicationsProvider $fileApplicationsProvider
      * @param CurrentApplicationProviderInterface $currentApplicationProvider
      * @param FileAccessControlChecker $fileAccessControlChecker
-     * @param ConfigManager $configManager
      */
     public function __construct(
         FileUrlProviderInterface $innerFileUrlProvider,
@@ -61,6 +66,14 @@ class FileUrlProvider implements FileUrlProviderInterface
     public function setConfigManager(ConfigManager $configManager): void
     {
         $this->configManager = $configManager;
+    }
+
+    /**
+     * @param FileNameProviderInterface $filenameProvider
+     */
+    public function setFileNameProvider(FilenameProviderInterface $filenameProvider): void
+    {
+        $this->filenameProvider = $filenameProvider;
     }
 
     /**
@@ -96,7 +109,7 @@ class FileUrlProvider implements FileUrlProviderInterface
                 'oro_frontend_attachment_resize_image',
                 [
                     'id' => $file->getId(),
-                    'filename' => $file->getFilename(),
+                    'filename' => $this->filenameProvider->getFileName($file),
                     'width' => $width,
                     'height' => $height,
                 ],
@@ -120,7 +133,7 @@ class FileUrlProvider implements FileUrlProviderInterface
                 'oro_frontend_attachment_filter_image',
                 [
                     'id' => $file->getId(),
-                    'filename' => $file->getFilename(),
+                    'filename' => $this->filenameProvider->getFileName($file),
                     'filter' => $filterName,
                 ],
                 $referenceType
