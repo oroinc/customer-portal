@@ -39,7 +39,6 @@ oro_frontend:
         placeholder: "Search Filters"
         title: 'Filters Manager'
         button_label: 'Manage Filters'
-        aria_label: 'Expand or Collapse Manage Filters'
         close:
             aria_label: 'Close the Filter Management drop-down'
 
