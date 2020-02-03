@@ -13,7 +13,7 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
             #    message: oro.address.validation.contains_primary
             - Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes: ~
         users:
-            - Valid: ~
+            - Oro\Bundle\PlatformBundle\Validator\Constraints\ValidLoadedItems: ~
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     constraints:
