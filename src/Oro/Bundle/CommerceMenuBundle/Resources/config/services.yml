@@ -1,6 +1,3 @@
-parameters:
-    oro_commerce_menu.entity.menu_update.class: 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
-
 services:
     oro_commerce_menu.scope_criteria_provider.customer:
         parent: oro_customer.customer_scope_criteria_provider
@@ -32,7 +29,7 @@ services:
         arguments:
             - "@doctrine"
             - "@oro_navigation.menu_helper.menu_update"
-            - '%oro_commerce_menu.entity.menu_update.class%'
+            - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
             - 'menu_frontend_visibility'
 
     oro_commerce_menu.menu.condition.config_value_expression_language_provider:
@@ -94,7 +91,7 @@ services:
         class: 'Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository'
         parent: oro_entity.abstract_repository
         arguments:
-            - '%oro_commerce_menu.entity.menu_update.class%'
+            - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
         calls:
             - [ setQueryResultCache, [ '@oro_navigation.menu_update.cache' ] ]
 

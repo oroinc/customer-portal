@@ -5,9 +5,12 @@
     z-index: $scroll-top-z-index;
 
     display: none;
-    height: $scroll-top-height;
+    height: $scroll-top-size;
+    width: $scroll-top-size;
 
     color: $scroll-top-color;
+    border-radius: 50%;
+    text-align: center;
 
     cursor: pointer;
 
@@ -15,10 +18,11 @@
 
     &:hover {
         color: $scroll-top-hover-color;
+        text-decoration: none;
     }
 
     &-visible {
-        display: inline-block;
+        display: block;
     }
 
     &--bottom-left {
@@ -59,11 +63,12 @@
     }
 
     span {
-        position: relative;
-
         &:before {
             z-index: 1;
             position: relative;
+
+            display: block;
+            line-height: $scroll-top-size;
         }
 
         &:after {

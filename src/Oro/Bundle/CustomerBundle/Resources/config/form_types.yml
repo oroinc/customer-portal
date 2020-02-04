@@ -5,15 +5,15 @@ services:
           - '@event_dispatcher'
           - '@security.authorization_checker'
         calls:
-            - [setAddressClass, ['%oro_customer.entity.customer_address.class%']]
+            - [setAddressClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerAddress']]
         tags:
             - { name: form.type, alias: oro_customer_type }
 
     oro_customer.form.type.customer_group:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType'
         calls:
-            - [setDataClass, ['%oro_customer.entity.customer_group.class%']]
-            - [setCustomerClass, ['%oro_customer.entity.customer.class%']]
+            - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerGroup']]
+            - [setCustomerClass, ['Oro\Bundle\CustomerBundle\Entity\Customer']]
         tags:
             - { name: form.type, alias: oro_customer_group_type }
 
@@ -69,8 +69,8 @@ services:
             - '@security.authorization_checker'
             - '@oro_security.token_accessor'
         calls:
-            - [setDataClass, ['%oro_customer.entity.customer_user.class%']]
-            - [setAddressClass, ['%oro_customer.entity.customer_user_address.class%']]
+            - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
+            - [setAddressClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress']]
         tags:
             - { name: form.type, alias: oro_customer_customer_user }
 
@@ -79,7 +79,7 @@ services:
         arguments:
             - '@translator'
         calls:
-            - [setRoleClass, ['%oro_customer.entity.customer_user_role.class%']]
+            - [setRoleClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserRole']]
         tags:
             - { name: form.type, alias: oro_customer_customer_user_role_select }
 
@@ -91,14 +91,14 @@ services:
     oro_customer.form.type.customer_user_role:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType'
         calls:
-            - [setDataClass, ['%oro_customer.entity.customer_user_role.class%']]
+            - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserRole']]
         tags:
             - { name: form.type, alias: oro_customer_customer_user_role }
 
     oro_customer.form.type.frontend.customer_user_role:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType'
         calls:
-            - [setDataClass, ['%oro_customer.entity.customer_user_role.class%']]
+            - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserRole']]
         tags:
             - { name: form.type, alias: oro_customer_frontend_customer_user_role }
 
@@ -107,7 +107,7 @@ services:
         arguments:
             - '@oro_config.manager'
         calls:
-            - [setDataClass, ['%oro_customer.entity.customer_user.class%']]
+            - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
         tags:
             - { name: form.type, alias: oro_customer_frontend_customer_user_profile }
 
@@ -118,7 +118,7 @@ services:
             - '@oro_security.token_accessor'
             - '@oro_website.manager'
         calls:
-            - [setCustomerUserClass, ['%oro_customer.entity.customer_user.class%']]
+            - [setCustomerUserClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
         tags:
             - { name: form.type, alias: oro_customer_frontend_customer_user }
 
@@ -128,7 +128,7 @@ services:
             - '@oro_security.token_accessor'
             - '@doctrine'
         calls:
-            - [setRoleClass, ['%oro_customer.entity.customer_user_role.class%']]
+            - [setRoleClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserRole']]
         tags:
             - { name: form.type, alias: oro_customer_frontend_customer_user_role_select }
 
@@ -138,7 +138,7 @@ services:
             - '@oro_config.manager'
             - '@doctrine'
         calls:
-            - [setDataClass, ['%oro_customer.entity.customer_user.class%']]
+            - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
         tags:
             - { name: form.type, alias: oro_customer_frontend_customer_user_register }
 
@@ -150,7 +150,7 @@ services:
     oro_customer.form.type.frontend.customer_user.password_reset:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerUserPasswordResetType'
         calls:
-            - [setDataClass, ['%oro_customer.entity.customer_user.class%']]
+            - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
         tags:
             - { name: form.type, alias: oro_customer_customer_user_password_reset }
 
@@ -180,32 +180,32 @@ services:
     oro_customer.form.type.typed_address:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressType'
         calls:
-             - [setDataClass, ['%oro_customer.entity.customer_address.class%']]
-             - [setAddressTypeDataClass, ['%oro_address.address.type.entity.class%']]
+             - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerAddress']]
+             - [setAddressTypeDataClass, ['Oro\Bundle\AddressBundle\Entity\AddressType']]
         tags:
              - { name: form.type, alias: oro_customer_typed_address}
 
     oro_customer.form.type.frontend.typed_address:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerTypedAddressType'
         calls:
-             - [setDataClass, ['%oro_customer.entity.customer_address.class%']]
-             - [setAddressTypeDataClass, ['%oro_address.address.type.entity.class%']]
+             - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerAddress']]
+             - [setAddressTypeDataClass, ['Oro\Bundle\AddressBundle\Entity\AddressType']]
         tags:
              - { name: form.type, alias: oro_customer_frontend_typed_address}
 
     oro_customer.form.type.customer_user_typed_address:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerUserTypedAddressType'
         calls:
-             - [setDataClass, ['%oro_customer.entity.customer_user_address.class%']]
-             - [setAddressTypeDataClass, ['%oro_address.address.type.entity.class%']]
+             - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress']]
+             - [setAddressTypeDataClass, ['Oro\Bundle\AddressBundle\Entity\AddressType']]
         tags:
              - { name: form.type, alias: oro_customer_customer_user_typed_address}
 
     oro_customer.form.type.frontend.customer_user_typed_address:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserTypedAddressType'
         calls:
-             - [setDataClass, ['%oro_customer.entity.customer_user_address.class%']]
-             - [setAddressTypeDataClass, ['%oro_address.address.type.entity.class%']]
+             - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress']]
+             - [setAddressTypeDataClass, ['Oro\Bundle\AddressBundle\Entity\AddressType']]
         tags:
              - { name: form.type, alias: oro_customer_frontend_customer_user_typed_address}
 

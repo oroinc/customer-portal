@@ -11,6 +11,7 @@ oro_frontend:
     logo:
         alt:
             label: 'OroCommerce'
+        aria_label: 'Home'
     widget_form_component:
         save_flash_success: Saved successfully
     form:

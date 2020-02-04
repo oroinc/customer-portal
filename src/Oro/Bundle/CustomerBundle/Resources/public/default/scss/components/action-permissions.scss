@@ -17,7 +17,7 @@
 
         display: inline-block;
         max-width: $action-permissions-item-wrapper-max-width;
-        padding-right: $action-permissions-item-wrapper-offset-inner-right;
+        padding: $action-permissions-item-wrapper-offset-inner;
         box-sizing: content-box;
 
         @include ellipsis();

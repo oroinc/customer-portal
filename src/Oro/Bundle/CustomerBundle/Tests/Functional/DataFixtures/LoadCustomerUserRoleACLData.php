@@ -89,7 +89,7 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
     protected function loadCustomerPermissions(ObjectManager $manager)
     {
         // Only one permission for Customer entity class is allowed on frontend - VIEW_SYSTEM.
-        $permissions = [['VIEW_SYSTEM'], []];
+        $permissions = ['VIEW_SYSTEM'];
         foreach ($this->getSupportedRoles() as $roleName) {
             /** @var CustomerUserRole $role */
             $role = $this->getReference($roleName);
@@ -100,7 +100,7 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
         }
 
         $manager->flush();
-        $this->container->get('oro_security.acl.manager')->flush();
+        $this->getAclManager()->flush();
     }
 
     /**

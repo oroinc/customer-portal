@@ -18,13 +18,18 @@ class AddPageTargetRelations implements Migration
     {
         $table = $schema->getTable('oro_commerce_menu_upd');
 
-        $table->addColumn('system_page_route', 'string', ['length' => 255, 'notnull' => false]);
-        $table->addColumn('content_node_id', 'integer', ['notnull' => false]);
-        $table->addForeignKeyConstraint(
-            $schema->getTable('oro_web_catalog_content_node'),
-            ['content_node_id'],
-            ['id'],
-            ['onDelete' => 'SET NULL', 'notnull' => false]
-        );
+        if (!$table->hasColumn('system_page_route')) {
+            $table->addColumn('system_page_route', 'string', ['length' => 255, 'notnull' => false]);
+        }
+
+        if (!$table->hasColumn('content_node_id')) {
+            $table->addColumn('content_node_id', 'integer', ['notnull' => false]);
+            $table->addForeignKeyConstraint(
+                $schema->getTable('oro_web_catalog_content_node'),
+                ['content_node_id'],
+                ['id'],
+                ['onDelete' => 'SET NULL', 'notnull' => false]
+            );
+        }
     }
 }
