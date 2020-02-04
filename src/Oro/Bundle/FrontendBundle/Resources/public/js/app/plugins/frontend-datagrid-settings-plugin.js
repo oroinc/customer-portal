@@ -13,7 +13,7 @@ define(function(require, exports, module) {
         icon: 'cog',
         wrapperClassName: 'datagrid-settings',
         label: __('oro.datagrid.settings.title'),
-        ariaLabel: __('oro.datagrid.settings.aria_label'),
+        ariaLabel: __('oro.datagrid.settings.title_aria_label'),
         attributes: {
             'data-placement': (tools.isMobile() ? 'bottom-end': 'left-start')
         }
