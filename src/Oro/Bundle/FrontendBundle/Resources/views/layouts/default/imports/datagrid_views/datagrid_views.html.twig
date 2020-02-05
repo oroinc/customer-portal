@@ -175,7 +175,7 @@
                     <div class="grid__row grid__row--offset-none">
                         <div class="grid__column grid__column--no-gutters-l grid__column--gutter-r-s">
                             <button type="button"
-                                    class="btn btn--info btn--size-xs"
+                                    class="btn btn--info btn--size-s"
                                     data-grid-view-update
                                     data-text="<%- _.__('oro_frontend.datagrid_views.add') %>"
                                     data-text-add="<%- _.__('oro_frontend.datagrid_views.add') %>"
@@ -185,7 +185,7 @@
 
                         <div class="grid__column grid__column--no-gutters-l">
                             <button type="button"
-                                    class="btn btn--size-xs"
+                                    class="btn btn--size-s"
                                     data-switch-edit-mode="hide"
                             ><%- _.__("oro_frontend.datagrid_views.cancel") %></button>
                         </div>
@@ -193,7 +193,7 @@
                         <div class="grid__column" data-checkbox-container>
                             <label class="custom-checkbox">
                                 <input type="checkbox" name="is_default" class="custom-checkbox__input">
-                                <span class="custom-checkbox__icon"></span>
+                                <span class="custom-checkbox__icon" aria-hidden="true"></span>
                                 <span class="custom-checkbox__text"><%- _.__("oro_frontend.datagrid_views.set_as_default") %></span>
                             </label>
                         </div>

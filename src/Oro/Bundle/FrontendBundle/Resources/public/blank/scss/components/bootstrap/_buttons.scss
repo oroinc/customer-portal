@@ -46,8 +46,8 @@
         cursor: pointer;
     }
 
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active {
+    &:not(.disabled):active,
+    &:not(.disabled).active {
         background-image: none;
 
         @include box-shadow($btn-active-box-shadow);
@@ -106,8 +106,8 @@ fieldset:disabled a.btn {
 
     &:active,
     &.active,
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active {
+    &:not(.disabled):active,
+    &:not(.disabled).active {
         background: $btn-link-active-background;
         color: $btn-link-active-color;
         border-color: $btn-link-active-border-color;
@@ -146,7 +146,7 @@ fieldset:disabled a.btn {
 
     &.active,
     &.pressed,
-    &:not(:disabled):not(.disabled):active {
+    &:not(.disabled):active {
         background-color: $btn-plain-active-background-color;
         border-color: $btn-plain-active-border-color;
         box-shadow: none;
@@ -166,6 +166,7 @@ fieldset:disabled a.btn {
     &-xs {
         font-size: $base-font-size--s;
         padding: $btn-padding-y-xs $btn-padding-x-xs;
+        min-width: $btn-xs-min-size;
 
         @include border-radius($btn-border-radius-xs);
     }
