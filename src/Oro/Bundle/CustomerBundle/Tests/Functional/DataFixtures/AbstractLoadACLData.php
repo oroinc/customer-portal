@@ -4,26 +4,29 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
 use Oro\Bundle\SecurityBundle\Acl\Extension\ActionAclExtension;
-use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
+use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
+use Oro\Bundle\SecurityBundle\Tests\Functional\DataFixtures\SetRolePermissionsTrait;
 use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Migrations\Data\ORM\LoadRolesData;
 use Oro\Bundle\WorkflowBundle\Acl\Extension\WorkflowMaskBuilder;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 abstract class AbstractLoadACLData extends AbstractFixture implements
-    FixtureInterface,
     ContainerAwareInterface,
     DependentFixtureInterface
 {
+    use ContainerAwareTrait;
+    use SetRolePermissionsTrait;
+
     // existing roles
     const ROLE_FRONTEND_BUYER = 'ROLE_FRONTEND_BUYER';
     const ROLE_FRONTEND_ADMINISTRATOR = 'ROLE_FRONTEND_ADMINISTRATOR';
@@ -55,11 +58,6 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
     const USER_ACCOUNT_2_ROLE_LOCAL = 'customer2-role-local@example.com';
     const USER_ACCOUNT_2_ROLE_BASIC = 'customer2-role-basic@example.com';
     const USER_ACCOUNT_2_ROLE_DEEP = 'customer2-role-deep@example.com';
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
 
     /**
      * @var User
@@ -174,11 +172,11 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
     }
 
     /**
-     * {@inheritdoc}
+     * @return AclManager
      */
-    public function setContainer(ContainerInterface $container = null)
+    protected function getAclManager()
     {
-        $this->container = $container;
+        return $this->container->get('oro_security.acl.manager');
     }
 
     /**
@@ -239,11 +237,11 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
         );
 
         $roles = [
-            static::ROLE_BASIC => [['VIEW_BASIC', 'CREATE_BASIC', 'EDIT_BASIC'], ['DELETE_BASIC']],
-            static::ROLE_LOCAL => [['VIEW_LOCAL', 'CREATE_LOCAL', 'EDIT_LOCAL'], ['DELETE_LOCAL', 'ASSIGN_LOCAL']],
-            static::ROLE_LOCAL_VIEW_ONLY => [['VIEW_LOCAL'], []],
-            static::ROLE_DEEP => [['VIEW_DEEP', 'CREATE_DEEP', 'EDIT_DEEP'], ['DELETE_DEEP', 'ASSIGN_DEEP']],
-            static::ROLE_DEEP_VIEW_ONLY => [['VIEW_DEEP'], []],
+            static::ROLE_BASIC => ['VIEW_BASIC', 'CREATE_BASIC', 'EDIT_BASIC', 'DELETE_BASIC'],
+            static::ROLE_LOCAL => ['VIEW_LOCAL', 'CREATE_LOCAL', 'EDIT_LOCAL', 'DELETE_LOCAL', 'ASSIGN_LOCAL'],
+            static::ROLE_LOCAL_VIEW_ONLY => ['VIEW_LOCAL'],
+            static::ROLE_DEEP => ['VIEW_DEEP', 'CREATE_DEEP', 'EDIT_DEEP', 'DELETE_DEEP', 'ASSIGN_DEEP'],
+            static::ROLE_DEEP_VIEW_ONLY => ['VIEW_DEEP'],
         ];
 
         foreach ($roles as $key => $permissions) {
@@ -269,7 +267,7 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
         }
 
         $manager->flush();
-        $this->container->get('oro_security.acl.manager')->flush();
+        $this->getAclManager()->flush();
     }
 
     /**
@@ -277,50 +275,38 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
      */
     protected function setWorkflowPermissions(CustomerUserRole $role)
     {
-        $aclManager = $this->container->get('oro_security.acl.manager');
+        $aclManager = $this->getAclManager();
         $sid = $aclManager->getSid($role);
         $oid = $aclManager->getOid('workflow:(root)');
-
         $aclManager->setPermission($sid, $oid, WorkflowMaskBuilder::GROUP_SYSTEM);
     }
 
     /**
      * @param CustomerUserRole $role
-     * @param string $className
-     * @param array $allowedACL
+     * @param string           $className
+     * @param string[]         $permissions
      */
-    protected function setRolePermissions(CustomerUserRole $role, $className, array $allowedACL)
+    protected function setRolePermissions(CustomerUserRole $role, $className, array $permissions)
     {
-        $chainMetadataProvider = $this->container->get('oro_security.owner.metadata_provider.chain');
-        $aclManager = $this->container->get('oro_security.acl.manager');
-        $sid = $aclManager->getSid($role);
-        $oid = $aclManager->getOid('entity:'.$className);
+        $aclManager = $this->getAclManager();
 
+        /* @var ChainOwnershipMetadataProvider $chainMetadataProvider */
+        $chainMetadataProvider = $this->container->get('oro_security.owner.metadata_provider.chain');
         $chainMetadataProvider->startProviderEmulation(FrontendOwnershipMetadataProvider::ALIAS);
 
-        foreach ($aclManager->getAllExtensions() as $extension) {
-            if ($extension instanceof EntityAclExtension) {
-                $builder = $aclManager->getMaskBuilder($oid);
-                $mask = $builder->reset()->get();
-                foreach ($allowedACL[0] as $acl) {
-                    $mask = $builder->add($acl)->get();
-                }
+        $this->setPermissions(
+            $aclManager,
+            $role,
+            ['entity:' . $className => $permissions]
+        );
 
-                $deleteBuilder = $aclManager->getMaskBuilder($oid, 'DELETE');
-                $deleteMask = $deleteBuilder->reset()->get();
-                foreach ($allowedACL[1] as $acl) {
-                    $deleteMask = $deleteBuilder->add($acl)->get();
-                }
-
-                $aclManager->setPermission($sid, $oid, $mask);
-                $aclManager->setPermission($sid, $oid, $deleteMask);
-            } elseif ($extension instanceof ActionAclExtension) {
-                $capabilityOID = $aclManager->getRootOid($extension->getExtensionKey());
-                $builder = $aclManager->getMaskBuilder($capabilityOID);
-
-                $aclManager->setPermission($sid, $capabilityOID, $builder->getMask('GROUP_ALL'));
-            }
-        }
+        $rootActionOid = $aclManager->getRootOid(ActionAclExtension::NAME);
+        $maskBuilder = $aclManager->getMaskBuilder($rootActionOid);
+        $aclManager->setPermission(
+            $aclManager->getSid($role),
+            $rootActionOid,
+            $maskBuilder->getMaskForGroup('ALL')
+        );
 
         $chainMetadataProvider->stopProviderEmulation();
     }
