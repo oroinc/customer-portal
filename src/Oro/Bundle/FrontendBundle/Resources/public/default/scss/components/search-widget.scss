@@ -11,15 +11,8 @@
     &__input {
         height: 50px;
         padding: 0 5px 0 18px;
-        width: calc(100% - 50px);
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        border-right-color: transparent;
+        width: 100%;
         position: relative;
-
-        @include element-state('focus') {
-            z-index: z('base');
-        }
     }
 
     &__submit {
@@ -34,23 +27,20 @@
 
         font-size: $base-font-size--m - 1px;
 
-        background: get-color('additional', 'ultra');
-        border: $input-border;
-        border-left-color: transparent;
-        border-radius: 0 $input-border-radius $input-border-radius 0;
+        background: transparent;
+        border: none;
+
         color: get-color('additional', 'middle');
 
         @include element-state('hover') {
             color: get-color('additional', 'darker');
             cursor: pointer;
-
-            border-color: $input-border-color-hover-state;
         }
 
         &:focus,
         &.focus-visible {
-            border-color: $input-border-color-focus-state;
-            box-shadow: $base-ui-element-focus-style;
+            color: get-color('additional', 'darker');
+            box-shadow: none;
         }
     }
 }
