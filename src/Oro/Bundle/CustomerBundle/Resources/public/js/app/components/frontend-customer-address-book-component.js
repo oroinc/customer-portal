@@ -56,6 +56,8 @@ define(function(require) {
                         {addressId: address.get('id'), entityId: address.get('ownerId')}
                     );
                 },
+                addressesContainerHtml: '<ul class="map-address-list"></ul>',
+                addressTagName: 'li',
                 addressMapOptions: {phone: 'phone'},
                 useFormDialog: options.useFormDialog,
                 mapViewport: options.mapViewport,
