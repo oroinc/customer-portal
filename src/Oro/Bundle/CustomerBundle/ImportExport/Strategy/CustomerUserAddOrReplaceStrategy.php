@@ -4,9 +4,7 @@ namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\PersistentCollection;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrategy;
 
@@ -50,18 +48,7 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             $searchContext = [$entity];
         }
 
-        $existingEntity = parent::findExistingEntity($entity, $searchContext);
-
-        // we need to initialize customer users because of issue with UoW which tries to load old data
-        // from database and overrides customer users from imported file
-        if ($existingEntity instanceof Customer) {
-            $customerUsers = $existingEntity->getUsers();
-            if ($customerUsers instanceof PersistentCollection) {
-                $customerUsers->initialize();
-            }
-        }
-
-        return $existingEntity;
+        return parent::findExistingEntity($entity, $searchContext);
     }
 
     /**
