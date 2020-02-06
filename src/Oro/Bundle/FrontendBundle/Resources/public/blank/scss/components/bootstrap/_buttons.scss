@@ -145,8 +145,12 @@ fieldset:disabled a.btn {
     }
 
     &.active,
-    &.pressed {
+    &.pressed,
+    &:not(:disabled):not(.disabled):active {
+        background-color: $btn-plain-active-background-color;
+        border-color: $btn-plain-active-border-color;
         box-shadow: none;
+        color: $btn-plain-active-color;
     }
 }
 

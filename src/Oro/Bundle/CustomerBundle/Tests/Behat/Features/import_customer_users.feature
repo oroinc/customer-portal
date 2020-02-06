@@ -29,10 +29,10 @@ Feature: Import Customer Users
 
   Scenario: Import new Customer Users
     Given I fill template with data:
-      | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix | Birthday   | Email Address              | Customer Id | Customer Name             | Roles 1 Role                | Roles 2 Role        | Website Id | Enabled | Confirmed | Owner Id |
-      |    | Amanda Pre  | Amanda     | Middle Co   | Cole      | Cole Suff   | 10/21/1980 | AmandaRCole@example.org    | 1           | Test                      | ROLE_FRONTEND_ADMINISTRATOR | ROLE_FRONTEND_BUYER | 1          | 1       | 1         | 1        |
-      |    |             | Branda     |             | Sanborn   |             |            | BrandaJSanborn@example.org | 1           | Company A                 | ROLE_FRONTEND_BUYER         |                     | 2          | 0       | 1         |          |
-      |    | Ruth Pre    | Ruth       | Middle Max  | Maxwell   | Ruth Suff   | 11/06/1988 | RuthWMaxwell@example.org   | 2           | Company A - West Division | ROLE_FRONTEND_BUYER         |                     | 2          | 1       | 0         | 2        |
+      | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix | Birthday   | Email Address              | Customer Id | Customer Name             | Roles 1 Role                | Roles 2 Role        | Website Id | Enabled | Confirmed | Owner Id | Guest |
+      |    | Amanda Pre  | Amanda     | Middle Co   | Cole      | Cole Suff   | 10/21/1980 | AmandaRCole@example.org    | 1           | Test                      | ROLE_FRONTEND_ADMINISTRATOR | ROLE_FRONTEND_BUYER | 1          | 1       | 1         | 1        | No    |
+      |    |             | Branda     |             | Sanborn   |             |            | BrandaJSanborn@example.org | 1           | Company A                 | ROLE_FRONTEND_BUYER         |                     | 2          | 0       | 1         |          | No    |
+      |    | Ruth Pre    | Ruth       | Middle Max  | Maxwell   | Ruth Suff   | 11/06/1988 | RuthWMaxwell@example.org   | 2           | Company A - West Division | ROLE_FRONTEND_BUYER         |                     | 2          | 1       | 0         | 2        | No    |
     When I import file
     And Email should contains the following "Errors: 0 processed: 3, read: 3, added: 3, updated: 0, replaced: 0" text
     And I reload the page
@@ -212,8 +212,8 @@ Feature: Import Customer Users
     And go to Customers/ Customer Users
     And I download "Customer Users" Data Template file
     And I fill template with data:
-      | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix  | Birthday   | Email Address       | Customer Id | Roles 1 Role                | Website Id | Enabled | Confirmed | Owner Id |
-      |    | NewUser Pre | NewFirst   | NewMiddle   | NewLast   | NewUser Suff | 10/21/1980 | NewUser@example.org | 1           | ROLE_FRONTEND_ADMINISTRATOR | 1          | 1       | 1         | 2        |
+      | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix  | Birthday   | Email Address       | Customer Id | Roles 1 Role                | Website Id | Enabled | Confirmed | Owner Id | Guest |
+      |    | NewUser Pre | NewFirst   | NewMiddle   | NewLast   | NewUser Suff | 10/21/1980 | NewUser@example.org | 1           | ROLE_FRONTEND_ADMINISTRATOR | 1          | 1       | 1         | 2        | No    |
     When I import file
     And Email should contains the following "Errors: 0 processed: 1, read: 1, added: 1, updated: 0, replaced: 0" text
     And I reload the page
@@ -289,9 +289,9 @@ Feature: Import Customer Users
   Scenario: Update Customer Users with wrong role and adding a new customer
     Given go to Customers/ Customer Users
     And I fill template with data:
-      | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix | Birthday   | Email Address           | Customer Id | Roles 1 Role                 | Roles 2 Role | Website Id | Enabled | Confirmed | Owner Id |
-      | 2  | Amanda Pre  | Amanda_up  | Middle Co   | Cole      | Cole Suff   | 10/21/1980 | AmandaRCole@example.org | 1           | ROLE_FRONTEND_ADMINISTRATOR2 |              | 1          | 0       | 1         | 1        |
-      |    | testtest    | test       | test        | test      | Cole Suff   | 10/21/1986 | tester@example.org      | 1           | ROLE_FRONTEND_ADMINISTRATOR  |              | 1          | 0       | 1         | 2        |
+      | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix | Birthday   | Email Address           | Customer Id | Roles 1 Role                 | Roles 2 Role | Website Id | Enabled | Confirmed | Owner Id | Guest |
+      | 2  | Amanda Pre  | Amanda_up  | Middle Co   | Cole      | Cole Suff   | 10/21/1980 | AmandaRCole@example.org | 1           | ROLE_FRONTEND_ADMINISTRATOR2 |              | 1          | 0       | 1         | 1        | No    |
+      |    | testtest    | test       | test        | test      | Cole Suff   | 10/21/1986 | tester@example.org      | 1           | ROLE_FRONTEND_ADMINISTRATOR  |              | 1          | 0       | 1         | 2        | No    |
     When I import file
     And reload the page
     And Email should contains the following "Errors: 1 processed: 2, read: 2, added: 1, updated: 0, replaced: 1" text

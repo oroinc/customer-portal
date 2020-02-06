@@ -56,6 +56,7 @@ services:
             - '@oro_website.cacheable_website_provider.inner'
             - '@oro_website.cache.website'
             - '@oro_entity.doctrine_helper'
+            - '@security.token_storage'
 
     oro_website.event_listener.website:
         class: 'Oro\Bundle\WebsiteBundle\EventListener\WebsiteListener'
@@ -150,12 +151,6 @@ services:
         parent: oro_entity.abstract_repository
         arguments:
             - 'Oro\Bundle\WebsiteBundle\Entity\Website'
-
-    oro_website.form_subscriber.default_website:
-        class: 'Oro\Bundle\WebsiteBundle\Form\EventSubscriber\DefaultWebsiteSubscriber'
-        public: true
-        arguments:
-            - '@oro_website.manager'
 
     oro_website.event_listener.redirect:
         class: 'Oro\Bundle\WebsiteBundle\EventListener\RedirectListener'

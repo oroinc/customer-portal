@@ -2,90 +2,59 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\ORM;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\SecurityBundle\Acl\Extension\ObjectIdentityHelper;
-use Oro\Bundle\SecurityBundle\Acl\Persistence\AclPrivilegeRepository;
-use Oro\Bundle\SecurityBundle\Model\AclPermission;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
+use Oro\Bundle\SecurityBundle\Migrations\Data\ORM\AbstractUpdatePermissions;
 
 /**
- * Updates the access level for Customer entity for frontend roles.
+ * Updates permissions for Customer entity for all storefront roles.
  */
-class UpdatePermissionsForCustomerEntity extends AbstractFixture implements ContainerAwareInterface
+class UpdatePermissionsForCustomerEntity extends AbstractUpdatePermissions
 {
-    use ContainerAwareTrait;
-
     /**
      * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function load(ObjectManager $manager)
     {
-        $isInstalled = $this->container->hasParameter('installed') && $this->container->getParameter('installed');
-        if (!$isInstalled) {
+        if (!$this->container->hasParameter('installed') || !$this->container->getParameter('installed')) {
             return;
         }
 
-        $privilegeRepository = $this->container->get('oro_security.acl.privilege_repository');
-        $aclManager = $this->container->get('oro_security.acl.manager');
-
-        $identityString = ObjectIdentityHelper::encodeIdentityString(EntityAclExtension::NAME, Customer::class);
-        $oid = $aclManager->getOid($identityString);
+        $aclManager = $this->getAclManager();
+        if (!$aclManager->isAclEnabled()) {
+            return;
+        }
 
         $roles = $manager->getRepository(CustomerUserRole::class)->findAll();
-        $extension = $aclManager->getExtensionSelector()->select($oid);
-
+        $oidDescriptor = ObjectIdentityHelper::encodeIdentityString(EntityAclExtension::NAME, Customer::class);
+        $oid = $aclManager->getOid($oidDescriptor);
         foreach ($roles as $role) {
-            $maskBuilders = $extension->getAllMaskBuilders();
-            $accessLevel = 'LOCAL';
-            if ($role->getRole() === 'ROLE_FRONTEND_ADMINISTRATOR') {
-                $accessLevel = 'DEEP';
-            }
             $sid = $aclManager->getSid($role);
-            $aclPrivilegePermissions = $this->getPrivilegePermissions($privilegeRepository, $sid, $identityString);
+            $accessLevelName = $role->getRole() === 'ROLE_FRONTEND_ADMINISTRATOR'
+                ? 'DEEP'
+                : 'LOCAL';
+            $privilegePermissions = $this->getPrivilegePermissions(
+                $this->getPrivileges($sid, 'commerce'),
+                $oidDescriptor
+            );
+            $maskBuilders = $aclManager->getAllMaskBuilders($oid);
             foreach ($maskBuilders as $maskBuilder) {
-                foreach ($aclPrivilegePermissions as $permission) {
-                    if ($permission->getAccessLevel() === AccessLevel::NONE_LEVEL) {
-                        continue;
-                    }
-
-                    $maskName = $permission->getName() . '_' . $accessLevel;
-                    if ($maskBuilder->hasMask('MASK_' . $maskName)) {
-                        $maskBuilder->add($maskName);
+                foreach ($privilegePermissions as $privilegePermission) {
+                    if ($privilegePermission->getAccessLevel() !== AccessLevel::NONE_LEVEL) {
+                        $permission = $privilegePermission->getName() . '_' . $accessLevelName;
+                        if ($maskBuilder->hasMaskForPermission($permission)) {
+                            $maskBuilder->add($permission);
+                        }
                     }
                 }
                 $aclManager->setPermission($sid, $oid, $maskBuilder->get());
             }
         }
         $aclManager->flush();
-    }
-
-    /**
-     * @param AclPrivilegeRepository $privilegeRepository
-     * @param SecurityIdentityInterface $sid
-     * @param string $identityString
-     *
-     * @return AclPermission[]|array
-     */
-    private function getPrivilegePermissions(
-        AclPrivilegeRepository $privilegeRepository,
-        SecurityIdentityInterface $sid,
-        $identityString
-    ) {
-        $allRolePrivileges = $privilegeRepository->getPrivileges($sid, 'commerce');
-
-        foreach ($allRolePrivileges as $aclPrivilege) {
-            if ($aclPrivilege->getIdentity()->getId() === $identityString) {
-                return $aclPrivilege->getPermissions();
-            }
-        }
-
-        return [];
     }
 }

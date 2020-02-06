@@ -23,13 +23,8 @@ $datagrid-manager-dropdown-menu-border-radius: 0 !default;
 $datagrid-manager-dropdown-menu-box-shadow: null !default;
 $datagrid-manager-dropdown-menu-color: null !default;
 
-$datagrid-manager-close-top: 18px !default;
-$datagrid-manager-close-right: 9px !default;
-$datagrid-manager-close-font-size: $base-font-size--l !default;
-$datagrid-manager-close-text-align: center !default;
-$datagrid-manager-close-line-height: 0 !default;
-$datagrid-manager-close-color: darken(get-color('additional', 'light'), 44%) !default;
-$datagrid-manager-close-color-hover-opacity: .7 !default;
+$datagrid-manager-close-top: 14px !default;
+$datagrid-manager-close-right: 8px !default;
 
 $datagrid-manager-disabled-color: darken(get-color('additional', 'middle'), 7%) !default;
 

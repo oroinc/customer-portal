@@ -11,7 +11,8 @@ define(function(require, exports, module) {
     const launcherOptions = _.extend({
         className: 'btn',
         icon: 'filter',
-        label: __('oro.filter.datagrid-toolbar.filters')
+        label: __('oro.filter.datagrid-toolbar.filters'),
+        ariaLabel: __('oro.filter.datagrid-toolbar.aria_label')
     }, config.launcherOptions || {});
 
     const FrontendFiltersTogglePlugin = FiltersTogglePlugin.extend({
