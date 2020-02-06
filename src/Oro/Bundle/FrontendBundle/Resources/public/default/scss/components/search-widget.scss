@@ -10,7 +10,7 @@
 
     &__input {
         height: 50px;
-        padding: 0 5px 0 18px;
+        padding: 0 55px 0 18px;
         width: 100%;
         position: relative;
     }
@@ -39,8 +39,11 @@
 
         &:focus,
         &.focus-visible {
-            color: get-color('additional', 'darker');
             box-shadow: none;
+        }
+        
+        &.focus-visible {
+            color:  get-color('ui', 'focus');
         }
     }
 }
