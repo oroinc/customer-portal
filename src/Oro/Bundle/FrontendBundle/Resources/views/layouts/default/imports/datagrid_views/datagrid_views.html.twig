@@ -58,10 +58,12 @@
 
 {% block __datagrid_views__datagrid_views_popup_close_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid-views__close'
+        '~class': ' grid-views__close',
+        'title': 'oro_frontend.ui.close'|trans,
+        'aria-label': 'oro_frontend.ui.close'|trans
     }) %}
     <span {{ block('block_attributes') }}>
-        <i class="fa-times" data-close></i>
+        <span class="fa-times" data-close aria-hidden="true"></span>
     </span>
 {% endblock %}
 
@@ -129,7 +131,7 @@
                                         data-choice-value="<%- choice.value %>"
                                 >
                                     <% if (action.icon) { %>
-                                        <i class="actions-row__icon fa-<%= action.icon %>"></i>
+                                        <span class="actions-row__icon fa-<%= action.icon %>" aria-hidden="true"></span>
                                     <% } %>
                                 </button>
                             </li>
@@ -155,7 +157,7 @@
                     data-role="save-new"
                     data-switch-edit-button=""
             >
-                <i class="fa-plus-circle hide-text"></i>
+                <span class="fa-plus-circle hide-text" aria-hidden="true"></span>
                 <%- _.__("oro_frontend.datagrid_views.save_as_new") %>
             </button>
         </div>
