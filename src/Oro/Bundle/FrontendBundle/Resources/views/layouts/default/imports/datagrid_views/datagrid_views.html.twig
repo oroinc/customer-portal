@@ -59,8 +59,8 @@
 {% block __datagrid_views__datagrid_views_popup_close_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid-views__close',
-        'title': 'oro_frontend.ui.close'|trans,
-        'aria-label': 'oro_frontend.ui.close'|trans
+        'title': 'Close'|trans,
+        'aria-label': 'Close'|trans
     }) %}
     <span {{ block('block_attributes') }}>
         <span class="fa-times" data-close aria-hidden="true"></span>
@@ -166,12 +166,12 @@
             <div class="grid-views__form-content">
                 <div class="grid">
                     <div class="grid__row grid__row--offset-m">
-                        <label class="sr-only" for="frontend-grid-view-name"><%- _.__('oro_frontend.datagrid_views.label') %></label>
                         <input id="frontend-grid-view-name"
                                name="name"
                                class="input input--full"
                                type="text"
                                placeholder="<%- _.__('oro_frontend.datagrid_views.placeholder') %>"
+                               aria-label="<%- _.__('oro_frontend.datagrid_views.label') %>"
                                data-view-value
                         >
                     </div>

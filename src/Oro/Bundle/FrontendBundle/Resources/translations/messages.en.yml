@@ -114,6 +114,5 @@ oro_frontend:
 
     ui:
         tab_view_more: 'View more...'
-        close: 'Close'
 
     scroll_to_the_top: 'Scroll to the top'

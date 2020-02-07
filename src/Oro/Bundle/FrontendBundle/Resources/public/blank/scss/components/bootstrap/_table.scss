@@ -10,7 +10,8 @@
     }
 
     thead {
-        th, td {
+        th,
+        td {
             background-color: $table-thead-background-color;
             border-bottom: $table-thead-th-border;
             font-weight: $table-thead-font-weight;
@@ -19,7 +20,8 @@
         }
     }
 
-    th, td {
+    th,
+    td {
         text-align: $table-th-text-align;
         border-top: $table-th-border-top;
         border-bottom: $table-th-border-bottom;
