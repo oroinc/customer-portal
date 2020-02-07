@@ -54,8 +54,12 @@ oro_frontend:
         save: "Save"
         cancel: "Cancel"
         save_as_new: "Save As New"
+        add.aria_label: "Add New Grid View"
+        cancel.aria_label: "Cancel Adding New Grid View"
+        input.aria_label: "New Grid View Name"
+        save_as_new.aria_label: "Save the Current Grid View as New"
         set_as_default: "Set as Default"
-        label: "List Name input"
+        set_as_default.aria_label: "Set New Grid View as Default"
         placeholder: "Enter new list name"
 
     fullscreen_popup:
