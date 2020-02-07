@@ -8,8 +8,8 @@ use Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider;
 use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\EntityBundle\Exception\NotManageableEntityException;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
-use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -194,13 +194,11 @@ class CustomerVoter extends AbstractEntityVoter
 
         switch ($attribute) {
             case self::ATTRIBUTE_VIEW:
-                $isGranted = $this->authorizationChecker
-                    ->isGranted(BasicPermissionMap::PERMISSION_VIEW, $descriptor);
+                $isGranted = $this->authorizationChecker->isGranted(BasicPermission::VIEW, $descriptor);
                 break;
 
             case self::ATTRIBUTE_EDIT:
-                $isGranted = $this->authorizationChecker
-                    ->isGranted(BasicPermissionMap::PERMISSION_EDIT, $descriptor);
+                $isGranted = $this->authorizationChecker->isGranted(BasicPermission::EDIT, $descriptor);
                 break;
 
             default:

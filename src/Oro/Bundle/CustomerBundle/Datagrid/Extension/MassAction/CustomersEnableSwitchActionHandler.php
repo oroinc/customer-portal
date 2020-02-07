@@ -8,10 +8,14 @@ use Oro\Bundle\DataGridBundle\Datasource\ResultRecord;
 use Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionHandlerArgs;
 use Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionHandlerInterface;
 use Oro\Bundle\DataGridBundle\Extension\MassAction\MassActionResponse;
+use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * The datagrid mass action for enable/disable customers.
+ */
 class CustomersEnableSwitchActionHandler implements MassActionHandlerInterface
 {
     const FLUSH_BATCH_SIZE = 100;
@@ -74,7 +78,7 @@ class CustomersEnableSwitchActionHandler implements MassActionHandlerInterface
             set_time_limit(0);
             $results = $args->getResults();
             $query   = $results->getSource();
-            $this->aclHelper->apply($query, 'EDIT');
+            $this->aclHelper->apply($query, BasicPermission::EDIT);
             $em = $results->getSource()->getEntityManager();
 
             $processedEntities = [];

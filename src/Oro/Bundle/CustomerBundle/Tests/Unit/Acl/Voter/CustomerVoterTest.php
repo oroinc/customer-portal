@@ -11,7 +11,6 @@ use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\EntityBundle\Exception\NotManageableEntityException;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
-use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -411,7 +410,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedEditBasic' => false,
                     'grantedEditLocal' => true,
                     'isGranted'        => false,
-                    'isGrantedAttr'    => BasicPermissionMap::PERMISSION_VIEW,
+                    'isGrantedAttr'    => 'VIEW',
                     'isGrantedDescr'   => $this->getDescriptor(),
                 ],
                 'expected' => CustomerVoter::ACCESS_DENIED,
@@ -428,7 +427,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedEditBasic' => false,
                     'grantedEditLocal' => true,
                     'isGranted'        => false,
-                    'isGrantedAttr'    => BasicPermissionMap::PERMISSION_EDIT,
+                    'isGrantedAttr'    => 'EDIT',
                     'isGrantedDescr'   => $this->getDescriptor(),
                 ],
                 'expected' => CustomerVoter::ACCESS_DENIED,
@@ -445,7 +444,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedEditBasic' => false,
                     'grantedEditLocal' => true,
                     'isGranted'        => true,
-                    'isGrantedAttr'    => BasicPermissionMap::PERMISSION_VIEW,
+                    'isGrantedAttr'    => 'VIEW',
                     'isGrantedDescr'   => $this->getDescriptor(),
                 ],
                 'expected' => CustomerVoter::ACCESS_GRANTED,
@@ -462,7 +461,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'grantedEditBasic' => false,
                     'grantedEditLocal' => true,
                     'isGranted'        => true,
-                    'isGrantedAttr'    => BasicPermissionMap::PERMISSION_EDIT,
+                    'isGrantedAttr'    => 'EDIT',
                     'isGrantedDescr'   => $this->getDescriptor(),
                 ],
                 'expected' => CustomerVoter::ACCESS_GRANTED,
@@ -677,25 +676,25 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
         return [
             'view allowed' => [
                 CustomerVoter::ATTRIBUTE_VIEW,
-                BasicPermissionMap::PERMISSION_VIEW,
+                'VIEW',
                 true,
                 CustomerVoter::ACCESS_GRANTED
             ],
             'view denied' => [
                 CustomerVoter::ATTRIBUTE_VIEW,
-                BasicPermissionMap::PERMISSION_VIEW,
+                'VIEW',
                 false,
                 CustomerVoter::ACCESS_DENIED
             ],
             'edit allowed' => [
                 CustomerVoter::ATTRIBUTE_EDIT,
-                BasicPermissionMap::PERMISSION_EDIT,
+                'EDIT',
                 true,
                 CustomerVoter::ACCESS_GRANTED
             ],
             'edit denied' => [
                 CustomerVoter::ATTRIBUTE_EDIT,
-                BasicPermissionMap::PERMISSION_EDIT,
+                'EDIT',
                 false,
                 CustomerVoter::ACCESS_DENIED
             ],
