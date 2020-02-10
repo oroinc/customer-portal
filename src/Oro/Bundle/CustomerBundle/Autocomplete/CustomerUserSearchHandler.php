@@ -8,7 +8,7 @@ use Oro\Bundle\SearchBundle\Query\Query;
 use Oro\Bundle\SearchBundle\Query\Result\Item;
 
 /**
- * Manage result of customer search
+ * The autocomplete handler to search customer users.
  */
 class CustomerUserSearchHandler extends BaseSearchHandler
 {
@@ -41,7 +41,7 @@ class CustomerUserSearchHandler extends BaseSearchHandler
                 ->setParameter('customer', $customerId);
         }
 
-        $query = $this->aclHelper->apply($queryBuilder, 'VIEW');
+        $query = $this->aclHelper->apply($queryBuilder);
 
         return $query->getResult();
     }

@@ -47,7 +47,7 @@ oro_behat_extension:
     FrontendGridActionResetButton:
       selector: '.reset-action'
     FrontendGridActionFilterButton:
-      selector: '.action[title="Filters"]'
+      selector: '.action[title="Filter Toggle"]'
     DetachedSelect2Result:
       selector: '#select2-drop-mask + .select2-drop .select2-results'
     Active Sticky Panel:
@@ -88,7 +88,7 @@ oro_behat_extension:
     Filter Checkboxes All At Once:
       selector: ".datagrid-manager .ui-multiselect-checkboxes .filters-dropdown__items"
     Filters Dropdown:
-      selector: '[id^="grid-frontend-requests-grid"] a.action[title="Filters"]'
+      selector: '[id^="grid-frontend-requests-grid"] a.action[title="Filter Toggle"]'
     Requests For Quote Grid:
       selector: '[id^="grid-frontend-requests-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
@@ -98,7 +98,7 @@ oro_behat_extension:
         # when should be clicked second button on the page, because it visible after changes on page
         locator: '(//button[contains(text(), "Save") or contains(text(), "Create")])[2]'
     Sticky Filters Dropdown:
-      selector: '[data-sticky-name="top-sticky-panel"] a.action[title="Filters"]'
+      selector: '[data-sticky-name="top-sticky-panel"] a.action[title="Filter Toggle"]'
     Mass Actions Into Sticky Panel:
       selector: '.sticky-panel.sticky-panel--top.has-content [data-mass-actions-container]'
     Pegination Into Sticky Panel:

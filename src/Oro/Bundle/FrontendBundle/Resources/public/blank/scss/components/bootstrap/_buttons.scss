@@ -25,6 +25,12 @@
         text-decoration: $btn-hover-focus-text-decoration;
     }
 
+    @if $btn-focus-visible-style {
+        &.focus-visible {
+            box-shadow: $btn-focus-visible-style;
+        }
+    }
+
     &:focus,
     &.focus {
         outline: $btn-hover-focus-outline;
@@ -40,8 +46,8 @@
         cursor: pointer;
     }
 
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active {
+    &:not(.disabled):active,
+    &:not(.disabled).active {
         background-image: none;
 
         @include box-shadow($btn-active-box-shadow);
@@ -82,6 +88,7 @@ fieldset:disabled a.btn {
     color: $btn-link-color;
     background-color: $btn-link-background-color;
     border-color: $btn-link-border-color;
+    border-radius: 0;
 
     @include hover {
         color: $btn-link-hover-color;
@@ -95,17 +102,16 @@ fieldset:disabled a.btn {
         background: $btn-link-focus-background;
         text-decoration: $btn-link-focus-text-decoration;
         border-color: $btn-link-focus-border-color;
-        box-shadow: $btn-link-focus-box-shadow;
     }
 
     &:active,
     &.active,
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active {
+    &:not(.disabled):active,
+    &:not(.disabled).active {
         background: $btn-link-active-background;
         color: $btn-link-active-color;
         border-color: $btn-link-active-border-color;
-        box-shadow: $btn-link-active-box-shadow;
+        box-shadow: none;
     }
 
     &:disabled,
@@ -135,12 +141,16 @@ fieldset:disabled a.btn {
     }
 
     @include element-state('active') {
-        box-shadow: $btn-plain-active-box-shadow;
+        box-shadow: none;
     }
 
     &.active,
-    &.pressed {
-        box-shadow: $btn-plain-pressed-box-shadow;
+    &.pressed,
+    &:not(.disabled):active {
+        background-color: $btn-plain-active-background-color;
+        border-color: $btn-plain-active-border-color;
+        box-shadow: none;
+        color: $btn-plain-active-color;
     }
 }
 
@@ -156,6 +166,7 @@ fieldset:disabled a.btn {
     &-xs {
         font-size: $base-font-size--s;
         padding: $btn-padding-y-xs $btn-padding-x-xs;
+        min-width: $btn-xs-min-size;
 
         @include border-radius($btn-border-radius-xs);
     }

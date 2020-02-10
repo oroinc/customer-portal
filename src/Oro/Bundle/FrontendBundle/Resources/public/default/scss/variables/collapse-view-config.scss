@@ -6,7 +6,8 @@ $collapse-view-trigger-color: get-color('ui', 'normal') !default;
 $collapse-view-trigger-text-color: get-color('primary', 'base') !default;
 $collapse-view-trigger-icon-color: get-color('additional', 'dark') !default;
 $collapse-view-trigger-icon-size: 16px !default;
-$collapse-view-trigger-icon-offset-y: 15px !default;
+$collapse-view-trigger-border: none !default;
+$collapse-view-trigger-background: none !default;
 $collapse-view-trigger-icon-transition: all 200ms linear !default;
 
 $collapse-view-container-max-height: 150px !default;

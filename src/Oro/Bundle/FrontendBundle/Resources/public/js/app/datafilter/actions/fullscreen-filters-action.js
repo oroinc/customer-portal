@@ -245,6 +245,7 @@ define(function(require, exports, module) {
                     .show();
             }, this);
             this.filterManagerPopup.on('close', function() {
+                this.$filterManagerButton.removeClass('pressed');
                 $popupContent.find('[data-filters-items]').show();
                 $popupMenu
                     .addClass('dropdown-menu')

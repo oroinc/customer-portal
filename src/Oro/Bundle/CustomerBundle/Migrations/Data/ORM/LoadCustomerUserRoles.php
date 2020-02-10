@@ -8,11 +8,13 @@ use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
 use Oro\Bundle\FrontendBundle\Migrations\Data\ORM\AbstractRolesData;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
+use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Migrations\Data\ORM\LoadWebsiteData;
 use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
 
 /**
- * This fixture creates default CustomerUserRoles
+ * Creates default storefront roles.
  */
 class LoadCustomerUserRoles extends AbstractRolesData
 {
@@ -21,9 +23,7 @@ class LoadCustomerUserRoles extends AbstractRolesData
     const ADMINISTRATOR = 'ADMINISTRATOR';
     const BUYER = 'BUYER';
 
-    /**
-     * @var Website[]
-     */
+    /** @var Website[] */
     protected $websites = [];
 
     /**
@@ -31,7 +31,7 @@ class LoadCustomerUserRoles extends AbstractRolesData
      */
     public function getDependencies()
     {
-        return ['Oro\Bundle\WebsiteBundle\Migrations\Data\ORM\LoadWebsiteData'];
+        return [LoadWebsiteData::class];
     }
 
     /**
@@ -40,13 +40,14 @@ class LoadCustomerUserRoles extends AbstractRolesData
     public function load(ObjectManager $manager)
     {
         $aclManager = $this->getAclManager();
-        $chainMetadataProvider = $this->container->get('oro_security.owner.metadata_provider.chain');
 
+        $organization = $manager->getRepository(Organization::class)->findOneBy([]);
         $roleData = $this->loadRolesData();
 
+        /* @var ChainOwnershipMetadataProvider $chainMetadataProvider */
+        $chainMetadataProvider = $this->container->get('oro_security.owner.metadata_provider.chain');
         $chainMetadataProvider->startProviderEmulation(FrontendOwnershipMetadataProvider::ALIAS);
 
-        $organization = $manager->getRepository('OroOrganizationBundle:Organization')->findOneBy([]);
         foreach ($roleData as $roleName => $roleConfigData) {
             $role = $this->createEntity($roleName, $roleConfigData['label']);
             $role->setOrganization($organization);
@@ -56,32 +57,25 @@ class LoadCustomerUserRoles extends AbstractRolesData
             if (!empty($roleConfigData['website_guest_role'])) {
                 $this->setWebsiteGuestRoles($role);
             }
-
             $manager->persist($role);
 
             $this->setUpSelfManagedData($role, $roleConfigData);
 
-            if (!$aclManager->isAclEnabled()) {
-                continue;
+            if ($aclManager->isAclEnabled()) {
+                $sid = $aclManager->getSid($role);
+                if (!empty($roleConfigData['max_permissions'])) {
+                    $this->setPermissionGroup($aclManager, $sid);
+                }
+                $this->setPermissions($aclManager, $sid, $roleConfigData['permissions'] ?? []);
             }
-
-            $sid = $aclManager->getSid($role);
-
-            if (!empty($roleConfigData['max_permissions'])) {
-                $this->setPermissionGroup($aclManager, $sid);
-            }
-
-            if (empty($roleConfigData['permissions']) || !is_array($roleConfigData['permissions'])) {
-                continue;
-            }
-
-            $this->setPermissions($aclManager, $sid, $roleConfigData['permissions']);
         }
 
         $chainMetadataProvider->stopProviderEmulation();
 
         $manager->flush();
-        $aclManager->flush();
+        if ($aclManager->isAclEnabled()) {
+            $aclManager->flush();
+        }
     }
 
     /**
@@ -94,14 +88,13 @@ class LoadCustomerUserRoles extends AbstractRolesData
             $rootOid = $aclManager->getRootOid($extension->getExtensionKey());
             foreach ($extension->getAllMaskBuilders() as $maskBuilder) {
                 if ($rootOid->getIdentifier() === 'entity') {
-                    $fullAccessMask = $maskBuilder->getMask('GROUP_DEEP');
-                } elseif ($maskBuilder->hasMask('GROUP_SYSTEM')) {
-                    $fullAccessMask = $maskBuilder->getMask('GROUP_SYSTEM');
+                    $mask = $maskBuilder->getMaskForGroup('DEEP');
+                } elseif ($maskBuilder->hasMaskForGroup('SYSTEM')) {
+                    $mask = $maskBuilder->getMaskForGroup('SYSTEM');
                 } else {
-                    $fullAccessMask = $maskBuilder->getMask('GROUP_ALL');
+                    $mask = $maskBuilder->getMaskForGroup('ALL');
                 }
-
-                $aclManager->setPermission($sid, $rootOid, $fullAccessMask);
+                $aclManager->setPermission($sid, $rootOid, $mask);
             }
         }
     }
@@ -148,8 +141,8 @@ class LoadCustomerUserRoles extends AbstractRolesData
     {
         if (!$this->websites) {
             $this->websites = $this->container->get('doctrine')
-                ->getManagerForClass('OroWebsiteBundle:Website')
-                ->getRepository('OroWebsiteBundle:Website')
+                ->getManagerForClass(Website::class)
+                ->getRepository(Website::class)
                 ->findBy(['organization' => $organization]);
         }
 
@@ -162,7 +155,7 @@ class LoadCustomerUserRoles extends AbstractRolesData
      */
     protected function setUpSelfManagedData(CustomerUserRole $role, array $roleConfigData)
     {
-        $role->setSelfManaged(isset($roleConfigData['self_managed']) ? $roleConfigData['self_managed'] : false);
-        $role->setPublic(isset($roleConfigData['public']) ? $roleConfigData['public'] : true);
+        $role->setSelfManaged($roleConfigData['self_managed'] ?? false);
+        $role->setPublic($roleConfigData['public'] ?? true);
     }
 }

@@ -57,8 +57,9 @@
         opacity: $disabled-opacity;
     }
 
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active,
+    &:not(.disabled):active,
+    &:not(.disabled).active,
+    // In case when buttons are rendered in datagrid toolbar
     .show > &.dropdown-toggle {
         color: $active-color;
         background-color: $active-background;
@@ -69,5 +70,11 @@
 
         border-color: $active-border;
         box-shadow: $active-box-shadow;
+
+        @if ($active-box-shadow and $btn-focus-visible-style) {
+            &.focus-visible {
+                box-shadow: $active-box-shadow, $btn-focus-visible-style;
+            }
+        }
     }
 }

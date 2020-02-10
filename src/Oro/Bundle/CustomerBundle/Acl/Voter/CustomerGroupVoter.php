@@ -3,14 +3,18 @@
 namespace Oro\Bundle\CustomerBundle\Acl\Voter;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
 
+/**
+ * Prevents removal of a customer group that is configured to be used for anonymous customers.
+ */
 class CustomerGroupVoter extends AbstractEntityVoter
 {
     /**
      * @var array
      */
-    protected $supportedAttributes = ['DELETE'];
+    protected $supportedAttributes = [BasicPermission::DELETE];
 
     /**
      * @var ConfigManager
