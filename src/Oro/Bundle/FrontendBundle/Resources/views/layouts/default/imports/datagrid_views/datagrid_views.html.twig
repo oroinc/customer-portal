@@ -58,13 +58,13 @@
 
 {% block __datagrid_views__datagrid_views_popup_close_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid-views__close',
+        '~class': ' btn--plain grid-views__close',
         'title': 'Close'|trans,
-        'aria-label': 'Close'|trans
+        'aria-label': 'oro_frontend.datagrid_views.close.aria-label'|trans
     }) %}
-    <span {{ block('block_attributes') }}>
-        <span class="fa-times" data-close aria-hidden="true"></span>
-    </span>
+    <button {{ block('block_attributes') }}>
+        <span class="fa-close fa--no-offset" data-close aria-hidden="true"></span>
+    </button>
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_container_widget %}
