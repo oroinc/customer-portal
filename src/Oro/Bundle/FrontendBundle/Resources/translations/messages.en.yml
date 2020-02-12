@@ -111,7 +111,7 @@ oro_frontend:
 
     datagrid_views:
         saved_views: 'Saved Views'
-        close.aria-label: 'Close the Saved Views drop-down'
+        close.aria_label: 'Close the Saved Views drop-down'
 
     ui:
         tab_view_more: 'View more...'
