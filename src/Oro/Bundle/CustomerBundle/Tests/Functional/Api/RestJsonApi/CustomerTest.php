@@ -20,6 +20,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class CustomerTest extends RestJsonApiTestCase
 {
@@ -39,18 +40,22 @@ class CustomerTest extends RestJsonApiTestCase
     }
 
     /**
-     * @param string      $name
-     * @param string|null $ratingId
+     * @param string        $name
+     * @param string|null   $ratingId
+     * @param Customer|null $parent
      *
      * @return Customer
      */
-    private function createCustomer($name, $ratingId = null)
+    private function createCustomer($name, $ratingId = null, Customer $parent = null)
     {
         $manager = $this->getEntityManager();
         $owner = $this->getReference('user');
-        $parent = $manager->getRepository(Customer::class)->findOneByName('CustomerUser CustomerUser');
-        // initialize customer users collection to avoid exception about cascade persist operation
-        $parent->getUsers()->current();
+
+        if (null === $parent) {
+            $parent = $manager->getRepository(Customer::class)->findOneByName('CustomerUser CustomerUser');
+            // initialize customer users collection to avoid exception about cascade persist operation
+            $parent->getUsers()->current();
+        }
 
         $customer = new Customer();
         $customer
@@ -291,6 +296,48 @@ class CustomerTest extends RestJsonApiTestCase
         self::assertEquals($customer->getUpdatedAt(), $customer->getCreatedAt());
     }
 
+    public function testTryToCreateWithNewParentCustomerInIncludes()
+    {
+        $response = $this->post(
+            ['entity' => 'customers'],
+            'create_customer_with_new_parent_in_includes.yml',
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'new included entity existence constraint',
+                'detail' => 'Creation a new include entity that can lead to a circular dependency is forbidden.',
+                'source' => [
+                    'pointer' => '/included/0'
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testTryToCreateWithNewChildCustomerInIncludes()
+    {
+        $response = $this->post(
+            ['entity' => 'customers'],
+            'create_customer_with_new_child_in_includes.yml',
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'new included entity existence constraint',
+                'detail' => 'Creation a new include entity that can lead to a circular dependency is forbidden.',
+                'source' => [
+                    'pointer' => '/included/0'
+                ]
+            ],
+            $response
+        );
+    }
+
     public function testUpdate()
     {
         $customerId = $this->getReference('customer.1')->getId();
@@ -333,6 +380,166 @@ class CustomerTest extends RestJsonApiTestCase
         self::assertEquals($parentCustomerId, $customer->getParent()->getId());
         self::assertEquals($internalRatingId, $customer->getInternalRating()->getId());
         self::assertEquals($groupId, $customer->getGroup()->getId());
+    }
+
+    public function testTryToUpdateWithNewParentCustomerInIncludes()
+    {
+        $response = $this->patch(
+            ['entity' => 'customers', 'id' => '<toString(@customer.1->id)>'],
+            'update_customer_with_new_parent_in_includes.yml',
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'new included entity existence constraint',
+                'detail' => 'Creation a new include entity that can lead to a circular dependency is forbidden.',
+                'source' => [
+                    'pointer' => '/included/0'
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testTryToUpdateWithNewChildCustomerInIncludes()
+    {
+        $response = $this->patch(
+            ['entity' => 'customers', 'id' => '<toString(@customer.1->id)>'],
+            'update_customer_with_new_child_in_includes.yml',
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'new included entity existence constraint',
+                'detail' => 'Creation a new include entity that can lead to a circular dependency is forbidden.',
+                'source' => [
+                    'pointer' => '/included/0'
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testTryToSetCirculiarParent()
+    {
+        $parentCustomer = $this->createCustomer('parent');
+        $customer = $this->createCustomer('customer', null, $parentCustomer);
+
+        $response = $this->patch(
+            ['entity' => 'customers', 'id' => $parentCustomer->getId()],
+            [
+                'data' => [
+                    'type'       => 'customers',
+                    'id'         => (string)$parentCustomer->getId(),
+                    'relationships' => [
+                        'parent' => [
+                            'data' => [
+                                'type' => 'customers',
+                                'id' => (string)$customer->getId()
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [],
+            false
+        );
+
+        $this->assertResponseContainsValidationError(
+            [
+                'title'  => 'circular customer reference constraint',
+                'detail' => 'Circular reference detected. '
+                    . '\'customer\' cannot be a parent of \'parent\' because it is its child.',
+                'source' => ['pointer' => '/data/relationships/parent/data']
+            ],
+            $response
+        );
+    }
+
+    public function testTryToSetCirculiarChild()
+    {
+        $parentCustomer = $this->createCustomer('parent');
+        $customer = $this->createCustomer('customer', null, $parentCustomer);
+
+        $response = $this->patch(
+            ['entity' => 'customers', 'id' => $customer->getId()],
+            [
+                'data' => [
+                    'type'       => 'customers',
+                    'id'         => (string)$customer->getId(),
+                    'relationships' => [
+                        'children' => [
+                            'data' => [
+                                [
+                                    'type' => 'customers',
+                                    'id' => (string)$parentCustomer->getId()
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [],
+            false
+        );
+
+        $this->assertResponseContainsValidationError(
+            [
+                'title'  => 'circular customer reference constraint',
+                'detail' => 'Circular reference detected. '
+                    . '\'parent\' cannot be a child of \'customer\' because it is its parent.',
+                'source' => ['pointer' => '/data/relationships/children/data']
+            ],
+            $response
+        );
+    }
+
+    public function testTryToSetCirculiarParentAndChild()
+    {
+        $parentCustomer = $this->createCustomer('parent');
+        $customer = $this->createCustomer('customer');
+
+        $response = $this->patch(
+            ['entity' => 'customers', 'id' => $customer->getId()],
+            [
+                'data' => [
+                    'type'       => 'customers',
+                    'id'         => (string)$customer->getId(),
+                    'relationships' => [
+                        'parent' => [
+                            'data' => [
+                                'type' => 'customers',
+                                'id' => (string)$parentCustomer->getId()
+                            ]
+                        ],
+                        'children' => [
+                            'data' => [
+                                [
+                                    'type' => 'customers',
+                                    'id' => (string)$parentCustomer->getId()
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [],
+            false
+        );
+
+        $this->assertResponseContainsValidationError(
+            [
+                'title'  => 'circular customer reference constraint',
+                'detail' => 'Circular reference detected. '
+                    . '\'parent\' cannot be a child of \'customer\' because it is its parent.',
+                'source' => ['pointer' => '/data/relationships/children/data']
+            ],
+            $response
+        );
     }
 
     public function testTryToUpdateCreatedAtAndUpdatedAt()

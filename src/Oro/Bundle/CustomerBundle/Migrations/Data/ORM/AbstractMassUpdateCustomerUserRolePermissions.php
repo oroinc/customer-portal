@@ -2,28 +2,18 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\ORM;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Oro\Bundle\SecurityBundle\Migrations\Data\ORM\AbstractUpdatePermissions;
 
 /**
- * Abstract implementation for mass ACL updating.
+ * The base class for data fixtures that do mass updating of permissions for storefront roles.
  */
-abstract class AbstractMassUpdateCustomerUserRolePermissions extends AbstractFixture implements
-    ContainerAwareInterface,
+abstract class AbstractMassUpdateCustomerUserRolePermissions extends AbstractUpdatePermissions implements
     DependentFixtureInterface
 {
-    use ContainerAwareTrait;
-
-    /**
-     * @var ObjectManager
-     */
-    protected $objectManager;
-
     /**
      * {@inheritdoc}
      */
@@ -37,54 +27,38 @@ abstract class AbstractMassUpdateCustomerUserRolePermissions extends AbstractFix
      */
     public function load(ObjectManager $manager)
     {
-        $this->objectManager = $manager;
-
-        /** @var AclManager $aclManager */
-        $aclManager = $this->container->get('oro_security.acl.manager');
-
-        if ($aclManager->isAclEnabled()) {
-            $this->updateRole($aclManager);
-            $aclManager->flush();
+        $aclManager = $this->getAclManager();
+        if (!$aclManager->isAclEnabled()) {
+            return;
         }
+
+        $this->updateRoles($aclManager, $manager);
+        $aclManager->flush();
     }
 
     /**
-     * @param AclManager $manager
+     * @param AclManager    $aclManager
+     * @param ObjectManager $manager
      */
-    protected function updateRole(AclManager $manager)
+    protected function updateRoles(AclManager $aclManager, ObjectManager $manager)
     {
-        foreach ($this->getACLData() as $roleName => $aclSettings) {
-            $role = $this->objectManager
-                ->getRepository(CustomerUserRole::class)
-                ->findOneBy(['role' => $roleName]);
-
-            if ($role) {
-                foreach ($aclSettings as $entityOid => $permissions) {
-                    $sid = $manager->getSid($role);
-                    $oid = $manager->getOid($entityOid);
-
-                    $extension = $manager->getExtensionSelector()->select($oid);
-                    $maskBuilders = $extension->getAllMaskBuilders();
-
-                    foreach ($maskBuilders as $maskBuilder) {
-                        foreach ($permissions as $permission) {
-                            if ($maskBuilder->hasMask('MASK_' . $permission)) {
-                                $maskBuilder->add($permission);
-                            }
-                        }
-
-                        $manager->setPermission($sid, $oid, $maskBuilder->get());
-                    }
-                }
+        foreach ($this->getACLData() as $roleName => $aclData) {
+            $role = $this->getRole($manager, $roleName, CustomerUserRole::class);
+            foreach ($aclData as $oidDescriptor => $permissions) {
+                $this->replacePermissions(
+                    $aclManager,
+                    $role,
+                    $aclManager->getOid($oidDescriptor),
+                    $permissions
+                );
             }
         }
     }
 
     /**
      * Return array of ACL data
-     * [ ROLE_NAME => [ entityOid => [permissions] ] ]
      *
-     * @return array
+     * @return array [role name => [oid descriptor => [permission, ...], ...], ...]
      */
     abstract protected function getACLData(): array;
 }

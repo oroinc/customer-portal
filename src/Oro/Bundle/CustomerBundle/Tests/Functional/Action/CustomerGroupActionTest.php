@@ -24,7 +24,7 @@ class CustomerGroupActionTest extends WebTestCase
         $entity = $this->getReference('customer_group.group1');
         $operationName = 'oro_customer_groups_delete';
         $entityId = $entity->getId();
-        $entityClass = $this->getContainer()->getParameter('oro_customer.entity.customer_group.class');
+        $entityClass = CustomerGroup::class;
         $this->client->request(
             'POST',
             $this->getUrl(
@@ -59,7 +59,7 @@ class CustomerGroupActionTest extends WebTestCase
             ->get('oro_customer.anonymous_customer_group');
 
         $operationName = 'oro_customer_groups_delete';
-        $entityClass   = $this->getContainer()->getParameter('oro_customer.entity.customer_group.class');
+        $entityClass   = CustomerGroup::class;
         $this->client->request(
             'POST',
             $this->getUrl(

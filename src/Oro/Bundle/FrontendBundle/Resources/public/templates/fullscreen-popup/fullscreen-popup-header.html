@@ -1,16 +1,16 @@
 <% if (label) { %>
-    <div class="fullscreen-popup__label">
-        <span class="fullscreen-popup__text" <% if (closeOnLabel) { %> data-role="close"<% } %>>
+    <div class="fullscreen-popup__label" id="<%- id %>">
+        <span class="fullscreen-popup__text" <% if (closeOnLabel) { %> data-role="close" role="button" tabindex="0"<% } %>>
             <% if (icon) { %>
                 <% if (badge) { %>
-                    <span class="fullscreen-popup__badge">
-                        <i class="<%= icon %>"></i>
+                    <span class="fullscreen-popup__badge" aria-hidden="true">
+                        <span class="<%- icon %>"></span>
                     </span>
                 <% } else { %>
-                    <i class="<%= icon %>"></i>
+                    <span class="<%- icon %>" aria-hidden="true"></span>
                 <% } %>
             <% } %>
-            <span class="fullscreen-popup__words" data-role="title"><%= label %></span>
+            <span class="fullscreen-popup__words" data-role="title"><%- label %></span>
         </span>
     </div>
 <% } %>

@@ -5,13 +5,11 @@ Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate:
     constraints:
         - Oro\Bundle\NavigationBundle\Validator\Constraints\MaxNestedLevel:
             groups: [MaxNestedLevel]
+        - Oro\Bundle\CommerceMenuBundle\Validator\Constraints\PageTarget: ~
     properties:
         titles:
             - Valid: ~
         uri:
-            - NotBlank:
-                groups: [UserDefined]
-
             - Oro\Bundle\SecurityBundle\Validator\Constraints\NotDangerousProtocol:
                 message: oro.commercemenu.validator.menu_update.not_dangerous_protocol.message
 

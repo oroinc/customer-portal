@@ -5,11 +5,11 @@ namespace Oro\Bundle\CustomerBundle\Acl\Voter;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
+use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -184,7 +184,7 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
             return true;
         }
 
-        return $this->getAuthorizationChecker()->isGranted(BasicPermissionMap::PERMISSION_EDIT, $this->object);
+        return $this->getAuthorizationChecker()->isGranted(BasicPermission::EDIT, $this->object);
     }
 
     /**
@@ -196,7 +196,7 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
             return true;
         }
 
-        return $this->getAuthorizationChecker()->isGranted(BasicPermissionMap::PERMISSION_VIEW, $this->object);
+        return $this->getAuthorizationChecker()->isGranted(BasicPermission::VIEW, $this->object);
     }
 
     /**
@@ -218,6 +218,6 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
      */
     protected function isGrantedDeleteCustomerUserRole($object)
     {
-        return $this->getAuthorizationChecker()->isGranted(BasicPermissionMap::PERMISSION_DELETE, $object);
+        return $this->getAuthorizationChecker()->isGranted(BasicPermission::DELETE, $object);
     }
 }

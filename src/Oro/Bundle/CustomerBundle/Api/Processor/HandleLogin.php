@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Checks whether the login credentials are valid
+ * Checks whether the login credentials are valid,
  * and if so, sets API access key of authenticated customer user to the model.
  */
 class HandleLogin implements ProcessorInterface
