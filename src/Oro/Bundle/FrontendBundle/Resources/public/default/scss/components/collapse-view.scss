@@ -60,11 +60,15 @@
 
             position: relative;
 
+            padding: 0;
             width: 100%;
             height: $collapse-view-trigger-height;
 
             text-align: center;
             font-size: 20px;
+
+            border: $collapse-view-trigger-border;
+            background: $collapse-view-trigger-background;
 
             &:after {
                 content: "";
@@ -80,10 +84,6 @@
                 margin-top: -($collapse-view-trigger-height);
 
                 background: $collapse-view-trigger-overlay;
-            }
-
-            &-icon {
-                margin-top: $collapse-view-trigger-icon-offset-y;
             }
         }
 

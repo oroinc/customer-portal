@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Security;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Domain\ObjectIdentityFactory;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
@@ -12,7 +13,6 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\Security\Acl\Domain\Entry;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\PermissionGrantingStrategy;
-use Symfony\Component\Security\Acl\Permission\BasicPermissionMap;
 use Symfony\Component\Security\Acl\Util\ClassUtils;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -147,7 +147,7 @@ class CustomerUserProvider
     public function isGrantedViewCustomerUser($class)
     {
         $descriptor = sprintf('entity:%s@%s', CustomerUser::SECURITY_GROUP, $this->customerUserClass);
-        if (!$this->authorizationChecker->isGranted(BasicPermissionMap::PERMISSION_VIEW, $descriptor)) {
+        if (!$this->authorizationChecker->isGranted(BasicPermission::VIEW, $descriptor)) {
             return false;
         }
 
