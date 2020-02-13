@@ -1,8 +1,8 @@
 <div class="modal-dialog modal-dialog--centered" aria-hidden="false" role="document">
     <div class="modal-content">
         <div class="modal-dialog__body">
-            <button class="close <%= closeButtonClass %>" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true" class="fa-close"></span>
+            <button class="close <%- closeButtonClass %>" data-dismiss="modal" aria-label="<%- _.__('Close') %>">
+                <span class="fa-close" aria-hidden="true"></span>
             </button>
             <% if (title) { %>
                 <div class="page-title-wrapper">
@@ -13,10 +13,10 @@
             <% if (allowCancel || allowOk ) { %>
                 <div class="buttons-equal">
                     <% if (allowCancel && cancelText) { %>
-                        <button class="cancel <%= cancelButtonClass %>" data-dismiss="modal"><%= cancelText %></button>
+                        <button class="cancel <%- cancelButtonClass %>" data-dismiss="modal"><%- cancelText %></button>
                     <% } %>
                     <% if (allowOk && okText) { %>
-                        <button class="ok <%= okButtonClass %>"><%= okText %></button>
+                        <button class="ok <%- okButtonClass %>"><%- okText %></button>
                     <% } %>
                 </div>
             <% } %>
