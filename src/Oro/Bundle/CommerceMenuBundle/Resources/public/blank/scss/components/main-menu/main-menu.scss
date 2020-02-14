@@ -129,12 +129,6 @@
                     }
                 }
 
-                &.open {
-                    .main-menu__sublist-container {
-                        display: block;
-                    }
-                }
-
                 &:hover {
                     .main-menu__button-arrow {
                         color: $main-menu-link-color-hover;
@@ -157,6 +151,14 @@
 
             &__taptick {
                 display: none;
+            }
+        }
+
+        &__item {
+            &.show {
+                .main-menu__sublist-container {
+                    display: block;
+                }
             }
         }
 
