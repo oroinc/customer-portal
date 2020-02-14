@@ -53,7 +53,7 @@ oro_behat_extension:
       options:
         mapping:
           Birthday:
-            locator: 'input[id^="date_selector_oro_customer_frontend_customer_user_profile_birthday-uid"]'
+            locator: 'input[id^="oro_customer_frontend_customer_user_profile_birthday-uid"]'
             type: css
 
     CustomerUserRoleGrid:
@@ -286,7 +286,7 @@ oro_behat_extension:
         locator: '//h1[contains(., "Create Address")]/ancestor::section/descendant::form'
 
     Edit Profile Button:
-      selector: 'div.customer-profile__title-wrapper a[title="Edit"]'
+      selector: 'div.customer-profile__title-wrapper a:contains("Edit")'
 
     My Profile Menu Item:
       selector: 'li.primary-menu__item a:contains("My Profile")'
@@ -363,7 +363,7 @@ oro_behat_extension:
     Enter The Shipping Address Manually For Checkout:
       selector:
         type: xpath
-        locator: '//h5[contains(.,"Checkout")]/parent::*[contains(@class,"role-capability")]//label[text()="Enter the shipping address manually"]//input[@type="checkbox"]'
+        locator: '//h2[contains(.,"Checkout")]/parent::*[contains(@class,"role-capability")]//label[text()="Enter the shipping address manually"]//input[@type="checkbox"]'
 
   pages:
     Customer User Role View:

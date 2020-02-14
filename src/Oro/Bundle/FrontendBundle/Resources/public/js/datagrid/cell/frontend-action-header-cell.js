@@ -8,7 +8,7 @@ define(function(require) {
             FrontendActionHeaderCell.__super__.render.call(this);
 
             this.$el.attr({
-                'scope': 'col'
+                scope: 'col'
             });
 
             const panel = this.subview('actionsPanel');
