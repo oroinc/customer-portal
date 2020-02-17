@@ -159,4 +159,4 @@ services:
             - '@oro_website.resolver.website_url_resolver'
             - '@oro_frontend.request.frontend_helper'
         tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onRequest, priority: 255 }
+            - { name: kernel.event_listener, event: kernel.request, method: onRequest, priority: 45 }
