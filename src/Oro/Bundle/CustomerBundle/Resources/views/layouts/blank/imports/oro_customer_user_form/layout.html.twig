@@ -82,7 +82,7 @@
 {% endblock %}
 
 {% block __oro_customer_user_form__customer_user_form_fields_password_widget %}
-    <div class="form-group">
+    <fieldset class="form-group">
         <legend>{{ 'oro.customer.customeruser.profile.form.sections.password.label'|trans }}</legend>
         <div class="grid">
             {% set form = form.changePassword|default(form) %}
@@ -128,12 +128,12 @@
             </div>
             {% endif %}
         </div>
-    </div>
+    </fieldset>
 {% endblock %}
 
 {% block __oro_customer_user_form__customer_user_form_fields_roles_widget %}
     {% if form.roles is defined %}
-    <div class="form-group">
+    <fieldset class="form-group">
         <legend>{{ 'oro.customer.customeruser.profile.form.sections.roles.label'|trans }}</legend>
         <div class="grid">
             <div class="grid__row grid__row--offset-none">
@@ -142,7 +142,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </fieldset>
     {% endif %}
 {% endblock %}
 
