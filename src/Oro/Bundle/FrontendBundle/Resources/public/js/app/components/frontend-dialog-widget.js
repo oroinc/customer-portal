@@ -268,7 +268,7 @@ define(function(require) {
                 return FrontendDialogWidget.__super__._onAdoptedFormSubmitClick.call(this, form, widget);
             }
 
-            this.dispose();
+            this.widget.dialog('close');
         },
 
         /**
@@ -284,7 +284,7 @@ define(function(require) {
                 return FrontendDialogWidget.__super__._onAdoptedFormResetClick.call(this, form);
             }
 
-            this.dispose();
+            this.widget.dialog('close');
         },
 
         /**
