@@ -47,7 +47,8 @@ class ExceptionController extends BaseExceptionController
         return $this->container->get('oro_frontend.request.frontend_helper')->isFrontendRequest($request)
             && $request->getRequestFormat() === 'html'
             && !$this->showException($request)
-            && !$this->isCircularHandlingException();
+            && !$this->isCircularHandlingException()
+            && !$this->container->get('oro_platform.maintenance')->isOn();
     }
 
     /**

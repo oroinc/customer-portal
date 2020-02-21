@@ -5,14 +5,19 @@ namespace Oro\Bundle\WebsiteBundle\Manager;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\PlatformBundle\Maintenance\Mode;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Basic website manager.
  * Provides current website.
  */
-class WebsiteManager
+class WebsiteManager implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     /**
      * @var ManagerRegistry
      */
@@ -43,7 +48,7 @@ class WebsiteManager
      */
     public function getCurrentWebsite()
     {
-        if (!$this->currentWebsite) {
+        if (!$this->currentWebsite && !$this->getMaintenance()->isOn()) {
             $this->currentWebsite = $this->getResolvedWebsite();
         }
 
@@ -94,5 +99,13 @@ class WebsiteManager
     public function onClear()
     {
         $this->currentWebsite = null;
+    }
+
+    /**
+     * @return Mode
+     */
+    protected function getMaintenance(): Mode
+    {
+        return $this->container->get('oro_platform.maintenance');
     }
 }

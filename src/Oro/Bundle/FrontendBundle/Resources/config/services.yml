@@ -312,3 +312,11 @@ services:
             - '@translator'
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.grid_views_load, method: onViewsLoad }
+
+    oro_frontend.twig.frontend:
+        class: Oro\Bundle\FrontendBundle\Twig\FrontendExtension
+        public: false
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: twig.extension }
