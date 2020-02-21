@@ -126,24 +126,24 @@
                 <div class="info-list__desc">
                     {% if customerUser.enabled == true %}
                         <div class="info-list-status">
-                            <i class="fa fa-check"></i>
+                            <span class="fa fa-check" aria-hidden="true"></span>
                             {{- 'oro.customer.customeruser.profile.statuses.active'|trans -}}
                         </div>
                     {% else %}
                         <div class="info-list-status info-list-status--disabled">
-                            <i class="fa fa-ban"></i>
+                            <span class="fa fa-ban" aria-hidden="true"></span>
                             {{- 'oro.customer.customeruser.profile.statuses.inactive'|trans -}}
                         </div>
                     {% endif %}
 
                     {% if customerUser.confirmed == true %}
                         <div class="info-list-status">
-                            <i class="fa fa-check"></i>
+                            <span class="fa fa-check" aria-hidden="true"></span>
                             {{- 'oro.customer.customeruser.profile.statuses.confirmed'|trans -}}
                         </div>
                     {% else %}
                         <div class="info-list-status info-list-status--disabled">
-                            <i class="fa fa-ban"></i>
+                            <span class="fa fa-ban" aria-hidden="true"></span>
                             {{- 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans -}}
                         </div>
                     {% endif %}

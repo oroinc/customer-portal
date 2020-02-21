@@ -407,6 +407,10 @@ oro.customer:
             send_confirmation: 'Resend Confirmation Email'
             create: 'Create User'
             edit: 'Edit'
+            edit_btn:
+                label: 'Edit'
+                title: 'Edit Account Info'
+                aria_label: 'Action Edit Account Information'
             delete: 'Delete'
 
         customer_user_role:
