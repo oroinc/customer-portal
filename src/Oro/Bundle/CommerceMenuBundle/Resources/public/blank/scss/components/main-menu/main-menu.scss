@@ -103,6 +103,10 @@
             }
         }
 
+        &__link.focus-visible:hover {
+            box-shadow: none;
+        }
+
         &__button-arrow {
             display: none;
         }
