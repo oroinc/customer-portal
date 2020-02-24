@@ -95,14 +95,6 @@
 
 @include only-desktop {
     .main-menu {
-        &__item {
-            &:hover {
-                .main-menu__sublist-container {
-                    display: block;
-                }
-            }
-        }
-
         &__button-arrow {
             display: none;
         }
@@ -129,12 +121,6 @@
                     }
                 }
 
-                &.open {
-                    .main-menu__sublist-container {
-                        display: block;
-                    }
-                }
-
                 &:hover {
                     .main-menu__button-arrow {
                         color: $main-menu-link-color-hover;
@@ -157,6 +143,14 @@
 
             &__taptick {
                 display: none;
+            }
+        }
+
+        &__item {
+            &.show {
+                .main-menu__sublist-container {
+                    display: block;
+                }
             }
         }
 
@@ -234,4 +228,3 @@
         overflow-y: scroll;
     }
 }
-
