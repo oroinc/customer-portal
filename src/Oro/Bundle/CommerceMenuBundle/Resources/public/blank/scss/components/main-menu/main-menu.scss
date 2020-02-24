@@ -95,18 +95,6 @@
 
 @include only-desktop {
     .main-menu {
-        &__item {
-            &:hover {
-                .main-menu__sublist-container {
-                    display: block;
-                }
-            }
-        }
-
-        &__link.focus-visible:hover {
-            box-shadow: none;
-        }
-
         &__button-arrow {
             display: none;
         }
@@ -240,4 +228,3 @@
         overflow-y: scroll;
     }
 }
-
