@@ -154,7 +154,8 @@
 
 {% block __oro_customer_user_form__customer_user_form_required_label_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' required-label'
+        '~class': ' required-label',
+        'aria-hidden': 'true'
     }) %}
 
     <p {{ block('block_attributes') }}><sup>*</sup> {{ 'oro.customer.form.label.required'|trans }}</p>
