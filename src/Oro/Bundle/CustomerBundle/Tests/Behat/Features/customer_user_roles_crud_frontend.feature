@@ -12,7 +12,7 @@ Feature: Customer user roles crud frontend
 
   Scenario: Customer user should not see not self-managed roles in grid list
     Given I signed in as NancyJSallee@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Roles"
     Then I should see following grid:
       | Role                               | Type         |
@@ -25,7 +25,7 @@ Feature: Customer user roles crud frontend
 
   Scenario: Customer user role create
     Given I signed in as NancyJSallee@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Roles"
     When I click "Create Customer User Role"
     And I fill form with:
@@ -36,7 +36,7 @@ Feature: Customer user roles crud frontend
     Then I should see "Test customer user role"
 
   Scenario: Disable configuring permissions and capabilities for user role
-    And I click "Account"
+    And I follow "Account"
     And I click "Roles"
     When I click View Test customer user role in grid
     Then the role has following active permissions:
@@ -55,7 +55,7 @@ Feature: Customer user roles crud frontend
     Then I should not see "Customer User Address"
 
   Scenario: Delete user role
-    And I click "Account"
+    And I follow "Account"
     And I click "Roles"
     Then I should see Test customer user role in grid
     When I click Delete Test customer user role in grid

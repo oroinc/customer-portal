@@ -4,7 +4,7 @@ Feature: Removing last role from the customer user on frontend
 
   Scenario: Remove last role from enabled user
     Given I signed in as NancyJSallee@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Roles"
     And I click Edit Buyer in grid
     And I fill form with:

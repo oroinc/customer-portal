@@ -51,7 +51,7 @@ Feature: Customer address validation
   Scenario: Create customer address from fronstore Customer user address page and see validation errors
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And click "Account"
+    And follow "Account"
     And click "Address Book"
     When click "New Company Address"
     And I fill form with:

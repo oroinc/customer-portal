@@ -48,7 +48,7 @@ Feature: Checking the address types at different locales
   Scenario: Check address type on Zulu localization
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    When I click "Account"
+    When I follow "Account"
     And I click "Address Book"
     And I click "Localization Switcher"
     And I click "Zulu"

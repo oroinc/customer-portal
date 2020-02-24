@@ -20,7 +20,7 @@ Feature: Customer User Update User Profile capability
   Scenario: User can update profile only when Update User Profile capability is on
     Given I proceed as the User
     And I signed in as NancyJSallee@example.org on the store frontend
-    When I click "Account"
+    When I follow "Account"
     Then I should see an "My Profile Menu Item" element
     When I click on "My Profile Menu Item"
     And I click "Edit Profile Button"
@@ -50,7 +50,7 @@ Feature: Customer User Update User Profile capability
     And I save form
     Then I should see "You do not have permission to perform this action"
     And I scroll to top
-    When I click "Account"
+    When I follow "Account"
     Then I should see an "My Profile Menu Item" element
 
   Scenario: Turn on Update User Profile capability and set Customer User permissions to None
@@ -98,5 +98,5 @@ Feature: Customer User Update User Profile capability
     And I save form
     Then I should see "You do not have permission to perform this action"
     And I scroll to top
-    When I click "Account"
+    When I follow "Account"
     Then I should see an "My Profile Menu Item" element

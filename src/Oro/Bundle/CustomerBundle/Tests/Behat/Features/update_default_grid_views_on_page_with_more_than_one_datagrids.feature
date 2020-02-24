@@ -7,7 +7,7 @@ Feature: Update default grid views on page with more than one datagrids
 
   Scenario: Edit create new default grid view
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Address Book"
     When I click grid view list on "Customer Company Addresses Grid" grid
     And I click "Save As New"
