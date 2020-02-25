@@ -31,7 +31,7 @@ Feature: Multi-select filter
   Scenario: Check default value "Drop-down" for multiselect filters on front store
     Given I proceed as the User
     And I signed in as AmandaRCole@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Requests For Quote"
     And I click "Filters Dropdown"
     When I click "Filter By Step"

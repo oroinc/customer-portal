@@ -12,7 +12,7 @@ class CustomerUserProfile extends Page
     public function open(array $parameters = [])
     {
         $page = $this->elementFactory->getPage();
-        $page->clickOrPress('Account');
+        $page->clickLink('Account');
         $page->clickOrPress('My Profile');
     }
 }

@@ -8,5 +8,5 @@ Feature: Customer user view own profile
 
   Scenario: User can see own profile
     Given I signed in as NancyJSallee@example.org on the store frontend
-    And click "Account"
+    And follow "Account"
     Then I should see "My profile"

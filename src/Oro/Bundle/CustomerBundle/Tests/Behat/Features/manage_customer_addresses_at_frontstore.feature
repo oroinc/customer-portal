@@ -22,7 +22,7 @@ Feature: Manage Customer addresses at front-store
 
   Scenario: Check Buttons under DataGrids
     Given I signed in as NancyJSallee@example.org on the store frontend
-    When I click "Account"
+    When I follow "Account"
     Then I should see "Address book is empty"
     When I click "Address Book"
     Then I should see "New Address"
@@ -79,14 +79,14 @@ Feature: Manage Customer addresses at front-store
 
   Scenario: Check addresses of assigned user
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Users"
     When I click view "Nancy" in grid
     Then I should see "alert(9)"
     And I should see "alert(11), alert(12), DE-BE"
 
   Scenario: First and Last name, default for current customer user's info, during company address addition
-    Given I click "Account"
+    Given I follow "Account"
     And I click "Address Book"
     And I click "New Company Address"
     Then "OroForm" must contains values:
@@ -94,7 +94,7 @@ Feature: Manage Customer addresses at front-store
       | Last Name  | Cole   |
 
   Scenario: Create address using country without region
-    Given I click "Account"
+    Given I follow "Account"
     When I click "Address Book"
     And I click "New Address"
     And I fill form with:
@@ -127,7 +127,7 @@ Feature: Manage Customer addresses at front-store
 
   Scenario: Check Edit and Delete address buttons for not own address on profile page
     Given I signed in as AmandaRCole@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     When I click "My Profile"
     And click edit alert(9) address
     Then "OroForm" must contains values:

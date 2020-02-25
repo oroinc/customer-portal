@@ -7,7 +7,7 @@ Feature: Change customer user profile
 
   Scenario: Customer user saves and shows profile data
     Given I signed in as NancyJSallee@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Edit"
     And I fill "Customer User Profile Form" with:
       | Name Prefix | Prefix<script>alert("Name Prefix")</script> |

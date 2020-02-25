@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Controller;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LayoutBundle\Layout\LayoutManager;
+use Oro\Bundle\PlatformBundle\Maintenance\Mode;
 use Oro\Bundle\UIBundle\Controller\ExceptionController as BaseExceptionController;
 use Oro\Component\Layout\LayoutContext;
 use Psr\Container\ContainerInterface;
@@ -75,7 +76,8 @@ class ExceptionController extends BaseExceptionController
             $this->container->get(FrontendHelper::class)->isFrontendUrl($request->getPathInfo())
             && $request->getRequestFormat() === 'html'
             && !$this->showException($request)
-            && !$this->isCircularHandlingException();
+            && !$this->isCircularHandlingException()
+            && !$this->container->get(Mode::class)->isOn();
     }
 
     /**
@@ -146,6 +148,7 @@ class ExceptionController extends BaseExceptionController
                 LayoutManager::class,
                 RequestStack::class,
                 TranslatorInterface::class,
+                Mode::class
             ]
         );
     }

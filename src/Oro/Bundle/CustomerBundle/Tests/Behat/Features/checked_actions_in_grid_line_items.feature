@@ -46,7 +46,7 @@ Feature: Checked actions in grid line items
 
     Scenario: Checked actions in grid line items on Address Book page on "All Company Addresses" grid
       Given I signed in as AmandaRCole@example.org on the store frontend
-      And I click "Account"
+      And I follow "Account"
       When I click "Address Book"
       Then I should see "1 Total Company Addresses"
       And I should see following elements in "Customer Company Addresses Grid":
@@ -59,7 +59,7 @@ Feature: Checked actions in grid line items
           | Delete |
 
     Scenario: Checked actions in grid line items on "All Users" grid
-      And I click "Account"
+      And I follow "Account"
       And I click "Users"
       And I should see "11 Total Users"
       And I should see "Create User" button

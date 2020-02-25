@@ -2,9 +2,10 @@
 
 namespace Oro\Bundle\WebsiteBundle\Manager;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\PlatformBundle\Maintenance\Mode;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
@@ -29,13 +30,23 @@ class WebsiteManager
     protected $currentWebsite;
 
     /**
+     * @var Mode
+     */
+    protected $maintenance;
+
+    /**
      * @param ManagerRegistry $managerRegistry
      * @param FrontendHelper $frontendHelper
+     * @param Mode $maintenance
      */
-    public function __construct(ManagerRegistry $managerRegistry, FrontendHelper $frontendHelper)
-    {
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        FrontendHelper $frontendHelper,
+        Mode $maintenance
+    ) {
         $this->managerRegistry = $managerRegistry;
         $this->frontendHelper = $frontendHelper;
+        $this->maintenance = $maintenance;
     }
 
     /**
@@ -43,7 +54,7 @@ class WebsiteManager
      */
     public function getCurrentWebsite()
     {
-        if (!$this->currentWebsite) {
+        if (!$this->currentWebsite && !$this->maintenance->isOn()) {
             $this->currentWebsite = $this->getResolvedWebsite();
         }
 

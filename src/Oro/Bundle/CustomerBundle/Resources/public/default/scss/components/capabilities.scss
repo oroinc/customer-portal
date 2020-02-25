@@ -7,9 +7,10 @@
 .role-capability {
     margin: 16px 0;
 
-    h5 {
+    &__group-title {
         text-transform: uppercase;
         padding-bottom: 16px;
+        font-size: $base-font-size;
     }
 
     &__group-own-title {

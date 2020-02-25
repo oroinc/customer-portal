@@ -73,12 +73,14 @@
     }) %}
 
     <div {{ block('block_attributes') }}>
-        <button class="main-menu__back-trigger"
-                data-go-to="prev">
+        <button class="main-menu__back-trigger" data-go-to="prev">
             <span class="fa-chevron-left" aria-hidden="true"></span>
             {{ 'oro_frontend.fullscreen_popup.back.label'|trans }}
         </button>
-        <div class="main-menu-outer__container">
+        <div class=" main-menu-outer__container"
+             data-page-component-module="oroui/js/app/components/view-component"
+             data-page-component-options="{{ {view: 'oronavigation/js/app/views/navigation-menu-view'}|json_encode }}"
+        >
             {{ block_widget(block) }}
         </div>
     </div>
@@ -86,7 +88,8 @@
 
 {% block _main_menu_list_widget %}
     {% set attr =  layout_attr_defaults(attr, {
-        '~class': 'main-menu'
+        '~class': 'main-menu',
+        'role': 'menu'
     }) %}
     <ul {{ block('block_attributes') }}>
         {{ block_widget(block) }}
@@ -99,7 +102,7 @@
             {% for child in item.children -%}
                 {% if child.displayed and child.extras.isAllowed %}
                     <li class="main-menu__item">
-                        <a href="{{ oro_commercemenu_get_url(child.uri) }}" class="main-menu__link">
+                        <a role="menuitem" href="{{ oro_commercemenu_get_url(child.uri) }}" class="main-menu__link">
                             {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
                             <span class="main-menu__text">{{ label }}</span>
                         </a>
