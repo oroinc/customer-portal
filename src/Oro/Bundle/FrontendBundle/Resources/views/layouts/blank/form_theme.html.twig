@@ -35,7 +35,7 @@
     {% set row_attr = layout_attr_defaults(row_attr|default({}), {
         '~class': [' form-row', parentClass, class_prefix]|join(' ')
     }) %}
-    
+
     {% set widget_attr = attr %}
     {% set attr = row_attr %}
 
@@ -60,6 +60,7 @@
     {%- for error in errors -%}
         {#validation markup should be the same as in frontend validator#}
         <span class="validation-failed">
+            <span class="validation-failed__icon" aria-hidden="true"></span>
             <span>{{ error.message|trans }}</span>
         </span>
     {%- endfor -%}
@@ -113,7 +114,6 @@
     {% set label_attr = layout_attr_defaults(label_attr, {
         '~class': ' custom-radio',
         'data-radio': true,
-        'tabindex': 0,
         'for': id
     }) %}
 
@@ -156,8 +156,8 @@
             nativeMode: isMobileVersion(),
             dateInputAttrs: {
                 placeholder: 'oro.form.choose_date'|trans,
-                id: 'date_selector_' ~ id,
-                name: 'date_selector_' ~ id,
+                id: id,
+                name: id,
                 'data-validation': dateValidation,
                 class: 'datepicker-input ' ~ (attribute(attr, 'class') is defined ? attr['class'] : ''),
             },
@@ -171,7 +171,7 @@
                 minDate: (attribute(datePickerOptions, 'minDate') is defined ? datePickerOptions['minDate'] : minDate)
             }
         } %}
-
+        {% set id = 'hidden_' ~ id %}
         {% set attr = attr|merge({
             'data-page-component-module': 'oroui/js/app/components/viewport-component',
             'data-page-component-options': options|json_encode(constant('JSON_FORCE_OBJECT'))

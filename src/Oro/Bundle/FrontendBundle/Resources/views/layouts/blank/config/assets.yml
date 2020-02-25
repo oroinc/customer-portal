@@ -43,12 +43,14 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/datagrid-manager-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/warning-list-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/headings-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/skip-to-content.scss'
 
         # Bootstrap Optional Components
         - 'bundles/orofrontend/blank/scss/components/bootstrap/bootstrap.scss'
 
         - 'bundles/orofrontend/blank/scss/components/ui/jquery-ui.scss'
         - 'bundles/orofrontend/blank/scss/components/ui/datepicker.scss'
+        - 'bundles/orofrontend/blank/scss/components/skip-to-content.scss'
         - 'bundles/orofrontend/blank/scss/components/embedded-list/embedded-list.scss'
         - 'bundles/orofrontend/blank/scss/components/datagrid/datagrid-toolbar.scss'
         - 'bundles/orofrontend/blank/scss/components/datagrid/datagrid-filters.scss'

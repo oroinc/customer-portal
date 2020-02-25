@@ -23,7 +23,8 @@
 {% block __datagrid_views__datagrid_views_toolbar_header_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid-views__header',
-        'data-toggle': 'dropdown'
+        'data-toggle': 'dropdown',
+        'tabindex': 0
     }) %}
     <% if (choices.length) { %>
     <div {{ block('block_attributes') }}>
@@ -57,11 +58,13 @@
 
 {% block __datagrid_views__datagrid_views_popup_close_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' grid-views__close'
+        '~class': ' btn--plain grid-views__close',
+        'title': 'Close'|trans,
+        'aria-label': 'oro_frontend.datagrid_views.close.aria_label'|trans
     }) %}
-    <span {{ block('block_attributes') }}>
-        <i class="fa-times" data-close></i>
-    </span>
+    <button {{ block('block_attributes') }}>
+        <span class="fa-close fa--no-offset" data-close aria-hidden="true"></span>
+    </button>
 {% endblock %}
 
 {% block __datagrid_views__datagrid_views_popup_container_widget %}
@@ -123,12 +126,13 @@
                             <li class="actions-row__item">
                                 <button class="actions-row__button"
                                         type="button"
+                                        aria-label="<%- action.label %> <%- choice.label %>"
                                         title="<%- action.label %>"
                                         data-role="<%- action.name %>"
                                         data-choice-value="<%- choice.value %>"
                                 >
                                     <% if (action.icon) { %>
-                                        <i class="actions-row__icon fa-<%= action.icon %>"></i>
+                                        <span class="actions-row__icon fa-<%= action.icon %>" aria-hidden="true"></span>
                                     <% } %>
                                 </button>
                             </li>
@@ -153,8 +157,9 @@
                     type="button"
                     data-role="save-new"
                     data-switch-edit-button=""
+                    aria-label="<%- _.__('oro_frontend.datagrid_views.save_as_new.aria_label') %>"
             >
-                <i class="fa-plus-circle hide-text"></i>
+                <span class="fa-plus-circle hide-text" aria-hidden="true"></span>
                 <%- _.__("oro_frontend.datagrid_views.save_as_new") %>
             </button>
         </div>
@@ -168,14 +173,16 @@
                                class="input input--full"
                                type="text"
                                placeholder="<%- _.__('oro_frontend.datagrid_views.placeholder') %>"
+                               aria-label="<%- _.__('oro_frontend.datagrid_views.input.aria_label') %>"
                                data-view-value
                         >
                     </div>
                     <div class="grid__row grid__row--offset-none">
                         <div class="grid__column grid__column--no-gutters-l grid__column--gutter-r-s">
                             <button type="button"
-                                    class="btn btn--info btn--size-xs"
+                                    class="btn btn--info btn--size-s"
                                     data-grid-view-update
+                                    aria-label="<%- _.__('oro_frontend.datagrid_views.add.aria_label') %>"
                                     data-text="<%- _.__('oro_frontend.datagrid_views.add') %>"
                                     data-text-add="<%- _.__('oro_frontend.datagrid_views.add') %>"
                                     data-text-save="<%- _.__('oro_frontend.datagrid_views.save') %>"
@@ -184,15 +191,16 @@
 
                         <div class="grid__column grid__column--no-gutters-l">
                             <button type="button"
-                                    class="btn btn--size-xs"
+                                    class="btn btn--size-s"
                                     data-switch-edit-mode="hide"
+                                    aria-label="<%- _.__('oro_frontend.datagrid_views.cancel.aria_label') %>"
                             ><%- _.__("oro_frontend.datagrid_views.cancel") %></button>
                         </div>
 
                         <div class="grid__column" data-checkbox-container>
-                            <label class="custom-checkbox">
+                            <label class="custom-checkbox" aria-label="<%- _.__('oro_frontend.datagrid_views.set_as_default.aria_label') %>">
                                 <input type="checkbox" name="is_default" class="custom-checkbox__input">
-                                <span class="custom-checkbox__icon"></span>
+                                <span class="custom-checkbox__icon" aria-hidden="true"></span>
                                 <span class="custom-checkbox__text"><%- _.__("oro_frontend.datagrid_views.set_as_default") %></span>
                             </label>
                         </div>

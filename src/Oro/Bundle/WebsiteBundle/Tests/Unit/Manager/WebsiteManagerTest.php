@@ -2,9 +2,10 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Manager;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\PlatformBundle\Maintenance\Mode;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -26,14 +27,18 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
      */
     protected $frontendHelper;
 
+    /**
+     * @var Mode|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $maintenance;
+
     public function setUp()
     {
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
-        $this->frontendHelper = $this->getMockBuilder(FrontendHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->frontendHelper = $this->createMock(FrontendHelper::class);
+        $this->maintenance = $this->createMock(Mode::class);
 
-        $this->manager = new WebsiteManager($this->managerRegistry, $this->frontendHelper);
+        $this->manager = new WebsiteManager($this->managerRegistry, $this->frontendHelper, $this->maintenance);
     }
 
     public function tearDown()
@@ -128,5 +133,19 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertAttributeNotEmpty('currentWebsite', $this->manager);
         $this->manager->onClear();
         $this->assertAttributeEmpty('currentWebsite', $this->manager);
+    }
+
+    public function testGetCurrentWebsiteWhenMaintenanceMode(): void
+    {
+        $this->maintenance
+            ->expects($this->once())
+            ->method('isOn')
+            ->willReturn('true');
+
+        $this->managerRegistry
+            ->expects($this->never())
+            ->method('getManagerForClass');
+
+        $this->assertNull($this->manager->getCurrentWebsite());
     }
 }

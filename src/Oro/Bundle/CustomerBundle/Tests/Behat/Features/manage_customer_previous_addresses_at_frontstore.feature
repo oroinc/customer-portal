@@ -22,7 +22,7 @@ Feature: Manage Customer previous addresses at front-store
 
   Scenario: Check my previous address on profile page
     Given I signed in as AmandaRCole@example.org on the store frontend
-    When I click "Account"
+    When I follow "Account"
     Then I should see "<script>alert(9)</script>"
     And I should see "<script>alert(11)</script>, <script>alert(12)</script>, DE-BE"
 

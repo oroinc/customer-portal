@@ -12,7 +12,7 @@ class CustomerUserProfileUpdate extends Page
     public function open(array $parameters = [])
     {
         $page = $this->elementFactory->getPage();
-        $page->clickOrPress('Account');
+        $page->clickLink('Account');
         $page->clickOrPress('My Profile');
 
         $button = $this->elementFactory->createElement('Edit Profile Button');

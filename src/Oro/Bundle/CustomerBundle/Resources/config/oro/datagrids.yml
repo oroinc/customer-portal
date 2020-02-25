@@ -799,7 +799,6 @@ datagrids:
         entity_name: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
         options:
             frontend: true
-            entityHint: oro.customer.customeruser.entity_plural_label
         acl_resource: oro_customer_frontend_customer_user_view
         source:
             type: orm
@@ -958,7 +957,6 @@ datagrids:
             default:
                 hasRole: DESC
         options:
-            entityHint: oro.customer.customeruser.frontstore_entity_plural_label
             rowSelection:
                 dataField: id
                 columnName: hasRole
@@ -1159,6 +1157,8 @@ datagrids:
     frontend-customer-customer-user-address-grid:
         acl_resource: oro_customer_frontend_customer_user_address_view
         extends: frontend-customer-address-grid-base
+        options:
+            entityHint: oro.customer.customeruser.addresses.label
         source:
             type: orm
             query:

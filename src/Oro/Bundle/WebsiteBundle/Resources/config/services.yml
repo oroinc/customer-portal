@@ -5,6 +5,7 @@ services:
         arguments:
             - "@doctrine"
             - "@oro_frontend.request.frontend_helper"
+            - "@oro_platform.maintenance"
         tags:
             - { name: doctrine.event_listener, event: onClear }
 
@@ -151,12 +152,6 @@ services:
         parent: oro_entity.abstract_repository
         arguments:
             - 'Oro\Bundle\WebsiteBundle\Entity\Website'
-
-    oro_website.form_subscriber.default_website:
-        class: 'Oro\Bundle\WebsiteBundle\Form\EventSubscriber\DefaultWebsiteSubscriber'
-        public: true
-        arguments:
-            - '@oro_website.manager'
 
     oro_website.event_listener.redirect:
         class: 'Oro\Bundle\WebsiteBundle\EventListener\RedirectListener'

@@ -24,7 +24,7 @@ Feature: Disable map previews on the store frontend by config option
 
   Scenario: Check that map previews are visible on the front end
     When I continue as the Buyer
-    And I click "Account"
+    And I follow "Account"
     Then I should see "Map Container" element inside "Default Addresses" element
     And I click "Address Book"
     Then I should see "Map Button" element inside "Customer Company Addresses Grid" element
@@ -45,7 +45,7 @@ Feature: Disable map previews on the store frontend by config option
     And I fill in "Theme" with "Custom theme"
     And I save form
     Then I continue as the Buyer
-    And I click "Account"
+    And I follow "Account"
     And I click "Address Book"
     Then I should see "Map Container" element inside "Customer Company Addresses List" element
     Then I should see "Map Container" element inside "Customer Company User Addresses List" element
@@ -58,7 +58,7 @@ Feature: Disable map previews on the store frontend by config option
     And I fill in "Enable Map Preview" with "No"
     And I save form
     Then I continue as the Buyer
-    And I click "Account"
+    And I follow "Account"
     Then I should not see "Map Container" element inside "Default Addresses" element
     And I click "Address Book"
     Then I should not see "Map Container" element inside "Customer Company Addresses List" element
@@ -79,7 +79,7 @@ Feature: Disable map previews on the store frontend by config option
     And I fill in "Enable Map Preview" with "No"
     And I save form
     Then I continue as the Buyer
-    And I click "Account"
+    And I follow "Account"
     Then I should not see "Map Container" element inside "Default Addresses" element
     And I click "Address Book"
     Then I should not see "Map Container" element inside "Customer Company Addresses List" element
@@ -101,7 +101,7 @@ Feature: Disable map previews on the store frontend by config option
     And I fill in "Enable Map Preview" with "No"
     And I save form
     Then I continue as the Buyer
-    And I click "Account"
+    And I follow "Account"
     Then I should not see "Map Container" element inside "Default Addresses" element
     And I click "Address Book"
     Then I should not see "Map Container" element inside "Customer Company Addresses List" element
@@ -125,7 +125,7 @@ Feature: Disable map previews on the store frontend by config option
     And I fill in "Enable Map Preview" with "No"
     And I save form
     Then I continue as the Buyer
-    And I click "Account"
+    And I follow "Account"
     Then I should not see "Map Container" element inside "Default Addresses" element
     And I click "Address Book"
     Then I should not see "Map Button" element inside "Customer Company Addresses Grid" element
@@ -145,7 +145,7 @@ Feature: Disable map previews on the store frontend by config option
     And I fill in "Enable Map Preview" with "No"
     And I save form
     Then I continue as the Buyer
-    And I click "Account"
+    And I follow "Account"
     Then I should not see "Map Container" element inside "Default Addresses" element
     And I click "Address Book"
     Then I should not see "Map Button" element inside "Customer Company Addresses Grid" element
@@ -167,7 +167,7 @@ Feature: Disable map previews on the store frontend by config option
     And I fill in "Enable Map Preview" with "No"
     And I save form
     Then I continue as the Buyer
-    And I click "Account"
+    And I follow "Account"
     Then I should not see "Map Container" element inside "Default Addresses" element
     And I click "Address Book"
     Then I should not see "Map Button" element inside "Customer Company Addresses Grid" element
@@ -175,7 +175,7 @@ Feature: Disable map previews on the store frontend by config option
 
   Scenario: Check that map previews and map icons are hidden when disabled (mobile view)
     Given I continue as the Buyer
-    And I click "Account"
+    And I follow "Account"
     And I set window size to 320x640
     Then I should not see "Map Container" element inside "Default Addresses" element
     And I should not see "Map Icon" element inside "Default Addresses" element
@@ -190,7 +190,7 @@ Feature: Disable map previews on the store frontend by config option
     And I fill in "Enable Map Preview" with "Yes"
     And I save form
     Then I continue as the Buyer
-    And I click "Account"
+    And I follow "Account"
     And I set window size to 320x640
     Then I should see "Map Icon" element inside "Default Addresses" element
     When I click on "Map Icon"

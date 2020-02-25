@@ -9,7 +9,7 @@ Feature: Create customer user from the store-front
 
   Scenario: Create new user from front-store
     Given I signed in as NancyJSallee@example.org on the store frontend
-    And click "Account"
+    And follow "Account"
     And click "Users"
     And click "Create User"
     And fill form with:

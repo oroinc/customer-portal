@@ -7,7 +7,7 @@ Feature: Customer user roles removing last role frontend
 
   Scenario: Customer user role create
     Given I signed in as NancyJSallee@example.org on the store frontend
-    And I click "Account"
+    And I follow "Account"
     And I click "Roles"
     And I click Edit Buyer in grid
     And I fill form with:

@@ -9,7 +9,7 @@
             text-decoration: none;
         }
     }
-    
+
     &__list {
         @include list-normalize();
         @include clearfix();
@@ -51,6 +51,7 @@
 @include only-desktop() {
     .main-menu {
         &__item {
+            &.show,
             &:hover {
                 background: get-color('additional', 'base');
             }
@@ -58,6 +59,9 @@
 
         &__link {
             white-space: nowrap;
+
+            position: relative;
+            z-index: z('base');
         }
     }
 }
@@ -110,7 +114,7 @@
 
         .mobile-version & {
             &__item {
-                &.open {
+                &.show {
                     background: get-color('additional', 'base');
                 }
             }

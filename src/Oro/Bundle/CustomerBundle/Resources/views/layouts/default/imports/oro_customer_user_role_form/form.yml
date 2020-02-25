@@ -29,8 +29,6 @@ layout:
                             customer: '=data["customizableRole"].getCustomer().getId()'
                         grid_render_parameters:
                             cssClass: 'frontend-datagrid'
-                            gridViewsOptions:
-                                text: 'oro.customer.customer_user.role.users'
                             themeOptions:
                                 actionOptions:
                                     refreshAction:

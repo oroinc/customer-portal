@@ -48,11 +48,6 @@ layout:
 
         - '@setOption':
             id: __addresses_datagrid
-            optionName: grid_render_parameters.gridViewsOptions.text
-            optionValue: 'oro.customer.customer_address_book.customer_addresses'
-
-        - '@setOption':
-            id: __addresses_datagrid
             optionName: grid_render_parameters.gridViewsOptions.icon
             optionValue: 'map-marker'
 

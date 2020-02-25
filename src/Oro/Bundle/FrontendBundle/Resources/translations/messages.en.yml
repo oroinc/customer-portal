@@ -11,6 +11,7 @@ oro_frontend:
     logo:
         alt:
             label: 'OroCommerce'
+        aria_label: 'Home'
     widget_form_component:
         save_flash_success: Saved successfully
     form:
@@ -110,6 +111,7 @@ oro_frontend:
 
     datagrid_views:
         saved_views: 'Saved Views'
+        close.aria_label: 'Close the Saved Views drop-down'
 
     ui:
         tab_view_more: 'View more...'

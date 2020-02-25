@@ -44,6 +44,7 @@ define(function(require, exports, module) {
          */
         listen: {
             'metadata-loaded': 'onMetadataLoaded',
+            'total-records-count-updated': 'onTotalRecordsCountUpdate',
             'filters-manager:after-applying-state mediator': 'rerenderFilter'
         },
 

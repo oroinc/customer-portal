@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class CacheableWebsiteProvider implements WebsiteProviderInterface
 {
-    const WEBSITE_IDS_CACHE_KEY = 'oro_website_entity_ids';
+    private const WEBSITE_IDS_CACHE_KEY = 'oro_website_entity_ids';
 
     /** @var WebsiteProviderInterface */
     private $websiteProvider;

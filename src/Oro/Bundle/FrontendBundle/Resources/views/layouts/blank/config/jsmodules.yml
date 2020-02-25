@@ -5,6 +5,7 @@ aliases:
     orofrontend/js/app/views/frontend-select-filter$: orofrontend/blank/js/app/views/frontend-select-filter
     slick$: npmassets/slick-carousel/slick/slick
 app-modules:
+    - orofrontend/blank/js/app/modules/modals-module
     - orofrontend/default/js/app/modules/input-widgets
     - orofrontend/default/js/app/modules/zoom-disable
     - orofrontend/js/app/modules/component-shortcuts-module
@@ -25,6 +26,7 @@ configs:
 dynamic-imports:
     orofrontend:
         - orofrontend/blank/js/app/views/fullscreen-popup-view
+        - orofrontend/blank/js/app/views/proxy-focus-view
         - orofrontend/blank/js/widgets/print-page-widget
         - orofrontend/default/js/app/views/choice-filter
         - orofrontend/default/js/app/views/footer-align-view
