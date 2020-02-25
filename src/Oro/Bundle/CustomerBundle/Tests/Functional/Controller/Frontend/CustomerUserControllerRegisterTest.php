@@ -165,7 +165,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertEquals(
             'Sign In',
-            trim($crawler->filter('.login-form h2')->html())
+            trim($crawler->filter('.login-form h1')->html())
         );
         $this->assertContains('Please check your email to complete registration', $crawler->html());
 
@@ -266,14 +266,14 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertEquals(
             'Sign In',
-            trim($crawler->filter('.login-form h2')->html())
+            trim($crawler->filter('.login-form h1')->html())
         );
 
         $forgotPasswordLink = $crawler->filter('a:contains("Forgot Your Password?")')->link();
         $crawler = $this->client->click($forgotPasswordLink);
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertEquals('Forgot Your Password?', $crawler->filter('h2')->html());
+        $this->assertEquals('Forgot Your Password?', $crawler->filter('h1')->html());
 
         $this->assertKnownEmail($crawler);
 
@@ -291,7 +291,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertEquals('Create New Password', $crawler->filter('h2')->html());
+        $this->assertEquals('Create New Password', $crawler->filter('h1')->html());
 
         $form = $crawler->selectButton('Create')->form();
 
@@ -312,7 +312,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertEquals(
             'Sign In',
-            trim($crawler->filter('.login-form h2')->html())
+            trim($crawler->filter('.login-form h1')->html())
         );
         $this->assertContains('Password was created successfully.', $crawler->html());
     }
@@ -401,7 +401,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
 
-        $this->assertEquals('Check Email', $crawler->filter('h2')->html());
+        $this->assertEquals('Check Email', $crawler->filter('h1')->html());
     }
 
     public function testConfirmEmailSameUsernameForUserAndVisitor()

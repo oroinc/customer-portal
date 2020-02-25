@@ -283,7 +283,11 @@ operations:
                         id: $id
 
     oro_customer_frontend_profile_user:
-        label: oro.customer.action.customer_user.edit
+        label: oro.customer.action.customer_user.edit_btn.label
+        frontend_options:
+            title: oro.customer.action.customer_user.edit_btn.title
+            options:
+                ariaLabel: oro.customer.action.customer_user.edit_btn.aria_label
         applications: [commerce]
         routes:
             - oro_customer_frontend_customer_user_profile

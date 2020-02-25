@@ -2,12 +2,12 @@
     <% if (icon) { %>
         <span class="grid-views__piece">
             <span class="badge <%= iconClass %>">
-                <i class="fa-<%= icon %>"></i>
+                <span class="fa-<%= icon %>" aria-hidden="true"></span>
             </span>
         </span>
     <% } %>
     <span class="grid-views__title-text">
         <%- title %>
-        <i class="fa-angle-down"></i>
+        <span class="fa-angle-down" aria-hidden="true"></span>
     </span>
 </h2>

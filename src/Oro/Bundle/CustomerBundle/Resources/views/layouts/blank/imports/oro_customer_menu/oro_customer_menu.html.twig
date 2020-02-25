@@ -12,7 +12,11 @@
 
 {% block __oro_customer_menu__list_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' primary-menu primary-menu--vertical'
+        '~class': ' primary-menu primary-menu--vertical',
+        'data-page-component-module': 'oroui/js/app/components/view-component',
+        'data-page-component-options': {
+            view: 'oronavigation/js/app/views/navigation-menu-view'
+        }
     }) %}
     <ul {{ block('block_attributes') }}>
         {% set found = false %}
