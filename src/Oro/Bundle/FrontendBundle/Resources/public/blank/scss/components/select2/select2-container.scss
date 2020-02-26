@@ -96,18 +96,26 @@
         display: none;
     }
 
-    &.select2-allowclear .select2-search-choice-close {
-        display: inline-block;
-        width: $font-icon-button-m;
-        height: $font-icon-button-m;
-        position: absolute;
-        right: 24px;
-        top: 10px;
-        font-size: $font-icon-button-m;
-        cursor: pointer;
-        z-index: 1;
+    &.select2-allowclear {
+        .select2-chosen {
+            padding-right: 18px;
+        }
 
-        @include fa-icon($fa-var-remove);
+        .select2-search-choice-close {
+            display: inline-block;
+            position: absolute;
+            right: 26px;
+            top: 50%;
+            margin-top: -($base-font-size / 2 + 1);
+            cursor: pointer;
+            z-index: 1;
+
+            @include fa-icon($fa-var-remove);
+
+            &:hover {
+                opacity: 0.9;
+            }
+        }
     }
 
     &.error {
