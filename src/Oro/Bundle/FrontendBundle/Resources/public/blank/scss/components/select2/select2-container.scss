@@ -7,9 +7,9 @@
     background: get-color('additional', 'ultra');
 
     font-size: $base-font-size;
-    line-height: 1;
+    line-height: $base-ui-element-line-height;
 
-    border: 1px solid get-color(additional, 'light');
+    border: 1px solid get-color('additional', 'light');
     border-radius: $select2-container-border-radius;
 
     outline: none;
@@ -94,6 +94,28 @@
 
     .select2-search-choice-close {
         display: none;
+    }
+
+    &.select2-allowclear {
+        .select2-chosen {
+            padding-right: 18px;
+        }
+
+        .select2-search-choice-close {
+            display: inline-block;
+            position: absolute;
+            right: 26px;
+            top: 50%;
+            margin-top: -($base-font-size / 2 + 1);
+            cursor: pointer;
+            z-index: 1;
+
+            @include fa-icon($fa-var-remove);
+
+            &:hover {
+                opacity: 0.9;
+            }
+        }
     }
 
     &.error {
