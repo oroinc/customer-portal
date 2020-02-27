@@ -16,15 +16,33 @@ define(function(require) {
         /**
          * @property {Object}
          */
-        disabledOptions: null,
+        countsWithoutFilters: null,
+
+        /**
+         * @property {Number}
+         */
+        totalRecordsCount: 0,
+
+        /**
+         * @property {Boolean}
+         */
+        isDisableFiltersEnabled: false,
 
         /**
          * @param {Object} metadata
          */
         onMetadataLoaded: function(metadata) {
             this.counts = metadata.counts || null;
-            this.disabledOptions = metadata.disabledOptions || null;
+            this.countsWithoutFilters = metadata.countsWithoutFilters || null;
+            this.isDisableFiltersEnabled = metadata.isDisableFiltersEnabled || false;
             this.rerenderFilter();
+        },
+
+        /**
+         * @param {Number} totalRecordsCount
+         */
+        onTotalRecordsCountUpdate: function(totalRecordsCount) {
+            this.totalRecordsCount = totalRecordsCount;
         },
 
         rerenderFilter: function() {
@@ -43,16 +61,38 @@ define(function(require) {
 
             var options = $.extend(true, {}, data.options || {});
             var that = this;
+            var filterOptions = function(option) {
+                if (that.isDisableFiltersEnabled && _.has(that.countsWithoutFilters, option.value)) {
+                    option.disabled = true;
+                } else {
+                    options = _.without(options, option);
+                }
+            };
+
             _.each(options, function(option) {
                 option.count = that.counts[option.value] || 0;
+                option.disabled = false;
                 if (option.count === 0 &&
-                    !_.contains(that.disabledOptions, option.value) &&
-                    !_.contains(data.selected.value, option.value)) {
-                    options = _.without(options, option);
+                    !_.contains(data.selected.value, option.value)
+                ) {
+                    filterOptions(option);
                 }
             });
 
-            this.visible = !(_.isEmpty(options) && _.isEmpty(this.disabledOptions));
+            var nonZeroOptions = _.filter(options, function(option) {
+                return option.count > 0;
+            });
+            if (nonZeroOptions.length === 1) {
+                _.each(options, function(option) {
+                    if (option.count === that.totalRecordsCount &&
+                        !_.contains(data.selected.value, option.value)
+                    ) {
+                        filterOptions(option);
+                    }
+                });
+            }
+
+            this.visible = !_.isEmpty(options);
             data.options = options;
 
             return data;

@@ -10,7 +10,7 @@ class ExceptionControllerTest extends WebTestCase
 {
     use ResponseExtension;
 
-    public function testShowActionNotFoundFrontend()
+    public function testShowActionNotFoundFrontend(): void
     {
         $this->initClient(
             [],
@@ -25,7 +25,50 @@ class ExceptionControllerTest extends WebTestCase
         $this->assertContains('Not Found', $this->getClient()->getResponse()->getContent());
     }
 
-    public function testShowActionNotFoundBackend()
+    public function testWhenMaintenanceModeFrontend(): void
+    {
+        $this->initClient(
+            [],
+            $this->generateBasicAuthHeader(LoadCustomerUserData::AUTH_USER, LoadCustomerUserData::AUTH_PW)
+        );
+
+        $maintenance = $this->getContainer()->get('oro_platform.maintenance');
+        $maintenance->activate();
+
+        $this->client->followRedirects();
+        $this->client->request('GET', '/page-does-not-exist');
+
+        $this->assertLastResponseStatus(503);
+        $this->assertLastResponseContentTypeHtml();
+        $this->assertContains(
+            'The System is currently under maintenance and should be available in a few minutes.',
+            $this->getClient()->getResponse()->getContent()
+        );
+
+        $maintenance->off();
+    }
+
+    public function testWhenMaintenanceModeBackend(): void
+    {
+        $this->initClient([], $this->generateBasicAuthHeader());
+
+        $maintenance = $this->getContainer()->get('oro_platform.maintenance');
+        $maintenance->activate();
+
+        $this->client->followRedirects();
+        $this->client->request('GET', '/admin');
+
+        $this->assertLastResponseStatus(503);
+        $this->assertLastResponseContentTypeHtml();
+        $this->assertContains(
+            'The System is currently under maintenance and should be available in a few minutes.',
+            $this->getClient()->getResponse()->getContent()
+        );
+
+        $maintenance->off();
+    }
+
+    public function testShowActionNotFoundBackend(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);

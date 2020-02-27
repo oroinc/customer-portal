@@ -105,10 +105,8 @@ class CustomerAssignHelper
         }
 
         // skip association if if configured to cascade delete
-        if ((
-            $association['type'] === ClassMetadataInfo::MANY_TO_ONE
-                && $association['joinColumns'][0]['onDelete'] === 'CASCADE'
-            )
+        if (($association['type'] === ClassMetadataInfo::MANY_TO_ONE
+                && $association['joinColumns'][0]['onDelete'] === 'CASCADE')
             || ($association['type'] === ClassMetadataInfo::MANY_TO_MANY
                 && $association['joinTable']['inverseJoinColumns'][0]['onDelete'] === 'CASCADE')
         ) {

@@ -5,9 +5,11 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Manager;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Oro\Bundle\PlatformBundle\Maintenance\Mode;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
 {
@@ -26,14 +28,32 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
      */
     protected $frontendHelper;
 
+    /**
+     * @var ContainerInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $container;
+
+    /**
+     * @var Mode|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $maintenance;
+
     public function setUp()
     {
+        $this->container = $this->createMock(ContainerInterface::class);
+        $this->container
+            ->expects($this->any())
+            ->method('get')
+            ->with('oro_platform.maintenance')
+            ->willReturn($this->maintenance = $this->createMock(Mode::class));
+
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->frontendHelper = $this->getMockBuilder(FrontendHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->manager = new WebsiteManager($this->managerRegistry, $this->frontendHelper);
+        $this->manager->setContainer($this->container);
     }
 
     public function tearDown()
@@ -128,5 +148,19 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
         $this->assertAttributeNotEmpty('currentWebsite', $this->manager);
         $this->manager->onClear();
         $this->assertAttributeEmpty('currentWebsite', $this->manager);
+    }
+
+    public function testGetCurrentWebsiteWhenMaintenanceMode(): void
+    {
+        $this->maintenance
+            ->expects($this->once())
+            ->method('isOn')
+            ->willReturn('true');
+
+        $this->managerRegistry
+            ->expects($this->never())
+            ->method('getManagerForClass');
+
+        $this->assertNull($this->manager->getCurrentWebsite());
     }
 }
