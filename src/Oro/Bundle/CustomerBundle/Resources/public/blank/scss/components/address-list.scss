@@ -22,7 +22,7 @@
         padding: 3px 7px;
 
         color: get-color('additional', 'ultra');
-        border-radius: 5px;
+        border-radius: $address-list-primary-border-radius;
         background-color: get-color('primary', 'main');
     }
 

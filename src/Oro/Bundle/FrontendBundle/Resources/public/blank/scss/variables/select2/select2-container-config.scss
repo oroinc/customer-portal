@@ -26,3 +26,6 @@ $select2-container-input-success-border: 1px solid get-color('secondary', 'light
 
 $select2-drop-border-radius: null !default;
 $select2-drop-above-border-radius: null !default;
+
+$select2-drop-result-active-background-color: get-color('ui', 'focus') !default;
+$select2-drop-result-active-color: get-color('additional', 'ultra') !default;

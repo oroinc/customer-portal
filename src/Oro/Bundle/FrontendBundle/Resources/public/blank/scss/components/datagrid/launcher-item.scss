@@ -42,6 +42,7 @@
 
     .action {
         display: block;
+        color: $launcher-item-icon-action-color;
 
         &.mode-icon-only {
             color: $launcher-item-icon-color;

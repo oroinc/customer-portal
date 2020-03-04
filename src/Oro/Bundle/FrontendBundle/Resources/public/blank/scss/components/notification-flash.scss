@@ -21,6 +21,14 @@
         @extend .notification-flash;
         background: get-color('ui', 'success');
         color: get-color('ui', 'success-dark');
+
+        .notification-flash__close {
+            color: get-color('ui', 'success-dark');
+        }
+
+        .notification-flash__badge {
+            background: get-color('ui', 'success-dark');
+        }
     }
 
     &--warning,
@@ -29,12 +37,28 @@
         @extend .notification-flash;
         background: get-color('ui', 'warning');
         color: get-color('ui', 'warning-dark');
+
+        .notification-flash__close {
+            color: get-color('ui', 'warning-dark');
+        }
+
+        .notification-flash__badge {
+            background: get-color('ui', 'warning-dark');
+        }
     }
 
     &--error {
         @extend .notification-flash;
         background: get-color('ui', 'error');
         color: get-color('ui', 'error-dark');
+
+        .notification-flash__close {
+            color: get-color('ui', 'error-dark');
+        }
+
+        .notification-flash__badge {
+            background: get-color('ui', 'error-dark');
+        }
     }
 
     &__badge {

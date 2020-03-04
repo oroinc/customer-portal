@@ -163,8 +163,8 @@
 
     .select2-highlighted,
     .select2-result.active {
-        background-color: get-color('ui', 'focus');
-        color: get-color('additional', 'ultra');
+        background-color: $select2-drop-result-active-background-color;
+        color: $select2-drop-result-active-color;
     }
 
     &.select2-drop-auto-width {

@@ -47,7 +47,7 @@
     &__icon {
         margin-right: 5px;
 
-        @include badge(20px, 11px, get-color('primary', 'light'), 3px);
+        @include badge($quick-access-icon-size, $quick-access-icon-font-size, $quick-access-icon-color, $quick-access-icon-border-radius);
 
         &--light {
             background-color: get-color('secondary', 'main');

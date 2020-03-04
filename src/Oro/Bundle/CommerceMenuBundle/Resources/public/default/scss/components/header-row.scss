@@ -8,6 +8,8 @@
 
     justify-content: space-between;
 
+    border: $header-row-border;
+
     @include clearfix();
 
     &__container {
@@ -68,6 +70,8 @@
 
         margin: 0 (-$offset-x-m);
 
+        border: $header-row-border-tablet;
+
         &__container {
             position: static;
 
@@ -80,6 +84,11 @@
                     box-shadow: inset 0 4px 4px -2px rgba(0, 0, 0, .2);
                 }
             }
+        }
+
+        &__trigger {
+            background-color: $header-row-trigger-background-color-tablet;
+            border-right: $header-row-trigger-border-tablet;
         }
 
         &__toggle {

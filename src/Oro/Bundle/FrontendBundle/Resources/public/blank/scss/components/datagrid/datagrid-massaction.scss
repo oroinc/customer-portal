@@ -38,6 +38,10 @@
         }
     }
 
+    .dropdown-toggle {
+        font-weight: $datagrid-massaction-toggle-font-weight;
+    }
+
     &__invisible {
         position: absolute;
         top: 0;
