@@ -77,8 +77,10 @@
 
         & .cart-widget__text {
             display: inline-block;
+        }
 
-            font-size: 0;
+        & .cart-widget-name {
+            @include sr-only();
         }
 
         & .cart-widget__text strong {
