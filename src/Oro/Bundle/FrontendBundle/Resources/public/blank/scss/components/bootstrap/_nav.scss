@@ -26,5 +26,13 @@
                 box-shadow: $nav-tabs-link-active-color-focus-visible;
             }
         }
+
+        border: $nav-tabs-link-border;
+        margin-right: $nav-tabs-link-right-offset;
+
+        &:hover,
+        &:focus {
+            background-color: $nav-tabs-link-hover-background-color;
+        }
     }
 }

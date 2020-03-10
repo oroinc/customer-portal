@@ -1,3 +1,23 @@
 .page-footer {
-    background: get-color('additional', 'base');
+    background: $page-footer-background;
+
+    &-container {
+        padding: $page-footer-container-offset;
+    }
+}
+
+@include breakpoint('tablet') {
+    .page-footer {
+        &-container {
+            padding: $page-footer-container-offset-tablet;
+        }
+
+        .collapse-view {
+            &__trigger {
+                &-icon {
+                    color: $footer-collapse-view-trigger-icon-tablet-color;
+                }
+            }
+        }
+    }
 }

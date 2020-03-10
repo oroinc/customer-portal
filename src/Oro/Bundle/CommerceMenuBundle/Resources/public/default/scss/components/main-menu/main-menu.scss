@@ -72,6 +72,16 @@
 
         display: flex;
 
+        &-column__title {
+            font-weight: $main-menu-column-title-desktop-font-weight;
+        }
+
+        > .main-menu__item {
+            > .main-menu__link {
+                font-weight: $main-menu-item-first-level-desktop-font-weight;
+            }
+        }
+
         &__view-parent {
             display: none;
         }

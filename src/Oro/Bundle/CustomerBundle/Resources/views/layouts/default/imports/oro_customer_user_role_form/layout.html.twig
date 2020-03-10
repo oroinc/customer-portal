@@ -35,7 +35,8 @@
 
 {% block __oro_customer_user_role_form__customer_user_role_form_actions_bottom_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': ' pull-right mt2-md'
+        '~class': ' pull-right',
+        'data-bottom-actions': ''
     }) %}
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}

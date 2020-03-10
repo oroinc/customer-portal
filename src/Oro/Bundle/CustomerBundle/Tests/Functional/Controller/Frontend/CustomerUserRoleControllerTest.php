@@ -77,7 +77,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $this->assertContains('frontend-customer-user-role-permission-grid', $crawler->html());
         $this->assertContains('frontend-customer-customer-users-grid', $crawler->html());
 
-        $form = $crawler->selectButton('Create')->form();
+        $form = $crawler->filter('[data-bottom-actions] button:contains(Create)')->form();
         $form['oro_customer_frontend_customer_user_role[label]'] = self::ACCOUNT_ROLE;
         $form['oro_customer_frontend_customer_user_role[privileges]'] = json_encode($this->privileges);
 

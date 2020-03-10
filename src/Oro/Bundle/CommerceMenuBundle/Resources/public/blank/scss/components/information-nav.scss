@@ -29,12 +29,18 @@
             margin: $information-nav-item-offset;
         }
 
-
         &-content {
-            color: $information-nav-item-content-color;
+            @at-root {
+                a#{&} {
+                    color: $information-nav-item-content-color;
+                    &:hover {
+                        color: $information-nav-item-content-color-hover;
+                    }
+                }
 
-            &:hover {
-                color: $information-nav-item-content-color-hover;
+                span#{&} {
+                    color: $information-nav-item-content-text-color;
+                }
             }
         }
     }

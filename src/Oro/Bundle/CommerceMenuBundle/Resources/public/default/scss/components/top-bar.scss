@@ -2,6 +2,8 @@
 
 .topbar {
     background: $top-bar-background;
+    color: $top-bar-color;
+    font-size: $top-bar-font-size;
 
     &__dropdown {
         position: absolute;

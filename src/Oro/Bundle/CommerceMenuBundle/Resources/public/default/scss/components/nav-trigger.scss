@@ -18,10 +18,11 @@
 
         text-align: center;
 
-        @include badge(33px, 18px, get-color('additional', 'dark'), 50%, get-color('additional', 'ultra'));
+        @include badge($nav-trigger-icon-size, $nav-trigger-icon-font-size, $nav-trigger-icon-background-color, $nav-trigger-icon-radius, $nav-trigger-icon-color);
 
         &--transparent {
             background-color: transparent;
+            color: $nav-trigger-icon-transparent-color;
         }
 
         &--chromatic {
@@ -77,8 +78,10 @@
 
         & .cart-widget__text {
             display: inline-block;
+        }
 
-            font-size: 0;
+        & .cart-widget-name {
+            @include sr-only();
         }
 
         & .cart-widget__text strong {

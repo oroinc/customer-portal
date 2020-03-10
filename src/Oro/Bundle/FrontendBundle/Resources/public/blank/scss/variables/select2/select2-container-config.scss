@@ -2,8 +2,8 @@
 
 $select2-container-arrow-height: 18px !default;
 $select2-container-arrow-size: 5px !default;
-$select2-container-size-l: 12px 11px !default;
-$select2-container-size-m: 10px !default;
+$select2-container-size-l: 11px !default;
+$select2-container-size-m: 8px !default;
 $select2-container-size-s: 8px !default;
 $select2-container-input-inner-offset: 6px 8px !default;
 
@@ -26,3 +26,6 @@ $select2-container-input-success-border: 1px solid get-color('secondary', 'light
 
 $select2-drop-border-radius: null !default;
 $select2-drop-above-border-radius: null !default;
+
+$select2-drop-result-active-background-color: get-color('ui', 'focus') !default;
+$select2-drop-result-active-color: get-color('additional', 'ultra') !default;

@@ -5,7 +5,7 @@
     line-height: normal;
     text-align: center;
 
-    border-top: 1px solid get-color('additional', 'light');
+    border-top: $copyright-border-top;
 }
 
 @include breakpoint('mobile') {

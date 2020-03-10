@@ -23,12 +23,17 @@
     $slick-arrow-border: none,
     $slick-arrow-border-radius: null,
 
+    $slick-arrow-focus-visible: $base-ui-bth-focus-style,
+
+    $slick-arrow-focus-background: null,
+
     $slick-arrow-next-right: 0,
     $slick-arrow-prev-left: 0,
 
     $slick-arrow-icon-size: $base-font-size,
     $slick-arrow-icon-color: get-color('additional', 'middle'),
     $slick-arrow-icon-hover-color: get-color('additional', 'dark'),
+    $slick-arrow-icon-focus-color: get-color('additional', 'dark'),
     $slick-arrow-icon-display: block,
 
     $slick-arrow-prev-icon: $fa-var-angle-left,
@@ -63,6 +68,10 @@
 
         cursor: pointer;
 
+        &.focus-visible {
+            box-shadow: $slick-arrow-focus-visible;
+        }
+
         &:before,
         &:after {
             display: $slick-arrow-icon-display;
@@ -78,6 +87,15 @@
             &:before,
             &:after {
                 color: $slick-arrow-icon-hover-color;
+            }
+        }
+
+        @include element-state('focus') {
+            background: $slick-arrow-focus-background;
+
+            &:before,
+            &:after {
+                color: $slick-arrow-icon-focus-color;
             }
         }
     }

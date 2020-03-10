@@ -37,7 +37,7 @@
     }
 
     @include element-state('disabled') {
-        @include base-disabled-style(.75);
+        @include base-disabled-style($disabled-button-opacity);
         @include box-shadow($btn-disabled-box-shadow);
     }
 
