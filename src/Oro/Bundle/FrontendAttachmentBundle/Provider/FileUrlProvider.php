@@ -155,14 +155,14 @@ class FileUrlProvider implements FileUrlProviderInterface
             // File does not belong to backoffice.
             return true;
         }
-
-        if (!$this->configManager->get('oro_frontend.guest_access_enabled')) {
-            return false;
-        }
-
+        
         if (!$this->fileAccessControlChecker->isCoveredByAcl($file)) {
             // File is publicly accessible.
             return true;
+        }
+        
+        if (!$this->configManager->get('oro_frontend.guest_access_enabled')) {
+            return false;
         }
 
         $currentApplication = $this->currentApplicationProvider->getCurrentApplication();
