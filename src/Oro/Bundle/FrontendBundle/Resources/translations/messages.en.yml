@@ -117,3 +117,4 @@ oro_frontend:
         tab_view_more: 'View more...'
 
     scroll_to_the_top: 'Scroll to the top'
+    avaliable_credit_cards.aria_label: Avaliable Credit Cards

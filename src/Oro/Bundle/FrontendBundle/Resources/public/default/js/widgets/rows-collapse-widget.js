@@ -49,12 +49,17 @@ define([
 
         _applyStateOnTrigger: function(isOpen) {
             if (isOpen) {
-                this.$trigger.text(_.__('oro_frontend.rows_collapse.trigger.label.normal'));
+                this.$trigger
+                    .find('[data-collapse-text]')
+                    .text(_.__('oro_frontend.rows_collapse.trigger.label.normal'));
             } else {
-                this.$trigger.text(_.__('oro_frontend.rows_collapse.trigger.label.truncated', {
-                    hiddenRows: this.calculateHiddenRows()
-                }));
+                this.$trigger
+                    .find('[data-collapse-text]')
+                    .text(_.__('oro_frontend.rows_collapse.trigger.label.truncated', {
+                        hiddenRows: this.calculateHiddenRows()
+                    }));
             }
+            this.$trigger.attr('aria-expanded', isOpen);
             this._super();
         },
 
