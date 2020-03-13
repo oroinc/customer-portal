@@ -194,6 +194,8 @@ services:
             - '@doctrine'
             - '@oro_config.manager'
             - '@oro_security.token_accessor'
+        calls:
+            - [setWebsiteManager, ['@oro_website.manager']]
 
     oro_customer.security.provider:
         class: Oro\Bundle\UserBundle\Security\UserProvider
