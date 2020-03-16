@@ -7,6 +7,9 @@
 
         color: $collapse-view-trigger-color;
 
+        border: $collapse-view-trigger-border;
+        background: $collapse-view-trigger-bg;
+
         &-icon {
             margin: -2px $offset-x-s 0;
 
@@ -23,7 +26,10 @@
         }
 
         &-text {
-            color: $collapse-view-trigger-text-color;
+            &:focus,
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 

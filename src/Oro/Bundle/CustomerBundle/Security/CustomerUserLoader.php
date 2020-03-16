@@ -9,6 +9,7 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessor;
 use Oro\Bundle\UserBundle\Entity\UserInterface;
 use Oro\Bundle\UserBundle\Security\UserLoaderInterface;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 /**
  * Loads CustomerUser entity from the database for the authentication system.
@@ -24,6 +25,9 @@ class CustomerUserLoader implements UserLoaderInterface
     /** @var TokenAccessor */
     private $tokenAccessor;
 
+    /** @var WebsiteManager */
+    private $websiteManager;
+
     /**
      * @param ManagerRegistry $doctrine
      * @param ConfigManager   $configManager
@@ -37,6 +41,14 @@ class CustomerUserLoader implements UserLoaderInterface
         $this->doctrine = $doctrine;
         $this->configManager = $configManager;
         $this->tokenAccessor = $tokenAccessor;
+    }
+
+    /**
+     * @param WebsiteManager $websiteManager
+     */
+    public function setWebsiteManager(WebsiteManager $websiteManager)
+    {
+        $this->websiteManager = $websiteManager;
     }
 
     /**
@@ -72,6 +84,11 @@ class CustomerUserLoader implements UserLoaderInterface
         $useLowercase = (bool)$this->configManager->get('oro_customer.case_insensitive_email_addresses_enabled');
 
         $organization = $this->tokenAccessor->getOrganization();
+        if (!$organization) {
+            $website = $this->websiteManager->getCurrentWebsite();
+            $organization = $website ? $website->getOrganization() : null;
+        }
+
         if (null !== $organization) {
             return $this->getRepository()->findUserByEmailAndOrganization($email, $organization, $useLowercase);
         }
