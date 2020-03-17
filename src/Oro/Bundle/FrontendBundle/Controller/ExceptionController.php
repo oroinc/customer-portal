@@ -29,10 +29,14 @@ class ExceptionController extends BaseExceptionController
             $context = new LayoutContext(['data' => ['status_code' => $code , 'status_text' => $text]]);
             $context->set('route_name', self::EXCEPTION_ROUTE_NAME);
 
-            $layout = $this->container->get('layout')
-                ->getLayout($context);
+            try {
+                $layout = $this->container->get('layout')
+                    ->getLayout($context);
 
-            return new Response($layout->render());
+                return new Response($layout->render());
+            } catch (\Throwable $e) {
+                //can't render layout template, because of errors in some layout templates
+            }
         }
 
         return parent::showAction($request, $exception, $logger);
