@@ -74,3 +74,7 @@ oro_frontend:
             label:
                 normal: "Show Less Items"
                 truncated: "And {{ hiddenRows }} more items"
+
+    notification:
+        close:
+            aria_label: Close the Notification
