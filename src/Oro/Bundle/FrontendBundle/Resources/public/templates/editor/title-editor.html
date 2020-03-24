@@ -5,6 +5,9 @@
            class="input input--size-x-s input--full"
            placeholder="<%- placeholder %>"
            autocomplete="off"
+           <% if (inputAriaLabel) { %>
+              aria-label="<%- inputAriaLabel %>"
+           <% } %>
     />
 </div>
 

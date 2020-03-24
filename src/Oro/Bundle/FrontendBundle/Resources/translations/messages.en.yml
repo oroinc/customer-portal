@@ -107,7 +107,8 @@ oro_frontend:
             label: "Back"
 
     combined_buttons:
-        more_actions.label: More actions
+        more_actions.label: More Actions
+        more_actions.aria_label: Other Actions
 
     datagrid_views:
         saved_views: 'Saved Views'
