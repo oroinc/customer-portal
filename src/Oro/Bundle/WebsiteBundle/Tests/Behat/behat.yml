@@ -16,3 +16,7 @@ oro_behat_extension:
         mapping:
           URL: 'routing[oro_website___url][value]'
           Secure URL: 'routing[oro_website___secure_url][value]'
+          Web Catalog:
+              type: 'css'
+              locator: 'input[id^="routing_oro_web_catalog___web_catalog_value-uid"]'
+              element: Select2Entity
