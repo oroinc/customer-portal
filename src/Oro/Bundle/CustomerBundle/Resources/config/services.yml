@@ -1110,6 +1110,8 @@ services:
     oro_customer.provider.customer_entity_name:
         class: '%oro_customer.provider.customer_entity_name.class%'
         public: false
+        arguments:
+            - '@oro_entity.entity_name_provider.default'
         tags:
             - { name: oro_entity.name_provider, priority: 100 }
 
