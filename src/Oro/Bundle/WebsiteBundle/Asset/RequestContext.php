@@ -2,12 +2,12 @@
 
 namespace Oro\Bundle\WebsiteBundle\Asset;
 
-use Symfony\Component\Asset\Context\RequestStackContext;
+use Symfony\Component\Routing\RequestContext as BaseRequestContext;
 
 /**
- * Assets context with resolved base path for the current website.
+ * Request context with resolved base path for the current website.
  */
-class AssetsContext extends RequestStackContext
+class RequestContext extends BaseRequestContext
 {
     /**
      * @var BasePathResolver
@@ -25,8 +25,8 @@ class AssetsContext extends RequestStackContext
     /**
      * {@inheritdoc}
      */
-    public function getBasePath()
+    public function getBaseUrl()
     {
-        return $this->resolver->resolveBasePath(parent::getBasePath());
+        return $this->resolver->resolveBasePath(parent::getBaseUrl());
     }
 }
