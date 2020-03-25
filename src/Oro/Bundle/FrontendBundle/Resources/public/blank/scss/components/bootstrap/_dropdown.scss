@@ -118,9 +118,13 @@
     }
 }
 
-.dropdown-toggle--no-caret {
-    &:after {
+.dropdown-toggle{
+    &--no-caret:after {
         content: none;
+    }
+
+    &--no-offset:after {
+        margin-#{$start}: 0;
     }
 }
 

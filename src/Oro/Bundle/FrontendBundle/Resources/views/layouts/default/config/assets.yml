@@ -18,8 +18,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/collapse-view-config.scss'
         - 'bundles/orofrontend/default/scss/variables/link-config.scss'
 
-        - 'bundles/orofrontend/default/scss/variables/datagrid/datagrid-massaction-config.scss'
-
         - 'bundles/orofrontend/default/scss/variables/filters/filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/filters/filters-toggle-mode-config.scss'
         - 'bundles/orofrontend/default/scss/variables/filters/filters-dropdown-mode-config.scss'
