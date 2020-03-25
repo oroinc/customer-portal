@@ -4,11 +4,11 @@
 
 // Links
 a {
-    text-decoration: none;
+    text-decoration: $link-link-normal-text-decoration;
 
     @include link();
 
     @include element-state('hover') {
-        text-decoration: underline;
+        text-decoration: $link-link-hover-text-decoration;
     }
 }
