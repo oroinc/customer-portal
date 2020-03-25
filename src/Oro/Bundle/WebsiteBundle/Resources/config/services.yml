@@ -129,11 +129,42 @@ services:
             - '@oro_locale.manager.localization'
             - '@oro_entity.doctrine_helper'
 
+    oro_website.asset.base_path_resolver:
+        class: Oro\Bundle\WebsiteBundle\Asset\BasePathResolver
+        arguments:
+            - '@request_stack'
+
     oro_website.assetic_context:
         class: 'Oro\Bundle\WebsiteBundle\Asset\AssetsContext'
         decorates: assets.context
         arguments:
             - '@request_stack'
+        calls:
+            - [setBasePathResolver, ['@oro_website.asset.base_path_resolver']]
+
+    oro_website.asset.request_context:
+        class: Oro\Bundle\WebsiteBundle\Asset\RequestContext
+        parent: router.request_context
+        calls:
+            - [setBasePathResolver, ['@oro_website.asset.base_path_resolver']]
+
+    oro_website.event_listener.assets_request:
+        class: Oro\Bundle\WebsiteBundle\EventListener\AssetsRequestListener
+        arguments:
+            - '@oro_website.asset.request_context'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    # See usage in Oro\Bundle\WebsiteBundle\DependencyInjection\Compiler\AttachmentUrlGeneratorPass
+    oro_website.asset.router:
+        parent: router.default
+        public: true
+
+    oro_website.provider.url_without_front_controller:
+        class: Oro\Bundle\UIBundle\Provider\UrlWithoutFrontControllerProvider
+        decorates: oro_ui.provider.url_without_front_controller
+        arguments:
+            - '@oro_website.asset.router'
 
     oro_website.website_scope_criteria_provider:
         class: 'Oro\Bundle\WebsiteBundle\Provider\ScopeCriteriaProvider'
