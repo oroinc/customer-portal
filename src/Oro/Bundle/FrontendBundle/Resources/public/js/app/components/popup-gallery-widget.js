@@ -73,7 +73,7 @@ define(function(require) {
          * @param {Object} options
          */
         initialize: function(options) {
-            this.options = {...options, ...this.options};
+            this.options = {...this.options, ...options};
 
             if (_.has(options, 'productModel')) {
                 options.productModel.on('backgrid:canSelected', checked => {
