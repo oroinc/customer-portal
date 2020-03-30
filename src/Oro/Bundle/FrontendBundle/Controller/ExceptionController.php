@@ -59,7 +59,12 @@ class ExceptionController extends BaseExceptionController
 
                 return new Response($layout->render());
             } catch (\Throwable $e) {
-                //can't render layout template, because of errors in some layout templates
+                if (null !== $logger) {
+                    $logger->error(
+                        'Can\'t render layout template, because of errors in some layout templates',
+                        ['exception'=> $e]
+                    );
+                }
             }
         }
 

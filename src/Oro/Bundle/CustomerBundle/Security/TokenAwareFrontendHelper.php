@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Security;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserInterface;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -38,7 +38,7 @@ class TokenAwareFrontendHelper extends FrontendHelper
         if (null !== $token && $token->isAuthenticated()) {
             return
                 $token instanceof AnonymousCustomerUserToken
-                || $token->getUser() instanceof CustomerUser;
+                || $token->getUser() instanceof CustomerUserInterface;
         }
 
         return parent::isFrontendRequest();
