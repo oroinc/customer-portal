@@ -23,6 +23,7 @@ define(function(require) {
          */
         options: {
             bindWithSlider: '.product-view-media-gallery',
+            uniqueTriggerToOpenGallery: null,
             galleryImages: [],
             ajaxMode: false,
             ajaxRoute: 'oro_product_frontend_ajax_images_by_id',
@@ -57,10 +58,6 @@ define(function(require) {
             }
         },
 
-        events: {
-            'click [data-trigger-gallery-open]': 'onOpenTriggerClick'
-        },
-
         /**
          * @inheritDoc
          */
@@ -74,6 +71,14 @@ define(function(require) {
          */
         initialize: function(options) {
             this.options = {...this.options, ...options};
+
+            this.$triggerGalleryToOpen = this.$('[data-trigger-gallery-open]');
+
+            if (this.options.uniqueTriggerToOpenGallery) {
+                this.$triggerGalleryToOpen = $(this.options.uniqueTriggerToOpenGallery);
+            }
+
+            this.$triggerGalleryToOpen.on('click' + this.eventNamespace(), this.onOpenTriggerClick.bind(this));
 
             if (_.has(options, 'productModel')) {
                 options.productModel.on('backgrid:canSelected', checked => {
@@ -132,7 +137,7 @@ define(function(require) {
         },
 
         toggleGalleryTrigger: function(state) {
-            this.$('[data-trigger-gallery-open]').toggleClass('hidden', state);
+            this.$triggerGalleryToOpen.toggleClass('hidden', state);
         },
 
         onOpen: function() {
@@ -303,7 +308,7 @@ define(function(require) {
                 }));
 
                 this.$galleryWidgetClose = this.$galleryWidget.find('[data-trigger-gallery-close]');
-                this.$galleryWidgetClose.on('click', this.onClose.bind(this));
+                this.$galleryWidgetClose.on('click' + this.eventNamespace(), this.onClose.bind(this));
 
                 this.$gallery = this.$galleryWidget.find('[data-gallery-images]');
                 if (this.useThumb()) {
@@ -325,8 +330,10 @@ define(function(require) {
         dispose: function() {
             this.unbindEvents();
 
+            this.$triggerGalleryToOpen.off(this.eventNamespace());
+
             if (this.$galleryWidgetClose) {
-                this.$galleryWidgetClose.off('click');
+                this.$galleryWidgetClose.off(this.eventNamespace());
             }
 
             if (this.$galleryWidget && this.$galleryWidget.length) {

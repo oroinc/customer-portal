@@ -43,7 +43,7 @@
 
     // Opinionated: add "hand" cursor to non-disabled .btn elements
     &:not(:disabled):not(.disabled) {
-        cursor: pointer;
+        cursor: $btn-cursor;
     }
 
     &:not(.disabled):active,
