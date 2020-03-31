@@ -72,13 +72,20 @@ define(function(require) {
         initialize: function(options) {
             this.options = {...this.options, ...options};
 
-            this.$triggerGalleryToOpen = this.$('[data-trigger-gallery-open]');
+            this.$triggerGalleryOpen = this.$('[data-trigger-gallery-open]');
 
             if (this.options.uniqueTriggerToOpenGallery) {
-                this.$triggerGalleryToOpen = $(this.options.uniqueTriggerToOpenGallery);
+                this.$triggerGalleryOpen = $(this.options.uniqueTriggerToOpenGallery);
             }
 
-            this.$triggerGalleryToOpen.on('click' + this.eventNamespace(), this.onOpenTriggerClick.bind(this));
+            this.$triggerGalleryOpen
+                .on(`keydown${this.eventNamespace()}`, e => {
+                    // Open gallery if SPACE or ENTER was pressed
+                    if (e.keyCode === 32 || e.keyCode === 13) {
+                        this.onOpenTriggerClick(e);
+                    }
+                })
+                .on(`click${this.eventNamespace()}`, this.onOpenTriggerClick.bind(this));
 
             if (_.has(options, 'productModel')) {
                 options.productModel.on('backgrid:canSelected', checked => {
@@ -137,7 +144,7 @@ define(function(require) {
         },
 
         toggleGalleryTrigger: function(state) {
-            this.$triggerGalleryToOpen.toggleClass('hidden', state);
+            this.$triggerGalleryOpen.toggleClass('hidden', state);
         },
 
         onOpen: function() {
@@ -330,7 +337,7 @@ define(function(require) {
         dispose: function() {
             this.unbindEvents();
 
-            this.$triggerGalleryToOpen.off(this.eventNamespace());
+            this.$triggerGalleryOpen.off(this.eventNamespace());
 
             if (this.$galleryWidgetClose) {
                 this.$galleryWidgetClose.off(this.eventNamespace());
