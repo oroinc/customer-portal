@@ -9,8 +9,8 @@ use Oro\Bundle\CustomerBundle\Model\BusinessUnitMessageFactory;
 use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Test\JobRunner;
-use Oro\Component\MessageQueue\Transport\Null\NullMessage;
-use Oro\Component\MessageQueue\Transport\Null\NullSession;
+use Oro\Component\MessageQueue\Transport\Message;
+use Oro\Component\MessageQueue\Transport\SessionInterface;
 use Oro\Component\MessageQueue\Util\JSON;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidArgumentException;
@@ -66,10 +66,12 @@ class BusinessUnitOwnerTreeCacheJobProcessorTest extends \PHPUnit\Framework\Test
             ->method('error')
             ->with('Queue Message is invalid', ['exception' => $exception]);
 
-        $message = new NullMessage();
+        $message = new Message();
         $message->setBody(JSON::encode([]));
 
-        $this->assertEquals(MessageProcessorInterface::REJECT, $this->processor->process($message, new NullSession()));
+        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
+        $session = $this->createMock(SessionInterface::class);
+        $this->assertEquals(MessageProcessorInterface::REJECT, $this->processor->process($message, $session));
     }
 
     public function testProcessWhenRuntimeException(): void
@@ -100,10 +102,12 @@ class BusinessUnitOwnerTreeCacheJobProcessorTest extends \PHPUnit\Framework\Test
                 'topic' => Topics::CALCULATE_BUSINESS_UNIT_OWNER_TREE_CACHE
             ]);
 
-        $message = new NullMessage();
+        $message = new Message();
         $message->setBody(JSON::encode([]));
 
-        $this->assertEquals(MessageProcessorInterface::REJECT, $this->processor->process($message, new NullSession()));
+        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
+        $session = $this->createMock(SessionInterface::class);
+        $this->assertEquals(MessageProcessorInterface::REJECT, $this->processor->process($message, $session));
     }
 
     public function testProcess(): void
@@ -128,9 +132,11 @@ class BusinessUnitOwnerTreeCacheJobProcessorTest extends \PHPUnit\Framework\Test
             ->expects($this->never())
             ->method('error');
 
-        $message = new NullMessage();
+        $message = new Message();
         $message->setBody(JSON::encode([]));
 
-        $this->assertEquals(MessageProcessorInterface::ACK, $this->processor->process($message, new NullSession()));
+        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
+        $session = $this->createMock(SessionInterface::class);
+        $this->assertEquals(MessageProcessorInterface::ACK, $this->processor->process($message, $session));
     }
 }

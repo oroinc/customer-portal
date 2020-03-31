@@ -13,7 +13,7 @@ use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Job\JobProcessor;
-use Oro\Component\MessageQueue\Transport\Null\NullMessage;
+use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
 
 /**
@@ -35,7 +35,7 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
         $processor = $this->getOwnerTreeCacheJobProcessor();
         $messageData = $this->getOwnerTreeMessageFactory()->createMessage(1000);
 
-        $message = new NullMessage();
+        $message = new Message();
         $message->setMessageId('test_message');
         $message->setBody(json_encode($messageData));
 
@@ -57,7 +57,7 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
         $processor = $this->getOwnerTreeCacheJobProcessor();
         $messageData = $this->getOwnerTreeMessageFactory()->createMessage(1000);
 
-        $message = new NullMessage();
+        $message = new Message();
         $message->setMessageId('test_message');
         $message->setBody(json_encode($messageData));
 
