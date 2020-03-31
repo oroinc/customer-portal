@@ -83,8 +83,11 @@ class ResetController extends Controller
     public function resetAction(Request $request)
     {
         $token = $request->get('token');
-        /** @var CustomerUser $user */
-        $user = $this->getUserManager()->findUserByConfirmationToken($token);
+        $user = null;
+        if ($token) {
+            /** @var CustomerUser $user */
+            $user = $this->getUserManager()->findUserByConfirmationToken($token);
+        }
         if (null === $user) {
             throw $this->createNotFoundException(
                 $this->get('translator')->trans(
