@@ -18,7 +18,8 @@
     $disabled-color: color-yiq($background),
     $disabled-background-color: $background,
     $disabled-border-color: $border,
-    $disabled-opacity: null
+    $disabled-opacity: null,
+    $divider-style: null
 ) {
     color: $color;
 
@@ -77,4 +78,6 @@
             }
         }
     }
+
+    @include button-group-divider(&, $divider-style);
 }
