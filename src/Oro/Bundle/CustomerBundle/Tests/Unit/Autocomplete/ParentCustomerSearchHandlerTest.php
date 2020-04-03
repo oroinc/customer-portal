@@ -339,6 +339,10 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
             ->expects($this->any())
             ->method('createQueryBuilder')
             ->will($this->returnValue($queryBuilder));
+        $this->aclHelper->expects($this->once())
+            ->method('apply')
+            ->with($query)
+            ->willReturn($query);
 
         return $searchResult;
     }
