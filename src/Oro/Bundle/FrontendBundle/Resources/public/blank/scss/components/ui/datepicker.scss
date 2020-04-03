@@ -59,6 +59,7 @@
             // Not active date
             &:not(.ui-state-active) {
                 background: $ui-datepicker-item-hover-background;
+                box-shadow: $ui-datepicker-item-hover-box-shadow;
             }
         }
     }
@@ -92,6 +93,10 @@
                 border-top: $ui-datepicker-trigger-corner-size solid transparent;
                 border-bottom: $ui-datepicker-trigger-corner-size solid transparent;
             }
+        }
+
+        &.ui-state-disabled {
+            opacity: $ui-datepicker-trigger-disabled-opacity;
         }
     }
 
