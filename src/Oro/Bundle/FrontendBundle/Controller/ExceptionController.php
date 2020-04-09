@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Controller;
 
+use FOS\RestBundle\Util\ExceptionValueMap;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LayoutBundle\Layout\LayoutManager;
 use Oro\Bundle\PlatformBundle\Maintenance\Mode;
@@ -11,6 +12,7 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -26,6 +28,9 @@ class ExceptionController extends BaseExceptionController
 
     /** @var bool */
     private $showException;
+
+    /** @var ExceptionValueMap */
+    private $exceptionCodes;
 
     /**
      * @param ContainerInterface $container
@@ -47,7 +52,7 @@ class ExceptionController extends BaseExceptionController
         if ($this->isLayoutRendering($request)) {
             $this->updateRequest($request);
 
-            $code = $this->getStatusCode($exception);
+            $code = $this->getStatusCodeFromThrowable($exception);
             $text = $this->getStatusText($code);
 
             $context = new LayoutContext(['data' => ['status_code' => $code , 'status_text' => $text]]);
@@ -139,6 +144,40 @@ class ExceptionController extends BaseExceptionController
     private function getParentRequest(): ?Request
     {
         return $this->container->get(RequestStack::class)->getParentRequest();
+    }
+
+    /**
+     * Determines the status code to use for the response.
+     *
+     * @param \Throwable $exception
+     *
+     * @return int
+     */
+    private function getStatusCodeFromThrowable(\Throwable $exception): int
+    {
+        // If matched
+        if ($statusCode = $this->getExceptionCodes()->resolveThrowable($exception)) {
+            return $statusCode;
+        }
+
+        // Otherwise, default
+        if ($exception instanceof HttpExceptionInterface) {
+            return $exception->getStatusCode();
+        }
+
+        return 500;
+    }
+
+    /**
+     * @return ExceptionValueMap
+     */
+    private function getExceptionCodes(): ExceptionValueMap
+    {
+        if (!$this->exceptionCodes) {
+            $this->exceptionCodes = $this->container->get('fos_rest.exception.codes_map');
+        }
+
+        return $this->exceptionCodes;
     }
 
     /**
