@@ -181,10 +181,10 @@ Feature: Import Customer Users
       | Website     | Second      |
     And I click Logout in user menu
 
-  Scenario: Import new Customer Users by user without "Assign" permission
+  Scenario: Import new Customer Users by user without "Create" permission
     Given user has following permissions
-      | Assign | Customer User      | None   |
-      | Create | Customer User      | Global |
+      | Assign | Customer User      | Global |
+      | Create | Customer User      | None   |
       | Edit   | Customer User      | Global |
       | Edit   | Customer           | Global |
       | Edit   | Customer User Role | Global |
@@ -205,9 +205,9 @@ Feature: Import Customer Users
     And number of records should be 4
     And I click Logout in user menu
 
-  Scenario: Import new Customer Users by user with "Assign" permission but not admin
+  Scenario: Import new Customer Users by user with "Create" permission but not admin
     And user has following permissions
-      | Assign | Customer User | Global |
+      | Create | Customer User | Global |
     And I login to dashboard as "userWithAssign1" user
     And go to Customers/ Customer Users
     And I download "Customer Users" Data Template file
