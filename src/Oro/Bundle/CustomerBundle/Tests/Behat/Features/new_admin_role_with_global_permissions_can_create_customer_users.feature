@@ -41,11 +41,9 @@ Feature: New admin role with global permissions can create customer users
     And go to Customers/Customer Users
     And I click "Create Customer User"
     And fill form with:
-      | First Name    | New                       |
-      | Last Name     | Customer User             |
-      | Email Address | CustomerUser1@example.org |
-    And click "Today"
-    And fill form with:
+      | First Name         | New                       |
+      | Last Name          | Customer User             |
+      | Email Address      | CustomerUser1@example.org |
       | Password           | CustomerUser1@example.org |
       | Confirm Password   | CustomerUser1@example.org |
       | Customer           | WithCustomerUser          |

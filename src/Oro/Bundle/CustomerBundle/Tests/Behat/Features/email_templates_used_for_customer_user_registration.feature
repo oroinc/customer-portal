@@ -91,11 +91,9 @@ Feature: Email templates used for customer user registration
     And go to Customers/ Customer Users
     And click "Create Customer User"
     And fill form with:
-      | First Name    | Branda                      |
-      | Last Name     | Sanborn                     |
-      | Email Address | BrandaJSanborn1@example.org |
-    And click "Today"
-    And fill form with:
+      | First Name         | Branda                      |
+      | Last Name          | Sanborn                     |
+      | Email Address      | BrandaJSanborn1@example.org |
       | Password           | BrandaJSanborn1@example.org |
       | Confirm Password   | BrandaJSanborn1@example.org |
       | Customer           | Company B                   |
@@ -134,11 +132,9 @@ Feature: Email templates used for customer user registration
     And go to Customers/ Customer Users
     And click "Create Customer User"
     And fill form with:
-      | First Name    | LonnieV                      |
-      | Last Name     | Townsend                     |
-      | Email Address | LonnieVTownsend1@example.org |
-    And click "Today"
-    And fill form with:
+      | First Name         | LonnieV                      |
+      | Last Name          | Townsend                     |
+      | Email Address      | LonnieVTownsend1@example.org |
       | Password           | LonnieVTownsend1@example.org |
       | Confirm Password   | LonnieVTownsend1@example.org |
       | Customer           | Company B                    |
