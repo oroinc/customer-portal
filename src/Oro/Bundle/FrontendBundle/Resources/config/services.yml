@@ -315,3 +315,18 @@ services:
             - '@oro_platform.twig.service_locator'
         tags:
             - { name: twig.extension }
+
+    oro_frontend.layout.data_provider.frontend_config_provider:
+        class: Oro\Bundle\EntityConfigBundle\Layout\DataProvider\ConfigProvider
+        arguments:
+            - '@oro_entity_config.provider.frontend'
+        tags:
+            - { name: layout.data_provider, alias: frontend_config }
+
+    oro_frontend.block_type.attribute_text:
+        decorates: oro_entity_config.block_type.attribute_text
+        parent: oro_entity_config.block_type.attribute_text
+        calls:
+            - ['setDefaultVisible', ['=data["frontend_config"].getConfig(className,fieldName).is("is_displayable") && value !== null']]
+        tags:
+            - { name: layout.block_type, alias: attribute_text }

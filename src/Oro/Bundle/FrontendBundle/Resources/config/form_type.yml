@@ -64,3 +64,11 @@ services:
             - '@assets.packages'
         tags:
             - { name: form.type_extension }
+
+    oro_frontend.form.extension.dynamic_fields:
+        class: Oro\Bundle\FrontendBundle\Form\Extension\DynamicFieldsExtension
+        arguments:
+            - '@oro_frontend.request.frontend_helper'
+            - '@oro_entity_config.config_manager'
+        tags:
+            - { name: form.type_extension }

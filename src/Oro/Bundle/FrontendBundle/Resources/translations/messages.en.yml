@@ -119,3 +119,16 @@ oro_frontend:
 
     scroll_to_the_top: 'Scroll to the top'
     avaliable_credit_cards.aria_label: Avaliable Credit Cards
+
+    entity_config:
+        block_titles:
+            frontend:
+                label: Frontend options
+        fields:
+            frontend:
+                is_displayable:
+                    label: Show on view
+                    tooltip: 'Defines whether the field is visible or hidden'
+                is_editable:
+                    label: Show on form
+                    tooltip: 'Defines whether the field is enabled in the front store forms'

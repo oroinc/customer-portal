@@ -11,3 +11,46 @@ entity_config:
                         - Length:
                             min:            2
                             max:            55
+    frontend:
+        field:
+            form:
+                block_config:
+                    frontend:
+                        title: oro_frontend.entity_config.block_titles.frontend.label
+                        priority: 60
+            items:
+                is_displayable:
+                    options:
+                        value_type:         boolean
+                        default_value:      true
+
+                    form:
+                        type:               Symfony\Component\Form\Extension\Core\Type\ChoiceType
+                        options:
+                            choices:
+                                No:         0
+                                Yes:        1
+                            placeholder:    false
+                            block:          frontend
+                            label:          oro_frontend.entity_config.fields.frontend.is_displayable.label
+                            tooltip:        oro_frontend.entity_config.fields.frontend.is_displayable.tooltip
+                is_editable:
+                    options:
+                        value_type:         boolean
+                        default_value:      true
+                        required_property:
+                            config_id:
+                                scope:      extend
+                            code:           owner
+                            value:          Custom
+
+                    form:
+                        type:               Symfony\Component\Form\Extension\Core\Type\ChoiceType
+                        options:
+                            choices:
+                                No:         0
+                                Yes:        1
+                            placeholder:    false
+                            block:          frontend
+                            label:          oro_frontend.entity_config.fields.frontend.is_editable.label
+                            tooltip:        oro_frontend.entity_config.fields.frontend.is_editable.tooltip
