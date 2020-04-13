@@ -48,7 +48,8 @@ class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddr
                 'data_class' => CustomerAddress::class,
                 'single_form' => true,
                 'all_addresses_property_path' => 'frontendOwner.addresses',
-                'ownership_disabled' => true
+                'ownership_disabled' => true,
+                'dynamic_fields_disabled' => true
             ],
             $optionsResolver->resolve()
         );
