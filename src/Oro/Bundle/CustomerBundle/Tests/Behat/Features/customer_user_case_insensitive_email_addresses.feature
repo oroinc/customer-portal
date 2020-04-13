@@ -25,9 +25,11 @@ Feature: Customer User Case Insensitive Email Addresses
     And I go to Customers/ Customer Users
     And I click "Create Customer User"
     And I fill form with:
-      | First Name                 | Branda                      |
-      | Last Name                  | Sanborn                     |
-      | Email Address              | BrandaJSanborn@example.org  |
+      | First Name    | Branda                     |
+      | Last Name     | Sanborn                    |
+      | Email Address | BrandaJSanborn@example.org |
+    And I click "Today"
+    And I fill form with:
       | Password                   | BrandaJSanborn1@example.org |
       | Confirm Password           | BrandaJSanborn1@example.org |
       | Customer                   | first customer              |
@@ -39,9 +41,11 @@ Feature: Customer User Case Insensitive Email Addresses
     Given I go to Customers/ Customer Users
     And I click "Create Customer User"
     And I fill form with:
-      | First Name                 | Branda                      |
-      | Last Name                  | Sanborn                     |
-      | Email Address              | brandajsanborn@example.org  |
+      | First Name    | Branda                     |
+      | Last Name     | Sanborn                    |
+      | Email Address | brandajsanborn@example.org |
+    And I click "Today"
+    And I fill form with:
       | Password                   | BrandaJSanborn1@example.org |
       | Confirm Password           | BrandaJSanborn1@example.org |
       | Customer                   | first customer              |
@@ -120,9 +124,11 @@ Feature: Customer User Case Insensitive Email Addresses
     Given I go to Customers/ Customer Users
     And I click "Create Customer User"
     And I fill form with:
-      | First Name                 | Ruth                     |
-      | Last Name                  | Maxwell                  |
-      | Email Address              | AmandaRCole@example.org  |
+      | First Name    | Ruth                    |
+      | Last Name     | Maxwell                 |
+      | Email Address | AmandaRCole@example.org |
+    And I click "Today"
+    And I fill form with:
       | Password                   | amandarcolE@example.org1 |
       | Confirm Password           | amandarcolE@example.org1 |
       | Customer                   | OroCommerce              |
@@ -135,9 +141,11 @@ Feature: Customer User Case Insensitive Email Addresses
     Given I go to Customers/ Customer Users
     And I click "Create Customer User"
     And I fill form with:
-      | First Name                 | Marlene                      |
-      | Last Name                  | Bradley                      |
-      | Email Address              | MarleneSBradley@example.com  |
+      | First Name    | Marlene                     |
+      | Last Name     | Bradley                     |
+      | Email Address | MarleneSBradley@example.com |
+    And I click "Today"
+    And I fill form with:
       | Password                   | MarleneSBradley@example.com1 |
       | Confirm Password           | MarleneSBradley@example.com1 |
       | Customer                   | OroCommerce                  |
