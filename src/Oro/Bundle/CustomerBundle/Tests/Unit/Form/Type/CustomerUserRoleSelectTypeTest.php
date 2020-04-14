@@ -57,16 +57,12 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
     {
         $form = $this->factory->create(CustomerUserRoleSelectType::class);
 
-        $expectedOptions = [
-            'class' => self::ROLE_CLASS,
-            'multiple' => true,
-            'expanded' => true,
-            'required' => false,
-        ];
-
         $formOptions = $form->getConfig()->getOptions();
+        $this->assertSame(self::ROLE_CLASS, $formOptions['class']);
+        $this->assertSame(true, $formOptions['multiple']);
+        $this->assertSame(true, $formOptions['expanded']);
+        $this->assertSame(false, $formOptions['required']);
 
-        $this->assertArraySubset($expectedOptions, $formOptions);
         $this->assertArrayHasKey('choice_label', $formOptions);
         $this->assertIsCallable($formOptions['choice_label']);
 
