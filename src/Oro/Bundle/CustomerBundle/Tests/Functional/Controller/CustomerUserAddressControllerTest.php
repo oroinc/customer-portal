@@ -37,7 +37,7 @@ class CustomerUserAddressControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $content = $result->getContent();
 
-        $this->assertContains('Address Book', $content);
+        static::assertStringContainsString('Address Book', $content);
     }
 
     /**

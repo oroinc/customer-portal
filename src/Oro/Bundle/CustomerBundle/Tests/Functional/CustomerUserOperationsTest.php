@@ -48,7 +48,7 @@ class CustomerUserOperationsTest extends WebTestCase
         /** @var \Swift_Message $emailMessage */
         $emailMessage = array_shift($emailMessages);
         $this->assertWelcomeMessage($user->getEmail(), $emailMessage);
-        $this->assertContains(
+        static::assertStringContainsString(
             'Please follow the link below to create a password for your new account.',
             $emailMessage->getBody()
         );
@@ -86,8 +86,8 @@ class CustomerUserOperationsTest extends WebTestCase
 
         $this->assertInstanceOf('Swift_Message', $message);
         $this->assertEquals($email, key($message->getTo()));
-        $this->assertContains('Confirmation of account registration', $message->getSubject());
-        $this->assertContains($email, $message->getBody());
+        static::assertStringContainsString('Confirmation of account registration', $message->getSubject());
+        static::assertStringContainsString($email, $message->getBody());
     }
 
     public function testEnableAndDisable()

@@ -102,7 +102,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         $form->submit($submittedData);
         $this->assertFalse($form->isValid());
         $this->assertTrue($form->isSynchronized());
-        $this->assertContains($expectedError, (string)$form->getErrors(true, false));
+        static::assertStringContainsString($expectedError, (string)$form->getErrors(true, false));
     }
 
     /**
@@ -156,7 +156,7 @@ class CustomerVisitorEmailAddressTypeTest extends FormIntegrationTestCase
         $this->assertTrue($form->isSynchronized());
         $errors = $form->getErrors(true, false);
 
-        $this->assertContains($expectedError, $errors->current()->getMessage());
+        static::assertStringContainsString($expectedError, $errors->current()->getMessage());
     }
 
     /**

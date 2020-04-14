@@ -57,8 +57,8 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
         $this->assertInstanceOf('Swift_Message', $message);
         $this->assertEquals($resource, key($message->getTo()));
-        $this->assertContains('Confirmation of account registration', $message->getSubject());
-        $this->assertContains($resource, $message->getBody());
+        static::assertStringContainsString('Confirmation of account registration', $message->getSubject());
+        static::assertStringContainsString($resource, $message->getBody());
 
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
@@ -124,7 +124,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         /** @var \Swift_Message $emailMessage */
         $emailMessage = array_shift($emailMessages);
         $this->assertWelcomeMessage($user->getEmail(), $emailMessage);
-        $this->assertContains(
+        static::assertStringContainsString(
             'Please follow the link below to create a password for your new account.',
             $emailMessage->getBody()
         );

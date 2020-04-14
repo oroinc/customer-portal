@@ -74,8 +74,8 @@ class CustomerUserRoleControllerTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_role_create'));
 
-        $this->assertContains('frontend-customer-user-role-permission-grid', $crawler->html());
-        $this->assertContains('frontend-customer-customer-users-grid', $crawler->html());
+        static::assertStringContainsString('frontend-customer-user-role-permission-grid', $crawler->html());
+        static::assertStringContainsString('frontend-customer-customer-users-grid', $crawler->html());
 
         $form = $crawler->filter('[data-bottom-actions] button:contains(Create)')->form();
         $form['oro_customer_frontend_customer_user_role[label]'] = self::ACCOUNT_ROLE;
@@ -86,7 +86,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $result = $this->client->getResponse();
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('Customer User Role has been saved', $crawler->html());
+        static::assertStringContainsString('Customer User Role has been saved', $crawler->html());
     }
 
     /**
@@ -102,8 +102,8 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $response = $this->client->requestFrontendGrid('frontend-customer-customer-user-roles-grid');
 
         $this->assertJsonResponseStatusCodeEquals($response, 200);
-        $this->assertContains(LoadCustomerUserRoleData::ROLE_WITH_ACCOUNT_USER, $response->getContent());
-        $this->assertContains(self::ACCOUNT_ROLE, $response->getContent());
+        static::assertStringContainsString(LoadCustomerUserRoleData::ROLE_WITH_ACCOUNT_USER, $response->getContent());
+        static::assertStringContainsString(self::ACCOUNT_ROLE, $response->getContent());
     }
 
     /**
@@ -147,7 +147,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $content = $crawler->html();
-        $this->assertContains('Customer User Role has been saved', $content);
+        static::assertStringContainsString('Customer User Role has been saved', $content);
 
         $this->getObjectManager()->clear();
 
@@ -193,8 +193,8 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $result = reset($result['data']);
 
         $this->assertEquals($this->currentUser->getId(), $result['id']);
-        $this->assertContains($this->currentUser->getFullName(), $result['fullName']);
-        $this->assertContains($this->currentUser->getEmail(), $result['email']);
+        static::assertStringContainsString($this->currentUser->getFullName(), $result['fullName']);
+        static::assertStringContainsString($this->currentUser->getEmail(), $result['email']);
         $this->assertEquals(
             $this->currentUser->isEnabled() && $this->currentUser->isConfirmed() ? 'Active' : 'Inactive',
             trim($result['status'])
@@ -232,7 +232,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
         $content = $crawler->html();
-        $this->assertContains('Customer User Role has been saved', $content);
+        static::assertStringContainsString('Customer User Role has been saved', $content);
 
         // Find id of new role
         $response = $this->client->requestFrontendGrid(
@@ -362,8 +362,8 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $result = $this->client->getResponse();
 
         static::assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertNotContains('Marketing', $crawler->html());
-        static::assertNotContains('Catalog', $crawler->html());
+        static::assertStringNotContainsString('Marketing', $crawler->html());
+        static::assertStringNotContainsString('Catalog', $crawler->html());
     }
 
     /**

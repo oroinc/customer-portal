@@ -47,9 +47,12 @@ class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestC
         $apiKey = $this->getApiKey(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
         $result = $this->runCommand('oro:customer-user:wsse:generate-header', [$apiKey]);
 
-        $this->assertStringContainsString('To use WSSE authentication add following headers to the request:', $result);
-        $this->assertStringContainsString('Authorization: WSSE profile="UsernameToken"', $result);
-        $this->assertStringContainsString(
+        static::assertStringContainsString(
+            'To use WSSE authentication add following headers to the request:',
+            $result
+        );
+        static::assertStringContainsString('Authorization: WSSE profile="UsernameToken"', $result);
+        static::assertStringContainsString(
             'X-WSSE: UsernameToken Username="grzegorz.brzeczyszczykiewicz@example.com"',
             $result
         );
@@ -75,15 +78,15 @@ class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestC
 
         $this->assertStringNotContainsString('To use WSSE authentication add following headers', $result);
         $this->assertStringNotContainsString('Authorization: WSSE profile="UsernameToken"', $result);
-        $this->assertStringContainsString('API key "wrongKey" does not exists', $result);
+        static::assertStringContainsString('API key "wrongKey" does not exists', $result);
     }
 
     public function testGenerateWsseHeaderWithHelpOption()
     {
         $result = $this->runCommand('oro:customer-user:wsse:generate-header', ['--help']);
 
-        $this->assertStringContainsString('Description: Generate X-WSSE HTTP header for a given API key', $result);
-        $this->assertStringContainsString(
+        static::assertStringContainsString('Description: Generate X-WSSE HTTP header for a given API key', $result);
+        static::assertStringContainsString(
             '--firewall=FIREWALL Firewall name. [default: "frontend_api_wsse_secured"]',
             $result
         );

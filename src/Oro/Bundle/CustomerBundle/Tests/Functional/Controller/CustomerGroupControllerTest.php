@@ -41,7 +41,7 @@ class CustomerGroupControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_group_index'));
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('customer-groups-grid', $crawler->html());
+        static::assertStringContainsString('customer-groups-grid', $crawler->html());
     }
 
     public function testGrid()
@@ -113,8 +113,8 @@ class CustomerGroupControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $html = $crawler->html();
-        $this->assertContains(self::UPDATED_NAME . ' - Customer Groups - Customers', $html);
-        $this->assertContains(self::ADD_NOTE_BUTTON, $html);
+        static::assertStringContainsString(self::UPDATED_NAME . ' - Customer Groups - Customers', $html);
+        static::assertStringContainsString(self::ADD_NOTE_BUTTON, $html);
         $this->assertViewPage($html, self::UPDATED_NAME);
     }
 
@@ -157,14 +157,14 @@ class CustomerGroupControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $html = $crawler->html();
 
-        $this->assertContains('Customer group has been saved', $html);
+        static::assertStringContainsString('Customer group has been saved', $html);
         $this->assertViewPage($html, $name);
 
         foreach ($appendCustomers as $customer) {
-            $this->assertContains($customer->getName(), $html);
+            static::assertStringContainsString($customer->getName(), $html);
         }
         foreach ($removeCustomers as $customer) {
-            $this->assertNotContains($customer->getName(), $html);
+            static::assertStringNotContainsString($customer->getName(), $html);
         }
     }
 
@@ -174,7 +174,7 @@ class CustomerGroupControllerTest extends WebTestCase
      */
     protected function assertViewPage($html, $name)
     {
-        $this->assertContains($name, $html);
+        static::assertStringContainsString($name, $html);
     }
 
     /**

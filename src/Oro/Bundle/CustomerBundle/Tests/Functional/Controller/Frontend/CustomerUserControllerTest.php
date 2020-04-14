@@ -89,7 +89,7 @@ class CustomerUserControllerTest extends WebTestCase
             /** @var \Swift_Message $emailMessage */
             $emailMessage = array_shift($emailMessages);
             $this->assertWelcomeMessage($email, $emailMessage);
-            $this->assertContains(
+            static::assertStringContainsString(
                 'Please follow the link below to create a password for your new account.',
                 $emailMessage->getBody()
             );
@@ -99,7 +99,7 @@ class CustomerUserControllerTest extends WebTestCase
         $result = $this->client->getResponse();
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('Customer User has been saved', $crawler->html());
+        static::assertStringContainsString('Customer User has been saved', $crawler->html());
     }
 
     /**
@@ -143,7 +143,7 @@ class CustomerUserControllerTest extends WebTestCase
         $crawler = $this->client->submit($form);
 
         $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
-        $this->assertContains('The password must be at least 2 characters long', $crawler->html());
+        static::assertStringContainsString('The password must be at least 2 characters long', $crawler->html());
     }
 
     /**
@@ -189,9 +189,9 @@ class CustomerUserControllerTest extends WebTestCase
         $result = $this->client->getResponse();
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains(self::FIRST_NAME, $result->getContent());
-        $this->assertContains(self::LAST_NAME, $result->getContent());
-        $this->assertContains(self::EMAIL, $result->getContent());
+        static::assertStringContainsString(self::FIRST_NAME, $result->getContent());
+        static::assertStringContainsString(self::LAST_NAME, $result->getContent());
+        static::assertStringContainsString(self::EMAIL, $result->getContent());
     }
 
     /**
@@ -235,7 +235,7 @@ class CustomerUserControllerTest extends WebTestCase
         $result = $this->client->getResponse();
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('Customer User has been saved', $crawler->html());
+        static::assertStringContainsString('Customer User has been saved', $crawler->html());
 
         return $id;
     }
@@ -255,7 +255,7 @@ class CustomerUserControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $content = $result->getContent();
 
-        $this->assertContains(self::UPDATED_EMAIL, $content);
+        static::assertStringContainsString(self::UPDATED_EMAIL, $content);
 
         return $id;
     }

@@ -52,8 +52,8 @@ class CustomerTypeTest extends WebTestCase
 
         self::assertCount(1, $addresses);
         self::assertTrue($addresses->first()->isPrimary());
-        self::assertContains('Customer has been saved', $crawler->html());
-        self::assertNotContains('One of the addresses must be set as primary.', $crawler->html());
+        static::assertStringContainsString('Customer has been saved', $crawler->html());
+        static::assertStringNotContainsString('One of the addresses must be set as primary.', $crawler->html());
     }
 
     /**

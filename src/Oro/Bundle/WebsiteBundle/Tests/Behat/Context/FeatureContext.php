@@ -39,7 +39,7 @@ class FeatureContext extends OroFeatureContext
         $currentUrl = $this->getSession()->getCurrentUrl();
         $baseUrl = rtrim($this->getMinkParameter('base_url'), '/');
 
-        self::assertContains($path, $currentUrl, 'Url does not contain path');
-        self::assertContains($baseUrl, $currentUrl, 'Url does not contain base domain');
+        static::assertStringContainsString($path, $currentUrl, 'Url does not contain path');
+        static::assertStringContainsString($baseUrl, $currentUrl, 'Url does not contain base domain');
     }
 }

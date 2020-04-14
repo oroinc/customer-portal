@@ -28,10 +28,10 @@ class CustomerControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_index'));
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('customer-customers-grid', $crawler->html());
-        $this->assertContains('Export', $result->getContent());
-        $this->assertNotContains('Created at', $result->getContent());
-        $this->assertNotContains('Updated at', $result->getContent());
+        static::assertStringContainsString('customer-customers-grid', $crawler->html());
+        static::assertStringContainsString('Export', $result->getContent());
+        static::assertStringNotContainsString('Created at', $result->getContent());
+        static::assertStringNotContainsString('Updated at', $result->getContent());
     }
 
     /**
@@ -102,10 +102,10 @@ class CustomerControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $html = $crawler->html();
-        $this->assertContains(self::UPDATED_NAME . ' - Customers - Customers', $html);
-        $this->assertContains('Add attachment', $html);
-        $this->assertContains('Add note', $html);
-        $this->assertContains('Address Book', $html);
+        static::assertStringContainsString(self::UPDATED_NAME . ' - Customers - Customers', $html);
+        static::assertStringContainsString('Add attachment', $html);
+        static::assertStringContainsString('Add note', $html);
+        static::assertStringContainsString('Address Book', $html);
         /** @var Customer $newParent */
         $newParent = $this->getReference('customer.level_1.1');
         /** @var CustomerGroup $newGroup */
@@ -140,10 +140,16 @@ class CustomerControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $html = $crawler->html();
 
-        $this->assertContains('Customer has been saved', $html);
+        static::assertStringContainsString('Customer has been saved', $html);
         $this->assertViewPage($html, $name, $parent, $group, $internalRating);
-        $this->assertContains($this->getReference(LoadUserData::USER1)->getFullName(), $result->getContent());
-        $this->assertContains($this->getReference(LoadUserData::USER2)->getFullName(), $result->getContent());
+        static::assertStringContainsString(
+            $this->getReference(LoadUserData::USER1)->getFullName(),
+            $result->getContent()
+        );
+        static::assertStringContainsString(
+            $this->getReference(LoadUserData::USER2)->getFullName(),
+            $result->getContent()
+        );
     }
 
     /**
@@ -160,10 +166,10 @@ class CustomerControllerTest extends WebTestCase
         CustomerGroup $group,
         AbstractEnumValue $internalRating
     ) {
-        $this->assertContains($name, $html);
-        $this->assertContains($parent->getName(), $html);
-        $this->assertContains($group->getName(), $html);
-        $this->assertContains($internalRating->getName(), $html);
+        static::assertStringContainsString($name, $html);
+        static::assertStringContainsString($parent->getName(), $html);
+        static::assertStringContainsString($group->getName(), $html);
+        static::assertStringContainsString($internalRating->getName(), $html);
     }
 
     /**

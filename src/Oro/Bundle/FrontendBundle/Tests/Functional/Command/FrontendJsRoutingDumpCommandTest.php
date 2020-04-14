@@ -17,7 +17,7 @@ class FrontendJsRoutingDumpCommandTest extends WebTestCase
         $result = $this->runCommand(FrontendJsRoutingDumpCommand::getDefaultName(), ['-vvv']);
 
         $this->assertNotEmpty($result);
-        $this->assertContains($this->getEndPath('frontend_routes', 'json'), $result);
+        static::assertStringContainsString($this->getEndPath('frontend_routes', 'json'), $result);
     }
 
     public function testExecuteWithJsFormat(): void
@@ -25,7 +25,7 @@ class FrontendJsRoutingDumpCommandTest extends WebTestCase
         $result = $this->runCommand(FrontendJsRoutingDumpCommand::getDefaultName(), ['-vvv', '--format=js']);
 
         $this->assertNotEmpty($result);
-        $this->assertContains($this->getEndPath('frontend_routes', 'js'), $result);
+        static::assertStringContainsString($this->getEndPath('frontend_routes', 'js'), $result);
     }
 
     public function testExecuteWithCustomTarget(): void
@@ -39,7 +39,7 @@ class FrontendJsRoutingDumpCommandTest extends WebTestCase
         );
 
         $this->assertNotEmpty($result);
-        $this->assertContains($this->getEndPath('frontend_custom_routes', 'json'), $result);
+        static::assertStringContainsString($this->getEndPath('frontend_custom_routes', 'json'), $result);
     }
 
     /**

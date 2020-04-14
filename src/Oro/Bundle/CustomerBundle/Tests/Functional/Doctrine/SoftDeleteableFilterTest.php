@@ -203,7 +203,7 @@ class SoftDeleteableFilterTest extends WebTestCase
     protected function assertQueryModified($query)
     {
         $needle = $this->getQueryNeedleString();
-        $this->assertContains($needle, $query);
+        static::assertStringContainsString($needle, $query);
     }
 
     /**
@@ -212,7 +212,7 @@ class SoftDeleteableFilterTest extends WebTestCase
     protected function assertQueryNotModified($query)
     {
         $needle = $this->getQueryNeedleString();
-        $this->assertNotContains($needle, $query);
+        static::assertStringNotContainsString($needle, $query);
     }
 
     /**

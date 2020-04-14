@@ -27,7 +27,7 @@ class FrontendControllerTest extends WebTestCase
     public function testIndexPage()
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_frontend_root'));
-        $this->assertNotContains($this->getBackendPrefix(), $crawler->html());
+        static::assertStringNotContainsString($this->getBackendPrefix(), $crawler->html());
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
     }

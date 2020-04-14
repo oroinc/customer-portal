@@ -48,10 +48,22 @@ class CustomerUserTypeTest extends WebTestCase
     {
         $crawler = $this->submitCustomerUserForm($data);
 
-        $this->assertContains('First Name and Last Name or Organization should not be blank.', $crawler->html());
-        $this->assertContains('Last Name and First Name or Organization should not be blank.', $crawler->html());
-        $this->assertContains('Organization or First Name and Last Name should not be blank.', $crawler->html());
-        $this->assertNotContains('Customer User has been saved', $crawler->html());
+        static::assertStringContainsString(
+            'First Name and Last Name or Organization should not be blank.',
+            $crawler->html()
+        );
+        static::assertStringContainsString(
+            'Last Name and First Name or Organization should not be blank.',
+            $crawler->html()
+        );
+        static::assertStringContainsString(
+            'Organization or First Name and Last Name should not be blank.',
+            $crawler->html()
+        );
+        static::assertStringNotContainsString(
+            'Customer User has been saved',
+            $crawler->html()
+        );
     }
 
     /**
@@ -92,10 +104,19 @@ class CustomerUserTypeTest extends WebTestCase
     {
         $crawler = $this->submitCustomerUserForm($data);
 
-        $this->assertNotContains('First Name and Last Name or Organization should not be blank.', $crawler->html());
-        $this->assertNotContains('Last Name and First Name or Organization should not be blank.', $crawler->html());
-        $this->assertNotContains('Organization or First Name and Last Name should not be blank.', $crawler->html());
-        $this->assertContains('Customer User has been saved', $crawler->html());
+        static::assertStringNotContainsString(
+            'First Name and Last Name or Organization should not be blank.',
+            $crawler->html()
+        );
+        static::assertStringNotContainsString(
+            'Last Name and First Name or Organization should not be blank.',
+            $crawler->html()
+        );
+        static::assertStringNotContainsString(
+            'Organization or First Name and Last Name should not be blank.',
+            $crawler->html()
+        );
+        static::assertStringContainsString('Customer User has been saved', $crawler->html());
     }
 
     /**
@@ -136,8 +157,8 @@ class CustomerUserTypeTest extends WebTestCase
     {
         $crawler = $this->submitCustomerUserForm($data);
 
-        $this->assertNotContains('One of the addresses must be set as primary.', $crawler->html());
-        $this->assertContains('Customer User has been saved', $crawler->html());
+        static::assertStringNotContainsString('One of the addresses must be set as primary.', $crawler->html());
+        static::assertStringContainsString('Customer User has been saved', $crawler->html());
     }
 
     /**

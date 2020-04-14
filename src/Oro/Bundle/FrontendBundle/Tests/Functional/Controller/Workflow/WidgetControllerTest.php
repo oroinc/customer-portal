@@ -68,7 +68,7 @@ class WidgetControllerTest extends WebTestCase
         $html = $crawler->html();
 
         $this->assertNotEmpty($html);
-        $this->assertContains('oro.testframework.workflowawareentity.name.label', $html);
+        static::assertStringContainsString('oro.testframework.workflowawareentity.name.label', $html);
 
         $workflowItem = new WorkflowItem();
         $workflowItem->setEntityId($this->entity->getId());
@@ -108,7 +108,7 @@ class WidgetControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($response, 200);
         $html = $crawler->html();
         $this->assertNotEmpty($html);
-        $this->assertContains('oro.testframework.workflowawareentity.name.label', $html);
+        static::assertStringContainsString('oro.testframework.workflowawareentity.name.label', $html);
         $this->assertTransitionFormSubmit(
             $crawler,
             $workflowItem,

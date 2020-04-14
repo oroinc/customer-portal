@@ -64,7 +64,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $result = $this->client->getResponse();
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('Customer User Role has been saved', $crawler->html());
+        static::assertStringContainsString('Customer User Role has been saved', $crawler->html());
     }
 
     /**
@@ -76,8 +76,8 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $result = $this->client->getResponse();
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('customer-customer-user-roles-grid', $crawler->html());
-        $this->assertContains(self::TEST_ROLE, $result->getContent());
+        static::assertStringContainsString('customer-customer-user-roles-grid', $crawler->html());
+        static::assertStringContainsString(self::TEST_ROLE, $result->getContent());
     }
 
     /**
@@ -105,7 +105,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $this->getObjectManager()->flush();
 
         $this->assertNotNull($customerUser);
-        $this->assertContains('Add note', $crawler->html());
+        static::assertStringContainsString('Add note', $crawler->html());
 
         $form = $crawler->selectButton('Save and Close')->form();
 
@@ -126,7 +126,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $content = $crawler->html();
-        $this->assertContains('Customer User Role has been saved', $content);
+        static::assertStringContainsString('Customer User Role has been saved', $content);
 
         $this->getObjectManager()->clear();
 
@@ -163,8 +163,8 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $this->assertResponseStatusCodeEquals($response, 200);
 
         $this->assertEquals(8, substr_count($response->getContent(), 'shipping address'));
-        $this->assertContains('Share data view', $response->getContent());
-        $this->assertNotContains('Access system information', $response->getContent());
+        static::assertStringContainsString('Share data view', $response->getContent());
+        static::assertStringNotContainsString('Access system information', $response->getContent());
 
         // Check datagrid
         $response = $this->client->requestGrid(

@@ -62,12 +62,12 @@ class WorkflowControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($response, 200);
         $html = $crawler->html();
         $this->assertNotEmpty($html);
-        $this->assertContains('oro.testframework.workflowawareentity.name.label', $html, '', true);
-        $this->assertContains(sprintf(
+        static::assertStringContainsStringIgnoringCase('oro.testframework.workflowawareentity.name.label', $html);
+        static::assertStringContainsStringIgnoringCase(\sprintf(
             '%s / %s',
             'oro.workflow.commerce_workflow_with_form_configuration.label',
             'oro.workflow.commerce_workflow_with_form_configuration.transition.start_transition.label'
-        ), $html, '', true);
+        ), $html);
 
         $workflowItem = new WorkflowItem();
         $workflowItem->setEntityId($this->entity->getId())
@@ -102,16 +102,14 @@ class WorkflowControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($response, 200);
         $html = $crawler->html();
         $this->assertNotEmpty($html);
-        $this->assertContains('oro.testframework.workflowawareentity.name.label', $html, '', true);
-        $this->assertContains(
-            sprintf(
+        static::assertStringContainsStringIgnoringCase('oro.testframework.workflowawareentity.name.label', $html);
+        static::assertStringContainsStringIgnoringCase(
+            \sprintf(
                 '%s / %s',
                 'oro.workflow.commerce_workflow_with_form_configuration.label',
                 'oro.workflow.commerce_workflow_with_form_configuration.transition.transition_1.label'
             ),
-            $html,
-            '',
-            true
+            $html
         );
         $this->assertTransitionFormSubmit(
             $crawler,

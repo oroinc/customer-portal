@@ -45,7 +45,10 @@ class CustomerUserProfileControllerTest extends WebTestCase
             $this->assertEquals(self::$labels[$key], $position->textContent);
         }
 
-        $this->assertContains(LoadCustomerUserData::AUTH_USER, $crawler->filter('.customer-profile')->html());
+        static::assertStringContainsString(
+            LoadCustomerUserData::AUTH_USER,
+            $crawler->filter('.customer-profile')->html()
+        );
     }
 
     public function testEditProfile()
@@ -63,7 +66,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        $this->assertContains('CustomerUserUpdated', $crawler->filter('.customer-profile')->html());
+        static::assertStringContainsString('CustomerUserUpdated', $crawler->filter('.customer-profile')->html());
     }
 
     public function testEditProfilePasswordMismatch()
@@ -90,7 +93,10 @@ class CustomerUserProfileControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        $this->assertContains('The password fields must match.', $crawler->filter('.password_first span')->html());
+        static::assertStringContainsString(
+            'The password fields must match.',
+            $crawler->filter('.password_first span')->html()
+        );
     }
 
     public function testEditProfileWithoutCurrentPassword()
@@ -116,7 +122,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        $this->assertContains(
+        static::assertStringContainsString(
             'This value should be the user\'s current password.',
             $crawler->filter('.current_password span')->html()
         );

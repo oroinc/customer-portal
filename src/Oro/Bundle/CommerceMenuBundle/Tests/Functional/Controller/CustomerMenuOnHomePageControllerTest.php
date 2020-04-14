@@ -36,9 +36,9 @@ class CustomerMenuOnHomePageControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
         if ($contains) {
-            $this->assertContains('global_menu_update.2_1.title', $crawler->html());
+            static::assertStringContainsString('global_menu_update.2_1.title', $crawler->html());
         } else {
-            $this->assertNotContains('global_menu_update.2_1.title', $crawler->html());
+            static::assertStringNotContainsString('global_menu_update.2_1.title', $crawler->html());
         }
     }
 

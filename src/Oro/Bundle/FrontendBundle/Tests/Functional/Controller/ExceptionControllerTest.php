@@ -22,7 +22,7 @@ class ExceptionControllerTest extends WebTestCase
 
         $this->assertLastResponseStatus(404);
         $this->assertLastResponseContentTypeHtml();
-        $this->assertContains('Not Found', $this->getClientInstance()->getResponse()->getContent());
+        static::assertStringContainsString('Not Found', $this->getClientInstance()->getResponse()->getContent());
     }
 
     public function testWhenMaintenanceModeFrontend(): void
@@ -40,7 +40,7 @@ class ExceptionControllerTest extends WebTestCase
 
         $this->assertLastResponseStatus(503);
         $this->assertLastResponseContentTypeHtml();
-        $this->assertContains(
+        static::assertStringContainsString(
             'The System is currently under maintenance and should be available in a few minutes.',
             $this->getClientInstance()->getResponse()->getContent()
         );
@@ -60,7 +60,7 @@ class ExceptionControllerTest extends WebTestCase
 
         $this->assertLastResponseStatus(503);
         $this->assertLastResponseContentTypeHtml();
-        $this->assertContains(
+        static::assertStringContainsString(
             'The System is currently under maintenance and should be available in a few minutes.',
             $this->getClientInstance()->getResponse()->getContent()
         );
@@ -78,6 +78,6 @@ class ExceptionControllerTest extends WebTestCase
 
         $this->assertLastResponseStatus(404);
         $this->assertLastResponseContentTypeHtml();
-        $this->assertContains('Not Found', $this->getClientInstance()->getResponse()->getContent());
+        static::assertStringContainsString('Not Found', $this->getClientInstance()->getResponse()->getContent());
     }
 }

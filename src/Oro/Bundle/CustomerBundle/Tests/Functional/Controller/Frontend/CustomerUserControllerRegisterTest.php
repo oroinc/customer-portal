@@ -60,7 +60,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertEmpty($this->getCustomerUser(['email' => self::EMAIL]));
-        $this->assertContains($message, $crawler->html());
+        static::assertStringContainsString($message, $crawler->html());
     }
 
     /**
@@ -104,7 +104,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         /** @var \Swift_Message $emailMessage */
         $emailMessage = array_shift($emailMessages);
         $this->assertWelcomeMessage($email, $emailMessage);
-        $this->assertNotContains(
+        static::assertStringNotContainsString(
             'Please follow the link below to create a password for your new account.',
             $emailMessage->getBody()
         );
@@ -117,7 +117,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $this->assertNotEmpty($user);
         $this->assertTrue($user->isEnabled());
         $this->assertTrue($user->isConfirmed());
-        $this->assertContains('Registration successful', $crawler->html());
+        static::assertStringContainsString('Registration successful', $crawler->html());
     }
 
     public function testRegisterWithConfirmation()
@@ -141,7 +141,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $this->assertInstanceOf('Swift_Message', $message);
         $this->assertEquals(self::EMAIL, key($message->getTo()));
-        $this->assertContains('Confirmation of account registration', $message->getSubject());
+        static::assertStringContainsString('Confirmation of account registration', $message->getSubject());
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
 
@@ -155,7 +155,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 ]
             ))
             . '">Confirm</a>';
-        $this->assertContains($confirmMessage, $message->getBody());
+        static::assertStringContainsString($confirmMessage, $message->getBody());
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
         $this->assertNotEmpty($user);
@@ -167,7 +167,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
             'Sign In',
             trim($crawler->filter('.login-form h1')->html())
         );
-        $this->assertContains('Please check your email to complete registration', $crawler->html());
+        static::assertStringContainsString('Please check your email to complete registration', $crawler->html());
 
         $this->client->followRedirects(true);
 
@@ -184,7 +184,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('Sign In', $crawler->html());
+        static::assertStringContainsString('Sign In', $crawler->html());
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
         $this->assertNotEmpty($user);
@@ -221,7 +221,10 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $result = $this->client->getResponse();
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('This email is already used.', $crawler->filter('.validation-failed')->html());
+        static::assertStringContainsString(
+            'This email is already used.',
+            $crawler->filter('.validation-failed')->html()
+        );
     }
 
     public function testResetPasswordWithLowPasswordComplexity()
@@ -253,7 +256,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $result = $this->client->getResponse();
 
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertContains('The password must be at least 2 characters long', $crawler->html());
+        static::assertStringContainsString('The password must be at least 2 characters long', $crawler->html());
     }
 
     /**
@@ -314,7 +317,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
             'Sign In',
             trim($crawler->filter('.login-form h1')->html())
         );
-        $this->assertContains('Password was created successfully.', $crawler->html());
+        static::assertStringContainsString('Password was created successfully.', $crawler->html());
     }
 
     /**
@@ -382,9 +385,9 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $this->assertInstanceOf('Swift_Message', $message);
         $this->assertEquals(self::EMAIL, key($message->getTo()));
-        $this->assertContains('Reset Account User Password', $message->getSubject());
-        $this->assertContains('To reset your password - please visit', $message->getBody());
-        $this->assertContains(self::EMAIL, $message->getBody());
+        static::assertStringContainsString('Reset Account User Password', $message->getSubject());
+        static::assertStringContainsString('To reset your password - please visit', $message->getBody());
+        static::assertStringContainsString(self::EMAIL, $message->getBody());
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
         $applicationUrl = $this->getContainer()->get('oro_config.manager')->get('oro_ui.application_url');
@@ -397,7 +400,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 ]
             ));
 
-        $this->assertContains($resetUrl, $message->getBody());
+        static::assertStringContainsString($resetUrl, $message->getBody());
 
         $crawler = $this->client->followRedirect();
 

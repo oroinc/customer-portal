@@ -28,12 +28,12 @@ trait EmailMessageAssertionTrait
             $this->getContainer()->get('oro_config.manager')->get('oro_notification.email_notification_sender_email'),
             key($welcomeMessage->getFrom())
         );
-        $this->assertContains($user->getFirstName(), $welcomeMessage->getSubject());
-        $this->assertContains($user->getLastName(), $welcomeMessage->getSubject());
-        $this->assertContains($email, $welcomeMessage->getBody());
+        static::assertStringContainsString($user->getFirstName(), $welcomeMessage->getSubject());
+        static::assertStringContainsString($user->getLastName(), $welcomeMessage->getSubject());
+        static::assertStringContainsString($email, $welcomeMessage->getBody());
 
         $applicationUrl = $this->getContainer()->get('oro_config.manager')->get('oro_ui.application_url');
-        $this->assertContains($applicationUrl, $welcomeMessage->getBody());
+        static::assertStringContainsString($applicationUrl, $welcomeMessage->getBody());
 
         $resetUrl = $this->getUrl(
             'oro_customer_frontend_customer_user_password_reset',
@@ -41,6 +41,6 @@ trait EmailMessageAssertionTrait
                 'token' => $user->getConfirmationToken(),
             ]
         );
-        $this->assertContains(htmlentities($resetUrl), $welcomeMessage->getBody());
+        static::assertStringContainsString(htmlentities($resetUrl), $welcomeMessage->getBody());
     }
 }

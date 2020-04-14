@@ -53,7 +53,7 @@ class CustomerAddressControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        $this->assertContains('Customer Address has been saved', $crawler->html());
+        static::assertStringContainsString('Customer Address has been saved', $crawler->html());
     }
 
     /**
@@ -159,7 +159,7 @@ class CustomerAddressControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        $this->assertContains('Customer Address has been saved', $crawler->html());
+        static::assertStringContainsString('Customer Address has been saved', $crawler->html());
 
         $address = $this->getAddressById($addressId);
 
