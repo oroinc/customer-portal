@@ -145,11 +145,9 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     */
     public function testGetComponentOptionsWithoutRouteName()
     {
+        $this->expectException(\UnexpectedValueException::class);
         /** @var Customer $entity */
         $entity = $this->getEntity(Customer::class);
 
@@ -157,11 +155,9 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider->getComponentOptions($entity);
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     */
     public function testGetComponentOptionsWithWrongEntityClass()
     {
+        $this->expectException(\UnexpectedValueException::class);
         /** @var Customer $entity */
         $entity = $this->getEntity(Customer::class);
 

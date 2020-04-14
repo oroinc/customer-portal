@@ -119,12 +119,11 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
         static::assertEquals($expectedData, $this->userAgentConditionsEvaluator->evaluate($this->menuItem, []));
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Conditions collection was expected to contain only MenuUserAgentCondition
-     */
     public function testExceptionWhenAnotherCollection()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Conditions collection was expected to contain only MenuUserAgentCondition');
+
         $collection = new PersistentCollection(
             $this->entityManager,
             $this->metadata,

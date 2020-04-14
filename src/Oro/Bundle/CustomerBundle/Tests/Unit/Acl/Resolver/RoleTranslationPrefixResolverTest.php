@@ -41,7 +41,7 @@ class RoleTranslationPrefixResolverTest extends \PHPUnit\Framework\TestCase
             ->willReturn($loggedUser);
 
         if (!$expectedPrefix) {
-            $this->expectException('\RuntimeException');
+            $this->expectException(\RuntimeException::class);
             $this->expectExceptionMessage('This method must be called only for logged User or CustomerUser');
         }
 

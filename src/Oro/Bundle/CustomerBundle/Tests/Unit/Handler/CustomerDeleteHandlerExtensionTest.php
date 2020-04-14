@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Handler\CustomerAssignHelper;
 use Oro\Bundle\CustomerBundle\Handler\CustomerDeleteHandlerExtension;
 use Oro\Bundle\EntityBundle\Handler\EntityDeleteAccessDeniedExceptionFactory;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CustomerDeleteHandlerExtensionTest extends \PHPUnit\Framework\TestCase
 {
@@ -39,12 +40,11 @@ class CustomerDeleteHandlerExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension->assertDeleteGranted($customer);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     * @expectedExceptionMessage The delete operation is forbidden. Reason: has associations to other entities.
-     */
     public function testAssertDeleteGrantedWithCustomerUsers()
     {
+        $this->expectException(AccessDeniedException::class);
+        $this->expectExceptionMessage('The delete operation is forbidden. Reason: has associations to other entities.');
+
         $customer = new Customer();
 
         $this->customerAssignHelper->expects($this->once())

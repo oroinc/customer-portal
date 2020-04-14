@@ -61,12 +61,13 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $processor->processConfiguration($configuration, $configs));
     }
 
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     * @expectedExceptionMessage The path "oro_frontend.session.name" cannot contain an empty value, but got "".
-     */
     public function testProcessWithEmptyFrontendSessionName()
     {
+        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectExceptionMessage(
+            'The path "oro_frontend.session.name" cannot contain an empty value, but got "".'
+        );
+
         $configs = [['session' => ['name' => '']]];
 
         $configuration = new Configuration();
@@ -74,14 +75,14 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $processor->processConfiguration($configuration, $configs);
     }
 
-    // @codingStandardsIgnoreStart
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     * @expectedExceptionMessage Invalid configuration for path "oro_frontend.session.name": Session name "a+b" contains illegal character(s).
-     */
-    // @codingStandardsIgnoreEnd
     public function testProcessWithInvalidFrontendSessionName()
     {
+        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectExceptionMessage(
+            'Invalid configuration for path "oro_frontend.session.name":'
+            . ' Session name "a+b" contains illegal character(s).'
+        );
+
         $configs = [['session' => ['name' => 'a+b']]];
 
         $configuration = new Configuration();

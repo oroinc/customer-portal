@@ -225,11 +225,9 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         ];
     }
 
-    /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     */
     public function testMissingCustomerUser()
     {
+        $this->expectException(\Symfony\Component\Security\Core\Exception\AccessDeniedException::class);
         $request = new Request();
         $request->setMethod('POST');
 

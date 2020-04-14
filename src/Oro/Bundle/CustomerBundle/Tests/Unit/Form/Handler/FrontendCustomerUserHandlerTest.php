@@ -62,12 +62,11 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Data should be instance of %s, but %s is given
-     */
     public function testProcessInvalidArgumentException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Data should be instance of %s, but %s is given');
+
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(sprintf(
             'Data should be instance of %s, but %s is given',
@@ -78,12 +77,11 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->handler->process(new \stdClass(), $this->form, $this->request);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Test flush exception
-     */
     public function testProcessFlushException()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Test flush exception');
+
         $entity = new CustomerUser();
 
         $this->form->expects($this->once())

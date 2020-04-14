@@ -57,14 +57,13 @@ class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
         $this->context = $this->createMock(ExecutionContextInterface::class);
     }
 
-    // @codingStandardsIgnoreStart
-    /**
-     * @expectedException Symfony\Component\Form\Exception\UnexpectedTypeException
-     * @expectedExceptionMessage Expected argument of type "Oro\Bundle\CustomerBundle\Entity\CustomerUser", "stdClass" given
-     */
-    // @codingStandardsIgnoreEnd
     public function testValidateNotCustomerUser()
     {
+        $this->expectException(\Symfony\Component\Form\Exception\UnexpectedTypeException::class);
+        $this->expectExceptionMessage(
+            'Expected argument of type "Oro\Bundle\CustomerBundle\Entity\CustomerUser", "stdClass" given'
+        );
+
         $constraint = new CustomerRelatedEntities();
 
         $entity = new \stdClass();

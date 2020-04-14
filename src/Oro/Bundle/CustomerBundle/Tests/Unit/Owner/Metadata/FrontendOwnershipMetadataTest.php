@@ -193,12 +193,11 @@ class FrontendOwnershipMetadataTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage Owner type 1 is not supported
-     */
     public function testGetAccessLevelNamesInvalidOwner()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('Owner type 1 is not supported');
+
         $metadata = new FrontendOwnershipMetadata('ORGANIZATION', 'owner', 'owner_id');
         $metadata->getAccessLevelNames();
     }

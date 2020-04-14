@@ -35,12 +35,11 @@ class AuditFieldTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('message', $auditField->getTranslationDomain());
     }
 
-    /**
-     * @expectedException \Oro\Bundle\DataAuditBundle\Exception\UnsupportedDataTypeException
-     * @expectedExceptionMessage Unsupported audit data type "string1"
-     */
     public function testUnsupportedType()
     {
+        $this->expectException(\Oro\Bundle\DataAuditBundle\Exception\UnsupportedDataTypeException::class);
+        $this->expectExceptionMessage('Unsupported audit data type "string1"');
+
         new AuditField('field1', 'string1', 'value', 'oldValue');
     }
 }

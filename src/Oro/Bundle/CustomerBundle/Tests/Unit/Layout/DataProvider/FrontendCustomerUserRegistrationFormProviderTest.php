@@ -92,12 +92,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->assertInstanceOf(FormView::class, $actual);
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Application Owner is empty
-     */
     public function testGetRegisterFormViewOwnerEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Application Owner is empty');
+
         $defaultOwnerId = false;
 
         $this->prepare($defaultOwnerId);
@@ -105,12 +104,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterFormView();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Website is empty
-     */
     public function testGetRegisterFormViewWebsiteEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Website is empty');
+
         $defaultOwnerId = 1;
         $website = false;
 
@@ -119,12 +117,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterFormView();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Website organization is empty
-     */
     public function testGetRegisterFormViewOrganizationEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Website organization is empty');
+
         $defaultOwnerId = 1;
         $website = $this->getEntity(WebsiteStub::class);
 
@@ -133,12 +130,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterFormView();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Role "ROLE_USER" was not found
-     */
     public function testGetRegisterFormViewEmptyRole()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Role "ROLE_USER" was not found');
+
         $defaultOwnerId = 1;
         $defaultRole = false;
         $organization = $this->getEntity(Organization::class);
@@ -169,12 +165,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->assertInstanceOf(FormInterface::class, $actual);
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Application Owner is empty
-     */
     public function testGetRegisterFormOwnerEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Application Owner is empty');
+
         $defaultOwnerId = false;
 
         $this->prepare($defaultOwnerId);
@@ -182,12 +177,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterForm();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Website is empty
-     */
     public function testGetRegisterFormWebsiteEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Website is empty');
+
         $defaultOwnerId = 1;
         $website = false;
 
@@ -196,12 +190,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterForm();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Website organization is empty
-     */
     public function testGetRegisterFormOrganizationEmpty()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Website organization is empty');
+
         $defaultOwnerId = 1;
         $website = $this->getEntity(WebsiteStub::class);
 
@@ -210,12 +203,11 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         $this->dataProvider->getRegisterForm();
     }
 
-    /**
-     * @expectedException        \RuntimeException
-     * @expectedExceptionMessage Role "ROLE_USER" was not found
-     */
     public function testGetRegisterFormEmptyRole()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Role "ROLE_USER" was not found');
+
         $defaultOwnerId = 1;
         $defaultRole = false;
         $organization = $this->getEntity(Organization::class);

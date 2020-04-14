@@ -195,13 +195,14 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider owningEntityNamesDataProvider
      *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The $owningEntityNames must contains "business_unit" and "user" keys.
      *
      * @param array $owningEntityNames
      */
     public function testInvalidOwningEntityNames(array $owningEntityNames)
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The $owningEntityNames must contains "business_unit" and "user" keys.');
+
         $provider = new FrontendOwnershipMetadataProvider(
             $owningEntityNames,
             $this->configManager,

@@ -50,11 +50,9 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker->checkPreAuth($user);
     }
 
-    /**
-     * @expectedException \Oro\Bundle\CustomerBundle\Exception\GuestCustomerUserLoginException
-     */
     public function testPreAuthWithGuestCustomerUser()
     {
+        $this->expectException(\Oro\Bundle\CustomerBundle\Exception\GuestCustomerUserLoginException::class);
         $user = new CustomerUser();
         $user->setCustomer(new Customer());
         $user->setIsGuest(true);
@@ -74,22 +72,18 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker->checkPreAuth($user);
     }
 
-    /**
-     * @expectedException \Oro\Bundle\CustomerBundle\Exception\EmptyCustomerException
-     */
     public function testCheckPostAuthWithCustomerUserWithoutCustomer()
     {
+        $this->expectException(\Oro\Bundle\CustomerBundle\Exception\EmptyCustomerException::class);
         $user = new CustomerUser();
         $user->setOwner(new User());
 
         $this->userChecker->checkPostAuth($user);
     }
 
-    /**
-     * @expectedException \Oro\Bundle\UserBundle\Exception\EmptyOwnerException
-     */
     public function testCheckPostAuthWithCustomerUserWithoutOwner()
     {
+        $this->expectException(\Oro\Bundle\UserBundle\Exception\EmptyOwnerException::class);
         $user = new CustomerUser();
         $user->setCustomer(new Customer());
 

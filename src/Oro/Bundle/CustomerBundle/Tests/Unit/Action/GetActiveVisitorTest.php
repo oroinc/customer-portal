@@ -55,12 +55,11 @@ class GetActiveVisitorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($customerVisitor, $context->$attributeName);
     }
 
-    /**
-     * @expectedException \Oro\Component\Action\Exception\ActionException
-     * @expectedExceptionMessage Can't extract active visitor
-     */
     public function testExecuteInvalidToken()
     {
+        $this->expectException(\Oro\Component\Action\Exception\ActionException::class);
+        $this->expectExceptionMessage("Can't extract active visitor");
+
         /** @var EventDispatcher $dispatcher */
         $dispatcher = $this->createMock(EventDispatcher::class);
         $this->action->setDispatcher($dispatcher);
@@ -78,12 +77,11 @@ class GetActiveVisitorTest extends \PHPUnit\Framework\TestCase
         $this->action->execute(new ItemStub());
     }
 
-    /**
-     * @expectedException \Oro\Component\Action\Exception\ActionException
-     * @expectedExceptionMessage Can't extract active visitor
-     */
     public function testExecuteEmptyVisitor()
     {
+        $this->expectException(\Oro\Component\Action\Exception\ActionException::class);
+        $this->expectExceptionMessage("Can't extract active visitor");
+
         /** @var EventDispatcher $dispatcher */
         $dispatcher = $this->createMock(EventDispatcher::class);
         $this->action->setDispatcher($dispatcher);

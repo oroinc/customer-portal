@@ -10,24 +10,26 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\UnexpectedTypeException
-     * @expectedExceptionMessage Expected argument of type "array or Traversable and ArrayAccess", "boolean" given
-     */
     public function testValidateExceptionWhenInvalidArgumentType()
     {
+        $this->expectException(\Symfony\Component\Validator\Exception\UnexpectedTypeException::class);
+        $this->expectExceptionMessage(
+            'Expected argument of type "array or Traversable and ArrayAccess", "boolean" given'
+        );
+
         /** @var Constraint|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock('Symfony\Component\Validator\Constraint');
         $validator = new UniqueAddressDefaultTypesValidator();
         $validator->validate(false, $constraint);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\ValidatorException
-     * @expectedExceptionMessage type "Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress", "array" given
-     */
     public function testValidateExceptionWhenInvalidArgumentElementType()
     {
+        $this->expectException(\Symfony\Component\Validator\Exception\ValidatorException::class);
+        $this->expectExceptionMessage(
+            'type "Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress", "array" given'
+        );
+
         /** @var Constraint|\PHPUnit\Framework\MockObject\MockObject $constraint */
         $constraint = $this->createMock('Symfony\Component\Validator\Constraint');
         $validator = new UniqueAddressDefaultTypesValidator();

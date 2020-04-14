@@ -132,14 +132,14 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    // @codingStandardsIgnoreStart
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\LogicException
-     * @expectedExceptionMessage The view "frontend_view1" defined in oro_frontend.frontend_api.api_doc_views is unknown. Check that it is configured in oro_api.api_doc_views.
-     */
-    // @codingStandardsIgnoreEnd
     public function testShouldThrowExceptionIfFrontendApiDocViewIsUnknown()
     {
+        $this->expectException(\Symfony\Component\DependencyInjection\Exception\LogicException::class);
+        $this->expectExceptionMessage(
+            'The view "frontend_view1" defined in oro_frontend.frontend_api.api_doc_views is unknown.'
+            . ' Check that it is configured in oro_api.api_doc_views.'
+        );
+
         $container = $this->getContainerBuilder();
 
         $config = [
@@ -303,12 +303,11 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($expected, $container->getExtensionConfig('fos_rest'));
     }
 
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     * @expectedExceptionMessage The "web_backend_prefix" parameter value should not be null.
-     */
     public function testValidateBackendPrefixWithNullValue()
     {
+        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectExceptionMessage('The "web_backend_prefix" parameter value should not be null.');
+
         $container = new ExtendedContainerBuilder();
         $container->setParameter('web_backend_prefix', '');
 
@@ -316,12 +315,11 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->prepend($container);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     * @expectedExceptionMessage The "web_backend_prefix" parameter should start with a "/" character.
-     */
     public function testValidateBackendPrefixWhenItNotStartsWithSlash()
     {
+        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectExceptionMessage('The "web_backend_prefix" parameter should start with a "/" character.');
+
         $container = new ExtendedContainerBuilder();
         $container->setParameter('web_backend_prefix', 'admin');
 
@@ -329,12 +327,11 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->prepend($container);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     * @expectedExceptionMessage The "web_backend_prefix" parameter should not end with a "/" character.
-     */
     public function testValidateBackendPrefixWhenItEndsWithSlash()
     {
+        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectExceptionMessage('The "web_backend_prefix" parameter should not end with a "/" character.');
+
         $container = new ExtendedContainerBuilder();
         $container->setParameter('web_backend_prefix', '/admin/');
 
