@@ -23,7 +23,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
      */
     protected $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->roleTranslationPrefixResolver = $this
             ->getMockBuilder('Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver')
@@ -33,7 +33,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension = new AclAccessLevelSelectorExtension($this->roleTranslationPrefixResolver);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->roleTranslationPrefixResolver, $this->extension);
     }

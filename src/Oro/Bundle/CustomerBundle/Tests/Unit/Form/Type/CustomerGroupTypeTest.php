@@ -22,7 +22,7 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formType = new CustomerGroupType();
         $this->formType->setDataClass(self::DATA_CLASS);
@@ -34,7 +34,7 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->formType);
     }

@@ -8,7 +8,7 @@ class FrontendControllerTest extends WebTestCase
 {
     const FRONTEND_THEME_CONFIG_KEY = 'oro_frontend.frontend_theme';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
@@ -19,7 +19,7 @@ class FrontendControllerTest extends WebTestCase
         ]);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->setDefaultTheme();
     }

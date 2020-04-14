@@ -41,7 +41,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
     /** @var RoleTranslationPrefixResolver|\PHPUnit\Framework\MockObject\MockObject */
     protected $roleTranslationPrefixResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
         $this->translator->expects($this->any())
@@ -127,9 +127,9 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
     protected function retrieveResultsFromPermissionsDatasource(RolePermissionDatasource $datasource, $identity)
     {
         $role = new Role('');
-        
+
         $datasource->process($this->getDatagrid($role), []);
-        
+
         $this->aclRoleHandler->expects($this->once())
             ->method('getAllPrivileges')
             ->with($role)
@@ -151,7 +151,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
                     )
                 ]
             );
-        
+
         return $datasource->getResults();
     }
 
@@ -164,7 +164,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
     protected function getAclPrivilege($id, $name, AclPermission $permission)
     {
         $identity = new AclPrivilegeIdentity($id, $name);
-        
+
         /** @var AclPrivilege|\PHPUnit\Framework\MockObject\MockObject $privilege */
         $privilege = $this->getMockBuilder('Oro\Bundle\SecurityBundle\Model\AclPrivilege')
             ->disableOriginalConstructor()

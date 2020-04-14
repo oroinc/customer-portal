@@ -30,7 +30,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
     /** @var WebsiteUrlResolver */
     private $websiteUrlResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
@@ -267,7 +267,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         $urlConfig = [
             'value' => $url
         ];
-        
+
         /** @var Website $website */
         $website = $this->getEntity(Website::class, ['id' => 2]);
         $this->configManager->expects($this->once())

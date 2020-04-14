@@ -45,7 +45,7 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->screensProvider = $this->createMock(ScreensProviderInterface::class);
         $this->formType = new MenuScreensConditionType($this->screensProvider);

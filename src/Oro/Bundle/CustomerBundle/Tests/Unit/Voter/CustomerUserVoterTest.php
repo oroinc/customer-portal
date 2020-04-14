@@ -22,7 +22,7 @@ class CustomerUserVoterTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->voter         = new CustomerUserVoter($this->tokenAccessor);

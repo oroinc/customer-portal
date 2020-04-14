@@ -26,7 +26,7 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
     /** @var FrontendApiPass */
     private $compilerPass;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->container = new ContainerBuilder();
         $this->compilerPass = new FrontendApiPass();

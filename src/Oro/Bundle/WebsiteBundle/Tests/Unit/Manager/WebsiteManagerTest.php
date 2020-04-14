@@ -32,7 +32,7 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
      */
     private $maintenance;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
@@ -41,7 +41,7 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
         $this->manager = new WebsiteManager($this->managerRegistry, $this->frontendHelper, $this->maintenance);
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         unset($this->managerRegistry, $this->manager, $this->frontendHelper);
     }

@@ -21,7 +21,7 @@ class PageTemplateCollectionTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->pageTemplatesManagerMock = $this->getMockBuilder(PageTemplatesManager::class)
             ->disableOriginalConstructor()

@@ -25,7 +25,7 @@ class CustomerGroupScopeExtensionTest extends FormIntegrationTestCase
      */
     protected $scopeManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->customerGroupScopeExtension = new CustomerGroupScopeExtension();
 

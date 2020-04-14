@@ -21,7 +21,7 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
      */
     protected static $defaultRolesCount;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);

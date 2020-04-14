@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CustomerTest extends FrontendRestJsonApiTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures([

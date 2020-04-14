@@ -19,7 +19,7 @@ class RuleEditorTextTypeTest extends \PHPUnit\Framework\TestCase
      */
     private $type;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->optionsConfigurator = $this->getMockBuilder(RuleEditorOptionsConfigurator::class)
             ->disableOriginalConstructor()

@@ -22,7 +22,7 @@ class ThemeConfiguratorTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configBag = $this->createMock(ConfigBag::class);
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);

@@ -22,7 +22,7 @@ class DisabledUserSessionListenerTest extends \PHPUnit\Framework\TestCase
     /** @var DisabledUserSessionListener */
     private $listener;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->logoutUrlGenerator = $this->createMock(LogoutUrlGenerator::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);

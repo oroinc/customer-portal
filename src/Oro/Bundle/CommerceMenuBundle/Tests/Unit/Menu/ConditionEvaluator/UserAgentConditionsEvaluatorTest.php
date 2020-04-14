@@ -40,7 +40,7 @@ class UserAgentConditionsEvaluatorTest extends \PHPUnit\Framework\TestCase
      */
     private $userAgentConditionsEvaluator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->menuItem = $this->createMock(ItemInterface::class);
         $this->userAgentProvider = $this->createMock(UserAgentProviderInterface::class);

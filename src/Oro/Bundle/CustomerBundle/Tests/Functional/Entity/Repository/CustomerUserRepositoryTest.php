@@ -14,7 +14,7 @@ class CustomerUserRepositoryTest extends WebTestCase
     /** @var CustomerUserRepository */
     private $repository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
 

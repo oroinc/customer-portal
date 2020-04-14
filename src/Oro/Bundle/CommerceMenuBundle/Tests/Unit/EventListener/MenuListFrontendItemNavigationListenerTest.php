@@ -20,7 +20,7 @@ class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\Test
     /** @var \PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);

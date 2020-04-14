@@ -88,7 +88,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         'action' => ['action_name'],
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formFactory = $this->getMockBuilder(FormFactory::class)
             ->disableOriginalConstructor()

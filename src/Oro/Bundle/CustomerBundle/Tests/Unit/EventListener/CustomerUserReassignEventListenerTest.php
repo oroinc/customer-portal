@@ -21,7 +21,7 @@ class CustomerUserReassignEventListenerTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->customerUserReassignUpdater = $this->createMock(CustomerUserReassignUpdaterInterface::class);
         $this->listener = new CustomerUserReassignEventListener($this->customerUserReassignUpdater);

@@ -25,7 +25,7 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
     /** @var ThemeListener */
     private $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->helper = $this->createMock(FrontendHelper::class);
         $this->kernel = $this->createMock(HttpKernelInterface::class);

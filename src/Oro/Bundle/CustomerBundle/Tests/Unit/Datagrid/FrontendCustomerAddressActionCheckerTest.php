@@ -16,7 +16,7 @@ class FrontendCustomerAddressActionCheckerTest extends \PHPUnit\Framework\TestCa
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->actionChecker = new FrontendCustomerAddressActionChecker($this->configManager);
@@ -25,7 +25,7 @@ class FrontendCustomerAddressActionCheckerTest extends \PHPUnit\Framework\TestCa
     /**
      * {@inheritdoc}
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
         unset($this->configManager, $this->actionChecker);
     }

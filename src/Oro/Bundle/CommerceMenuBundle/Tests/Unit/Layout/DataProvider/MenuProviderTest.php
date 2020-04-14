@@ -17,7 +17,7 @@ class MenuProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->builderChainProvider = $this->getMockBuilder(MenuProviderInterface::class)->getMock();
         $this->provider = new MenuProvider($this->builderChainProvider);

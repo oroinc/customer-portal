@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class NotAccessibleResourceForUserTest extends FrontendRestJsonApiTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures([LoadAdminCustomerUserData::class]);

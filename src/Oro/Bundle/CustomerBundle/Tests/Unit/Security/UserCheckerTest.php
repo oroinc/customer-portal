@@ -21,7 +21,7 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
      */
     private $innerUserChecker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->innerUserChecker = $this->createMock(UserCheckerInterface::class);
         $this->userChecker = new UserChecker($this->innerUserChecker);

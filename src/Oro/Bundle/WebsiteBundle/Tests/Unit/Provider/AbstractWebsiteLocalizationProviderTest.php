@@ -22,7 +22,7 @@ abstract class AbstractWebsiteLocalizationProviderTest extends \PHPUnit\Framewor
     /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     protected $doctrineHelper;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
 

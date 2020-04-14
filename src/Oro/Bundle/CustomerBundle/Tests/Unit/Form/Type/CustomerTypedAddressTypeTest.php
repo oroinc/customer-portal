@@ -75,7 +75,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formType = new CustomerTypedAddressType();
         $this->formType->setAddressTypeDataClass('Oro\Bundle\AddressBundle\Entity\AddressType');
@@ -86,7 +86,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->formType);
     }

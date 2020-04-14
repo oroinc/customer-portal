@@ -21,7 +21,7 @@ class SelfManagedPublicCustomerUserRoleAccessRuleTest extends TestCase
     /** @var SelfManagedPublicCustomerUserRoleAccessRule */
     private $rule;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->rule = new SelfManagedPublicCustomerUserRoleAccessRule($this->tokenAccessor);

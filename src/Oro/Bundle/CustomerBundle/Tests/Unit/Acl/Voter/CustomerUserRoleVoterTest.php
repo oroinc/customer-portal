@@ -34,7 +34,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
      */
     protected $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock('Oro\Bundle\EntityBundle\ORM\DoctrineHelper');
         $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
@@ -43,7 +43,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
         $this->voter->setContainer($this->container);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->voter, $this->doctrineHelper, $this->container);
     }

@@ -32,7 +32,7 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
     /** @var CacheableWebsiteProvider */
     private $cacheableProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->websiteProvider = $this->createMock(WebsiteProviderInterface::class);
         $this->cacheProvider = new ArrayCache();

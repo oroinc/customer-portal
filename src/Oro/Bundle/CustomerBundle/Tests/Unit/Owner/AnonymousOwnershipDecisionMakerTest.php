@@ -24,7 +24,7 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $metadataProvider = $this->createMock(OwnershipMetadataProviderInterface::class);
 

@@ -43,7 +43,7 @@ class CustomerRegistrationHandlerTest extends \PHPUnit\Framework\TestCase
      */
     private $translator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->registrationFormProvider = $this->createMock(FrontendCustomerUserRegistrationFormProvider::class);
         $this->customerUserManager = $this->createMock(CustomerUserManager::class);

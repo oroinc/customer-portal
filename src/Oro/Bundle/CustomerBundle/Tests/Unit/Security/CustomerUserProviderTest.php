@@ -36,7 +36,7 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserProvider */
     private $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->authChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);

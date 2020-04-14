@@ -35,7 +35,7 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->formType = new FrontendCustomerUserProfileType($this->configManager);
@@ -46,7 +46,7 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

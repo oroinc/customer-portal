@@ -24,7 +24,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
     /** @var FrontendCustomerUserRegistrationType */
     private $formType;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->doctrine = $this->createMock(ManagerRegistry::class);

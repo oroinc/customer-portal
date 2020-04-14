@@ -29,7 +29,7 @@ class WidgetControllerTest extends WebTestCase
      */
     private $entity;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient(
             [],

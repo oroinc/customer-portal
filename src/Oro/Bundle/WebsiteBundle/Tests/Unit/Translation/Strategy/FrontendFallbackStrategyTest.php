@@ -23,7 +23,7 @@ class FrontendFallbackStrategyTest extends \PHPUnit\Framework\TestCase
      */
     protected $strategy;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->frontendHelper = $this->getMockBuilder(FrontendHelper::class)
             ->disableOriginalConstructor()->getMock();

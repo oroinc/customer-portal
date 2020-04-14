@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomerUserAddressForVisitorTest extends FrontendRestJsonApiTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->enableVisitor();

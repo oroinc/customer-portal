@@ -15,7 +15,7 @@ class MenuUpdateExpressionValidatorTest extends \PHPUnit\Framework\TestCase
     /** @var MenuUpdateExpressionValidator */
     private $validator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->expressionLanguage = new ExpressionLanguage();
         $this->validator = new MenuUpdateExpressionValidator($this->expressionLanguage);

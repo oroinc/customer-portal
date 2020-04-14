@@ -15,7 +15,7 @@ class CustomerEntityNameProviderTest extends \PHPUnit\Framework\TestCase
     /** @var EntityNameProvider */
     private $defaultEntityNameProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->defaultEntityNameProvider = $this->createMock(EntityNameProvider::class);
 

@@ -16,7 +16,7 @@ class CustomerIdPlaceholderTest extends \PHPUnit\Framework\TestCase
     /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenStorage;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenStorage = $this->getMockBuilder(TokenStorageInterface::class)
             ->disableOriginalConstructor()
@@ -25,7 +25,7 @@ class CustomerIdPlaceholderTest extends \PHPUnit\Framework\TestCase
         $this->placeholder = new CustomerIdPlaceholder($this->tokenStorage);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->tokenStorage, $this->placeholder);
     }

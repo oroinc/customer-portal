@@ -17,7 +17,7 @@ class GuestAccessTest extends WebTestCase
      */
     const WEB_BACKEND_ = '/admin/user/login';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
 
@@ -26,7 +26,7 @@ class GuestAccessTest extends WebTestCase
         $this->setGuestAccess(false);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->setGuestAccess(true);
     }

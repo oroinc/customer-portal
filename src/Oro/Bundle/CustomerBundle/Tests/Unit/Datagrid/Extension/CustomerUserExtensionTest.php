@@ -17,7 +17,7 @@ class CustomerUserExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserExtension */
     protected $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 

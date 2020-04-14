@@ -31,7 +31,7 @@ class CustomerUserCheckRoleValidatorTest extends \PHPUnit\Framework\TestCase
      */
     protected $customerUser;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->customerUser = $this->createMock(CustomerUser::class);
 

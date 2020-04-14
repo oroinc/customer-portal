@@ -48,7 +48,7 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
     /** @var LoginManager */
     private $loginManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenStorage = $this->getMockBuilder(TokenStorageInterface::class)->getMock();
 

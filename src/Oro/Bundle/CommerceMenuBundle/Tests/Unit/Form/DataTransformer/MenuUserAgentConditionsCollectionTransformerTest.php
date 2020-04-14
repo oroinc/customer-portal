@@ -16,7 +16,7 @@ class MenuUserAgentConditionsCollectionTransformerTest extends \PHPUnit\Framewor
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transformer = new MenuUserAgentConditionsCollectionTransformer();
     }

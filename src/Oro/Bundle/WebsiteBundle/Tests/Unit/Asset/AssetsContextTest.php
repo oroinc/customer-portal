@@ -27,7 +27,7 @@ class AssetsContextTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);
         $this->resolver = $this->createMock(BasePathResolver::class);
@@ -44,7 +44,7 @@ class AssetsContextTest extends \PHPUnit\Framework\TestCase
         $request->expects($this->atLeastOnce())
             ->method('getBasePath')
             ->willReturn($path);
-        
+
         $this->requestStack->expects($this->atLeastOnce())
             ->method('getMasterRequest')
             ->willReturn($request);

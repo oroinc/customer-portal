@@ -63,7 +63,7 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transformer = new AddressTypeDefaultTransformer($this->em);
     }

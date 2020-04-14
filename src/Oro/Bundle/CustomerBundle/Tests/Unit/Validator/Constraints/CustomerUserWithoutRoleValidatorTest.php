@@ -25,7 +25,7 @@ class CustomerUserWithoutRoleValidatorTest extends \PHPUnit\Framework\TestCase
      */
     protected $context;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->constraint = new CustomerUserWithoutRole();
         $this->validator = new CustomerUserWithoutRoleValidator();

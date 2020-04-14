@@ -31,7 +31,7 @@ class SystemConfigListenerTest extends \PHPUnit\Framework\TestCase
      */
     protected $configManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->registry = $this->createMock(ManagerRegistry::class);

@@ -16,7 +16,7 @@ class CustomerUserPasswordResetHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserPasswordResetHandler */
     private $handler;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->userManager = $this->createMock(CustomerUserManager::class);
 

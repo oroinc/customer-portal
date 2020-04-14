@@ -49,7 +49,7 @@ class ActionPermissionProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->record = $this->createMock(ResultRecordInterface::class);
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);

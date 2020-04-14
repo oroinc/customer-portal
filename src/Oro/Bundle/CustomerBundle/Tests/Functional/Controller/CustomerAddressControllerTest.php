@@ -16,7 +16,7 @@ class CustomerAddressControllerTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
@@ -169,7 +169,7 @@ class CustomerAddressControllerTest extends WebTestCase
 
         return $id;
     }
-    
+
     /**
      * Fill form for address tests (create test)
      *

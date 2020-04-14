@@ -25,7 +25,7 @@ class FrontendCustomerUserAddressFormProviderTest extends \PHPUnit\Framework\Tes
     /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $router;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->mockFormFactory = $this->getMockBuilder('Symfony\Component\Form\FormFactoryInterface')->getMock();
         $this->router = $this->createMock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');

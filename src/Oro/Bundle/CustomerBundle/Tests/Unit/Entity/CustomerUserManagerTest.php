@@ -56,7 +56,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserManager */
     private $userManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->userLoader = $this->createMock(UserLoaderInterface::class);
         $this->doctrine = $this->createMock(ManagerRegistry::class);

@@ -11,7 +11,7 @@ class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestC
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
         $this->loadFixtures([LoadCustomerUserData::class]);

@@ -22,7 +22,7 @@ class DatagridFieldsListenerTest extends \PHPUnit\Framework\TestCase
     /** @var DatagridFieldsListener */
     private $listener;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
         $this->datagridConfig = $this->createMock(DatagridConfiguration::class);

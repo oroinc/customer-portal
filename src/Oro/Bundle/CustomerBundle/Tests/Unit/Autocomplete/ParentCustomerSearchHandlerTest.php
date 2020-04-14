@@ -44,7 +44,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
      */
     protected $aclHelper;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->entityRepository = $this
             ->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository')

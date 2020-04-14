@@ -45,7 +45,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->userManager = $this->createMock(CustomerUserManager::class);
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

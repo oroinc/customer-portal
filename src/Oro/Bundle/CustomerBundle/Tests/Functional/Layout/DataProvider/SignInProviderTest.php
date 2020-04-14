@@ -30,7 +30,7 @@ class SignInProviderTest extends WebTestCase
     /** @var TranslatorInterface */
     protected $translator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
         $this->client->useHashNavigation(true);

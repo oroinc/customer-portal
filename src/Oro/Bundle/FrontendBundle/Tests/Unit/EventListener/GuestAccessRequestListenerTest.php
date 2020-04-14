@@ -61,7 +61,7 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
      */
     private $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->configManager = $this->createMock(ConfigManager::class);

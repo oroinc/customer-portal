@@ -14,7 +14,7 @@ class AclGroupProviderTest extends \PHPUnit\Framework\TestCase
     /** @var AclGroupProvider */
     private $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
 

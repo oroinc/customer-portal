@@ -37,7 +37,7 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
     /** @var FormBuilderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $formBuilder;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
         $this->configManager = $this->createMock(ConfigManager::class);

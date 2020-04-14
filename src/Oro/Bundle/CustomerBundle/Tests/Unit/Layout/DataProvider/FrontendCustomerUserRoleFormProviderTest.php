@@ -27,7 +27,7 @@ class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit\Framework\TestCa
      */
     protected $router;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->handler = $this
             ->getMockBuilder('Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler')
@@ -41,7 +41,7 @@ class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit\Framework\TestCa
         $this->provider = new FrontendCustomerUserRoleFormProvider($formFactory, $this->handler, $this->router);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->provider, $this->handler);
     }

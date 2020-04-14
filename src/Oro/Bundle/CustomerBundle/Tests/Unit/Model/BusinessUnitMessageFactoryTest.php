@@ -22,7 +22,7 @@ class BusinessUnitMessageFactoryTest extends \PHPUnit\Framework\TestCase
      */
     private $messageFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->messageFactory = new BusinessUnitMessageFactory($this->doctrineHelper);

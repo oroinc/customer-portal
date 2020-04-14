@@ -17,7 +17,7 @@ class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddr
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->formType = new FrontendCustomerUserTypedAddressType();

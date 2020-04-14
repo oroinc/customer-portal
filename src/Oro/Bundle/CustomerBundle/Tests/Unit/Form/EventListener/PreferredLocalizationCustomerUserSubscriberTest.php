@@ -37,7 +37,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
      */
     private $subscriber;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->configManager = $this->createMock(ConfigManager::class);

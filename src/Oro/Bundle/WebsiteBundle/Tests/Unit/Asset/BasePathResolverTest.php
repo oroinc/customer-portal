@@ -22,7 +22,7 @@ class BasePathResolverTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);
         $this->resolver = new BasePathResolver($this->requestStack);
@@ -42,7 +42,7 @@ class BasePathResolverTest extends \PHPUnit\Framework\TestCase
         /** @var Request|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(Request::class);
         $request->server = new ParameterBag(['WEBSITE_PATH' => '/path']);
-        
+
         $this->requestStack->expects($this->atLeastOnce())
             ->method('getMasterRequest')
             ->willReturn($request);

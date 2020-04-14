@@ -32,7 +32,7 @@ class FrontendCustomerUserRoleCapabilitySetOptionsProviderTest extends \PHPUnit\
      */
     private $role;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->capabilityProvider = $this->createMock(RolePrivilegeCapabilityProvider::class);
         $this->categoryProvider = $this->createMock(RolePrivilegeCategoryProvider::class);

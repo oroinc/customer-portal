@@ -44,7 +44,7 @@ class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
      */
     protected $entity;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->manager = $this->getMockBuilder('Doctrine\Common\Persistence\ObjectManager')
             ->disableOriginalConstructor()

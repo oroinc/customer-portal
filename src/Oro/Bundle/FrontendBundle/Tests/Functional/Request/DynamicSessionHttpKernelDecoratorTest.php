@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DynamicSessionHttpKernelDecoratorTest extends WebTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
     }

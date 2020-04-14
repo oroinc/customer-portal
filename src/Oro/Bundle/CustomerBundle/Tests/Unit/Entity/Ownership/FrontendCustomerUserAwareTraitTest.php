@@ -13,7 +13,7 @@ class FrontendCustomerUserAwareTraitTest extends \PHPUnit\Framework\TestCase
      */
     protected $frontendCustomerUserAwareTrait;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->frontendCustomerUserAwareTrait = $this->getMockForTrait(FrontendCustomerUserAwareTrait::class);
     }

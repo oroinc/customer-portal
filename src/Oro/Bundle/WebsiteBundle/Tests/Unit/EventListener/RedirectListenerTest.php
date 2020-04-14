@@ -34,7 +34,7 @@ class RedirectListenerTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->urlResolver = $this->createMock(WebsiteUrlResolver::class);

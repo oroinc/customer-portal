@@ -25,7 +25,7 @@ class GuestAccessDecisionMakerTest extends \PHPUnit\Framework\TestCase
     /** @var GuestAccessDecisionMaker */
     private $guestAccessDecisionMaker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
         $this->guestAccessAllowedUrlsProvider = $this->createMock(GuestAccessAllowedUrlsProviderInterface::class);

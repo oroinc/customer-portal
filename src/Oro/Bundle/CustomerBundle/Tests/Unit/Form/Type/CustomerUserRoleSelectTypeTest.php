@@ -21,7 +21,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
     /** @var string */
     protected $roleClass;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $translator = $this->createTranslator();
         $this->formType = new CustomerUserRoleSelectType($translator);
@@ -29,7 +29,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         unset($this->formType);
         parent::tearDown();

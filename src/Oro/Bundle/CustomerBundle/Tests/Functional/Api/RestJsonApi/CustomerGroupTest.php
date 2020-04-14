@@ -10,7 +10,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
  */
 class CustomerGroupTest extends RestJsonApiTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures([

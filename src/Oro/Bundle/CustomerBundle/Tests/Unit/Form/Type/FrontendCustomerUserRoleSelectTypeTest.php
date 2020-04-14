@@ -35,7 +35,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
     /** @var QueryBuilder */
     protected $qb;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $customer = $this->createCustomer(1, 'customer');
         $organization = $this->createOrganization(1);

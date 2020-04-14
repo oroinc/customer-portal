@@ -17,7 +17,7 @@ class FrontendExposedRoutesExtractorTest extends \PHPUnit\Framework\TestCase
     /** @var string */
     private $cacheDir;
 
-    public function setUp()
+    protected function setUp(): void
     {
         /** @var RouterInterface|\PHPUnit\Framework\MockObject\MockObject $router */
         $router = $this->createMock(RouterInterface::class);

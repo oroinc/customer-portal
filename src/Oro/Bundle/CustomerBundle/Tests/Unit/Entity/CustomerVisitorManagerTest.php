@@ -28,7 +28,7 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerVisitorManager */
     private $manager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->repository = $this->createMock(EntityRepository::class);

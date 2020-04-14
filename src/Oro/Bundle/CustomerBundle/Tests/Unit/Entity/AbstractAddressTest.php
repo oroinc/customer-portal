@@ -48,7 +48,7 @@ abstract class AbstractAddressTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->address = $this->createAddressEntity();
     }

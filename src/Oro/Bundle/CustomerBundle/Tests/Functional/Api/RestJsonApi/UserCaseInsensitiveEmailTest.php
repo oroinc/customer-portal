@@ -15,7 +15,7 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadTestCustomer
  */
 class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures([LoadTestCustomerUser::class]);

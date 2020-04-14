@@ -16,7 +16,7 @@ class CustomerDeleteHandlerExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerDeleteHandlerExtension */
     private $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->customerAssignHelper = $this->createMock(CustomerAssignHelper::class);
 

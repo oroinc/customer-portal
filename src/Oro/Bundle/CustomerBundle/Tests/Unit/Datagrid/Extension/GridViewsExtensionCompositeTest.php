@@ -26,7 +26,7 @@ class GridViewsExtensionCompositeTest extends \PHPUnit\Framework\TestCase
     /** @var GridViewsExtensionComposite */
     protected $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->defaultGridViewsExtension = $this->createMock(GridViewsExtension::class);
         $this->frontendGridViewsExtension = $this->createMock(GridViewsExtension::class);

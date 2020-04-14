@@ -22,7 +22,7 @@ class CustomerExtensionTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->securityProvider = $this->getMockBuilder(CustomerUserProvider::class)
             ->disableOriginalConstructor()

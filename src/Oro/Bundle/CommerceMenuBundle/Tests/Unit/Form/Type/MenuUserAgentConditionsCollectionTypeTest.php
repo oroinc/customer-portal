@@ -32,7 +32,7 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transformer = new MenuUserAgentConditionsCollectionTransformer();
         $this->formType = new MenuUserAgentConditionsCollectionType($this->transformer);

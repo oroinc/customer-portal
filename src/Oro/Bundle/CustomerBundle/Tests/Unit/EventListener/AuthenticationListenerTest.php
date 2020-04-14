@@ -26,7 +26,7 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->loginManager = $this->createMock(LoginManager::class);
         $this->configManager = $this->createMock(ConfigManager::class);

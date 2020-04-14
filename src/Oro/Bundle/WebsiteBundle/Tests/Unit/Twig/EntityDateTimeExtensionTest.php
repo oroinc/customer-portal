@@ -30,7 +30,7 @@ class EntityDateTimeExtensionTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->dateTimeExtension = $this->createMock(DateTimeExtension::class);
         $this->configManager = $this->createMock(ConfigManager::class);

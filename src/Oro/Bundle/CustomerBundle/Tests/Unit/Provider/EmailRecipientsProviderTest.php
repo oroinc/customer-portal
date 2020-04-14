@@ -28,7 +28,7 @@ class EmailRecipientsProviderTest extends TestCase
      */
     protected $emailRecipientsProvider;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->registry = $this->getMockBuilder(Registry::class)
             ->disableOriginalConstructor()

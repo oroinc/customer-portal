@@ -64,7 +64,7 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
     /** @var CsrfRequestManager|\PHPUnit_Framework_MockObject_MockObject */
     private $csrfRequestManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         $this->authenticationManager = $this->createMock(AuthenticationManagerInterface::class);

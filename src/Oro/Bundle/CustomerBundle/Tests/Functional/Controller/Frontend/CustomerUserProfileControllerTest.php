@@ -22,7 +22,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
         'Roles'
     ];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient(
             [],

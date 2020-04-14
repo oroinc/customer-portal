@@ -20,7 +20,7 @@ class ScopeCustomerGroupCriteriaProviderTest extends \PHPUnit\Framework\TestCase
     /** @var ScopeCustomerGroupCriteriaProvider */
     private $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         $this->customerUserRelationsProvider = $this->createMock(CustomerUserRelationsProvider::class);

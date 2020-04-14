@@ -22,7 +22,7 @@ class RequestWebsiteProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);

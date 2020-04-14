@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomerGroupForVisitorTest extends FrontendRestJsonApiTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->enableVisitor();

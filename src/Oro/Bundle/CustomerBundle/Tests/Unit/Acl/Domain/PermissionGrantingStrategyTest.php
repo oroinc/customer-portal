@@ -36,7 +36,7 @@ class PermissionGrantingStrategyTest extends TestCase
     /** @var MockObject */
     private $context;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->innerStrategy = $this->createMock(InnerStrategy::class);
         $this->securityToken = $this->createMock(OrganizationAwareTokenInterface::class);

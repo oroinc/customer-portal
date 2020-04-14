@@ -40,7 +40,7 @@ class FrontendOwnershipMetadataProviderTest extends \PHPUnit\Framework\TestCase
      */
     protected $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->entityClassResolver = $this->createMock(EntityClassResolver::class);

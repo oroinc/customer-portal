@@ -20,7 +20,7 @@ class PageTemplateTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->pageTemplatesManagerMock = $this->createMock(PageTemplatesManager::class);
 

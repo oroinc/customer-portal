@@ -19,7 +19,7 @@ class CustomerUserEmailSendEventTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->customerUser = new CustomerUser();
         $this->event = new CustomerUserEmailSendEvent($this->customerUser, 'template_name', []);

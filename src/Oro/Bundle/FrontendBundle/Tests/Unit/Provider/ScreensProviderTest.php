@@ -60,7 +60,7 @@ class ScreensProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->cache = $this->createMock(Cache::class);
         $this->themeManager = $this->createMock(ThemeManager::class);

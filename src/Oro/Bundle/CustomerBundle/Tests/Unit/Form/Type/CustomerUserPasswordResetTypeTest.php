@@ -16,14 +16,14 @@ class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
     /** @var CustomerUserPasswordResetType */
     protected $formType;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formType = new CustomerUserPasswordResetType();
         $this->formType->setDataClass(self::DATA_CLASS);
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->formType);
     }

@@ -31,7 +31,7 @@ class ForgotPasswordHandlerTest extends \PHPUnit\Framework\TestCase
      */
     private $forgotPasswordHandler;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->passwordRequestHandler = $this->createMock(CustomerUserPasswordRequestHandler::class);
         $this->customerUserFormProvider = $this->createMock(FrontendCustomerUserFormProvider::class);

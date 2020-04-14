@@ -32,7 +32,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
      */
     protected $router;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->router = $this->createMock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
 
@@ -45,7 +45,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
         $this->provider = new FrontendCustomerUserFormProvider($this->formFactory, $this->router);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->provider, $this->handler);
     }

@@ -22,7 +22,7 @@ class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);

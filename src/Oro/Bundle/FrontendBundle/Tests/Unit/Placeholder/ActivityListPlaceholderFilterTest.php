@@ -16,7 +16,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|PlaceholderFilter */
     private $basicFilter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->basicFilter = $this->createMock(PlaceholderFilter::class);
     }

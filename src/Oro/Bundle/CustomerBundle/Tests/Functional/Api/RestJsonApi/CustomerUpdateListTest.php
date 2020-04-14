@@ -12,7 +12,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
  */
 class CustomerUpdateListTest extends RestJsonApiUpdateListTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures(

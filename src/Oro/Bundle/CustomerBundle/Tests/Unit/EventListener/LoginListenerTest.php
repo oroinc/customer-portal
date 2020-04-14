@@ -34,7 +34,7 @@ class LoginListenerTest extends \PHPUnit\Framework\TestCase
      */
     protected $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->request = Request::create(self::TEST_URL);
 
@@ -47,7 +47,7 @@ class LoginListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new LoginListener();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->request, $this->token, $this->event, $this->listener);
     }

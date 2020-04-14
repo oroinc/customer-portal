@@ -20,7 +20,7 @@ class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
     /** @var UnitOfWork|\PHPUnit\Framework\MockObject\MockObject */
     private $uow;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->cacheableProvider = $this->createMock(CacheableWebsiteProvider::class);
 

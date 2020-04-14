@@ -12,7 +12,7 @@ class OwnerTreeMessageFactoryTest extends \PHPUnit\Framework\TestCase
      */
     private $messageFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->messageFactory = new OwnerTreeMessageFactory();
     }

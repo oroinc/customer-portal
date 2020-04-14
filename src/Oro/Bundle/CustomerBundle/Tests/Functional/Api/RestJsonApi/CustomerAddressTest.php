@@ -49,7 +49,7 @@ class CustomerAddressTest extends RestJsonApiTestCase
     private const ANOTHER_OWNER_REF                = 'customer.level_1.1';
     private const ANOTHER_OWNER_ADDRESS_2_REF      = 'customer.level_1.1.address_2';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures(['@OroCustomerBundle/Tests/Functional/Api/DataFixtures/customer_addresses.yml']);

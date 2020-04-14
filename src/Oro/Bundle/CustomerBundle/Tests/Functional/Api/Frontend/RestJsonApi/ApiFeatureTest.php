@@ -21,7 +21,7 @@ class ApiFeatureTest extends FrontendRestJsonApiTestCase
 
     private const API_FEATURE_NAME = 'oro_frontend.web_api';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->loadFixtures([

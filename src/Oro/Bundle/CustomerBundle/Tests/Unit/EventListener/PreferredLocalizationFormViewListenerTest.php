@@ -25,7 +25,7 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
      */
     private $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->listener = new PreferredLocalizationFormViewListener($this->websiteManager);

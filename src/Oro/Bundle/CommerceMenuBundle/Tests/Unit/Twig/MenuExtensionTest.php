@@ -25,7 +25,7 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->matcher = $this->getMockBuilder(MatcherInterface::class)
             ->disableOriginalConstructor()

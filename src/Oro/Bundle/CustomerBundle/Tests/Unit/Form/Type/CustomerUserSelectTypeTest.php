@@ -18,7 +18,7 @@ class CustomerUserSelectTypeTest extends FormIntegrationTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formType = new CustomerUserSelectType();
     }

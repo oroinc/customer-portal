@@ -48,7 +48,7 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
     /** @var CustomerOwnershipConditionDataBuilder */
     protected $builder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
 

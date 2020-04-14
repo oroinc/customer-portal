@@ -23,7 +23,7 @@ class SetCustomerUserTest extends TypeTestCase
     /** @var SetCustomerUser */
     private $processor;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

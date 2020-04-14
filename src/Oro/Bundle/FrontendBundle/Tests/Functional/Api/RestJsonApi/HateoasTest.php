@@ -13,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class HateoasTest extends FrontendRestJsonApiTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->enableVisitor();

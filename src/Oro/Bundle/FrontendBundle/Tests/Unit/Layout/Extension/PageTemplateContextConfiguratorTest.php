@@ -15,7 +15,7 @@ class PageTemplateContextConfiguratorTest extends \PHPUnit\Framework\TestCase
     /** @var PageTemplateContextConfigurator */
     private $pageTemplateContextConfigurator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configManagerMock = $this->getMockBuilder(ConfigManager::class)
             ->disableOriginalConstructor()

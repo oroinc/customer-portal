@@ -46,7 +46,7 @@ class WYSIWYGTypeExtensionTest extends \PHPUnit\Framework\TestCase
      */
     protected $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->themeManager = $this->createMock(ThemeManager::class);
         $this->themeProvider = $this->createMock(ThemeProvider::class);

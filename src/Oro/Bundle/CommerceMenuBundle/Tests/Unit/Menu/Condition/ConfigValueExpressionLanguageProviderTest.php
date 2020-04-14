@@ -17,7 +17,7 @@ class ConfigValueExpressionLanguageProviderTest extends \PHPUnit\Framework\TestC
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->configManager = $this->getMockBuilder(ConfigManager::class)->disableOriginalConstructor()->getMock();
         $this->provider = new ConfigValueExpressionLanguageProvider($this->configManager);

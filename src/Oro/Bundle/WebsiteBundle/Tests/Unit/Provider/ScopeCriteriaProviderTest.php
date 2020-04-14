@@ -14,7 +14,7 @@ class ScopeCriteriaProviderTest extends \PHPUnit\Framework\TestCase
     /** @var ScopeCriteriaProvider */
     private $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);
 

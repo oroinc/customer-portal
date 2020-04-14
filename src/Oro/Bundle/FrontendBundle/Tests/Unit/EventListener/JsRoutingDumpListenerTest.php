@@ -15,7 +15,7 @@ class JsRoutingDumpListenerTest extends \PHPUnit\Framework\TestCase
     /** @var JsRoutingDumpListener */
     private $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->listener = new JsRoutingDumpListener();
     }

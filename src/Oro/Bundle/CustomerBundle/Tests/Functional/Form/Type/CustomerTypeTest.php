@@ -22,7 +22,7 @@ class CustomerTypeTest extends WebTestCase
 
     private const PRIMARY_ADDRESS = 0;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], static::generateBasicAuthHeader());
         $this->loadFixtures([LoadCustomers::class]);

@@ -29,7 +29,7 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends \PHPUnit\Framework\Tes
     /** @var UniqueCustomerUserNameAndEmailValidator */
     private $validator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->customerUserManager = $this->createMock(CustomerUserManager::class);
         $this->constraintViolationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);

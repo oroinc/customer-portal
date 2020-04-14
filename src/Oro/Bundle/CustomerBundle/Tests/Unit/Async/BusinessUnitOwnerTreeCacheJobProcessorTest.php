@@ -39,7 +39,7 @@ class BusinessUnitOwnerTreeCacheJobProcessorTest extends \PHPUnit\Framework\Test
      */
     private $processor;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->messageFactory = $this->createMock(BusinessUnitMessageFactory::class);
         $this->frontendOwnerTreeProvider = $this->createMock(FrontendOwnerTreeProvider::class);

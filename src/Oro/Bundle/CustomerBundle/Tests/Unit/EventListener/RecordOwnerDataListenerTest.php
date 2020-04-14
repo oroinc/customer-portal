@@ -25,7 +25,7 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
     /** @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
     protected $configProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->customerUserProvider = $this->createMock(CustomerUserProvider::class);
         $this->configProvider = $this->createMock(ConfigProvider::class);

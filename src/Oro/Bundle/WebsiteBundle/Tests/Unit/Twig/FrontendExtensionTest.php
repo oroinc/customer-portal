@@ -24,7 +24,7 @@ class FrontendExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var FrontendExtension */
     private $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->environment = $this->createMock(Environment::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);

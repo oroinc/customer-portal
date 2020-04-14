@@ -50,7 +50,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var CustomerUserSearchHandler */
     private $searchHandler;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->indexer = self::createMock(Indexer::class);
 

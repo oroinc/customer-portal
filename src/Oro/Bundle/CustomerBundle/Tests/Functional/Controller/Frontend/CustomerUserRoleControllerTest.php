@@ -52,7 +52,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
      */
     protected $predefinedRole;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient(
             [],

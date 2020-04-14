@@ -46,7 +46,7 @@ class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->authorizationChecker = self::createMock(AuthorizationCheckerInterface::class);
         $this->customerUserReassignUpdater = self::createMock(CustomerUserReassignUpdaterInterface::class);

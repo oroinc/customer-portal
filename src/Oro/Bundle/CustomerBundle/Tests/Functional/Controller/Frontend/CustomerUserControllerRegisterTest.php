@@ -16,7 +16,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
     const EMAIL = 'john.doe@example.com';
     const PASSWORD = '123456';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
         $this->client->useHashNavigation(true);

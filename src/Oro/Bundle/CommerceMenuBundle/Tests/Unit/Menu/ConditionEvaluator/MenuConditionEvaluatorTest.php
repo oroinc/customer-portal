@@ -28,7 +28,7 @@ class MenuConditionEvaluatorTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->expressionLanguage = $this->createMock(ExpressionLanguage::class);

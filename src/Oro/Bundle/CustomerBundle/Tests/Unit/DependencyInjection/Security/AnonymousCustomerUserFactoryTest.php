@@ -17,7 +17,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
      */
     private $factory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->factory = new AnonymousCustomerUserFactory();
     }

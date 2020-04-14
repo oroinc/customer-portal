@@ -15,7 +15,7 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
     /** @var WebsiteRepository|\PHPUnit\Framework\MockObject\MockObject $websiteRepository */
     protected $websiteRepository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

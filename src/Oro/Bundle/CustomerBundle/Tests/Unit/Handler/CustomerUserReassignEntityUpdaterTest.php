@@ -50,7 +50,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->registry = self::createMock(ManagerRegistry::class);
         $this->entityToArrayConverter = self::createMock(EntityToEntityChangeArrayConverter::class);

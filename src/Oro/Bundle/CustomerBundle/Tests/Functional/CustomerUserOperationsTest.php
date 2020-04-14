@@ -13,7 +13,7 @@ class CustomerUserOperationsTest extends WebTestCase
 
     const EMAIL = LoadCustomerUserData::EMAIL;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);

@@ -40,7 +40,7 @@ class OrmDatasourceAclListenerTest extends \PHPUnit\Framework\TestCase
      */
     protected $event;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
@@ -54,7 +54,7 @@ class OrmDatasourceAclListenerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->authorizationChecker, $this->metadataProvider, $this->listener, $this->event);
     }

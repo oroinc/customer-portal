@@ -20,7 +20,7 @@ use Oro\Component\Testing\QueryTracker;
  */
 class FrontendOwnerTreeProviderTest extends WebTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient();
         $this->loadFixtures([LoadCustomerUserData::class, LoadOrganization::class]);

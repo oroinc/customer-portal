@@ -21,7 +21,7 @@ class CustomerUserTypeTest extends WebTestCase
 {
     use RolePermissionExtension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], static::generateBasicAuthHeader());
         $this->loadFixtures([

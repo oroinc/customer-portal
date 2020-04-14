@@ -18,7 +18,7 @@ class WebsitePathExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var WebsitePathExtension */
     protected $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->websiteUrlResolver = $this->getMockBuilder(WebsiteUrlResolver::class)
             ->disableOriginalConstructor()

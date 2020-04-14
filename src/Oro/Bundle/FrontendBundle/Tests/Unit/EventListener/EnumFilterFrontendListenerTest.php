@@ -33,7 +33,7 @@ class EnumFilterFrontendListenerTest extends \PHPUnit\Framework\TestCase
      */
     private $datagridConfig;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
