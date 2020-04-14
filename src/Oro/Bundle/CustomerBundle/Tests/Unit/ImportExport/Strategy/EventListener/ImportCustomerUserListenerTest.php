@@ -224,7 +224,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $customerUser->setPassword($passwordBefore);
 
         $this->updateEventMock($customerUser);
-        $this->updateCustomerManagerMock($customerUser, $passwordAfter);
+        $this->updateCustomerManagerMock($passwordAfter);
 
         $listener = new ImportCustomerUserListener(
             $this->registry,
