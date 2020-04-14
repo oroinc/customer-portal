@@ -23,10 +23,9 @@ class CustomerVisitorTest extends \PHPUnit\Framework\TestCase
 
     public function testLastVisitAccessors()
     {
-        $this->assertEquals(
+        $this->assertEqualsWithDelta(
             (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp(),
             (new CustomerVisitor())->getLastVisit()->getTimestamp(),
-            '',
             10
         );
 
