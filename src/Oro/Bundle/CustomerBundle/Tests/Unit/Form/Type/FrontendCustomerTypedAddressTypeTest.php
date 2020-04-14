@@ -184,7 +184,7 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
 
     public function testGetName()
     {
-        $this->assertInternalType('string', $this->formType->getName());
+        $this->assertIsString($this->formType->getName());
         $this->assertEquals('oro_customer_frontend_typed_address', $this->formType->getName());
     }
 

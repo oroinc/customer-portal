@@ -68,7 +68,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
         $this->assertArraySubset($expectedOptions, $formOptions);
         $this->assertArrayHasKey('choice_label', $formOptions);
-        $this->assertInternalType('callable', $formOptions['choice_label']);
+        $this->assertIsCallable($formOptions['choice_label']);
 
         $roleWithoutCustomer = new CustomerUserRole('');
         $roleWithoutCustomer->setLabel('roleWithoutCustomer');

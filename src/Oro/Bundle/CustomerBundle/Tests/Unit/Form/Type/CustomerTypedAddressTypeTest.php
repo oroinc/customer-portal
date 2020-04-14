@@ -260,7 +260,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
 
     public function testGetName()
     {
-        $this->assertInternalType('string', $this->formType->getName());
+        $this->assertIsString($this->formType->getName());
         $this->assertEquals('oro_customer_typed_address', $this->formType->getName());
     }
 

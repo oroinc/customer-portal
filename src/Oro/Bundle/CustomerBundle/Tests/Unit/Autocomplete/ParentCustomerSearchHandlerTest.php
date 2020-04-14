@@ -96,7 +96,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $this->indexer->expects($this->never())
             ->method($this->anything());
         $result = $this->searchHandler->search($query, 1, 10);
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertArrayHasKey('more', $result);
         $this->assertArrayHasKey('results', $result);
         $this->assertFalse($result['more']);
@@ -141,7 +141,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertSearchCall($search, $page, $perPage, $foundElements, $resultData, $expectedIds);
 
         $searchResult = $this->searchHandler->search($queryString, $page, $perPage);
-        $this->assertInternalType('array', $searchResult);
+        $this->assertIsArray($searchResult);
         $this->assertArrayHasKey('more', $searchResult);
         $this->assertArrayHasKey('results', $searchResult);
         $this->assertEquals($expectedResultData, $searchResult['results']);
@@ -178,7 +178,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertSearchCall($search, $page, $perPage, $foundElements, $resultData, $expectedIds);
 
         $searchResult = $this->searchHandler->search($queryString, $page, $perPage);
-        $this->assertInternalType('array', $searchResult);
+        $this->assertIsArray($searchResult);
         $this->assertArrayHasKey('more', $searchResult);
         $this->assertArrayHasKey('results', $searchResult);
         $this->assertEquals($expectedResultData, $searchResult['results']);
@@ -214,7 +214,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertSearchCall($search, $page, $perPage, $foundElements, $resultData, $expectedIds);
 
         $searchResult = $this->searchHandler->search($queryString, $page, $perPage);
-        $this->assertInternalType('array', $searchResult);
+        $this->assertIsArray($searchResult);
         $this->assertArrayHasKey('more', $searchResult);
         $this->assertArrayHasKey('results', $searchResult);
         $this->assertEquals($expectedResultData, $searchResult['results']);

@@ -336,7 +336,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 
         $searchResult = $this->searchHandler->search($queryString, 1, 10, true);
 
-        $this->assertInternalType('array', $searchResult);
+        $this->assertIsArray($searchResult);
         $this->assertArrayHasKey('more', $searchResult);
         $this->assertArrayHasKey('results', $searchResult);
         $this->assertEquals($expectedResultData, $searchResult['results']);

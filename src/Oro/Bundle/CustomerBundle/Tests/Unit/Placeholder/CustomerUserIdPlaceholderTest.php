@@ -31,7 +31,7 @@ class CustomerUserIdPlaceholderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetPlaceholder()
     {
-        $this->assertInternalType('string', $this->placeholder->getPlaceholder());
+        $this->assertIsString($this->placeholder->getPlaceholder());
         $this->assertEquals('CUSTOMER_USER_ID', $this->placeholder->getPlaceholder());
     }
 

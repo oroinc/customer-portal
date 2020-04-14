@@ -455,7 +455,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
     public function testGetCustomerUserRolePrivilegeConfig()
     {
         $role = new CustomerUserRole('');
-        $this->assertInternalType('array', $this->handler->getCustomerUserRolePrivilegeConfig($role));
+        $this->assertIsArray($this->handler->getCustomerUserRolePrivilegeConfig($role));
         $this->assertEquals($this->privilegeConfig, $this->handler->getCustomerUserRolePrivilegeConfig($role));
     }
 

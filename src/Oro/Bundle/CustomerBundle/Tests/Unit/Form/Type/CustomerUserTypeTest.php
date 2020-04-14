@@ -247,7 +247,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
      */
     protected function assertQueryBuilderCallback($callable)
     {
-        $this->assertInternalType('callable', $callable);
+        $this->assertIsCallable($callable);
 
         $repository = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository')
             ->disableOriginalConstructor()
