@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Handler;
 
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Oro\Bundle\CheckoutBundle\Entity\Repository\CheckoutRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\Repository\ResettableCustomerUserRepositoryInterface;
 use Oro\Bundle\CustomerBundle\Handler\CustomerUserReassignEntityUpdater;
 use Oro\Bundle\DataAuditBundle\Async\Topics;
 use Oro\Bundle\DataAuditBundle\Provider\AuditMessageBodyProvider;
@@ -44,7 +43,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
     /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $em;
 
-    /** @var ResettableCustomerUserRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var CheckoutRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $checkoutRepository;
 
     /**
@@ -58,10 +57,7 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
         $this->messageProducer = self::createMock(MessageProducerInterface::class);
         $this->tokenStorage = self::createMock(TokenStorageInterface::class);
         $this->em = self::createMock(EntityManagerInterface::class);
-        $this->checkoutRepository = self::createMock([
-            ResettableCustomerUserRepositoryInterface::class,
-            ObjectRepository::class
-        ]);
+        $this->checkoutRepository = self::createMock(CheckoutRepository::class);
 
         $this->updater = new CustomerUserReassignEntityUpdater(
             $this->registry,
