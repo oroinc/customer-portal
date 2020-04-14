@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Doctrine\ORM\EntityManager;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
+use Oro\Bundle\AddressBundle\Entity\Repository\AddressTypeRepository;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressWithDefaultType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
@@ -18,44 +19,29 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
     /** @var CustomerTypedAddressWithDefaultType */
     protected $formType;
 
-    /** @var AddressType */
-    protected $billingType;
-
-    /** @var AddressType */
-    protected $shippingType;
-
     /** @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry */
     protected $registry;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|EntityManager */
     protected $em;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-        $this->billingType  = new AddressType(AddressType::TYPE_BILLING);
-        $this->shippingType = new AddressType(AddressType::TYPE_SHIPPING);
+    /** @var AddressTypeRepository|\PHPUnit\Framework\MockObject\MockObject */
+    private $addressTypeRepository;
 
-        $this->addressRepository = $this->createRepositoryMock([
-            $this->billingType,
-            $this->shippingType
-        ]);
-
-        $this->em       = $this->createEntityManagerMock($this->addressRepository);
-        $this->registry = $this->createManagerRegistryMock($this->em);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
+        $this->addressTypeRepository = $this->createRepositoryMock([
+            new AddressType(AddressType::TYPE_BILLING),
+            new AddressType(AddressType::TYPE_SHIPPING)
+        ]);
+
+        $this->em       = $this->createEntityManagerMock($this->addressTypeRepository);
+        $this->registry = $this->createManagerRegistryMock($this->em);
+
         $translator = $this->createTranslatorMock();
         $this->formType = new CustomerTypedAddressWithDefaultType($translator);
         $this->formType->setRegistry($this->registry);
+
         parent::setUp();
     }
 
@@ -65,30 +51,18 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
     protected function getExtensions()
     {
         return [
-            new PreloadedExtension(
-                [
-                    CustomerTypedAddressWithDefaultType::class => $this->formType
-                ],
-                []
-            ),
+            new PreloadedExtension([CustomerTypedAddressWithDefaultType::class => $this->formType], []),
         ];
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function tearDown(): void
-    {
-        unset($this->formType);
-    }
-
-    /**
+     * @dataProvider submitDataProvider
+     *
      * @param array $options
      * @param mixed $defaultData
      * @param mixed $viewData
      * @param mixed $submittedData
      * @param mixed $expectedData
-     * @dataProvider submitDataProvider
      */
     public function testSubmit(
         array $options,
@@ -110,8 +84,6 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
 
     /**
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function submitDataProvider()
     {
@@ -132,7 +104,10 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
                 'submittedData' => [
                     'default' => [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING],
                 ],
-                'expectedData'  => [$this->billingType, $this->shippingType],
+                'expectedData'  => [
+                    new AddressType(AddressType::TYPE_BILLING),
+                    new AddressType(AddressType::TYPE_SHIPPING)
+                ],
             ],
             'one default type' => [
                 'options'       => ['class' => 'Oro\Bundle\AddressBundle\Entity\AddressType'],
@@ -141,7 +116,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
                 'submittedData' => [
                     'default' => [AddressType::TYPE_SHIPPING],
                 ],
-                'expectedData'  => [$this->shippingType],
+                'expectedData'  => [new AddressType(AddressType::TYPE_SHIPPING)],
             ],
             'all default types with custom em' => [
                 'options'       => ['class' => 'Oro\Bundle\AddressBundle\Entity\AddressType', 'em' => 'EntityManager'],
@@ -150,7 +125,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
                 'submittedData' => [
                     'default' => [AddressType::TYPE_SHIPPING],
                 ],
-                'expectedData'  => [$this->shippingType],
+                'expectedData'  => [new AddressType(AddressType::TYPE_SHIPPING)],
             ],
             'all default types with custom property' => [
                 'options'       => ['class' => 'Oro\Bundle\AddressBundle\Entity\AddressType', 'property' => 'name'],
@@ -159,18 +134,18 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
                 'submittedData' => [
                     'default' => [AddressType::TYPE_SHIPPING],
                 ],
-                'expectedData'  => [$this->shippingType],
+                'expectedData'  => [new AddressType(AddressType::TYPE_SHIPPING)],
             ],
         ];
     }
 
     /**
      * @param array $entityModels
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return AddressTypeRepository|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function createRepositoryMock(array $entityModels = [])
     {
-        $repo = $this->getMockBuilder('Oro\Bundle\AddressBundle\Entity\Repository\AddressTypeRepository')
+        $repo = $this->getMockBuilder(AddressTypeRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -185,10 +160,10 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
                 foreach ($params['name'] as $name) {
                     switch ($name) {
                         case AddressType::TYPE_BILLING:
-                            $result[] = $this->billingType;
+                            $result[] = new AddressType(AddressType::TYPE_BILLING);
                             break;
                         case AddressType::TYPE_SHIPPING:
-                            $result[] = $this->shippingType;
+                            $result[] = new AddressType(AddressType::TYPE_SHIPPING);
                             break;
                     }
                 }
