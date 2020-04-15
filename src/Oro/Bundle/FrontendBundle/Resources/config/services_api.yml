@@ -52,6 +52,13 @@ services:
         arguments:
             - '@oro_frontend.api.rest.routes'
 
+    oro_frontend.api.rest.update_list_body_listener:
+        class: Oro\Bundle\ApiBundle\EventListener\UpdateListBodyListenerDecorator
+        decorates: 'fos_rest.body_listener'
+        arguments:
+            - '@oro_frontend.api.rest.update_list_body_listener.inner'
+            - '@oro_frontend.api.rest.routes'
+
     oro_frontend.api.rest.routing_options_resolver.remove_single_item_routes:
         class: Oro\Bundle\ApiBundle\ApiDoc\RemoveSingleItemRestRouteOptionsResolver
         public: false
