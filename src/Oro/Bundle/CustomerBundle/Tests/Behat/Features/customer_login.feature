@@ -64,3 +64,11 @@ Feature: Customer login
       | Password      | test                           |
     When I click "Sign In"
     Then I should see "Your login was unsuccessful - Zulu"
+
+  Scenario: Check redirect to login page after remove session
+    Given I signed in as AmandaRCole@example.org on the store frontend
+    When I go to "/customer/user/login-check"
+    Then I should be on Customer User Profile page
+    When I restart the browser
+    Then I should see "Sign In"
+    And I should not see "Signed in as: Amanda Cole"
