@@ -15,6 +15,8 @@ use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
 
 /**
+ * @group CommunityEdition
+ *
  * @dbIsolationPerTest
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -30,8 +32,8 @@ class CustomerAddressTest extends RestJsonApiTestCase
     use AddressTypeTestTrait;
     use RolePermissionExtension;
 
-    private const ENTITY_CLASS                     = CustomerAddress::class;
-    private const ENTITY_TYPE                      = 'customeraddresses';
+    protected const ENTITY_CLASS                   = CustomerAddress::class;
+    protected const ENTITY_TYPE                    = 'customeraddresses';
     private const OWNER_ENTITY_TYPE                = 'customers';
     private const OWNER_RELATIONSHIP               = 'customer';
     private const CREATE_MIN_REQUEST_DATA          = 'create_customer_address_min.yml';

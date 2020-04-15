@@ -30,8 +30,8 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
     use AddressTypeTestTrait;
     use RolePermissionExtension;
 
-    private const ENTITY_CLASS                     = CustomerUserAddress::class;
-    private const ENTITY_TYPE                      = 'customeruseraddresses';
+    protected const ENTITY_CLASS                   = CustomerUserAddress::class;
+    protected const ENTITY_TYPE                    = 'customeruseraddresses';
     private const OWNER_ENTITY_TYPE                = 'customerusers';
     private const OWNER_RELATIONSHIP               = 'customerUser';
     private const CREATE_MIN_REQUEST_DATA          = 'create_customer_user_address_min.yml';
