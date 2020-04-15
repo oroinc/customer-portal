@@ -315,3 +315,11 @@ services:
             - '@oro_platform.twig.service_locator'
         tags:
             - { name: twig.extension }
+
+    oro_frontend.security.login_attempts_subscriber:
+        class: Oro\Bundle\FrontendBundle\EventListener\LoginAttemptsLogSubscriber
+        decorates: oro_user.security.login_attempts_log_subscriber
+        decoration_priority: -250
+        arguments:
+            - '@oro_frontend.security.login_attempts_subscriber.inner'
+            - '@oro_frontend.request.frontend_helper'
