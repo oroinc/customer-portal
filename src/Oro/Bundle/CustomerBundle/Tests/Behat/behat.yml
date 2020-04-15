@@ -362,6 +362,10 @@ oro_behat_extension:
         type: xpath
         locator: '//h2[contains(.,"Checkout")]/parent::*[contains(@class,"role-capability")]//label[text()="Enter the shipping address manually"]//input[@type="checkbox"]'
 
+    Customer Import File:
+      selector: ".import-widget-content .tab-pane.active input[id^='oro_importexport_import_file']"
+      class: Oro\Bundle\TestFrameworkBundle\Behat\Element\FileField
+
   pages:
     Customer User Role View:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView
