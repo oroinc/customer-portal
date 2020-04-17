@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 use Oro\Bundle\EntityBundle\ORM\DatabasePlatformInterface;
+use Oro\Bundle\EntityBundle\Tools\SafeDatabaseChecker;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\ConfigIdInterface;
 
@@ -50,8 +51,8 @@ class ClassMigration
 
         /** @var Connection $configConnection */
         $configConnection = $this->managerRegistry->getConnection('config');
-        $tables = $configConnection->getSchemaManager()->listTableNames();
-        if (!in_array('oro_entity_config', $tables, true)) {
+
+        if (!SafeDatabaseChecker::tablesExist($configConnection, 'oro_entity_config')) {
             return;
         }
 
