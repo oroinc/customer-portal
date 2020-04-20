@@ -124,7 +124,7 @@ api:
                         constraints:
                             - NotBlank: ~
                 types:
-                    data_type: array
+                    data_type: objects
                     max_results: -1
                     exclusion_policy: all
                     fields:
@@ -187,7 +187,7 @@ api:
                 customerUser:
                     property_path: frontendOwner
                 types:
-                    data_type: array
+                    data_type: objects
                     max_results: -1
                     exclusion_policy: all
                     fields:
