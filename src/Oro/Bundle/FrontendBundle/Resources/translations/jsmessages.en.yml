@@ -26,6 +26,7 @@ oro_frontend:
                 orders: "{{ totalRecords }} Total Orders"
                 quotes: "{{ totalRecords }} Total Quotes"
                 shopping_lists: "{{ totalRecords }} Total Shopping Lists"
+                shopping_list_line_items: "{{ totalRecords }} Total Items"
         manage_grid: 'Manage grid'
         requires:
             data: 'Data attribute "data-server-render" must be defined'
