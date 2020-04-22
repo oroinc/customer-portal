@@ -792,6 +792,7 @@ oro.customer:
         user.label: Audit user
         customer_user.label: Customer user
         additional_fields.label: Additional fields
+        type.label: Audit type
 
     importexport:
         customer_user:
