@@ -5,6 +5,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Migrations\Schema;
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareTrait;
+use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
@@ -28,7 +29,7 @@ class OroCommerceMenuBundleInstaller implements
      */
     public function getMigrationVersion()
     {
-        return 'v1_6';
+        return 'v1_7';
     }
 
     /**
@@ -75,6 +76,10 @@ class OroCommerceMenuBundleInstaller implements
         $table->addColumn('screens', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
         $table->addColumn('system_page_route', 'string', ['length' => 255, 'notnull' => false]);
         $table->addColumn('content_node_id', 'integer', ['notnull' => false]);
+        $table->addColumn('link_target', 'smallint', [
+            'notnull' => true,
+            'default' => MenuUpdate::LINK_TARGET_SAME_WINDOW,
+        ]);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['key', 'scope_id', 'menu'], 'oro_commerce_menu_upd_uidx');
     }

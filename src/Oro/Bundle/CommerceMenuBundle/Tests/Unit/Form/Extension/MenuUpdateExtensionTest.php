@@ -26,6 +26,7 @@ use Oro\Bundle\FormBundle\Autocomplete\SearchRegistry;
 use Oro\Bundle\FormBundle\Form\Extension\TooltipFormExtension;
 use Oro\Bundle\FormBundle\Form\Type\CollectionType as OroCollectionType;
 use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
+use Oro\Bundle\FormBundle\Form\Type\LinkTargetType;
 use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
@@ -152,6 +153,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                         new ContentNodeFromWebCatalogSelectType($this->createMock(ContentNodeTreeHandler::class)),
                     EntityIdentifierType::class => new EntityIdentifierType($managerRegistry),
                     RouteChoiceType::class => new RouteChoiceTypeStub(['sample_route' => 'sample_route']),
+                    LinkTargetType::class => new LinkTargetType()
                 ],
                 [
                     MenuUpdateTypeStub::class => [new MenuUpdateExtension($this->webCatalogProvider)],
@@ -192,6 +194,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     ],
                 ],
                 'screens' => $screens = ['desktop', 'mobile'],
+                'linkTarget' => 0
             ]
         );
 
@@ -200,6 +203,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         $expected->setImage('image.png');
         $expected->addMenuUserAgentCondition($menuUserAgentCondition);
         $expected->setScreens($screens);
+        $expected->setLinkTarget(0);
 
         $this->assertFormIsValid($form);
         $this->assertEquals($expected, $form->getData());
@@ -243,6 +247,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     'uri' => 'sample/uri',
                     'systemPageRoute' => 'sample_route',
                     'contentNode' => $contentNode,
+                    'linkTarget' => 1
                 ],
                 'expectedMenuUpdate' => (new MenuUpdateStub())->setCustom(true)->setUri('sample/uri'),
             ],
@@ -252,6 +257,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     'uri' => 'sample/uri',
                     'systemPageRoute' => 'sample_route',
                     'contentNode' => $contentNode,
+                    'linkTarget' => 1
                 ],
                 'expectedMenuUpdate' => (new MenuUpdateStub())->setCustom(true)->setSystemPageRoute('sample_route'),
             ],
@@ -261,6 +267,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     'uri' => 'sample/uri',
                     'systemPageRoute' => 'sample_route',
                     'contentNode' => $contentNode,
+                    'linkTarget' => 1
                 ],
                 'expectedMenuUpdate' => (new MenuUpdateStub())->setCustom(true)->setContentNode($contentNode),
             ],

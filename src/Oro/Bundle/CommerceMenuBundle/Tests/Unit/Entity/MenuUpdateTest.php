@@ -20,6 +20,7 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
             ['screens', ['mobile' => ['class' => 'test']]],
             ['contentNode', new ContentNode(), false],
             ['systemPageRoute', 'sampleRoute', false],
+            ['linkTarget', 0, 1],
         ];
 
         static::assertPropertyAccessors(new MenuUpdate(), $properties);
@@ -100,6 +101,14 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->assertSame($expected, $update->getExtras());
+    }
+
+    public function testGetLinkAttributes(): void
+    {
+        $update = new MenuUpdateStub();
+        $this->assertSame([], $update->getLinkAttributes());
+        $update->setLinkTarget(0);
+        $this->assertSame(['target' => '_blank'], $update->getLinkAttributes());
     }
 
     /**
