@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block _featured_menu_widget %}
+    {% import 'OroNavigationBundle:Menu:menu.html.twig' as oro_menu %}
     {% if item.displayed and item.extras.isAllowed %}
         <ul class="featured-menu__grid">
             {% for child in item.children %}
@@ -38,8 +39,11 @@
                                     {{ child.extras.description }}
                                 {% endif %}
                             </div>
-                            <a class="btn btn--info btn--size-s featured-menu__link" href="{{ oro_commercemenu_get_url(child.uri) }}">
-                                {{ 'oro.commercemenu.frontend.navigation.items.view.label'|trans ~ ' ' ~ label|upper }}
+                            {% set linkAttributes = child.linkAttributes|merge({
+                                'class': 'btn btn--info btn--size-s featured-menu__link',
+                            }) %}
+                            <a href="{{ oro_commercemenu_get_url(child.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>
+                                {{- 'oro.commercemenu.frontend.navigation.items.view.label'|trans ~ ' ' ~ label|upper -}}
                             </a>
                         </div>
                     </li>

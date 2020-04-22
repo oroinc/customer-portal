@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block __oro_customer_menu__list_widget %}
+    {% import 'OroNavigationBundle:Menu:menu.html.twig' as oro_menu %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' primary-menu primary-menu--vertical',
         'data-page-component-module': 'oroui/js/app/components/view-component',
@@ -31,7 +32,10 @@
                 {% endif %}
 
                 <li class="primary-menu__item {{ itemCurrentClass }}">
-                    <a href="{{ menuItem.uri }}" class="{{ ' primary-menu__link ' ~ linkCurrentClass }}">{{ menuItem.label|trans }}</a>
+                    {% set linkAttributes = menuItem.linkAttributes|merge({
+                        'class': 'primary-menu__link ' ~ linkCurrentClass,
+                    }) %}
+                    <a href="{{ menuItem.uri }}"{{ oro_menu.attributes(linkAttributes) }}>{{ menuItem.label|trans }}</a>
                 </li>
                 {% if oro_commercemenu_is_current(menuItem) or oro_commercemenu_is_ancestor(menuItem) and not found %}
                     {% set found = true %}
