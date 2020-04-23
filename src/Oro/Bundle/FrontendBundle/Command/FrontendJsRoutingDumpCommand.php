@@ -13,7 +13,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class FrontendJsRoutingDumpCommand extends DumpCommand
 {
-    public const NAME = 'oro:frontend:js-routing:dump';
+    /** @var string */
+    protected static $defaultName = 'oro:frontend:js-routing:dump';
 
     /** @var string */
     private $projectDir;
@@ -48,8 +49,7 @@ class FrontendJsRoutingDumpCommand extends DumpCommand
     {
         parent::configure();
 
-        $this->setName(self::NAME)
-            ->setHidden(true);
+        $this->setHidden(true);
 
         $definition = $this->getDefinition();
         $definition->getOption('format')

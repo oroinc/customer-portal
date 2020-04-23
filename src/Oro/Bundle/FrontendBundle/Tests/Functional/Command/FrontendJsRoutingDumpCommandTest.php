@@ -14,7 +14,7 @@ class FrontendJsRoutingDumpCommandTest extends WebTestCase
 
     public function testExecute(): void
     {
-        $result = $this->runCommand(FrontendJsRoutingDumpCommand::NAME, ['-vvv']);
+        $result = $this->runCommand(FrontendJsRoutingDumpCommand::getDefaultName(), ['-vvv']);
 
         $this->assertNotEmpty($result);
         $this->assertContains($this->getEndPath('frontend_routes', 'json'), $result);
@@ -22,7 +22,7 @@ class FrontendJsRoutingDumpCommandTest extends WebTestCase
 
     public function testExecuteWithJsFormat(): void
     {
-        $result = $this->runCommand(FrontendJsRoutingDumpCommand::NAME, ['-vvv', '--format=js']);
+        $result = $this->runCommand(FrontendJsRoutingDumpCommand::getDefaultName(), ['-vvv', '--format=js']);
 
         $this->assertNotEmpty($result);
         $this->assertContains($this->getEndPath('frontend_routes', 'js'), $result);
@@ -34,7 +34,7 @@ class FrontendJsRoutingDumpCommandTest extends WebTestCase
             ->getParameter('kernel.project_dir');
 
         $result = $this->runCommand(
-            FrontendJsRoutingDumpCommand::NAME,
+            FrontendJsRoutingDumpCommand::getDefaultName(),
             ['-vvv', sprintf('--target=%s%s', $projectDir, $this->getEndPath('custom_routes', 'json'))]
         );
 

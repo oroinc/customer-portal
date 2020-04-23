@@ -21,7 +21,7 @@ class JsRoutingDumpListener
         }
 
         $command = $command->getApplication()
-            ->find(FrontendJsRoutingDumpCommand::NAME);
+            ->find(FrontendJsRoutingDumpCommand::getDefaultName());
 
         $event->setExitCode($command->run($event->getInput(), $event->getOutput()));
     }
