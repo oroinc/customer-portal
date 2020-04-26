@@ -12,24 +12,16 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry
-     */
+    /** @var ManagerRegistry */
     protected $managerRegistry;
 
-    /**
-     * @var WebsiteManager
-     */
+    /** @var WebsiteManager */
     protected $manager;
 
-    /**
-     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var FrontendHelper */
     protected $frontendHelper;
 
-    /**
-     * @var Mode|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var Mode */
     private $maintenance;
 
     protected function setUp(): void
@@ -48,31 +40,29 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
 
     public function testGetCurrentWebsite()
     {
-        $this->frontendHelper->expects($this->once())
+        $this->frontendHelper->expects(static::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $repository = $this->getMockBuilder(WebsiteRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $repository = $this->getMockBuilder(WebsiteRepository::class)->disableOriginalConstructor()->getMock();
 
         $website = new Website();
-        $repository->expects($this->once())
+        $repository->expects(static::once())
             ->method('getDefaultWebsite')
             ->willReturn($website);
 
         $objectManager = $this->createMock(ObjectManager::class);
-        $objectManager->expects($this->once())
+        $objectManager->expects(static::once())
             ->method('getRepository')
             ->with(Website::class)
             ->willReturn($repository);
 
-        $this->managerRegistry->expects($this->once())
+        $this->managerRegistry->expects(static::once())
             ->method('getManagerForClass')
             ->with(Website::class)
             ->willReturn($objectManager);
 
-        $this->assertSame($website, $this->manager->getCurrentWebsite());
+        static::assertSame($website, $this->manager->getCurrentWebsite());
     }
 
     public function testGetDefaultWebsite()
@@ -85,60 +75,66 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
 
         $website = new Website();
-        $repository->expects($this->once())
+        $repository->expects(static::once())
             ->method('getDefaultWebsite')
             ->willReturn($website);
 
         $objectManager = $this->createMock(ObjectManager::class);
-        $objectManager->expects($this->once())
+        $objectManager->expects(static::once())
             ->method('getRepository')
             ->with(Website::class)
             ->willReturn($repository);
 
-        $this->managerRegistry->expects($this->once())
+        $this->managerRegistry->expects(static::once())
             ->method('getManagerForClass')
             ->with(Website::class)
             ->willReturn($objectManager);
 
-        $this->assertSame($website, $this->manager->getDefaultWebsite());
+        static::assertSame($website, $this->manager->getDefaultWebsite());
     }
 
     public function testGetCurrentWebsiteNonFrontend()
     {
-        $this->frontendHelper->expects($this->once())
+        $this->frontendHelper->expects(static::once())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
         $this->managerRegistry->expects($this->never())
             ->method('getManagerForClass');
 
-        $this->assertNull($this->manager->getCurrentWebsite());
+        static::assertNull($this->manager->getCurrentWebsite());
     }
 
     public function testSetCurrentWebsite()
     {
         $this->manager->setCurrentWebsite($website = $this->createMock(Website::class));
 
-        $this->assertSame($website, $this->manager->getCurrentWebsite());
+        static::assertSame($website, $this->manager->getCurrentWebsite());
     }
 
     public function testOnClear()
     {
-        $website = new Website();
+        $manager = new class($this->managerRegistry, $this->frontendHelper, $this->maintenance) extends WebsiteManager {
+            public function xgetCurrentWebsite(): ?Website
+            {
+                return $this->currentWebsite;
+            }
 
-        $propertyReflection = new \ReflectionProperty(get_class($this->manager), 'currentWebsite');
-        $propertyReflection->setAccessible(true);
-        $propertyReflection->setValue($this->manager, $website);
+            public function xsetCurrentWebsite(Website $currentWebsite): void
+            {
+                $this->currentWebsite = $currentWebsite;
+            }
+        };
 
-        $this->assertAttributeNotEmpty('currentWebsite', $this->manager);
-        $this->manager->onClear();
-        $this->assertAttributeEmpty('currentWebsite', $this->manager);
+        $manager->xsetCurrentWebsite(new Website());
+        $manager->onClear();
+        static::assertEmpty($manager->xgetCurrentWebsite());
     }
 
     public function testGetCurrentWebsiteWhenMaintenanceMode(): void
     {
         $this->maintenance
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('isOn')
             ->willReturn('true');
 
@@ -146,6 +142,6 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
             ->expects($this->never())
             ->method('getManagerForClass');
 
-        $this->assertNull($this->manager->getCurrentWebsite());
+        static::assertNull($this->manager->getCurrentWebsite());
     }
 }

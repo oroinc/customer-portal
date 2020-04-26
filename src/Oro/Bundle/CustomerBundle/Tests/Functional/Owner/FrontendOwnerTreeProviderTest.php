@@ -10,7 +10,8 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData as MainLoadCustomerUserData;
 use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationToken;
-use Oro\Bundle\SecurityBundle\Owner\OwnerTreeInterface;
+use Oro\Bundle\SecurityBundle\Owner\OwnerTree;
+use Oro\Bundle\SecurityBundle\Test\OwnerTreeWrappingPropertiesAccessor;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization;
 use Oro\Component\Testing\QueryTracker;
@@ -717,22 +718,45 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
         return $result;
     }
 
-    /**
-     * @param array $expected
-     * @param OwnerTreeInterface $actual
-     */
-    private function assertOwnerTreeEquals(array $expected, OwnerTreeInterface $actual): void
+    private function assertOwnerTreeEquals(array $expected, OwnerTree $actual): void
     {
-        foreach ($expected as $property => $value) {
-            $this->assertEquals(
-                $value,
-                $this->getObjectAttribute($actual, $property),
-                'Owner Tree Property: ' . $property,
-                0.0,
-                10,
-                true
-            );
-        }
+        $a = new OwnerTreeWrappingPropertiesAccessor($actual);
+        static::assertEqualsCanonicalizing(
+            $expected['userOwningOrganizationId'],
+            $a->xgetUserOwningOrganizationId()
+        );
+        static::assertEqualsCanonicalizing(
+            $expected['userOrganizationIds'],
+            $a->xgetUserOrganizationIds()
+        );
+        static::assertEqualsCanonicalizing(
+            $expected['userOwningBusinessUnitId'],
+            $a->xgetUserOwningBusinessUnitId()
+        );
+        static::assertEqualsCanonicalizing(
+            $expected['userBusinessUnitIds'],
+            $a->xgetUserBusinessUnitIds()
+        );
+        static::assertEqualsCanonicalizing(
+            $expected['userOrganizationBusinessUnitIds'],
+            $a->xgetUserOrganizationBusinessUnitIds()
+        );
+        static::assertEqualsCanonicalizing(
+            $expected['businessUnitOwningOrganizationId'],
+            $a->xgetBusinessUnitOwningOrganizationId()
+        );
+        static::assertEqualsCanonicalizing(
+            $expected['assignedBusinessUnitUserIds'],
+            $a->xgetAssignedBusinessUnitUserIds()
+        );
+        static::assertEqualsCanonicalizing(
+            $expected['subordinateBusinessUnitIds'],
+            $a->xgetSubordinateBusinessUnitIds()
+        );
+        static::assertEqualsCanonicalizing(
+            $expected['organizationBusinessUnitIds'],
+            $a->xgetOrganizationBusinessUnitIds()
+        );
     }
 
     /**

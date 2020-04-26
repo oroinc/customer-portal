@@ -14,7 +14,6 @@ use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
 use Oro\Bundle\EntityBundle\Tools\DatabaseChecker;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTree;
-use Oro\Bundle\SecurityBundle\Owner\OwnerTreeBuilderInterface;
 use Oro\Bundle\SecurityBundle\Tests\Util\ReflectionUtil;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\MessageQueue\Client\Message;
@@ -220,21 +219,6 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
             . ' ORDER BY sclr_1 ASC',
             $queryResult
         );
-    }
-
-    /**
-     * @param array                     $expected
-     * @param OwnerTreeBuilderInterface $actual
-     */
-    protected function assertOwnerTreeEquals(array $expected, OwnerTreeBuilderInterface $actual)
-    {
-        foreach ($expected as $property => $value) {
-            $this->assertEquals(
-                $value,
-                $this->getObjectAttribute($actual, $property),
-                'Owner Tree Property: ' . $property
-            );
-        }
     }
 
     public function testSupportsForSupportedUser()

@@ -65,21 +65,20 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             $expectedConfig[$key]['permissions'] = $this->getPermissionNames($value['types']);
         }
 
-        $this->privilegeRepository->expects($this->any())
+        $this->privilegeRepository->expects(static::any())
             ->method('getPermissionNames')
-            ->with($this->isType('array'))
+            ->with(static::isType('array'))
             ->willReturnCallback([$this, 'getPermissionNames']);
 
         $expectedForm = $this->createMock(FormInterface::class);
 
-        $this->formFactory->expects($this->once())
+        $this->formFactory->expects(static::once())
             ->method('create')
             ->with(CustomerUserRoleType::class, $role, ['privilege_config' => $expectedConfig])
             ->willReturn($expectedForm);
 
         $actualForm = $this->handler->createForm($role);
-        $this->assertEquals($expectedForm, $actualForm);
-        $this->assertAttributeEquals($expectedForm, 'form', $this->handler);
+        static::assertEquals($expectedForm, $actualForm);
     }
 
     /**
