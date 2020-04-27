@@ -18,8 +18,9 @@ $nav-tabs-link-right-offset: null !default;
 $nav-tabs-link-hover-background-color: null !default;
 
 $dropdown-font-size: 1rem;
-$dropdown-link-active-bg:  $primary-900 !default;
-$dropdown-link-active-color: $primary-300 !default;
+$dropdown-color: get-color('additional', 'dark');
+$dropdown-link-active-bg: get-color('additional', 'base');
+$dropdown-link-active-color: get-color('additional', 'dark');
 
 $btn-font-size: 1rem;
 
