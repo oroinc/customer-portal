@@ -20,37 +20,33 @@ class GetTest extends FrontendRestJsonApiTestCase
         $this->loadFixtures([LoadAdminCustomerUserData::class]);
     }
 
-    /**
-     * @param string   $entityClass
-     * @param string[] $excludedActions
-     *
-     * @dataProvider getEntities
-     */
-    public function testRestRequests($entityClass, $excludedActions)
+    public function testRestRequests()
     {
-        if (in_array(ApiAction::GET_LIST, $excludedActions, true)) {
-            return;
-        }
-
-        $entityType = $this->getEntityType($entityClass);
-
-        // test "get list" request
-        $response = $this->cget(['entity' => $entityType], ['page[size]' => 1], [], false);
-        if ($response->getStatusCode() === 400) {
-            $response = $this->cget(['entity' => $entityType], [], [], false);
-        }
-        self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiAction::GET_LIST);
-        self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
-
-        $id = $this->getFirstEntityId(self::jsonToArray($response->getContent()));
-        if (null !== $id) {
-            // test "get" request
-            if (!in_array(ApiAction::GET, $excludedActions, true)) {
-                $response = $this->get(['entity' => $entityType, 'id' => $id], [], [], false);
-                self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiAction::GET);
-                self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
+        $this->runForEntities(function (string $entityClass, array $excludedActions) {
+            if (in_array(ApiAction::GET_LIST, $excludedActions, true)) {
+                return;
             }
-        }
+
+            $entityType = $this->getEntityType($entityClass);
+
+            // test "get list" request
+            $response = $this->cget(['entity' => $entityType], ['page[size]' => 1], [], false);
+            if ($response->getStatusCode() === 400) {
+                $response = $this->cget(['entity' => $entityType], [], [], false);
+            }
+            self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiAction::GET_LIST);
+            self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
+
+            $id = $this->getFirstEntityId(self::jsonToArray($response->getContent()));
+            if (null !== $id) {
+                // test "get" request
+                if (!in_array(ApiAction::GET, $excludedActions, true)) {
+                    $response = $this->get(['entity' => $entityType, 'id' => $id], [], [], false);
+                    self::assertApiResponseStatusCodeEquals($response, 200, $entityType, ApiAction::GET);
+                    self::assertResponseContentTypeEquals($response, self::JSON_API_CONTENT_TYPE);
+                }
+            }
+        });
     }
 
     /**
