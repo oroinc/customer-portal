@@ -64,6 +64,20 @@
         }
     }
 
+    .dropdown-item.action {
+        @include link();
+        text-decoration: $link-link-normal-text-decoration;
+
+        @include element-state('focus') {
+            background-color: initial;
+        }
+
+        @include element-state('hover') {
+            text-decoration: $link-link-hover-text-decoration;
+            background-color: initial;
+        }
+    }
+
     .dropdown-menu & {
         &.mode-text-only {
             display: block;
