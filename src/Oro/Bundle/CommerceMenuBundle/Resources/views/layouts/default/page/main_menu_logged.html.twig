@@ -18,7 +18,7 @@
         reloadEvents: ['shopping-list:refresh', 'frontend:shopping-list-item-quantity:update', 'frontend:item:delete'],
         keepAttrs: ['aria-label']
     } %}
-    <button{% if togglerId is not empty %} id="{{ togglerId }}"{% endif %}
+    <button{% if togglerId is defined %} id="{{ togglerId }}"{% endif %}
         class="header-row__trigger nav-trigger"
         data-toggle="dropdown"
         data-popper="false"

@@ -23,6 +23,7 @@ define(function(require) {
          */
         options: {
             bindWithSlider: '.product-view-media-gallery',
+            uniqueTriggerToOpenGallery: null,
             galleryImages: [],
             ajaxMode: false,
             ajaxRoute: 'oro_product_frontend_ajax_images_by_id',
@@ -69,55 +70,85 @@ define(function(require) {
          * @param {Object} options
          */
         initialize: function(options) {
-            this.options = _.defaults(options || {}, this.options);
-            this.$el = options._sourceElement;
-            this.$galleryWidgetOpen = this.$el.find('[data-trigger-gallery-open]');
+            this.options = {...this.options, ...options};
+
+            this.$triggerGalleryOpen = this.$('[data-trigger-gallery-open]');
+
+            if (this.options.uniqueTriggerToOpenGallery) {
+                this.$triggerGalleryOpen = $(this.options.uniqueTriggerToOpenGallery);
+            }
+
+            this.$triggerGalleryOpen
+                .on(`keydown${this.eventNamespace()}`, e => {
+                    // Open gallery if SPACE or ENTER was pressed
+                    if (e.keyCode === 32 || e.keyCode === 13) {
+                        this.onOpenTriggerClick(e);
+                    }
+                })
+                .on(`click${this.eventNamespace()}`, this.onOpenTriggerClick.bind(this));
 
             if (_.has(options, 'productModel')) {
-                const o = {};
-
-                options.productModel.on('backgrid:canSelected', _.bind(function(checked) {
+                options.productModel.on('backgrid:canSelected', checked => {
                     this.toggleGalleryTrigger(checked);
-                }, this));
+                });
 
-                options.productModel.trigger('backgrid:getVisibleState', o);
+                const state = {};
 
-                if (!_.isEmpty(o)) {
-                    this.toggleGalleryTrigger(o.visible);
+                options.productModel.trigger('backgrid:getVisibleState', state);
+
+                if (!_.isEmpty(state)) {
+                    this.toggleGalleryTrigger(state.visible);
                 }
             }
 
             if (this.options.ajaxMode) {
                 this.options.galleryImages = [];
             }
-
-            this.bindEvents();
         },
 
         bindEvents: function() {
-            if (this.options.ajaxMode) {
-                this.$galleryWidgetOpen.on('click', _.bind(this.ajaxOpenDecorator, this));
-            } else {
-                this.$galleryWidgetOpen.on('click', _.bind(this.onOpen, this));
-            }
+            $(document).on(`keydown${this.eventNamespace()}`, e => {
+                if (e.keyCode === 37) {
+                    this.$gallery.slick('slickPrev');
+                }
+
+                if (e.keyCode === 39) {
+                    this.$gallery.slick('slickNext');
+                }
+
+                // ESC
+                if (e.keyCode === 27) {
+                    this.$galleryWidgetClose.trigger('click');
+                }
+            });
+
+            this.$galleryWidget
+                .one(`transitionend${this.eventNamespace()}`,
+                    () => manageFocus.focusTabbable(this.$galleryWidget)
+                )
+                .on(`keydown${this.eventNamespace()}`,
+                    event => manageFocus.preventTabOutOfContainer(event, this.$galleryWidget)
+                );
+
+            this.listenTo(mediator, 'layout:reposition', this.onResize);
         },
 
         unbindEvents: function() {
-            this.$galleryWidgetOpen.off('click');
-            if (this.$galleryWidgetClose) {
-                this.$galleryWidgetClose.off('click');
+            if (this.$galleryWidget) {
+                this.$galleryWidget.off(`transitionend${this.eventNamespace()} keydown${this.eventNamespace()}`);
             }
-            mediator.off('layout:reposition', this.onResize, this);
+
+            $(document).off(`keydown${this.eventNamespace()}`);
+
+            this.stopListening(mediator, 'layout:reposition');
         },
 
         toggleGalleryTrigger: function(state) {
-            this.$galleryWidgetOpen.toggleClass('hidden', state);
+            this.$triggerGalleryOpen.toggleClass('hidden', state);
         },
 
-        onOpen: function(e) {
-            e.preventDefault();
-            const self = this;
-
+        onOpen: function() {
+            this.unbindEvents();
             this.render();
             $('html').css('margin-right', BROWSER_SCROLL_SIZE);
             $('body').addClass('gallery-popup-opened');
@@ -126,39 +157,30 @@ define(function(require) {
             if (this.useThumb()) {
                 this.renderThumbnails();
             }
-            this.setDependentSlide(e);
+            this.setDependentSlide();
+
+            if ($(document.activeElement).hasClass('focus-visible')) {
+                this.beforeOpenFocusedElement = document.activeElement;
+            }
 
             manageFocus.focusTabbable(this.$galleryWidget);
             this.$galleryWidget
-                .one('transitionend.popup-gallery-widget',
+                .one(`transitionend${this.eventNamespace()}`,
                     () => manageFocus.focusTabbable(this.$galleryWidget)
                 )
-                .on('keydown.popup-gallery-widget',
+                .on(`keydown${this.eventNamespace()}`,
                     event => manageFocus.preventTabOutOfContainer(event, this.$galleryWidget)
                 );
-            $(document).on('keydown.popup-gallery-widget', function(e) {
-                if (e.keyCode === 37) {
-                    self.$gallery.slick('slickPrev');
-                }
-
-                if (e.keyCode === 39) {
-                    self.$gallery.slick('slickNext');
-                }
-
-                // ESC
-                if (e.keyCode === 27) {
-                    self.$galleryWidgetClose.trigger('click');
-                }
-            });
             this.refreshPositions();
-            mediator.on('layout:reposition', this.onResize, this);
+            this.bindEvents();
         },
 
-        ajaxOpenDecorator: function(e) {
+        onOpenTriggerClick: function(e) {
             e.preventDefault();
 
-            if (this.options.galleryImages.length) {
-                this.onOpen(e);
+            if (!this.options.ajaxMode || this.options.galleryImages.length) {
+                this.onOpen();
+
                 return;
             }
 
@@ -187,7 +209,7 @@ define(function(require) {
                 beforeSend: _.bind(function() {
                     mediator.execute('showLoading');
                 }, this),
-                success: _.bind(function(data) {
+                success: data => {
                     _.each(data, function(item, key) {
                         const image = {
                             src: item[this.options.galleryFilter],
@@ -201,25 +223,27 @@ define(function(require) {
                         }
                         this.options.galleryImages.push(image);
                     }, this);
-                    this.onOpen(e);
-                }, this),
-                complete: _.bind(function() {
+                    this.onOpen();
+                },
+                complete: () => {
                     mediator.execute('hideLoading');
-                }, this)
+                }
             });
         },
 
         onClose: function() {
-            this.$galleryWidget.one('transitionend', _.bind(function() {
+            this.$galleryWidget.one('transitionend', () => {
+                this.unbindEvents();
                 this.setDependentSlide();
                 this.$galleryWidget.detach();
                 $('html').css('margin-right', '');
                 $('body').removeClass('gallery-popup-opened');
-            }, this));
+                if (this.beforeOpenFocusedElement) {
+                    this.beforeOpenFocusedElement.focus();
 
-            this.$galleryWidget.off('keydown.popup-gallery-widget');
-            $(document).off('keydown.popup-gallery-widget');
-            mediator.off('layout:reposition', this.onResize, this);
+                    delete this.beforeOpenFocusedElement;
+                }
+            });
 
             this.$galleryWidget.removeClass('popup-gallery-widget--opened');
         },
@@ -239,7 +263,7 @@ define(function(require) {
             }
         },
 
-        setDependentSlide: function(e) {
+        setDependentSlide: function() {
             const dependentSlider = this.options.bindWithSlider;
             const dependentSliderItems = $(dependentSlider).find('.slick-slide');
             if (dependentSlider && dependentSliderItems.length) {
@@ -291,7 +315,7 @@ define(function(require) {
                 }));
 
                 this.$galleryWidgetClose = this.$galleryWidget.find('[data-trigger-gallery-close]');
-                this.$galleryWidgetClose.on('click', _.bind(this.onClose, this));
+                this.$galleryWidgetClose.on('click' + this.eventNamespace(), this.onClose.bind(this));
 
                 this.$gallery = this.$galleryWidget.find('[data-gallery-images]');
                 if (this.useThumb()) {
@@ -312,12 +336,19 @@ define(function(require) {
 
         dispose: function() {
             this.unbindEvents();
+
+            this.$triggerGalleryOpen.off(this.eventNamespace());
+
+            if (this.$galleryWidgetClose) {
+                this.$galleryWidgetClose.off(this.eventNamespace());
+            }
+
             if (this.$galleryWidget && this.$galleryWidget.length) {
                 this.$galleryWidget.remove();
             }
 
             delete this.$galleryWidget;
-            delete this.$galleryWidgetOpen;
+            delete this.beforeOpenFocusedElement;
 
             PopupGalleryWidget.__super__.dispose.call(this);
         }

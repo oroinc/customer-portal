@@ -12,3 +12,10 @@ Feature: Remember me after browser session finished
     Then I should see "Signed in as: Amanda Cole"
     When I restart the browser
     Then I should see "Signed in as: Amanda Cole"
+
+  Scenario: Customer user must be logged after deleting session for the customer profile page
+    Given I follow "Account"
+    And I should see "Account info"
+    When I restart the browser
+    Then I should see "Signed in as: Amanda Cole"
+    And I should see "Account"

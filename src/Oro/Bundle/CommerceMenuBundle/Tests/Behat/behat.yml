@@ -29,6 +29,14 @@ oro_behat_extension:
           User Agent Does Not Match Value: 'menu_update[menuUserAgentConditions][2][0][value]'
           Exclude On Screens: 'menu_update[screens][]'
 
+    Target Type:
+      selector: 'select[name="menu_update[targetType]"]'
+      class: Oro\Bundle\FormBundle\Tests\Behat\Element\Select
+
+    Target Window:
+      selector: 'select[name="menu_update[linkTargetMaint]"]'
+      class: Oro\Bundle\FormBundle\Tests\Behat\Element\Select
+
     Commerce Menu Form Title Fallbacks:
       selector:
         type: xpath

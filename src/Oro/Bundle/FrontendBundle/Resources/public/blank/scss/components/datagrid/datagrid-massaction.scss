@@ -1,54 +1,6 @@
 /* @theme: blank; */
 
 .datagrid-massaction {
-    &__toggle {
-        @extend %base-transition;
-
-        position: relative;
-
-        display: inline-block;
-        padding: $datagrid-massaction-toggle-offset-inner;
-
-        font-size: $datagrid-massaction-toggle-font-size;
-        font-weight: $datagrid-massaction-toggle-font-weight;
-        line-height: $datagrid-massaction-toggle-font-size;
-
-        color: $datagrid-massaction-toggle-color;
-        background-color: $datagrid-massaction-toggle-background-color;
-        border: $datagrid-massaction-toggle-border;
-
-        border-radius: $datagrid-massaction-toggle-border-radius;
-
-        cursor: pointer;
-
-        white-space: nowrap;
-
-        @include custom-caret();
-
-        @include element-state('hover') {
-            background-color: $datagrid-massaction-toggle-hover-background-color;
-        }
-
-        @include element-state('active') {
-            box-shadow: $datagrid-massaction-toggle-active-box-shadow;
-        }
-
-        &--size-m {
-            padding: $datagrid-massaction-toggle--size-m-offset-inner;
-        }
-    }
-
-    &__invisible {
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        width: 100%;
-        height: 100%;
-
-        opacity: 0;
-    }
-
     &__dots {
         display: inline-block;
         vertical-align: middle;
@@ -65,7 +17,8 @@
             min-width: 100%;
         }
 
-        .action {
+        .action,
+        .dropdown-item.action {
             display: block;
             padding: $datagrid-massaction-dropdown-menu-action-offset-inner;
 
