@@ -1,0 +1,40 @@
+dependencies:
+    - Oro\Bundle\AddressBundle\Tests\Functional\DataFixtures\LoadCountriesAndRegions
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization
+    - Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser
+
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer1:
+        name: 'Customer 1'
+        owner: '@user'
+        organization: '@organization'
+    customer2:
+        name: 'Customer 2'
+        owner: '@user'
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    customer1Address:
+        frontendOwner: '@customer1'
+        primary: true
+        label: 'customer1 address'
+        street: 'Street 1'
+        city: 'Los Angeles'
+        postalCode: '90001'
+        country: '@country_usa'
+        region: '@region_usa_california'
+        organization: 'Test 1 Org'
+        owner: '@user'
+        systemOrganization: '@organization'
+    customer2Address:
+        frontendOwner: '@customer2'
+        primary: true
+        label: 'customer2 address'
+        street: 'Street 2'
+        city: 'Los Angeles'
+        postalCode: '90210'
+        country: '@country_usa'
+        region: '@region_usa_california'
+        organization: 'Test 2 Org'
+        owner: '@user'
+        systemOrganization: '@organization'
