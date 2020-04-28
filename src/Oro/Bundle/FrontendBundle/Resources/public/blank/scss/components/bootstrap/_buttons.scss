@@ -10,6 +10,7 @@
     user-select: $btn-user-select;
     border: $btn-border;
     text-decoration: $btn-text-decoration;
+    margin: auto;
 
     @include appearance();
 
