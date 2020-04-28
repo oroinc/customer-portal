@@ -22,6 +22,8 @@ api:
                         update_relationship: false
                         add_relationship: false
                         delete_relationship: false
+            actions:
+                update_list: true
 
         Extend\Entity\EV_Acc_Internal_Rating:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api/customer.md'
@@ -58,6 +60,7 @@ api:
                             exclude: false # set manually because this field is excluded globally
                             form_options:
                                 property_path: plainPassword
+                update_list: true
             subresources:
                 addresses:
                     actions:
