@@ -1,0 +1,18 @@
+/* @theme: blank; */
+
+.datagrid-divider {
+    display: inline-flex;
+    margin-left: 4px;
+    width: 1px;
+    height: 16px;
+
+    line-height: 1;
+
+    background: get-color('additional', 'light');
+}
+
+@include breakpoint('mobile') {
+    .datagrid-divider {
+        display: none;
+    }
+}
