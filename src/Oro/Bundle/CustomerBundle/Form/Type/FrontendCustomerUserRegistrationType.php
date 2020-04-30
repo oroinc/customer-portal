@@ -176,7 +176,8 @@ class FrontendCustomerUserRegistrationType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => $this->dataClass,
-                'csrf_token_id' => 'customer_user'
+                'csrf_token_id' => 'customer_user',
+                'dynamic_fields_disabled' => true,
             ]
         );
     }

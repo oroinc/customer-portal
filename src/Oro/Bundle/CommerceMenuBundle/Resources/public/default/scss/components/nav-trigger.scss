@@ -1,9 +1,11 @@
 /* @theme: default; */
 
 .nav-trigger {
-    position: relative;
+    color: $body-color;
 
-    display: inline-block;
+    &:hover {
+        background-color: lighten(get-color('additional', 'base'), 1.5%);
+    }
 
     &__icon,
     &__count,
@@ -39,7 +41,13 @@
     }
 
     & .cart-widget__content {
+        display: inline-block;
+
         white-space: nowrap;
+    }
+
+    & .main-menu__item--nested {
+        background: transparent;
     }
 }
 
@@ -61,10 +69,6 @@
 
         & .cart-widget__content {
             margin: 0;
-        }
-
-        & .main-menu__item--nested {
-            background: transparent;
         }
 
         & .fa-angle-down {

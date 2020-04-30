@@ -10,6 +10,7 @@
     user-select: $btn-user-select;
     border: $btn-border;
     text-decoration: $btn-text-decoration;
+    margin: auto;
 
     @include appearance();
 
@@ -43,7 +44,7 @@
 
     // Opinionated: add "hand" cursor to non-disabled .btn elements
     &:not(:disabled):not(.disabled) {
-        cursor: pointer;
+        cursor: $btn-cursor;
     }
 
     &:not(.disabled):active,

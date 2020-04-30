@@ -20,6 +20,10 @@
 
         background-color: get-color('additional', 'base');
         border: 0;
+
+        .main-menu__item:hover {
+            background-color: transparent !important;
+        }
     }
 
     &__toggle {
@@ -35,20 +39,6 @@
 
         .header-row__toggle {
             display: block;
-        }
-    }
-}
-
-@include only-desktop {
-    .header-row {
-        &__trigger {
-            &.active,
-            &:hover {
-                & + .header-row__toggle,
-                .header-row__toggle {
-                    display: block;
-                }
-            }
         }
     }
 }

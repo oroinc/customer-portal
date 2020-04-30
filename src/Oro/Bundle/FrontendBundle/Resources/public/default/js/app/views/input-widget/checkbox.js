@@ -6,6 +6,8 @@ define(function(require) {
     const AbstractInputWidget = require('oroui/js/app/views/input-widget/abstract');
 
     const CheckboxInputWidget = AbstractInputWidget.extend({
+        checkedParentCssClass: 'checked',
+
         widgetFunction: function() {
             this.getContainer().on('keydown keypress', _.bind(this._handleEnterPress, this));
             this.$el.on('change', _.bind(this._handleChange, this));
@@ -31,12 +33,19 @@ define(function(require) {
 
         _on: function() {
             this.$el.prop('checked', true);
-            this.$el.parent().addClass('checked');
+            const {checkedParentCssClass} = this;
+            if (checkedParentCssClass) {
+                this.$el.parent().addClass(checkedParentCssClass);
+            }
         },
 
         _off: function() {
             this.$el.prop('checked', false);
             this.$el.parent().removeClass('checked');
+            const {checkedParentCssClass} = this;
+            if (checkedParentCssClass) {
+                this.$el.parent().removeClass(checkedParentCssClass);
+            }
         },
 
         findContainer: function() {

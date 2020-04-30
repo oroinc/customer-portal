@@ -189,6 +189,11 @@ trait AddressTypeTestTrait
                     'title'  => 'form constraint',
                     'detail' => 'This value is mandatory.',
                     'source' => ['pointer' => '/data/attributes/types/1/addressType']
+                ],
+                [
+                    'title'  => 'form constraint',
+                    'detail' => 'This value is not valid.',
+                    'source' => ['pointer' => '/data/attributes/types/1/addressType']
                 ]
             ],
             $response
@@ -618,6 +623,11 @@ trait AddressTypeTestTrait
                 [
                     'title'  => 'form constraint',
                     'detail' => 'This value is mandatory.',
+                    'source' => ['pointer' => '/data/attributes/types/1/addressType']
+                ],
+                [
+                    'title'  => 'form constraint',
+                    'detail' => 'This value is not valid.',
                     'source' => ['pointer' => '/data/attributes/types/1/addressType']
                 ]
             ],

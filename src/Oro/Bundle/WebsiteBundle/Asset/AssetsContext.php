@@ -5,12 +5,15 @@ namespace Oro\Bundle\WebsiteBundle\Asset;
 use Symfony\Component\Asset\Context\RequestStackContext;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Assets context with resolved base path for the current website.
+ */
 class AssetsContext extends RequestStackContext
 {
     /**
-     * @var RequestStack
+     * @var BasePathResolver
      */
-    private $requestStack;
+    protected $resolver;
 
     /**
      * @param RequestStack $requestStack
@@ -18,7 +21,14 @@ class AssetsContext extends RequestStackContext
     public function __construct(RequestStack $requestStack)
     {
         parent::__construct($requestStack);
-        $this->requestStack = $requestStack;
+    }
+
+    /**
+     * @param BasePathResolver $resolver
+     */
+    public function setBasePathResolver(BasePathResolver $resolver)
+    {
+        $this->resolver = $resolver;
     }
 
     /**
@@ -26,12 +36,6 @@ class AssetsContext extends RequestStackContext
      */
     public function getBasePath()
     {
-        $defaultBasePath = parent::getBasePath();
-        $masterRequest = $this->requestStack->getMasterRequest();
-        if ($masterRequest && $configuredPath = $masterRequest->server->get('WEBSITE_PATH')) {
-            return str_replace($configuredPath, '', $defaultBasePath);
-        }
-
-        return $defaultBasePath;
+        return $this->resolver->resolveBasePath(parent::getBasePath());
     }
 }

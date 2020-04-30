@@ -24,7 +24,8 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
         $resolver->setDefaults(
             [
                 'constraints' => [new NameOrOrganization()],
-                'owner_field_label' => 'oro.customer.frontend.customer.entity_label'
+                'owner_field_label' => 'oro.customer.frontend.customer.entity_label',
+                'dynamic_fields_disabled' => true,
             ]
         );
 

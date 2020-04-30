@@ -41,7 +41,8 @@ $btn-theme-info: (
     'hover-border': lighten(get-color('primary', 'base'), 5%),
     'active-background': lighten(get-color('primary', 'base'), 5%),
     'active-border': lighten(get-color('primary', 'base'), 5%),
-    'focus-border': lighten(get-color('primary', 'base'), 5%)
+    'focus-border': lighten(get-color('primary', 'base'), 5%),
+    'divider-style': rgba(get-color('additional', 'ultra'), .3)
 ) !default;
 
 $btn-theme-primary: (

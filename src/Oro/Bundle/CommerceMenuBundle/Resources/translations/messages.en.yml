@@ -22,6 +22,8 @@ oro:
             icon.label: Icon
             screens.label: Screens
             menu_user_agent_conditions.label: User Agent Conditions
+            link_target.label: Target Window
+            link_target.description: 'Set how to open the linked document or URI. Select "Same Window" to open it in the current browser window. Select "New Window" to open it in a new browser tab.'
             roots_plural_label: 'Frontend Menus'
             website_with_label: 'Website: %website%'
             reset_message: "Menu \"%menuKey%\" was successfully reset."

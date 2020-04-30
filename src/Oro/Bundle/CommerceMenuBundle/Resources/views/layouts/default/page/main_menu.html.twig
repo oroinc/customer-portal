@@ -97,18 +97,23 @@
 {% endblock %}
 
 {% block _main_menu_widget %}
+    {% import 'OroNavigationBundle:Menu:menu.html.twig' as oro_menu %}
     {% if item.displayed and item.extras.isAllowed %}
-        {% spaceless %}
+        {% apply spaceless %}
             {% for child in item.children -%}
                 {% if child.displayed and child.extras.isAllowed %}
                     <li class="main-menu__item">
-                        <a role="menuitem" href="{{ oro_commercemenu_get_url(child.uri) }}" class="main-menu__link">
+                        {% set linkAttributes = child.linkAttributes|merge({
+                            'class': 'main-menu__link',
+                            'role': 'menuitem'
+                        }) %}
+                        <a href="{{ oro_commercemenu_get_url(child.uri) }}"{{ oro_menu.attributes(linkAttributes) }}>
                             {% set label = child.extras.custom is defined and child.extras.custom == true ? child.label : child.label|trans %}
                             <span class="main-menu__text">{{ label }}</span>
                         </a>
                     </li>
                 {% endif %}
             {%- endfor %}
-        {% endspaceless %}
+        {% endapply %}
     {% endif %}
 {% endblock %}

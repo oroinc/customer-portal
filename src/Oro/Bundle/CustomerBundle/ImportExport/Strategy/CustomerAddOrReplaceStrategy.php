@@ -131,8 +131,13 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     private function verifyIfOwnerValid($entity)
     {
         if ($entity instanceof Customer && $entity->getOwner()) {
-            /** @var User $owner */
-            $owner = $this->findExistingEntity($entity->getOwner());
+            $owner = null;
+
+            $identifier = $this->doctrineHelper->getSingleEntityIdentifier($entity->getOwner(), false);
+            if ($identifier) {
+                $owner = $this->databaseHelper->findEntity(User::class, $identifier);
+            }
+
             if ($owner) {
                 $entity->setOwner($owner);
                 if (!$this->strategyHelper->checkEntityOwnerPermissions($this->context, $entity)) {
@@ -188,13 +193,9 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             return $entity;
         }
 
-        if ($this->strategyHelper->isGranted('ASSIGN', $entity)
-            && $this->strategyHelper->isGranted('VIEW', $entityOwner)
-        ) {
+        if ($this->strategyHelper->checkEntityOwnerCanBeSet($entity)) {
             return $entity;
         }
-
-        $this->addUnableToChangeOwnerError($entity->getName(), $entityOwner->getFullName());
 
         return null;
     }
@@ -210,14 +211,11 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
         $owner = $entity->getOwner();
         $ownerChanged = $owner !== null && $originalEntity['owner'] !== $owner;
-        $userIsNotGrantedToAssign = !$this->strategyHelper->isGranted('ASSIGN', $entity)
-            || !$this->strategyHelper->isGranted('VIEW', $owner);
+        $userIsGrantedToAssign = $this->strategyHelper->checkEntityOwnerCanBeSet($entity);
 
-        if ($ownerChanged && $userIsNotGrantedToAssign) {
+        if ($ownerChanged && !$userIsGrantedToAssign) {
             //User tries to change owner, but has no right to change owner of Customer
             //or has no access to provided user.
-            $this->addUnableToChangeOwnerError($entity->getName(), $owner->getFullName());
-
             return null;
         }
 
@@ -232,22 +230,5 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     {
         return $this->doctrineHelper->getEntityManagerForClass(Customer::class)
             ->getUnitOfWork()->getOriginalEntityData($entity);
-    }
-
-    /**
-     * @param string $entityName
-     * @param string $ownerName
-     */
-    private function addUnableToChangeOwnerError($entityName, $ownerName)
-    {
-        $this->context->addError(
-            $this->translator->trans(
-                'oro.customer.importexport.customer.unable_to_change_owner',
-                [
-                    '%entity_name%' => $entityName,
-                    '%owner_name%' => $ownerName,
-                ]
-            )
-        );
     }
 }

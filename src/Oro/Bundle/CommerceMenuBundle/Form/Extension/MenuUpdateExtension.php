@@ -6,6 +6,7 @@ use Oro\Bundle\AttachmentBundle\Form\Type\ImageType;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuScreensConditionType;
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuUserAgentConditionsCollectionType;
+use Oro\Bundle\FormBundle\Form\Type\LinkTargetType;
 use Oro\Bundle\NavigationBundle\Form\Type\MenuUpdateType;
 use Oro\Bundle\NavigationBundle\Form\Type\RouteChoiceType;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
@@ -49,22 +50,27 @@ class MenuUpdateExtension extends AbstractTypeExtension
                     return;
                 }
 
-                $event
-                    ->getForm()
-                    ->add(
-                        'image',
-                        ImageType::class,
-                        [
-                            'label' => 'oro.commercemenu.menuupdate.image.label',
-                            'required' => false,
-                        ]
-                    );
+                $form = $event->getForm();
+                $form->add(
+                    'image',
+                    ImageType::class,
+                    [
+                        'label' => 'oro.commercemenu.menuupdate.image.label',
+                        'required' => false,
+                    ]
+                );
 
                 $this->addConditionalFields($event);
                 $this->addTargetFields($event);
+
+                if (method_exists($data, 'setLinkTargetMaint')) {
+                    $form->add(
+                        'linkTargetMaint',
+                        LinkTargetType::class
+                    );
+                }
             }
         );
-
         $builder->addEventListener(FormEvents::SUBMIT, [$this, 'clearTargetFields']);
     }
 

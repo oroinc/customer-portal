@@ -12,12 +12,26 @@
 
     &__container {
         &.show {
+            .header-row__trigger {
+                box-shadow: inset 0 4px 4px -2px rgba(0, 0, 0, .2);
+
+                &.focus-visible {
+                    box-shadow: $focus-visible-style, inset 0 4px 4px -2px rgba(0, 0, 0, .2);
+                }
+            }
+
             .header-row__toggle {
                 visibility: inherit;
 
                 transition: opacity .2s;
 
                 opacity: 1;
+            }
+        }
+
+        &.show-by-hover {
+            .header-row__toggle {
+                display: block;
             }
         }
     }
@@ -73,13 +87,6 @@
 
             flex-grow: 1;
             flex-basis: auto;
-
-            &.show {
-                .header-row__trigger {
-                    background: get-color('additional', 'ultra');
-                    box-shadow: inset 0 4px 4px -2px rgba(0, 0, 0, .2);
-                }
-            }
         }
 
         &__toggle {

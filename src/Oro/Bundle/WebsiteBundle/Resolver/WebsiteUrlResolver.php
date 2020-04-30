@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\Resolver;
 
+use Oro\Bundle\CacheBundle\Provider\MemoryCacheProviderAwareTrait;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EmailBundle\Provider\UrlProviderTrait;
 use Oro\Component\Website\WebsiteInterface;
@@ -14,6 +15,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class WebsiteUrlResolver
 {
     use UrlProviderTrait;
+    use MemoryCacheProviderAwareTrait;
 
     private const CONFIG_URL        = 'oro_website.url';
     private const CONFIG_SECURE_URL = 'oro_website.secure_url';
@@ -39,12 +41,16 @@ class WebsiteUrlResolver
      */
     public function getWebsiteUrl(WebsiteInterface $website = null, bool $clearUrl = false)
     {
-        $url = $this->configManager->get(self::CONFIG_URL, false, false, $website);
-        if ($url && $clearUrl) {
-            $url = $this->getCleanUrl($url);
-        }
+        $cacheKey = 'url_' . ($website ? $website->getId() : 0);
 
-        return $url;
+        return $this->getMemoryCacheProvider()->get($cacheKey, function () use ($website, $clearUrl) {
+            $url = $this->configManager->get(self::CONFIG_URL, false, false, $website);
+            if ($url && $clearUrl) {
+                $url = $this->getCleanUrl($url);
+            }
+
+            return $url;
+        });
     }
 
     /**
@@ -55,12 +61,16 @@ class WebsiteUrlResolver
      */
     public function getWebsiteSecureUrl(WebsiteInterface $website = null, bool $clearUrl = false)
     {
-        $url = $this->getSecureUrl($website);
-        if ($url && $clearUrl) {
-            $url = $this->getCleanUrl($url);
-        }
+        $cacheKey = 'secure_url_' . ($website ? $website->getId() : 0);
 
-        return $url;
+        return $this->getMemoryCacheProvider()->get($cacheKey, function () use ($website, $clearUrl) {
+            $url = $this->getSecureUrl($website);
+            if ($url && $clearUrl) {
+                $url = $this->getCleanUrl($url);
+            }
+
+            return $url;
+        });
     }
 
     /**

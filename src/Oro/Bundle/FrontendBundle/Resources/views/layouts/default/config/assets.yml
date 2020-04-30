@@ -9,7 +9,7 @@ styles:
 
         # Bootstrap Configs
         - 'bundles/orofrontend/default/scss/variables/bootstrap/buttons-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/bootstrap/button-group-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/bootstrap/dropdown-toggle-split.scss'
 
         - 'bundles/orofrontend/default/scss/settings/global-settings.scss'
         - 'bundles/orofrontend/default/scss/variables/base-config.scss'
@@ -17,8 +17,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/breadcrumbs-config.scss'
         - 'bundles/orofrontend/default/scss/variables/collapse-view-config.scss'
         - 'bundles/orofrontend/default/scss/variables/link-config.scss'
-
-        - 'bundles/orofrontend/default/scss/variables/datagrid/datagrid-massaction-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/filters/filters-config.scss'
         - 'bundles/orofrontend/default/scss/variables/filters/filters-toggle-mode-config.scss'

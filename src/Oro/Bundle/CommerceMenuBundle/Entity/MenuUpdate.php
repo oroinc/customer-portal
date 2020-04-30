@@ -88,6 +88,8 @@ class MenuUpdate extends ExtendMenuUpdate implements
     public const TARGET_URI = 'uri';
     public const TARGET_SYSTEM_PAGE = 'system_page';
     public const TARGET_CONTENT_NODE = 'content_node';
+    public const LINK_TARGET_NEW_WINDOW = 0;
+    public const LINK_TARGET_SAME_WINDOW = 1;
 
     /**
      * @var string
@@ -172,6 +174,20 @@ class MenuUpdate extends ExtendMenuUpdate implements
         }
 
         return $extras;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLinkAttributes(): array
+    {
+        $linkAttributes = [];
+
+        if ($this->getLinkTarget() === self::LINK_TARGET_NEW_WINDOW) {
+            $linkAttributes['target'] = '_blank';
+        }
+
+        return $linkAttributes;
     }
 
     /**
@@ -305,5 +321,17 @@ class MenuUpdate extends ExtendMenuUpdate implements
         }
 
         return null;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLinkTarget(): int
+    {
+        if (method_exists($this, 'getLinkTargetMaint')) {
+            return $this->getLinkTargetMaint() ?? self::LINK_TARGET_SAME_WINDOW;
+        }
+
+        return self::LINK_TARGET_SAME_WINDOW;
     }
 }
