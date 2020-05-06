@@ -11,5 +11,26 @@
     &__text {
         vertical-align: middle;
         text-transform: uppercase;
+
+        &--offset-x {
+            &-end-s {
+                margin-#{$end}: $page-title-offset-end-s;
+            }
+        }
+    }
+
+    &.with-ellipsis {
+        display: inline-flex;
+        align-items: center;
+
+        overflow: hidden;
+
+        .page-title__text {
+            display: inline-block;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 }

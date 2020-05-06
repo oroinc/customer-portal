@@ -53,7 +53,7 @@
 
     &--offset {
         &-s {
-            margin: $offset-y-s 0;
+            margin: $offset-y 0 $offset-y-s;
         }
     }
 
