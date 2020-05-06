@@ -43,3 +43,17 @@
         margin-right: 0;
     }
 }
+
+.badge-rectangle {
+    display: inline-flex;
+    align-items: center;
+    padding: $offset-y-s $offset-x-m;
+
+    font-size: $base-font-size;
+    line-height: 1;
+    text-transform: none;
+    font-weight: normal;
+
+    border-radius: $badge-square-radius;
+    background: get-color('additional', 'light');
+}
