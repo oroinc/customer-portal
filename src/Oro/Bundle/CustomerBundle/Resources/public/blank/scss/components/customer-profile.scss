@@ -85,6 +85,10 @@
     .customer-profile {
         margin-top: $customer-profile-mobile-offset-top;
 
+        &--no-offset {
+            margin-top: 0;
+        }
+
         &__controls-wrapper {
             display: $customer-profile-mobile-controls-wrapper-display;
         }
