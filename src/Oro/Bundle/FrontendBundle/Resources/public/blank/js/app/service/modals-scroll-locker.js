@@ -1,12 +1,18 @@
 import $ from 'jquery';
-import _ from 'underscore';
+import Backbone from 'backbone';
 import mediator from 'oroui/js/mediator';
 
 const modals = {};
+let isScrollLocked = false;
 
 const scrollUpdate = () => {
+    if (isScrollLocked === Object.keys(modals).length > 0) {
+        return; // nothing to toggle
+    }
+
     const $body = $('body');
-    if (_.some(modals)) {
+    isScrollLocked = !isScrollLocked;
+    if (isScrollLocked) {
         $body.css({
             position: 'fixed',
             top: `-${window.scrollY}px`
@@ -21,27 +27,33 @@ const scrollUpdate = () => {
     }
 };
 
+const addModal = cid => {
+    modals[cid] = true;
+    scrollUpdate();
+};
+
+const removeModal = cid => {
+    delete modals[cid];
+    scrollUpdate();
+};
+
 export default () => {
+    const observer = Object.create(Backbone.Events);
+
     mediator.on({
         // widget dialogs
         'widget_dialog:open'(dialog) {
             if (dialog.widget.dialog('instance').options.modal) {
-                modals[dialog.cid] = true;
-                scrollUpdate();
+                addModal(dialog.cid);
+                observer.listenToOnce(dialog, 'dispose', removeModal.bind(void 0, dialog.cid));
             }
         },
         'widget_dialog:close'(dialog) {
-            delete modals[dialog.cid];
-            scrollUpdate();
+            removeModal(dialog.cid);
+            observer.stopListening(dialog);
         },
         // modals
-        'modal:open'(modal) {
-            modals[modal.cid] = true;
-            scrollUpdate();
-        },
-        'modal:close'(modal) {
-            delete modals[modal.cid];
-            scrollUpdate();
-        }
+        'modal:open': modal => addModal(modal.cid),
+        'modal:close': modal => removeModal(modal.cid)
     });
 };
