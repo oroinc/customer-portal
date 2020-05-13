@@ -1,8 +1,9 @@
 <?php
 
-namespace Oro\Bundle\FrontendBundle\Form\Type;
+namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\FrontendBundle\Form\OptionsConfigurator\RuleEditorOptionsConfigurator;
+use Oro\Bundle\FrontendBundle\Form\Type\RuleEditorTextType;
 use Oro\Bundle\PayPalBundle\PayPal\Payflow\Option\OptionsResolver;
 use Oro\Bundle\PricingBundle\Form\Type\PriceRuleEditorType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
