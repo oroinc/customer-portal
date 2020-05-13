@@ -223,13 +223,13 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $handler->process($role);
 
         foreach ($expectedUsersWithRole as $expectedUser) {
-            $this->assertContains($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
-            $this->assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), $role);
+            static::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            static::assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), $role);
         }
 
         foreach ($expectedUsersWithoutRole as $expectedUser) {
-            $this->assertContains($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
-            $this->assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), null);
+            static::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            static::assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), null);
         }
     }
 

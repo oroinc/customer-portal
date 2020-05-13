@@ -297,19 +297,19 @@ class CustomerUserRoleControllerTest extends WebTestCase
         );
 
         // invisible role not self managed role (self_managed = false and public = true)
-        $this->assertNotContains(
+        static::assertNotContainsEquals(
             $this->getReference(LoadCustomerUserRoleData::ROLE_NOT_SELF_MANAGED)->getId(),
             $visibleRoleIds
         );
 
         // visible not self managed role (self_managed = true and public = true)
-        $this->assertContains(
+        static::assertContainsEquals(
             $this->getReference(LoadCustomerUserRoleData::ROLE_SELF_MANAGED)->getId(),
             $visibleRoleIds
         );
 
         // invisible not public role (self_managed = true and public = false)
-        $this->assertNotContains(
+        static::assertNotContainsEquals(
             $this->getReference(LoadCustomerUserRoleData::ROLE_NOT_PUBLIC)->getId(),
             $visibleRoleIds
         );
