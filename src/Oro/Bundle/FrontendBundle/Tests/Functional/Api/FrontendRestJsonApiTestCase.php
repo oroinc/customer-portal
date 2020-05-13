@@ -42,10 +42,7 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $this->isVisitorEnabled = false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function assertPreConditions()
+    protected function assertPreConditions(): void
     {
         parent::assertPreConditions();
         // set the current website after all fixtures are loaded,
