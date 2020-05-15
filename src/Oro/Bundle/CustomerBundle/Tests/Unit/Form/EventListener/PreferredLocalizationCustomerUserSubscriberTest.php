@@ -84,7 +84,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
             ->method('get');
         $this->configManager->expects($this->once())
             ->method('get')
-            ->with(Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS), [])
+            ->with(Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS))
             ->willReturn([]);
 
         $event = new FormEvent($form, null);
@@ -96,7 +96,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
         $website = new Website();
         $this->configManager->expects($this->once())
             ->method('get')
-            ->with(Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS), [])
+            ->with(Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS))
             ->willReturn([1, 2]);
 
         /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
@@ -125,7 +125,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
         $website = new Website();
         $this->configManager->expects($this->once())
             ->method('get')
-            ->with(Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS), [])
+            ->with(Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS))
             ->willReturn([1, 2]);
 
         /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
