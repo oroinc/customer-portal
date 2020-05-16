@@ -204,8 +204,8 @@ class CustomerRepositoryTest extends WebTestCase
         $actual = $this->repository->getIdsByCustomerGroup($customerGroup);
 
         $this->assertCount(3, $actual);
-        $this->assertContains($customer131->getId(), $actual);
-        $this->assertContains($customer1311->getId(), $actual);
-        $this->assertContains($customer14->getId(), $actual);
+        static::assertContainsEquals($customer131->getId(), $actual, \var_export($actual, true));
+        static::assertContainsEquals($customer1311->getId(), $actual, \var_export($actual, true));
+        static::assertContainsEquals($customer14->getId(), $actual, \var_export($actual, true));
     }
 }
