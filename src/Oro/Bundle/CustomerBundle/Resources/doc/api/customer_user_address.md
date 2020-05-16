@@ -18,9 +18,9 @@ Retrieve a collection of <a href="https://www.oroinc.com/doc/orocommerce/current
 
 Create a new <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
 
-{@inheritdoc}
-
 The created record is returned in the response.
+
+{@inheritdoc}
 
 {@request:json_api}
 Example:
@@ -87,11 +87,11 @@ Example:
 
 ### update
 
-Update a specific <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
-
-{@inheritdoc}
+Edit a specific <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
 
 The updated record is returned in the response.
+
+{@inheritdoc}
 
 {@request:json_api}
 Example:

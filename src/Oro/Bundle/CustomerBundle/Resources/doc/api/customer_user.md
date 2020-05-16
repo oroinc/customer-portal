@@ -253,7 +253,7 @@ Retrieve the ID of the customer record which a specific customer user record is 
 
 #### update_relationship
 
-Replace customer record a specific customer user record is assigned to.
+Replace the customer record a specific customer user record is assigned to.
 
 {@request:json_api}
 Example:

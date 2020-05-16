@@ -18,9 +18,9 @@ Retrieve a collection of customer user address records.
 
 Create a new customer user address record.
 
-{@inheritdoc}
-
 The created record is returned in the response.
+
+{@inheritdoc}
 
 {@request:json_api}
 Example:
@@ -81,11 +81,11 @@ Example:
 
 ### update
 
-Update a specific customer user address record.
-
-{@inheritdoc}
+Edit a specific customer user address record.
 
 The updated record is returned in the response.
+
+{@inheritdoc}
 
 {@request:json_api}
 Example:
