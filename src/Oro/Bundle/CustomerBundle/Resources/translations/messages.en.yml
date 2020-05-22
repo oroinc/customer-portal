@@ -754,7 +754,25 @@ oro.customer:
         action:
             back.label: "< Back"
             back_to_login.label: "Already have an account? Log in >"
-            customer_user_role.edit: "Edit Role"
+            customer_address:
+                show_map.aria_label: 'Show %street% %city% %state% %zip% %countryName% address map'
+                edit.aria_label: 'Edit %street% %city% %state% %zip% %countryName% address'
+                delete.aria_label: 'Delete %street% %city% %state% %zip% %countryName% address'
+            customer_user:
+                view.aria_label: 'View %firstName% %lastName% user'
+                edit.aria_label: 'Edit %firstName% %lastName% user'
+                enable.aria_label: 'Enable %firstName% %lastName% user'
+                disable.aria_label: 'Disable %firstName% %lastName% user'
+                delete.aria_label: 'Delete %firstName% %lastName% user'
+            customer_user_address:
+                show_map.aria_label: 'Show %street% %city% %state% %zip% %countryName% address map'
+                edit.aria_label: 'Edit %street% %city% %state% %zip% %countryName% address'
+                delete.aria_label: 'Delete %street% %city% %state% %zip% %countryName% address'
+            customer_user_role:
+                edit: "Edit Role"
+                view.aria_label: "View %label% role"
+                edit.aria_label: "Edit %label% role"
+                delete.aria_label: "Delete %label% role"
         table:
             entity:
                 section.label: Section
