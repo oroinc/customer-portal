@@ -17,10 +17,10 @@ Feature: Check titles for mass actions in Address Book page if action-sate equal
             | Customer User Address | Edit:Сorporate (All Levels) |
         And I click "Address Book"
         Then I should see only following actions for row #1 on "Customer Company Addresses Grid" grid:
-            | Map |
-            | Edit |
-            | Delete |
+            | Show First avenue Berlin Berlin 10115 Germany address map |
+            | Edit First avenue Berlin Berlin 10115 Germany address     |
+            | Delete First avenue Berlin Berlin 10115 Germany address   |
         Then I should see only following actions for row #1 on "Customer Company User Addresses Grid" grid:
-            | Map |
-            | Edit |
-            | Delete |
+            | Show Third avenue Berlin Berlin 10115 Germany address map |
+            | Edit Third avenue Berlin Berlin 10115 Germany address     |
+            | Delete Third avenue Berlin Berlin 10115 Germany address   |

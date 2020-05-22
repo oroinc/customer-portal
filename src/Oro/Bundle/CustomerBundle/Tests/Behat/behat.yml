@@ -262,7 +262,7 @@ oro_behat_extension:
     Map Button:
       selector:
         type: xpath
-        locator: '//*[contains(@class, "nav-pills")]/descendant::a[contains(@title, "Map")]'
+        locator: '//*[contains(@class, "nav-pills")]/descendant::a[contains(@title, "Map") or contains(@title, "map")]'
 
     Map Popover:
       selector: '.map-popover'
