@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrategy;
 
 /**
@@ -56,10 +57,40 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
      */
     protected function findEntityByIdentityValues($entityName, array $identityValues)
     {
+        if (is_a($entityName, CustomerUserRole::class, true)) {
+            $entity = $this->findCustomerUserRoleByRoleWithUniqueSuffix($entityName, $identityValues);
+            if ($entity) {
+                return $entity;
+            }
+        }
+
         return parent::findEntityByIdentityValues(
             $entityName,
             $this->handleCaseInsensitiveEmail($entityName, $identityValues)
         );
+    }
+
+    /**
+     * This is a workaround to prevent the use of reflection to set 'role' field of the CustomerUserRole entity.
+     * It's necessary because we use the 'CustomerUserRole::setRole()' method during the entity denormalization
+     * which always calls the 'strtoupper()' function for the given value.
+     *
+     * @param string $entityName
+     * @param array $identityValues
+     * @return object|null
+     */
+    private function findCustomerUserRoleByRoleWithUniqueSuffix($entityName, array $identityValues): ?object
+    {
+        $role = $identityValues['role'] ?? null;
+        if (!$role) {
+            return null;
+        }
+
+        $position = strrpos($role, '_');
+
+        $identityValues['role'] = substr($role, 0, $position) . strtolower(substr($role, $position));
+
+        return parent::findEntityByIdentityValues($entityName, $identityValues);
     }
 
     /**
