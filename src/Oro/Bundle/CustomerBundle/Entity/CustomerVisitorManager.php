@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -67,7 +68,7 @@ class CustomerVisitorManager
                 ->update(CustomerVisitor::class, 'v')
                 ->set('v.lastVisit', ':lastVisit')
                 ->where('v.id = :id')
-                ->setParameter('lastVisit', $now)
+                ->setParameter('lastVisit', $now, Type::DATETIME)
                 ->setParameter('id', $user->getId())
                 ->getQuery()
                 ->execute();

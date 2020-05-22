@@ -60,8 +60,8 @@ class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestC
             ['entity' => 'customers'],
             ['filter' => ['id' => 'mine']],
             [
-                'X-WSSE' => $header[1][0],
-                'Authorization' => 'WSSE profile="UsernameToken"'
+                'HTTP_X-WSSE'        => $header[1][0],
+                'HTTP_Authorization' => 'WSSE profile="UsernameToken"'
             ],
             false
         );

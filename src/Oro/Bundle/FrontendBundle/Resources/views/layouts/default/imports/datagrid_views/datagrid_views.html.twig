@@ -62,8 +62,8 @@
         'title': 'Close'|trans,
         'aria-label': 'oro_frontend.datagrid_views.close.aria_label'|trans
     }) %}
-    <button {{ block('block_attributes') }}>
-        <span class="fa-close fa--no-offset" data-close aria-hidden="true"></span>
+    <button {{ block('block_attributes') }} data-close>
+        <span class="fa-close fa--no-offset" aria-hidden="true"></span>
     </button>
 {% endblock %}
 

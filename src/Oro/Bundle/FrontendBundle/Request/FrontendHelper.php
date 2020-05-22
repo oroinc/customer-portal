@@ -16,6 +16,13 @@ class FrontendHelper
     private $requestStack;
 
     /**
+     * Used if the check should return that a request is the storefront or management console
+     * without any additional checks
+     * @var bool
+     */
+    private $emulateFrontendRequest;
+
+    /**
      * @param string       $backendPrefix
      * @param RequestStack $requestStack
      */
@@ -32,6 +39,10 @@ class FrontendHelper
      */
     public function isFrontendRequest(): bool
     {
+        if (null !== $this->emulateFrontendRequest) {
+            return $this->emulateFrontendRequest;
+        }
+
         $request = $this->requestStack->getMasterRequest();
 
         return
@@ -59,5 +70,31 @@ class FrontendHelper
         }
 
         return true;
+    }
+
+    /**
+     * Switches the {@see isFrontendRequest} check to return that a request is the storefront request
+     * without additional checks.
+     */
+    public function emulateFrontendRequest(): void
+    {
+        $this->emulateFrontendRequest = true;
+    }
+
+    /**
+     * Switches the {@see isFrontendRequest} check to return that a request is management console request
+     * without additional checks.
+     */
+    public function emulateBackendRequest(): void
+    {
+        $this->emulateFrontendRequest = false;
+    }
+
+    /**
+     * Removes the {@see isFrontendRequest} check emulation.
+     */
+    public function resetRequestEmulation(): void
+    {
+        $this->emulateFrontendRequest = null;
     }
 }
