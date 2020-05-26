@@ -130,9 +130,8 @@ class PreferredLocalizationCustomerUserSubscriber implements EventSubscriberInte
      */
     protected function isAvailable(): bool
     {
-        $enabledLocalizationIds = $this->configManager->get(
-            Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS),
-            []
+        $enabledLocalizationIds = (array) $this->configManager->get(
+            Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS)
         );
 
         return count($enabledLocalizationIds) > 1;

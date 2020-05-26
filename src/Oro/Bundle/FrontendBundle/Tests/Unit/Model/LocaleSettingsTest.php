@@ -205,7 +205,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
 
     public function testGetLocale()
     {
-        $this->frontendHelper->expects($this->atLeastOnce())
+        $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
@@ -213,6 +213,9 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->method('getLocale')
             ->willReturn('en_US');
 
+        $this->assertEquals('en_US', $this->localeSettings->getLocale());
+
+        // check local cache
         $this->assertEquals('en_US', $this->localeSettings->getLocale());
     }
 
@@ -232,6 +235,9 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->method('getCurrentLocalization')
             ->willReturn($localization);
 
+        $this->assertEquals('de_DE', $this->localeSettings->getLocale());
+
+        // check local cache
         $this->assertEquals('de_DE', $this->localeSettings->getLocale());
     }
 

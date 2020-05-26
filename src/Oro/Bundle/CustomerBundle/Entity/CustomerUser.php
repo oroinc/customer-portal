@@ -1072,7 +1072,7 @@ class CustomerUser extends ExtendCustomerUser implements
     public function getWebsiteSettings(Website $website)
     {
         foreach ($this->settings as $setting) {
-            if ($setting->getWebsite() === $website) {
+            if ($setting->getWebsite()->getId() === $website->getId()) {
                 return $setting;
             }
         }
