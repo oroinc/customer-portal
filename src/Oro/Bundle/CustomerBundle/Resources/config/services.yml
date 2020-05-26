@@ -1142,3 +1142,11 @@ services:
             - '@oro_entity.entity_name_provider.default'
         tags:
             - { name: oro_entity.name_provider }
+
+    oro_customer.listener.email_body_add:
+        class: Oro\Bundle\CustomerBundle\EventListener\EmailBodyAddListener
+        arguments:
+            - '@doctrine'
+            - '@oro_email.email.activity.manager'
+        tags:
+            - { name: kernel.event_listener, event: oro_email.email_body_added, method: linkToCustomerUser }
