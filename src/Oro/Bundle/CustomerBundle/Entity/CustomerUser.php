@@ -64,6 +64,9 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
  *          },
  *          "dataaudit"={
  *              "auditable"=true
+ *          },
+ *          "grid"={
+ *              "context"="customer-customer-user-select-grid"
  *          }
  *      }
  * )
