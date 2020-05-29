@@ -81,7 +81,7 @@ Example:
 
 ### update
 
-Update a specific customer address record.
+Edit a specific customer address record.
 
 The updated record is returned in the response.
 

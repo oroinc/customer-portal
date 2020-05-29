@@ -666,11 +666,24 @@ datagrids:
                 route: oro_customer_frontend_customer_user_role_update
                 params:
                     - id
+            view_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_role.view.aria_label
+                params: [label]
+            update_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_role.edit.aria_label
+                params: [label]
+            delete_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_role.delete.aria_label
+                params: [label]
         actions:
             view:
                 acl_resource:  oro_customer_frontend_customer_user_role_view
                 type:          navigate
                 label:         oro.grid.action.view
+                ariaLabel:     view_aria_label
                 link:          view_link
                 icon:          eye
                 order:         10
@@ -678,6 +691,7 @@ datagrids:
             update:
                 type:          navigate
                 label:         oro.grid.action.update
+                ariaLabel:     update_aria_label
                 link:          update_link
                 icon:          pencil-square-o
                 order:         20
@@ -805,6 +819,8 @@ datagrids:
             query:
                 select:
                     - user.id
+                    - user.firstName
+                    - user.lastName
                     - CONCAT(user.firstName, CONCAT(' ', user.lastName)) AS fullName
                     - user.email
                     - CASE WHEN user.enabled = true AND user.confirmed = true THEN true ELSE false END AS status
@@ -824,10 +840,15 @@ datagrids:
                 type:   url
                 route:  oro_customer_frontend_customer_user_view
                 params: [ id ]
+            view_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.view.aria_label
+                params: [firstName, lastName]
         actions:
             view:
                 type:         navigate
                 label:        oro.grid.action.view
+                ariaLabel:    view_aria_label
                 link:         view_link
                 icon:         eye
                 acl_resource: oro_customer_frontend_customer_user_view
@@ -986,10 +1007,31 @@ datagrids:
                 type:   url
                 route:  oro_customer_frontend_customer_user_update
                 params: [ id ]
+            view_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.view.aria_label
+                params: [firstName, lastName]
+            update_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.edit.aria_label
+                params: [firstName, lastName]
+            enable_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.enable.aria_label
+                params: [firstName, lastName]
+            disable_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.disable.aria_label
+                params: [firstName, lastName]
+            delete_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user.delete.aria_label
+                params: [firstName, lastName]
         actions:
             view:
                 type:          navigate
                 label:         oro.grid.action.view
+                ariaLabel:     view_aria_label
                 link:          view_link
                 icon:          eye
                 acl_resource:  oro_customer_frontend_customer_user_view
@@ -997,6 +1039,7 @@ datagrids:
             update:
                 type:          navigate
                 label:         oro.grid.action.update
+                ariaLabel:     update_aria_label
                 link:          update_link
                 icon:          pencil-square-o
                 acl_resource:  oro_customer_frontend_customer_user_update
@@ -1141,10 +1184,25 @@ datagrids:
                 type: url
                 route: oro_customer_frontend_customer_address_update
                 params: {entityId: frontendOwner.id , id: id}
+            show_map_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_address.show_map.aria_label
+                params: [street, city, state, zip, countryName]
+            update_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_address.edit.aria_label
+                params: [street, city, state, zip, countryName]
+            delete_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_address.delete.aria_label
+                params: [street, city, state, zip, countryName]
 
         actions:
+            show_map:
+                ariaLabel:     show_map_aria_label
             update:
                 label:         oro.customer.action.customer_frontend_address.edit
+                ariaLabel:     update_aria_label
                 type:          navigate
                 link:          update_link
                 icon:          pencil
@@ -1169,10 +1227,25 @@ datagrids:
                 type: url
                 route: oro_customer_frontend_customer_user_address_update
                 params: {entityId: frontendOwner.id , id: id}
+            show_map_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_address.show_map.aria_label
+                params: [street, city, state, zip, countryName]
+            update_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_address.edit.aria_label
+                params: [street, city, state, zip, countryName]
+            delete_aria_label:
+                type:   translatable
+                key:    oro.customer.frontend.action.customer_user_address.delete.aria_label
+                params: [street, city, state, zip, countryName]
 
         actions:
+            show_map:
+                ariaLabel:     show_map_aria_label
             update:
                 label:         oro.customer.action.customer_user_frontend_address.edit
+                ariaLabel:     update_aria_label
                 type:          navigate
                 link:          update_link
                 icon:          pencil

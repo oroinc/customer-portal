@@ -86,4 +86,28 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
         $helper = new FrontendHelper(self::BACKEND_PREFIX, $this->getRequestStack());
         $this->assertTrue($helper->isFrontendUrl('/test'));
     }
+
+    public function testEmulateFrontendRequest()
+    {
+        $request = Request::create(self::BACKEND_PREFIX . '/backend');
+
+        $helper = new FrontendHelper(self::BACKEND_PREFIX, $this->getRequestStack($request));
+        $helper->emulateFrontendRequest();
+        $this->assertTrue($helper->isFrontendRequest());
+
+        $helper->resetRequestEmulation();
+        $this->assertFalse($helper->isFrontendRequest());
+    }
+
+    public function testEmulateBackendRequest()
+    {
+        $request = Request::create('/frontend');
+
+        $helper = new FrontendHelper(self::BACKEND_PREFIX, $this->getRequestStack($request));
+        $helper->emulateBackendRequest();
+        $this->assertFalse($helper->isFrontendRequest());
+
+        $helper->resetRequestEmulation();
+        $this->assertTrue($helper->isFrontendRequest());
+    }
 }

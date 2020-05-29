@@ -66,6 +66,9 @@ use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
  *          },
  *          "dataaudit"={
  *              "auditable"=true
+ *          },
+ *          "grid"={
+ *              "context"="customer-customer-user-select-grid"
  *          }
  *      }
  * )

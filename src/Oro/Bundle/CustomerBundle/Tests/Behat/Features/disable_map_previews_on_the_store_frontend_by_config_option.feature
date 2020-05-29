@@ -29,11 +29,11 @@ Feature: Disable map previews on the store frontend by config option
     And I click "Address Book"
     Then I should see "Map Button" element inside "Customer Company Addresses Grid" element
     Then I should see "Map Button" element inside "Customer Company User Addresses Grid" element
-    And I click "Map" on row "801 Scenic Hwy" in "Customer Company Addresses Grid"
+    And I click "Show 801 Scenic Hwy Haines City Florida 33844 United States address map" on row "801 Scenic Hwy" in "Customer Company Addresses Grid"
     Then I should see an "Map Popover" element
     # Click on empty space to close the popover
     And I click on empty space
-    And I click "Map" on row "801 Scenic Hwy" in "Customer Company User Addresses Grid"
+    And I click "Show 801 Scenic Hwy Haines City Florida 33844 United States address map" on row "801 Scenic Hwy" in "Customer Company User Addresses Grid"
     Then I should see an "Map Popover" element
     And I click on empty space
 

@@ -149,13 +149,10 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
             base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()]))
         ));
         // set "_csrf" cookie with domain to be sure it was rewritten after previous request
-        $cookieJar->set(new Cookie(
-            CsrfRequestManager::CSRF_TOKEN_ID,
-            'test_csrf_token',
-            null,
-            null,
-            str_replace('http://', '', Client::LOCAL_URL)
-        ));
+        $domain = str_replace('http://', '', Client::LOCAL_URL);
+        $cookieJar->set(new Cookie(CsrfRequestManager::CSRF_TOKEN_ID, 'test_csrf_token', null, null, $domain));
+        // a marker for a stateful test API request
+        $cookieJar->set(new Cookie(self::API_TEST_STATEFUL_REQUEST, 'visitor', null, null, $domain));
     }
 
     /**

@@ -81,7 +81,7 @@ Example:
 
 ### update
 
-Update a specific <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer address</a> record.
+Edit a specific <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer address</a> record.
 
 The updated record is returned in the response.
 

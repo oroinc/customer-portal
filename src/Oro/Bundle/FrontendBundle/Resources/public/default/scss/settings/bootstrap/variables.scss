@@ -16,13 +16,16 @@ $btn-border-radius-l: $border-radius-l;
 
 $input-border-radius: $border-radius;
 $input-btn-padding-y: 10px;
-$input-btn-padding-x: 15px;
+$input-btn-padding-x: 13px;
 
 $btn-padding-y: $input-btn-padding-y;
 $btn-padding-x: $input-btn-padding-x;
 
 $dropdown-item-padding-y: 8px;
 $dropdown-item-padding-x: 20px;
+$dropdown-color: get-color('additional', 'dark');
+$dropdown-link-active-bg: get-color('additional', 'base');
+$dropdown-link-active-color: get-color('additional', 'dark');
 
 $table-color: get-color('additional', 'dark');
 
