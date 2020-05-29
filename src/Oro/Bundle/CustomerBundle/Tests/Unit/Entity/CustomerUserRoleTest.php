@@ -39,6 +39,7 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
         $role->setRole($name);
         $this->assertStringStartsWith(CustomerUserRole::PREFIX_ROLE . 'TEST_ROLE_', $role->getRole());
         $this->assertStringStartsWith(CustomerUserRole::PREFIX_ROLE . 'TEST_ROLE_', (string)$role);
+        $this->assertMatchesRegularExpression('/_[[:upper:]\d]{13}/', substr($role->getRole(), strrpos($role, '_')));
     }
 
     /**
