@@ -1,4 +1,5 @@
 @fixture-OroCustomerBundle:ImportCustomerUsersFixture.yml
+@fixture-OroCustomerBundle:CustomerUserRoleSuffixFixture.yml
 @regression
 Feature: Import Customer Users
   In order to add multiple customer users at once
@@ -29,12 +30,14 @@ Feature: Import Customer Users
 
   Scenario: Import new Customer Users
     Given I fill template with data:
-      | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix | Birthday   | Email Address              | Customer Id | Customer Name             | Roles 1 Role                | Roles 2 Role        | Website Id | Enabled | Confirmed | Owner Id | Guest |
-      |    | Amanda Pre  | Amanda     | Middle Co   | Cole      | Cole Suff   | 10/21/1980 | AmandaRCole@example.org    | 1           | Test                      | ROLE_FRONTEND_ADMINISTRATOR | ROLE_FRONTEND_BUYER | 1          | 1       | 1         | 1        | No    |
-      |    |             | Branda     |             | Sanborn   |             |            | BrandaJSanborn@example.org | 1           | Company A                 | ROLE_FRONTEND_BUYER         |                     | 2          | 0       | 1         |          | No    |
-      |    | Ruth Pre    | Ruth       | Middle Max  | Maxwell   | Ruth Suff   | 11/06/1988 | RuthWMaxwell@example.org   | 2           | Company A - West Division | ROLE_FRONTEND_BUYER         |                     | 2          | 1       | 0         | 2        | No    |
+      | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix | Birthday   | Email Address              | Customer Id | Customer Name             | Roles 1 Role                | Roles 2 Role                     | Website Id | Enabled | Confirmed | Owner Id | Guest |
+      |    | Amanda Pre  | Amanda     | Middle Co   | Cole      | Cole Suff   | 10/21/1980 | AmandaRCole@example.org    | 1           | Test                      | ROLE_FRONTEND_ADMINISTRATOR | ROLE_FRONTEND_BUYER              | 1          | 1       | 1         | 1        | No    |
+      |    |             | Branda     |             | Sanborn   |             |            | BrandaJSanborn@example.org | 1           | Company A                 | ROLE_FRONTEND_BUYER         |                                  | 2          | 0       | 1         |          | No    |
+      |    | Ruth Pre    | Ruth       | Middle Max  | Maxwell   | Ruth Suff   | 11/06/1988 | RuthWMaxwell@example.org   | 2           | Company A - West Division | ROLE_FRONTEND_BUYER         | ROLE_FRONTEND_TEST_5ec79db4eafcd | 2          | 1       | 0         | 2        | No    |
     When I import file
     And Email should contains the following "Errors: 0 processed: 3, read: 3, added: 3, updated: 0, replaced: 0" text
+    And Email should not contains the following:
+      | Body | Error Log |
     And I reload the page
     And I should see following grid:
       | Customer                  | First Name   | Last Name | Email Address              | Enabled | Confirmed |
@@ -70,7 +73,7 @@ Feature: Import Customer Users
       | Middle Name | Middle Max  |
       | Name Suffix | Ruth Suff   |
       | Birthday    | Nov 6, 1988 |
-      | Roles       | Buyer       |
+      | Roles       | Buyer Test  |
       | Website     | Second      |
 
   Scenario: Enable Case-Insensitive Email option
