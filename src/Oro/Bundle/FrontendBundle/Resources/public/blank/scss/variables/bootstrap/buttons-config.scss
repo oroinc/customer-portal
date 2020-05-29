@@ -34,7 +34,7 @@ $btn-link-color: $link-color !default;
 $btn-link-background-color: transparent !default;
 $btn-link-border-color: transparent !default;
 
-$btn-link-hover-color: $link-hover-color;
+$btn-link-hover-color: get-color('ui', 'focus');
 $btn-link-hover-text-decoration: $link-hover-decoration !default;
 $btn-link-hover-background-color: transparent !default;
 $btn-link-hover-border-color: transparent !default;
@@ -45,7 +45,7 @@ $btn-link-focus-border-color: transparent !default;
 $btn-focus-visible-style: $base-ui-bth-focus-style !default;
 
 $btn-link-active-background: transparent !default;
-$btn-link-active-color: $link-hover-color !default;
+$btn-link-active-color: $btn-link-hover-color !default;
 $btn-link-active-border-color: transparent !default;
 
 $btn-link-disabled-pointer-events: none !default;
