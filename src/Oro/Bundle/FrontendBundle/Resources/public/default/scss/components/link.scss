@@ -10,4 +10,12 @@
 
         cursor: default;
     }
+
+    &--none-decoration {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
 }
