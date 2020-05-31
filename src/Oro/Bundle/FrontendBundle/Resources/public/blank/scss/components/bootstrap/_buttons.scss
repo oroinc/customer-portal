@@ -10,7 +10,6 @@
     user-select: $btn-user-select;
     border: $btn-border;
     text-decoration: $btn-text-decoration;
-    margin: auto;
 
     @include appearance();
 
@@ -76,6 +75,59 @@ fieldset:disabled a.btn {
 @each $color, $values in $btn-theme-keys {
     .btn--#{$color} {
         @include button-custom-variant($values...);
+    }
+}
+
+.btn--large {
+    min-width: $btn-large-min-width;
+}
+
+//
+// Button Sizes
+//
+
+.btn--size {
+    &-xs {
+        font-size: $base-font-size--s;
+        padding: $btn-padding-y-xs $btn-padding-x-xs;
+        min-width: $btn-xs-min-size;
+
+        @include border-radius($btn-border-radius-xs);
+    }
+
+    &-s {
+        line-height: $btn-line-height--s;
+        padding: $btn-padding-y-s $btn-padding-x-s;
+
+        @include border-radius($btn-border-radius-s);
+    }
+
+    &-m {
+        font-size: $base-font-size--large;
+        padding: $btn-padding-y-m $btn-padding-x-m;
+
+        @include border-radius($btn-border-radius-m);
+    }
+
+    &-l {
+        font-size: $base-font-size--l;
+        padding: $btn-padding-y-l $btn-padding-x-l;
+
+        @include border-radius($btn-border-radius-l);
+    }
+}
+
+//
+// Block button
+//
+
+.btn--block {
+    display: $btn-block-display;
+    width: $btn-block-width;
+
+    // Vertically space out multiple block buttons
+    + .btn--block {
+        margin-top: $btn-block-offset-top;
     }
 }
 
@@ -152,59 +204,6 @@ fieldset:disabled a.btn {
         border-color: $btn-plain-active-border-color;
         box-shadow: none;
         color: $btn-plain-active-color;
-    }
-}
-
-.btn--large {
-    min-width: $btn-large-min-width;
-}
-
-//
-// Button Sizes
-//
-
-.btn--size {
-    &-xs {
-        font-size: $base-font-size--s;
-        padding: $btn-padding-y-xs $btn-padding-x-xs;
-        min-width: $btn-xs-min-size;
-
-        @include border-radius($btn-border-radius-xs);
-    }
-
-    &-s {
-        line-height: $btn-line-height--s;
-        padding: $btn-padding-y-s $btn-padding-x-s;
-
-        @include border-radius($btn-border-radius-s);
-    }
-
-    &-m {
-        font-size: $base-font-size--large;
-        padding: $btn-padding-y-m $btn-padding-x-m;
-
-        @include border-radius($btn-border-radius-m);
-    }
-
-    &-l {
-        font-size: $base-font-size--l;
-        padding: $btn-padding-y-l $btn-padding-x-l;
-
-        @include border-radius($btn-border-radius-l);
-    }
-}
-
-//
-// Block button
-//
-
-.btn--block {
-    display: $btn-block-display;
-    width: $btn-block-width;
-
-    // Vertically space out multiple block buttons
-    + .btn--block {
-        margin-top: $btn-block-offset-top;
     }
 }
 

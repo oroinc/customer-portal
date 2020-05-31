@@ -18,5 +18,5 @@ Feature: Google maps service
 
   Scenario: Check google maps shows on address grid
     Given I click "Address Book"
-    When I click Map "34500 Capitol Avenue" in grid
+    When I click "Show 34500 Capitol Avenue Romney Indiana 47981 United States address map" on row "34500 Capitol Avenue" in grid
     Then I should see an "Map Popover" element

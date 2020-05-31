@@ -3,6 +3,7 @@
 %table {
     border-top: $table-border-top;
     width: $table-width;
+    font-family: $table-font-family;
 
     caption {
         @extend .h3;
