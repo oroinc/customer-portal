@@ -337,6 +337,8 @@ define(function(require) {
                         return false;
                     } else if (!options.alwaysInSticky && onBottom) {
                         return false;
+                    } else if (!options.moveToPanel && this.isFixedPositionChange($element)) {
+                        return true;
                     }
                 } else if (!isEmpty) {
                     if (options.alwaysInSticky ||
@@ -528,6 +530,16 @@ define(function(require) {
                 top: '',
                 width: ''
             });
+        },
+
+        /**
+         * If horizontal position change at fixed blocks
+         * @param $element
+         * @returns {boolean}
+         */
+        isFixedPositionChange($element) {
+            const options = $element.data('sticky');
+            return $element.offset().left !== options.$elementPlaceholder.offset().left;
         }
     });
 
