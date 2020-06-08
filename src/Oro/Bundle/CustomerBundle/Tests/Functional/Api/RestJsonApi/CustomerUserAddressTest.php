@@ -88,6 +88,57 @@ class CustomerUserAddressTest extends RestJsonApiTestCase
         $this->assertResponseContains('cget_customer_user_address.yml', $response);
     }
 
+    public function testGetListFilterByAddressType()
+    {
+        $response = $this->cget(
+            ['entity' => self::ENTITY_TYPE],
+            ['filter' => ['addressType' => 'billing']]
+        );
+
+        $this->assertResponseContains(
+            [
+                'data' => [
+                    [
+                        'type'=> self::ENTITY_TYPE,
+                        'id'   => '<toString(@grzegorz.brzeczyszczykiewicz@example.com.address_1->id)>'
+                    ],
+                    [
+                        'type'=> self::ENTITY_TYPE,
+                        'id'   => '<toString(@grzegorz.brzeczyszczykiewicz@example.com.address_2->id)>'
+                    ],
+                    [
+                        'type'=> self::ENTITY_TYPE,
+                        'id'   => '<toString(@grzegorz.brzeczyszczykiewicz@example.com.address_3->id)>'
+                    ],
+                    [
+                        'type'=> self::ENTITY_TYPE,
+                        'id'   => '<toString(@other.user@test.com.address_1->id)>'
+                    ]
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testTryToGetListFilterByTypes()
+    {
+        $response = $this->cget(
+            ['entity' => self::ENTITY_TYPE],
+            ['filter' => ['types' => 'billing']],
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'filter constraint',
+                'detail' => 'The filter is not supported.',
+                'source' => ['parameter' => 'filter[types]']
+            ],
+            $response
+        );
+    }
+
     public function testGet()
     {
         $response = $this->get(
