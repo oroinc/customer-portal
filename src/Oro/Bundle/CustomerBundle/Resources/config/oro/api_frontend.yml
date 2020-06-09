@@ -151,6 +151,8 @@ api:
                         data_type: string
                         property_path: types.type
                         allow_array: true
+                    types:
+                        exclude: true
             actions:
                 update:
                     fields:
@@ -214,6 +216,8 @@ api:
                         data_type: string
                         property_path: types.type
                         allow_array: true
+                    types:
+                        exclude: true
             actions:
                 update:
                     fields:
