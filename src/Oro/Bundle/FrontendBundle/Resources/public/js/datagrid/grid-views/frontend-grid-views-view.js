@@ -43,7 +43,7 @@ define(function(require) {
             'click [data-role="discard_changes"]': 'onDiscardChanges',
             'click [data-switch-edit-mode]': 'switchEditMode',
             'click .dropdown-menu': 'onClickView',
-            'keydown #frontend-grid-view-name': 'onKeyDown'
+            'keydown .frontend-grid-view-name': 'onKeyDown'
         },
 
         /** @property */

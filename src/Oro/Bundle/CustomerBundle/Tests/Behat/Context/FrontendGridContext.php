@@ -35,7 +35,7 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     public function setGridViewName($name, $gridName)
     {
         $grid = $this->getFrontendGrid($gridName);
-        $grid->fillField('frontend-grid-view-name', $name);
+        $grid->getElement('FrontendGridViewName')->setValue($name);
     }
 
     /**
