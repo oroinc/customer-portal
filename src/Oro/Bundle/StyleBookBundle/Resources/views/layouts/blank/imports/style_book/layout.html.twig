@@ -321,7 +321,7 @@
                 {% endfor %}
             </ul>
 
-            <div class="tab-content" id="tab-container">
+            <div class="tab-content">
                 {% for item in tabs %}
                     <div id="{{ item.anchor ~ uniqueId }}"
                          class="tab-pane{{ item.active ? ' active' : '' }}"

@@ -3,7 +3,6 @@
         <% _.each(handles, function (handle) { %>
             <% if (handle.type == "input") { %>
                 <input type="text"
-                       id="oro-pagination__input"
                        class="input input--size-s oro-pagination__input"
                        value="<%= state.firstPage == 0 ? state.currentPage + 1 : state.currentPage  %>"
                        data-grid-pagination-trigger-input
