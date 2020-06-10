@@ -1,6 +1,6 @@
 # OroCommerceMenuBundle
 
-OroCommerceMenuBundle uses [OroNavigationBundle](https://github.com/oroinc/platform/tree/master/src/Oro/Bundle/NavigationBundle) features to enable navigation menus in the Oro application storefront and allows admin users to configure frontend menu items on the global level (for the entire system), for individual customers, and customer groups.
+OroCommerceMenuBundle uses [OroNavigationBundle](https://github.com/oroinc/platform/tree/4.1/src/Oro/Bundle/NavigationBundle) features to enable navigation menus in the Oro application storefront and allows admin users to configure frontend menu items on the global level (for the entire system), for individual customers, and customer groups.
 
 ## General
 
@@ -31,7 +31,7 @@ navigation:
                     second_menu_item ~
 ```
 
-Please see [documentation](https://github.com/orocrm/platform/tree/master/src/Oro/Bundle/NavigationBundle/README.md) for more details.
+Please see [documentation](https://github.com/orocrm/platform/tree/4.1/src/Oro/Bundle/NavigationBundle/README.md) for more details.
 
 ## Sections:
 
