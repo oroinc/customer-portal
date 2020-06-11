@@ -54,9 +54,9 @@ Feature: Checked actions in grid line items
           | FrontendGridActionResetButton   |
           | FrontendGridActionFilterButton  |
       And I should see following actions for Company_Street_01 in grid:
-          | Show Company_Street_01 City_01 Florida 1234 United States address map |
-          | Edit Company_Street_01 City_01 Florida 1234 United States address     |
-          | Delete Company_Street_01 City_01 Florida 1234 United States address   |
+          | Map    |
+          | Edit   |
+          | Delete |
 
     Scenario: Checked actions in grid line items on "All Users" grid
       And I follow "Account"
