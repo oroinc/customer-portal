@@ -32,7 +32,7 @@ Example:
     "attributes": {
       "name": "Company AB"
     },
-    "relationships": {     
+    "relationships": { 
       "children": {
         "data": [
           {
@@ -88,7 +88,7 @@ Example:
     "attributes": {
       "name": "Company AC"
     },
-    "relationships": {     
+    "relationships": { 
       "children": {
         "data": [
           {
