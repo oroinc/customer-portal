@@ -135,6 +135,7 @@ services:
         class: Symfony\Component\Cache\Adapter\DoctrineAdapter
         arguments:
             - '@oro_commerce_menu.expression_language.cache'
+            - 'oro_commerce_menu_expression_language'
 
     oro_commerce_menu.expression_language:
         class: Symfony\Component\ExpressionLanguage\ExpressionLanguage
