@@ -27,6 +27,10 @@
     </div>
 {% endblock %}
 
+{% block __oro_customer_form__form_fields_widget %}
+    {{ form_widget(form, {id: null}) }}
+{% endblock %}
+
 {% block __oro_customer_form__form_submit_wrapper_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' form-row'

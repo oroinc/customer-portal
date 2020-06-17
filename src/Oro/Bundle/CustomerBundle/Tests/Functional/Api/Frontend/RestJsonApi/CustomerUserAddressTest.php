@@ -72,6 +72,49 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $this->assertResponseContains('cget_customer_user_address.yml', $response);
     }
 
+    public function testGetListFilterByAddressType()
+    {
+        $response = $this->cget(
+            ['entity' => 'customeruseraddresses'],
+            ['filter' => ['addressType' => 'billing']]
+        );
+
+        $this->assertResponseContains(
+            [
+                'data' => [
+                    [
+                        'type'=> self::ENTITY_TYPE,
+                        'id'   => '<toString(@customer_user_address1->id)>'
+                    ],
+                    [
+                        'type'=> self::ENTITY_TYPE,
+                        'id'   => '<toString(@customer_user_address3->id)>'
+                    ]
+                ]
+            ],
+            $response
+        );
+    }
+
+    public function testTryToGetListFilterByTypes()
+    {
+        $response = $this->cget(
+            ['entity' => 'customeruseraddresses'],
+            ['filter' => ['types' => 'billing']],
+            [],
+            false
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'filter constraint',
+                'detail' => 'The filter is not supported.',
+                'source' => ['parameter' => 'filter[types]']
+            ],
+            $response
+        );
+    }
+
     public function testGet()
     {
         $response = $this->get(
