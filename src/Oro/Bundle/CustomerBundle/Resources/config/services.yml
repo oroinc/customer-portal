@@ -895,6 +895,9 @@ services:
             - '@doctrine'
         calls:
             - [addIgnoredRelation, ['Oro\Bundle\CustomerBundle\Entity\Customer', 'parent']]
+            - [addPriorityRelation, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
+            - [addPriorityRelation, ['Oro\Bundle\CustomerBundle\Entity\Customer']]
+            - [addPriorityRelation, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserRole']]
 
     oro_customer.clear_lost_customer_users_processor:
         class: Oro\Bundle\CustomerBundle\Migrations\Schema\v1_14\ClearLostCustomerUsers
