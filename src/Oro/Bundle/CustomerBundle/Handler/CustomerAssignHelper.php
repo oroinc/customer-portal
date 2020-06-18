@@ -2,48 +2,52 @@
 
 namespace Oro\Bundle\CustomerBundle\Handler;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 
 /**
  * Helper that check if given customer is assigned to another entities and cannot be deleted.
  */
 class CustomerAssignHelper
 {
-    /** @var ManagerRegistry */
-    protected $registry;
+    /** @var DoctrineHelper */
+    private $doctrineHelper;
+
+    /** @var array [class name => [association name, ...], ...] */
+    private $ignoredRelations = [];
+
+    /** @var string[] [class name, ...] */
+    private $priorityRelations = [];
 
     /**
-     * Relations list that should be skipped during checks if Customer has assignments.
-     *
-     * @var array [className => [relationField1, relationField2, ...], ...]
+     * @param DoctrineHelper $doctrineHelper
      */
-    protected $ignoredRelations = [];
-
-    /**
-     * @param ManagerRegistry $registry
-     */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(DoctrineHelper $doctrineHelper)
     {
-        $this->registry = $registry;
+        $this->doctrineHelper = $doctrineHelper;
     }
 
     /**
-     * Add the relation that should be skipped during checks if Customer has assignments.
+     * Adds the relation that should be skipped during the check if Customer has assignments.
      *
-     * @param $className
-     * @param $relationName
+     * @param string $className
+     * @param string $relationName
      */
-    public function addIgnoredRelation($className, $relationName)
+    public function addIgnoredRelation(string $className, string $relationName): void
     {
-        if (!array_key_exists($className, $this->ignoredRelations)) {
-            $this->ignoredRelations[$className] = [];
-        }
-
         $this->ignoredRelations[$className][] = $relationName;
+    }
+
+    /**
+     * Adds an entity class name that should be checked at the first during the check if Customer has assignments.
+     *
+     * @param string $className
+     */
+    public function addPriorityRelation(string $className): void
+    {
+        $this->priorityRelations[] = $className;
     }
 
     /**
@@ -51,17 +55,14 @@ class CustomerAssignHelper
      *
      * @param Customer $customer
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasAssignments(Customer $customer)
+    public function hasAssignments(Customer $customer): bool
     {
-        /** @var EntityManager $em */
-        $em = $this->registry->getManagerForClass(Customer::class);
-        /** @var ClassMetadata[] $doctrineAllMetadata */
-        $doctrineAllMetadata = $em->getMetadataFactory()->getAllMetadata();
-        foreach ($doctrineAllMetadata as $metadata) {
-            $className = $metadata->getName();
-            $associations = $metadata->getAssociationMappings();
+        $em = $this->doctrineHelper->getEntityManagerForClass(Customer::class);
+        $classNames = $this->getEntityClassNames($em);
+        foreach ($classNames as $className) {
+            $associations = $this->doctrineHelper->getEntityMetadataForClass($className)->getAssociationMappings();
             foreach ($associations as $association) {
                 if ($association['isOwningSide'] && $association['targetEntity'] === Customer::class) {
                     if ($this->isAssociationShouldBeSkipped($className, $association)) {
@@ -88,6 +89,29 @@ class CustomerAssignHelper
     }
 
     /**
+     * Gets class names of entities to be checked.
+     *
+     * @param EntityManagerInterface $em
+     *
+     * @return string[]
+     */
+    private function getEntityClassNames(EntityManagerInterface $em): array
+    {
+        $result = $this->priorityRelations;
+        $allShortMetadata = $this->doctrineHelper->getAllShortMetadata($em);
+        foreach ($allShortMetadata as $shortMetadata) {
+            if (!$shortMetadata->isMappedSuperclass
+                && $shortMetadata->hasAssociations
+                && !\in_array($shortMetadata->name, $this->priorityRelations, true)
+            ) {
+                $result[] = $shortMetadata->name;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Check if given association should be skipped.
      *
      * @param string $className
@@ -95,24 +119,21 @@ class CustomerAssignHelper
      *
      * @return bool
      */
-    protected function isAssociationShouldBeSkipped($className, array $association)
+    private function isAssociationShouldBeSkipped(string $className, array $association): bool
     {
         // skip association if it is in list of ignored relations
-        if (array_key_exists($className, $this->ignoredRelations)
-            && in_array($association['fieldName'], $this->ignoredRelations[$className], true)
+        if (isset($this->ignoredRelations[$className])
+            && \in_array($association['fieldName'], $this->ignoredRelations[$className], true)
         ) {
             return true;
         }
 
-        // skip association if if configured to cascade delete
-        if ((
-            $association['type'] === ClassMetadataInfo::MANY_TO_ONE
-                && $association['joinColumns'][0]['onDelete'] === 'CASCADE'
-        )
-            || ($association['type'] === ClassMetadataInfo::MANY_TO_MANY
-                && $association['joinTable']['inverseJoinColumns'][0]['onDelete'] === 'CASCADE')
-        ) {
-            return true;
+        // skip to-many association if it is configured to cascade delete
+        if ($association['type'] === ClassMetadataInfo::MANY_TO_ONE) {
+            return $association['joinColumns'][0]['onDelete'] === 'CASCADE';
+        }
+        if ($association['type'] === ClassMetadataInfo::MANY_TO_MANY) {
+            return $association['joinTable']['inverseJoinColumns'][0]['onDelete'] === 'CASCADE';
         }
 
         return false;
