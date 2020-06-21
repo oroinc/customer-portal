@@ -2,6 +2,13 @@ services:
     _defaults:
         public: true
 
+    Oro\Bundle\CustomerBundle\Controller\AclPermissionController:
+        arguments:
+            - '@oro_entity.routing_helper'
+            - '@oro_security.acl.manager'
+            - '@oro_security.owner.metadata_provider.chain'
+            - '@oro_customer.acl.resolver.role_translation_prefix'
+
     Oro\Bundle\CustomerBundle\Controller\CustomerAddressController:
         calls:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
