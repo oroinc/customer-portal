@@ -39,6 +39,30 @@ class SecurityContext implements SecurityContextInterface
     /**
      * {@inheritdoc}
      */
+    public function getOrganizations(): array
+    {
+        if ($this->frontendHelper->isFrontendRequest()) {
+            return [];
+        }
+
+        return $this->innerSecurityContext->getOrganizations();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrganization(): ?string
+    {
+        if ($this->frontendHelper->isFrontendRequest()) {
+            return null;
+        }
+
+        return $this->innerSecurityContext->getOrganization();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getUserName(): ?string
     {
         return $this->innerSecurityContext->getUserName();
@@ -76,6 +100,18 @@ class SecurityContext implements SecurityContextInterface
     public function getCsrfCookieName(): ?string
     {
         return $this->innerSecurityContext->getCsrfCookieName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSwitchOrganizationRoute(): ?string
+    {
+        if ($this->frontendHelper->isFrontendRequest()) {
+            return null;
+        }
+
+        return $this->innerSecurityContext->getSwitchOrganizationRoute();
     }
 
     /**
