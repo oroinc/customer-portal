@@ -189,7 +189,7 @@ oro_behat_extension:
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
 
     FrontendGridAddViewButton:
-      selector: 'button[data-text="Add"]'
+      selector: 'button[data-grid-view-update]'
 
     FrontendGridViewName:
       selector: '.frontend-grid-view-name'
