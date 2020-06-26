@@ -161,7 +161,7 @@ oro_behat_extension:
       selector: '#address-book .list-item.map-item button[title="Edit"]'
 
     Delete Address Button:
-      selector: '#address-book .list-item.map-item button[title="Remove"]'
+      selector: '#address-book .map-item button[title="Remove"]'
 
     Item Edit Button:
       selector:
