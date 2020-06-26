@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_1;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
@@ -53,8 +54,8 @@ class OroAccountBundle implements Migration
 
         //Update Account User Role Table
         $table = $schema->getTable('oro_account_user_role');
-        $table->getColumn('role')->setType(Type::getType(Type::STRING))->setOptions(['length' => 255]);
-        $table->getColumn('label')->setType(Type::getType(Type::STRING))->setOptions(['length' => 255]);
+        $table->getColumn('role')->setType(Type::getType(Types::STRING))->setOptions(['length' => 255]);
+        $table->getColumn('label')->setType(Type::getType(Types::STRING))->setOptions(['length' => 255]);
     }
 
     /**

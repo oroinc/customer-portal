@@ -161,7 +161,7 @@ oro_behat_extension:
       selector: '#address-book .list-item.map-item button[title="Edit"]'
 
     Delete Address Button:
-      selector: '#address-book .list-item.map-item button[title="Remove"]'
+      selector: '#address-book .map-item button[title="Remove"]'
 
     Item Edit Button:
       selector:
@@ -189,7 +189,7 @@ oro_behat_extension:
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
 
     FrontendGridAddViewButton:
-      selector: 'button[data-text="Add"]'
+      selector: 'button[data-grid-view-update]'
 
     FrontendGridViewName:
       selector: '.frontend-grid-view-name'

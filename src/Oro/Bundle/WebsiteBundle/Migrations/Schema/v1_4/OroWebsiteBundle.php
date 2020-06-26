@@ -7,7 +7,7 @@ use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Oro\Bundle\ConfigBundle\Migration\RenameConfigSectionQuery;
 use Oro\Bundle\MigrationBundle\Migration\Extension\DatabasePlatformAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Extension\RenameExtension;
@@ -111,7 +111,7 @@ class OroWebsiteBundle implements
             new ParametrizedSqlMigrationQuery(
                 'UPDATE orob2b_website SET is_default = :is_default',
                 ['is_default' => false],
-                ['is_default' => Type::BOOLEAN]
+                ['is_default' => Types::BOOLEAN]
             )
         );
 
@@ -120,7 +120,7 @@ class OroWebsiteBundle implements
                 new ParametrizedSqlMigrationQuery(
                     'UPDATE orob2b_website SET is_default = :is_default ORDER BY id ASC LIMIT 1',
                     ['is_default' => true],
-                    ['is_default' => Type::BOOLEAN]
+                    ['is_default' => Types::BOOLEAN]
                 )
             );
         } else {
@@ -128,7 +128,7 @@ class OroWebsiteBundle implements
                 new ParametrizedSqlMigrationQuery(
                     'UPDATE orob2b_website SET is_default = :is_default WHERE id =(SELECT MIN(id) FROM orob2b_website)',
                     ['is_default' => true],
-                    ['is_default' => Type::BOOLEAN]
+                    ['is_default' => Types::BOOLEAN]
                 )
             );
         }
@@ -177,7 +177,7 @@ class OroWebsiteBundle implements
             SELECT :entity_name, id FROM orob2b_website w
             WHERE NOT exists(SELECT record_id FROM oro_config oc WHERE oc.record_id = w.id AND oc.entity = 'website');",
                 ['entity_name' => 'website'],
-                ['entity_name' => Type::STRING]
+                ['entity_name' => Types::STRING]
             )
         );
         $queries->addPreQuery($this->getConfigInsertQuery('url'));
@@ -220,16 +220,16 @@ class OroWebsiteBundle implements
                 'new_default_url' => 'http://localhost/'
             ],
             [
-                'name' => Type::STRING,
-                'section' => Type::STRING,
-                'object_value' => Type::OBJECT,
-                'array_value' => Type::TARRAY,
-                'type' => Type::STRING,
-                'created_at' => Type::DATETIME,
-                'updated_at' => Type::DATETIME,
-                'entity' => Type::STRING,
-                'default_url' => Type::STRING,
-                'new_default_url' => Type::STRING,
+                'name' => Types::STRING,
+                'section' => Types::STRING,
+                'object_value' => Types::OBJECT,
+                'array_value' => Types::ARRAY,
+                'type' => Types::STRING,
+                'created_at' => Types::DATETIME_MUTABLE,
+                'updated_at' => Types::DATETIME_MUTABLE,
+                'entity' => Types::STRING,
+                'default_url' => Types::STRING,
+                'new_default_url' => Types::STRING,
             ]
         );
     }

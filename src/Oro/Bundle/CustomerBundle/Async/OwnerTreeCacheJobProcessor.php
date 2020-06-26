@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Async;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\CustomerBundle\Model\BusinessUnitMessageFactory;
 use Oro\Bundle\CustomerBundle\Model\OwnerTreeMessageFactory;
@@ -110,7 +110,7 @@ class OwnerTreeCacheJobProcessor implements MessageProcessorInterface, TopicSubs
                         ->select('IDENTITY(cu.customer)')
                         ->andWhere($queryBuilder->expr()->gt('cu.lastLogin', ':dateTime', true))
                         ->getQuery()
-                        ->setParameter('dateTime', $dateTime, Type::DATETIME)
+                        ->setParameter('dateTime', $dateTime, Types::DATETIME_MUTABLE)
                         ->getScalarResult();
 
                     $businessUnitClass = $this->ownershipMetadataProvider->getBusinessUnitClass();

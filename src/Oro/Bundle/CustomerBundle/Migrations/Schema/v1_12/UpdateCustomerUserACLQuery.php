@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_12;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
 use Psr\Log\LoggerInterface;
@@ -43,18 +43,18 @@ class UpdateCustomerUserACLQuery extends ParametrizedMigrationQuery
 
         $sql = 'SELECT id FROM acl_object_identities WHERE class_id = :class and object_identifier = :oid';
         $params = ['class' => $classId, 'oid' => 'entity'];
-        $types = ['class' => Type::INTEGER, 'oid' => Type::STRING];
+        $types = ['class' => Types::INTEGER, 'oid' => Types::STRING];
         $oid = $this->connection->fetchColumn($sql, $params, 0, $types);
 
         $sql = 'SELECT id FROM acl_security_identities WHERE identifier = :role';
         $params = ['role' => 'ROLE_FRONTEND_ADMINISTRATOR'];
-        $types = ['role' => Type::STRING];
+        $types = ['role' => Types::STRING];
         $this->logQuery($logger, $sql, $params, $types);
         $adminSid = $this->connection->fetchColumn($sql, $params, 0, $types);
 
         $sql = 'SELECT id FROM acl_security_identities WHERE identifier = :role';
         $params = ['role' => 'ROLE_FRONTEND_BUYER'];
-        $types = ['role' => Type::STRING];
+        $types = ['role' => Types::STRING];
         $this->logQuery($logger, $sql, $params, $types);
         $buyerSid = $this->connection->fetchColumn($sql, $params, 0, $types);
 
@@ -72,7 +72,7 @@ class UpdateCustomerUserACLQuery extends ParametrizedMigrationQuery
     {
         $sql = 'SELECT id, mask FROM acl_entries WHERE object_identity_id = :oid AND security_identity_id = :sid';
         $params = ['oid' => $oid, 'sid' => $sid];
-        $types = ['oid' => Type::INTEGER, 'sid' => Type::INTEGER];
+        $types = ['oid' => Types::INTEGER, 'sid' => Types::INTEGER];
         $this->logQuery($logger, $sql, $params, $types);
         $rows = $this->connection->fetchAll($sql, $params, $types);
 
@@ -86,7 +86,7 @@ class UpdateCustomerUserACLQuery extends ParametrizedMigrationQuery
         }
 
         $updateSql = 'UPDATE acl_entries SET mask = :mask WHERE id = :id';
-        $types = ['mask' => Type::INTEGER, 'id' => Type::INTEGER];
+        $types = ['mask' => Types::INTEGER, 'id' => Types::INTEGER];
         foreach ($forUpdate as $params) {
             $this->logQuery($logger, $updateSql, $params, $types);
             if (!$dryRun) {

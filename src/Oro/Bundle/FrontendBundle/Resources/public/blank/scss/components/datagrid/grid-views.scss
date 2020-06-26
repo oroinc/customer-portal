@@ -21,70 +21,40 @@
     }
 
     &__dropdown {
-        display: block;
         width: $grid-views-dropdown-width;
-        // Emulate hidden state
-        height: 0;
-        padding: 0;
-
-        // Emulate hidden state
-        overflow: hidden;
-
-        border-width: 0;
-        box-shadow: none;
-
-        &.show {
-            // Disable emulate hidden state
-            height: auto;
-            overflow: auto;
-
-            border-width: 1px;
-            box-shadow: $dropdown-box-shadow;
-        }
+        margin: $grid-views-dropdown-offset;
     }
 
     &__title {
+        display: inline-block;
+        vertical-align: middle;
+
         font-size: $grid-views-title-font-size;
         font-family: $grid-views-title-font-family;
         text-transform: $grid-views-title-text-transform;
+        line-height: $grid-views-title-line-height;
 
-        cursor: pointer;
+        cursor: $grid-views-title-cursor;
+
+        word-break: break-all;
 
         &.has-icon {
             position: relative;
             padding-left: $grid-views-title-icon-inner-offset;
 
-            display: flex;
+            display: inline-flex;
             align-items: center;
         }
     }
 
     &__piece {
         position: absolute;
-        top: -3px;
         left: 0;
-    }
-
-    &__title-text {
-        vertical-align: middle;
-
-        word-break: break-all;
-
-        [class^="fa-"],
-        [class*=" fa-"] {
-            color: get-color('additional', 'middle');
-        }
-
-        @include hover-focus {
-            [class^="fa-"],
-            [class*=" fa-"] {
-                color: get-color('additional', 'dark');
-            }
-        }
     }
 
     &__subtitle {
         padding: $grid-views-subtitle-offset-inner;
+        line-height: $grid-views-title-line-height;
     }
 
     &__edit-label {
@@ -95,18 +65,10 @@
 
     &__close {
         position: absolute;
-        right: 7px;
-        top: 10px;
+        right: 8px;
+        top: 14px;
 
-        font-size: 15px;
-
-        color: get-color('additional', 'middle');
-
-        cursor: pointer;
-
-        @include hover-focus {
-            color: get-color('additional', 'dark');
-        }
+        @include fa-icon($grid-views-close-icon)
     }
 
     &__list {
@@ -154,6 +116,10 @@
             padding: $grid-views-dropdown-form-content-offset-inner;
 
             @include clearfix();
+        }
+
+        &.show {
+            display: block;
         }
     }
 
