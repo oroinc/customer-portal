@@ -1,5 +1,4 @@
 @ticket-BAP-17733
-@fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 @fixture-OroLocaleBundle:ZuluLocalization.yml
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 Feature: Checking the address types at different locales
@@ -53,7 +52,7 @@ Feature: Checking the address types at different locales
     And I click "Localization Switcher"
     And I click "Zulu"
     Then should see following "Customers Address Book Grid" grid:
-      | Customer Address     | Zip/Postal Code | Country       | Type                                            |
+      | Customer Address     | Zip/Postal Code | Country       | Type {{ "type": "array" }}                      |
       | 801 Scenic Hwy       | 33844           | United States | Default Shipping - Zulu, Default Billing - Zulu |
       | 23400 Caldwell Road  | 14608           | United States |                                                 |
       | 34500 Capitol Avenue | 47981           | United States |                                                 |
@@ -69,7 +68,7 @@ Feature: Checking the address types at different locales
     When I click "Localization Switcher"
     And I click "English"
     Then should see following "Customers Address Book Grid" grid:
-      | Customer Address     | Zip/Postal Code | Country       | Type                              |
+      | Customer Address     | Zip/Postal Code | Country       | Type {{ "type": "array" }}        |
       | 801 Scenic Hwy       | 33844           | United States | Default Shipping, Default Billing |
       | 23400 Caldwell Road  | 14608           | United States |                                   |
       | 34500 Capitol Avenue | 47981           | United States |                                   |
