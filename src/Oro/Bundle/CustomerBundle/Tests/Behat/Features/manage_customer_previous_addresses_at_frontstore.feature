@@ -29,7 +29,7 @@ Feature: Manage Customer previous addresses at front-store
   Scenario: Check my previous address at Address Book
     When I click "Address Book"
     Then I should see following "Customer Company User Addresses Grid" grid:
-      | Customer Address          | City                       | State  | Zip/Postal Code            | Country | Type                              |
+      | Customer Address          | City                       | State  | Zip/Postal Code            | Country | Type {{ "type": "array" }}        |
       | <script>alert(9)</script> | <script>alert(11)</script> | Berlin | <script>alert(12)</script> | Germany | Default Shipping, Default Billing |
 
   Scenario: Check my previous address on edit page
@@ -52,5 +52,5 @@ Feature: Manage Customer previous addresses at front-store
 
     When I click "Save"
     Then I should see following "Customer Company User Addresses Grid" grid:
-      | Customer Address | City      | State  | Zip/Postal Code | Country | Type                              |
+      | Customer Address | City      | State  | Zip/Postal Code | Country | Type {{ "type": "array" }}        |
       | alert(9)         | alert(11) | Berlin | alert(12)       | Germany | Default Shipping, Default Billing |
