@@ -3,3 +3,9 @@ services:
         class: Oro\Bundle\FrontendAttachmentBundle\Form\Extension\FileAttachmentConfigExtension
         tags:
             - { name: form.type_extension, alias: oro_entity_config_type, extended_type: Oro\Bundle\EntityConfigBundle\Form\Type\ConfigType }
+
+    oro_frontend_attachment.request.media_cache_request_helper:
+        class: 'Oro\Bundle\FrontendAttachmentBundle\Request\MediaCacheRequestHelper'
+        arguments:
+            - '@request_stack'
+            - '%oro_attachment.filesystem_dir.mediacache%'

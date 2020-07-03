@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\EventListener;
 
+use Oro\Bundle\FrontendAttachmentBundle\Request\MediaCacheRequestHelper;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -25,19 +26,33 @@ class RedirectListener
     /** @var FrontendHelper */
     private $frontendHelper;
 
+    /** @var MediaCacheRequestHelper */
+    private $mediaCacheRequestHelper;
+
     /**
-     * @param WebsiteManager     $websiteManager
+     * @param WebsiteManager $websiteManager
      * @param WebsiteUrlResolver $websiteUrlResolver
-     * @param FrontendHelper     $frontendHelper
+     * @param FrontendHelper $frontendHelper
+     * @param MediaCacheRequestHelper $mediaCacheRequestHelper
      */
     public function __construct(
         WebsiteManager $websiteManager,
         WebsiteUrlResolver $websiteUrlResolver,
-        FrontendHelper $frontendHelper
+        FrontendHelper $frontendHelper,
+        MediaCacheRequestHelper $mediaCacheRequestHelper
     ) {
         $this->websiteManager = $websiteManager;
         $this->urlResolver = $websiteUrlResolver;
         $this->frontendHelper = $frontendHelper;
+        $this->mediaCacheRequestHelper = $mediaCacheRequestHelper;
+    }
+
+    /**
+     * @param MediaCacheRequestHelper|null $mediaCacheRequestHelper
+     */
+    public function setMediaCacheRequestHelper(?MediaCacheRequestHelper $mediaCacheRequestHelper): void
+    {
+        $this->mediaCacheRequestHelper = $mediaCacheRequestHelper;
     }
 
     /**
@@ -67,12 +82,12 @@ class RedirectListener
      *
      * @return bool
      */
-    private function isSupported(GetResponseEvent $event)
+    private function isSupported(GetResponseEvent $event): bool
     {
-        return
-            $event->isMasterRequest()
-            && $this->frontendHelper->isFrontendRequest()
-            && !$event->getResponse() instanceof RedirectResponse;
+        return $event->isMasterRequest() &&
+            !$event->getResponse() instanceof RedirectResponse &&
+            $this->frontendHelper->isFrontendRequest() &&
+            !$this->mediaCacheRequestHelper->isMediaCacheRequest();
     }
 
     /**
