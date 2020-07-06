@@ -45,9 +45,8 @@ services:
             - "@doctrine"
 
     oro_website.cache.website:
-        parent: oro.cache.abstract
-        calls:
-            - [ setNamespace, [ 'oro_website' ] ]
+        public: false
+        class: Doctrine\Common\Cache\ArrayCache
 
     oro_website.cacheable_website_provider:
         class: 'Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider'
