@@ -146,7 +146,7 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     private function getRoles()
     {
         $currentWebsite = $this->websiteManager->getCurrentWebsite();
-        if (!$currentWebsite) {
+        if (!$currentWebsite || !$currentWebsite->getGuestRole() || !$currentWebsite->getGuestRole()->getRole()) {
             return [];
         }
         /** @var CustomerUserRole $guestRole */
@@ -181,6 +181,9 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     private function saveCredentials(Request $request, AnonymousCustomerUserToken $token)
     {
         $visitor = $token->getVisitor();
+        if (!$visitor) {
+            return;
+        }
 
         $cookieLifetime = $this->configManager->get('oro_customer.customer_visitor_cookie_lifetime_days');
         $cookieLifetime *= Configuration::SECONDS_IN_DAY;
