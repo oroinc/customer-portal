@@ -264,27 +264,22 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         $customerClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
         $connection = $this->getManagerForClass($customerClass)->getConnection();
 
-        list($customers, $columnMap) = $this->executeQuery(
-            $connection,
-            $this
-                ->getRepository($customerClass)
-                ->createQueryBuilder('a')
-                ->select(
-                    'a.id, IDENTITY(a.organization) orgId, IDENTITY(a.parent) parentId'
-                    . ', (CASE WHEN a.parent IS NULL THEN 0 ELSE 1 END) AS HIDDEN ORD'
-                )
-                ->addOrderBy('ORD, parentId, a.id', 'ASC')
-                ->getQuery()
-        );
+        $query = $this
+            ->getRepository($customerClass)
+            ->createQueryBuilder('a')
+            ->select('a.id, IDENTITY(a.organization) orgId, IDENTITY(a.parent) parentId')
+            ->getQuery();
 
+        [$customers, $columnMap] = $this->executeQuery($connection, $query);
+        $customers = $this->customersSubtreeSort($customers, $columnMap);
         $topCustomerId = $this->getTopLevelCustomerId();
-        if (!$topCustomerId) {
-            $this->addAllCustomers($tree, $customers, $columnMap);
-
-            return [];
+        if ($topCustomerId) {
+            return $this->addCustomersSubtree($tree, $topCustomerId, $customers, $columnMap);
         }
 
-        return $this->addCustomersSubtree($tree, $topCustomerId, $customers, $columnMap);
+        $this->addAllCustomers($tree, $customers, $columnMap);
+
+        return [];
     }
 
     /**
@@ -423,12 +418,45 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
     }
 
     /**
+     * Responsible for building the correctly hierarchy of permissions for customers users.
+     *
+     * When use default arguments, the tree is sorted so that the parent elements are always higher in the list
+     * than the children, thus ensuring that the child element of the tree always has at least one parent.
+     *
+     * @param iterable $customers
+     * @param array $columnMap
+     * @param int|null $parentId
+     *
+     * @return array
+     */
+    private function customersSubtreeSort(
+        iterable $customers,
+        array $columnMap,
+        int $parentId = null
+    ): array {
+        $sortedCustomers = [];
+        $customers = is_array($customers) ? $customers : iterator_to_array($customers);
+        foreach ($customers as $customer) {
+            $customerId = $this->getId($customer, $columnMap['id']);
+            $customerParentId = $this->getId($customer, $columnMap['parentId']);
+            if ($customerParentId === $parentId) {
+                $sortedCustomers[] = $customer;
+                $childCustomer = $this->customersSubtreeSort($customers, $columnMap, $customerId);
+                $sortedCustomers = array_merge($sortedCustomers, $childCustomer);
+            }
+        }
+
+        return $sortedCustomers;
+    }
+
+    /**
      * Adds customers subtree where topCustomerId is an id of the root customer node.
      *
      * @param OwnerTreeBuilderInterface $tree
      * @param int|null $topCustomerId
      * @param array $customers
      * @param array $columnMap
+     *
      * @return array
      */
     private function addCustomersSubtree(
@@ -440,30 +468,23 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         $customersToProcess = [$topCustomerId => true];
         $businessUnitRelations = [];
         $customerIds = [];
-        $hasChanges = true;
+        foreach ($customers as $customer) {
+            $orgId = $this->getId($customer, $columnMap['orgId']);
+            if (!$orgId) {
+                continue;
+            }
 
-        while ($hasChanges) {
-            $hasChanges = false;
+            $buId = $this->getId($customer, $columnMap['id']);
+            $parentBuId = $this->getId($customer, $columnMap['parentId']);
+            if (isset($customersToProcess[$parentBuId]) && !isset($customersToProcess[$buId])) {
+                $customersToProcess[$buId] = true;
+            }
 
-            foreach ($customers as $customer) {
-                $orgId = $this->getId($customer, $columnMap['orgId']);
-                if (!$orgId) {
-                    continue;
-                }
-
-                $buId = $this->getId($customer, $columnMap['id']);
-                $parentBuId = $this->getId($customer, $columnMap['parentId']);
-                if (isset($customersToProcess[$parentBuId]) && !isset($customersToProcess[$buId])) {
-                    $customersToProcess[$buId] = true;
-                    $hasChanges = true;
-                }
-
-                if (isset($customersToProcess[$buId]) && $customersToProcess[$buId]) {
-                    $tree->addBusinessUnit($buId, $orgId);
-                    $businessUnitRelations[$buId] = $parentBuId;
-                    $customersToProcess[$buId] = false;
-                    $customerIds[] = $buId;
-                }
+            if (isset($customersToProcess[$buId]) && $customersToProcess[$buId]) {
+                $tree->addBusinessUnit($buId, $orgId);
+                $businessUnitRelations[$buId] = $parentBuId;
+                $customersToProcess[$buId] = false;
+                $customerIds[] = $buId;
             }
         }
 
