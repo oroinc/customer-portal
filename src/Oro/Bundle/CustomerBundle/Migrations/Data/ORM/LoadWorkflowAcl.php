@@ -5,14 +5,15 @@ namespace Oro\Bundle\CustomerBundle\Migrations\Data\ORM;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\MigrationBundle\Fixture\VersionedFixtureInterface;
 use Oro\Bundle\SecurityBundle\Migrations\Data\ORM\AbstractUpdatePermissions;
 use Oro\Bundle\WorkflowBundle\Acl\Extension\WorkflowAclExtension;
 use Oro\Bundle\WorkflowBundle\Acl\Extension\WorkflowMaskBuilder;
 
 /**
- * Sets full permissions to workflows for all storefront roles.
+ * Sets Corporate access level to the root ACE for workflows for all storefront roles.
  */
-class LoadWorkflowAcl extends AbstractUpdatePermissions implements DependentFixtureInterface
+class LoadWorkflowAcl extends AbstractUpdatePermissions implements DependentFixtureInterface, VersionedFixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -20,6 +21,14 @@ class LoadWorkflowAcl extends AbstractUpdatePermissions implements DependentFixt
     public function getDependencies()
     {
         return [LoadCustomerUserRoles::class];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVersion()
+    {
+        return '1.1';
     }
 
     /**
@@ -36,7 +45,7 @@ class LoadWorkflowAcl extends AbstractUpdatePermissions implements DependentFixt
         $rootOid = $aclManager->getRootOid(WorkflowAclExtension::NAME);
         foreach ($roles as $role) {
             $sid = $aclManager->getSid($role);
-            $aclManager->setPermission($sid, $rootOid, WorkflowMaskBuilder::GROUP_SYSTEM, true);
+            $aclManager->setPermission($sid, $rootOid, WorkflowMaskBuilder::GROUP_DEEP, true);
         }
         $aclManager->flush();
     }
