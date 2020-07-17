@@ -34,6 +34,10 @@ oro_frontend:
         no:
             results: "No {{ entityHint }} were found to match your search. Try modifying your search criteria..."
 
+    dialog:
+        cancel.label: "Cancel"
+        accept.label: "Accept"
+
     filter_manager:
         checkAll: 'Select All'
         unCheckAll: 'Deselect All'

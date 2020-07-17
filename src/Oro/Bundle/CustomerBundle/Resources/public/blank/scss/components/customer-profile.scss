@@ -38,19 +38,20 @@
         }
     }
 
-    &__title-wrapper {
+    &__header {
         display: flex;
-
         flex-wrap: wrap;
 
         border-bottom: $customer-profile-data-border;
     }
 
-    .shopping-list-owner {
-        padding-top: 6px;
+    &__title-wrapper {
+        display: inline-flex;
+        align-items: center;
+        flex-grow: 1;
+        max-width: 100%;
     }
 
-    .shopping-list-owner,
     .page-title {
         margin-bottom: 10px;
     }
