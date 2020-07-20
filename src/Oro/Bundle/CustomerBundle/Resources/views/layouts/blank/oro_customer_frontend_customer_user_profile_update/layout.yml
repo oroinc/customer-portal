@@ -16,6 +16,10 @@ layout:
             id: customer_user_form
             optionName: form
             optionValue: '=data["oro_customer_frontend_customer_user_form"].getProfileFormView(data["entity"])'
+        - '@setOption':
+            id: customer_user_form_errors
+            optionName: form
+            optionValue: '=data["oro_customer_frontend_customer_user_form"].getProfileFormView(data["entity"])'
 
         - '@add':
             id: customer_user_update_input_action
