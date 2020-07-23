@@ -56,6 +56,17 @@
                 display: block;
             }
         }
+
+        .toggle-more {
+            display: none;
+        }
+    }
+
+    // Closed widget
+    &.init:not(.expanded) {
+        .toggle-less {
+            display: none;
+        }
     }
 
     &--overflow {
@@ -79,7 +90,7 @@
             background: $collapse-view-trigger-background;
 
             &:after {
-                content: "";
+                content: '';
 
                 display: block;
 
