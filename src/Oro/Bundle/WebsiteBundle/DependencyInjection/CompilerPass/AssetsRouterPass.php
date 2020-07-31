@@ -27,5 +27,8 @@ class AssetsRouterPass implements CompilerPassInterface
 
         $cacheResolverDefinition = $container->getDefinition('liip_imagine.cache.resolver.default');
         $cacheResolverDefinition->replaceArgument(1, new Reference('oro_website.asset.request_context'));
+
+        $consumptionExtension = $container->getDefinition('oro_ui.consumption_extension.request_context');
+        $consumptionExtension->replaceArgument(0, new Reference('oro_website.asset.request_context'));
     }
 }
