@@ -197,6 +197,10 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
      */
     private function handleOwnerOfNewCustomerUser(CustomerUser $entity)
     {
+        if (null === $this->strategyHelper->getLoggedUser()) {
+            return $entity;
+        }
+
         $entityOwner = $entity->getOwner();
 
         if ($entityOwner === null) {
