@@ -4,7 +4,7 @@ define(function(require) {
 
     const $ = require('jquery');
     const mediator = require('oroui/js/mediator');
-    require('jquery-ui');
+    require('jquery-ui/widget');
 
     $.widget('oroui.lineClampWidget', {
         options: {
