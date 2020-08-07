@@ -1,5 +1,5 @@
 dynamic-imports:
-    orofrontend:
+    oroui:
         - orofrontend/default/js/app/views/fake-masked-input-view
 map:
     "*":
