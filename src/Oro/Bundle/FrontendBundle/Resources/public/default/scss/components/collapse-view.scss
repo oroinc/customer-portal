@@ -39,6 +39,16 @@
         display: none;
     }
 
+    .toggle-more,
+    .toggle-less {
+        display: none;
+    }
+
+    &.expanded .toggle-less,
+    &.overflows .toggle-more {
+        display: block;
+    }
+
     // Open widget
     &.expanded {
         .collapse-view {
@@ -55,17 +65,6 @@
             &__container {
                 display: block;
             }
-        }
-
-        .toggle-more {
-            display: none;
-        }
-    }
-
-    // Closed widget
-    &.init:not(.expanded) {
-        .toggle-less {
-            display: none;
         }
     }
 
