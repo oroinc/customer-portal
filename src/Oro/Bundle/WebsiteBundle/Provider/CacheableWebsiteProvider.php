@@ -5,7 +5,6 @@ namespace Oro\Bundle\WebsiteBundle\Provider;
 use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
-use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -13,7 +12,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class CacheableWebsiteProvider implements WebsiteProviderInterface
 {
-    private const WEBSITE_IDS_CACHE_KEY = 'oro_website_entity_ids';
+    private const WEBSITE_CACHE_KEY = 'oro_website';
 
     /** @var WebsiteProviderInterface */
     private $websiteProvider;
@@ -50,10 +49,13 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
      */
     public function getWebsites()
     {
-        $websites = [];
-        foreach ($this->getWebsiteIds() as $websiteId) {
-            $websites[$websiteId] = $this->doctrineHelper->getEntityReference(Website::class, $websiteId);
+        $cacheKey = $this->getCacheKey('entities');
+        $websites = $this->cacheProvider->fetch($cacheKey);
+        if (false === $websites) {
+            $websites = $this->websiteProvider->getWebsites();
+            $this->cacheProvider->save($cacheKey, $websites);
         }
+
         return $websites;
     }
 
@@ -62,7 +64,7 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
      */
     public function getWebsiteIds()
     {
-        $cacheKey = $this->getCacheKey();
+        $cacheKey = $this->getCacheKey('ids');
         $websiteIds = $this->cacheProvider->fetch($cacheKey);
         if (false === $websiteIds) {
             $websiteIds = $this->websiteProvider->getWebsiteIds();
@@ -78,10 +80,8 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
     public function getWebsiteChoices()
     {
         $websiteChoices = [];
-        foreach ($this->getWebsiteIds() as $websiteId) {
-            /** @var Website $website */
-            $website = $this->doctrineHelper->getEntityReference(Website::class, $websiteId);
-            $websiteChoices[$website->getName()] = $websiteId;
+        foreach ($this->getWebsites() as $website) {
+            $websiteChoices[$website->getName()] = $website->getId();
         }
 
         return $websiteChoices;
@@ -96,15 +96,24 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
     }
 
     /**
+     * @param string $postfix
      * @return string
      */
-    private function getCacheKey(): string
+    private function getCacheKey(string $postfix): string
+    {
+        return self::WEBSITE_CACHE_KEY . '_' . $this->getOrganizationId() . '_' . $postfix;
+    }
+
+    /**
+     * @return int|string
+     */
+    private function getOrganizationId()
     {
         $token = $this->tokenStorage->getToken();
-        $organizationId = $token instanceof OrganizationAwareTokenInterface
-            ? $token->getOrganization()->getId()
-            : 'all';
+        if ($token instanceof OrganizationAwareTokenInterface) {
+            return $token->getOrganization()->getId();
+        }
 
-        return self::WEBSITE_IDS_CACHE_KEY . '_' . $organizationId;
+        return 'all';
     }
 }

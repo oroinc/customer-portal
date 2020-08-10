@@ -13,15 +13,15 @@ Feature: Add context of customer user to emails automatically
     And there is no records in grid
     And I click "Compose"
     When I fill "Email Form" with:
-      | To      | test@mydomain.info |
-      | Subject | Test Subject 1     |
-      | Body    | Test Body 1        |
+      | To      | test@mydomain.myzone |
+      | Subject | Test Subject 1       |
+      | Body    | Test Body 1          |
     And I click "Send"
     Then I should see "The email was sent" flash message
 
   Scenario: Check email for unknown address
-    When I click view test@mydomain.info in grid
-    Then I should not see "test@mydomain.info" in the "Email Page Contexts" element
+    When I click view test@mydomain.myzone in grid
+    Then I should not see "test@mydomain.myzone" in the "Email Page Contexts" element
 
   Scenario: Send email for customer user address
     Given I click My Emails in user menu

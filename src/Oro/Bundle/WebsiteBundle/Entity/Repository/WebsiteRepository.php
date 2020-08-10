@@ -23,6 +23,9 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
     public function getAllWebsites(Organization $organization = null)
     {
         $qb = $this->createQueryBuilder('website');
+        // Join organization to website as it will be immediately accessed during config calls.
+        $qb->addSelect('org')
+            ->join('website.organization', 'org');
         $qb->addOrderBy('website.id', 'ASC');
 
         if ($organization) {

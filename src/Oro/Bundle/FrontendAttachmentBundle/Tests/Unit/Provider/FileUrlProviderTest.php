@@ -74,13 +74,12 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetFileUrlWhenNotFrontend(): void
     {
-        $this->mockGuestAccessMode(true);
-        $this->mockCoveredByAcl($file = new File(), true);
+        $file = new File();
 
-        $this->mockApplications(
-            [CurrentApplicationProviderInterface::DEFAULT_APPLICATION],
-            CurrentApplicationProviderInterface::DEFAULT_APPLICATION
-        );
+        $this->currentApplicationProvider
+            ->expects($this->once())
+            ->method('getCurrentApplication')
+            ->willReturn(CurrentApplicationProviderInterface::DEFAULT_APPLICATION);
 
         $this->innerFileUrlProvider
             ->expects(self::once())
@@ -202,10 +201,12 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetFileUrlWhenFrontend(array $fileApplications, bool $isCoveredByAcl): void
     {
-        $this->mockGuestAccessMode(true);
-        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), $isCoveredByAcl);
+        $file = $this->getFile(self::FILE_ID, self::FILENAME);
 
-        $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
+        $this->currentApplicationProvider
+            ->expects($this->once())
+            ->method('getCurrentApplication')
+            ->willReturn(FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
         $this->urlGenerator
             ->method('generate')

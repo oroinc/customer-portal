@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\EventListener;
 
+use Oro\Bundle\FrontendAttachmentBundle\Request\MediaCacheRequestHelper;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -25,6 +26,9 @@ class RedirectListener
     /** @var FrontendHelper */
     private $frontendHelper;
 
+    /** @var MediaCacheRequestHelper|null */
+    private $mediaCacheRequestHelper;
+
     /**
      * @param WebsiteManager     $websiteManager
      * @param WebsiteUrlResolver $websiteUrlResolver
@@ -38,6 +42,14 @@ class RedirectListener
         $this->websiteManager = $websiteManager;
         $this->urlResolver = $websiteUrlResolver;
         $this->frontendHelper = $frontendHelper;
+    }
+
+    /**
+     * @param MediaCacheRequestHelper|null $mediaCacheRequestHelper
+     */
+    public function setMediaCacheRequestHelper(?MediaCacheRequestHelper $mediaCacheRequestHelper): void
+    {
+        $this->mediaCacheRequestHelper = $mediaCacheRequestHelper;
     }
 
     /**
@@ -67,12 +79,18 @@ class RedirectListener
      *
      * @return bool
      */
-    private function isSupported(GetResponseEvent $event)
+    private function isSupported(GetResponseEvent $event): bool
     {
-        return
+        $isSupported =
             $event->isMasterRequest()
-            && $this->frontendHelper->isFrontendRequest()
-            && !$event->getResponse() instanceof RedirectResponse;
+            && !$event->getResponse() instanceof RedirectResponse
+            && $this->frontendHelper->isFrontendRequest();
+
+        if ($isSupported && $this->mediaCacheRequestHelper) {
+            $isSupported = !$this->mediaCacheRequestHelper->isMediaCacheRequest();
+        }
+
+        return $isSupported;
     }
 
     /**
