@@ -69,7 +69,7 @@ services:
     oro_frontend.guest_access.provider.guest_access_urls_provider:
         class: 'Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProvider'
         calls:
-            - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%doc|login$']]
+            - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%doc|login|oauth2-token$']]
         tags: ['oro_frontend.guest_access_urls_provider']
 
     oro_frontend.placeholder.filter:
