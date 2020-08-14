@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\Strategy;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerAddOrReplaceStrategy;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
 use Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\Strategy\DataFixtures\LoadTestUser;
 use Oro\Bundle\ImportExportBundle\Context\Context;
 use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationToken;
@@ -31,7 +32,10 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
     protected function setUp(): void
     {
         $this->initClient();
-        $this->loadFixtures([LoadTestUser::class]);
+        $this->loadFixtures([
+            LoadTestUser::class,
+            LoadCustomers::class
+        ]);
         $this->createToken();
         $this->strategy = $this->getContainer()->get('oro_customer.importexport.strategy.customer.add_or_replace');
 
@@ -62,7 +66,60 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
 
         $processedCustomer = $this->strategy->process($customer);
         $this->assertEquals(['Error in row #1. You have no access to set given owner'], $this->context->getErrors());
-        $this->assertTrue(null === $processedCustomer);
+        $this->assertNull($processedCustomer);
+    }
+
+    public function testWithValidParent()
+    {
+        $parent = $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1);
+        $customer = $this->createCustomer($this->getReference('user_with_main_organization_access'), $parent);
+
+        $processedCustomer = $this->strategy->process($customer);
+        $this->assertEquals([], $this->context->getErrors());
+        $this->assertNotNull($processedCustomer);
+        $this->assertInstanceOf(Customer::class, $processedCustomer);
+    }
+
+    public function testWithNotFoundParentNotLastAttempt()
+    {
+        $context = new Context([
+            'attempts' => 2,
+            'max_attempts' => 3
+        ]);
+        $data = ['name' => 'customer', 'parent' => '0'];
+        $context->setValue('itemData', $data);
+        $context->setValue('rawItemData', $data);
+        $this->strategy->setImportExportContext($context);
+
+        /** @var Customer $parent */
+        $parent = $this->getEntity(Customer::class, ['id' => 0]);
+        $customer = $this->createCustomer($this->getReference('user_with_main_organization_access'), $parent);
+
+        $processedCustomer = $this->strategy->process($customer);
+        $this->assertNull($processedCustomer);
+        $this->assertEmpty($context->getErrors());
+        $this->assertEquals([$data], $context->getPostponedRows());
+    }
+
+    public function testWithNotFoundParentLastAttempt()
+    {
+        $context = new Context([
+            'attempts' => 3,
+            'max_attempts' => 3
+        ]);
+        $data = ['name' => 'customer', 'parent' => '0'];
+        $context->setValue('itemData', $data);
+        $context->setValue('rawItemData', $data);
+        $this->strategy->setImportExportContext($context);
+
+        /** @var Customer $parent */
+        $parent = $this->getEntity(Customer::class, ['id' => 0]);
+        $customer = $this->createCustomer($this->getReference('user_with_main_organization_access'), $parent);
+
+        $processedCustomer = $this->strategy->process($customer);
+        $this->assertNull($processedCustomer);
+        $this->assertEquals(['Error in row #0. Parent customer with ID "0" was not found'], $context->getErrors());
+        $this->assertEmpty($context->getPostponedRows());
     }
 
     /**
@@ -81,11 +138,17 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
 
     /**
      * @param User $owner
-     *
-     * @return Customer|object
+     * @param Customer|null $parent
+     * @return Customer
      */
-    private function createCustomer(User $owner)
+    private function createCustomer(User $owner, Customer $parent = null)
     {
-        return $this->getEntity(Customer::class, ['name' => 'customer', 'owner' => $owner]);
+        /** @var Customer $customer */
+        $customer = new Customer();
+        $customer->setName('customer');
+        $customer->setOwner($owner);
+        $customer->setParent($parent);
+
+        return $customer;
     }
 }
