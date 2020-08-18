@@ -9,7 +9,7 @@
 
     .table-wrapper {
         border: 1px solid get-color('additional', 'light');
-        border-radius: 3px;
+        border-radius: $base-ui-element-border-radius;
 
         overflow: auto;
         overflow-x: hidden;

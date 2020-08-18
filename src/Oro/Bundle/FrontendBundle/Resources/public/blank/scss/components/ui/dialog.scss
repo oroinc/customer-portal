@@ -26,6 +26,8 @@
         border: $dialog-widget-content-border;
         color: $dialog-widget-content-color;
         background-color: $dialog-widget-content-bg-color;
+
+        @include border-radius($dialog-widget-content-border-radius);
     }
 
     .ui-widget-content {
@@ -51,49 +53,6 @@
 
         &.ui-draggable-handle {
             cursor: $dialog-draggable-handle-cursor;
-        }
-    }
-
-    .ui-dialog-titlebar-close {
-        border: $dialog-titlebar-close-border;
-
-        background: $dialog-titlebar-close-background;
-        color: rgba($dialog-titlebar-close-color, $dialog-titlebar-close-opacity);
-
-        cursor: $dialog-buttons-inner-cursor;
-
-        &:hover {
-            color: rgba($dialog-titlebar-close-color, $dialog-titlebar-close-hover-opacity)
-        }
-
-        .ui-icon-closethick {
-            text-indent: 0;
-
-            @include fa-icon($dialog-icon-closethick-fa-icon);
-
-            &:before {
-                display: inline-block;
-                vertical-align: middle;
-                width: $dialog-icon-closethick-fa-icon-width;
-                height: $dialog-icon-closethick-fa-icon-height;
-
-                font-weight: normal;
-                font-style: normal;
-                font-size: $dialog-icon-closethick-font-size;
-                line-height: 1;
-                text-transform: none;
-                letter-spacing: normal;
-
-                word-wrap: normal;
-                -webkit-font-smoothing: antialiased;
-                text-rendering: optimizeLegibility;
-                font-feature-settings: 'liga';
-            }
-        }
-
-        .ui-button-text {
-            font-size: 0;
-            text-indent: -999rem;
         }
     }
 

@@ -4,7 +4,7 @@ $dialog-min-height: 280px !default;
 $dialog-widget-content-border-radius: 0 !default;
 
 $dialog-title-font-size: 22px !default;
-
+$dialog-widget-content-border-radius: $base-ui-popup-border-radius !default;
 $dialog-widget-content-offset-inner: 0 40px !default;
 $dialog-widget-content-bg-color: get-color('additional', 'ultra') !default;
 $dialog-widget-content-border: 0 !default;
@@ -16,13 +16,7 @@ $dialog-titlebar-color: get-color('additional', 'dark') !default;
 $dialog-titlebar-background: transparent !default;
 $dialog-titlebar-border: 0 !default;
 
-$dialog-titlebar-close-border: 0 !default;
-$dialog-titlebar-close-background: none !default;
-$dialog-titlebar-close-color: get-color('additional', 'darker') !default;
-$dialog-titlebar-close-opacity: .2 !default;
-$dialog-titlebar-close-hover-opacity: .5 !default;
-
-$dialog-titlebar-buttonpane-top: 5px !default;
+$dialog-titlebar-buttonpane-top: 0 !default;
 $dialog-titlebar-buttonpane-right: 0 !default;
 
 $dialog-buttonpane-offset-inner: 20px 40px 30px !default;
@@ -35,11 +29,6 @@ $dialog-buttons-inner-cursor: pointer !default;
 $dialog-messages-offset: $offset-y-s 0 -#{$offset-y-s} 0 !default;
 $dialog-notification-offset-inner: 8px 12px !default;
 $dialog-notification-offset-inner: 8px 12px !default;
-
-$dialog-icon-closethick-fa-icon-width: 1em !default;
-$dialog-icon-closethick-fa-icon-height: 1em !default;
-$dialog-icon-closethick-fa-icon: $fa-var-remove !default;
-$dialog-icon-closethick-font-size: 21px !default;
 
 $dialog-btn-success-background: get-color('primary', 'base') !default;
 $dialog-btn-success-border: get-color('primary', 'base') !default;

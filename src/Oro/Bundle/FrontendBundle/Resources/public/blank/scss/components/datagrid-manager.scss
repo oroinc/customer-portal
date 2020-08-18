@@ -104,7 +104,7 @@
         text-align: center;
 
         border: 1px solid get-color('additional', 'light');
-        border-radius: 3px;
+        border-radius: $base-ui-element-border-radius;
     }
 
     &.dropdown {
@@ -139,12 +139,6 @@
             // Break inline styles
             width: 100% !important;
         }
-    }
-
-    .close {
-        position: absolute;
-        top: $datagrid-manager-close-top;
-        right: $datagrid-manager-close-right;
     }
 
     .disabled {

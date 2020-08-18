@@ -4,9 +4,9 @@ $link-color: get-color('ui', 'normal');
 $link-hover-color: get-color('ui', 'normal');
 
 // Variable overrides
-$border-radius: 5px;
-$border-radius-m: 5px;
-$border-radius-l: 5px;
+$border-radius: $base-ui-element-border-radius;
+$border-radius-m: $base-ui-element-border-radius;
+$border-radius-l: $base-ui-element-border-radius;
 
 $btn-border-radius: $border-radius;
 $btn-border-radius-xs: $border-radius-xs;
@@ -35,3 +35,6 @@ $nav-tabs-link-right-offset: null !default;
 $nav-tabs-link-hover-background-color: null !default;
 
 @import "npmassets/bootstrap/scss/variables";
+
+// Modals
+$modal-content-border-radius: $base-ui-popup-border-radius;
