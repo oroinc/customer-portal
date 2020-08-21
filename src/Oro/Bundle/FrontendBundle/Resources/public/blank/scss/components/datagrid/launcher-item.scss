@@ -91,6 +91,18 @@
 
         &.mode-icon-only {
             @include launcher-separator($enabled: $launcher-item-separator-dropdown-icon-only);
+
+            .action {
+                padding: $offset-x-m $offset-x-s;
+
+                color: $launcher-item-icon-color;
+
+                @include hover-focus {
+                    text-decoration: none;
+
+                    color: $launcher-item-icon-hover-focus-color;
+                }
+            }
         }
 
         &.mode-icon-text {
