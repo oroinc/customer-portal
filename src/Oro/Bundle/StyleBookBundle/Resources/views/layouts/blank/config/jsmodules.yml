@@ -3,6 +3,7 @@ dynamic-imports:
     - orostylebook/js/style-book/fullscreen-popup-demo-view
     - orostylebook/js/style-book/loading-mask-playground-view
     - orostylebook/js/style-book/sticky-sidebar-view
+    - orostylebook/js/style-book/style-book-colors-view
     - orostylebook/js/style-book/style-book-datagrid-playground
     - orostylebook/js/style-book/style-book-dialog-widget
     - orostylebook/js/style-book/style-book-dom-relocation
@@ -14,3 +15,4 @@ dynamic-imports:
     - orostylebook/js/style-book/style-book-popup-gallery-widget
     - orostylebook/js/style-book/style-book-sticky-panel-view
     - orostylebook/js/style-book/style-book-zoom-widget-view
+    - jquery
