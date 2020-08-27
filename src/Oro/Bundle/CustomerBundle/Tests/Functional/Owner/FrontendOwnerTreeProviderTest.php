@@ -389,8 +389,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                         LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2 => LoadOrganization::ORGANIZATION,
                         LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1 => LoadOrganization::ORGANIZATION,
                         LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1 => LoadOrganization::ORGANIZATION,
-                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1 =>
-                            LoadOrganization::ORGANIZATION,
                     ],
                     'assignedBusinessUnitUserIds' => [
                         LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2 => [
@@ -399,24 +397,18 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                     ],
                     'subordinateBusinessUnitIds' => [
                         [
-                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1
-                        ],
-                        [
                             LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1,
-                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1
                         ],
                         [
                             LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1,
                             LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1,
-                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1
                         ]
                     ],
                     'organizationBusinessUnitIds' => [
                         LoadOrganization::ORGANIZATION => [
                             LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2,
                             LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1,
-                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1,
-                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1
                         ]
                     ],
                 ]
@@ -577,8 +569,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                         LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2 => LoadOrganization::ORGANIZATION,
                         LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1 => LoadOrganization::ORGANIZATION,
                         LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1 => LoadOrganization::ORGANIZATION,
-                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1 =>
-                            LoadOrganization::ORGANIZATION,
                     ],
                     'assignedBusinessUnitUserIds' => [
                         LoadCustomers::CUSTOMER_LEVEL_1 => [
@@ -641,14 +631,9 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                         LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2 => [
                             LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1,
                             LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1,
-                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1,
                         ],
                         LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1 => [
                             LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1,
-                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1,
-                        ],
-                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1 => [
-                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1,
                         ],
                     ],
                     'organizationBusinessUnitIds' => [
@@ -670,8 +655,7 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                             LoadCustomers::CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1,
                             LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2,
                             LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1,
-                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1,
-                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1,
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1
                         ]
                     ],
                 ]
