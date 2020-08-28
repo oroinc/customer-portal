@@ -168,6 +168,10 @@
             }
         }
 
+        .close-dialog {
+            display: none;
+        }
+
         .datagrid-manager__actions {
             padding: $offset-y 0 $offset-y-s;
         }
