@@ -200,7 +200,7 @@ define(function(require) {
          */
         renderActionsContainer: function() {
             const fullscreen = this.subview('fullscreenView');
-            if (fullscreen) {
+            if (fullscreen && !fullscreen.disposed) {
                 fullscreen.footer.Element = this.getActionsElement();
                 fullscreen.footer.attr = {'class': 'fullscreen-popup__actions-wrapper'};
                 fullscreen.showSection('footer');
@@ -294,6 +294,19 @@ define(function(require) {
          */
         _onClose: function() {
             this.trigger('frontend-dialog:close');
+        },
+
+        /**
+         * Hide dialog
+         */
+        hide: function() {
+            FrontendDialogWidget.__super__.hide.call(this);
+
+            const fullscreen = this.subview('fullscreenView');
+
+            if (fullscreen && !fullscreen.disposed) {
+                fullscreen.trigger('close');
+            }
         }
     });
 
