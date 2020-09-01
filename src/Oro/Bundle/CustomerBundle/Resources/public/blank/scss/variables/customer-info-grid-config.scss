@@ -13,7 +13,8 @@ $customer-info-grid-element-content-offest-inner: $offset-y-s $offset-y-m 2px !d
 $customer-info-grid-element-content-font-style: italic !default;
 $customer-info-grid-element-content-word-wrap: break-word !default;
 
-$customer-info-grid-table-line-height: 1.2 !default;
+// Specific line height to make same line-height in Firefox and Chrome
+$customer-info-grid-table-line-height: 1.1429 !default;
 
 // tablet-small
 $customer-info-grid-element-label-white-space-tablet-small: normal !default;
