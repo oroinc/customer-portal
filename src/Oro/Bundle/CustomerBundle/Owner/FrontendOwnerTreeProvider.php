@@ -465,6 +465,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
                     $customerIds[] = $buId;
                 }
             }
+            $customers->execute();
         }
 
         $customerClass = $this->ownershipMetadataProvider->getBusinessUnitClass();

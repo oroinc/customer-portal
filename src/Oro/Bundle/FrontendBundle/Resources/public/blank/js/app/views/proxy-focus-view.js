@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import BaseView from 'oroui/js/app/views/base/view';
+import 'jquery-ui/tabbable';
 
 const ProxyFocusView = BaseView.extend({
     /**

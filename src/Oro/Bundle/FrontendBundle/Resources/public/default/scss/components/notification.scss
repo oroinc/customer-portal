@@ -16,6 +16,7 @@
     }
 
     &--warning,
+    &--warn,
     &--alert {
         @extend .notification;
         background: get-color('ui', 'warning');
