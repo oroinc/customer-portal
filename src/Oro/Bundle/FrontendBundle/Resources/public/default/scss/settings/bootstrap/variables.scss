@@ -21,8 +21,8 @@ $input-btn-padding-x: 13px;
 $btn-padding-y: $input-btn-padding-y;
 $btn-padding-x: $input-btn-padding-x;
 
-$dropdown-item-padding-y: 8px;
-$dropdown-item-padding-x: 20px;
+$dropdown-item-padding-y: $offset-y-m;
+$dropdown-item-padding-x: $offset-x;
 $dropdown-color: get-color('additional', 'dark');
 $dropdown-link-active-bg: get-color('additional', 'base');
 $dropdown-link-active-color: get-color('additional', 'dark');
