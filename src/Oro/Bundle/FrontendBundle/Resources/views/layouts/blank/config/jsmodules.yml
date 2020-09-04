@@ -25,7 +25,16 @@ configs:
     orofrontend/js/app/views/dom-relocation-view: {}
     orofrontend/js/datagrid/cell/frontend-action-cell: {}
 dynamic-imports:
-    orofrontend:
+    orodatagrid:
+        - orofrontend/js/app/components/frontend-datagrid-component
+        - orofrontend/js/app/plugins/frontend-datagrid-settings-plugin
+        - orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-column-view
+        - orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view
+        - orofrontend/js/datagrid/cell/frontend-action-cell
+        - orofrontend/js/datagrid/cell/frontend-action-header-cell
+        - orofrontend/js/datagrid/frontend-grid
+        - orofrontend/js/datagrid/grid-views/frontend-grid-views-view
+    oroui:
         - orofrontend/blank/js/app/views/fullscreen-popup-view
         - orofrontend/blank/js/app/views/proxy-focus-view
         - orofrontend/blank/js/widgets/print-page-widget
@@ -40,7 +49,6 @@ dynamic-imports:
         - orofrontend/js/app/components/delete-item-component
         - orofrontend/js/app/components/embedded-list-component
         - orofrontend/js/app/components/empty-items-component
-        - orofrontend/js/app/components/frontend-datagrid-component
         - orofrontend/js/app/components/frontend-dialog-widget
         - orofrontend/js/app/components/list-slider-component
         - orofrontend/js/app/components/popup-gallery-widget
@@ -48,16 +56,9 @@ dynamic-imports:
         - orofrontend/js/app/components/widget-form-component
         - orofrontend/js/app/datafilter/frontend-collection-filters-manager
         - orofrontend/js/app/datafilter/plugins/frontend-filters-plugin
-        - orofrontend/js/app/plugins/frontend-datagrid-settings-plugin
-        - orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-column-view
-        - orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view
         - orofrontend/js/app/views/dom-relocation-view
         - orofrontend/js/app/views/page/content-view
         - orofrontend/js/app/views/scroll-view
-        - orofrontend/js/datagrid/cell/frontend-action-cell
-        - orofrontend/js/datagrid/cell/frontend-action-header-cell
-        - orofrontend/js/datagrid/frontend-grid
-        - orofrontend/js/datagrid/grid-views/frontend-grid-views-view
 map:
     "*":
         oro/datagrid/cell/action-cell: orofrontend/js/datagrid/cell/frontend-action-cell

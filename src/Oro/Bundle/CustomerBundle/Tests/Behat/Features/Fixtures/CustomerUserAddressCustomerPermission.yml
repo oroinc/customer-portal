@@ -1,0 +1,20 @@
+Oro\Bundle\ProductBundle\Entity\ProductName:
+    product_name:
+        string: 'Phone'
+
+Oro\Bundle\ProductBundle\Entity\ProductUnitPrecision:
+    precision:
+        unit: '@item'
+        precision: '1'
+
+Oro\Bundle\ProductBundle\Entity\Product:
+    product:
+        sku: 'C001'
+        __calls:
+            - addName: ['@product_name']
+        organization: '@organization'
+        owner: '@business_unit'
+        status: 'enabled'
+        attributeFamily: '@defaultProductFamily'
+        primaryUnitPrecision: '@precision'
+        inventoryStatus: '@enumInventoryStatuses'

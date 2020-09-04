@@ -816,6 +816,7 @@ oro.customer:
         customer_user:
             unable_to_change_owner: 'You are not allowed to change owner of %entity_name% to %owner_name%.'
         customer:
+            parent_customer_not_found: 'Parent customer with ID "%id%" was not found'
             unable_to_change_owner: 'You are not allowed to change owner of %entity_name% to %owner_name%.'
 
     mass_actions:

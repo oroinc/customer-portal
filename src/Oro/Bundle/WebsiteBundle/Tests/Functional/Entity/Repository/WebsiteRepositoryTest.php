@@ -82,7 +82,7 @@ class WebsiteRepositoryTest extends WebTestCase
      */
     public function testGetWebsiteIdentifiers(array $websites)
     {
-        $websites = array_map(
+        $websiteIds = array_map(
             function ($websiteReference) {
                 if ($websiteReference === 'Default') {
                     return $this->getRepository()->getDefaultWebsite()->getId();
@@ -92,7 +92,7 @@ class WebsiteRepositoryTest extends WebTestCase
             },
             $websites
         );
-        $this->assertEquals($websites, $this->getRepository()->getWebsiteIdentifiers());
+        $this->assertEqualsCanonicalizing($websiteIds, $this->getRepository()->getWebsiteIdentifiers());
     }
 
     /**

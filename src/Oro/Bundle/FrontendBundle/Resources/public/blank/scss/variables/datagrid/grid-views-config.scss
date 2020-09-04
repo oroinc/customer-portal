@@ -7,12 +7,11 @@ $grid-views-offset: 0 !default;
 $grid-views-title-font-size: $base-font-size--large !default;
 $grid-views-title-line-height: 1.1 !default;
 $grid-views-title-cursor: pointer;
-$grid-views-title-font-family: $base-font  !default;
+$grid-views-title-font-family: $base-font !default;
 $grid-views-title-text-transform: uppercase !default;
 
-$grid-views-subtitle-offset-inner: $offset-y-m ($offset-y + $offset-y-m) $offset-y $offset-y!default;
+$grid-views-subtitle-offset-inner: $offset-y-m $close-dialog-size $offset-y $offset-y !default;
 $grid-views-edit-label-color: get-color('additional', 'middle') !default;
-$grid-views-close-icon: $fa-var-close;
 $grid-views-dropdown-width: 290px !default;
 $grid-views-dropdown-offset: 0 !default;
 $grid-views-dropdown-list-item-offset-inner: 12px 10px 12px 15px !default;

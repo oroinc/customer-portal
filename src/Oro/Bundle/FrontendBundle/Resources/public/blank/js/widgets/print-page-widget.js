@@ -2,7 +2,7 @@ define(function(require) {
     'use strict';
 
     const $ = require('jquery');
-    require('jquery-ui');
+    require('jquery-ui/widget');
 
     $.widget('oroui.printPageWidget', {
         _create: function() {

@@ -4,9 +4,9 @@ $link-color: get-color('ui', 'normal');
 $link-hover-color: get-color('ui', 'normal');
 
 // Variable overrides
-$border-radius: 5px;
-$border-radius-m: 5px;
-$border-radius-l: 5px;
+$border-radius: $base-ui-element-border-radius;
+$border-radius-m: $base-ui-element-border-radius;
+$border-radius-l: $base-ui-element-border-radius;
 
 $btn-border-radius: $border-radius;
 $btn-border-radius-xs: $border-radius-xs;
@@ -21,8 +21,8 @@ $input-btn-padding-x: 13px;
 $btn-padding-y: $input-btn-padding-y;
 $btn-padding-x: $input-btn-padding-x;
 
-$dropdown-item-padding-y: 8px;
-$dropdown-item-padding-x: 20px;
+$dropdown-item-padding-y: $offset-y-m;
+$dropdown-item-padding-x: $offset-x;
 $dropdown-color: get-color('additional', 'dark');
 $dropdown-link-active-bg: get-color('additional', 'base');
 $dropdown-link-active-color: get-color('additional', 'dark');
@@ -57,3 +57,6 @@ $popover-arrow-color: $popover-bg;
 $popover-arrow-outer-color: $popover-border-color;
 
 @import "npmassets/bootstrap/scss/variables";
+
+// Modals
+$modal-content-border-radius: $base-ui-popup-border-radius;

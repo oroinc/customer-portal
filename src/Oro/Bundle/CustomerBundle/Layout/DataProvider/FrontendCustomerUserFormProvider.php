@@ -12,13 +12,16 @@ use Oro\Bundle\LayoutBundle\Layout\DataProvider\AbstractFormProvider;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
+/**
+ * Provides customer user related forms.
+ */
 class FrontendCustomerUserFormProvider extends AbstractFormProvider
 {
-    const ACCOUNT_USER_CREATE_ROUTE_NAME            = 'oro_customer_frontend_customer_user_create';
-    const ACCOUNT_USER_UPDATE_ROUTE_NAME            = 'oro_customer_frontend_customer_user_update';
-    const ACCOUNT_USER_PROFILE_UPDATE_ROUTE_NAME    = 'oro_customer_frontend_customer_user_profile_update';
-    const ACCOUNT_USER_RESET_REQUEST_ROUTE_NAME     = 'oro_customer_frontend_customer_user_reset_request';
-    const ACCOUNT_USER_PASSWORD_RESET_ROUTE_NAME    = 'oro_customer_frontend_customer_user_password_reset';
+    private const ACCOUNT_USER_CREATE_ROUTE_NAME         = 'oro_customer_frontend_customer_user_create';
+    private const ACCOUNT_USER_UPDATE_ROUTE_NAME         = 'oro_customer_frontend_customer_user_update';
+    private const ACCOUNT_USER_PROFILE_UPDATE_ROUTE_NAME = 'oro_customer_frontend_customer_user_profile_update';
+    private const ACCOUNT_USER_RESET_REQUEST_ROUTE_NAME  = 'oro_customer_frontend_customer_user_reset_request';
+    private const ACCOUNT_USER_PASSWORD_RESET_ROUTE_NAME = 'oro_customer_frontend_customer_user_password_reset';
 
     /**
      * @param CustomerUser $customerUser
@@ -166,8 +169,9 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
 
     /**
      * @param CustomerUser $customerUser
-     * @param object $target
-     * @return FormInterface
+     * @param object       $target
+     *
+     * @return FormView
      */
     public function getCustomerUserSelectFormView(CustomerUser $customerUser, $target)
     {

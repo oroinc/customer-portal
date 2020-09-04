@@ -114,6 +114,25 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             $parent = $this->findExistingEntityByIdentityFields($entity->getParent());
 
             if ($parent === null) {
+                // Add validation error on the final attempt.
+                if ($this->context->hasOption('attempts') && $this->context->hasOption('max_attempts')
+                    && $this->context->getOption('attempts') === $this->context->getOption('max_attempts')
+                ) {
+                    $this->context->incrementErrorEntriesCount();
+                    $this->strategyHelper->addValidationErrors(
+                        [
+                            $this->translator->trans(
+                                'oro.customer.importexport.customer.parent_customer_not_found',
+                                ['%id%' => $entity->getParent()->getId()]
+                            )
+                        ],
+                        $this->context
+                    );
+
+                    return null;
+                }
+
+                // If there are available attempts - try to import item during the next iteration
                 $this->context->addPostponedRow($this->context->getValue('rawItemData'));
 
                 return null;

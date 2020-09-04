@@ -14,7 +14,7 @@
     visibility: hidden;
 
     transition: .4s all;
-    
+
     // Slick slider customization
     @include slick-arrow(
         $slick-arrow-width: $popup-gallery-widget-arrow-width,
@@ -79,37 +79,6 @@
         padding: 0;
     }
 
-    &__close {
-        position: absolute;
-        right: $popup-gallery-widget-close-top-right-pos;
-        top: $popup-gallery-widget-close-top-right-pos;
-        z-index: z('base');
-
-        width: $popup-gallery-widget-close-width;
-        height: $popup-gallery-widget-close-height;
-        padding: 0;
-
-        text-align: center;
-
-        background: $popup-gallery-widget-close-bg;
-        border: $popup-gallery-widget-close-border;
-
-        border-radius: $popup-gallery-widget-close-border-radius;
-        cursor: pointer;
-
-        @include fa-icon($popup-gallery-widget-close-icon);
-
-        &:before {
-            display: inline-block;
-            margin: $popup-gallery-widget-close-icon-offset;
-
-            font-size: $popup-gallery-widget-close-icon-size;
-            line-height: $popup-gallery-widget-close-height;
-
-            color: $popup-gallery-widget-close-icon-color;
-        }
-    }
-
     &__images {
         margin-bottom: $popup-gallery-widget-images-offset-bottom;
 
@@ -120,6 +89,8 @@
         .slick-list {
             border: $popup-gallery-widget-slick-list-border;
             background: $popup-gallery-widget-slick-list-bg;
+
+            @include border-top-radius($popup-gallery-widget-slick-list-radius);
         }
 
         @include slick-dots();
@@ -203,11 +174,6 @@
     .popup-gallery-widget {
         &__thumbnails {
             display: none;
-        }
-
-        &__close {
-            right: $popup-gallery-widget-close-top-right-pos-tablet-small;
-            top: $popup-gallery-widget-close-top-right-pos-tablet-small;
         }
 
         &__images {

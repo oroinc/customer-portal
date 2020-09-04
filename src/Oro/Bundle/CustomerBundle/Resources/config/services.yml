@@ -213,7 +213,7 @@ services:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
     oro_customer.visitor_token.cache:
-        parent: doctrine_cache.abstract.array
+        class: Doctrine\Common\Cache\ArrayCache
         calls:
             - [ setNamespace, [ 'visitor_token_cache' ] ]
 

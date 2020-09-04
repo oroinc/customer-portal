@@ -4,9 +4,15 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
 use Oro\Bundle\CustomerBundle\Controller\AbstractAjaxCustomerUserController;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmail;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * AJAX action for Customer User.
+ */
 class AjaxCustomerUserController extends AbstractAjaxCustomerUserController
 {
     /**
@@ -21,5 +27,19 @@ class AjaxCustomerUserController extends AbstractAjaxCustomerUserController
     public function getCustomerIdAction(CustomerUser $customerUser)
     {
         return parent::getCustomerIdAction($customerUser);
+    }
+
+    /**
+     * @Route("/validate", name="oro_customer_frontend_customer_user_validate", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function checkEmailAction(Request $request)
+    {
+        $value = $request->get('value');
+        $validator = $this->container->get('validator');
+        $violations = $validator->validate($value, [new UniqueCustomerUserNameAndEmail()]);
+
+        return new JsonResponse(['valid' => count($violations) === 0]);
     }
 }

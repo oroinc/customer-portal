@@ -74,7 +74,7 @@ class FileUrlProvider implements FileUrlProviderInterface
         string $action = self::FILE_ACTION_GET,
         int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
     ): string {
-        if ($this->isPublicOrFrontend($file)) {
+        if (!$this->isBackofficeApplication()) {
             return $this->urlGenerator->generate(
                 'oro_frontend_attachment_get_file',
                 ['id' => $file->getId(), 'filename' => $file->getFilename(), 'action' => $action],
@@ -155,15 +155,22 @@ class FileUrlProvider implements FileUrlProviderInterface
             return false;
         }
 
+        return !$this->isBackofficeApplication();
+    }
+
+    /**
+     * @return bool
+     */
+    private function isBackofficeApplication(): bool
+    {
         $currentApplication = $this->currentApplicationProvider->getCurrentApplication();
 
         // If no application is resolved via token we consider this is not frontend request.
         if (!$currentApplication) {
-            return false;
+            return true;
         }
 
-        // If we are not currently in backoffice application.
-        return $currentApplication
-            !== CurrentApplicationProviderInterface::DEFAULT_APPLICATION;
+        // If we are currently in backoffice application.
+        return $currentApplication === CurrentApplicationProviderInterface::DEFAULT_APPLICATION;
     }
 }
