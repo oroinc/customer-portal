@@ -2,9 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData as LoadLoginCustomerUserData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
@@ -22,7 +23,7 @@ class AjaxCustomerUserControllerTest extends WebTestCase
         $this->client->useHashNavigation(true);
         $this->loadFixtures(
             [
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData'
+                LoadCustomerUserRoleData::class
             ]
         );
     }
@@ -46,7 +47,36 @@ class AjaxCustomerUserControllerTest extends WebTestCase
     }
 
     /**
-     * @return ObjectManager
+     * @dataProvider validateDataProvider
+     * @param string $value
+     * @param bool $expected
+     */
+    public function testValidate(string $value, bool $expected)
+    {
+        $this->client->request(
+            'POST',
+            $this->getUrl('oro_customer_frontend_customer_user_validate', ['value' => $value])
+        );
+        $result = $this->client->getResponse();
+        $this->assertJsonResponseStatusCodeEquals($result, 200);
+        $data = json_decode($result->getContent(), true);
+        $this->assertArrayHasKey('valid', $data);
+        $this->assertEquals($expected, $data['valid']);
+    }
+
+    /**
+     * @return array
+     */
+    public function validateDataProvider(): array
+    {
+        return [
+            [LoadLoginCustomerUserData::AUTH_USER, false],
+            ['unknown@test.com', true]
+        ];
+    }
+
+    /**
+     * @return EntityManagerInterface
      */
     protected function getObjectManager()
     {
@@ -54,10 +84,10 @@ class AjaxCustomerUserControllerTest extends WebTestCase
     }
 
     /**
-     * @return ObjectRepository
+     * @return EntityRepository
      */
     protected function getUserRepository()
     {
-        return $this->getObjectManager()->getRepository('OroCustomerBundle:CustomerUser');
+        return $this->getObjectManager()->getRepository(CustomerUser::class);
     }
 }

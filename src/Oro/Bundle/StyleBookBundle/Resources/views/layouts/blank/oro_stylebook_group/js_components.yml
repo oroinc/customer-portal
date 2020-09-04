@@ -24,7 +24,7 @@ layout:
             optionValue: '=data["oro_product_datagrid_row_view"]'
 
         - '@addTree':
-            items:  
+            items:
                 # Modal View
                 group_element_grid_view_modal:
                     blockType: group_element

@@ -356,7 +356,8 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
                 $this->role,
                 $this->label,
                 $this->selfManaged,
-                $this->public
+                $this->public,
+                $this->organization
             ]
         );
     }
@@ -371,7 +372,8 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
             $this->role,
             $this->label,
             $this->selfManaged,
-            $this->public
+            $this->public,
+            $this->organization
             ) = unserialize($serialized);
 
         $this->customerUsers = new ArrayCollection();

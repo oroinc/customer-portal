@@ -3,7 +3,7 @@ aliases:
 dynamic-imports:
     commons:
         - oro/select2-autocomplete-customeruser-component
-    orocustomer:
+    orouser:
         - orocustomer/js/app/components/customer-address-book-component
         - orocustomer/js/app/components/customer-address-component
         - orocustomer/js/app/components/customer-selection-component

@@ -24,6 +24,7 @@
     }
 
     &--warning,
+    &--warn,
     &--process,
     &--alert {
         @extend .notification-flash;
