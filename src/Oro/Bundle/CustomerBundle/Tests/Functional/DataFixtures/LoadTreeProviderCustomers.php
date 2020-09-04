@@ -13,7 +13,6 @@ class LoadTreeProviderCustomers extends AbstractFixture implements DependentFixt
     const CUSTOMER_LEVEL_1_2 = 'customer.level_1_2';
     const CUSTOMER_LEVEL_1_2_DOT_1 = 'customer.level_1_2.1';
     const CUSTOMER_LEVEL_1_2_DOT_1_DOT_1 = 'customer.level_1_2.1.1';
-    const CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1 = 'customer.level_1_2.1.1.1';
 
     /**
      * @inheritDoc
@@ -29,18 +28,15 @@ class LoadTreeProviderCustomers extends AbstractFixture implements DependentFixt
      * customer.level_1_2
      *     customer.level_1_2.1
      *         customer.level_1_2.1.1
-     *             customer.level_1_2.1.1.1
      */
     public function load(ObjectManager $manager): void
     {
         // This structure is necessary in order to disrupt ID order, thereby causing abnormal behavior of tree
         // processing, when the customer with a less ID may be child of customer with greater ID
-        $levelFourth = $this->createCustomer($manager, self::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1_DOT_1);
         $levelThird = $this->createCustomer($manager, self::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1);
         $levelSecond = $this->createCustomer($manager, self::CUSTOMER_LEVEL_1_2_DOT_1);
         $levelFirst = $this->createCustomer($manager, self::CUSTOMER_LEVEL_1_2);
 
-        $levelFourth->setParent($levelThird);
         $levelThird->setParent($levelSecond);
         $levelSecond->setParent($levelFirst);
 
