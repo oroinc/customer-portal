@@ -95,14 +95,13 @@ define(function(require, exports, module) {
          */
         setDropdownHeaderDesign: function(instance) {
             instance.header
-                .append(
-                    $('<button>', {
-                        'class': 'btn btn--plain close',
-                        'title': __('Close'),
-                        'aria-label': __('oro_frontend.filter_manager.close.aria_label'),
-                        'data-role': 'close-filters'
-                    }).append('<span class="fa-close fa--no-offset" aria-hidden="true"></span>')
-                );
+                .append($('<button></button>', {
+                    'type': 'button',
+                    'class': 'close-dialog',
+                    'title': __('Close'),
+                    'aria-label': __('oro_frontend.filter_manager.close.aria_label'),
+                    'data-role': 'close'
+                }));
 
             instance.header
                 .removeAttr('class')

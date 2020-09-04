@@ -2,7 +2,7 @@
     padding: 6px 10px 3px;
 
     background: get-color('additional', 'base');
-    border-radius: 3px;
+    border-radius: $base-ui-element-border-radius;
 
     &__trigger {
         margin-bottom: $offset-x-s;

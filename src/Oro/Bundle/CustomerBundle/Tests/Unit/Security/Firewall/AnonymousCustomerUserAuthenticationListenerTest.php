@@ -164,6 +164,61 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
         $this->assertEquals(AnonymousCustomerUserAuthenticationListener::COOKIE_NAME, $resultCookie->getName());
     }
 
+    public function testHandleWithBrokenGuestRole()
+    {
+        $currentWebsite = new WebsiteStub();
+        $currentWebsite->setGuestRole(new CustomerUserRole());
+        $this->websiteManager->expects($this->once())
+            ->method('getCurrentWebsite')
+            ->willReturn($currentWebsite);
+
+        $token = new AnonymousCustomerUserToken(
+            'User',
+            [new CustomerUserRole()],
+            null,
+            new Organization()
+        );
+        $createdToken = new AnonymousCustomerUserToken('Anonymous Customer User');
+        $createdToken->setCredentials([
+            'visitor_id' => null,
+            'session_id' => null
+        ]);
+        $authenticatedToken = new AnonymousCustomerUserToken('Anonymous Customer User');
+
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
+
+        $request = new Request();
+
+        $event = $this->getEventMock();
+        $event->expects($this->once())
+            ->method('getRequest')
+            ->willReturn($request);
+
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn(null);
+
+        $this->authenticationManager->expects($this->once())
+            ->method('authenticate')
+            ->with($createdToken)
+            ->willReturn($authenticatedToken);
+
+        $this->tokenStorage->expects($this->once())
+            ->method('setToken')
+            ->with($authenticatedToken);
+
+        $this->logger->expects($this->once())
+            ->method('info')
+            ->with('Populated the TokenStorage with an Anonymous Customer User Token.');
+
+        $this->listener->handle($event);
+
+        /** @var Cookie $resultCookie */
+        $this->assertNull($request->attributes->get(AnonymousCustomerUserAuthenticationListener::COOKIE_ATTR_NAME));
+    }
+
     /**
      * @return array
      */

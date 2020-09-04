@@ -2,7 +2,7 @@
     {% if app.debug and oro_frontend.debug_routes %}
         {% set routes = path('oro_frontend_js_routing_js', {_format: 'json'}) %}
     {% else %}
-        {% set routes = asset_path('oro_frontend_js_routing_js', {_format: 'json'}) %}
+        {% set routes = asset(asset_path('oro_frontend_js_routing_js', {_format: 'json'}), 'routing') %}
     {% endif %}
 
     {% import '@OroAsset/Asset.html.twig' as Asset %}
@@ -23,6 +23,12 @@
             defaults: {
                 okButtonClass: 'btn btn--info'
             }
+        },
+        'oroui/js/delete-confirmation': {
+            okButtonClass: 'btn btn--info'
+        },
+        'orowindows/lib/jquery.dialog.extended': {
+            draggable: false
         },
         'oroui/js/tools/scroll-helper': {
             scrollableContainerSelector: '#container'

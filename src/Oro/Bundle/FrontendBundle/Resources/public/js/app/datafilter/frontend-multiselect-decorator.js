@@ -136,7 +136,7 @@ define(function(require, exports, module) {
             if (!$icon.length) {
                 instance.inputs
                     .addClass('custom-' + className + '__input ui-rewrite')
-                    .after($('<i/>', {'class': 'custom-' + className + '__icon'}));
+                    .after($('<i></i>', {'class': 'custom-' + className + '__icon'}));
             }
         },
 
@@ -185,7 +185,7 @@ define(function(require, exports, module) {
         setDropdownWidgetContainer: function(instance) {
             instance.menu
                 .wrap(
-                    $('<div/>', {'class': 'datagrid-manager'})
+                    $('<div></div>', {'class': 'datagrid-manager'})
                 );
         },
 
@@ -218,8 +218,9 @@ define(function(require, exports, module) {
         setDropdownHeaderSearchDesign: function(instance) {
             instance.header
                 .find('input')
+                .addClass('input input--full input--size-s')
                 .wrap(
-                    $('<div/>', {'class': 'datagrid-manager-search empty'})
+                    $('<div></div>', {'class': 'datagrid-manager-search empty'})
                 );
             instance.header
                 .find('.ui-multiselect-filter')

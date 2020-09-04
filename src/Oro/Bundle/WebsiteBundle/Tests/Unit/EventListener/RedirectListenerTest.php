@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\EventListener;
 
+use Oro\Bundle\FrontendAttachmentBundle\Request\MediaCacheRequestHelper;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\EventListener\RedirectListener;
@@ -13,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class RedirectListenerTest extends TestCase
@@ -31,6 +33,9 @@ class RedirectListenerTest extends TestCase
     /** @var FrontendHelper */
     private $frontendHelper;
 
+    /** @var MediaCacheRequestHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $mediaCacheRequestHelper;
+
     /**
      * {@inheritdoc}
      */
@@ -39,11 +44,13 @@ class RedirectListenerTest extends TestCase
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->urlResolver = $this->createMock(WebsiteUrlResolver::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
+        $this->mediaCacheRequestHelper = $this->createMock(MediaCacheRequestHelper::class);
 
         $this->listener = new RedirectListener(
             $this->websiteManager,
             $this->urlResolver,
-            $this->frontendHelper
+            $this->frontendHelper,
+            $this->mediaCacheRequestHelper
         );
     }
 
@@ -57,6 +64,42 @@ class RedirectListenerTest extends TestCase
         // assert redirect response not set
         $event->expects($this->never())
             ->method('setResponse');
+        $this->listener->onRequest($event);
+    }
+
+
+    public function testNoRedirectWhenMediaCache(): void
+    {
+        $this->frontendHelper
+            ->expects($this->once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $event = $this->createMock(GetResponseEvent::class);
+        $response = Response::create();
+
+        $event
+            ->expects($this->once())
+            ->method('getResponse')
+            ->willReturn($response);
+
+        $event
+            ->expects($this->once())
+            ->method('isMasterRequest')
+            ->willReturn(true);
+
+        $event
+            ->expects($this->never())
+            ->method('setResponse');
+
+        $this->mediaCacheRequestHelper
+            ->expects($this->once())
+            ->method('isMediaCacheRequest')
+            ->willReturn(true);
+
+        $this->listener
+            ->setMediaCacheRequestHelper($this->mediaCacheRequestHelper);
+
         $this->listener->onRequest($event);
     }
 

@@ -57,6 +57,8 @@ define(function(require) {
         filterTemplateData: function(data) {
             if (this.counts === null) {
                 return data;
+            } else if (_.isEmpty(this.counts)) {
+                this.counts = Object.create(null);
             }
 
             let options = $.extend(true, {}, data.options || {});

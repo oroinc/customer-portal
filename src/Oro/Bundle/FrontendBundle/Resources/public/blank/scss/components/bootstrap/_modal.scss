@@ -6,22 +6,6 @@
     &__body {
         padding: 50px;
     }
-
-    .close {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-
-        z-index: z('base');
-
-        margin: 0;
-        padding: 0;
-
-        background-color: transparent;
-        border-color: transparent;
-
-        cursor: pointer;
-    }
 }
 
 .modal-backdrop {

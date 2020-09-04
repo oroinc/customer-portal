@@ -45,9 +45,8 @@ services:
             - "@doctrine"
 
     oro_website.cache.website:
-        parent: oro.cache.abstract
-        calls:
-            - [ setNamespace, [ 'oro_website' ] ]
+        public: false
+        class: Doctrine\Common\Cache\ArrayCache
 
     oro_website.cacheable_website_provider:
         class: 'Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider'
@@ -200,5 +199,6 @@ services:
             - '@oro_website.manager'
             - '@oro_website.resolver.website_url_resolver'
             - '@oro_frontend.request.frontend_helper'
+            - '@oro_frontend_attachment.request.media_cache_request_helper'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onRequest, priority: 45 }

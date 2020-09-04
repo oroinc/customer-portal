@@ -8,6 +8,8 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadTreeProviderCustomers;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadTreeProviderCustomerUserData;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData as MainLoadCustomerUserData;
 use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationToken;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTree;
@@ -24,7 +26,7 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
     protected function setUp(): void
     {
         $this->initClient();
-        $this->loadFixtures([LoadCustomerUserData::class, LoadOrganization::class]);
+        $this->loadFixtures([LoadTreeProviderCustomerUserData::class, LoadOrganization::class]);
     }
 
     /**
@@ -358,6 +360,58 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                         LoadOrganization::ORGANIZATION => [LoadCustomers::DEFAULT_ACCOUNT_NAME]
                     ],
                 ]
+            ],
+            'сustomers have an inconsistent hierarchy in tree' => [
+                'token' => [
+                    'customerUserReference' => LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL,
+                    'customerUserPassword' => LoadTreeProviderCustomerUserData::LEVEL_1_2_PASSWORD,
+                    'organizationReference' => LoadOrganization::ORGANIZATION
+                ],
+                'treeData' => [
+                    'userOwningOrganizationId' => [LoadOrganization::ORGANIZATION],
+                    'userOrganizationIds' => [
+                        LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL => [LoadOrganization::ORGANIZATION]
+                    ],
+                    'userOwningBusinessUnitId' => [
+                        LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL =>
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2
+                    ],
+                    'userBusinessUnitIds' => [
+                        LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL =>
+                            [LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2]
+                    ],
+                    'userOrganizationBusinessUnitIds' => [
+                        LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL => [
+                            LoadOrganization::ORGANIZATION => [LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2]
+                        ],
+                    ],
+                    'businessUnitOwningOrganizationId' => [
+                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2 => LoadOrganization::ORGANIZATION,
+                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1 => LoadOrganization::ORGANIZATION,
+                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1 => LoadOrganization::ORGANIZATION,
+                    ],
+                    'assignedBusinessUnitUserIds' => [
+                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2 => [
+                            LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL,
+                        ]
+                    ],
+                    'subordinateBusinessUnitIds' => [
+                        [
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1,
+                        ],
+                        [
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1,
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1,
+                        ]
+                    ],
+                    'organizationBusinessUnitIds' => [
+                        LoadOrganization::ORGANIZATION => [
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2,
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1,
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1
+                        ]
+                    ],
+                ]
             ]
         ];
     }
@@ -440,6 +494,7 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                     'userOwningOrganizationId' => [
                         LoadCustomerUserData::LEVEL_1_EMAIL => LoadOrganization::ORGANIZATION,
                         LoadCustomerUserData::LEVEL_1_1_EMAIL => LoadOrganization::ORGANIZATION,
+                        LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL => LoadOrganization::ORGANIZATION,
                         LoadCustomerUserData::GROUP2_EMAIL => LoadOrganization::ORGANIZATION,
                         LoadCustomerUserData::EMAIL => LoadOrganization::ORGANIZATION,
                         LoadCustomerUserData::ORPHAN_EMAIL => LoadOrganization::ORGANIZATION,
@@ -449,6 +504,7 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                     'userOrganizationIds' => [
                         LoadCustomerUserData::LEVEL_1_EMAIL => [LoadOrganization::ORGANIZATION],
                         LoadCustomerUserData::LEVEL_1_1_EMAIL => [LoadOrganization::ORGANIZATION],
+                        LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL => [LoadOrganization::ORGANIZATION],
                         LoadCustomerUserData::GROUP2_EMAIL => [LoadOrganization::ORGANIZATION],
                         LoadCustomerUserData::EMAIL => [LoadOrganization::ORGANIZATION],
                         LoadCustomerUserData::ORPHAN_EMAIL => [LoadOrganization::ORGANIZATION],
@@ -458,6 +514,8 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                     'userOwningBusinessUnitId' => [
                         LoadCustomerUserData::LEVEL_1_EMAIL => LoadCustomers::CUSTOMER_LEVEL_1,
                         LoadCustomerUserData::LEVEL_1_1_EMAIL => LoadCustomers::CUSTOMER_LEVEL_1_DOT_1,
+                        LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL =>
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2,
                         LoadCustomerUserData::GROUP2_EMAIL => LoadCustomers::CUSTOMER_LEVEL_1_DOT_2,
                         LoadCustomerUserData::EMAIL => LoadCustomers::CUSTOMER_LEVEL_1,
                         LoadCustomerUserData::ORPHAN_EMAIL => LoadCustomers::DEFAULT_ACCOUNT_NAME,
@@ -465,6 +523,9 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                     'userBusinessUnitIds' => [
                         LoadCustomerUserData::LEVEL_1_EMAIL => [LoadCustomers::CUSTOMER_LEVEL_1],
                         LoadCustomerUserData::LEVEL_1_1_EMAIL => [LoadCustomers::CUSTOMER_LEVEL_1_DOT_1],
+                        LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL => [
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2
+                        ],
                         LoadCustomerUserData::GROUP2_EMAIL => [LoadCustomers::CUSTOMER_LEVEL_1_DOT_2],
                         LoadCustomerUserData::EMAIL => [LoadCustomers::CUSTOMER_LEVEL_1],
                         LoadCustomerUserData::ORPHAN_EMAIL => [LoadCustomers::DEFAULT_ACCOUNT_NAME],
@@ -475,6 +536,9 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                         ],
                         LoadCustomerUserData::LEVEL_1_1_EMAIL => [
                             LoadOrganization::ORGANIZATION => [LoadCustomers::CUSTOMER_LEVEL_1_DOT_1],
+                        ],
+                        LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL => [
+                            LoadOrganization::ORGANIZATION => [LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2],
                         ],
                         LoadCustomerUserData::GROUP2_EMAIL => [
                             LoadOrganization::ORGANIZATION => [LoadCustomers::CUSTOMER_LEVEL_1_DOT_2]
@@ -502,6 +566,9 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                         LoadCustomers::CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1 => LoadOrganization::ORGANIZATION,
                         LoadCustomers::DEFAULT_ACCOUNT_NAME => LoadOrganization::ORGANIZATION,
                         LoadCustomers::CUSTOMER_LEVEL_1_1 => LoadOrganization::ORGANIZATION,
+                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2 => LoadOrganization::ORGANIZATION,
+                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1 => LoadOrganization::ORGANIZATION,
+                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1 => LoadOrganization::ORGANIZATION,
                     ],
                     'assignedBusinessUnitUserIds' => [
                         LoadCustomers::CUSTOMER_LEVEL_1 => [
@@ -516,6 +583,9 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                         ],
                         LoadCustomers::DEFAULT_ACCOUNT_NAME => [
                             LoadCustomerUserData::ORPHAN_EMAIL
+                        ],
+                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2 => [
+                            LoadTreeProviderCustomerUserData::LEVEL_1_2_EMAIL
                         ]
                     ],
                     'subordinateBusinessUnitIds' => [
@@ -557,7 +627,14 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                         ],
                         LoadCustomers::CUSTOMER_LEVEL_1_DOT_4_DOT_1 => [
                             LoadCustomers::CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1
-                        ]
+                        ],
+                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2 => [
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1,
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1,
+                        ],
+                        LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1 => [
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1,
+                        ],
                     ],
                     'organizationBusinessUnitIds' => [
                         LoadOrganization::ORGANIZATION => [
@@ -575,7 +652,10 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
                             LoadCustomers::CUSTOMER_LEVEL_1_DOT_3_DOT_1,
                             LoadCustomers::CUSTOMER_LEVEL_1_DOT_3_DOT_1_DOT_1,
                             LoadCustomers::CUSTOMER_LEVEL_1_DOT_4_DOT_1,
-                            LoadCustomers::CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1
+                            LoadCustomers::CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1,
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2,
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1,
+                            LoadTreeProviderCustomers::CUSTOMER_LEVEL_1_2_DOT_1_DOT_1
                         ]
                     ],
                 ]

@@ -66,26 +66,6 @@
         vertical-align: $fullscreen-popup-badge-vertical-align;
     }
 
-    &__close {
-        position: $fullscreen-popup-close-position;
-        z-index: $fullscreen-popup-close-z-index;
-        top: $fullscreen-popup-close-top;
-
-        @include safe-area-property-right(right, $fullscreen-popup-close-right);
-
-        padding:  $fullscreen-popup-close-inner-offset;
-
-        font-size: $fullscreen-popup-close-font-size;
-
-        border: $fullscreen-popup-close-border;
-        background: $fullscreen-popup-close-bg;
-        color: $fullscreen-popup-close-color;
-
-        cursor: $fullscreen-popup-close-cursor;
-
-        @include fa-icon($fullscreen-popup-close-icon, after);
-    }
-
     &__content {
         height: $fullscreen-popup-content-height;
 

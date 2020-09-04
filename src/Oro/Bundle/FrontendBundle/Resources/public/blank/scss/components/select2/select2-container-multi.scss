@@ -42,7 +42,7 @@
                                                get-color('additional', 'light') 50%,
                                                get-color('additional', 'middle') 100%
                           );
-        border-radius: 3px;
+        border-radius: $base-ui-element-border-radius;
         color: get-color('additional', 'dark');
 
         cursor: default;
@@ -62,7 +62,7 @@
 
         border: 0;
         box-shadow: none;
-        border-radius: 4px;
+        border-radius: $popup-gallery-widget-slick-list-radius;
         color: get-color('additional', 'middle');
     }
 

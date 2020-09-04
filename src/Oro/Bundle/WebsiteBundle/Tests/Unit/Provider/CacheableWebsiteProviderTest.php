@@ -57,13 +57,8 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
             ->willReturn(null);
 
         $this->websiteProvider->expects($this->once())
-            ->method('getWebsiteIds')
-            ->willReturn([$websiteId]);
-
-        $this->doctrineHelper->expects($this->exactly(2))
-            ->method('getEntityReference')
-            ->with(Website::class, $websiteId)
-            ->willReturn($website);
+            ->method('getWebsites')
+            ->willReturn([$websiteId => $website]);
 
         $this->assertEquals([$website->getId() => $website], $this->cacheableProvider->getWebsites());
         // test the result is cached
@@ -81,13 +76,8 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
             ->willReturn(null);
 
         $this->websiteProvider->expects($this->once())
-            ->method('getWebsiteIds')
-            ->willReturn([$websiteId]);
-
-        $this->doctrineHelper->expects($this->exactly(2))
-            ->method('getEntityReference')
-            ->with(Website::class, $websiteId)
-            ->willReturn($website);
+            ->method('getWebsites')
+            ->willReturn([$websiteId => $website]);
 
         $this->assertEquals([$website->getName() => $website->getId()], $this->cacheableProvider->getWebsiteChoices());
         // test the result is cached

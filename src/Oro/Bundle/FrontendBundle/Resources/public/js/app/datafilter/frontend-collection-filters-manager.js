@@ -37,7 +37,7 @@ define(function(require, exports, module) {
 
         /** @property */
         events: {
-            'click [data-role="close-filters"]': '_onClose'
+            'click [data-role="close"]': '_onClose'
         },
 
         /**

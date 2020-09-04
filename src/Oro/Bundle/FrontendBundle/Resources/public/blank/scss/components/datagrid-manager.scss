@@ -104,7 +104,7 @@
         text-align: center;
 
         border: 1px solid get-color('additional', 'light');
-        border-radius: 3px;
+        border-radius: $base-ui-element-border-radius;
     }
 
     &.dropdown {
@@ -141,12 +141,6 @@
         }
     }
 
-    .close {
-        position: absolute;
-        top: $datagrid-manager-close-top;
-        right: $datagrid-manager-close-right;
-    }
-
     .disabled {
         color: $datagrid-manager-disabled-color;
 
@@ -172,6 +166,10 @@
             > div {
                 display: none;
             }
+        }
+
+        .close-dialog {
+            display: none;
         }
 
         .datagrid-manager__actions {
