@@ -17,7 +17,7 @@
     },
     "extra": {
         "npm": {
-            "prismjs": "1.6.0"
+            "prismjs": "1.21.0"
         },
         "branch-alias": {
             "dev-master": "4.1-dev"
