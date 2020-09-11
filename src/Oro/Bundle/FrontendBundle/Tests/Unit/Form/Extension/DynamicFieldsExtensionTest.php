@@ -112,7 +112,7 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
             ],
             [
                 'isFrontendRequest' => true,
-                'extend' => ['owner' => ExtendScope::ORIGIN_SYSTEM],
+                'extend' => ['owner' => ExtendScope::OWNER_SYSTEM],
                 'frontend' => ['is_editable' => false],
                 'expected' => true
             ],
