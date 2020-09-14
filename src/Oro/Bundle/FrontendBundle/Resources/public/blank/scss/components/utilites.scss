@@ -50,6 +50,10 @@
     @include img-fluid;
 }
 
+.break-all {
+    word-break: break-all;
+}
+
 // TODO: need refactor after removal less from frontend
 .hide-text {
     &[class^="fa-"],
