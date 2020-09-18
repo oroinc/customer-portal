@@ -2,7 +2,7 @@
 
 .page-title {
     font-size: $page-title-font-size;
-    line-height: 1.1;
+    line-height: $page-title-line-height;
 
     &--has-actions {
         float: left;

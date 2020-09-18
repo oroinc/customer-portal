@@ -1,3 +1,5 @@
 /* @theme: default; */
 
 $dialog-widget-content-border-radius: update-default($dialog-widget-content-border-radius, 4px);
+$dialog-title-font-size: update-default($dialog-title-font-size, $page-title-font-size);
+$dialog-title-line-height: update-default($dialog-title-line-height, $page-title-line-height);
