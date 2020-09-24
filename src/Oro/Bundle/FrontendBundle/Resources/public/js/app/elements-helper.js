@@ -255,8 +255,10 @@ define(function(require) {
             if (!$element.length) {
                 return false;
             }
-            const value = $element.val();
-            if (value === this.model.get(modelKey)) {
+
+            const elementViewValue = $element.val();
+            const modelValue = this.viewToModelElementValueTransform(elementViewValue, elementKey);
+            if (modelValue === this.model.get(modelKey)) {
                 return;
             }
 
@@ -268,7 +270,8 @@ define(function(require) {
             if (options.manually) {
                 this.model.set(modelKey + '_changed_manually', true);
             }
-            this.model.set(modelKey, value, options);
+
+            this.model.set(modelKey, modelValue, options);
         },
 
         setElementValueFromModel: function(e, modelKey, elementKey) {
@@ -276,12 +279,36 @@ define(function(require) {
             if (!$element.length) {
                 return false;
             }
-            const value = this.model.get(modelKey);
-            if (value === $element.val()) {
+
+            const modelValue = this.model.get(modelKey);
+            const viewValue = this.modelToViewElementValueTransform(modelValue, elementKey);
+            if (viewValue === $element.val()) {
                 return;
             }
 
-            $element.val(value).change();
+            $element.val(viewValue).change();
+        },
+        /**
+         * This function is added to add possibility to transform model value representation into the
+         * view value representation. To use this function you could extend it with your own in the descendant
+         *
+         * @param {*}      modelValue
+         * @param {String} elementKey
+         * @returns {*}
+         */
+        modelToViewElementValueTransform: function(modelValue, elementKey) {
+            return modelValue;
+        },
+        /**
+         * This function is added to add possibility to transform view value representation into the
+         * model value representation. To use this function you could extend it with your own in the descendant
+         *
+         * @param {*}      elementViewValue
+         * @param {String} elementKey
+         * @returns {*}
+         */
+        viewToModelElementValueTransform: function(elementViewValue, elementKey) {
+            return elementViewValue;
         },
 
         isChangedManually: function(element, e) {
