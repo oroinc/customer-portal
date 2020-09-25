@@ -6,6 +6,9 @@ use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EmailBundle\Entity\Repository\EmailAwareRepository;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
+use Oro\Bundle\SecurityBundle\AccessRule\AclAccessRule;
+use Oro\Bundle\SecurityBundle\AccessRule\AvailableOwnerAccessRule;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\UserBundle\Entity\Repository\AbstractUserRepository;
 
 /**
@@ -130,5 +133,29 @@ class CustomerUserRepository extends AbstractUserRepository implements EmailAwar
         }
 
         return $qb;
+    }
+
+    /**
+     * @param AclHelper $aclHelper
+     * @param string $targetEntityClass
+     * @return array
+     */
+    public function getAssignableCustomerUserIds(AclHelper $aclHelper, string $targetEntityClass): array
+    {
+        $qb = $this->createQueryBuilder('cu')
+            ->resetDQLPart('select')
+            ->select('cu.id');
+
+        $query = $aclHelper->apply(
+            $qb,
+            'ASSIGN',
+            [
+                AclAccessRule::DISABLE_RULE => true,
+                AvailableOwnerAccessRule::ENABLE_RULE => true,
+                AvailableOwnerAccessRule::TARGET_ENTITY_CLASS => $targetEntityClass,
+            ]
+        );
+
+        return array_column($query->getArrayResult(), 'id');
     }
 }

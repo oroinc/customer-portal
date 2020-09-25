@@ -23,6 +23,21 @@ class CustomerUserRepositoryTest extends WebTestCase
             ->getRepository(CustomerUser::class);
     }
 
+    public function testGetAssignableCustomerUserIds()
+    {
+        $user = $this->repository->findOneBy([]);
+
+        $this->assertEquals(
+            [
+                $user->getId()
+            ],
+            $this->repository->getAssignableCustomerUserIds(
+                $this->getContainer()->get('oro_security.acl_helper'),
+                CustomerUser::class
+            )
+        );
+    }
+
     public function testFindUserByEmailSensitive()
     {
         $this->loadFixtures([LoadCustomerUserData::class]);
