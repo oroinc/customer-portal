@@ -41,7 +41,7 @@ class LoadCustomerUserRoles extends AbstractRolesData
     {
         $aclManager = $this->getAclManager();
 
-        $organization = $manager->getRepository(Organization::class)->findOneBy([]);
+        $organization = $this->getOrganization($manager);
         $roleData = $this->loadRolesData();
 
         /* @var ChainOwnershipMetadataProvider $chainMetadataProvider */
@@ -157,5 +157,14 @@ class LoadCustomerUserRoles extends AbstractRolesData
     {
         $role->setSelfManaged($roleConfigData['self_managed'] ?? false);
         $role->setPublic($roleConfigData['public'] ?? true);
+    }
+
+    /**
+     * @param ObjectManager $manager
+     * @return object|Organization|null
+     */
+    protected function getOrganization(ObjectManager $manager)
+    {
+        return $manager->getRepository(Organization::class)->findOneBy([]);
     }
 }
