@@ -61,3 +61,12 @@
         </div>
     {% endfor %}
 {% endblock %}
+
+{% block __oro_customer_form__required_label_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' required-label',
+        'aria-hidden': 'true'
+    }) %}
+
+    <p {{ block('block_attributes') }}><sup>*</sup> {{ 'oro.customer.form.label.required'|trans }}</p>
+{% endblock %}
