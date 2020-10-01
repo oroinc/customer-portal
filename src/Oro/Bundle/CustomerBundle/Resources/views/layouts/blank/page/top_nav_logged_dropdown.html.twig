@@ -59,7 +59,10 @@
 {% endblock %}
 
 {% block _top_nav_customer_menu_widget %}
-    {% set requestUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+    {% set requestUrl = '' %}
+    {% if app.request.attributes.get('_route') %}
+        {% set requestUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+    {% endif %}
     {% set found = false %}
 
     {% for child in item.children if child.displayed and child.extras.isAllowed %}
