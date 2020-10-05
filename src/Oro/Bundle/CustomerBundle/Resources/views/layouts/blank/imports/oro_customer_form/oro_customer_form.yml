@@ -32,6 +32,8 @@ layout:
                         text: ''
                 __links:
                     blockType: container
+                __required_label:
+                    blockType: block
             tree:
                 __root:
                     __page_wrapper:
@@ -43,6 +45,7 @@ layout:
                             __form_submit_wrapper:
                                 __form_submit: ~
                             __links: ~
+                            __required_label: ~
 
         - '@move':
             id: __form_submit_wrapper
