@@ -2,6 +2,7 @@
 
 @import "filters-dropdown-mode";
 @import "filters-toggle-mode";
+@import "filters-fullscreen-popup-mode";
 
 .filter-criteria-selector {
     position: relative;
@@ -116,9 +117,8 @@
     }
 
     .reset-filter {
+        border: 0;
         color: $filter-reset-color;
-
-        vertical-align: baseline;
 
         @include element-state('hover') {
             color: $filter-reset-hover-color;
@@ -174,9 +174,12 @@
     &.in-sticky {
         margin: $filter-box-dropdown-mode-in-sticky-offset;
     }
+}
 
-    &.toggle-mode {
-        display: none;
-        padding: $offset-y-m 0;
+@include only-mobile() {
+    .filter-box {
+        &.toggle-mode {
+            display: none;
+        }
     }
 }

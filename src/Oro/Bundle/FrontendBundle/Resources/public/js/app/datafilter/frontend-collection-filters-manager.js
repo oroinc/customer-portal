@@ -11,7 +11,8 @@ define(function(require, exports, module) {
     config = _.extend({
         templateData: {
             attributes: ''
-        }
+        },
+        enableMultiselectWidget: true
     }, config);
 
     const FrontendCollectionFiltersManager = CollectionFiltersManager.extend({
@@ -21,6 +22,11 @@ define(function(require, exports, module) {
          * @property
          */
         MultiselectDecorator: MultiselectDecorator,
+
+        /**
+         * @inheritDoc
+         */
+        enableMultiselectWidget: true,
 
         /**
          * @inheritDoc
@@ -110,7 +116,9 @@ define(function(require, exports, module) {
         },
 
         _onClose: function() {
-            this.selectWidget.multiselect('instance').button.trigger('click');
+            if (this.selectWidget) {
+                this.selectWidget.multiselect('instance').button.trigger('click');
+            }
         },
 
         /**

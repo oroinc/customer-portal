@@ -19,8 +19,8 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/link-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/filters/filters-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/filters/filters-toggle-mode-config.scss'
         - 'bundles/orofrontend/default/scss/variables/filters/filters-dropdown-mode-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/filters/filters-fullscreen-popup-mode-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/highlight-text-config.scss'
         - 'bundles/orofrontend/default/scss/variables/page-title-config.scss'

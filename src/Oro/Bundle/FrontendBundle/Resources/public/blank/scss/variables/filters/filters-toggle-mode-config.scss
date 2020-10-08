@@ -9,16 +9,21 @@ $filter-toggle-mode-criteria-selector-border-bottom: 1px solid get-color('additi
 $filter-toggle-mode-criteria-selector-color: get-color('additional', 'dark') !default;
 $filter-toggle-mode-criteria-selector-icon-top-pos: 18px !default;
 $filter-toggle-mode-criteria-selector-icon-right-pos: 15px !default;
-$filter-toggle-mode-criteria-hint-item-offset: 0 $offset-y-m $offset-y-m 0 !default;
-$filter-toggle-mode-criteria-hint-item-offset-inner: 6px 25px 7px 6px !default;
-$filter-toggle-mode-criteria-hint-item-border-radius: null !default;
 
-$filter-toggle-mode-reset-filter-top-pos: 6px !default;
-$filter-toggle-mode-reset-filter-right-pos: 2px !default;
+$filter-toggle-mode-items-hint-offset-top: $offset-y-s !default;
+$filter-toggle-mode-items-hint-offset-bottom: 12px !default;
+$filter-toggle-mode-in-sticky-criteria-hint-item-offset: 0 !default;
+$filter-toggle-mode-in-sticky-criteria-hint-item-offset-inner: 0 !default;
+$filter-toggle-mode-items-hint-line-height: $filter-dropdown-mode-items-hint-line-height !default;
+$filter-toggle-mode-items-hint-font-size: $filter-dropdown-mode-items-hint-font-size !default;
 
-$filter-toggle-mode-reset-filter-button-width: 100% !default;
-$filter-toggle-mode-reset-filter-button-offset-bottom: $offset-y-m !default;
-$filter-toggle-mode-reset-filter-button-border-color: get-color('additional', 'base') !default;
+$filter-toggle-mode-criteria-hint-item-offset-bottom: $offset-y-s !default;
+$filter-toggle-mode-criteria-hint-item-offset: 0 $offset-y-m $filter-toggle-mode-criteria-hint-item-offset-bottom 0 !default;
+$filter-toggle-mode-criteria-hint-item-offset-inner: $filter-dropdown-mode-criteria-hint-item-offset-inner !default;
+$filter-toggle-mode-criteria-hint-item-border-radius: $filter-dropdown-mode-criteria-hint-item-border-radius !default;
+
+$filter-toggle-mode-reset-filter-button-inner-offset: 0 !default;
+
 $filter-toggle-mode-start-end-max-width: calc(50% - #{$filter-separator-width / 2}) !default;
 
 $filter-toggle-mode-datepicker-input-width: 100% !default;
@@ -27,12 +32,7 @@ $filter-toggle-mode-timepicker-input-max-width: calc(40% - #{$offset-y-s}) !defa
 $filter-toggle-mode-timepicker-input-width: 100% !default;
 $filter-toggle-mode-timepicker-input-offset-left: $offset-y-s !default;
 
-$filter-toggle-mode-items-hint-offset-inner: 0 $offset-x-m !default;
 $filter-toggle-mode-open-filter-criteria-selector-border-bottom-color: transparent !default;
-
-$filter-manager-toggle-mode-trigger-side-offset: $offset-x-m !default;
-$filter-manager-toggle-mode-trigger-offset: 0 $filter-manager-toggle-mode-trigger-side-offset !default;
-$filter-manager-toggle-mode-trigger-font: $base-font-size $base-font !default;
 
 $filter-manager-tablet-toggle-mode-filter-date-range-width: 100% !default;
 

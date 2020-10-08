@@ -26,6 +26,7 @@ styles:
         - 'bundles/orofrontend/blank/scss/variables/filters/filters-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/filters/filters-dropdown-mode-config.scss'
         - 'bundles/orofrontend/blank/scss/variables/filters/filters-toggle-mode-config.scss'
+        - 'bundles/orofrontend/blank/scss/variables/filters/filters-fullscreen-popup-mode-config.scss'
 
         - 'bundles/orofrontend/blank/scss/variables/select2/select2-container-config.scss'
 
