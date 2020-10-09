@@ -13,7 +13,7 @@ define(function(require, exports, module) {
     config = _.extend({
         filtersPopupOptions: {},
         filtersManagerPopupOptions: {},
-        hidePreviousOpenFilters: false,
+        autoClose: false,
         showCounterBadge: false
     }, config);
 
@@ -152,7 +152,11 @@ define(function(require, exports, module) {
 
                 this.closeEmptyFilters();
 
-                this.datagrid.filterManager.hidePreviousOpenFilters = config.hidePreviousOpenFilters;
+                this.datagrid.filterManager.autoClose = config.autoClose;
+                if (config.autoClose === false) {
+                    Object.values(this.datagrid.filterManager.filters)
+                        .forEach(filter => filter.autoClose = config.autoClose);
+                }
             }, this);
 
             this.fullscreenView.on('close', function() {

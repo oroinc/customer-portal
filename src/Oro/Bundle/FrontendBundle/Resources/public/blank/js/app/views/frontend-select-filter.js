@@ -118,7 +118,7 @@ define(function(require, exports, module) {
         reset: function() {
             FrontendSelectFilter.__super__.reset.call(this);
 
-            if (this.isToggleMode()) {
+            if (this.isToggleMode() && this.autoClose !== false) {
                 this.selectDropdownOpened = true;
                 this.toggleFilter();
             }
