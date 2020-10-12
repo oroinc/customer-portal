@@ -236,13 +236,7 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
             $repository->findOneBy(['role' => 'ROLE_FRONTEND_ADMINISTRATOR'])
         );
 
-        $roles = [
-            static::ROLE_BASIC => ['VIEW_BASIC', 'CREATE_BASIC', 'EDIT_BASIC', 'DELETE_BASIC'],
-            static::ROLE_LOCAL => ['VIEW_LOCAL', 'CREATE_LOCAL', 'EDIT_LOCAL', 'DELETE_LOCAL', 'ASSIGN_LOCAL'],
-            static::ROLE_LOCAL_VIEW_ONLY => ['VIEW_LOCAL'],
-            static::ROLE_DEEP => ['VIEW_DEEP', 'CREATE_DEEP', 'EDIT_DEEP', 'DELETE_DEEP', 'ASSIGN_DEEP'],
-            static::ROLE_DEEP_VIEW_ONLY => ['VIEW_DEEP'],
-        ];
+        $roles = $this->getRolesAndPermissions();
 
         foreach ($roles as $key => $permissions) {
             if (!in_array($key, $this->getSupportedRoles())) {
@@ -268,6 +262,20 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
 
         $manager->flush();
         $this->getAclManager()->flush();
+    }
+
+    /**
+     * @return array
+     */
+    protected function getRolesAndPermissions(): array
+    {
+        return [
+            static::ROLE_BASIC => ['VIEW_BASIC', 'CREATE_BASIC', 'EDIT_BASIC', 'DELETE_BASIC'],
+            static::ROLE_LOCAL => ['VIEW_LOCAL', 'CREATE_LOCAL', 'EDIT_LOCAL', 'DELETE_LOCAL', 'ASSIGN_LOCAL'],
+            static::ROLE_LOCAL_VIEW_ONLY => ['VIEW_LOCAL'],
+            static::ROLE_DEEP => ['VIEW_DEEP', 'CREATE_DEEP', 'EDIT_DEEP', 'DELETE_DEEP', 'ASSIGN_DEEP'],
+            static::ROLE_DEEP_VIEW_ONLY => ['VIEW_DEEP'],
+        ];
     }
 
     /**
