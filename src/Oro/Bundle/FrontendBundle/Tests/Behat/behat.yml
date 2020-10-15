@@ -81,7 +81,7 @@ oro_behat_extension:
           Value Selectors: 'theme[oro_frontend___filter_value_selectors][value]'
     Filter By Step:
       selector:
-        locator: '//div[@class="filter-item"]/div[contains(text(), "Filter By Step")]'
+        locator: '//div[@class="filter-item"]/div/span[contains(text(), "Filter By Step")]'
         type: 'xpath'
     Filter Checkboxes:
       selector: ".datagrid-manager .ui-multiselect-checkboxes .datagrid-manager__list-item"

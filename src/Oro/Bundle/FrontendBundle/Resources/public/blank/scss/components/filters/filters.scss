@@ -68,6 +68,7 @@
 
     .filter-criteria-hint-label {
         vertical-align: middle;
+        padding-#{$end}: $filter-criteria-hint-label-offset-end;
     }
 
     .filter-criteria-hint {

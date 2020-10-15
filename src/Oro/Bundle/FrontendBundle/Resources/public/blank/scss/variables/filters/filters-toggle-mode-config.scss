@@ -22,6 +22,9 @@ $filter-toggle-mode-criteria-hint-item-offset: 0 $offset-y-m $filter-toggle-mode
 $filter-toggle-mode-criteria-hint-item-offset-inner: $filter-dropdown-mode-criteria-hint-item-offset-inner !default;
 $filter-toggle-mode-criteria-hint-item-border-radius: $filter-dropdown-mode-criteria-hint-item-border-radius !default;
 
+$filter-toggle-mode-filter-extra-hint-offset: 6px !default;
+$filter-toggle-mode-filter-extra-hint-color: get-color('additional', 'middle') !default;
+
 $filter-toggle-mode-reset-filter-button-inner-offset: 0 !default;
 
 $filter-toggle-mode-start-end-max-width: calc(50% - #{$filter-separator-width / 2}) !default;

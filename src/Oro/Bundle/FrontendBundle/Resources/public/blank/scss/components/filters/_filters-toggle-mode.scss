@@ -22,6 +22,9 @@
     }
 
     .filter-criteria-selector {
+        display: flex;
+        flex-direction: row;
+        align-content: space-between;
         padding: $filter-toggle-mode-criteria-selector-offset-inner;
 
         border-bottom: $filter-toggle-mode-criteria-selector-border-bottom;
@@ -113,7 +116,38 @@
         }
     }
 
+    .filter-extra-hint {
+        display: none;
+        max-width: 30%;
+        padding-#{$start}: $filter-toggle-mode-filter-extra-hint-offset;
+        padding-#{$end}: $filter-toggle-mode-filter-extra-hint-offset;
+        margin-left: auto;
+
+        color: $filter-toggle-mode-filter-extra-hint-color;
+
+        &:not(:empty) {
+            display: flex;
+        }
+    }
+
+    .filter-extra-hint-text {
+        display: block;
+        max-width: 100%;
+
+        @include ellipsis();
+    }
+
+    .filter-item-label {
+        display: inline-block;
+
+        @include ellipsis();
+    }
+
     .open-filter {
+        .filter-extra-hint {
+            display: none;
+        }
+
         .filter-criteria-selector {
             border-bottom-color: $filter-toggle-mode-open-filter-criteria-selector-border-bottom-color;
         }
