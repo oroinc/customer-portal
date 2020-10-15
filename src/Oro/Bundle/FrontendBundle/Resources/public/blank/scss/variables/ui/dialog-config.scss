@@ -51,10 +51,10 @@ $dialog-frontend-fullscreen-titlebar-display: none !default;
 $dialog-frontend-fullscreen-content-offset-inner: 0 12px !default;
 
 // mobile-landscape
-$dialog-widget-content-offset-inner-mobile-landscape: 0 $offset-x !default;
+$dialog-widget-content-offset-inner-mobile-landscape: 4px $offset-x !default;
 
-$dialog-titlebar-offset-inner-mobile-landscape: 40px $offset-x $offset-y !default;
+$dialog-titlebar-offset-inner-mobile-landscape: 40px $offset-x 12px !default;
 
-$dialog-buttonpane-offset-inner-mobile-landscape: 20px $offset-x !default;
+$dialog-buttonpane-offset-inner-mobile-landscape: $offset-y $offset-x  20px !default;
 
 $dialog-frontend-fullscreen-content-offset-inner-mobile-landscape: 0 12px !default;
