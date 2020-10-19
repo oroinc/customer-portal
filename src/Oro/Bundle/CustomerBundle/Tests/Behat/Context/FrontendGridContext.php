@@ -94,7 +94,7 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     }
 
     /**
-     * Example: I mark Set as Default on grid view for "TestGrid" grid on frontend
+     * Example: I switch to "gridview1" grid view in frontend grid
      *
      * @Given /^(?:I )?switch to "(?P<gridViewName>([^"]+))" grid view in frontend grid$/
      * @Given /^(?:I )?switch to "(?P<gridViewName>([^"]+))" grid view in "(?P<gridName>([\w\s]+))" frontend grid$/
