@@ -99,7 +99,6 @@
     &--frontend {
         &-fullscreen {
             position: $dialog-frontend-fullscreen-position;
-            padding-top: $dialog-frontend-fullscreen-offset-inner-top;
 
             .ui-dialog-titlebar,
             .ui-dialog-buttonpane {
