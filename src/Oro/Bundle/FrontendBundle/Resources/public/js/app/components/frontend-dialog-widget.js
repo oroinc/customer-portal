@@ -123,6 +123,17 @@ define(function(require) {
         /**
          * @inheritDoc
          */
+        isEmbedded: function() {
+            if (this.fullscreenMode) {
+                return true;
+            }
+
+            return FrontendDialogWidget.__super__.isEmbedded.call(this);
+        },
+
+        /**
+         * @inheritDoc
+         */
         dispose: function() {
             if (this.disposed) {
                 return;
