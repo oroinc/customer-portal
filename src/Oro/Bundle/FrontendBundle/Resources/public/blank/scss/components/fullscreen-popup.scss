@@ -18,6 +18,7 @@
 
     &__header {
         display: $fullscreen-popup-header-display;
+        flex-wrap: wrap;
         align-items: $fullscreen-popup-header-align-items;
 
         position: $fullscreen-popup-header-position;
