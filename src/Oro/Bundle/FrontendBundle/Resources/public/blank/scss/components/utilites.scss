@@ -5,6 +5,10 @@
     display: none !important; // override inline styles
 }
 
+.invisible {
+    opacity: 0;
+}
+
 .disabled {
     @include base-disabled-style();
 }
