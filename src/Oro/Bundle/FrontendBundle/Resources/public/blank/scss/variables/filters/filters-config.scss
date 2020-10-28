@@ -40,3 +40,11 @@ $filter-box-dropdown-mode-use-corner: true !default;
 $filter-box-dropdown-mode-corner-position-r: 15px !default;
 $filter-box-dropdown-mode-corner-position-b: 100% !default;
 $filter-box-dropdown-mode-corner-size: 8px !default;
+
+$filter-box-apply-offset: 8px !default;
+$filter-box-apply-background-color: get-color('additional', 'ultra') !default;
+$filter-box-apply-border: 1px solid get-color('additional', 'middle') !default;
+$filter-box-apply-arrow-height: 18px !default;
+$filter-box-apply-arrow-width: 19px !default;
+$filter-box-apply-arrow-box-shadow: 0 0 0 1px get-color('additional', 'middle') !default;
+$filter-box-apply-arrow-placeholder: 10px !default;

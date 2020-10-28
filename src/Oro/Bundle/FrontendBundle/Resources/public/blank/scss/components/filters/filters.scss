@@ -175,6 +175,24 @@
     &.in-sticky {
         margin: $filter-box-dropdown-mode-in-sticky-offset;
     }
+
+    .apply-filters {
+        z-index: z('dropdown') - 5;
+
+        padding: $filter-box-apply-offset;
+        box-shadow: 0 2px 6px 1px rgba(0, 0, 0, .12);
+        background-color: $filter-box-apply-background-color;
+        border: $filter-box-apply-border;
+        border-radius: $border-radius;
+
+
+        @include flexible-arrow(
+            $arrow-height: $filter-box-apply-arrow-height,
+            $arrow-width: $filter-box-apply-arrow-width,
+            $arrow-box-shadow: $filter-box-apply-arrow-box-shadow,
+            $arrow-placeholder: $filter-box-apply-arrow-placeholder
+        );
+    }
 }
 
 @include only-mobile() {
