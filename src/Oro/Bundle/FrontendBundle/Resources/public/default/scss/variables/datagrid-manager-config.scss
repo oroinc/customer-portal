@@ -2,9 +2,7 @@
 
 $datagrid-manager-dropdown-menu-border-radius: $base-ui-element-border-radius;
 
-$datagrid-manager-dropdown-menu-border: 1px solid darken(get-color('additional', light), 4%);
 $datagrid-manager-dropdown-menu-border-radius: 0;
-$datagrid-manager-dropdown-menu-box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
 $datagrid-manager-dropdown-menu-color: get-color('additional', 'dark');
 
 // Full Screen mode

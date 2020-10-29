@@ -13,8 +13,12 @@
 }
 
 .filter-criteria-selector-icon {
+    width: $filter-criteria-selector-icon-width;
+    height: $filter-criteria-selector-icon-height;
+    text-align: $filter-criteria-selector-icon-text-align;
     transition: all linear 250ms;
     color: $filter-criteria-selector-icon-color;
+    display: $filter-criteria-selector-icon-display;
 }
 
 .filter-date-range {
@@ -87,12 +91,16 @@
         vertical-align: middle;
 
         .dropdown-toggle {
+            background-color: $filter-trigger-wrapper-dropdown-toggle-background-color;
             color: $filter-trigger-wrapper-dropdown-toggle-color;
+            border-color: $filter-trigger-wrapper-dropdown-toggle-border-color;
+            box-shadow: $filter-trigger-wrapper-dropdown-toggle-box-shadow;
 
             &:active,
             &.active,
             &:not(.disabled):active,
             &:not(.disabled).active {
+                background-color: $filter-trigger-wrapper-dropdown-toggle-background-color;
                 color: $filter-trigger-wrapper-dropdown-toggle-color;
             }
         }
@@ -126,10 +134,20 @@
         }
     }
 
+    .filter-value-range {
+        display: $filter-value-range-display;
+        align-items: $filter-value-range-align-items;
+        justify-content: $filter-value-range-justify-content;
+    }
+
     .filter-start,
     .filter-end {
         display: $filter-start-end-display;
-        max-width: $filter-start-end-max-width;
+        width: $filter-start-end-width;
+    }
+
+    .datepicker-box__icon {
+        top: $filter-datepicker-box-icon-top;
     }
 
     .filter-action-row {
@@ -138,17 +156,6 @@
 
     .dropdown-menu-calendar {
         min-width: $filter-dropdown-menu-calendar-max-width;
-    }
-
-    .select2-container {
-        @include base-ui-element(
-            $use-base-style: true,
-            $padding: $filter-dropdown-menu-select2-container-inner-offset
-        );
-
-        display: block;
-
-        background: transparent;
     }
 
     &.dropdown-mode {

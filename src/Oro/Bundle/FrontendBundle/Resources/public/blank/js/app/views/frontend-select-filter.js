@@ -78,7 +78,7 @@ define(function(require, exports, module) {
         render: function() {
             if (this.isToggleMode()) {
                 this.widgetOptions = _.defaults(this.widgetOptions, {
-                    hideHeader: true,
+                    hideHeader: false,
                     additionalClass: false
                 });
             }

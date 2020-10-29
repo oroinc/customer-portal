@@ -4,6 +4,19 @@
     .filter-box {
         padding: $offset-y-m 0;
     }
+
+    .filter-criteria-selector {
+        padding: $filter-fullscreen-popup-mode-criteria-selector-offset-inner;
+    }
+
+    .filter-criteria {
+        padding: $filter-fullscreen-popup-mode-criteria-offset-inner;
+    }
+
+    .filter-criteria-selector-icon-wrap {
+        right: $filter-fullscreen-popup-mode-criteria-selector-icon-right-pos;
+    }
+
     .reset-filter-button {
         width: $filter-fullscreen-popup-mode-reset-filter-button-width;
         padding: $filter-fullscreen-popup-mode-reset-filter-button-offset-inner;

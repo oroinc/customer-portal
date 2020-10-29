@@ -3,6 +3,9 @@
 @import "npmassets/bootstrap/scss/dropdown";
 
 .dropdown-menu {
+    @if not $enable-shadows {
+        box-shadow: $dropdown-box-shadow;
+    }
 
     &[x-adjusted-height] {
         overflow-y: auto;
@@ -19,7 +22,7 @@
     }
 }
 
-.dropdown-toggle{
+.dropdown-toggle {
     &--no-caret:after {
         content: none;
     }

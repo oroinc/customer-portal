@@ -9,7 +9,8 @@ define(function(require, exports, module) {
 
     config = $.extend(true, {
         hideHeader: false,
-        themeName: 'default'
+        themeName: 'default',
+        additionalClass: true
     }, config);
 
     const FrontendManageFiltersDecorator = function(options) {
@@ -34,7 +35,7 @@ define(function(require, exports, module) {
         /**
          * @inheritDoc
          */
-        desingConfiguration: config,
+        parameters: config,
 
         /**
          * @inheritDoc

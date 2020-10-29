@@ -18,16 +18,30 @@
             overflow: visible !important;
             height: auto !important;
             max-height: none !important;
+            padding: 0;
         }
     }
 
-    .filter-criteria-selector {
-        display: flex;
-        flex-direction: row;
-        align-content: space-between;
-        padding: $filter-toggle-mode-criteria-selector-offset-inner;
+    .datagrid-manager-search {
+        margin-top: $filter-toggle-mode-datagrid-manager-search-offset-top;
+        margin-bottom: $filter-toggle-mode-datagrid-manager-search-offset-bottom;
+    }
 
-        border-bottom: $filter-toggle-mode-criteria-selector-border-bottom;
+    .product-price-filter {
+        margin-top: $filter-toggle-mode-product-price-filter-offset-top;
+        padding-left: $filter-toggle-mode-product-price-filter-inner-offset-left;
+    }
+
+    .product-price-unit-filter-separator {
+        display: $filter-toggle-mode-unit-filter-separator-display;
+    }
+
+    .filter-criteria-selector {
+        display: $filter-toggle-mode-criteria-selector-display;
+        flex-direction: $filter-toggle-mode-criteria-selector-flex-direction;
+        align-content: $filter-toggle-mode-criteria-selector-align-content;
+        align-items: $filter-toggle-mode-criteria-selector-align-items;
+        padding: $filter-toggle-mode-criteria-selector-offset-inner;
         color: $filter-toggle-mode-criteria-selector-color;
     }
 
@@ -37,9 +51,10 @@
     }
 
     .filter-criteria-selector-icon {
-        &:last-child {
-            display: none;
-        }
+        font-size: $filter-toggle-mode-criteria-selector-icon-font-size;
+        line-height: $filter-toggle-mode-criteria-selector-icon-line-height;
+
+        @include fa-icon($filter-toggle-mode-criteria-selector-icon-fa-icon);
     }
 
     .fields-row {
@@ -48,7 +63,9 @@
 
     .filter-item {
         // fix after filter enabling, using Filter manager
-        width: 100%;
+        width: $filter-toggle-mode-filter-item-width;
+        padding: $filter-toggle-mode-filter-item-padding;
+        border-bottom: $filter-toggle-mode-filter-item-border-bottom;
     }
 
     .filter-items {
@@ -103,9 +120,8 @@
 
     .filter-criteria {
         display: none;
+        margin-top: $filter-toggle-mode-criteria-offset-top;
         padding: $filter-toggle-mode-criteria-offset-inner;
-
-        border-bottom: $filter-toggle-mode-criteria-border-bottom;
 
         .value-field-frame {
             width: $filter-toggle-mode-criteria-value-field-frame-width;
@@ -138,6 +154,7 @@
     }
 
     .filter-item-label {
+        font-size: $filter-toggle-mode-filter-item-label-font-size;
         display: inline-block;
 
         @include ellipsis();
@@ -148,18 +165,8 @@
             display: none;
         }
 
-        .filter-criteria-selector {
-            border-bottom-color: $filter-toggle-mode-open-filter-criteria-selector-border-bottom-color;
-        }
-
         .filter-criteria-selector-icon {
-            &:first-child {
-                display: none;
-            }
-
-            &:last-child {
-                display: block;
-            }
+            transform: $filter-toggle-mode-open-filter-criteria-selector-icon-transform;
         }
 
         .filter-criteria {
@@ -170,93 +177,33 @@
     .data-filter-choice,
     .choice-filter {
         display: flex;
+        flex-direction: column;
     }
 
     .filter-select-oro-wrapper,
     .value-field-frame,
     .filter-date-range {
-        width: 50%;
+        width: 100%;
+        display: block;
     }
 
     .filter-select-oro-wrapper {
-        padding-right: $offset-x-m;
+        margin-bottom: 12px;
     }
 
-    .value-field-frame {
-        padding-left: $offset-x-m;
+    .filter-start-date {
+        margin-bottom: 12px;
+    }
+
+    .filter-start-date,
+    .filter-end-date {
+        width: 100%;
     }
 
     &.in-sticky {
         .filter-items-hint {
             padding-top: $filter-toggle-mode-in-sticky-criteria-hint-item-offset;
             padding-bottom: $filter-toggle-mode-in-sticky-criteria-hint-item-offset-inner;;
-        }
-    }
-}
-
-@include breakpoint('tablet') {
-    .toggle-mode {
-        .value-field-frame,
-        .filter-date-range {
-            width: $filter-manager-tablet-toggle-mode-filter-date-range-width;
-        }
-
-        .value-field-frame {
-            padding-left: 0;
-        }
-
-        .datepicker-input,
-        .timepicker-input {
-            white-space: nowrap;
-        }
-    }
-}
-
-@include breakpoint('mobile-landscape') {
-    .toggle-mode {
-        .filter-select-oro-wrapper {
-            width: $filter-manager-mobile-landscape-toggle-mode-filter-select-oro-wrapper-width;
-        }
-
-        .value-field-frame,
-        .filter-date-range {
-            width: $filter-manager-mobile-landscape-toggle-mode-filter-date-range-width;
-        }
-    }
-}
-
-@include breakpoint('mobile') {
-    .toggle-mode {
-        .data-filter-choice,
-        .choice-filter {
-            flex-direction: column;
-        }
-
-        .filter-select-oro-wrapper,
-        .value-field-frame,
-        .filter-date-range {
-            width: $filter-manager-mobile-toggle-mode-filter-date-range-width;
-            display: $filter-manager-mobile-toggle-mode-filter-date-range-display;
-        }
-
-        .filter-start-date {
-            margin-bottom: $offset-y;
-        }
-
-        .filter-start-date,
-        .filter-end-date {
-            width: $filter-manager-mobile-toggle-mode-filter-date-width;
-        }
-
-        .filter-date-range {
-            .filter-separator {
-                display: $filter-manager-mobile-toggle-mode-filter-separator-display;
-            }
-        }
-
-        .filter-select-oro-wrapper {
-            padding-right: 0;
-            margin-bottom: $offset-y
         }
     }
 }

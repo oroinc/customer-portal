@@ -124,9 +124,7 @@
         min-width: inherit !important;
         padding: $datagrid-manager-dropdown-menu-inner-offset;
 
-        border: $datagrid-manager-dropdown-menu-border;
         border-radius: $datagrid-manager-dropdown-menu-border-radius;
-        box-shadow: $datagrid-manager-dropdown-menu-box-shadow;
         color: $datagrid-manager-dropdown-menu-color;
 
         @extend .dropdown-menu-right;

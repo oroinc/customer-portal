@@ -1,14 +1,35 @@
 /* @theme: blank; */
 
 $filter-toggle-mode-fields-row-min-width: 100% !default;
-$filter-toggle-mode-criteria-offset-inner: 0 $offset-x $offset-y-m !default;
-$filter-toggle-mode-criteria-border-bottom: 1px solid get-color('additional', 'light') !default;
+
+$filter-toggle-mode-filter-item-width: 100% !default;
+$filter-toggle-mode-filter-item-padding: $offset-y-m 0 !default;
+$filter-toggle-mode-filter-item-border-bottom: 1px solid get-color('additional', 'light') !default;
+
+$filter-toggle-mode-criteria-offset-top: -12px !default;
+$filter-toggle-mode-criteria-offset-inner: 12px 0 !default;
 $filter-toggle-mode-criteria-value-field-frame-width: 100% !default;
-$filter-toggle-mode-criteria-selector-offset-inner: $offset-y 35px $offset-y $offset-x !default;
-$filter-toggle-mode-criteria-selector-border-bottom: 1px solid get-color('additional', 'light') !default;
+
+$filter-toggle-mode-datagrid-manager-search-offset-top: 0 !default;
+$filter-toggle-mode-datagrid-manager-search-offset-bottom: 8px !default;
+
+$filter-toggle-mode-product-price-filter-offset-top: 12px !default;
+$filter-toggle-mode-product-price-filter-inner-offset-left: 0 !default;
+
+$filter-toggle-mode-unit-filter-separator-display: none !default;
+
+$filter-toggle-mode-criteria-selector-display: flex !default;
+$filter-toggle-mode-criteria-selector-flex-direction: row !default;
+$filter-toggle-mode-criteria-selector-align-content: space-between !default;
+$filter-toggle-mode-criteria-selector-align-items: baseline !default;
+$filter-toggle-mode-criteria-selector-offset-inner: 12px $offset-x 12px 0 !default;
 $filter-toggle-mode-criteria-selector-color: get-color('additional', 'dark') !default;
-$filter-toggle-mode-criteria-selector-icon-top-pos: 18px !default;
-$filter-toggle-mode-criteria-selector-icon-right-pos: 15px !default;
+$filter-toggle-mode-criteria-selector-icon-top-pos: 13px !default;
+$filter-toggle-mode-criteria-selector-icon-right-pos: 0 !default;
+
+$filter-toggle-mode-criteria-selector-icon-fa-icon: $fa-var-angle-right !default;
+$filter-toggle-mode-criteria-selector-icon-font-size: $base-font-size--large !default;
+$filter-toggle-mode-criteria-selector-icon-line-height: 1 !default;
 
 $filter-toggle-mode-items-hint-offset-top: $offset-y-s !default;
 $filter-toggle-mode-items-hint-offset-bottom: 12px !default;
@@ -21,6 +42,8 @@ $filter-toggle-mode-criteria-hint-item-offset-bottom: $offset-y-s !default;
 $filter-toggle-mode-criteria-hint-item-offset: 0 $offset-y-m $filter-toggle-mode-criteria-hint-item-offset-bottom 0 !default;
 $filter-toggle-mode-criteria-hint-item-offset-inner: $filter-dropdown-mode-criteria-hint-item-offset-inner !default;
 $filter-toggle-mode-criteria-hint-item-border-radius: $filter-dropdown-mode-criteria-hint-item-border-radius !default;
+
+$filter-toggle-mode-filter-item-label-font-size: $base-font-size--large !default;
 
 $filter-toggle-mode-filter-extra-hint-offset: 6px !default;
 $filter-toggle-mode-filter-extra-hint-color: get-color('additional', 'middle') !default;
@@ -35,16 +58,4 @@ $filter-toggle-mode-timepicker-input-max-width: calc(40% - #{$offset-y-s}) !defa
 $filter-toggle-mode-timepicker-input-width: 100% !default;
 $filter-toggle-mode-timepicker-input-offset-left: $offset-y-s !default;
 
-$filter-toggle-mode-open-filter-criteria-selector-border-bottom-color: transparent !default;
-
-$filter-manager-tablet-toggle-mode-filter-date-range-width: 100% !default;
-
-$filter-manager-mobile-landscape-toggle-mode-filter-select-oro-wrapper-width: 30% !default;
-$filter-manager-mobile-landscape-toggle-mode-filter-date-range-width: 70% !default;
-
-$filter-manager-mobile-toggle-mode-filter-date-range-width: 100% !default;
-$filter-manager-mobile-toggle-mode-filter-date-range-display: block !default;
-
-$filter-manager-mobile-toggle-mode-filter-date-width: 100% !default;
-
-$filter-manager-mobile-toggle-mode-filter-separator-display: none !default;
+$filter-toggle-mode-open-filter-criteria-selector-icon-transform: rotate(90deg) !default;

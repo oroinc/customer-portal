@@ -6,6 +6,12 @@ $filter-fullscreen-popup-mode-criteria-hint-item-border-radius: null !default;
 
 $filter-fullscreen-popup-mode-items-hint-offset-inner: 0 $offset-x-m !default;
 
+$filter-fullscreen-popup-mode-criteria-selector-offset-inner: 12px ($offset-x * 2) 12px $offset-x !default;
+
+$filter-fullscreen-popup-mode-criteria-offset-inner: 12px $offset-x !default;
+
+$filter-fullscreen-popup-mode-criteria-selector-icon-right-pos: $offset-x !default;
+
 $filter-fullscreen-popup-mode-mode-trigger-side-offset: $offset-x-m !default;
 $filter-manager-fullscreen-popup-mode-trigger-offset: 0 $filter-fullscreen-popup-mode-mode-trigger-side-offset !default;
 $filter-manager-fullscreen-popup-mode-trigger-font: $base-font-size $base-font !default;
