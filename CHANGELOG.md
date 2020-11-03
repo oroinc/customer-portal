@@ -2,6 +2,13 @@ Please refer first to [UPGRADE.md](UPGRADE.md) for the most important items that
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+## 4.1.10
+### Removed
+
+#### FrontendBundle
+* Removed the `orofrontend/js/app/views/object-fit-polyfill-view.js` component.
+* Removed the `orofrontend/default/scss/variables/page-sidebar-config.scss` while refactoring the sidebar.
+
 ## 4.1.1 (2020-02-25)
 [Show detailed list of changes](incompatibilities-4-1-1.md)
 
