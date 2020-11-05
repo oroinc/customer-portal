@@ -1,5 +1,6 @@
 aliases:
     orofrontend/js/app/filter-count-helper$: orofrontend/blank/js/app/filter-count-helper
+    orofrontend/js/app/views/frontend-abstract-filter$: orofrontend/blank/js/app/views/frontend-abstract-filter
     orofrontend/js/app/views/frontend-multiselect-filter$: orofrontend/blank/js/app/views/frontend-multiselect-filter
     orofrontend/js/app/views/frontend-search-boolean-filter$: orofrontend/blank/js/app/views/frontend-search-boolean-filter
     orofrontend/js/app/views/frontend-select-filter$: orofrontend/blank/js/app/views/frontend-select-filter
@@ -11,6 +12,7 @@ app-modules:
     - orofrontend/js/app/modules/component-shortcuts-module
     - orofrontend/js/app/modules/inline-editor-types-map-module
 configs:
+    orofrontend/blank/js/app/views/frontend-abstract-filter: {}
     orofrontend/blank/js/app/views/frontend-select-filter: {}
     orofrontend/default/js/app/views/scroll-top-view: {}
     orofrontend/js/app/components/frontend-datagrid-component: {}
@@ -62,6 +64,7 @@ dynamic-imports:
 map:
     "*":
         oro/datagrid/cell/action-cell: orofrontend/js/datagrid/cell/frontend-action-cell
+        oro/filter/abstract-filter: orofrontend/blank/js/app/views/frontend-abstract-filter
         oro/filter/choice-filter: orofrontend/default/js/app/views/choice-filter
         oro/filter/multiselect-filter: orofrontend/js/app/views/frontend-multiselect-filter
         oro/filter/search-boolean-filter: orofrontend/js/app/views/frontend-search-boolean-filter
@@ -95,6 +98,8 @@ map:
         orofilter/js/plugins/filters-toggle-plugin: orofilter/js/plugins/filters-toggle-plugin
     orofrontend/js/app/plugins/frontend-datagrid-settings-plugin:
         orodatagrid/js/app/plugins/grid/datagrid-settings-plugin: orodatagrid/js/app/plugins/grid/datagrid-settings-plugin
+    orofrontend/blank/js/app/views/frontend-abstract-filter:
+        oro/filter/abstract-filter: oro/filter/abstract-filter
     orofrontend/js/app/views/frontend-multiselect-filter:
         oro/filter/multiselect-filter: oro/filter/multiselect-filter
     orofrontend/js/app/views/frontend-search-boolean-filter:
