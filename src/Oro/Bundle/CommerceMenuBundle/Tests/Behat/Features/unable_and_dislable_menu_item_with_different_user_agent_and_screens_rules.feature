@@ -1,7 +1,9 @@
 @regression
 @ticket-BB-9559
 Feature: Unable and dislable menu item with different User Agent and screens rules
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
+  In order to selectively hide some menu items on smaller screens
+  As an Adminstrator
+  I want when managing frontend menus to specify on which screens size a specific menu item should or should not be shown
 
   Scenario: Create different window session
     Given sessions active:

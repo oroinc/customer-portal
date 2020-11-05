@@ -1,6 +1,8 @@
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Update customer user roles
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
+  As an Administrator
+  I want be sure
+  That user without permission could not edit own roles
 
   Scenario: Customer user able to update his roles
     Given sessions active:
