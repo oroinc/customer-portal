@@ -3,7 +3,9 @@
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Price lists must be sortable in customerGroup create\view page
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
+  In order to easily rearrange price list priorities
+  As an Administrator
+  I want to drag-n-drop price lists to sort them in the system configuration, on the customer group and customer edit pages
 
   Scenario: Changing Price List Priorities In Customers
     Given I login as administrator
