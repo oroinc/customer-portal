@@ -3,7 +3,9 @@
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Customer user roles removing last role
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
+  In order to check user roles permitions
+  As an Administrator
+  I want to be sure that it is impossible to remove last user role
 
   Scenario: Customer user role create
     Given I login as administrator

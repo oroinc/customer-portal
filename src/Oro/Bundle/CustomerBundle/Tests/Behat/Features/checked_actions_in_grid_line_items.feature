@@ -1,6 +1,6 @@
 @fixture-OroCustomerBundle:ActionsInGridLineItemsFixture.yml
 Feature: Checked actions in grid line items
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
+
     # Pay attention to:
     # fonts and spacing
     # total records
