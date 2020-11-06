@@ -1,6 +1,5 @@
 @fixture-OroCustomerBundle:FrontendGridViewsFixture.yml
 Feature: Frontend Grid Views
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
   #Implement frontend grid views.
   #The functionality should work exactly like in the admin.
   #Also we should remember current grid state (filters, sorters, etc) for each page, and restore it when the user comes back to this page again.

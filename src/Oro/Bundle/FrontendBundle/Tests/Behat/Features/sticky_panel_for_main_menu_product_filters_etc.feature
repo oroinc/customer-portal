@@ -2,7 +2,9 @@
 @automatically-ticket-tagged
 @fixture-OroFrontendBundle:Products.yml
 Feature: Sticky panel for main menu, product filters etc
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
+  As a User
+  I want to be sure that sticky panel is visible
+  So I start check visibility on different screen resolutions
 
   Scenario: Check filters in sticky panel
     Given I login as AmandaRCole@example.org buyer

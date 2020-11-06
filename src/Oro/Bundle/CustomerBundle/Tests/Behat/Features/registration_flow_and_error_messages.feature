@@ -1,7 +1,6 @@
 @fix-BB-9401
 @automatically-ticket-tagged
 Feature: Registration flow and error messages
-  ToDo: BAP-16103 Add missing descriptions to the Behat features
 
   Scenario: Registration page is visible and after successful registration user should see correct message
     Given I am on homepage
