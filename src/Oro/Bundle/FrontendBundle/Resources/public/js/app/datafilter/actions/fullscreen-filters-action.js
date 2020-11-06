@@ -14,7 +14,8 @@ define(function(require, exports, module) {
         filtersPopupOptions: {},
         filtersManagerPopupOptions: {},
         autoClose: false,
-        showCounterBadge: false
+        showCounterBadge: false,
+        animationDuration: 300
     }, config);
 
     const FrontendFullScreenFiltersAction = ToggleFiltersAction.extend({
@@ -156,6 +157,11 @@ define(function(require, exports, module) {
                 if (config.autoClose === false) {
                     Object.values(this.datagrid.filterManager.filters)
                         .forEach(filter => filter.autoClose = config.autoClose);
+                }
+
+                if (config.animationDuration !== void 0) {
+                    Object.values(this.datagrid.filterManager.filters)
+                        .forEach(filter => filter.animationDuration = config.animationDuration);
                 }
             }, this);
 

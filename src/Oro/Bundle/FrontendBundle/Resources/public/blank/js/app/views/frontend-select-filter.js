@@ -40,6 +40,13 @@ define(function(require, exports, module) {
         containerSelector: '.filter-criteria-selector',
 
         /**
+         * Selector to criteria popup container
+         *
+         * @property {String}
+         */
+        criteriaSelector: '.filter-criteria',
+
+        /**
          * @property {Object}
          */
         listen: {
@@ -103,11 +110,11 @@ define(function(require, exports, module) {
 
         toggleFilter: function() {
             if (!this.selectDropdownOpened) {
-                this._setButtonPressed(this.$(this.containerSelector), true);
+                this._setButtonPressed(this.$(this.criteriaSelector), true);
                 this.selectWidget.multiselect('open');
                 this.selectDropdownOpened = true;
             } else {
-                this._setButtonPressed(this.$(this.containerSelector), false);
+                this._setButtonPressed(this.$(this.criteriaSelector), false);
                 this.selectDropdownOpened = false;
             }
         },
