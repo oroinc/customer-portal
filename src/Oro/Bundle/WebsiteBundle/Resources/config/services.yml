@@ -187,12 +187,6 @@ services:
             - ['disableUseDefaultFor', ['app', 'oro_website', 'url']]
             - ['disableUseDefaultFor', ['app', 'oro_website', 'secure_url']]
 
-    oro_website.repository.website:
-        class: 'Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository'
-        parent: oro_entity.abstract_repository
-        arguments:
-            - 'Oro\Bundle\WebsiteBundle\Entity\Website'
-
     oro_website.event_listener.redirect:
         class: 'Oro\Bundle\WebsiteBundle\EventListener\RedirectListener'
         arguments:
