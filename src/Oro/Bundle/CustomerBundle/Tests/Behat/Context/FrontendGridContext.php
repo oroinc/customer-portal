@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
+use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
 use Oro\Bundle\CustomerBundle\Tests\Behat\Element\FrontendGridColumnManager;
 use Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager;
@@ -138,6 +139,42 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     protected function getFrontendGrid($datagridName = null)
     {
         return $this->elementFactory->createElement($datagridName ?: 'FrontendDatagrid');
+    }
+
+    /**
+     * @When /^(?:|I )show the following columns in frontend grid:$/
+     * @When /^(?:|I )show the following columns in "(?P<datagridName>(?:[^"]|\\")*)" frontend grid:$/
+     *
+     * @param TableNode $table
+     * @param string|null $datagridName
+     */
+    public function checkColumnsOptionsFrontendDatagrid(TableNode $table, $datagridName = null)
+    {
+        /** @var FrontendGridColumnManager $columnManager */
+        $columnManager = $this->getFrontendGridColumnManager($datagridName);
+        $columnManager->open();
+        foreach ($table->getColumn(0) as $name) {
+            $columnManager->checkColumnVisibility($name);
+        }
+        $columnManager->close();
+    }
+
+    /**
+     * @When /^(?:|I )hide the following columns in frontend grid:$/
+     * @When /^(?:|I )hide the following columns in "(?P<datagridName>(?:[^"]|\\")*)" frontend grid:$/
+     *
+     * @param TableNode $table
+     * @param string|null $datagridName
+     */
+    public function uncheckColumnsOptionsFrontendDatagrid(TableNode $table, $datagridName = null)
+    {
+        /** @var FrontendGridColumnManager $columnManager */
+        $columnManager = $this->getFrontendGridColumnManager($datagridName);
+        $columnManager->open();
+        foreach ($table->getColumn(0) as $name) {
+            $columnManager->uncheckColumnVisibility($name);
+        }
+        $columnManager->close();
     }
 
     //@codingStandardsIgnoreStart
