@@ -4,19 +4,19 @@
 
 ### get
 
-Retrieve a specific <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
+Retrieve a specific customer user address record.
 
 {@inheritdoc}
 
 ### get_list
 
-Retrieve a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> records.
+Retrieve a collection of customer user address records.
 
 {@inheritdoc}
 
 ### create
 
-Create a new <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
+Create a new customer user address record.
 
 The created record is returned in the response.
 
@@ -87,7 +87,7 @@ Example:
 
 ### update
 
-Edit a specific <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
+Edit a specific customer user address record.
 
 The updated record is returned in the response.
 
@@ -153,13 +153,13 @@ Example:
 
 ### delete
 
-Delete a specific <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> record.
+Delete a specific customer user address record.
 
 {@inheritdoc}
 
 ### delete_list
 
-Delete a collection of <a href="https://www.oroinc.com/doc/orocommerce/current/user-guide/getting-started/common-actions/manage-address-book#user-guide-getting-started-address-book">customer user address</a> records.
+Delete a collection of customer user address records.
 
 {@inheritdoc}
 

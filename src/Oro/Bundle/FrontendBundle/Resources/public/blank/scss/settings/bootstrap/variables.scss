@@ -11,7 +11,7 @@ $input-btn-padding-y-sm: $offset-y-s;
 $input-btn-padding-y-lg: $offset-y-m;
 $nav-link-padding-y: 7px;
 $nav-link-padding-x: 14px;
-$nav-tabs-link-active-color-focus-visible: $base-ui-bth-focus-style !default;
+$nav-tabs-link-active-color-focus-visible: $base-ui-bth-focus-style;
 
 $dropdown-font-size: 1rem;
 $dropdown-color: get-color('additional', 'dark');
@@ -37,7 +37,7 @@ $btn-padding-x-l: 15px;
 
 $border-radius: 2px;
 $border-radius-xs: 3px;
-$border-radius-s: 6px;
+$border-radius-s: 4px;
 $border-radius-m: 2px;
 $border-radius-l: 2px;
 
@@ -46,10 +46,6 @@ $btn-border-radius-xs: $border-radius-xs;
 $btn-border-radius-s: $border-radius-s;
 $btn-border-radius-m: $border-radius-m;
 $btn-border-radius-l: $border-radius-l;
-
-$popover-font-size: .875rem;
-
-$tooltip-font-size: .875rem;
 
 // Z-index master list
 $zindex-dropdown-backdrop: z('dropdown');
@@ -93,3 +89,29 @@ $modal-footer-border-width:   $modal-header-border-width;
 $modal-lg:                    900px;
 $modal-md:                    600px;
 $modal-sm:                    300px;
+
+// Tooltips
+
+$tooltip-font-size: .875rem;
+
+// Popovers
+
+$popover-font-size: $base-font-size;
+$popover-bg: get-color('additional', 'ultra');
+$popover-max-width: 280px;
+$popover-border-width: 1px;
+$popover-border-color: get-color('additional', 'middle');
+$popover-border-radius: 4px;
+$popover-box-shadow: 0 2px 6px 1px rgba(get-color('additional', 'darker'), .12);
+$popover-header-bg: $popover-bg;
+$popover-header-color: get-color('additional', 'dark');
+$popover-header-padding-y: $offset-y;
+$popover-header-padding-x: $offset-x;
+$popover-body-color: $body-color;
+$popover-body-light-color: lighten(get-color('additional', 'dark'), 21%);
+$popover-body-padding-y: $popover-header-padding-y;
+$popover-body-padding-x: $popover-header-padding-x;
+$popover-arrow-width: 16px;
+$popover-arrow-height: 8px;
+$popover-arrow-color: $popover-bg;
+$popover-arrow-outer-color: $popover-border-color;

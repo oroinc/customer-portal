@@ -3,6 +3,10 @@
 @import "npmassets/bootstrap/scss/button-group";
 
 .btn-group {
+    .dropdown-toggle {
+        margin: auto;
+    }
+
     &--flex {
         display: flex;
     }

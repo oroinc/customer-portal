@@ -49,6 +49,8 @@ $btn-link-active-color: $btn-link-hover-color !default;
 $btn-link-active-border-color: transparent !default;
 
 $btn-link-disabled-pointer-events: none !default;
+$btn-link-disabled-background: transparent !default;
+$btn-link-disabled-border-color: transparent !default;
 
 // Plain button
 $btn-plain-inner-offset: 0 3px !default;

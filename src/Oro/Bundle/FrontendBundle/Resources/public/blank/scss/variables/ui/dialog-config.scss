@@ -1,16 +1,17 @@
 /* @theme: blank; */
 
-$dialog-min-height: 280px !default;
+$dialog-min-height: 220px !default;
 $dialog-widget-content-border-radius: 0 !default;
 
-$dialog-title-font-size: 22px !default;
+$dialog-title-font-size: $page-title-font-size !default;
+$dialog-title-line-height: $page-title-line-height !default;
 
-$dialog-widget-content-offset-inner: 0 40px !default;
+$dialog-widget-content-offset-inner: 4px 40px !default;
 $dialog-widget-content-bg-color: get-color('additional', 'ultra') !default;
 $dialog-widget-content-border: 0 !default;
 $dialog-widget-content-color: get-color('additional', 'dark') !default;
 
-$dialog-titlebar-offset-inner: 40px 40px $offset-y !default;
+$dialog-titlebar-offset-inner: 40px 40px 12px !default;
 $dialog-titlebar-font-weight: 400 !default;
 $dialog-titlebar-color: get-color('additional', 'dark') !default;
 $dialog-titlebar-background: transparent !default;
@@ -25,7 +26,7 @@ $dialog-titlebar-close-hover-opacity: .5 !default;
 $dialog-titlebar-buttonpane-top: 5px !default;
 $dialog-titlebar-buttonpane-right: 0 !default;
 
-$dialog-buttonpane-offset-inner: 20px 40px 30px !default;
+$dialog-buttonpane-offset-inner: 16px 40px 20px 30px !default;
 
 $dialog-action-wrapper-side-offset: $offset-x-m !default;
 
@@ -45,15 +46,14 @@ $dialog-btn-success-background: get-color('primary', 'base') !default;
 $dialog-btn-success-border: get-color('primary', 'base') !default;
 
 $dialog-frontend-fullscreen-position: static !default;
-$dialog-frontend-fullscreen-offset-inner-top: 20px !default;
 $dialog-frontend-fullscreen-titlebar-display: none !default;
 $dialog-frontend-fullscreen-content-offset-inner: 0 12px !default;
 
 // mobile-landscape
-$dialog-widget-content-offset-inner-mobile-landscape: 0 $offset-x !default;
+$dialog-widget-content-offset-inner-mobile-landscape: 4px $offset-x !default;
 
-$dialog-titlebar-offset-inner-mobile-landscape: 40px $offset-x $offset-y !default;
+$dialog-titlebar-offset-inner-mobile-landscape: 40px $offset-x 12px !default;
 
-$dialog-buttonpane-offset-inner-mobile-landscape: 20px $offset-x !default;
+$dialog-buttonpane-offset-inner-mobile-landscape: $offset-y $offset-x  20px !default;
 
 $dialog-frontend-fullscreen-content-offset-inner-mobile-landscape: 0 12px !default;

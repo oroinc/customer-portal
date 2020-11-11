@@ -3,6 +3,10 @@
 .customer-profile {
     margin-top: $customer-profile-container-offset-top;
 
+    &--no-offset {
+        margin-top: 0;
+    }
+
     &__container {
         display: $customer-profile-container-display;
     }
@@ -10,7 +14,6 @@
     &__data {
         padding: $customer-profile-data-offset-inner;
         width: $customer-profile-data-width;
-        border-top: $customer-profile-data-border-top;
     }
 
     &__controls-wrapper {
@@ -35,15 +38,30 @@
         }
     }
 
-    &__title-wrapper {
+    &__header {
         display: flex;
-
         flex-wrap: wrap;
+
+        border-bottom: $customer-profile-data-border;
+    }
+
+    &__title-wrapper {
+        display: inline-flex;
+        align-items: center;
+        flex-grow: 1;
+        max-width: 100%;
+    }
+
+    .page-title {
+        margin-bottom: 10px;
+    }
+
+    .page-title,
+    .page-subtitle {
+        flex-grow: 1;
     }
 
     .page-subtitle {
-        flex-grow: 1;
-
         margin-right: $offset-x;
     }
 }
@@ -67,6 +85,10 @@
 @include breakpoint('mobile') {
     .customer-profile {
         margin-top: $customer-profile-mobile-offset-top;
+
+        &--no-offset {
+            margin-top: 0;
+        }
 
         &__controls-wrapper {
             display: $customer-profile-mobile-controls-wrapper-display;

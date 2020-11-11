@@ -68,6 +68,10 @@ class ExceptionController extends BaseExceptionController
             }
         }
 
+        if ($exception instanceof \Throwable && !$exception instanceof \Exception) {
+            $exception = new \Exception($exception->getMessage(), $exception->getCode(), $exception);
+        }
+
         return parent::showAction($request, $exception, $logger);
     }
 

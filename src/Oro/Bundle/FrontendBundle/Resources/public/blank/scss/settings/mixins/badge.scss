@@ -13,6 +13,7 @@
     display: inline-block;
     vertical-align: middle;
     width: $badge-size;
+    min-width: $badge-size;
     height: $badge-size;
 
     text-align: center;

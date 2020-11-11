@@ -1,0 +1,12 @@
+/* @theme: blank; */
+
+.datagrid-toggle-pagination {
+    display: flex;
+    align-items: center;
+}
+
+@include breakpoint('mobile') {
+    .datagrid-toggle-pagination {
+        margin-left: auto;
+    }
+}

@@ -39,6 +39,16 @@
         display: none;
     }
 
+    .toggle-more,
+    .toggle-less {
+        display: none;
+    }
+
+    &.expanded .toggle-less,
+    &.overflows .toggle-more {
+        display: block;
+    }
+
     // Open widget
     &.expanded {
         .collapse-view {
@@ -79,7 +89,7 @@
             background: $collapse-view-trigger-background;
 
             &:after {
-                content: "";
+                content: '';
 
                 display: block;
 

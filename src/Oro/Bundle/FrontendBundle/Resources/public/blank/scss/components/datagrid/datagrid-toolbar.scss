@@ -44,14 +44,16 @@
             &:first-child {
                 position: relative;
 
-                flex-grow: 1;
+                &:not(.datagrid-tool--short) {
+                    flex-grow: 1;
+                }
             }
         }
     }
 
     &--offset {
         &-s {
-            margin: $offset-y-s 0;
+            margin: $offset-y 0 $offset-y-s;
         }
     }
 
@@ -182,7 +184,7 @@
 
         &__side,
         &__rightside {
-            flex: 0 0 auto;
+            flex: 0 0 100%;
             flex-wrap: nowrap;
 
             min-width: 0;

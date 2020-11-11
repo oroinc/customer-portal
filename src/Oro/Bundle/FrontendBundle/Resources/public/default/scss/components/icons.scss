@@ -26,7 +26,7 @@
     }
 
     &--gray {
-        color: lighten(get-color('additional', 'dark'), 17.5%);
+        color: lighten(get-color('additional', 'dark'), 21%);
     }
 
     &--dark-gray {
@@ -57,5 +57,12 @@
     &--link-l {
         font-size: $root-font-size;
         font-weight: bold;
+    }
+}
+
+.loader-in-process {
+    .fa--loader-icon {
+        @extend .fa-spinner;
+        @extend .fa-spin;
     }
 }

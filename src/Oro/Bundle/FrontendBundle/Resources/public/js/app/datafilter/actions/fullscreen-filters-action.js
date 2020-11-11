@@ -377,7 +377,7 @@ define(function(require, exports, module) {
             if (config.showCounterBadge) {
                 const self = this;
 
-                this.launcherInstanse.on('render', function() {
+                this.launcherInstance.on('render', function() {
                     this.$el.prepend(self.counterBadgeView.$el);
                 });
             }

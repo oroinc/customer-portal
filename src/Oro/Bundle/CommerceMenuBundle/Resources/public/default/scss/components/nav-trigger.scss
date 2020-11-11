@@ -80,11 +80,12 @@
         }
 
         & .cart-widget__text {
-            display: inline-block;
-        }
-
-        & .cart-widget-name {
-            @include sr-only();
+            display: inline;
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            visibility: hidden;
+            font-size: 0;
         }
 
         & .cart-widget__text strong {
@@ -102,6 +103,8 @@
             color: get-color('additional', 'ultra');
             border-radius: 16px;
             background-color: transparentize(get-color('additional', 'dark'), .27);
+
+            visibility: visible;
         }
     }
 }

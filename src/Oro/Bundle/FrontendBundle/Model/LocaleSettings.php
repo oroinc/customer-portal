@@ -119,13 +119,17 @@ class LocaleSettings extends BaseLocaleSettings
      */
     public function getLocale()
     {
-        if (!$this->frontendHelper->isFrontendRequest()) {
-            return $this->inner->getLocale();
+        if ($this->locale === null) {
+            if (!$this->frontendHelper->isFrontendRequest()) {
+                $this->locale = $this->inner->getLocale();
+            } else {
+                $localization = $this->localizationManager->getCurrentLocalization();
+
+                $this->locale = $localization ? $localization->getFormattingCode() : $this->inner->getLocale();
+            }
         }
 
-        $localization = $this->localizationManager->getCurrentLocalization();
-
-        return $localization ? $localization->getFormattingCode() : $this->inner->getLocale();
+        return $this->locale;
     }
 
     /**

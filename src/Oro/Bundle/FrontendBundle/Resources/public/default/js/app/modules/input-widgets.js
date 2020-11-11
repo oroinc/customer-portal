@@ -22,7 +22,7 @@ define(function(require) {
     });
 
     InputWidgetManager.addWidget('number', {
-        selector: 'input[type="number"]',
+        selector: 'input[type="number"], [data-input-widget="number"]',
         Widget: FrontendNumberInputWidget
     });
 });
