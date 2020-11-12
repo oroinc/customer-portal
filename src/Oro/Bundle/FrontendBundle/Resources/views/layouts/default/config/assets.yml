@@ -49,5 +49,6 @@ styles:
         - 'bundles/orofrontend/default/scss/components/bootstrap/bootstrap.scss'
 
         - 'bundles/orofrontend/default/scss/components/custom-icons.scss'
+        - 'bundles/orofrontend/default/scss/components/clear-search-button.scss'
         - 'bundles/orofrontend/default/scss/styles.scss'
     output: 'css/styles.css'

@@ -79,6 +79,8 @@ define(function(require, exports, module) {
                     this.applyDefaultTheme(widget, instance);
                     break;
             }
+
+            this.appendNoFoundTemplate();
         },
 
         /**
@@ -222,9 +224,14 @@ define(function(require, exports, module) {
                 .wrap(
                     $('<div></div>', {'class': 'datagrid-manager-search empty'})
                 );
+
             instance.header
                 .find('.ui-multiselect-filter')
                 .removeAttr('class');
+
+            instance.header
+                .find('.ui-multiselect-close')
+                .addClass('hide');
         }
     });
 

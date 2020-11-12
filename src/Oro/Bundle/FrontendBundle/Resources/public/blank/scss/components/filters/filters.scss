@@ -44,6 +44,14 @@
     align-items: center;
 }
 
+.multiselect-filter {
+    &__no-found {
+        margin-top: $multiselect-filter-no-found-offset-top;
+
+        text-align: center;
+    }
+}
+
 .filter-box {
     position: relative;
 
