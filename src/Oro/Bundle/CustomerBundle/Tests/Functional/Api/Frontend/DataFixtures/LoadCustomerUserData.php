@@ -73,8 +73,8 @@ class LoadCustomerUserData extends AbstractFixture implements
             ->setLastName('Doe')
             ->setEmail('test@example.com')
             ->setPlainPassword('test')
-            ->setPassword('test')
-            ->setSalt('')
+            ->setPassword('PPUX2DFUQT/Kmq4yfnPmvQbwm8Sqxe52kEtoikUTzb19Ef/P4jPPYXsLS7MOk1TtLLXnCIjpwMzk4CzY88j9bg==')
+            ->setSalt('dvpmw1rx9r4gw0cc0wsoc8s8k844cs0')
             ->setOwner($owner)
             ->setOrganization($owner->getOrganization())
             ->setCustomer($customer);
