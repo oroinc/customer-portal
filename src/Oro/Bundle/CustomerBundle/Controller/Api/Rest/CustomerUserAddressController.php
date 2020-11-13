@@ -43,9 +43,13 @@ class CustomerUserAddressController extends RestController implements ClassResou
     {
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getCustomerUserManager()->find($entityId);
+        $this->checkAccess($customerUser);
 
         /** @var CustomerAddress $address */
         $address = $this->getManager()->find($addressId);
+        if (!$this->isGranted('VIEW', $address)) {
+            throw $this->createAccessDeniedException();
+        }
 
         $addressData = null;
         if ($address && $customerUser->getAddresses()->contains($address)) {
@@ -73,8 +77,9 @@ class CustomerUserAddressController extends RestController implements ClassResou
     {
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getCustomerUserManager()->find($entityId);
-        $result  = [];
+        $this->checkAccess($customerUser);
 
+        $result  = [];
         if ($customerUser) {
             $addresses = $this->getCustomerUserAddresses($customerUser);
 
@@ -259,6 +264,22 @@ class CustomerUserAddressController extends RestController implements ClassResou
      */
     protected function getCustomerUserAddresses(CustomerUser $customerUser)
     {
-        return $customerUser->getAddresses()->toArray();
+        $dql = $this->getDoctrine()->getRepository(CustomerUserAddress::class)
+            ->createQueryBuilder('address')
+            ->select('address')
+            ->where('address.frontendOwner = :frontendOwner')
+            ->setParameter('frontendOwner', $customerUser);
+
+        return $this->get('oro_security.acl_helper')->apply($dql)->getResult();
+    }
+
+    /**
+     * @param $entity
+     */
+    protected function checkAccess($entity)
+    {
+        if (!$this->isGranted('VIEW', $entity)) {
+            throw $this->createAccessDeniedException();
+        }
     }
 }

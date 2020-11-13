@@ -40,9 +40,13 @@ class CommerceCustomerAddressController extends RestController implements ClassR
     {
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
+        $this->checkAccess($customer);
 
         /** @var CustomerAddress $address */
         $address = $this->getManager()->find($addressId);
+        if (!$this->isGranted('VIEW', $address)) {
+            throw $this->createAccessDeniedException();
+        }
 
         $addressData = null;
         if ($address && $customer->getAddresses()->contains($address)) {
@@ -70,8 +74,9 @@ class CommerceCustomerAddressController extends RestController implements ClassR
     {
         /** @var Customer $customer */
         $customer = $this->getCustomerManager()->find($entityId);
-        $result = [];
+        $this->checkAccess($customer);
 
+        $result = [];
         if ($customer) {
             $items = $this->getCustomerAddresses($customer);
 
@@ -245,6 +250,22 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      */
     protected function getCustomerAddresses(Customer $customer)
     {
-        return $customer->getAddresses()->toArray();
+        $dql = $this->getDoctrine()->getRepository(CustomerAddress::class)
+            ->createQueryBuilder('address')
+            ->select('address')
+            ->where('address.frontendOwner = :frontendOwner')
+            ->setParameter('frontendOwner', $customer);
+
+        return $this->get('oro_security.acl_helper')->apply($dql)->getResult();
+    }
+
+    /**
+     * @param $entity
+     */
+    protected function checkAccess($entity)
+    {
+        if (!$this->isGranted('VIEW', $entity)) {
+            throw $this->createAccessDeniedException();
+        }
     }
 }
