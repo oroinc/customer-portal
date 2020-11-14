@@ -2,17 +2,16 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Api\Processor;
 
-use Oro\Bundle\ApiBundle\Processor\CustomizeFormData\CustomizeFormDataContext;
+use Oro\Bundle\ApiBundle\Tests\Unit\Processor\CustomizeFormData\CustomizeFormDataProcessorTestCase;
 use Oro\Bundle\WebsiteBundle\Api\Processor\SetDefaultWebsite;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Tests\Unit\Entity\Stub\WebsiteAwareStub;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class SetDefaultWebsiteTest extends TypeTestCase
+class SetDefaultWebsiteTest extends CustomizeFormDataProcessorTestCase
 {
     private const WEBSITE_FIELD_NAME = 'website';
 
@@ -40,7 +39,7 @@ class SetDefaultWebsiteTest extends TypeTestCase
      */
     private function getFormBuilder()
     {
-        return $this->builder->create(
+        return $this->createFormBuilder()->create(
             null,
             FormType::class,
             ['data_class' => WebsiteAwareStub::class]
@@ -61,10 +60,9 @@ class SetDefaultWebsiteTest extends TypeTestCase
         $this->websiteManager->expects(self::never())
             ->method('getDefaultWebsite');
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertInstanceOf(Website::class, $entity->getWebsite());
     }
@@ -89,10 +87,9 @@ class SetDefaultWebsiteTest extends TypeTestCase
             ->method('getDefaultWebsite')
             ->willReturn($website);
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertSame($website, $entity->getWebsite());
     }
@@ -110,10 +107,9 @@ class SetDefaultWebsiteTest extends TypeTestCase
             ->method('getDefaultWebsite')
             ->willReturn($website);
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertSame($website, $entity->getWebsite());
     }
@@ -132,10 +128,9 @@ class SetDefaultWebsiteTest extends TypeTestCase
             ->method('getDefaultWebsite')
             ->willReturn($website);
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertSame($website, $entity->getWebsite());
     }
@@ -158,10 +153,9 @@ class SetDefaultWebsiteTest extends TypeTestCase
             ->method('getDefaultWebsite')
             ->willReturn($website);
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertSame($website, $entity->getWebsite());
     }
@@ -179,10 +173,9 @@ class SetDefaultWebsiteTest extends TypeTestCase
             ->method('getDefaultWebsite')
             ->willReturn(null);
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertNull($entity->getWebsite());
     }
@@ -201,10 +194,9 @@ class SetDefaultWebsiteTest extends TypeTestCase
         $this->websiteManager->expects(self::never())
             ->method('getDefaultWebsite');
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertSame($website, $entity->getWebsite());
     }

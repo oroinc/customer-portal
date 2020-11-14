@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Api\Processor;
 
-use Oro\Bundle\ApiBundle\Processor\CustomizeFormData\CustomizeFormDataContext;
+use Oro\Bundle\ApiBundle\Tests\Unit\Processor\CustomizeFormData\CustomizeFormDataProcessorTestCase;
 use Oro\Bundle\CustomerBundle\Api\Processor\SetCustomer;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
@@ -11,10 +11,9 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class SetCustomerTest extends TypeTestCase
+class SetCustomerTest extends CustomizeFormDataProcessorTestCase
 {
     private const CUSTOMER_USER_FIELD_NAME = 'frontendOwner';
 
@@ -42,7 +41,7 @@ class SetCustomerTest extends TypeTestCase
      */
     private function getFormBuilder()
     {
-        return $this->builder->create(
+        return $this->createFormBuilder()->create(
             null,
             FormType::class,
             ['data_class' => CustomerAddress::class]
@@ -63,10 +62,9 @@ class SetCustomerTest extends TypeTestCase
         $this->tokenAccessor->expects(self::never())
             ->method('getUser');
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertInstanceOf(Customer::class, $entity->getFrontendOwner());
     }
@@ -93,10 +91,9 @@ class SetCustomerTest extends TypeTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertSame($customer, $entity->getFrontendOwner());
     }
@@ -117,10 +114,9 @@ class SetCustomerTest extends TypeTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertSame($customer, $entity->getFrontendOwner());
     }
@@ -141,10 +137,9 @@ class SetCustomerTest extends TypeTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertSame($customer, $entity->getFrontendOwner());
     }
@@ -169,10 +164,9 @@ class SetCustomerTest extends TypeTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertSame($customer, $entity->getFrontendOwner());
     }
@@ -190,10 +184,9 @@ class SetCustomerTest extends TypeTestCase
             ->method('getUser')
             ->willReturn(null);
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertNull($entity->getFrontendOwner());
     }
@@ -211,10 +204,9 @@ class SetCustomerTest extends TypeTestCase
             ->method('getUser')
             ->willReturn(new User());
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertNull($entity->getFrontendOwner());
     }
@@ -233,10 +225,9 @@ class SetCustomerTest extends TypeTestCase
         $this->tokenAccessor->expects(self::never())
             ->method('getUser');
 
-        $context = new CustomizeFormDataContext();
-        $context->setForm($form);
-        $context->setData($entity);
-        $this->processor->process($context);
+        $this->context->setForm($form);
+        $this->context->setData($entity);
+        $this->processor->process($this->context);
 
         self::assertSame($customer, $entity->getFrontendOwner());
     }
