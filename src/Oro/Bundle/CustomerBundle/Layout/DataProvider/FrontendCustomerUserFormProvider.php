@@ -12,6 +12,9 @@ use Oro\Bundle\LayoutBundle\Layout\DataProvider\AbstractFormProvider;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
+/**
+ * Provides forms and their views related to the functionality of updating customer users.
+ */
 class FrontendCustomerUserFormProvider extends AbstractFormProvider
 {
     const ACCOUNT_USER_CREATE_ROUTE_NAME            = 'oro_customer_frontend_customer_user_create';
@@ -123,7 +126,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
      */
     private function getCustomerUserFormOptions(CustomerUser $customerUser)
     {
-        $options = [];
+        $options = ['dynamic_fields_disabled' => true];
 
         if ($customerUser->getId()) {
             $options['action'] = $this->generateUrl(
@@ -146,7 +149,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
      */
     private function getProfilerFormOptions(CustomerUser $customerUser)
     {
-        $options = [];
+        $options = ['dynamic_fields_disabled' => true];
         if ($customerUser->getId()) {
             $options['action'] = $this->generateUrl(
                 self::ACCOUNT_USER_PROFILE_UPDATE_ROUTE_NAME,
