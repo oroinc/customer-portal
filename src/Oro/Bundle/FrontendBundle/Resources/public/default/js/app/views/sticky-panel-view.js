@@ -8,6 +8,7 @@ define(function(require) {
     const mediator = require('oroui/js/mediator');
     const _ = require('underscore');
     const $ = require('jquery');
+    const scrollHelper = require('oroui/js/tools/scroll-helper');
 
     const StickyPanelView = BaseView.extend({
         /**
@@ -54,6 +55,7 @@ define(function(require) {
          * @inheritDoc
          */
         constructor: function StickyPanelView(options) {
+            this.onScroll = this.onScroll.bind(this);
             StickyPanelView.__super__.constructor.call(this, options);
         },
 
@@ -101,14 +103,20 @@ define(function(require) {
         delegateEvents: function(events) {
             StickyPanelView.__super__.delegateEvents.call(this, events);
 
-            this.$document.on(
-                'scroll' + this.eventNamespace(),
-                _.throttle(_.bind(this.onScroll, this), this.options.scrollTimeout)
-            );
+            if (scrollHelper.isPassiveEventSupported()) {
+                document.addEventListener('scroll', this.onScroll, {
+                    passive: true
+                });
+            } else {
+                this.$document.on(
+                    'scroll' + this.eventNamespace(),
+                    _.throttle(this.onScroll, this.options.scrollTimeout)
+                );
+            }
 
             this.$document.on(
                 'ajaxComplete' + this.eventNamespace(),
-                _.bind(this.reset, this)
+                this.reset.bind(this)
             );
 
             return this;
@@ -118,6 +126,10 @@ define(function(require) {
          * @inheritDoc
          */
         undelegateEvents: function() {
+            if (scrollHelper.isPassiveEventSupported()) {
+                document.removeEventListener('scroll', this.onScroll);
+            }
+
             if (this.$document) {
                 this.$document.off(this.eventNamespace());
             }
@@ -325,6 +337,8 @@ define(function(require) {
                         return false;
                     } else if (!options.alwaysInSticky && onBottom) {
                         return false;
+                    } else if (!options.moveToPanel && this.isFixedPositionChange($element)) {
+                        return true;
                     }
                 } else if (!isEmpty) {
                     if (options.alwaysInSticky ||
@@ -516,6 +530,16 @@ define(function(require) {
                 top: '',
                 width: ''
             });
+        },
+
+        /**
+         * If horizontal position change at fixed blocks
+         * @param $element
+         * @returns {boolean}
+         */
+        isFixedPositionChange($element) {
+            const options = $element.data('sticky');
+            return $element.offset().left !== options.$elementPlaceholder.offset().left;
         }
     });
 

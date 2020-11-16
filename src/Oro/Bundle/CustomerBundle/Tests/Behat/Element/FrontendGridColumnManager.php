@@ -96,7 +96,7 @@ class FrontendGridColumnManager extends GridColumnManager
      */
     protected function getVisibilityCheckbox($title)
     {
-        $field = $this->find('css', '.custom-checkbox__text:contains("' . $title . '")');
+        $field = $this->find('xpath', '//span[@class="custom-checkbox__text"][text()="' . $title . '"]');
 
         self::assertNotNull($field, 'Can not find visibility cell for ' . $title);
 

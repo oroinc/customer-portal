@@ -28,19 +28,6 @@ define(function(require) {
         },
 
         /**
-         * @initialze
-         */
-        initialize: function(options) {
-            FrontendGrid.__super__.initialize.call(this, options);
-
-            if (this.body) {
-                this.collection.on('reset', function() {
-                    this.body.render();
-                }, this);
-            }
-        },
-
-        /**
          * Update row class names for frontend grid
          *
          * @param {Object} options

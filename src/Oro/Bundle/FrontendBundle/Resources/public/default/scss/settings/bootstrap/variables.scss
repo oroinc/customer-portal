@@ -36,6 +36,28 @@ $nav-tabs-link-border: null !default;
 $nav-tabs-link-right-offset: null !default;
 $nav-tabs-link-hover-background-color: null !default;
 
+// Popovers
+
+$popover-font-size: $base-font-size;
+$popover-bg: get-color('additional', 'ultra');
+$popover-max-width: 280px;
+$popover-border-width: 1px;
+$popover-border-color: get-color('additional', 'middle');
+$popover-border-radius: 4px;
+$popover-box-shadow: 0 2px 6px 1px rgba(get-color('additional', 'darker'), .12);
+$popover-header-bg: $popover-bg;
+$popover-header-color: get-color('additional', 'dark');
+$popover-header-padding-y: $offset-y;
+$popover-header-padding-x: $offset-x;
+$popover-body-color: $body-color;
+$popover-body-light-color: lighten(get-color('additional', 'dark'), 21%);
+$popover-body-padding-y: $popover-header-padding-y;
+$popover-body-padding-x: $popover-header-padding-x;
+$popover-arrow-width: 16px;
+$popover-arrow-height: 8px;
+$popover-arrow-color: $popover-bg;
+$popover-arrow-outer-color: $popover-border-color;
+
 @import "npmassets/bootstrap/scss/variables";
 
 // Modals

@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 .page-main {
-    padding-top: 15px;
+    padding-top: $page-main-offset-top;
 
     &.offset-none {
         padding-top: 0;

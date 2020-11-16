@@ -116,9 +116,19 @@ define(function(require) {
             });
 
             if (this.isApplicable && this.fullscreenMode) {
-                this.setFullscreenDialogClass();
                 this.options.dialogOptions = _.extend({}, this.options.dialogOptions, this.fullscreenDialogOptions);
             }
+        },
+
+        /**
+         * @inheritDoc
+         */
+        isEmbedded: function() {
+            if (this.fullscreenMode) {
+                return true;
+            }
+
+            return FrontendDialogWidget.__super__.isEmbedded.call(this);
         },
 
         /**
@@ -175,7 +185,9 @@ define(function(require) {
                 this.fullscreenViewOptions.headerElement = this.$header;
                 this.fullscreenViewOptions.headerTemplate = null;
             }
+
             this.fullscreenViewOptions.contentElement = this.widget.dialog('instance').uiDialog.get(0);
+            this.toggleFullscreenDialogClass();
 
             this.subview('fullscreenView', new FullScreenPopupView(this.fullscreenViewOptions));
             this.subview('fullscreenView').show();
@@ -191,8 +203,10 @@ define(function(require) {
         /**
          * Extend main dialog class for fullscreen mode
          */
-        setFullscreenDialogClass: function() {
-            this.fullscreenDialogOptions.dialogClass = this.options.dialogOptions.dialogClass + '-fullscreen';
+        toggleFullscreenDialogClass: function(state = true) {
+            const $uiDialog = this.widget.dialog('instance').uiDialog;
+            const uiDialogClass = this.options.dialogOptions.dialogClass + '-fullscreen';
+            $uiDialog.toggleClass(uiDialogClass, state);
         },
 
         /**
@@ -303,6 +317,7 @@ define(function(require) {
             FrontendDialogWidget.__super__.hide.call(this);
 
             const fullscreen = this.subview('fullscreenView');
+            this.toggleFullscreenDialogClass(false);
 
             if (fullscreen && !fullscreen.disposed) {
                 fullscreen.trigger('close');

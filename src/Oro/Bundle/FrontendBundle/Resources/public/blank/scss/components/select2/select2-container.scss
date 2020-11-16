@@ -16,6 +16,10 @@
 
     vertical-align: middle;
 
+    @include element-state('hover') {
+        border-color: $input-border-color-hover-state;
+    }
+
     &.input {
         padding: 0;
     }

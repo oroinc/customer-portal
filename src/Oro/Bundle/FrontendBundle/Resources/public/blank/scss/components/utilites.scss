@@ -5,6 +5,10 @@
     display: none !important; // override inline styles
 }
 
+.invisible {
+    opacity: 0;
+}
+
 .disabled {
     @include base-disabled-style();
 }
@@ -48,6 +52,10 @@
 
 .img-fluid {
     @include img-fluid;
+}
+
+.break-all {
+    word-break: break-all;
 }
 
 // TODO: need refactor after removal less from frontend

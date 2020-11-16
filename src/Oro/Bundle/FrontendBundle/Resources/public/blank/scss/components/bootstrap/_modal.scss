@@ -4,23 +4,7 @@
 
 .modal-dialog {
     &__body {
-        &:not(.not-expand) {
-            position: relative;
-
-            padding: 50px;
-        }
-    }
-
-    &--centered {
-        &:not(.not-expand) {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-
-            // Bootstrap override
-            width: 500px;
-            max-width: 100%;
-        }
+        padding: 50px;
     }
 }
 
@@ -30,27 +14,11 @@
     }
 }
 
-.modal {
-    &:not(.not-expand) {
-        &.show {
-            .modal-dialog {
-                // Bootstrap override
-                transform: translate(-50%, -50%);
-            }
-        }
-    }
-
-    &.show .modal-dialog {
-        transform: translate(0, 0);
-    }
-}
 
 @include breakpoint('mobile') {
     .modal-dialog {
-        &:not(.not-expand) {
-            &__body {
-                padding: 25px;
-            }
+        &__body {
+            padding: 25px;
         }
     }
 }

@@ -7,6 +7,8 @@ use Oro\Bundle\CustomerBundle\Controller\Api\Rest\CustomerUserAddressController 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 /**
+ * Frontend API controller for customer user address entity.
+ *
  * @NamePrefix("oro_api_customer_frontend_")
  */
 class CustomerUserAddressController extends BaseCustomerUserAddressController
@@ -21,5 +23,15 @@ class CustomerUserAddressController extends BaseCustomerUserAddressController
         }
 
         return $this->get('oro_customer.provider.frontend.address')->getCurrentCustomerUserAddresses();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function checkAccess($entity)
+    {
+        if ($entity !== $this->getUser() && !$this->isGranted('VIEW', $entity)) {
+            throw $this->createAccessDeniedException();
+        }
     }
 }

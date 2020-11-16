@@ -38,6 +38,7 @@
 
     .ui-dialog-title {
         font-size: $dialog-title-font-size;
+        line-height: $dialog-title-line-height;
     }
 
     .ui-dialog-titlebar {
@@ -98,7 +99,6 @@
     &--frontend {
         &-fullscreen {
             position: $dialog-frontend-fullscreen-position;
-            padding-top: $dialog-frontend-fullscreen-offset-inner-top;
 
             .ui-dialog-titlebar,
             .ui-dialog-buttonpane {

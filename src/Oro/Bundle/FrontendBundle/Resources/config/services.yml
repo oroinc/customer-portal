@@ -338,3 +338,12 @@ services:
         arguments:
             - '@oro_frontend.security.login_attempts_handler.inner'
             - '@oro_frontend.request.frontend_helper'
+
+    oro_frontend.datagrid.event_listener.datagrid_content_tags:
+        class: Oro\Bundle\FrontendBundle\Datagrid\EventListener\DatagridContentTagsListener
+        decorates: oro_sync.content.listener.datagrid_tag
+        arguments:
+            - '@oro_frontend.datagrid.event_listener.datagrid_content_tags.inner'
+            - '@oro_frontend.request.frontend_helper'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after, method: buildAfter }

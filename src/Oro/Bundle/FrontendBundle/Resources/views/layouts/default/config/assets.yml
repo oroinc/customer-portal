@@ -30,7 +30,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/page-content-config.scss'
         - 'bundles/orofrontend/default/scss/variables/page-header-config.scss'
         - 'bundles/orofrontend/default/scss/variables/page-footer-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/page-sidebar-config.scss'
         - 'bundles/orofrontend/default/scss/variables/copyright-config.scss'
         - 'bundles/orofrontend/default/scss/variables/section-title-config.scss'
         - 'bundles/orofrontend/default/scss/variables/notifications-config.scss'
