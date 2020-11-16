@@ -126,7 +126,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
      */
     private function getCustomerUserFormOptions(CustomerUser $customerUser)
     {
-        $options = [];
+        $options = ['dynamic_fields_disabled' => true];
 
         if ($customerUser->getId()) {
             $options['action'] = $this->generateUrl(
@@ -149,7 +149,7 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
      */
     private function getProfilerFormOptions(CustomerUser $customerUser)
     {
-        $options = [];
+        $options = ['dynamic_fields_disabled' => true];
         if ($customerUser->getId()) {
             $options['action'] = $this->generateUrl(
                 self::ACCOUNT_USER_PROFILE_UPDATE_ROUTE_NAME,
@@ -169,9 +169,8 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
 
     /**
      * @param CustomerUser $customerUser
-     * @param object       $target
-     *
-     * @return FormView
+     * @param object $target
+     * @return FormInterface
      */
     public function getCustomerUserSelectFormView(CustomerUser $customerUser, $target)
     {
