@@ -285,4 +285,18 @@
             }
         }
     }
+
+    .no-matches {
+        .datagrid-manager__actions,
+        .datagrid-manager__footer {
+            display: none;
+        }
+    }
+
+    .search-shown {
+        // Hide loop icon if the clear search button is shown.
+        .empty:after {
+            display: none;
+        }
+    }
 }
