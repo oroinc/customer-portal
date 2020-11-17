@@ -1,4 +1,5 @@
 @regression
+@pricing-storage-combined
 @ticket-BB-7811
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
