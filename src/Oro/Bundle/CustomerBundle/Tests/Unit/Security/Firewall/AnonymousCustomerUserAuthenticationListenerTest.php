@@ -7,6 +7,7 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
+use Oro\Bundle\CustomerBundle\Security\Firewall\CustomerVisitorCookieFactory;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\WebsiteStub;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
@@ -83,6 +84,9 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
             $this->cacheProvider,
             $this->csrfRequestManager,
             '^/api/'
+        );
+        $this->listener->setCustomerVisitorCookieFactory(
+            new CustomerVisitorCookieFactory('auto', true, $this->configManager)
         );
     }
 

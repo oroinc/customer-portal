@@ -230,8 +230,18 @@ services:
             - '@oro_customer.visitor_token.cache'
             - '@oro_security.csrf_request_manager'
             - '%oro_api.rest.pattern%'
+        calls:
+            - [setCustomerVisitorCookieFactory, ['@oro_customer.authentication.customer_visitor_cookie_factory']]
         tags:
             - { name: monolog.logger, channel: security }
+
+    oro_customer.authentication.customer_visitor_cookie_factory:
+        class: Oro\Bundle\CustomerBundle\Security\Firewall\CustomerVisitorCookieFactory
+        public: true
+        arguments:
+            - ~ #sets in Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension
+            - ~ #sets in Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension
+            - '@oro_config.manager'
 
     oro_customer.authentication.provider.anonymous_customer_user:
         class: 'Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticationProvider'

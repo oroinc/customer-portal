@@ -106,7 +106,9 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
                             'value' => false,
                             'scope' => 'app',
                         ],
-                    ]
+                    ],
+                    'cookie_secure' => 'auto',
+                    'cookie_httponly' => true
                 ]
             ]
         ];
