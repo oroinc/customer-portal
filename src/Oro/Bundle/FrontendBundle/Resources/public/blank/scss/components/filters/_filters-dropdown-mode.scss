@@ -142,11 +142,13 @@
         right: $filter-dropdown-mode-reset-filter-button-right-pos;
     }
 
+    .filters-manager-trigger {
+        width: $filter-dropdown-mode-filters-manager-trigger-width;
+    }
+
     .ui-multiselect {
         float: right;
         margin: $filter-dropdown-mode-ui-multiselect-offset;
-        //Bug in jquery-ui-multiselect-widget
-        width: auto !important;
     }
 
     .timepicker-input {

@@ -41,7 +41,7 @@
     }
 
     .filters-manager-trigger {
-        width: calc(100% - (#{$filter-fullscreen-popup-mode-mode-trigger-side-offset} * 2)) !important;
+        width: $filter-manager-fullscreen-popup-mode-trigger-width;
         margin: $filter-manager-fullscreen-popup-mode-trigger-offset;
 
         [class^="fa-"],

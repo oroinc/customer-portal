@@ -21,11 +21,11 @@
             padding: 0;
             margin-bottom: 0;
         }
-    }
 
-    .datagrid-manager-search {
-        margin-top: $filter-toggle-mode-datagrid-manager-search-offset-top;
-        margin-bottom: $filter-toggle-mode-datagrid-manager-search-offset-bottom;
+        .datagrid-manager-search {
+            margin-top: $filter-toggle-mode-datagrid-manager-search-offset-top;
+            margin-bottom: $filter-toggle-mode-datagrid-manager-search-offset-bottom;
+        }
     }
 
     .product-price-filter {
@@ -56,6 +56,10 @@
         line-height: $filter-toggle-mode-criteria-selector-icon-line-height;
 
         @include fa-icon($filter-toggle-mode-criteria-selector-icon-fa-icon);
+    }
+
+    .filters-manager-trigger {
+        width: $filter-toggle-mode-filters-manager-trigger-width;
     }
 
     .fields-row {

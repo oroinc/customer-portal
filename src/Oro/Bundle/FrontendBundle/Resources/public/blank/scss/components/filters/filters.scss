@@ -63,6 +63,20 @@
         max-width: $site-width;
     }
 
+    .filter-container-header {
+        display: $filter-container-header-display;
+    }
+
+    .filter-container-title {
+        flex-grow: $filter-container-title-flex-grow;
+        flex-shrink: $filter-container-title-flex-shrink;
+    }
+
+    .filter-container-manager {
+        flex-grow: $filter-container-manager-flex-grow;
+        flex-shrink: $filter-container-manager-flex-shrink;
+    }
+
     .filter-items-hint {
         position: relative;
 
