@@ -100,7 +100,9 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
                     'cookie_path'     => '/test',
                     'gc_maxlifetime'  => 20,
                     'gc_probability'  => 1,
-                    'gc_divisor'      => 2
+                    'gc_divisor'      => 2,
+                    'cookie_secure'   => 'auto',
+                    'cookie_httponly' => true
                 ]
             ]
         ];

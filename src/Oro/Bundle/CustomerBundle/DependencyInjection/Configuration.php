@@ -52,6 +52,11 @@ class Configuration implements ConfigurationInterface
             ]
         );
 
+        $rootNode->children()
+                ->enumNode('cookie_secure')->values([true, false, 'auto'])->defaultValue('auto')->end()
+                ->booleanNode('cookie_httponly')->defaultTrue()->end()
+            ->end();
+
         return $treeBuilder;
     }
 }
