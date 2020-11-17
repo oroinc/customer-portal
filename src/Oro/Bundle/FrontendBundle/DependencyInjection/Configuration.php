@@ -85,6 +85,8 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->scalarNode('cookie_lifetime')->end()
                     ->scalarNode('cookie_path')->end()
+                    ->enumNode('cookie_secure')->values([true, false, 'auto'])->defaultValue('auto')->end()
+                    ->booleanNode('cookie_httponly')->defaultTrue()->end()
                     ->scalarNode('gc_maxlifetime')->end()
                     ->scalarNode('gc_probability')->end()
                     ->scalarNode('gc_divisor')->end()
