@@ -112,10 +112,12 @@ define(function(require, exports, module) {
             if (!this.selectDropdownOpened) {
                 this._setButtonPressed(this.$(this.criteriaSelector), true);
                 this.selectWidget.multiselect('open');
+                this.trigger('showCriteria', this);
                 this.selectDropdownOpened = true;
             } else {
                 this._setButtonPressed(this.$(this.criteriaSelector), false);
                 this.selectDropdownOpened = false;
+                this.trigger('hideCriteria', this);
             }
         },
 
