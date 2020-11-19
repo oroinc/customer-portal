@@ -17,6 +17,7 @@ Oro\Bundle\ProductBundle\Entity\Product:
         organization: '@organization'
         owner: '@business_unit'
         sku: 'SKU123'
+        attributeFamily: '@defaultProductFamily'
         primaryUnitPrecision: '@precision1'
         additionalUnitPrecisions: ['@precision2']
         __calls:

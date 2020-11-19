@@ -38,6 +38,8 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
         if ('test' === $container->getParameter('kernel.environment')) {
             $loader->load('services_test.yml');
         }
+
+        $this->configureCustomerUserCookieFactory($container, $config);
     }
 
     /**
@@ -56,5 +58,16 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
     public function getAlias()
     {
         return self::ALIAS;
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function configureCustomerUserCookieFactory(ContainerBuilder $container, array $config): void
+    {
+        $container->getDefinition('oro_customer.authentication.customer_visitor_cookie_factory')
+            ->replaceArgument(0, $config['cookie_secure'])
+            ->replaceArgument(1, $config['cookie_httponly']);
     }
 }

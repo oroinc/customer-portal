@@ -50,8 +50,9 @@ security:
                 path:                       oro_customer_customer_user_security_logout
                 invalidate_session:         false
             organization-remember-me:
+                token_provider:             oro_security.token.provider.rememberme
                 secret:                     '%secret%'
-                name:                       OROCOMMERCE
+                name:                       OROSFRM
                 lifetime:                   2592000   # stay logged for 30 days
                 httponly:                   true
             anonymous_customer_user:        true

@@ -3,14 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Security\Firewall;
 
 use Doctrine\Common\Cache\CacheProvider;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\DependencyInjection\Configuration;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\SecurityBundle\Csrf\CsrfRequestManager;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
@@ -44,11 +41,6 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     private $authenticationManager;
 
     /**
-     * @var ConfigManager
-     */
-    private $configManager;
-
-    /**
      * @var WebsiteManager
      */
     private $websiteManager;
@@ -65,34 +57,37 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     /** @var string */
     private $apiPattern;
 
+    /** @var CustomerVisitorCookieFactory */
+    private $cookieFactory;
+
     /**
      * @param TokenStorageInterface          $tokenStorage
      * @param AuthenticationManagerInterface $authenticationManager
      * @param LoggerInterface                $logger
-     * @param ConfigManager                  $configManager
      * @param WebsiteManager                 $websiteManager
      * @param CacheProvider                  $cacheProvider
      * @param CsrfRequestManager             $csrfRequestManager
      * @param string                         $apiPattern
+     * @param CustomerVisitorCookieFactory   $cookieFactory
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
         LoggerInterface $logger,
-        ConfigManager $configManager,
         WebsiteManager $websiteManager,
         CacheProvider $cacheProvider,
         CsrfRequestManager $csrfRequestManager,
-        string $apiPattern
+        string $apiPattern,
+        CustomerVisitorCookieFactory $cookieFactory
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
         $this->logger = $logger;
-        $this->configManager = $configManager;
         $this->websiteManager = $websiteManager;
         $this->cacheProvider = $cacheProvider;
         $this->csrfRequestManager = $csrfRequestManager;
         $this->apiPattern = $apiPattern;
+        $this->cookieFactory = $cookieFactory;
     }
 
     /**
@@ -185,16 +180,9 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
             return;
         }
 
-        $cookieLifetime = $this->configManager->get('oro_customer.customer_visitor_cookie_lifetime_days');
-        $cookieLifetime *= Configuration::SECONDS_IN_DAY;
-
         $request->attributes->set(
             self::COOKIE_ATTR_NAME,
-            new Cookie(
-                self::COOKIE_NAME,
-                base64_encode(json_encode([$visitor->getId(), $visitor->getSessionId()])),
-                time() + $cookieLifetime
-            )
+            $this->cookieFactory->getCookie($visitor->getId(), $visitor->getSessionId())
         );
     }
 

@@ -1,3 +1,5 @@
-{% block oro_website_scoped_data_type_row %}
-    {{ form_widget(form.children|first) }}
+{% block oro_website_scoped_data_type_widget %}
+    {% if form.children|length > 0 %}
+        {{ form_widget(form.children|first) }}
+    {% endif %}
 {% endblock %}
