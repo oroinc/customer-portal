@@ -75,49 +75,35 @@ class CustomerUserReassignEntityUpdater
     public function update(CustomerUser $customerUser)
     {
         $entityCount = $this->getRepository()->getRelatedEntitiesCount($customerUser);
-
         if (!$entityCount) {
             return;
         }
 
-        $pageCount = ceil($entityCount/self::BATCH_SIZE);
-
-        for ($page = 0; $page < $pageCount; $page++) {
-            $this->batchResetAndSendUpdates($customerUser, $page);
-        }
+        do {
+            $hasUpdates = $this->batchResetAndSendUpdates($customerUser);
+        } while ($hasUpdates);
     }
 
     /**
      * @param CustomerUser $customerUser
-     * @param int $page
      */
-    private function batchResetAndSendUpdates(CustomerUser $customerUser, int $page)
+    private function batchResetAndSendUpdates(CustomerUser $customerUser)
     {
         $repository = $this->getRepository();
 
         $entitiesToUpdate = $repository->findBy(
             ['customerUser' => $customerUser],
             null,
-            self::BATCH_SIZE,
-            $page * self::BATCH_SIZE
+            self::BATCH_SIZE
         );
 
-        $repository->resetCustomerUser($customerUser, $entitiesToUpdate);
+        $updated = 0;
+        if ($entitiesToUpdate) {
+            $updated = $repository->resetCustomerUser($customerUser, $entitiesToUpdate);
+            $this->sendAuditMessage($customerUser, $entitiesToUpdate);
+        }
 
-        $updates = $this->getUpdates($customerUser, $entitiesToUpdate);
-
-        $body = $this->auditMessageBodyProvider->prepareMessageBody(
-            [],
-            $updates,
-            [],
-            [],
-            $this->tokenStorage->getToken()
-        );
-
-        $this->messageProducer->send(
-            Topics::ENTITIES_CHANGED,
-            new Message($body, MessagePriority::VERY_LOW)
-        );
+        return $updated;
     }
 
     /**
@@ -167,5 +153,28 @@ class CustomerUserReassignEntityUpdater
         }
 
         return $updates;
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     * @param array $entitiesToUpdate
+     */
+    private function sendAuditMessage(CustomerUser $customerUser, array $entitiesToUpdate): void
+    {
+        $updates = $this->getUpdates($customerUser, $entitiesToUpdate);
+        if ($updates) {
+            $body = $this->auditMessageBodyProvider->prepareMessageBody(
+                [],
+                $updates,
+                [],
+                [],
+                $this->tokenStorage->getToken()
+            );
+
+            $this->messageProducer->send(
+                Topics::ENTITIES_CHANGED,
+                new Message($body, MessagePriority::VERY_LOW)
+            );
+        }
     }
 }
