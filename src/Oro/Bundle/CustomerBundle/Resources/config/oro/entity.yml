@@ -41,5 +41,5 @@ oro_entity:
             contactInformation:
                 query:
                     select:
-                        expr:         entity.email
-                        return_type:  string
+                        expr: entity.email
+                        return_type: string
