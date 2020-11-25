@@ -103,4 +103,14 @@
             display: none;
         }
     }
+
+    &.oro-select2 {
+        &--size {
+            &-s {
+                .select2-choices {
+                    padding: 1px 9px 1px 4px;
+                }
+            }
+        }
+    }
 }

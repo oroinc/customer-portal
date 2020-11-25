@@ -9,7 +9,7 @@ define(function(require, exports, module) {
 
     config = $.extend(true, {
         hideHeader: false,
-        themeName: 'default',
+        themeName: 'filter-default',
         additionalClass: true
     }, config);
 
@@ -79,6 +79,8 @@ define(function(require, exports, module) {
                     this.applyDefaultTheme(widget, instance);
                     break;
             }
+
+            this.appendNoFoundTemplate();
         },
 
         /**
@@ -197,7 +199,7 @@ define(function(require, exports, module) {
             if (this.parameters.additionalClass) {
                 widget
                     .removeAttr('class')
-                    .addClass('dropdown-menu');
+                    .addClass(`${this.parameters.themeName} dropdown-menu`);
             }
         },
 
@@ -222,9 +224,14 @@ define(function(require, exports, module) {
                 .wrap(
                     $('<div></div>', {'class': 'datagrid-manager-search empty'})
                 );
+
             instance.header
                 .find('.ui-multiselect-filter')
                 .removeAttr('class');
+
+            instance.header
+                .find('.ui-multiselect-close')
+                .addClass('hide');
         }
     });
 

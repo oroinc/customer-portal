@@ -53,6 +53,7 @@ oro_frontend:
         apply: 'Apply'
         apply_all: 'Apply Filters'
         aria_label: 'Expand or Collapse Filters'
+        no_found: 'No matches found'
 
     datagrid_views:
         all: "All "

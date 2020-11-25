@@ -17,10 +17,8 @@ $datagrid-manager-handle-offset: 8px !default;
 $datagrid-manager-handle-border: 4px dotted get-color('additional', 'light') !default;
 
 $datagrid-manager-dropdown-menu-width: 320px !default;
-$datagrid-manager-dropdown-menu-inner-offset: 14px 18px 18px !default;
-$datagrid-manager-dropdown-menu-border: null !default;
+$datagrid-manager-dropdown-menu-inner-offset: 16px !default;
 $datagrid-manager-dropdown-menu-border-radius: 0 !default;
-$datagrid-manager-dropdown-menu-box-shadow: null !default;
 $datagrid-manager-dropdown-menu-color: null !default;
 
 $datagrid-manager-disabled-color: darken(get-color('additional', 'middle'), 7%) !default;

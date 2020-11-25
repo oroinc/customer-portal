@@ -2,6 +2,7 @@
 
 @import "filters-dropdown-mode";
 @import "filters-toggle-mode";
+@import "filters-fullscreen-popup-mode";
 
 .filter-criteria-selector {
     position: relative;
@@ -12,8 +13,12 @@
 }
 
 .filter-criteria-selector-icon {
+    width: $filter-criteria-selector-icon-width;
+    height: $filter-criteria-selector-icon-height;
+    text-align: $filter-criteria-selector-icon-text-align;
     transition: all linear 250ms;
     color: $filter-criteria-selector-icon-color;
+    display: $filter-criteria-selector-icon-display;
 }
 
 .filter-date-range {
@@ -39,6 +44,14 @@
     align-items: center;
 }
 
+.multiselect-filter {
+    &__no-found {
+        margin-top: $multiselect-filter-no-found-offset-top;
+
+        text-align: center;
+    }
+}
+
 .filter-box {
     position: relative;
 
@@ -48,6 +61,20 @@
         margin: auto;
         position: relative;
         max-width: $site-width;
+    }
+
+    .filter-container-header {
+        display: $filter-container-header-display;
+    }
+
+    .filter-container-title {
+        flex-grow: $filter-container-title-flex-grow;
+        flex-shrink: $filter-container-title-flex-shrink;
+    }
+
+    .filter-container-manager {
+        flex-grow: $filter-container-manager-flex-grow;
+        flex-shrink: $filter-container-manager-flex-shrink;
     }
 
     .filter-items-hint {
@@ -67,6 +94,7 @@
 
     .filter-criteria-hint-label {
         vertical-align: middle;
+        padding-#{$end}: $filter-criteria-hint-label-offset-end;
     }
 
     .filter-criteria-hint {
@@ -85,12 +113,16 @@
         vertical-align: middle;
 
         .dropdown-toggle {
+            background-color: $filter-trigger-wrapper-dropdown-toggle-background-color;
             color: $filter-trigger-wrapper-dropdown-toggle-color;
+            border-color: $filter-trigger-wrapper-dropdown-toggle-border-color;
+            box-shadow: $filter-trigger-wrapper-dropdown-toggle-box-shadow;
 
             &:active,
             &.active,
             &:not(.disabled):active,
             &:not(.disabled).active {
+                background-color: $filter-trigger-wrapper-dropdown-toggle-background-color;
                 color: $filter-trigger-wrapper-dropdown-toggle-color;
             }
         }
@@ -116,19 +148,28 @@
     }
 
     .reset-filter {
+        border: 0;
         color: $filter-reset-color;
-
-        vertical-align: baseline;
 
         @include element-state('hover') {
             color: $filter-reset-hover-color;
         }
     }
 
+    .filter-value-range {
+        display: $filter-value-range-display;
+        align-items: $filter-value-range-align-items;
+        justify-content: $filter-value-range-justify-content;
+    }
+
     .filter-start,
     .filter-end {
         display: $filter-start-end-display;
-        max-width: $filter-start-end-max-width;
+        width: $filter-start-end-width;
+    }
+
+    .datepicker-box__icon {
+        top: $filter-datepicker-box-icon-top;
     }
 
     .filter-action-row {
@@ -137,17 +178,6 @@
 
     .dropdown-menu-calendar {
         min-width: $filter-dropdown-menu-calendar-max-width;
-    }
-
-    .select2-container {
-        @include base-ui-element(
-            $use-base-style: true,
-            $padding: $filter-dropdown-menu-select2-container-inner-offset
-        );
-
-        display: block;
-
-        background: transparent;
     }
 
     &.dropdown-mode {
@@ -175,8 +205,29 @@
         margin: $filter-box-dropdown-mode-in-sticky-offset;
     }
 
-    &.toggle-mode {
-        display: none;
-        padding: $offset-y-m 0;
+    .apply-filters {
+        z-index: z('dropdown') - 5;
+
+        padding: $filter-box-apply-offset;
+        box-shadow: 0 2px 6px 1px rgba(0, 0, 0, .12);
+        background-color: $filter-box-apply-background-color;
+        border: $filter-box-apply-border;
+        border-radius: $border-radius;
+
+
+        @include flexible-arrow(
+            $arrow-height: $filter-box-apply-arrow-height,
+            $arrow-width: $filter-box-apply-arrow-width,
+            $arrow-box-shadow: $filter-box-apply-arrow-box-shadow,
+            $arrow-placeholder: $filter-box-apply-arrow-placeholder
+        );
+    }
+}
+
+@include only-mobile() {
+    .filter-box {
+        &.toggle-mode {
+            display: none;
+        }
     }
 }

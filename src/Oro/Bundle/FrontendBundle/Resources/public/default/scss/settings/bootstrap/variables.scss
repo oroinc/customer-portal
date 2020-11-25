@@ -26,6 +26,8 @@ $dropdown-item-padding-x: $offset-x;
 $dropdown-color: get-color('additional', 'dark');
 $dropdown-link-active-bg: get-color('additional', 'base');
 $dropdown-link-active-color: get-color('additional', 'dark');
+$dropdown-border-color: darken(get-color('additional', light), 4%);
+$dropdown-box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
 
 $table-color: get-color('additional', 'dark');
 

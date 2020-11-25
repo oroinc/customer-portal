@@ -3,112 +3,16 @@
 @import "npmassets/bootstrap/scss/dropdown";
 
 .dropdown-menu {
+    @if not $enable-shadows {
+        box-shadow: $dropdown-box-shadow;
+    }
 
     &[x-adjusted-height] {
         overflow-y: auto;
     }
 
     &[x-displayed-arrow] {
-        $arrow-offset: -5px;
-        $placeholder: 8px;
-
-        &:before {
-            position: absolute;
-
-            height: $placeholder;
-            width: 100%;
-
-            content: '';
-        }
-
-        &:after {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            border: 0 none;
-            left: 0;
-            z-index: -1;
-
-            background: inherit;
-            border-radius: inherit;
-
-            content: '';
-        }
-
-        .arrow {
-            position: absolute;
-            z-index: -1;
-
-            width: 11px;
-            height: 10px;
-
-            border: 0 none;
-            background: inherit;
-            box-shadow: 0 0 0 1px $dropdown-border-color;
-
-            transform: rotate(53deg) skewX(15deg);
-        }
-
-        &[x-placement^="top"] {
-            margin-bottom: $placeholder;
-
-            &:before {
-                top: 100%;
-            }
-
-            .arrow {
-                bottom: $arrow-offset;
-            }
-        }
-
-        &[x-placement^="right"] {
-            margin-left: $placeholder;
-
-            &:before {
-                top: 0;
-                right: 100%;
-
-                height: 100%;
-                width: $placeholder;
-            }
-
-            .arrow {
-                left: $arrow-offset;
-
-                transform: rotate(145deg) skewX(15deg);
-            }
-        }
-
-        &[x-placement^="bottom"] {
-            margin-top: $placeholder;
-
-            &:before {
-                bottom: 100%;
-            }
-
-            .arrow {
-                top: $arrow-offset;
-            }
-        }
-
-        &[x-placement^="left"] {
-            margin-right: $placeholder;
-
-            &:before {
-                top: 0;
-                left: 100%;
-
-                width: $placeholder;
-                height: 100%;
-            }
-
-            .arrow {
-                right: $arrow-offset;
-
-                transform: rotate(145deg) skewX(15deg);
-            }
-        }
+        @include flexible-arrow();
     }
 
     &[x-placement] {
@@ -118,7 +22,7 @@
     }
 }
 
-.dropdown-toggle{
+.dropdown-toggle {
     &--no-caret:after {
         content: none;
     }
