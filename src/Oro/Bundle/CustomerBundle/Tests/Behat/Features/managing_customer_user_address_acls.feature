@@ -1,7 +1,7 @@
 @fixture-OroCustomerBundle:CustomerUserAddressFixture.yml
 @fixture-OroCustomerBundle:AdminUser.yml
 @regression
-Feature: Managing customer address and customer user address ACLs
+Feature: Managing customer user address ACLs
   In order to control user permissions
   As an Administrator
   I want to be able to set ACL rules for customer addresses and customer user addresses

@@ -25,6 +25,7 @@ oro_behat_extension:
         - OroCustomerBundle::CustomerVisitorContext
         - OroEmailBundle::EmailContext
         - OroSearchBundle::SearchContext
+        - OroFrontendBundle::ApiContext
       paths:
         - '@OroCustomerBundle/Tests/Behat/Features'
 
