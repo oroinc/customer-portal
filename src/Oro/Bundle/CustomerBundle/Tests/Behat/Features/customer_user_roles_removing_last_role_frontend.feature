@@ -3,6 +3,9 @@
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Customer user roles removing last role frontend
+  In order to ...
+  As an ...
+  I should be able to ...
 
   Scenario: Customer user role create
     Given I signed in as NancyJSallee@example.org on the store frontend
