@@ -13,8 +13,9 @@ define(function(require, exports, module) {
     config = _.extend({
         filtersPopupOptions: {},
         filtersManagerPopupOptions: {},
-        hidePreviousOpenFilters: false,
-        showCounterBadge: false
+        autoClose: false,
+        showCounterBadge: false,
+        animationDuration: 300
     }, config);
 
     const FrontendFullScreenFiltersAction = ToggleFiltersAction.extend({
@@ -152,7 +153,16 @@ define(function(require, exports, module) {
 
                 this.closeEmptyFilters();
 
-                this.datagrid.filterManager.hidePreviousOpenFilters = config.hidePreviousOpenFilters;
+                this.datagrid.filterManager.autoClose = config.autoClose;
+                if (config.autoClose === false) {
+                    Object.values(this.datagrid.filterManager.filters)
+                        .forEach(filter => filter.autoClose = config.autoClose);
+                }
+
+                if (config.animationDuration !== void 0) {
+                    Object.values(this.datagrid.filterManager.filters)
+                        .forEach(filter => filter.animationDuration = config.animationDuration);
+                }
             }, this);
 
             this.fullscreenView.on('close', function() {

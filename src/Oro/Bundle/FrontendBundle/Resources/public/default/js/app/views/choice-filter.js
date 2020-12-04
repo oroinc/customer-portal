@@ -39,6 +39,7 @@ define(function(require) {
                 this._updateValueField();
                 delete this.changeChoiceValueHandling;
             }
+            this._onValueChanged();
         },
 
         /**

@@ -40,6 +40,13 @@ define(function(require, exports, module) {
         containerSelector: '.filter-criteria-selector',
 
         /**
+         * Selector to criteria popup container
+         *
+         * @property {String}
+         */
+        criteriaSelector: '.filter-criteria',
+
+        /**
          * @property {Object}
          */
         listen: {
@@ -78,7 +85,7 @@ define(function(require, exports, module) {
         render: function() {
             if (this.isToggleMode()) {
                 this.widgetOptions = _.defaults(this.widgetOptions, {
-                    hideHeader: true,
+                    hideHeader: false,
                     additionalClass: false
                 });
             }
@@ -103,12 +110,14 @@ define(function(require, exports, module) {
 
         toggleFilter: function() {
             if (!this.selectDropdownOpened) {
-                this._setButtonPressed(this.$(this.containerSelector), true);
+                this._setButtonPressed(this.$(this.criteriaSelector), true);
                 this.selectWidget.multiselect('open');
+                this.trigger('showCriteria', this);
                 this.selectDropdownOpened = true;
             } else {
-                this._setButtonPressed(this.$(this.containerSelector), false);
+                this._setButtonPressed(this.$(this.criteriaSelector), false);
                 this.selectDropdownOpened = false;
+                this.trigger('hideCriteria', this);
             }
         },
 
@@ -118,7 +127,7 @@ define(function(require, exports, module) {
         reset: function() {
             FrontendSelectFilter.__super__.reset.call(this);
 
-            if (this.isToggleMode()) {
+            if (this.isToggleMode() && this.autoClose !== false) {
                 this.selectDropdownOpened = true;
                 this.toggleFilter();
             }
