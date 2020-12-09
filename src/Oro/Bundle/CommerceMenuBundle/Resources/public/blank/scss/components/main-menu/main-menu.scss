@@ -59,14 +59,15 @@
 
         @include base-ui-element(
             $use-base-style:   true,
-            $padding:          11px 0 9px 0,
-            $border:           1px solid transparent,
+            $padding:          7px 0,
+            $border:           none,
             $border-radius:    0,
             $background-color: get-color('additional', 'ultra'),
             $color:            lighten(get-color('additional', 'dark'), 41%),
             $appearance:       true
         );
 
+        margin: 0;
         display: none;
 
     }
