@@ -80,15 +80,4 @@ class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestC
         $this->assertStringNotContainsString('Authorization: WSSE profile="UsernameToken"', $result);
         static::assertStringContainsString('API key "wrongKey" does not exists', $result);
     }
-
-    public function testGenerateWsseHeaderWithHelpOption()
-    {
-        $result = $this->runCommand('oro:customer-user:wsse:generate-header', ['--help']);
-
-        static::assertStringContainsString('Description: Generate X-WSSE HTTP header for a given API key', $result);
-        static::assertStringContainsString(
-            '--firewall=FIREWALL Firewall name. [default: "frontend_api_wsse_secured"]',
-            $result
-        );
-    }
 }
