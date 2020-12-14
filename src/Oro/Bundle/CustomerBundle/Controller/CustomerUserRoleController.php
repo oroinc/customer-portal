@@ -5,7 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Controller;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Oro\Bundle\UserBundle\Model\PrivilegeCategory;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -51,11 +50,11 @@ class CustomerUserRoleController extends Controller
         return [
             'entity' => $role,
             'tabsOptions' => [
-                'data' => $this->getTabListOptions()
+                'data' => $this->getRolePrivilegeCategoryProvider()->getTabs()
             ],
             'capabilitySetOptions' => [
                 'data' => $this->getRolePrivilegeCapabilityProvider()->getCapabilities($role),
-                'tabIds' => $this->getRolePrivilegeCategoryProvider()->getTabList(),
+                'tabIds' => $this->getRolePrivilegeCategoryProvider()->getTabIds(),
                 'readonly' => true
             ]
         ];
@@ -123,11 +122,11 @@ class CustomerUserRoleController extends Controller
                 'entity' => $role,
                 'form' => $handler->createView(),
                 'tabsOptions' => [
-                    'data' => $this->getTabListOptions()
+                    'data' => $this->getRolePrivilegeCategoryProvider()->getTabs()
                 ],
                 'capabilitySetOptions' => [
                     'data' => $this->getRolePrivilegeCapabilityProvider()->getCapabilities($role),
-                    'tabIds' => $this->getRolePrivilegeCategoryProvider()->getTabList()
+                    'tabIds' => $this->getRolePrivilegeCategoryProvider()->getTabIds()
                 ],
                 'isWidgetContext' => $isWidgetContext,
                 'savedId' => $role->getId(),
@@ -149,21 +148,5 @@ class CustomerUserRoleController extends Controller
     protected function getRolePrivilegeCapabilityProvider()
     {
         return $this->get('oro_user.provider.role_privilege_capability_provider_commerce');
-    }
-
-    /**
-     * @return array
-     */
-    protected function getTabListOptions()
-    {
-        return array_map(
-            function (PrivilegeCategory $tab) {
-                return [
-                    'id' => $tab->getId(),
-                    'label' => $this->get('translator')->trans($tab->getLabel())
-                ];
-            },
-            $this->getRolePrivilegeCategoryProvider()->getTabbedCategories()
-        );
     }
 }
