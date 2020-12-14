@@ -1122,7 +1122,7 @@ services:
             - 'default'
             - ['Oro\Bundle\CustomerBundle\Entity\GridView']
         tags:
-            - { name: oro.security.filter.acl_privilege, priority: -100 }
+            - { name: oro.security.filter.acl_privilege, priority: 100 }
 
     oro_customer.email.owner.provider:
         class: Oro\Bundle\CustomerBundle\Entity\Provider\EmailOwnerProvider
