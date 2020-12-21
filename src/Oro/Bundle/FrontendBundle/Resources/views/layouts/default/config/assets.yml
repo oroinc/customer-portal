@@ -1,7 +1,5 @@
 styles:
     inputs:
-        - 'bundles/npmassets/slick-carousel/slick/slick.scss'
-
         # Bootstrap Required
         - 'bundles/orofrontend/default/scss/settings/bootstrap/variables.scss'
 
