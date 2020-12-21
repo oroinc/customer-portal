@@ -10,9 +10,9 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerType;
 use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
 use Oro\Bundle\EntityExtendBundle\Form\Type\EnumSelectType;
+use Oro\Bundle\EntityExtendBundle\Tests\Unit\Fixtures\TestEnumValue;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
-use Oro\Component\Testing\Unit\Entity\Stub\StubEnumValue;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EnumSelectType as EnumSelectTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
@@ -99,8 +99,8 @@ class CustomerTypeTest extends FormIntegrationTestCase
 
         $internalRatingEnumSelect = new EnumSelectTypeStub(
             [
-                new StubEnumValue('1_of_5', '1 of 5'),
-                new StubEnumValue('2_of_5', '2 of 5')
+                new TestEnumValue('1_of_5', '1 of 5'),
+                new TestEnumValue('2_of_5', '2 of 5')
             ]
         );
 
@@ -190,7 +190,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'group' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
                     'parent' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2),
                     'addresses' => [$this->getAddresses()[1]],
-                    'internal_rating' => new StubEnumValue('2_of_5', '2 of 5'),
+                    'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
                     'salesRepresentatives' => [$this->getUsers()[1]],
                 ]
             ],
@@ -210,7 +210,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'group' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
                     'parent' => null,
                     'addresses' => [$this->getAddresses()[1]],
-                    'internal_rating' => new StubEnumValue('2_of_5', '2 of 5'),
+                    'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
                     'salesRepresentatives' => [],
                 ]
             ],
@@ -231,7 +231,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'group' => null,
                     'parent' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2),
                     'addresses' => [$this->getAddresses()[1]],
-                    'internal_rating' => new StubEnumValue('2_of_5', '2 of 5'),
+                    'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
                     'salesRepresentatives' => [$this->getUsers()[1], $this->getUsers()[2]],
                 ]
             ],
@@ -251,7 +251,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
                     'group' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
                     'parent' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2),
                     'addresses' => [],
-                    'internal_rating' => new StubEnumValue('2_of_5', '2 of 5'),
+                    'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
                     'salesRepresentatives' => [],
                 ]
             ],
