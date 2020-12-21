@@ -140,17 +140,19 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
             ->with($customerUser)
             ->willReturn(201);
 
-        $this->checkoutRepository->expects(self::exactly(3))
+        $this->checkoutRepository->expects(self::exactly(4))
             ->method('findBy')
             ->withConsecutive(
-                [['customerUser' => $customerUser], null, 100, 0],
-                [['customerUser' => $customerUser], null, 100, 100],
-                [['customerUser' => $customerUser], null, 100, 200]
+                [['customerUser' => $customerUser], null, 100],
+                [['customerUser' => $customerUser], null, 100],
+                [['customerUser' => $customerUser], null, 100],
+                [['customerUser' => $customerUser], null, 100]
             )
             ->willReturnOnConsecutiveCalls(
-                [$updatedEntity1, $updatedEntity100,],
-                [$updatedEntity101, $updatedEntity200,],
-                [$updatedEntity201,]
+                [$updatedEntity1, $updatedEntity100],
+                [$updatedEntity101, $updatedEntity200],
+                [$updatedEntity201],
+                []
             );
 
         $this->checkoutRepository->expects(self::exactly(3))
@@ -168,6 +170,11 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
                     $customerUser,
                     [$updatedEntity201,]
                 ]
+            )
+            ->willReturnOnConsecutiveCalls(
+                2,
+                2,
+                1
             );
 
         $changeSet = [

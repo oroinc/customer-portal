@@ -1,5 +1,0 @@
-Oro\Bundle\AccountBundle\Entity\Account:
-    account:
-        name: 'Andrea Joe'
-        owner: '@admin'
-        organization: '@organization'

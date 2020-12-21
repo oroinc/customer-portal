@@ -71,19 +71,13 @@ Feature: Manage Customer addresses at front-store
       | City            | alert(11) |
       | Zip/Postal Code | alert(12) |
 
-  Scenario: Verify address on profile page
-    When I click "My Profile"
-    Then I should see "alert(9)"
-    And I should see "alert(11), alert(12), DE-BE"
-    And I click "Sign Out"
-
-  Scenario: Check addresses of assigned user
+  Scenario: Check addresses of user that have same customer at User access level
     Given I signed in as AmandaRCole@example.org on the store frontend
     And I follow "Account"
     And I click "Users"
     When I click view "Nancy" in grid
-    Then I should see "alert(9)"
-    And I should see "alert(11), alert(12), DE-BE"
+    Then I should not see "alert(9)"
+    And I should not see "alert(11), alert(12), DE-BE"
 
   Scenario: First and Last name, default for current customer user's info, during company address addition
     Given I follow "Account"

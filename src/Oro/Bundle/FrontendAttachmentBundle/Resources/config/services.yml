@@ -9,3 +9,8 @@ services:
         arguments:
             - '@request_stack'
             - '%oro_attachment.filesystem_dir.mediacache%'
+
+    oro_frontend_attachment.decorator.url_generator:
+        class: Oro\Bundle\FrontendAttachmentBundle\Provider\UrlGeneratorDecorator
+        arguments:
+            - '@router'

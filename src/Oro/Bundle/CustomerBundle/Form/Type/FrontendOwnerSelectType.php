@@ -117,9 +117,9 @@ class FrontendOwnerSelectType extends AbstractType
      */
     private function getOwnerClass(ConfigInterface $config)
     {
-        $ownerType = $config->get('frontend_owner_type');
-        $ownerClass = ($ownerType == 'FRONTEND_CUSTOMER') ? Customer::class : CustomerUser::class;
-        return $ownerClass;
+        return 'FRONTEND_CUSTOMER' === $config->get('frontend_owner_type')
+            ? Customer::class
+            : CustomerUser::class;
     }
 
     /**

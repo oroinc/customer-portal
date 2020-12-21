@@ -13,6 +13,7 @@ trait ResetCustomerUserTrait
     /**
      * @param CustomerUser $customerUser
      * @param array $updatedEntities
+     * @return int
      */
     public function resetCustomerUser(CustomerUser $customerUser, array $updatedEntities = [])
     {
@@ -30,7 +31,7 @@ trait ResetCustomerUserTrait
                 ->setParameter('updatedEntities', $updatedEntities);
         }
 
-        $qb->getQuery()->execute();
+        return $qb->getQuery()->execute();
     }
 
     /**
