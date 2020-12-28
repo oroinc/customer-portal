@@ -18,6 +18,9 @@ class WebsiteManagerStub extends WebsiteManager
     /** @var bool */
     private $enabled = false;
 
+    /** @var bool */
+    private $stubbingSetCurrentWebsiteEnabled = false;
+
     /** @var Website|null */
     private $stubCurrentWebsite;
 
@@ -42,9 +45,15 @@ class WebsiteManagerStub extends WebsiteManager
         $this->enabled = true;
     }
 
+    public function enableSetCurrentWebsiteStubbing()
+    {
+        $this->stubbingSetCurrentWebsiteEnabled = true;
+    }
+
     public function disableStub()
     {
         $this->enabled = false;
+        $this->stubbingSetCurrentWebsiteEnabled = false;
         $this->stubCurrentWebsite = null;
         $this->stubDefaultWebsite = null;
         $this->cacheProvider->deleteAll();
@@ -101,6 +110,9 @@ class WebsiteManagerStub extends WebsiteManager
      */
     public function setCurrentWebsite(?Website $currentWebsite): void
     {
+        if ($this->stubbingSetCurrentWebsiteEnabled) {
+            $this->setCurrentWebsiteStub($currentWebsite);
+        }
         $this->websiteManager->setCurrentWebsite($currentWebsite);
     }
 
