@@ -1,7 +1,5 @@
 styles:
     inputs:
-        - 'bundles/npmassets/slick-carousel/slick/slick.scss'
-
         # Bootstrap Required
         - 'bundles/orofrontend/default/scss/settings/bootstrap/variables.scss'
 
@@ -43,6 +41,7 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/search-container-config.scss'
         - 'bundles/orofrontend/default/scss/variables/frontend-datagrid-config.scss'
         - 'bundles/orofrontend/default/scss/variables/controls-list-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/uploader-config.scss'
 
         # Bootstrap Optional Components
         - 'bundles/orofrontend/default/scss/components/bootstrap/bootstrap.scss'
