@@ -4,7 +4,10 @@
     display: inline-block;
     vertical-align: middle;
 
-    padding: $input-padding 0;
+    // has the same height as default button or input
+    padding: $input-padding;
+    padding-left: 0;
+    padding-right: 0;
 
     line-height: $base-ui-element-line-height;
 
