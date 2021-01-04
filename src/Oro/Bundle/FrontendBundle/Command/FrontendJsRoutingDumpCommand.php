@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Bundle\FrontendBundle\Command;
 
@@ -9,31 +10,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * Dumps JS routes for frontend application
+ * Dumps exposed storefront routes into a file.
  */
 class FrontendJsRoutingDumpCommand extends DumpCommand
 {
     /** @var string */
     protected static $defaultName = 'oro:frontend:js-routing:dump';
 
-    /** @var string */
-    private $projectDir;
+    private string $projectDir;
+    private string $backendFilenamePrefix;
 
-    /** @var string */
-    private $backendFilenamePrefix;
-
-    /**
-     * @param ExposedRoutesExtractorInterface $extractor
-     * @param SerializerInterface $serializer
-     * @param string $projectDir
-     * @param string|null $requestContextBaseUrl
-     * @param string $backendFilenamePrefix
-     */
     public function __construct(
         ExposedRoutesExtractorInterface $extractor,
         SerializerInterface $serializer,
-        $projectDir,
-        $requestContextBaseUrl = null,
+        string $projectDir,
+        ?string $requestContextBaseUrl = null,
         string $backendFilenamePrefix = ''
     ) {
         parent::__construct($extractor, $serializer, $projectDir, $requestContextBaseUrl);
@@ -42,23 +33,15 @@ class FrontendJsRoutingDumpCommand extends DumpCommand
         $this->backendFilenamePrefix = $backendFilenamePrefix;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
 
         $this->setHidden(true);
-
-        $definition = $this->getDefinition();
-        $definition->getOption('format')
-            ->setDefault('json');
+        $this->setDescription('Dumps exposed storefront routes into a file.');
+        $this->getDefinition()->getOption('format')->setDefault('json');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $target = $input->getOption('target');
@@ -86,10 +69,6 @@ class FrontendJsRoutingDumpCommand extends DumpCommand
         return parent::execute($input, $output);
     }
 
-    /**
-     * @param string $backendFilename
-     * @return string
-     */
     private function getFilename(string $backendFilename): string
     {
         $filename = ltrim(str_replace($this->backendFilenamePrefix, '', $backendFilename), '_');

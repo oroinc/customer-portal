@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\WebsiteBundle\EventListener;
 
-use Oro\Bundle\FrontendAttachmentBundle\Request\MediaCacheRequestHelper;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -10,7 +9,7 @@ use Oro\Bundle\WebsiteBundle\Provider\RequestWebsiteProvider;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * Makes redirect to the default site URL if URL does not contain the default site URL.
@@ -26,39 +25,25 @@ class RedirectListener
     /** @var FrontendHelper */
     private $frontendHelper;
 
-    /** @var MediaCacheRequestHelper */
-    private $mediaCacheRequestHelper;
-
     /**
-     * @param WebsiteManager $websiteManager
+     * @param WebsiteManager     $websiteManager
      * @param WebsiteUrlResolver $websiteUrlResolver
-     * @param FrontendHelper $frontendHelper
-     * @param MediaCacheRequestHelper $mediaCacheRequestHelper
+     * @param FrontendHelper     $frontendHelper
      */
     public function __construct(
         WebsiteManager $websiteManager,
         WebsiteUrlResolver $websiteUrlResolver,
-        FrontendHelper $frontendHelper,
-        MediaCacheRequestHelper $mediaCacheRequestHelper
+        FrontendHelper $frontendHelper
     ) {
         $this->websiteManager = $websiteManager;
         $this->urlResolver = $websiteUrlResolver;
         $this->frontendHelper = $frontendHelper;
-        $this->mediaCacheRequestHelper = $mediaCacheRequestHelper;
     }
 
     /**
-     * @param MediaCacheRequestHelper|null $mediaCacheRequestHelper
+     * @param RequestEvent $event
      */
-    public function setMediaCacheRequestHelper(?MediaCacheRequestHelper $mediaCacheRequestHelper): void
-    {
-        $this->mediaCacheRequestHelper = $mediaCacheRequestHelper;
-    }
-
-    /**
-     * @param GetResponseEvent $event
-     */
-    public function onRequest(GetResponseEvent $event)
+    public function onRequest(RequestEvent $event): void
     {
         if (!$this->isSupported($event)) {
             return;
@@ -78,16 +63,17 @@ class RedirectListener
     }
 
     /**
-     * @param GetResponseEvent $event
+     * @param RequestEvent $event
      *
      * @return bool
      */
-    private function isSupported(GetResponseEvent $event): bool
+    private function isSupported(RequestEvent $event): bool
     {
-        return $event->isMasterRequest() &&
-            !$event->getResponse() instanceof RedirectResponse &&
-            $this->frontendHelper->isFrontendRequest() &&
-            !$this->mediaCacheRequestHelper->isMediaCacheRequest();
+        return
+            $event->isMasterRequest()
+            && !$event->getResponse() instanceof RedirectResponse
+            && $this->frontendHelper->isFrontendRequest()
+            && strpos($event->getRequest()->getPathInfo(), '/media/cache/') !== 0;
     }
 
     /**
@@ -111,7 +97,7 @@ class RedirectListener
      *
      * @return string|null
      */
-    private function getRedirectUrl(Request $request, Website $website)
+    private function getRedirectUrl(Request $request, Website $website): ?string
     {
         $websiteUrl = $this->urlResolver->getWebsiteUrl($website, true);
         if (!$websiteUrl) {

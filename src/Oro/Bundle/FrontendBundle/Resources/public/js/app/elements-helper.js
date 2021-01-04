@@ -75,7 +75,11 @@ define(function(require) {
         initializeElements: function(options) {
             this.$html = $('html');
             this.elementsInitialized = true;
-            $.extend(true, this, _.pick(options, ['elements', 'modelElements']));
+            const optionNames = ['elements', 'modelElements'];
+            Object.assign(this, $.extend(true, {},
+                _.pick(this, optionNames),
+                _.pick(options, optionNames)
+            ));
             this.$elements = this.$elements || {};
             this.elementsEvents = $.extend({}, this.elementsEvents || {});
             this.modelEvents = $.extend({}, this.modelEvents || {});
