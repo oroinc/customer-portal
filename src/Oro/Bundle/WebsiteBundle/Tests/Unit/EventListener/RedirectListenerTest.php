@@ -2,186 +2,161 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\EventListener;
 
-use Oro\Bundle\FrontendAttachmentBundle\Request\MediaCacheRequestHelper;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\EventListener\RedirectListener;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
-use Oro\Component\Testing\Unit\EntityTrait;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class RedirectListenerTest extends TestCase
+class RedirectListenerTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $websiteManager;
+
+    /** @var WebsiteUrlResolver|\PHPUnit\Framework\MockObject\MockObject */
+    private $urlResolver;
+
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendHelper;
 
     /** @var RedirectListener */
     private $listener;
 
-    /** @var WebsiteManager|MockObject */
-    private $websiteManager;
-
-    /** @var WebsiteUrlResolver|MockObject */
-    private $urlResolver;
-
-    /** @var FrontendHelper */
-    private $frontendHelper;
-
-    /** @var MediaCacheRequestHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $mediaCacheRequestHelper;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->urlResolver = $this->createMock(WebsiteUrlResolver::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
-        $this->mediaCacheRequestHelper = $this->createMock(MediaCacheRequestHelper::class);
 
         $this->listener = new RedirectListener(
             $this->websiteManager,
             $this->urlResolver,
-            $this->frontendHelper,
-            $this->mediaCacheRequestHelper
+            $this->frontendHelper
         );
     }
 
-    public function testNoRedirectWhenSubrequest()
+    /**
+     * @param bool          $isMasterRequest
+     * @param Request       $request
+     * @param Response|null $response
+     *
+     * @return RequestEvent
+     */
+    private function getEvent(bool $isMasterRequest, Request $request, Response $response = null): RequestEvent
     {
-        $this->frontendHelper->method('isFrontendRequest')->willReturn(true);
-        /** @var GetResponseEvent|MockObject $event */
-        $event = $this->createMock(GetResponseEvent::class);
-        $event->method('isMasterRequest')->willReturn(false);
+        $event = new RequestEvent(
+            $this->createMock(HttpKernelInterface::class),
+            $request,
+            $isMasterRequest ? HttpKernelInterface::MASTER_REQUEST : HttpKernelInterface::SUB_REQUEST
+        );
+        if (null !== $response) {
+            $event->setResponse($response);
+        }
 
-        // assert redirect response not set
-        $event->expects($this->never())
-            ->method('setResponse');
+        return $event;
+    }
+
+    public function testNoRedirectWhenSubRequest()
+    {
+        $this->frontendHelper->expects(self::never())
+            ->method('isFrontendRequest');
+
+        $request = Request::create('https://eu.orocommerce.com/product');
+        $event = $this->getEvent(false, $request);
         $this->listener->onRequest($event);
+
+        self::assertNull($event->getResponse());
     }
 
 
     public function testNoRedirectWhenMediaCache(): void
     {
-        $this->frontendHelper
-            ->expects($this->once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $event = $this->createMock(GetResponseEvent::class);
+        $request = Request::create('https://eu.orocommerce.com/product');
         $response = Response::create();
-
-        $event
-            ->expects($this->once())
-            ->method('getResponse')
-            ->willReturn($response);
-
-        $event
-            ->expects($this->once())
-            ->method('isMasterRequest')
-            ->willReturn(true);
-
-        $event
-            ->expects($this->never())
-            ->method('setResponse');
-
-        $this->mediaCacheRequestHelper
-            ->expects($this->once())
-            ->method('isMediaCacheRequest')
-            ->willReturn(true);
-
-        $this->listener
-            ->setMediaCacheRequestHelper($this->mediaCacheRequestHelper);
-
+        $event = $this->getEvent(true, $request, $response);
         $this->listener->onRequest($event);
+
+        self::assertSame($response, $event->getResponse());
     }
 
     public function testNoRedirectWhenUrlMatchWithBase()
     {
-        $this->frontendHelper->method('isFrontendRequest')->willReturn(true);
-        /** @var Website $website */
-        $website = $this->getEntity(Website::class, ['id' => 1]);
+        $website = $this->createMock(Website::class);
 
-        $request = Request::create('https://eu.orocommerce.com/product?test=1&test2=2');
-
-        /** @var GetResponseEvent|MockObject $event */
-        $event = $this->createMock(GetResponseEvent::class);
-
-        $event->expects($this->once())->method('getRequest')->willReturn($request);
-        $event->expects($this->once())->method('isMasterRequest')->willReturn(true);
-
-        $this->websiteManager->expects($this->once())
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+        $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
-
-        $this->urlResolver->expects($this->once())
+        $this->urlResolver->expects(self::once())
             ->method('getWebsiteUrl')
             ->willReturnMap([
                 [$website, true, 'https://eu.orocommerce.com']
             ]);
 
-        $event->expects($this->never())
-            ->method('setResponse')
-            ->willReturnCallback(
-                function (RedirectResponse $response) {
-                    $this->assertEquals(
-                        'https://eu.orocommerce.com/product?test=1&test2=2',
-                        $response->getTargetUrl()
-                    );
-                }
-            );
-
+        $request = Request::create('https://eu.orocommerce.com/product?test=1&test2=2');
+        $response = Response::create();
+        $event = $this->getEvent(true, $request, $response);
         $this->listener->onRequest($event);
+
+        self::assertSame($response, $event->getResponse());
     }
 
     public function testRedirectToBaseUrl()
     {
-        $this->frontendHelper->method('isFrontendRequest')->willReturn(true);
-        /** @var Website $website */
-        $website = $this->getEntity(Website::class, ['id' => 1]);
+        $website = $this->createMock(Website::class);
 
-        $request = Request::create('https://ua.orocommerce.com/product?a=b');
-
-        /** @var ParameterBag|MockObject $parameterBag */
-        $parameterBag = $this->createMock(ParameterBag::class);
-        $parameterBag->expects($this->once())
-            ->method('all')
-            ->willReturn(['a' => 'b']);
-        $request->query = $parameterBag;
-
-        /** @var GetResponseEvent|MockObject $event */
-        $event = $this->createMock(GetResponseEvent::class);
-        $event->expects($this->once())->method('getRequest')->willReturn($request);
-        $event->expects($this->once())->method('isMasterRequest')->willReturn(true);
-
-        $this->websiteManager->expects($this->once())
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+        $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
-
-        $this->urlResolver->expects($this->once())
+        $this->urlResolver->expects(self::once())
             ->method('getWebsiteUrl')
             ->willReturnMap([
                 [$website, true, 'https://eu.orocommerce.com']
             ]);
 
-        $event->expects($this->once())
-            ->method('setResponse')
-            ->willReturnCallback(
-                function (RedirectResponse $response) {
-                    $this->assertEquals(
-                        'https://eu.orocommerce.com/product?a=b',
-                        $response->getTargetUrl()
-                    );
-                }
-            );
-
+        $request = Request::create('https://ua.orocommerce.com/product?a=b');
+        $response = Response::create();
+        $event = $this->getEvent(true, $request, $response);
         $this->listener->onRequest($event);
+
+        /** @var RedirectResponse $response */
+        $response = $event->getResponse();
+        self::assertInstanceOf(RedirectResponse::class, $response);
+        self::assertEquals(
+            'https://eu.orocommerce.com/product?a=b',
+            $response->getTargetUrl()
+        );
+    }
+
+    public function testNoRedirectForMediaCacheRequest()
+    {
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+        $this->websiteManager->expects(self::never())
+            ->method('getCurrentWebsite');
+        $this->urlResolver->expects(self::never())
+            ->method('getWebsiteUrl');
+
+        $request = Request::create('https://ua.orocommerce.com/media/cache/product');
+        $response = Response::create();
+        $event = $this->getEvent(true, $request, $response);
+        $this->listener->onRequest($event);
+
+        self::assertSame($response, $event->getResponse());
     }
 }
