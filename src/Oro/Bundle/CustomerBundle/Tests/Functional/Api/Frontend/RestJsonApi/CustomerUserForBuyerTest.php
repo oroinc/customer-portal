@@ -2,8 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadBuyerCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
+use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -106,7 +108,9 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
 
     public function testTryToUpdateCurrentLoggedInUser()
     {
-        $customerUserId = $this->getReference('customer_user')->getId();
+        $customerUser = $this->getReference('customer_user');
+        $this->disableProfileUpdatePermission($customerUser);
+        $customerUserId = $customerUser->getId();
 
         $response = $this->patch(
             ['entity' => 'customerusers', 'id' => $customerUserId],
@@ -234,5 +238,23 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             $response,
             Response::HTTP_FORBIDDEN
         );
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     *
+     * @throws \Exception
+     */
+    private function disableProfileUpdatePermission(CustomerUser $customerUser): void
+    {
+        /** @var AclManager $manager */
+        $manager = $this->getContainer()->get('oro_security.acl.manager');
+
+        foreach ($customerUser->getRoles() as $role) {
+            $sid = $manager->getSid($role);
+            $oid = $manager->getOid('action: oro_customer_frontend_update_own_profile');
+            $manager->setPermission($sid, $oid, 0);
+            $manager->flush();
+        }
     }
 }
