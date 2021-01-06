@@ -1,0 +1,5 @@
+data:
+    type: customerusers
+    id: 'mine'
+    attributes:
+        firstName: 'First name updated'
