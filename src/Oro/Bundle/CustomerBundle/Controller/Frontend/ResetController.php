@@ -41,7 +41,7 @@ class ResetController extends Controller
         $request = $this->get('request_stack')->getCurrentRequest();
         $email = $handler->process($form, $request);
         if ($email) {
-            $this->get('session')->set(static::SESSION_EMAIL, $this->getObfuscatedEmail($email));
+            $this->get('session')->set(static::SESSION_EMAIL, $email);
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_reset_check_email'));
         }
 
