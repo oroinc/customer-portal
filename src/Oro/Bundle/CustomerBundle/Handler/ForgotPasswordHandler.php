@@ -4,7 +4,6 @@ namespace Oro\Bundle\CustomerBundle\Handler;
 
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
-use Oro\Bundle\UserBundle\Util\ObfuscatedEmailTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -13,8 +12,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class ForgotPasswordHandler
 {
-    use ObfuscatedEmailTrait;
-
     /**
      * @var CustomerUserPasswordRequestHandler
      */
@@ -64,7 +61,7 @@ class ForgotPasswordHandler
         $request->query->add(['isCheckEmail' => true]);
         $this->session->set(
             'oro_customer_user_reset_email',
-            $this->getObfuscatedEmail($email)
+            $email
         );
 
         return true;

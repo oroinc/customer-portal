@@ -96,7 +96,7 @@ class ForgotPasswordHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('set')
             ->with(
                 'oro_customer_user_reset_email',
-                '...@example.org' // Obfuscated email address
+                'test@example.org'
             );
 
         $this->assertTrue($this->forgotPasswordHandler->handle($request));
