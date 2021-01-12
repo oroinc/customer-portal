@@ -31,7 +31,7 @@ Feature: Forgot your password
     And I fill form with:
       | Email Address | nonexisting@example.com |
     And I click "Request"
-    Then I should see "If there is a user account associated with ...@example.com you will receive an email with a link to reset your password."
+    Then I should see "If there is a user account associated with nonexisting@example.com you will receive an email with a link to reset your password."
 
   Scenario: Verify recovery message
     Given I am on the homepage
@@ -40,7 +40,7 @@ Feature: Forgot your password
     And I fill form with:
       | Email Address | AmandaRCole@example.org |
     And I click "Request"
-    Then I should see "If there is a user account associated with ...@example.org you will receive an email with a link to reset your password."
+    Then I should see "If there is a user account associated with AmandaRCole@example.org you will receive an email with a link to reset your password."
     And Email should contains the following:
       | Subject | Reset Account User Password                                          |
       | To      | AmandaRCole@example.org                                              |

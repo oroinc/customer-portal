@@ -1,0 +1,5 @@
+data:
+    type: customerusers
+    id: '<toString(@customer_user1->id)>'
+    attributes:
+        firstName: 'First name updated'
