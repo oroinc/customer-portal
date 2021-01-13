@@ -110,9 +110,9 @@
             position: absolute;
             right: 26px;
             top: 50%;
-            margin-top: -($base-font-size / 2 + 1);
+            transform: translateY(-50%);
             cursor: pointer;
-            z-index: 1;
+            z-index: z('base');
 
             @include fa-icon($fa-var-remove);
 
