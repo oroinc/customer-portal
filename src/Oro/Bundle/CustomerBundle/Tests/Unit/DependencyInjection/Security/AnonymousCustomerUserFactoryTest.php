@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Security;
 
@@ -7,22 +8,17 @@ use Oro\Bundle\TestFrameworkBundle\Test\DependencyInjection\ExtensionTestCase;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\IntegerNode;
 use Symfony\Component\DependencyInjection\ChildDefinition;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 
 class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
 {
-    /**
-     * @var AnonymousCustomerUserFactory
-     */
-    private $factory;
+    private AnonymousCustomerUserFactory $factory;
 
     protected function setUp(): void
     {
         $this->factory = new AnonymousCustomerUserFactory();
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $container = $this->getContainerMock();
 
@@ -40,16 +36,16 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
                 'oro_customer.authentication.listener.anonymous_customer_user.fake_id',
             ]
         );
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             ChildDefinition::class,
             $this->actualDefinitions['oro_customer.authentication.provider.anonymous_customer_user.fake_id']
         );
-        $this->assertEquals(
+        static::assertEquals(
             'oro_customer.authentication.provider.anonymous_customer_user',
             $this->actualDefinitions['oro_customer.authentication.provider.anonymous_customer_user.fake_id']
                 ->getParent()
         );
-        $this->assertEquals(
+        static::assertEquals(
             [
                 'index_2' => 300,
             ],
@@ -57,54 +53,33 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
                 ->getArguments()
         );
 
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             ChildDefinition::class,
             $this->actualDefinitions['oro_customer.authentication.listener.anonymous_customer_user.fake_id']
         );
-        $this->assertEquals(
+        static::assertEquals(
             'oro_customer.authentication.listener.anonymous_customer_user',
             $this->actualDefinitions['oro_customer.authentication.listener.anonymous_customer_user.fake_id']
                 ->getParent()
         );
     }
 
-    public function testGetPosition()
+    public function testGetPosition(): void
     {
-        $this->assertEquals('remember_me', $this->factory->getPosition());
+        static::assertEquals('remember_me', $this->factory->getPosition());
     }
 
-    public function testGetKey()
+    public function testGetKey(): void
     {
-        $this->assertEquals('anonymous_customer_user', $this->factory->getKey());
+        static::assertEquals('anonymous_customer_user', $this->factory->getKey());
     }
 
-    public function testAddConfiguration()
+    public function testAddConfiguration(): void
     {
         $config = new ArrayNodeDefinition('root');
         $this->factory->addConfiguration($config);
         $loadedNodes = $config->getNode()->getChildren();
-        $this->assertCount(1, $loadedNodes);
-        $this->assertInstanceOf(IntegerNode::class, $loadedNodes['update_latency']);
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getContainerMock()
-    {
-        $container = $this->createMock(ContainerBuilder::class);
-        $container->expects($this->any())
-            ->method('setDefinition')
-            ->will(
-                $this->returnCallback(
-                    function ($id, Definition $definition) {
-                        $this->actualDefinitions[$id] = $definition;
-
-                        return $definition;
-                    }
-                )
-            );
-
-        return $container;
+        static::assertCount(1, $loadedNodes);
+        static::assertInstanceOf(IntegerNode::class, $loadedNodes['update_latency']);
     }
 }
