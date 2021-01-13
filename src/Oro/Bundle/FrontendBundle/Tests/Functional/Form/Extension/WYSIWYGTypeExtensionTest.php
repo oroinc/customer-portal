@@ -29,12 +29,12 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
         $this->assertContains([
             'name' => 'blank',
             'label' => 'Blank theme',
-            'stylesheet' => '/layout-build/blank/css/styles.css'
+            'stylesheet' => '/build/blank/css/styles.css'
         ], $actualOptions['themes']);
         $defaultTheme = [
             'name' => 'default',
             'label' => 'Default theme',
-            'stylesheet' => '/layout-build/default/css/styles.css',
+            'stylesheet' => '/build/default/css/styles.css',
         ];
         if ($layoutThemeName === 'default') {
             $defaultTheme['active'] = true;
@@ -43,7 +43,7 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
         $this->assertContains([
             'name' => 'custom',
             'label' => 'Custom theme',
-            'stylesheet' => '/layout-build/custom/css/styles.css',
+            'stylesheet' => '/build/custom/css/styles.css',
         ], $actualOptions['themes']);
     }
 }
