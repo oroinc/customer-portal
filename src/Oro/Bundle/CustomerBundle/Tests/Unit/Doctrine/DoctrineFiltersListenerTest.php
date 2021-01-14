@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Doctrine;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\FilterCollection;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Doctrine\DoctrineFiltersListener;
 use Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
@@ -65,7 +65,7 @@ class DoctrineFiltersListenerTest extends \PHPUnit\Framework\TestCase
      */
     protected function getRegistryMock()
     {
-        return $this->getMockBuilder('Doctrine\Common\Persistence\ManagerRegistry')
+        return $this->getMockBuilder('Doctrine\Persistence\ManagerRegistry')
             ->disableOriginalConstructor()
             ->getMock();
     }

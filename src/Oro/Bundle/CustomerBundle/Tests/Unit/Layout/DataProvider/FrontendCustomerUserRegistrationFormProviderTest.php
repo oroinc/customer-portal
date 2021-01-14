@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Layout\DataProvider;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;

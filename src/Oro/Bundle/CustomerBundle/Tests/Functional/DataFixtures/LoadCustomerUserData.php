@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData as UserData;
@@ -20,7 +20,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
     const LAST_NAME = 'Brzeczyszczykiewicz';
     const EMAIL = 'grzegorz.brzeczyszczykiewicz@example.com';
     const PASSWORD = 'test';
-    
+
     const LEVEL_1_FIRST_NAME = 'First';
     const LEVEL_1_LAST_NAME = 'Last';
     const LEVEL_1_EMAIL = 'other.user@test.com';

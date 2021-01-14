@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;

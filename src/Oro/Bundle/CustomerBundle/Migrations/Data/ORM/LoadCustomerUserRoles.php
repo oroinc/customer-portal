@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\ORM;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
 use Oro\Bundle\FrontendBundle\Migrations\Data\ORM\AbstractRolesData;

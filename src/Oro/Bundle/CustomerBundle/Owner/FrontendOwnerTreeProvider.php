@@ -3,11 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Owner;
 
 use Doctrine\Common\Cache\CacheProvider;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Async\Topics;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -143,7 +143,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
     {
         $customerIds = $this->addAncestorCustomers($tree);
 
-        list($customerUsers, $columnMap) = $this->executeCustomerUsersQuery($customerIds);
+        [$customerUsers, $columnMap] = $this->executeCustomerUsersQuery($customerIds);
 
         foreach ($customerUsers as $customerUser) {
             $userId = $this->getId($customerUser, $columnMap['userId']);
@@ -264,7 +264,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         $customerClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
         $connection = $this->getManagerForClass($customerClass)->getConnection();
 
-        list($customers, $columnMap) = $this->executeQuery(
+        [$customers, $columnMap] = $this->executeQuery(
             $connection,
             $this
                 ->getRepository($customerClass)

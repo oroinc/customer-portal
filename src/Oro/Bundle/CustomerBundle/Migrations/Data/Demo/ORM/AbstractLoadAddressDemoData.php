@@ -3,9 +3,9 @@
 namespace Oro\Bundle\CustomerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
@@ -23,7 +23,7 @@ abstract class AbstractLoadAddressDemoData extends AbstractEntityReferenceFixtur
 
     /** @var ObjectRepository|EntityRepository */
     protected $regionRepository;
-    
+
     /** @var ObjectRepository|EntityRepository */
     protected $addressTypeRepository;
 

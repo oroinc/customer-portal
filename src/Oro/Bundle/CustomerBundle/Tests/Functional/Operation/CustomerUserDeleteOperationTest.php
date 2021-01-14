@@ -43,7 +43,7 @@ class CustomerUserDeleteOperationTest extends ActionTestCase
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectManager
+     * @return \Doctrine\Persistence\ObjectManager
      */
     protected function getObjectManager()
     {
@@ -51,7 +51,7 @@ class CustomerUserDeleteOperationTest extends ActionTestCase
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @return \Doctrine\Persistence\ObjectRepository
      */
     protected function getUserRepository()
     {

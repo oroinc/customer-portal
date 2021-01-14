@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Provides a set of methods to simplify manage of the CustomerVisitor entity.
