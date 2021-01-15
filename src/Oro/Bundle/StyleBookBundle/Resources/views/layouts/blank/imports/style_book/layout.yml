@@ -21,7 +21,9 @@ layout:
         - '@add':
             id: __init_code_highlighter
             parentId: body
-            blockType: block
+            blockType: script
+            options:
+                src: '=data["asset"].getUrl("build/" ~ context["theme"] ~ "/stylebook-highlighter.js")'
 
         - '@addTree':
             items:

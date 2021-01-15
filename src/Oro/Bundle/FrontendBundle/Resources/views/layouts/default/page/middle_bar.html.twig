@@ -13,8 +13,8 @@
         responsive: [
             {
                 viewport: {
-                    maxScreenType: 'tablet',
-                },
+                maxScreenType: 'tablet',
+            },
                 moveTo: "[data-header-row-search-container]"
             }
         ]
@@ -27,11 +27,21 @@
                class="search-widget"
                role="search"
                data-dom-relocation-options="{{ dom_relocation_options }}">
-            <input class="search-widget__input input input--full" type="text" value="" name="search"
+            <input class="search-widget__input input input--full"
+                   type="text"
+                   value=""
+                   name="search"
+                   autocomplete="off"
                    placeholder="{{ 'oro.website_search.search_field_placeholder'|trans({}, translation_domain) }}"
-                   aria-label="{{ 'oro.website_search.search_label'|trans }}"/>
+                   aria-label="{{ 'oro.website_search.search_label'|trans }}"
+                   data-page-component-module="oroui/js/app/components/viewport-component"
+                   data-page-component-options="{{ {
+                       component: 'oroui/js/app/components/view-component',
+                       view: 'oroproduct/js/app/views/search-autocomplete-view'
+                   }|json_encode() }}"
+            />
             <button name="oro_website_search_search_button" class="search-widget__submit" type="submit"
-                   aria-label="{{ 'oro.website_search.search_submit_btn'|trans }}">
+                    aria-label="{{ 'oro.website_search.search_submit_btn'|trans }}">
                 <span class="fa-search" aria-hidden="true"></span>
             </button>
         </form>

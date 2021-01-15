@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Form\DataTransformer\AddressTypeDefaultTransformer;
 use Symfony\Component\Form\AbstractType;

@@ -201,7 +201,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
      */
     private function createManagerRegistryMock($em)
     {
-        $registry = $this->getMockBuilder('\Doctrine\Common\Persistence\ManagerRegistry')
+        $registry = $this->getMockBuilder('\Doctrine\Persistence\ManagerRegistry')
             ->disableOriginalConstructor()
             ->getMock();
         $registry->expects($this->any())

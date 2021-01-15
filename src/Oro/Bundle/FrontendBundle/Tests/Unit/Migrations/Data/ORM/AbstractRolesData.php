@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Migrations\Data\ORM;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\FrontendBundle\Migrations\Data\ORM\AbstractRolesData;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;

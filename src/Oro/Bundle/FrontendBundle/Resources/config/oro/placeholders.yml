@@ -43,6 +43,8 @@ placeholders:
             applicable: "@oro_layout.helper->isTemplateRequest()"
         email_filter_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
+        ui_js_modules_config_public_path:
+            applicable: '@oro_frontend.placeholder.filter->isBackendRoute()'
         oro_reminder_subscribe_script:
             applicable:
                 - "@oro_frontend.placeholder.filter->isBackendRoute()"
