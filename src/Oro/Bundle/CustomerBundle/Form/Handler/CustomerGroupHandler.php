@@ -90,7 +90,7 @@ class CustomerGroupHandler
         $this->removeFromGroup($entity, $remove);
 
         $event = new CustomerGroupEvent($entity, $this->form);
-        $this->dispatcher->dispatch(CustomerGroupEvent::BEFORE_FLUSH, $event);
+        $this->dispatcher->dispatch($event, CustomerGroupEvent::BEFORE_FLUSH);
 
         $this->manager->persist($entity);
         $this->manager->flush();
@@ -98,7 +98,7 @@ class CustomerGroupHandler
         $changedCustomers = array_merge($append, $remove);
         if ($changedCustomers) {
             $customerMassEvent = new CustomerMassEvent($changedCustomers);
-            $this->dispatcher->dispatch(CustomerMassEvent::ON_CUSTOMER_GROUP_MASS_CHANGE, $customerMassEvent);
+            $this->dispatcher->dispatch($customerMassEvent, CustomerMassEvent::ON_CUSTOMER_GROUP_MASS_CHANGE);
         }
     }
 

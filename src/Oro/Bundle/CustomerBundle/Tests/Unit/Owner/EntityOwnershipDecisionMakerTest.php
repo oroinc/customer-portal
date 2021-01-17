@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner;
 
+use Doctrine\Inflector\Rules\English\InflectorFactory;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -137,7 +138,7 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
         $this->decisionMaker = new EntityOwnershipDecisionMaker(
             $this->treeProvider,
             new ObjectIdAccessor($doctrineHelper),
-            new EntityOwnerAccessor($this->metadataProvider),
+            new EntityOwnerAccessor($this->metadataProvider, (new InflectorFactory())->build()),
             $this->metadataProvider,
             $this->tokenAccessor,
             $doctrine,

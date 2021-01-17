@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Storefront CRUD for customer user roles.
  */
-class CustomerUserRoleController extends Controller
+class CustomerUserRoleController extends AbstractController
 {
     /**
      * @Route("/", name="oro_customer_frontend_customer_user_role_index")

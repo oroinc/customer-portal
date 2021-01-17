@@ -98,7 +98,7 @@ SQL;
         ];
         $this->logQuery($logger, $updateQuery, $params, $types);
         if (!$dryRun) {
-            $this->connection->executeUpdate($updateQuery, $params, $types);
+            $this->connection->executeStatement($updateQuery, $params, $types);
         }
     }
 }

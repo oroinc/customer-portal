@@ -127,12 +127,12 @@ class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('dispatch')
             ->withConsecutive(
                 [
-                    CustomerGroupEvent::BEFORE_FLUSH,
-                    new CustomerGroupEvent($this->entity, $this->form)
+                    new CustomerGroupEvent($this->entity, $this->form),
+                    CustomerGroupEvent::BEFORE_FLUSH
                 ],
                 [
-                    CustomerMassEvent::ON_CUSTOMER_GROUP_MASS_CHANGE,
-                    new CustomerMassEvent([$appendedCustomer, $removedCustomer])
+                    new CustomerMassEvent([$appendedCustomer, $removedCustomer]),
+                    CustomerMassEvent::ON_CUSTOMER_GROUP_MASS_CHANGE
                 ]
             );
 

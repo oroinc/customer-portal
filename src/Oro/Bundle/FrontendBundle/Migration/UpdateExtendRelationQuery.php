@@ -130,13 +130,13 @@ class UpdateExtendRelationQuery extends ParametrizedMigrationQuery
 
                 $this->logQuery($logger, $query, $parameters);
                 if (!$dryRun) {
-                    $this->connection->executeUpdate($query, $parameters);
+                    $this->connection->executeStatement($query, $parameters);
                 }
 
                 $query = 'UPDATE oro_entity_config_field SET field_name = ? WHERE entity_id = ? and field_name = ?';
                 $parameters = [$this->relationTo, $id, $this->relationFrom];
                 if (!$dryRun) {
-                    $this->connection->executeUpdate($query, $parameters);
+                    $this->connection->executeStatement($query, $parameters);
                 }
             }
         }

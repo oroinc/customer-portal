@@ -168,7 +168,7 @@ class ClassMigration
 
                 $sql = 'UPDATE oro_entity_config SET class_name = ?, data = ? WHERE id = ?';
                 $parameters = [$className, $data, $id];
-                $configConnection->executeUpdate($sql, $parameters);
+                $configConnection->executeStatement($sql, $parameters);
             }
         }
     }
@@ -193,7 +193,7 @@ class ClassMigration
 
                 $sql = 'UPDATE oro_entity_config_field SET data = ? WHERE id = ?';
                 $parameters = [$data, $id];
-                $configConnection->executeUpdate($sql, $parameters);
+                $configConnection->executeStatement($sql, $parameters);
             }
         }
 
@@ -209,7 +209,7 @@ class ClassMigration
             if ($value !== $originalValue) {
                 $sql = 'UPDATE oro_entity_config_index_value SET value = ? WHERE id = ?';
                 $parameters = [$value, $id];
-                $configConnection->executeUpdate($sql, $parameters);
+                $configConnection->executeStatement($sql, $parameters);
             }
         }
     }

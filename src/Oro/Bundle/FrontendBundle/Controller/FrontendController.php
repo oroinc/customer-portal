@@ -3,13 +3,13 @@
 namespace Oro\Bundle\FrontendBundle\Controller;
 
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Default frontend controller.
  */
-class FrontendController extends Controller
+class FrontendController extends AbstractController
 {
     /**
      * @Layout

@@ -3,9 +3,9 @@
 namespace Oro\Bundle\CustomerBundle\Event;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * FilterCustomerUserResponseEvent event which is fired after registration

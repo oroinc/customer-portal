@@ -3,12 +3,12 @@
 namespace Oro\Bundle\FrontendBundle\Controller;
 
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class GridController extends Controller
+class GridController extends AbstractController
 {
     const EXPORT_BATCH_SIZE = 200;
 

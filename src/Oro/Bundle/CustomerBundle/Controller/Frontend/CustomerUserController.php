@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * CRUD controller for CustomerUser entity
  */
-class CustomerUserController extends Controller
+class CustomerUserController extends AbstractController
 {
     /**
      * @Route("/view/{id}", name="oro_customer_frontend_customer_user_view", requirements={"id"="\d+"})

@@ -62,6 +62,6 @@ SQL;
         $params = ['mask' => WorkflowMaskBuilder::GROUP_NONE, 'oid' => $oId, 'sid' => $sId];
         $types = ['mask' => Types::INTEGER, 'oid' => Types::INTEGER, 'sid' => Types::INTEGER];
         $this->logQuery($logger, $sql, $params, $types);
-        $this->connection->executeUpdate($sql, $params, $types);
+        $this->connection->executeStatement($sql, $params, $types);
     }
 }

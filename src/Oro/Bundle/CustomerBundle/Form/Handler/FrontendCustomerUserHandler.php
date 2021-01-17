@@ -77,7 +77,7 @@ class FrontendCustomerUserHandler extends FormHandler
         /** @var CustomerUser $customerUser */
         $customerUser = $data;
 
-        $this->eventDispatcher->dispatch(Events::BEFORE_FLUSH, new AfterFormProcessEvent($form, $customerUser));
+        $this->eventDispatcher->dispatch(new AfterFormProcessEvent($form, $customerUser), Events::BEFORE_FLUSH);
 
         if (!$customerUser->getId()) {
             $website = $this->requestWebsiteProvider->getWebsite();
@@ -90,6 +90,6 @@ class FrontendCustomerUserHandler extends FormHandler
 
         $this->userManager->updateUser($customerUser);
 
-        $this->eventDispatcher->dispatch(Events::AFTER_FLUSH, new AfterFormProcessEvent($form, $customerUser));
+        $this->eventDispatcher->dispatch(new AfterFormProcessEvent($form, $customerUser), Events::AFTER_FLUSH);
     }
 }
