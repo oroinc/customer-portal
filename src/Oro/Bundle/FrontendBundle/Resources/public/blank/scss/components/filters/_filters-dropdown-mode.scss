@@ -27,6 +27,11 @@
         }
     }
 
+    .filter-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
     .filter-criteria-selector {
         padding: $filter-dropdown-mode-criteria-selector-offset-inner;
         border: $filter-dropdown-mode-criteria-selector-border;
@@ -103,6 +108,7 @@
     .filter-items {
         display: flex;
         flex-wrap: wrap;
+        flex-grow: 1;
         justify-content: flex-start;
         align-items: baseline;
 
@@ -119,6 +125,7 @@
     }
 
     .filter-items-hint {
+        min-width: 100%;
         padding: $filter-dropdown-mode-items-hint-inner-offset;
 
         line-height: $filter-dropdown-mode-items-hint-line-height;
@@ -147,7 +154,7 @@
     }
 
     .ui-multiselect {
-        float: right;
+        align-self: flex-start;
         margin: $filter-dropdown-mode-ui-multiselect-offset;
     }
 

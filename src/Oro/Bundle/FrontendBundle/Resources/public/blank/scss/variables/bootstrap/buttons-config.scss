@@ -53,7 +53,9 @@ $btn-link-disabled-background: transparent !default;
 $btn-link-disabled-border-color: transparent !default;
 
 // Plain button
-$btn-plain-inner-offset: 0 3px !default;
+$btn-plain-inner-offset-y: 0 !default;
+$btn-plain-inner-offset-x: 3px !default;
+$btn-plain-inner-offset: $btn-plain-inner-offset-y $btn-plain-inner-offset-x !default;
 $btn-plain-line-height: 1 !default;
 $btn-plain-border-color: transparent !default;
 $btn-plain-background-color: transparent !default;
