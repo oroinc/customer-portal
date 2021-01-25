@@ -23,6 +23,7 @@ class LoginTest extends FrontendWebTestCase
 {
     use ApiFeatureTrait;
 
+    private const JSON_API_MEDIA_TYPE   = 'application/vnd.api+json';
     private const JSON_API_CONTENT_TYPE = 'application/vnd.api+json';
     private const API_FEATURE_NAME      = 'oro_frontend.web_api';
 
@@ -52,12 +53,17 @@ class LoginTest extends FrontendWebTestCase
      */
     private function request($method, array $parameters = [])
     {
+        $server = ['HTTP_ACCEPT' => self::JSON_API_MEDIA_TYPE];
+        if ('POST' === $method || 'PATCH' === $method || 'DELETE' === $method) {
+            $server['CONTENT_TYPE'] = self::JSON_API_CONTENT_TYPE;
+        }
+
         $this->client->request(
             $method,
             $this->getUrl('oro_frontend_rest_api_list', ['entity' => 'login']),
             $parameters,
             [],
-            ['CONTENT_TYPE' => self::JSON_API_CONTENT_TYPE]
+            $server
         );
 
         $this->getEntityManager()->clear();
