@@ -3,9 +3,9 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -58,7 +58,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
             ->with('customer')
             ->willReturn($this->qb);
         /** @var $em ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
-        $em = $this->createMock('Doctrine\Common\Persistence\ObjectManager');
+        $em = $this->createMock('Doctrine\Persistence\ObjectManager');
         $em->expects($this->any())
             ->method('getRepository')
             ->with('Oro\Bundle\CustomerBundle\Entity\CustomerUserRole')

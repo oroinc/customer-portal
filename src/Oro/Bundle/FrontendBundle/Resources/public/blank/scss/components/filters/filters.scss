@@ -168,6 +168,53 @@
         width: $filter-start-end-width;
     }
 
+    .input-group {
+        position: relative;
+
+        &-prepend,
+        &-append {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: $filter-input-group-prefix-width;
+            display: $filter-input-group-prefix-display;
+            align-items: $filter-input-group-prefix-align-items;
+            justify-content: $filter-input-group-prefix-justify-content;
+
+            &.extended {
+                width: $filter-input-group-extend-prefix-width;
+            }
+        }
+
+        &-prepend {
+            left: 0;
+
+            + .input {
+                padding-left: $filter-input-group-prefix-width;
+            }
+
+            &.extended {
+                + .input {
+                    padding-left: $filter-input-group-extend-prefix-width;
+                }
+            }
+        }
+
+        &-append {
+            right: 0;
+
+            + .input {
+                padding-right: $filter-input-group-prefix-width;
+            }
+
+            &.extended {
+                + .input {
+                    padding-right: $filter-input-group-extend-prefix-width;
+                }
+            }
+        }
+    }
+
     .datepicker-box__icon {
         top: $filter-datepicker-box-icon-top;
     }
@@ -221,6 +268,12 @@
             $arrow-box-shadow: $filter-box-apply-arrow-box-shadow,
             $arrow-placeholder: $filter-box-apply-arrow-placeholder
         );
+    }
+}
+
+@include only-desktop() {
+    .product-price-filter-criteria {
+        max-width: $product-price-filter-criteria-max-width;
     }
 }
 

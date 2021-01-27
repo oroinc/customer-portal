@@ -68,7 +68,7 @@ class OroCommerceMenuBundle extends ParametrizedMigrationQuery implements Migrat
 
         $this->logQuery($logger, $query);
         if (!$dryRun) {
-            $this->connection->executeUpdate($query);
+            $this->connection->executeStatement($query);
         }
     }
 }

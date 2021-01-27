@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Form\DataTransformer;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Symfony\Component\Form\DataTransformerInterface;
 

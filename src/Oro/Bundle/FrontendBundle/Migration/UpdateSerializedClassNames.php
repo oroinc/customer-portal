@@ -80,7 +80,7 @@ class UpdateSerializedClassNames extends ParametrizedMigrationQuery
 
                 $this->logQuery($logger, $query, $parameters);
                 if (!$dryRun) {
-                    $this->connection->executeUpdate($query, $parameters);
+                    $this->connection->executeStatement($query, $parameters);
                 }
             }
         }

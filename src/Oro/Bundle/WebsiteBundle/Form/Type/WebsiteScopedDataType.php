@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\WebsiteBundle\Form\Type;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Symfony\Component\Form\AbstractType;

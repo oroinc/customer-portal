@@ -91,7 +91,7 @@ class UpdateNoteAssociationQuery extends ParametrizedMigrationQuery
         $types = ['data' => 'array', 'id' => 'integer'];
 
         $this->logQuery($logger, $sql, $params, $types);
-        $this->connection->executeUpdate($sql, $params, $types);
+        $this->connection->executeStatement($sql, $params, $types);
     }
 
     /**

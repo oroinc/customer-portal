@@ -1,6 +1,6 @@
 stylebook_styles:
     inputs:
-        - 'bundles/npmassets/prismjs/themes/prism-coy.css'
+        - '~prismjs/themes/prism-coy.css'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-colors-config.scss'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-config.scss'
         - 'bundles/orostylebook/blank/scss/variables/style-book/style-book-menu-container-config.scss'

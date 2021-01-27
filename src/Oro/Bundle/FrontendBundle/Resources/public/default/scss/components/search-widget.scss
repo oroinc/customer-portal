@@ -1,59 +1,64 @@
 /* @theme: default; */
 
 .search-widget {
-    position: relative;
+    position: $search-widget-position;
 
     &-wrap {
-        width: 100%;
-        max-width: 320px;
+        width: $search-widget-wrap-width;
+        max-width: $search-widget-wrap-max-width;
     }
 
     &__input {
         height: $search-widget-input-height;
-        padding: 0 55px 0 18px;
-        width: 100%;
-        position: relative;
+        padding: $search-widget-input-inner-offset;
+        width: $search-widget-input-width;
+        position: $search-widget-input-position;
     }
 
     &__submit {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
+        position: $search-widget-input-submit-position;
+        top: $search-widget-input-submit-top;
+        right: $search-widget-input-submit-right;
+        bottom: $search-widget-input-submit-bottom;
 
-        width: 50px;
-        padding: 0;
-        margin: 0;
+        width: $search-widget-input-submit-width;
+        padding: $search-widget-input-submit-inner-offset;
+        margin: $search-widget-input-submit-offset;
 
-        font-size: $base-font-size--m - 1px;
+        font-size: $search-widget-input-submit-font-size;
 
-        background: transparent;
-        border: none;
+        background: $search-widget-input-submit-background;
+        border: $search-widget-input-submit-border;
 
-        color: get-color('additional', 'middle');
+        color: $search-widget-input-submit-color;
 
         @include element-state('hover') {
-            color: get-color('additional', 'darker');
-            cursor: pointer;
+            color: $search-widget-input-submit-hover-color;
+            cursor: $search-widget-input-submit-hover-cursor;
         }
 
         &:focus,
         &.focus-visible {
-            box-shadow: none;
+            box-shadow: $search-widget-input-submit-focus-box-shadow;
         }
 
         &.focus-visible {
-            color:  get-color('ui', 'focus');
+            color: $search-widget-input-submit-focus-color;
         }
     }
 }
 
 @include breakpoint('tablet') {
     .search-widget {
-        margin: $offset-y $offset-x;
+        margin: $search-widget-tablet-offset;
 
         &__input {
-            height: 45px;
+            height: $search-widget-input-tablet-height;
+        }
+
+        &__submit {
+            height: $search-widget-submit-tablet-height;
+            bottom: $search-widget-submit-tablet-bottom;
         }
     }
 }

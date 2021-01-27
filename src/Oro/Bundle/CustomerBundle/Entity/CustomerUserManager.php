@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;

@@ -1,6 +1,6 @@
 /* @theme: blank; */
 
-@import "npmassets/bootstrap/scss/dropdown";
+@import "~bootstrap/scss/dropdown";
 
 .dropdown-menu {
     @if not $enable-shadows {

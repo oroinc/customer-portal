@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner;
 
+use Doctrine\Inflector\Rules\English\InflectorFactory;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Owner\AnonymousOwnershipDecisionMaker;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
@@ -33,7 +34,7 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         $this->decisionMaker = new AnonymousOwnershipDecisionMaker(
             $this->createMock(OwnerTreeProvider::class),
             new ObjectIdAccessor($this->createMock(DoctrineHelper::class)),
-            new EntityOwnerAccessor($metadataProvider),
+            new EntityOwnerAccessor($metadataProvider, (new InflectorFactory())->build()),
             $metadataProvider,
             $this->tokenAccessor
         );

@@ -8,8 +8,7 @@ use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\UIBundle\Route\Router;
-use Oro\Bundle\UserBundle\Util\ObfuscatedEmailTrait;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,10 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Handles request and reset password logic
  */
-class ResetController extends Controller
+class ResetController extends AbstractController
 {
-    use ObfuscatedEmailTrait;
-
     const SESSION_EMAIL = 'oro_customer_user_reset_email';
 
     /**
@@ -41,7 +38,7 @@ class ResetController extends Controller
         $request = $this->get('request_stack')->getCurrentRequest();
         $email = $handler->process($form, $request);
         if ($email) {
-            $this->get('session')->set(static::SESSION_EMAIL, $this->getObfuscatedEmail($email));
+            $this->get('session')->set(static::SESSION_EMAIL, $email);
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_reset_check_email'));
         }
 

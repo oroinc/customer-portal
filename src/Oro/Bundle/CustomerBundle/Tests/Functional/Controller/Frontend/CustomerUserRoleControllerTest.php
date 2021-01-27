@@ -376,7 +376,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectManager
+     * @return \Doctrine\Persistence\ObjectManager
      */
     protected function getObjectManager()
     {
@@ -384,7 +384,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @return \Doctrine\Persistence\ObjectRepository
      */
     protected function getUserRepository()
     {
@@ -400,7 +400,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @return \Doctrine\Persistence\ObjectRepository
      */
     protected function getUserRoleRepository()
     {

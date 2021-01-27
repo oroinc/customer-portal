@@ -194,7 +194,7 @@ class CustomerAddressControllerTest extends WebTestCase
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectManager
+     * @return \Doctrine\Persistence\ObjectManager
      */
     protected function getObjectManager()
     {

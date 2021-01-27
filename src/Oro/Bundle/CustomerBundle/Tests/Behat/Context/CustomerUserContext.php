@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
 use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Symfony2Extension\Context\KernelDictionary;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 use Oro\Bundle\UserBundle\Entity\Role;

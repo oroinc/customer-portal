@@ -47,7 +47,7 @@ class UpdateAnonymousUserRoleQuery extends ParametrizedMigrationQuery
         $this->logQuery($logger, $sql, $parameters, $types);
 
         if (!$dryRun) {
-            $this->connection->executeUpdate($sql, $parameters, $types);
+            $this->connection->executeStatement($sql, $parameters, $types);
         }
     }
 }

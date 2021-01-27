@@ -151,6 +151,6 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
         $event = new CustomerUserEmailSendEvent($this->user, $template, $params);
         $this->eventDispatcher->expects($this->once())
             ->method('dispatch')
-            ->with(CustomerUserEmailSendEvent::NAME, $event);
+            ->with($event, CustomerUserEmailSendEvent::NAME);
     }
 }

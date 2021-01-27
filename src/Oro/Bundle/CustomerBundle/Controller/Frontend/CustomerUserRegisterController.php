@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\UIBundle\Route\Router;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Handles CustomerUser registration logic
  */
-class CustomerUserRegisterController extends Controller
+class CustomerUserRegisterController extends AbstractController
 {
     /**
      * Create customer user form
@@ -60,7 +60,7 @@ class CustomerUserRegisterController extends Controller
             /** @var CustomerUser $customerUser */
             $customerUser = $registrationHandler->getForm()->getData();
             $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-            $this->get('event_dispatcher')->dispatch(CustomerUserEvents::REGISTRATION_COMPLETED, $event);
+            $this->get('event_dispatcher')->dispatch($event, CustomerUserEvents::REGISTRATION_COMPLETED);
 
             return $response;
         }
@@ -105,7 +105,7 @@ class CustomerUserRegisterController extends Controller
         }
 
         $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-        $this->get('event_dispatcher')->dispatch(CustomerUserEvents::REGISTRATION_CONFIRMED, $event);
+        $this->get('event_dispatcher')->dispatch($event, CustomerUserEvents::REGISTRATION_CONFIRMED);
 
         return $response;
     }

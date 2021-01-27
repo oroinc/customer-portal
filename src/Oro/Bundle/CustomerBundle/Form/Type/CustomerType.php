@@ -165,8 +165,8 @@ class CustomerType extends AbstractType
             && $event->getForm()->isValid()
         ) {
             $this->eventDispatcher->dispatch(
-                CustomerEvent::ON_CUSTOMER_GROUP_CHANGE,
-                new CustomerEvent($customer)
+                new CustomerEvent($customer),
+                CustomerEvent::ON_CUSTOMER_GROUP_CHANGE
             );
         }
     }

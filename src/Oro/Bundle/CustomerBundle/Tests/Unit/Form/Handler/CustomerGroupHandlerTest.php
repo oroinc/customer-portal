@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Event\CustomerGroupEvent;
@@ -46,7 +46,7 @@ class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->manager = $this->getMockBuilder('Doctrine\Common\Persistence\ObjectManager')
+        $this->manager = $this->getMockBuilder('Doctrine\Persistence\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
         $this->request = new Request();
@@ -127,12 +127,12 @@ class CustomerGroupHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('dispatch')
             ->withConsecutive(
                 [
-                    CustomerGroupEvent::BEFORE_FLUSH,
-                    new CustomerGroupEvent($this->entity, $this->form)
+                    new CustomerGroupEvent($this->entity, $this->form),
+                    CustomerGroupEvent::BEFORE_FLUSH
                 ],
                 [
-                    CustomerMassEvent::ON_CUSTOMER_GROUP_MASS_CHANGE,
-                    new CustomerMassEvent([$appendedCustomer, $removedCustomer])
+                    new CustomerMassEvent([$appendedCustomer, $removedCustomer]),
+                    CustomerMassEvent::ON_CUSTOMER_GROUP_MASS_CHANGE
                 ]
             );
 

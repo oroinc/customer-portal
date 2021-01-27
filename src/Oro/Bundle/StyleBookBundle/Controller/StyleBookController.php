@@ -3,14 +3,14 @@
 namespace Oro\Bundle\StyleBookBundle\Controller;
 
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Provides actions to show style book pages on frontend
  */
-class StyleBookController extends Controller
+class StyleBookController extends AbstractController
 {
     /**
      * @Layout(vars={"group"})

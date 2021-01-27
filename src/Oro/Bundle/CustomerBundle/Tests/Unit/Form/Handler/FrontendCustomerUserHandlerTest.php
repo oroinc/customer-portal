@@ -267,10 +267,10 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->eventDispatcher->expects($this->at(0))
             ->method('dispatch')
             ->withConsecutive(
-                [Events::BEFORE_FORM_DATA_SET, new FormProcessEvent($form, $entity)],
-                [Events::BEFORE_FORM_SUBMIT, new FormProcessEvent($form, $entity)],
-                [Events::BEFORE_FLUSH, new AfterFormProcessEvent($form, $entity)],
-                [Events::AFTER_FLUSH, new AfterFormProcessEvent($form, $entity)]
+                [new FormProcessEvent($form, $entity), Events::BEFORE_FORM_DATA_SET],
+                [new FormProcessEvent($form, $entity), Events::BEFORE_FORM_SUBMIT],
+                [new AfterFormProcessEvent($form, $entity), Events::BEFORE_FLUSH],
+                [new AfterFormProcessEvent($form, $entity), Events::AFTER_FLUSH]
             );
     }
 }

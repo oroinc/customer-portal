@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Doctrine;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
 class DoctrineFiltersListener

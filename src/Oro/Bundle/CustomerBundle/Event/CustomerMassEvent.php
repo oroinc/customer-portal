@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Event;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Event class to pass updated customers.
