@@ -1,7 +1,8 @@
 .customer_user_form {
   @extend %customer-form;
 
-  .form-field-roles label {
+  .form-field-roles label,
+  .form-field-choose-list label {
     display: block;
   }
 }
