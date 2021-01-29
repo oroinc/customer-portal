@@ -23,7 +23,7 @@ class CustomerTypedAddress extends CustomerAddress
      * @param Customer $frontendOwner
      * @return CustomerTypedAddress
      */
-    public function setFrontendOwner(Customer $frontendOwner)
+    public function setFrontendOwner($frontendOwner = null)
     {
         $this->frontendOwner = $frontendOwner;
 

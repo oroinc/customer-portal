@@ -63,7 +63,7 @@ class MenuDisplayBuilderTest extends \PHPUnit\Framework\TestCase
                  ->willReturn([$childMenu1, $childMenu2]);
 
         $this->conditionEvaluator
-            ->expects(static::exactly(2))
+            ->expects(static::once())
             ->method('evaluate')
             ->willReturnMap([
                 [$childMenu2, [], false],
