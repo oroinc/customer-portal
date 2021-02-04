@@ -4,18 +4,9 @@
     display: flex;
     align-items: center;
 
-    &:not(:empty) {
-        + div {
-            &:before {
-                content: '';
-                display: inline-flex;
-                width: 1px;
-                height: 16px;
-
-                line-height: 1;
-
-                background: get-color('additional', 'light');
-            }
+    &:first-child {
+        .datagrid-divider {
+            display: none;
         }
     }
 }
