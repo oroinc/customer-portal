@@ -94,6 +94,7 @@ Feature: Email templates used for customer user registration
       | First Name    | Branda                      |
       | Last Name     | Sanborn                     |
       | Email Address | BrandaJSanborn1@example.org |
+    And I focus on "Birthday" field
     And click "Today"
     And fill form with:
       | Password           | BrandaJSanborn1@example.org |
@@ -137,6 +138,7 @@ Feature: Email templates used for customer user registration
       | First Name    | LonnieV                      |
       | Last Name     | Townsend                     |
       | Email Address | LonnieVTownsend1@example.org |
+    And I focus on "Birthday" field
     And click "Today"
     And fill form with:
       | Password           | LonnieVTownsend1@example.org |
