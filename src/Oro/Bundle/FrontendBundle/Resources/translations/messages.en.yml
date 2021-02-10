@@ -132,3 +132,12 @@ oro_frontend:
                 is_editable:
                     label: Show on form
                     tooltip: 'Defines whether the field is enabled in the front store forms'
+
+    switcher:
+        info:
+            popup:
+                localizations_and_currency: 'Language & Currency'
+                localizations: 'Language'
+                currency: 'Currency'
+            localizations: 'Language'
+            currency: 'Currency'

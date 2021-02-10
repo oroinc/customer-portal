@@ -1,0 +1,23 @@
+/* @theme: default; */
+
+.switcher-info {
+    &__container {
+        display: $switcher-info-container-display;
+
+        &.fullscreen-mode {
+            display: $switcher-info-container-fullscreen-mode-display;
+        }
+    }
+
+    &__title {
+        color: $switcher-info-title-color;
+        text-transform: $switcher-info-title-text-transform;
+        padding: $switcher-info-title-padding;
+    }
+
+    &__section {
+        &:not(:only-child) {
+            margin-top: $switcher-info-section-margin-block-start;
+        }
+    }
+}
