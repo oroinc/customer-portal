@@ -301,7 +301,11 @@ define(function(require) {
                 .on('click', '[data-role="close"]', this.close.bind(this))
                 .on('touchstart', '[data-scroll="true"]', scrollHelper.removeIOSRubberEffect.bind(this))
                 .on('keydown', event => manageFocus.preventTabOutOfContainer(event, this.$popup))
-                .one('transitionend', () => manageFocus.focusTabbable(this.$popup));
+                .one('transitionend', e => {
+                    if (e.target === this.$popup[0]) {
+                        manageFocus.focusTabbable(this.$popup);
+                    }
+                });
 
             if (this.stopEventsPropagation) {
                 this.$popup.on(this.stopEventsList, function(e) {
