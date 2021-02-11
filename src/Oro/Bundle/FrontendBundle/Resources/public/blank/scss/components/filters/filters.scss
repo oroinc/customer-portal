@@ -77,6 +77,12 @@
         flex-shrink: $filter-container-manager-flex-shrink;
     }
 
+    .filter-actions {
+        display: flex;
+        align-self: $filter-actions-align-self;
+        align-items: $filter-actions-align-items;
+    }
+
     .filter-items-hint {
         position: relative;
 
