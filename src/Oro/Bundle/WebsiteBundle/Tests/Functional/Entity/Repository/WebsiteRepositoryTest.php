@@ -53,6 +53,30 @@ class WebsiteRepositoryTest extends WebTestCase
         ];
     }
 
+    public function testGetAllWebsitesIds(): void
+    {
+        $websiteDefault = $this->getRepository()->findOneBy(['default' => true]);
+        $website1 = $this->getReference(LoadWebsiteData::WEBSITE1);
+        $website2 = $this->getReference(LoadWebsiteData::WEBSITE2);
+        $website3 = $this->getReference(LoadWebsiteData::WEBSITE3);
+
+        $expectedIds = array_map(
+            static fn (Website $website) => $website->getId(),
+            [$websiteDefault, $website1, $website2, $website3]
+        );
+        sort($expectedIds);
+
+        $websitesIds = $this->getRepository()->getAllWebsitesIds($website1->getOrganization());
+        sort($websitesIds);
+
+        $this->assertEquals($expectedIds, $websitesIds);
+
+        $websitesIds = $this->getRepository()->getAllWebsitesIds();
+        sort($websitesIds);
+
+        $this->assertEquals($expectedIds, $websitesIds);
+    }
+
     public function testGetDefaultWebsite()
     {
         $defaultWebsite = $this->getRepository()->getDefaultWebsite();
