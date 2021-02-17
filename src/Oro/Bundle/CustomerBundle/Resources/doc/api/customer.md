@@ -143,9 +143,7 @@ Delete a collection of customer records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ## SUBRESOURCES
 
@@ -277,7 +275,7 @@ Retrieve the ID of internal rating record assigned to a specific customer record
 
 #### update_relationship
 
-Replace the internal rating record assigned to a specific customer record
+Replace the internal rating record assigned to a specific customer record.
 
 {@request:json_api}
 Example:
