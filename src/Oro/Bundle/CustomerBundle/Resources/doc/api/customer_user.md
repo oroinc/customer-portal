@@ -131,7 +131,7 @@ Delete a collection of customer user records.
 {@inheritdoc}
 
 **Conditionally required field:**
-*This field is required when **enabled** field value is `true`.*
+This field is required when the **enabled** field value is `true`.
 
 ### enabled
 
@@ -139,9 +139,8 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*The default value is `true`.*
+**Note:**
+The default value is `true`.
 
 ### confirmed
 
@@ -149,9 +148,8 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*The default value is `true`.*
+**Note:**
+The default value is `true`.
 
 ### email
 
@@ -165,9 +163,7 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ### password
 
@@ -187,9 +183,7 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ### lastName
 
@@ -203,9 +197,7 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ### passwordChangedAt
 
