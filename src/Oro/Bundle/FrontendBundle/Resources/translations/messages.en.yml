@@ -47,8 +47,7 @@ oro_frontend:
                 label: Enable Storefront API
         messages:
             no_page_templates: 'No templates available.'
-    copyright.label: '2018 Oro Inc. All Rights Reserved.'
-
+    copyright.label: '{{year}} Oro Inc. All Rights Reserved.'
     home_page:
         title: 'Home page'
         welcome: 'Welcome'
