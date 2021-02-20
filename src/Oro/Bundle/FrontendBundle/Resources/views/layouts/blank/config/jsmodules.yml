@@ -123,4 +123,4 @@ map:
 shim:
     slick:
         imports:
-            - jquery
+            - single|jquery|jQuery
