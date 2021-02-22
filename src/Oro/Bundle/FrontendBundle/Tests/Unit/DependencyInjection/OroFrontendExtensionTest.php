@@ -7,7 +7,9 @@ use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\FrontendBundle\Request\NotInstalledFrontendHelper;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -134,7 +136,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldThrowExceptionIfFrontendApiDocViewIsUnknown()
     {
-        $this->expectException(\Symfony\Component\DependencyInjection\Exception\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage(
             'The view "frontend_view1" defined in oro_frontend.frontend_api.api_doc_views is unknown.'
             . ' Check that it is configured in oro_api.api_doc_views.'
@@ -158,6 +160,24 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->load([$config], $container);
     }
 
+    public function testConfigurationForFrontendApiEmptyCors()
+    {
+        $container = $this->getContainerBuilder();
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $config = [];
+
+        $extension = new OroFrontendExtension();
+        $extension->load([$config], $container);
+
+        $corsSettingsDef = $container->getDefinition('oro_frontend.api.rest.cors_settings');
+        self::assertSame(600, $corsSettingsDef->getArgument(0));
+        self::assertSame([], $corsSettingsDef->getArgument(1));
+        self::assertFalse($corsSettingsDef->getArgument(2));
+        self::assertSame([], $corsSettingsDef->getArgument(3));
+        self::assertSame([], $corsSettingsDef->getArgument(4));
+    }
+
     public function testConfigurationForFrontendApiCors()
     {
         $container = $this->getContainerBuilder();
@@ -178,29 +198,26 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension = new OroFrontendExtension();
         $extension->load([$config], $container);
 
+        $corsSettingsDef = $container->getDefinition('oro_frontend.api.rest.cors_settings');
         self::assertSame(
             $config['frontend_api']['cors']['preflight_max_age'],
-            $container->getDefinition('oro_frontend.api.options.rest.set_cache_control')->getArgument(0)
-        );
-        self::assertSame(
-            $config['frontend_api']['cors']['preflight_max_age'],
-            $container->getDefinition('oro_frontend.api.options.rest.cors.set_max_age')->getArgument(0)
+            $corsSettingsDef->getArgument(0)
         );
         self::assertSame(
             $config['frontend_api']['cors']['allow_origins'],
-            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_origin')->getArgument(0)
-        );
-        self::assertSame(
-            $config['frontend_api']['cors']['allow_headers'],
-            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_and_expose_headers')->getArgument(0)
-        );
-        self::assertSame(
-            $config['frontend_api']['cors']['expose_headers'],
-            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_and_expose_headers')->getArgument(1)
+            $corsSettingsDef->getArgument(1)
         );
         self::assertSame(
             $config['frontend_api']['cors']['allow_credentials'],
-            $container->getDefinition('oro_frontend.api.rest.cors.set_allow_and_expose_headers')->getArgument(2)
+            $corsSettingsDef->getArgument(2)
+        );
+        self::assertSame(
+            $config['frontend_api']['cors']['allow_headers'],
+            $corsSettingsDef->getArgument(3)
+        );
+        self::assertSame(
+            $config['frontend_api']['cors']['expose_headers'],
+            $corsSettingsDef->getArgument(4)
         );
     }
 
@@ -247,6 +264,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $expected[3]['firewalls']['test3']['pattern'] = '^/admin/api/(?!(rest|doc)($|/.*))';
 
         $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         $container->setParameter('web_backend_prefix', '/admin');
         $container->setParameter('oro_api.rest.prefix', '/api/');
         $container->setParameter('oro_api.rest.pattern', '^/api/(?!(rest|doc)($|/.*))');
@@ -292,6 +310,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $expected[3]['format_listener']['rules'][1]['path'] = '^/admin/api/(?!(rest|doc)($|/.*))';
 
         $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         $container->setParameter('web_backend_prefix', '/admin');
         $container->setParameter('oro_api.rest.prefix', '/api/');
         $container->setParameter('oro_api.rest.pattern', '^/api/(?!(rest|doc)($|/.*))');
@@ -305,10 +324,11 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testValidateBackendPrefixWithNullValue()
     {
-        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('The "web_backend_prefix" parameter value should not be null.');
 
         $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         $container->setParameter('web_backend_prefix', '');
 
         $extension = new OroFrontendExtension();
@@ -317,10 +337,11 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testValidateBackendPrefixWhenItNotStartsWithSlash()
     {
-        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('The "web_backend_prefix" parameter should start with a "/" character.');
 
         $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         $container->setParameter('web_backend_prefix', 'admin');
 
         $extension = new OroFrontendExtension();
@@ -329,10 +350,11 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testValidateBackendPrefixWhenItEndsWithSlash()
     {
-        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('The "web_backend_prefix" parameter should not end with a "/" character.');
 
         $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         $container->setParameter('web_backend_prefix', '/admin/');
 
         $extension = new OroFrontendExtension();
@@ -342,6 +364,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
     public function testValidateBackendPrefixWithValidPrefixValue()
     {
         $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
         $container->setParameter('web_backend_prefix', '/admin');
 
         $extension = new OroFrontendExtension();
