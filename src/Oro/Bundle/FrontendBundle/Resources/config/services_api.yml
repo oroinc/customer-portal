@@ -102,6 +102,9 @@ services:
             - ~ # service locator
             - '@oro_api.request_expression_matcher'
 
+    oro_frontend.api.localized_fallback_value_extractor:
+        class: Oro\Bundle\LocaleBundle\Api\LocalizedFallbackValueExtractor
+
     oro_frontend.api.localized_fallback_value_completer:
         class: Oro\Bundle\LocaleBundle\Api\LocalizedFallbackValueCompleter
         public: false
@@ -113,6 +116,8 @@ services:
         arguments:
             - '@oro_api.doctrine_helper'
             - '@oro_locale.helper.localization'
+        calls:
+            - [setLocalizedFallbackValueExtractor, ['@oro_frontend.api.localized_fallback_value_extractor']]
         tags:
             - { name: oro.api.processor, action: customize_loaded_data, requestType: frontend, collection: true }
 
