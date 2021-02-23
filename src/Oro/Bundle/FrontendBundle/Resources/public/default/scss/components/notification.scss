@@ -46,6 +46,11 @@
         &:not(:first-child) {
             margin-top: $notification-list-offset;
         }
+
+        &--flex {
+            display: flex;
+            align-items: baseline;
+        }
     }
     
     [class^="fa-"] {
