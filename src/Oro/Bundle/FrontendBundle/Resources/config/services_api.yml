@@ -10,7 +10,6 @@ parameters:
 services:
     oro_frontend.api.rest.request_handler:
         class: Oro\Bundle\ApiBundle\Request\Rest\RequestHandler
-        public: false
         arguments:
             - '@oro_frontend.api.rest.request_action_handler'
 
@@ -35,9 +34,17 @@ services:
         tags:
             - { name: nelmio_api_doc.extractor.handler }
 
+    oro_frontend.api.rest.cors_settings:
+        class: Oro\Bundle\ApiBundle\Request\Rest\CorsSettings
+        arguments:
+            - 0 # preflightMaxAge. It is set by Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension
+            - [] # allowedOrigins. They are set by Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension
+            - false # isCredentialsAllowed. It is set by Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension
+            - [] # allowedHeaders. They are set by Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension
+            - [] # exposableHeaders. They are set by Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension
+
     oro_frontend.api.rest.routes:
         class: Oro\Bundle\ApiBundle\Request\Rest\RestRoutes
-        public: false
         arguments:
             - 'oro_frontend_rest_api_item'
             - 'oro_frontend_rest_api_list'
@@ -48,7 +55,6 @@ services:
 
     oro_frontend.api.rest.action_mapper:
         class: Oro\Bundle\ApiBundle\ApiDoc\RestActionMapper
-        public: false
         arguments:
             - '@oro_frontend.api.rest.routes'
 
@@ -61,7 +67,6 @@ services:
 
     oro_frontend.api.rest.doc_url_generator:
         class: Oro\Bundle\FrontendBundle\Api\ApiDoc\RestDocUrlGenerator
-        public: false
         decorates: oro_api.rest.doc_url_generator
         arguments:
             - '@oro_frontend.api.rest.doc_url_generator.inner'
@@ -90,9 +95,11 @@ services:
             - ~ # service locator
             - '@oro_api.request_expression_matcher'
 
+    oro_frontend.api.localized_fallback_value_extractor:
+        class: Oro\Bundle\LocaleBundle\Api\LocalizedFallbackValueExtractor
+
     oro_frontend.api.localized_fallback_value_completer:
         class: Oro\Bundle\LocaleBundle\Api\LocalizedFallbackValueCompleter
-        public: false
         tags:
             - { name: oro.api.custom_data_type_completer, requestType: frontend }
 
@@ -101,6 +108,7 @@ services:
         arguments:
             - '@oro_api.doctrine_helper'
             - '@oro_locale.helper.localization'
+            - '@oro_frontend.api.localized_fallback_value_extractor'
         tags:
             - { name: oro.api.processor, action: customize_loaded_data, requestType: frontend, collection: true }
 
@@ -112,7 +120,7 @@ services:
     oro_frontend.api.rest.cors.set_allow_origin:
         class: Oro\Bundle\ApiBundle\Processor\Shared\Rest\SetCorsAllowOrigin
         arguments:
-            - [] # allowedOrigins. They are set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+            - '@oro_frontend.api.rest.cors_settings'
         tags:
             - { name: oro.api.processor, action: get, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
             - { name: oro.api.processor, action: get_list, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
@@ -133,9 +141,7 @@ services:
     oro_frontend.api.rest.cors.set_allow_and_expose_headers:
         class: Oro\Bundle\ApiBundle\Processor\Shared\Rest\SetCorsAllowAndExposeHeaders
         arguments:
-            - [] # allowedHeaders. They are set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
-            - [] # exposableHeaders. They are set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
-            - false # isCredentialsAllowed. It is set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+            - '@oro_frontend.api.rest.cors_settings'
         tags:
             - { name: oro.api.processor, action: get, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
             - { name: oro.api.processor, action: get_list, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
@@ -156,13 +162,13 @@ services:
     oro_frontend.api.options.rest.cors.set_max_age:
         class: Oro\Bundle\ApiBundle\Processor\Options\Rest\SetCorsMaxAge
         arguments:
-            - 0 # preflightMaxAge. It is set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+            - '@oro_frontend.api.rest.cors_settings'
         tags:
             - { name: oro.api.processor, action: options, group: normalize_result, requestType: frontend&rest, cors: true, priority: -242 }
 
     oro_frontend.api.options.rest.set_cache_control:
         class: Oro\Bundle\ApiBundle\Processor\Options\Rest\SetCacheControl
         arguments:
-            - 0 # preflightMaxAge. It is set by Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension
+            - '@oro_frontend.api.rest.cors_settings'
         tags:
             - { name: oro.api.processor, action: options, group: normalize_result, requestType: frontend&rest, priority: -245 }

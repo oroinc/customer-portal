@@ -102,9 +102,8 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*At least one role must be assigned to an user.*
+**Note:**
+At least one role must be assigned to an user.
 
 ### email
 
@@ -118,9 +117,7 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ### password
 
@@ -140,9 +137,7 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ### lastName
 
@@ -156,9 +151,7 @@ Delete a collection of customer user records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ### enabled
 

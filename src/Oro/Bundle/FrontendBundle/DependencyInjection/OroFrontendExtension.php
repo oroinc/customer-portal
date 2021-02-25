@@ -13,7 +13,11 @@ use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ */
 class OroFrontendExtension extends Extension implements PrependExtensionInterface
 {
     public const ALIAS = 'oro_frontend';
@@ -23,10 +27,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     public const API_DOC_VIEWS_PARAMETER_NAME        = 'oro_frontend.api_doc.views';
     public const API_DOC_DEFAULT_VIEW_PARAMETER_NAME = 'oro_frontend.api_doc.default_view';
 
-    private const API_CACHE_CONTROL_PROCESSOR_SERVICE_ID = 'oro_frontend.api.options.rest.set_cache_control';
-    private const API_MAX_AGE_PROCESSOR_SERVICE_ID       = 'oro_frontend.api.options.rest.cors.set_max_age';
-    private const API_ALLOW_ORIGIN_PROCESSOR_SERVICE_ID  = 'oro_frontend.api.rest.cors.set_allow_origin';
-    private const API_CORS_HEADERS_PROCESSOR_SERVICE_ID  = 'oro_frontend.api.rest.cors.set_allow_and_expose_headers';
+    private const CORS_SETTINGS_SERVICE_ID = 'oro_frontend.api.rest.cors_settings';
 
     /**
      * {@inheritdoc}
@@ -68,6 +69,14 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
             $this->validateBackendPrefix($container);
             $this->modifySecurityConfig($container);
             $this->modifyFosRestConfig($container);
+        }
+
+        if ('test' === $container->getParameter('kernel.environment')) {
+            $fileLocator = new FileLocator(__DIR__ . '/../Tests/Functional/Environment');
+            $configData = Yaml::parse(file_get_contents($fileLocator->locate('app.yml')));
+            foreach ($configData as $name => $config) {
+                $container->prependExtensionConfig($name, $config);
+            }
         }
     }
 
@@ -226,19 +235,15 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
      * @param ContainerBuilder $container
      * @param array            $config
      */
-    private function configureApiCors(ContainerBuilder $container, array $config)
+    private function configureApiCors(ContainerBuilder $container, array $config): void
     {
         $corsConfig = $config['frontend_api']['cors'];
-        $container->getDefinition(self::API_CACHE_CONTROL_PROCESSOR_SERVICE_ID)
-            ->replaceArgument(0, $corsConfig['preflight_max_age']);
-        $container->getDefinition(self::API_MAX_AGE_PROCESSOR_SERVICE_ID)
-            ->replaceArgument(0, $corsConfig['preflight_max_age']);
-        $container->getDefinition(self::API_ALLOW_ORIGIN_PROCESSOR_SERVICE_ID)
-            ->replaceArgument(0, $corsConfig['allow_origins']);
-        $container->getDefinition(self::API_CORS_HEADERS_PROCESSOR_SERVICE_ID)
-            ->replaceArgument(0, $corsConfig['allow_headers'])
-            ->replaceArgument(1, $corsConfig['expose_headers'])
-            ->replaceArgument(2, $corsConfig['allow_credentials']);
+        $container->getDefinition(self::CORS_SETTINGS_SERVICE_ID)
+            ->replaceArgument(0, $corsConfig['preflight_max_age'])
+            ->replaceArgument(1, $corsConfig['allow_origins'])
+            ->replaceArgument(2, $corsConfig['allow_credentials'])
+            ->replaceArgument(3, $corsConfig['allow_headers'])
+            ->replaceArgument(4, $corsConfig['expose_headers']);
     }
 
     /**

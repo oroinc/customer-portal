@@ -47,7 +47,6 @@ oro_frontend:
                 label: Enable Storefront API
         messages:
             no_page_templates: 'No templates available.'
-    copyright.label: '2018 Oro Inc. All Rights Reserved.'
 
     home_page:
         title: 'Home page'
@@ -132,3 +131,12 @@ oro_frontend:
                 is_editable:
                     label: Show on form
                     tooltip: 'Defines whether the field is enabled in the front store forms'
+
+    switcher:
+        info:
+            popup:
+                localizations_and_currency: 'Language & Currency'
+                localizations: 'Language'
+                currency: 'Currency'
+            localizations: 'Language'
+            currency: 'Currency'
