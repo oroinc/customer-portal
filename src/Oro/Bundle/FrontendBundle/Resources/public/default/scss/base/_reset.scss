@@ -16,3 +16,9 @@ textarea {
 :focus {
     outline: none;
 }
+
+code {
+    /*rtl:ignore*/
+    direction: ltr;
+    /*rtl:ignore*/
+}

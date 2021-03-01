@@ -3,8 +3,11 @@
 @import "~bootstrap/scss/tables";
 @import "~bootstrap/scss/transitions";
 @import "~bootstrap/scss/utilities";
+/*rtl:begin:ignore*/
 @import "~bootstrap/scss/popover";
+/*rtl:end:ignore*/
 @import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/dropdown";
 @import "buttons";
 @import "button-group";
 @import "dropdown";
