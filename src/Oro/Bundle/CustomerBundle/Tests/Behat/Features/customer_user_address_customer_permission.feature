@@ -49,6 +49,7 @@ Feature: Customer user address customer permission
       | First Name    | <Customer user> |
       | Last Name     | <Customer user> |
       | Email Address | <Email>         |
+    And I focus on "Birthday" field
     And click "Today"
     And fill form with:
       | Password                   | Admin123   |

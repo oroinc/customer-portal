@@ -31,7 +31,7 @@ $filter-value-range-align-items: center !default;
 $filter-value-range-justify-content: space-between !default;
 
 $filter-start-end-width: 100% !default;
-$filter-start-end-display: inline-block !default;
+$filter-start-end-display: flex !default;
 
 $filter-datepicker-box-icon-top: 5px !default;
 
@@ -67,3 +67,12 @@ $filter-box-apply-arrow-box-shadow: 0 0 0 1px get-color('additional', 'middle') 
 $filter-box-apply-arrow-placeholder: 10px !default;
 
 $multiselect-filter-no-found-offset-top: $offset-y-s !default;
+
+// Filter Range
+$filter-input-group-prefix-width: 30px !default;
+$filter-input-group-extend-prefix-width: 50px !default;
+$filter-input-group-prefix-display: flex !default;
+$filter-input-group-prefix-align-items: center !default;
+$filter-input-group-prefix-justify-content: center !default;
+
+$product-price-filter-criteria-max-width: 306px !default;

@@ -1,0 +1,18 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+            themes: 'OroFrontendBundle:layouts:default/layout.html.twig'
+
+        - '@addTree':
+            items:
+                switcher_info_trigger:
+                    prepend: false
+                    siblingId: header_row_customer
+                    blockType: block
+                    options:
+                        vars:
+                            items: []
+
+            tree:
+                header_row:
+                    switcher_info_trigger: ~

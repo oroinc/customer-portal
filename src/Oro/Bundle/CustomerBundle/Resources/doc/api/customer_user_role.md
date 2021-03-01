@@ -121,9 +121,7 @@ Delete a collection of customer user role records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ### label
 
@@ -137,9 +135,7 @@ Delete a collection of customer user role records.
 
 {@inheritdoc}
 
-**Please note:**
-
-*This field is **required** and must remain defined.*
+**This field must not be empty, if it is passed.**
 
 ## SUBRESOURCES
 

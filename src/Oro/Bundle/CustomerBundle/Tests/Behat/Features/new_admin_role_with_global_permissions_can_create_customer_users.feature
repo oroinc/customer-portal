@@ -44,6 +44,7 @@ Feature: New admin role with global permissions can create customer users
       | First Name    | New                       |
       | Last Name     | Customer User             |
       | Email Address | CustomerUser1@example.org |
+    And I focus on "Birthday" field
     And click "Today"
     And fill form with:
       | Password           | CustomerUser1@example.org |

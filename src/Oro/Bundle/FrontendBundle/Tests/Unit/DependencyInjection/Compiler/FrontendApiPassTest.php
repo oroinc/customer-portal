@@ -2,10 +2,16 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection\Compiler;
 
+use Oro\Bundle\ApiBundle\EventListener\UnhandledApiErrorExceptionListener as BaseUnhandledApiErrorExceptionListener;
+use Oro\Bundle\ApiBundle\Request\Rest\RequestActionHandler;
 use Oro\Bundle\FrontendBundle\DependencyInjection\Compiler\FrontendApiPass;
+use Oro\Bundle\FrontendBundle\EventListener\UnhandledApiErrorExceptionListener;
+use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use Symfony\Component\DependencyInjection\Reference;
 
 class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
 {
@@ -29,18 +35,25 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->container = new ContainerBuilder();
+        $this->container
+            ->register(
+                'oro_api.rest.unhandled_error_exception_listener',
+                BaseUnhandledApiErrorExceptionListener::class
+            )
+            ->setArguments([new Reference(ContainerInterface::class), '%oro_api.rest.pattern%'])
+            ->addTag('kernel.event_listener', ['event' => 'kernel.exception', 'priority' => -10])
+            ->addTag('container.service_subscriber', [
+                'id'  => 'oro_api.rest.request_action_handler',
+                'key' => RequestActionHandler::class
+            ]);
+
         $this->compilerPass = new FrontendApiPass();
     }
 
-    /**
-     * @param string $serviceId
-     *
-     * @return Definition
-     */
-    private function registerProcessor($serviceId)
+    private function registerProcessor(string $serviceId): Definition
     {
         $definition = $this->container->setDefinition($serviceId, new Definition());
-        $definition->addTag('oro.api.processor', []);
+        $definition->addTag('oro.api.processor');
 
         return $definition;
     }
@@ -50,7 +63,7 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
      *
      * @return Definition[]
      */
-    private function registerProcessors($serviceIdToBeSkipped = null)
+    private function registerProcessors(string $serviceIdToBeSkipped = null): array
     {
         $definitions = [];
         foreach (self::PROCESSORS as $serviceId) {
@@ -66,7 +79,7 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider processorsDataProvider
      */
-    public function testProcessWhenSomeProcessorDoesNotExist($processorServiceId)
+    public function testProcessWhenSomeProcessorDoesNotExist(string $processorServiceId): void
     {
         $this->registerProcessors($processorServiceId);
 
@@ -76,7 +89,7 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
         $this->compilerPass->process($this->container);
     }
 
-    public function processorsDataProvider()
+    public function processorsDataProvider(): array
     {
         return array_map(
             function ($serviceId) {
@@ -86,7 +99,7 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testProcessWhenAllProcessorsExist()
+    public function testProcessWhenAllProcessorsExist(): void
     {
         $definitions = $this->registerProcessors();
 
@@ -98,5 +111,35 @@ class FrontendApiPassTest extends \PHPUnit\Framework\TestCase
                 $definition->getTag('oro.api.processor')
             );
         }
+    }
+
+    public function testConfigureUnhandledApiErrorExceptionListener(): void
+    {
+        $this->registerProcessors();
+        $this->compilerPass->process($this->container);
+
+        $listenerDefinition = $this->container->getDefinition('oro_api.rest.unhandled_error_exception_listener');
+        self::assertEquals(UnhandledApiErrorExceptionListener::class, $listenerDefinition->getClass());
+        self::assertEquals(
+            [
+                new Reference(ContainerInterface::class),
+                '%oro_api.rest.pattern%',
+                '%web_backend_prefix%'
+            ],
+            $listenerDefinition->getArguments()
+        );
+        self::assertEquals(
+            [
+                'kernel.event_listener'        => [
+                    ['event' => 'kernel.exception', 'priority' => -10]
+                ],
+                'container.service_subscriber' => [
+                    ['id' => FrontendHelper::class],
+                    ['id' => 'oro_api.rest.request_action_handler', 'key' => 'handler'],
+                    ['id' => 'oro_frontend.api.rest.request_action_handler', 'key' => 'frontend_handler']
+                ]
+            ],
+            $listenerDefinition->getTags()
+        );
     }
 }
