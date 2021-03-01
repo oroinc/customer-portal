@@ -74,15 +74,6 @@
     }
 }
 
-[dir="rtl"] {
-    .fa {
-        &-angle-right,
-        &-angle-left {
-            transform: rotateY(180deg);
-        }
-    }
-}
-
 .loader-in-process {
     .fa--loader-icon {
         @extend .fa-spinner;

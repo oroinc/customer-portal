@@ -129,10 +129,9 @@
 
         @extend .dropdown-menu-right;
 
-        /*rtl:begin:ignore*/
-        left: 0;
+    /*rtl:raw:
         right: auto;
-        /*rtl:end:ignore*/
+    */
 
         // Rewrite ui-* styles
         &.ui-rewrite {

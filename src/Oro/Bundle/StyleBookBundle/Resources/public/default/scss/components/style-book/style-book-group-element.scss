@@ -30,6 +30,8 @@
 code,
 pre {
     &[class*=language-] {
-        text-align: left #{'/*rtl:ignore*/'};
+        /*rtl:ignore*/
+        text-align: left;
+        /*rtl:ignore*/
     }
 }

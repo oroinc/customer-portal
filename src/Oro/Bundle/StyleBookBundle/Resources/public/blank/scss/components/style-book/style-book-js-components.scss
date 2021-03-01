@@ -134,8 +134,8 @@ $collapse-preview-item-content-color-hover: get-color('ui', 'focus') !default;
         $slick-arrow-icon-hover-color: null,
         $slick-arrow-prev-left: -36px,
         $slick-arrow-next-right: 36px,
-        $slick-arrow-prev-icon: $fa-var-chevron-left,
-        $slick-arrow-next-icon: $fa-var-chevron-right,
+        $slick-arrow-prev-icon: var(--fa-var-chevron-left),
+        $slick-arrow-next-icon: var(--fa-var-chevron-right),
         $slick-arrow-prev-icon-offset: 0 2px 0 0,
         $slick-arrow-next-icon-offset: 0 0 0 2px
     );

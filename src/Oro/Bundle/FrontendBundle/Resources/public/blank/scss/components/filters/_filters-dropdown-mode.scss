@@ -68,6 +68,17 @@
         }
     }
 
+    .criteria-visible {
+        margin-left: auto;
+        visibility: visible;
+    }
+
+    .criteria-hidden {
+        // Break inline styles
+        margin-left: -9999px !important;
+        visibility: hidden;
+    }
+
     .filter-criteria-selector-icon-wrap {
         top: $filter-dropdown-mode-criteria-selector-icon-top;
         right: $filter-dropdown-mode-criteria-selector-icon-right;

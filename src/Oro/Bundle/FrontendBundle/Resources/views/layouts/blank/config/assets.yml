@@ -1,7 +1,6 @@
 styles:
     inputs:
         - '~slick-carousel/slick/slick.scss'
-        - '~bootstrap/scss/dropdown'
 
         # Bootstrap Required
         - 'bundles/orofrontend/blank/scss/settings/bootstrap/functions.scss'
