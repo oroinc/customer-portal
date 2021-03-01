@@ -18,9 +18,9 @@ Feature: Featured menu ignore a field that matches the default language
       | Title                     | Information       |
       | Title First               |                   |
       | Title First Use Fallback  | true              |
-      | Title First Fallback      | system            |
+      | Title First Fallback      | Default Value     |
       | Title Second              | Information LANG1 |
       | Title Second Use Fallback | false             |
       | Title Third               |                   |
       | Title Third Use Fallback  | true              |
-      | Title Third Fallback      | system            |
+      | Title Third Fallback      | Default Value     |

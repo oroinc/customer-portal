@@ -119,3 +119,12 @@ oro_frontend:
 
     scroll_to_the_top: 'Scroll to the top'
     avaliable_credit_cards.aria_label: Avaliable Credit Cards
+
+    switcher:
+        info:
+            popup:
+                localizations_and_currency: 'Language & Currency'
+                localizations: 'Language'
+                currency: 'Currency'
+            localizations: 'Language'
+            currency: 'Currency'

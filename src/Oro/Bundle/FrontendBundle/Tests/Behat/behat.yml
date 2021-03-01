@@ -70,6 +70,8 @@ oro_behat_extension:
       selector: ".popup-gallery-widget"
     Popup Gallery Widget Image:
       selector: ".popup-gallery-widget img"
+    Popover Image:
+      selector: "div.popover img"
     Popup Gallery Widget Close:
       selector: ".popup-gallery-widget button[data-trigger-gallery-close]"
     Filter Settings Form:

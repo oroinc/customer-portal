@@ -1,0 +1,65 @@
+{% block _switcher_info_trigger_widget %}
+    {% set items = items|default([]) %}
+
+    {% set itemsCount = 0 %}
+    {% set btnIcon = 'fa-globe' %}
+    {% set popupLabel = '' %}
+
+    {% for key, item in items %}
+        {% if item|length > 1 %}
+            {% set itemsCount = itemsCount + 1 %}
+
+            {% if key == 'localizations' %}
+                {% set popupLabel = 'oro_frontend.switcher.info.popup.localizations'|trans %}
+            {% endif %}
+
+            {% if key == 'currency' %}
+                {% set btnIcon = 'fa-usd' %}
+                {% set popupLabel = 'oro_frontend.switcher.info.popup.currency'|trans %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    {% if itemsCount > 1 %}
+        {% set btnIcon = 'fa-globe' %}
+        {% set popupLabel = 'oro_frontend.switcher.info.popup.localizations_and_currency'|trans %}
+    {% endif %}
+
+    {% if itemsCount %}
+        <div class="header-row__container hidden-on-desktop">
+            <button class="header-row__trigger hidden-on-desktop"
+                aria-label="{{ popupLabel }}"
+                data-page-component-module="oroui/js/app/components/viewport-component"
+                data-page-component-options="{{ {
+                    viewport: {
+                        maxScreenType: 'tablet',
+                    },
+                    component: 'oroui/js/app/components/view-component',
+                    view: 'orofrontend/blank/js/app/views/fullscreen-popup-view',
+                    popupIcon: btnIcon ~ ' fa--gray fa--x-large',
+                    popupLabel: popupLabel,
+                    contentElement: '[data-switcher-info-container]',
+                    contentAttributes: {
+                        'class': 'switcher-info__container oro-toolbar fullscreen-mode'
+                    }
+                }|json_encode() }}"
+            >
+                <span class="nav-trigger__icon nav-trigger__icon--transparent nav-trigger__icon--large" aria-hidden="true">
+                    <span class="{{ btnIcon }} fa--no-offset"></span>
+                </span>
+            </button>
+            <div class="switcher-info__container" data-switcher-info-container>
+                {% for key, item in items %}
+                    {% if item|length > 1 %}
+                        <div class="switcher-info__section">
+                            {% if itemsCount > 1 %}
+                                <div class="switcher-info__title">{{ ('oro_frontend.switcher.info.' ~ key)|trans }}</div>
+                            {% endif %}
+                            <div class="switcher-info__target" data-switcher-{{ key }}-target></div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -187,3 +187,7 @@
 {% block oro_frontend_country_widget %}
     {{ form_widget(form, {'class_prefix': 'checkout'}) }}
 {% endblock %}
+
+{% block oro_image_widget %}
+    <div class="uploader-container">{{ form_widget(form.file) }}</div>
+{% endblock %}

@@ -97,7 +97,7 @@ oro_frontend:
             label: 'Show Less'
         group_similar:
             aria_label: 'Group similar products'
-            label: 'Group similar'
+            label: 'Group Similar'
         ungroup_similar:
             aria_label: 'Show similar products separately'
-            label: 'Ungroup similar'
+            label: 'Ungroup Similar'

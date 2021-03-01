@@ -21,7 +21,7 @@ class ApiFirewallTest extends FrontendRestJsonApiTestCase
     public function testCustomerUserShouldBeAbleToLoginWithSameEmailAsBackendUser()
     {
         // get customer user API key
-        $this->client->request(
+        $response = $this->request(
             'POST',
             $this->getUrl('oro_frontend_rest_api_list', ['entity' => 'login']),
             [
@@ -29,21 +29,15 @@ class ApiFirewallTest extends FrontendRestJsonApiTestCase
                     'email'    => 'test@test.com',
                     'password' => 'test_password'
                 ]
-            ],
-            [],
-            ['CONTENT_TYPE' => self::JSON_API_CONTENT_TYPE]
+            ]
         );
-        $response = $this->client->getResponse();
-        $output = json_decode($response->getContent(), true);
+        $output = self::jsonToArray($response->getContent());
         $apiKey = $output['meta']['apiKey'];
 
         $response = $this->post(
             ['entity' => 'login'],
             ['meta'=> ['email' => 'test@test.com', 'password' => 'test_password']],
-            array_merge(
-                ['CONTENT_TYPE' => self::JSON_API_CONTENT_TYPE],
-                self::generateWsseAuthHeader('test@test.com', $apiKey)
-            ),
+            self::generateWsseAuthHeader('test@test.com', $apiKey),
             false
         );
 

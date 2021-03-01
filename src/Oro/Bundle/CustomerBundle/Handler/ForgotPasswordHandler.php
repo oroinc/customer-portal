@@ -64,7 +64,7 @@ class ForgotPasswordHandler
         $request->query->add(['isCheckEmail' => true]);
         $this->session->set(
             'oro_customer_user_reset_email',
-            $this->getObfuscatedEmail($email)
+            $email
         );
 
         return true;
