@@ -36,7 +36,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
         frontendOwner:
             - Oro\Bundle\FormBundle\Validator\Constraints\UnchangeableField:
                 message: oro.address.validation.owner_changed
-                groups: ['api']
+                groups: [api]
 
 Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
     properties:
@@ -105,7 +105,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         frontendOwner:
             - Oro\Bundle\FormBundle\Validator\Constraints\UnchangeableField:
                 message: oro.address.validation.owner_changed
-                groups: ['api']
+                groups: [api]
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
     constraints:
