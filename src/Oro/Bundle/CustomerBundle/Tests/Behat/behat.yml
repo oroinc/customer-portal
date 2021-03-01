@@ -225,7 +225,7 @@ oro_behat_extension:
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
 
     FrontendGridFilterManagerButton:
-      selector: 'button.select-filter-widget'
+      selector: 'button.filters-manager-trigger'
 
     Customer User Form Admin:
       selector: '[id^="oro_customer_customer_user-uid"]'
