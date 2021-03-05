@@ -198,7 +198,7 @@ oro_behat_extension:
       selector: '.frontend-grid-view-name'
 
     FrontendGridViewSetAsDefaultCheckbox:
-      selector: '.grid-views input[name="is_default"]+.custom-checkbox__icon'
+      selector: '.grid-views input[name="is_default"]'
 
     FrontendGridViewSetAsDefaultButton:
       selector: 'button[data-role="use_as_default"]'
