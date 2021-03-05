@@ -76,7 +76,6 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
      * @param CacheProvider                  $cacheProvider
      * @param CsrfRequestManager             $csrfRequestManager
      * @param string                         $apiPattern
-     * @param CustomerVisitorCookieFactory   $cookieFactory
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
