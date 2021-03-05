@@ -1,0 +1,5 @@
+services:
+    oro_frontend_importexport.async.processor.pre_export:
+        class: Oro\Bundle\FrontendImportExportBundle\Async\Export\PreExportMessageProcessor
+        tags:
+            - { name: 'oro_message_queue.client.message_processor' }

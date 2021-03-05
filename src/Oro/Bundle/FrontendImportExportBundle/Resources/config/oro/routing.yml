@@ -1,0 +1,6 @@
+oro_frontend_importexport_export:
+    resource: "@OroFrontendImportExportBundle/Controller/Frontend/ExportController.php"
+    type: annotation
+    prefix: /export
+    options:
+        frontend: true

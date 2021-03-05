@@ -1,0 +1,3 @@
+dynamic-imports:
+    orofrontendimportexport:
+        - orofrontendimportexport/js/app/views/export-button-view
