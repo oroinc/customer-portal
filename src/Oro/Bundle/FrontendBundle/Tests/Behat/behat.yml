@@ -46,7 +46,7 @@ oro_behat_extension:
       selector: '.refresh-action'
     FrontendGridActionResetButton:
       selector: '.reset-action'
-    FrontendGridActionFilterButton:
+    Frontend Grid Action Filter Button:
       selector: '.action[title="Filter Toggle"]'
     DetachedSelect2Result:
       selector: '#select2-drop-mask + .select2-drop .select2-results'
