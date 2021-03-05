@@ -1,0 +1,31 @@
+{% block __frontend_export__export_button_container_widget %}
+    <div {{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block __frontend_export__export_button_widget %}
+    {% for configuration in get_import_export_configuration(configuration_alias) %}
+        {% set hasExportProcessor = configuration.exportProcessorAlias is defined and configuration.exportProcessorAlias is not empty %}
+        {% set exportProcessor = configuration.exportProcessorAlias is iterable ? configuration.exportProcessorAlias|first : configuration.exportProcessorAlias %}
+
+            <button role="button"
+               class="btn btn--default btn--size-s mode-icon-only"
+               aria-label="{{ 'oro.frontend_importexport.export.button.aria-label'|trans }}"
+               data-page-component-module="oroui/js/app/components/view-component"
+               data-page-component-options="{{ {
+                   'view': 'orofrontendimportexport/js/app/views/export-button-view',
+                   'entity': configuration.entityClass,
+                   'routeOptions': configuration.routeOptions|default({})|merge(options|default({})),
+                   'exportProcessor': exportProcessor|default(null),
+                   'exportJob': configuration.exportJobName|default(null),
+                   'filePrefix': configuration.filePrefix|default(null),
+                   'exportRoute': 'oro_frontend_importexport_export',
+                   'successMessage': successMessage|default('oro.frontend_importexport.export.success.message'),
+                   'errorMessage': errorMessage|default('oro.frontend_importexport.export.fail.message')
+               }|json_encode }}"
+            >
+                <span class="fa-download hide-text" aria-hidden="true"></span>
+            </button>
+
+    {% endfor %}
+
+{% endblock %}

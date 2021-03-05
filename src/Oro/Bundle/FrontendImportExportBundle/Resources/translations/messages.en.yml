@@ -1,0 +1,5 @@
+oro.frontend_importexport:
+    export:
+        button:
+            aria-label: Export
+
