@@ -234,6 +234,8 @@ services:
             - '@oro_frontend.locale_settings.inner'
             - '@oro_frontend.request.frontend_helper'
             - '@oro_frontend_localization.manager.user_localization'
+            - '@oro_layout.layout_context_holder'
+            - '@oro_layout.theme_manager'
 
     # Website default localization
     # This provider should be run before the last one
