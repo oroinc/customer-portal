@@ -27,7 +27,7 @@ class OroCustomerBundle implements Migration
 
     /**
      * @param QueryBag $queries
-     * @param string
+     * @param string   $name
      */
     protected function removeFromConfig(QueryBag $queries, $name)
     {

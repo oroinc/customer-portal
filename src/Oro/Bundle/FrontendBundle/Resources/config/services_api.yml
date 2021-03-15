@@ -136,6 +136,7 @@ services:
             - { name: oro.api.processor, action: delete_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
             - { name: oro.api.processor, action: add_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
             - { name: oro.api.processor, action: update_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
+            - { name: oro.api.processor, action: unhandled_error, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
             - { name: oro.api.processor, action: options, group: normalize_result, requestType: frontend&rest, cors: true, priority: -235 }
 
     oro_frontend.api.rest.cors.set_allow_and_expose_headers:
@@ -157,6 +158,7 @@ services:
             - { name: oro.api.processor, action: delete_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
             - { name: oro.api.processor, action: add_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
             - { name: oro.api.processor, action: update_relationship, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
+            - { name: oro.api.processor, action: unhandled_error, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
             - { name: oro.api.processor, action: options, group: normalize_result, requestType: frontend&rest, cors: true, priority: -240 }
 
     oro_frontend.api.options.rest.cors.set_max_age:
