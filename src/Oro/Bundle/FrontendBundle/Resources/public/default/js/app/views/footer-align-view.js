@@ -60,9 +60,11 @@ define(function(require) {
         getItemsByRow: function() {
             const itemsByRow = [];
             let items;
-            let previousLeft = 0;
+            let previousOffset = 0;
 
-            _.each(this.getElement('items'), function(item) {
+            _.each(_.isRTL()
+                ? this.getElement('items').get().reverse()
+                : this.getElement('items'), function(item) {
                 const $item = $(item);
 
                 const $footer = $item.find(this.elements.footer);
@@ -71,11 +73,11 @@ define(function(require) {
                 }
 
                 const offset = $footer.offset();
-                if (!items || offset.left <= previousLeft) {
+                if (!items || offset.left <= previousOffset) {
                     items = [];
                     itemsByRow.push(items);
                 }
-                previousLeft = offset.left;
+                previousOffset = offset.left;
 
                 items.push({
                     $footer: $footer.css('padding-top', 0),

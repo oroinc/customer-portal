@@ -45,18 +45,14 @@
     }
 
     &__manage-link {
-        @extend .link;
-
-        &:after {
+        @include fa-icon($fa-var-angle-right, after, true) {
             display: inline-block;
 
-            margin-left: 5px;
+            margin-left: $font-icon-offset-end;
+        }
 
-            font-family: $icon-font;
-            font-size: $base-font-size--s - 1;
-
-            content: '\f105';
-            vertical-align: middle;
+        [dir="rtl"] & {
+            @include fa-icon($fa-var-angle-left, after);
         }
     }
 

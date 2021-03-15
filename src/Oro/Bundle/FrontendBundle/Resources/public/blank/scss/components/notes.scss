@@ -26,4 +26,10 @@
   &__info {
     margin-bottom: $offset-y-m;
   }
+
+  &__text {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
 }

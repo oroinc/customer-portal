@@ -26,7 +26,8 @@ define(function(require) {
             embeddedArrowsClass: 'embedded-arrows',
             loadingClass: 'loading',
             itemLinkSelector: null,
-            processClick: null
+            processClick: null,
+            rtl: _.isRTL()
         }),
 
         /**

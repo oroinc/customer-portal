@@ -129,6 +129,10 @@
 
         @extend .dropdown-menu-right;
 
+        /*rtl:raw:
+        right: auto;
+        */
+
         // Rewrite ui-* styles
         &.ui-rewrite {
             // Break inline styles

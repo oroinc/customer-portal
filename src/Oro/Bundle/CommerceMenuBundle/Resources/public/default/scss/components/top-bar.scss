@@ -61,6 +61,10 @@
     }
 
     &__link {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+
         color: $top-bar-link-color;
         text-decoration: none;
 
@@ -95,7 +99,7 @@
                     text-decoration: none;
 
                     cursor: default;
-                }                
+                }
             }
 
             &--user-name {

@@ -15,6 +15,8 @@ $customer-line-items-grid-cell-last-notes-cell-offset-inner: 0 !default;
 $customer-line-items-grid-cell-last-notes-cell-text-align: left !default;
 $customer-line-items-sku-value-color: get-color('primary', 'dark') !default;
 
+$customer-line-items-item-offset-start: $offset-y-s !default;
+
 // tablet-small
 $customer-line-items-title-offset-inner-bottom-tablet-small: $offset-y-m !default;
 $customer-line-items-title-border-bottom-tablet-small: 1px solid get-color('additional', 'light') !default;
