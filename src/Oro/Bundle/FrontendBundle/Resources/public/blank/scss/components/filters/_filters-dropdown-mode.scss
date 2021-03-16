@@ -69,13 +69,13 @@
     }
 
     .criteria-visible {
-        margin-left: auto;
+        margin-inline-start: auto;
         visibility: visible;
     }
 
     .criteria-hidden {
         // Break inline styles
-        margin-left: -9999px !important;
+        margin-inline-start: -9999px !important;
         visibility: hidden;
     }
 
