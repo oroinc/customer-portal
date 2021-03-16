@@ -342,6 +342,43 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         self::assertTrue($customerUser->isConfirmed());
     }
 
+    public function testTryToUpdateCurrentLoggedInUserWhenDataAreInvalid()
+    {
+        /** @var CustomerUser $customerUser */
+        $customerUser = $this->getEntityManager()
+            ->getRepository(CustomerUser::class)
+            ->findOneBy(['email' => self::USER_NAME]);
+        $customerUserId = $customerUser->getId();
+        $customerUserEmail = $customerUser->getEmail();
+
+        // do not use patch() method to prevent clearing of the entity manager
+        // and as result refreshing the security context
+        $response = $this->request(
+            'PATCH',
+            $this->getUrl($this->getItemRouteName(), ['entity' => 'customerusers', 'id' => $customerUserId]),
+            [
+                'data' => [
+                    'type'       => 'customerusers',
+                    'id'         => (string)$customerUserId,
+                    'attributes' => ['email' => null]
+                ]
+            ]
+        );
+
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'not blank constraint',
+                'source' => ['pointer' => '/data/attributes/email']
+            ],
+            $response
+        );
+
+        /** @var CustomerUser $loggedInCustomerUser */
+        $loggedInCustomerUser = self::getContainer()->get('security.token_storage')->getToken()->getUser();
+        self::assertSame($customerUserId, $loggedInCustomerUser->getId());
+        self::assertSame($customerUserEmail, $loggedInCustomerUser->getEmail());
+    }
+
     public function testDelete()
     {
         $customerUserId = $this->getReference('customer_user2')->getId();
