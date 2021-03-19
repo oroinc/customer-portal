@@ -61,10 +61,7 @@
     }
 
     &__link {
-        display: inline-flex;
-        flex-wrap: wrap;
-        align-items: center;
-
+        display: inline-block;
         color: $top-bar-link-color;
         text-decoration: none;
 

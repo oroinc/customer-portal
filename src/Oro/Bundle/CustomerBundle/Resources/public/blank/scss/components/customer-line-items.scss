@@ -61,22 +61,12 @@
         }
     }
 
-    &__row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-
     &__sku-value {
         color: $customer-line-items-sku-value-color;
     }
 
     .custom-radio__text {
         vertical-align: top;
-    }
-
-    &__item-offset {
-        margin-left: $customer-line-items-item-offset-start;
     }
 }
 
