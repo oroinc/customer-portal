@@ -6,6 +6,7 @@
         display: inline-flex;
         width: 1px;
         height: 16px;
+        margin: 0 $offset-x-m;
 
         line-height: 1;
 
@@ -15,10 +16,6 @@
     &:first-child {
         &:before {
             display: none;
-        }
-
-        .btn--link {
-            padding-left: 0;
         }
     }
 
@@ -31,10 +28,6 @@
             &:before {
                 display: none;
             }
-
-            .btn--link {
-                padding-left: 0;
-            }
         }
     }
 }
@@ -42,7 +35,8 @@
 @include breakpoint('mobile') {
     .datagrid-divider {
         &:before {
-            display: none;
+            margin: 0 $offset-x-s;
+            visibility: hidden;
         }
     }
 }
