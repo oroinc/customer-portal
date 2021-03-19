@@ -165,6 +165,10 @@
     border-radius: $select2-drop-border-radius;
     box-shadow: 0 3px 5px rgba(0, 0, 0, .15);
 
+    &--rtl {
+        right: auto !important;
+    }
+
     .select2-highlighted,
     .select2-result.active {
         background-color: $select2-drop-result-active-background-color;
