@@ -7,6 +7,7 @@ define(function(require) {
     const routing = require('routing');
     const messenger = require('oroui/js/messenger');
     const __ = require('orotranslation/js/translator');
+    const mediator = require('oroui/js/mediator');
 
     const ExportButtonView = BaseView.extend({
         /**
@@ -22,6 +23,9 @@ define(function(require) {
             successMessage: null,
             errorMessage: null
         },
+
+        /** @property {Object} */
+        routeOptions: {},
 
         /**
          * @inheritDoc
@@ -70,6 +74,8 @@ define(function(require) {
 
             const routeOptions = $.extend(true, {}, this.routeOptions);
             routeOptions.options = $.extend(true, {}, routeOptions.options);
+
+            mediator.trigger('import-export:handleExport', routeOptions.options);
 
             const exportUrl = routing.generate(this.options.exportRoute, $.extend({}, routeOptions, {
                 processorAlias: this.options.exportProcessor,

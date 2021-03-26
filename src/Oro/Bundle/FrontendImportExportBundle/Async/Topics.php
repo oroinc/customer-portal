@@ -8,4 +8,5 @@ namespace Oro\Bundle\FrontendImportExportBundle\Async;
 class Topics
 {
     public const PRE_EXPORT = 'oro_frontend_importexport.pre_export';
+    public const POST_EXPORT = 'oro_frontend_importexport.post_export';
 }
