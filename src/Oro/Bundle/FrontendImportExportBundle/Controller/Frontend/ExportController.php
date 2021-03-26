@@ -6,6 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\FrontendImportExportBundle\Async\Topics;
 use Oro\Bundle\ImportExportBundle\Exception\InvalidArgumentException;
 use Oro\Bundle\ImportExportBundle\Job\JobExecutor;
+use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\SecurityBundle\Annotation\CsrfProtection;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
@@ -27,14 +28,20 @@ class ExportController extends AbstractController
      */
     public function exportAction(string $processorAlias, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
+
         $user = $this->getUser();
         $currentWebsite = $this->get(WebsiteManager::class)->getCurrentWebsite();
+        $currentLocalization = $this->get(LocalizationHelper::class)->getCurrentLocalization();
+        $localizationId = $currentLocalization ? $currentLocalization->getId() : null;
 
         $this->get(MessageProducerInterface::class)->send(Topics::PRE_EXPORT, [
             'jobName' => $request->get('exportJob', JobExecutor::JOB_EXPORT_TO_CSV),
             'processorAlias' => $processorAlias,
             'outputFilePrefix' => $request->get('filePrefix'),
-            'options' => $this->getOptionsFromRequest($request),
+            'options' => array_merge($this->getOptionsFromRequest($request), [
+                'currentLocalizationId' => $localizationId
+            ]),
             'customerUserId' => $user instanceof CustomerUser ? $user->getId() : null,
             'websiteId' => $currentWebsite ? $currentWebsite->getId() : null,
         ]);
@@ -63,6 +70,7 @@ class ExportController extends AbstractController
             [
                 WebsiteManager::class,
                 MessageProducerInterface::class,
+                LocalizationHelper::class
             ]
         );
     }
