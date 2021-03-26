@@ -8,6 +8,14 @@
         text-transform: $customer-info-grid-title-text-transform;
     }
 
+    &__element--order_po_number & {
+        &__element-value {
+            /*rtl:ignore*/
+            direction: ltr;
+            /*rtl:ignore*/
+        }
+    }
+
     &__element-label {
         padding: $customer-info-grid-element-label-offest-inner;
 
