@@ -115,7 +115,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
      * @param CustomerUser $defaultData
      * @param array $submittedData
      * @param CustomerUser $expectedData
-     * @param bool|true $rolesGranted
+     * @param bool $rolesGranted
      */
     public function testSubmit(
         CustomerUser $defaultData,

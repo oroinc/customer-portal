@@ -32,7 +32,7 @@ class FeatureContext extends OroFeatureContext
     /**
      * @Given /^(?:|I )check path "(?P<path>.*)" is located on the base domain$/
      *
-     * @param string path
+     * @param string $path
      */
     public function checkPathIsLocateOnTheBaseDomain(string $path)
     {

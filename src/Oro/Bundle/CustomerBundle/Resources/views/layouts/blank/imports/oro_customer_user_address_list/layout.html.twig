@@ -85,8 +85,8 @@
             contentView: 'oroaddress/js/mapservice/googlemaps',
             contentOptions: {
                 address: {
-                    address: '<%= _.escape(searchable_string) %>',
-                    label: '<%= _.escape(label) %>'
+                    address: '<%- _.escapeForJSON(searchable_string) %>',
+                    label: '<%- _.escapeForJSON(label) %>'
                 }
             }
         }

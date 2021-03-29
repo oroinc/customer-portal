@@ -100,6 +100,11 @@ services:
         calls:
             - [setConfigManager, ['@oro_config.manager']]
 
+    oro_customer.importexport.customer_user.writer:
+        class: Oro\Bundle\CustomerBundle\ImportExport\Writer\CustomerUserWriter
+        public: false
+        parent: oro_integration.writer.persistent_batch_writer
+
     # Customer User Import Listener
     oro_customer.importexport.strategy.event_listener.import_customer_user_listener:
         class: 'Oro\Bundle\CustomerBundle\ImportExport\Strategy\EventListener\ImportCustomerUserListener'
