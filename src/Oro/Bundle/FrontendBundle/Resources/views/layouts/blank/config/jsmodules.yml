@@ -120,7 +120,3 @@ map:
         orodatagrid/js/datagrid/header-cell/action-header-cell: orodatagrid/js/datagrid/header-cell/action-header-cell
     orofrontend/js/datagrid/frontend-grid:
         orodatagrid/js/datagrid/grid: orodatagrid/js/datagrid/grid
-shim:
-    slick:
-        imports:
-            - single|jquery|jQuery

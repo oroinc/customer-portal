@@ -224,7 +224,7 @@
         }
     }
 
-    &.current + .main-menu__sublist-container {
+    .current + .main-menu__sublist-container {
         left: 0;
         overflow-y: scroll;
     }
