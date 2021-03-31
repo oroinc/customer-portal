@@ -140,7 +140,7 @@ define(function(require, exports, module) {
             const position = FrontendSelectFilter.__super__._getSelectWidgetPosition.call(this);
 
             return _.extend({}, position, {
-                my: 'left top'
+                my: `${_.isRTL() ? 'right' : 'left'} top`
             });
         },
 

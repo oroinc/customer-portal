@@ -52,3 +52,5 @@ styles:
         - 'bundles/orofrontend/default/scss/components/clear-search-button.scss'
         - 'bundles/orofrontend/default/scss/styles.scss'
     output: 'css/styles.css'
+    auto_rtl_inputs:
+        - 'bundles/oro*/**'

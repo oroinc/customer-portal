@@ -6,3 +6,5 @@ stylebook_styles:
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-sticky-elements-nav-config.scss'
         - 'bundles/orostylebook/default/scss/style-book.scss'
     output: 'css/stylebook.css'
+    auto_rtl_inputs:
+        - 'bundles/oro*/**'

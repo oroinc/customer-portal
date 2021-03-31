@@ -11,6 +11,8 @@ navigation:
 
             telephone:
                 label: 'oro.commercemenu.frontend.navigation.items.telephone.label'
+                label_attributes:
+                    dir: 'ltr'
                 extras:
                     position: 10
             free_shipping:

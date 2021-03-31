@@ -45,18 +45,9 @@
     }
 
     &__manage-link {
-        @extend .link;
-
-        &:after {
+        @include fa-icon(var(--fa-var-angle-right), after, true, true) {
             display: inline-block;
-
-            margin-left: 5px;
-
-            font-family: $icon-font;
-            font-size: $base-font-size--s - 1;
-
-            content: '\f105';
-            vertical-align: middle;
+            margin-left: $font-icon-offset-end;
         }
     }
 
