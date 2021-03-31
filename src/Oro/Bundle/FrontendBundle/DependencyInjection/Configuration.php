@@ -6,6 +6,7 @@ use Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class Configuration implements ConfigurationInterface
 {
@@ -87,6 +88,10 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('cookie_path')->end()
                     ->enumNode('cookie_secure')->values([true, false, 'auto'])->defaultValue('auto')->end()
                     ->booleanNode('cookie_httponly')->defaultTrue()->end()
+                    ->enumNode('cookie_samesite')
+                        ->values([null, Cookie::SAMESITE_LAX, Cookie::SAMESITE_STRICT, Cookie::SAMESITE_NONE])
+                        ->defaultNull()
+                    ->end()
                     ->scalarNode('gc_maxlifetime')->end()
                     ->scalarNode('gc_probability')->end()
                     ->scalarNode('gc_divisor')->end()
