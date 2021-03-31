@@ -239,6 +239,7 @@ services:
             - ~ #sets in Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension
             - ~ #sets in Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension
             - '@oro_config.manager'
+            - ~ #sets in Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension
 
     oro_customer.authentication.provider.anonymous_customer_user:
         class: 'Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticationProvider'

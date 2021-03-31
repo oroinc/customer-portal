@@ -2,6 +2,16 @@ Please refer first to [UPGRADE.md](UPGRADE.md) for the most important items that
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+## 5.0
+
+### Changed
+
+#### CustomerBundle
+
+* The configuration parameter `cookie_secure` has been moved to `visitor_session` node.
+* The configuration parameter `cookie_httponly` has been moved to `visitor_session` node.
+* The configuration parameter `cookie_samesite` has been moved to `visitor_session` node.
+
 ## 4.2.0 (2020-01-29)
 [Show detailed list of changes](incompatibilities-4-2.md)
 
