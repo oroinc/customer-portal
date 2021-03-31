@@ -17,11 +17,14 @@ class CustomerVisitorCookieFactory
     /** @var bool */
     private $httpOnly;
 
+    /** @var string|null */
+    private $sameSite;
+
     /** @var ConfigManager */
     private $configManager;
 
     /**
-     * @param               $secure
+     * @param mixed         $secure
      * @param bool          $httpOnly
      * @param ConfigManager $configManager
      */
@@ -30,6 +33,14 @@ class CustomerVisitorCookieFactory
         $this->secure = $secure;
         $this->httpOnly = $httpOnly;
         $this->configManager = $configManager;
+    }
+
+    /**
+     * @param string|null $sameSite
+     */
+    public function setSameSite(?string $sameSite): void
+    {
+        $this->sameSite = $sameSite;
     }
 
     /**
@@ -51,7 +62,9 @@ class CustomerVisitorCookieFactory
             '/',
             null,
             'auto' === $this->secure ? null : $this->secure,
-            $this->httpOnly
+            $this->httpOnly,
+            false,
+            $this->sameSite
         );
     }
 }
