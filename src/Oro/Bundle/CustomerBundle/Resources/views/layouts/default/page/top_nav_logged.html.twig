@@ -28,9 +28,9 @@
     }) %}
 
     <li {{ block('block_attributes') }}>
-        {% for child in block %}
-            {{ block_widget(child) }}{% if not loop.last %} {% endif %}
-        {% endfor %}
+        {%- for child in block -%}
+            {{- block_widget(child) -}}{%- if not loop.last %} {% endif -%}
+        {%- endfor -%}
     </li>
 {% endblock %}
 
@@ -40,7 +40,7 @@
     }) %}
 
     <li {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
+        {{- block_widget(block) -}}
     </li>
 {% endblock %}
 
@@ -71,7 +71,7 @@
     }) %}
 
     <a {{ block('block_attributes') }}>
-        <span class="fa-sign-out" aria-hidden="true"></span> {{ text|trans }}
+        <span class="fa-sign-out" aria-hidden="true"></span> {{ text|trans -}}
     </a>
 {% endblock %}
 

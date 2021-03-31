@@ -4,10 +4,14 @@ namespace Oro\Bundle\FrontendBundle\Model;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManagerInterface;
+use Oro\Bundle\LayoutBundle\Layout\LayoutContextHolder;
 use Oro\Bundle\LocaleBundle\Model\LocaleSettings as BaseLocaleSettings;
+use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
 
 /**
  * Provides locale settings for store front.
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class LocaleSettings extends BaseLocaleSettings
 {
@@ -27,6 +31,16 @@ class LocaleSettings extends BaseLocaleSettings
     protected $localizationManager;
 
     /**
+     * @var LayoutContextHolder
+     */
+    protected $layoutContextHolder;
+
+    /**
+     * @var ThemeManager
+     */
+    private $themeManager;
+
+    /**
      * @param BaseLocaleSettings $inner
      * @param FrontendHelper $frontendHelper
      * @param UserLocalizationManagerInterface $localizationManager
@@ -39,6 +53,22 @@ class LocaleSettings extends BaseLocaleSettings
         $this->inner = $inner;
         $this->frontendHelper = $frontendHelper;
         $this->localizationManager = $localizationManager;
+    }
+
+    /**
+     * @param LayoutContextHolder $layoutContextHolder
+     */
+    public function setLayoutContextHolder(LayoutContextHolder $layoutContextHolder): void
+    {
+        $this->layoutContextHolder = $layoutContextHolder;
+    }
+
+    /**
+     * @param ThemeManager $themeManager
+     */
+    public function setThemeManager(ThemeManager $themeManager): void
+    {
+        $this->themeManager = $themeManager;
     }
 
     /**
@@ -144,6 +174,46 @@ class LocaleSettings extends BaseLocaleSettings
         $localization = $this->localizationManager->getCurrentLocalization();
 
         return $localization ? $localization->getLanguageCode() : $this->inner->getLanguage();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isRtlMode(): bool
+    {
+        if ($this->rtlMode === null) {
+            $this->rtlMode = $this->frontendHelper->isFrontendRequest()
+                ? $this->isRtlModeForLayoutRequest()
+                : $this->inner->isRtlMode();
+        }
+
+        return $this->rtlMode;
+    }
+
+    private function isRtlModeForLayoutRequest(): bool
+    {
+        if (!$this->layoutContextHolder || !$this->themeManager) {
+            return false;
+        }
+
+        $context = $this->layoutContextHolder->getContext();
+        if (!$context || !$context->offsetExists('theme')) {
+            return false;
+        }
+
+        $themeName = $context->offsetGet('theme');
+        if (!$themeName || !$this->themeManager->hasTheme($themeName)) {
+            return false;
+        }
+
+        $theme = $this->themeManager->getTheme($themeName);
+        if (!$theme->isRtlSupport()) {
+            return false;
+        }
+
+        $localization = $this->localizationManager->getCurrentLocalization();
+
+        return $localization ? $localization->isRtlMode() : false;
     }
 
     /**

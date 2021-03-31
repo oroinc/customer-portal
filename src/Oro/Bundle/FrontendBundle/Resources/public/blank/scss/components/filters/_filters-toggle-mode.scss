@@ -56,6 +56,10 @@
         line-height: $filter-toggle-mode-criteria-selector-icon-line-height;
 
         @include fa-icon($filter-toggle-mode-criteria-selector-icon-fa-icon);
+
+        [dir="rtl"] & {
+            @include fa-icon($filter-toggle-mode-criteria-selector-icon-fa-icon-rtl);
+        }
     }
 
     .filters-manager-trigger {

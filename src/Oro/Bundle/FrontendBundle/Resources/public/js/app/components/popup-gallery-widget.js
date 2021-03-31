@@ -42,7 +42,8 @@ define(function(require) {
                 asNavFor: null,
                 adaptiveHeight: false,
                 dots: true,
-                infinite: true
+                infinite: true,
+                rtl: _.isRTL()
             },
             navOptions: {
                 slidesToShow: 7,
@@ -54,7 +55,8 @@ define(function(require) {
                 arrows: true,
                 dots: false,
                 variableWidth: true,
-                infinite: true
+                infinite: true,
+                rtl: _.isRTL()
             }
         },
 
