@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 .badge {
-    margin-#{$end}: $badge-inner-offset-right;
+    margin-right: $badge-inner-offset-right;
 
     @include badge();
 
@@ -18,7 +18,7 @@
     }
 
     &--offset-none {
-        margin-#{$end}: 0;
+        margin-right: 0;
     }
 
     &--xs {
@@ -31,7 +31,7 @@
 }
 
 .badge-square {
-    margin-#{$end}: $badge-inner-offset-right;
+    margin-right: $badge-inner-offset-right;
 
     @include badge(
         $badge-size: $badge-size,
@@ -40,7 +40,7 @@
     );
 
     &--offset-none {
-        margin-#{$end}: 0;
+        margin-right: 0;
     }
 }
 
@@ -58,6 +58,6 @@
     background: get-color('additional', 'light');
 
     &--align-start {
-        margin-#{$end}: auto;
+        margin-right: auto;
     }
 }
