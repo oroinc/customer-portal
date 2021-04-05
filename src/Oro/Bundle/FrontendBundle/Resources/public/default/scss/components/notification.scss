@@ -29,6 +29,13 @@
         color: get-color('ui', 'error-dark');
     }
 
+    &--lite {
+        @extend .notification;
+        background: transparent;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
     &--xmd {
         @extend .notification;
         padding: $notification-xmd-inner-offset;
@@ -45,6 +52,11 @@
     &__item {
         &:not(:first-child) {
             margin-top: $notification-list-offset;
+        }
+
+        &--flex {
+            display: flex;
+            align-items: baseline;
         }
     }
     

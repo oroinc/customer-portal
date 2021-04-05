@@ -100,8 +100,8 @@ class FrontendCustomerUserRoleTabOptionsProvider implements FrontendCustomerUser
             }
         }
 
-        usort($options, function (PrivilegeCategory $category1, PrivilegeCategory $category2) {
-            return $category1->getPriority() > $category2->getPriority();
+        usort($options, static function (PrivilegeCategory $category1, PrivilegeCategory $category2) {
+            return $category1->getPriority() <=> $category2->getPriority();
         });
 
         return $options;

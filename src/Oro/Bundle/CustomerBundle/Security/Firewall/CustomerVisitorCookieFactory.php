@@ -17,18 +17,23 @@ class CustomerVisitorCookieFactory
     /** @var bool */
     private $httpOnly;
 
+    /** @var string|null */
+    private $sameSite;
+
     /** @var ConfigManager */
     private $configManager;
 
     /**
-     * @param               $secure
+     * @param mixed         $secure
      * @param bool          $httpOnly
      * @param ConfigManager $configManager
+     * @param string|null   $sameSite
      */
-    public function __construct($secure, bool $httpOnly, ConfigManager $configManager)
+    public function __construct($secure, bool $httpOnly, ConfigManager $configManager, ?string $sameSite)
     {
         $this->secure = $secure;
         $this->httpOnly = $httpOnly;
+        $this->sameSite = $sameSite;
         $this->configManager = $configManager;
     }
 
@@ -51,7 +56,9 @@ class CustomerVisitorCookieFactory
             '/',
             null,
             'auto' === $this->secure ? null : $this->secure,
-            $this->httpOnly
+            $this->httpOnly,
+            false,
+            $this->sameSite
         );
     }
 }
