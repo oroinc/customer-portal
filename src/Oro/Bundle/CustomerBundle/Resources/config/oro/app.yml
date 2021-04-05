@@ -52,6 +52,8 @@ security:
             organization-remember-me:
                 token_provider:             oro_security.token.provider.rememberme
                 secret:                     '%secret%'
+                # More info about storefront remember-me cookie configuration can be found at
+                # https://doc.oroinc.com/backend/setup/post-install/cookies-configuration/#storefront-remember-me-cookie
                 name:                       OROSFRM
                 lifetime:                   2592000   # stay logged for 30 days
                 httponly:                   true
