@@ -1,0 +1,6 @@
+oro_security:
+  login_target_path_excludes:
+    - oro_frontend_attachment_get_file
+    - oro_frontend_attachment_filter_image
+    - _oro_frontend_attachment_filter_image
+    - oro_frontend_attachment_resize_image
