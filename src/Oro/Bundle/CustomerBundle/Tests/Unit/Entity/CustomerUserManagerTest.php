@@ -320,6 +320,33 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($user->isConfirmed());
     }
 
+    public function testUpdateWebsiteSettings()
+    {
+        $currentLocalizationCode = 'fr_FR';
+        $user = new CustomerUser();
+
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $website = new Website();
+        $this->websiteManager->expects(self::once())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
+
+        $currentLocalization = new Localization();
+        $currentLocalization->setFormattingCode($currentLocalizationCode);
+        $this->localizationHelper->expects(self::once())
+            ->method('getCurrentLocalization')
+            ->willReturn($currentLocalization);
+
+        $this->userManager->updateWebsiteSettings($user);
+
+        $updatedSettings = $user->getWebsiteSettings($website);
+        self::assertSame($website, $updatedSettings->getWebsite());
+        self::assertSame($currentLocalization, $updatedSettings->getLocalization());
+    }
+
     public function testSendResetPasswordEmail()
     {
         $user = new CustomerUser();

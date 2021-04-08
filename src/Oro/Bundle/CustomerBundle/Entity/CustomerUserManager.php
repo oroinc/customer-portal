@@ -76,6 +76,17 @@ class CustomerUserManager extends BaseUserManager
      */
     public function register(CustomerUser $user): void
     {
+        $this->updateWebsiteSettings($user);
+
+        if ($this->isConfirmationRequired()) {
+            $this->sendConfirmationEmail($user);
+        } else {
+            $this->confirmRegistration($user);
+        }
+    }
+
+    public function updateWebsiteSettings(CustomerUser $user): void
+    {
         if ($this->frontendHelper->isFrontendRequest()) {
             $currentWebsite = $this->websiteManager->getCurrentWebsite();
             $settings = $user->getWebsiteSettings($currentWebsite);
@@ -86,12 +97,6 @@ class CustomerUserManager extends BaseUserManager
             $settings->setLocalization($this->localizationHelper->getCurrentLocalization());
 
             $user->setWebsiteSettings($settings);
-        }
-
-        if ($this->isConfirmationRequired()) {
-            $this->sendConfirmationEmail($user);
-        } else {
-            $this->confirmRegistration($user);
         }
     }
 
