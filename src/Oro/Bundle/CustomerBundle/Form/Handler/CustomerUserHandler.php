@@ -76,6 +76,7 @@ class CustomerUserHandler
 
             if ($this->form->isValid()) {
                 if (!$customerUser->getId()) {
+                    $this->userManager->updateWebsiteSettings($customerUser);
                     if ($this->form->get('passwordGenerate')->getData()) {
                         $generatedPassword = $this->userManager->generatePassword(10);
                         $customerUser->setPlainPassword($generatedPassword);
