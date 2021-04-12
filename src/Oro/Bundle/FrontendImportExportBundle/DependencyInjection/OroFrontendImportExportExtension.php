@@ -18,5 +18,9 @@ class OroFrontendImportExportExtension extends Extension
         $loader->load('services.yml');
         $loader->load('controllers.yml');
         $loader->load('block_types.yml');
+
+        if ($container->getParameter('kernel.environment') === 'test') {
+            $loader->load('services_test.yml');
+        }
     }
 }
