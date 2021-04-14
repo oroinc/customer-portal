@@ -221,6 +221,13 @@ fieldset:disabled a.btn {
         box-shadow: none;
         color: $btn-plain-active-color;
     }
+
+    &:disabled,
+    &.disabled {
+        background: $btn-plain-disabled-background-color;
+        border-color: $btn-plain-disabled-border-color;
+        color: $btn-plain-disabled-color;
+    }
 }
 
 .btn--full {

@@ -9,7 +9,11 @@
         position: relative;
 
         &-item {
-            display: inline-block;
+            display: inline;
+
+            .ui-icon {
+                display: $datagrid-manager-actions-item-icon-display;
+            }
         }
     }
 
@@ -128,6 +132,10 @@
         color: $datagrid-manager-dropdown-menu-color;
 
         @extend .dropdown-menu-right;
+
+    /*rtl:raw:
+        right: auto;
+    */
 
         // Rewrite ui-* styles
         &.ui-rewrite {

@@ -3,7 +3,9 @@
 .ui-dialog {
     position: fixed;
     top: 50%;
+    /*rtl:ignore*/
     left: 50%;
+    /*rtl:ignore*/
     z-index: z('popup') + 1;
 
     display: flex;

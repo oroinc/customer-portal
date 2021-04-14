@@ -24,5 +24,9 @@
             border-left: 4px solid transparent;
             vertical-align: middle;
         }
+
+        &.offset-start:after {
+            margin-#{$start}: $font-icon-offset-end;
+        }
     }
 }

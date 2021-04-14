@@ -1,7 +1,5 @@
 /* @theme: blank; */
 
-@import "~bootstrap/scss/dropdown";
-
 .dropdown-menu {
     @if not $enable-shadows {
         box-shadow: $dropdown-box-shadow;
@@ -19,6 +17,10 @@
         .dropdown-item {
             white-space: normal;
         }
+
+        /*rtl:ignore*/
+        right: auto;
+        /*rtl:ignore*/
     }
 }
 

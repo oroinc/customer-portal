@@ -52,3 +52,8 @@ layout:
             id: root
             optionName: languageCode
             optionValue: '=data["frontend_localization"].getCurrentLanguageCode()'
+
+        - '@setOption':
+            id: root
+            optionName: dir
+            optionValue: '=context["is_rtl_mode_enabled"] ? "rtl" : ""'

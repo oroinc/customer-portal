@@ -102,7 +102,8 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
                     'gc_probability'  => 1,
                     'gc_divisor'      => 2,
                     'cookie_secure'   => 'auto',
-                    'cookie_httponly' => true
+                    'cookie_httponly' => true,
+                    'cookie_samesite' => null
                 ]
             ]
         ];

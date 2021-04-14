@@ -36,8 +36,8 @@
     $slick-arrow-icon-focus-color: get-color('additional', 'dark'),
     $slick-arrow-icon-display: block,
 
-    $slick-arrow-prev-icon: $fa-var-angle-left,
-    $slick-arrow-next-icon: $fa-var-angle-right,
+    $slick-arrow-prev-icon: var(--fa-var-angle-left),
+    $slick-arrow-next-icon: var(--fa-var-angle-right),
 
     $slick-arrow-next-icon-offset: null,
     $slick-arrow-prev-icon-offset: null,
@@ -103,7 +103,7 @@
     .slick-prev {
         left: $slick-arrow-prev-left;
 
-        @include fa-icon($slick-arrow-prev-icon);
+        @include fa-icon($slick-arrow-prev-icon, before, false, true);
 
         &:before {
             margin: $slick-arrow-prev-icon-offset;
@@ -113,7 +113,7 @@
     .slick-next {
         right: $slick-arrow-next-right;
 
-        @include fa-icon($slick-arrow-next-icon, after);
+        @include fa-icon($slick-arrow-next-icon, after, false, true);
 
         &:after {
             margin: $slick-arrow-next-icon-offset;
