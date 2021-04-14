@@ -1,18 +1,42 @@
 /* @theme: blank; */
 
 .datagrid-divider {
-    display: inline-flex;
-    margin-left: 4px;
-    width: 1px;
-    height: 16px;
+    &:before {
+        content: '';
+        display: inline-flex;
+        width: 1px;
+        height: 16px;
+        margin: 0 $offset-x-m;
 
-    line-height: 1;
+        line-height: 1;
 
-    background: get-color('additional', 'light');
+        background: get-color('additional', 'light');
+    }
+
+    &:first-child {
+        &:before {
+            display: none;
+        }
+    }
+
+    &.empty {
+        &:before {
+            display: none;
+        }
+
+        + .datagrid-divider {
+            &:before {
+                display: none;
+            }
+        }
+    }
 }
 
 @include breakpoint('mobile') {
     .datagrid-divider {
-        display: none;
+        &:before {
+            margin: 0 $offset-x-s;
+            visibility: hidden;
+        }
     }
 }

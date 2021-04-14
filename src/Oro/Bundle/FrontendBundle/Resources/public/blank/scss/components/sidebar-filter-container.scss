@@ -37,6 +37,7 @@ $skeleton-color: get-color('additional', 'base');
     width: 100%;
     max-width: 100%;
 
+    /*rtl:begin:ignore*/
     &:empty {
         &::before,
         &::after {
@@ -52,6 +53,7 @@ $skeleton-color: get-color('additional', 'base');
 
         animation: 1s ease-in infinite alternate skeleton-pulse;
     }
+    /*rtl:end:ignore*/
 }
 
 @keyframes skeleton-pulse {

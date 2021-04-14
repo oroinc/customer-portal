@@ -104,6 +104,7 @@ $tooltip-font-size: .875rem;
 $popover-font-size: $base-font-size;
 $popover-bg: get-color('additional', 'ultra');
 $popover-max-width: 280px;
+$popover-min-width: 194px !default;
 $popover-border-width: 1px;
 $popover-border-color: get-color('additional', 'middle');
 $popover-border-radius: 4px;

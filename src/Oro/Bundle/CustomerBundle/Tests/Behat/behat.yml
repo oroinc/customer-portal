@@ -198,7 +198,7 @@ oro_behat_extension:
       selector: '.frontend-grid-view-name'
 
     FrontendGridViewSetAsDefaultCheckbox:
-      selector: '.grid-views input[name="is_default"]+.custom-checkbox__icon'
+      selector: '.grid-views input[name="is_default"]'
 
     FrontendGridViewSetAsDefaultButton:
       selector: 'button[data-role="use_as_default"]'
@@ -225,7 +225,7 @@ oro_behat_extension:
       class: Oro\Bundle\DataGridBundle\Tests\Behat\Element\FrontendGridFilterManager
 
     FrontendGridFilterManagerButton:
-      selector: 'button.select-filter-widget'
+      selector: 'button.filters-manager-trigger'
 
     Customer User Form Admin:
       selector: '[id^="oro_customer_customer_user-uid"]'

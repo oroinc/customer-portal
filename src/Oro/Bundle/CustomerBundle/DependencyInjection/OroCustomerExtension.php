@@ -39,7 +39,7 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
             $loader->load('services_test.yml');
         }
 
-        $this->configureCustomerUserCookieFactory($container, $config);
+        $this->configureCustomerVisitorCookieFactory($container, $config);
     }
 
     /**
@@ -64,10 +64,11 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
      * @param ContainerBuilder $container
      * @param array            $config
      */
-    private function configureCustomerUserCookieFactory(ContainerBuilder $container, array $config): void
+    private function configureCustomerVisitorCookieFactory(ContainerBuilder $container, array $config): void
     {
         $container->getDefinition('oro_customer.authentication.customer_visitor_cookie_factory')
             ->replaceArgument(0, $config['cookie_secure'])
-            ->replaceArgument(1, $config['cookie_httponly']);
+            ->replaceArgument(1, $config['cookie_httponly'])
+            ->addMethodCall('setSameSite', [$config['cookie_samesite']]);
     }
 }

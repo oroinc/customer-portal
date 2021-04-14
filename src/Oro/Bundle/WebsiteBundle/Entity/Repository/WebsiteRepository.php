@@ -44,6 +44,25 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
         return $result;
     }
 
+    public function getAllWebsitesIds(?Organization $organization = null): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb
+            ->select('website.id')
+            ->from($this->getEntityName(), 'website')
+            ->addOrderBy('website.id', 'ASC');
+
+        if ($organization) {
+            $qb
+                ->where($qb->expr()->eq('website.organization', ':organization'))
+                ->setParameter('organization', $organization);
+        }
+
+        $result = $qb->getQuery()->getScalarResult();
+
+        return array_column($result, 'id');
+    }
+
     /**
      * @return Website
      */

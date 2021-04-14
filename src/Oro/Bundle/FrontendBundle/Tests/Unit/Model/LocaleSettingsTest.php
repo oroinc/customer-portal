@@ -5,11 +5,15 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Model;
 use Oro\Bundle\FrontendBundle\Model\LocaleSettings;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManager;
+use Oro\Bundle\LayoutBundle\Layout\LayoutContextHolder;
 use Oro\Bundle\LocaleBundle\DependencyInjection\Configuration as LocaleConfiguration;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Model\Calendar;
 use Oro\Bundle\LocaleBundle\Model\LocaleSettings as BaseLocaleSettings;
+use Oro\Bundle\ThemeBundle\Model\Theme;
 use Oro\Bundle\TranslationBundle\Entity\Language;
+use Oro\Component\Layout\Extension\Theme\Model\ThemeManager;
+use Oro\Component\Layout\Tests\Unit\Stubs\LayoutContextStub;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -26,6 +30,12 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
     /** @var UserLocalizationManager|\PHPUnit\Framework\MockObject\MockObject */
     private $localizationManager;
 
+    /** @var LayoutContextHolder|\PHPUnit\Framework\MockObject\MockObject */
+    private $layoutContextHolder;
+
+    /** @var ThemeManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $themeManager;
+
     /** @var LocaleSettings */
     protected $localeSettings;
 
@@ -34,12 +44,16 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
         $this->inner = $this->createMock(BaseLocaleSettings::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
         $this->localizationManager = $this->createMock(UserLocalizationManager::class);
+        $this->layoutContextHolder = $this->createMock(LayoutContextHolder::class);
+        $this->themeManager = $this->createMock(ThemeManager::class);
 
         $this->localeSettings = new LocaleSettings(
             $this->inner,
             $this->frontendHelper,
             $this->localizationManager
         );
+        $this->localeSettings->setLayoutContextHolder($this->layoutContextHolder);
+        $this->localeSettings->setThemeManager($this->themeManager);
     }
 
     public function testAddNameFormats()
@@ -317,6 +331,233 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
             ->willReturn(null);
 
         $this->assertEquals('en_GB', $this->localeSettings->getLanguage());
+    }
+
+    public function testIsRtlModeEnabledWhenBackendRequest(): void
+    {
+        $this->frontendHelper->expects(self::atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(false);
+
+        $this->layoutContextHolder->expects(self::never())
+            ->method('getContext');
+
+        $this->themeManager->expects(self::never())
+            ->method('hasTheme');
+
+        $this->localizationManager->expects(self::never())
+            ->method('getCurrentLocalization');
+
+        $this->inner->expects(self::once())
+            ->method('isRtlMode')
+            ->willReturn(true);
+
+        self::assertTrue($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabledWhenNoThemeInContext(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $context = new LayoutContextStub([], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::never())
+            ->method('hasTheme');
+
+        $localization = new Localization();
+        $localization->setRtlMode(true);
+
+        $this->localizationManager->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn($localization);
+
+        self::assertFalse($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabledWhenNoActiveTheme(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $context = new LayoutContextStub(['theme' => 'test'], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::any())
+            ->method('hasTheme')
+            ->with('test')
+            ->willReturn(false);
+
+        $localization = new Localization();
+        $localization->setRtlMode(true);
+
+        $this->localizationManager->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn($localization);
+
+        self::assertFalse($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabledNoLocalization(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $theme = new Theme('test');
+        $theme->setRtlSupport(true);
+
+        $context = new LayoutContextStub(['theme' => $theme->getName()], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::any())
+            ->method('hasTheme')
+            ->with($theme->getName())
+            ->willReturn(true);
+
+        $this->themeManager->expects(self::any())
+            ->method('getTheme')
+            ->with($theme->getName())
+            ->willReturn($theme);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->localizationManager->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn(null);
+
+        self::assertFalse($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabledWhenThemeWithoutRtl(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $theme = new Theme('test');
+        $theme->setRtlSupport(false);
+
+        $context = new LayoutContextStub(['theme' => $theme->getName()], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::any())
+            ->method('hasTheme')
+            ->with($theme->getName())
+            ->willReturn(true);
+
+        $this->themeManager->expects(self::any())
+            ->method('getTheme')
+            ->with($theme->getName())
+            ->willReturn($theme);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $localization = new Localization();
+        $localization->setRtlMode(true);
+
+        $this->localizationManager->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn($localization);
+
+        self::assertFalse($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabledWhenLocalizationWithoutRtl(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $theme = new Theme('test');
+        $theme->setRtlSupport(true);
+
+        $context = new LayoutContextStub(['theme' => $theme->getName()], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::any())
+            ->method('hasTheme')
+            ->with($theme->getName())
+            ->willReturn(true);
+
+        $this->themeManager->expects(self::any())
+            ->method('getTheme')
+            ->with($theme->getName())
+            ->willReturn($theme);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $localization = new Localization();
+        $localization->setRtlMode(false);
+
+        $this->localizationManager->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn($localization);
+
+        self::assertFalse($this->localeSettings->isRtlMode());
+    }
+
+    public function testIsRtlModeEnabled(): void
+    {
+        $this->frontendHelper->expects($this->atLeastOnce())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $theme = new Theme('test');
+        $theme->setRtlSupport(true);
+
+        $context = new LayoutContextStub(['theme' => $theme->getName()], true);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $this->themeManager->expects(self::any())
+            ->method('hasTheme')
+            ->with($theme->getName())
+            ->willReturn(true);
+
+        $this->themeManager->expects(self::any())
+            ->method('getTheme')
+            ->with($theme->getName())
+            ->willReturn($theme);
+
+        $this->layoutContextHolder->expects(self::any())
+            ->method('getContext')
+            ->willReturn($context);
+
+        $localization = new Localization();
+        $localization->setRtlMode(true);
+
+        $this->localizationManager->expects(self::any())
+            ->method('getCurrentLocalization')
+            ->willReturn($localization);
+
+        self::assertTrue($this->localeSettings->isRtlMode());
     }
 
     public function testGetCountry()

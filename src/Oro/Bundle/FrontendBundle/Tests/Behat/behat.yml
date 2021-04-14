@@ -46,7 +46,7 @@ oro_behat_extension:
       selector: '.refresh-action'
     FrontendGridActionResetButton:
       selector: '.reset-action'
-    FrontendGridActionFilterButton:
+    Frontend Grid Action Filter Button:
       selector: '.action[title="Filter Toggle"]'
     DetachedSelect2Result:
       selector: '#select2-drop-mask + .select2-drop .select2-results'
@@ -66,6 +66,8 @@ oro_behat_extension:
       selector: ".copyright"
     Fullscreen Popup:
       selector: ".fullscreen-popup"
+    Fullscreen Popup Header:
+      selector: '.fullscreen-popup [data-role="header"]'
     Popup Gallery Widget:
       selector: ".popup-gallery-widget"
     Popup Gallery Widget Image:

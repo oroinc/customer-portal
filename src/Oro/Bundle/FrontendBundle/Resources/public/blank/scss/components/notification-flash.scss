@@ -91,7 +91,7 @@
         border: $notification-flash-close-border;
         color: get-color('ui', 'warning-dark');
 
-        cursor: pointer;
+        cursor: $btn-plain-cursor;
 
         [class^="fa-"] {
            display: block;

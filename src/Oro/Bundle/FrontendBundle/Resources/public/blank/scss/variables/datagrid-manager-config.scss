@@ -6,6 +6,8 @@ $datagrid-manager-separator-color: darken(get-color('additional', 'light'), 12%)
 $datagrid-manager-container-offset: 0 -#{$offset-y-s} !default;
 $datagrid-manager-container-inner-offset: $offset-y-s 0 !default;
 
+$datagrid-manager-actions-item-icon-display: none !default;
+
 $datagrid-manager-after-position-r: 0 !default;
 $datagrid-manager-after-position-b: 3px !default;
 $datagrid-manager-after-border--size: 8px !default;

@@ -105,6 +105,10 @@
 
         @include fa-icon($slick-arrow-prev-icon);
 
+        [dir="rtl"] & {
+            @include fa-icon($slick-arrow-next-icon);
+        }
+
         &:before {
             margin: $slick-arrow-prev-icon-offset;
         }
@@ -114,6 +118,10 @@
         right: $slick-arrow-next-right;
 
         @include fa-icon($slick-arrow-next-icon, after);
+
+        [dir="rtl"] & {
+            @include fa-icon($slick-arrow-prev-icon, after);
+        }
 
         &:after {
             margin: $slick-arrow-next-icon-offset;
