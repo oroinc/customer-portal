@@ -1,4 +1,5 @@
 /* @theme: default; */
+@use "sass:map";
 
 .uploader-container {
     > .input {
@@ -27,11 +28,14 @@
         border-color: $input-border-color-hover-state;
 
         .action {
-            @extend .btn:hover;
+            color: map.get($btn-theme, 'hover-color');
+            @include gradient-bg(map.get($btn-theme, 'hover-background'));
+            border-color: map.get($btn-theme, 'hover-border');
+            text-decoration: none
         }
 
         .filename {
-            @extend .input:hover;
+            border-color: $input-border-color-hover-state;
 
             &:hover {
                 border-color: $uploader-filename-focus-hover-border-color;

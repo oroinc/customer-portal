@@ -47,6 +47,10 @@ $filter-container-title-flex-grow: 1 !default;
 $filter-container-title-flex-shrink: 1 !default;
 $filter-container-manager-flex-grow: 0 !default;
 $filter-container-manager-flex-shrink: 0 !default;
+$filter-container-manager-offset-top: $offset-y-m !default;
+
+$filter-actions-align-self: flex-start !default;
+$filter-actions-align-items: flex-start !default;
 
 // Filters Dropdown Mode
 $filter-box-dropdown-mode-offset: 10px 0 !default;

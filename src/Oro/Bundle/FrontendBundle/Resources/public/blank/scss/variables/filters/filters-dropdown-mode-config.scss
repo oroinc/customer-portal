@@ -48,7 +48,7 @@ $filter-dropdown-mode-items-hint-offset-inner: 7px 130px 2px 10px !default;
 $filter-dropdown-mode-items-hint-line-height: 20px !default;
 $filter-dropdown-mode-items-hint-font-size: 13px !default;
 
-$filter-dropdown-mode-ui-multiselect-offset: 0 $offset-x-m $offset-y-m 0 !default;
+$filter-dropdown-mode-ui-multiselect-offset: 0 $offset-x-m $offset-y-m auto !default;
 
 $filter-dropdown-mode-timepicker-input-max-width: 80px !default;
 

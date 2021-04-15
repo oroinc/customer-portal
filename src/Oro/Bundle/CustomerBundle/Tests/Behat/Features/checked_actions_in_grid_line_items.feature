@@ -54,7 +54,7 @@ Feature: Checked actions in grid line items
       And I should see following elements in "Customer Company Addresses Grid":
           | FrontendGridActionRefreshButton |
           | FrontendGridActionResetButton   |
-          | FrontendGridActionFilterButton  |
+          | Frontend Grid Action Filter Button  |
       And I should see following actions for Company_Street_01 in grid:
           | Map    |
           | Edit   |
@@ -68,7 +68,7 @@ Feature: Checked actions in grid line items
       And I should see following elements in "Frontend Grid":
           | FrontendGridActionRefreshButton |
           | FrontendGridActionResetButton   |
-          | FrontendGridActionFilterButton  |
+          | Frontend Grid Action Filter Button  |
       And I should see following actions for AmandaRCole@example.org in grid:
           | View |
           | Edit |
@@ -80,7 +80,7 @@ Feature: Checked actions in grid line items
       And I should not see following elements in "FrontendGridBottomToolbar" for "Frontend Grid":
           | FrontendGridActionRefreshButton |
           | FrontendGridActionResetButton   |
-          | FrontendGridActionFilterButton  |
+          | Frontend Grid Action Filter Button  |
       And I select 10 from per page list dropdown in "Frontend Grid"
       And I should see following elements in "Frontend Grid":
           | FrontendGridTopToolbar    |

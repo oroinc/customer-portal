@@ -65,6 +65,7 @@
 
     .filter-container-header {
         display: $filter-container-header-display;
+        flex-wrap: wrap;
     }
 
     .filter-container-title {
@@ -75,6 +76,18 @@
     .filter-container-manager {
         flex-grow: $filter-container-manager-flex-grow;
         flex-shrink: $filter-container-manager-flex-shrink;
+        margin-left: auto;
+    }
+    
+    .filter-container-title,
+    .filter-container-manager {
+        margin-top: $filter-container-manager-offset-top;
+    }
+
+    .filter-actions {
+        display: flex;
+        align-self: $filter-actions-align-self;
+        align-items: $filter-actions-align-items;
     }
 
     .filter-items-hint {

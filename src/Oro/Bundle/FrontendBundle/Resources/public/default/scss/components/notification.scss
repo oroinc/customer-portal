@@ -4,7 +4,7 @@
     padding: $notification-inner-offset;
 
     font-size: $notification-font-size;
-    
+
     border-radius: $notification-border-radius;
 
     &--success,
@@ -59,7 +59,7 @@
             align-items: baseline;
         }
     }
-    
+
     [class^="fa-"] {
         margin-right: $notification-icon-offset;
     }
