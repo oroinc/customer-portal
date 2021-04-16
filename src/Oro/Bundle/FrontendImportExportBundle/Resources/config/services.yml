@@ -71,3 +71,10 @@ services:
 
     Oro\Bundle\FrontendImportExportBundle\Handler\FrontendExportHandler:
         alias: oro_frontend_importexport.handler.export_handler
+
+    Oro\Bundle\FrontendImportExportBundle\Command\Cron\FrontendExportCleanupStorageCommand:
+        arguments:
+            - '@oro_frontend_importexport.file.file_manager'
+            - '@oro_frontend_importexport.manager.frontend_import_export_result_manager'
+        tags:
+            - { name: console.command }

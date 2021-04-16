@@ -14,15 +14,8 @@ use Oro\Bundle\UserBundle\Entity\User;
  */
 class FrontendImportExportResultManager
 {
-    /**
-     * @var ManagerRegistry
-     */
-    private $registry;
-
-    /**
-     * @var TokenAccessorInterface
-     */
-    private $tokenAccessor;
+    private ManagerRegistry $registry;
+    private TokenAccessorInterface $tokenAccessor;
 
     /**
      * @param ManagerRegistry $manager
