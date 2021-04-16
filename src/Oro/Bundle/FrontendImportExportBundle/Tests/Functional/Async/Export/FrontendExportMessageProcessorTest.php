@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\ImportExportBundle\Tests\Functional\Async\Export;
+namespace Oro\Bundle\FrontendImportExportBundle\Tests\Functional\Async\Export;
 
 use Oro\Bundle\FrontendImportExportBundle\Async\Export\FrontendExportMessageProcessor;
 use Oro\Bundle\ImportExportBundle\Async\Export\ExportMessageProcessor;

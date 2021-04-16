@@ -3,3 +3,8 @@ services:
         decorates: oro_frontend_importexport.handler.export_handler
         parent: oro_frontend_importexport.handler.export_handler
         public: true
+
+    oro_frontend_importexport.file.file_manager.stub:
+        decorates: oro_frontend_importexport.file.file_manager
+        parent: oro_frontend_importexport.file.file_manager
+        public: true
