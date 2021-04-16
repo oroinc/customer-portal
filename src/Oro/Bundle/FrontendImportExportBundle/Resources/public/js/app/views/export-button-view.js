@@ -14,12 +14,8 @@ define(function(require) {
          * @property {Object}
          */
         options: {
-            entity: null,
             routeOptions: {},
             exportTitle: 'Export',
-            exportProcessor: null,
-            exportJob: null,
-            filePrefix: null,
             successMessage: null,
             errorMessage: null
         },
@@ -47,14 +43,8 @@ define(function(require) {
         initialize: function(options) {
             this.options = _.defaults(options || {}, this.options);
 
-            if (!this.options.exportProcessor) {
-                return;
-            }
-
             this.routeOptions = {
-                options: this.options.routeOptions,
-                entity: this.options.entity,
-                exportJob: this.options.exportJob
+                options: this.options.routeOptions
             };
         },
 
@@ -68,8 +58,8 @@ define(function(require) {
         },
 
         handleExport: function() {
-            if (!this.options.exportProcessor) {
-                throw new TypeError('"exportProcessor" is required');
+            if (!this.options.exportRoute) {
+                throw new TypeError('"exportRoute" option is required');
             }
 
             const routeOptions = $.extend(true, {}, this.routeOptions);
@@ -77,10 +67,7 @@ define(function(require) {
 
             mediator.trigger('import-export:handleExport', routeOptions.options);
 
-            const exportUrl = routing.generate(this.options.exportRoute, $.extend({}, routeOptions, {
-                processorAlias: this.options.exportProcessor,
-                filePrefix: this.options.filePrefix
-            }));
+            const exportUrl = routing.generate(this.options.exportRoute, routeOptions);
 
             $.post(
                 exportUrl,
