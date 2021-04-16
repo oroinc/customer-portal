@@ -85,10 +85,32 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals(
             [
-                'name'        => 'TEST',
-                'cookie_path' => '/test',
-                'cookie_secure' => 'auto',
-                'cookie_httponly' => true
+                'name'            => 'TEST',
+                'cookie_path'     => '/test'
+            ],
+            $container->getParameter('oro_frontend.session.storage.options')
+        );
+    }
+
+    public function testConfigurationForFrontendSessionWithFalseValues()
+    {
+        $container = $this->getContainerBuilder();
+
+        $config = [
+            'session' => [
+                'name'            => 'TEST',
+                'cookie_httponly' => false
+            ]
+        ];
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $extension = new OroFrontendExtension();
+        $extension->load([$config], $container);
+
+        self::assertEquals(
+            [
+                'name'            => 'TEST',
+                'cookie_httponly' => false
             ],
             $container->getParameter('oro_frontend.session.storage.options')
         );
