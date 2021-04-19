@@ -4,7 +4,7 @@ $menu-user-agent-offset-y: 10px !default;
 
 .menu-user-agent-condition {
     position: relative;
-    padding: side-values($menu-user-agent-offset-y 40px $menu-user-agent-offset-y 10px);
+    padding: $menu-user-agent-offset-y 40px $menu-user-agent-offset-y 10px;
     margin-bottom: $menu-user-agent-offset-y;
     background: $primary-900;
     border-radius: 4px;
@@ -21,7 +21,7 @@ $menu-user-agent-offset-y: 10px !default;
                 .btn {
                     position: absolute;
                     top: $menu-user-agent-offset-y + ceil($base-font-size * $line-height-base);
-                    #{$end}: 4px;
+                    right: 4px;
                 }
             }
         }
@@ -37,14 +37,14 @@ $menu-user-agent-offset-y: 10px !default;
         }
 
         .add-list-item {
-            margin-#{$start}: auto;
+            margin-left: auto;
         }
     }
 
     .btn-remove-main-row {
         position: absolute;
         top: 4px;
-        #{$end}: 4px;
+        right: 4px;
     }
 }
 
@@ -59,13 +59,13 @@ $menu-user-agent-offset-y: 10px !default;
 .menu-user-agent-condition-item {
     .menu-user-agent-condition-item-container {
         display: flex;
-        padding: side-values($menu-user-agent-offset-y 40px $menu-user-agent-offset-y 10px);
+        padding: $menu-user-agent-offset-y 40px $menu-user-agent-offset-y 10px;
         border-radius: 4px;
         background: $primary-inverse;
     }
 
     .menu-user-agent-condition-operation {
-        margin-#{$end}: 10px;
+        margin-right: 10px;
     }
 
     .menu-user-agent-condition-operation,
@@ -82,7 +82,7 @@ $menu-user-agent-offset-y: 10px !default;
             max-width: 100%;
         }
     }
-    
+
     + .removeRow {
         @include fa-icon($fa-var-close);
     }

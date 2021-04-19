@@ -146,8 +146,8 @@
     .filter-extra-hint {
         display: none;
         max-width: 30%;
-        padding-#{$start}: $filter-toggle-mode-filter-extra-hint-offset;
-        padding-#{$end}: $filter-toggle-mode-filter-extra-hint-offset;
+        padding-left: $filter-toggle-mode-filter-extra-hint-offset;
+        padding-right: $filter-toggle-mode-filter-extra-hint-offset;
         margin-left: auto;
 
         color: $filter-toggle-mode-filter-extra-hint-color;
