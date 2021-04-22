@@ -68,6 +68,7 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
     {
         $container->getDefinition('oro_customer.authentication.customer_visitor_cookie_factory')
             ->replaceArgument(0, $config['cookie_secure'])
-            ->replaceArgument(1, $config['cookie_httponly']);
+            ->replaceArgument(1, $config['cookie_httponly'])
+            ->addMethodCall('setSameSite', [$config['cookie_samesite']]);
     }
 }

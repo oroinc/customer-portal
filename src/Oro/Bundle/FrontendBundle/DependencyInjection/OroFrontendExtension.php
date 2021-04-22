@@ -190,7 +190,10 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
                 'cookie_path',
                 'gc_maxlifetime',
                 'gc_probability',
-                'gc_divisor'
+                'gc_divisor',
+                'cookie_secure',
+                'cookie_httponly',
+                'cookie_samesite'
             ];
             foreach ($keys as $key) {
                 if (isset($sessionConfig[$key])) {

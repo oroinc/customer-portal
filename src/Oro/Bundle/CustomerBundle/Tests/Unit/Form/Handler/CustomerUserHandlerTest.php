@@ -112,6 +112,10 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
                 ->method('getOrganization')
                 ->willReturn($organization);
 
+            $this->userManager->expects($this->once())
+                ->method('updateWebsiteSettings')
+                ->with($this->entity);
+
             $this->form->expects($this->at(4))
                 ->method('get')
                 ->with('passwordGenerate')

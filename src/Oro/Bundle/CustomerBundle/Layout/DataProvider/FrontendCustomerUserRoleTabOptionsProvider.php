@@ -11,6 +11,9 @@ use Oro\Bundle\UserBundle\Provider\PrivilegeCategoryProviderInterface;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Provides options for customer user roles tab on a store-front
+ */
 class FrontendCustomerUserRoleTabOptionsProvider implements FrontendCustomerUserRoleOptionsProviderInterface
 {
     const PRIVILEGE_TYPE = 'entity';
@@ -114,7 +117,7 @@ class FrontendCustomerUserRoleTabOptionsProvider implements FrontendCustomerUser
     }
 
     /**
-     * @return array<id => PrivilegeCategory>
+     * @return array <id => PrivilegeCategory>
      */
     private function getTabCategories()
     {

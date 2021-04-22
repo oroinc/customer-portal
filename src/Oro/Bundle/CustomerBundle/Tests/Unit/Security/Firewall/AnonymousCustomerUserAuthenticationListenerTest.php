@@ -85,9 +85,9 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
             $this->csrfRequestManager,
             '^/api/'
         );
-        $this->listener->setCustomerVisitorCookieFactory(
-            new CustomerVisitorCookieFactory('auto', true, $this->configManager)
-        );
+        $cookieFactory = new CustomerVisitorCookieFactory('auto', true, $this->configManager);
+        $cookieFactory->setSameSite(Cookie::SAMESITE_STRICT);
+        $this->listener->setCustomerVisitorCookieFactory($cookieFactory);
     }
 
     /**

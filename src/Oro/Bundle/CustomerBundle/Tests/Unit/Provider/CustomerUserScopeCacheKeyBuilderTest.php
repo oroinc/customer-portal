@@ -19,7 +19,7 @@ class CustomerUserScopeCacheKeyBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param ScopeCriteria $criteria
-     * @param string|null   $key
+     * @param null|string   $cacheKey
      *
      * @return ScopeCacheKeyBuilderInterface
      */
