@@ -43,7 +43,9 @@ class FrontendExportResultSummarizerTest extends TestCase
             ->method('getRepository')
             ->willReturn($this->customerUserRepository);
 
-        $website = new Website();
+        $website = $this->getEntity(Website::class, [
+            'name' => 'Test website'
+        ]);
         $this->user = $this->getEntity(CustomerUser::class, [
             'firstName' => 'Test',
             'lastName' => 'Customer',
@@ -104,7 +106,8 @@ class FrontendExportResultSummarizerTest extends TestCase
             'fileName' => 'import.csv',
             'url' => 'https://localhost/download/12345',
             'user' => 'Test Customer',
-            'tryAgainUrl' => 'https://localhost/product'
+            'tryAgainUrl' => 'https://localhost/product',
+            'websiteName' => 'Test website'
         ];
 
         $this->assertArrayHasKey('exportResult', $result);
@@ -161,7 +164,8 @@ class FrontendExportResultSummarizerTest extends TestCase
             'fileName' => 'import.csv',
             'url' => 'https://localhost/download/12345',
             'user' => 'Test Customer',
-            'tryAgainUrl' => 'https://localhost/product'
+            'tryAgainUrl' => 'https://localhost/product',
+            'websiteName' => 'Test website'
         ];
 
         $this->assertArrayHasKey('exportResult', $result);
@@ -262,7 +266,8 @@ class FrontendExportResultSummarizerTest extends TestCase
             'fileName' => 'import.csv',
             'url' => 'https://localhost/download/12345',
             'user' => 'Test Customer',
-            'tryAgainUrl' => 'https://localhost/homepage'
+            'tryAgainUrl' => 'https://localhost/homepage',
+            'websiteName' => 'Test website'
         ];
 
         $this->assertArrayHasKey('exportResult', $result);

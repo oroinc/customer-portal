@@ -136,15 +136,16 @@ class PostExportMessageProcessor implements MessageProcessorInterface, TopicSubs
     private function sendEmailNotification(
         string $toEmail,
         array $summary,
-        ?string $notificationTemplate = null
+        string $notificationTemplate
     ): void {
         $sender = $this->notificationSettings->getSender();
+
         $message = [
             'sender' => $sender->toArray(),
             'toEmail' => $toEmail,
             'body' => $summary,
             'contentType' => 'text/html',
-            'template' => $notificationTemplate ?? FrontendExportResultSummarizer::TEMPLATE_EXPORT_RESULT,
+            'template' => $notificationTemplate,
         ];
 
         $this->producer->send(
@@ -187,6 +188,24 @@ class PostExportMessageProcessor implements MessageProcessorInterface, TopicSubs
             $refererUrl
         );
 
-        $this->sendEmailNotification($body['email'], $summary, $body['notificationTemplate'] ?? null);
+        $notificationTemplate = $this->getNotificationTemplate($body, $summary['exportResult']);
+
+        $this->sendEmailNotification($body['email'], $summary, $notificationTemplate);
+    }
+
+    /**
+     * @param array $messageData
+     * @param array $resultData
+     * @return string
+     */
+    private function getNotificationTemplate(array $messageData, array $resultData): string
+    {
+        if (isset($messageData['notificationTemplate'])) {
+            return $messageData['notificationTemplate'];
+        }
+
+        return $resultData['success']
+            ? FrontendExportResultSummarizer::TEMPLATE_SUCCESS_EXPORT_RESULT
+            : FrontendExportResultSummarizer::TEMPLATE_FAILED_EXPORT_RESULT;
     }
 }

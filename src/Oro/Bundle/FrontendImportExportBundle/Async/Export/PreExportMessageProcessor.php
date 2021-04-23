@@ -52,8 +52,6 @@ class PreExportMessageProcessor extends BasePreExportMessageProcessor
             'outputFormat' => $body['outputFormat'],
             'entity' => $body['entity'],
             'refererUrl' => $body['refererUrl'] ?? null,
-            'notificationTemplate' =>
-                $body['notificationTemplate'] ?? FrontendExportResultSummarizer::TEMPLATE_EXPORT_RESULT,
         ]);
 
         $this->dependentJob->saveDependentJob($context);
