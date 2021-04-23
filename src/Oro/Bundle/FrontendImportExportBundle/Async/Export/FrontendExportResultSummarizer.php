@@ -15,7 +15,8 @@ use Oro\Component\MessageQueue\Job\Job;
  */
 class FrontendExportResultSummarizer
 {
-    public const TEMPLATE_EXPORT_RESULT = 'frontend_export_result';
+    public const TEMPLATE_SUCCESS_EXPORT_RESULT = 'frontend_export_result_success';
+    public const TEMPLATE_FAILED_EXPORT_RESULT = 'frontend_export_result_error';
 
     private WebsiteUrlResolver $websiteUrlResolver;
     private ManagerRegistry $managerRegistry;
@@ -58,9 +59,10 @@ class FrontendExportResultSummarizer
         $refererUrl = $this->getRefererUrl($refererUrl, $website);
 
         $data['fileName'] = $fileName;
+        $data['user'] = $this->entityNameResolver->getName($user);
+        $data['websiteName'] = $website->getName();
 
         $data['url'] = $this->getDownloadUrl($job->getId(), $website);
-        $data['user'] = $this->entityNameResolver->getName($user);
         $data['tryAgainUrl'] = $refererUrl;
 
         return ['exportResult' => $data, 'jobName' => $job->getName()];

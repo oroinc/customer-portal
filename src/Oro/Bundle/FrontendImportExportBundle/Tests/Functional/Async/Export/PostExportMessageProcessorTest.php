@@ -107,6 +107,7 @@ class PostExportMessageProcessorTest extends WebTestCase
                         'entities' => 'acme',
                         'success' => true,
                         'fileName' => 'export.csv',
+                        'websiteName' => 'Default',
                         'url' => 'http://localhost/export/download/' . $rootJob->getId(),
                         'user' => 'CustomerUser CustomerUser',
                         'tryAgainUrl' => 'http://localhost/products'
@@ -114,7 +115,7 @@ class PostExportMessageProcessorTest extends WebTestCase
                     'jobName' => 'oro:export:test_export_message',
                 ],
                 'contentType' => 'text/html',
-                'template' => 'frontend_export_result'
+                'template' => 'frontend_export_result_success'
             ]
         );
 
