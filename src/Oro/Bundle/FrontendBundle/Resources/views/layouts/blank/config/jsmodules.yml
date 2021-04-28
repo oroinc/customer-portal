@@ -46,7 +46,6 @@ dynamic-imports:
         - orofrontend/blank/js/app/views/proxy-focus-view
         - orofrontend/blank/js/widgets/print-page-widget
         - orofrontend/default/js/app/views/choice-filter
-        - orofrontend/default/js/app/views/footer-align-view
         - orofrontend/default/js/app/views/scroll-top-view
         - orofrontend/default/js/app/views/sticky-panel-view
         - orofrontend/default/js/widgets/elastic-area-widget
