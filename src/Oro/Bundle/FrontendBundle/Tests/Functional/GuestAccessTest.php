@@ -85,6 +85,7 @@ class GuestAccessTest extends WebTestCase
      */
     public function testAllowedUrlsWhenAuthenticated(string $url): void
     {
+        $this->markTestSkipped('BAP-20556');
         $this->loginUser(LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL);
         $this->client->request('GET', $url);
         $response = $this->client->getResponse();

@@ -88,6 +88,11 @@
 
     .ui-dialog-messages {
         margin: $dialog-messages-offset;
+        padding: $dialog-messages-inner-offset;
+
+        &:empty {
+            display: none;
+        }
 
         > [class*='notification-flash'] {
             padding: $dialog-notification-offset-inner;
