@@ -2,9 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
-use Doctrine\ORM\EntityManager;
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
+use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerType;
 use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
@@ -13,6 +14,7 @@ use Oro\Bundle\EntityExtendBundle\Form\Type\EnumSelectType;
 use Oro\Bundle\EntityExtendBundle\Tests\Unit\Fixtures\TestEnumValue;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EnumSelectType as EnumSelectTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
@@ -22,56 +24,29 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class CustomerTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var CustomerType
-     */
-    protected $formType;
+    /** @var CustomerType */
+    private $formType;
 
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
+    /** @var CustomerAddress[] */
+    private static $addresses;
 
-    /**
-     * @var CustomerAddress[]
-     */
-    protected static $addresses;
+    /** @var User[] */
+    private static $users;
 
-    /**
-     * @var User[]
-     */
-    protected static $users;
+    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $eventDispatcher;
 
-    /**
-     * @var  EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $eventDispatcher;
+    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $authorizationChecker;
 
-    /**
-     * @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $authorizationChecker;
-
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
 
         $this->formType = new CustomerType($this->getEventDispatcher(), $this->authorizationChecker);
-        $this->formType->setAddressClass('Oro\Bundle\CustomerBundle\Entity\CustomerAddress');
+        $this->formType->setAddressClass(CustomerAddress::class);
 
         parent::setUp();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function tearDown(): void
-    {
-        unset($this->formType);
     }
 
     /**
@@ -81,16 +56,16 @@ class CustomerTypeTest extends FormIntegrationTestCase
     {
         $customerGroupSelectType = new EntityType(
             [
-                1 => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
-                2 => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 2)
+                1 => $this->getCustomerGroup(1),
+                2 => $this->getCustomerGroup(2)
             ],
             CustomerGroupSelectType::NAME
         );
 
         $parentCustomerSelectType = new EntityType(
             [
-                1 => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 1),
-                2 => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2)
+                1 => $this->getCustomer(1),
+                2 => $this->getCustomer(2)
             ],
             ParentCustomerSelectType::NAME
         );
@@ -108,7 +83,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
             $this->getUsers(),
             UserMultiSelectType::NAME,
             [
-                'class' => 'Oro\Bundle\UserBundle\Entity\User',
+                'class' => User::class,
                 'multiple' => true
             ]
         );
@@ -187,8 +162,8 @@ class CustomerTypeTest extends FormIntegrationTestCase
                 ],
                 'expectedData' => [
                     'name' => 'customer_name',
-                    'group' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
-                    'parent' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2),
+                    'group' => $this->getCustomerGroup(1),
+                    'parent' => $this->getCustomer(2),
                     'addresses' => [$this->getAddresses()[1]],
                     'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
                     'salesRepresentatives' => [$this->getUsers()[1]],
@@ -207,7 +182,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
                 ],
                 'expectedData' => [
                     'name' => 'customer_name',
-                    'group' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
+                    'group' => $this->getCustomerGroup(1),
                     'parent' => null,
                     'addresses' => [$this->getAddresses()[1]],
                     'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
@@ -229,7 +204,7 @@ class CustomerTypeTest extends FormIntegrationTestCase
                 'expectedData' => [
                     'name' => 'customer_name',
                     'group' => null,
-                    'parent' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2),
+                    'parent' => $this->getCustomer(2),
                     'addresses' => [$this->getAddresses()[1]],
                     'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
                     'salesRepresentatives' => [$this->getUsers()[1], $this->getUsers()[2]],
@@ -248,8 +223,8 @@ class CustomerTypeTest extends FormIntegrationTestCase
                 ],
                 'expectedData' => [
                     'name' => 'customer_name',
-                    'group' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
-                    'parent' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2),
+                    'group' => $this->getCustomerGroup(1),
+                    'parent' => $this->getCustomer(2),
                     'addresses' => [],
                     'internal_rating' => new TestEnumValue('2_of_5', '2 of 5'),
                     'salesRepresentatives' => [],
@@ -267,8 +242,8 @@ class CustomerTypeTest extends FormIntegrationTestCase
                 ],
                 'expectedData' => [
                     'name' => 'customer_name',
-                    'group' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
-                    'parent' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2),
+                    'group' => $this->getCustomerGroup(1),
+                    'parent' => $this->getCustomer(2),
                     'internal_rating' => null,
                     'addresses' => [],
                     'salesRepresentatives' => [],
@@ -285,8 +260,8 @@ class CustomerTypeTest extends FormIntegrationTestCase
                 ],
                 'expectedData' => [
                     'name' => 'customer_name',
-                    'group' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', 1),
-                    'parent' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', 2),
+                    'group' => $this->getCustomerGroup(1),
+                    'parent' => $this->getCustomer(2),
                     'internal_rating' => null,
                     'salesRepresentatives' => [],
                 ],
@@ -295,32 +270,47 @@ class CustomerTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @param string $className
-     * @param int $id
-     * @return object
-     */
-    protected function getEntity($className, $id)
+    private function getUser(int $id): User
     {
-        $entity = new $className;
+        $user = new User();
+        ReflectionUtil::setId($user, $id);
 
-        $reflectionClass = new \ReflectionClass($className);
-        $method = $reflectionClass->getProperty('id');
-        $method->setAccessible(true);
-        $method->setValue($entity, $id);
+        return $user;
+    }
 
-        return $entity;
+    private function getCustomer(int $id): Customer
+    {
+        $customer = new Customer();
+        ReflectionUtil::setId($customer, $id);
+
+        return $customer;
+    }
+
+    private function getCustomerGroup(int $id): CustomerGroup
+    {
+        $customerGroup = new CustomerGroup();
+        ReflectionUtil::setId($customerGroup, $id);
+
+        return $customerGroup;
+    }
+
+    private function getCustomerAddress(int $id): CustomerAddress
+    {
+        $customerAddress = new CustomerAddress();
+        ReflectionUtil::setId($customerAddress, $id);
+
+        return $customerAddress;
     }
 
     /**
      * @return CustomerAddress[]
      */
-    protected function getAddresses()
+    private function getAddresses()
     {
         if (!self::$addresses) {
             self::$addresses = [
-                1 => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerAddress', 1),
-                2 => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerAddress', 2)
+                1 => $this->getCustomerAddress(1),
+                2 => $this->getCustomerAddress(2)
             ];
         }
 
@@ -330,12 +320,12 @@ class CustomerTypeTest extends FormIntegrationTestCase
     /**
      * @return User[]
      */
-    protected function getUsers()
+    private function getUsers()
     {
         if (!self::$users) {
             self::$users = [
-                1 => $this->getEntity('Oro\Bundle\UserBundle\Entity\User', 1),
-                2 => $this->getEntity('Oro\Bundle\UserBundle\Entity\User', 2)
+                1 => $this->getUser(1),
+                2 => $this->getUser(2)
             ];
         }
 
@@ -345,10 +335,10 @@ class CustomerTypeTest extends FormIntegrationTestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|EventDispatcherInterface
      */
-    protected function getEventDispatcher()
+    private function getEventDispatcher()
     {
         if (!$this->eventDispatcher) {
-            $this->eventDispatcher = $this->createMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+            $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         }
 
         return $this->eventDispatcher;

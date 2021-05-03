@@ -13,6 +13,7 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -151,19 +152,10 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @param int $id
-     * @param string $label
-     * @return CustomerUserRole
-     */
-    protected function getRole($id, $label)
+    private function getRole(int $id, string $label): CustomerUserRole
     {
         $role = new CustomerUserRole($label);
-
-        $reflection = new \ReflectionProperty(get_class($role), 'id');
-        $reflection->setAccessible(true);
-        $reflection->setValue($role, $id);
-
+        ReflectionUtil::setId($role, $id);
         $role->setLabel($label);
 
         return $role;

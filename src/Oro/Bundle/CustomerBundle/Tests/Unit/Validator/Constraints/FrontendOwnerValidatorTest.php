@@ -22,6 +22,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
@@ -82,7 +83,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->currentOrg = new Organization();
         $this->currentOrg->setId(1);
         $this->currentUser = new CustomerUser();
-        $this->setEntityId($this->currentUser, 10);
+        ReflectionUtil::setId($this->currentUser, 10);
 
         $this->tokenAccessor->expects(self::any())
             ->method('getUser')
@@ -139,18 +140,6 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
     }
 
     /**
-     * @param object $entity
-     * @param mixed  $id
-     */
-    private function setEntityId($entity, $id)
-    {
-        $refl = new \ReflectionClass($entity);
-        $prop = $refl->getProperty('id');
-        $prop->setAccessible(true);
-        $prop->setValue($entity, $id);
-    }
-
-    /**
      * @param int $id
      *
      * @return User
@@ -158,7 +147,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
     private function createUser($id)
     {
         $user = new CustomerUser();
-        $this->setEntityId($user, $id);
+        ReflectionUtil::setId($user, $id);
 
         return $user;
     }
@@ -171,7 +160,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
     private function createCustomer($id)
     {
         $customer = new Customer();
-        $this->setEntityId($customer, $id);
+        ReflectionUtil::setId($customer, $id);
 
         return $customer;
     }

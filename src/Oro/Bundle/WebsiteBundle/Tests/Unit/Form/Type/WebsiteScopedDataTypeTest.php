@@ -172,18 +172,4 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             ],
         ];
     }
-
-    /**
-     * @param FormView $formView
-     * @param array $children
-     * @return FormView
-     */
-    protected function setFormViewChildren(FormView $formView, array $children)
-    {
-        $childrenReflection = new \ReflectionProperty($formView, 'children');
-        $childrenReflection->setAccessible(true);
-        $childrenReflection->setValue($formView, $children);
-
-        return $formView;
-    }
 }

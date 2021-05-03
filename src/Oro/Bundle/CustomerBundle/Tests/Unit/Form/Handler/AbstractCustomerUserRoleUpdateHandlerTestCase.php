@@ -15,6 +15,7 @@ use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclPrivilegeRepository;
 use Oro\Bundle\SecurityBundle\Filter\AclPrivilegeConfigurableFilter;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
@@ -274,19 +275,10 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         return $users;
     }
 
-    /**
-     * @param string   $role
-     * @param int|null $id
-     * @return CustomerUserRole
-     */
-    protected function createCustomerUserRole($role, $id = null)
+    protected function createCustomerUserRole(string $role, int $id = null): CustomerUserRole
     {
         $entity = new CustomerUserRole($role);
-        if ($id) {
-            $reflection = new \ReflectionProperty(CustomerUserRole::class, 'id');
-            $reflection->setAccessible(true);
-            $reflection->setValue($entity, $id);
-        }
+        ReflectionUtil::setId($entity, $id);
 
         return $entity;
     }

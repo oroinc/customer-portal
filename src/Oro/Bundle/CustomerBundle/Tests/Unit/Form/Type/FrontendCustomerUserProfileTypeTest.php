@@ -10,6 +10,7 @@ use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
 use Oro\Bundle\UserBundle\Form\Type\ChangePasswordType;
 use Oro\Bundle\UserBundle\Tests\Unit\Stub\ChangePasswordTypeStub;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -102,8 +103,7 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
         $customer = new Customer();
         $entity->setCustomer($customer);
         $existingEntity = new CustomerUser();
-        $this->setPropertyValue($existingEntity, 'id', 42);
-
+        ReflectionUtil::setId($existingEntity, 42);
         $existingEntity->setFirstName('John');
         $existingEntity->setLastName('Doe');
         $existingEntity->setEmail('johndoe@example.com');
@@ -132,18 +132,5 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
                 'expectedData' => $updatedEntity
             ]
         ];
-    }
-
-    /**
-     * @param CustomerUser $existingCustomerUser
-     * @param string $property
-     * @param mixed $value
-     */
-    protected function setPropertyValue(CustomerUser $existingCustomerUser, $property, $value)
-    {
-        $class = new \ReflectionClass($existingCustomerUser);
-        $prop = $class->getProperty($property);
-        $prop->setAccessible(true);
-        $prop->setValue($existingCustomerUser, $value);
     }
 }

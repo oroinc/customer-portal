@@ -10,6 +10,7 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AclPriviledgeTypeStub;
 use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
 use Oro\Bundle\SecurityBundle\Form\Type\AclPrivilegeType;
 use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
@@ -19,8 +20,6 @@ use Symfony\Component\Validator\Validation;
 
 abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
 {
-    const DATA_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole';
-
     /**
      * @var Customer
      */
@@ -87,16 +86,17 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
         $roleLabel = 'customer_role_label';
         $alteredRoleLabel = 'altered_role_label';
 
-        $defaultRole = new CustomerUserRole('');
+        $defaultRole = new CustomerUserRole();
         $defaultRole->setLabel($roleLabel);
 
-        /** @var CustomerUserRole $existingRoleBefore */
-        $existingRoleBefore = $this->getEntity(self::DATA_CLASS, 1);
+        $existingRoleBefore = new CustomerUserRole();
+        ReflectionUtil::setId($existingRoleBefore, 1);
         $existingRoleBefore
             ->setLabel($roleLabel)
             ->setRole($roleLabel, false);
 
-        $existingRoleAfter = $this->getEntity(self::DATA_CLASS, 1);
+        $existingRoleAfter = new CustomerUserRole();
+        ReflectionUtil::setId($existingRoleAfter, 1);
         $existingRoleAfter
             ->setLabel($alteredRoleLabel)
             ->setRole($roleLabel, false);
@@ -139,23 +139,6 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @param string $className
-     * @param int $id
-     * @return object
-     */
-    protected function getEntity($className, $id)
-    {
-        $entity = new $className;
-
-        $reflectionClass = new \ReflectionClass($className);
-        $method = $reflectionClass->getProperty('id');
-        $method->setAccessible(true);
-        $method->setValue($entity, $id);
-
-        return $entity;
-    }
-
-    /**
      * @return Customer[]
      */
     protected function getCustomers()
@@ -170,19 +153,10 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
         return self::$customers;
     }
 
-    /**
-     * @param int $id
-     * @param string $name
-     * @return Customer
-     */
-    protected static function createCustomer($id, $name)
+    protected static function createCustomer(int $id, string $name): Customer
     {
         $customer = new Customer();
-
-        $reflection = new \ReflectionProperty(get_class($customer), 'id');
-        $reflection->setAccessible(true);
-        $reflection->setValue($customer, $id);
-
+        ReflectionUtil::setId($customer, $id);
         $customer->setName($name);
 
         return $customer;

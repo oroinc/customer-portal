@@ -14,10 +14,10 @@ use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
 use Oro\Bundle\EntityBundle\Tools\DatabaseChecker;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTree;
-use Oro\Bundle\SecurityBundle\Tests\Util\ReflectionUtil;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\MessageQueue\Client\Message;
 use Oro\Component\MessageQueue\Client\MessageProducer;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\TestUtils\ORM\Mocks\ConnectionMock;
 use Oro\Component\TestUtils\ORM\Mocks\DriverMock;
 use Oro\Component\TestUtils\ORM\Mocks\EntityManagerMock;
@@ -202,7 +202,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         /** @var OwnerTree $tree */
         $tree = $this->treeProvider->getTree();
         $businessUnitClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
-        $subordinateBusinessUnitIds = ReflectionUtil::callProtectedMethod(
+        $subordinateBusinessUnitIds = ReflectionUtil::callMethod(
             $this->treeProvider,
             'buildTree',
             [$src, $businessUnitClass]
@@ -245,7 +245,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         /** @var OwnerTree $tree */
         $tree = $this->treeProvider->getTree();
         $businessUnitClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
-        $subordinateBusinessUnitIds = ReflectionUtil::callProtectedMethod(
+        $subordinateBusinessUnitIds = ReflectionUtil::callMethod(
             $this->treeProvider,
             'buildTree',
             [$src, $businessUnitClass]

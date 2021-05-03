@@ -13,6 +13,7 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeS
 use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
 use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType;
 use Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
@@ -78,7 +79,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         $this->assertFalse($form->has('selfManaged'));
 
         $formConfig = $form->getConfig();
-        $this->assertEquals(self::DATA_CLASS, $formConfig->getOption('data_class'));
+        $this->assertEquals(CustomerUserRole::class, $formConfig->getOption('data_class'));
 
         $this->assertTrue($formConfig->getOption('hide_self_managed'));
 
@@ -111,14 +112,15 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         $defaultRole = new CustomerUserRole('');
         $defaultRole->setLabel($roleLabel);
         $defaultRole->setCustomer($customer);
-        /** @var CustomerUserRole $existingRoleBefore */
-        $existingRoleBefore = $this->getEntity(self::DATA_CLASS, 1);
+        $existingRoleBefore = new CustomerUserRole();
+        ReflectionUtil::setId($existingRoleBefore, 1);
         $existingRoleBefore
             ->setLabel($roleLabel)
             ->setRole($roleLabel, false)
             ->setCustomer($customer);
 
-        $existingRoleAfter = $this->getEntity(self::DATA_CLASS, 1);
+        $existingRoleAfter = new CustomerUserRole();
+        ReflectionUtil::setId($existingRoleAfter, 1);
         $existingRoleAfter
             ->setLabel($alteredRoleLabel)
             ->setRole($roleLabel, false)
@@ -199,14 +201,15 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
 
     public function testPostSubmit()
     {
-        list($customerUser1, , , $customerUser4) = array_values($this->getCustomerUsers());
-        list($customer1) = array_values($this->getCustomers());
+        [$customerUser1, , , $customerUser4] = array_values($this->getCustomerUsers());
+        [$customer1] = array_values($this->getCustomers());
 
         $form = $this->prepareFormForEvents();
         $form->get('appendUsers')->setData([$customerUser1]);
         $form->get('removeUsers')->setData([$customerUser4]);
 
-        $role = $this->getEntity(self::DATA_CLASS, 1);
+        $role = new CustomerUserRole();
+        ReflectionUtil::setId($role, 1);
         $role->setCustomer($customer1);
 
         $event = new FormEvent($form, $role);
@@ -224,7 +227,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
     protected function createCustomerUserRoleFormTypeAndSetDataClass()
     {
         $this->formType = new FrontendCustomerUserRoleType();
-        $this->formType->setDataClass(self::DATA_CLASS);
+        $this->formType->setDataClass(CustomerUserRole::class);
     }
 
     /**
@@ -233,21 +236,21 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
     protected function getCustomerUsers()
     {
         if (!$this->customerUsers) {
-            list($customer1, $customer2) = array_values($this->getCustomers());
+            [$customer1, $customer2] = array_values($this->getCustomers());
 
-            /** @var CustomerUser $customerUser1 */
-            $customerUser1 = $this->getEntity(CustomerUser::class, 1);
+            $customerUser1 = new CustomerUser();
+            ReflectionUtil::setId($customerUser1, 1);
             $customerUser1->setCustomer($customer1);
 
-            /** @var CustomerUser $customerUser2 */
-            $customerUser2 = $this->getEntity(CustomerUser::class, 2);
+            $customerUser2 = new CustomerUser();
+            ReflectionUtil::setId($customerUser2, 2);
             $customerUser2->setCustomer($customer2);
 
-            /** @var CustomerUser $customerUser3 */
-            $customerUser3 = $this->getEntity(CustomerUser::class, 3);
+            $customerUser3 = new CustomerUser();
+            ReflectionUtil::setId($customerUser3, 3);
 
-            /** @var CustomerUser $customerUser4 */
-            $customerUser4 = $this->getEntity(CustomerUser::class, 4);
+            $customerUser4 = new CustomerUser();
+            ReflectionUtil::setId($customerUser4, 4);
             $customerUser4->setCustomer($customer1);
 
             $this->customerUsers = [
@@ -266,10 +269,13 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
      */
     protected function prepareFormForEvents()
     {
-        list($customerUser1, $customerUser2, $customerUser3, $customerUser4) = array_values($this->getCustomerUsers());
+        [$customerUser1, $customerUser2, $customerUser3, $customerUser4] = array_values($this->getCustomerUsers());
 
-        $role = $this->getEntity(self::DATA_CLASS, 1);
-        $predefinedRole = $this->getEntity(self::DATA_CLASS, 2);
+        $role = new CustomerUserRole();
+        ReflectionUtil::setId($role, 1);
+
+        $predefinedRole = new CustomerUserRole();
+        ReflectionUtil::setId($predefinedRole, 2);
         $predefinedRole->addCustomerUser($customerUser1);
         $predefinedRole->addCustomerUser($customerUser2);
         $predefinedRole->addCustomerUser($customerUser3);
