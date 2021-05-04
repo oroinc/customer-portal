@@ -11,7 +11,7 @@ use Symfony\Component\DomCrawler\Form;
 
 class CustomerUserAddressControllerTest extends WebTestCase
 {
-    /** @var CustomerUser $customerUser */
+    /** @var CustomerUser */
     protected $customerUser;
 
     protected function setUp(): void

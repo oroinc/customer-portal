@@ -56,11 +56,10 @@ class MenuDisplayBuilderTest extends \PHPUnit\Framework\TestCase
             ->method('setDisplay')
             ->willReturn(false);
 
-        /** @var $mainMenu ItemInterface|\PHPUnit\Framework\MockObject\MockObject */
         $mainMenu = $this->createMock(ItemInterface::class);
         $mainMenu->expects(static::once())
-                 ->method('getChildren')
-                 ->willReturn([$childMenu1, $childMenu2]);
+            ->method('getChildren')
+            ->willReturn([$childMenu1, $childMenu2]);
 
         $this->conditionEvaluator
             ->expects(static::once())

@@ -10,7 +10,7 @@ use Symfony\Component\DomCrawler\Form;
 
 class CustomerAddressControllerTest extends WebTestCase
 {
-    /** @var Customer $customer */
+    /** @var Customer */
     protected $customer;
 
     /**

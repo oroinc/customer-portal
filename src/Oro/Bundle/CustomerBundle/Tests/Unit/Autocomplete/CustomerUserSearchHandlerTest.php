@@ -52,10 +52,9 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->indexer = self::createMock(Indexer::class);
+        $this->indexer = $this->createMock(Indexer::class);
 
-        /* @var $metadata ClassMetadata|\PHPUnit\Framework\MockObject\MockObject */
-        $metadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
+        $metadata = $this->getMockBuilder(ClassMetadata::class)
             ->setMethods(['getSingleIdentifierFieldName'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -63,25 +62,24 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('getSingleIdentifierFieldName')
             ->will($this->returnValue('id'));
 
-        /* @var $metadataFactory ClassMetadataFactory|\PHPUnit\Framework\MockObject\MockObject */
-        $metadataFactory = self::createMock(ClassMetadataFactory::class);
+        $metadataFactory = $this->createMock(ClassMetadataFactory::class);
         $metadataFactory->expects(self::once())
             ->method('getMetadataFor')
             ->with(self::TEST_ENTITY_CLASS)
             ->will($this->returnValue($metadata));
 
-        $this->entityManager = self::createMock(EntityManager::class);
+        $this->entityManager = $this->createMock(EntityManager::class);
         $this->entityManager->expects(self::once())
             ->method('getMetadataFactory')
             ->willReturn($metadataFactory);
 
-        $this->entityRepository = self::createMock(EntityRepository::class);
+        $this->entityRepository = $this->createMock(EntityRepository::class);
         $this->entityManager->expects(self::once())
             ->method('getRepository')
             ->with(self::TEST_ENTITY_CLASS)
             ->willReturn($this->entityRepository);
 
-        $this->aclHelper = self::createMock(AclHelper::class);
+        $this->aclHelper = $this->createMock(AclHelper::class);
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
         $this->managerRegistry->expects(self::once())
             ->method('getManagerForClass')
@@ -134,18 +132,18 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 
     private function assertSearchIdsByTermAndCustomer(): void
     {
-        $queryResult = self::createMock(Result::class);
+        $queryResult = $this->createMock(Result::class);
         $queryResult->expects(self::once())
             ->method('getElements')
             ->willReturn([$this->getResultItem(1)]);
 
-        $criteria = self::createMock(Criteria::class);
+        $criteria = $this->createMock(Criteria::class);
         $criteria->expects(self::once())
             ->method('andWhere')
             ->with(new Comparison('integer.customer_id', Comparison::EQ, new Value(self::CUSTOMER_ID)))
             ->willReturnSelf();
 
-        $searchQuery = self::createMock(SearchQuery::class);
+        $searchQuery = $this->createMock(SearchQuery::class);
         $searchQuery->expects(self::once())
             ->method('getCriteria')
             ->willReturn($criteria);
@@ -161,12 +159,12 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 
     private function assertSearchIdsByTermAndCustomerIsNull(): void
     {
-        $queryResult = self::createMock(Result::class);
+        $queryResult = $this->createMock(Result::class);
         $queryResult->expects(self::once())
             ->method('getElements')
             ->willReturn([$this->getResultItem(1)]);
 
-        $searchQuery = self::createMock(SearchQuery::class);
+        $searchQuery = $this->createMock(SearchQuery::class);
         $searchQuery->expects(self::never())
             ->method('getCriteria');
 
@@ -181,8 +179,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 
     private function assertSearchEntities(): void
     {
-        /* @var $expr Expr|\PHPUnit\Framework\MockObject\MockObject */
-        $expr = self::createMock(Expr::class);
+        $expr = $this->createMock(Expr::class);
         $expr->expects(self::once())
             ->method('asc')
             ->willReturnSelf();
@@ -191,23 +188,18 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('in')
             ->willReturnSelf();
 
-        /* @var $queryBuilder QueryBuilder|\PHPUnit\Framework\MockObject\MockObject */
-        $queryBuilder = self::createMock(QueryBuilder::class);
-
+        $queryBuilder = $this->createMock(QueryBuilder::class);
         $queryBuilder->expects(self::exactly(2))
             ->method('expr')
             ->willReturn($expr);
-
         $queryBuilder->expects(self::once())
             ->method('where')
             ->with($expr)
             ->willReturnSelf();
-
         $queryBuilder->expects(self::once())
             ->method('addOrderBy')
             ->with($expr)
             ->willReturnSelf();
-
         $queryBuilder->expects(self::once())
             ->method('andWhere')
             ->with('e.customer = :customer')
@@ -218,7 +210,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
-        $query = self::createMock(AbstractQuery::class);
+        $query = $this->createMock(AbstractQuery::class);
         $query->expects(self::once())
             ->method('getResult')
             ->willReturn([$this->getResultStub(1, 'acme1')]);
@@ -231,8 +223,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 
     private function assertSearchEntitiesWithoutCustomer(): void
     {
-        /* @var $expr Expr|\PHPUnit\Framework\MockObject\MockObject */
-        $expr = self::createMock(Expr::class);
+        $expr = $this->createMock(Expr::class);
         $expr->expects(self::once())
             ->method('asc')
             ->willReturnSelf();
@@ -241,31 +232,27 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('in')
             ->willReturnSelf();
 
-        /* @var $queryBuilder QueryBuilder|\PHPUnit\Framework\MockObject\MockObject */
-        $queryBuilder = self::createMock(QueryBuilder::class);
-
+        $queryBuilder = $this->createMock(QueryBuilder::class);
         $queryBuilder->expects(self::exactly(2))
             ->method('expr')
             ->willReturn($expr);
-
         $queryBuilder->expects(self::once())
             ->method('where')
             ->with($expr)
             ->willReturnSelf();
-
         $queryBuilder->expects(self::once())
             ->method('addOrderBy')
             ->with($expr)
             ->willReturnSelf();
-
-        $queryBuilder->expects(self::never())->method('andWhere');
+        $queryBuilder->expects(self::never())
+            ->method('andWhere');
 
         $this->entityRepository
             ->expects(self::once())
             ->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
-        $query = self::createMock(AbstractQuery::class);
+        $query = $this->createMock(AbstractQuery::class);
         $query->expects(self::once())
             ->method('getResult')
             ->willReturn([$this->getResultStub(1, 'acme1')]);
@@ -297,7 +284,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
      */
     private function getResultItem($id)
     {
-        $element = self::createMock(Result\Item::class);
+        $element = $this->createMock(Result\Item::class);
         $element->expects(self::once())
             ->method('getRecordId')
             ->willReturn($id);

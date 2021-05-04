@@ -62,7 +62,7 @@ class CustomerUserProviderTest extends WebTestCase
         $role = $repository->findOneBy(['role' => CustomerUserRole::PREFIX_ROLE . $roleName]);
         $this->assertNotEmpty($role);
 
-        /* @var $securityProvider CustomerUserProvider */
+        /* @var CustomerUserProvider $securityProvider */
         $securityProvider = $this->getContainer()->get('oro_customer.security.customer_user_provider');
 
         /** @var CustomerUser $user */
@@ -74,7 +74,7 @@ class CustomerUserProviderTest extends WebTestCase
 
         $userClassName = CustomerUser::class;
 
-        list(
+        [
             $isGrantedViewCustomerUser,
             $isGrantedViewBasic,
             $isGrantedViewLocal,
@@ -82,7 +82,7 @@ class CustomerUserProviderTest extends WebTestCase
             $isGrantedViewSystem,
             $isGrantedEditBasic,
             $isGrantedEditLocal
-        ) = $expected;
+        ] = $expected;
 
         $this->assertEquals(
             $isGrantedViewCustomerUser,

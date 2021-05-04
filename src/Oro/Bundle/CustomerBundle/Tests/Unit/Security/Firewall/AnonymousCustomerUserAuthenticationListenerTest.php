@@ -59,10 +59,10 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
     /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $websiteManager;
 
-    /** @var CacheProvider|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CacheProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $cacheProvider;
 
-    /** @var CsrfRequestManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CsrfRequestManager|\PHPUnit\Framework\MockObject\MockObject */
     private $csrfRequestManager;
 
     protected function setUp(): void

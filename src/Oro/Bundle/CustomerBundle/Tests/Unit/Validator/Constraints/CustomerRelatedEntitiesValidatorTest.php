@@ -48,12 +48,12 @@ class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
      */
     protected function setUp(): void
     {
-        $this->authorizationChecker = self::createMock(AuthorizationCheckerInterface::class);
-        $this->customerUserReassignUpdater = self::createMock(CustomerUserReassignUpdaterInterface::class);
-        $this->registry = self::createMock(ManagerRegistry::class);
-        $this->entityClassNameProvider = self::createMock(EntityClassNameProviderInterface::class);
-        $this->em = self::createMock(EntityManager::class);
-        $this->uow = self::createMock(UnitOfWork::class);
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+        $this->customerUserReassignUpdater = $this->createMock(CustomerUserReassignUpdaterInterface::class);
+        $this->registry = $this->createMock(ManagerRegistry::class);
+        $this->entityClassNameProvider = $this->createMock(EntityClassNameProviderInterface::class);
+        $this->em = $this->createMock(EntityManager::class);
+        $this->uow = $this->createMock(UnitOfWork::class);
         $this->context = $this->createMock(ExecutionContextInterface::class);
     }
 

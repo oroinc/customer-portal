@@ -184,7 +184,7 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
      */
     protected function loadCustomerUsers(ObjectManager $manager)
     {
-        /* @var $userManager CustomerUserManager */
+        /* @var CustomerUserManager $userManager */
         $userManager = $this->container->get('oro_customer_user.manager');
 
         $defaultUser = $this->getAdminUser($manager);
@@ -199,7 +199,7 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
             if ($this->hasReference($item['email'])) {
                 $customerUser = $this->getReference($item['email']);
             } else {
-                /* @var $customerUser CustomerUser */
+                /* @var CustomerUser $customerUser */
                 $customerUser = $userManager->createUser();
                 $customerUser
                     ->setEmail($item['email'])

@@ -51,13 +51,13 @@ class CustomerUserReassignEntityUpdaterTest extends \PHPUnit\Framework\TestCase
      */
     protected function setUp(): void
     {
-        $this->registry = self::createMock(ManagerRegistry::class);
-        $this->entityToArrayConverter = self::createMock(EntityToEntityChangeArrayConverter::class);
-        $this->auditMessageBodyProvider = self::createMock(AuditMessageBodyProvider::class);
-        $this->messageProducer = self::createMock(MessageProducerInterface::class);
-        $this->tokenStorage = self::createMock(TokenStorageInterface::class);
-        $this->em = self::createMock(EntityManagerInterface::class);
-        $this->checkoutRepository = self::createMock(CheckoutRepository::class);
+        $this->registry = $this->createMock(ManagerRegistry::class);
+        $this->entityToArrayConverter = $this->createMock(EntityToEntityChangeArrayConverter::class);
+        $this->auditMessageBodyProvider = $this->createMock(AuditMessageBodyProvider::class);
+        $this->messageProducer = $this->createMock(MessageProducerInterface::class);
+        $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
+        $this->checkoutRepository = $this->createMock(CheckoutRepository::class);
 
         $this->updater = new CustomerUserReassignEntityUpdater(
             $this->registry,

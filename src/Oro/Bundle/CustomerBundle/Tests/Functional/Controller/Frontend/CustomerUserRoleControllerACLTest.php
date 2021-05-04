@@ -39,7 +39,7 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
     public function testACL($route, $role, $user, $expectedStatus)
     {
         $this->loginUser($user);
-        /* @var $role CustomerUserRole */
+        /* @var CustomerUserRole $role */
         $role = $this->getReference($role);
         $this->client->request('GET', $this->getUrl(
             $route,
@@ -112,7 +112,7 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
     public function testRolePermissionGrid()
     {
         $this->loginUser(LoadCustomerUserRoleACLData::USER_ACCOUNT_1_ROLE_DEEP);
-        /* @var $role CustomerUserRole */
+        /* @var CustomerUserRole $role */
         $role = $this->getReference(LoadCustomerUserRoleACLData::ROLE_WITH_ACCOUNT_1_USER_DEEP);
         $gridParameters = [
             'gridName' => 'frontend-customer-user-role-permission-grid',

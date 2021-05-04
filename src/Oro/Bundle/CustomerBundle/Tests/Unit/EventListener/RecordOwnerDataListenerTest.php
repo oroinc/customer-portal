@@ -16,7 +16,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /**  @var RecordOwnerDataListener */
+    /** @var RecordOwnerDataListener */
     protected $listener;
 
     /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
