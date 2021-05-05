@@ -9,10 +9,10 @@ use Oro\Bundle\CustomerBundle\Form\DataTransformer\AddressTypeDefaultTransformer
 
 class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var EntityManager  */
+    /** @var EntityManager */
     protected $em;
 
-    /** @var EntityRepository  */
+    /** @var EntityRepository */
     protected $addressRepository;
 
     /** @var AddressTypeDefaultTransformer */

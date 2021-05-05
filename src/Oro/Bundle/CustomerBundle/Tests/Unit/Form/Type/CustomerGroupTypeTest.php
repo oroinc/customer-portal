@@ -2,22 +2,19 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
 use Oro\Bundle\FormBundle\Form\Type\EntityIdentifierType;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class CustomerGroupTypeTest extends FormIntegrationTestCase
 {
-    const DATA_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerGroup';
-    const ACCOUNT_CLASS = 'Oro\Bundle\CustomerBundle\Entity\Customer';
-
-    /**
-     * @var CustomerGroupType
-     */
-    protected $formType;
+    /** @var CustomerGroupType */
+    private $formType;
 
     /**
      * {@inheritdoc}
@@ -25,8 +22,8 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
     protected function setUp(): void
     {
         $this->formType = new CustomerGroupType();
-        $this->formType->setDataClass(self::DATA_CLASS);
-        $this->formType->setCustomerClass(self::ACCOUNT_CLASS);
+        $this->formType->setDataClass(CustomerGroup::class);
+        $this->formType->setCustomerClass(Customer::class);
 
         parent::setUp();
     }
@@ -78,7 +75,7 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
         $this->assertTrue($form->has('removeCustomers'));
 
         $formConfig = $form->getConfig();
-        $this->assertEquals(self::DATA_CLASS, $formConfig->getOption('data_class'));
+        $this->assertEquals(CustomerGroup::class, $formConfig->getOption('data_class'));
 
         $this->assertEquals($defaultData, $form->getData());
         $this->assertEquals($viewData, $form->getViewData());
@@ -100,8 +97,8 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
         $defaultGroup = new CustomerGroup();
         $defaultGroup->setName($groupName);
 
-        /** @var CustomerGroup $existingGroupBefore */
-        $existingGroupBefore = $this->getEntity(self::DATA_CLASS, 1);
+        $existingGroupBefore = new CustomerGroup();
+        ReflectionUtil::setId($existingGroupBefore, 1);
         $existingGroupBefore->setName($groupName);
 
         $existingGroupAfter = clone $existingGroupBefore;
@@ -127,22 +124,5 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
                 'expectedData' => $existingGroupAfter
             ]
         ];
-    }
-
-    /**
-     * @param string $className
-     * @param int $id
-     * @return object
-     */
-    protected function getEntity($className, $id)
-    {
-        $entity = new $className;
-
-        $reflectionClass = new \ReflectionClass($className);
-        $method = $reflectionClass->getProperty('id');
-        $method->setAccessible(true);
-        $method->setValue($entity, $id);
-
-        return $entity;
     }
 }

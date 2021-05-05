@@ -17,7 +17,11 @@
 
             <div class="grid__row">
                 <address>
-                    <%= _.escape(formatted_address).replace(/\n/g, "<br/>") %>
+                    <% if (isAddressHtmlFormatted) { %>
+                        <%= formatted_address.replace(/\n/g, "<br/>") %>
+                    <% } else { %>
+                        <%= _.escape(formatted_address).replace(/\n/g, "<br/>") %>
+                    <% } %>
                 </address>
             </div>
 

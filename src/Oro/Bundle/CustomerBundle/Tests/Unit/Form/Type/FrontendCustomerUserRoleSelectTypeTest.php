@@ -13,6 +13,7 @@ use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,15 +22,13 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 {
     use EntityTrait;
 
-    /**
-     * @var FrontendCustomerUserRoleSelectType
-     */
+    /** @var FrontendCustomerUserRoleSelectType */
     protected $formType;
 
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $tokenAccessor;
 
-    /** @var $registry Registry|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Registry|\PHPUnit\Framework\MockObject\MockObject */
     protected $registry;
 
     /** @var QueryBuilder */
@@ -49,16 +48,12 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->tokenAccessor->expects($this->any())->method('getUser')->willReturn($user);
         $this->registry = $this->createMock(ManagerRegistry::class);
-        /** @var $repo CustomerUserRoleRepository|\PHPUnit\Framework\MockObject\MockObject */
-        $repo = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $repo = $this->createMock(CustomerUserRoleRepository::class);
         $repo->expects($this->any())
             ->method('createQueryBuilder')
             ->with('customer')
             ->willReturn($this->qb);
-        /** @var $em ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
-        $em = $this->createMock('Doctrine\Persistence\ObjectManager');
+        $em = $this->createMock(ObjectManager::class);
         $em->expects($this->any())
             ->method('getRepository')
             ->with('Oro\Bundle\CustomerBundle\Entity\CustomerUserRole')
@@ -85,9 +80,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
     public function testConfigureOptions()
     {
-        /** @var $resolver OptionsResolver|\PHPUnit\Framework\MockObject\MockObject */
-        $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
-
+        $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects($this->once())
             ->method('setDefaults')
             ->with($this->isType('array'))
@@ -112,8 +105,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject $tokenAccessor */
         $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $tokenAccessor->expects($this->once())->method('getUser')->willReturn(null);
-        /** @var $resolver OptionsResolver|\PHPUnit\Framework\MockObject\MockObject */
-        $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
+        $resolver = $this->createMock(OptionsResolver::class);
         $roleFormType = new FrontendCustomerUserRoleSelectType($tokenAccessor, $this->registry);
         $roleFormType->configureOptions($resolver);
     }
@@ -151,19 +143,10 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @param int $id
-     * @param string $label
-     * @return CustomerUserRole
-     */
-    protected function getRole($id, $label)
+    private function getRole(int $id, string $label): CustomerUserRole
     {
         $role = new CustomerUserRole($label);
-
-        $reflection = new \ReflectionProperty(get_class($role), 'id');
-        $reflection->setAccessible(true);
-        $reflection->setValue($role, $id);
-
+        ReflectionUtil::setId($role, $id);
         $role->setLabel($label);
 
         return $role;

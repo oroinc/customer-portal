@@ -5,6 +5,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Request;
 use Oro\Bundle\FrontendBundle\Request\DynamicSessionHttpKernelDecorator;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\SecurityBundle\Tests\Unit\Request\ContainerStub;
+use Oro\Component\Testing\ReflectionUtil;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,12 +38,6 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
     /** @var DynamicSessionHttpKernelDecorator */
     private $kernelDecorator;
 
-    /** @var \ReflectionProperty */
-    private $rp;
-
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->kernel = $this->createMock(HttpKernel::class);
@@ -57,9 +52,11 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             $this->frontendHelper,
             self::FRONTEND_SESSION_OPTIONS
         );
+    }
 
-        $this->rp = new \ReflectionProperty(DynamicSessionHttpKernelDecorator::class, 'backendSessionOptions');
-        $this->rp->setAccessible(true);
+    private function getBackendSessionOptions(): ?array
+    {
+        return ReflectionUtil::getPropertyValue($this->kernelDecorator, 'backendSessionOptions');
     }
 
     public function testHandleForBackendRequest()
@@ -94,7 +91,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
                 'cookie_path' => '/admin',
                 'cookie_lifetime' => 10
             ],
-            $this->rp->getValue($this->kernelDecorator)
+            $this->getBackendSessionOptions()
         );
     }
 
@@ -125,7 +122,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         );
         static::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
-            $this->rp->getValue($this->kernelDecorator)
+            $this->getBackendSessionOptions()
         );
     }
 
@@ -147,7 +144,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         );
         static::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
-            $this->rp->getValue($this->kernelDecorator)
+            $this->getBackendSessionOptions()
         );
     }
 
@@ -169,7 +166,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         );
         static::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
-            $this->rp->getValue($this->kernelDecorator)
+            $this->getBackendSessionOptions()
         );
     }
 
@@ -211,7 +208,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
                 'cookie_path' => '/admin',
                 'cookie_lifetime' => 10
             ],
-            $this->rp->getValue($this->kernelDecorator)
+            $this->getBackendSessionOptions()
         );
     }
 
@@ -252,7 +249,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         );
         static::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
-            $this->rp->getValue($this->kernelDecorator)
+            $this->getBackendSessionOptions()
         );
     }
 
@@ -288,7 +285,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         );
         static::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
-            $this->rp->getValue($this->kernelDecorator)
+            $this->getBackendSessionOptions()
         );
     }
 
@@ -324,7 +321,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         );
         static::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
-            $this->rp->getValue($this->kernelDecorator)
+            $this->getBackendSessionOptions()
         );
     }
 }

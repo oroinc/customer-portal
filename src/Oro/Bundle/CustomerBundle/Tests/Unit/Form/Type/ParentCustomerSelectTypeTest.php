@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
 use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\Form\FormView;
 
 class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
@@ -81,10 +82,7 @@ class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
     {
         $customerId = 42;
         $customer = new Customer();
-
-        $reflection = new \ReflectionProperty(get_class($customer), 'id');
-        $reflection->setAccessible(true);
-        $reflection->setValue($customer, $customerId);
+        ReflectionUtil::setId($customer, $customerId);
 
         return [
             'without customer' => [

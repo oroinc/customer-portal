@@ -73,7 +73,7 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
      */
     protected function loadRoles(ObjectManager $manager)
     {
-        /* @var $aclManager AclManager */
+        /* @var AclManager $aclManager */
         $aclManager = $this->container->get('oro_security.acl.manager');
 
         foreach ($this->getRoles() as $key => $items) {
@@ -100,14 +100,14 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
      */
     protected function loadCustomerUsers(ObjectManager $manager)
     {
-        /* @var $userManager CustomerUserManager */
+        /* @var CustomerUserManager $userManager */
         $userManager = $this->container->get('oro_customer_user.manager');
 
         $defaultUser = $this->getUser($manager);
         $organization = $defaultUser->getOrganization();
 
         foreach ($this->getCustomerUsers() as $item) {
-            /* @var $customerUser CustomerUser */
+            /* @var CustomerUser $customerUser */
             $customerUser = $userManager->createUser();
 
             $customerUser

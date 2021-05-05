@@ -26,7 +26,7 @@
         }
 
         &.offset-start:after {
-            margin-#{$start}: $font-icon-offset-end;
+            margin-left: $font-icon-offset-end;
         }
     }
 }

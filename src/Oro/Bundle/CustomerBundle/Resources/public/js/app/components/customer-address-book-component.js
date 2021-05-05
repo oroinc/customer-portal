@@ -8,6 +8,8 @@ define(function(require) {
     const widgetManager = require('oroui/js/widget-manager');
 
     const CustomerAddressBook = BaseComponent.extend({
+        optionNames: BaseComponent.prototype.optionNames.concat(['isAddressHtmlFormatted']),
+
         /**
          * @inheritDoc
          */
@@ -15,11 +17,13 @@ define(function(require) {
             CustomerAddressBook.__super__.constructor.call(this, options);
         },
 
+        isAddressHtmlFormatted: false,
+
         /**
          * @inheritDoc
          */
         initialize: function(options) {
-            widgetManager.getWidgetInstance(options.wid, function(widget) {
+            widgetManager.getWidgetInstance(options.wid, widget => {
                 /** @type oroaddress.AddressBook */
                 const addressBook = new AddressBook({
                     el: '#address-book',
@@ -37,7 +41,8 @@ define(function(require) {
                             {addressId: address.get('id'), entityId: options.entityId}
                         );
                     },
-                    addressMapOptions: {phone: 'phone'}
+                    addressMapOptions: {phone: 'phone'},
+                    isAddressHtmlFormatted: this.isAddressHtmlFormatted
                 });
                 widget.getAction('add_address', 'adopted', function(action) {
                     action.on('click', _.bind(addressBook.createAddress, addressBook));

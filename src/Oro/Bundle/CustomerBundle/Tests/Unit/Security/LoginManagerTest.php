@@ -42,7 +42,7 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
     /** @var UsernamePasswordOrganizationTokenFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenFactory;
 
-    /** @var  EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $eventDispatcher;
 
     /** @var LoginManager */

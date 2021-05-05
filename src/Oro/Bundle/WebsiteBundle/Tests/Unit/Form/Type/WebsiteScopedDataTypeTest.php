@@ -68,7 +68,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             ->with('website')
             ->willReturn($websiteQB);
 
-        /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $registry*/
+        /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $registry */
         $registry = $this->createMock(ManagerRegistry::class);
         $registry->expects($this->any())
             ->method('getRepository')
@@ -171,19 +171,5 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
                 'expected' => ['1' => 'test', 'not_int' => 'test']
             ],
         ];
-    }
-
-    /**
-     * @param FormView $formView
-     * @param array $children
-     * @return FormView
-     */
-    protected function setFormViewChildren(FormView $formView, array $children)
-    {
-        $childrenReflection = new \ReflectionProperty($formView, 'children');
-        $childrenReflection->setAccessible(true);
-        $childrenReflection->setValue($formView, $children);
-
-        return $formView;
     }
 }

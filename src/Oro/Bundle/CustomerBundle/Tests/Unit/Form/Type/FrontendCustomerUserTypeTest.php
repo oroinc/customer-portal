@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
@@ -17,6 +18,7 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeS
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
@@ -24,27 +26,15 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validation;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
 {
-    /**
-     * @var FrontendCustomerUserType
-     */
+    /** @var FrontendCustomerUserType */
     protected $formType;
 
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $authorizationChecker;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $tokenAccessor;
-
     /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    protected $websiteManager;
+    private $websiteManager;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
@@ -81,7 +71,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
 
         $customerUserType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
         $customerUserType->setDataClass(CustomerUser::class);
-        $customerUserType->setAddressClass(self::ADDRESS_CLASS);
+        $customerUserType->setAddressClass(CustomerUserAddress::class);
 
         return [
             new PreloadedExtension(
@@ -142,12 +132,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $customer = new Customer();
         $newCustomerUser->setCustomer($customer);
         $existingCustomerUser = new CustomerUser();
-
-        $class = new \ReflectionClass($existingCustomerUser);
-        $prop = $class->getProperty('id');
-        $prop->setAccessible(true);
-        $prop->setValue($existingCustomerUser, 42);
-
+        ReflectionUtil::setId($existingCustomerUser, 42);
         $existingCustomerUser->setFirstName('John');
         $existingCustomerUser->setLastName('Doe');
         $existingCustomerUser->setEmail('johndoe@example.com');
@@ -255,7 +240,8 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
             ->willReturn($website);
 
         $customer = new Customer();
-        $newCustomerUser = $this->getEntity(CustomerUser::class, $customerUserId);
+        $newCustomerUser = new CustomerUser();
+        ReflectionUtil::setId($newCustomerUser, $customerUserId);
         $newCustomerUser->setCustomer($customer);
         $form = $this->factory->create(FrontendCustomerUserType::class, $newCustomerUser, []);
 
@@ -278,22 +264,5 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
             'id without website' => [1, null, null],
             'no id without website' => [null, null, null],
         ];
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
-     */
-    private function createTranslator()
-    {
-        $translator = $this->createMock(TranslatorInterface::class);
-        $translator->expects($this->any())
-            ->method('trans')
-            ->willReturnCallback(
-                function ($message) {
-                    return $message . '.trans';
-                }
-            );
-
-        return $translator;
     }
 }

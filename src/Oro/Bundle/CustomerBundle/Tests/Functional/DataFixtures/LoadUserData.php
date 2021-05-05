@@ -54,7 +54,7 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface
         $role = $manager->getRepository(Role::class)->findOneBy(['role' => User::ROLE_DEFAULT]);
 
         foreach ($this->users as $item) {
-            /* @var $user User */
+            /* @var User $user */
             $user = $this->userManager->createUser();
             $user->setUsername($item['username'])
                 ->setEmail($item['email'])

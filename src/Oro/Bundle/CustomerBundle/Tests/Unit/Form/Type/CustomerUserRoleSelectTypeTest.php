@@ -15,7 +15,7 @@ class CustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 {
     const ROLE_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUserRole';
 
-    /** @var  CustomerUserRoleSelectType */
+    /** @var CustomerUserRoleSelectType */
     protected $formType;
 
     /** @var string */

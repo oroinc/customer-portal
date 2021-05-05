@@ -14,10 +14,10 @@ use Oro\Bundle\CustomerBundle\Owner\FrontendOwnerTreeProvider;
 use Oro\Bundle\EntityBundle\Tools\DatabaseChecker;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTree;
-use Oro\Bundle\SecurityBundle\Tests\Util\ReflectionUtil;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\MessageQueue\Client\Message;
 use Oro\Component\MessageQueue\Client\MessageProducer;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\TestUtils\ORM\Mocks\ConnectionMock;
 use Oro\Component\TestUtils\ORM\Mocks\DriverMock;
 use Oro\Component\TestUtils\ORM\Mocks\EntityManagerMock;
@@ -149,78 +149,6 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         $this->treeProvider->setLogger($this->logger);
     }
 
-    /**
-     * @param \PHPUnit\Framework\MockObject\MockObject $conn
-     * @param int                                      $expectsAt
-     * @param string                                   $sql
-     * @param array                                    $result
-     */
-    protected function setFetchAllQueryExpectationAt(
-        \PHPUnit\Framework\MockObject\MockObject $conn,
-        $expectsAt,
-        $sql,
-        $result
-    ) {
-        $stmt = $this->createMock('Oro\Component\TestUtils\ORM\Mocks\StatementMock');
-        $stmt->expects($this->once())
-            ->method('fetchAll')
-            ->willReturn($result);
-        $conn
-            ->expects($this->at($expectsAt))
-            ->method('query')
-            ->with($sql)
-            ->will($this->returnValue($stmt));
-    }
-
-    /**
-     * @param \PHPUnit\Framework\MockObject\MockObject $connection
-     * @param string[]                                 $customers
-     */
-    protected function setGetCustomersExpectation($connection, array $customers)
-    {
-        $queryResult = [];
-        foreach ($customers as $item) {
-            $queryResult[] = [
-                'id_0'   => $item['id'],
-                'sclr_1' => $item['orgId'],
-                'sclr_2' => $item['parentId'],
-            ];
-        }
-        $this->setQueryExpectationAt(
-            $connection,
-            0,
-            'SELECT t0_.id AS id_0, t0_.organization_id AS sclr_1, t0_.parent_id AS sclr_2,'
-            . ' (CASE WHEN t0_.parent_id IS NULL THEN 0 ELSE 1 END) AS sclr_3'
-            . ' FROM tbl_customer t0_'
-            . ' ORDER BY sclr_3 ASC, sclr_2 ASC',
-            $queryResult
-        );
-    }
-
-    /**
-     * @param \PHPUnit\Framework\MockObject\MockObject $connection
-     * @param string[]                                 $users
-     */
-    protected function setGetUsersExpectation($connection, array $users)
-    {
-        $queryResult = [];
-        foreach ($users as $item) {
-            $queryResult[] = [
-                'id_0'   => $item['userId'],
-                'sclr_1'   => $item['orgId'],
-                'sclr_2' => $item['customerId'],
-            ];
-        }
-        $this->setQueryExpectationAt(
-            $connection,
-            1,
-            'SELECT t0_.id AS id_0, t0_.organization_id AS sclr_1, t0_.customer_id AS sclr_2'
-            . ' FROM tbl_customer_user t0_'
-            . ' ORDER BY sclr_1 ASC',
-            $queryResult
-        );
-    }
-
     public function testSupportsForSupportedUser()
     {
         $token = $this->createMock(TokenInterface::class);
@@ -274,7 +202,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         /** @var OwnerTree $tree */
         $tree = $this->treeProvider->getTree();
         $businessUnitClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
-        $subordinateBusinessUnitIds = ReflectionUtil::callProtectedMethod(
+        $subordinateBusinessUnitIds = ReflectionUtil::callMethod(
             $this->treeProvider,
             'buildTree',
             [$src, $businessUnitClass]
@@ -317,7 +245,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         /** @var OwnerTree $tree */
         $tree = $this->treeProvider->getTree();
         $businessUnitClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
-        $subordinateBusinessUnitIds = ReflectionUtil::callProtectedMethod(
+        $subordinateBusinessUnitIds = ReflectionUtil::callMethod(
             $this->treeProvider,
             'buildTree',
             [$src, $businessUnitClass]

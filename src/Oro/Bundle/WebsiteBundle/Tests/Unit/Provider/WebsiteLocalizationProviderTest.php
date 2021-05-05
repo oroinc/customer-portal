@@ -12,7 +12,7 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
     /** @var WebsiteLocalizationProvider */
     protected $provider;
 
-    /** @var WebsiteRepository|\PHPUnit\Framework\MockObject\MockObject $websiteRepository */
+    /** @var WebsiteRepository|\PHPUnit\Framework\MockObject\MockObject */
     protected $websiteRepository;
 
     protected function setUp(): void

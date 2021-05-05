@@ -15,14 +15,10 @@ use Symfony\Component\Validator\Validation;
 
 class CustomerScopeExtensionTest extends FormIntegrationTestCase
 {
-    /**
-     * @var CustomerScopeExtension
-     */
+    /** @var CustomerScopeExtension */
     protected $customerScopeExtension;
 
-    /**
-     * @var ScopeManager|\PHPUnit\Framework\MockObject\MockObject $scopeManager
-     */
+    /** @var ScopeManager|\PHPUnit\Framework\MockObject\MockObject */
     protected $scopeManager;
 
     protected function setUp(): void

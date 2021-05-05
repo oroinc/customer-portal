@@ -218,7 +218,7 @@ class CustomerUserAddressControllerTest extends WebTestCase
     public function testACL($route, $resource, $user, $status)
     {
         $this->loginUser($user);
-        /* @var $resource CustomerUser */
+        /* @var CustomerUser $resource */
         $resource = $this->getReference($resource);
 
         /** @var CustomerAddress $address */

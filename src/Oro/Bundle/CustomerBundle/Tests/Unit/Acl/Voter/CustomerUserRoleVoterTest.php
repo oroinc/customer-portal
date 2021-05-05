@@ -6,8 +6,10 @@ use Oro\Bundle\CustomerBundle\Acl\Voter\CustomerUserRoleVoter;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -19,33 +21,22 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var CustomerUserRoleVoter
-     */
-    protected $voter;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|DoctrineHelper */
+    private $doctrineHelper;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|DoctrineHelper
-     */
-    protected $doctrineHelper;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ContainerInterface */
+    private $container;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ContainerInterface
-     */
-    protected $container;
+    /** @var CustomerUserRoleVoter */
+    private $voter;
 
     protected function setUp(): void
     {
-        $this->doctrineHelper = $this->createMock('Oro\Bundle\EntityBundle\ORM\DoctrineHelper');
-        $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
+        $this->container = $this->createMock(ContainerInterface::class);
 
         $this->voter = new CustomerUserRoleVoter($this->doctrineHelper);
         $this->voter->setContainer($this->container);
-    }
-
-    protected function tearDown(): void
-    {
-        unset($this->voter, $this->doctrineHelper, $this->container);
     }
 
     /**
@@ -83,8 +74,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
                 ]
             ]);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|TokenInterface $token */
-        $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
+        $token = $this->createMock(TokenInterface::class);
         $this->assertEquals(
             $expected,
             $this->voter->vote($token, $object, [$attribute])
@@ -174,18 +164,13 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
 
         $this->getMocksForVote($object);
 
-        $entityRepository = $this
-            ->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $entityRepository = $this->createMock(CustomerUserRoleRepository::class);
         $entityRepository->expects($this->any())
             ->method('isDefaultOrGuestForWebsite')
-            ->will($this->returnValue($isDefaultWebsiteRole));
-
+            ->willReturn($isDefaultWebsiteRole);
         $entityRepository->expects($this->any())
             ->method('hasAssignedUsers')
-            ->will($this->returnValue($hasUsers));
+            ->willReturn($hasUsers);
 
         $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $authorizationChecker->expects($this->any())
@@ -206,10 +191,10 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
         $this->doctrineHelper->expects($this->any())
             ->method('getEntityRepository')
             ->with('OroCustomerBundle:CustomerUserRole')
-            ->will($this->returnValue($entityRepository));
+            ->willReturn($entityRepository);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|TokenInterface $token */
-        $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
+        $token = $this->createMock(TokenInterface::class);
+
         $this->assertEquals(
             $expected,
             $this->voter->vote($token, $object, [CustomerUserRoleVoter::ATTRIBUTE_DELETE])
@@ -278,11 +263,8 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
         $expected,
         $failCustomerUserRole = false
     ) {
-        /** @var Customer $roleCustomer */
-        $roleCustomer = $this->createEntity('Oro\Bundle\CustomerBundle\Entity\Customer', $customerId);
-
-        /** @var Customer $userCustomer */
-        $userCustomer = $this->createEntity('Oro\Bundle\CustomerBundle\Entity\Customer', $loggedUserCustomerId);
+        $roleCustomer = $this->getCustomer($customerId);
+        $userCustomer = $this->getCustomer($loggedUserCustomerId);
 
         if ($failCustomerUserRole) {
             $customerUserRole = new \stdClass();
@@ -301,8 +283,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
             $this->getMockForUpdateAndView($customerUser, $customerUserRole, $isGranted, 'EDIT');
         }
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|TokenInterface $token */
-        $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
+        $token = $this->createMock(TokenInterface::class);
 
         $this->assertEquals(
             $expected,
@@ -328,11 +309,8 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
         $expected,
         $failCustomerUserRole = false
     ) {
-        /** @var Customer $roleCustomer */
-        $roleCustomer = $this->createEntity('Oro\Bundle\CustomerBundle\Entity\Customer', $customerId);
-
-        /** @var Customer $userCustomer */
-        $userCustomer = $this->createEntity('Oro\Bundle\CustomerBundle\Entity\Customer', $loggedUserCustomerId);
+        $roleCustomer = $this->getCustomer($customerId);
+        $userCustomer = $this->getCustomer($loggedUserCustomerId);
 
         if ($failCustomerUserRole) {
             $customerUserRole = new \stdClass();
@@ -351,8 +329,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
             $this->getMockForUpdateAndView($customerUser, $customerUserRole, $isGranted, 'VIEW');
         }
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|TokenInterface $token */
-        $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
+        $token = $this->createMock(TokenInterface::class);
 
         $this->assertEquals(
             $expected,
@@ -408,30 +385,20 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
     /**
      * @param CustomerUserRole|\stdClass $customerUserRole
      */
-    protected function getMocksForVote($customerUserRole)
+    private function getMocksForVote($customerUserRole)
     {
         $this->voter->setClassName(get_class($customerUserRole));
 
         $this->doctrineHelper->expects($this->any())
             ->method('getSingleEntityIdentifier')
             ->with($customerUserRole, false)
-            ->will($this->returnValue(1));
+            ->willReturn(1);
     }
 
-    /**
-     * @param string   $class
-     * @param int|null $id
-     *
-     * @return object
-     */
-    protected function createEntity($class, $id = null)
+    private function getCustomer(int $id = null): Customer
     {
-        $entity = new $class();
-        if ($id) {
-            $reflection = new \ReflectionProperty($class, 'id');
-            $reflection->setAccessible(true);
-            $reflection->setValue($entity, $id);
-        }
+        $entity = new Customer();
+        ReflectionUtil::setId($entity, $id);
 
         return $entity;
     }
@@ -442,7 +409,7 @@ class CustomerUserRoleVoterTest extends \PHPUnit\Framework\TestCase
      * @param bool             $isGranted
      * @param string           $attribute
      */
-    protected function getMockForUpdateAndView($customerUser, $customerUserRole, $isGranted, $attribute)
+    private function getMockForUpdateAndView($customerUser, $customerUserRole, $isGranted, $attribute)
     {
         $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
