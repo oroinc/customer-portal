@@ -78,7 +78,7 @@
         flex-shrink: $filter-container-manager-flex-shrink;
         margin-left: auto;
     }
-    
+
     .filter-container-title,
     .filter-container-manager {
         margin-top: $filter-container-manager-offset-top;
@@ -107,7 +107,7 @@
 
     .filter-criteria-hint-label {
         vertical-align: middle;
-        padding-#{$end}: $filter-criteria-hint-label-offset-end;
+        padding-right: $filter-criteria-hint-label-offset-end;
     }
 
     .filter-criteria-hint {

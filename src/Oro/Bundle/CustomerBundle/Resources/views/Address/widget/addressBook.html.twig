@@ -9,6 +9,8 @@
         {% endif %}
     </div>
 
+    {% set options = options|default({})|merge({isAddressHtmlFormatted: true}) %}
+
     <div class="list-box map-box" id="address-book" data-page-component-module="orocustomer/js/app/components/customer-address-book-component"
          data-page-component-options="{{ options|json_encode }}">
     </div>
