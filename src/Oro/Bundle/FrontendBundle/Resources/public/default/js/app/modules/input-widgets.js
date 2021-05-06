@@ -7,6 +7,8 @@ define(function(require) {
     const Select2InputWidget = require('oroui/js/app/views/input-widget/select2');
     const FrontendNumberInputWidget = require('orofrontend/default/js/app/views/input-widget/number');
 
+    Select2InputWidget.prototype.closeOnOverlap = true;
+
     InputWidgetManager.removeWidget('uniform-select');
     InputWidgetManager.removeWidget('select2');
     InputWidgetManager.removeWidget('number');
