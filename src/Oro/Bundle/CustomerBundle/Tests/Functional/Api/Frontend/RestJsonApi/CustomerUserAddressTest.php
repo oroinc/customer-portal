@@ -326,7 +326,7 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         self::assertEquals($regionId, $address->getRegion()->getCombinedCode());
     }
 
-    public function testCreateWithNullCustomerUser()
+    public function testTryToCreateWithNullCustomerUser()
     {
         $customerUserId = $this->getReference('customer_user')->getId();
 
@@ -334,22 +334,19 @@ class CustomerUserAddressTest extends FrontendRestJsonApiTestCase
         $data['data']['relationships']['customerUser']['data'] = null;
         $response = $this->post(
             ['entity' => 'customeruseraddresses'],
-            $data
+            $data,
+            [],
+            false
         );
 
-        $addressId = (int)$this->getResourceId($response);
-        $responseContent = $data;
-        $responseContent['data']['relationships']['customerUser']['data'] = [
-            'type' => 'customerusers',
-            'id'   => (string)$customerUserId
-        ];
-        $this->assertResponseContains($responseContent, $response);
-
-        /** @var CustomerUserAddress $address */
-        $address = $this->getEntityManager()
-            ->find(CustomerUserAddress::class, $addressId);
-        self::assertNotNull($address);
-        self::assertEquals($customerUserId, $address->getFrontendOwner()->getId());
+        $this->assertResponseValidationError(
+            [
+                'title'  => 'not blank constraint',
+                'detail' => 'This value should not be blank.',
+                'source' => ['pointer' => '/data/relationships/customerUser/data']
+            ],
+            $response
+        );
     }
 
     public function testUpdate()

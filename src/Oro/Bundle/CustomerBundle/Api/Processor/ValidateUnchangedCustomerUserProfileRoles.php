@@ -6,27 +6,22 @@ use Oro\Bundle\ApiBundle\Form\FormUtil;
 use Oro\Bundle\ApiBundle\Processor\CustomizeFormData\CustomizeFormDataContext;
 use Oro\Bundle\ApiBundle\Util\DoctrineHelper;
 use Oro\Bundle\CustomerBundle\Api\CustomerUserProfileResolver;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\FormBundle\Validator\Constraints\UnchangeableField;
 use Oro\Component\ChainProcessor\ContextInterface;
 use Oro\Component\ChainProcessor\ProcessorInterface;
 
 /**
- * Responsible for the validation of the 'roles' field. Сannot change roles in own profile.
+ * Validates that roles cannot be changed in own profile.
  */
 class ValidateUnchangedCustomerUserProfileRoles implements ProcessorInterface
 {
     /** @var DoctrineHelper */
     private $doctrineHelper;
 
-    /**
-     * @var CustomerUserProfileResolver
-     */
+    /** @var CustomerUserProfileResolver */
     private $customerUserProfileResolver;
 
-    /**
-     * @param CustomerUserProfileResolver $customerUserProfileResolver
-     * @param DoctrineHelper $doctrineHelper
-     */
     public function __construct(
         CustomerUserProfileResolver $customerUserProfileResolver,
         DoctrineHelper $doctrineHelper
@@ -36,16 +31,18 @@ class ValidateUnchangedCustomerUserProfileRoles implements ProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function process(ContextInterface $context): void
     {
         /** @var CustomizeFormDataContext $context */
+
         $form = $context->findFormField('roles');
         if (null === $form) {
             return;
         }
 
+        /** @var CustomerUser $customerUser */
         $customerUser = $context->getResult();
         if (!$this->customerUserProfileResolver->hasProfilePermission($context, $customerUser->getId())) {
             return;
