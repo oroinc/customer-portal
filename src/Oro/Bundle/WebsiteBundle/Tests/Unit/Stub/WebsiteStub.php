@@ -6,11 +6,10 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class WebsiteStub extends Website
 {
-    /**
-     * @param int $id
-     */
-    public function __construct(int $id)
+    public function __construct(?int $id = null)
     {
+        parent::__construct();
+
         $this->id = $id;
     }
 }
