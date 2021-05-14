@@ -16,31 +16,34 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class SignInProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SignInProvider */
-    protected $dataProvider;
+    private SignInProvider $dataProvider;
 
     /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    protected $requestStack;
+    private RequestStack $requestStack;
 
     /** @var Request|\PHPUnit\Framework\MockObject\MockObject */
-    protected $request;
+    private Request $request;
 
     /** @var ParameterBag|\PHPUnit\Framework\MockObject\MockObject */
-    protected $parameterBag;
+    private ParameterBag $parameterBag;
 
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $tokenAccessor;
+    private TokenAccessorInterface $tokenAccessor;
 
     /** @var CsrfTokenManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $csrfTokenManager;
+    private CsrfTokenManagerInterface $csrfTokenManager;
 
     /** @var SignInTargetPathProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $targetPathProvider;
+    private SignInTargetPathProviderInterface $targetPathProvider;
 
     /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $translator;
+    private TranslatorInterface $translator;
 
     protected function setUp(): void
     {
@@ -51,9 +54,9 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
 
         /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $this->requestStack = $this->createMock(RequestStack::class);
-        $this->requestStack->expects($this->any())
+        $this->requestStack->expects(self::any())
             ->method('getCurrentRequest')
-            ->will($this->returnValue($this->request));
+            ->willReturn($this->request);
 
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->csrfTokenManager = $this->createMock(CsrfTokenManagerInterface::class);
@@ -69,177 +72,204 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetLastNameWithSession()
+    public function testGetLastNameWithSession(): void
     {
         /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
         $session = $this->createMock(SessionInterface::class);
         $this->request
-            ->expects($this->once())
+            ->expects(self::once())
+            ->method('hasSession')
+            ->willReturn(true);
+        $this->request
+            ->expects(self::once())
             ->method('getSession')
-            ->will($this->returnValue($session));
+            ->willReturn($session);
 
-        $session->expects($this->once())
+        $session->expects(self::once())
             ->method('get')
             ->with(Security::LAST_USERNAME)
-            ->will($this->returnValue('last_name'));
+            ->willReturn('last_name');
 
-        $this->assertEquals('last_name', $this->dataProvider->getLastName());
+        self::assertEquals('last_name', $this->dataProvider->getLastName());
         /** test local cache */
-        $this->assertEquals('last_name', $this->dataProvider->getLastName());
+        self::assertEquals('last_name', $this->dataProvider->getLastName());
     }
 
-    public function testGetLastNameWithoutSession()
+    public function testGetLastNameWithoutSession(): void
     {
-        $this->assertEquals('', $this->dataProvider->getLastName());
+        self::assertEquals('', $this->dataProvider->getLastName());
         /** test local cache */
-        $this->assertEquals('', $this->dataProvider->getLastName());
+        self::assertEquals('', $this->dataProvider->getLastName());
     }
 
-    public function testGetErrorWithSession()
+    public function testGetErrorWithSession(): void
     {
         /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
         $session = $this->createMock(SessionInterface::class);
         $this->request
-            ->expects($this->once())
+            ->expects(self::once())
+            ->method('hasSession')
+            ->willReturn(true);
+        $this->request
+            ->expects(self::once())
             ->method('getSession')
-            ->will($this->returnValue($session));
+            ->willReturn($session);
 
-        $session->expects($this->once())
+        $session->expects(self::once())
             ->method('has')
             ->with(Security::AUTHENTICATION_ERROR)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $exception = new AuthenticationException('error');
         $translatedErrorMessage = 'trans error';
-        $this->translator->expects($this->once())
+        $this->translator->expects(self::once())
             ->method('trans')
             ->with($exception->getMessageKey(), $exception->getMessageData(), 'security')
             ->willReturn($translatedErrorMessage);
 
-        $session->expects($this->once())
+        $session->expects(self::once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
             ->willReturn($exception);
 
-        $this->assertEquals($translatedErrorMessage, $this->dataProvider->getError());
+        self::assertEquals($translatedErrorMessage, $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals($translatedErrorMessage, $this->dataProvider->getError());
+        self::assertEquals($translatedErrorMessage, $this->dataProvider->getError());
     }
 
-    public function testGetErrorWithoutSession()
+    public function testGetErrorWithoutError(): void
     {
         /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
         $session = $this->createMock(SessionInterface::class);
         $this->request
-            ->expects($this->once())
+            ->expects(self::once())
+            ->method('hasSession')
+            ->willReturn(true);
+        $this->request
+            ->expects(self::once())
             ->method('getSession')
-            ->will($this->returnValue($session));
+            ->willReturn($session);
 
-        $this->assertEquals('', $this->dataProvider->getError());
+        self::assertEquals('', $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals('', $this->dataProvider->getError());
+        self::assertEquals('', $this->dataProvider->getError());
     }
 
-    public function testGetErrorFromRequestAttributes()
+    public function testGetErrorWithoutSession(): void
     {
         $this->request
-            ->expects($this->never())
+            ->expects(self::once())
+            ->method('hasSession')
+            ->willReturn(false);
+        $this->request
+            ->expects(self::never())
+            ->method('getSession');
+
+        self::assertEquals('', $this->dataProvider->getError());
+        /** test local cache */
+        self::assertEquals('', $this->dataProvider->getError());
+    }
+
+    public function testGetErrorFromRequestAttributes(): void
+    {
+        $this->request
+            ->expects(self::never())
             ->method('getSession');
 
         $this->parameterBag
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('has')
             ->with(Security::AUTHENTICATION_ERROR)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $exception = new AuthenticationException('error');
         $translatedErrorMessage = 'trans error';
-        $this->translator->expects($this->once())
+        $this->translator->expects(self::once())
             ->method('trans')
             ->with($exception->getMessageKey(), $exception->getMessageData(), 'security')
             ->willReturn($translatedErrorMessage);
 
         $this->parameterBag
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
             ->willReturn($exception);
 
-        $this->assertEquals($translatedErrorMessage, $this->dataProvider->getError());
+        self::assertEquals($translatedErrorMessage, $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals($translatedErrorMessage, $this->dataProvider->getError());
+        self::assertEquals($translatedErrorMessage, $this->dataProvider->getError());
     }
 
-    public function testGetErrorWhenNotAuthenticationExceptionOccurred()
+    public function testGetErrorWhenNotAuthenticationExceptionOccurred(): void
     {
         $this->parameterBag
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('has')
             ->with(Security::AUTHENTICATION_ERROR)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $exception = new \Exception('error');
-        $this->translator->expects($this->never())
+        $this->translator->expects(self::never())
             ->method('trans');
 
         $this->parameterBag
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
             ->willReturn($exception);
 
-        $this->assertEquals($exception->getMessage(), $this->dataProvider->getError());
+        self::assertEquals($exception->getMessage(), $this->dataProvider->getError());
         /** test local cache */
-        $this->assertEquals($exception->getMessage(), $this->dataProvider->getError());
+        self::assertEquals($exception->getMessage(), $this->dataProvider->getError());
     }
 
-    public function testGetCSRFToken()
+    public function testGetCSRFToken(): void
     {
         /** @var CsrfToken|\PHPUnit\Framework\MockObject\MockObject $csrfToken */
         $csrfToken = $this->createMock(CsrfToken::class);
-        $csrfToken->expects($this->once())
+        $csrfToken->expects(self::once())
             ->method('getValue')
-            ->will($this->returnValue('csrf_token'));
+            ->willReturn('csrf_token');
 
         $this->csrfTokenManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getToken')
             ->with('authenticate')
-            ->will($this->returnValue($csrfToken));
+            ->willReturn($csrfToken);
 
-        $this->assertEquals('csrf_token', $this->dataProvider->getCSRFToken());
+        self::assertEquals('csrf_token', $this->dataProvider->getCSRFToken());
         /** test local cache */
-        $this->assertEquals('csrf_token', $this->dataProvider->getCSRFToken());
+        self::assertEquals('csrf_token', $this->dataProvider->getCSRFToken());
     }
 
-    public function testGetLoggedUser()
+    public function testGetLoggedUser(): void
     {
         $customerUser = new CustomerUser();
 
-        $this->tokenAccessor->expects($this->once())
+        $this->tokenAccessor->expects(self::once())
             ->method('getUser')
-            ->will($this->returnValue($customerUser));
+            ->willReturn($customerUser);
 
-        $this->assertEquals($customerUser, $this->dataProvider->getLoggedUser());
+        self::assertEquals($customerUser, $this->dataProvider->getLoggedUser());
     }
 
-    public function testGetTargetPath()
+    public function testGetTargetPath(): void
     {
         $targetPath = 'test';
 
-        $this->targetPathProvider->expects($this->once())
+        $this->targetPathProvider->expects(self::once())
             ->method('getTargetPath')
             ->willReturn($targetPath);
 
-        $this->assertEquals($targetPath, $this->dataProvider->getTargetPath());
+        self::assertEquals($targetPath, $this->dataProvider->getTargetPath());
     }
 
-    public function testGetTargetPathShouldAllowNullPath()
+    public function testGetTargetPathShouldAllowNullPath(): void
     {
-        $this->targetPathProvider->expects($this->once())
+        $this->targetPathProvider->expects(self::once())
             ->method('getTargetPath')
             ->willReturn(null);
 
-        $this->assertNull($this->dataProvider->getTargetPath());
+        self::assertNull($this->dataProvider->getTargetPath());
     }
 }

@@ -60,10 +60,10 @@ class SignInProvider
     {
         if (!array_key_exists('last_username', $this->options)) {
             $request = $this->requestStack->getCurrentRequest();
-            $session = $request->getSession();
+            $session = $request && $request->hasSession() ? $request->getSession() : null;
             
             // last username entered by the user
-            $this->options['last_username'] = (null === $session) ? '' : $session->get(Security::LAST_USERNAME);
+            $this->options['last_username'] = $session ? $session->get(Security::LAST_USERNAME) : '';
         }
 
         return $this->options['last_username'];
@@ -82,7 +82,7 @@ class SignInProvider
             if ($request->attributes->has(Security::AUTHENTICATION_ERROR)) {
                 $error = $request->attributes->get(Security::AUTHENTICATION_ERROR);
             } else {
-                $session = $request->getSession();
+                $session = $request->hasSession() ? $request->getSession() : null;
                 if (null !== $session && $session->has(Security::AUTHENTICATION_ERROR)) {
                     $error = $session->get(Security::AUTHENTICATION_ERROR);
                     $session->remove(Security::AUTHENTICATION_ERROR);
