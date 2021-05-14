@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 
 /**
+ * Abstract Typed address.
+ *
  * @ORM\MappedSuperclass
  */
 abstract class AbstractAddressToAddressType
@@ -29,7 +31,7 @@ abstract class AbstractAddressToAddressType
     /**
      * @var AddressType
      *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\AddressBundle\Entity\AddressType", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\AddressBundle\Entity\AddressType")
      * @ORM\JoinColumn(name="type_name", referencedColumnName="name", onDelete="CASCADE")
      **/
     protected $type;
