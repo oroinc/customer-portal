@@ -24,6 +24,19 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
         ]);
     }
 
+    private function disableProfileUpdatePermission(CustomerUser $customerUser): void
+    {
+        /** @var AclManager $manager */
+        $manager = self::getContainer()->get('oro_security.acl.manager');
+
+        foreach ($customerUser->getRoles() as $role) {
+            $sid = $manager->getSid($role);
+            $oid = $manager->getOid('action: oro_customer_frontend_update_own_profile');
+            $manager->setPermission($sid, $oid, 0);
+            $manager->flush();
+        }
+    }
+
     public function testGetListShouldReturnOnlyCurrentLoggedInUser()
     {
         $response = $this->cget(['entity' => 'customerusers']);
@@ -238,23 +251,5 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             $response,
             Response::HTTP_FORBIDDEN
         );
-    }
-
-    /**
-     * @param CustomerUser $customerUser
-     *
-     * @throws \Exception
-     */
-    private function disableProfileUpdatePermission(CustomerUser $customerUser): void
-    {
-        /** @var AclManager $manager */
-        $manager = $this->getContainer()->get('oro_security.acl.manager');
-
-        foreach ($customerUser->getRoles() as $role) {
-            $sid = $manager->getSid($role);
-            $oid = $manager->getOid('action: oro_customer_frontend_update_own_profile');
-            $manager->setPermission($sid, $oid, 0);
-            $manager->flush();
-        }
     }
 }
