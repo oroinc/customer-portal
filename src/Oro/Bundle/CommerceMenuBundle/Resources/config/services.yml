@@ -213,4 +213,4 @@ services:
         arguments:
             - '@oro_navigation.menu_update.cache'
         tags:
-            - { name: doctrine.event_listener, event: postRemove, connection: default }
+            - { name: doctrine.event_listener, event: postRemove }
