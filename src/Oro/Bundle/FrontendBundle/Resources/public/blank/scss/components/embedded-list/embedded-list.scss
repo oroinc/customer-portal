@@ -14,7 +14,7 @@
             // Show content after slick slider is initialized
             overflow: visible;
 
-            &:before {
+            &::before {
                 display: block;
             }
         }

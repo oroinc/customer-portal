@@ -13,12 +13,13 @@
 
         display: none;
 
-        background: get-color('additional', 'ultra');
-        box-shadow: 0 4px 5px 0 rgba(0,0,0,.4);
+        background: $top-bar-dropdown-background;
+        box-shadow: $top-bar-dropdown-box-shadow;
         border-radius: 2px;
 
-        &:before, &:after {
-            content: "";
+        &::before,
+        &::after {
+            content: '';
             display: block;
             height: 0;
 
@@ -49,7 +50,7 @@
 
             a {
                 font-size: $base-font-size;
-                color: get-color('additional', 'dark');
+                color: $top-bar-list-link-color;
             }
         }
     }
@@ -110,6 +111,7 @@
     .topbar {
         display: none;
     }
+
     .topbar-navigation {
         &__item {
             display: block;
@@ -118,6 +120,7 @@
             border-bottom: $topbar-navigation-item-tablet-border-bottom;
             text-transform: $topbar-navigation-item-tablet-text-transform;
         }
+
         &__link {
             display: block;
             padding: $topbar-navigation-link-tablet-inner-offset;

@@ -13,7 +13,7 @@
     }
 
     &__panel {
-        color: lighten(get-color('additional', 'dark'), 21%);
+        color: $frontend-datagrid-panel-color;
 
         .action {
             color: inherit;
@@ -73,7 +73,7 @@
                     }
 
                     &.swipe-active {
-                        background-color: #F5F5F5;
+                        background-color: $frontend-datagrid-responsive-row-swipe-active-tablet-background-color;
                     }
                 }
 
@@ -86,13 +86,13 @@
                     padding: $frontend-datagrid-responsive-body-cell-tablet-inner-offset;
                     word-wrap: $frontend-datagrid-responsive-body-cell-tablet-word-wrap;
 
-                    &:before {
+                    &::before {
                         content: $frontend-datagrid-responsive-body-cell-before-tablet-content;
                         display: $frontend-datagrid-responsive-body-cell-before-tablet-display;
                     }
 
                     &.boolean-cell {
-                        &:before {
+                        &::before {
                             display: $frontend-datagrid-responsive-boolean-cell-before-tablet-display;
                         }
                     }
@@ -112,17 +112,17 @@
                         position: static;
 
                         &.mode-icon-only:first-child {
-                            padding-left: $frontend-datagrid-responsive-action-cell-tablet-launchers-first-last-inner-offset;
+                            padding-left: $frontend-datagrid-responsive-action-cell-tablet-launchers-first-last-offset;
                         }
 
                         // fix rendering in iOS
-                        &.mode-icon-only:not(:first-child):before {
+                        &.mode-icon-only:not(:first-child)::before {
                             top: auto;
                             bottom: auto;
                             left: auto;
                             height: $frontend-datagrid-launchers-separator-height;
                             margin: $frontend-datagrid-responsive-body-cell-tablet-offset;
-                            margin-left: -$frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-inner-offset;
+                            margin-left: -$frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-offset;
                         }
                     }
 
@@ -131,7 +131,7 @@
                         position: static;
 
                         .dropdown-toggle {
-                            padding-left: $frontend-datagrid-responsive-action-cell-tablet-launchers-first-last-inner-offset;
+                            padding-left: $frontend-datagrid-responsive-action-cell-tablet-launchers-first-last-offset;
                         }
                     }
                 }
@@ -139,49 +139,47 @@
         }
 
         &--has-swipe {
-            .grid-body-cell {
-                &.action-cell {
-                    width: auto;
-                    max-width: $frontend-datagrid-has-swipe-action-cell-tablet-width;
-                    position: $frontend-datagrid-has-swipe-action-cell-tablet-position;
-                    top: $frontend-datagrid-has-swipe-action-cell-tablet-top;
-                    right: $frontend-datagrid-has-swipe-action-cell-tablet-right;
-                    bottom: $frontend-datagrid-has-swipe-action-cell-tablet-bottom;
-                    background: $frontend-datagrid-has-swipe-action-cell-tablet-bg-color;
-                    margin: $frontend-datagrid-has-swipe-action-cell-tablet-outer-offset;
-                    padding: $frontend-datagrid-has-swipe-action-cell-tablet-inner-offset;
+            .action-cell {
+                width: auto;
+                max-width: $frontend-datagrid-has-swipe-action-cell-tablet-width;
+                position: $frontend-datagrid-has-swipe-action-cell-tablet-position;
+                top: $frontend-datagrid-has-swipe-action-cell-tablet-top;
+                right: $frontend-datagrid-has-swipe-action-cell-tablet-right;
+                bottom: $frontend-datagrid-has-swipe-action-cell-tablet-bottom;
+                background: $frontend-datagrid-has-swipe-action-cell-tablet-bg-color;
+                margin: $frontend-datagrid-has-swipe-action-cell-tablet-outer-offset;
+                padding: $frontend-datagrid-has-swipe-action-cell-tablet-inner-offset;
 
-                    .action {
-                        color: $frontend-datagrid-has-swipe-action-cell-tablet-icon-color;
+                .action {
+                    color: $frontend-datagrid-has-swipe-action-cell-tablet-icon-color;
 
-                        @include ellipsis();
+                    @include ellipsis();
 
-                        &-row {
-                            display: $frontend-datagrid-has-swipe-action-cell-tablet-row-display;
-                            height: $frontend-datagrid-has-swipe-action-cell-tablet-row-height;
-                            align-items: $frontend-datagrid-has-swipe-action-cell-tablet-row-align-items;
+                    &-row {
+                        display: $frontend-datagrid-has-swipe-action-cell-tablet-row-display;
+                        height: $frontend-datagrid-has-swipe-action-cell-tablet-row-height;
+                        align-items: $frontend-datagrid-has-swipe-action-cell-tablet-row-align-items;
+                    }
 
-                            .launchers-list {
-                                display: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-display;
-                                flex-wrap: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-flex-wrap;
+                    &.mode-icon-only:first-child [class^='fa-'] {
+                        padding-left: $frontend-datagrid-has-swipe-action-cell-tablet-left-inner-offset;
+                    }
+                }
+            }
 
-                                .launcher-item {
-                                    &:not(.mode-icon-only) {
-                                        margin: $frontend-datagrid-has-swipe-action-cell-tablet-column-outer-offset;
-                                        width: $frontend-datagrid-has-swipe-action-cell-tablet-column-width;
-                                        padding: $frontend-datagrid-has-swipe-action-cell-tablet-column-inner-offset;
-                                    }
+            .launchers-list {
+                display: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-display;
+                flex-wrap: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-flex-wrap;
 
-                                    &.mode-icon-only:last-child {
-                                        padding-right: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-inner-offset;
-                                    }
-                                }
-                            }
-                        }
+                .launcher-item {
+                    &:not(.mode-icon-only) {
+                        margin: $frontend-datagrid-has-swipe-action-cell-tablet-column-outer-offset;
+                        width: $frontend-datagrid-has-swipe-action-cell-tablet-column-width;
+                        padding: $frontend-datagrid-has-swipe-action-cell-tablet-column-inner-offset;
+                    }
 
-                        &.mode-icon-only:first-child [class^="fa-"] {
-                            padding-left: $frontend-datagrid-has-swipe-action-cell-tablet-left-inner-offset;
-                        }
+                    &.mode-icon-only:last-child {
+                        padding-right: $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-offset;
                     }
                 }
             }

@@ -1,7 +1,7 @@
 /* @theme: blank; */
 
 .datagrid-divider {
-    &:before {
+    &::before {
         content: '';
         display: inline-flex;
         width: 1px;
@@ -10,22 +10,22 @@
 
         line-height: 1;
 
-        background: get-color('additional', 'light');
+        background: $datagrid-divider-background;
     }
 
     &:first-child {
-        &:before {
+        &::before {
             display: none;
         }
     }
 
     &.empty {
-        &:before {
+        &::before {
             display: none;
         }
 
         + .datagrid-divider {
-            &:before {
+            &::before {
                 display: none;
             }
         }
@@ -34,7 +34,7 @@
 
 @include breakpoint('mobile') {
     .datagrid-divider {
-        &:before {
+        &::before {
             margin: 0 $offset-x-s;
             visibility: hidden;
         }

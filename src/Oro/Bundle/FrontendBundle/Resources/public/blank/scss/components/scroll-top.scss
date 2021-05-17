@@ -63,7 +63,7 @@
     }
 
     span {
-        &:before {
+        &::before {
             z-index: 1;
             position: relative;
 
@@ -71,7 +71,7 @@
             line-height: $scroll-top-size;
         }
 
-        &:after {
+        &::after {
             position: absolute;
             left: 50%;
             top: 50%;
@@ -91,6 +91,7 @@
 
 @include breakpoint('print') {
     .scroll-top {
+        // stylelint-disable-next-line declaration-no-important
         display: none !important;
     }
 }

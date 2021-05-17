@@ -2,7 +2,9 @@
 
 .hidden,
 .hide {
-    display: none !important; // override inline styles
+    // override inline styles
+    // stylelint-disable-next-line declaration-no-important
+    display: none !important;
 }
 
 .invisible {
@@ -14,7 +16,7 @@
 }
 
 .bold {
-    font-weight: bold;
+    font-weight: font-weight('bold');
 }
 
 .no-scroll {
@@ -58,15 +60,15 @@
     word-break: break-all;
 }
 
-// TODO: need refactor after removal less from frontend
+// Need to refactor after removal less from frontend
 .hide-text {
-    &[class^="fa-"],
-    &[class*=" fa-"] {
+    &[class^='fa-'],
+    &[class*=' fa-'] {
         font-family: $icon-font;
         color: inherit;
 
-        &:after,
-        &:before {
+        &::after,
+        &::before {
             font-size: $base-font-size;
         }
     }
@@ -74,7 +76,7 @@
     &.fa--small,
     &.fa--medium,
     &.fa--large {
-        &:before {
+        &::before {
             font-size: inherit;
         }
     }

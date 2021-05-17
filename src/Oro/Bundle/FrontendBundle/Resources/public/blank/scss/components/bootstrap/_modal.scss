@@ -1,6 +1,6 @@
 /* @theme: blank; */
 
-@import "~bootstrap/scss/modal";
+@import '~bootstrap/scss/modal';
 
 .modal-dialog {
     &__body {
@@ -13,7 +13,6 @@
         opacity: $modal-backdrop-opacity;
     }
 }
-
 
 @include breakpoint('mobile') {
     .modal-dialog {

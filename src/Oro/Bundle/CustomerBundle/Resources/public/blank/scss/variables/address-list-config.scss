@@ -1,4 +1,13 @@
 /* @theme: blank; */
 
+$address-list-border: 1px solid get-color('additional', 'light');
+
+$address-list-primary-color: get-color('additional', 'ultra');
+$address-list-primary-background-color: get-color('primary', 'main');
+
 $address-list-item-v-space: 16px !default;
+
+$address-list-item-border: 1px solid get-color('additional', 'light');
+$address-list-item-background-color: get-color('additional', 'base');
+
 $address-list-primary-border-radius: $base-ui-element-border-radius !default;

@@ -1,17 +1,15 @@
 /* @theme: default; */
 
-[class^="icon-"],
-[class*=" icon-"] {
+[class^='icon-'],
+[class*=' icon-'] {
     display: inline-block;
-
     font-family: $base-font-icon;
-    font-weight: normal;
+    font-weight: font-weight('light');
     font-style: normal;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1;
-
     margin-right: 3px;
 }
 
@@ -21,7 +19,7 @@
     }
 
     &-selector {
-        &:before {
+        &::before {
             content: $icon-selector;
         }
     }

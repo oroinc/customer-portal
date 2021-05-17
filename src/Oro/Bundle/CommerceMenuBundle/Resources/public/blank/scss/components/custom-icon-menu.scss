@@ -17,7 +17,7 @@
             margin-top: 0;
         }
 
-        background-color: get-color('additional', 'dark');
+        background-color: $custom-icon-menu-bar-background-color;
 
         @extend %base-transition;
     }

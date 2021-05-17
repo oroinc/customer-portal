@@ -34,7 +34,7 @@
 
 @include breakpoint('tablet-small') {
     .primary-menu-container {
-        border-top: 1px solid get-color('additional', 'light');
-        border-bottom: 1px solid get-color('additional', 'light');
+        border-top: $primary-menu-container-tablet-small-border;
+        border-bottom: $primary-menu-container-tablet-small-border;
     }
 }

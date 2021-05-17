@@ -1,38 +1,36 @@
 .customer_user_form {
-  @extend %customer-form;
+    @extend %customer-form;
 
-  .form-field-roles label,
-  .form-field-choose-list label {
-    display: block;
-  }
+    .form-field-roles label,
+    .form-field-choose-list label {
+        display: block;
+    }
 }
 
-@include breakpoint('mobile'){
-  .profile__form__row {
-    legend {
-      display: block;
-      width: 100%;
+@include breakpoint('mobile') {
+    .profile__form__row {
+        legend {
+            display: block;
+            width: 100%;
+        }
     }
-  }
-
 }
 
 .profile__form__req-text {
-  display: inline-block;
-  margin-left: 210px;
-  color: get-color('primary', 'dark');
+    display: inline-block;
+    margin-left: 210px;
 }
 
 .customer-profile-edit-page {
-  .password {
-    overflow: hidden;
-  }
+    .password {
+        overflow: hidden;
+    }
 }
 
 .oro-customer-user-address__add-link {
-  a {
-    i {
-      margin-right: 0.3rem;
+    a {
+        i {
+            margin-right: .3rem;
+        }
     }
-  }
 }

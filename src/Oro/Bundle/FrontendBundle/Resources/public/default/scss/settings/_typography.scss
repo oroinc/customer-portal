@@ -58,10 +58,10 @@ $theme-default-fonts: (
 $theme-fonts: map_merge($theme-fonts, $theme-default-fonts);
 
 // Fonts families
-$base-font: get-font-name('main'),'Helvetica', Arial, sans-serif;
-$base-font-minor: get-font-name('secondary'),'Helvetica', Arial, sans-serif;
+$base-font: get-font-name('main'),'helvetica', arial, sans-serif;
+$base-font-minor: get-font-name('secondary'),'helvetica', arial, sans-serif;
 $base-font-icon: get-font-name('icon');
-$base-font-masked: get-font-name('only-bullets'), 'Helvetica', Arial, sans-serif;
+$base-font-masked: get-font-name('only-bullets'), 'helvetica', arial, sans-serif;
 
 // Fonts sizes
 $base-font-size: 14px;

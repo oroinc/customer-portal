@@ -72,8 +72,8 @@
             box-shadow: $slick-arrow-focus-visible;
         }
 
-        &:before,
-        &:after {
+        &::before,
+        &::after {
             display: $slick-arrow-icon-display;
 
             font-size: $slick-arrow-icon-size;
@@ -84,8 +84,8 @@
         @include element-state('hover') {
             background: $slick-arrow-hover-background;
 
-            &:before,
-            &:after {
+            &::before,
+            &::after {
                 color: $slick-arrow-icon-hover-color;
             }
         }
@@ -93,8 +93,8 @@
         @include element-state('focus') {
             background: $slick-arrow-focus-background;
 
-            &:before,
-            &:after {
+            &::before,
+            &::after {
                 color: $slick-arrow-icon-focus-color;
             }
         }
@@ -105,7 +105,7 @@
 
         @include fa-icon($slick-arrow-prev-icon, before, false, true);
 
-        &:before {
+        &::before {
             margin: $slick-arrow-prev-icon-offset;
         }
     }
@@ -115,7 +115,7 @@
 
         @include fa-icon($slick-arrow-next-icon, after, false, true);
 
-        &:after {
+        &::after {
             margin: $slick-arrow-next-icon-offset;
         }
     }

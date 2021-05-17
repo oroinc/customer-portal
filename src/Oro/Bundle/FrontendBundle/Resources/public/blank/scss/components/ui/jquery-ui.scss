@@ -18,7 +18,7 @@
     height: 100%;
     z-index: z('popup');
 
-    background: get-color('additional', 'darker');
+    background: $ui-widget-overlay-background;
 
     opacity: .5;
 }

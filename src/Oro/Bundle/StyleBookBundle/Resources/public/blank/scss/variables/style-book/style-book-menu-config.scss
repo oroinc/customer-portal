@@ -11,7 +11,7 @@ $style-book-menu-link-current-before-width: 7px !default;
 $style-book-menu-link-current-before-height: 7px !default;
 $style-book-menu-link-current-before-border-radius: 50% !default;
 $style-book-menu-link-current-before-background: get-color('primary', 'base') !default;
-$style-book-menu-link-font-weight-current: bold !default;
+$style-book-menu-link-font-weight-current: font-weight('bold') !default;
 $style-book-menu-link-color: get-color('ui', 'normal') !default;
 $style-book-menu-link-color-hover: get-color('ui', 'focus') !default;
 $style-book-menu-link-color-current: get-color('ui', 'focus') !default;

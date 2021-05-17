@@ -18,6 +18,7 @@ $menu-user-agent-offset-y: 10px !default;
     .menu-user-agent-condition-wrap {
         [data-validation-optional-group] {
             > .row-oro {
+                // stylelint-disable-next-line selector-max-compound-selectors
                 .btn {
                     position: absolute;
                     top: $menu-user-agent-offset-y + ceil($base-font-size * $line-height-base);
@@ -27,6 +28,7 @@ $menu-user-agent-offset-y: 10px !default;
         }
 
         [data-validate-element] + [data-validation-optional-group] {
+            /* stylelint-disable selector-max-compound-selectors */
             .menu-user-agent-inner-condition-label {
                 display: none;
             }
@@ -34,6 +36,7 @@ $menu-user-agent-offset-y: 10px !default;
             .btn {
                 top: $menu-user-agent-offset-y;
             }
+            /* stylelint-enable selector-max-compound-selectors */
         }
 
         .add-list-item {
@@ -82,7 +85,7 @@ $menu-user-agent-offset-y: 10px !default;
             max-width: 100%;
         }
     }
-    
+
     + .removeRow {
         @include fa-icon($fa-var-close);
     }

@@ -10,9 +10,10 @@
 
         .grid {
             padding: 28px 24px;
-            background: get-color('additional', 'base');
+            background: $customer-form-group-grid-background;
 
             .grid__row:last-child {
+                // stylelint-disable-next-line selector-max-compound-selectors
                 .grid__column:last-child {
                     margin-bottom: 0;
                 }
@@ -32,5 +33,5 @@
 %customer-form-grid {
     padding: 28px 24px;
 
-    background: get-color('additional', 'base');
+    background: $customer-form-grid-background;
 }

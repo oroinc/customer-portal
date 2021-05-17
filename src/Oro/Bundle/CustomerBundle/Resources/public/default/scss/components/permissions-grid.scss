@@ -23,7 +23,6 @@
 
         font-weight: $permissions-grid-first-entity-name-font-weight;
     }
-    
 
     .fields-list {
         display: none;
@@ -43,7 +42,7 @@
     margin-left: $permissions-grid-field-permission-container-offset-left;
     padding: $permissions-grid-field-permission-container-offset-inner;
 
-    border-top: 1px solid get-color('additional', 'light');
+    border-top: $permissions-grid-field-permission-container-border-top;
 
     &:first-child {
         border-top: $permissions-grid-field-permission-container-first-child-border-top;

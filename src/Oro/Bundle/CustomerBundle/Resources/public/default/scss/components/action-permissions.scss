@@ -37,7 +37,7 @@
 
         cursor: pointer;
 
-        &:after {
+        &::after {
             position: absolute;
             right: $action-permissions-item-wrapper-toggle-icon-right;
 

@@ -1,11 +1,12 @@
 /* @theme: blank; */
 
+/* stylelint-disable no-descending-specificity */
+
 .datagrid-toolbar {
     display: flex;
     flex-wrap: wrap;
     align-content: stretch;
     justify-content: center;
-
     margin: 10px -($offset-x-s);
     padding: 0;
 
@@ -142,7 +143,6 @@
             order: 3;
             flex-basis: calc(100% - 138px);
             margin: 0 0 10px;
-
             text-align: right;
         }
     }
@@ -175,7 +175,8 @@
 }
 
 @include breakpoint('mobile-landscape') {
-    .form-horizontal { //Platform override
+    .form-horizontal {
+        // Platform override
         .oro-items-counter {
             display: none;
         }
@@ -199,7 +200,6 @@
         &__rightside {
             flex: 0 0 100%;
             flex-wrap: nowrap;
-
             min-width: 0;
         }
 
@@ -227,6 +227,7 @@
 
         &__rightside,
         &__base {
+            // stylelint-disable-next-line declaration-no-important
             display: none !important;
         }
     }

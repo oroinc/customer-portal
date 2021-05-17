@@ -5,16 +5,23 @@
 
     margin: 10px 0;
 
-    color: get-color('additional', 'dark');
+    color: $datagrid-manager-table-color;
+
+    .table {
+        // Disable styles from platform
+        tr:first-child td {
+            border: 0;
+        }
+    }
 
     .table-wrapper {
-        border: 1px solid get-color('additional', 'light');
+        border: $datagrid-manager-table-wrapper-border;
         border-radius: $base-ui-element-border-radius;
 
         overflow: auto;
         overflow-x: hidden;
 
-        background-color: get-color('additional', 'light');
+        background-color: $datagrid-manager-table-wrapper-background;
 
         .table {
             margin-bottom: 0;
@@ -23,24 +30,17 @@
 
     .datagrid-manager__item {
         padding: 0 10px;
-        background-color: get-color('additional', 'ultra');
+        background-color: $datagrid-manager-table-item-background-color;
     }
 
     .ui-sortable-helper {
         .datagrid-manager__item {
-            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            box-shadow: $datagrid-manager-table-item-box-shadow;
         }
     }
 
     .sortable-placeholder {
         display: none;
-    }
-
-    .table {
-        // Disable styles from platform
-        tr:first-child td {
-            border: 0;
-        }
     }
 
     @at-root {

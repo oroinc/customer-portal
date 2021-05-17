@@ -14,7 +14,7 @@
     }
 
     &--large {
-        font-size:$base-font-size--large;
+        font-size: $base-font-size--large;
     }
 
     &--x-large {
@@ -26,11 +26,11 @@
     }
 
     &--gray {
-        color: lighten(get-color('additional', 'dark'), 21%);
+        color: $fa-color-gray;
     }
 
     &--dark-gray {
-        color: get-color('additional', 'dark');
+        color: $fa-color-dark-gray;
     }
 
     &--hidden {
@@ -65,12 +65,12 @@
         margin-left: 3px;
 
         font-size: $root-font-size;
-        font-weight: bold;
+        font-weight: font-weight('bold');
     }
 
     &--link-l {
         font-size: $root-font-size;
-        font-weight: bold;
+        font-weight: font-weight('bold');
     }
 }
 

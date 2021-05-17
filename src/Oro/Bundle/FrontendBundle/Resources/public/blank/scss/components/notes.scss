@@ -6,10 +6,10 @@
     &__item {
         padding: $offset-y 0;
 
-        border-bottom: 1px solid get-color('additional', 'middle');
+        border-bottom: $notes-item-border-bottom;
 
         &:first-of-type {
-            border-top: 1px solid get-color('additional', 'middle');
+            border-top: $notes-item-border-top;
         }
     }
 
@@ -20,7 +20,7 @@
     &__date {
         padding-left: $offset-y-m;
 
-        color: get-color('ui', 'normal');
+        color: $notes-date-color;
     }
 
     &__info {

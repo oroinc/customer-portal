@@ -2,7 +2,7 @@
     margin-bottom: $offset-y;
 
     font-size: $base-font-size--m;
-    font-weight: 400;
+    font-weight: font-weight('normal');
 
     &--uppercase {
         text-transform: uppercase;

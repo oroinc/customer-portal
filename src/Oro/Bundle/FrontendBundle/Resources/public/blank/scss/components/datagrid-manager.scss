@@ -31,12 +31,12 @@
         position: relative;
 
         display: flex;
-        padding:  $datagrid-manager-container-inner-offset;
+        padding: $datagrid-manager-container-inner-offset;
         margin: $datagrid-manager-container-offset;
 
         align-items: center;
 
-        &:after {
+        &::after {
             right: $datagrid-manager-after-position-r;
             bottom: $datagrid-manager-after-position-b;
 
@@ -73,6 +73,7 @@
         display: flex;
         flex-wrap: wrap;
         width: 100%;
+        // stylelint-disable-next-line declaration-no-important
         height: auto !important;
         max-height: $datagrid-manager-filters-dropdown-max-height;
         margin-bottom: $offset-y-s;
@@ -82,6 +83,7 @@
         // Rewrite ui-* styles
         &.ui-rewrite {
             // Break inline styles
+            // stylelint-disable-next-line declaration-no-important
             overflow-y: inherit !important;
         }
     }
@@ -107,7 +109,7 @@
 
         text-align: center;
 
-        border: 1px solid get-color('additional', 'light');
+        border: $datagrid-manager-no-columns-border;
         border-radius: $base-ui-element-border-radius;
     }
 
@@ -121,10 +123,13 @@
 
     .dropdown-menu {
         // Break inline styles
+        // stylelint-disable-next-line declaration-no-important
         width: $datagrid-manager-dropdown-menu-width !important;
         // Break inline styles
+        // stylelint-disable-next-line declaration-no-important
         max-width: $datagrid-manager-dropdown-menu-width !important;
         // Break inline styles
+        // stylelint-disable-next-line declaration-no-important
         min-width: inherit !important;
         padding: $datagrid-manager-dropdown-menu-inner-offset;
 
@@ -133,16 +138,18 @@
 
         @extend .dropdown-menu-right;
 
-    /*rtl:raw:
+        /* rtl:raw:
         right: auto;
     */
 
         // Rewrite ui-* styles
         &.ui-rewrite {
             // Break inline styles
+            // stylelint-disable-next-line declaration-no-important
             left: auto !important;
 
             // Break inline styles
+            // stylelint-disable-next-line declaration-no-important
             width: 100% !important;
         }
     }
@@ -186,15 +193,14 @@
     @at-root {
         .fullscreen {
             // Break inline styles
+            // stylelint-disable-next-line declaration-no-important
             max-width: none !important;
 
-            .datagrid-manager {
-                &__container {
-                    &:after {
-                        content: none;
-                    }
-                }
+            .datagrid-manager__container::after {
+                content: none;
+            }
 
+            .datagrid-manager {
                 &__reset-btn {
                     display: block;
                     padding: $datagrid-manager-fullscreen-reset-btn-inner-offset;
@@ -218,11 +224,9 @@
                     padding: $datagrid-manager-fullscreen-actions-inner-offset;
                 }
 
-
                 &-table {
                     padding: $datagrid-manager-fullscreen-table-inner-offset;
                 }
-
 
                 &__footer {
                     padding: $datagrid-manager-fullscreen-footer-inner-offset;
@@ -235,6 +239,7 @@
         display: flex;
         flex-wrap: wrap;
 
+        // stylelint-disable-next-line declaration-no-important
         height: auto !important;
         max-height: $datagrid-manager-filters-dropdown-max-height;
 
@@ -303,7 +308,7 @@
 
     .search-shown {
         // Hide loop icon if the clear search button is shown.
-        .empty:after {
+        .empty::after {
             display: none;
         }
     }

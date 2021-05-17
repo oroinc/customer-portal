@@ -4,7 +4,7 @@
     padding: $ui-datepicker-inner-offset;
 
     border: $ui-datepicker-border;
-    border-radius:  $ui-datepicker-border-radius;
+    border-radius: $ui-datepicker-border-radius;
     background-color: $ui-datepicker-b-color;
 
     .ui-datepicker-header {
@@ -32,7 +32,7 @@
         width: 100%;
 
         border-collapse: separate;
-        border-spacing:  $ui-datepicker-calendar-border-spacing;
+        border-spacing: $ui-datepicker-calendar-border-spacing;
     }
 
     .ui-state-default {
@@ -84,7 +84,7 @@
         cursor: pointer;
 
         @if ($ui-datepicker-trigger-corner) {
-            &:before {
+            &::before {
                 content: '';
 
                 display: inline-block;
@@ -104,7 +104,7 @@
         right: 0;
 
         @if ($ui-datepicker-trigger-corner) {
-            &:before {
+            &::before {
                 border-left: $ui-datepicker-trigger-icon;
             }
         }
@@ -114,7 +114,7 @@
         left: 0;
 
         @if ($ui-datepicker-trigger-corner) {
-            &:before {
+            &::before {
                 border-right: $ui-datepicker-trigger-icon;
             }
         }

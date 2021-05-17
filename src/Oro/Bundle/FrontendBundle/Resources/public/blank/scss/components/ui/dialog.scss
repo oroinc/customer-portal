@@ -3,23 +3,19 @@
 .ui-dialog {
     position: fixed;
     top: 50%;
-    /*rtl:ignore*/
+
+    /* rtl:ignore */
     left: 50%;
-    /*rtl:ignore*/
+
+    /* rtl:ignore */
     z-index: z('popup') + 1;
 
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
+    // stylelint-disable-next-line declaration-no-important
     min-height: $dialog-min-height !important;
 
     font-family: $base-font;
-
-    .ui-dialog-inner-wrapper {
-        // inner-wrapper fixes max-height for flex container in IE11 https://jsfiddle.net/d158647x/
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
 
     &.ui-widget-content,
     .ui-widget-content {
@@ -34,8 +30,8 @@
 
     .ui-widget-content {
         padding: $dialog-widget-content-offset-inner;
-
         overflow-y: auto;
+        border-radius: $dialog-widget-content-border-radius;
     }
 
     .ui-dialog-title {
@@ -97,10 +93,6 @@
         > [class*='notification-flash'] {
             padding: $dialog-notification-offset-inner;
         }
-    }
-
-    .ui-widget-content {
-        border-radius: $dialog-widget-content-border-radius;
     }
 
     &--frontend {

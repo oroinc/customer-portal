@@ -1,7 +1,9 @@
+/* @theme: default; */
+
 .editable {
     padding: 6px 10px 3px;
 
-    background: get-color('additional', 'base');
+    background: $editable-background;
     border-radius: $base-ui-element-border-radius;
 
     &__trigger {

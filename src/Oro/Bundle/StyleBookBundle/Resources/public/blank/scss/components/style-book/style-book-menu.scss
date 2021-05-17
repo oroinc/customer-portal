@@ -3,7 +3,7 @@
 %style-book-menu-element-active {
     font-weight: $style-book-menu-link-font-weight-current;
 
-    &:before {
+    &::before {
         top: $style-book-menu-link-current-before-top;
         left: $style-book-menu-link-current-before-left;
 
@@ -26,19 +26,6 @@
         padding: $style-book-sub-menu-inner-offset;
     }
 
-    &__item {
-        &--current,
-        &.active {
-            > .style-book-menu__link {
-                @extend %style-book-menu-element-active;
-            }
-
-            > .style-book-menu {
-                display: block;
-            }
-        }
-    }
-
     &__link {
         position: $style-book-menu-link-position;
 
@@ -58,13 +45,26 @@
                 color: $style-book-menu-link-color-current;
             }
         }
+    }
 
+    &__item {
+        &--current,
         &.active {
-            @extend %style-book-menu-element-active;
+            > .style-book-menu__link {
+                @extend %style-book-menu-element-active;
+            }
 
-            + .style-book-menu {
+            > .style-book-menu {
                 display: block;
             }
+        }
+    }
+
+    &__link.active {
+        @extend %style-book-menu-element-active;
+
+        + .style-book-menu {
+            display: block;
         }
     }
 }
@@ -92,8 +92,7 @@
                     > #{$root}__link {
                         font-weight: $style-book-menu-main-link-font-weight-current;
 
-
-                        &:before {
+                        &::before {
                             content: none;
                         }
                     }

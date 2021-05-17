@@ -1,11 +1,11 @@
 /* @theme: blank; */
 
 .quick-access-container {
-  margin: $offset-y-m 0;
+    margin: $offset-y-m 0;
 }
 
 @include breakpoint('mobile') {
-  .quick-access-container {
-    display: $quick-access-container-m-display;
-  }
+    .quick-access-container {
+        display: $quick-access-container-m-display;
+    }
 }

@@ -1,18 +1,18 @@
 /* @theme: blank; */
 
-@import "~bootstrap/scss/nav";
+@import '~bootstrap/scss/nav';
 
 .nav--block {
     display: block;
 }
 
 .nav {
-    .dropdown-toggle:after {
+    .dropdown-toggle::after {
         content: none;
     }
 
-    .active.dropdown-toggle:after,
-    .active > .dropdown-toggle:after {
+    .active.dropdown-toggle::after,
+    .active > .dropdown-toggle::after {
         content: '';
     }
 }

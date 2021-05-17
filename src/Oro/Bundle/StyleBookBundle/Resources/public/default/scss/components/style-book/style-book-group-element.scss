@@ -3,15 +3,15 @@
 .style-book-group-element {
     &__preview {
         .base-font-minor {
-            &:after {
-                content:'#{$base-font-minor}';
-                color: get-color('additional', 'dark');
+            &::after {
+                content: '#{$base-font-minor}';
+                color: $style-book-group-element-preview-base-font-minor-color;
             }
         }
 
         .base-font-icons {
-            &:after {
-                content:'#{$base-font-icon}';
+            &::after {
+                content: '#{$base-font-icon}';
             }
         }
 
@@ -19,8 +19,8 @@
             &--large {
                 font-size: $base-font-size--large;
 
-                &:after {
-                    content:'(#{$base-font-size--large})';
+                &::after {
+                    content: '(#{$base-font-size--large})';
                 }
             }
         }
@@ -30,8 +30,9 @@
 code,
 pre {
     &[class*=language-] {
-        /*rtl:ignore*/
+        /* rtl:ignore */
         text-align: left;
-        /*rtl:ignore*/
+
+        /* rtl:ignore */
     }
 }

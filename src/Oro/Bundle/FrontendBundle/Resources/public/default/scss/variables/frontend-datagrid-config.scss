@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+$frontend-datagrid-panel-color: lighten(get-color('additional', 'dark'), 21%) !default;
+
 $frontend-datagrid-responsive-grid-tablet-display: block !default;
 $frontend-datagrid-responsive-header-tablet-display: none !default;
 $frontend-datagrid-responsive-body-tablet-display: block !default;
@@ -16,6 +18,8 @@ $frontend-datagrid-responsive-row-tablet-border-top: 1px solid #eceeef !default;
 $frontend-datagrid-responsive-row-has-select-action-tablet-inner-offset-left: 25px !default;
 $frontend-datagrid-responsive-row-has-actions-tablet-inner-offset-right: 205px !default;
 
+$frontend-datagrid-responsive-row-swipe-active-tablet-background-color: get-color('additional', 'base') !default;
+
 $frontend-datagrid-responsive-body-cell-tablet-display: block !default;
 $frontend-datagrid-responsive-body-cell-tablet-border: none !default;
 $frontend-datagrid-responsive-body-cell-tablet-offset: 5px 0 !default;
@@ -30,7 +34,7 @@ $frontend-datagrid-responsive-boolean-cell-before-tablet-display: inline !defaul
 $frontend-datagrid-responsive-select-row-cell-tablet-position: absolute !default;
 $frontend-datagrid-responsive-select-row-cell-tablet-top: 5px !default;
 $frontend-datagrid-responsive-select-row-cell-tablet-left: 0 !default;
-$frontend-datagrid-responsive-action-cell-tablet-launchers-first-last-inner-offset: 0 !default;
+$frontend-datagrid-responsive-action-cell-tablet-launchers-first-last-offset: 0 !default;
 
 $frontend-datagrid-has-swipe-action-cell-tablet-width: 200px !default;
 $frontend-datagrid-has-swipe-action-cell-tablet-position: absolute !default;
@@ -54,5 +58,5 @@ $frontend-datagrid-has-swipe-action-cell-tablet-column-outer-offset: 0 !default;
 
 $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-display: inline-flex !default;
 $frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-flex-wrap: wrap !default;
-$frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-inner-offset: 8px !default;
+$frontend-datagrid-has-swipe-action-cell-tablet-launchers-list-last-offset: 8px !default;
 $frontend-datagrid-launchers-separator-height: 15px !default;

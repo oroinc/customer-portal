@@ -10,9 +10,8 @@
 
     &__element--order_po_number & {
         &__element-value {
-            /*rtl:ignore*/
+            /* rtl:ignore */
             direction: ltr;
-            /*rtl:ignore*/
         }
     }
 
@@ -48,8 +47,6 @@
         }
     }
 }
-
-
 
 @include breakpoint('print') {
     .customer-info-grid {

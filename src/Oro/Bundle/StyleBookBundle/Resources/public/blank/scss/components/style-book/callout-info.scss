@@ -1,35 +1,36 @@
+/* @theme: blank; */
+
 .callout-block {
-  margin-bottom: 35px;
-  padding: $offset-x;
+    margin-bottom: 35px;
+    padding: $offset-x;
 
-  border: solid get-color('secondary', 'base');
-  border-width: 1px 1px 1px 5px;
-  border-radius: 4px;
-  background-color: get-color('ui', 'success');
-  color: get-color('secondary', 'base');
-
-  &__text {
-    color: get-color('additional', 'dark');
-  }
-
-  &__title {
-    margin-bottom: 10px;
-
-    font-size: $base-font;
-  }
-
-  &.warning {
-    border: solid get-color('secondary', 'dark');
+    border: $callout-block-color-border;
     border-width: 1px 1px 1px 5px;
-    background-color: get-color('ui', 'warning');
-    color: get-color('secondary', 'dark');
-  }
+    border-radius: 4px;
+    background-color: $callout-block-background-color;
+    color: $callout-block-color;
 
-  &.danger {
-    border: solid get-color('primary', 'dark');
-    border-width: 1px 1px 1px 5px;
-    background-color: get-color('ui', 'error');
-    color: get-color('primary', 'dark');
-  }
+    &__text {
+        color: $callout-block-text-color;
+    }
+
+    &__title {
+        margin-bottom: 10px;
+
+        font-size: $base-font;
+    }
+
+    &.warning {
+        border: $callout-block-warning-color-border;
+        border-width: 1px 1px 1px 5px;
+        background-color: $callout-block-warning-background-color;
+        color: $callout-block-warning-color;
+    }
+
+    &.danger {
+        border: $callout-block-danger-color-border;
+        border-width: 1px 1px 1px 5px;
+        background-color: $callout-block-danger-background-color;
+        color: $callout-block-danger-color;
+    }
 }
-

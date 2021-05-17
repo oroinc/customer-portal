@@ -1,18 +1,20 @@
 /* @theme: blank; */
 
-@import "~bootstrap/scss/tables";
-@import "~bootstrap/scss/transitions";
-@import "~bootstrap/scss/utilities";
-/*rtl:begin:ignore*/
-@import "~bootstrap/scss/popover";
-/*rtl:end:ignore*/
-@import "~bootstrap/scss/dropdown";
-@import "~bootstrap/scss/grid";
-@import "buttons";
-@import "button-group";
-@import "dropdown";
-@import "nav";
-@import "modal";
-@import "hide-text";
-@import "table";
-@import "tooltip";
+@import '~bootstrap/scss/tables';
+@import '~bootstrap/scss/transitions';
+@import '~bootstrap/scss/utilities';
+
+/* rtl:begin:ignore */
+@import '~bootstrap/scss/popover';
+
+/* rtl:end:ignore */
+@import '~bootstrap/scss/dropdown';
+@import '~bootstrap/scss/grid';
+@import 'buttons';
+@import 'button-group';
+@import 'dropdown';
+@import 'nav';
+@import 'modal';
+@import 'hide-text';
+@import 'table';
+@import 'tooltip';
