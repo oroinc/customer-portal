@@ -89,13 +89,11 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     }
 
     /**
-     * @after
+     * @beforeResetClient
      */
-    public function afterFrontendTest()
+    public static function afterFrontendTest()
     {
-        if (null !== $this->client) {
-            $this->getWebsiteManagerStub()->disableStub();
-        }
+        self::getWebsiteManagerStub()->disableStub();
     }
 
     /**
@@ -106,10 +104,6 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $listeners = parent::getListenersThatShouldBeDisabledDuringDataFixturesLoading();
         if (self::getContainer()->has('oro_sales.customers.customer_association_listener')) {
             $listeners[] = 'oro_sales.customers.customer_association_listener';
-        }
-
-        if (self::getContainer()->has('oro_pricing.entity_listener.send_changed_product_prices_to_message_queue')) {
-            $listeners[] = 'oro_pricing.entity_listener.send_changed_product_prices_to_message_queue';
         }
 
         return $listeners;
