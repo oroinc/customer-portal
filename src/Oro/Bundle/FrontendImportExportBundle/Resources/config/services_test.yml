@@ -8,3 +8,10 @@ services:
         decorates: oro_frontend_importexport.file.file_manager
         parent: oro_frontend_importexport.file.file_manager
         public: true
+
+    oro_frontend_importexport.tests.skipped_file_systems:
+        class: Oro\Bundle\GaufretteBundle\Tests\Functional\Environment\SkippedGaufretteFileSystemProvider
+        decorates: oro_gaufrette.tests.skipped_file_systems
+        arguments:
+            - '@oro_frontend_importexport.tests.skipped_file_systems.inner'
+            - ['frontend_importexport']
