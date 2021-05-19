@@ -4,16 +4,21 @@ declare(strict_types=1);
 namespace Oro\Bundle\FrontendImportExportBundle\Command\Cron;
 
 use Gaufrette\File;
+use Oro\Bundle\CronBundle\Command\CronCommandInterface;
 use Oro\Bundle\FrontendImportExportBundle\Manager\FrontendImportExportResultManager;
-use Oro\Bundle\ImportExportBundle\Command\Cron\CleanupStorageCommandAbstract;
 use Oro\Bundle\ImportExportBundle\File\FileManager;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Deletes front store old temporary import/export files.
  */
-class FrontendExportCleanupStorageCommand extends CleanupStorageCommandAbstract
+class FrontendExportCleanupStorageCommand extends Command implements CronCommandInterface
 {
+    private const DEFAULT_PERIOD = 14; // days
+
     /** @var string */
     protected static $defaultName = 'oro:cron:frontend-importexport:clean-up-storage';
 
@@ -31,6 +36,11 @@ class FrontendExportCleanupStorageCommand extends CleanupStorageCommandAbstract
     public function getDefaultDefinition()
     {
         return '0 0 */1 * *';
+    }
+
+    public function isActive()
+    {
+        return true;
     }
 
     /** @noinspection PhpMissingParentCallCommonInspection */
@@ -59,20 +69,26 @@ HELP
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getFilesForDeletion($from, $to): array
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->importExportResultManager->markResultsAsExpired($from, $to);
-        return $this->fileManager->getFilesByPeriod($from, $to);
-    }
+        $period = (int)$input->getOption('interval');
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function deleteFile(File $file): void
-    {
-        $this->fileManager->deleteFile($file);
+        $from = new \DateTime('@0');
+        $to = new \DateTime();
+        $to->modify(sprintf('-%d days', $period));
+
+        $this->importExportResultManager->markResultsAsExpired($from, $to);
+
+        $files = $this->fileManager->getFilesByPeriod($from, $to);
+        /** @var File $file*/
+        foreach ($files as $fileName => $file) {
+            $this->fileManager->deleteFile($file);
+            $output->writeln(
+                sprintf('<info> File "%s" was removed.</info>', $fileName),
+                OutputInterface::VERBOSITY_DEBUG
+            );
+        }
+
+        $output->writeln(sprintf('<info>Were removed "%s" files.</info>', count($files)));
     }
 }
