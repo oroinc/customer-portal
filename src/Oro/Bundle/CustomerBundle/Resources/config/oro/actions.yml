@@ -494,7 +494,7 @@ operations:
             - '@call_service_method':
                 service: event_dispatcher
                 method: dispatch
-                method_parameters: [$.removeEventName, $.customerGroupDeleteEvent]
+                method_parameters: [$.customerGroupDeleteEvent, $.removeEventName]
             - '@run_action_group':
                 action_group: DELETE
                 parameters_mapping:
