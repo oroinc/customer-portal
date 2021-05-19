@@ -120,9 +120,6 @@ api:
                     property_path: regionText
                 customer:
                     property_path: frontendOwner
-                    form_options:
-                        constraints:
-                            - NotBlank: ~
                 types:
                     data_type: objects
                     max_results: -1

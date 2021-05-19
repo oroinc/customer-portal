@@ -8,28 +8,57 @@ $skeleton-color: get-color('additional', 'base');
     $y: 0
 ) {
     @return (
-        skeleton-rect($color: $color, $width: 129px, $height: 24px, $x: ($x + 0), $y: ($y + 0), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 32px, $height: 24px, $x: ($x + 225px), $y: ($y + 0), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 99px, $height: 16px, $x: ($x + 0), $y: ($y + 44px), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 16px, $height: 16px, $x: ($x + 241px), $y: ($y + 44px), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 257px, $height: 32px, $x: ($x + 0), $y: ($y + 76px), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 257px, $height: 4px, $x: ($x + 0), $y: ($y + 128px), $radius: $border-radius-xs),
+        skeleton-rect(
+            $color: $color, $width: 129px, $height: 24px, $x: ($x + 0), $y: ($y + 0), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 32px, $height: 24px, $x: ($x + 225px), $y: ($y + 0), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 99px, $height: 16px, $x: ($x + 0), $y: ($y + 44px), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 16px, $height: 16px, $x: ($x + 241px), $y: ($y + 44px), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 257px, $height: 32px, $x: ($x + 0), $y: ($y + 76px), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 257px, $height: 4px, $x: ($x + 0), $y: ($y + 128px), $radius: $border-radius-xs
+        ),
     );
 }
+
 @function sidebar-filter-skeleton-secondary(
     $color: get-color('additional', 'base'),
     $x: 0,
     $y: 0
 ) {
     @return (
-        skeleton-rect($color: $color, $width: 39px, $height: 16px, $x: ($x + 0), $y: ($y + 0), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 16px, $height: 16px, $x: ($x + 241px), $y: ($y + 0), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 99px, $height: 32px, $x: ($x + 0), $y: ($y + 32px), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 99px, $height: 32px, $x: ($x + 158px), $y: ($y + 32px), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 79px, $height: 16px, $x: ($x + 0), $y: ($y + 76px), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 55px, $height: 16px, $x: ($x + 0), $y: ($y + 104px), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 71px, $height: 16px, $x: ($x + 0), $y: ($y + 132px), $radius: $border-radius-xs),
-        skeleton-rect($color: $color, $width: 257px, $height: 4px, $x: ($x + 0), $y: ($y + 164px), $radius: $border-radius-xs),
+        skeleton-rect(
+            $color: $color, $width: 39px, $height: 16px, $x: ($x + 0), $y: ($y + 0), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 16px, $height: 16px, $x: ($x + 241px), $y: ($y + 0), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 99px, $height: 32px, $x: ($x + 0), $y: ($y + 32px), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 99px, $height: 32px, $x: ($x + 158px), $y: ($y + 32px), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 79px, $height: 16px, $x: ($x + 0), $y: ($y + 76px), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 55px, $height: 16px, $x: ($x + 0), $y: ($y + 104px), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 71px, $height: 16px, $x: ($x + 0), $y: ($y + 132px), $radius: $border-radius-xs
+        ),
+        skeleton-rect(
+            $color: $color, $width: 257px, $height: 4px, $x: ($x + 0), $y: ($y + 164px), $radius: $border-radius-xs
+        ),
     );
 }
 
@@ -37,7 +66,7 @@ $skeleton-color: get-color('additional', 'base');
     width: 100%;
     max-width: 100%;
 
-    /*rtl:begin:ignore*/
+    /* rtl:begin:ignore */
     &:empty {
         &::before,
         &::after {
@@ -53,13 +82,15 @@ $skeleton-color: get-color('additional', 'base');
 
         animation: 1s ease-in infinite alternate skeleton-pulse;
     }
-    /*rtl:end:ignore*/
+
+    /* rtl:end:ignore */
 }
 
 @keyframes skeleton-pulse {
     0% {
         opacity: .7;
     }
+
     100% {
         opacity: 1;
     }

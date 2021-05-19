@@ -5,7 +5,7 @@
 
     margin-top: $offset-y;
 
-    border: solid get-color('additional', 'light');
+    border: $header-row-border;
     border-width: 1px 0;
 
     &__trigger {
@@ -18,21 +18,22 @@
         margin: 0;
         padding: 7px 10px;
 
-        background-color: get-color('additional', 'base');
+        background-color: $header-row-border-trigger-background-color;
         border: 0;
 
         .main-menu__item:hover {
+            // stylelint-disable-next-line declaration-no-important
             background-color: transparent !important;
         }
     }
 
     &__toggle {
-        background-color: get-color('additional', 'ultra');
+        background-color: $header-row-border-toggle-background-color;
     }
 
     &.show {
         .header-row__trigger {
-            background: get-color('additional', 'ultra');
+            background: $header-row-border-show-trigger-background;
 
             z-index: auto;
         }
@@ -46,6 +47,7 @@
 @include breakpoint('desktop') {
     %hidden-on-desktop {
         &.hidden-on-desktop {
+            // stylelint-disable-next-line declaration-no-important
             display: none !important;
         }
     }
@@ -65,7 +67,11 @@
 
 @include breakpoint('tablet') {
     .header-row {
+        border: $header-row-border-tablet;
+
         &__trigger {
+            background-color: $header-row-trigger-background-color-tablet;
+            border-right: $header-row-trigger-border-tablet;
             text-align: center;
         }
 

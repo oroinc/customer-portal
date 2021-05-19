@@ -18,25 +18,26 @@
             white-space: normal;
         }
 
-        /*rtl:ignore*/
+        /* rtl:ignore */
         right: auto;
-        /*rtl:ignore*/
+
+        /* rtl:ignore */
     }
 }
 
 .dropdown-toggle {
-    &--no-caret:after {
+    &--no-caret::after {
         content: none;
     }
 
-    &--no-offset:after {
+    &--no-offset::after {
         margin-left: 0;
     }
 }
 
 @include breakpoint('tablet') {
     .dropdown-toggle--expanded {
-        &:after {
+        &::after {
             content: none;
         }
     }

@@ -2,10 +2,10 @@
 
 .info-list-status {
     margin-right: 3px;
-    
-    color: get-color('secondary', 'lighten');
+
+    color: $info-list-status-color;
 
     &--disabled {
-        color: get-color('additional', 'middle');
+        color: $info-list-status-disabled-color;
     }
 }

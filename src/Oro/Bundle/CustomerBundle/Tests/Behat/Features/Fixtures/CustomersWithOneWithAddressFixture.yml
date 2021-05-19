@@ -1,0 +1,39 @@
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    customer1:
+        name: 'Customer1'
+        organization: '@organization'
+        owner: '@admin'
+    customer2:
+        name: 'Customer2'
+        organization: '@organization'
+        owner: '@admin'
+    customer3:
+        name: 'Customer3'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    customer1Address1:
+        region: '@florida'
+        frontendOwner: '@customer1'
+        country: '@united_states'
+        owner: '@admin'
+        systemOrganization: '@organization'
+        primary: true
+        firstName: Test
+        lastName: Customer
+        label: 'Primary address'
+        street: '801 Scenic Hwy'
+        city: 'Haines City'
+        postalCode: '33844'
+        organization: '@organization'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
+    customerAddress1ShippingDefault:
+        address: '@customer1Address1'
+        type: '@shippingType'
+        default: true
+    customerAddress1BillingDefault:
+        address: '@customer1Address1'
+        type: '@billingType'
+        default: true

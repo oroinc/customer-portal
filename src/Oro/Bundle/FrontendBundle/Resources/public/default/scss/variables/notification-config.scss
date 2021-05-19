@@ -9,3 +9,12 @@ $notification-icon-offset: 5px !default;
 $notification-xmd-icon-size: 20px !default;
 $notification-list-offset: 5px !default;
 $notification-vertical-align: middle !default;
+
+$notification-success-background: get-color('ui', 'success');
+$notification-success-color: get-color('ui', 'success-dark');
+
+$notification-warning-background: get-color('ui', 'warning');
+$notification-warning-color: get-color('ui', 'warning-dark');
+
+$notification-error-background: get-color('ui', 'error') !default;
+$notification-error-color: get-color('ui', 'error-dark') !default;

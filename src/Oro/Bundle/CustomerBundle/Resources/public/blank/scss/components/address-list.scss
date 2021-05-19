@@ -1,12 +1,24 @@
 /* @theme: blank; */
 
+.map-visual {
+    height: 100%;
+}
+
+.map-visual-frame {
+    height: 320px;
+    margin-top: $address-list-item-v-space;
+    margin-left: 2%;
+
+    flex-basis: 54%;
+}
+
 .address-list {
     display: flex;
     flex-direction: row;
 
     margin-left: 25px;
 
-    border-top: 1px solid get-color('additional', 'light');
+    border-top: $address-list-border;
 
     justify-content: space-between;
 
@@ -21,9 +33,9 @@
 
         padding: 3px 7px;
 
-        color: get-color('additional', 'ultra');
+        color: $address-list-primary-color;
         border-radius: $address-list-primary-border-radius;
-        background-color: get-color('primary', 'main');
+        background-color: $address-list-primary-background-color;
     }
 
     &__button {
@@ -76,23 +88,11 @@
 .list-item {
     padding: 20px 15px 20px 20px;
 
-    border-bottom: 1px solid get-color('additional', 'light');
+    border-bottom: $address-list-item-border;
 
     &.active {
-        background-color: get-color('additional', 'base');
+        background-color: $address-list-item-background-color;
     }
-}
-
-.map-visual {
-    height: 100%;
-}
-
-.map-visual-frame {
-    height: 320px;
-    margin-top: $address-list-item-v-space;
-    margin-left: 2%;
-
-    flex-basis: 54%;
 }
 
 @include breakpoint('tablet-small') {

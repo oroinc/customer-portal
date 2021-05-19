@@ -18,11 +18,12 @@
     }
 
     &__shopping-list {
+        // stylelint-disable-next-line declaration-no-important
         padding: 0 !important;
+        // stylelint-disable-next-line declaration-no-important
         background: transparent !important;
     }
 }
-
 
 @include breakpoint('tablet') {
     .middlebar {
@@ -32,7 +33,6 @@
 
         &__left {
             width: 100%;
-
             display: flex;
             justify-content: center;
         }
@@ -40,7 +40,6 @@
         &__right,
         &__center {
             width: 100%;
-
             display: none;
         }
     }

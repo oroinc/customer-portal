@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\RestJsonApi;
 
-use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUserRoles;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadCustomerData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\Frontend\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
@@ -17,7 +16,6 @@ class CustomerUserAddressForVisitorTest extends FrontendRestJsonApiTestCase
         $this->loadFixtures([
             LoadCustomerData::class,
             LoadCustomerUserData::class,
-            LoadCustomerUserRoles::class,
             '@OroCustomerBundle/Tests/Functional/Api/Frontend/DataFixtures/customer_user_address.yml'
         ]);
     }

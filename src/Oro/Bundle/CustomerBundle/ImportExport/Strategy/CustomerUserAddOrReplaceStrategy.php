@@ -2,8 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\ImportExport\Strategy;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
@@ -43,6 +41,27 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         $entity = $this->verifyIfUserIsGrantedToUpdateOwner($entity);
 
         return $entity;
+    }
+
+    /**
+     * Add frontendOwner to addresses search context to prevent same addresses "stealing" by another customer user.
+     *
+     * {@inheritdoc}
+     */
+    protected function generateSearchContextForRelationsUpdate($entity, $entityName, $fieldName, $isPersistRelation)
+    {
+        $context = parent::generateSearchContextForRelationsUpdate(
+            $entity,
+            $entityName,
+            $fieldName,
+            $isPersistRelation
+        );
+
+        if ($fieldName === 'addresses') {
+            return array_merge($context, ['frontendOwner' => $entity]);
+        }
+
+        return $context;
     }
 
     /**
@@ -132,20 +151,6 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function getObjectValue($entity, $fieldName)
-    {
-        $value = parent::getObjectValue($entity, $fieldName);
-
-        if ($fieldName === 'roles' && !$value instanceof Collection) {
-            $value = new ArrayCollection($value);
-        }
-
-        return $value;
-    }
-
-    /**
      * @param CustomerUser $entity
      * {@inheritdoc}
      */
@@ -160,11 +165,6 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         }
 
         $this->updateContextCounters($entity);
-
-        $customer = $entity->getCustomer();
-        if ($customer) {
-            $customer->getUsers()->clear();
-        }
 
         return $entity;
     }
@@ -283,7 +283,7 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
             $this->isCaseSensitiveEmailEnabled = false;
 
             if ($this->configManager) {
-                $this->isCaseSensitiveEmailEnabled = (bool)$this->configManager
+                $this->isCaseSensitiveEmailEnabled = (bool) $this->configManager
                     ->get('oro_customer.case_insensitive_email_addresses_enabled');
             }
         }

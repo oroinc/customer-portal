@@ -7,6 +7,8 @@ styles:
         - 'bundles/orocommercemenu/blank/scss/variables/information-nav-config.scss'
         - 'bundles/orocommercemenu/blank/scss/variables/quick-access-container-config.scss'
         - 'bundles/orocommercemenu/blank/scss/variables/featured-menu-config.scss'
+        - 'bundles/orocommercemenu/blank/scss/variables/custom-icon-menu-config.scss'
+        - 'bundles/orocommercemenu/blank/scss/variables/header-row-config.scss'
 
         - 'bundles/orocommercemenu/blank/scss/components/header-row.scss'
         - 'bundles/orocommercemenu/blank/scss/components/top-bar.scss'

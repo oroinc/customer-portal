@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 .controls-list {
-    & + .controls-list {
+    + .controls-list {
         border-left: $controls-list-separator-width solid $controls-list-separator-color;
         margin-left: $offset-x-m;
         padding-left: $offset-x-m;
@@ -26,8 +26,8 @@
         }
     }
 
-    [class^="fa-"],
-    [class*=" fa-"] {
+    [class^='fa-'],
+    [class*=' fa-'] {
         vertical-align: baseline;
     }
 

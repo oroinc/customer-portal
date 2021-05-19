@@ -52,10 +52,10 @@
     font-size: $base-font-size;
     line-height: 1;
     text-transform: none;
-    font-weight: normal;
+    font-weight: font-weight('light');
 
     border-radius: $badge-square-radius;
-    background: get-color('additional', 'light');
+    background: $badge-rectangle-background;
 
     &--align-start {
         margin-right: auto;

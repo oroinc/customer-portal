@@ -1,8 +1,8 @@
 /* @theme: blank; */
 
-@import "filters-dropdown-mode";
-@import "filters-toggle-mode";
-@import "filters-fullscreen-popup-mode";
+@import 'filters-dropdown-mode';
+@import 'filters-toggle-mode';
+@import 'filters-fullscreen-popup-mode';
 
 .filter-criteria-selector {
     position: relative;
@@ -205,12 +205,6 @@
             + .input {
                 padding-left: $filter-input-group-prefix-width;
             }
-
-            &.extended {
-                + .input {
-                    padding-left: $filter-input-group-extend-prefix-width;
-                }
-            }
         }
 
         &-append {
@@ -219,11 +213,17 @@
             + .input {
                 padding-right: $filter-input-group-prefix-width;
             }
+        }
 
-            &.extended {
-                + .input {
-                    padding-right: $filter-input-group-extend-prefix-width;
-                }
+        &-prepend.extended {
+            + .input {
+                padding-left: $filter-input-group-extend-prefix-width;
+            }
+        }
+
+        &-append.extended {
+            + .input {
+                padding-right: $filter-input-group-extend-prefix-width;
             }
         }
     }
@@ -247,7 +247,7 @@
         background: $filter-box-dropdown-mode-background;
 
         @if ($filter-box-dropdown-mode-use-corner) {
-            &:before {
+            &::before {
                 content: '';
 
                 position: absolute;
@@ -269,11 +269,10 @@
         z-index: z('dropdown') - 5;
 
         padding: $filter-box-apply-offset;
-        box-shadow: 0 2px 6px 1px rgba(0, 0, 0, .12);
+        box-shadow: $filter-box-apply-box-shadow;
         background-color: $filter-box-apply-background-color;
         border: $filter-box-apply-border;
         border-radius: $border-radius;
-
 
         @include flexible-arrow(
             $arrow-height: $filter-box-apply-arrow-height,

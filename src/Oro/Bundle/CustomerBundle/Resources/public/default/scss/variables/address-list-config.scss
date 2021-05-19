@@ -1,0 +1,7 @@
+/* @theme: default; */
+
+$address-list-type-color: lighten(get-color('additional', 'dark'), 20%) !default;
+
+$address-list-button-color: get-color('additional', 'middle') !default;
+$address-list-button-border: 1px solid get-color('additional', 'middle') !default;
+$address-list-button-hover-color: get-color('ui', 'normal') !default;

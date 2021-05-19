@@ -4,7 +4,7 @@
     &__label {
         position: relative;
 
-        &:before {
+        &::before {
             position: absolute;
             z-index: z('base');
             top: 50%;
@@ -29,6 +29,6 @@
         vertical-align: top;
         text-transform: uppercase;
 
-        background: get-color('additional', 'ultra');
+        background: $embedded-list-label-background;
     }
 }

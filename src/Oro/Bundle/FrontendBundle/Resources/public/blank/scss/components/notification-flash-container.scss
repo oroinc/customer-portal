@@ -3,7 +3,9 @@
 .notification-flash-container {
     width: 100%;
     margin: $notification-flash-container-offset;
+
     @include safe-area-offset(padding, $notification-flash-container-inner-offset);
+
     max-width: $notification-flash-container-max-width;
 
     &:empty {
@@ -13,6 +15,7 @@
 
 @include breakpoint('print') {
     .notification-flash-container {
+        // stylelint-disable-next-line declaration-no-important
         display: none !important;
     }
 }

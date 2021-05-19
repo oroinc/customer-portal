@@ -26,7 +26,7 @@
 
         &.disabled {
             pointer-events: none;
-            color: transparentize(get-color('additional', 'middle'), .14);
+            color: $role-capability-select-al-disabled-color;
         }
     }
 
@@ -35,7 +35,7 @@
         flex-wrap: wrap;
     }
 
-    & &__empty-items {
+    &__empty-items {
         opacity: .4;
     }
 
@@ -44,7 +44,7 @@
         width: 30%;
         padding: 0 30px 10px 0;
 
-        input[type="checkbox"] {
+        input[type='checkbox'] {
             vertical-align: top;
             margin: 3px 0 0 -20px;
             display: block;
@@ -56,7 +56,7 @@
         padding-right: 8px;
     }
 
-    & label.role-capability__item-label {
+    label.role-capability__item-label {
         padding-left: 27px;
         margin: 0 0 0 -8px;
         display: inline-block;
@@ -67,8 +67,8 @@
     }
 
     &__item-label_changed {
-        background-color: get-color('additional', 'base');
-        box-shadow: 0 0 0 3px get-color('additional', 'base');
+        background-color: $role-capability-select-al-label-changed-background-color;
+        box-shadow: $role-capability-select-al-label-changed-box-shadow;
     }
 }
 

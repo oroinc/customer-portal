@@ -10,7 +10,6 @@
 @mixin mosaic-grid-break-inside(
     $break-inside-value: avoid
 ) {
-    -webkit-column-break-inside: $break-inside-value;
     page-break-inside: $break-inside-value;
     break-inside: $break-inside-value;
 }

@@ -3,7 +3,7 @@
 .datagrid-toolbar-sticky-container {
     .filter-box.dropdown-mode {
         margin: 0;
-        border-top: 1px solid get-color('additional', 'light');
+        border-top: $datagrid-filters-state-in-sticky-border;
     }
 }
 
@@ -11,18 +11,16 @@
     height: $datagrid-filters-state-height;
     min-width: $datagrid-filters-state-min-width;
     margin: $datagrid-filters-state-margin;
-
     color: $datagrid-filters-state-color;
     font-size: $base-font-size;
     text-align: center;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     transition: all $datagrid-filters-state-animation-speed;
 
     // Added to avoid showing Safari's hint for elements with ellipsis
-    &:before {
+    &::before {
         content: '';
         display: block;
     }
@@ -48,7 +46,6 @@
     from {
         height: 0;
         margin: 0;
-
         opacity: 0;
     }
 }

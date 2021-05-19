@@ -19,7 +19,7 @@
         min-width: $info-list-name-min-width;
         margin: $info-list-name-offset;
 
-        &:after {
+        &::after {
             content: $info-list-name-after-content;
 
             margin-left: $info-list-name-after-offset-left;

@@ -13,7 +13,7 @@ class CustomerVisitorCookieResponseListenerTest extends \PHPUnit\Framework\TestC
 {
     public function testOnKernelResponse()
     {
-        $cookie = new Cookie('foo_cookie');
+        $cookie = Cookie::create('foo_cookie');
 
         $request = new Request();
         $request->attributes->set(AnonymousCustomerUserAuthenticationListener::COOKIE_ATTR_NAME, $cookie);

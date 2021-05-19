@@ -2,6 +2,7 @@
 
 .toggle-mode {
     .ui-multiselect-menu {
+        /* stylelint-disable declaration-no-important */
         // Break inline styles
         position: static !important;
         // Break inline styles
@@ -9,15 +10,18 @@
         // Break inline styles
         width: 100% !important;
         display: block !important;
+        /* stylelint-enable declaration-no-important */
 
         .ui-multiselect-header {
             display: none;
         }
 
         .ui-multiselect-checkboxes {
+            /* stylelint-disable declaration-no-important */
             overflow: visible !important;
             height: auto !important;
             max-height: none !important;
+            /* stylelint-enable declaration-no-important */
             padding: 0;
             margin-bottom: 0;
         }
@@ -105,11 +109,6 @@
         border: 0;
     }
 
-    .filter-start-date,
-    .filter-end-date {
-        width: $filter-toggle-mode-start-end-max-width;
-    }
-
     .datepicker-input {
         max-width: $filter-toggle-mode-datepicker-input-max-width;
         min-width: 0;
@@ -123,6 +122,13 @@
         margin-left: $filter-toggle-mode-timepicker-input-offset-left;
     }
 
+    .filter-select-oro-wrapper,
+    .value-field-frame,
+    .filter-date-range {
+        width: 100%;
+        display: block;
+    }
+
     .filter-criteria {
         display: none;
         margin-top: $filter-toggle-mode-criteria-offset-top;
@@ -132,10 +138,12 @@
 
         .value-field-frame {
             width: $filter-toggle-mode-criteria-value-field-frame-width;
+            /* stylelint-disable declaration-no-important */
             // Break inline styles
             margin-left: 0 !important;
             // Break inline styles
             padding-right: 0 !important;
+            /* stylelint-enable declaration-no-important */
         }
     }
 
@@ -188,13 +196,6 @@
         flex-direction: column;
     }
 
-    .filter-select-oro-wrapper,
-    .value-field-frame,
-    .filter-date-range {
-        width: 100%;
-        display: block;
-    }
-
     .filter-select-oro-wrapper {
         margin-bottom: 12px;
     }
@@ -205,13 +206,13 @@
 
     .filter-start-date,
     .filter-end-date {
-        width: 100%;
+        width: $filter-toggle-mode-start-end-max-width;
     }
 
     &.in-sticky {
         .filter-items-hint {
             padding-top: $filter-toggle-mode-in-sticky-criteria-hint-item-offset;
-            padding-bottom: $filter-toggle-mode-in-sticky-criteria-hint-item-offset-inner;;
+            padding-bottom: $filter-toggle-mode-in-sticky-criteria-hint-item-offset-inner;
         }
     }
 }

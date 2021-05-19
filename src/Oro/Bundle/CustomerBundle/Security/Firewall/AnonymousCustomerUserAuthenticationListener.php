@@ -228,7 +228,7 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         $isGetRequest = $request->isMethod('GET');
 
         return
-            null !== $request->getSession()
+            $request->hasSession()
             && $request->cookies->has($request->getSession()->getName())
             && (
                 (!$isGetRequest && $this->csrfRequestManager->isRequestTokenValid($request))

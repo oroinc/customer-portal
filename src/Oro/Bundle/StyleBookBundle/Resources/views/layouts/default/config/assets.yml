@@ -4,6 +4,7 @@ stylebook_styles:
         - 'bundles/orofrontend/default/scss/variables/page-main-config.scss'
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-menu-config.scss'
         - 'bundles/orostylebook/default/scss/variables/style-book/style-book-sticky-elements-nav-config.scss'
+        - 'bundles/orostylebook/default/scss/variables/style-book/style-book-group-element-config.scss'
         - 'bundles/orostylebook/default/scss/style-book.scss'
     output: 'css/stylebook.css'
     auto_rtl_inputs:

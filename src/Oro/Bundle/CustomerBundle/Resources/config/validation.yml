@@ -34,6 +34,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
             - Length:
                 max: 255
         frontendOwner:
+            - NotBlank: ~
             - Oro\Bundle\FormBundle\Validator\Constraints\UnchangeableField:
                 message: oro.address.validation.owner_changed
                 groups: [api]
@@ -103,6 +104,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
             - Length:
                 max: 255
         frontendOwner:
+            - NotBlank: ~
             - Oro\Bundle\FormBundle\Validator\Constraints\UnchangeableField:
                 message: oro.address.validation.owner_changed
                 groups: [api]

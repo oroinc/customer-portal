@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 .error-message {
-    color: get-color('ui', 'error-dark');
+    color: $notification-error-color;
 
     font-size: $base-font-size--s;
     line-height: 1;

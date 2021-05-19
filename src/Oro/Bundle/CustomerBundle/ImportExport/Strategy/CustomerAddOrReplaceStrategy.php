@@ -37,6 +37,27 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     }
 
     /**
+     * Add frontendOwner to addresses search context to prevent same addresses "stealing" by another customer.
+     *
+     * {@inheritdoc}
+     */
+    protected function generateSearchContextForRelationsUpdate($entity, $entityName, $fieldName, $isPersistRelation)
+    {
+        $context = parent::generateSearchContextForRelationsUpdate(
+            $entity,
+            $entityName,
+            $fieldName,
+            $isPersistRelation
+        );
+
+        if ($fieldName === 'addresses') {
+            return array_merge($context, ['frontendOwner' => $entity]);
+        }
+
+        return $context;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function findExistingEntity($entity, array $searchContext = [])
@@ -54,19 +75,6 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
         return $existingEntity;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function processValidationErrors($entity, array $validationErrors)
-    {
-        parent::processValidationErrors($entity, $validationErrors);
-
-        // validation errors should clear all EM because wrong entities with MANAGED state are stored there
-        $this->doctrineHelper->getEntityManager($entity)->clear();
-        $this->databaseHelper->onClear();
-    }
-
 
     /**
      * {@inheritdoc}

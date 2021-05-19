@@ -66,7 +66,8 @@
         background-color: $active-background;
 
         @if $enable-gradients {
-            background-image: none; // Remove the gradient for the pressed/active state
+            // Remove the gradient for the pressed/active state
+            background-image: none;
         }
 
         border-color: $active-border;

@@ -33,6 +33,7 @@
             @at-root {
                 a#{&} {
                     color: $information-nav-item-content-color;
+
                     &:hover {
                         color: $information-nav-item-content-color-hover;
                     }

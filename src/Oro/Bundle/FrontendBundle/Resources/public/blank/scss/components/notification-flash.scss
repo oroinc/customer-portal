@@ -3,7 +3,7 @@
 .notification-flash {
     margin: 0;
     padding: $notification-flash-inner-offset;
-    
+
     display: flex;
     align-items: center;
 
@@ -15,19 +15,64 @@
         margin: $notification-flash-offset;
     }
 
+    &__badge {
+        position: relative;
+        width: $notification-flash-badge-size;
+        height: $notification-flash-badge-size;
+        flex: 0 0 auto;
+        align-self: flex-start;
+        background: $notification-flash-badge-background;
+        color: $notification-flash-badge-color;
+        border-radius: $notification-flash-badge-radius;
+
+        [class^='fa-'] {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &__close {
+        margin: $notification-flash-close-offset;
+        padding: $notification-flash-close-inner-offset;
+        flex: 0 0 auto;
+        align-self: flex-start;
+        background: $notification-flash-close-background;
+        border: $notification-flash-close-border;
+        color: $notification-flash-close-color;
+
+        cursor: $btn-plain-cursor;
+
+        [class^='fa-'] {
+            display: block;
+            font-size: $notification-flash-close-icon-size;
+        }
+    }
+
+    &__text {
+        padding: $notification-flash-text-offset;
+        flex: 1 1 auto;
+
+        &--center {
+            text-align: center;
+        }
+    }
+
     &--success,
     &--info,
     &--notice {
         @extend .notification-flash;
-        background: get-color('ui', 'success');
-        color: get-color('ui', 'success-dark');
+
+        background: $notification-flash-success-background;
+        color: $notification-flash-success-color;
 
         .notification-flash__close {
-            color: get-color('ui', 'success-dark');
+            color: $notification-flash-success-color;
         }
 
         .notification-flash__badge {
-            background: get-color('ui', 'success-dark');
+            background: $notification-flash-success-badge-background;
         }
     }
 
@@ -36,76 +81,31 @@
     &--process,
     &--alert {
         @extend .notification-flash;
-        background: get-color('ui', 'warning');
-        color: get-color('ui', 'warning-dark');
+
+        background: $notification-flash-warning-background;
+        color: $notification-flash-warning-color;
 
         .notification-flash__close {
-            color: get-color('ui', 'warning-dark');
+            color: $notification-flash-warning-close-color;
         }
 
         .notification-flash__badge {
-            background: get-color('ui', 'warning-dark');
+            background: $notification-flash-warning-badge-background;
         }
     }
 
     &--error {
         @extend .notification-flash;
-        background: get-color('ui', 'error');
-        color: get-color('ui', 'error-dark');
+
+        background: $notification-flash-error-background;
+        color: $notification-flash-error-color;
 
         .notification-flash__close {
-            color: get-color('ui', 'error-dark');
+            color: $notification-flash-error-close-color;
         }
 
         .notification-flash__badge {
-            background: get-color('ui', 'error-dark');
-        }
-    }
-
-    &__badge {
-        position: relative;
-
-        width: $notification-flash-badge-size;
-        height: $notification-flash-badge-size;
-        flex: 0 0 auto;
-        align-self: flex-start;
-        
-        background: darken(get-color('additional', 'middle'), 35.2%);
-        color: get-color('additional', 'ultra');
-        border-radius: $notification-flash-badge-radius;
-
-        [class^="fa-"] {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-    }
-    &__close {
-        margin: $notification-flash-close-offset;
-        padding: $notification-flash-close-inner-offset;
-        flex: 0 0 auto;
-        align-self: flex-start;
-        
-        background: $notification-flash-close-background;
-        border: $notification-flash-close-border;
-        color: get-color('ui', 'warning-dark');
-
-        cursor: $btn-plain-cursor;
-
-        [class^="fa-"] {
-           display: block;
-
-           font-size: $notification-flash-close-icon-size;
-        }
-    }
-    &__text {
-        padding: $notification-flash-text-offset;
-        
-        flex: 1 1 auto;
-        
-        &--center {
-            text-align: center;
+            background: $notification-flash-error-badge-background;
         }
     }
 }

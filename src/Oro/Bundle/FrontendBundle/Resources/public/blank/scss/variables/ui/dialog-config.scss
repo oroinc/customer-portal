@@ -12,7 +12,7 @@ $dialog-widget-content-border: 0 !default;
 $dialog-widget-content-color: get-color('additional', 'dark') !default;
 
 $dialog-titlebar-offset-inner: 40px 40px 12px !default;
-$dialog-titlebar-font-weight: 400 !default;
+$dialog-titlebar-font-weight: font-weight('normal') !default;
 $dialog-titlebar-color: get-color('additional', 'dark') !default;
 $dialog-titlebar-background: transparent !default;
 $dialog-titlebar-border: 0 !default;

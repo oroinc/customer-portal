@@ -27,6 +27,7 @@
         left: $fullscreen-popup-header-left;
 
         min-height: $fullscreen-popup-header-min-height;
+
         @include safe-area-offset(padding, $fullscreen-popup-header-offset);
 
         background: $fullscreen-popup-header-bg;
@@ -45,8 +46,8 @@
 
         cursor: $fullscreen-popup-text-cursor;
 
-        [class^="fa-"],
-        [class*=" fa-"] {
+        [class^='fa-'],
+        [class*=' fa-'] {
             margin-right: $fullscreen-popup-text-fa-icon-margin-right;
 
             line-height: $fullscreen-popup-text-fa-icon-line-height;
@@ -123,7 +124,7 @@
         }
     }
 
-    //TODO: Make corrent padding of popup content for any content
+    // Make correct padding of popup content for any content
     .tab-content__wrapper {
         padding: 20px;
     }

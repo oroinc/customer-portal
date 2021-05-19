@@ -6,7 +6,7 @@
 
         &--current,
         &.active {
-            &:before {
+            &::before {
                 top: 10px;
                 left: 0;
 
@@ -14,7 +14,7 @@
                 height: 7px;
 
                 border-radius: 50%;
-                background: get-color('primary', 'base');
+                background: $primary-menu-item-active-background;
 
                 @include after();
             }
@@ -30,7 +30,7 @@
     @include fullscreen-mode {
         .primary-menu__item {
             border-top: 0;
-            border-bottom: 1px solid get-color('additional', 'light');
+            border-bottom: $primary-menu-fullscreen-mode-item-border;
         }
 
         .primary-menu__link {
@@ -43,14 +43,19 @@
 
 @include breakpoint('tablet') {
     .primary-menu {
+        &__link {
+            display: block;
+            padding: $primary-menu-link-inner-offset-tablet;
+        }
+
         &__item {
             padding: $primary-menu-item-inner-offset-tablet;
 
-            border-top: 1px solid get-color('additional', 'light');
+            border-top: $primary-menu-tablet-item-border;
 
             &--current,
             &.active {
-                &:before {
+                &::before {
                     content: none;
                 }
 
@@ -58,11 +63,6 @@
                     color: inherit;
                 }
             }
-        }
-
-        &__link {
-            display: block;
-            padding: $primary-menu-link-inner-offset-tablet;
         }
 
         .fa-minus,

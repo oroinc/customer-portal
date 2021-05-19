@@ -2,4 +2,7 @@
 
 $top-bar-cusomer-menu-dropdown-item-offset: $offset-y-s 0 !default;
 $top-bar-cusomer-menu-links-color: update-default($top-bar-cusomer-menu-links-color, get-color('additional', 'dark'));
-$top-bar-cusomer-menu-links-hover-color: update-default($top-bar-cusomer-menu-links-hover-color, $top-bar-cusomer-menu-links-color);
+$top-bar-cusomer-menu-links-hover-color: update-default(
+    $top-bar-cusomer-menu-links-hover-color,
+    $top-bar-cusomer-menu-links-color
+);

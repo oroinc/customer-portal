@@ -4,6 +4,7 @@
     display: none;
 
     // Break inline styles
+    // stylelint-disable-next-line declaration-no-important
     min-width: $ui-multiselect-menu-min-width !important;
 
     text-align: left;
@@ -46,6 +47,7 @@
             }
 
             // Break inline styles
+            // stylelint-disable-next-line declaration-no-important
             width: 100% !important;
         }
     }

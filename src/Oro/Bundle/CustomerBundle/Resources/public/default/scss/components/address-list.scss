@@ -22,7 +22,7 @@
 
         font-size: $base-font-size--s;
 
-        color: lighten(get-color('additional', 'dark'), 20%);
+        color: $address-list-type-color;
     }
 
     &__actions {
@@ -36,7 +36,7 @@
 
         cursor: pointer;
 
-        color: get-color('additional', 'middle');
+        color: $address-list-button-color;
         // reset default styles
         border: 0;
         border-radius: 0;
@@ -53,13 +53,13 @@
         }
 
         &:not(:last-child) {
-            border-right: 1px solid get-color('additional', 'middle');
+            border-right: $address-list-button-border;
         }
 
         &:hover {
             text-decoration: inherit;
 
-            color: get-color('ui', 'normal');
+            color: $address-list-button-hover-color;
         }
     }
 }

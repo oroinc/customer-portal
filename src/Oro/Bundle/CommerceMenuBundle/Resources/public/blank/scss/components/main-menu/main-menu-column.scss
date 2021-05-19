@@ -7,7 +7,7 @@
 
     font-size: $base-font-size;
 
-    &:before {
+    &::before {
         position: $main-menu-column-before-position;
 
         top: $main-menu-column-before-top;
@@ -26,7 +26,7 @@
     &:first-child {
         padding-right: $main-menu-column-offset-inner-right;
 
-        &:before {
+        &::before {
             display: $main-menu-column-first-child-before-display;
         }
     }
@@ -62,16 +62,8 @@
         margin-bottom: $main-menu-column-item-offset-bottom;
     }
 
-    &__item &__link {
-        color: $main-menu-column-link-color;
-    }
-
     &__subitem {
         padding-left: $main-menu-column-subitem-offset-inner-left;
-    }
-
-    &__subitem &__link {
-        color: $main-menu-column-link-color;
     }
 
     &__image {
@@ -88,6 +80,14 @@
 
         white-space: $main-menu-column-link-white-space;
         word-wrap: $main-menu-column-link-word-wrap;
+    }
+
+    &__item &__link {
+        color: $main-menu-column-link-color;
+    }
+
+    &__subitem &__link {
+        color: $main-menu-column-link-color;
     }
 }
 

@@ -68,9 +68,9 @@ fieldset:disabled a.btn {
     pointer-events: none;
 }
 
-//
-// Alternate buttons
-//
+/*
+   Alternate buttons
+*/
 
 @each $color, $values in $btn-theme-keys {
     .btn--#{$color} {
@@ -82,9 +82,9 @@ fieldset:disabled a.btn {
     min-width: $btn-large-min-width;
 }
 
-//
-// Button Sizes
-//
+/*
+   Button Sizes
+*/
 
 .btn--size {
     &-xs {
@@ -131,9 +131,9 @@ fieldset:disabled a.btn {
     padding-right: 0;
 }
 
-//
-// Block button
-//
+/*
+   Block button
+*/
 
 .btn--block {
     display: $btn-block-display;
@@ -145,9 +145,9 @@ fieldset:disabled a.btn {
     }
 }
 
-//
-// Link buttons
-//
+/*
+   Link buttons
+*/
 
 // Make a button look and behave like a link
 .btn--link {
@@ -171,6 +171,14 @@ fieldset:disabled a.btn {
         border-color: $btn-link-focus-border-color;
     }
 
+    &:disabled,
+    &.disabled {
+        background: $btn-link-disabled-background;
+        border-color: $btn-link-disabled-border-color;
+        color: $btn-link-color;
+        pointer-events: $btn-link-disabled-pointer-events;
+    }
+
     &:active,
     &.active,
     &:not(.disabled):active,
@@ -179,14 +187,6 @@ fieldset:disabled a.btn {
         color: $btn-link-active-color;
         border-color: $btn-link-active-border-color;
         box-shadow: none;
-    }
-
-    &:disabled,
-    &.disabled {
-        background: $btn-link-disabled-background;
-        border-color: $btn-link-disabled-border-color;
-        color: $btn-link-color;
-        pointer-events: $btn-link-disabled-pointer-events;
     }
 }
 
@@ -213,6 +213,13 @@ fieldset:disabled a.btn {
         box-shadow: none;
     }
 
+    &:disabled,
+    &.disabled {
+        background: $btn-plain-disabled-background-color;
+        border-color: $btn-plain-disabled-border-color;
+        color: $btn-plain-disabled-color;
+    }
+
     &.active,
     &.pressed,
     &:not(.disabled):active {
@@ -220,13 +227,6 @@ fieldset:disabled a.btn {
         border-color: $btn-plain-active-border-color;
         box-shadow: none;
         color: $btn-plain-active-color;
-    }
-
-    &:disabled,
-    &.disabled {
-        background: $btn-plain-disabled-background-color;
-        border-color: $btn-plain-disabled-border-color;
-        color: $btn-plain-disabled-color;
     }
 }
 
@@ -239,9 +239,9 @@ fieldset:disabled a.btn {
 }
 
 // Specificity overrides
-input[type="submit"],
-input[type="reset"],
-input[type="button"] {
+input[type='submit'],
+input[type='reset'],
+input[type='button'] {
     &.btn--block {
         width: 100%;
     }

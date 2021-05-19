@@ -11,7 +11,7 @@
         flex-grow: 0;
 
         &.active {
-            background: get-color('additional', 'base');
+            background: $main-menu-link-background-active;
         }
     }
 
@@ -55,7 +55,7 @@
 
     &__back-trigger {
         text-transform: uppercase;
-        font-weight: bold;
+        font-weight: font-weight('bold');
 
         @include base-ui-element(
             $use-base-style:   true,
@@ -69,14 +69,15 @@
 
         margin: 0;
         display: none;
-
     }
 
     @include fullscreen-mode {
         .main-menu__back-trigger {
             position: absolute;
             top: 0;
+
             @include safe-area-property-left(left, $offset-x);
+
             z-index: z('base') + 1;
 
             display: block;
@@ -86,8 +87,8 @@
         }
 
         .main-menu__button-arrow {
-            [class^="fa-"],
-            [class*=" fa-"] {
+            [class^='fa-'],
+            [class*=' fa-'] {
                 transform: rotate(-90deg);
             }
         }
@@ -112,23 +113,29 @@
 
 @include breakpoint('desktop') {
     .main-menu {
-        .mobile-version & {
-            &__item {
-                display: flex;
+        &__sublist-container {
+            position: absolute;
+            // Must be above the dropdowns
+            z-index: z('dropdown') + 10;
+            top: 100%;
+            right: 0;
+            left: 0;
 
-                &--ancestor {
-                    .main-menu__link {
-                        padding-right: $main-menu-ancestor-link-inner-offset;
-                    }
-                }
+            display: none;
 
-                &:hover {
-                    .main-menu__button-arrow {
-                        color: $main-menu-link-color-hover;
-                    }
+            border: $main-menu-sublist-container-d-border;
+            background-color: $main-menu-sublist-container-d-bg-color;
+        }
+
+        &__item {
+            &.show {
+                .main-menu__sublist-container {
+                    display: block;
                 }
             }
+        }
 
+        .mobile-version & {
             &__text {
                 vertical-align: middle;
             }
@@ -145,28 +152,22 @@
             &__taptick {
                 display: none;
             }
-        }
 
-        &__item {
-            &.show {
-                .main-menu__sublist-container {
-                    display: block;
+            &__item {
+                display: flex;
+
+                &--ancestor {
+                    .main-menu__link {
+                        padding-right: $main-menu-ancestor-link-inner-offset;
+                    }
+                }
+
+                &:hover {
+                    .main-menu__button-arrow {
+                        color: $main-menu-link-color-hover;
+                    }
                 }
             }
-        }
-
-        &__sublist-container {
-            position: absolute;
-            // Must be above the dropdowns
-            z-index: z('dropdown') + 10;
-            top: 100%;
-            right: 0;
-            left: 0;
-
-            display: none;
-
-            border: $main-menu-sublist-container-d-border;
-            background-color: $main-menu-sublist-container-d-bg-color;
         }
     }
 }
@@ -176,7 +177,7 @@
         flex-direction: column;
 
         &:not(:last-child) {
-            border-bottom: 1px solid darken(get-color('additional', 'base'), 5%);
+            border-bottom: $main-menu-tablet-border;
         }
 
         &__taptick {
@@ -188,8 +189,8 @@
             justify-content: space-between;
 
             &:not(:last-child) {
-                border-bottom: 1px solid darken(get-color('additional', 'base'), 5%);
-            };
+                border-bottom: $main-menu-item-tablet-border;
+            }
         }
 
         &__link {
@@ -218,7 +219,7 @@
 
             width: 100%;
 
-            background: get-color('additional', 'ultra');
+            background: $main-menu-sublist-container-tablet-background;
 
             transition: $main-menu-sublist-container-transition;
         }

@@ -1,4 +1,4 @@
-@import '_config';
+/* @theme: blank; */
 
 .sticky-panel {
     position: fixed;
@@ -9,7 +9,7 @@
     display: none;
     width: 100%;
 
-    background: get-color('additional', 'ultra');
+    background: $sticky-panel-background;
 
     &--bottom {
         top: auto;
@@ -26,9 +26,8 @@
     }
 
     &__toolbar {
-        background: get-color('additional', 'base');
-
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .2);
+        background: $sticky-panel-background;
+        box-shadow: $sticky-panel-box-shadow;
     }
 
     &.has-content {
@@ -38,6 +37,7 @@
 
 @include breakpoint('print') {
     .sticky-panel {
+        // stylelint-disable-next-line declaration-no-important
         display: none !important;
     }
 }

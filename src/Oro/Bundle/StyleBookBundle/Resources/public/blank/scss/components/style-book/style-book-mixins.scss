@@ -2,109 +2,109 @@
 
 // mixin for Slick Arrows
 @mixin slick-arrow(
-  $slick-arrow-position: absolute,
-  $slick-arrow-top: 50%,
-  $slick-arrow-transform: translateY(-50%),
-  $slick-arrow-z-index: z('base'),
+    $slick-arrow-position: absolute,
+    $slick-arrow-top: 50%,
+    $slick-arrow-transform: translateY(-50%),
+    $slick-arrow-z-index: z('base'),
 
-  $slick-arrow-width: auto,
-  $slick-arrow-height: auto,
-  $slick-arrow-display: null,
-  $slick-arrow-inner-offset: 0,
+    $slick-arrow-width: auto,
+    $slick-arrow-height: auto,
+    $slick-arrow-display: null,
+    $slick-arrow-inner-offset: 0,
 
-  $slick-arrow-font-size: 0,
-  $slick-arrow-line-height: 0,
-  $slick-arrow-text-align: center,
-  $slick-arrow-outline: null,
-  $slick-arrow-color: transparent,
+    $slick-arrow-font-size: 0,
+    $slick-arrow-line-height: 0,
+    $slick-arrow-text-align: center,
+    $slick-arrow-outline: null,
+    $slick-arrow-color: transparent,
 
-  $slick-arrow-background: none,
-  $slick-arrow-hover-background: null,
-  $slick-arrow-border: none,
-  $slick-arrow-border-radius: null,
+    $slick-arrow-background: none,
+    $slick-arrow-hover-background: null,
+    $slick-arrow-border: none,
+    $slick-arrow-border-radius: null,
 
-  $slick-arrow-next-right: 0,
-  $slick-arrow-prev-left: 0,
+    $slick-arrow-next-right: 0,
+    $slick-arrow-prev-left: 0,
 
-  $slick-arrow-icon-size: $base-font-size,
-  $slick-arrow-icon-color: get-color('additional', 'middle'),
-  $slick-arrow-icon-hover-color: get-color('additional', 'dark'),
-  $slick-arrow-icon-display: block,
+    $slick-arrow-icon-size: $base-font-size,
+    $slick-arrow-icon-color: get-color('additional', 'middle'),
+    $slick-arrow-icon-hover-color: get-color('additional', 'dark'),
+    $slick-arrow-icon-display: block,
 
-  $slick-arrow-prev-icon: var(--fa-var-angle-left),
-  $slick-arrow-next-icon: var(--fa-var-angle-right),
+    $slick-arrow-prev-icon: var(--fa-var-angle-left),
+    $slick-arrow-next-icon: var(--fa-var-angle-right),
 
-  $slick-arrow-next-icon-offset: null,
-  $slick-arrow-prev-icon-offset: null,
+    $slick-arrow-next-icon-offset: null,
+    $slick-arrow-prev-icon-offset: null,
 
-  $slick-arrow-disabled-opacity: .5,
-  $slick-arrow-disabled-cursor: default
+    $slick-arrow-disabled-opacity: .5,
+    $slick-arrow-disabled-cursor: default
 ) {
-  .slick-arrow {
-    position: $slick-arrow-position;
-    top: $slick-arrow-top;
-    transform: $slick-arrow-transform;
-    z-index: $slick-arrow-z-index;
+    .slick-arrow {
+        position: $slick-arrow-position;
+        top: $slick-arrow-top;
+        transform: $slick-arrow-transform;
+        z-index: $slick-arrow-z-index;
 
-    width: $slick-arrow-width;
-    height: $slick-arrow-height;
-    display: $slick-arrow-display;
-    padding: $slick-arrow-inner-offset;
+        width: $slick-arrow-width;
+        height: $slick-arrow-height;
+        display: $slick-arrow-display;
+        padding: $slick-arrow-inner-offset;
 
-    outline: $slick-arrow-outline;
-    font-size: $slick-arrow-font-size;
-    line-height: $slick-arrow-line-height;
-    text-align: $slick-arrow-text-align;
+        outline: $slick-arrow-outline;
+        font-size: $slick-arrow-font-size;
+        line-height: $slick-arrow-line-height;
+        text-align: $slick-arrow-text-align;
 
-    background: $slick-arrow-background;
-    color: $slick-arrow-color;
-    border: $slick-arrow-border;
-    border-radius: $slick-arrow-border-radius;
+        background: $slick-arrow-background;
+        color: $slick-arrow-color;
+        border: $slick-arrow-border;
+        border-radius: $slick-arrow-border-radius;
 
-    cursor: pointer;
+        cursor: pointer;
 
-    &:before,
-    &:after {
-      display: $slick-arrow-icon-display;
+        &::before,
+        &::after {
+            display: $slick-arrow-icon-display;
 
-      font-size: $slick-arrow-icon-size;
+            font-size: $slick-arrow-icon-size;
 
-      color: $slick-arrow-icon-color;
+            color: $slick-arrow-icon-color;
+        }
+
+        @include element-state('hover') {
+            background: $slick-arrow-hover-background;
+
+            &::before,
+            &::after {
+                color: $slick-arrow-icon-hover-color;
+            }
+        }
     }
 
-    @include element-state('hover') {
-      background: $slick-arrow-hover-background;
+    .slick-prev {
+        left: $slick-arrow-prev-left;
 
-      &:before,
-      &:after {
-        color: $slick-arrow-icon-hover-color;
-      }
+        @include fa-icon($slick-arrow-prev-icon);
+
+        &::before {
+            margin: $slick-arrow-prev-icon-offset;
+        }
     }
-  }
 
-  .slick-prev {
-    left: $slick-arrow-prev-left;
+    .slick-next {
+        right: $slick-arrow-next-right;
 
-    @include fa-icon($slick-arrow-prev-icon);
+        @include fa-icon($slick-arrow-next-icon, after);
 
-    &:before {
-      margin: $slick-arrow-prev-icon-offset;
+        &::after {
+            margin: $slick-arrow-next-icon-offset;
+        }
     }
-  }
 
-  .slick-next {
-    right: $slick-arrow-next-right;
+    .slick-disabled {
+        cursor: $slick-arrow-disabled-cursor;
 
-    @include fa-icon($slick-arrow-next-icon, after);
-
-    &:after {
-      margin: $slick-arrow-next-icon-offset;
+        opacity: $slick-arrow-disabled-opacity;
     }
-  }
-
-  .slick-disabled {
-    cursor: $slick-arrow-disabled-cursor;
-
-    opacity: $slick-arrow-disabled-opacity;
-  }
 }

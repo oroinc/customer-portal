@@ -69,6 +69,17 @@ class GuestCustomerUserManager
     public function generateGuestCustomerUser(array $properties = [])
     {
         $customerUser = new CustomerUser();
+        $this->initializeGuestCustomerUser($customerUser, $properties);
+
+        return $customerUser;
+    }
+
+    /**
+     * @param CustomerUser $customerUser
+     * @param array $properties
+     */
+    public function initializeGuestCustomerUser(CustomerUser $customerUser, array $properties = [])
+    {
         $customerUser->setIsGuest(true);
         $customerUser->setEnabled(false);
         $customerUser->setConfirmed(false);
@@ -99,8 +110,6 @@ class GuestCustomerUserManager
 
         $anonymousGroup = $this->customerUserRelationsProvider->getCustomerGroup();
         $customerUser->getCustomer()->setGroup($anonymousGroup);
-
-        return $customerUser;
     }
 
     /**

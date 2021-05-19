@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Api\Processor;
 
+use Oro\Bundle\ApiBundle\Processor\SingleItemContext;
 use Oro\Bundle\CustomerBundle\Api\CustomerUserProfileResolver;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Component\ChainProcessor\ContextInterface;
 use Oro\Component\ChainProcessor\ProcessorInterface;
 
@@ -19,29 +19,25 @@ use Oro\Component\ChainProcessor\ProcessorInterface;
  */
 class SetCustomerUserProfileAclResource implements ProcessorInterface
 {
-    /**
-     * @var CustomerUserProfileResolver
-     */
+    /** @var CustomerUserProfileResolver */
     private $customerUserProfileResolver;
 
-    /**
-     * @param CustomerUserProfileResolver $customerUserProfileResolver
-     */
     public function __construct(CustomerUserProfileResolver $customerUserProfileResolver)
     {
         $this->customerUserProfileResolver = $customerUserProfileResolver;
     }
 
     /**
-     * @param ContextInterface $context
+     * {@inheritDoc}
      */
     public function process(ContextInterface $context): void
     {
+        /** @var SingleItemContext $context */
+
         if (null === $context->getId()) {
             return;
         }
 
-        /** @var CustomerUser $customerUser */
         if ($this->customerUserProfileResolver->hasProfilePermission($context, $context->getId())) {
             // Set data security check resource. Current resource has a higher priority than other security permission.
             $context->getConfig()->setAclResource(CustomerUserProfileResolver::ACL_RESOURCE);

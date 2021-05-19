@@ -1,6 +1,6 @@
 /* @theme: blank; */
 
-$featured-menu-offset: 30px (-$offset-x-m)  !default;
+$featured-menu-offset: 30px (-$offset-x-m) !default;
 
 $featured-menu-item-items-row: 4 !default;
 $featured-menu-item-offset-x: $offset-x-m !default;
@@ -12,7 +12,7 @@ $featured-menu-content-bg: get-color('additional', 'base') !default;
 
 $featured-menu-item-title-offset-bottom: $offset-y-m !default;
 $featured-menu-item-title-font-size: $base-font-size--large !default;
-$featured-menu-item-title-font-weight: bold !default;
+$featured-menu-item-title-font-weight: font-weight('bold') !default;
 $featured-menu-item-title-text-transform: uppercase !default;
 
 $featured-menu-item-description-offset-bottom: $offset-y !default;

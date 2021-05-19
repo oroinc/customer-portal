@@ -9,9 +9,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
  */
 class CustomerUserStub extends CustomerUser
 {
-    /**
-     * @param int $id
-     */
+    public function __construct(?int $id = null)
+    {
+        parent::__construct();
+
+        $this->id = $id;
+    }
+
     public function setId(int $id): void
     {
         $this->id = $id;

@@ -12,7 +12,6 @@
     }
 
     position: relative;
-
     display: block;
     margin: $launcher-item-offset;
 
@@ -55,12 +54,11 @@
 
             @include hover-focus {
                 text-decoration: none;
-
                 color: $launcher-item-icon-hover-focus-color;
             }
 
             .icon {
-                &:before {
+                &::before {
                     font-size: $launcher-item-icon-size;
                     line-height: strip-units($launcher-item-icon-size / 10);
                 }
@@ -70,6 +68,7 @@
 
     .dropdown-item.action {
         @include link();
+
         text-decoration: $link-link-normal-text-decoration;
 
         @include element-state('focus') {
@@ -83,6 +82,13 @@
     }
 
     .dropdown-menu & {
+        .action {
+            &.mode-icon-text,
+            &.mode-text-only {
+                padding: $launcher-item-action-text-only-inner-offset;
+            }
+        }
+
         &.mode-text-only {
             display: block;
             padding: 0;
@@ -95,12 +101,10 @@
 
             .action {
                 padding: $offset-x-m $offset-x-s;
-
                 color: $launcher-item-icon-color;
 
                 @include hover-focus {
                     text-decoration: none;
-
                     color: $launcher-item-icon-hover-focus-color;
                 }
             }
@@ -108,13 +112,6 @@
 
         &.mode-icon-text {
             @include launcher-separator($enabled: $launcher-item-separator-dropdown-icon-text);
-        }
-
-        .action {
-            &.mode-icon-text,
-            &.mode-text-only {
-                padding: $launcher-item-action-text-only-inner-offset;
-            }
         }
     }
 }

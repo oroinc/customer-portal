@@ -60,7 +60,6 @@
 
     &__edit-label {
         color: $grid-views-edit-label-color;
-
         vertical-align: middle;
     }
 
@@ -70,30 +69,25 @@
 
     &__item {
         display: flex;
-
         padding: $grid-views-dropdown-list-item-offset-inner;
-
         border-bottom: $grid-views-dropdown-list-item-border;
     }
 
     &__actions {
         padding-left: $offset-x-s;
-
         color: $grid-views-actions-color;
-
         white-space: nowrap;
     }
 
     &__label {
         flex-basis: 55%;
         flex: 1;
-
         word-break: break-all;
     }
 
     &__text-line {
-        max-height: ($base-font-size * $base-line-height) * 2; // two rows
-
+        // two rows
+        max-height: ($base-font-size * $base-line-height) * 2;
         font-size: $base-font-size;
         line-height: $base-line-height;
     }
@@ -122,7 +116,7 @@
         &.opened {
             display: none;
 
-             + .grid-views__form {
+            + .grid-views__form {
                 display: block;
             }
         }
@@ -138,7 +132,6 @@
         &__dropdown {
             top: -6px;
             left: -1px;
-
             width: $grid-views-dropdown-mobile-width;
         }
     }
