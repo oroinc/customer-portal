@@ -37,6 +37,27 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     }
 
     /**
+     * Add frontendOwner to addresses search context to prevent same addresses "stealing" by another customer.
+     *
+     * {@inheritdoc}
+     */
+    protected function generateSearchContextForRelationsUpdate($entity, $entityName, $fieldName, $isPersistRelation)
+    {
+        $context = parent::generateSearchContextForRelationsUpdate(
+            $entity,
+            $entityName,
+            $fieldName,
+            $isPersistRelation
+        );
+
+        if ($fieldName === 'addresses') {
+            return array_merge($context, ['frontendOwner' => $entity]);
+        }
+
+        return $context;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function findExistingEntity($entity, array $searchContext = [])

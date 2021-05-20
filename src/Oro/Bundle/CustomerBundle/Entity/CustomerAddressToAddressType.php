@@ -3,8 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 
 /**
+ * Customer Address To Address Type Doctrine entity
+ *
  * @ORM\Table("oro_customer_adr_adr_type",
  *      uniqueConstraints={
  *          @ORM\UniqueConstraint(name="oro_customer_adr_id_type_name_idx", columns={
@@ -14,6 +17,9 @@ use Doctrine\ORM\Mapping as ORM;
  *      }
  * )
  * @ORM\Entity
+ * @Config(
+ *     mode="hidden"
+ * )
  */
 class CustomerAddressToAddressType extends AbstractAddressToAddressType
 {

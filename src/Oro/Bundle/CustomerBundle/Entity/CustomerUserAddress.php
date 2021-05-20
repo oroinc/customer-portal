@@ -9,6 +9,8 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
+ * Customer User address entity.
+ *
  * @ORM\Table("oro_customer_user_address")
  * @ORM\HasLifecycleCallbacks()
  * @Config(
@@ -68,7 +70,7 @@ class CustomerUserAddress extends ExtendCustomerUserAddress implements AddressPh
      * @ORM\OneToMany(
      *      targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType",
      *      mappedBy="address",
-     *      cascade={"persist", "remove", "detach"},
+     *      cascade={"persist", "remove", "detach", "refresh"},
      *      orphanRemoval=true
      * )
      **/
