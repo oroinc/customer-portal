@@ -12,15 +12,13 @@ use Oro\Bundle\FormBundle\Event\FormHandler\Events;
 use Oro\Bundle\FormBundle\Event\FormHandler\FormProcessEvent;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\RequestWebsiteProvider;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
-
     /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
     private $userManager;
 
@@ -42,9 +40,6 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var FrontendCustomerUserHandler */
     private $handler;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->userManager = $this->createMock(CustomerUserManager::class);
@@ -92,7 +87,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
             ->with([], true);
         $this->form->expects($this->once())
             ->method('isValid')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->request->setMethod('POST');
 
@@ -100,7 +95,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->doctrineHelper->expects($this->once())
             ->method('getEntityManager')
             ->with($entity)
-            ->will($this->returnValue($em));
+            ->willReturn($em);
         $em->expects($this->once())
             ->method('beginTransaction');
         $em->expects($this->once())
@@ -143,7 +138,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
             ->with([], true);
         $this->form->expects($this->once())
             ->method('isValid')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->request->setMethod('POST');
 
@@ -151,7 +146,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->doctrineHelper->expects($this->once())
             ->method('getEntityManager')
             ->with($entity)
-            ->will($this->returnValue($em));
+            ->willReturn($em);
         $em->expects($this->once())
             ->method('beginTransaction');
         $em->expects($this->once())
@@ -187,7 +182,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
             ->with([], true);
         $this->form->expects($this->once())
             ->method('isValid')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->request->setMethod('POST');
 
@@ -195,7 +190,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->doctrineHelper->expects($this->once())
             ->method('getEntityManager')
             ->with($entity)
-            ->will($this->returnValue($em));
+            ->willReturn($em);
         $em->expects($this->once())
             ->method('beginTransaction');
         $em->expects($this->once())
@@ -220,7 +215,8 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
 
     public function testProcessExistingCustomerUser()
     {
-        $entity = $this->getEntity(CustomerUser::class, ['id' => 1]);
+        $entity = new CustomerUser();
+        ReflectionUtil::setId($entity, 1);
 
         $this->form->expects($this->once())
             ->method('setData')
@@ -230,7 +226,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
             ->with([], true);
         $this->form->expects($this->once())
             ->method('isValid')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->request->setMethod('POST');
 
@@ -238,7 +234,7 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->doctrineHelper->expects($this->once())
             ->method('getEntityManager')
             ->with($entity)
-            ->will($this->returnValue($em));
+            ->willReturn($em);
         $em->expects($this->once())
             ->method('beginTransaction');
         $em->expects($this->once())
@@ -258,13 +254,9 @@ class FrontendCustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->handler->process($entity, $this->form, $this->request));
     }
 
-    /**
-     * @param FormInterface $form
-     * @param CustomerUser $entity
-     */
-    private function assertProcessAfterEventsTriggered(FormInterface $form, $entity)
+    private function assertProcessAfterEventsTriggered(FormInterface $form, CustomerUser $entity): void
     {
-        $this->eventDispatcher->expects($this->at(0))
+        $this->eventDispatcher->expects($this->exactly(4))
             ->method('dispatch')
             ->withConsecutive(
                 [new FormProcessEvent($form, $entity), Events::BEFORE_FORM_DATA_SET],

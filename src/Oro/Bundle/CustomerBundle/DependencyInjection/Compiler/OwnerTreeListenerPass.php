@@ -8,35 +8,17 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Registers Customer and CustomerUser as supported by the owner tree.
+ * Registers Customer and CustomerUser as supported by the owner tree entities.
  */
 class OwnerTreeListenerPass implements CompilerPassInterface
 {
-    const LISTENER_SERVICE = 'oro_security.ownership_tree_subscriber';
-
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(self::LISTENER_SERVICE)) {
-            return;
-        }
-
-        $listenerDefinition = $container->getDefinition(self::LISTENER_SERVICE);
-        $listenerDefinition->addMethodCall(
-            'addSupportedClass',
-            [
-                Customer::class,
-                ['parent', 'organization']
-            ]
-        );
-        $listenerDefinition->addMethodCall(
-            'addSupportedClass',
-            [
-                CustomerUser::class,
-                ['customer', 'organization'],
-            ]
-        );
+        $container->getDefinition('oro_security.ownership_tree_subscriber')
+            ->addMethodCall('addSupportedClass', [Customer::class, ['parent', 'organization']])
+            ->addMethodCall('addSupportedClass', [CustomerUser::class, ['customer', 'organization']]);
     }
 }

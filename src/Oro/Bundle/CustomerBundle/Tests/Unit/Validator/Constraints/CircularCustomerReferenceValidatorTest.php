@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var OwnerTreeInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $ownerTree;
 
     protected function setUp(): void
@@ -21,9 +21,6 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function createValidator()
     {
         $ownerTreeProvider = $this->createMock(OwnerTreeProviderInterface::class);
@@ -38,7 +35,6 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
     {
         $customer = new Customer();
         $constraint = new CircularCustomerReference();
-
         $this->validator->validate($customer, $constraint);
 
         $this->assertNoViolation();
@@ -58,7 +54,6 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
             ->willReturn([4, 6, 7]);
 
         $constraint = new CircularCustomerReference();
-
         $this->validator->validate($customer, $constraint);
 
         $this->assertNoViolation();
@@ -80,7 +75,6 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
             ->willReturn([4, 5, 6, 7]);
 
         $constraint = new CircularCustomerReference();
-
         $this->validator->validate($customer, $constraint);
 
         $this->buildViolation($constraint->messageCircular)
@@ -106,17 +100,14 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
         $cyclicCustomer->setName('test cyclic customer');
         $customer->addChild($cyclicCustomer);
 
-        $this->ownerTree->expects($this->at(0))
+        $this->ownerTree->expects($this->exactly(2))
             ->method('getSubordinateBusinessUnitIds')
-            ->with(1)
-            ->willReturn([4, 6, 7]);
-        $this->ownerTree->expects($this->at(1))
-            ->method('getSubordinateBusinessUnitIds')
-            ->with(5)
-            ->willReturn([4, 1, 7]);
+            ->willReturnMap([
+                [1, [4, 6, 7]],
+                [5, [4, 1, 7]]
+            ]);
 
         $constraint = new CircularCustomerReference();
-
         $this->validator->validate($customer, $constraint);
 
         $this->buildViolation($constraint->messageCircularChild)
@@ -145,7 +136,6 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
             ->willReturn([4, 6, 7]);
 
         $constraint = new CircularCustomerReference();
-
         $this->validator->validate($customer, $constraint);
 
         $this->buildViolation($constraint->messageCircularChild)
@@ -166,7 +156,6 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
             ->method('getSubordinateBusinessUnitIds');
 
         $constraint = new CircularCustomerReference();
-
         $this->validator->validate($customer, $constraint);
 
         $this->buildViolation($constraint->messageItself)
@@ -176,7 +165,6 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
 
     public function testValidateWithFrontendOwnerTreeProvider()
     {
-        /** @var FrontendOwnerTreeProvider $ownerTreeProvider */
         $ownerTreeProvider = $this->createMock(FrontendOwnerTreeProvider::class);
         $ownerTreeProvider->expects($this->atLeastOnce())
             ->method('getTreeByBusinessUnit')
@@ -187,17 +175,17 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
             ->with(1)
             ->willReturn([4, 6, 7]);
 
-        $this->validator = new CircularCustomerReferenceValidator($ownerTreeProvider);
-        $this->validator->initialize($this->context);
+        $validator = new CircularCustomerReferenceValidator($ownerTreeProvider);
+        $validator->initialize($this->context);
 
         $customer = new Customer();
         $customer->setId(1);
         $parentCustomer = new Customer();
         $parentCustomer->setId(5);
         $customer->setParent($parentCustomer);
-        $constraint = new CircularCustomerReference();
 
-        $this->validator->validate($customer, $constraint);
+        $constraint = new CircularCustomerReference();
+        $validator->validate($customer, $constraint);
 
         $this->assertNoViolation();
     }

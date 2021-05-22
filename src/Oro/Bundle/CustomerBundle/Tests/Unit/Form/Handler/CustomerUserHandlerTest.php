@@ -3,10 +3,11 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\FormHandlerTestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormInterface;
@@ -14,68 +15,38 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerUserHandlerTest extends FormHandlerTestCase
 {
-    use EntityTrait;
+    /** @var CustomerUserManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $userManager;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Oro\Bundle\CustomerBundle\Entity\CustomerUserManager
-     */
-    protected $userManager;
+    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $passwordGenerateForm;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|FormInterface
-     */
-    protected $passwordGenerateForm;
+    /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $sendEmailForm;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|FormInterface
-     */
-    protected $sendEmailForm;
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenAccessor;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface
-     */
-    protected $tokenAccessor;
+    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $translator;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|TranslatorInterface
-     */
-    protected $translator;
+    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $logger;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface
-     */
-    protected $logger;
-
-    /**
-     * @var CustomerUser
-     */
+    /** @var CustomerUser */
     protected $entity;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->entity = new CustomerUser();
-
-        $this->userManager = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\CustomerUserManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->passwordGenerateForm = $this->getMockBuilder('Symfony\Component\Form\FormInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->sendEmailForm = $this->getMockBuilder('Symfony\Component\Form\FormInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $this->userManager = $this->createMock(CustomerUserManager::class);
+        $this->passwordGenerateForm = $this->createMock(FormInterface::class);
+        $this->sendEmailForm = $this->createMock(FormInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-
-        $this->translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
-        $this->logger = $this->createMock('Psr\Log\LoggerInterface');
+        $this->translator = $this->createMock(TranslatorInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->handler = new CustomerUserHandler(
             $this->form,
@@ -98,15 +69,13 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
     }
 
     /**
-     * {@inheritdoc}
      * @dataProvider supportedMethods
      */
     public function testProcessSupportedRequest($method, $isValid, $isProcessed)
     {
         $organization = null;
         if ($isValid) {
-            $organization = new Organization();
-            $organization->setName('test');
+            $organization = $this->getOrganization('test');
 
             $this->tokenAccessor->expects($this->any())
                 ->method('getOrganization')
@@ -116,23 +85,20 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
                 ->method('updateWebsiteSettings')
                 ->with($this->entity);
 
-            $this->form->expects($this->at(4))
+            $this->form->expects($this->exactly(2))
                 ->method('get')
-                ->with('passwordGenerate')
-                ->will($this->returnValue($this->passwordGenerateForm));
-
-            $this->form->expects($this->at(5))
-                ->method('get')
-                ->with('sendEmail')
-                ->will($this->returnValue($this->sendEmailForm));
+                ->willReturnMap([
+                    ['passwordGenerate', $this->passwordGenerateForm],
+                    ['sendEmail', $this->sendEmailForm]
+                ]);
 
             $this->passwordGenerateForm->expects($this->once())
                 ->method('getData')
-                ->will($this->returnValue(false));
+                ->willReturn(false);
 
             $this->sendEmailForm->expects($this->once())
                 ->method('getData')
-                ->will($this->returnValue(false));
+                ->willReturn(false);
             $this->userManager->expects($this->once())
                 ->method('updateUser')
                 ->with($this->entity);
@@ -144,7 +110,7 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
 
         $this->form->expects($this->any())
             ->method('isValid')
-            ->will($this->returnValue($isValid));
+            ->willReturn($isValid);
 
         $this->request->initialize([], self::FORM_DATA);
         $this->request->setMethod($method);
@@ -159,9 +125,6 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function testProcessValidData()
     {
         $this->request->initialize([], self::FORM_DATA);
@@ -171,38 +134,32 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
             ->method('submit')
             ->with(self::FORM_DATA);
 
-        $this->form->expects($this->at(4))
+        $this->form->expects($this->exactly(2))
             ->method('get')
-            ->with('passwordGenerate')
-            ->will($this->returnValue($this->passwordGenerateForm));
-
-        $this->form->expects($this->at(5))
-            ->method('get')
-            ->with('sendEmail')
-            ->will($this->returnValue($this->sendEmailForm));
+            ->willReturnMap([
+                ['passwordGenerate', $this->passwordGenerateForm],
+                ['sendEmail', $this->sendEmailForm]
+            ]);
 
         $this->passwordGenerateForm->expects($this->once())
             ->method('getData')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->sendEmailForm->expects($this->once())
             ->method('getData')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->form->expects($this->once())
             ->method('isValid')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->assertTrue($this->handler->process($this->entity));
     }
 
     public function testProcessCurrentUser()
     {
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, ['id' => 1]);
-
-        $organization = new Organization();
-        $organization->setName('test');
+        $customerUser = $this->getCustomerUser(1);
+        $organization = $this->getOrganization('test');
 
         $this->assertExistingUserSaveCalls($organization, $customerUser);
 
@@ -221,11 +178,8 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
 
     public function testProcessAnotherUser()
     {
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, ['id' => 2]);
-
-        $organization = new Organization();
-        $organization->setName('test');
+        $customerUser = $this->getCustomerUser(2);
+        $organization = $this->getOrganization('test');
 
         $this->assertExistingUserSaveCalls($organization, $customerUser);
 
@@ -242,11 +196,23 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
         }
     }
 
-    /**
-     * @param Organization $organization
-     * @param CustomerUser $customerUser
-     */
-    protected function assertExistingUserSaveCalls(Organization $organization, CustomerUser $customerUser)
+    private function getCustomerUser(int $id): CustomerUser
+    {
+        $customerUser = new CustomerUser();
+        ReflectionUtil::setId($customerUser, $id);
+
+        return $customerUser;
+    }
+
+    private function getOrganization(string $name): Organization
+    {
+        $organization = new Organization();
+        $organization->setName($name);
+
+        return $organization;
+    }
+
+    private function assertExistingUserSaveCalls(Organization $organization, CustomerUser $customerUser): void
     {
         $this->tokenAccessor->expects($this->any())
             ->method('getOrganization')
@@ -258,7 +224,7 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
             ->with($customerUser);
         $this->form->expects($this->any())
             ->method('isValid')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->request->initialize([], self::FORM_DATA);
         $this->request->setMethod('POST');
