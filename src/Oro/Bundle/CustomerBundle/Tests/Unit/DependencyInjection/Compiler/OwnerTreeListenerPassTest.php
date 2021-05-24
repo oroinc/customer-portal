@@ -12,7 +12,7 @@ class OwnerTreeListenerPassTest extends \PHPUnit\Framework\TestCase
     public function testProcess()
     {
         $container = new ContainerBuilder();
-        $container->register('oro_security.ownership_tree_subscriber');
+        $ownershipTreeSubscriberDef = $container->register('oro_security.ownership_tree_subscriber');
 
         $compiler = new OwnerTreeListenerPass();
         $compiler->process($container);
@@ -22,7 +22,7 @@ class OwnerTreeListenerPassTest extends \PHPUnit\Framework\TestCase
                 ['addSupportedClass', [Customer::class, ['parent', 'organization']]],
                 ['addSupportedClass', [CustomerUser::class, ['customer', 'organization']]]
             ],
-            $container->getDefinition('oro_security.ownership_tree_subscriber')->getMethodCalls()
+            $ownershipTreeSubscriberDef->getMethodCalls()
         );
     }
 }
