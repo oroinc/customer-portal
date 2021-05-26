@@ -2,12 +2,12 @@ styles:
     inputs:
         - '~slick-carousel/slick/slick.scss'
 
+        - 'bundles/orofrontend/blank/scss/settings/global-settings.scss'
+
         # Bootstrap Required
         - 'bundles/orofrontend/blank/scss/settings/bootstrap/functions.scss'
         - 'bundles/orofrontend/blank/scss/settings/bootstrap/mixins.scss'
         - 'bundles/orofrontend/blank/scss/settings/bootstrap/variables.scss'
-
-        - 'bundles/orofrontend/blank/scss/settings/global-settings.scss'
 
         # Bootstrap Configs
         - 'bundles/orofrontend/blank/scss/variables/bootstrap/buttons-config.scss'

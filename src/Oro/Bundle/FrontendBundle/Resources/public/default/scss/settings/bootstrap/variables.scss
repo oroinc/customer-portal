@@ -1,5 +1,8 @@
 /* @theme: default; */
 
+$font-family-base: $base-font;
+$line-height-base: $base-line-height--s;
+
 $link-color: get-color('ui', 'normal');
 $link-hover-color: get-color('ui', 'normal');
 
@@ -38,18 +41,18 @@ $nav-tabs-link-hover-background-color: null !default;
 
 // Popovers
 
-$popover-font-size: $base-font-size;
+$popover-font-size: 1rem;
 $popover-bg: get-color('additional', 'ultra');
 $popover-max-width: 280px;
 $popover-border-width: 1px;
 $popover-border-color: get-color('additional', 'middle');
 $popover-border-radius: 4px;
-$popover-box-shadow: 0 2px 6px 1px rgba(get-color('additional', 'darker'), .12);
+$popover-box-shadow: 0 2px 6px 1px rgba(0, 0, 0, .12);
 $popover-header-bg: $popover-bg;
 $popover-header-color: get-color('additional', 'dark');
 $popover-header-padding-y: $offset-y;
 $popover-header-padding-x: $offset-x;
-$popover-body-color: $body-color;
+$popover-body-color: get-color('additional', 'dark');
 $popover-body-light-color: lighten(get-color('additional', 'dark'), 21%);
 $popover-body-padding-y: $popover-header-padding-y;
 $popover-body-padding-x: $popover-header-padding-x;
