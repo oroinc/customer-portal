@@ -76,6 +76,18 @@ oro.customer:
         address_book.label: 'Address Book'
         owner.label: 'Owner'
         sales_representatives.label: 'Assigned Sales Representatives'
+    customeruseraddresstoaddresstype:
+        entity_label: 'Customer User Address to Address Type'
+        address.label: 'Address'
+        default.label: 'Is default'
+        id.label: 'Id'
+        type.label: 'Type'
+    customeraddresstoaddresstype:
+        entity_label: 'Customer Address to Address Type'
+        address.label: 'Address'
+        default.label: 'Is default'
+        id.label: 'Id'
+        type.label: 'Type'
 
     form:
         placeholder:
