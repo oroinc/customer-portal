@@ -11,59 +11,18 @@ class OwnerTreeListenerPassTest extends \PHPUnit\Framework\TestCase
 {
     public function testProcess()
     {
-        $listenerDefinition = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = new ContainerBuilder();
+        $ownershipTreeSubscriberDef = $container->register('oro_security.ownership_tree_subscriber');
 
-        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $containerBuilder */
-        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $compiler = new OwnerTreeListenerPass();
+        $compiler->process($container);
 
-        $containerBuilder->expects($this->once())
-            ->method('getDefinition')
-            ->with(OwnerTreeListenerPass::LISTENER_SERVICE)
-            ->willReturn($listenerDefinition);
-
-        $containerBuilder->expects($this->once())
-            ->method('hasDefinition')
-            ->with(OwnerTreeListenerPass::LISTENER_SERVICE)
-            ->willReturn(true);
-
-        $listenerDefinition->expects($this->at(0))
-            ->method('addMethodCall')
-            ->with(
-                'addSupportedClass',
-                [Customer::class, ['parent', 'organization']]
-            );
-        $listenerDefinition->expects($this->at(1))
-            ->method('addMethodCall')
-            ->with(
-                'addSupportedClass',
-                [CustomerUser::class, ['customer', 'organization']]
-            );
-
-        $compilerPass = new OwnerTreeListenerPass();
-        $compilerPass->process($containerBuilder);
-    }
-
-    public function testProcessWithoutDefinition()
-    {
-        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $containerBuilder */
-        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $containerBuilder->expects($this->never())->method('getDefinition');
-        $containerBuilder->expects($this->never())->method('getParameter');
-
-        $containerBuilder->expects($this->once())
-            ->method('hasDefinition')
-            ->with(OwnerTreeListenerPass::LISTENER_SERVICE)
-            ->willReturn(false);
-
-
-        $compilerPass = new OwnerTreeListenerPass();
-        $compilerPass->process($containerBuilder);
+        self::assertEquals(
+            [
+                ['addSupportedClass', [Customer::class, ['parent', 'organization']]],
+                ['addSupportedClass', [CustomerUser::class, ['customer', 'organization']]]
+            ],
+            $ownershipTreeSubscriberDef->getMethodCalls()
+        );
     }
 }
