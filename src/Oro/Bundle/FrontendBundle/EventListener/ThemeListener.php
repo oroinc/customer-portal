@@ -5,34 +5,25 @@ namespace Oro\Bundle\FrontendBundle\EventListener;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\NavigationBundle\Event\ResponseHashnavListener;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 
 /**
  * Sets parameters to request the that determine the layout structure
  */
 class ThemeListener
 {
-    /** @var FrontendHelper */
-    private $frontendHelper;
+    private FrontendHelper $frontendHelper;
 
-    /** @var ConfigManager */
-    private $configManager;
+    private ConfigManager $configManager;
 
-    /**
-     * @param FrontendHelper $frontendHelper
-     * @param ConfigManager  $configManager
-     */
     public function __construct(FrontendHelper $frontendHelper, ConfigManager $configManager)
     {
         $this->frontendHelper = $frontendHelper;
         $this->configManager = $configManager;
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
         if ($this->frontendHelper->isFrontendUrl($request->getPathInfo())) {
@@ -50,10 +41,7 @@ class ThemeListener
         }
     }
 
-    /**
-     * @param GetResponseForControllerResultEvent $event
-     */
-    public function onKernelView(GetResponseForControllerResultEvent $event)
+    public function onKernelView(ViewEvent $event): void
     {
         if (!$event->isMasterRequest()) {
             return;

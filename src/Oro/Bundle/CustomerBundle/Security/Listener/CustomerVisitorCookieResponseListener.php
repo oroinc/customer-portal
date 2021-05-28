@@ -3,16 +3,19 @@
 namespace Oro\Bundle\CustomerBundle\Security\Listener;
 
 use Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
+/**
+ * Sets customer visitor cookie from the request attribute to response.
+ */
 class CustomerVisitorCookieResponseListener
 {
     /**
      * Set cookie from request attribute to response
      *
-     * @param FilterResponseEvent $event
+     * @param ResponseEvent $event
      */
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event): void
     {
         if (!$event->isMasterRequest()) {
             return;

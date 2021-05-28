@@ -8,7 +8,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -26,35 +26,16 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class GuestAccessRequestListener
 {
-    /**
-     * @var TokenAccessorInterface
-     */
-    private $tokenAccessor;
+    private TokenAccessorInterface $tokenAccessor;
 
-    /**
-     * @var ConfigManager
-     */
-    private $configManager;
+    private ConfigManager $configManager;
 
-    /**
-     * @var GuestAccessDecisionMakerInterface
-     */
-    private $guestAccessDecisionMaker;
-    /**
-     * @var RouterInterface
-     */
-    private $router;
+    private GuestAccessDecisionMakerInterface $guestAccessDecisionMaker;
 
-    /** @var string */
-    private $restApiPrefix;
+    private RouterInterface $router;
 
-    /**
-     * @param TokenAccessorInterface            $tokenAccessor
-     * @param ConfigManager                     $configManager
-     * @param GuestAccessDecisionMakerInterface $guestAccessDeniedDecisionMaker
-     * @param RouterInterface                   $router
-     * @param string                            $restApiPrefix
-     */
+    private string $restApiPrefix;
+
     public function __construct(
         TokenAccessorInterface $tokenAccessor,
         ConfigManager $configManager,
@@ -70,11 +51,11 @@ class GuestAccessRequestListener
     }
 
     /**
-     * @param GetResponseEvent $event
+     * @param RequestEvent $event
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->isMasterRequest()) {
             return;
@@ -101,34 +82,20 @@ class GuestAccessRequestListener
         }
     }
 
-    /**
-     * @param string $url
-     * @param int    $status
-     *
-     * @return RedirectResponse|Response
-     */
-    private function createResponse(string $url, $status = Response::HTTP_FOUND)
+    private function createResponse(string $url, int $status = Response::HTTP_FOUND): RedirectResponse|Response
     {
         return Response::HTTP_UNAUTHORIZED === $status
             ? new Response('', $status)
             : new RedirectResponse($url, $status);
     }
 
-    /**
-     * @return string
-     */
-    private function getCustomerUserLoginUrl()
+    private function getCustomerUserLoginUrl(): string
     {
         return $this->router->generate('oro_customer_customer_user_security_login');
     }
 
-    /**
-     * @param string $pathInfo
-     *
-     * @return bool
-     */
-    private function isApiRequest(string $pathInfo)
+    private function isApiRequest(string $pathInfo): bool
     {
-        return 0 === strpos($pathInfo, $this->restApiPrefix);
+        return str_starts_with($pathInfo, $this->restApiPrefix);
     }
 }

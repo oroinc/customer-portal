@@ -9,67 +9,41 @@ use Oro\Bundle\SecurityBundle\Csrf\CsrfRequestManager;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
 /**
  * This listener authenticates anonymous (AKA guest) customer users at frontend
  */
-class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
+class AnonymousCustomerUserAuthenticationListener
 {
-    const COOKIE_ATTR_NAME = '_security_customer_visitor_cookie';
-    const COOKIE_NAME = 'customer_visitor';
-    const CACHE_KEY = 'visitor_token';
+    public const COOKIE_ATTR_NAME = '_security_customer_visitor_cookie';
+    public const COOKIE_NAME = 'customer_visitor';
+    public const CACHE_KEY = 'visitor_token';
 
-    /**
-     * @var TokenStorageInterface
-     */
-    private $tokenStorage;
+    private TokenStorageInterface $tokenStorage;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @var AuthenticationManagerInterface
-     */
-    private $authenticationManager;
+    private AuthenticationManagerInterface $authenticationManager;
 
-    /**
-     * @var WebsiteManager
-     */
-    private $websiteManager;
+    private WebsiteManager $websiteManager;
 
     /**
      * This property is assumed to be filled on Request basis only so no need permanent cache for it
      * @var CacheProvider
      */
-    private $cacheProvider;
+    private CacheProvider $cacheProvider;
 
-    /** @var CsrfRequestManager */
-    private $csrfRequestManager;
+    private CsrfRequestManager $csrfRequestManager;
 
-    /** @var string */
-    private $apiPattern;
+    private string $apiPattern;
 
-    /** @var CustomerVisitorCookieFactory */
-    private $cookieFactory;
+    private CustomerVisitorCookieFactory $cookieFactory;
 
-    /**
-     * @param TokenStorageInterface          $tokenStorage
-     * @param AuthenticationManagerInterface $authenticationManager
-     * @param LoggerInterface                $logger
-     * @param WebsiteManager                 $websiteManager
-     * @param CacheProvider                  $cacheProvider
-     * @param CsrfRequestManager             $csrfRequestManager
-     * @param string                         $apiPattern
-     * @param CustomerVisitorCookieFactory   $cookieFactory
-     */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
@@ -90,15 +64,12 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         $this->cookieFactory = $cookieFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function handle(GetResponseEvent $event)
+    public function __invoke(RequestEvent $event): void
     {
         $token = $this->tokenStorage->getToken();
         if (null === $token) {
             /**
-             * Oro\Bundle\RedirectBundle\Security\Firewall two times triggers GetResponseEvent event
+             * Oro\Bundle\RedirectBundle\Security\Firewall two times triggers RequestEvent event
              * this causes current listener executes two times as well
              * So check if we already created and saved token for current request
              * If yes there is no need to do same actions once more
@@ -134,11 +105,7 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         }
     }
 
-
-    /**
-     * @return array
-     */
-    private function getRoles()
+    private function getRoles(): array
     {
         $currentWebsite = $this->websiteManager->getCurrentWebsite();
         if (!$currentWebsite || !$currentWebsite->getGuestRole() || !$currentWebsite->getGuestRole()->getRole()) {
@@ -149,15 +116,11 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         return [$guestRole->getRole()];
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     */
-    private function getCredentials(Request $request)
+    private function getCredentials(Request $request): array
     {
         $value = $request->cookies->get(self::COOKIE_NAME);
         if ($value) {
-            list($visitorId, $sessionId) = json_decode(base64_decode($value));
+            [$visitorId, $sessionId] = json_decode(base64_decode($value));
         } else {
             $visitorId = null;
             $sessionId = null;
@@ -169,11 +132,7 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         ];
     }
 
-    /**
-     * @param Request $request
-     * @param AnonymousCustomerUserToken $token
-     */
-    private function saveCredentials(Request $request, AnonymousCustomerUserToken $token)
+    private function saveCredentials(Request $request, AnonymousCustomerUserToken $token): void
     {
         $visitor = $token->getVisitor();
         if (!$visitor) {
@@ -186,12 +145,6 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         );
     }
 
-    /**
-     * @param Request             $request
-     * @param TokenInterface|null $token
-     *
-     * @return bool
-     */
     private function shouldBeAuthenticatedAsCustomerVisitor(Request $request, TokenInterface $token = null): bool
     {
         if (null === $token) {
@@ -205,11 +158,6 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
             && $token->getVisitor() === null;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return bool
-     */
     private function isApiRequest(Request $request): bool
     {
         return preg_match('{' . $this->apiPattern . '}', $request->getPathInfo()) === 1;
