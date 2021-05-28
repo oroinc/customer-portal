@@ -6,7 +6,7 @@ oro_workflow_frontend_bundle:
 
 oro_frontend_workflow_widget_buttons:
     path: /workflowwidget/buttons/{entityClass}/{entityId}
-    defaults: { _controller: OroWorkflowBundle:Widget:buttons }
+    defaults: { _controller: Oro\Bundle\WorkflowBundle\Controller\WidgetController::buttonsAction }
     options:
         frontend: true
 
