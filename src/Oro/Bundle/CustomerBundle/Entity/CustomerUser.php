@@ -809,18 +809,18 @@ class CustomerUser extends ExtendCustomerUser implements
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getBirthday()
+    public function getBirthday(): ?\DateTime
     {
         return $this->birthday;
     }
 
     /**
-     * @param \DateTime $birthday
+     * @param \DateTime|null $birthday
      * @return CustomerUser
      */
-    public function setBirthday($birthday)
+    public function setBirthday(\DateTime $birthday = null)
     {
         $this->birthday = $birthday;
 
