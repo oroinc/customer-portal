@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Controller\Api\Rest;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
+use Oro\Bundle\WorkflowBundle\Controller\Api\Rest\WorkflowController as RestWorkflowController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,7 +28,7 @@ class WorkflowController extends FOSRestController
     public function startAction(Request $request)
     {
         return $this->forward(
-            'OroWorkflowBundle:Api\Rest\Workflow:start',
+            RestWorkflowController::class . '::startAction',
             $request->attributes->all(),
             $request->query->all()
         );
@@ -47,7 +48,7 @@ class WorkflowController extends FOSRestController
     public function transitAction(Request $request)
     {
         return $this->forward(
-            'OroWorkflowBundle:Api\Rest\Workflow:transit',
+            RestWorkflowController::class . '::transitAction',
             $request->attributes->all(),
             $request->query->all()
         );

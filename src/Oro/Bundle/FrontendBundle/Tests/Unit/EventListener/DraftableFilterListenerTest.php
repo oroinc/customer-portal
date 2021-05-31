@@ -11,18 +11,15 @@ use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FrontendBundle\EventListener\DraftableFilterListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 
 class DraftableFilterListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrineHelper;
+    private DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject $doctrineHelper;
 
-    /** @var FrontendHelper||\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
+    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
 
-    /** @var DraftableFilterListener */
-    private $listener;
+    private DraftableFilterListener $listener;
 
     protected function setUp(): void
     {
@@ -37,15 +34,14 @@ class DraftableFilterListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnKernelControllerFrontendRequest(): void
     {
-        $this->frontendHelper->expects($this->once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->doctrineHelper->expects($this->never())
+        $this->doctrineHelper->expects(self::never())
             ->method('getEntityManagerForClass');
 
-        /** @var FilterControllerEvent|\PHPUnit\Framework\MockObject\MockObject $event */
-        $event = $this->createMock(FilterControllerEvent::class);
+        $event = $this->createMock(ControllerEvent::class);
 
         $this->listener->onKernelController($event);
     }
@@ -56,16 +52,15 @@ class DraftableFilterListenerTest extends \PHPUnit\Framework\TestCase
 
         $this->mockEntityManagerWithDraftableFilter();
 
-        $this->frontendHelper->expects($this->once())
+        $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
-        /** @var FilterControllerEvent|\PHPUnit\Framework\MockObject\MockObject $event */
-        $event = $this->createMock(FilterControllerEvent::class);
-        $event->expects($this->any())
+        $event = $this->createMock(ControllerEvent::class);
+        $event->expects(self::any())
             ->method('getRequest')
             ->willReturn($request);
-        $event->expects($this->any())
+        $event->expects(self::any())
             ->method('getController')
             ->willReturn([new StubController(), 'viewAction']);
 
@@ -75,17 +70,17 @@ class DraftableFilterListenerTest extends \PHPUnit\Framework\TestCase
     private function mockEntityManagerWithDraftableFilter(): void
     {
         $filters = $this->createMock(FilterCollection::class);
-        $filters->expects($this->once())
+        $filters->expects(self::once())
             ->method('isEnabled')
             ->with(DraftableFilter::FILTER_ID)
             ->willReturn(false);
 
         $em = $this->createMock(EntityManager::class);
-        $em->expects($this->once())
+        $em->expects(self::once())
             ->method('getFilters')
             ->willReturn($filters);
 
-        $this->doctrineHelper->expects($this->once())
+        $this->doctrineHelper->expects(self::once())
             ->method('getEntityManagerForClass')
             ->with(DraftableEntityStub::class)
             ->willReturn($em);

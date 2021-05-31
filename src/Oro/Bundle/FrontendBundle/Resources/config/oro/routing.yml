@@ -15,19 +15,19 @@ oro_frontend_api:
 
 oro_frontend_dictionary_search:
     path: /dictionary/{dictionary}/search
-    defaults: { _controller: OroEntityBundle:Dictionary:search }
+    defaults: { _controller: Oro\Bundle\EntityBundle\Controller\DictionaryController::searchAction }
     options:
         frontend: true
 
 oro_frontend_dictionary_value:
     path: /dictionary/{dictionary}/values
-    defaults: { _controller: OroEntityBundle:Dictionary:values }
+    defaults: { _controller: Oro\Bundle\EntityBundle\Controller\DictionaryController::valuesAction }
     options:
         frontend: true
 
 oro_frontend_datagrid_index:
     path: /datagrid/{gridName}
-    defaults: { _controller: OroDataGridBundle:Grid:get }
+    defaults: { _controller: Oro\Bundle\DataGridBundle\Controller\GridController::getAction }
     requirements:
         gridName: '[\w\:-]+'
     options:
@@ -50,7 +50,7 @@ oro_frontend_js_routing_js:
 oro_datagrid_front_mass_action:
     path: '{gridName}/massFrontAction/{actionName}'
     defaults:
-        _controller: OroDataGridBundle:Grid:massAction
+        _controller: Oro\Bundle\DataGridBundle\Controller\GridController::massActionAction
     requirements:
         gridName:   '[\w\:\-]+'
         actionName: '[\w\-]+'

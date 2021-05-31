@@ -4,7 +4,7 @@ namespace Oro\Bundle\CustomerBundle\EventListener;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 
@@ -13,11 +13,9 @@ use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
  */
 class DisabledUserSessionListener
 {
-    /** @var FrontendHelper */
-    private $frontendHelper;
+    private FrontendHelper $frontendHelper;
 
-    /** @var LogoutUrlGenerator */
-    private $logoutUrlGenerator;
+    private LogoutUrlGenerator $logoutUrlGenerator;
 
     /**
      * @param LogoutUrlGenerator $logoutUrlGenerator
@@ -29,10 +27,7 @@ class DisabledUserSessionListener
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * @param GetResponseForExceptionEvent $event
-     */
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event): void
     {
         if ($event->getThrowable() instanceof LockedException
             && $this->frontendHelper->isFrontendUrl($event->getRequest()->getPathInfo())

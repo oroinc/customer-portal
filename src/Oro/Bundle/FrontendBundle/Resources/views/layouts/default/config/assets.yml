@@ -1,9 +1,9 @@
 styles:
     inputs:
+        - 'bundles/orofrontend/default/scss/settings/global-settings.scss'
+
         # Bootstrap Required
         - 'bundles/orofrontend/default/scss/settings/bootstrap/variables.scss'
-
-        - 'bundles/orofrontend/default/scss/settings/global-settings.scss'
 
         # Bootstrap Configs
         - 'bundles/orofrontend/default/scss/variables/bootstrap/buttons-config.scss'

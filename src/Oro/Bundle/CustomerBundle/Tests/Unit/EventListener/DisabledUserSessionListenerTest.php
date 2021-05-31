@@ -6,21 +6,18 @@ use Oro\Bundle\CustomerBundle\EventListener\DisabledUserSessionListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Exception\LockedException;
 use Symfony\Component\Security\Http\Logout\LogoutUrlGenerator;
 
 class DisabledUserSessionListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var LogoutUrlGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    private $logoutUrlGenerator;
+    private LogoutUrlGenerator|\PHPUnit\Framework\MockObject\MockObject $logoutUrlGenerator;
 
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
+    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
 
-    /** @var DisabledUserSessionListener */
-    private $listener;
+    private DisabledUserSessionListener $listener;
 
     protected function setUp(): void
     {
@@ -30,10 +27,10 @@ class DisabledUserSessionListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new DisabledUserSessionListener($this->logoutUrlGenerator, $this->frontendHelper);
     }
 
-    public function testExceptionOnFrontend()
+    public function testExceptionOnFrontend(): void
     {
         $request = Request::create('/test');
-        $event = new GetResponseForExceptionEvent(
+        $event = new ExceptionEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MASTER_REQUEST,
@@ -56,10 +53,10 @@ class DisabledUserSessionListenerTest extends \PHPUnit\Framework\TestCase
         static::assertEquals($logoutUrl, $response->getTargetUrl());
     }
 
-    public function testExceptionOnBackend()
+    public function testExceptionOnBackend(): void
     {
         $request = Request::create('/admin/test');
-        $event = new GetResponseForExceptionEvent(
+        $event = new ExceptionEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
             HttpKernelInterface::MASTER_REQUEST,

@@ -71,7 +71,9 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             - Oro\Bundle\UserBundle\Validator\Constraints\PasswordComplexity:
                 groups: [create, Default]
         birthday:
-            - Date: ~
+            - Type:
+                type: \DateTimeInterface
+                message: oro.customer.customer_user.birthday.type.message
             - LessThanOrEqual:
                 value: now UTC
                 message: 'The birth date cannot be in the future.'

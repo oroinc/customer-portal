@@ -113,7 +113,7 @@ oro_customer_frontend_customer_user_role:
 oro_customer_frontend_acl_access_levels:
     path: /customer/roles/acl-access-levels/{oid}
     defaults:
-        _controller: OroCustomerBundle:AclPermission:aclAccessLevels
+        _controller: Oro\Bundle\CustomerBundle\Controller\AclPermissionController::aclAccessLevelsAction
         _format: json
     requirements:
         oid: '\w+:[\w\(\)]+'
@@ -122,31 +122,31 @@ oro_customer_frontend_acl_access_levels:
 
 oro_frontend_autocomplete_search:
     path: /autocomplete/search
-    defaults: { _controller: OroFormBundle:Autocomplete:search }
+    defaults: { _controller: Oro\Bundle\FormBundle\Controller\AutocompleteController::searchAction }
     options:
         frontend: true
 
 oro_customer_frontend_entity_pagination_first:
     path: /entity-pagination/first/{_entityName}/{_scope}/{_routeName}"
-    defaults: { _controller: OroEntityPaginationBundle:EntityPagination:first }
+    defaults: { _controller: Oro\Bundle\EntityPaginationBundle\Controller\EntityPaginationController::firstAction }
     options:
         frontend: true
 
 oro_customer_frontend_entity_pagination_previous:
     path: /entity-pagination/previous/{_entityName}/{_scope}/{_routeName}"
-    defaults: { _controller: OroEntityPaginationBundle:EntityPagination:previous }
+    defaults: { _controller: Oro\Bundle\EntityPaginationBundle\Controller\EntityPaginationController::previousAction }
     options:
         frontend: true
 
 oro_customer_frontend_entity_pagination_next:
     path: /entity-pagination/next/{_entityName}/{_scope}/{_routeName}"
-    defaults: { _controller: OroEntityPaginationBundle:EntityPagination:next }
+    defaults: { _controller: Oro\Bundle\EntityPaginationBundle\Controller\EntityPaginationController::nextAction }
     options:
         frontend: true
 
 oro_customer_frontend_entity_pagination_last:
     path: /entity-pagination/last/{_entityName}/{_scope}/{_routeName}"
-    defaults: { _controller: OroEntityPaginationBundle:EntityPagination:last }
+    defaults: { _controller: Oro\Bundle\EntityPaginationBundle\Controller\EntityPaginationController::lastAction }
     options:
         frontend: true
 
