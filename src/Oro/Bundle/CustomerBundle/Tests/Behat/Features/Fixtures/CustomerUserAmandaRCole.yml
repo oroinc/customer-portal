@@ -1,8 +1,15 @@
+Oro\Bundle\CustomerBundle\Entity\CustomerGroup:
+    Group_AmandaRCole:
+        name: 'AmandaRColeGroup'
+        organization: '@organization'
+        owner: '@admin'
+
 Oro\Bundle\CustomerBundle\Entity\Customer:
     Customer_AmandaRCole:
         name: 'AmandaRCole'
         organization: '@organization'
         owner: '@admin'
+        group: '@Group_AmandaRCole'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     CustomerUser_AmandaRCole:

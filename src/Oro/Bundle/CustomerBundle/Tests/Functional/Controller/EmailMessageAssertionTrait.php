@@ -3,10 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 
 use Doctrine\Persistence\ObjectRepository;
+use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 trait EmailMessageAssertionTrait
 {
+    use ConfigManagerAwareTestTrait;
+
     /**
      * @param string $email
      * @param \Swift_Message $welcomeMessage
@@ -21,19 +24,19 @@ trait EmailMessageAssertionTrait
         /** @var CustomerUser $user */
         $user = $customerUserRepo->findOneBy(['email' => $email]);
 
-        $this->assertNotNull($user);
+        self::assertNotNull($user);
 
-        $this->assertEquals($email, key($welcomeMessage->getTo()));
-        $this->assertEquals(
-            $this->getContainer()->get('oro_config.manager')->get('oro_notification.email_notification_sender_email'),
+        self::assertEquals($email, key($welcomeMessage->getTo()));
+        self::assertEquals(
+            self::getConfigManager(null)->get('oro_notification.email_notification_sender_email'),
             key($welcomeMessage->getFrom())
         );
-        static::assertStringContainsString($user->getFirstName(), $welcomeMessage->getSubject());
-        static::assertStringContainsString($user->getLastName(), $welcomeMessage->getSubject());
-        static::assertStringContainsString($email, $welcomeMessage->getBody());
+        self::assertStringContainsString($user->getFirstName(), $welcomeMessage->getSubject());
+        self::assertStringContainsString($user->getLastName(), $welcomeMessage->getSubject());
+        self::assertStringContainsString($email, $welcomeMessage->getBody());
 
-        $applicationUrl = $this->getContainer()->get('oro_config.manager')->get('oro_ui.application_url');
-        static::assertStringContainsString($applicationUrl, $welcomeMessage->getBody());
+        $applicationUrl = self::getConfigManager(null)->get('oro_ui.application_url');
+        self::assertStringContainsString($applicationUrl, $welcomeMessage->getBody());
 
         $resetUrl = $this->getUrl(
             'oro_customer_frontend_customer_user_password_reset',
@@ -41,6 +44,6 @@ trait EmailMessageAssertionTrait
                 'token' => $user->getConfirmationToken(),
             ]
         );
-        static::assertStringContainsString(htmlentities($resetUrl), $welcomeMessage->getBody());
+        self::assertStringContainsString(htmlentities($resetUrl), $welcomeMessage->getBody());
     }
 }

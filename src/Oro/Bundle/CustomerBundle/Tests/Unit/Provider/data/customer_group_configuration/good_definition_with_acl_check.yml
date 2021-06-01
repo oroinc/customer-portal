@@ -1,0 +1,43 @@
+customer_group_configuration:
+    fields:
+        some_field:
+            data_type: string
+            type: Symfony\Component\Form\Extension\Core\Type\TextType
+            options: []
+            acl_resource: 'ALLOWED'
+            priority: 20
+
+        some_another_field:
+            data_type: string
+            type: Symfony\Component\Form\Extension\Core\Type\ChoiceType
+            acl_resource: 'DENIED'
+            priority: 10
+
+    groups:
+        first_group:
+            title: 'First group'
+
+        second_group:
+            title: 'Second group'
+
+        third_group:
+            title: 'Third group'
+
+        fourth_group:
+            title: 'Fourth group'
+
+    tree:
+        customer_group_configuration:
+            first_group:
+                children:
+                    second_group:
+                        children:
+                            # HORIZONTAL TAB DEFINITION
+                            # WILL BE USED FOR FORM CONFIGURING IN TEST
+                            third_group:
+                                priority: 254
+                                children:
+                                    fourth_group:
+                                        children:
+                                            - some_field
+                                            - some_another_field

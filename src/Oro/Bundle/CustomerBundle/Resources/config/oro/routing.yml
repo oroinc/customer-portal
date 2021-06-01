@@ -150,6 +150,16 @@ oro_customer_frontend_entity_pagination_last:
     options:
         frontend: true
 
+oro_customer_config:
+    resource:     "@OroCustomerBundle/Controller/CustomerConfigurationController.php"
+    type:         annotation
+    prefix:       /config
+
+oro_customer_group_config:
+    resource:     "@OroCustomerBundle/Controller/CustomerGroupConfigurationController.php"
+    type:         annotation
+    prefix:       /config
+
 # Disabled as per BAP-9497.
 #oro_customer_audit:
 #    resource:     "@OroCustomerBundle/Controller/AuditController.php"

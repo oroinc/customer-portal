@@ -48,6 +48,16 @@ oro:
             update_profile:
                 label: Update User Profile
                 description: Allows the Customer User to update their own profile regardless of Edit permissions for Customer User entity.
+        customer_configuration:
+            label: Configuration
+            use_default: Use Customer Group
+        grid:
+            action:
+                config: Configuration
+        menu:
+            customer_configuration:
+                label: Customer Configuration
+
     website:
         default_role:
             label: 'Default Self-Registration Role'
@@ -130,6 +140,15 @@ oro.customer:
         form.choose:            'Choose a customer group...'
         organization.label:     'Organization'
         owner.label:            'Owner'
+        customer_group_configuration:
+            label: Configuration
+            use_default: Use Organization
+        grid:
+            action:
+                config: Configuration
+        menu:
+            customer_group_configuration:
+                label: Customer Group Configuration
 
     customeruser:
         full_name:                   '%name_prefix% %first_name% %middle_name% %last_name% %name_suffix%'
