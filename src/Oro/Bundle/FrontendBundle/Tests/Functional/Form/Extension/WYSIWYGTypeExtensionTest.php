@@ -3,11 +3,14 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Form\Extension;
 
 use Oro\Bundle\CMSBundle\Entity\Page;
+use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\FrontendBundle\Tests\Functional\Form\Extension\Stub\PageTypeStub;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class WYSIWYGTypeExtensionTest extends WebTestCase
 {
+    use ConfigManagerAwareTestTrait;
+
     protected function setUp(): void
     {
         $this->initClient();
@@ -22,7 +25,7 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
         $fieldView = $form->get('content')->createView();
         $actualOptions = json_decode($fieldView->vars['attr']['data-page-component-options'], \JSON_OBJECT_AS_ARRAY);
 
-        $layoutThemeName = $container->get('oro_config.manager')->get('oro_frontend.frontend_theme');
+        $layoutThemeName = self::getConfigManager(null)->get('oro_frontend.frontend_theme');
 
         $this->assertArrayHasKey('themes', $actualOptions);
         $this->assertIsArray($actualOptions['themes']);

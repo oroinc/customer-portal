@@ -1,0 +1,3 @@
+customer_group_configuration:
+    fields:
+        some_field: ~

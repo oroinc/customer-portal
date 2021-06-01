@@ -7,7 +7,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\ApiBundle\ApiDoc\Extractor\CachingApiDocExtractor;
 use Oro\Bundle\ApiBundle\Request\ApiAction;
 use Oro\Bundle\ApiBundle\Tests\Functional\ApiFeatureTrait;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
@@ -35,14 +34,6 @@ class LoginTest extends FrontendWebTestCase
         $this->initClient();
         $this->loadFixtures([LoadCustomerUserData::class]);
         $this->setCurrentWebsite();
-    }
-
-    /**
-     * @return ConfigManager
-     */
-    private function getConfigManager(): ConfigManager
-    {
-        return self::getContainer()->get('oro_config.global');
     }
 
     /**
@@ -202,8 +193,7 @@ class LoginTest extends FrontendWebTestCase
 
     public function testLoginWithValidCredentialsAndDisabledApiKeyGeneration()
     {
-        /** @var ConfigManager $configManager */
-        $configManager = self::getContainer()->get('oro_config.manager');
+        $configManager = self::getConfigManager('global');
         $configManager->set('oro_customer.api_key_generation_enabled', false);
 
         $response = $this->sendLoginRequest(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
@@ -242,7 +232,7 @@ class LoginTest extends FrontendWebTestCase
         $em->persist($apiKey);
         $em->flush();
 
-        $configManager = self::getContainer()->get('oro_config.global');
+        $configManager = self::getConfigManager('global');
         $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', false);
         $configManager->flush();
 
@@ -266,7 +256,7 @@ class LoginTest extends FrontendWebTestCase
         $em->persist($apiKey);
         $em->flush();
 
-        $configManager = self::getContainer()->get('oro_config.global');
+        $configManager = self::getConfigManager('global');
         $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', true);
         $configManager->flush();
 
@@ -311,7 +301,7 @@ class LoginTest extends FrontendWebTestCase
 
     public function testLoginShouldBeAvailableEvenIfGuestsHaveNoAccessToSystem()
     {
-        $configManager = self::getContainer()->get('oro_config.manager');
+        $configManager = self::getConfigManager('global');
         $configManager->set('oro_frontend.guest_access_enabled', false);
         $configManager->flush();
 
