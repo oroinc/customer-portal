@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block _featured_menu_widget %}
-    {% import 'OroNavigationBundle:Menu:menu.html.twig' as oro_menu %}
+    {% import '@OroNavigation/Menu/menu.html.twig' as oro_menu %}
     {% if item.displayed and item.extras.isAllowed %}
         <ul class="featured-menu__grid">
             {% for child in item.children %}

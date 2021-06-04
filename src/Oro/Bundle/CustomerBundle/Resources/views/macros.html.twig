@@ -14,7 +14,7 @@
 
 {% macro buildCollapsedBreadcrumbsByParts(parts) %}
     {% import _self as selfMacro %}
-    {% import 'OroUIBundle::macros.html.twig' as UI %}
+    {% import '@OroUI/macros.html.twig' as UI %}
     {% spaceless %}
         {% set first, last, collapsedParts = '', '', [] %}
         {% for parentPart in parts %}
@@ -46,7 +46,7 @@
 {% endmacro %}
 
 {% macro buildBreadcrumbsByParts(parts) %}
-    {% import 'OroUIBundle::macros.html.twig' as UI %}
+    {% import '@OroUI/macros.html.twig' as UI %}
     {% spaceless %}
         {% for parentPart in parts %}
             {% spaceless %}

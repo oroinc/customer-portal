@@ -1177,7 +1177,7 @@
     }) %}
 
     {% set options = "
-    {% import 'OroUIBundle::macros.html.twig' as UI %}
+    {% import '@OroUI/macros.html.twig' as UI %}
 
     {% set attributes = {
         'data-sticky': {
@@ -2228,7 +2228,7 @@
             filtersStateElement,
         } %}" %}
     {% set marcros = "
-        {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+        {% import '@OroDataGrid/macros.html.twig' as dataGrid %}
 
         {{ dataGrid.renderGrid(gridName, gridParams) }}
     " %}

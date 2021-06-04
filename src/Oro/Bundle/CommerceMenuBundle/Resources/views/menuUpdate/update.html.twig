@@ -1,4 +1,4 @@
-{% extends 'OroNavigationBundle:menuUpdate:update.html.twig' %}
+{% extends '@OroNavigation/menuUpdate/update.html.twig' %}
 
 {% set deletedMessage = 'oro.commercemenu.menuupdate.deleted_message' %}
 {% set hiddenMessage = 'oro.commercemenu.menuupdate.hide_success_message' %}
@@ -11,7 +11,7 @@
 
     {% set targetFields %}
         {% if form.targetType is defined %}
-            {% import 'OroUIBundle::macros.html.twig' as UI %}
+            {% import '@OroUI/macros.html.twig' as UI %}
             <div data-role="target-fields" class="control-group-container" {{ UI.renderPageComponentAttributes({
                 'view': 'orocommercemenu/js/app/views/target-fields-view',
                 'options': {
@@ -76,5 +76,5 @@
         'dataBlocks': dataBlocks,
     } %}
 
-    {{ block('content_data', 'OroUIBundle:actions:update.html.twig') }}
+    {{ block('content_data', '@OroUI/actions/update.html.twig') }}
 {% endblock %}

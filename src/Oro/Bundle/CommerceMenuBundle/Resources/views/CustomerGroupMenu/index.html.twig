@@ -1,4 +1,4 @@
-{% extends 'OroCommerceMenuBundle:menuUpdate:indexWithTabs.html.twig' %}
+{% extends '@OroCommerceMenu/menuUpdate/indexWithTabs.html.twig' %}
 
 {% oro_title_set({params : {"%customerGroup%": entity.name }}) %}
 
@@ -13,5 +13,5 @@
     ],
     'entityTitle': 'oro.commercemenu.menuupdate.roots_plural_label'|trans
 } %}
-{% set gridTemplate = 'OroCommerceMenuBundle:CustomerGroupMenu:widget/contextIndex.html.twig' %}
+{% set gridTemplate = '@OroCommerceMenu/CustomerGroupMenu/widget/contextIndex.html.twig' %}
 {% set tabRoute = 'oro_commerce_menu_customer_group_menu_context_index' %}
