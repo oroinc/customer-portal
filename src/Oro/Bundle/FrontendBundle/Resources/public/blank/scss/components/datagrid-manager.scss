@@ -203,6 +203,7 @@
             .datagrid-manager {
                 &__reset-btn {
                     display: block;
+                    width: 100%;
                     padding: $datagrid-manager-fullscreen-reset-btn-inner-offset;
 
                     text-align: $datagrid-manager-fullscreen-reset-btn-text-align;
@@ -230,6 +231,10 @@
 
                 &__footer {
                     padding: $datagrid-manager-fullscreen-footer-inner-offset;
+                }
+
+                .close-dialog {
+                    display: none;
                 }
             }
         }
