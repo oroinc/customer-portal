@@ -22,7 +22,7 @@ class CustomerAddressController extends AbstractController
 {
     /**
      * @Route("/address-book/{id}", name="oro_customer_address_book", requirements={"id"="\d+"})
-     * @Template("OroCustomerBundle:Address/widget:addressBook.html.twig")
+     * @Template("@OroCustomer/Address/widget/addressBook.html.twig")
      * @AclAncestor("oro_customer_customer_address_view")
      *
      * @param Request $request
@@ -43,7 +43,7 @@ class CustomerAddressController extends AbstractController
      *      name="oro_customer_address_create",
      *      requirements={"entityId"="\d+"}
      * )
-     * @Template("OroCustomerBundle:Address/widget:update.html.twig")
+     * @Template("@OroCustomer/Address/widget/update.html.twig")
      * @AclAncestor("oro_customer_customer_address_create")
      * @ParamConverter("customer", options={"id" = "entityId"})
      *
@@ -62,7 +62,7 @@ class CustomerAddressController extends AbstractController
      *      name="oro_customer_address_update",
      *      requirements={"entityId"="\d+","id"="\d+"},defaults={"id"=0}
      * )
-     * @Template("OroCustomerBundle:Address/widget:update.html.twig")
+     * @Template("@OroCustomer/Address/widget/update.html.twig")
      * @AclAncestor("oro_customer_customer_address_update")
      * @ParamConverter("customer", options={"id" = "entityId"})
      *

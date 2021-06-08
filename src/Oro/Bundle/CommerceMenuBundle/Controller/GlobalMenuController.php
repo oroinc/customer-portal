@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * The controller for global frontend menu.
  * @Route("/menu/frontend/global")
  */
 class GlobalMenuController extends AbstractFrontendMenuController
@@ -38,7 +39,7 @@ class GlobalMenuController extends AbstractFrontendMenuController
 
     /**
      * @Route("/{menuName}/create/{parentKey}", name="oro_commerce_menu_global_menu_create")
-     * @Template("OroCommerceMenuBundle:GlobalMenu:update.html.twig")
+     * @Template("@OroCommerceMenu/GlobalMenu/update.html.twig")
      *
      * @param string      $menuName
      * @param string|null $parentKey
