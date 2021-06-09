@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCommerceMenuBundle:layouts:blank/page/footer_menu.html.twig'
+            themes: '@OroCommerceMenu/layouts/blank/page/footer_menu.html.twig'
         - '@addTree':
             items:
                 footer_menu_container:

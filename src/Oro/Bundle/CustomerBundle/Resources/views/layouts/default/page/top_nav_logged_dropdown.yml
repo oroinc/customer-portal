@@ -1,5 +1,5 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/page/top_nav_logged_dropdown.html.twig'
+            themes: '@OroCustomer/layouts/default/page/top_nav_logged_dropdown.html.twig'
     conditions: 'context["is_logged_in"]'

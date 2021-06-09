@@ -6,7 +6,7 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_user_grid/layout.html.twig'
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_grid/layout.html.twig'
 
         - '@setOption':
             id: __datagrid

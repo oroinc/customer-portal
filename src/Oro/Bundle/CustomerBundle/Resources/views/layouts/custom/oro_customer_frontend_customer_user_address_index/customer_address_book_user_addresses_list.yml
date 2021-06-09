@@ -7,7 +7,7 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:custom/oro_customer_frontend_customer_user_address_index/layout.html.twig'
+            themes: '@OroCustomer/layouts/custom/oro_customer_frontend_customer_user_address_index/layout.html.twig'
 
         - '@add':
             id: customer_address_book_user_addresses_list

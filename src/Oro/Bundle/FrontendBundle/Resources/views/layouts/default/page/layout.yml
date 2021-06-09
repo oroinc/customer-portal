@@ -10,7 +10,7 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'OroFrontendBundle:layouts:default/page/layout.html.twig'
+            themes: '@OroFrontend/layouts/default/page/layout.html.twig'
 
         - '@setOption':
             id: top_sticky_panel

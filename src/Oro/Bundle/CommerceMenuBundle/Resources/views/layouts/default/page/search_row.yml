@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCommerceMenuBundle:layouts:default/page/search_row.html.twig'
+            themes: '@OroCommerceMenu/layouts/default/page/search_row.html.twig'
 
         - '@addTree':
             items:

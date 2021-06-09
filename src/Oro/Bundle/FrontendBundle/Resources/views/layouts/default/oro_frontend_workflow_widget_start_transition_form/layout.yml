@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroFrontendBundle:layouts:default/oro_frontend_workflow_widget_start_transition_form/layout.html.twig'
+            themes: '@OroFrontend/layouts/default/oro_frontend_workflow_widget_start_transition_form/layout.html.twig'
         - '@add':
             id: transition_form_holder
             parentId: widget_content

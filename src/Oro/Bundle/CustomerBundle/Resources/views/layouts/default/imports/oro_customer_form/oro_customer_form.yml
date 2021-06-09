@@ -1,4 +1,4 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_form/oro_customer_form.html.twig'
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_form/oro_customer_form.html.twig'

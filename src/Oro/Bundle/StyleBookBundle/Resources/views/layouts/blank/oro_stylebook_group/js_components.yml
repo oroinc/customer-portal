@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroStyleBookBundle:layouts:blank/oro_stylebook_group/js_components.html.twig'
+            themes: '@OroStyleBook/layouts/blank/oro_stylebook_group/js_components.html.twig'
 
         - '@setOption':
             id: style_book_page_title

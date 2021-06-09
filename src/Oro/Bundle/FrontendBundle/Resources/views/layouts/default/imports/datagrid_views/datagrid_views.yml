@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroFrontendBundle:layouts:default/imports/datagrid_views/datagrid_views.html.twig'
+            themes: '@OroFrontend/layouts/default/imports/datagrid_views/datagrid_views.html.twig'
 
         - '@addTree':
             items:

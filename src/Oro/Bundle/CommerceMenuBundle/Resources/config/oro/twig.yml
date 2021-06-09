@@ -1,2 +1,2 @@
 bundles:
-    - OroCommerceMenuBundle:Form:fields.html.twig
+    - '@OroCommerceMenu/Form/fields.html.twig'

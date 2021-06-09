@@ -6,7 +6,7 @@ layout:
             namespace: head_customer_menu
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/page/main_menu_logged.html.twig'
+            themes: '@OroCustomer/layouts/default/page/main_menu_logged.html.twig'
 
         - '@addTree':
             items:

@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-              themes: 'OroFrontendBundle:layouts:default/oro_frontend_exception/exception.html.twig'
+              themes: '@OroFrontend/layouts/default/oro_frontend_exception/exception.html.twig'
         - '@setOption':
             id: title
             optionName: params

@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/page/main_menu_anonymous.html.twig'
+            themes: '@OroCustomer/layouts/default/page/main_menu_anonymous.html.twig'
         - '@addTree':
             items:
                 header_row_customer:

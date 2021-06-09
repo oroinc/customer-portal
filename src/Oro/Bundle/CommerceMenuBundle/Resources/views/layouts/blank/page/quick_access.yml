@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCommerceMenuBundle:layouts:blank/page/quick_access.html.twig'
+            themes: '@OroCommerceMenu/layouts/blank/page/quick_access.html.twig'
         - '@addTree':
             items:
                 quick_access_container:

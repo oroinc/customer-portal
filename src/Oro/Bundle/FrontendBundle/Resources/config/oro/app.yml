@@ -57,7 +57,7 @@ oro_navigation:
 twig:
     globals:
         commerce:
-            layout: OroFrontendBundle::base.html.twig
+            layout: '@OroFrontend/base.html.twig'
 
 security:
     firewalls:

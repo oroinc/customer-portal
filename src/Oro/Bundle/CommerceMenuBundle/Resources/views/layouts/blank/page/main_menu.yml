@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCommerceMenuBundle:layouts:blank/page/main_menu.html.twig'
+            themes: '@OroCommerceMenu/layouts/blank/page/main_menu.html.twig'
         - '@addTree':
             items:
                 header_row:

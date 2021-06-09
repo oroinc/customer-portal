@@ -542,7 +542,7 @@ datagrids:
                 label: oro.customer.customeruserrole.type.label
                 frontend_type: html
                 data_name: isRolePredefined
-                template: OroCustomerBundle:CustomerUserRole:Datagrid/Property/isRolePredifined.html.twig
+                template: '@OroCustomer/CustomerUserRole/Datagrid/Property/isRolePredifined.html.twig'
         sorters:
             columns:
                 label:
@@ -871,19 +871,19 @@ datagrids:
                 type: twig
                 frontend_type: html
                 data_name: fullName
-                template: OroCustomerBundle:CustomerUser:Frontend/Datagrid/fullName.html.twig
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/fullName.html.twig'
             email:
                 label: oro.customer.frontend.customer_user.email.label
                 type: twig
                 frontend_type: html
                 data_name: user.email
-                template: OroCustomerBundle:CustomerUser:Frontend/Datagrid/email.html.twig
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/email.html.twig'
             status:
                 label: oro.customer.frontend.customer_user.status.label
                 type: twig
                 frontend_type: html
                 data_name: status
-                template: OroCustomerBundle:CustomerUser:Frontend/Datagrid/status.html.twig
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/status.html.twig'
         filters:
             columns:
                 fullName:
@@ -939,19 +939,19 @@ datagrids:
                 type: twig
                 frontend_type: html
                 data_name: fullName
-                template: OroCustomerBundle:CustomerUser:Frontend/Datagrid/fullName.html.twig
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/fullName.html.twig'
             email:
                 label: oro.customer.frontend.customer_user.email.label
                 type: twig
                 frontend_type: html
                 data_name: user.email
-                template: OroCustomerBundle:CustomerUser:Frontend/Datagrid/email.html.twig
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/email.html.twig'
             status:
                 label: oro.customer.frontend.customer_user.status.label
                 type: twig
                 frontend_type: html
                 data_name: status
-                template: OroCustomerBundle:CustomerUser:Frontend/Datagrid/status.html.twig
+                template: '@OroCustomer/CustomerUser/Frontend/Datagrid/status.html.twig'
         filters:
             columns:
                 hasRole:
@@ -1109,7 +1109,7 @@ datagrids:
                 label: oro.customer.customeraddress.types.singular_label
                 type: twig
                 frontend_type: html
-                template: OroCustomerBundle:Address:Frontend/Datagrid/types.html.twig
+                template: '@OroCustomer/Address/Frontend/Datagrid/types.html.twig'
         sorters:
             columns:
                 street:

@@ -5,7 +5,7 @@ layout:
             root: __root
     actions:
         - '@setBlockTheme':
-            themes: 'OroFrontendBundle:layouts:blank/imports/datagrid/datagrid.html.twig'
+            themes: '@OroFrontend/layouts/blank/imports/datagrid/datagrid.html.twig'
 
         - '@setOption':
             id: __datagrid
