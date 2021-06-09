@@ -3,54 +3,40 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappingPass;
+use Oro\Bundle\CustomerBundle\Entity\Audit;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\DataAuditBundle\Entity\AuditField;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class DataAuditEntityMappingPassTest extends \PHPUnit\Framework\TestCase
 {
-    public function testProcess()
+    /** @var DataAuditEntityMappingPass */
+    private $compiler;
+
+    protected function setUp(): void
     {
-        $definition = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $definition->expects($this->once())
-            ->method('addMethodCall')
-            ->with('addAuditEntryClasses', $this->isType('array'));
-
-        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $containerBuilder */
-        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $containerBuilder->expects($this->once())
-            ->method('getDefinition')
-            ->with(DataAuditEntityMappingPass::MAPPER_SERVICE)
-            ->willReturn($definition);
-
-        $containerBuilder->expects($this->once())
-            ->method('hasDefinition')
-            ->with(DataAuditEntityMappingPass::MAPPER_SERVICE)
-            ->willReturn($definition);
-
-        $compilerPass = new DataAuditEntityMappingPass();
-        $compilerPass->process($containerBuilder);
+        $this->compiler = new DataAuditEntityMappingPass();
     }
 
     public function testProcessWithoutDefinition()
     {
-        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $containerBuilder */
-        $containerBuilder = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = new ContainerBuilder();
 
-        $containerBuilder->expects($this->never())->method('getDefinition');
+        $this->compiler->process($container);
+    }
 
-        $containerBuilder->expects($this->once())
-            ->method('hasDefinition')
-            ->with(DataAuditEntityMappingPass::MAPPER_SERVICE)
-            ->willReturn(false);
+    public function testProcess()
+    {
+        $container = new ContainerBuilder();
+        $mapperDef = $container->register('oro_dataaudit.loggable.audit_entity_mapper');
 
-        $compilerPass = new DataAuditEntityMappingPass();
-        $compilerPass->process($containerBuilder);
+        $this->compiler->process($container);
+
+        self::assertEquals(
+            [
+                ['addAuditEntryClasses', [CustomerUser::class, Audit::class, AuditField::class]]
+            ],
+            $mapperDef->getMethodCalls()
+        );
     }
 }

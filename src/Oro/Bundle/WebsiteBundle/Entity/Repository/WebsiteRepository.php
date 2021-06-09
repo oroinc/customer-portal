@@ -58,7 +58,7 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
                 ->setParameter('organization', $organization);
         }
 
-        $result = $qb->getQuery()->getScalarResult();
+        $result = $qb->getQuery()->getResult();
 
         return array_column($result, 'id');
     }
