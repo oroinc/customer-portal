@@ -4,63 +4,46 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\DependencyInjection\CompilerPass;
 
 use Oro\Bundle\WebsiteBundle\DependencyInjection\CompilerPass\AssetsRouterPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AssetsRouterPassTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject */
-    private $containerBuilder;
-
-    /** @var AssetsRouterPass */
-    private $compilerPass;
-
-    protected function setUp(): void
-    {
-        $this->containerBuilder = $this->createMock(ContainerBuilder::class);
-
-        $this->compilerPass = new AssetsRouterPass();
-    }
-
     public function testProcess(): void
     {
-        $routerDefinition = $this->createMock(Definition::class);
-        $routerDefinition->expects($this->once())
-            ->method('replaceArgument')
-            ->with(3, new Reference('oro_website.asset.request_context'));
+        $container = new ContainerBuilder();
+        $assetRouterDef = $container->register('oro_website.asset.router')
+            ->setArguments([null, null, null, null]);
+        $urlGeneratorDef = $container->register('oro_attachment.url_generator')
+            ->setArguments([null]);
+        $cacheManagerDef = $container->register('liip_imagine.cache.manager')
+            ->setArguments([null, null]);
+        $cacheResolverDef = $container->register('liip_imagine.cache.resolver.default')
+            ->setArguments([null, null]);
+        $consumptionExtensionDef = $container->register('oro_ui.consumption_extension.request_context')
+            ->setArguments([null]);
 
-        $generatorDefinition = $this->createMock(Definition::class);
-        $generatorDefinition->expects($this->once())
-            ->method('replaceArgument')
-            ->with(0, new Reference('oro_website.asset.router'));
+        $compiler = new AssetsRouterPass();
+        $compiler->process($container);
 
-        $cacheManagerDefinition = $this->createMock(Definition::class);
-        $cacheManagerDefinition->expects($this->once())
-            ->method('replaceArgument')
-            ->with(1, new Reference('oro_website.asset.router'));
-
-        $cacheResolverDefinition = $this->createMock(Definition::class);
-        $cacheResolverDefinition->expects($this->once())
-            ->method('replaceArgument')
-            ->with(1, new Reference('oro_website.asset.request_context'));
-
-        $consumptionExtension = $this->createMock(Definition::class);
-        $consumptionExtension->expects($this->once())
-            ->method('replaceArgument')
-            ->with(0, new Reference('oro_website.asset.request_context'));
-
-        $this->containerBuilder->expects($this->any())
-            ->method('getDefinition')
-            ->willReturnMap(
-                [
-                    ['oro_website.asset.router', $routerDefinition],
-                    ['oro_attachment.url_generator', $generatorDefinition],
-                    ['liip_imagine.cache.manager', $cacheManagerDefinition],
-                    ['liip_imagine.cache.resolver.default', $cacheResolverDefinition],
-                    ['oro_ui.consumption_extension.request_context', $consumptionExtension],
-                ]
-            );
-
-        $this->compilerPass->process($this->containerBuilder);
+        self::assertEquals(
+            new Reference('oro_website.asset.request_context'),
+            $assetRouterDef->getArgument(3)
+        );
+        self::assertEquals(
+            new Reference('oro_website.asset.router'),
+            $urlGeneratorDef->getArgument(0)
+        );
+        self::assertEquals(
+            new Reference('oro_website.asset.router'),
+            $cacheManagerDef->getArgument(1)
+        );
+        self::assertEquals(
+            new Reference('oro_website.asset.request_context'),
+            $cacheResolverDef->getArgument(1)
+        );
+        self::assertEquals(
+            new Reference('oro_website.asset.request_context'),
+            $consumptionExtensionDef->getArgument(0)
+        );
     }
 }
