@@ -10,12 +10,9 @@ define(function(require) {
     const mediator = require('oroui/js/mediator');
 
     const ExportButtonView = BaseView.extend({
-        /**
-         * @property {Object}
-         */
+        /** @property {Object} */
         options: {
             routeOptions: {},
-            exportTitle: 'Export',
             successMessage: null,
             errorMessage: null
         },
@@ -23,11 +20,14 @@ define(function(require) {
         /** @property {Object} */
         routeOptions: {},
 
-        /**
-         * @inheritDoc
-         */
+        /** @property {Object} */
         events: {
             click: 'onExportClick'
+        },
+
+        /** @property {Object} */
+        listen: {
+            'updateState collection': 'onCollectionUpdate'
         },
 
         /**
@@ -41,11 +41,35 @@ define(function(require) {
          * @inheritDoc
          */
         initialize: function(options) {
+            ExportButtonView.__super__.initialize.call(this, options);
+
             this.options = _.defaults(options || {}, this.options);
 
             this.routeOptions = {
                 options: this.options.routeOptions
             };
+
+            if (this.collection.size()) {
+                this.$el.removeClass('hide');
+                this.$el.parent().addClass('datagrid-tool');
+            } else {
+                this.$el.addClass('hide');
+                this.$el.parent().removeClass('datagrid-tool');
+            }
+        },
+
+        /**
+         * @param {PageableCollection} collection
+         * @param {Object} state
+         */
+        onCollectionUpdate: function(collection, state) {
+            if (state.totalRecords) {
+                this.$el.removeClass('hide');
+                this.$el.parent().addClass('datagrid-tool');
+            } else if (!this.$el.hasClass('hide')) {
+                this.$el.addClass('hide');
+                this.$el.parent().removeClass('datagrid-tool');
+            }
         },
 
         /**
