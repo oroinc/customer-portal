@@ -38,8 +38,6 @@ class CustomerGroupConfigurationControllerTest extends AbstractConfigurationCont
                 'expected' => [
                     'Product Data Export',
                     'Enable Products Export',
-                    'Export Product Prices',
-                    'Export Price Tiers'
                 ]
             ],
             'user configuration sub page' => [
@@ -50,8 +48,6 @@ class CustomerGroupConfigurationControllerTest extends AbstractConfigurationCont
                 'expected' => [
                     'Product Data Export',
                     'Enable Products Export',
-                    'Export Product Prices',
-                    'Export Price Tiers'
                 ]
             ],
         ];

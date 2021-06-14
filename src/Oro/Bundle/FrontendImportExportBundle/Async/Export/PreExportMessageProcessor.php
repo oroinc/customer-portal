@@ -45,8 +45,7 @@ class PreExportMessageProcessor extends BasePreExportMessageProcessor
 
         $context->addDependentJob(Topics::POST_EXPORT, [
             'jobId' => $rootJob->getId(),
-            'email' => $user->getEmail(),
-            'userId' => $user->getId(),
+            'customerUserId' => $user->getId(),
             'jobName' => $body['jobName'],
             'exportType' => $body['exportType'],
             'outputFormat' => $body['outputFormat'],

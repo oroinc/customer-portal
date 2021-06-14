@@ -25,18 +25,17 @@ class PreExportMessageProcessorTest extends WebTestCase
 {
     use MessageQueueExtension;
 
-    /** @var FrontendExportHandler|\PHPUnit\Framework\MockObject\MockObject  */
-    private FrontendExportHandler $exportHandler;
+    private FrontendExportHandler|\PHPUnit\Framework\MockObject\MockObject $exportHandler;
 
     protected function setUp(): void
     {
         $this->initClient([], self::generateBasicAuthHeader());
         $this->setSecurityToken();
         $this->exportHandler = $this->createMock(FrontendExportHandler::class);
-        $this->getContainer()->set('oro_frontend_importexport.handler.export_handler.stub', $this->exportHandler);
+        self::getContainer()->set('oro_frontend_importexport.handler.export_handler.stub', $this->exportHandler);
     }
 
-    public function testProcess()
+    public function testProcess(): void
     {
         $rootJob = $this->getJobProcessor()->findOrCreateRootJob(
             'test_pre_export_message',
@@ -61,11 +60,11 @@ class PreExportMessageProcessorTest extends WebTestCase
         $message->setMessageId('test_export_message');
         $message->setBody(JSON::encode($messageData));
 
-        $this->exportHandler->expects($this->once())
+        $this->exportHandler->expects(self::once())
             ->method('getExportingEntityIds')
             ->willReturn([1, 2, 3, 4]);
 
-        $processor = $this->getContainer()->get('oro_frontend_importexport.async.processor.pre_export');
+        $processor = self::getContainer()->get('oro_frontend_importexport.async.processor.pre_export');
 
         $result = $processor->process($message, $this->createSessionMock());
 
@@ -98,22 +97,22 @@ class PreExportMessageProcessorTest extends WebTestCase
             'entity' => null,
         ], MessagePriority::LOW);
 
-        $this->assertMessageSent(Topics::EXPORT, $expectedMessage);
+        self::assertMessageSent(Topics::EXPORT, $expectedMessage);
 
         $dataExportJob = $exportJob->getData();
 
         // Check POST_EXPORT dependent job scheduled.
-        $this->assertArrayHasKey('dependentJobs', $dataExportJob);
+        self::assertArrayHasKey('dependentJobs', $dataExportJob);
         $dependentJob = current($dataExportJob['dependentJobs']);
-        $this->assertArrayHasKey('topic', $dependentJob);
-        $this->assertEquals($dependentJob['topic'], Topics::POST_EXPORT);
+        self::assertArrayHasKey('topic', $dependentJob);
+        self::assertEquals($dependentJob['topic'], Topics::POST_EXPORT);
 
-        $this->assertEquals(MessageProcessorInterface::ACK, $result);
+        self::assertEquals(MessageProcessorInterface::ACK, $result);
     }
 
     private function getJobProcessor(): JobProcessor
     {
-        return $this->getContainer()->get('oro_message_queue.job.processor');
+        return self::getContainer()->get('oro_message_queue.job.processor');
     }
 
     /**
@@ -129,7 +128,7 @@ class PreExportMessageProcessorTest extends WebTestCase
      */
     protected function getCurrentUser(): CustomerUser
     {
-        return $this->getContainer()->get('doctrine')
+        return self::getContainer()->get('doctrine')
             ->getRepository(CustomerUser::class)
             ->findOneBy(['username' => LoadCustomerUserData::AUTH_USER]);
     }
@@ -138,6 +137,6 @@ class PreExportMessageProcessorTest extends WebTestCase
     {
         $user = $this->getCurrentUser();
         $token = new UsernamePasswordToken($user, false, 'k', $user->getRoles());
-        $this->getContainer()->get('security.token_storage')->setToken($token);
+        self::getContainer()->get('security.token_storage')->setToken($token);
     }
 }

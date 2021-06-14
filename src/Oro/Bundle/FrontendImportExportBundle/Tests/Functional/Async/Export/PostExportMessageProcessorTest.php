@@ -8,7 +8,6 @@ use Oro\Bundle\FrontendImportExportBundle\Handler\FrontendExportHandler;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData;
 use Oro\Bundle\ImportExportBundle\Exception\RuntimeException;
 use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
-use Oro\Bundle\NotificationBundle\Async\Topics as NotificationTopics;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\WebsiteSearchBundle\Tests\Functional\Traits\DefaultWebsiteIdTestTrait;
 use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
@@ -25,14 +24,14 @@ class PostExportMessageProcessorTest extends WebTestCase
     use MessageQueueExtension;
     use DefaultWebsiteIdTestTrait;
 
-    private FrontendExportHandler $exportHandler;
+    private FrontendExportHandler|\PHPUnit\Framework\MockObject\MockObject $exportHandler;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->initClient();
         $this->exportHandler = $this->createMock(FrontendExportHandler::class);
-        $this->getContainer()->set('oro_frontend_importexport.handler.export_handler.stub', $this->exportHandler);
+        self::getContainer()->set('oro_frontend_importexport.handler.export_handler.stub', $this->exportHandler);
     }
 
     public function testProcessWithValidData(): void
@@ -42,7 +41,7 @@ class PostExportMessageProcessorTest extends WebTestCase
         $website = $this->getDefaultWebsite();
         $user->setWebsite($website);
 
-        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $em->persist($user);
         $em->flush();
 
@@ -67,9 +66,8 @@ class PostExportMessageProcessorTest extends WebTestCase
             'jobName' => 'oro:export:test_export_message',
             'exportType' => 'csv',
             'outputFormat' => 'csv',
-            'email' => 'test@test.com',
             'entity' => 'ACME',
-            'userId' => 1,
+            'customerUserId' => 1,
             'refererUrl' => '/products'
         ];
 
@@ -77,52 +75,28 @@ class PostExportMessageProcessorTest extends WebTestCase
         $message->setMessageId('test_import_message');
         $message->setBody(JSON::encode($messageData));
 
-        $this->exportHandler->expects($this->once())
+        $this->exportHandler->expects(self::once())
             ->method('exportResultFileMerge')
             ->willReturn('export.csv');
 
-        $processor = $this->getContainer()->get('oro_frontend_importexport.async.processor.post_export');
+        $processor = self::getContainer()->get('oro_frontend_importexport.async.processor.post_export');
 
-        $result = $processor->process($message, $this->createSessionMock());
+        $result = $processor->process($message, $this->createMock(SessionInterface::class));
 
-        $this->assertMessageSent(
-            Topics::SAVE_IMPORT_EXPORT_RESULT,
+        self::assertMessageSent(
+            Topics::SAVE_EXPORT_RESULT,
             [
                 'jobId' => $rootJob->getId(),
                 'type' => 'csv',
                 'entity' => 'ACME',
+                'customerUserId' => 1,
             ]
         );
 
-        $sender = $this->getContainer()->get('oro_notification.model.notification_settings')
-            ->getSender()->toArray();
-
-        $this->assertMessageSent(
-            NotificationTopics::SEND_NOTIFICATION_EMAIL,
-            [
-                'sender' => $sender,
-                'toEmail' => 'test@test.com',
-                'body' => [
-                    'exportResult' => [
-                        'entities' => 'acme',
-                        'success' => true,
-                        'fileName' => 'export.csv',
-                        'websiteName' => 'Default',
-                        'url' => 'http://localhost/export/download/' . $rootJob->getId(),
-                        'user' => 'CustomerUser CustomerUser',
-                        'tryAgainUrl' => 'http://localhost/products'
-                    ],
-                    'jobName' => 'oro:export:test_export_message',
-                ],
-                'contentType' => 'text/html',
-                'template' => 'frontend_export_result_success'
-            ]
-        );
-
-        $this->assertEquals(MessageProcessorInterface::ACK, $result);
+        self::assertEquals(MessageProcessorInterface::ACK, $result);
     }
 
-    public function testProcessWithInValidData(): void
+    public function testProcessWithInvalidData(): void
     {
         $rootJob = $this->getJobProcessor()->findOrCreateRootJob(
             'test_export_message',
@@ -134,20 +108,21 @@ class PostExportMessageProcessorTest extends WebTestCase
             $rootJob
         );
 
-        $childJob->setData([
-            'file' => 'export1.csv',
-            'success' => true,
-            'entities' => 'acme'
-        ]);
+        $childJob->setData(
+            [
+                'file' => 'export1.csv',
+                'success' => true,
+                'entities' => 'acme'
+            ]
+        );
 
         $messageData = [
             'jobId' => $rootJob->getId(),
             'jobName' => 'oro:export:test_export_message',
             'exportType' => 'csv',
             'outputFormat' => 'csv',
-            'email' => 'test@test.com',
             'entity' => 'ACME',
-            'userId' => 1,
+            'customerUserId' => 1,
             'refererUrl' => '/products'
         ];
 
@@ -155,88 +130,26 @@ class PostExportMessageProcessorTest extends WebTestCase
         $message->setMessageId('test_import_message');
         $message->setBody(JSON::encode($messageData));
 
-        $this->exportHandler->expects($this->once())
+        $this->exportHandler->expects(self::once())
             ->method('exportResultFileMerge')
             ->willThrowException(new RuntimeException());
 
-        $processor = $this->getContainer()->get('oro_frontend_importexport.async.processor.post_export');
+        $processor = self::getContainer()->get('oro_frontend_importexport.async.processor.post_export');
 
-        $result = $processor->process($message, $this->createSessionMock());
+        $result = $processor->process($message, $this->createMock(SessionInterface::class));
 
-        $this->assertMessagesEmpty(Topics::SAVE_IMPORT_EXPORT_RESULT);
-        $this->assertMessagesEmpty(NotificationTopics::SEND_NOTIFICATION_EMAIL);
-        $this->assertEquals(MessageProcessorInterface::ACK, $result);
-    }
-
-    public function testProcessWithMessageWithoutUserId(): void
-    {
-        $rootJob = $this->getJobProcessor()->findOrCreateRootJob(
-            'test_export_message',
-            'oro:export:test_export_message'
-        );
-
-        $childJob = $this->getJobProcessor()->findOrCreateChildJob(
-            'oro:export:test_export_message:chunk.1',
-            $rootJob
-        );
-
-        $childJob->setData([
-            'file' => 'export1.csv',
-            'success' => true,
-            'entities' => 'acme'
-        ]);
-
-        $messageData = [
-            'jobId' => $rootJob->getId(),
-            'jobName' => 'oro:export:test_export_message',
-            'exportType' => 'csv',
-            'outputFormat' => 'csv',
-            'email' => 'test@test.com',
-            'entity' => 'ACME',
-            'refererUrl' => '/products'
-        ];
-
-        $message = new Message();
-        $message->setMessageId('test_import_message');
-        $message->setBody(JSON::encode($messageData));
-
-        $this->exportHandler->expects($this->once())
-            ->method('exportResultFileMerge')
-            ->willReturn('export.csv');
-
-        $processor = $this->getContainer()->get('oro_frontend_importexport.async.processor.post_export');
-
-        $result = $processor->process($message, $this->createSessionMock());
-
-        $this->assertMessageSent(
-            Topics::SAVE_IMPORT_EXPORT_RESULT,
-            [
-                'jobId' => $rootJob->getId(),
-                'type' => 'csv',
-                'entity' => 'ACME',
-            ]
-        );
-
-        $this->assertMessagesEmpty(NotificationTopics::SEND_NOTIFICATION_EMAIL);
-        $this->assertEquals(MessageProcessorInterface::ACK, $result);
+        self::assertMessagesEmpty(Topics::SAVE_EXPORT_RESULT);
+        self::assertEquals(MessageProcessorInterface::ACK, $result);
     }
 
     private function getJobProcessor(): JobProcessor
     {
-        return $this->getContainer()->get('oro_message_queue.job.processor');
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|SessionInterface
-     */
-    private function createSessionMock()
-    {
-        return $this->createMock(SessionInterface::class);
+        return self::getContainer()->get('oro_message_queue.job.processor');
     }
 
     private function getCurrentUser(): CustomerUser
     {
-        return $this->getContainer()->get('doctrine')
+        return self::getContainer()->get('doctrine')
             ->getRepository(CustomerUser::class)
             ->findOneBy(['username' => LoadCustomerUserData::AUTH_USER]);
     }

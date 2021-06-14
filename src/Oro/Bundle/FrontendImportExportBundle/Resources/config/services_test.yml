@@ -9,6 +9,11 @@ services:
         parent: oro_frontend_importexport.file.file_manager
         public: true
 
+    oro_frontend_importexport.manager.export_result_notification_sender.stub:
+        decorates: oro_frontend_importexport.manager.export_result_notification_sender
+        parent: oro_frontend_importexport.manager.export_result_notification_sender
+        public: true
+
     oro_frontend_importexport.tests.skipped_file_systems:
         class: Oro\Bundle\GaufretteBundle\Tests\Functional\Environment\SkippedGaufretteFileSystemProvider
         decorates: oro_gaufrette.tests.skipped_file_systems

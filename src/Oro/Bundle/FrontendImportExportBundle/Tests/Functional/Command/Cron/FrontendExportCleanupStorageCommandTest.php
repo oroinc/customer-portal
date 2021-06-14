@@ -12,10 +12,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class FrontendExportCleanupStorageCommandTest extends WebTestCase
 {
-    /**
-     * @var FileManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private FileManager $fileManager;
+    private FileManager|\PHPUnit\Framework\MockObject\MockObject $fileManager;
 
     protected function setUp(): void
     {
@@ -30,13 +27,13 @@ class FrontendExportCleanupStorageCommandTest extends WebTestCase
     public function testExecuteWithoutExpiredFiles(): void
     {
         $this->fileManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFilesByPeriod')
             ->willReturn([]);
 
-        $result = $this->runCommand(FrontendExportCleanupStorageCommand::getDefaultName());
+        $result = self::runCommand(FrontendExportCleanupStorageCommand::getDefaultName());
 
-        $this->assertEquals('Were removed "0" files.', $result);
+        self::assertEquals('Were removed "0" files.', $result);
     }
 
     public function testExecuteWithExpiredFiles(): void
@@ -45,17 +42,17 @@ class FrontendExportCleanupStorageCommandTest extends WebTestCase
         $secondFile = $this->createMock(File::class);
 
         $this->fileManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFilesByPeriod')
             ->willReturn(['firstFile' => $firstFile, 'secondFile' => $secondFile]);
 
         $this->fileManager
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('deleteFile')
             ->withConsecutive([$firstFile], [$secondFile]);
 
-        $result = $this->runCommand(FrontendExportCleanupStorageCommand::getDefaultName());
+        $result = self::runCommand(FrontendExportCleanupStorageCommand::getDefaultName());
 
-        $this->assertEquals('Were removed "2" files.', $result);
+        self::assertEquals('Were removed "2" files.', $result);
     }
 }

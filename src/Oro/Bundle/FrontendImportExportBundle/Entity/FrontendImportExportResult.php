@@ -7,7 +7,6 @@ use Oro\Bundle\CustomerBundle\Entity\Ownership\AuditableFrontendCustomerUserAwar
 use Oro\Bundle\EntityBundle\EntityProperty\CreatedAtAwareInterface;
 use Oro\Bundle\EntityBundle\EntityProperty\CreatedAtAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\ImportExportBundle\Entity\ImportExportResult;
 use Oro\Bundle\OrganizationBundle\Entity\Ownership\OrganizationAwareTrait;
 use Oro\Bundle\UserBundle\Entity\User;
 
@@ -122,11 +121,11 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
     }
 
     /**
-     * @param User $owner
+     * @param User|null $owner
      *
-     * @return $this
+     * @return self
      */
-    public function setOwner(User $owner): FrontendImportExportResult
+    public function setOwner(?User $owner): FrontendImportExportResult
     {
         $this->owner = $owner;
 
@@ -142,9 +141,9 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
     }
 
     /**
-     * @param string $filename
+     * @param string|null $filename
      *
-     * @return $this
+     * @return self
      */
     public function setFilename(string $filename = null): FrontendImportExportResult
     {
@@ -154,7 +153,7 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getJobId(): ?int
     {
@@ -164,7 +163,7 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
     /**
      * @param int $jobId
      *
-     * @return $this
+     * @return self
      */
     public function setJobId(int $jobId): FrontendImportExportResult
     {
@@ -184,7 +183,7 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
     /**
      * @param bool $expired
      *
-     * @return $this
+     * @return self
      */
     public function setExpired(bool $expired): FrontendImportExportResult
     {
@@ -204,7 +203,7 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
     /**
      * @param string $type
      *
-     * @return ImportExportResult
+     * @return self
      */
     public function setType(string $type): FrontendImportExportResult
     {
@@ -224,7 +223,7 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
     /**
      * @param string $entity
      *
-     * @return ImportExportResult
+     * @return self
      */
     public function setEntity(string $entity): FrontendImportExportResult
     {
@@ -244,7 +243,7 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
     /**
      * @param array $options
      *
-     * @return ImportExportResult
+     * @return self
      */
     public function setOptions($options): FrontendImportExportResult
     {

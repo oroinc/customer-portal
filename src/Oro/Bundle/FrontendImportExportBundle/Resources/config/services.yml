@@ -23,28 +23,36 @@ services:
             - '@oro_message_queue.client.message_producer'
             - '@oro_message_queue.job.processor'
             - '@oro_message_queue.job.manager'
-            - '@oro_frontend_importexport.async.export_result_summarizer'
-            - '@oro_notification.model.notification_settings'
         calls:
             - [setLogger, ['@logger']]
         tags:
             - { name: 'oro_message_queue.client.message_processor' }
 
-    oro_frontend_importexport.async.save_frontend_import_export_result_processor:
-        class: Oro\Bundle\FrontendImportExportBundle\Async\SaveFrontendImportExportResultProcessor
+    oro_frontend_importexport.async.save_frontend_export_result_processor:
+        class: Oro\Bundle\FrontendImportExportBundle\Async\Export\SaveFrontendExportResultProcessor
         arguments:
+            - '@doctrine'
             - '@oro_frontend_importexport.manager.frontend_import_export_result_manager'
             - '@oro_message_queue.job.processor'
+            - '@oro_frontend_importexport.manager.export_result_notification_sender'
         calls:
             - [setLogger, ['@logger']]
         tags:
             - { name: 'oro_message_queue.client.message_processor' }
+
+    oro_frontend_importexport.manager.export_result_notification_sender:
+        class: Oro\Bundle\FrontendImportExportBundle\Manager\ExportResultNotificationSender
+        arguments:
+            - '@oro_email.sender.aggregated_email_templates'
+            - '@oro_frontend_importexport.async.export_result_summarizer'
+            - '@oro_notification.model.notification_settings'
+            - '@oro_website.manager'
 
     oro_frontend_importexport.async.export_result_summarizer:
         class: Oro\Bundle\FrontendImportExportBundle\Async\Export\FrontendExportResultSummarizer
         arguments:
             - '@oro_website.resolver.website_url_resolver'
-            - '@doctrine'
+            - '@oro_message_queue.job.processor'
             - '@oro_entity.entity_name_resolver'
 
     oro_frontend_importexport.manager.frontend_import_export_result_manager:

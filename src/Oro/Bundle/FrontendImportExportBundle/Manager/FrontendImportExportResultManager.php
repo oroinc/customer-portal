@@ -2,79 +2,55 @@
 
 namespace Oro\Bundle\FrontendImportExportBundle\Manager;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\FrontendImportExportBundle\Entity\FrontendImportExportResult;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * Manage, creates and updates FrontendImportExportResult entity.
  */
 class FrontendImportExportResultManager
 {
-    private ManagerRegistry $registry;
+    private ManagerRegistry $managerRegistry;
+
     private TokenAccessorInterface $tokenAccessor;
 
-    /**
-     * @param ManagerRegistry $manager
-     * @param TokenAccessorInterface $tokenAccessor
-     */
-    public function __construct(ManagerRegistry $manager, TokenAccessorInterface $tokenAccessor)
+    public function __construct(ManagerRegistry $managerRegistry, TokenAccessorInterface $tokenAccessor)
     {
-        $this->registry = $manager;
+        $this->managerRegistry = $managerRegistry;
         $this->tokenAccessor = $tokenAccessor;
     }
 
-    /**
-     * @param int $jobId
-     * @param string $type
-     * @param string $entity
-     * @param User|null $owner
-     * @param string|null $fileName
-     * @param array $options
-     *
-     * @return FrontendImportExportResult
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     public function saveResult(
         int $jobId,
         string $type,
         string $entity,
-        User $owner = null,
+        CustomerUser $customerUser,
         string $fileName = null,
         array $options = []
     ): FrontendImportExportResult {
-        $importExportResult = new FrontendImportExportResult();
-        $importExportResult
+        if ($this->tokenAccessor->getUserId() === $customerUser->getId()) {
+            $organization = $this->tokenAccessor->getOrganization() ?? $customerUser->getOrganization();
+        } else {
+            $organization = $customerUser->getOrganization();
+        }
+
+        $importExportResult = (new FrontendImportExportResult())
             ->setJobId($jobId)
             ->setEntity($entity)
             ->setFilename($fileName)
             ->setType($type)
-            ->setOptions($options);
+            ->setOptions($options)
+            ->setCustomerUser($customerUser)
+            ->setOwner($customerUser->getOwner())
+            ->setOrganization($organization);
 
-        $organization = $this->tokenAccessor->getOrganization();
-        if ($organization) {
-            $importExportResult->setOrganization($organization);
-        }
-
-        if ($owner) {
-            $importExportResult->setOwner($owner);
-        }
-
-        $user = $this->tokenAccessor->getUser();
-
-        if ($user instanceof CustomerUser) {
-            $importExportResult->setCustomer($user->getCustomer());
-            $importExportResult->setCustomerUser($user);
-        }
-
-        /** @var EntityManager $em */
-        $em = $this->registry->getManagerForClass(FrontendImportExportResult::class);
-        $em->persist($importExportResult);
-        $em->flush();
+        /** @var ObjectManager $entityManager */
+        $entityManager = $this->managerRegistry->getManagerForClass(FrontendImportExportResult::class);
+        $entityManager->persist($importExportResult);
+        $entityManager->flush();
 
         return $importExportResult;
     }
@@ -85,10 +61,11 @@ class FrontendImportExportResultManager
      */
     public function markResultsAsExpired(\DateTime $from, \DateTime $to): void
     {
-        $em = $this->registry->getManagerForClass(FrontendImportExportResult::class);
-        $importExportResultRepository = $em->getRepository(FrontendImportExportResult::class);
+        /** @var ObjectManager $entityManager */
+        $entityManager = $this->managerRegistry->getManagerForClass(FrontendImportExportResult::class);
+        $importExportResultRepository = $entityManager->getRepository(FrontendImportExportResult::class);
         $importExportResultRepository->updateExpiredRecords($from, $to);
 
-        $em->flush();
+        $entityManager->flush();
     }
 }

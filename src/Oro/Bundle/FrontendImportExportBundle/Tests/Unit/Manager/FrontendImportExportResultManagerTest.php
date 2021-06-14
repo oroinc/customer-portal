@@ -2,16 +2,16 @@
 
 namespace Oro\Bundle\FrontendImportExportBundle\Tests\Unit\Manager;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Stub\CustomerUserStub;
 use Oro\Bundle\FrontendImportExportBundle\Entity\FrontendImportExportResult;
 use Oro\Bundle\FrontendImportExportBundle\Entity\Repository\FrontendImportExportResultRepository;
 use Oro\Bundle\FrontendImportExportBundle\Manager\FrontendImportExportResultManager;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\Testing\Unit\EntityTrait;
 use PHPUnit\Framework\TestCase;
 
@@ -19,166 +19,107 @@ class FrontendImportExportResultManagerTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject  */
-    private ManagerRegistry $registry;
+    private const TOKEN_USER_ID = 42;
 
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject  */
     private TokenAccessorInterface $tokenAccessor;
 
-    /** @var EntityManager|\PHPUnit\Framework\MockObject\MockObject  */
-    private EntityManager $entityManager;
+    private ObjectManager $entityManager;
 
     private FrontendImportExportResultManager $manager;
 
     protected function setUp(): void
     {
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-        $this->registry = $this->createMock(ManagerRegistry::class);
+        $managerRegistry = $this->createMock(ManagerRegistry::class);
 
-        $this->entityManager = $this->createMock(EntityManager::class);
-        $this->registry->expects($this->once())
+        $this->manager = new FrontendImportExportResultManager($managerRegistry, $this->tokenAccessor);
+
+        $this->entityManager = $this->createMock(ObjectManager::class);
+        $managerRegistry->expects(self::any())
             ->method('getManagerForClass')
             ->willReturn($this->entityManager);
 
-        $this->entityManager
-            ->expects($this->once())
-            ->method('flush');
+        $this->tokenAccessor->expects(self::any())
+            ->method('getOrganization')
+            ->willReturn(self::getTokenOrganization());
 
-        $this->manager = new FrontendImportExportResultManager(
-            $this->registry,
-            $this->tokenAccessor
-        );
+        $this->tokenAccessor->expects(self::any())
+            ->method('getUserid')
+            ->willReturn(self::TOKEN_USER_ID);
     }
 
     /**
      * @dataProvider saveResultDataProvider
      *
-     * @param array $actual
-     * @param array $expected
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @param int $jobId
+     * @param string $type
+     * @param string $entity
+     * @param CustomerUser $customerUser
+     * @param string $fileName
+     * @param array $options
+     * @param FrontendImportExportResult $expected
      */
-    public function testSaveResult(array $actual, array $expected): void
-    {
-        $this->tokenAccessor->expects($this->once())
-            ->method('getOrganization')
-            ->willReturn($expected['organization']);
-
-        $this->tokenAccessor->expects($this->once())
-            ->method('getUser')
-            ->willReturn($expected['customerUser']);
-
-        $this->entityManager->expects($this->once())
+    public function testSaveResult(
+        int $jobId,
+        string $type,
+        string $entity,
+        CustomerUser $customerUser,
+        string $fileName,
+        array $options,
+        FrontendImportExportResult $expected
+    ): void {
+        $this->entityManager->expects(self::once())
             ->method('persist');
 
-        $result = $this->manager->saveResult(
-            $actual['jobId'],
-            $actual['type'],
-            $actual['entity'],
-            $actual['owner'],
-            $actual['filename'],
-            $actual['options']
-        );
+        $this->entityManager
+            ->expects(self::once())
+            ->method('flush');
 
-        $expectedResult = $this->getEntity(FrontendImportExportResult::class, $expected);
-        $this->assertEquals($expectedResult, $result);
+        $importExportResult = $this->manager->saveResult($jobId, $type, $entity, $customerUser, $fileName, $options);
+
+        self::assertEquals($expected, $importExportResult);
     }
 
-    /**
-     * @return array
-     */
     public function saveResultDataProvider(): array
     {
-        $user = new User();
-        $organization = new Organization();
-        $user->setOrganization($organization);
-
         $customer = new Customer();
-        $customerUser = new CustomerUser();
+        $customerUser = new CustomerUserStub(142);
+        $customerUser->setOrganization(new Organization());
         $customerUser->setCustomer($customer);
 
+        $customerUserFromToken = new CustomerUserStub(self::TOKEN_USER_ID);
+        $customerUserFromToken->setCustomer($customer);
+
+        $importExportResult = (new FrontendImportExportResult())
+            ->setJobId(123)
+            ->setType('export')
+            ->setEntity(\stdClass::class)
+            ->setFilename('sample_file.csv')
+            ->setOptions(['sample_option' => 'sample_value']);
+
         return [
-            'without owner' => [
-                'actual' => [
-                    'jobId' => 123,
-                    'owner' => null,
-                    'type' => 'export',
-                    'filename' => 'file.csv',
-                    'entity' => 'Acme',
-                    'options' => [],
-                ],
-                'expected' => [
-                    'jobId' => 123,
-                    'type' => 'export',
-                    'filename' => 'file.csv',
-                    'entity' => 'Acme',
-                    'options' => [],
-                    'organization' => $organization,
-                    'customerUser' => $customerUser,
-                    'customer' => $customer
-                ],
+            'organization from token' => [
+                '$jobId' => 123,
+                '$type' => 'export',
+                '$entity' => \stdClass::class,
+                '$customerUser' => $customerUserFromToken,
+                '$fileName' => 'sample_file.csv',
+                '$options' => ['sample_option' => 'sample_value'],
+                '$expected' => (clone $importExportResult)
+                    ->setCustomerUser($customerUserFromToken)
+                    ->setOrganization(self::getTokenOrganization()),
             ],
-            'with owner' => [
-                'actual' => [
-                    'jobId' => 123,
-                    'owner' => $user,
-                    'type' => 'import_or_export',
-                    'filename' => 'file.csv',
-                    'entity' => 'Acme',
-                    'options' => []
-                ],
-                'expected' => [
-                    'jobId' => 123,
-                    'owner' => $user,
-                    'type' => 'import_or_export',
-                    'filename' => 'file.csv',
-                    'entity' => 'Acme',
-                    'options' => [],
-                    'organization' => $organization,
-                    'customerUser' => $customerUser,
-                    'customer' => $customer
-                ],
+            'organization from customerUser' => [
+                '$jobId' => 123,
+                '$type' => 'export',
+                '$entity' => \stdClass::class,
+                '$customerUser' => $customerUser,
+                '$fileName' => 'sample_file.csv',
+                '$options' => ['sample_option' => 'sample_value'],
+                '$expected' => (clone $importExportResult)
+                    ->setCustomerUser($customerUser)
+                    ->setOrganization($customerUser->getOrganization()),
             ],
-            'with options' => [
-                'actual' => [
-                    'jobId' => 123,
-                    'owner' => null,
-                    'type' => 'import_or_export',
-                    'filename' => 'file.csv',
-                    'entity' => 'Acme',
-                    'options' => ['test1' => 'test2']
-                ],
-                'expected' => [
-                    'jobId' => 123,
-                    'type' => 'import_or_export',
-                    'filename' => 'file.csv',
-                    'entity' => 'Acme',
-                    'options' => ['test1' => 'test2'],
-                    'organization' => $organization,
-                    'customerUser' => $customerUser,
-                    'customer' => $customer
-                ],
-            ],
-            'without customer user' => [
-                'actual' => [
-                    'jobId' => 123,
-                    'owner' => null,
-                    'type' => 'import_or_export',
-                    'filename' => 'file.csv',
-                    'entity' => 'Acme',
-                    'options' => ['test1' => 'test2'],
-                ],
-                'expected' => [
-                    'jobId' => 123,
-                    'type' => 'import_or_export',
-                    'filename' => 'file.csv',
-                    'entity' => 'Acme',
-                    'options' => ['test1' => 'test2'],
-                    'organization' => $organization,
-                    'customerUser' => null,
-                    'customer' => null
-                ],
-            ]
         ];
     }
 
@@ -188,16 +129,30 @@ class FrontendImportExportResultManagerTest extends TestCase
 
         $importExportRepository = $this->createMock(FrontendImportExportResultRepository::class);
         $importExportRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('updateExpiredRecords')
             ->with($date, $date);
 
         $this->entityManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRepository')
             ->with(FrontendImportExportResult::class)
             ->willReturn($importExportRepository);
 
+        $this->entityManager
+            ->expects(self::once())
+            ->method('flush');
+
         $this->manager->markResultsAsExpired($date, $date);
+    }
+
+    private static function getTokenOrganization(): Organization
+    {
+        static $organization;
+        if (!$organization) {
+            $organization = new Organization();
+        }
+
+        return $organization;
     }
 }
