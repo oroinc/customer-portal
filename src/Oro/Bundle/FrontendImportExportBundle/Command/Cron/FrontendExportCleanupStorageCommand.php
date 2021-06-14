@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Deletes front store old temporary import/export files.
+ * Deletes storefront old temporary import/export files.
  */
 class FrontendExportCleanupStorageCommand extends Command implements CronCommandInterface
 {
@@ -33,7 +33,7 @@ class FrontendExportCleanupStorageCommand extends Command implements CronCommand
         parent::__construct();
     }
 
-    public function getDefaultDefinition()
+    public function getDefaultDefinition(): string
     {
         return '0 0 */1 * *';
     }
@@ -44,21 +44,21 @@ class FrontendExportCleanupStorageCommand extends Command implements CronCommand
     }
 
     /** @noinspection PhpMissingParentCallCommonInspection */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption(
                 'interval',
                 'i',
                 InputOption::VALUE_OPTIONAL,
-                'Time interval (days) to keep the front store import and export files.'.
+                'Time interval (days) to keep the storefront import and export files.'.
                 ' Will be removed files older than today-interval.',
                 static::DEFAULT_PERIOD
             )
-            ->setDescription('Deletes old store front import/export files.')
+            ->setDescription('Deletes old storefront import/export files.')
             ->setHelp(
                 <<<'HELP'
-The <info>%command.name%</info> command deletes old store front import/export files.
+The <info>%command.name%</info> command deletes old storefront import/export files.
   <info>php %command.full_name%</info>
 The <info>--interval</info> option can be used to override the default time period (14 days)
 past which the temporary import files are considered old:
