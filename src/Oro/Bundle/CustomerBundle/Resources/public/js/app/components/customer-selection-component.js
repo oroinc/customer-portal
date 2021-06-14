@@ -61,9 +61,9 @@ define(function(require) {
             this.$customerUserMultiSelect = this.$el.find(this.options.customerUserMultiSelect);
 
             this.$el
-                .on('change', this.options.customerSelect, _.bind(this.onCustomerChanged, this))
-                .on('change', this.options.customerUserSelect, _.bind(this.onCustomerUserChanged, this))
-                .on('change', this.options.customerUserMultiSelect, _.bind(this.onCustomerUserChanged, this))
+                .on('change', this.options.customerSelect, this.onCustomerChanged.bind(this))
+                .on('change', this.options.customerUserSelect, this.onCustomerUserChanged.bind(this))
+                .on('change', this.options.customerUserMultiSelect, this.onCustomerUserChanged.bind(this))
             ;
 
             this.updateCustomerUserSelectData({customer_id: this.$customerSelect.val()});

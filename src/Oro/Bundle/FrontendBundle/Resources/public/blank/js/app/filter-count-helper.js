@@ -62,17 +62,16 @@ define(function(require) {
             }
 
             let options = $.extend(true, {}, data.options || {});
-            const that = this;
-            const filterOptions = function(option) {
-                if (that.isDisableFiltersEnabled && _.has(that.countsWithoutFilters, option.value)) {
+            const filterOptions = option => {
+                if (this.isDisableFiltersEnabled && _.has(this.countsWithoutFilters, option.value)) {
                     option.disabled = true;
                 } else {
                     options = _.without(options, option);
                 }
             };
 
-            _.each(options, function(option) {
-                option.count = that.counts[option.value] || 0;
+            _.each(options, option => {
+                option.count = this.counts[option.value] || 0;
                 option.disabled = false;
                 if (option.count === 0 &&
                     !_.contains(data.selected.value, option.value)
@@ -81,12 +80,12 @@ define(function(require) {
                 }
             });
 
-            const nonZeroOptions = _.filter(options, function(option) {
+            const nonZeroOptions = _.filter(options, option => {
                 return option.count > 0;
             });
             if (nonZeroOptions.length === 1) {
-                _.each(options, function(option) {
-                    if (option.count === that.totalRecordsCount &&
+                _.each(options, option => {
+                    if (option.count === this.totalRecordsCount &&
                         !_.contains(data.selected.value, option.value)
                     ) {
                         filterOptions(option);
