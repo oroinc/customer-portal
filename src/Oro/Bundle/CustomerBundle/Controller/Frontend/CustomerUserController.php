@@ -3,15 +3,21 @@
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
+use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
+use Oro\Bundle\FormBundle\Model\UpdateHandler;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * CRUD controller for CustomerUser entity
@@ -104,21 +110,21 @@ class CustomerUserController extends AbstractController
      */
     protected function update(CustomerUser $customerUser, Request $request)
     {
-        $form = $this->get('oro_customer.provider.frontend_customer_user_form')
+        $form = $this->get(FrontendCustomerUserFormProvider::class)
             ->getCustomerUserForm($customerUser);
         $handler = new CustomerUserHandler(
             $form,
             $request,
-            $this->get('oro_customer_user.manager'),
-            $this->get('oro_security.token_accessor'),
-            $this->get('translator'),
-            $this->get('logger')
+            $this->get(CustomerUserManager::class),
+            $this->get(TokenAccessorInterface::class),
+            $this->get(TranslatorInterface::class),
+            $this->get(LoggerInterface::class)
         );
 
-        $result = $this->get('oro_form.model.update_handler')->update(
+        $result = $this->get(UpdateHandler::class)->update(
             $customerUser,
             $form,
-            $this->get('translator')->trans('oro.customer.controller.customeruser.saved.message'),
+            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruser.saved.message'),
             $handler
         );
 
@@ -131,5 +137,23 @@ class CustomerUserController extends AbstractController
                 'entity' => $customerUser
             ]
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                LoggerInterface::class,
+                UpdateHandler::class,
+                CustomerUserManager::class,
+                TokenAccessorInterface::class,
+                FrontendCustomerUserFormProvider::class,
+            ]
+        );
     }
 }

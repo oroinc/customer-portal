@@ -5,6 +5,8 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 use Oro\Bundle\AddressBundle\Form\Handler\AddressHandler;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
+use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerAddressFormProvider;
+use Oro\Bundle\FormBundle\Model\UpdateHandler;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -14,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Controller for customer address entity.
@@ -72,14 +75,14 @@ class CustomerAddressController extends AbstractController
     {
         $this->prepareEntities($customer, $customerAddress, $request);
 
-        $form = $this->get('oro_customer.provider.frontend_customer_address_form')
+        $form = $this->get(FrontendCustomerAddressFormProvider::class)
             ->getAddressForm($customerAddress, $customer);
 
         $manager = $this->getDoctrine()->getManagerForClass(CustomerAddress::class);
 
         $handler = new AddressHandler($form, $this->get('request_stack'), $manager);
 
-        $result = $this->get('oro_form.model.update_handler')->handleUpdate(
+        $result = $this->get(UpdateHandler::class)->handleUpdate(
             $form->getData(),
             $form,
             function (CustomerAddress $customerAddress) use ($customer) {
@@ -93,7 +96,7 @@ class CustomerAddressController extends AbstractController
                     'route' => 'oro_customer_frontend_customer_user_address_index'
                 ];
             },
-            $this->get('translator')->trans('oro.customer.controller.customeraddress.saved.message'),
+            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeraddress.saved.message'),
             $handler,
             function (CustomerAddress $customerAddress, FormInterface $form, Request $request) {
                 $url = $request->getUri();
@@ -136,5 +139,20 @@ class CustomerAddressController extends AbstractController
         } elseif ($customerAddress->getFrontendOwner()->getId() !== $customer->getId()) {
             throw new BadRequestHttpException('Address must belong to Customer');
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                UpdateHandler::class,
+                FrontendCustomerAddressFormProvider::class,
+            ]
+        );
     }
 }

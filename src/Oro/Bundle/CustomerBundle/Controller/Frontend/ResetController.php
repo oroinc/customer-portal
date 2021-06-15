@@ -6,12 +6,14 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler;
+use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\UIBundle\Route\Router;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Handles request and reset password logic
@@ -31,8 +33,8 @@ class ResetController extends AbstractController
         }
 
         /** @var CustomerUserPasswordRequestHandler $handler */
-        $handler = $this->get('oro_customer.customer_user.password_request.handler');
-        $form = $this->get('oro_customer.provider.frontend_customer_user_form')
+        $handler = $this->get(CustomerUserPasswordRequestHandler::class);
+        $form = $this->get(FrontendCustomerUserFormProvider::class)
             ->getForgotPasswordForm();
 
         $request = $this->get('request_stack')->getCurrentRequest();
@@ -87,7 +89,7 @@ class ResetController extends AbstractController
         }
         if (null === $user) {
             throw $this->createNotFoundException(
-                $this->get('translator')->trans(
+                $this->get(TranslatorInterface::class)->trans(
                     'oro.customer.controller.customeruser.token_not_found.message',
                     ['%token%' => $token]
                 )
@@ -95,7 +97,7 @@ class ResetController extends AbstractController
         }
 
         $session = $this->get('session');
-        $ttl = $this->container->getParameter('oro_user.reset.ttl');
+        $ttl = $this->getParameter('oro_user.reset.ttl');
         if (!$user->isPasswordRequestNonExpired($ttl)) {
             $session->getFlashBag()->add(
                 'warn',
@@ -106,8 +108,8 @@ class ResetController extends AbstractController
         }
 
         /** @var CustomerUserPasswordResetHandler $handler */
-        $handler = $this->get('oro_customer.customer_user.password_reset.handler');
-        $form = $this->get('oro_customer.provider.frontend_customer_user_form')
+        $handler = $this->get(CustomerUserPasswordResetHandler::class);
+        $form = $this->get(FrontendCustomerUserFormProvider::class)
             ->getResetPasswordForm($user);
 
         $actionParameter = $request->get(Router::ACTION_PARAMETER);
@@ -122,7 +124,7 @@ class ResetController extends AbstractController
             );
 
             if ($actionParameter) {
-                $response = $this->get('oro_ui.router')->redirect($user);
+                $response = $this->get(Router::class)->redirect($user);
             } else {
                 $response = $this->redirect($this->generateUrl('oro_customer_customer_user_security_login'));
             }
@@ -142,8 +144,26 @@ class ResetController extends AbstractController
     /**
      * @return CustomerUserManager
      */
-    protected function getUserManager()
+    protected function getUserManager(): CustomerUserManager
     {
-        return $this->get('oro_customer_user.manager');
+        return $this->get(CustomerUserManager::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                CustomerUserPasswordRequestHandler::class,
+                FrontendCustomerUserFormProvider::class,
+                CustomerUserPasswordResetHandler::class,
+                Router::class,
+                CustomerUserManager::class,
+            ]
+        );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +35,7 @@ class SecurityController extends AbstractController
             return new JsonResponse(['redirectUrl' => $redirectUrl], 401);
         }
 
-        $registrationAllowed = (bool) $this->get('oro_config.manager')->get('oro_customer.registration_allowed');
+        $registrationAllowed = (bool) $this->get(ConfigManager::class)->get('oro_customer.registration_allowed');
 
         return [
             'data' => [
@@ -71,5 +72,18 @@ class SecurityController extends AbstractController
     public function logoutAction()
     {
         throw new \RuntimeException('You must activate the logout in your security firewall configuration.');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                ConfigManager::class,
+            ]
+        );
     }
 }
