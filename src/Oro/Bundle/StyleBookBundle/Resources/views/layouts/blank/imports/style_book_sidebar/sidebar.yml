@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'sidebar.html.twig'
+            themes: '@OroStyleBook/layouts/blank/imports/style_book_sidebar/sidebar.html.twig'
 
         - '@addTree':
             items:
