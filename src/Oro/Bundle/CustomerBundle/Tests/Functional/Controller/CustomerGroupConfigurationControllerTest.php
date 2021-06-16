@@ -37,7 +37,7 @@ class CustomerGroupConfigurationControllerTest extends AbstractConfigurationCont
                 ],
                 'expected' => [
                     'Product Data Export',
-                    'Enable Products Export',
+                    'Enable Product Grid Export',
                 ]
             ],
             'user configuration sub page' => [
@@ -47,7 +47,7 @@ class CustomerGroupConfigurationControllerTest extends AbstractConfigurationCont
                 ],
                 'expected' => [
                     'Product Data Export',
-                    'Enable Products Export',
+                    'Enable Product Grid Export',
                 ]
             ],
         ];
