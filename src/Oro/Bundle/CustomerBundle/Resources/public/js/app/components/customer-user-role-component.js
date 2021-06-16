@@ -4,7 +4,6 @@ define(function(require) {
     const BaseComponent = require('oroui/js/app/components/base/component');
     const mediator = require('oroui/js/mediator');
     const $ = require('jquery');
-    const _ = require('underscore');
     const __ = require('orotranslation/js/translator');
     const Modal = require('oroui/js/modal');
 
@@ -48,7 +47,7 @@ define(function(require) {
             this.customerField.data(this.options.previousValueDataAttribute, this.options.originalValue);
 
             this.options._sourceElement
-                .on('change', this.options.customerFieldId, _.bind(this.onCustomerSelectorChange, this));
+                .on('change', this.options.customerFieldId, this.onCustomerSelectorChange.bind(this));
         },
 
         /**
@@ -106,8 +105,8 @@ define(function(require) {
             const changeCustomerConfirmDialog = this._createChangeCustomerConfirmationDialog();
 
             changeCustomerConfirmDialog
-                .on('ok', _.bind(okCallback, this))
-                .on('cancel', _.bind(cancelCallback, this));
+                .on('ok', okCallback.bind(this))
+                .on('cancel', cancelCallback.bind(this));
 
             changeCustomerConfirmDialog.open();
         },

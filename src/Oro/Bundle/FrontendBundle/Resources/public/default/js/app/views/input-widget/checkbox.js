@@ -2,15 +2,14 @@ define(function(require) {
     'use strict';
 
     const $ = require('jquery');
-    const _ = require('underscore');
     const AbstractInputWidget = require('oroui/js/app/views/input-widget/abstract');
 
     const CheckboxInputWidget = AbstractInputWidget.extend({
         checkedParentCssClass: 'checked',
 
         widgetFunction: function() {
-            this.getContainer().on('keydown keypress', _.bind(this._handleEnterPress, this));
-            this.$el.on('change', _.bind(this._handleChange, this));
+            this.getContainer().on('keydown keypress', this._handleEnterPress.bind(this));
+            this.$el.on('change', this._handleChange.bind(this));
         },
 
         _handleEnterPress: function(event) {

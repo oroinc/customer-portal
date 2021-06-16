@@ -9,6 +9,7 @@ use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * AJAX action for Customer User.
@@ -37,9 +38,22 @@ class AjaxCustomerUserController extends AbstractAjaxCustomerUserController
     public function checkEmailAction(Request $request)
     {
         $value = $request->get('value');
-        $validator = $this->container->get('validator');
+        $validator = $this->get(ValidatorInterface::class);
         $violations = $validator->validate($value, [new UniqueCustomerUserNameAndEmail()]);
 
         return new JsonResponse(['valid' => count($violations) === 0]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                ValidatorInterface::class,
+            ]
+        );
     }
 }

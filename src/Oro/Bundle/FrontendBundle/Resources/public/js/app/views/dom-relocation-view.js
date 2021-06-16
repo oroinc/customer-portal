@@ -58,8 +58,8 @@ define(function(require, exports, module) {
          */
         initialize: function(options) {
             this.$window = $(window);
-            this.onViewportChange = _.debounce(_.bind(this.onViewportChange, this), this.resizeTimeout);
-            this.onContentChange = _.debounce(_.bind(this.onContentChange, this), this.layoutTimeout);
+            this.onViewportChange = _.debounce(this.onViewportChange.bind(this), this.resizeTimeout);
+            this.onContentChange = _.debounce(this.onContentChange.bind(this), this.layoutTimeout);
 
             return DomRelocationView.__super__.initialize.call(this, options);
         },

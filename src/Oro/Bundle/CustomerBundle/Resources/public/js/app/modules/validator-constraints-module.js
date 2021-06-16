@@ -1,7 +1,3 @@
-define(function(require) {
-    'use strict';
+import $ from 'jquery.validate';
 
-    const $ = require('jquery.validate');
-
-    $.validator.loadMethod('orocustomer/js/validator/unique-customer-user-name-and-email');
-});
+$.validator.loadMethod('orocustomer/js/validator/unique-customer-user-name-and-email');

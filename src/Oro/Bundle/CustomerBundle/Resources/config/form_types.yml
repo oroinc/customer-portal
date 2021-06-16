@@ -154,6 +154,9 @@ services:
         tags:
             - { name: form.type, alias: oro_customer_customer_user_password_reset }
 
+    Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateHandler:
+        alias: oro_customer.form.handler.update_customer_user_role
+
     oro_customer.form.handler.update_customer_user_role:
         parent: oro_user.form.handler.abstract.acl_role
         public: true
@@ -167,6 +170,9 @@ services:
             - [addExtensionFilter, ['entity', 'commerce']]
             - [addExtensionFilter, ['action', 'commerce']]
             - [setConfigurableName, ['commerce']]
+
+    Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler:
+        alias: oro_customer.form.handler.update_customer_user_role_frontend
 
     oro_customer.form.handler.update_customer_user_role_frontend:
         parent: oro_customer.form.handler.update_customer_user_role

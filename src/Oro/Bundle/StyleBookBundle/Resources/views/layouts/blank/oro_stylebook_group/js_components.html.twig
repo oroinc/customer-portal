@@ -126,9 +126,9 @@
                 },
 
                 openModal: function() {
-                    this.modal.on('ok', _.bind(this._onOKModal, this));
-                    this.modal.on('cancel', _.bind(this._onCancelModal, this));
-                    this.modal.on('close', _.bind(this._onCloseModal, this));
+                    this.modal.on('ok', this._onOKModal.bind(this));
+                    this.modal.on('cancel', this._onCancelModal.bind(this));
+                    this.modal.on('close', this._onCloseModal.bind(this));
 
                     this.modal.open();
                 },
@@ -369,7 +369,7 @@
                         stateEnabled: false,
                         incrementalPosition: false,
                         dialogOptions: {
-                            close: _.bind(this.onCancel, this),
+                            close: this.onCancel.bind(this),
                             width: 800,
                             modal: true
                         }
@@ -1402,7 +1402,7 @@
              *      layoutSubtreeCallback: function() {}
              * }
              *
-             layoutSubtreeCallback: _.bind(this.afterProductChanged, this)
+             layoutSubtreeCallback: this.afterProductChanged.bind(this)
              */
             mediator.on('layout-subtree:update:product', function(layoutSubtree) {});
 
