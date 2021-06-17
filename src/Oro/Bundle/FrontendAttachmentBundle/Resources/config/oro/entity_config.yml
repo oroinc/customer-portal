@@ -1,8 +1,8 @@
 entity_config:
     attachment:
+        # You can find out more about attributes in the documentation: https://doc.oroinc.com/backend/configuration/annotation/config-field.html#attachment
         field:
             items:
-                # indicates whether acl check should be applied for attachments loading or displaying
                 acl_protected:
                     options:
                         value_type: boolean
@@ -20,8 +20,6 @@ entity_config:
                             subblock: properties
                             label: oro.frontendattachment.entity_config.attachment.field.items.acl_protected.label
                             tooltip: oro.frontendattachment.entity_config.attachment.field.items.acl_protected.tooltip
-
-                # the list of all allowed file applications
                 file_applications:
                     options:
                         allowed_type: [file, image, wysiwyg, wysiwyg_styles, multiFile, multiImage]

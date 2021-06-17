@@ -2,7 +2,6 @@ define(function(require) {
     'use strict';
 
     const BaseView = require('oroui/js/app/views/base/view');
-    const _ = require('underscore');
     require('jquery.mousewheel');
 
     const ScrollView = BaseView.extend({
@@ -50,11 +49,11 @@ define(function(require) {
         initScrollContainer: function() {
             this.setStartPosition();
 
-            this.$scrollableContainer.on('scroll mousewheel', _.bind(function(e) {
+            this.$scrollableContainer.on('scroll mousewheel', e => {
                 e.stopPropagation();
                 this.updateFollowersPosition(e.currentTarget);
                 this.setScrollStatus();
-            }, this));
+            });
         },
 
         updateFollowersPosition: function(element) {

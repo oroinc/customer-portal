@@ -1,5 +1,5 @@
 dynamic-imports:
-    oroui:
+    commons:
         - orocommercemenu/js/app/views/header-row-view
         - orocommercemenu/js/app/widgets/menu-traveling-widget
         - oronavigation/js/app/views/navigation-menu-view

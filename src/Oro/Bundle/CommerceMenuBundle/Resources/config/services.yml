@@ -75,11 +75,17 @@ services:
             - '@oro_website.website.provider'
             - 'menu_frontend_visibility'
 
+    Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvider:
+        alias: oro_commerce_menu.menu_context_provider.customer
+
     oro_commerce_menu.menu_context_provider.customer:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerMenuContextProvider'
         public: true
         arguments:
             - '@oro_website.manager'
+
+    Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerGroupMenuContextProvider:
+        alias: oro_commerce_menu.menu_context_provider.customer_group
 
     oro_commerce_menu.menu_context_provider.customer_group:
         class: 'Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerGroupMenuContextProvider'

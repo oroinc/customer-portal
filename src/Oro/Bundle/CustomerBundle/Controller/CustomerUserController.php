@@ -4,17 +4,22 @@ namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\FormBundle\Model\UpdateHandler;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Back-office CRUD for customer users.
@@ -87,7 +92,7 @@ class CustomerUserController extends AbstractController
     public function getRolesAction(Request $request, $customerUserId, $customerId)
     {
         /** @var DoctrineHelper $doctrineHelper */
-        $doctrineHelper = $this->get('oro_entity.doctrine_helper');
+        $doctrineHelper = $this->get(DoctrineHelper::class);
 
         if ($customerUserId) {
             $customerUser = $doctrineHelper->getEntityReference(CustomerUser::class, $customerUserId);
@@ -165,13 +170,13 @@ class CustomerUserController extends AbstractController
         $handler = new CustomerUserHandler(
             $form,
             $request,
-            $this->get('oro_customer_user.manager'),
-            $this->get('oro_security.token_accessor'),
-            $this->get('translator'),
-            $this->get('logger')
+            $this->get(CustomerUserManager::class),
+            $this->get(TokenAccessorInterface::class),
+            $this->get(TranslatorInterface::class),
+            $this->get(LoggerInterface::class)
         );
 
-        $result = $this->get('oro_form.model.update_handler')->handleUpdate(
+        return $this->get(UpdateHandler::class)->handleUpdate(
             $customerUser,
             $form,
             function (CustomerUser $customerUser) {
@@ -186,10 +191,26 @@ class CustomerUserController extends AbstractController
                     'parameters' => ['id' => $customerUser->getId()]
                 ];
             },
-            $this->get('translator')->trans('oro.customer.controller.customeruser.saved.message'),
+            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruser.saved.message'),
             $handler
         );
+    }
 
-        return $result;
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                DoctrineHelper::class,
+                TranslatorInterface::class,
+                UpdateHandler::class,
+                TokenAccessorInterface::class,
+                CustomerUserManager::class,
+                LoggerInterface::class,
+            ]
+        );
     }
 }

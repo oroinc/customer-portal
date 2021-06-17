@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Controller;
 
+use Oro\Bundle\CommerceMenuBundle\Menu\ContextProvider\CustomerGroupMenuContextProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Provider\ScopeCustomerGroupCriteriaProvider;
 use Oro\Bundle\OrganizationBundle\Provider\ScopeOrganizationCriteriaProvider;
@@ -26,7 +27,7 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
      */
     public function indexAction(CustomerGroup $customerGroup)
     {
-        $contexts = $this->get('oro_commerce_menu.menu_context_provider.customer_group')->getContexts($customerGroup);
+        $contexts = $this->get(CustomerGroupMenuContextProvider::class)->getContexts($customerGroup);
 
         return [
             'entity' => $customerGroup,
@@ -149,5 +150,18 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
         }
 
         return parent::getMenu($menuName, $context);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                CustomerGroupMenuContextProvider::class,
+            ]
+        );
     }
 }
