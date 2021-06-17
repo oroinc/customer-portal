@@ -112,7 +112,7 @@ define(function(require) {
                 ? ViewportManager.isApplicable(this.fullscreenViewport) : null;
 
             this.options.dialogOptions = _.defaults(this.options.dialogOptions, {
-                close: _.bind(this._onClose, this)
+                close: this._onClose.bind(this)
             });
 
             if (this.isApplicable && this.fullscreenMode) {

@@ -3,6 +3,8 @@
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler;
+use Oro\Bundle\FormBundle\Model\UpdateHandler;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,6 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Storefront CRUD for customer user roles.
@@ -98,7 +101,7 @@ class CustomerUserRoleController extends AbstractController
         if ($role->isPredefined() && $request->isMethod(Request::METHOD_GET)) {
             $this->addFlash(
                 'warning',
-                $this->get('translator')
+                $this->get(TranslatorInterface::class)
                     ->trans('oro.customer.customeruserrole.frontend.edit-predifined-role.message')
             );
         }
@@ -112,13 +115,13 @@ class CustomerUserRoleController extends AbstractController
      */
     protected function update(CustomerUserRole $role)
     {
-        $handler = $this->get('oro_customer.form.handler.update_customer_user_role_frontend');
+        $handler = $this->get(CustomerUserRoleUpdateFrontendHandler::class);
         $form = $handler->createForm($role);
 
         // This is cloned role in case of original role was predefined
         $customizableRole = $form->getData();
 
-        $response = $this->get('oro_form.model.update_handler')->handleUpdate(
+        $response = $this->get(UpdateHandler::class)->handleUpdate(
             $customizableRole,
             $form,
             function (CustomerUserRole $role) {
@@ -133,7 +136,7 @@ class CustomerUserRoleController extends AbstractController
                     'parameters' => ['id' => $role->getId()],
                 ];
             },
-            $this->get('translator')->trans('oro.customer.controller.customeruserrole.saved.message'),
+            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruserrole.saved.message'),
             $handler
         );
 
@@ -147,5 +150,20 @@ class CustomerUserRoleController extends AbstractController
                 'customizableRole' => $customizableRole
             ]
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                UpdateHandler::class,
+                CustomerUserRoleUpdateFrontendHandler::class
+            ]
+        );
     }
 }

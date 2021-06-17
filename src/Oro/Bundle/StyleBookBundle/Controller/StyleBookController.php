@@ -3,6 +3,7 @@
 namespace Oro\Bundle\StyleBookBundle\Controller;
 
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\StyleBookBundle\Helper\AccessHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,9 +49,22 @@ class StyleBookController extends AbstractController
      */
     protected function checkAccess()
     {
-        $isAllowStyleBook = $this->get('oro_stylebook.helper.access_helper')->isAllowStyleBook();
+        $isAllowStyleBook = $this->get(AccessHelper::class)->isAllowStyleBook();
         if (!$isAllowStyleBook) {
             throw $this->createNotFoundException();
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                AccessHelper::class,
+            ]
+        );
     }
 }

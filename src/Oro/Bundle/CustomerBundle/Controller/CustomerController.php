@@ -4,12 +4,15 @@ namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerType;
+use Oro\Bundle\CustomerBundle\JsTree\CustomerTreeHandler;
+use Oro\Bundle\FormBundle\Model\UpdateHandler;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Back-office CRUD for customers.
@@ -91,7 +94,7 @@ class CustomerController extends AbstractController
      */
     protected function update(Customer $customer)
     {
-        return $this->get('oro_form.model.update_handler')->handleUpdate(
+        return $this->get(UpdateHandler::class)->handleUpdate(
             $customer,
             $this->createForm(CustomerType::class, $customer),
             function (Customer $customer) {
@@ -106,7 +109,7 @@ class CustomerController extends AbstractController
                     'parameters' => ['id' => $customer->getId()],
                 ];
             },
-            $this->get('translator')->trans('oro.customer.controller.customer.saved.message')
+            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customer.saved.message')
         );
     }
 
@@ -122,7 +125,22 @@ class CustomerController extends AbstractController
     {
         return [
             'entity' => $customer,
-            'treeData' => $this->get('oro_customer.customer_tree_handler')->createTree($customer),
+            'treeData' => $this->get(CustomerTreeHandler::class)->createTree($customer),
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                UpdateHandler::class,
+                CustomerTreeHandler::class,
+            ]
+        );
     }
 }

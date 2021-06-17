@@ -56,7 +56,7 @@ define(function(require) {
         },
 
         bindEvents: function() {
-            this.$travelingTrigger.on('click.nsMenuTravelingWidget', _.bind(this.goToSection, this));
+            this.$travelingTrigger.on('click.nsMenuTravelingWidget', this.goToSection.bind(this));
             mediator.on('layout:reposition', _.debounce(this.updateHeight, 50), this);
         },
 
@@ -86,7 +86,7 @@ define(function(require) {
             this.$relatedContainer = this.$relatedTrigger.next();
 
             this.$relatedContainer.one('transitionend webkitTransitionEnd',
-                _.bind(this.hidePrevTrigger, this)
+                this.hidePrevTrigger.bind(this)
             );
             this.updateHeight();
         },

@@ -36,7 +36,7 @@ define(function(require) {
                 this.triggerData.lineItemId = parseInt(this.triggerData.lineItemId, 10);
             }
 
-            this.$elem.on('click', _.bind(this.deleteItem, this));
+            this.$elem.on('click', this.deleteItem.bind(this));
         },
 
         deleteItem: function() {

@@ -2,12 +2,16 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\CustomerUserEvents;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent;
+use Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
 use Oro\Bundle\UIBundle\Route\Router;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,7 +48,7 @@ class CustomerUserRegisterController extends AbstractController
      */
     protected function isRegistrationAllowed()
     {
-        return (bool) $this->get('oro_config.manager')->get('oro_customer.registration_allowed');
+        return (bool) $this->get(ConfigManager::class)->get('oro_customer.registration_allowed');
     }
 
     /**
@@ -53,14 +57,14 @@ class CustomerUserRegisterController extends AbstractController
      */
     protected function handleForm(Request $request)
     {
-        $registrationHandler = $this->get('oro_customer.handler.customer_registration_handler');
+        $registrationHandler = $this->get(CustomerRegistrationHandler::class);
         $response = $registrationHandler->handleRegistration($request);
 
         if ($response instanceof Response) {
             /** @var CustomerUser $customerUser */
             $customerUser = $registrationHandler->getForm()->getData();
             $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-            $this->get('event_dispatcher')->dispatch($event, CustomerUserEvents::REGISTRATION_COMPLETED);
+            $this->get(EventDispatcherInterface::class)->dispatch($event, CustomerUserEvents::REGISTRATION_COMPLETED);
 
             return $response;
         }
@@ -75,7 +79,7 @@ class CustomerUserRegisterController extends AbstractController
      */
     public function confirmEmailAction(Request $request)
     {
-        $userManager = $this->get('oro_customer_user.manager');
+        $userManager = $this->get(CustomerUserManager::class);
         $token = $request->get('token');
         if (empty($token)) {
             throw $this->createNotFoundException('CustomerUser not found or incorrect confirmation token');
@@ -99,14 +103,31 @@ class CustomerUserRegisterController extends AbstractController
         $this->get('session')->getFlashBag()->add($messageType, $message);
 
         if ($request->get(Router::ACTION_PARAMETER)) {
-            $response = $this->get('oro_ui.router')->redirect($customerUser);
+            $response = $this->get(Router::class)->redirect($customerUser);
         } else {
             $response = $this->redirectToRoute('oro_customer_customer_user_security_login');
         }
 
         $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-        $this->get('event_dispatcher')->dispatch($event, CustomerUserEvents::REGISTRATION_CONFIRMED);
+        $this->get(EventDispatcherInterface::class)->dispatch($event, CustomerUserEvents::REGISTRATION_CONFIRMED);
 
         return $response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                EventDispatcherInterface::class,
+                ConfigManager::class,
+                CustomerRegistrationHandler::class,
+                CustomerUserManager::class,
+                Router::class,
+            ]
+        );
     }
 }
