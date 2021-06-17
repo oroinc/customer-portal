@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Frontend grid controller.
+ */
 class GridController extends AbstractController
 {
     const EXPORT_BATCH_SIZE = 200;

@@ -53,6 +53,9 @@ services:
         decorates: security.authentication.trust_resolver
         arguments: ['@oro_customer.security.authentication.trust_resolver_decorator.inner']
 
+    Oro\Bundle\CustomerBundle\JsTree\CustomerTreeHandler:
+        alias: oro_customer.customer_tree_handler
+
     oro_customer.customer_tree_handler:
         class: 'Oro\Bundle\CustomerBundle\JsTree\CustomerTreeHandler'
         public: true
@@ -170,6 +173,9 @@ services:
             - "@oro_user.mailer.user_template_email_sender"
             - "@event_dispatcher"
 
+    Oro\Bundle\CustomerBundle\Entity\CustomerUserManager:
+        alias: oro_customer_user.manager
+
     oro_customer_user.manager:
         class: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserManager'
         public: true
@@ -232,6 +238,9 @@ services:
         tags:
             - { name: monolog.logger, channel: security }
 
+    Oro\Bundle\CustomerBundle\Security\Firewall\CustomerVisitorCookieFactory:
+        alias: oro_customer.authentication.customer_visitor_cookie_factory
+
     oro_customer.authentication.customer_visitor_cookie_factory:
         class: Oro\Bundle\CustomerBundle\Security\Firewall\CustomerVisitorCookieFactory
         public: true
@@ -260,6 +269,9 @@ services:
         arguments:
             - "@oro_security.token_accessor"
 
+    Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler:
+        alias: oro_customer.customer_user.password_request.handler
+
     oro_customer.customer_user.password_request.handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler'
         public: true
@@ -267,6 +279,9 @@ services:
             - "@oro_customer_user.manager"
             - "@translator"
             - "@logger"
+
+    Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler:
+        alias: oro_customer.customer_user.password_reset.handler
 
     oro_customer.customer_user.password_reset.handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler'
@@ -525,6 +540,9 @@ services:
         tags:
             - { name: layout.data_provider, alias: oro_customer_frontend_customer_user_role_form }
 
+    Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserAddressFormProvider:
+        alias: oro_customer.provider.fronted_customer_user_address_form
+
     oro_customer.provider.fronted_customer_user_address_form:
         class: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserAddressFormProvider
         public: true
@@ -534,6 +552,9 @@ services:
         tags:
             - { name: layout.data_provider, alias: oro_customer_frontend_customer_user_address_form }
 
+    Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerAddressFormProvider:
+        alias: oro_customer.provider.frontend_customer_address_form
+
     oro_customer.provider.frontend_customer_address_form:
         class: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerAddressFormProvider
         public: true
@@ -542,6 +563,9 @@ services:
             - '@router'
         tags:
             - { name: layout.data_provider, alias: oro_customer_frontend_customer_address_form }
+
+    Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider:
+        alias: oro_customer.provider.frontend_customer_user_form
 
     oro_customer.provider.frontend_customer_user_form:
         class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider'
@@ -915,6 +939,9 @@ services:
         tags:
             - { name: 'oro_message_queue.client.message_processor', topicName: 'oro_customer.clear_lost_customer_users' }
 
+    Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider:
+        alias: oro_customer.provider.frontend.address
+
     oro_customer.provider.frontend.address:
         class: 'Oro\Bundle\CustomerBundle\Provider\FrontendAddressProvider'
         public: true
@@ -1000,6 +1027,9 @@ services:
         arguments:
             - '@oro_customer.security.user_checker.decorator.inner'
 
+    Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler:
+        alias: oro_customer.handler.frontend_customer_user_handler
+
     oro_customer.handler.frontend_customer_user_handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler'
         public: true
@@ -1031,6 +1061,9 @@ services:
             - '@?security.acl.voter.basic_permissions'
             - '@oro_customer.security.orm.ownership_sql_walker_builder.inner'
             - '@oro_security.acl.group_provider.chain'
+
+    Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler:
+        alias: oro_customer.handler.customer_registration_handler
 
     oro_customer.handler.customer_registration_handler:
         class: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler

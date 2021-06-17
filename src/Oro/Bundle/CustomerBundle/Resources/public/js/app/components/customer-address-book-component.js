@@ -2,7 +2,6 @@ define(function(require) {
     'use strict';
 
     const BaseComponent = require('oroui/js/app/components/base/component');
-    const _ = require('underscore');
     const routing = require('routing');
     const AddressBook = require('oroaddress/js/address-book');
     const widgetManager = require('oroui/js/widget-manager');
@@ -45,7 +44,7 @@ define(function(require) {
                     isAddressHtmlFormatted: this.isAddressHtmlFormatted
                 });
                 widget.getAction('add_address', 'adopted', function(action) {
-                    action.on('click', _.bind(addressBook.createAddress, addressBook));
+                    action.on('click', addressBook.createAddress.bind(addressBook));
                 });
                 addressBook
                     .getCollection()

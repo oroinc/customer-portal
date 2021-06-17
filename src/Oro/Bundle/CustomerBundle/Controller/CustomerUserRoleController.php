@@ -3,8 +3,10 @@
 namespace Oro\Bundle\CustomerBundle\Controller;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateHandler;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\UIBundle\Route\Router;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCapabilityProvider;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -12,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * CRUD controller for CustomerUserRole entity
@@ -106,17 +109,17 @@ class CustomerUserRoleController extends AbstractController
      */
     protected function update(Request $request, CustomerUserRole $role)
     {
-        $handler = $this->get('oro_customer.form.handler.update_customer_user_role');
+        $handler = $this->get(CustomerUserRoleUpdateHandler::class);
         $handler->createForm($role);
         $isWidgetContext = (bool)$request->get('_wid', false);
 
         if ($handler->process($role) && !$isWidgetContext) {
             $this->get('session')->getFlashBag()->add(
                 'success',
-                $this->get('translator')->trans('oro.customer.controller.customeruserrole.saved.message')
+                $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruserrole.saved.message')
             );
 
-            return $this->get('oro_ui.router')->redirect($role);
+            return $this->get(Router::class)->redirect($role);
         } else {
             return [
                 'entity' => $role,
@@ -137,16 +140,33 @@ class CustomerUserRoleController extends AbstractController
     /**
      * @return RolePrivilegeCategoryProvider
      */
-    protected function getRolePrivilegeCategoryProvider()
+    protected function getRolePrivilegeCategoryProvider(): RolePrivilegeCategoryProvider
     {
-        return $this->get('oro_user.provider.role_privilege_category_provider');
+        return $this->get(RolePrivilegeCategoryProvider::class);
     }
 
     /**
      * @return RolePrivilegeCapabilityProvider
      */
-    protected function getRolePrivilegeCapabilityProvider()
+    protected function getRolePrivilegeCapabilityProvider(): RolePrivilegeCapabilityProvider
     {
-        return $this->get('oro_user.provider.role_privilege_capability_provider_commerce');
+        return $this->get(RolePrivilegeCapabilityProvider::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                Router::class,
+                RolePrivilegeCategoryProvider::class,
+                RolePrivilegeCapabilityProvider::class,
+                CustomerUserRoleUpdateHandler::class,
+            ]
+        );
     }
 }

@@ -2,7 +2,6 @@ define(function(require) {
     'use strict';
 
     const BaseView = require('oroui/js/app/views/base/view');
-    const _ = require('underscore');
     const $ = require('jquery');
 
     const ToggleActionView = BaseView.extend({
@@ -39,7 +38,7 @@ define(function(require) {
          * @inheritDoc
          */
         initialize: function(options) {
-            this.$el.on('click' + this.eventNamespace(), _.bind(this.toggle, this));
+            this.$el.on('click' + this.eventNamespace(), this.toggle.bind(this));
 
             ToggleActionView.__super__.initialize.call(this, options);
         },
@@ -57,7 +56,7 @@ define(function(require) {
         delegateEvents: function(events) {
             ToggleActionView.__super__.delegateEvents.call(this, events);
 
-            this.$document.on('click' + this.eventNamespace(), _.bind(this.onClickOverlay, this));
+            this.$document.on('click' + this.eventNamespace(), this.onClickOverlay.bind(this));
 
             return this;
         },

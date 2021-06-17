@@ -40,7 +40,7 @@ define(function(require) {
                 return this.deferredInitialize(options);
             }
 
-            $deferredInitialize.one('deferredInitialize', _.bind(function(e, deferredOptions) {
+            $deferredInitialize.one('deferredInitialize', (e, deferredOptions) => {
                 e.preventDefault();
                 e.stopPropagation();
 
@@ -48,7 +48,7 @@ define(function(require) {
                 if (deferredOptions.callback) {
                     deferredOptions.callback(this);
                 }
-            }, this));
+            });
         },
 
         deferredInitialize: function(options) {
@@ -62,7 +62,7 @@ define(function(require) {
                 this.handleLayoutInit();
             } else if (layout === 'separate') {
                 this.initLayout(options)
-                    .done(_.bind(this.handleLayoutInit, this));
+                    .done(this.handleLayoutInit.bind(this));
             } else {
                 this.handleLayoutInit();
             }
@@ -106,21 +106,21 @@ define(function(require) {
             }
             _.each(this.modelElements, function(elementKey, modelKey) {
                 if (this.elementsEvents[elementKey + ' setModelValue'] === undefined) {
-                    this.elementsEvents[elementKey + ' setModelValue'] = ['change', _.bind(function(e) {
+                    this.elementsEvents[elementKey + ' setModelValue'] = ['change', e => {
                         return this.setModelValueFromElement(e, modelKey, elementKey);
-                    }, this)];
+                    }];
                 }
 
                 if (this.modelEvents[modelKey + ' setElementValue'] === undefined) {
-                    this.modelEvents[modelKey + ' setElementValue'] = ['change', _.bind(function(e) {
+                    this.modelEvents[modelKey + ' setElementValue'] = ['change', e => {
                         return this.setElementValueFromModel(e, modelKey, elementKey);
-                    }, this)];
+                    }];
                 }
 
                 if (this.modelEvents[modelKey + ' focus'] === undefined) {
-                    this.modelEvents[modelKey + ' focus'] = ['focus', _.bind(function() {
+                    this.modelEvents[modelKey + ' focus'] = ['focus', () => {
                         this.getElement(elementKey).focus();
-                    }, this)];
+                    }];
                 }
             }, this);
 
@@ -161,7 +161,7 @@ define(function(require) {
         delegateElementEvent: function(key, event, callback) {
             const self = this;
             if (!_.isFunction(callback)) {
-                callback = _.bind(this[callback], this);
+                callback = this[callback].bind(this);
             }
             this.getElement(key).on(event + this.elementEventNamespace + this.cid, function(e, options) {
                 options = options || {};
@@ -172,7 +172,7 @@ define(function(require) {
 
         delegateModelEvent: function(key, event, callback) {
             if (!_.isFunction(callback)) {
-                callback = _.bind(this[callback], this);
+                callback = this[callback].bind(this);
             }
             this.model.on(event + ':' + key, function(model, attribute, options) {
                 callback(options || {});
