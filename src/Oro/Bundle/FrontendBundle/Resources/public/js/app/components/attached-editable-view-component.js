@@ -37,11 +37,11 @@ define(function(require) {
 
             const waitors = [];
             waitors.push(tools.loadModuleAndReplace(this.inlineEditingOptions.save_api_accessor, 'class').then(
-                _.bind(function() {
+                () => {
                     const ConcreteApiAccessor = this.inlineEditingOptions.save_api_accessor['class'];
                     this.saveApiAccessor = new ConcreteApiAccessor(
                         _.omit(this.inlineEditingOptions.save_api_accessor, 'class'));
-                }, this)
+                }
             ));
 
             this.deferredInit = $.when(...waitors);
@@ -81,13 +81,13 @@ define(function(require) {
             const View = BaseEditor.extend({
                 render: function() {
                     this.validator = this.$el.validate({
-                        submitHandler: _.bind(function(form, e) {
+                        submitHandler: (form, e) => {
                             if (e && e.preventDefault) {
                                 e.preventDefault();
                             }
                             this.trigger('saveAction');
-                        }, this),
-                        errorPlacement: function(error, element) {
+                        },
+                        errorPlacement: (error, element) => {
                             error.appendTo(this.$el);
                         },
                         rules: {

@@ -113,9 +113,9 @@ define(function(require) {
         getElementsList: function() {
             const $elemList = $(this.options.elementSelector);
             const items = [];
-            $elemList.each(_.bind(function(index, elem) {
+            $elemList.each((index, elem) => {
                 items.push($(elem).data('style-book-element'));
-            }, this));
+            });
 
             return items;
         },

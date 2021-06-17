@@ -6,13 +6,16 @@ use Doctrine\Common\Util\ClassUtils;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerGroupHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupType;
+use Oro\Bundle\FormBundle\Model\UpdateHandler;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * CRUD for customer groups.
@@ -101,10 +104,10 @@ class CustomerGroupController extends AbstractController
             $form,
             $request,
             $this->getDoctrine()->getManagerForClass(ClassUtils::getClass($group)),
-            $this->get('event_dispatcher')
+            $this->get(EventDispatcherInterface::class)
         );
 
-        return $this->get('oro_form.model.update_handler')->handleUpdate(
+        return $this->get(UpdateHandler::class)->handleUpdate(
             $group,
             $form,
             function (CustomerGroup $group) {
@@ -119,7 +122,7 @@ class CustomerGroupController extends AbstractController
                     'parameters' => ['id' => $group->getId()]
                 ];
             },
-            $this->get('translator')->trans('oro.customer.controller.customergroup.saved.message'),
+            $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customergroup.saved.message'),
             $handler
         );
     }
@@ -137,5 +140,20 @@ class CustomerGroupController extends AbstractController
         return [
             'entity' => $group
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return array_merge(
+            parent::getSubscribedServices(),
+            [
+                TranslatorInterface::class,
+                UpdateHandler::class,
+                EventDispatcherInterface::class,
+            ]
+        );
     }
 }

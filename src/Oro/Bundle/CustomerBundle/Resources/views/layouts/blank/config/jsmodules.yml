@@ -6,11 +6,10 @@ app-modules:
 dynamic-imports:
     commons:
         - oro/select2-autocomplete-customeruser-component
+        - orocustomer/js/validator/unique-customer-user-name-and-email
+    orodatagrid:
+        - oro/datagrid/action/frontend-map-action
     orouser:
         - orocustomer/js/app/components/customer-address-component
         - orocustomer/js/app/components/customer-user-role-component
         - orocustomer/js/app/components/frontend-customer-address-book-component
-    orodatagrid:
-        - oro/datagrid/action/frontend-map-action
-    oroform-validate:
-        - orocustomer/js/validator/unique-customer-user-name-and-email
