@@ -31,14 +31,14 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function ExportButtonView(options) {
             ExportButtonView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             ExportButtonView.__super__.initialize.call(this, options);
@@ -60,9 +60,10 @@ define(function(require) {
 
         /**
          * @param {PageableCollection} collection
-         * @param {Object} state
          */
-        onCollectionUpdate: function(collection, state) {
+        onCollectionUpdate: function(collection) {
+            const {state} = collection;
+
             if (state.totalRecords) {
                 this.$el.removeClass('hide');
                 this.$el.parent().addClass('datagrid-tool');
@@ -93,6 +94,7 @@ define(function(require) {
 
             const exportUrl = routing.generate(this.options.exportRoute, routeOptions);
 
+            this.$el.addClass('disabled').attr('disabled', true);
             $.post(
                 exportUrl,
                 function(data) {
@@ -114,6 +116,7 @@ define(function(require) {
                             });
                         });
                     }
+                    this.$el.removeClass('disabled').removeAttr('disabled');
                 }.bind(this),
                 'json'
             );
