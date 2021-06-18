@@ -14,14 +14,14 @@ define(function(require) {
         $el: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function HeaderRowComponent(options) {
             HeaderRowComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.$el = $(options._sourceElement);
@@ -36,7 +36,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         delegateListeners: function() {
             if (tools.isMobile()) {

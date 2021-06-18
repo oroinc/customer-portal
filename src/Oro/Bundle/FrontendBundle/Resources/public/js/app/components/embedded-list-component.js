@@ -23,7 +23,7 @@ define(function(require) {
         $initItems: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function EmbeddedListComponent(options) {
             EmbeddedListComponent.__super__.constructor.call(this, options);
@@ -40,7 +40,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         delegateListeners: function() {
             EmbeddedListComponent.__super__.delegateListeners.call(this);
@@ -74,7 +74,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {

@@ -68,6 +68,7 @@ dynamic-imports:
         - oro/frontend-dialog-widget
 map:
     "*":
+        oro/filter-settings: orofrontend/blank/js/app/views/filter-settings
         oro/datagrid/cell/action-cell: orofrontend/js/datagrid/cell/frontend-action-cell
         oro/filter/abstract-filter: orofrontend/blank/js/app/views/frontend-abstract-filter
         oro/filter/choice-filter: orofrontend/default/js/app/views/choice-filter

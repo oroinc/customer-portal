@@ -209,10 +209,6 @@ fieldset:disabled a.btn {
         border-color: $btn-plain-focus-border-color;
     }
 
-    @include element-state('active') {
-        box-shadow: none;
-    }
-
     &:disabled,
     &.disabled {
         background: $btn-plain-disabled-background-color;
@@ -220,9 +216,11 @@ fieldset:disabled a.btn {
         color: $btn-plain-disabled-color;
     }
 
-    &.active,
     &.pressed,
-    &:not(.disabled):active {
+    &:active,
+    &.active,
+    &:not(.disabled):active,
+    &:not(.disabled).active, {
         background-color: $btn-plain-active-background-color;
         border-color: $btn-plain-active-border-color;
         box-shadow: none;

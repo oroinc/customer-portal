@@ -6,7 +6,7 @@ define(function(require) {
 
     const FakeMaskedInput = BaseView.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         events: {
             keypress: 'enterOnlyNumbers',
@@ -17,7 +17,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         className: 'fake-masked-input',
 
@@ -26,7 +26,7 @@ define(function(require) {
         type: 'tel',
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          * @returns {*}
          */
         constructor: function FakeMaskedInput(options) {
@@ -34,7 +34,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             _.extend(this, _.pick(options, ['toChangeType', 'type']));
@@ -103,7 +103,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {

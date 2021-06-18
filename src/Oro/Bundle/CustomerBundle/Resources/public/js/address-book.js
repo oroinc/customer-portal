@@ -21,7 +21,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function AddressBook(options) {
             AddressBook.__super__.constructor.call(this, options);

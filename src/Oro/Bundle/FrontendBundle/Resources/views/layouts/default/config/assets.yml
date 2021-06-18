@@ -22,7 +22,6 @@ styles:
         - 'bundles/orofrontend/default/scss/variables/editable-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/filters/filters-config.scss'
-        - 'bundles/orofrontend/default/scss/variables/filters/filters-dropdown-mode-config.scss'
         - 'bundles/orofrontend/default/scss/variables/filters/filters-fullscreen-popup-mode-config.scss'
 
         - 'bundles/orofrontend/default/scss/variables/highlight-text-config.scss'

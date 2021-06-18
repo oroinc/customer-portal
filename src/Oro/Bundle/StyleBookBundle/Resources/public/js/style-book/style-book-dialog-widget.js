@@ -8,7 +8,7 @@ define(function(require) {
     const StyleBookDialogWidget = DialogWidget.extend({
         content: null,
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function StyleBookDialogWidget(options) {
             StyleBookDialogWidget.__super__.constructor.call(this, options);

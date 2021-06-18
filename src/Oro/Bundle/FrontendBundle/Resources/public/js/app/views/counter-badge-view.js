@@ -27,14 +27,14 @@ define(function(require) {
         count: 0,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function CounterBadgeView(options) {
             CounterBadgeView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.setCount(this.count);

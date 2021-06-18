@@ -7,14 +7,14 @@ define(function(require) {
 
     const CustomerUserManagementComponent = BaseComponent.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function CustomerUserManagementComponent(options) {
             CustomerUserManagementComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             options._sourceElement.find('a').on('click', function(e) {

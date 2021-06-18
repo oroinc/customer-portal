@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+@use 'sass:map';
+
 .btn {
     &.checked,
     &.active,
@@ -28,5 +30,42 @@
         &.offset-start::after {
             margin-left: $font-icon-offset-end;
         }
+    }
+}
+
+// Behaviour based on realization of @mixin button-custom-variant
+.btn--plain {
+    &.checked,
+    &.active,
+    &.pressed {
+        &.focus-visible {
+            box-shadow: $btn-focus-visible-style;
+        }
+    }
+
+    &:not(.disabled):active,
+    &:not(.disabled).active {
+        &.focus-visible {
+            box-shadow: $btn-focus-visible-style;
+        }
+    }
+}
+
+// Behaviour based on realization of @mixin button-custom-variant
+.btn--default-color {
+    color: color-yiq(map.get($btn-theme-default, 'background'));
+
+    &:hover {
+        color: color-yiq(map.get($btn-theme-default, 'hover-background'));
+    }
+
+    &.disabled,
+    &:disabled {
+        color: color-yiq(map.get($btn-theme-default, 'background'));
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+        color: color-yiq(darken(map.get($btn-theme-default, 'background'), 8%));
     }
 }

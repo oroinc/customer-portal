@@ -17,14 +17,14 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function ScrollableTableView(options) {
             ScrollableTableView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             ScrollableTableView.__super__.initialize.call(this, options);

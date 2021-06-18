@@ -18,7 +18,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FormView(options) {
             FormView.__super__.constructor.call(this, options);

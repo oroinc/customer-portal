@@ -29,7 +29,7 @@ define(function(require) {
         computedStyle: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function StyleBookColorsView(options) {
             this.computedStyle = getComputedStyle(document.documentElement);
@@ -38,7 +38,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          * @returns {{colorPalette: {}}}
          */
         getTemplateData: function() {

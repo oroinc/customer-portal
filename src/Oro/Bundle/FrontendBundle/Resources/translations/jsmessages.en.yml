@@ -47,6 +47,7 @@ oro_frontend:
         title: 'Filters Manager'
         button_label: 'Manage Filters'
         button_aria_label: 'Expand or Collapse Filter Management drop-down'
+        listAriaLabel: 'Manage filters values'
         close:
             aria_label: 'Close the Filter Management drop-down'
 
@@ -55,6 +56,9 @@ oro_frontend:
         apply_all: 'Apply Filters'
         aria_label: 'Expand or Collapse Filters'
         no_found: 'No matches found'
+        multiselect:
+            placeholder: 'Search'
+            aria_label: 'Search filter values'
 
     datagrid_views:
         all: "All "

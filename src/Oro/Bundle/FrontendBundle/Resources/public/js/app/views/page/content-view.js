@@ -7,14 +7,14 @@ define(function(require) {
 
     const FrontendPageContentView = BaseContentView.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendPageContentView(options) {
             FrontendPageContentView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initFocus: function() {
             const activeElement = document.activeElement;

@@ -8,7 +8,7 @@ define(function(require) {
     const StyleBookDatagridPlayground = StyleBookPlayground.extend({
         subviewContainer: '[data-example-view]',
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function StyleBookDatagridPlayground(options) {
             return StyleBookDatagridPlayground.__super__.constructor.call(this, options);

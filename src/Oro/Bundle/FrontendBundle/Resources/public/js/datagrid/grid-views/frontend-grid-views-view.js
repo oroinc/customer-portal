@@ -16,7 +16,7 @@ define(function(require) {
 
     const FrontendGridViewsView = GridViewsView.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         attributes: {
             'data-layout': 'separate'
@@ -35,7 +35,7 @@ define(function(require) {
         toggleAriaLabel: 'oro_frontend.datagrid_views.toggleAriaLabel',
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         route: 'oro_api_frontend_datagrid_gridview_default',
 
@@ -61,7 +61,7 @@ define(function(require) {
         DeleteConfirmation: DeleteConfirmation,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         adjustDocumentTitle: false,
 
@@ -133,14 +133,14 @@ define(function(require) {
         showErrorMessage: false,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendGridViewsView(options) {
             FrontendGridViewsView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          * @param options
          */
         initialize: function(options) {
@@ -175,7 +175,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          * @returns {FrontendGridViewsView}
          */
         render: function() {
@@ -210,7 +210,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {
@@ -577,7 +577,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         onGridViewsModelInvalid: function(errors) {
             this.setNameError(_.first(errors));

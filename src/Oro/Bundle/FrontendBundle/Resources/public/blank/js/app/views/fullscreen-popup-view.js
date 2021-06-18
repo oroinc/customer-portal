@@ -98,14 +98,14 @@ define(function(require) {
         $popup: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FullscreenPopupView(options) {
             FullscreenPopupView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             _.each(this.sections, this._initializeSection.bind(this, options));
@@ -113,7 +113,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {
@@ -143,7 +143,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getTemplateData: function() {
             let data = FullscreenPopupView.__super__.getTemplateData.call(this);

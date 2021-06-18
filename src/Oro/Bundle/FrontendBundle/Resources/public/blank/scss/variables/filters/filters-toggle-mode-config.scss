@@ -24,10 +24,10 @@ $filter-toggle-mode-criteria-selector-display: flex !default;
 $filter-toggle-mode-criteria-selector-flex-direction: row !default;
 $filter-toggle-mode-criteria-selector-align-content: space-between !default;
 $filter-toggle-mode-criteria-selector-align-items: baseline !default;
-$filter-toggle-mode-criteria-selector-offset-inner: 12px $offset-x 12px 0 !default;
-$filter-toggle-mode-criteria-selector-color: get-color('additional', 'dark') !default;
-$filter-toggle-mode-criteria-selector-icon-top-pos: 15px !default;
-$filter-toggle-mode-criteria-selector-icon-right-pos: 0 !default;
+$filter-toggle-mode-criteria-selector-offset-inner: 4px $offset-x 4px 0 !default;
+$filter-toggle-mode-criteria-selector-offset: 8px 0 !default;
+
+$filter-toggle-mode-criteria-selector-icon-right-pos: $offset-x-m !default;
 
 $filter-toggle-mode-criteria-selector-icon-fa-icon: var(--fa-var-angle-right) !default;
 $filter-toggle-mode-criteria-selector-icon-font-size: $base-font-size--large !default;

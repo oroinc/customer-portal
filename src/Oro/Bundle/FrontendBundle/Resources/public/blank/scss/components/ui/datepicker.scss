@@ -16,10 +16,21 @@
     }
 
     .ui-datepicker-title {
+        display: flex;
         margin: $ui-datepicker-title-offset;
 
         line-height: $ui-datepicker-title-line-height;
         text-align: center;
+
+        .oro-select2 {
+            &:first-child {
+                margin-right: $offset-x-s;
+            }
+
+            &:last-of-type {
+                margin-left: $offset-x-s;
+            }
+        }
     }
 
     @if ($ui-datepicker-hide-button-panel) {
@@ -74,6 +85,7 @@
     .ui-datepicker-prev {
         position: absolute;
         top: $ui-datepicker-trigger-top;
+        transform: translateY(-$ui-datepicker-trigger-top);
 
         width: $ui-datepicker-trigger-size;
         height: $ui-datepicker-trigger-size;

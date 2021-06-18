@@ -11,7 +11,7 @@ define(function(require) {
         optionNames: BaseComponent.prototype.optionNames.concat(['isAddressHtmlFormatted']),
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function CustomerAddressBook(options) {
             CustomerAddressBook.__super__.constructor.call(this, options);
@@ -20,7 +20,7 @@ define(function(require) {
         isAddressHtmlFormatted: false,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             widgetManager.getWidgetInstance(options.wid, widget => {

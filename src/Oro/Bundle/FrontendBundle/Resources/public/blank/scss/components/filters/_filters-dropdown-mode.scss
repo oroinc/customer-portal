@@ -35,12 +35,7 @@
     }
 
     .filter-criteria-selector {
-        padding: $filter-dropdown-mode-criteria-selector-offset-inner;
-        border: $filter-dropdown-mode-criteria-selector-border;
-        border-radius: $filter-dropdown-mode-criteria-selector-border-radius;
-
-        background: $filter-dropdown-mode-criteria-selector-bg;
-        color: $filter-dropdown-mode-criteria-selector-color;
+        padding-right: $filter-dropdown-mode-criteria-selector-offset-inner;
 
         cursor: pointer;
 
@@ -78,19 +73,14 @@
     }
 
     .criteria-visible {
-        margin-inline-start: auto;
-        visibility: visible;
+        display: block;
     }
 
     .criteria-hidden {
-        // Break inline styles
-        // stylelint-disable-next-line declaration-no-important
-        margin-inline-start: -9999px !important;
-        visibility: hidden;
+        display: none;
     }
 
     .filter-criteria-selector-icon-wrap {
-        top: $filter-dropdown-mode-criteria-selector-icon-top;
         right: $filter-dropdown-mode-criteria-selector-icon-right;
     }
 

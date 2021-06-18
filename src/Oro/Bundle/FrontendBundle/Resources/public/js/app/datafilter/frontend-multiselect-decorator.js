@@ -14,7 +14,7 @@ define(function(require, exports, module) {
     }, config);
 
     const FrontendMultiSelectDecorator = function(options) {
-        const params = _.pick(options.parameters, ['additionalClass', 'hideHeader', 'themeName']);
+        const params = _.pick(options.parameters, ['additionalClass', 'hideHeader', 'themeName', 'listAriaLabel']);
 
         if (!_.isEmpty(params)) {
             this.parameters = _.extend({}, this.parameters, params);
@@ -49,11 +49,11 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         multiselectFilterParameters: {
-            placeholder: __('oro_frontend.filter_manager.placeholder'),
-            searchAriaLabel: __('oro_frontend.filter_manager.searchAriaLabel')
+            placeholder: __('oro_frontend.filters.multiselect.placeholder'),
+            searchAriaLabel: __('oro_frontend.filters.multiselect.aria_label')
         },
 
         /**

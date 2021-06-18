@@ -33,12 +33,12 @@ define(function(require, exports, module) {
         applyMarkup: true,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         parameters: config,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         multiselectFilterParameters: {
             label: __('oro_frontend.filter_manager.label'),

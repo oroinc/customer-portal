@@ -15,7 +15,7 @@ define([
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function CustomerRoleView(options) {
             CustomerRoleView.__super__.constructor.call(this, options);
@@ -32,7 +32,7 @@ define([
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getData: function() {
             const data = CustomerRoleView.__super__.getData.call(this);

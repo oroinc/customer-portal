@@ -13,7 +13,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function InlineEditorWrapperView(options) {
             InlineEditorWrapperView.__super__.constructor.call(this, options);

@@ -76,9 +76,6 @@
         // stylelint-disable-next-line declaration-no-important
         height: auto !important;
         max-height: $datagrid-manager-filters-dropdown-max-height;
-        margin-bottom: $offset-y-s;
-        padding-left: $offset-x-m;
-        padding-bottom: $offset-y-m;
 
         // Rewrite ui-* styles
         &.ui-rewrite {
@@ -100,8 +97,7 @@
     }
 
     &__footer {
-        padding-bottom: $offset-y-m;
-        margin-bottom: -$offset-y-m;
+        margin-top: $offset-y-m;
     }
 
     &__no-columns {
@@ -279,6 +275,7 @@
             justify-content: center;
 
             width: 100%;
+            height: 100%;
             padding: $datagrid-manager-filters-dropdown-content-inner-offset;
 
             line-height: $datagrid-manager-filters-dropdown-content-line-height;
@@ -293,12 +290,32 @@
         &__inputs {
             position: absolute;
 
-            visibility: hidden;
+            opacity: 0;
+            z-index: z('hidden');
+
+            &.focus-visible,
+            &.focus {
+                + span {
+                    box-shadow: $checkbox-icon-box-shadow-focus-state;
+                    background-color: $datagrid-manager-filters-dropdown-content-hover-bg-color;
+                }
+            }
 
             &:checked {
                 + span {
                     background-color: $datagrid-manager-filters-dropdown-content-checked-background-color;
                     color: $datagrid-manager-filters-dropdown-content-checked-color;
+                }
+            }
+
+            &:disabled {
+                + span {
+                    color: $checkbox-icon-color-disabled-state;
+                    box-shadow: none;
+
+                    @include base-disabled-style(.55, true) {
+                        cursor: default;
+                    }
                 }
             }
         }

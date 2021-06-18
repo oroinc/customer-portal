@@ -11,14 +11,6 @@
             display: block;
         }
     }
-
-    &__panel {
-        color: $frontend-datagrid-panel-color;
-
-        .action {
-            color: inherit;
-        }
-    }
 }
 
 @include breakpoint('tablet') {
