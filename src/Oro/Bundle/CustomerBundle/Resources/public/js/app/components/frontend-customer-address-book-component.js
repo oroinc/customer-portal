@@ -25,14 +25,14 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function CustomerAddressBook(options) {
             CustomerAddressBook.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             options = _.defaults(options || {}, this.defaultOptions);

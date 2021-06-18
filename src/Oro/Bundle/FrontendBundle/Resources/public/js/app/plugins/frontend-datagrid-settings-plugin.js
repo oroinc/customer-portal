@@ -25,7 +25,7 @@ define(function(require, exports, module) {
      */
     const FrontendDatagridSettingsPlugin = DatagridSettingsPlugin.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         onBeforeToolbarInit: function(toolbarOptions) {
             const options = {

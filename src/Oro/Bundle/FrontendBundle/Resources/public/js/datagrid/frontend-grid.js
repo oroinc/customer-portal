@@ -62,7 +62,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getEmptyGridMessage: function(placeholders) {
             const translation = this.noColumnsFlag
@@ -74,7 +74,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getEmptyGridCustomMessage: function(message) {
             return this.noDataTemplate({
@@ -83,7 +83,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getEmptySearchResultMessage: function(placeholders) {
             return this.noDataTemplate({
@@ -92,7 +92,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getEmptySearchResultCustomMessage: function(message) {
             return this.noDataTemplate({

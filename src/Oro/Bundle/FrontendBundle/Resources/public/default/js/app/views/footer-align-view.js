@@ -16,14 +16,14 @@ define(function(require) {
         timeout: 40,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FooterAlignView(options) {
             FooterAlignView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             if (options.timeout) {
@@ -35,7 +35,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         delegateEvents: function(events) {
             FooterAlignView.__super__.delegateEvents.call(this, events);
@@ -44,7 +44,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         undelegateEvents: function() {
             mediator.off(null, null, this);

@@ -7,7 +7,7 @@ define(function(require) {
 
     const FrontendMultiSelectFilter = MultiSelectFilter.extend(_.extend({}, FilterCountHelper, {
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         populateDefault: false,
 
@@ -20,14 +20,14 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendMultiSelectFilter(options) {
             FrontendMultiSelectFilter.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getTemplateData: function() {
             const templateData = FrontendMultiSelectFilter.__super__.getTemplateData.call(this);

@@ -20,14 +20,14 @@ define(function(require) {
         $customerSelect: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function Select2AutocompleteCustomerUserComponent(options) {
             Select2AutocompleteCustomerUserComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.defaults(options || {}, this.options);
@@ -38,7 +38,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         makeQuery: function(query) {
             return [query, this.$customerSelect.val()].join(this.options.delimiter);

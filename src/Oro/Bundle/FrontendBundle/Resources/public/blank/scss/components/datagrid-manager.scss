@@ -288,12 +288,32 @@
         &__inputs {
             position: absolute;
 
-            visibility: hidden;
+            opacity: 0;
+            z-index: z('hidden');
+
+            &.focus-visible,
+            &.focus {
+                + span {
+                    box-shadow: $checkbox-icon-box-shadow-focus-state;
+                    background-color: $datagrid-manager-filters-dropdown-content-hover-bg-color;
+                }
+            }
 
             &:checked {
                 + span {
                     background-color: $datagrid-manager-filters-dropdown-content-checked-background-color;
                     color: $datagrid-manager-filters-dropdown-content-checked-color;
+                }
+            }
+
+            &:disabled {
+                + span {
+                    color: $checkbox-icon-color-disabled-state;
+                    box-shadow: none;
+
+                    @include base-disabled-style(.55, true) {
+                        cursor: default;
+                    }
                 }
             }
         }

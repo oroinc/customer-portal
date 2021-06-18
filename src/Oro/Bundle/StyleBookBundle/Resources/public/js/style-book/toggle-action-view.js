@@ -29,14 +29,14 @@ define(function(require) {
         target: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function ToggleActionView(options) {
             ToggleActionView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.$el.on('click' + this.eventNamespace(), _.bind(this.toggle, this));

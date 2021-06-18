@@ -44,14 +44,14 @@ define(function(require, exports, module) {
         isApplicable: false,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function ScrollTopView(options) {
             ScrollTopView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options || {});
@@ -59,7 +59,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         setElement: function(element) {
             this.$window = $(window);
@@ -68,7 +68,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         delegateEvents: function(events) {
             ScrollTopView.__super__.delegateEvents.call(this, events);
@@ -76,7 +76,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         undelegateEvents: function() {
             if (this.$window) {
@@ -86,7 +86,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         render: function() {
             this.isApplicable = viewportManager.isApplicable(this.options.viewport);
@@ -127,7 +127,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {

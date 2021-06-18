@@ -11,7 +11,7 @@ define(function(require) {
 
     const AttachedEditableViewComponent = InlineEditableViewComponent.extend(/** @lends AttachedEditableViewComponent.prototype */{
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function AttachedEditableViewComponent(options) {
             AttachedEditableViewComponent.__super__.constructor.call(this, options);

@@ -4,7 +4,7 @@ import 'jquery-ui/tabbable';
 
 const ProxyFocusView = BaseView.extend({
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     events: {
         click: 'onClick'
@@ -16,14 +16,14 @@ const ProxyFocusView = BaseView.extend({
     focusElementSelector: null,
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     constructor: function ProxyFocusView(options) {
         ProxyFocusView.__super__.constructor.call(this, options);
     },
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     initialize(options) {
         if (!options.focusElementSelector) {

@@ -18,14 +18,14 @@ define(function(require) {
         $targetTypeField: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function TargetFieldsView(options) {
             TargetFieldsView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options);
@@ -76,7 +76,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {

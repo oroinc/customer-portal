@@ -6,7 +6,7 @@ define(function(require) {
 
     const ChoiceFilter = BaseChoiceFilter.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         criteriaValueSelectors: _.defaults({
             type: 'select[data-choice-value-select]'
@@ -17,7 +17,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function ChoiceFilter(options) {
             ChoiceFilter.__super__.constructor.call(this, options);
@@ -30,7 +30,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         _onChangeChoiceValue: function(e) {
             if (!this.changeChoiceValueHandling) {
@@ -43,7 +43,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         _onValueUpdated: function(newValue, oldValue) {
             this.$(this.criteriaValueSelectors.type).each(function(i, elem) {

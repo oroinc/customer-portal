@@ -12,7 +12,7 @@ define(function(require) {
 
     const StickyPanelView = BaseView.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         autoRender: false,
 
@@ -52,7 +52,7 @@ define(function(require) {
         viewport: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function StickyPanelView(options) {
             this.onScroll = this.onScroll.bind(this);
@@ -60,7 +60,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options || {});
@@ -79,7 +79,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         setElement: function(element) {
             this.$document = $(document);
@@ -87,7 +87,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          * Init mediator listeners
          */
         delegateListeners: function() {
@@ -97,7 +97,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          * Enable DOM document events
          */
         delegateEvents: function(events) {
@@ -123,7 +123,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         undelegateEvents: function() {
             if (scrollHelper.isPassiveEventSupported()) {
@@ -137,7 +137,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         render: function() {
             this.getElements();
@@ -161,7 +161,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {

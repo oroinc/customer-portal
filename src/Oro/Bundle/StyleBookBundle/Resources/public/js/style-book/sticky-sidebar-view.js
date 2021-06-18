@@ -31,14 +31,14 @@ define(function(require) {
         scrollTimeout: 60,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function StickySidebarView(options) {
             StickySidebarView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.$el.addClass(this.toggleClass);

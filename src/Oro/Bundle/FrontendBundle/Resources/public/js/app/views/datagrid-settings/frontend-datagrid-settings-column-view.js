@@ -38,14 +38,14 @@ define(function(require, exports, module) {
         }, _.pick(config.popupOptions, 'popupBadge', 'popupIcon', 'popupLabel', 'popupCloseButton')),
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendDatagridSettingsColumnView(options) {
             FrontendDatagridSettingsColumnView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.viewport = _.extend(this.viewport, options.viewport || {});
@@ -69,7 +69,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         updateStateView: function() {
             if (viewportManager.isApplicable(this.viewport)) {

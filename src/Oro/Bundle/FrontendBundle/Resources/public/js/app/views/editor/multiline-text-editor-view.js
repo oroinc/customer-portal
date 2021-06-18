@@ -49,7 +49,7 @@ define(function(require) {
      */
     const MultilineTextEditorView = TextEditorView.extend(/** @lends MultilineTextEditorView.prototype */{
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function MultilineTextEditorView(options) {
             MultilineTextEditorView.__super__.constructor.call(this, options);

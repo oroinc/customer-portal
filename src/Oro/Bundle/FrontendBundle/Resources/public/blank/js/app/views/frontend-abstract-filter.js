@@ -12,6 +12,11 @@ define(function(require, exports, module) {
 
     const FrontendAbstractFilter = AbstractFilter.extend({
         /**
+         * @inheritdoc
+         */
+        renderMode: 'dropdown-mode',
+
+        /**
          * Duration of slide up/down filter criteria
          *
          * @property {Number}
@@ -19,7 +24,7 @@ define(function(require, exports, module) {
         animationDuration: config.animationDuration,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendAbstractFilter(options) {
             FrontendAbstractFilter.__super__.constructor.call(this, options);
@@ -39,10 +44,12 @@ define(function(require, exports, module) {
 
             if (status) {
                 element.slideDown(this.animationDuration, () => {
+                    this._setCriteriaSelectorPressed(true);
                     element.parent().addClass(this.buttonActiveClass);
                 });
             } else {
                 element.slideUp(this.animationDuration, () => {
+                    this._setCriteriaSelectorPressed(false);
                     element.parent().removeClass(this.buttonActiveClass);
                 });
             }

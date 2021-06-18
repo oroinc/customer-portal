@@ -19,14 +19,14 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendDataGridComponent(options) {
             FrontendDataGridComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initDataGrid: function(options) {
             FrontendDataGridComponent.__super__.initDataGrid.call(this, options);
@@ -41,7 +41,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         combineGridOptions: function() {
             const options = FrontendDataGridComponent.__super__.combineGridOptions.call(this);
