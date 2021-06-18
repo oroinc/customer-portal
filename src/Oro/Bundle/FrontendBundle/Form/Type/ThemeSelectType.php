@@ -10,6 +10,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Theme select type
+ */
 class ThemeSelectType extends AbstractType
 {
     const NAME = 'oro_frontend_theme_select';
@@ -104,7 +107,7 @@ class ThemeSelectType extends AbstractType
     protected function getThemes()
     {
         if (!$this->themes) {
-            $this->themes = $this->themeManager->getAllThemes(self::GROUP);
+            $this->themes = $this->themeManager->getEnabledThemes(self::GROUP);
         }
 
         return $this->themes;
