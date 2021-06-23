@@ -26,3 +26,10 @@ oro:
                 label: Customer
             organization:
                 label: Organization
+
+        entity_config:
+            fields:
+                frontend:
+                    use_in_export:
+                        label: 'Exportable'
+                        tooltip: 'If enabled, the value of this field will be present in the product data export file in the storefront.'
