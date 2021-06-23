@@ -53,7 +53,7 @@ class ThemeSelectTypeTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->themeManager->expects($this->once())
-            ->method('getAllThemes')
+            ->method('getEnabledThemes')
             ->with('commerce')
             ->will($this->returnValue($themes));
 
@@ -78,7 +78,7 @@ class ThemeSelectTypeTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->themeManager->expects($this->once())
-            ->method('getAllThemes')
+            ->method('getEnabledThemes')
             ->with('commerce')
             ->will($this->returnValue($themes));
 
