@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: '@OroFrontend/layouts/blank/page/js_modules_config.html.twig'
+            themes: 'js_modules_config.html.twig'
         - '@add':
             id: js_modules_config
             parentId: layout_js_modules_config

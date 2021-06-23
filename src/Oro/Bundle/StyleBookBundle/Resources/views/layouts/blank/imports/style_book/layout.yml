@@ -6,7 +6,7 @@ layout:
             namespace: style_book_menu
     actions:
         - '@setBlockTheme':
-            themes: '@OroStyleBook/layouts/blank/imports/style_book/layout.html.twig'
+            themes: 'layout.html.twig'
 
         - '@remove':
             id: wrapper
