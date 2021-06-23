@@ -213,7 +213,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
 
         /** @var \PHPUnit\Framework\MockObject\MockObject|AbstractCustomerUserRoleHandler $handler */
         $handler = $this->getMockBuilder(get_class($handlerInstance))
-            ->setMethods(['processPrivileges'])
+            ->onlyMethods(['processPrivileges'])
             ->setConstructorArgs([$this->formFactory, $this->aclCache, $this->privilegeConfig])
             ->getMock();
         $this->setRequirementsForHandler($handler);
@@ -224,13 +224,13 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $handler->process($role);
 
         foreach ($expectedUsersWithRole as $expectedUser) {
-            static::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
-            static::assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), $role);
+            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            self::assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), $role);
         }
 
         foreach ($expectedUsersWithoutRole as $expectedUser) {
-            static::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
-            static::assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), null);
+            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            self::assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), null);
         }
     }
 
