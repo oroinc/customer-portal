@@ -34,15 +34,15 @@ define([
                 if (isOpen) {
                     this.$container.animate({
                         height: this.getRowsHeight()
-                    }, this.options.animationSpeed, _.bind(function() {
+                    }, this.options.animationSpeed, () => {
                         this.$container.css('overflow', 'visible');
-                    }, this));
+                    });
                 } else {
                     this.$container.animate({
                         height: this.getRowsHeight(this.options.visibleRows)
-                    }, this.options.animationSpeed, _.bind(function() {
+                    }, this.options.animationSpeed, () => {
                         this.$container.css('overflow', 'hidden');
-                    }, this));
+                    });
                 }
             }
         },
@@ -77,12 +77,12 @@ define([
             let height = this.$el.find(self.options.headerSelector).outerHeight();
             const rowsCount = rows || $rows.length;
 
-            $rows.each(_.bind(function(index, row) {
+            $rows.each((index, row) => {
                 if (index >= rowsCount) {
                     return;
                 }
                 height += $(row).outerHeight();
-            }, this));
+            });
 
             return height;
         }

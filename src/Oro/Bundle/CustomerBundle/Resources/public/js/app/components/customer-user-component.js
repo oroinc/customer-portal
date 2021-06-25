@@ -29,7 +29,7 @@ define(function(require) {
         initialize: function(options) {
             this.options = _.defaults(options || {}, this.options);
             this.options._sourceElement
-                .on('change', this.options.customerFormId, _.bind(this.reloadRoleWidget, this));
+                .on('change', this.options.customerFormId, this.reloadRoleWidget.bind(this));
         },
 
         /**

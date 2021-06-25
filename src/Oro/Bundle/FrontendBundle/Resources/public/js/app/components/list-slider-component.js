@@ -121,7 +121,7 @@ define(function(require) {
         },
 
         refreshPositions: function() {
-            const updatePosition = _.bind(this.updatePosition, this);
+            const updatePosition = this.updatePosition.bind(this);
             $(this.$el).on('init', function(event, slick) {
                 // This delay needed for waiting when slick initialized
                 setTimeout(updatePosition, 100);

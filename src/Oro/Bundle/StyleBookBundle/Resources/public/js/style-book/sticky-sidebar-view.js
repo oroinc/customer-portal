@@ -71,7 +71,7 @@ define(function(require) {
 
         delegateListeners: function() {
             StickySidebarView.__super__.delegateListeners.call(this);
-            this.listenTo(mediator, 'layout:reposition', _.bind(this.setPosition, this));
+            this.listenTo(mediator, 'layout:reposition', this.setPosition.bind(this));
         },
 
         delegateEvents: function(events) {
@@ -79,7 +79,7 @@ define(function(require) {
 
             this.$document.on(
                 'scroll' + this.eventNamespace(),
-                _.throttle(_.bind(this.setPosition, this), this.scrollTimeout)
+                _.throttle(this.setPosition.bind(this), this.scrollTimeout)
             );
 
             return this;

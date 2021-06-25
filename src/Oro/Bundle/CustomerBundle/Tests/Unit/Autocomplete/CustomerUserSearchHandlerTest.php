@@ -23,23 +23,13 @@ use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 {
     private const DELIMITER = ';';
-
     private const TEST_ENTITY_CLASS = 'TestCustomerUserEntity';
-
     private const CUSTOMER_ID = '1';
-
     private const PAGE = 1;
-
     private const PER_PAGE = 5;
-
-    /** @var EntityManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $entityManager;
 
     /** @var EntityRepository|\PHPUnit\Framework\MockObject\MockObject */
     private $entityRepository;
-
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $managerRegistry;
 
     /** @var Indexer|\PHPUnit\Framework\MockObject\MockObject */
     private $indexer;
@@ -53,38 +43,34 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->indexer = $this->createMock(Indexer::class);
+        $this->aclHelper = $this->createMock(AclHelper::class);
+        $this->entityRepository = $this->createMock(EntityRepository::class);
 
-        $metadata = $this->getMockBuilder(ClassMetadata::class)
-            ->setMethods(['getSingleIdentifierFieldName'])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $metadata = $this->createMock(ClassMetadata::class);
         $metadata->expects(self::once())
             ->method('getSingleIdentifierFieldName')
-            ->will($this->returnValue('id'));
+            ->willReturn('id');
 
         $metadataFactory = $this->createMock(ClassMetadataFactory::class);
         $metadataFactory->expects(self::once())
             ->method('getMetadataFor')
             ->with(self::TEST_ENTITY_CLASS)
-            ->will($this->returnValue($metadata));
+            ->willReturn($metadata);
 
-        $this->entityManager = $this->createMock(EntityManager::class);
-        $this->entityManager->expects(self::once())
+        $entityManager = $this->createMock(EntityManager::class);
+        $entityManager->expects(self::once())
             ->method('getMetadataFactory')
             ->willReturn($metadataFactory);
-
-        $this->entityRepository = $this->createMock(EntityRepository::class);
-        $this->entityManager->expects(self::once())
+        $entityManager->expects(self::once())
             ->method('getRepository')
             ->with(self::TEST_ENTITY_CLASS)
             ->willReturn($this->entityRepository);
 
-        $this->aclHelper = $this->createMock(AclHelper::class);
-        $this->managerRegistry = $this->createMock(ManagerRegistry::class);
-        $this->managerRegistry->expects(self::once())
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects(self::once())
             ->method('getManagerForClass')
             ->with(self::TEST_ENTITY_CLASS)
-            ->willReturn($this->entityManager);
+            ->willReturn($entityManager);
 
         $searchMappingProvider = $this->createMock(SearchMappingProvider::class);
         $searchMappingProvider->expects($this->once())
@@ -94,7 +80,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->searchHandler = new CustomerUserSearchHandler(self::TEST_ENTITY_CLASS, ['email']);
         $this->searchHandler->initSearchIndexer($this->indexer, $searchMappingProvider);
-        $this->searchHandler->initDoctrinePropertiesByManagerRegistry($this->managerRegistry);
+        $this->searchHandler->initDoctrinePropertiesByManagerRegistry($doctrine);
         $this->searchHandler->setAclHelper($this->aclHelper);
     }
 
@@ -263,13 +249,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($query);
     }
 
-    /**
-     * @param array $result
-     * @param bool $hasMore
-     *
-     * @return array
-     */
-    private function getExpectedResult($result = [], $hasMore = false): array
+    private function getExpectedResult(array $result = [], bool $hasMore = false): array
     {
         return [
             'results' => $result,
@@ -277,12 +257,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Result\Item|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getResultItem($id)
+    private function getResultItem(int $id): Result\Item
     {
         $element = $this->createMock(Result\Item::class);
         $element->expects(self::once())
@@ -292,13 +267,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
         return $element;
     }
 
-    /**
-     * @param int $id
-     * @param string $email
-     *
-     * @return \stdClass
-     */
-    private function getResultStub($id, $email)
+    private function getResultStub(int $id, string $email): \stdClass
     {
         $result = new \stdClass();
         $result->id = $id;
@@ -319,7 +288,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->entityRepository->expects($this->once())
             ->method('findOneBy')
-            ->will($this->returnValue($foundElement));
+            ->willReturn($foundElement);
 
         $searchResult = $this->searchHandler->search($queryString, 1, 10, true);
 

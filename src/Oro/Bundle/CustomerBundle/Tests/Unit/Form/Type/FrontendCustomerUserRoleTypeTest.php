@@ -18,16 +18,15 @@ use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Validation;
 
 class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
 {
     /** @var CustomerUser[] */
-    protected $customerUsers = [];
+    private $customerUsers = [];
 
-    /**
-     * @var FrontendCustomerUserRoleType
-     */
+    /** @var FrontendCustomerUserRoleType */
     protected $formType;
 
     /**
@@ -37,12 +36,8 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
     {
         $entityIdentifierType = new EntityType($this->getCustomerUsers());
         $customerSelectType = new EntityType($this->getCustomers(), CustomerSelectType::NAME);
+        $translatableEntity = $this->createMock(TranslatableEntityType::class);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|TranslatableEntityType $registry */
-        $translatableEntity = $this->getMockBuilder('Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType')
-            ->setMethods(['configureOptions', 'buildForm'])
-            ->disableOriginalConstructor()
-            ->getMock();
         return [
             new PreloadedExtension(
                 [
@@ -61,7 +56,6 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
     }
 
     /**
-     * {@inheritdoc}
      * @dataProvider submitDataProvider
      */
     public function testSubmit(
@@ -100,10 +94,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         }
     }
 
-    /**
-     * @return array
-     */
-    public function submitDataProvider()
+    public function submitDataProvider(): array
     {
         $roleLabel = 'customer_role_label';
         $alteredRoleLabel = 'altered_role_label';
@@ -164,10 +155,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         $this->assertEquals($expected, $event->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function preSubmitProvider()
+    public function preSubmitProvider(): array
     {
         return [
             'append and remove users are empty' => [
@@ -233,7 +221,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
     /**
      * @return CustomerUser[]
      */
-    protected function getCustomerUsers()
+    protected function getCustomerUsers(): array
     {
         if (!$this->customerUsers) {
             [$customer1, $customer2] = array_values($this->getCustomers());
@@ -264,10 +252,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         return $this->customerUsers;
     }
 
-    /**
-     * @return \Symfony\Component\Form\FormInterface
-     */
-    protected function prepareFormForEvents()
+    private function prepareFormForEvents(): FormInterface
     {
         [$customerUser1, $customerUser2, $customerUser3, $customerUser4] = array_values($this->getCustomerUsers());
 
@@ -281,12 +266,10 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
         $predefinedRole->addCustomerUser($customerUser3);
         $predefinedRole->addCustomerUser($customerUser4);
 
-        $form = $this->factory->create(
+        return $this->factory->create(
             FrontendCustomerUserRoleType::class,
             $role,
             ['privilege_config' => $this->privilegeConfig, 'predefined_role' => $predefinedRole]
         );
-
-        return $form;
     }
 }

@@ -72,7 +72,7 @@ define(function(require, exports, module) {
          */
         delegateEvents: function(events) {
             ScrollTopView.__super__.delegateEvents.call(this, events);
-            this.$window.on('scroll' + this.eventNamespace(), _.debounce(_.bind(this.toggle, this), 5));
+            this.$window.on('scroll' + this.eventNamespace(), _.debounce(this.toggle.bind(this), 5));
         },
 
         /**

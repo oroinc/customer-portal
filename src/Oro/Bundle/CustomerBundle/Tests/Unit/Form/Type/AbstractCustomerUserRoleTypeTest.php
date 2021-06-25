@@ -78,10 +78,7 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function submitDataProvider()
+    public function submitDataProvider(): array
     {
         $roleLabel = 'customer_role_label';
         $alteredRoleLabel = 'altered_role_label';

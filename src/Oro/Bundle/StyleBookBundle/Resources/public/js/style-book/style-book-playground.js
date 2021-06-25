@@ -134,7 +134,7 @@ define(function(require) {
                 if (this.renderAfter === 'action') {
                     const actionEl = this.$('[data-action]');
                     const actions = actionEl.data('action').split(' ');
-                    actionEl.on(actions[0], _.bind(this.renderViewViaMethod, this, actions[1]));
+                    actionEl.on(actions[0], this.renderViewViaMethod.bind(this, actions[1]));
                 }
             }
 

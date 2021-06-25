@@ -1,5 +1,6 @@
 entity_config:
     entity:
+        # You can find out more about attributes in the documentation: https://doc.oroinc.com/backend/configuration/annotation/config.html#entity
         entity:
             items:
                 frontend_grid_all_view_label:
@@ -12,6 +13,7 @@ entity_config:
                             min:            2
                             max:            55
     frontend:
+        # You can find out more about attributes in the documentation: https://doc.oroinc.com/backend/configuration/annotation/config-field.html#frontend
         field:
             form:
                 block_config:

@@ -44,6 +44,11 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
         return $result;
     }
 
+    /**
+     * @param Organization|null $organization
+     *
+     * @return int[]
+     */
     public function getAllWebsitesIds(?Organization $organization = null): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -60,7 +65,7 @@ class WebsiteRepository extends EntityRepository implements BatchIteratorInterfa
 
         $result = $qb->getQuery()->getResult();
 
-        return array_column($result, 'id');
+        return array_map(fn ($value) => (int) $value['id'], $result);
     }
 
     /**

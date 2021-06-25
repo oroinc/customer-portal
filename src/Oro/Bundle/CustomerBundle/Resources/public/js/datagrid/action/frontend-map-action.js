@@ -1,7 +1,6 @@
 define(function(require) {
     'use strict';
 
-    const _ = require('underscore');
     const MapAction = require('oro/datagrid/action/map-action');
     const ViewportManager = require('oroui/js/viewport-manager');
     const Popover = require('bootstrap-popover');
@@ -35,7 +34,7 @@ define(function(require) {
          */
         initialize: function(options) {
             FrontendMapAction.__super__.initialize.call(this, options);
-            this.mapView.on('mapRendered', _.bind(this.onMapRendered, this));
+            this.mapView.on('mapRendered', this.onMapRendered.bind(this));
             this.listenTo(this.model, 'change:isDropdownActions', this.actionsDropdownListener);
         },
 
@@ -64,10 +63,10 @@ define(function(require) {
         },
 
         handleFullScreenView: function() {
-            const onClose = _.bind(function() {
+            const onClose = () => {
                 this.fullscreenView.dispose();
                 delete this.fullscreenView;
-            }, this);
+            };
 
             if (this.fullscreenView) {
                 onClose();
@@ -84,7 +83,7 @@ define(function(require) {
 
         actionsDropdownListener: function() {
             if (this.model.get('isDropdownActions')) {
-                this.subviews[0].$el.on('click', _.bind(this.handleFullScreenView, this));
+                this.subviews[0].$el.on('click', this.handleFullScreenView.bind(this));
             }
         }
     });

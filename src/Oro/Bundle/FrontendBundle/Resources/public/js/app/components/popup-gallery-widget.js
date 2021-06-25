@@ -208,9 +208,9 @@ define(function(require) {
                 url: routing.generate(this.options.ajaxRoute, data),
                 method: this.options.ajaxMethod,
                 dataType: 'json',
-                beforeSend: _.bind(function() {
+                beforeSend: () => {
                     mediator.execute('showLoading');
-                }, this),
+                },
                 success: data => {
                     _.each(data, function(item, key) {
                         const image = {
@@ -295,7 +295,7 @@ define(function(require) {
 
         onResize: function() {
             this.refreshPositions();
-            _.delay(_.bind(this.refreshPositions, this), 500);
+            _.delay(this.refreshPositions.bind(this), 500);
         },
 
         refreshPositions: function() {

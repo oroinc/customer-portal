@@ -2,7 +2,6 @@ define(function(require) {
     'use strict';
 
     const AttachedEditableViewComponent = require('orofrontend/js/app/components/attached-editable-view-component');
-    const _ = require('underscore');
 
     const SwitchableEditableViewComponent = AttachedEditableViewComponent.extend(/** @lends SwitchableEditableViewComponent.prototype */{
         /**
@@ -18,7 +17,7 @@ define(function(require) {
          */
         initialize: function(options) {
             this.switcher = options._sourceElement.find('[data-role="start-editing"]');
-            this.switcher.on('click', _.bind(this.onSwitcherChange, this));
+            this.switcher.on('click', this.onSwitcherChange.bind(this));
 
             SwitchableEditableViewComponent.__super__.initialize.call(this, options);
         },

@@ -3,86 +3,78 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
 use Oro\Bundle\AddressBundle\Entity\AddressType;
+use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypesValidator;
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Component\Validator\Exception\ValidatorException;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit\Framework\TestCase
+class UniqueAddressDefaultTypesValidatorTest extends ConstraintValidatorTestCase
 {
+    protected function createValidator()
+    {
+        return new UniqueAddressDefaultTypesValidator();
+    }
+
     public function testValidateExceptionWhenInvalidArgumentType()
     {
-        $this->expectException(\Symfony\Component\Validator\Exception\UnexpectedTypeException::class);
+        $this->expectException(UnexpectedTypeException::class);
         $this->expectExceptionMessage(
             'Expected argument of type "array or Traversable and ArrayAccess", "boolean" given'
         );
 
-        /** @var Constraint|\PHPUnit\Framework\MockObject\MockObject $constraint */
-        $constraint = $this->createMock('Symfony\Component\Validator\Constraint');
-        $validator = new UniqueAddressDefaultTypesValidator();
-        $validator->validate(false, $constraint);
+        $constraint = new UniqueAddressDefaultTypes();
+        $this->validator->validate(false, $constraint);
     }
 
     public function testValidateExceptionWhenInvalidArgumentElementType()
     {
-        $this->expectException(\Symfony\Component\Validator\Exception\ValidatorException::class);
+        $this->expectException(ValidatorException::class);
         $this->expectExceptionMessage(
             'type "Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress", "array" given'
         );
 
-        /** @var Constraint|\PHPUnit\Framework\MockObject\MockObject $constraint */
-        $constraint = $this->createMock('Symfony\Component\Validator\Constraint');
-        $validator = new UniqueAddressDefaultTypesValidator();
-        $validator->validate([1], $constraint);
+        $constraint = new UniqueAddressDefaultTypes();
+        $this->validator->validate([1], $constraint);
     }
 
     /**
      * @dataProvider validAddressesDataProvider
-     * @param array $addresses
      */
     public function testValidateValid(array $addresses)
     {
-        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
-        $context = $this->createMock('Symfony\Component\Validator\Context\ExecutionContextInterface');
-        $context->expects($this->never())
-            ->method('addViolation');
+        $constraint = $this->createMock(UniqueAddressDefaultTypes::class);
+        $this->validator->validate($addresses, $constraint);
 
-        /** @var Constraint|\PHPUnit\Framework\MockObject\MockObject $constraint */
-        $constraint = $this->createMock('Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes');
-        $validator = new UniqueAddressDefaultTypesValidator();
-        $validator->initialize($context);
-
-        $validator->validate($addresses, $constraint);
+        $this->assertNoViolation();
     }
 
-    /**
-     * @return array
-     */
-    public function validAddressesDataProvider()
+    public function validAddressesDataProvider(): array
     {
         return [
             'no addresses' => [
                 [],
             ],
             'one address without type' => [
-                [$this->getDefaultTypedAddressMock([])],
+                [$this->getDefaultTypedAddress([])],
             ],
             'one address with type' => [
-                [$this->getDefaultTypedAddressMock(['billing' => 'billing label'])],
+                [$this->getDefaultTypedAddress(['billing' => 'billing label'])],
             ],
             'many addresses unique types' => [
                 [
-                    $this->getDefaultTypedAddressMock(['billing' => 'billing label']),
-                    $this->getDefaultTypedAddressMock(['shipping' => 'shipping label']),
-                    $this->getDefaultTypedAddressMock(['billing_corporate' => 'billing_corporate label']),
-                    $this->getDefaultTypedAddressMock([]),
+                    $this->getDefaultTypedAddress(['billing' => 'billing label']),
+                    $this->getDefaultTypedAddress(['shipping' => 'shipping label']),
+                    $this->getDefaultTypedAddress(['billing_corporate' => 'billing_corporate label']),
+                    $this->getDefaultTypedAddress([]),
                 ],
             ],
             'empty address' => [
                 [
-                    $this->getDefaultTypedAddressMock(['billing' => 'billing label']),
-                    $this->getDefaultTypedAddressMock(['shipping' => 'shipping label']),
-                    $this->getDefaultTypedAddressMock([], true),
+                    $this->getDefaultTypedAddress(['billing' => 'billing label']),
+                    $this->getDefaultTypedAddress(['shipping' => 'shipping label']),
+                    $this->getDefaultTypedAddress([], true),
                 ],
             ],
         ];
@@ -90,65 +82,40 @@ class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider invalidAddressesDataProvider
-     * @param array  $addresses
-     * @param string $types
      */
-    public function testValidateInvalid($addresses, $types)
+    public function testValidateInvalid(array $addresses, string $types)
     {
-        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
-        $context = $this->getMockBuilder('Symfony\Component\Validator\Context\ExecutionContextInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $context->expects($this->once())
-            ->method('addViolation')
-            ->with('Several addresses have the same default type {{ types }}.', ['{{ types }}' => $types]);
+        $constraint = $this->createMock(UniqueAddressDefaultTypes::class);
+        $this->validator->validate($addresses, $constraint);
 
-        /** @var UniqueAddressDefaultTypes|\PHPUnit\Framework\MockObject\MockObject $constraint */
-        $constraint = $this->createMock('Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes');
-        $validator = new UniqueAddressDefaultTypesValidator();
-        $validator->initialize($context);
-
-        $validator->validate($addresses, $constraint);
+        $this->buildViolation($constraint->message)
+            ->setParameter('{{ types }}', $types)
+            ->assertRaised();
     }
 
-    /**
-     * @return array
-     */
-    public function invalidAddressesDataProvider()
+    public function invalidAddressesDataProvider(): array
     {
         return [
             'several addresses with one same type' => [
                 [
-                    $this->getDefaultTypedAddressMock(['billing' => 'billing label']),
-                    $this->getDefaultTypedAddressMock(['billing' => 'billing label', 'shipping' => 'shipping label']),
+                    $this->getDefaultTypedAddress(['billing' => 'billing label']),
+                    $this->getDefaultTypedAddress(['billing' => 'billing label', 'shipping' => 'shipping label']),
                 ],
                 '"billing label"',
             ],
             'several addresses with two same types' => [
                 [
-                    $this->getDefaultTypedAddressMock(['billing' => 'billing label']),
-                    $this->getDefaultTypedAddressMock(['shipping' => 'shipping label']),
-                    $this->getDefaultTypedAddressMock(['billing' => 'billing label', 'shipping' => 'shipping label']),
+                    $this->getDefaultTypedAddress(['billing' => 'billing label']),
+                    $this->getDefaultTypedAddress(['shipping' => 'shipping label']),
+                    $this->getDefaultTypedAddress(['billing' => 'billing label', 'shipping' => 'shipping label']),
                 ],
                 '"billing label", "shipping label"',
             ],
         ];
     }
 
-    /**
-     * Get address mock.
-     *
-     * @param array $addressTypes
-     * @param bool  $isEmpty
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getDefaultTypedAddressMock(array $addressTypes, $isEmpty = false)
+    private function getDefaultTypedAddress(array $addressTypes, bool $isEmpty = false): AbstractDefaultTypedAddress
     {
-        $address = $this->getMockBuilder('Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress')
-            ->disableOriginalConstructor()
-            ->setMethods(['getDefaults', 'isEmpty'])
-            ->getMockForAbstractClass();
-
         $addressTypeEntities = [];
         foreach ($addressTypes as $name => $label) {
             $addressType = new AddressType($name);
@@ -156,13 +123,13 @@ class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit\Framework\TestCase
             $addressTypeEntities[] = $addressType;
         }
 
+        $address = $this->createMock(AbstractDefaultTypedAddress::class);
         $address->expects($this->any())
             ->method('getDefaults')
-            ->will($this->returnValue($addressTypeEntities));
-
+            ->willReturn($addressTypeEntities);
         $address->expects($this->once())
             ->method('isEmpty')
-            ->will($this->returnValue($isEmpty));
+            ->willReturn($isEmpty);
 
         return $address;
     }

@@ -135,7 +135,7 @@ define(function(require, exports, module) {
 
                 this.applyAllFiltersBtn = this.fullscreenView.footer.$el.find(this.applyAllFiltersSelector);
 
-                this.applyAllFiltersBtn.on('click', _.bind(function() {
+                this.applyAllFiltersBtn.on('click', () => {
                     const state = this.getChangedFiltersState(this.datagrid);
 
                     if (state.errorsCount === 0) {
@@ -145,7 +145,7 @@ define(function(require, exports, module) {
 
                         this.fullscreenView.close();
                     }
-                }, this));
+                });
 
                 this._toggleApplyAllBtn(!_.keys(enteredState.filters).length);
 
@@ -263,9 +263,9 @@ define(function(require, exports, module) {
                     .hide();
             }, this);
 
-            const handler = _.bind(function() {
+            const handler = () => {
                 this.filterManagerPopup.show();
-            }, this);
+            };
 
             // Don't close filter before open Filter Manager
             selectWidget.multiselect('instance').options.beforeopen = function() {

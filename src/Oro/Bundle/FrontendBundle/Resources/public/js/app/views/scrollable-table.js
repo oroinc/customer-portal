@@ -39,14 +39,14 @@ define(function(require) {
             this.hasScroll();
             this.alignCell();
 
-            mediator.on('scrollable-table:reload', _.bind(function() {
+            mediator.on('scrollable-table:reload', () => {
                 this.hasScroll();
                 this.alignCell();
-            }, this));
+            });
 
-            $(window).on('resize', _.debounce(_.bind(function() {
+            $(window).on('resize', _.debounce(() => {
                 this.alignCell();
-            }, this), 200));
+            }, 200));
         },
 
         alignCell: function() {
