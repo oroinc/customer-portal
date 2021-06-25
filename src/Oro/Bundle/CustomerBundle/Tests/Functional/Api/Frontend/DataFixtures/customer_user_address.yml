@@ -20,7 +20,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
         firstName: 'First Name 1'
         lastName: 'Last Name 1'
-        roles: ['@buyer']
+        userRoles: ['@buyer']
         customer: '@customer'
         website: '@website'
         owner: '@user'
@@ -32,7 +32,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
         firstName: 'Another First Name'
         lastName: 'Another Last Name'
-        roles: ['@buyer']
+        userRoles: ['@buyer']
         customer: '@customer'
         website: '@website'
         owner: '@user'
@@ -44,7 +44,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
         firstName: 'First Name'
         lastName: 'Last Name'
-        roles: ['@buyer']
+        userRoles: ['@buyer']
         customer: '@customer_for_another_department'
         website: '@website'
         owner: '@user'

@@ -10,6 +10,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     confirmed: '0'
     customer: '@company_A'
     organization: '@organization'
-    roles: ['@buyer']
+    userRoles: ['@buyer']
     owner: '@admin'
     website: '@website1'

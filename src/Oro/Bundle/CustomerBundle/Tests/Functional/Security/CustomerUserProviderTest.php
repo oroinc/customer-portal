@@ -69,7 +69,7 @@ class CustomerUserProviderTest extends WebTestCase
         $user = $securityProvider->getLoggedUser();
         $this->assertNotEmpty($user);
 
-        $user->setRoles([$role]);
+        $user->setUserRoles([$role]);
         $em->flush();
 
         $userClassName = CustomerUser::class;

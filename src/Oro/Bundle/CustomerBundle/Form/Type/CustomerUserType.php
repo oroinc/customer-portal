@@ -269,7 +269,7 @@ class CustomerUserType extends AbstractType
         $data->setOrganization($this->tokenAccessor->getOrganization());
 
         $form->add(
-            'roles',
+            'userRoles',
             CustomerUserRoleSelectType::class,
             [
                 'query_builder' => function (CustomerUserRoleRepository $repository) use ($data) {
@@ -291,7 +291,7 @@ class CustomerUserType extends AbstractType
         $data = $event->getData();
 
         $form->add(
-            'roles',
+            'userRoles',
             CustomerUserRoleSelectType::class,
             [
                 'query_builder' => function (CustomerUserRoleRepository $repository) use ($data) {

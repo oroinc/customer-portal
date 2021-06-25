@@ -4,19 +4,20 @@ namespace Oro\Bundle\CustomerBundle\Security\Token;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\SecurityBundle\Authentication\Token\AuthenticatedTokenTrait;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
-use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenTrait;
+use Oro\Bundle\SecurityBundle\Authentication\Token\RolesAndOrganizationAwareTokenTrait;
+use Oro\Bundle\SecurityBundle\Authentication\Token\RolesAwareTokenInterface;
+use Oro\Bundle\SecurityBundle\Model\Role;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
-use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * The authentication token for a guest (visitor) for the storefront.
  */
-class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationAwareTokenInterface
+class AnonymousCustomerUserToken extends AnonymousToken implements
+    OrganizationAwareTokenInterface,
+    RolesAwareTokenInterface
 {
-    use AuthenticatedTokenTrait;
-    use OrganizationAwareTokenTrait;
+    use RolesAndOrganizationAwareTokenTrait;
 
     /** @var CustomerVisitor */
     private $visitor;
@@ -25,10 +26,10 @@ class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationA
     private $credentials = [];
 
     /**
-     * @param string|object        $user
-     * @param Role[]               $roles
+     * @param string|object $user
+     * @param Role[]|string[] $roles
      * @param CustomerVisitor|null $visitor
-     * @param Organization|null    $organization
+     * @param Organization|null $organization
      */
     public function __construct(
         $user,
@@ -36,7 +37,7 @@ class AnonymousCustomerUserToken extends AnonymousToken implements OrganizationA
         CustomerVisitor $visitor = null,
         Organization $organization = null
     ) {
-        parent::__construct('', $user, $roles);
+        parent::__construct('', $user, $this->initRoles($roles));
 
         $this->setVisitor($visitor);
         if (null !== $organization) {

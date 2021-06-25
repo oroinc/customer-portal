@@ -74,11 +74,11 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
                             'id'   => '<toString(@testCustomerUser->customer->id)>'
                         ]
                     ],
-                    'roles'    => [
+                    'userRoles'    => [
                         'data' => [
                             [
                                 'type' => 'customeruserroles',
-                                'id'   => '<toString(@testCustomerUser->roles[0]->id)>'
+                                'id'   => '<toString(@testCustomerUser->userRoles[0]->id)>'
                             ]
                         ]
                     ]

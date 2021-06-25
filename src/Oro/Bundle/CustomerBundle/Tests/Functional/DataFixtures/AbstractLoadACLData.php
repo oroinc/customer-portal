@@ -215,7 +215,7 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
             /** @var Role $role */
             $role = $this->getReference($item['role']);
             $customerUser
-                ->addRole($role)
+                ->addUserRole($role)
                 ->setEnabled(true)
                 ->setSalt('');
 

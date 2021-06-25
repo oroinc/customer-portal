@@ -233,10 +233,10 @@ oro_behat_extension:
       options:
         mapping:
           Administrator Role:
-           locator: '[id^="oro_customer_customer_user_roles_1-uid"]'
+           locator: '[id^="oro_customer_customer_user_userRoles_1-uid"]'
            type: css
           Buyer Role:
-           locator: '[id^="oro_customer_customer_user_roles_2-uid"]'
+           locator: '[id^="oro_customer_customer_user_userRoles_2-uid"]'
            type: css
 
     Customer User Address Form:

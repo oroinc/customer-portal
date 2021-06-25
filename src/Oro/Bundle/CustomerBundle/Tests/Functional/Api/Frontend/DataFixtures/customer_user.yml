@@ -12,7 +12,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
         firstName: 'First Name 1'
         lastName: 'Last Name 1'
-        roles: ['@admin']
+        userRoles: ['@admin']
         website: '@website'
         owner: '@user'
         organization: '@organization'
@@ -23,7 +23,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
         firstName: 'First Name 2'
         lastName: 'Last Name 2'
-        roles: ['@admin']
+        userRoles: ['@admin']
         website: '@website'
         owner: '@user'
         organization: '@organization'
@@ -34,7 +34,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         password: 'gxP1L8r86hrdUMg9wKdfnsS/EZC4a7jOIdn6BMzegqL2S6e+KBIuHCrDVciMdiR/64osNnabmFonwK8l09vQxA=='
         firstName: 'Another First Name'
         lastName: 'Another Last Name'
-        roles: ['@admin']
+        userRoles: ['@admin']
         website: '@website'
         owner: '@user'
         organization: '@organization'

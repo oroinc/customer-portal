@@ -145,7 +145,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $alteredExistingCustomerUser->setCustomer($customer);
 
         $alteredExistingCustomerUserWithRole = clone $alteredExistingCustomerUser;
-        $alteredExistingCustomerUserWithRole->setRoles([$this->getRole(2, 'test02')]);
+        $alteredExistingCustomerUserWithRole->setUserRoles([$this->getRole(2, 'test02')]);
 
         $alteredExistingCustomerUserWithAddresses = clone $alteredExistingCustomerUser;
         $alteredExistingCustomerUserWithAddresses->addAddress($this->getAddresses()[2]);
@@ -174,7 +174,7 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
                         'lastName' => 'Doe',
                         'email' => 'johndoe@example.com',
                         'customer' => $existingCustomerUser->getCustomer()->getName(),
-                        'roles' => [2],
+                        'userRoles' => [2],
                     ],
                     'expectedData' => $alteredExistingCustomerUserWithRole,
                     'altered existing user with addresses' => [

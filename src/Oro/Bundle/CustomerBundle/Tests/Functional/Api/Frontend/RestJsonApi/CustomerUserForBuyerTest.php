@@ -29,7 +29,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
         /** @var AclManager $manager */
         $manager = self::getContainer()->get('oro_security.acl.manager');
 
-        foreach ($customerUser->getRoles() as $role) {
+        foreach ($customerUser->getUserRoles() as $role) {
             $sid = $manager->getSid($role);
             $oid = $manager->getOid('action: oro_customer_frontend_update_own_profile');
             $manager->setPermission($sid, $oid, 0);
@@ -41,7 +41,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
     {
         $response = $this->cget(['entity' => 'customerusers']);
 
-        $this->assertResponseContains(
+        self::assertResponseContains(
             [
                 'data' => [
                     ['type' => 'customerusers', 'id' => '<toString(@customer_user->id)>']
@@ -57,7 +57,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => '<toString(@customer_user->id)>']
         );
 
-        $this->assertResponseContains(
+        self::assertResponseContains(
             [
                 'data' => ['type' => 'customerusers', 'id' => '<toString(@customer_user->id)>']
             ],
@@ -73,7 +73,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to the entity.'
@@ -91,7 +91,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to the entity.'
@@ -109,7 +109,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -139,7 +139,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -167,7 +167,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -187,7 +187,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -207,7 +207,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -225,7 +225,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -243,7 +243,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'

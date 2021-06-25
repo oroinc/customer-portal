@@ -10,6 +10,9 @@ use Oro\Bundle\ImportExportBundle\TemplateFixture\TemplateFixtureInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
+/**
+ * Import template for CustomerUser.
+ */
 class CustomerUserFixture extends AbstractTemplateRepository implements TemplateFixtureInterface
 {
     /**
@@ -44,7 +47,7 @@ class CustomerUserFixture extends AbstractTemplateRepository implements Template
                     ->setNamePrefix('Mr')
                     ->setNameSuffix('Jr.')
                     ->setMiddleName('John')
-                    ->addRole($customerRole);
+                    ->addUserRole($customerRole);
 
                 return;
         }

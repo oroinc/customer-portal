@@ -123,6 +123,6 @@ class LoginManager
      */
     private function createToken($firewall, AbstractUser $user)
     {
-        return $this->tokenFactory->create($user, null, $firewall, $user->getOrganization(), $user->getRoles());
+        return $this->tokenFactory->create($user, null, $firewall, $user->getOrganization(), $user->getUserRoles());
     }
 }

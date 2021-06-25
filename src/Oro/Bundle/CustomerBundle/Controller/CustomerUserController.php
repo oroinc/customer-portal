@@ -111,9 +111,9 @@ class CustomerUserController extends AbstractController
 
         $form = $this->createForm(CustomerUserType::class, $customerUser);
 
-        if (($error = $request->get('error', '')) && $form->has('roles')) {
+        if (($error = $request->get('error', '')) && $form->has('userRoles')) {
             $form
-                ->get('roles')
+                ->get('userRoles')
                 ->addError(new FormError((string)$error));
         }
 

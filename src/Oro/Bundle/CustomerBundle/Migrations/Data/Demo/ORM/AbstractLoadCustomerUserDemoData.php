@@ -117,7 +117,7 @@ abstract class AbstractLoadCustomerUserDemoData extends AbstractFixture implemen
                 ->setEnabled(true)
                 ->setOrganization($organization)
                 ->setLoginCount(0)
-                ->addRole($role)
+                ->addUserRole($role)
                 ->setIsGuest($row['isGuest']);
 
             $userManager->updateUser($customerUser, false);

@@ -58,7 +58,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
      * @param CustomerUserRole $role
      * @param CustomerUserRole $expectedRole
      * @param CustomerUser $customerUser
-     * @param CustomerUserRole $expectedPredefinedRole
+     * @param CustomerUserRole|null $expectedPredefinedRole
      *
      * @dataProvider successDataProvider
      */
@@ -71,8 +71,8 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $request = new Request();
         $request->setMethod('POST');
 
-        $form = $this->createMock('Symfony\Component\Form\FormInterface');
-        $this->formFactory->expects($this->once())
+        $form = $this->createMock(FormInterface::class);
+        $this->formFactory->expects(self::once())
             ->method('create')
             ->with(
                 $this->isType('string'),
@@ -82,7 +82,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
                     $this->callback(
                         function ($options) use ($expectedPredefinedRole) {
                             $this->arrayHasKey('predefined_role');
-                            $this->assertEquals($expectedPredefinedRole, $options['predefined_role']);
+                            self::assertEquals($expectedPredefinedRole, $options['predefined_role']);
 
                             return true;
                         }
@@ -95,9 +95,9 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $this->handler->setRequest($request);
         $this->handler->setTokenStorage($this->tokenStorage);
 
-        $token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-        $token->expects($this->any())->method('getUser')->willReturn($customerUser);
-        $this->tokenStorage->expects($this->any())->method('getToken')->willReturn($token);
+        $token = $this->createMock(TokenInterface::class);
+        $token->expects(self::any())->method('getUser')->willReturn($customerUser);
+        $this->tokenStorage->expects(self::any())->method('getToken')->willReturn($token);
 
         $this->handler->createForm($role);
     }
@@ -112,14 +112,13 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $customerUser->setCustomer($customer);
 
         return [
-            'edit predefined role should pass it to from and' => [
+            'edit predefined role should pass it to form' => [
                 (new CustomerUserRole('')),
                 (new CustomerUserRole(''))->setCustomer($customer),
                 $customerUser,
                 (new CustomerUserRole('')),
             ],
             'edit customer role should not pass predefined role to form' => [
-
                 (new CustomerUserRole(''))->setCustomer($customer),
                 (new CustomerUserRole(''))->setCustomer($customer),
                 $customerUser,
@@ -145,39 +144,39 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $request->setMethod('GET');
 
         $form = $this->createMock(FormInterface::class);
-        $this->formFactory->expects($this->once())->method('create')->willReturn($form);
+        $this->formFactory->expects(self::once())->method('create')->willReturn($form);
 
         $this->handler->setRequest($request);
         $this->handler->setTokenStorage($this->tokenStorage);
 
         $token = $this->createMock(TokenInterface::class);
-        $token->expects($this->any())->method('getUser')->willReturn($customerUser);
-        $this->tokenStorage->expects($this->any())->method('getToken')->willReturn($token);
+        $token->expects(self::any())->method('getUser')->willReturn($customerUser);
+        $this->tokenStorage->expects(self::any())->method('getToken')->willReturn($token);
 
         $this->handler->createForm($role);
 
         $roleSecurityIdentity = new RoleSecurityIdentity($expectedRole);
         $privilegeCollection = new ArrayCollection($existingPrivileges);
 
-        $this->privilegeRepository->expects($this->any())
+        $this->privilegeRepository->expects(self::any())
             ->method('getPrivileges')
             ->with($roleSecurityIdentity)
             ->willReturn($privilegeCollection);
 
-        $this->aclManager->expects($this->once())->method('getSid')->with($expectedRole)
+        $this->aclManager->expects(self::once())->method('getSid')->with($expectedRole)
             ->willReturn($roleSecurityIdentity);
 
-        $this->ownershipConfigProvider->expects($this->exactly(3))->method('hasConfig')->willReturn(true);
+        $this->ownershipConfigProvider->expects(self::exactly(3))->method('hasConfig')->willReturn(true);
 
         $privilegesForm = $this->createMock(FormInterface::class);
-        $privilegesForm->expects($this->any())
+        $privilegesForm->expects(self::any())
             ->method('setData');
-        $form->expects($this->any())->method('get')
+        $form->expects(self::any())->method('get')
             ->willReturn($privilegesForm);
 
         $metadata = $this->createMock(OwnershipMetadataInterface::class);
-        $metadata->expects($this->exactly(2))->method('hasOwner')->willReturnOnConsecutiveCalls(true, false);
-        $this->chainMetadataProvider->expects($this->any())->method('getMetadata')->willReturn($metadata);
+        $metadata->expects(self::exactly(2))->method('hasOwner')->willReturnOnConsecutiveCalls(true, false);
+        $this->chainMetadataProvider->expects(self::any())->method('getMetadata')->willReturn($metadata);
 
         $this->handler->process($role);
     }
@@ -235,8 +234,8 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $this->handler->setTokenStorage($this->tokenStorage);
 
         $token = $this->createMock(TokenInterface::class);
-        $token->expects($this->any())->method('getUser')->willReturn(new \stdClass());
-        $this->tokenStorage->expects($this->any())->method('getToken')->willReturn($token);
+        $token->expects(self::any())->method('getUser')->willReturn(new \stdClass());
+        $this->tokenStorage->expects(self::any())->method('getToken')->willReturn($token);
 
         $this->handler->createForm(new CustomerUserRole(''));
     }

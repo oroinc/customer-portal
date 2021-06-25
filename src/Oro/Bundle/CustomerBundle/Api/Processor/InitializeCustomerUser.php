@@ -98,12 +98,12 @@ class InitializeCustomerUser implements ProcessorInterface
      */
     private function setRoles(CustomerUser $customerUser): void
     {
-        if (count($customerUser->getRoles()) === 0) {
+        if (count($customerUser->getUserRoles()) === 0) {
             $website = $customerUser->getWebsite();
             if (null !== $website) {
                 $role = $website->getDefaultRole();
                 if (null !== $role) {
-                    $customerUser->addRole($role);
+                    $customerUser->addUserRole($role);
                 }
             }
         }

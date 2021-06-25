@@ -10,7 +10,7 @@ data:
         lastName: Doo
         birthday: null
     relationships:
-        roles:
+        userRoles:
             data:
                 -
                     type: customeruserroles

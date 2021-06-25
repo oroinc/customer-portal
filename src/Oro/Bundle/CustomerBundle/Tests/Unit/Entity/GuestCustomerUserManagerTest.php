@@ -59,30 +59,30 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     ): array {
         $website->setName('Default Website');
         $website->setOrganization(new Organization());
-        $website->setDefaultRole(new CustomerUserRole());
+        $website->setDefaultRole(new CustomerUserRole('SAMPLE_DEFAULT_ROLE'));
 
         $owner->setFirstName('owner name');
 
         $customerGroup->setName('Default Customer Group');
         $customerGroup->setOwner($owner);
 
-        $this->customerUserManager->expects($this->once())
+        $this->customerUserManager->expects(self::once())
             ->method('generatePassword')
             ->with(10)
             ->willReturn('1234567890');
-        $this->customerUserManager->expects($this->once())
+        $this->customerUserManager->expects(self::once())
             ->method('updatePassword');
 
-        $this->defaultUserProvider->expects($this->once())
+        $this->defaultUserProvider->expects(self::once())
             ->method('getDefaultUser')
             ->with('oro_customer', 'default_customer_owner')
             ->willReturn($owner);
 
-        $this->websiteManager->expects($this->once())
+        $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
 
-        $this->relationsProvider->expects($this->once())
+        $this->relationsProvider->expects(self::once())
             ->method('getCustomerGroup')
             ->willReturn($customerGroup);
 
@@ -100,15 +100,16 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         User $owner,
         CustomerGroup $customerGroup
     ): void {
-        $this->assertEquals($properties['email'], $customerUser->getEmail());
-        $this->assertEquals($properties['first_name'], $customerUser->getFirstName());
-        $this->assertEquals($properties['last_name'], $customerUser->getLastName());
-        $this->assertTrue($customerUser->isGuest());
-        $this->assertFalse($customerUser->isConfirmed());
-        $this->assertFalse($customerUser->isEnabled());
-        $this->assertSame($customerGroup, $customerUser->getCustomer()->getGroup());
-        $this->assertEquals($owner->getFirstName(), $customerUser->getOwner()->getFirstName());
-        $this->assertSame($customerUser->getRoles(), [$website->getDefaultRole()]);
+        self::assertEquals($properties['email'], $customerUser->getEmail());
+        self::assertEquals($properties['first_name'], $customerUser->getFirstName());
+        self::assertEquals($properties['last_name'], $customerUser->getLastName());
+        self::assertTrue($customerUser->isGuest());
+        self::assertFalse($customerUser->isConfirmed());
+        self::assertFalse($customerUser->isEnabled());
+        self::assertSame($customerGroup, $customerUser->getCustomer()->getGroup());
+        self::assertEquals($owner->getFirstName(), $customerUser->getOwner()->getFirstName());
+        self::assertSame($customerUser->getRoles(), [$website->getDefaultRole()->getRole()]);
+        self::assertSame($customerUser->getUserRoles(), [$website->getDefaultRole()]);
     }
 
     public function testGenerateGuestCustomerUser(): void
@@ -119,7 +120,7 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 
         $properties = $this->expectsGuestCustomerUserInitialization($website, $owner, $customerGroup);
         $customerUser = $this->guestCustomerUserManager->generateGuestCustomerUser($properties);
-        $this->assertGuestCustomerUserInitialization($customerUser, $properties, $website, $owner, $customerGroup);
+        self::assertGuestCustomerUserInitialization($customerUser, $properties, $website, $owner, $customerGroup);
     }
 
     public function testInitializeGuestCustomerUser(): void
@@ -131,6 +132,6 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $properties = $this->expectsGuestCustomerUserInitialization($website, $owner, $customerGroup);
         $customerUser = new CustomerUser();
         $this->guestCustomerUserManager->initializeGuestCustomerUser($customerUser, $properties);
-        $this->assertGuestCustomerUserInitialization($customerUser, $properties, $website, $owner, $customerGroup);
+        self::assertGuestCustomerUserInitialization($customerUser, $properties, $website, $owner, $customerGroup);
     }
 }

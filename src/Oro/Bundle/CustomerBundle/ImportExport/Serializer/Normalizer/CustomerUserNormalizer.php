@@ -8,6 +8,9 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\ImportExportBundle\Serializer\Normalizer\ConfigurableEntityNormalizer;
 
+/**
+ * Adds extra normalizing logic of customer and owner when normalizing CustomerUser.
+ */
 class CustomerUserNormalizer extends ConfigurableEntityNormalizer
 {
     /**
@@ -65,7 +68,7 @@ class CustomerUserNormalizer extends ConfigurableEntityNormalizer
     {
         $value = $this->fieldHelper->getObjectValue($object, $fieldName);
 
-        if ($fieldName === 'roles' && !$value instanceof Collection) {
+        if ($fieldName === 'userRoles' && !$value instanceof Collection) {
             $value = new ArrayCollection($value);
         }
 

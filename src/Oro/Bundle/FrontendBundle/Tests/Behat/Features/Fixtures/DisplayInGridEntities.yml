@@ -22,6 +22,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     confirmed: '1'
     customer: '@customer_entity'
     organization: '@organization'
-    roles: []
+    userRoles: []
     owner: '@admin'
     website: '@website_entity'

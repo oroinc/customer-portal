@@ -35,7 +35,7 @@ operations:
         acl_resource: [EDIT, $.data]
         preconditions:
             '@and':
-                - '@has_elements': $.data.getRoles
+                - '@has_elements': $.data.getUserRoles
                 - '@equal': [$enabled, false]
         actions:
             - '@run_action_group':
@@ -118,7 +118,7 @@ operations:
             - '@get_active_user': $.currentUser
         preconditions:
             '@and':
-                - '@has_elements': $.data.getRoles
+                - '@has_elements': $.data.getUserRoles
                 - '@equal': [$enabled, false]
         actions:
             - '@run_action_group':

@@ -2,7 +2,7 @@ data:
     type: customerusers
     id: 'mine'
     relationships:
-        roles:
+        userRoles:
             data:
                 -
                     type: customeruserroles

@@ -71,7 +71,7 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
             //need to have role to get permission
             //role with users can't be deleted
             $entity->setLabel($entity->getLabel() . ' for user');
-            $customerUser->addRole($entity);
+            $customerUser->addUserRole($entity);
             $this->setReference($entity->getLabel(), $entity);
             $this->setReference($entityForDelete->getLabel(), $entityForDelete);
             $manager->persist($entityForDelete);

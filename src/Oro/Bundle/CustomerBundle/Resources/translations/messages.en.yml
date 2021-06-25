@@ -196,6 +196,8 @@ oro.customer:
         last_login:
             label:                   'Last Login'
             description:             The latest date and time when the customer user logged into the OroCommerce store front.
+        user_roles:
+            description:             Customer user roles enabled for the customer user.
         roles:
             label:                   'Roles'
             description:             Customer user roles enabled for the customer user.
@@ -470,7 +472,7 @@ oro.customer:
         customeruserrole:
             users: 'Users'
             entity: 'Entity'
-        roles:   'Frontend Capabilities'
+        roles: 'Frontend Capabilities'
         password: 'Password'
 
     customeraddress:

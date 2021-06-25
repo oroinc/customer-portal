@@ -111,7 +111,7 @@ class ImportCustomerUserListener
      */
     protected function updateRoleByWebsiteIfEmpty(CustomerUser $customerUser)
     {
-        if (count($customerUser->getRoles()) > 0) {
+        if (count($customerUser->getUserRoles()) > 0) {
             return true;
         }
 
@@ -124,7 +124,7 @@ class ImportCustomerUserListener
         $role = $website->getDefaultRole();
 
         if ($role) {
-            $customerUser->addRole($role);
+            $customerUser->addUserRole($role);
             return true;
         }
 
