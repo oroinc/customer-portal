@@ -109,3 +109,17 @@ services:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerConfigurationController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: 'oro_config.customer', key: Oro\Bundle\ConfigBundle\Config\ConfigManager }
+
+    Oro\Bundle\CustomerBundle\Controller\CustomerGroupConfigurationController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: 'oro_config.customer_group', key: Oro\Bundle\ConfigBundle\Config\ConfigManager }

@@ -1,0 +1,5 @@
+oro.frontend_importexport:
+    export:
+        success.message: 'Export started successfully. You will receive email notification upon completion.'
+        fail.message: 'Could not start export, please try again.'
+
