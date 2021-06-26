@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Form\Type;
 
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Oro\Bundle\SearchBundle\Tests\Unit\Fixture\Entity\Product;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -21,16 +21,11 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
 {
     use EntityTrait;
 
-    const WEBSITE_ID = 42;
+    private const WEBSITE_ID = 42;
 
-    /**
-     * @var WebsiteScopedDataType
-     */
-    protected $formType;
+    /** @var WebsiteScopedDataType */
+    private $formType;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getExtensions()
     {
         return [
@@ -53,12 +48,12 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             ->willReturn($this->getEntity(Website::class, ['id' => self::WEBSITE_ID]));
 
         $websites = [self::WEBSITE_ID => $this->getEntity(Website::class, ['id' => self::WEBSITE_ID])];
-        $websiteQB = $this->getMockBuilder(QueryBuilder::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getResult'])
-            ->getMock();
-        $websiteQB
-            ->expects($this->any())
+        $websiteQuery = $this->createMock(AbstractQuery::class);
+        $websiteQB = $this->createMock(QueryBuilder::class);
+        $websiteQB->expects($this->any())
+            ->method('getQuery')
+            ->willReturn($websiteQuery);
+        $websiteQuery->expects($this->any())
             ->method('getResult')
             ->willReturn($websites);
 
@@ -68,7 +63,6 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
             ->with('website')
             ->willReturn($websiteQB);
 
-        /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $registry */
         $registry = $this->createMock(ManagerRegistry::class);
         $registry->expects($this->any())
             ->method('getRepository')
@@ -82,7 +76,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
         $aclHelper = $this->createMock(AclHelper::class);
         $aclHelper->expects($this->any())
             ->method('apply')
-            ->willReturn($websiteQB);
+            ->willReturn($websiteQuery);
 
         $this->formType = new WebsiteScopedDataType($registry, $aclHelper);
         $this->formType->setWebsiteClass(Website::class);
@@ -91,12 +85,8 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitDataProvider
-     * @param Product $defaultData
-     * @param array $options
-     * @param array $submittedData
-     * @param array $expectedData
      */
-    public function testSubmit($defaultData, array $options, array $submittedData, array $expectedData)
+    public function testSubmit(array $defaultData, array $options, array $submittedData, array $expectedData)
     {
         $form = $this->factory->create(WebsiteScopedDataType::class, $defaultData, $options);
 
@@ -110,10 +100,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $data);
     }
 
-    /**
-     * @return array
-     */
-    public function submitDataProvider()
+    public function submitDataProvider(): array
     {
         return [
             [
@@ -136,8 +123,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
     {
         $view = new FormView();
 
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
-        $form = $this->createMock('Symfony\Component\Form\FormInterface');
+        $form = $this->createMock(FormInterface::class);
         $this->formType->buildView($view, $form, ['region_route' => 'test']);
 
         $this->assertArrayHasKey('websites', $view->vars);
@@ -152,10 +138,7 @@ class WebsiteScopedDataTypeTest extends FormIntegrationTestCase
         $this->assertEquals([self::WEBSITE_ID => self::WEBSITE_ID], $websiteIds);
     }
 
-    /**
-     * @return array
-     */
-    public function finishViewDataProvider()
+    public function finishViewDataProvider(): array
     {
         return [
             [
