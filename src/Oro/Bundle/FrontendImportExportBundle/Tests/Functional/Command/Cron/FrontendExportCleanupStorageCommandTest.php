@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\FrontendImportExportBundle\Tests\Functional\Command;
+namespace Oro\Bundle\FrontendImportExportBundle\Tests\Functional\Command\Cron;
 
 use Gaufrette\File;
 use Oro\Bundle\FrontendImportExportBundle\Command\Cron\FrontendExportCleanupStorageCommand;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\RedirectBundle\Tests\Unit\Security;
+namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendBundle\EventListener\GuestAccessRequestListener;

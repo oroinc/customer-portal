@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Unit\Api\Processor;
+namespace Oro\Bundle\CustomerBundle\Tests\Unit\Api;
 
 use Oro\Bundle\ApiBundle\Processor\Context;
 use Oro\Bundle\CustomerBundle\Api\CustomerUserProfileResolver;

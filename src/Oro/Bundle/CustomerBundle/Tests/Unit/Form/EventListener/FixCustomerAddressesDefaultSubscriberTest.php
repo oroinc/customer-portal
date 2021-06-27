@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Unit\EventListener;
+namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\EventListener;
 
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
