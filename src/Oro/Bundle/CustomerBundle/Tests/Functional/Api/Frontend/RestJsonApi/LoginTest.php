@@ -327,7 +327,7 @@ class LoginTest extends FrontendWebTestCase
                     [
                         'status' => '403',
                         'title'  => 'access denied exception',
-                        'detail' => 'The user authentication fails. Reason: Account is locked.'
+                        'detail' => 'The user authentication fails. Reason: Invalid user name or password.'
                     ]
                 ]
             ],
