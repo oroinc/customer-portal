@@ -114,6 +114,10 @@ class CustomerUser extends ExtendCustomerUser implements
      * )
      * @ConfigField(
      *      defaultValues={
+     *          "entity"={
+     *              "label"="oro.customer.customeruser.roles.label",
+     *              "description"="oro.customer.customeruser.roles.description"
+     *          },
      *          "dataaudit"={
      *              "auditable"=true
      *          },
@@ -123,7 +127,7 @@ class CustomerUser extends ExtendCustomerUser implements
      *      }
      * )
      */
-    protected $roles;
+    protected $userRoles;
 
     /**
      * @var Customer

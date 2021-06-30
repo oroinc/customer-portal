@@ -10,7 +10,7 @@ Oro\Bundle\UserBundle\Entity\User:
         organizations: ['@organization']
         owner: '@business_unit'
         businessUnits: ['@business_unit']
-        roles: ['@userRole']
+        userRoles: ['@userRole']
     user_with_assign:
         username: userWithAssign1
         email: userWithAssign1@example.com
@@ -21,7 +21,7 @@ Oro\Bundle\UserBundle\Entity\User:
         organization: '@organization'
         organizations: ['@organization']
         owner: '@business_unit'
-        roles: ['@userRole']
+        userRoles: ['@userRole']
         businessUnits: ['@business_unit']
     user_without_assign:
         username: userWithoutAssign1
@@ -33,7 +33,7 @@ Oro\Bundle\UserBundle\Entity\User:
         organization: '@organization'
         organizations: ['@organization']
         owner: '@business_unit'
-        roles: ['@userRole']
+        userRoles: ['@userRole']
         businessUnits: ['@business_unit']
 
 Oro\Bundle\WebsiteBundle\Entity\Website:
@@ -53,7 +53,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: '1'
         customer: '@company_A'
         organization: '@organization'
-        roles: ['@buyer', '@front_admin']
+        userRoles: ['@buyer', '@front_admin']
         owner: '@admin'
         website: '@website1'
 Oro\Bundle\CustomerBundle\Entity\Customer:

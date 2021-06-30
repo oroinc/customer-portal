@@ -42,7 +42,7 @@ class CustomerUserTest extends RestJsonApiTestCase
             ['filter[email]' => LoadCustomerUserData::EMAIL]
         );
 
-        $this->assertResponseContains('cget_customer_user.yml', $response);
+        self::assertResponseContains('cget_customer_user.yml', $response);
     }
 
     public function testGet()
@@ -52,8 +52,8 @@ class CustomerUserTest extends RestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => $customerUserId]
         );
 
-        $this->assertResponseContains('get_customer_user.yml', $response);
-        $this->assertResponseNotHasAttributes(
+        self::assertResponseContains('get_customer_user.yml', $response);
+        self::assertResponseNotHasAttributes(
             ['password', 'plainPassword', 'salt', 'confirmationToken', 'emailLowercase', 'username'],
             $response
         );
@@ -99,7 +99,7 @@ class CustomerUserTest extends RestJsonApiTestCase
 
         $customerUserId = (int)$this->getResourceId($response);
         $responseContent = $this->updateResponseContent('create_customer_user.yml', $response);
-        $this->assertResponseContains($responseContent, $response);
+        self::assertResponseContains($responseContent, $response);
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntityManager()
@@ -144,7 +144,7 @@ class CustomerUserTest extends RestJsonApiTestCase
             'type' => 'customers',
             'id'   => (string)$customerId
         ];
-        $this->assertResponseContains($responseContent, $response);
+        self::assertResponseContains($responseContent, $response);
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntityManager()
@@ -204,7 +204,7 @@ class CustomerUserTest extends RestJsonApiTestCase
             false
         );
 
-        $this->assertResponseValidationErrors(
+        self::assertResponseValidationErrors(
             [
                 ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/email']],
                 ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/firstName']],
@@ -262,7 +262,7 @@ class CustomerUserTest extends RestJsonApiTestCase
             false
         );
 
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'password complexity constraint',
                 'source' => ['pointer' => '/data/attributes/password']
@@ -291,7 +291,7 @@ class CustomerUserTest extends RestJsonApiTestCase
                     'customer' => [
                         'data' => ['type' => 'customers', 'id' => (string)$customerId]
                     ],
-                    'roles'    => [
+                    'userRoles'    => [
                         'data' => [
                             ['type' => 'customeruserroles', 'id' => (string)$customerUserRoleId]
                         ]
@@ -308,8 +308,8 @@ class CustomerUserTest extends RestJsonApiTestCase
             ->find(CustomerUser::class, $customerUserId);
         self::assertEquals('Updated First Name', $customerUser->getFirstName());
         self::assertEquals($customerId, $customerUser->getCustomer()->getId());
-        self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_BUYER'));
-        self::assertCount(1, $customerUser->getRoles());
+        self::assertTrue($customerUser->hasRole('ROLE_FRONTEND_BUYER'));
+        self::assertCount(1, $customerUser->getUserRoles());
     }
 
     public function testUpdateRelationshipForRoles()
@@ -321,7 +321,7 @@ class CustomerUserTest extends RestJsonApiTestCase
             ->getId();
 
         $this->patchRelationship(
-            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'roles'],
+            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'userRoles'],
             [
                 'data' => [
                     ['type' => 'customeruserroles', 'id' => (string)$customerUserRoleId]
@@ -331,8 +331,8 @@ class CustomerUserTest extends RestJsonApiTestCase
 
         $customerUser = $this->getEntityManager()
             ->find(CustomerUser::class, $customerUserId);
-        self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_BUYER'));
-        self::assertCount(1, $customerUser->getRoles());
+        self::assertTrue($customerUser->hasRole('ROLE_FRONTEND_BUYER'));
+        self::assertCount(1, $customerUser->getUserRoles());
     }
 
     public function testAddRelationshipForRoles()
@@ -344,7 +344,7 @@ class CustomerUserTest extends RestJsonApiTestCase
             ->getId();
 
         $this->postRelationship(
-            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'roles'],
+            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'userRoles'],
             [
                 'data' => [
                     ['type' => 'customeruserroles', 'id' => (string)$customerUserRoleId]
@@ -354,9 +354,9 @@ class CustomerUserTest extends RestJsonApiTestCase
 
         $customerUser = $this->getEntityManager()
             ->find(CustomerUser::class, $customerUserId);
-        self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_BUYER'));
-        self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_ADMINISTRATOR'));
-        self::assertCount(2, $customerUser->getRoles());
+        self::assertTrue($customerUser->hasRole('ROLE_FRONTEND_BUYER'));
+        self::assertTrue($customerUser->hasRole('ROLE_FRONTEND_ADMINISTRATOR'));
+        self::assertCount(2, $customerUser->getUserRoles());
     }
 
     public function testDeleteRelationshipForRoles()
@@ -367,17 +367,17 @@ class CustomerUserTest extends RestJsonApiTestCase
             ->getId();
         $customerUser = $this->getReference(LoadCustomerUserData::EMAIL);
         $customerUserId = $customerUser->getId();
-        $customerUser->addRole(
+        $customerUser->addUserRole(
             $this->getEntityManager()
                 ->getRepository(CustomerUserRole::class)
                 ->findOneBy(['role' => 'ROLE_FRONTEND_BUYER'])
         );
         $this->getEntityManager()->flush();
-        self::assertCount(2, $customerUser->getRoles());
+        self::assertCount(2, $customerUser->getUserRoles());
         $this->getEntityManager()->clear();
 
         $this->deleteRelationship(
-            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'roles'],
+            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'userRoles'],
             [
                 'data' => [
                     ['type' => 'customeruserroles', 'id' => (string)$customerUserRoleId]
@@ -387,7 +387,7 @@ class CustomerUserTest extends RestJsonApiTestCase
 
         $customerUser = $this->getEntityManager()
             ->find(CustomerUser::class, $customerUserId);
-        self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_BUYER'));
-        self::assertCount(1, $customerUser->getRoles());
+        self::assertTrue($customerUser->hasRole('ROLE_FRONTEND_BUYER'));
+        self::assertCount(1, $customerUser->getUserRoles());
     }
 }

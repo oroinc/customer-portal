@@ -74,7 +74,7 @@ class CustomerUserControllerTest extends WebTestCase
         $form['oro_customer_frontend_customer_user[sendEmail]'] = $isSendEmail;
 
         /** @var ChoiceFormField[] $roleChoices */
-        $roleChoices = $form['oro_customer_frontend_customer_user[roles]'];
+        $roleChoices = $form['oro_customer_frontend_customer_user[userRoles]'];
         $this->assertCount(6, $roleChoices);
         $roleChoices[0]->tick();
         $this->client->submit($form);

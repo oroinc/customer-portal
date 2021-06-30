@@ -33,7 +33,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
     {
         $response = $this->cget(['entity' => 'customerusers']);
 
-        $this->assertResponseContains('cget_customer_user.yml', $response);
+        self::assertResponseContains('cget_customer_user.yml', $response);
     }
 
     public function testGetListFilteredByMineId()
@@ -43,7 +43,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['filter' => ['id' => 'mine']]
         );
 
-        $this->assertResponseContains('cget_customer_user_mine.yml', $response);
+        self::assertResponseContains('cget_customer_user_mine.yml', $response);
     }
 
     public function testGetListFilteredByMineCustomerId()
@@ -53,7 +53,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['filter' => ['customer' => 'mine']]
         );
 
-        $this->assertResponseContains('cget_customer_user_mine.yml', $response);
+        self::assertResponseContains('cget_customer_user_mine.yml', $response);
     }
 
     public function testGet()
@@ -62,8 +62,8 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => '<toString(@customer_user1->id)>']
         );
 
-        $this->assertResponseContains('get_customer_user.yml', $response);
-        $this->assertResponseNotHasAttributes(
+        self::assertResponseContains('get_customer_user.yml', $response);
+        self::assertResponseNotHasAttributes(
             [
                 'password',
                 'plainPassword',
@@ -87,7 +87,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => 'mine']
         );
 
-        $this->assertResponseContains('get_customer_user_mine.yml', $response);
+        self::assertResponseContains('get_customer_user_mine.yml', $response);
     }
 
     public function testTryToGetFromAnotherRootCustomer()
@@ -98,7 +98,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to the entity.'
@@ -123,7 +123,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
 
         $customerUserId = (int)$this->getResourceId($response);
         $responseContent = $this->updateResponseContent('create_customer_user.yml', $response);
-        $this->assertResponseContains($responseContent, $response);
+        self::assertResponseContains($responseContent, $response);
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntityManager()
@@ -170,7 +170,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             'type' => 'customers',
             'id'   => (string)$customerId
         ];
-        $this->assertResponseContains($responseContent, $response);
+        self::assertResponseContains($responseContent, $response);
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntityManager()
@@ -198,7 +198,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        $this->assertResponseValidationErrors(
+        self::assertResponseValidationErrors(
             [
                 ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/email']],
                 ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/firstName']],
@@ -255,7 +255,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'password complexity constraint',
                 'source' => ['pointer' => '/data/attributes/password']
@@ -297,7 +297,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
                     'customer' => [
                         'data' => ['type' => 'customers', 'id' => (string)$customerId]
                     ],
-                    'roles'    => [
+                    'userRoles'    => [
                         'data' => [
                             ['type' => 'customeruserroles', 'id' => (string)$customerUserRoleId]
                         ]
@@ -314,8 +314,8 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ->find(CustomerUser::class, $customerUserId);
         self::assertEquals('Updated First Name', $customerUser->getFirstName());
         self::assertEquals($customerId, $customerUser->getCustomer()->getId());
-        self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_BUYER'));
-        self::assertCount(1, $customerUser->getRoles());
+        self::assertTrue($customerUser->hasRole('ROLE_FRONTEND_BUYER'));
+        self::assertCount(1, $customerUser->getUserRoles());
     }
 
     public function testTryToUpdateEnabledAndConfirmedFields()
@@ -365,7 +365,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ]
         );
 
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'not blank constraint',
                 'source' => ['pointer' => '/data/attributes/email']
@@ -415,7 +415,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'The delete operation is forbidden. Reason: self delete.'
@@ -433,7 +433,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'The delete operation is forbidden. Reason: self delete.'
@@ -449,7 +449,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => 'mine', 'association' => 'customer']
         );
 
-        $this->assertResponseContains(
+        self::assertResponseContains(
             [
                 'data' => [
                     'type'       => 'customers',
@@ -469,7 +469,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => 'mine', 'association' => 'customer']
         );
 
-        $this->assertResponseContains(
+        self::assertResponseContains(
             [
                 'data' => [
                     'type' => 'customers',
@@ -486,7 +486,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         $customerUserRoleId = $this->getReference('buyer')->getId();
 
         $this->patchRelationship(
-            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'roles'],
+            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'userRoles'],
             [
                 'data' => [
                     ['type' => 'customeruserroles', 'id' => (string)$customerUserRoleId]
@@ -496,8 +496,8 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
 
         $customerUser = $this->getEntityManager()
             ->find(CustomerUser::class, $customerUserId);
-        self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_BUYER'));
-        self::assertCount(1, $customerUser->getRoles());
+        self::assertTrue($customerUser->hasRole('ROLE_FRONTEND_BUYER'));
+        self::assertCount(1, $customerUser->getUserRoles());
     }
 
     public function testAddRelationshipForRoles()
@@ -506,7 +506,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         $customerUserRoleId = $this->getReference('buyer')->getId();
 
         $this->postRelationship(
-            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'roles'],
+            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'userRoles'],
             [
                 'data' => [
                     ['type' => 'customeruserroles', 'id' => (string)$customerUserRoleId]
@@ -516,9 +516,9 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
 
         $customerUser = $this->getEntityManager()
             ->find(CustomerUser::class, $customerUserId);
-        self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_BUYER'));
-        self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_ADMINISTRATOR'));
-        self::assertCount(2, $customerUser->getRoles());
+        self::assertTrue($customerUser->hasRole('ROLE_FRONTEND_BUYER'));
+        self::assertTrue($customerUser->hasRole('ROLE_FRONTEND_ADMINISTRATOR'));
+        self::assertCount(2, $customerUser->getUserRoles());
     }
 
     public function testDeleteRelationshipForRoles()
@@ -526,13 +526,13 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         $customerUserRoleId = $this->getReference('admin')->getId();
         $customerUser = $this->getReference('customer_user1');
         $customerUserId = $customerUser->getId();
-        $customerUser->addRole($this->getReference('buyer'));
+        $customerUser->addUserRole($this->getReference('buyer'));
         $this->getEntityManager()->flush();
-        self::assertCount(2, $customerUser->getRoles());
+        self::assertCount(2, $customerUser->getUserRoles());
         $this->getEntityManager()->clear();
 
         $this->deleteRelationship(
-            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'roles'],
+            ['entity' => 'customerusers', 'id' => $customerUserId, 'association' => 'userRoles'],
             [
                 'data' => [
                     ['type' => 'customeruserroles', 'id' => (string)$customerUserRoleId]
@@ -542,8 +542,8 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
 
         $customerUser = $this->getEntityManager()
             ->find(CustomerUser::class, $customerUserId);
-        self::assertTrue(null !== $customerUser->getRole('ROLE_FRONTEND_BUYER'));
-        self::assertCount(1, $customerUser->getRoles());
+        self::assertTrue($customerUser->hasRole('ROLE_FRONTEND_BUYER'));
+        self::assertCount(1, $customerUser->getUserRoles());
     }
 
     public function testTryToCreateWithCustomerFromAnotherDepartment()
@@ -562,7 +562,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        $this->assertResponseValidationErrors(
+        self::assertResponseValidationErrors(
             [
                 [
                     'title'  => 'frontend owner constraint',
@@ -602,7 +602,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        $this->assertResponseValidationErrors(
+        self::assertResponseValidationErrors(
             [
                 [
                     'title'  => 'frontend owner constraint',
@@ -634,7 +634,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        $this->assertResponseValidationErrors(
+        self::assertResponseValidationErrors(
             [
                 [
                     'title'  => 'frontend owner constraint',
@@ -676,7 +676,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'frontend owner constraint',
                 'detail' => 'You have no access to set this value as customer.',
@@ -719,7 +719,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'frontend owner constraint',
                 'detail' => 'You have no access to set this value as customer.',
@@ -754,7 +754,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title'  => 'frontend owner constraint',
                 'detail' => 'You have no access to set this value as customer.'

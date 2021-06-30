@@ -8,11 +8,11 @@ use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\SecurityBundle\Model\Role;
 use Oro\Bundle\UserBundle\Entity\BaseUserManager;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Component\Security\Core\Role\Role;
 
 class LoadTreeProviderCustomerUserData extends AbstractFixture implements
     DependentFixtureInterface,
@@ -58,7 +58,7 @@ class LoadTreeProviderCustomerUserData extends AbstractFixture implements
             ->setEnabled(true)
             ->setOrganization($customer->getOrganization())
             ->setConfirmationToken('some_token')
-            ->addRole($role)
+            ->addUserRole($role)
             ->setPlainPassword(self::LEVEL_1_2_PASSWORD)
             ->setConfirmed(true);
 

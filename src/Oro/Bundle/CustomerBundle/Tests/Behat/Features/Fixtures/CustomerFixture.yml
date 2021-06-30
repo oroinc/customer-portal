@@ -24,7 +24,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: true
         customer: '@customer1'
         organization: '@organization'
-        roles: ['@buyer']
+        userRoles: ['@buyer']
         owner: '@admin'
         website: '@website1'
     test2:
@@ -38,6 +38,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: true
         customer: '@customer1'
         organization: '@organization'
-        roles: ['@front_admin']
+        userRoles: ['@front_admin']
         owner: '@admin'
         website: '@website1'

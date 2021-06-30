@@ -132,13 +132,13 @@
 {% endblock %}
 
 {% block __oro_customer_user_form__customer_user_form_fields_roles_widget %}
-    {% if form.roles is defined %}
+    {% if form.userRoles is defined %}
     <fieldset class="form-group">
         <legend>{{ 'oro.customer.customeruser.profile.form.sections.roles.label'|trans }}</legend>
         <div class="grid">
             <div class="grid__row grid__row--offset-none">
                 <div class="grid__column grid__column--6 grid__column--offset-y">
-                    {{ form_row(form.roles)}}
+                    {{ form_row(form.userRoles)}}
                 </div>
             </div>
         </div>

@@ -39,7 +39,7 @@ class LoadTestUser extends AbstractFixture implements ContainerAwareInterface, D
             ->setPlainPassword(uniqid())
             ->setFirstName('Simple')
             ->setLastName('User')
-            ->addRole($role[0])
+            ->addUserRole($role[0])
             ->setEmail('test@test.com')
             ->setOrganization($organization)
             ->addOrganization($organization)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerBundle\Tests\Unit\Provider;
+namespace Oro\Bundle\CustomerBundle\Tests\Unit\Handler;
 
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
 use Oro\Bundle\CustomerBundle\Handler\ForgotPasswordHandler;

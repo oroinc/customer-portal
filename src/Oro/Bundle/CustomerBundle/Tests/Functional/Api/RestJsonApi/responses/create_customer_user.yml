@@ -17,7 +17,7 @@ data:
         passwordRequestedAt: null
         passwordChangedAt: null
     relationships:
-        roles:
+        userRoles:
             data:
                 -
                     type: customeruserroles

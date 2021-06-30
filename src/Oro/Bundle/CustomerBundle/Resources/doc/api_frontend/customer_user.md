@@ -62,7 +62,7 @@ Example:
       "lastName": "Cole"
     },
     "relationships": {
-      "roles": {
+      "userRoles": {
         "data": [
           {
             "type": "customeruserroles",
@@ -96,7 +96,7 @@ Delete a collection of customer user records.
 
 ## FIELDS
 
-### roles
+### userRoles
 
 #### update
 
@@ -198,7 +198,7 @@ Example:
 ```
 {@/request}
 
-### roles
+### userRoles
 
 #### get_subresource
 

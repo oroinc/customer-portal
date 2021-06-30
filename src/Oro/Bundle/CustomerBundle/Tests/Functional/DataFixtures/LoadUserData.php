@@ -63,7 +63,7 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface
                 ->setEnabled(true)
                 ->setPlainPassword($item['email'])
                 ->setOrganization($organization)
-                ->addRole($role);
+                ->addUserRole($role);
 
             $this->userManager->updateUser($user);
 

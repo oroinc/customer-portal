@@ -38,7 +38,7 @@ Example:
       "password": "Password000!"
     },
     "relationships": {
-      "roles": {
+      "userRoles": {
         "data": [
           {
             "type": "customeruserroles",
@@ -82,7 +82,7 @@ Example:
       "enabled": true
     },
     "relationships": {
-      "roles": {
+      "userRoles": {
         "data": [
           {
             "type": "customeruserroles",
@@ -124,7 +124,7 @@ Delete a collection of customer user records.
 
 **The required field.**
 
-### roles
+### userRoles
 
 #### create
 
@@ -314,7 +314,7 @@ Example:
 ```
 {@/request}
 
-### roles
+### userRoles
 
 #### get_subresource
 

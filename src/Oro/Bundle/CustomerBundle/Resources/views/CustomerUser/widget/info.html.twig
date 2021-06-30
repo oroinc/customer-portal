@@ -27,7 +27,7 @@
 
             {% if is_granted('oro_customer_customer_user_role_view') %}
                 {% set roles = [] %}
-                {% for entityRole in entity.roles %}
+                {% for entityRole in entity.userRoles %}
                     {% set roles = roles|merge([entityRole.label|escape]) %}
                 {% endfor %}
                 {{ UI.renderHTMLProperty('oro.customer.customeruser.roles.label'|trans, roles|join('<br />')) }}

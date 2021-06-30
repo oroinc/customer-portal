@@ -114,7 +114,7 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
             ->setOwner($owner)
             ->setOrganization($organization)
             ->setWebsite($website)
-            ->addRole($defaultRole);
+            ->addUserRole($defaultRole);
 
         return $customerUser;
     }

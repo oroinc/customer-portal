@@ -113,10 +113,10 @@
 
     {% set dataBlocks = dataBlocks|merge(oro_form_additional_data(form, 'oro.customer.sections.additional'|trans)) %}
 
-    {% set hasRoles = form.roles is defined %}
+    {% set hasRoles = form.userRoles is defined %}
     {% if hasRoles %}
         {# Mark roles field as rendered, because it rendered by oro_widget_render #}
-        {% do form.roles.setRendered %}
+        {% do form.userRoles.setRendered %}
 
         {% set userRoles %}
             {% set widgetOptions = {} %}
@@ -128,8 +128,8 @@
                 {% set widgetOptions = widgetOptions|merge({customerId: entity.customer.id}) %}
             {% endif %}
 
-            {% if form.roles.vars.errors|length %}
-                {% set widgetOptions = widgetOptions|merge({ error: (form.roles.vars.errors|first).message }) %}
+            {% if form.userRoles.vars.errors|length %}
+                {% set widgetOptions = widgetOptions|merge({ error: (form.userRoles.vars.errors|first).message }) %}
             {% endif %}
 
             {{ oro_widget_render({

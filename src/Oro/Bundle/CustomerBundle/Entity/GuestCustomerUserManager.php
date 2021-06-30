@@ -93,7 +93,7 @@ class GuestCustomerUserManager
         $customerUser->setWebsite($website);
         if ($website && $website->getOrganization()) {
             $customerUser->setOrganization($website->getOrganization());
-            $customerUser->addRole($website->getDefaultRole());
+            $customerUser->addUserRole($website->getDefaultRole());
         }
 
         foreach ($properties as $propertyPath => $value) {

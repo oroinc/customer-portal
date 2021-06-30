@@ -28,37 +28,37 @@ class CustomerUserOperationsTest extends WebTestCase
     {
         /** @var CustomerUser $user */
         $user = $this->getReference(static::EMAIL);
-        $this->assertNotNull($user);
+        self::assertNotNull($user);
 
         $id = $user->getId();
 
         $user->setConfirmed(false);
-        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $em->flush();
         $em->clear();
 
         $this->executeOperation($user, 'oro_customer_customeruser_confirm');
 
         /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = $this->getContainer()->get('swiftmailer.plugin.messagelogger');
+        $emailLogger = self::getContainer()->get('swiftmailer.plugin.messagelogger');
         $emailMessages = $emailLogger->getMessages();
 
-        $this->assertCount(1, $emailMessages);
+        self::assertCount(1, $emailMessages);
 
         /** @var \Swift_Message $emailMessage */
         $emailMessage = array_shift($emailMessages);
-        $this->assertWelcomeMessage($user->getEmail(), $emailMessage);
-        static::assertStringContainsString(
+        self::assertWelcomeMessage($user->getEmail(), $emailMessage);
+        self::assertStringContainsString(
             'Please follow the link below to create a password for your new account.',
             $emailMessage->getBody()
         );
 
-        $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 200);
+        self::assertJsonResponseStatusCodeEquals($this->client->getResponse(), 200);
 
         $user = $em->getRepository(CustomerUser::class)->find($id);
 
-        $this->assertNotNull($user);
-        $this->assertTrue($user->isConfirmed());
+        self::assertNotNull($user);
+        self::assertTrue($user->isConfirmed());
     }
 
     public function testSendConfirmation()
@@ -68,56 +68,56 @@ class CustomerUserOperationsTest extends WebTestCase
 
         $user = $this->getReference($email);
         $user->setConfirmed(false);
-        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $em->flush();
         $em->clear();
 
         $this->executeOperation($user, 'oro_customer_customeruser_sendconfirmation');
 
         $result = $this->client->getResponse();
-        $this->assertJsonResponseStatusCodeEquals($result, 200);
+        self::assertJsonResponseStatusCodeEquals($result, 200);
 
         /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = $this->getContainer()->get('swiftmailer.plugin.messagelogger');
+        $emailLogger = self::getContainer()->get('swiftmailer.plugin.messagelogger');
         $emailMessages = $emailLogger->getMessages();
 
         /** @var \Swift_Message $message */
         $message = reset($emailMessages);
 
-        $this->assertInstanceOf('Swift_Message', $message);
-        $this->assertEquals($email, key($message->getTo()));
-        static::assertStringContainsString('Confirmation of account registration', $message->getSubject());
-        static::assertStringContainsString($email, $message->getBody());
+        self::assertInstanceOf('Swift_Message', $message);
+        self::assertEquals($email, key($message->getTo()));
+        self::assertStringContainsString('Confirmation of account registration', $message->getSubject());
+        self::assertStringContainsString($email, $message->getBody());
     }
 
     public function testEnableAndDisable()
     {
-        $em = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $repository = $em->getRepository(CustomerUser::class);
 
         /** @var CustomerUser $user */
         $user = $repository->findOneBy(['email' => static::EMAIL]);
         $id = $user->getId();
 
-        $this->assertNotNull($user);
-        $this->assertTrue($user->isEnabled());
+        self::assertNotNull($user);
+        self::assertTrue($user->isEnabled());
 
         $this->executeOperation($user, 'oro_customer_customeruser_disable');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         $em->clear();
 
         $user = $repository->find($id);
-        $this->assertFalse($user->isEnabled());
-        $this->assertNotEmpty($user->getRoles());
+        self::assertFalse($user->isEnabled());
+        self::assertNotEmpty($user->getUserRoles());
 
         $this->executeOperation($user, 'oro_customer_customeruser_enable');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         $em->clear();
 
         $user = $repository->find($id);
-        $this->assertTrue($user->isEnabled());
+        self::assertTrue($user->isEnabled());
     }
 
     /**

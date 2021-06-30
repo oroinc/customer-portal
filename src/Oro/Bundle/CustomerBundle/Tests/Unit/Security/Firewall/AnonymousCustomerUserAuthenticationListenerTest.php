@@ -119,12 +119,12 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
             ->with(
                 self::callback(
                     function (TokenInterface $token) {
-                        $roles = $token->getRoles();
-                        if (count($roles) !== 1) {
+                        $roleNames = $token->getRoleNames();
+                        if (count($roleNames) !== 1) {
                             return false;
                         }
-                        $role = reset($roles);
-                        if ($role->getRole() !== 'ROLE_FRONTEND_TEST_ANONYMOUS_ROLE') {
+                        $roleName = reset($roleNames);
+                        if ($roleName !== 'ROLE_FRONTEND_TEST_ANONYMOUS_ROLE') {
                             return false;
                         }
 

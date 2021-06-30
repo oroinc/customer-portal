@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerMenuBundle\Tests\Unit\Form\Type;
+namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Extension;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;

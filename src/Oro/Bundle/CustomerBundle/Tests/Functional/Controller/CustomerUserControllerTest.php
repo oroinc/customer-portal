@@ -60,17 +60,17 @@ class CustomerUserControllerTest extends WebTestCase
     public function testCreate($email, $password, $isPasswordGenerate, $isSendEmail, $emailsCount)
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_create'));
-        $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
+        self::assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
 
         /** @var Customer $customer */
-        $customer = $this->getContainer()
+        $customer = self::getContainer()
             ->get('doctrine')
             ->getManagerForClass(Customer::class)
             ->getRepository(Customer::class)
             ->findOneBy([]);
 
         /** @var CustomerUserRole $role */
-        $role = $this->getContainer()
+        $role = self::getContainer()
             ->get('doctrine')
             ->getManagerForClass(CustomerUserRole::class)
             ->getRepository(CustomerUserRole::class)
@@ -78,8 +78,8 @@ class CustomerUserControllerTest extends WebTestCase
                 ['role' => CustomerUserRole::PREFIX_ROLE . LoadCustomerUserRoles::ADMINISTRATOR]
             );
 
-        $this->assertNotNull($customer);
-        $this->assertNotNull($role);
+        self::assertNotNull($customer);
+        self::assertNotNull($role);
 
         $form = $crawler->selectButton('Save and Close')->form();
         $form['oro_customer_customer_user[enabled]'] = true;
@@ -95,7 +95,7 @@ class CustomerUserControllerTest extends WebTestCase
         $form['oro_customer_customer_user[customer]'] = $customer->getId();
         $form['oro_customer_customer_user[passwordGenerate]'] = $isPasswordGenerate;
         $form['oro_customer_customer_user[sendEmail]'] = $isSendEmail;
-        $form['oro_customer_customer_user[roles][0]']->tick();
+        $form['oro_customer_customer_user[userRoles][0]']->tick();
         $form['oro_customer_customer_user[salesRepresentatives]'] = implode(',', [
             $this->getReference(LoadUserData::USER1)->getId(),
             $this->getReference(LoadUserData::USER2)->getId()
@@ -104,16 +104,16 @@ class CustomerUserControllerTest extends WebTestCase
         $this->client->submit($form);
 
         /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = $this->getContainer()->get('swiftmailer.plugin.messagelogger');
+        $emailLogger = self::getContainer()->get('swiftmailer.plugin.messagelogger');
         $emailMessages = $emailLogger->getMessages();
 
-        $this->assertCount($emailsCount, $emailMessages);
+        self::assertCount($emailsCount, $emailMessages);
 
         if ($isSendEmail) {
             /** @var \Swift_Message $emailMessage */
             $emailMessage = array_shift($emailMessages);
-            $this->assertWelcomeMessage($email, $emailMessage);
-            static::assertStringContainsString(
+            self::assertWelcomeMessage($email, $emailMessage);
+            self::assertStringContainsString(
                 'Please follow the link below to create a password for your new account.',
                 $emailMessage->getBody()
             );
@@ -122,13 +122,13 @@ class CustomerUserControllerTest extends WebTestCase
         $crawler = $this->client->followRedirect();
         $result = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertStringContainsString('Customer User has been saved', $crawler->html());
-        static::assertStringContainsString(
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString('Customer User has been saved', $crawler->html());
+        self::assertStringContainsString(
             $this->getReference(LoadUserData::USER1)->getFullName(),
             $result->getContent()
         );
-        static::assertStringContainsString(
+        self::assertStringContainsString(
             $this->getReference(LoadUserData::USER2)->getFullName(),
             $result->getContent()
         );
@@ -167,7 +167,7 @@ class CustomerUserControllerTest extends WebTestCase
     public function testCreateWithLowPasswordComplexity()
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_create'));
-        $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
+        self::assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
 
         $form = $crawler->selectButton('Save and Close')->form();
         $form['oro_customer_customer_user[plainPassword][first]'] = '0';
@@ -175,8 +175,8 @@ class CustomerUserControllerTest extends WebTestCase
 
         $crawler = $this->client->submit($form);
 
-        $this->assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
-        static::assertStringContainsString('The password must be at least 2 characters long', $crawler->html());
+        self::assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
+        self::assertStringContainsString('The password must be at least 2 characters long', $crawler->html());
     }
 
     /**
@@ -187,12 +187,12 @@ class CustomerUserControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_index'));
         $result = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertStringContainsString('customer-customer-user-grid', $crawler->html());
-        static::assertStringContainsString(self::FIRST_NAME, $result->getContent());
-        static::assertStringContainsString(self::LAST_NAME, $result->getContent());
-        static::assertStringContainsString(self::EMAIL, $result->getContent());
-        static::assertStringContainsString('Export', $result->getContent());
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString('customer-customer-user-grid', $crawler->html());
+        self::assertStringContainsString(self::FIRST_NAME, $result->getContent());
+        self::assertStringContainsString(self::LAST_NAME, $result->getContent());
+        self::assertStringContainsString(self::EMAIL, $result->getContent());
+        self::assertStringContainsString('Export', $result->getContent());
     }
 
     /**
@@ -202,7 +202,7 @@ class CustomerUserControllerTest extends WebTestCase
     public function testUpdate()
     {
         /** @var CustomerUser $customer */
-        $customerUser = $this->getContainer()->get('doctrine')
+        $customerUser = self::getContainer()->get('doctrine')
             ->getManagerForClass(CustomerUser::class)
             ->getRepository(CustomerUser::class)
             ->findOneBy([
@@ -227,8 +227,8 @@ class CustomerUserControllerTest extends WebTestCase
         $crawler = $this->client->submit($form);
         $result = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertStringContainsString('Customer User has been saved', $crawler->html());
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString('Customer User has been saved', $crawler->html());
 
         return $id;
     }
@@ -243,19 +243,19 @@ class CustomerUserControllerTest extends WebTestCase
         $this->client->request('GET', $this->getUrl('oro_customer_customer_user_view', ['id' => $id]));
 
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
         $content = $result->getContent();
 
-        static::assertStringContainsString(
+        self::assertStringContainsString(
             sprintf('%s - Customer Users - Customers', self::UPDATED_EMAIL),
             $content
         );
 
-        static::assertStringContainsString('Add attachment', $content);
-        static::assertStringContainsString('Add note', $content);
-        static::assertStringContainsString('Send email', $content);
-        static::assertStringContainsString('Add Event', $content);
-        static::assertStringContainsString('Address Book', $content);
+        self::assertStringContainsString('Add attachment', $content);
+        self::assertStringContainsString('Add note', $content);
+        self::assertStringContainsString('Send email', $content);
+        self::assertStringContainsString('Add Event', $content);
+        self::assertStringContainsString('Address Book', $content);
 
         return $id;
     }
@@ -273,30 +273,30 @@ class CustomerUserControllerTest extends WebTestCase
         );
 
         /** @var CustomerUser $user */
-        $user = $this->getContainer()->get('doctrine')
+        $user = self::getContainer()->get('doctrine')
             ->getManagerForClass(CustomerUser::class)
             ->getRepository(CustomerUser::class)
             ->find($id);
-        $this->assertNotNull($user);
+        self::assertNotNull($user);
 
         /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUserRole $role */
-        $roles = $user->getRoles();
+        $roles = $user->getUserRoles();
         $role = reset($roles);
-        $this->assertNotNull($role);
+        self::assertNotNull($role);
 
         $result = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertStringContainsString(self::UPDATED_FIRST_NAME, $result->getContent());
-        static::assertStringContainsString(self::UPDATED_LAST_NAME, $result->getContent());
-        static::assertStringContainsString(self::UPDATED_EMAIL, $result->getContent());
-        static::assertStringContainsString($user->getCustomer()->getName(), $result->getContent());
-        static::assertStringContainsString($role->getLabel(), $result->getContent());
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString(self::UPDATED_FIRST_NAME, $result->getContent());
+        self::assertStringContainsString(self::UPDATED_LAST_NAME, $result->getContent());
+        self::assertStringContainsString(self::UPDATED_EMAIL, $result->getContent());
+        self::assertStringContainsString($user->getCustomer()->getName(), $result->getContent());
+        self::assertStringContainsString($role->getLabel(), $result->getContent());
     }
 
     public function testGetRolesWithCustomerAction()
     {
-        $manager = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUserRole::class);
+        $manager = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUserRole::class);
 
         $foreignCustomer = $this->createCustomer('Foreign customer');
         $foreignRole = $this->createCustomerUserRole('Custom foreign role');
@@ -313,8 +313,8 @@ class CustomerUserControllerTest extends WebTestCase
         );
         $response = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($response, 200);
-        $this->assertRoles($expectedRoles, $notExpectedRoles, $response->getContent());
+        self::assertHtmlResponseStatusCodeEquals($response, 200);
+        self::assertRoles($expectedRoles, $notExpectedRoles, $response->getContent());
 
         // With customer parameter
         $expectedRoles = $notExpectedRoles = [];
@@ -327,12 +327,12 @@ class CustomerUserControllerTest extends WebTestCase
 
         $response = $this->client->getResponse();
 
-        $this->assertRoles($expectedRoles, $notExpectedRoles, $response->getContent());
+        self::assertRoles($expectedRoles, $notExpectedRoles, $response->getContent());
     }
 
     public function testGetRolesWithUserAction()
     {
-        $manager = $this->getContainer()->get('doctrine')->getManagerForClass(CustomerUserRole::class);
+        $manager = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUserRole::class);
 
         $foreignCustomer = $this->createCustomer('User foreign customer');
         $notExpectedRoles[] = $foreignRole = $this->createCustomerUserRole('Custom user foreign role');
@@ -344,10 +344,10 @@ class CustomerUserControllerTest extends WebTestCase
 
         $customerUser = $this->createCustomerUser('test@example.com');
         $customerUser->setCustomer($userCustomer);
-        $customerUser->addRole($userRole);
+        $customerUser->addUserRole($userRole);
 
         $expectedRoles[] = $predefinedRole = $this->createCustomerUserRole('User predefined role');
-        $customerUser->addRole($predefinedRole);
+        $customerUser->addUserRole($predefinedRole);
 
         $manager->flush();
 
@@ -365,8 +365,8 @@ class CustomerUserControllerTest extends WebTestCase
 
         $response = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($response, 200);
-        $this->assertRoles($expectedRoles, $notExpectedRoles, $response->getContent(), $customerUser);
+        self::assertHtmlResponseStatusCodeEquals($response, 200);
+        self::assertRoles($expectedRoles, $notExpectedRoles, $response->getContent(), $customerUser);
 
         // Without customer parameter
         $expectedRoles = $notExpectedRoles = [];
@@ -386,8 +386,8 @@ class CustomerUserControllerTest extends WebTestCase
 
         $response = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($response, 200);
-        $this->assertRoles($expectedRoles, $notExpectedRoles, $response->getContent(), $customerUser);
+        self::assertHtmlResponseStatusCodeEquals($response, 200);
+        self::assertRoles($expectedRoles, $notExpectedRoles, $response->getContent(), $customerUser);
 
 
         //with predefined error
@@ -405,7 +405,7 @@ class CustomerUserControllerTest extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-        static::assertStringContainsString($errorMessage, $response->getContent());
+        self::assertStringContainsString($errorMessage, $response->getContent());
     }
 
     /**
@@ -417,7 +417,7 @@ class CustomerUserControllerTest extends WebTestCase
         $customer = new Customer();
         $customer->setName($name);
         $customer->setOrganization($this->getDefaultOrganization());
-        $this->getContainer()->get('doctrine')
+        self::getContainer()->get('doctrine')
             ->getManagerForClass(Customer::class)
             ->persist($customer);
 
@@ -433,7 +433,7 @@ class CustomerUserControllerTest extends WebTestCase
         $role = new CustomerUserRole($name);
         $role->setLabel($name);
         $role->setOrganization($this->getDefaultOrganization());
-        $this->getContainer()->get('doctrine')
+        self::getContainer()->get('doctrine')
             ->getManagerForClass(CustomerUserRole::class)
             ->persist($role);
 
@@ -450,7 +450,7 @@ class CustomerUserControllerTest extends WebTestCase
         $customerUser->setEmail($email);
         $customerUser->setPassword('password');
         $customerUser->setOrganization($this->getDefaultOrganization());
-        $this->getContainer()->get('doctrine')
+        self::getContainer()->get('doctrine')
             ->getManagerForClass(CustomerUser::class)
             ->persist($customerUser);
 
@@ -462,7 +462,7 @@ class CustomerUserControllerTest extends WebTestCase
      */
     protected function getDefaultOrganization()
     {
-        return $this->getContainer()->get('doctrine')
+        return self::getContainer()->get('doctrine')
             ->getManagerForClass(Organization::class)
             ->getRepository(Organization::class)
             ->findOneBy([]);
@@ -483,16 +483,16 @@ class CustomerUserControllerTest extends WebTestCase
         $shouldBeChecked = 0;
         /** @var CustomerUserRole $expectedRole */
         foreach ($expectedRoles as $expectedRole) {
-            static::assertStringContainsString($expectedRole->getLabel(), $content);
+            self::assertStringContainsString($expectedRole->getLabel(), $content);
             if ($customerUser && $customerUser->hasRole($expectedRole)) {
                 $shouldBeChecked++;
             }
         }
-        $this->assertEquals($shouldBeChecked, substr_count($content, 'checked="checked"'));
+        self::assertEquals($shouldBeChecked, substr_count($content, 'checked="checked"'));
 
         /** @var CustomerUserRole $notExpectedRole */
         foreach ($notExpectedRoles as $notExpectedRole) {
-            static::assertStringNotContainsString($notExpectedRole->getLabel(), $content);
+            self::assertStringNotContainsString($notExpectedRole->getLabel(), $content);
         }
     }
 

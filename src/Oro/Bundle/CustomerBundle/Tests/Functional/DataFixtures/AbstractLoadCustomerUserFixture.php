@@ -118,7 +118,7 @@ abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implement
                 ->setLastName($item['lastname'])
                 ->setConfirmed(true)
                 ->setOrganization($organization)
-                ->addRole($this->getReference($item['role']))
+                ->addUserRole($this->getReference($item['role']))
                 ->setSalt('')
                 ->setPlainPassword($item['password'])
                 ->setEnabled(true);

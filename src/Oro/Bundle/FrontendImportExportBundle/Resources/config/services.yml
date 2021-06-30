@@ -1,0 +1,88 @@
+services:
+    oro_frontend_importexport.async.processor.pre_export:
+        class: Oro\Bundle\FrontendImportExportBundle\Async\Export\PreExportMessageProcessor
+        parent: oro_importexport.async.pre_export
+        calls:
+            - [setExportHandler, ['@oro_frontend_importexport.handler.export_handler']]
+        tags:
+            - { name: 'oro_message_queue.client.message_processor' }
+
+    oro_frontend_importexport.async.processor.export:
+        class: Oro\Bundle\FrontendImportExportBundle\Async\Export\FrontendExportMessageProcessor
+        parent: oro_importexport.async.export
+        calls:
+            - [setExportHandler, ['@oro_frontend_importexport.handler.export_handler']]
+            - [setFileManager, ['@oro_frontend_importexport.file.file_manager']]
+        tags:
+            - { name: 'oro_message_queue.client.message_processor' }
+
+    oro_frontend_importexport.async.processor.post_export:
+        class: Oro\Bundle\FrontendImportExportBundle\Async\Export\PostExportMessageProcessor
+        arguments:
+            - '@oro_frontend_importexport.handler.export_handler'
+            - '@oro_message_queue.client.message_producer'
+            - '@oro_message_queue.job.processor'
+            - '@oro_message_queue.job.manager'
+        calls:
+            - [setLogger, ['@logger']]
+        tags:
+            - { name: 'oro_message_queue.client.message_processor' }
+
+    oro_frontend_importexport.async.save_frontend_export_result_processor:
+        class: Oro\Bundle\FrontendImportExportBundle\Async\Export\SaveFrontendExportResultProcessor
+        arguments:
+            - '@doctrine'
+            - '@oro_frontend_importexport.manager.frontend_import_export_result_manager'
+            - '@oro_message_queue.job.processor'
+            - '@oro_frontend_importexport.manager.export_result_notification_sender'
+        calls:
+            - [setLogger, ['@logger']]
+        tags:
+            - { name: 'oro_message_queue.client.message_processor' }
+
+    oro_frontend_importexport.manager.export_result_notification_sender:
+        class: Oro\Bundle\FrontendImportExportBundle\Manager\ExportResultNotificationSender
+        arguments:
+            - '@oro_email.sender.aggregated_email_templates'
+            - '@oro_frontend_importexport.async.export_result_summarizer'
+            - '@oro_notification.model.notification_settings'
+            - '@oro_website.manager'
+
+    oro_frontend_importexport.async.export_result_summarizer:
+        class: Oro\Bundle\FrontendImportExportBundle\Async\Export\FrontendExportResultSummarizer
+        arguments:
+            - '@oro_website.resolver.website_url_resolver'
+            - '@oro_message_queue.job.processor'
+            - '@oro_entity.entity_name_resolver'
+
+    oro_frontend_importexport.manager.frontend_import_export_result_manager:
+        class: Oro\Bundle\FrontendImportExportBundle\Manager\FrontendImportExportResultManager
+        arguments:
+            - '@doctrine'
+            - '@oro_security.token_accessor'
+
+    oro_frontend_importexport.file_manager:
+        parent: oro_gaufrette.file_manager
+        arguments:
+            - 'frontend_importexport'
+
+    oro_frontend_importexport.file.file_manager:
+        class: Oro\Bundle\ImportExportBundle\File\FileManager
+        arguments:
+            - '@oro_frontend_importexport.file_manager'
+
+    oro_frontend_importexport.handler.export_handler:
+        class: Oro\Bundle\FrontendImportExportBundle\Handler\FrontendExportHandler
+        parent: oro_importexport.handler.export
+        calls:
+            - [ setFileManager, ['@oro_frontend_importexport.file.file_manager']]
+
+    Oro\Bundle\FrontendImportExportBundle\Handler\FrontendExportHandler:
+        alias: oro_frontend_importexport.handler.export_handler
+
+    Oro\Bundle\FrontendImportExportBundle\Command\Cron\FrontendExportCleanupStorageCommand:
+        arguments:
+            - '@oro_frontend_importexport.file.file_manager'
+            - '@oro_frontend_importexport.manager.frontend_import_export_result_manager'
+        tags:
+            - { name: console.command }

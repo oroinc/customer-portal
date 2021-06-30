@@ -48,7 +48,7 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title' => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -72,7 +72,7 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
         );
 
         // Profile permissions do not apply to other customer users.
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'title' => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -111,13 +111,13 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
             false,
         );
 
-        $this->assertResponseValidationError(
+        self::assertResponseValidationError(
             [
                 'status' => '400',
                 'title' => 'unchangeable field constraint',
                 'detail' => 'Field cannot be changed once set',
                 "source" => [
-                    "pointer" => "/data/relationships/roles/data"
+                    "pointer" => "/data/relationships/userRoles/data"
                 ]
             ],
             $response
@@ -133,9 +133,9 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
     private function setProfilePermission(CustomerUser $customerUser, bool $isGranted = true): void
     {
         /** @var AclManager $manager */
-        $manager = $this->getContainer()->get('oro_security.acl.manager');
+        $manager = self::getContainer()->get('oro_security.acl.manager');
         $oid = $manager->getOid('action: oro_customer_frontend_update_own_profile');
-        foreach ($customerUser->getRoles() as $role) {
+        foreach ($customerUser->getUserRoles() as $role) {
             $sid = $manager->getSid($role);
             $manager->setPermission($sid, $oid, (int)$isGranted);
             $manager->flush();
@@ -152,8 +152,8 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
         string $entityClass,
         array $permissions
     ) {
-        $aclManager = $this->getContainer()->get('oro_security.acl.manager');
-        foreach ($customerUser->getRoles() as $role) {
+        $aclManager = self::getContainer()->get('oro_security.acl.manager');
+        foreach ($customerUser->getUserRoles() as $role) {
             $sid = $aclManager->getSid($role);
             $oid = $aclManager
                 ->getOid(ObjectIdentityHelper::encodeIdentityString(EntityAclExtension::NAME, $entityClass));
