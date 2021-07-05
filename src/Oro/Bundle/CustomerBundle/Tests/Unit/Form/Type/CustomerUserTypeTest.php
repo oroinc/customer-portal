@@ -121,8 +121,8 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
 
         $form = $this->factory->create(CustomerUserType::class, $defaultData, []);
 
-        $this->assertTrue($form->has('roles'));
-        $options = $form->get('roles')->getConfig()->getOptions();
+        $this->assertTrue($form->has('userRoles'));
+        $options = $form->get('userRoles')->getConfig()->getOptions();
         $this->assertArrayHasKey('query_builder', $options);
         $this->assertQueryBuilderCallback($options['query_builder']);
 
@@ -132,8 +132,8 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expectedData, $form->getData());
 
-        $this->assertTrue($form->has('roles'));
-        $options = $form->get('roles')->getConfig()->getOptions();
+        $this->assertTrue($form->has('userRoles'));
+        $options = $form->get('userRoles')->getConfig()->getOptions();
         $this->assertArrayHasKey('query_builder', $options);
         $this->assertQueryBuilderCallback($options['query_builder']);
     }
@@ -163,7 +163,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $alteredExistingCustomerUser->setEnabled(false);
 
         $alteredExistingCustomerUserWithRole = clone $alteredExistingCustomerUser;
-        $alteredExistingCustomerUserWithRole->setRoles([$this->getRole(2, 'test02')]);
+        $alteredExistingCustomerUserWithRole->setUserRoles([$this->getRole(2, 'test02')]);
 
         $alteredExistingCustomerUserWithAddresses = clone $alteredExistingCustomerUser;
         $alteredExistingCustomerUserWithAddresses->addAddress($this->getAddresses()[2]);
@@ -195,7 +195,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
                         'lastName' => 'Doe',
                         'email' => 'john@example.com',
                         'customer' => 2,
-                        'roles' => [2]
+                        'userRoles' => [2]
                     ],
                     'expectedData' => $alteredExistingCustomerUserWithRole,
                     'rolesGranted' => true

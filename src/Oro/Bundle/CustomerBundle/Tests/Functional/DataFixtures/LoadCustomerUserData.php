@@ -156,7 +156,7 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
                 ->setEnabled($user['enabled'])
                 ->setOrganization($customer->getOrganization())
                 ->setConfirmationToken($user['confirmationToken'] ?? null)
-                ->addRole($role)
+                ->addUserRole($role)
                 ->setPlainPassword($user['password'])
                 ->setConfirmed(isset($user['confirmed']) ? $user['confirmed'] : true);
 

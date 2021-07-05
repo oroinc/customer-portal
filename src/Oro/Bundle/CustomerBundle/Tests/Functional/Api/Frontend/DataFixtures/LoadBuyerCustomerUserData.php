@@ -26,6 +26,6 @@ class LoadBuyerCustomerUserData extends LoadCustomerUserData
     {
         $customerUser
             ->setEmail(FrontendRestJsonApiTestCase::USER_NAME)
-            ->addRole($this->getReference('buyer'));
+            ->addUserRole($this->getReference('buyer'));
     }
 }

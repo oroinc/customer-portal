@@ -95,7 +95,7 @@ class CustomerTest extends RestJsonApiTestCase
             ->setFirstName($email)
             ->setLastName($email)
             ->setEmail($email)
-            ->addRole($role)
+            ->addUserRole($role)
             ->setEnabled(true)
             ->setPlainPassword($email)
             ->setPassword($email);

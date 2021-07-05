@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\FrontendBundle\Tests\Unit\Twig;
+namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Twig;
 
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\FrontendBundle\Twig\FrontendExtension;

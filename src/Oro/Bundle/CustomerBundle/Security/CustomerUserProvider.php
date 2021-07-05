@@ -209,7 +209,7 @@ class CustomerUserProvider
         }
 
         $extension = $this->aclManager->getExtensionSelector()->select($oid);
-        foreach ($loggedUser->getRoles() as $role) {
+        foreach ($loggedUser->getUserRoles() as $role) {
             $sid = $this->aclManager->getSid($role);
 
             $aces = array_filter(

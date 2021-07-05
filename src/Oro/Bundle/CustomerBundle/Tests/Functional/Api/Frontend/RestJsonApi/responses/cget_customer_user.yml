@@ -15,7 +15,7 @@ data:
             createdAt: '@customer_user->createdAt->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_user->updatedAt->format("Y-m-d\TH:i:s\Z")'
         relationships:
-            roles:
+            userRoles:
                 data:
                     -
                         type: customeruserroles
@@ -42,7 +42,7 @@ data:
             createdAt: '@customer_user1->createdAt->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_user1->updatedAt->format("Y-m-d\TH:i:s\Z")'
         relationships:
-            roles:
+            userRoles:
                 data:
                     -
                         type: customeruserroles
@@ -69,7 +69,7 @@ data:
             createdAt: '@customer_user2->createdAt->format("Y-m-d\TH:i:s\Z")'
             updatedAt: '@customer_user2->updatedAt->format("Y-m-d\TH:i:s\Z")'
         relationships:
-            roles:
+            userRoles:
                 data:
                     -
                         type: customeruserroles

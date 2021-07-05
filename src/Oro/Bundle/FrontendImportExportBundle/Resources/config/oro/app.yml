@@ -1,0 +1,5 @@
+knp_gaufrette:
+    filesystems:
+        frontend_importexport:
+            adapter: private
+            alias: frontend_importexport_filesystem

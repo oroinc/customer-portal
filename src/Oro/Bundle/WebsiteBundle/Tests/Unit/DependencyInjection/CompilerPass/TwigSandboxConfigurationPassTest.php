@@ -1,7 +1,8 @@
 <?php
 
-namespace Oro\Bundle\WebsiteBundle\DependencyInjection\CompilerPass;
+namespace Oro\Bundle\WebsiteBundle\Tests\Unit\DependencyInjection\CompilerPass;
 
+use Oro\Bundle\WebsiteBundle\DependencyInjection\CompilerPass\TwigSandboxConfigurationPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 

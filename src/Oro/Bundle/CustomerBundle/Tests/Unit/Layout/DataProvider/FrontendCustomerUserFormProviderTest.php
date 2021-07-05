@@ -22,48 +22,32 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
     use EntityTrait;
 
     /** @var FormFactory|\PHPUnit\Framework\MockObject\MockObject */
-    protected $formFactory;
+    private $formFactory;
+
+    /** @var UrlGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $router;
 
     /** @var FrontendCustomerUserFormProvider */
-    protected $provider;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|UrlGeneratorInterface
-     */
-    protected $router;
+    private $provider;
 
     protected function setUp(): void
     {
-        $this->router = $this->createMock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
-
-        $this->formFactory = $this
-            ->getMockBuilder('Symfony\Component\Form\FormFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(['create'])
-            ->getMock();
+        $this->formFactory = $this->createMock(FormFactory::class);
+        $this->router = $this->createMock(UrlGeneratorInterface::class);
 
         $this->provider = new FrontendCustomerUserFormProvider($this->formFactory, $this->router);
     }
 
-    protected function tearDown(): void
-    {
-        unset($this->provider, $this->handler);
-    }
-
     /**
      * @dataProvider getCustomerUserFormProvider
-     *
-     * @param CustomerUser $customerUser
-     * @param string $route
-     * @param array $routeParameters
      */
-    public function testGetCustomerUserFormView(CustomerUser $customerUser, $route, array $routeParameters = [])
+    public function testGetCustomerUserFormView(CustomerUser $customerUser, string $route, array $routeParameters = [])
     {
         $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with($route, $routeParameters);
 
-        $form = $this->assertCustomerUserFormHandlerCalled();
+        $form = $this->expectsCustomerUserFormHandlerCalled();
         $actual = $this->provider->getCustomerUserFormView($customerUser);
 
         $this->assertInstanceOf(FormView::class, $actual);
@@ -75,18 +59,14 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getCustomerUserFormProvider
-     *
-     * @param CustomerUser $customerUser
-     * @param string $route
-     * @param array $routeParameters
      */
-    public function testGetCustomerUserForm(CustomerUser $customerUser, $route, array $routeParameters = [])
+    public function testGetCustomerUserForm(CustomerUser $customerUser, string $route, array $routeParameters = [])
     {
         $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with($route, $routeParameters);
 
-        $form = $this->assertCustomerUserFormHandlerCalled();
+        $form = $this->expectsCustomerUserFormHandlerCalled();
         $actual = $this->provider->getCustomerUserForm($customerUser);
 
         $this->assertInstanceOf(FormInterface::class, $actual);
@@ -100,7 +80,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
     {
         $formView = $this->createMock(FormView::class);
 
-        $expectedForm = $this->createMock('Symfony\Component\Form\Test\FormInterface');
+        $expectedForm = $this->createMock(\Symfony\Component\Form\Test\FormInterface::class);
         $expectedForm->expects($this->once())
             ->method('createView')
             ->willReturn($formView);
@@ -121,7 +101,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetForgotPasswordForm()
     {
-        $expectedForm = $this->createMock('Symfony\Component\Form\Test\FormInterface');
+        $expectedForm = $this->createMock(\Symfony\Component\Form\Test\FormInterface::class);
 
         $this->formFactory->expects($this->once())
             ->method('create')
@@ -141,7 +121,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
     {
         $formView = $this->createMock(FormView::class);
 
-        $expectedForm = $this->createMock('Symfony\Component\Form\Test\FormInterface');
+        $expectedForm = $this->createMock(\Symfony\Component\Form\Test\FormInterface::class);
         $expectedForm->expects($this->once())
             ->method('createView')
             ->willReturn($formView);
@@ -162,7 +142,7 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetResetPasswordForm()
     {
-        $expectedForm = $this->createMock('Symfony\Component\Form\Test\FormInterface');
+        $expectedForm = $this->createMock(\Symfony\Component\Form\Test\FormInterface::class);
 
         $this->formFactory->expects($this->once())
             ->method('create')
@@ -198,18 +178,14 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getProfileFormProvider
-     *
-     * @param CustomerUser $customerUser
-     * @param string $route
-     * @param array $routeParameters
      */
-    public function testGetProfileFormView(CustomerUser $customerUser, $route, array $routeParameters = [])
+    public function testGetProfileFormView(CustomerUser $customerUser, string $route, array $routeParameters = [])
     {
         $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with($route, $routeParameters);
 
-        $form = $this->assertCustomerUserProfileFormHandlerCalled();
+        $form = $this->expectsCustomerUserProfileFormHandlerCalled();
         $actual = $this->provider->getProfileFormView($customerUser);
 
         $this->assertInstanceOf(FormView::class, $actual);
@@ -221,18 +197,14 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getProfileFormProvider
-     *
-     * @param CustomerUser $customerUser
-     * @param string $route
-     * @param array $routeParameters
      */
-    public function testGetProfileForm(CustomerUser $customerUser, $route, array $routeParameters = [])
+    public function testGetProfileForm(CustomerUser $customerUser, string $route, array $routeParameters = [])
     {
         $this->router->expects($this->exactly(2))
             ->method('generate')
             ->with($route, $routeParameters);
 
-        $form = $this->assertCustomerUserProfileFormHandlerCalled();
+        $form = $this->expectsCustomerUserProfileFormHandlerCalled();
         $actual = $this->provider->getProfileForm($customerUser);
 
         $this->assertInstanceOf(FormInterface::class, $actual);
@@ -242,56 +214,43 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($actual, $this->provider->getProfileForm($customerUser));
     }
 
-    /**
-     * @return array
-     */
-    public function getCustomerUserFormProvider()
+    public function getCustomerUserFormProvider(): array
     {
         return [
             [
-                'customerUser' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerUser'),
+                'customerUser' => $this->getEntity(CustomerUser::class),
                 'route' => 'oro_customer_frontend_customer_user_create'
             ],
             [
-                'customerUser' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerUser', ['id' => 42]),
+                'customerUser' => $this->getEntity(CustomerUser::class, ['id' => 42]),
                 'route' => 'oro_customer_frontend_customer_user_update',
                 'routeParameters' => ['id' => 42]
             ]
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function getProfileFormProvider()
+    public function getProfileFormProvider(): array
     {
         return [
             [
-                'customerUser' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerUser', ['id' => 42]),
+                'customerUser' => $this->getEntity(CustomerUser::class, ['id' => 42]),
                 'route' => 'oro_customer_frontend_customer_user_profile_update',
                 'routeParameters' => ['id' => 42]
             ]
         ];
     }
 
-    /**
-     * @param string $method
-     * @return \PHPUnit\Framework\MockObject\MockObject|FormInterface
-     */
-    protected function assertCustomerUserFormHandlerCalled($method = 'TEST')
+    private function expectsCustomerUserFormHandlerCalled(string $method = 'TEST'): FormInterface
     {
-        /** @var FormConfigInterface|\PHPUnit\Framework\MockObject\MockObject $config */
-        $config = $this->createMock('Symfony\Component\Form\FormConfigInterface');
+        $config = $this->createMock(FormConfigInterface::class);
         $config->expects($this->any())
             ->method('getMethod')
             ->willReturn($method);
 
-        /** @var FormView|\PHPUnit\Framework\MockObject\MockObject $config */
-        $view = $this->createMock('Symfony\Component\Form\FormView');
+        $view = $this->createMock(FormView::class);
         $view->vars = ['multipart' => null];
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
-        $form = $this->createMock('Symfony\Component\Form\FormInterface');
 
+        $form = $this->createMock(FormInterface::class);
         $form->expects($this->any())
             ->method('getConfig')
             ->willReturn($config);
@@ -306,24 +265,17 @@ class FrontendCustomerUserFormProviderTest extends \PHPUnit\Framework\TestCase
         return $form;
     }
 
-    /**
-     * @param string $method
-     * @return \PHPUnit\Framework\MockObject\MockObject|FormInterface
-     */
-    protected function assertCustomerUserProfileFormHandlerCalled($method = 'TEST')
+    private function expectsCustomerUserProfileFormHandlerCalled(string $method = 'TEST'): FormInterface
     {
-        /** @var FormConfigInterface|\PHPUnit\Framework\MockObject\MockObject $config */
-        $config = $this->createMock('Symfony\Component\Form\FormConfigInterface');
+        $config = $this->createMock(FormConfigInterface::class);
         $config->expects($this->any())
             ->method('getMethod')
             ->willReturn($method);
 
-        /** @var FormView|\PHPUnit\Framework\MockObject\MockObject $config */
-        $view = $this->createMock('Symfony\Component\Form\FormView');
+        $view = $this->createMock(FormView::class);
         $view->vars = ['multipart' => null];
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
-        $form = $this->createMock('Symfony\Component\Form\FormInterface');
 
+        $form = $this->createMock(FormInterface::class);
         $form->expects($this->any())
             ->method('getConfig')
             ->willReturn($config);

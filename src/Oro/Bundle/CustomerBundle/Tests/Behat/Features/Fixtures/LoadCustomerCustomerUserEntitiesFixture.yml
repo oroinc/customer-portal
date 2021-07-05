@@ -93,7 +93,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: true
         customer: '@customer'
         organization: '@organization'
-        roles: ['@front_admin']
+        userRoles: ['@front_admin']
         owner: '@admin'
         addresses:
             - '@customer_user_address1'
@@ -108,7 +108,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: true
         customer: '@customer'
         organization: '@organization'
-        roles: ['@buyer']
+        userRoles: ['@buyer']
         owner: '@admin'
         addresses:
             - '@customer_user_address2'

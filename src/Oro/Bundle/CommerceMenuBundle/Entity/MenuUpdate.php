@@ -14,7 +14,7 @@ use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 /**
  * Commerce Menu Update entity
  *
- * @ORM\Entity(repositoryClass="Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository")
+ * @ORM\Entity(repositoryClass="Oro\Bundle\CommerceMenuBundle\Entity\Repository\MenuUpdateRepository")
  * @ORM\Table(
  *      name="oro_commerce_menu_upd",
  *      uniqueConstraints={

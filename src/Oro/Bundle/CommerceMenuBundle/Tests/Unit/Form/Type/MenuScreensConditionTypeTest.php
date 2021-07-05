@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CustomerMenuBundle\Tests\Unit\Form\Type;
+namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\CommerceMenuBundle\Form\Type\MenuScreensConditionType;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;

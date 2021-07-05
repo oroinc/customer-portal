@@ -89,14 +89,14 @@
             {% if is_granted('oro_customer_frontend_customer_user_role_view') %}
                 <div class="info-list__item">
                     <div class="info-list__name">
-                        {%- if customerUser.roles|length == 1 -%}
+                        {%- if customerUser.userRoles|length == 1 -%}
                             {{- 'oro.customer.customeruser.role.label'|trans -}}
                         {%- else -%}
                             {{- 'oro.customer.customeruser.roles.label'|trans -}}
                         {%- endif -%}
                     </div>
                     <div class="info-list__desc info-list__desc--roles">
-                        {% for customerUserRole in customerUser.roles %}
+                        {% for customerUserRole in customerUser.userRoles %}
                             {{- UI.link({
                                 'path': path('oro_customer_frontend_customer_user_role_view', {id: customerUserRole.id}),
                                 'label': customerUserRole.label,

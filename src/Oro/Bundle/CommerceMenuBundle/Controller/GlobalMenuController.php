@@ -2,13 +2,16 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Controller;
 
+use Knp\Menu\ItemInterface;
+use Oro\Bundle\NavigationBundle\Entity\MenuUpdateInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * The controller for global frontend menu.
+ * Commerce menu controller for global level.
+ *
  * @Route("/menu/frontend/global")
  */
 class GlobalMenuController extends AbstractFrontendMenuController
@@ -87,5 +90,21 @@ class GlobalMenuController extends AbstractFrontendMenuController
             throw $this->createAccessDeniedException();
         }
         parent::checkAcl($context);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function handleUpdate(MenuUpdateInterface $menuUpdate, array $context, ItemInterface $menu)
+    {
+        $response = parent::handleUpdate($menuUpdate, $context, $menu);
+
+        // On save RedirectResponse is returned, during rendering response is an array.
+        // Perform updates only after update.
+        if (!is_array($response)) {
+            $this->updateDependentMenuUpdateUrls($menuUpdate);
+        }
+
+        return $response;
     }
 }

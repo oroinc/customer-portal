@@ -57,7 +57,7 @@ class LoadTestCustomerUser extends AbstractFixture implements ContainerAwareInte
             ->setEnabled(true)
             ->setOrganization($organization)
             ->setLoginCount(0)
-            ->addRole($role);
+            ->addUserRole($role);
 
         $userManager->updateUser($user);
         $this->setReference('testCustomerUser', $user);

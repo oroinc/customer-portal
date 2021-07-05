@@ -2,11 +2,14 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Action;
 
+use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerGroupActionTest extends WebTestCase
 {
+    use ConfigManagerAwareTestTrait;
+
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
@@ -54,9 +57,7 @@ class CustomerGroupActionTest extends WebTestCase
 
     public function testDeleteAnonymousUserGroup()
     {
-        $entityId = $this->getContainer()
-            ->get('oro_config.global')
-            ->get('oro_customer.anonymous_customer_group');
+        $entityId = self::getConfigManager('global')->get('oro_customer.anonymous_customer_group');
 
         $operationName = 'oro_customer_groups_delete';
         $entityClass   = CustomerGroup::class;

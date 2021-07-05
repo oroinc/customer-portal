@@ -11,13 +11,13 @@ use Oro\Bundle\SecurityBundle\Acl\Extension\EntityAclExtension;
 use Oro\Bundle\SecurityBundle\Acl\Extension\EntityMaskBuilder;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\SecurityBundle\Model\Role;
 use Symfony\Component\Security\Acl\Domain\Entry;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Model\AclInterface;
 use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -52,25 +52,25 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
     public function testGetLoggedUserIncludingGuest()
     {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
-        $token->expects($this->once())
+        $token->expects(self::once())
             ->method('getUser')
             ->willReturn(null);
 
-        $this->tokenAccessor->expects($this->once())
+        $this->tokenAccessor->expects(self::once())
             ->method('getToken')
             ->willReturn($token);
 
         $visitor = $this->createMock(CustomerVisitor::class);
-        $token->expects($this->once())
+        $token->expects(self::once())
             ->method('getVisitor')
             ->willReturn($visitor);
 
         $guestUser = $this->createMock(CustomerUser::class);
-        $visitor->expects($this->once())
+        $visitor->expects(self::once())
             ->method('getCustomerUser')
             ->willReturn($guestUser);
 
-        $this->assertSame($guestUser, $this->provider->getLoggedUser(true));
+        self::assertSame($guestUser, $this->provider->getLoggedUser(true));
     }
 
     public function testIsGrantedOidMaskAcesFilteredOrNotPresent()
@@ -78,14 +78,14 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         $extension = $this->expectsSelectAclExtension();
 
         $maskBuilder = new EntityMaskBuilder(0, ['EDIT']);
-        $extension->expects($this->once())
+        $extension->expects(self::once())
             ->method('getMaskBuilder')
             ->with('EDIT')
             ->willReturn($maskBuilder);
 
         $oid = new ObjectIdentity('id', 'class');
 
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getOid')
             ->with('entity:' . \stdClass::class)
             ->willReturn($oid);
@@ -93,28 +93,28 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         $user = $this->expectsGetUser();
 
         $role = $this->createMock(Role::class);
-        $user->expects($this->exactly(2))
-            ->method('getRoles')
+        $user->expects(self::exactly(2))
+            ->method('getUserRoles')
             ->willReturnOnConsecutiveCalls([$role], [/*empty for second call just to avoid unnecessary mocks*/]);
 
         $sid = $this->expectsGetSid($role);
 
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getAces')
             ->with($sid, $oid)
             ->willReturn([]);
 
         $rootOid = new ObjectIdentity('id', '(root)');
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getRootOid')
             ->with($oid)
             ->willReturn($rootOid);
 
-        $extension->expects($this->once())
+        $extension->expects(self::once())
             ->method('getAllMaskBuilders')
             ->willReturn([$maskBuilder]);
 
-        $extension->expects($this->once())
+        $extension->expects(self::once())
             ->method('getServiceBits')
             ->with(1)
             ->willReturn(0);
@@ -127,14 +127,14 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         $extension = $this->expectsSelectAclExtension();
 
         $maskBuilder = new EntityMaskBuilder(0, ['EDIT']);
-        $extension->expects($this->once())
+        $extension->expects(self::once())
             ->method('getMaskBuilder')
             ->with('EDIT')
             ->willReturn($maskBuilder);
 
         $oid = new ObjectIdentity('id', 'class');
 
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getOid')
             ->with('entity:' . \stdClass::class)
             ->willReturn($oid);
@@ -143,36 +143,36 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
 
         $role = $this->createMock(Role::class);
 
-        $user->expects($this->exactly(2))
-            ->method('getRoles')
+        $user->expects(self::exactly(2))
+            ->method('getUserRoles')
             ->willReturnOnConsecutiveCalls([$role], [/*empty for second call just to avoid unnecessary mocks*/]);
 
         $sid = $this->expectsGetSid($role);
 
         $ace = $this->createMock(Entry::class);
 
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getAces')
             ->with($sid, $oid)
             ->willReturn([$ace]);
 
-        $ace->expects($this->once())
+        $ace->expects(self::once())
             ->method('getMask')
             ->willReturn(256);
 
         //service bits of requiredMask don`t match serviceBits from aceMask
-        $extension->expects($this->exactly(3))
+        $extension->expects(self::exactly(3))
             ->method('getServiceBits')
             ->withConsecutive([1], [256], [1])
             ->willReturnOnConsecutiveCalls(1, 0, 0);
 
         $rootOid = new ObjectIdentity('id', '(root)');
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getRootOid')
             ->with($oid)
             ->willReturn($rootOid);
 
-        $extension->expects($this->once())
+        $extension->expects(self::once())
             ->method('getAllMaskBuilders')
             ->willReturn([$maskBuilder]);
 
@@ -184,14 +184,14 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         $extension = $this->expectsSelectAclExtension();
 
         $maskBuilder = new EntityMaskBuilder(0, ['EDIT']);
-        $extension->expects($this->once())
+        $extension->expects(self::once())
             ->method('getMaskBuilder')
             ->with('EDIT')
             ->willReturn($maskBuilder);
 
         $oid = new ObjectIdentity('id', 'class');
 
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getOid')
             ->with('entity:' . \stdClass::class)
             ->willReturn($oid);
@@ -200,45 +200,45 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
 
         $role = $this->createMock(Role::class);
 
-        $user->expects($this->exactly(2))
-            ->method('getRoles')
+        $user->expects(self::exactly(2))
+            ->method('getUserRoles')
             ->willReturnOnConsecutiveCalls([$role], [/*empty for second call just to avoid unnecessary mocks*/]);
 
         $sid = $this->expectsGetSid($role);
 
         $ace = $this->createMock(Entry::class);
 
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getAces')
             ->with($sid, $oid)
             ->willReturn([$ace]);
 
-        $ace->expects($this->once())
+        $ace->expects(self::once())
             ->method('getMask')
             ->willReturn(256);
 
-        $extension->expects($this->exactly(3))
+        $extension->expects(self::exactly(3))
             ->method('getServiceBits')
             ->withConsecutive([1], [256], [1])
             ->willReturnOnConsecutiveCalls(1, 1, 0);
 
         //different identifiers - so filtered
         $acl = $this->getAcl('identifierA');
-        $extension->expects($this->once())
+        $extension->expects(self::once())
             ->method('getExtensionKey')
             ->willReturn('identifierB');
 
-        $ace->expects($this->once())
+        $ace->expects(self::once())
             ->method('getAcl')
             ->willReturn($acl);
 
         $rootOid = new ObjectIdentity('id', '(root)');
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getRootOid')
             ->with($oid)
             ->willReturn($rootOid);
 
-        $extension->expects($this->once())
+        $extension->expects(self::once())
             ->method('getAllMaskBuilders')
             ->willReturn([$maskBuilder]);
 
@@ -250,14 +250,14 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         $extension = $this->expectsSelectAclExtension();
 
         $maskBuilder = new EntityMaskBuilder(0, ['EDIT']);
-        $extension->expects($this->once())
+        $extension->expects(self::once())
             ->method('getMaskBuilder')
             ->with('EDIT')
             ->willReturn($maskBuilder);
 
         $oid = new ObjectIdentity('id', 'class');
 
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getOid')
             ->with('entity:' . \stdClass::class)
             ->willReturn($oid);
@@ -266,49 +266,49 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
 
         $role = $this->createMock(Role::class);
 
-        $user->expects($this->once())
-            ->method('getRoles')
+        $user->expects(self::once())
+            ->method('getUserRoles')
             ->willReturnOnConsecutiveCalls([$role]);
 
         $sid = $this->expectsGetSid($role);
 
         $ace = $this->createMock(Entry::class);
 
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getAces')
             ->with($sid, $oid)
             ->willReturn([$ace]);
 
-        $ace->expects($this->exactly(2))
+        $ace->expects(self::exactly(2))
             ->method('getMask')
             ->willReturn(256);
 
         //bits same
-        $extension->expects($this->exactly(2))
+        $extension->expects(self::exactly(2))
             ->method('getServiceBits')
             ->withConsecutive([1], [256])
             ->willReturnOnConsecutiveCalls(1, 1);
 
         //identifiers same
         $acl = $this->getAcl('identifierA');
-        $extension->expects($this->once())
+        $extension->expects(self::once())
             ->method('getExtensionKey')
             ->willReturn('identifierA');
 
         //going to match
-        $ace->expects($this->once())
+        $ace->expects(self::once())
             ->method('getAcl')
             ->willReturn($acl);
-        $ace->expects($this->once())
+        $ace->expects(self::once())
             ->method('getStrategy')
             ->willReturn('equal');
 
-        $extension->expects($this->exactly(2))
+        $extension->expects(self::exactly(2))
             ->method('removeServiceBits')
             ->withConsecutive([1], [256])
             ->willReturnOnConsecutiveCalls(256, 256);
 
-        $this->assertTrue($this->provider->isGrantedEditBasic(\stdClass::class));
+        self::assertTrue($this->provider->isGrantedEditBasic(\stdClass::class));
     }
 
     /**
@@ -318,7 +318,7 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
     {
         $acl = $this->createMock(AclInterface::class);
         $identity = new ObjectIdentity($identifier, 'any');
-        $acl->expects($this->once())
+        $acl->expects(self::once())
             ->method('getObjectIdentity')
             ->willReturn($identity);
 
@@ -333,11 +333,11 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         $extensionSelector = $this->createMock(AclExtensionSelector::class);
 
         $extension = $this->createMock(EntityAclExtension::class);
-        $extensionSelector->expects($this->any())
+        $extensionSelector->expects(self::any())
             ->method('select')
             ->willReturn($extension);
 
-        $this->aclManager->expects($this->any())
+        $this->aclManager->expects(self::any())
             ->method('getExtensionSelector')
             ->willReturn($extensionSelector);
 
@@ -352,11 +352,11 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
         $user = $this->createMock(CustomerUser::class);
 
         $token = $this->createMock(TokenInterface::class);
-        $token->expects($this->any())
+        $token->expects(self::any())
             ->method('getUser')
             ->willReturn($user);
 
-        $this->tokenAccessor->expects($this->any())
+        $this->tokenAccessor->expects(self::any())
             ->method('getToken')
             ->willReturn($token);
 
@@ -367,7 +367,7 @@ class CustomerUserProviderTest extends \PHPUnit\Framework\TestCase
     {
         $sid = $this->createMock(SecurityIdentityInterface::class);
 
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getSid')
             ->with($role)
             ->willReturn($sid);

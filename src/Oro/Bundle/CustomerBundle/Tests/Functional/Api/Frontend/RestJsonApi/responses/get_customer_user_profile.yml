@@ -9,7 +9,7 @@ data:
         nameSuffix: null
         birthday: null
     relationships:
-        roles:
+        userRoles:
             data:
                 -
                     type: customeruserroles

@@ -12,16 +12,14 @@ use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerRelatedEntitiesValid
 use Oro\Bundle\EntityBundle\Provider\EntityClassNameProviderInterface;
 use Oro\Bundle\SaleBundle\Entity\Quote;
 use Oro\Bundle\ShoppingListBundle\Entity\ShoppingList;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
+class CustomerRelatedEntitiesValidatorTest extends ConstraintValidatorTestCase
 {
-    use EntityTrait;
-
     /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $authorizationChecker;
 
@@ -40,12 +38,6 @@ class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
     /** @var UnitOfWork|\PHPUnit\Framework\MockObject\MockObject */
     private $uow;
 
-    /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $context;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
@@ -54,20 +46,47 @@ class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
         $this->entityClassNameProvider = $this->createMock(EntityClassNameProviderInterface::class);
         $this->em = $this->createMock(EntityManager::class);
         $this->uow = $this->createMock(UnitOfWork::class);
-        $this->context = $this->createMock(ExecutionContextInterface::class);
+        parent::setUp();
+    }
+
+    protected function createValidator()
+    {
+        return new CustomerRelatedEntitiesValidator(
+            $this->authorizationChecker,
+            $this->customerUserReassignUpdater,
+            $this->registry,
+            $this->entityClassNameProvider
+        );
+    }
+
+    private function getCustomer(int $id): Customer
+    {
+        $customer = new Customer();
+        ReflectionUtil::setId($customer, $id);
+
+        return $customer;
+    }
+
+    private function getCustomerUser(int $id = null, Customer $customer = null): CustomerUser
+    {
+        $customerUser = new CustomerUser();
+        if (null !== $id) {
+            ReflectionUtil::setId($customerUser, $id);
+        }
+        if (null !== $customer) {
+            $customerUser->setCustomer($customer);
+        }
+
+        return $customerUser;
     }
 
     public function testValidateNotCustomerUser()
     {
-        $this->expectException(\Symfony\Component\Form\Exception\UnexpectedTypeException::class);
+        $this->expectException(UnexpectedTypeException::class);
         $this->expectExceptionMessage(
             'Expected argument of type "Oro\Bundle\CustomerBundle\Entity\CustomerUser", "stdClass" given'
         );
 
-        $constraint = new CustomerRelatedEntities();
-
-        $entity = new \stdClass();
-
         $this->registry->expects(self::never())
             ->method('getManagerForClass');
 
@@ -80,26 +99,13 @@ class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
         $this->entityClassNameProvider->expects(self::never())
             ->method('getEntityClassName');
 
-        $this->context->expects(self::never())
-            ->method('buildViolation');
-
-        $validator = new CustomerRelatedEntitiesValidator(
-            $this->authorizationChecker,
-            $this->customerUserReassignUpdater,
-            $this->registry,
-            $this->entityClassNameProvider
-        );
-        $validator->initialize($this->context);
-
-        $validator->validate($entity, $constraint);
+        $constraint = new CustomerRelatedEntities();
+        $this->validator->validate(new \stdClass(), $constraint);
     }
 
     public function testValidateCreatingCustomerUser()
     {
-        $constraint = new CustomerRelatedEntities();
-
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, ['id' => null]);
+        $customerUser = $this->getCustomerUser();
 
         $this->registry->expects(self::never())
             ->method('getManagerForClass');
@@ -113,28 +119,15 @@ class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
         $this->entityClassNameProvider->expects(self::never())
             ->method('getEntityClassName');
 
-        $this->context->expects(self::never())
-            ->method('buildViolation');
+        $constraint = new CustomerRelatedEntities();
+        $this->validator->validate($customerUser, $constraint);
 
-        $validator = new CustomerRelatedEntitiesValidator(
-            $this->authorizationChecker,
-            $this->customerUserReassignUpdater,
-            $this->registry,
-            $this->entityClassNameProvider
-        );
-        $validator->initialize($this->context);
-
-        $validator->validate($customerUser, $constraint);
+        $this->assertNoViolation();
     }
 
     public function testValidateNoOriginalCustomer()
     {
-        $constraint = new CustomerRelatedEntities();
-
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, [
-            'id' => 35,
-        ]);
+        $customerUser = $this->getCustomerUser(35);
 
         $originalCustomerUser = [
             'id' => 34,
@@ -162,33 +155,16 @@ class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
         $this->entityClassNameProvider->expects(self::never())
             ->method('getEntityClassName');
 
-        $this->context->expects(self::never())
-            ->method('buildViolation');
+        $constraint = new CustomerRelatedEntities();
+        $this->validator->validate($customerUser, $constraint);
 
-        $validator = new CustomerRelatedEntitiesValidator(
-            $this->authorizationChecker,
-            $this->customerUserReassignUpdater,
-            $this->registry,
-            $this->entityClassNameProvider
-        );
-        $validator->initialize($this->context);
-
-        $validator->validate($customerUser, $constraint);
+        $this->assertNoViolation();
     }
 
     public function testValidateCustomerNotChanged()
     {
-        $constraint = new CustomerRelatedEntities();
-
-        /** @var Customer $originalCustomer */
-        $originalCustomer = $this->getEntity(Customer::class, [
-            'id' => 45,
-        ]);
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, [
-            'id' => 35,
-            'customer' => $originalCustomer,
-        ]);
+        $originalCustomer = $this->getCustomer(45);
+        $customerUser = $this->getCustomerUser(35, $originalCustomer);
 
         $originalCustomerUser = [
             'id' => 34,
@@ -217,38 +193,18 @@ class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
         $this->entityClassNameProvider->expects(self::never())
             ->method('getEntityClassName');
 
-        $this->context->expects(self::never())
-            ->method('buildViolation');
+        $constraint = new CustomerRelatedEntities();
+        $this->validator->validate($customerUser, $constraint);
 
-        $validator = new CustomerRelatedEntitiesValidator(
-            $this->authorizationChecker,
-            $this->customerUserReassignUpdater,
-            $this->registry,
-            $this->entityClassNameProvider
-        );
-        $validator->initialize($this->context);
-
-        $validator->validate($customerUser, $constraint);
+        $this->assertNoViolation();
     }
 
     public function testValidateCustomerChangedAuthorizationGranted()
     {
-        $constraint = new CustomerRelatedEntities();
+        $customer = $this->getCustomer(45);
+        $customerUser = $this->getCustomerUser(35, $customer);
 
-        /** @var Customer $customer */
-        $customer = $this->getEntity(Customer::class, [
-            'id' => 45,
-        ]);
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, [
-            'id' => 35,
-            'customer' => $customer,
-        ]);
-
-        /** @var Customer $originalCustomer */
-        $originalCustomer = $this->getEntity(Customer::class, [
-            'id' => 44,
-        ]);
+        $originalCustomer = $this->getCustomer(44);
         $originalCustomerUser = [
             'id' => 34,
             'customer' => $originalCustomer,
@@ -291,38 +247,18 @@ class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
         $this->entityClassNameProvider->expects(self::never())
             ->method('getEntityClassName');
 
-        $this->context->expects(self::never())
-            ->method('buildViolation');
+        $constraint = new CustomerRelatedEntities();
+        $this->validator->validate($customerUser, $constraint);
 
-        $validator = new CustomerRelatedEntitiesValidator(
-            $this->authorizationChecker,
-            $this->customerUserReassignUpdater,
-            $this->registry,
-            $this->entityClassNameProvider
-        );
-        $validator->initialize($this->context);
-
-        $validator->validate($customerUser, $constraint);
+        $this->assertNoViolation();
     }
 
     public function testValidateCustomerChangedAuthorizationNotGranted()
     {
-        $constraint = new CustomerRelatedEntities();
+        $customer = $this->getCustomer(45);
+        $customerUser = $this->getCustomerUser(35, $customer);
 
-        /** @var Customer $customer */
-        $customer = $this->getEntity(Customer::class, [
-            'id' => 45,
-        ]);
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getEntity(CustomerUser::class, [
-            'id' => 35,
-            'customer' => $customer,
-        ]);
-
-        /** @var Customer $originalCustomer */
-        $originalCustomer = $this->getEntity(Customer::class, [
-            'id' => 44,
-        ]);
+        $originalCustomer = $this->getCustomer(44);
         $originalCustomerUser = [
             'id' => 34,
             'customer' => $originalCustomer,
@@ -365,39 +301,17 @@ class CustomerRelatedEntitiesValidatorTest extends \PHPUnit\Framework\TestCase
                 false
             );
 
-        $builder = $this->createMock(ConstraintViolationBuilderInterface::class);
-
         $this->entityClassNameProvider->expects(self::exactly(2))
             ->method('getEntityClassName')
             ->withConsecutive([ShoppingList::class], [Quote::class])
             ->willReturnOnConsecutiveCalls('Shopping List', 'Quote');
 
-        $this->context->expects(self::once())
-            ->method('buildViolation')
-            ->with('oro.customer.message.no_permission_for_customer_related_entities')
-            ->willReturn($builder);
+        $constraint = new CustomerRelatedEntities();
+        $this->validator->validate($customerUser, $constraint);
 
-        $builder->expects(self::once())
-            ->method('setParameter')
-            ->with('{{ entityNames }}', 'Shopping List, Quote')
-            ->willReturnSelf();
-
-        $builder->expects(self::once())
-            ->method('atPath')
-            ->with('customer')
-            ->will($this->returnSelf());
-
-        $builder->expects(self::once())
-            ->method('addViolation');
-
-        $validator = new CustomerRelatedEntitiesValidator(
-            $this->authorizationChecker,
-            $this->customerUserReassignUpdater,
-            $this->registry,
-            $this->entityClassNameProvider
-        );
-        $validator->initialize($this->context);
-
-        $validator->validate($customerUser, $constraint);
+        $this->buildViolation($constraint->message)
+            ->setParameter('{{ entityNames }}', 'Shopping List, Quote')
+            ->atPath('property.path.customer')
+            ->assertRaised();
     }
 }

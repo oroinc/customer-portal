@@ -9,6 +9,9 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form type for customer user role on storefront.
+ */
 class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
 {
     const NAME = 'oro_customer_frontend_customer_user_role';
@@ -135,7 +138,7 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
 
         foreach ($addedUsers as $customerUser) {
             $predefinedRole->removeCustomerUser($customerUser);
-            $customerUser->removeRole($predefinedRole);
+            $customerUser->removeUserRole($predefinedRole);
         }
     }
 

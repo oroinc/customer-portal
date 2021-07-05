@@ -38,6 +38,11 @@ placeholders:
                 entity_pagination_frontend_edit:
                     order: 100
 
+        view_navButtons_before:
+            items:
+                customer_config_button: ~
+                customer_group_config_button: ~
+
 # Disabled as per BAP-9497
 #        change_history_block:
 #            items:
@@ -75,6 +80,13 @@ placeholders:
         frontend_window_bundle_js:
             template: '@@OroCustomer/Windows/javascript.html.twig'
             applicable: "@oro_frontend.placeholder.filter->isFrontendRoute()"
+        customer_config_button:
+            template: OroCustomerBundle:CustomerConfiguration:button.html.twig
+            applicable: "@oro_customer.placeholder.filter->isCustomerPage($entity$)"
+        customer_group_config_button:
+            template: OroCustomerBundle:CustomerGroupConfiguration:button.html.twig
+            applicable: "@oro_customer.placeholder.filter->isCustomerGroupPage($entity$)"
+
 # Disabled as per BAP-9497
 #        frontend_change_history_link:
 #            template: '@@OroCustomer/DataAudit/change_history_link.html.twig'

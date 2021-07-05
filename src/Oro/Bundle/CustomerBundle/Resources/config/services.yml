@@ -1014,12 +1014,12 @@ services:
         public: true
         arguments:
            - '@security.token_storage'
-           - '@security.user_checker'
+           - ~ # UserCheckerInterface $userChecker
            - '@security.authentication.session_strategy'
            - '@request_stack'
            - '@oro_security.token.factory.username_password_organization'
            - '@event_dispatcher'
-           - null # remember-me services
+           - ~ # remember-me services
 
     oro_customer.security.user_checker.decorator:
         decorates: security.user_checker
@@ -1181,7 +1181,6 @@ services:
 
     oro_customer.provider.customer_entity_name:
         class: Oro\Bundle\CustomerBundle\Provider\CustomerEntityNameProvider
-        public: false
         arguments:
             - '@oro_entity.entity_name_provider.default'
         tags:
@@ -1194,3 +1193,45 @@ services:
             - '@oro_email.email.activity.manager'
         tags:
             - { name: kernel.event_listener, event: oro_email.email_body_added, method: linkToCustomerUser }
+
+    oro_customer.provider.customer_config_form_provider:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerConfigurationFormProvider
+        parent: 'oro_config.provider.abstract_provider'
+        lazy: true
+
+    oro_customer.provider.customer_group_config_form_provider:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerGroupConfigurationFormProvider
+        parent: 'oro_config.provider.abstract_provider'
+        lazy: true
+
+    Oro\Bundle\CustomerBundle\Provider\CustomerConfigurationFormProvider:
+        alias: oro_customer.provider.customer_config_form_provider
+
+    Oro\Bundle\CustomerBundle\Provider\CustomerGroupConfigurationFormProvider:
+        alias: oro_customer.provider.customer_group_config_form_provider
+
+    oro_customer.scope.customer:
+        class: Oro\Bundle\CustomerBundle\Config\CustomerScopeManager
+        parent: oro_config.scope_manager.abstract
+        calls:
+            - [setTokenStorage, [ '@security.token_storage' ]]
+        tags:
+            - { name: oro_config.scope, scope: customer, priority: 290 }
+
+    oro_customer.scope.customer_group:
+        class: Oro\Bundle\CustomerBundle\Config\CustomerGroupScopeManager
+        parent: oro_config.scope_manager.abstract
+        calls:
+            - [setTokenStorage, [ '@security.token_storage' ]]
+        tags:
+            - { name: oro_config.scope, scope: customer_group, priority: 280 }
+
+    oro_customer.event_listener.customer_grid_listener:
+        class: Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerConfigurationDatagridListener
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.customer-customers-grid, method: onBuildBefore }
+
+    oro_customer.event_listener.customer_group_grid_listener:
+        class: Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerGroupConfigurationDatagridListener
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.customer-groups-grid, method: onBuildBefore }

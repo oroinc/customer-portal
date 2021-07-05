@@ -16,7 +16,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: '1'
         customer: '@customer1'
         organization: '@organization'
-        roles: ['@front_admin']
+        userRoles: ['@front_admin']
         owner: '@admin'
         website: '@website1'
     nancy:
@@ -30,7 +30,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: '1'
         customer: '@customer1'
         organization: '@organization'
-        roles: ['@buyer']
+        userRoles: ['@buyer']
         owner: '@admin'
         website: '@website1'
     customer_users{1..14}:
@@ -44,6 +44,6 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
         confirmed: '1'
         customer: '@customer1'
         organization: '@organization'
-        roles: ['@buyer']
+        userRoles: ['@buyer']
         owner: '@admin'
         website: '@website1'

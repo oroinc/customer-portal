@@ -64,8 +64,8 @@ class CustomerUserDatagridListenerTest extends \PHPUnit\Framework\TestCase
                         'source' => [
                             'query' => [
                                 'select' => [
-                                    '(CASE WHEN (:role MEMBER OF user.roles OR user.id IN (:data_in)) AND user.id NOT' .
-                                    ' IN (:data_not_in) THEN true ELSE false END) as hasRole',
+                                    '(CASE WHEN (:role MEMBER OF user.userRoles OR user.id IN (:data_in)) ' .
+                                    'AND user.id NOT IN (:data_not_in) THEN true ELSE false END) as hasRole',
                                 ],
                             ],
                             'bind_parameters' => ['role'],

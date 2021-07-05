@@ -65,7 +65,7 @@ class FrontendCustomerUserType extends AbstractType
         $builder->remove('addresses');
         if ($this->authorizationChecker->isGranted('oro_customer_frontend_customer_user_role_view')) {
             $builder->add(
-                'roles',
+                'userRoles',
                 FrontendCustomerUserRoleSelectType::class,
                 [
                     'label' => 'oro.customer.customeruser.roles.label',

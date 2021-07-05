@@ -86,7 +86,7 @@ class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtu
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getReference($customerUser);
-        $customerUser->addRole($entity);
+        $customerUser->addUserRole($entity);
 
         $this->setReference($entity->getLabel(), $entity);
         $manager->persist($entity);

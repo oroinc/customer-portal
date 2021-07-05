@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Security;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\SecurityBundle\Authentication\Token\RolesAwareTokenInterface;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -67,7 +68,7 @@ class AnonymousCustomerUserAuthenticationProvider implements AuthenticationProvi
 
         return new AnonymousCustomerUserToken(
             $token->getUser(),
-            $token->getRoles(),
+            $token instanceof RolesAwareTokenInterface ? $token->getRoles() : $token->getRoleNames(),
             $visitor,
             $organization
         );

@@ -63,8 +63,8 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $crawler = $this->client->submit($form);
         $result = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertStringContainsString('Customer User Role has been saved', $crawler->html());
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString('Customer User Role has been saved', $crawler->html());
     }
 
     /**
@@ -75,9 +75,9 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_role_index'));
         $result = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertStringContainsString('customer-customer-user-roles-grid', $crawler->html());
-        static::assertStringContainsString(self::TEST_ROLE, $result->getContent());
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString('customer-customer-user-roles-grid', $crawler->html());
+        self::assertStringContainsString(self::TEST_ROLE, $result->getContent());
     }
 
     /**
@@ -87,7 +87,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
     public function testUpdate()
     {
         /** @var CustomerUserRole $role = */
-        $role = $this->getContainer()->get('doctrine')
+        $role = self::getContainer()->get('doctrine')
             ->getManagerForClass('OroCustomerBundle:CustomerUserRole')
             ->getRepository('OroCustomerBundle:CustomerUserRole')
             ->findOneBy(['label' => self::TEST_ROLE]);
@@ -104,12 +104,12 @@ class CustomerUserRoleControllerTest extends WebTestCase
         $customerUser->setCustomer($customer);
         $this->getObjectManager()->flush();
 
-        $this->assertNotNull($customerUser);
-        static::assertStringContainsString('Add note', $crawler->html());
+        self::assertNotNull($customerUser);
+        self::assertStringContainsString('Add note', $crawler->html());
 
         $form = $crawler->selectButton('Save and Close')->form();
 
-        $token = $this->getContainer()->get('security.csrf.token_manager')
+        $token = self::getContainer()->get('security.csrf.token_manager')
             ->getToken('oro_customer_customer_user_role')->getValue();
         $this->client->followRedirects(true);
         $crawler = $this->client->request($form->getMethod(), $form->getUri(), [
@@ -124,26 +124,26 @@ class CustomerUserRoleControllerTest extends WebTestCase
         ]);
         $result = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
         $content = $crawler->html();
-        static::assertStringContainsString('Customer User Role has been saved', $content);
+        self::assertStringContainsString('Customer User Role has been saved', $content);
 
         $this->getObjectManager()->clear();
 
         /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUserRole $role */
         $role = $this->getUserRoleRepository()->find($id);
 
-        $this->assertNotNull($role);
-        $this->assertEquals(self::UPDATED_TEST_ROLE, $role->getLabel());
-        $this->assertNotEmpty($role->getRole());
+        self::assertNotNull($role);
+        self::assertEquals(self::UPDATED_TEST_ROLE, $role->getLabel());
+        self::assertNotEmpty($role->getRole());
 
         /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUser $user */
         $user = $this->getUserRepository()->findOneBy(['email' => LoadCustomerUserData::EMAIL]);
 
-        $this->assertNotNull($user);
-        $this->assertEquals($user->getRole($role->getRole()), $role);
+        self::assertNotNull($user);
+        self::assertEquals($user->getUserRole($role->getRole()), $role);
 
-        $this->assertTrue($role->isSelfManaged());
+        self::assertTrue($role->isSelfManaged());
 
         return $id;
     }
@@ -160,11 +160,11 @@ class CustomerUserRoleControllerTest extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-        $this->assertResponseStatusCodeEquals($response, 200);
+        self::assertResponseStatusCodeEquals($response, 200);
 
-        $this->assertEquals(8, substr_count($response->getContent(), 'shipping address'));
-        static::assertStringContainsString('Share data view', $response->getContent());
-        static::assertStringNotContainsString('Access system information', $response->getContent());
+        self::assertEquals(8, substr_count($response->getContent(), 'shipping address'));
+        self::assertStringContainsString('Share data view', $response->getContent());
+        self::assertStringNotContainsString('Access system information', $response->getContent());
 
         // Check datagrid
         $response = $this->client->requestGrid(
@@ -176,16 +176,16 @@ class CustomerUserRoleControllerTest extends WebTestCase
         );
 
         $result = $this->getJsonResponseContent($response, 200);
-        $this->assertCount(1, $result['data']);
+        self::assertCount(1, $result['data']);
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getUserRepository()->findOneBy(['email' => LoadCustomerUserData::EMAIL]);
         $result = reset($result['data']);
 
-        $this->assertEquals($customerUser->getId(), $result['id']);
-        $this->assertEquals($customerUser->getFirstName(), $result['firstName']);
-        $this->assertEquals($customerUser->getLastName(), $result['lastName']);
-        $this->assertEquals($customerUser->getEmail(), $result['email']);
+        self::assertEquals($customerUser->getId(), $result['id']);
+        self::assertEquals($customerUser->getFirstName(), $result['firstName']);
+        self::assertEquals($customerUser->getLastName(), $result['lastName']);
+        self::assertEquals($customerUser->getEmail(), $result['email']);
     }
 
     /**
@@ -193,7 +193,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
      */
     protected function getObjectManager()
     {
-        return $this->getContainer()->get('doctrine')->getManager();
+        return self::getContainer()->get('doctrine')->getManager();
     }
 
     /**

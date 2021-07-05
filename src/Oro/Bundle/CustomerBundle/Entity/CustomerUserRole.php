@@ -133,7 +133,7 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
     /**
      * @var CustomerUser[]|Collection
      *
-     * @ORM\ManyToMany(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser", mappedBy="roles")
+     * @ORM\ManyToMany(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser", mappedBy="userRoles")
      */
     protected $customerUsers;
 

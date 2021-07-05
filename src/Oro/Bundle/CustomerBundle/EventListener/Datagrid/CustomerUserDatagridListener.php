@@ -6,6 +6,10 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
 use Oro\Bundle\DataGridBundle\Event\PreBuild;
 
+/**
+ * Adds hasRole to select statement.
+ * Filters by customer.
+ */
 class CustomerUserDatagridListener
 {
     const NEW_ACCOUNT_KEY = 'newCustomer';
@@ -14,7 +18,8 @@ class CustomerUserDatagridListener
     const ROLE_KEY = 'role';
 
     const USER_SELECT_PART = 'user.id IN (:data_in) AND user.id NOT IN (:data_not_in)';
-    const ROLE_SELECT_PART = '(:role MEMBER OF user.roles OR user.id IN (:data_in)) AND user.id NOT IN (:data_not_in)';
+    const ROLE_SELECT_PART = '(:role MEMBER OF user.userRoles OR user.id IN (:data_in)) '
+    . 'AND user.id NOT IN (:data_not_in)';
     const HAS_ROLE_SELECT = '(CASE WHEN %s THEN true ELSE false END) as hasRole';
 
     const ACCOUNT_CONDITION = 'user.customer = :customer';

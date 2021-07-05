@@ -10,7 +10,7 @@ data:
             data:
                 type: customers
                 id: '<toString(@customer->id)>'
-        roles:
+        userRoles:
             data:
                 -
                     type: customeruserroles

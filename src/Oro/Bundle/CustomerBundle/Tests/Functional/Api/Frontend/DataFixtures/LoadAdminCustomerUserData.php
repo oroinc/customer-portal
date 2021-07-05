@@ -26,6 +26,6 @@ class LoadAdminCustomerUserData extends LoadCustomerUserData
     {
         $customerUser
             ->setEmail(FrontendRestJsonApiTestCase::USER_NAME)
-            ->addRole($this->getReference('admin'));
+            ->addUserRole($this->getReference('admin'));
     }
 }

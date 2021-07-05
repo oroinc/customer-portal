@@ -773,7 +773,7 @@ datagrids:
             query:
                 where:
                     and:
-                        - :role MEMBER OF user.roles
+                        - :role MEMBER OF user.userRoles
             bind_parameters:
                 -
                     name: role
@@ -860,7 +860,7 @@ datagrids:
             query:
                 where:
                     and:
-                        - :role MEMBER OF user.roles
+                        - :role MEMBER OF user.userRoles
             bind_parameters:
                 -
                     name: role

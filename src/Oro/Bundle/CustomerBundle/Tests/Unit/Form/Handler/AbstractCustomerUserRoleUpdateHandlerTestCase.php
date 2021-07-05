@@ -125,7 +125,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
             ->setConstructorArgs([$this->managerRegistry])
             ->getMock();
 
-        $this->doctrineHelper->expects($this->any())
+        $this->doctrineHelper->expects(self::any())
             ->method('getEntityRepository')
             ->willReturn($this->roleRepository);
 
@@ -134,7 +134,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
             ->getMock();
 
         $this->configurableFilter = $this->createMock(AclPrivilegeConfigurableFilter::class);
-        $this->configurableFilter->expects($this->any())
+        $this->configurableFilter->expects(self::any())
             ->method('filter')
             ->willReturnCallback(function ($privileges) {
                 return $privileges;
@@ -177,7 +177,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
 
         /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $requestStack = $this->createMock(RequestStack::class);
-        $requestStack->expects($this->once())->method('getCurrentRequest')->willReturn($request);
+        $requestStack->expects(self::once())->method('getCurrentRequest')->willReturn($request);
 
         $this->setUpMocksForProcessWithCustomer(
             $role,
@@ -194,7 +194,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
 
         $objectManager = $this->createMock(ObjectManager::class);
 
-        $objectManager->expects($this->any())
+        $objectManager->expects(self::any())
             ->method('persist')
             ->willReturnCallback(
                 function ($entity) use (&$persistedUsers) {
@@ -204,7 +204,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
                 }
             );
 
-        $this->managerRegistry->expects($this->any())
+        $this->managerRegistry->expects(self::any())
             ->method('getManagerForClass')
             ->with(CustomerUserRole::class)
             ->willReturn($objectManager);
@@ -213,7 +213,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
 
         /** @var \PHPUnit\Framework\MockObject\MockObject|AbstractCustomerUserRoleHandler $handler */
         $handler = $this->getMockBuilder(get_class($handlerInstance))
-            ->setMethods(['processPrivileges'])
+            ->onlyMethods(['processPrivileges'])
             ->setConstructorArgs([$this->formFactory, $this->aclCache, $this->privilegeConfig])
             ->getMock();
         $this->setRequirementsForHandler($handler);
@@ -224,13 +224,13 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $handler->process($role);
 
         foreach ($expectedUsersWithRole as $expectedUser) {
-            static::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
-            static::assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), $role);
+            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            self::assertEquals($persistedUsers[$expectedUser->getEmail()]->getUserRole($role->getRole()), $role);
         }
 
         foreach ($expectedUsersWithoutRole as $expectedUser) {
-            static::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
-            static::assertEquals($persistedUsers[$expectedUser->getEmail()]->getRole($role->getRole()), null);
+            self::assertContainsEquals($expectedUser->getEmail(), $persistedUsers, $expectedUser->getUsername());
+            self::assertEquals($persistedUsers[$expectedUser->getEmail()]->getUserRole($role->getRole()), null);
         }
     }
 
@@ -267,7 +267,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
             $userId = $offset + $i + 1;
             $user = new CustomerUser();
             $user->setUsername('user_id_' . $userId . '_role_' . $role->getRole());
-            $user->setRoles([$role]);
+            $user->setUserRoles([$role]);
             $user->setCustomer($customer);
             $users[$userId] = $user;
         }
@@ -300,17 +300,17 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         $changeCustomerProcessed
     ) {
         $appendForm = $this->createMock(FormInterface::class);
-        $appendForm->expects($this->once())
+        $appendForm->expects(self::once())
             ->method('getData')
             ->willReturn($appendUsers);
 
         $removeForm = $this->createMock(FormInterface::class);
-        $removeForm->expects($this->once())
+        $removeForm->expects(self::once())
             ->method('getData')
             ->willReturn($removedUsers);
 
         $form = $this->createMock(FormInterface::class);
-        $form->expects($this->once())
+        $form->expects(self::once())
             ->method('submit')
             ->willReturnCallback(
                 function () use ($role, $newCustomer) {
@@ -318,10 +318,10 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
                     $role->setOrganization($newCustomer->getOrganization());
                 }
             );
-        $form->expects($this->once())
+        $form->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-        $form->expects($this->any())
+        $form->expects(self::any())
             ->method('get')
             ->willReturnMap(
                 [
@@ -330,11 +330,11 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
                 ]
             );
 
-        $this->formFactory->expects($this->once())
+        $this->formFactory->expects(self::once())
             ->method('create')
             ->willReturn($form);
 
-        $this->roleRepository->expects($changeCustomerProcessed ? $this->once() : $this->never())
+        $this->roleRepository->expects($changeCustomerProcessed ? self::once() : self::never())
             ->method('getAssignedUsers')
             ->with($role)
             ->willReturn($assignedUsers);

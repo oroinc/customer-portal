@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security\Token;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
-use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Stub\CustomerUserRoleStub;
+use Oro\Bundle\CustomerBundle\Tests\Unit\Stub\CustomerVisitorStub;
+use Oro\Bundle\UserBundle\Tests\Unit\Stub\OrganizationStub;
 use Oro\Component\Testing\Unit\EntityTrait;
 
 class AnonymousCustomerUserTokenTest extends \PHPUnit\Framework\TestCase
@@ -14,10 +14,8 @@ class AnonymousCustomerUserTokenTest extends \PHPUnit\Framework\TestCase
 
     public function testGetters()
     {
-        /** @var CustomerVisitor $visitor */
-        $visitor = $this->getEntity(CustomerVisitor::class, ['id' => 1]);
-        /** @var Organization $organization */
-        $organization = $this->getEntity(Organization::class, ['id' => 3]);
+        $visitor = new CustomerVisitorStub(1);
+        $organization = new OrganizationStub(3);
 
         $token = new AnonymousCustomerUserToken('user', [], $visitor, $organization);
 
@@ -33,12 +31,9 @@ class AnonymousCustomerUserTokenTest extends \PHPUnit\Framework\TestCase
     public function testSerialization()
     {
         $user = 'user';
-        /** @var CustomerVisitor $visitor */
-        $visitor = $this->getEntity(CustomerVisitor::class, ['id' => 1]);
-        /** @var CustomerUserRole $role */
-        $role = $this->getEntity(CustomerUserRole::class, ['id' => 2]);
-        /** @var Organization $organization */
-        $organization = $this->getEntity(Organization::class, ['id' => 3]);
+        $role = (new CustomerUserRoleStub())->setId(2);
+        $visitor = new CustomerVisitorStub(1);
+        $organization = new OrganizationStub(3);
 
         $token = new AnonymousCustomerUserToken($user, [$role], $visitor, $organization);
 

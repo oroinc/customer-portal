@@ -119,11 +119,11 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
         $listener->onProcessAfter($this->event);
 
-        $this->assertEquals($websiteName, (string) $customerUser->getWebsite());
-        $this->assertEquals(1, count($customerUser->getRoles()));
-        $this->assertEquals($roleName, $customerUser->getRole($roleName)->getRole());
-        $this->assertEquals(0, $this->context->getErrorEntriesCount());
-        $this->assertEquals($password, $customerUser->getPassword());
+        self::assertEquals($websiteName, (string) $customerUser->getWebsite());
+        self::assertCount(1, $customerUser->getUserRoles());
+        self::assertTrue($customerUser->hasRole($roleName));
+        self::assertEquals(0, $this->context->getErrorEntriesCount());
+        self::assertEquals($password, $customerUser->getPassword());
     }
 
     public function testWebsiteOrWebsiteAndRoleDoesNotExist()
@@ -145,18 +145,18 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
         $listener->onProcessAfter($this->event);
 
-        $this->assertNull($customerUser->getWebsite());
-        $this->assertEquals(0, count($customerUser->getRoles()));
-        $this->assertNull($customerUser->getRole('ROLE_FRONTEND_TEST'));
-        $this->assertEquals(2, $this->context->getErrorEntriesCount());
-        $this->assertEquals(
+        self::assertNull($customerUser->getWebsite());
+        self::assertEquals(0, count($customerUser->getUserRoles()));
+        self::assertNull($customerUser->getUserRole('ROLE_FRONTEND_TEST'));
+        self::assertEquals(2, $this->context->getErrorEntriesCount());
+        self::assertEquals(
             [
                 'Error in row #0. Default website doesn\'t exists',
                 'Error in row #0. Default role for website WebsiteTest doesn\'t exists'
             ],
             $this->context->getErrors()
         );
-        $this->assertEquals($password, $customerUser->getPassword());
+        self::assertEquals($password, $customerUser->getPassword());
     }
 
     public function testRoleDoesNotExists()
@@ -185,15 +185,15 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
         $listener->onProcessAfter($this->event);
 
-        $this->assertEquals('WebsiteTest', (string) $customerUser->getWebsite());
-        $this->assertEquals(0, count($customerUser->getRoles()));
-        $this->assertNull($customerUser->getRole('ROLE_FRONTEND_TEST'));
-        $this->assertEquals(1, $this->context->getErrorEntriesCount());
-        $this->assertEquals(
+        self::assertEquals('WebsiteTest', (string) $customerUser->getWebsite());
+        self::assertEquals(0, count($customerUser->getUserRoles()));
+        self::assertNull($customerUser->getUserRole('ROLE_FRONTEND_TEST'));
+        self::assertEquals(1, $this->context->getErrorEntriesCount());
+        self::assertEquals(
             ['Error in row #0. Default role for website WebsiteTest doesn\'t exists'],
             $this->context->getErrors()
         );
-        $this->assertEquals($password, $customerUser->getPassword());
+        self::assertEquals($password, $customerUser->getPassword());
     }
 
     public function testUpdateEntity()
@@ -218,7 +218,7 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
         $customerUser = new CustomerUser();
         $customerUser->setWebsite($websiteBefore);
-        $customerUser->addRole($customerUserRoleBefore);
+        $customerUser->addUserRole($customerUserRoleBefore);
         $passwordBefore = 'password_before';
         $passwordAfter = 'password_after';
         $customerUser->setPassword($passwordBefore);
@@ -235,9 +235,9 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
         $listener->onProcessAfter($this->event);
 
-        $this->assertEquals($websiteBeforeName, (string) $customerUser->getWebsite());
-        $this->assertEquals($roleNameBefore, $customerUser->getRole($roleNameBefore)->getRole());
-        $this->assertEquals($passwordBefore, $customerUser->getPassword());
+        self::assertEquals($websiteBeforeName, (string) $customerUser->getWebsite());
+        self::assertTrue($customerUser->hasRole($roleNameBefore));
+        self::assertEquals($passwordBefore, $customerUser->getPassword());
     }
 
     /**

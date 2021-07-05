@@ -37,7 +37,7 @@ class ValidateUnchangedCustomerUserProfileRoles implements ProcessorInterface
     {
         /** @var CustomizeFormDataContext $context */
 
-        $form = $context->findFormField('roles');
+        $form = $context->findFormField('userRoles');
         if (null === $form) {
             return;
         }
@@ -54,7 +54,7 @@ class ValidateUnchangedCustomerUserProfileRoles implements ProcessorInterface
         // If the roles are different from the original, return validation error, because it is impossible to change
         // the role of the customer user from the profile.
         // No need to check the entity relation, any roles changes for the profile are prohibited.
-        $isRolesUpdated = $originalCustomerUser['roles']->isDirty();
+        $isRolesUpdated = $originalCustomerUser['userRoles']->isDirty();
         if ($isRolesUpdated) {
             FormUtil::addFormConstraintViolation($form, new UnchangeableField());
         }
