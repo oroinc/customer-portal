@@ -1014,12 +1014,12 @@ services:
         public: true
         arguments:
            - '@security.token_storage'
-           - '@security.user_checker'
+           - ~ # UserCheckerInterface $userChecker
            - '@security.authentication.session_strategy'
            - '@request_stack'
            - '@oro_security.token.factory.username_password_organization'
            - '@event_dispatcher'
-           - null # remember-me services
+           - ~ # remember-me services
 
     oro_customer.security.user_checker.decorator:
         decorates: security.user_checker

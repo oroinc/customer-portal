@@ -136,8 +136,8 @@ class CustomerUserTest extends AbstractUserTest
     {
         $user = $this->getUser();
         $user->prePersist();
-        self::assertInstanceOf('\DateTime', $user->getCreatedAt());
-        self::assertInstanceOf('\DateTime', $user->getUpdatedAt());
+        self::assertInstanceOf(\DateTime::class, $user->getCreatedAt());
+        self::assertInstanceOf(\DateTime::class, $user->getUpdatedAt());
         self::assertEquals(0, $user->getLoginCount());
         self::assertNotEmpty($user->getCustomer());
     }
@@ -255,7 +255,6 @@ class CustomerUserTest extends AbstractUserTest
 
         self::assertTrue($user->isEnabled());
         self::assertTrue($user->isConfirmed());
-        self::assertTrue($user->isAccountNonExpired());
         self::assertTrue($user->isAccountNonLocked());
 
         $user->setEnabled(false);
