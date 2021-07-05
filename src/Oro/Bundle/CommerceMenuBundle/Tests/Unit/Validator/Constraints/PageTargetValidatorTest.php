@@ -7,23 +7,13 @@ use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\PageTarget;
 use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\PageTargetValidator;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class PageTargetValidatorTest extends \PHPUnit\Framework\TestCase
+class PageTargetValidatorTest extends ConstraintValidatorTestCase
 {
-    /** @var PageTargetValidator */
-    private $validator;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ExecutionContextInterface */
-    private $context;
-
-    protected function setUp(): void
+    protected function createValidator()
     {
-        $this->context = $this->createMock(ExecutionContextInterface::class);
-
-        $this->validator = new PageTargetValidator();
-        $this->validator->initialize($this->context);
+        return new PageTargetValidator();
     }
 
     public function testValidateWhenInvalidValue(): void
@@ -48,90 +38,44 @@ class PageTargetValidatorTest extends \PHPUnit\Framework\TestCase
     public function testValidateWhenDivider(): void
     {
         $menuUpdate = $this->createMock(MenuUpdate::class);
-        $menuUpdate
-            ->expects($this->once())
+        $menuUpdate->expects($this->once())
             ->method('isDivider')
             ->willReturn(true);
 
-        $this->context
-            ->expects($this->never())
-            ->method('buildViolation');
-
         $this->validator->validate($menuUpdate, new PageTarget());
+
+        $this->assertNoViolation();
     }
 
     public function testValidateWhenNoTargetType(): void
     {
-        $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
+        $constraint = new PageTarget();
+        $this->validator->validate((new MenuUpdate())->setCustom(true), $constraint);
 
-        $this->context
-            ->expects($this->exactly(3))
-            ->method('buildViolation')
-            ->willReturnMap(
-                [
-                    [
-                        'oro.commercemenu.validator.menu_update.content_node_empty.message',
-                        [],
-                        $contentNodeViolationBuilder = clone $violationBuilder,
-                    ],
-                    [
-                        'oro.commercemenu.validator.menu_update.system_page_route_empty.message',
-                        [],
-                        $systemPageViolationBuilder = clone $violationBuilder,
-                    ],
-                    [
-                        'oro.commercemenu.validator.menu_update.uri_empty.message',
-                        [],
-                        $uriViolationBuilder = clone $violationBuilder,
-                    ],
-                ]
-            );
-
-        $this->mockValidationBuilder($contentNodeViolationBuilder, 'contentNode');
-        $this->mockValidationBuilder($systemPageViolationBuilder, 'systemPageRoute');
-        $this->mockValidationBuilder($uriViolationBuilder, 'uri');
-
-        $this->validator->validate((new MenuUpdate())->setCustom(true), new PageTarget());
-    }
-
-    /**
-     * @param \PHPUnit\Framework\MockObject\MockObject $violationBuilder
-     * @param string $path
-     */
-    private function mockValidationBuilder($violationBuilder, string $path): void
-    {
-        $violationBuilder
-            ->expects($this->once())
-            ->method('atPath')
-            ->with($path)
-            ->willReturnSelf();
-
-        $violationBuilder
-            ->expects($this->once())
-            ->method('addViolation');
+        $this
+            ->buildViolation($constraint->contentNodeEmpty)
+            ->atPath('property.path.contentNode')
+            ->buildNextViolation($constraint->systemPageRouteEmpty)
+            ->atPath('property.path.systemPageRoute')
+            ->buildNextViolation($constraint->uriEmpty)
+            ->atPath('property.path.uri')
+            ->assertRaised();
     }
 
     /**
      * @dataProvider validateDataProvider
-     *
-     * @param bool $isCustom
      */
     public function testValidate(bool $isCustom): void
     {
-        $this->context
-            ->expects($this->never())
-            ->method('buildViolation');
-
         $menuUpdate = new MenuUpdate();
         $menuUpdate->setUri('sample/uri');
         $menuUpdate->setCustom($isCustom);
 
         $this->validator->validate($menuUpdate, new PageTarget());
+
+        $this->assertNoViolation();
     }
 
-    /**
-     * @return array
-     */
     public function validateDataProvider(): array
     {
         return [
