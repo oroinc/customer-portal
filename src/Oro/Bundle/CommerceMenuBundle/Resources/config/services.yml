@@ -88,7 +88,7 @@ services:
             - '@oro_website.manager'
 
     oro_commerce_menu.repository.menu_update:
-        class: 'Oro\Bundle\NavigationBundle\Entity\Repository\MenuUpdateRepository'
+        class: 'Oro\Bundle\CommerceMenuBundle\Entity\Repository\MenuUpdateRepository'
         parent: oro_entity.abstract_repository
         arguments:
             - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
@@ -104,6 +104,7 @@ services:
             - 'menu_frontend_visibility'
         tags:
             - { name: kernel.event_listener, event: oro_menu.menu_update_change, method: onMenuUpdateScopeChange }
+            - { name: kernel.event_listener, event: oro_menu.menu_update_with_scope_change, method: onMenuUpdateWithScopeChange }
 
     oro_commerce_menu.event_listener.frontend_menu_item_listener:
         class: Oro\Bundle\CommerceMenuBundle\EventListener\MenuListFrontendItemNavigationListener

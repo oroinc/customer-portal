@@ -3,12 +3,15 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class CustomerUserMenuTest extends WebTestCase
 {
+    use ConfigManagerAwareTestTrait;
+
     /** @var ConfigManager */
     private $configManager;
 
@@ -18,7 +21,7 @@ class CustomerUserMenuTest extends WebTestCase
         $this->client->useHashNavigation(true);
         $this->loadFixtures([LoadCustomerUserACLData::class]);
 
-        $this->configManager = $this->getContainer()->get('oro_config.global');
+        $this->configManager = self::getConfigManager('global');
     }
 
     /**

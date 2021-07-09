@@ -2,10 +2,13 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Controller;
 
+use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class FrontendControllerTest extends WebTestCase
 {
+    use ConfigManagerAwareTestTrait;
+
     const FRONTEND_THEME_CONFIG_KEY = 'oro_frontend.frontend_theme';
 
     protected function setUp(): void
@@ -35,7 +38,6 @@ class FrontendControllerTest extends WebTestCase
     public function testThemeSwitch()
     {
         // Switch to layout theme
-        $configManager = $this->getContainer()->get('oro_config.manager');
         $layoutTheme = 'default';
         $this->setTheme($layoutTheme);
 
@@ -74,14 +76,14 @@ class FrontendControllerTest extends WebTestCase
      */
     protected function setTheme($theme)
     {
-        $configManager = $this->getContainer()->get('oro_config.manager');
+        $configManager = self::getConfigManager('global');
         $configManager->set(self::FRONTEND_THEME_CONFIG_KEY, $theme);
         $configManager->flush();
     }
 
     protected function setDefaultTheme()
     {
-        $configManager = $this->getContainer()->get('oro_config.manager');
+        $configManager = self::getConfigManager('global');
         $configManager->reset(self::FRONTEND_THEME_CONFIG_KEY);
         $configManager->flush();
     }

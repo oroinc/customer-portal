@@ -85,7 +85,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
     public function testRegisterWithoutConfirmation()
     {
         $email = 'adam.smith@example.com';
-        $configManager = $this->getContainer()->get('oro_config.manager');
+        $configManager = self::getConfigManager('global');
         $configManager->set('oro_customer.confirmation_required', false);
         $configManager->flush();
 
@@ -122,7 +122,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
     public function testRegisterWithConfirmation()
     {
-        $configManager = $this->getContainer()->get('oro_config.manager');
+        $configManager = self::getConfigManager('global');
         $configManager->set('oro_customer.confirmation_required', true);
         $configManager->flush();
 
@@ -145,7 +145,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
 
-        $applicationUrl = $configManager->get('oro_ui.application_url');
+        $applicationUrl = self::getConfigManager(null)->get('oro_ui.application_url');
         $confirmMessage = 'Please follow this link to confirm your email address: <a href="'
             . $applicationUrl
             . htmlspecialchars($this->getUrl(
@@ -390,7 +390,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         static::assertStringContainsString(self::EMAIL, $message->getBody());
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
-        $applicationUrl = $this->getContainer()->get('oro_config.manager')->get('oro_ui.application_url');
+        $applicationUrl = self::getConfigManager(null)->get('oro_ui.application_url');
 
         $resetUrl = $applicationUrl
             . htmlspecialchars($this->getUrl(

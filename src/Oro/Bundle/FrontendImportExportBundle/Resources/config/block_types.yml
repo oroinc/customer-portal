@@ -1,0 +1,8 @@
+services:
+    oro_frontend_importexport.block_type.text:
+        parent: oro_layout.block_type.abstract_configurable
+        calls:
+          - [setOptionsConfig, [{exportRoute: {}, routeOptions: {default: {}}, successMessage: {default: null}, errorMessage: {default: null}}]]
+          - [setName, ['importexport_button']]
+        tags:
+          - { name: layout.block_type, alias: importexport_button }

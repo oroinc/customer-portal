@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Api\RestJsonApi;
 
 use Oro\Bundle\ApiBundle\Tests\Functional\RestJsonApiTestCase;
-use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadTestCustomerUser;
@@ -15,6 +15,8 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadTestCustomer
  */
 class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
 {
+    use ConfigManagerAwareTestTrait;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,8 +28,7 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
      */
     private function setCaseInsensitiveEmailAddresses(bool $value)
     {
-        /** @var ConfigManager $configManager */
-        $configManager = self::getContainer()->get('oro_config.global');
+        $configManager = self::getConfigManager('global');
         $configManager->set('oro_customer.case_insensitive_email_addresses_enabled', $value);
         $configManager->flush();
     }
