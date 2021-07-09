@@ -44,6 +44,7 @@
 
         border-collapse: separate;
         border-spacing: $ui-datepicker-calendar-border-spacing;
+        margin-top: $ui-datepicker-calendar-offset-top;
     }
 
     .ui-state-default {

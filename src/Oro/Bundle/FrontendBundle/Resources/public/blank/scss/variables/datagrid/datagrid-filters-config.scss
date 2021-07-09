@@ -1,8 +1,10 @@
 /* @theme: blank; */
 
 $datagrid-filters-state-color: lighten(get-color('additional', 'dark'), 21%) !default;
+$datagrid-filters-state-background-color: transparent !default;
 $datagrid-filters-state-margin: 13px 0 !default;
 $datagrid-filters-state-height: 17px !default;
+$datagrid-filters-state-width: 100% !default;
 $datagrid-filters-state-min-width: 150px !default;
 $datagrid-filters-state-animation-speed: .5s !default;
 $datagrid-filters-state-sticky-padding: 0 2px !default;
