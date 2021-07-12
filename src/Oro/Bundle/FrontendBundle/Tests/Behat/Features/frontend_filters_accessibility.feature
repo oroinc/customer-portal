@@ -76,4 +76,4 @@ Feature: Frontend filters accessibility
     And I should not see an "GridFiltersState" element
     When I click "GridFiltersButton"
     And I click "GridFiltersState"
-    Then I should see "Filter By First Name" element focused
+    Then I should see "Filter By Enabled" element focused

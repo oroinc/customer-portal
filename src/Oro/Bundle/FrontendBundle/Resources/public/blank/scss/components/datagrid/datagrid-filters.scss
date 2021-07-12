@@ -9,10 +9,12 @@
 
 .filters-state {
     height: $datagrid-filters-state-height;
+    width: $datagrid-filters-state-width;
     min-width: $datagrid-filters-state-min-width;
     margin: $datagrid-filters-state-margin;
 
     color: $datagrid-filters-state-color;
+    background-color: $datagrid-filters-state-background-color;
     font-size: $base-font-size;
     text-align: center;
 
@@ -20,6 +22,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     transition: all $datagrid-filters-state-animation-speed;
+    border-width: 0;
 
     // Added to avoid showing Safari's hint for elements with ellipsis
     &:before {

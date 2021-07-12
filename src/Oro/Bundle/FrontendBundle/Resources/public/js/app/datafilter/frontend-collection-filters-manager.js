@@ -55,11 +55,6 @@ define(function(require, exports, module) {
         /**
          * @inheritdoc
          */
-        renderMode: '',
-
-        /**
-         * @inheritdoc
-         */
         constructor: function FrontendCollectionFiltersManager(options) {
             FrontendCollectionFiltersManager.__super__.constructor.call(this, options);
         },

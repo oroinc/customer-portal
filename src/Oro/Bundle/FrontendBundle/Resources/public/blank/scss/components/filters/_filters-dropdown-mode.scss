@@ -74,14 +74,11 @@
     }
 
     .criteria-visible {
-        margin-left: auto;
-        visibility: visible;
+        display: block;
     }
 
     .criteria-hidden {
-        // Break inline styles
-        margin-left: -9999px !important;
-        visibility: hidden;
+        display: none;
     }
 
     .filter-criteria-selector-icon-wrap {
