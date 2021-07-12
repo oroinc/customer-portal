@@ -1,9 +1,9 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_user_role_form/layout.html.twig'
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_role_form/layout.html.twig'
         - '@setFormTheme':
-            themes: 'OroCustomerBundle:layouts:default/imports/oro_customer_user_role_form/form.html.twig'
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_role_form/form.html.twig'
         - '@addTree':
             items:
                 __customer_user_role_container:

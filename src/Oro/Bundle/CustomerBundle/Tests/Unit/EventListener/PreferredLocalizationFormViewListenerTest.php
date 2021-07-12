@@ -40,7 +40,7 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
         $env->expects($this->once())
             ->method('render')
             ->with(
-                'OroCustomerBundle::CustomerUser/widget/preferredLocalizationForm.html.twig',
+                '@OroCustomer/CustomerUser/widget/preferredLocalizationForm.html.twig',
                 ['form' => $formView]
             )
             ->willReturn($template);
@@ -116,7 +116,7 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
         $env->expects($this->once())
             ->method('render')
             ->with(
-                'OroCustomerBundle::CustomerUser/widget/preferredLocalizationView.html.twig',
+                '@OroCustomer/CustomerUser/widget/preferredLocalizationView.html.twig',
                 ['preferredLocalization' => $localization]
             )
             ->willReturn($template);

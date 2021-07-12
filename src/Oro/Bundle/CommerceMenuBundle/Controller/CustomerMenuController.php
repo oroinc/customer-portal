@@ -43,7 +43,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
      *      name="oro_commerce_menu_customer_menu_context_index",
      *      requirements={"id"="\d+"}
      * )
-     * @Template("OroCommerceMenuBundle:CustomerMenu/widget:contextIndex.html.twig")
+     * @Template("@OroCommerceMenu/CustomerMenu/widget/contextIndex.html.twig")
      * @param Request $request
      * @return array
      */
@@ -72,7 +72,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
 
     /**
      * @Route("/{menuName}/create/{parentKey}", name="oro_commerce_menu_customer_menu_create")
-     * @Template("OroCommerceMenuBundle:CustomerMenu:update.html.twig")
+     * @Template("@OroCommerceMenu/CustomerMenu/update.html.twig")
      *
      * @param Request     $request
      * @param string      $menuName

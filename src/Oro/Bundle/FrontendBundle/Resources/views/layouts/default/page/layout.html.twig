@@ -5,7 +5,7 @@
         {{ block_widget(block) }}
         </html>
     {% else %}
-        {% include 'OroNavigationBundle:HashNav:hashNavAjax.html.twig' with {
+        {% include '@OroNavigation/HashNav/hashNavAjax.html.twig' with {
             'data': {
                 'content': block_widget(blocks.wrapper),
             }
@@ -67,7 +67,7 @@
 {% endblock %}
 
 {% block _notification_widget %}
-    {% import 'OroUIBundle::macros.html.twig' as UI %}
+    {% import '@OroUI/macros.html.twig' as UI %}
 
     {% set attr = layout_attr_defaults(attr, {
         'id': 'flash-messages',

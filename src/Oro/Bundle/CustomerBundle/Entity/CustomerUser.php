@@ -649,7 +649,7 @@ class CustomerUser extends ExtendCustomerUser implements
     /**
      * {@inheritDoc}
      */
-    public function isAccountNonLocked()
+    public function isAccountNonLocked(): bool
     {
         return $this->isEnabled() && $this->isConfirmed();
     }
@@ -678,7 +678,7 @@ class CustomerUser extends ExtendCustomerUser implements
      * @param string $username
      * @return CustomerUser
      */
-    public function setUsername($username)
+    public function setUsername($username): self
     {
         parent::setUsername($username);
 

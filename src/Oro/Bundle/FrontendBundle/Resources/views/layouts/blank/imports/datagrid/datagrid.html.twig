@@ -23,6 +23,6 @@
     {% set grid_render_parameters = grid_render_parameters|merge({
         'themeOptions': themeOptions
     }) %}
-    {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+    {% import '@OroDataGrid/macros.html.twig' as dataGrid %}
     {{ dataGrid.renderGrid(grid_full_name, grid_parameters, grid_render_parameters) }}
 {% endblock %}

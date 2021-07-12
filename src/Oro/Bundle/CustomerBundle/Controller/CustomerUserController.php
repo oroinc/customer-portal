@@ -81,7 +81,7 @@ class CustomerUserController extends AbstractController
      *      requirements={"customerId"="\d+", "customerUserId"="\d+"},
      *      defaults={"customerId"=0, "customerUserId"=0}
      * )
-     * @Template("OroCustomerBundle:CustomerUser:widget/roles.html.twig")
+     * @Template("@OroCustomer/CustomerUser/widget/roles.html.twig")
      * @AclAncestor("oro_customer_customer_user_view")
      *
      * @param Request $request
@@ -124,7 +124,7 @@ class CustomerUserController extends AbstractController
      * Create customer user form
      *
      * @Route("/create", name="oro_customer_customer_user_create")
-     * @Template("OroCustomerBundle:CustomerUser:update.html.twig")
+     * @Template("@OroCustomer/CustomerUser/update.html.twig")
      * @Acl(
      *      id="oro_customer_customer_user_create",
      *      type="entity",

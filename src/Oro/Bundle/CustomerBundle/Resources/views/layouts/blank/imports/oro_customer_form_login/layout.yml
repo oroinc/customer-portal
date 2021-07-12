@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:blank/imports/oro_customer_form_login/layout.html.twig'
+            themes: '@OroCustomer/layouts/blank/imports/oro_customer_form_login/layout.html.twig'
         - '@setOption':
             id: login_label
             optionName: text

@@ -1,4 +1,4 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/page/top_nav_anonymous.html.twig'
+            themes: '@OroCustomer/layouts/default/page/top_nav_anonymous.html.twig'

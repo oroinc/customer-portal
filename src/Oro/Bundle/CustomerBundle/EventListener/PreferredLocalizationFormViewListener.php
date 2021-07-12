@@ -30,7 +30,7 @@ class PreferredLocalizationFormViewListener
     public function onEntityEdit(BeforeListRenderEvent $event)
     {
         $template = $event->getEnvironment()->render(
-            'OroCustomerBundle::CustomerUser/widget/preferredLocalizationForm.html.twig',
+            '@OroCustomer/CustomerUser/widget/preferredLocalizationForm.html.twig',
             ['form' => $event->getFormView()]
         );
         $scrollData = $event->getScrollData();
@@ -50,7 +50,7 @@ class PreferredLocalizationFormViewListener
         }
 
         $template = $event->getEnvironment()->render(
-            'OroCustomerBundle::CustomerUser/widget/preferredLocalizationView.html.twig',
+            '@OroCustomer/CustomerUser/widget/preferredLocalizationView.html.twig',
             ['preferredLocalization' => $customerUserSettings->getLocalization()]
         );
         $scrollData = $event->getScrollData();

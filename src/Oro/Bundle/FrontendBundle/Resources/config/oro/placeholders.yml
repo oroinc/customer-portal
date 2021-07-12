@@ -19,22 +19,22 @@ placeholders:
 
     items:
         logo:
-            template: OroFrontendBundle:Organization:logo.html.twig
+            template: '@@OroFrontend/Organization/logo.html.twig'
             applicable: "@oro_frontend.placeholder.filter->isBackendRoute()"
         frontend_logo:
-            template: OroFrontendBundle:Organization:logo_frontend.html.twig
+            template: '@@OroFrontend/Organization/logo_frontend.html.twig'
             applicable: "@oro_frontend.placeholder.filter->isFrontendRoute()"
         window_bundle_js:
-            template: OroWindowsBundle:Include:javascript.html.twig
+            template: '@@OroWindows/Include/javascript.html.twig'
             applicable: "@oro_frontend.placeholder.filter->isBackendRoute()"
         view_oro_activity_list:
             applicable: '@oro_frontend.activity_list.placeholder.filter->isApplicable($entity$, Oro\Bundle\ActivityBundle\EntityConfig\ActivityScope::VIEW_PAGE)'
-            template: OroActivityListBundle:ActivityList:activities.html.twig
+            template: '@@OroActivityList/ActivityList/activities.html.twig'
         update_oro_activity_list:
             applicable: '@oro_frontend.activity_list.placeholder.filter->isApplicable($entity$, Oro\Bundle\ActivityBundle\EntityConfig\ActivityScope::UPDATE_PAGE)'
-            template: OroActivityListBundle:ActivityList:activities.html.twig
+            template: '@@OroActivityList/ActivityList/activities.html.twig'
         web_settings:
-            template: OroFrontendBundle:InstallConfiguration:web.html.twig
+            template: '@@OroFrontend/InstallConfiguration/web.html.twig'
         filter_embedded_templates:
             applicable: "@oro_layout.helper->isTemplateRequest()"
         widget_filter_templates:

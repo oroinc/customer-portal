@@ -2,17 +2,17 @@ navigation:
     menu_config:
         templates:
             frontend_dots_menu:
-                template: 'OroNavigationBundle:Menu:dots_menu.html.twig'
+                template: '@OroNavigation/Menu/dots_menu.html.twig'
             frontend_favorite:
-                template: 'OroNavigationBundle:Menu:favorites.html.twig'
+                template: '@OroNavigation/Menu/favorites.html.twig'
             frontend_pinbar:
-                template: 'OroNavigationBundle:Menu:pinbar.html.twig'
+                template: '@OroNavigation/Menu/pinbar.html.twig'
             frontend_history:
-                template: 'OroNavigationBundle:Menu:history.html.twig'
+                template: '@OroNavigation/Menu/history.html.twig'
                 root_class: 'extra-list'
                 current_as_link: false
             frontend_mostviewed:
-                template: 'OroNavigationBundle:Menu:mostviewed.html.twig'
+                template: '@OroNavigation/Menu/mostviewed.html.twig'
                 root_class: 'extra-list'
 
         items:

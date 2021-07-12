@@ -12,7 +12,7 @@ namespace Oro\Bundle\CustomerBundle\Controller;
 //     *      requirements={"entity"="[a-zA-Z0-9_]+", "id"="\d+"},
 //     *      defaults={"entity"="entity", "id"=0, "_format" = "html"}
 //     * )
-//     * @Template("OroDataAuditBundle:Audit/widget:history.html.twig")
+//     * @Template("@OroDataAudit/Audit/widget/history.html.twig")
 //     * @Acl(
 //     *      id="oro_customer_dataaudit_history",
 //     *      type="action",

@@ -1,4 +1,4 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCommerceMenuBundle:layouts:default/page/top_nav.html.twig'
+            themes: '@OroCommerceMenu/layouts/default/page/top_nav.html.twig'

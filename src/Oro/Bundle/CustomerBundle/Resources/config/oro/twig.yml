@@ -1,2 +1,2 @@
 bundles:
-    - OroCustomerBundle:Form:fields.html.twig
+    - '@OroCustomer/Form/fields.html.twig'

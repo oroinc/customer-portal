@@ -6,7 +6,7 @@ search:
             name:                       oro_customer_customer_view
             parameters:
                 id:                     id
-        search_template:                OroCustomerBundle:Customer:searchResult.html.twig
+        search_template:                '@OroCustomer/Customer/searchResult.html.twig'
         fields:
             -
                 name:                   name
@@ -28,7 +28,7 @@ search:
             name:                       oro_customer_customer_group_view
             parameters:
                 id:                     id
-        search_template:                OroCustomerBundle:CustomerGroup:searchResult.html.twig
+        search_template:                '@OroCustomer/CustomerGroup/searchResult.html.twig'
         fields:
             -
                 name:                   name
@@ -43,7 +43,7 @@ search:
             name: oro_customer_customer_user_view
             parameters:
                 id: id
-        search_template: OroCustomerBundle:CustomerUser:searchResult.html.twig
+        search_template: '@OroCustomer/CustomerUser/searchResult.html.twig'
         fields:
             -
                 name: email
@@ -78,7 +78,7 @@ search:
             name: oro_customer_customer_user_role_view
             parameters:
                 id: id
-        search_template: OroCustomerBundle:CustomerUserRole:searchResult.html.twig
+        search_template: '@OroCustomer/CustomerUserRole/searchResult.html.twig'
         fields:
             -
                 name: label

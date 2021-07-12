@@ -111,7 +111,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $twig->expects($this->once())
             ->method('render')
             ->with(
-                'OroCustomerBundle:CustomerUserRole:aclGrid.html.twig',
+                '@OroCustomer/CustomerUserRole/aclGrid.html.twig',
                 [
                     'entity'     => $entity,
                     'isReadonly' => false
@@ -194,7 +194,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
         $twig->expects($this->once())
             ->method('render')
             ->with(
-                'OroCustomerBundle:CustomerUserRole:aclGrid.html.twig',
+                '@OroCustomer/CustomerUserRole/aclGrid.html.twig',
                 [
                     'entity'     => $entity,
                     'isReadonly' => true

@@ -40,9 +40,9 @@
 {% endblock %}
 
 {% block _customer_user_view_information_content_widget %}
-    {% import 'OroUIBundle::macros.html.twig' as UI %}
-    {% import 'OroEmailBundle::actions.html.twig' as EmailActions %}
-    {% import 'OroEmailBundle::macros.html.twig' as Email %}
+    {% import '@OroUI/macros.html.twig' as UI %}
+    {% import '@OroEmail/actions.html.twig' as EmailActions %}
+    {% import '@OroEmail/macros.html.twig' as Email %}
 
     {% set attr = layout_attr_defaults(attr, {
         'class': ' customer-profile__data'
@@ -90,7 +90,7 @@
                 <div class="info-list__item">
                     <div class="info-list__name">
                         {%- if customerUser.userRoles|length == 1 -%}
-                            {{- 'oro.customer.customeruser.user_role.label'|trans -}}
+                            {{- 'oro.customer.customeruser.role.label'|trans -}}
                         {%- else -%}
                             {{- 'oro.customer.customeruser.roles.label'|trans -}}
                         {%- endif -%}

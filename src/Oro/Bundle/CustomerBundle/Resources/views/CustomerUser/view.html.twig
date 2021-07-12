@@ -1,4 +1,4 @@
-{% extends 'OroUIBundle:actions:view.html.twig' %}
+{% extends '@OroUI/actions/view.html.twig' %}
 
 {% oro_title_set({params : {"%email%": entity.email }}) %}
 
@@ -13,7 +13,7 @@
 {% endblock pageHeader %}
 
 {% block breadcrumbs %}
-    {% import 'OroUIBundle::macros.html.twig' as UI %}
+    {% import '@OroUI/macros.html.twig' as UI %}
 
     {{ parent() }}
     <span class="page-title__status">

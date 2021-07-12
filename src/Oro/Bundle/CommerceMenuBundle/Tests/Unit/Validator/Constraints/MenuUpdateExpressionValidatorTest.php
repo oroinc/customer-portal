@@ -5,54 +5,41 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Validator\Constraints;
 use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpression;
 use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpressionValidator;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class MenuUpdateExpressionValidatorTest extends \PHPUnit\Framework\TestCase
+class MenuUpdateExpressionValidatorTest extends ConstraintValidatorTestCase
 {
     /** @var ExpressionLanguage|\PHPUnit\Framework\MockObject\MockObject */
-    protected $expressionLanguage;
-
-    /** @var MenuUpdateExpressionValidator */
-    private $validator;
+    private $expressionLanguage;
 
     protected function setUp(): void
     {
         $this->expressionLanguage = new ExpressionLanguage();
-        $this->validator = new MenuUpdateExpressionValidator($this->expressionLanguage);
+        parent::setUp();
+    }
+
+    protected function createValidator()
+    {
+        return new MenuUpdateExpressionValidator($this->expressionLanguage);
     }
 
     /**
      * @dataProvider expressionsProvider
-     *
-     * @param string $expression
-     * @param string $message
-     * @param bool $valid
      */
-    public function testValidation($expression, $message, $valid)
+    public function testValidation(string $expression, string $message, bool $valid)
     {
-        /** @var ExecutionContextInterface|\PHPUnit\Framework\MockObject\MockObject $context */
-        $context = $this->createMock(ExecutionContextInterface::class);
+        $constraint = new MenuUpdateExpression();
+        $this->validator->validate($expression, $constraint);
 
         if ($valid) {
-            $context->expects($this->never())->method('addViolation');
+            $this->assertNoViolation();
         } else {
-            $context->expects($this->once())
-                ->method('addViolation')
-                ->with($message);
+            $this->buildViolation($message)
+                ->assertRaised();
         }
-
-        /** @var MenuUpdateExpression|\PHPUnit\Framework\MockObject\MockObject $constraint */
-        $constraint = $this->createMock(MenuUpdateExpression::class);
-
-        $this->validator->initialize($context);
-
-        $this->validator->validate($expression, $constraint);
     }
 
-    /**
-     * @return array
-     */
-    public function expressionsProvider()
+    public function expressionsProvider(): array
     {
         return [
             'valid' => [

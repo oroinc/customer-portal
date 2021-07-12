@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCommerceMenuBundle:layouts:blank/oro_frontend_root/featured_menu.html.twig'
+            themes: '@OroCommerceMenu/layouts/blank/oro_frontend_root/featured_menu.html.twig'
         - '@addTree':
             items:
                 featured_menu_container:

@@ -11,7 +11,7 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:default/oro_customer_frontend_customer_user_role_view/layout.html.twig'
+            themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_role_view/layout.html.twig'
         - '@setOption':
             id: page_title
             optionName: defaultValue

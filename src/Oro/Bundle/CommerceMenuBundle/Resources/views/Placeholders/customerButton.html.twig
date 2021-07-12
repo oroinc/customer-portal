@@ -1,5 +1,5 @@
 {% if is_granted('EDIT', entity) %}
-    {% import 'OroUIBundle::macros.html.twig' as UI %}
+    {% import '@OroUI/macros.html.twig' as UI %}
     {{ UI.button({
         'path' : path('oro_commerce_menu_customer_menu_index', { 'id': entity.id }),
         'label': 'oro.commercemenu.customer_menu.label'|trans,

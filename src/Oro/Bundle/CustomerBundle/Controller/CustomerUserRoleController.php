@@ -65,7 +65,7 @@ class CustomerUserRoleController extends AbstractController
 
     /**
      * @Route("/create", name="oro_customer_customer_user_role_create")
-     * @Template("OroCustomerBundle:CustomerUserRole:update.html.twig")
+     * @Template("@OroCustomer/CustomerUserRole/update.html.twig")
      * @Acl(
      *      id="oro_customer_customer_user_role_create",
      *      type="entity",

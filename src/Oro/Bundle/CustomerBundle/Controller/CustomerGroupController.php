@@ -59,7 +59,7 @@ class CustomerGroupController extends AbstractController
 
     /**
      * @Route("/create", name="oro_customer_customer_group_create")
-     * @Template("OroCustomerBundle:CustomerGroup:update.html.twig")
+     * @Template("@OroCustomer/CustomerGroup/update.html.twig")
      * @Acl(
      *      id="oro_customer_customer_group_create",
      *      type="entity",
@@ -129,7 +129,7 @@ class CustomerGroupController extends AbstractController
 
     /**
      * @Route("/info/{id}", name="oro_customer_customer_group_info", requirements={"id"="\d+"})
-     * @Template("OroCustomerBundle:CustomerGroup/widget:info.html.twig")
+     * @Template("@OroCustomer/CustomerGroup/widget/info.html.twig")
      * @AclAncestor("oro_customer_customer_group_view")
      *
      * @param CustomerGroup $group

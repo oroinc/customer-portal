@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroCustomerBundle:layouts:blank/imports/oro_customer_form/oro_customer_form.html.twig'
+            themes: '@OroCustomer/layouts/blank/imports/oro_customer_form/oro_customer_form.html.twig'
         - '@addTree':
             items:
                 __page_wrapper:

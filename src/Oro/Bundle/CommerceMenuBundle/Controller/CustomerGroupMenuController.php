@@ -42,7 +42,7 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
      *      name="oro_commerce_menu_customer_group_menu_context_index",
      *      requirements={"id"="\d+"}
      * )
-     * @Template("OroCommerceMenuBundle:CustomerGroupMenu/widget:contextIndex.html.twig")
+     * @Template("@OroCommerceMenu/CustomerGroupMenu/widget/contextIndex.html.twig")
      * @param Request $request
      * @return array
      */
@@ -71,7 +71,7 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
 
     /**
      * @Route("/{menuName}/create/{parentKey}", name="oro_commerce_menu_customer_group_menu_create")
-     * @Template("OroCommerceMenuBundle:CustomerGroupMenu:update.html.twig")
+     * @Template("@OroCommerceMenu/CustomerGroupMenu/update.html.twig")
      * @param Request     $request
      * @param string      $menuName
      * @param string|null $parentKey

@@ -142,7 +142,7 @@ class CustomerRolePageListener
     protected function getRenderedGridHtml(Environment $twigEnvironment, CustomerUserRole $entity, $readOnly)
     {
         return $twigEnvironment->render(
-            'OroCustomerBundle:CustomerUserRole:aclGrid.html.twig',
+            '@OroCustomer/CustomerUserRole/aclGrid.html.twig',
             [
                 'entity'     => $entity,
                 'isReadonly' => $readOnly

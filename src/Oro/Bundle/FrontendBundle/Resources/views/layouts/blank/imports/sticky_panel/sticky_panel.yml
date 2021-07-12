@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroFrontendBundle:layouts:blank/imports/sticky_panel/sticky_panel.html.twig'
+            themes: '@OroFrontend/layouts/blank/imports/sticky_panel/sticky_panel.html.twig'
 
         - '@add':
             id: __sticky_panel

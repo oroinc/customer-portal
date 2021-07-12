@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-            themes: 'OroFrontendImportExportBundle:layouts:blank/imports/frontend_export/export.html.twig'
+            themes: '@OroFrontendImportExport/layouts/blank/imports/frontend_export/export.html.twig'
 
         - '@addTree':
             items:

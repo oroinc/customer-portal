@@ -55,7 +55,7 @@ class CustomerController extends AbstractController
 
     /**
      * @Route("/create", name="oro_customer_customer_create")
-     * @Template("OroCustomerBundle:Customer:update.html.twig")
+     * @Template("@OroCustomer/Customer/update.html.twig")
      * @Acl(
      *      id="oro_customer_create",
      *      type="entity",
@@ -115,7 +115,7 @@ class CustomerController extends AbstractController
 
     /**
      * @Route("/info/{id}", name="oro_customer_customer_info", requirements={"id"="\d+"})
-     * @Template("OroCustomerBundle:Customer/widget:info.html.twig")
+     * @Template("@OroCustomer/Customer/widget/info.html.twig")
      * @AclAncestor("oro_customer_customer_view")
      *
      * @param Customer $customer
