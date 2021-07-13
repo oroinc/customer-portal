@@ -68,6 +68,8 @@ class BusinessUnitOwnerTreeCacheJobProcessor implements MessageProcessorInterfac
             $businessUnit = $this->messageFactory->getBusinessUnitFromMessage($data);
             $this->jobRunner->runDelayed($jobId, function () use ($businessUnit) {
                 $this->frontendOwnerTreeProvider->getTreeByBusinessUnit($businessUnit);
+
+                return true;
             });
         } catch (InvalidArgumentException $e) {
             $this->logger->error(
