@@ -5,7 +5,7 @@ namespace Oro\Bundle\WebsiteBundle\Manager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\PlatformBundle\Maintenance\Mode;
+use Oro\Bundle\MaintenanceBundle\Maintenance\Mode;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**

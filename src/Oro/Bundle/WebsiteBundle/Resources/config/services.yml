@@ -5,7 +5,7 @@ services:
         arguments:
             - "@doctrine"
             - "@oro_frontend.request.frontend_helper"
-            - "@oro_platform.maintenance"
+            - "@oro_maintenance.maintenance"
         tags:
             - { name: doctrine.event_listener, event: onClear }
 

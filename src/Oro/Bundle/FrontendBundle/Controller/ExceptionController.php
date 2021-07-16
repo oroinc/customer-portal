@@ -5,7 +5,7 @@ namespace Oro\Bundle\FrontendBundle\Controller;
 use FOS\RestBundle\Util\ExceptionValueMap;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\LayoutBundle\Layout\LayoutManager;
-use Oro\Bundle\PlatformBundle\Maintenance\Mode;
+use Oro\Bundle\MaintenanceBundle\Maintenance\Mode;
 use Oro\Bundle\UIBundle\Controller\ExceptionController as BaseExceptionController;
 use Oro\Component\Layout\LayoutContext;
 use Psr\Container\ContainerInterface;

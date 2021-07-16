@@ -32,7 +32,7 @@ class ExceptionControllerTest extends WebTestCase
             $this->generateBasicAuthHeader(LoadCustomerUserData::AUTH_USER, LoadCustomerUserData::AUTH_PW)
         );
 
-        $maintenance = $this->getContainer()->get('oro_platform.maintenance');
+        $maintenance = $this->getContainer()->get('oro_maintenance.maintenance');
         $maintenance->activate();
 
         $this->client->followRedirects();
@@ -52,7 +52,7 @@ class ExceptionControllerTest extends WebTestCase
     {
         $this->initClient([], $this->generateBasicAuthHeader());
 
-        $maintenance = $this->getContainer()->get('oro_platform.maintenance');
+        $maintenance = $this->getContainer()->get('oro_maintenance.maintenance');
         $maintenance->activate();
 
         $this->client->followRedirects();
