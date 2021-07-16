@@ -23,10 +23,6 @@ class DynamicFieldsExtension extends AbstractTypeExtension
     /** @var ConfigManager */
     private $configManager;
 
-    /**
-     * @param FrontendHelper $frontendHelper
-     * @param ConfigManager $configManager
-     */
     public function __construct(FrontendHelper $frontendHelper, ConfigManager $configManager)
     {
         $this->frontendHelper = $frontendHelper;
@@ -67,9 +63,6 @@ class DynamicFieldsExtension extends AbstractTypeExtension
         }
     }
 
-    /**
-     * @return array
-     */
     public static function getExtendedTypes(): array
     {
         return [FormType::class];

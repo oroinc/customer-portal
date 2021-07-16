@@ -21,9 +21,6 @@ class OroWebsiteBundle implements Migration, ScopeExtensionAwareInterface
         $this->addRelationsToScope($schema);
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function addRelationsToScope(Schema $schema)
     {
         $this->scopeExtension->addScopeAssociation(

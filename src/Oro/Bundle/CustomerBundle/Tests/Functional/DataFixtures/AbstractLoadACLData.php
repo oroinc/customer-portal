@@ -179,9 +179,6 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
         return $this->container->get('oro_security.acl.manager');
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     protected function loadCustomerUsers(ObjectManager $manager)
     {
         /* @var CustomerUserManager $userManager */
@@ -223,9 +220,6 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
         }
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     protected function loadRoles(ObjectManager $manager)
     {
         $user = $this->getAdminUser($manager);
@@ -264,9 +258,6 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
         $this->getAclManager()->flush();
     }
 
-    /**
-     * @return array
-     */
     protected function getRolesAndPermissions(): array
     {
         return [
@@ -278,9 +269,6 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
         ];
     }
 
-    /**
-     * @param CustomerUserRole $role
-     */
     protected function setWorkflowPermissions(CustomerUserRole $role)
     {
         $aclManager = $this->getAclManager();

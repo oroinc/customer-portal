@@ -13,9 +13,6 @@ class CustomersDeleteMassActionHandler extends DeleteMassActionHandler
     /** @var CustomerAssignHelper */
     protected $customerAssignHelper;
 
-    /**
-     * @param CustomerAssignHelper $customerAssignHelper
-     */
     public function setCustomerAssignHelper(CustomerAssignHelper $customerAssignHelper)
     {
         $this->customerAssignHelper = $customerAssignHelper;

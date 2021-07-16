@@ -84,9 +84,6 @@ class CustomerGroupScopeManager extends AbstractScopeManager
         return $entity->getId();
     }
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     */
     public function setTokenStorage(TokenStorageInterface $tokenStorage): void
     {
         $this->tokenStorage = $tokenStorage;

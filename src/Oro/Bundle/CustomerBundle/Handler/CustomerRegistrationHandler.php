@@ -46,13 +46,6 @@ class CustomerRegistrationHandler
      */
     private $form;
 
-    /**
-     * @param FrontendCustomerUserRegistrationFormProvider $formProvider
-     * @param CustomerUserManager $customerUserManager
-     * @param FrontendCustomerUserHandler $customerUserHandler
-     * @param UpdateHandlerFacade $updateHandler
-     * @param TranslatorInterface $translator
-     */
     public function __construct(
         FrontendCustomerUserRegistrationFormProvider $formProvider,
         CustomerUserManager $customerUserManager,

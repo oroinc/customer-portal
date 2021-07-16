@@ -21,9 +21,6 @@ class CustomerAssignHelper
     /** @var string[] [class name, ...] */
     private $priorityRelations = [];
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     */
     public function __construct(DoctrineHelper $doctrineHelper)
     {
         $this->doctrineHelper = $doctrineHelper;
@@ -31,9 +28,6 @@ class CustomerAssignHelper
 
     /**
      * Adds the relation that should be skipped during the check if Customer has assignments.
-     *
-     * @param string $className
-     * @param string $relationName
      */
     public function addIgnoredRelation(string $className, string $relationName): void
     {
@@ -42,8 +36,6 @@ class CustomerAssignHelper
 
     /**
      * Adds an entity class name that should be checked at the first during the check if Customer has assignments.
-     *
-     * @param string $className
      */
     public function addPriorityRelation(string $className): void
     {
@@ -52,10 +44,6 @@ class CustomerAssignHelper
 
     /**
      * Returns true if given customer is assigned to another entities.
-     *
-     * @param Customer $customer
-     *
-     * @return bool
      */
     public function hasAssignments(Customer $customer): bool
     {
@@ -113,11 +101,6 @@ class CustomerAssignHelper
 
     /**
      * Check if given association should be skipped.
-     *
-     * @param string $className
-     * @param array $association
-     *
-     * @return bool
      */
     private function isAssociationShouldBeSkipped(string $className, array $association): bool
     {

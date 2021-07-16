@@ -55,10 +55,6 @@ class FrontendImportExportResultManager
         return $importExportResult;
     }
 
-    /**
-     * @param \DateTime $from
-     * @param \DateTime $to
-     */
     public function markResultsAsExpired(\DateTime $from, \DateTime $to): void
     {
         /** @var ObjectManager $entityManager */

@@ -15,10 +15,6 @@ class ActionPermissionProvider
     /** @var TokenAccessorInterface */
     protected $tokenAccessor;
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenAccessorInterface        $tokenAccessor
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         TokenAccessorInterface $tokenAccessor

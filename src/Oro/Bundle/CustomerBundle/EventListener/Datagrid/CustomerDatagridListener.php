@@ -21,19 +21,12 @@ class CustomerDatagridListener
     /** @var array */
     protected $columns;
 
-    /**
-     * @param CustomerUserProvider $securityProvider
-     * @param array $columns
-     */
     public function __construct(CustomerUserProvider $securityProvider, array $columns = ['customerUserName'])
     {
         $this->securityProvider = $securityProvider;
         $this->columns = $columns;
     }
 
-    /**
-     * @param BuildBefore $event
-     */
     public function onBuildBefore(BuildBefore $event)
     {
         $config = $event->getConfig();
@@ -57,9 +50,6 @@ class CustomerDatagridListener
         $this->updateConfiguration($config);
     }
 
-    /**
-     * @param DatagridConfiguration $config
-     */
     protected function updateConfiguration(DatagridConfiguration $config)
     {
         foreach ($this->columns as $column) {
@@ -67,10 +57,6 @@ class CustomerDatagridListener
         }
     }
 
-    /**
-     * @param DatagridConfiguration $config
-     * @param string $column
-     */
     protected function removeCustomerUserColumn(DatagridConfiguration $config, string $column)
     {
         $config

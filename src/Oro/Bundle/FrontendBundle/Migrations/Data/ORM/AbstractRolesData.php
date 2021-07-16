@@ -91,10 +91,6 @@ abstract class AbstractRolesData extends AbstractFixture implements DependentFix
         return sprintf('@%s%s%s', $bundle, '/Migrations/Data/ORM/data/', static::ROLES_FILE_NAME);
     }
 
-    /**
-     * @param AclManager                $aclManager
-     * @param SecurityIdentityInterface $sid
-     */
     protected function setPermissionGroup(AclManager $aclManager, SecurityIdentityInterface $sid)
     {
         foreach ($aclManager->getAllExtensions() as $extension) {

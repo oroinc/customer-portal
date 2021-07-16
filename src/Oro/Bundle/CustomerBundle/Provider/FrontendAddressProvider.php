@@ -29,12 +29,6 @@ class FrontendAddressProvider
     /** @var array */
     private $cache = [];
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param AclHelper $aclHelper
-     * @param string $customerAddressClass
-     * @param string $customerUserAddressClass
-     */
     public function __construct(
         ManagerRegistry $registry,
         AclHelper $aclHelper,

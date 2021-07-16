@@ -42,10 +42,6 @@ class CustomerType extends AbstractType
     /** @var AuthorizationCheckerInterface */
     protected $authorizationChecker;
 
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         AuthorizationCheckerInterface $authorizationChecker
@@ -127,9 +123,6 @@ class CustomerType extends AbstractType
         }
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSubmit(FormEvent $event)
     {
         $this->modelChangeSet = [];
@@ -153,9 +146,6 @@ class CustomerType extends AbstractType
         return $customer->getGroup() && $newGroupId !== $customer->getGroup()->getId();
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function postSubmit(FormEvent $event)
     {
         /** @var Customer $customer */

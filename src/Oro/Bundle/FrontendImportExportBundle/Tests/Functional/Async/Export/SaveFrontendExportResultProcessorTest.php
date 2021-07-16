@@ -72,7 +72,6 @@ class SaveFrontendExportResultProcessorTest extends WebTestCase
         $processor = self::getContainer()->get('oro_frontend_importexport.async.save_frontend_export_result_processor');
         $result = $processor->process($message, $this->createMock(SessionInterface::class));
 
-
         self::assertEquals(ExportMessageProcessor::ACK, $result);
     }
 

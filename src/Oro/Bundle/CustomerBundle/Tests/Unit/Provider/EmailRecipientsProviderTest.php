@@ -46,9 +46,6 @@ class EmailRecipientsProviderTest extends TestCase
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param EmailRecipientsProviderArgs $args
-     * @param array $recipients
      */
     public function testGetRecipients(EmailRecipientsProviderArgs $args, array $recipients)
     {

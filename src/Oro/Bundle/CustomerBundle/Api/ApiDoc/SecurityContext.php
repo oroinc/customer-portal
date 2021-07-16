@@ -16,10 +16,6 @@ class SecurityContext implements SecurityContextInterface
     /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @param SecurityContextInterface $innerSecurityContext
-     * @param FrontendHelper           $frontendHelper
-     */
     public function __construct(
         SecurityContextInterface $innerSecurityContext,
         FrontendHelper $frontendHelper

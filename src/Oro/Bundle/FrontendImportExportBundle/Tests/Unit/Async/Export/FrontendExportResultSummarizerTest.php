@@ -74,9 +74,6 @@ class FrontendExportResultSummarizerTest extends TestCase
 
     /**
      * @dataProvider getSummaryFromImportExportResultDataProvider
-     *
-     * @param FrontendImportExportResult $importExportResult
-     * @param array $expected
      */
     public function testGetSummaryFromImportExportResult(
         FrontendImportExportResult $importExportResult,

@@ -26,9 +26,6 @@ class CustomerHasAssignments extends AbstractCondition implements ContextAccesso
     /** @var mixed */
     protected $customer;
 
-    /**
-     * @param CustomerAssignHelper $helper
-     */
     public function __construct(CustomerAssignHelper $helper)
     {
         $this->helper = $helper;

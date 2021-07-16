@@ -137,17 +137,11 @@ class CustomerUserRoleController extends AbstractController
         }
     }
 
-    /**
-     * @return RolePrivilegeCategoryProvider
-     */
     protected function getRolePrivilegeCategoryProvider(): RolePrivilegeCategoryProvider
     {
         return $this->get(RolePrivilegeCategoryProvider::class);
     }
 
-    /**
-     * @return RolePrivilegeCapabilityProvider
-     */
     protected function getRolePrivilegeCapabilityProvider(): RolePrivilegeCapabilityProvider
     {
         return $this->get(RolePrivilegeCapabilityProvider::class);

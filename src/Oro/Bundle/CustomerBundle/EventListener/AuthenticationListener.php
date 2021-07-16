@@ -50,9 +50,6 @@ class AuthenticationListener implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param FilterCustomerUserResponseEvent $event
-     */
     public function authenticate(FilterCustomerUserResponseEvent $event)
     {
         $request = $event->getRequest();

@@ -12,8 +12,6 @@ abstract class ExtendCustomerUserRole extends AbstractRole
      * The real implementation of this method is auto generated.
      *
      * IMPORTANT: If the derived class has own constructor it must call parent constructor.
-     *
-     * @param string $role
      */
     public function __construct(string $role = '')
     {

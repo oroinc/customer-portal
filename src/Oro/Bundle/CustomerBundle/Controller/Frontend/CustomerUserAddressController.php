@@ -153,11 +153,6 @@ class CustomerUserAddressController extends AbstractController
         ];
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @param CustomerUserAddress $customerUserAddress
-     * @param Request $request
-     */
     private function prepareEntities(
         CustomerUser $customerUser,
         CustomerUserAddress $customerUserAddress,
@@ -177,7 +172,6 @@ class CustomerUserAddressController extends AbstractController
             throw new BadRequestHttpException('Address must belong to CustomerUser');
         }
     }
-
 
     /**
      * {@inheritdoc}

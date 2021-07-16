@@ -168,7 +168,6 @@ class CustomerUserRoleControllerTest extends WebTestCase
 
     /**
      * @depends testUpdate
-     * @param $id
      */
     public function testView($id)
     {

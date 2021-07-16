@@ -24,10 +24,6 @@ class CustomerTypedAddressWithDefaultTypeStub extends AbstractType
      */
     protected $types;
 
-    /**
-     * @param array $types
-     * @param EntityManager $em
-     */
     public function __construct(array $types, EntityManager $em)
     {
         $this->types = $types;

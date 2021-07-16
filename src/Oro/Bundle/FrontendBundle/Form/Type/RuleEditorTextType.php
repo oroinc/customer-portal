@@ -16,9 +16,6 @@ class RuleEditorTextType extends AbstractType
      */
     private $optionsConfigurator;
 
-    /**
-     * @param RuleEditorOptionsConfigurator $optionsConfigurator
-     */
     public function __construct(RuleEditorOptionsConfigurator $optionsConfigurator)
     {
         $this->optionsConfigurator = $optionsConfigurator;

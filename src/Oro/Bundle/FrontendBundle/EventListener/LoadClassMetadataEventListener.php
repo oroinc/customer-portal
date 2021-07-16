@@ -17,17 +17,11 @@ class LoadClassMetadataEventListener
      */
     private $classMigration;
 
-    /**
-     * @param ClassMigration $classMigration
-     */
     public function __construct(ClassMigration $classMigration)
     {
         $this->classMigration = $classMigration;
     }
 
-    /**
-     * @param LoadClassMetadataEventArgs $eventArgs
-     */
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs)
     {
         /** @var ClassMetadata $classMetadata */

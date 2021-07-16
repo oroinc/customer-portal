@@ -19,10 +19,6 @@ class OrmDatasourceAclListener
     /** @var OwnershipMetadataProviderInterface */
     protected $metadataProvider;
 
-    /**
-     * @param TokenAccessorInterface             $tokenAccessor
-     * @param OwnershipMetadataProviderInterface $metadataProvider
-     */
     public function __construct(
         TokenAccessorInterface $tokenAccessor,
         OwnershipMetadataProviderInterface $metadataProvider
@@ -31,9 +27,6 @@ class OrmDatasourceAclListener
         $this->metadataProvider = $metadataProvider;
     }
 
-    /**
-     * @param OrmResultBefore $event
-     */
     public function onResultBefore(OrmResultBefore $event)
     {
         // listener logic is applied only to frontend part of application

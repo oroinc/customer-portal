@@ -39,13 +39,6 @@ class CustomerUserReassignEntityUpdater
     /** @var TokenStorageInterface */
     private $tokenStorage;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param EntityToEntityChangeArrayConverter $entityToArrayConverter
-     * @param AuditMessageBodyProvider $auditMessageBodyProvider
-     * @param MessageProducerInterface $messageProducer
-     * @param TokenStorageInterface $tokenStorage
-     */
     public function __construct(
         ManagerRegistry $registry,
         EntityToEntityChangeArrayConverter $entityToArrayConverter,
@@ -60,16 +53,12 @@ class CustomerUserReassignEntityUpdater
         $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * @param string $entityClass
-     */
     public function setEntityClass(string $entityClass)
     {
         $this->entityClass = $entityClass;
     }
 
     /**
-     * @param CustomerUser $customerUser
      * @throws \Oro\Component\MessageQueue\Transport\Exception\Exception
      */
     public function update(CustomerUser $customerUser)
@@ -84,9 +73,6 @@ class CustomerUserReassignEntityUpdater
         } while ($hasUpdates);
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     private function batchResetAndSendUpdates(CustomerUser $customerUser)
     {
         $repository = $this->getRepository();
@@ -106,18 +92,11 @@ class CustomerUserReassignEntityUpdater
         return $updated;
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @return bool
-     */
     public function hasEntitiesToUpdate(CustomerUser $customerUser): bool
     {
         return (bool)$this->getRepository()->getRelatedEntitiesCount($customerUser);
     }
 
-    /**
-     * @return string
-     */
     public function getEntityClass(): string
     {
         return $this->entityClass;
@@ -132,11 +111,6 @@ class CustomerUserReassignEntityUpdater
             ->getRepository($this->entityClass);
     }
 
-    /**
-     * @param CustomerUser $oldCustomerUser
-     * @param array $entities
-     * @return array
-     */
     private function getUpdates(CustomerUser $oldCustomerUser, array $entities): array
     {
         $em = $this->registry->getManagerForClass($this->entityClass);
@@ -155,10 +129,6 @@ class CustomerUserReassignEntityUpdater
         return $updates;
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @param array $entitiesToUpdate
-     */
     private function sendAuditMessage(CustomerUser $customerUser, array $entitiesToUpdate): void
     {
         $updates = $this->getUpdates($customerUser, $entitiesToUpdate);

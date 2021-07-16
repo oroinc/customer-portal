@@ -20,9 +20,6 @@ class AuthenticationTrustResolver extends BaseAuthenticationTrustResolver
      */
     private $decoratedResolver;
 
-    /**
-     * @param AuthenticationTrustResolverInterface $decoratedResolver
-     */
     public function __construct(AuthenticationTrustResolverInterface $decoratedResolver)
     {
         $this->decoratedResolver = $decoratedResolver;

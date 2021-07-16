@@ -37,11 +37,6 @@ class CustomerUserProvider
     /** @var EntityMaskBuilder[] */
     protected $maskBuilders = [];
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenAccessorInterface        $tokenAccessor
-     * @param AclManager                    $aclManager
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         TokenAccessorInterface $tokenAccessor,

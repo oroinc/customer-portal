@@ -389,7 +389,6 @@ class CustomerUserControllerTest extends WebTestCase
         self::assertHtmlResponseStatusCodeEquals($response, 200);
         self::assertRoles($expectedRoles, $notExpectedRoles, $response->getContent(), $customerUser);
 
-
         //with predefined error
         $errorMessage = 'Test error message';
         $this->client->request(

@@ -18,20 +18,12 @@ class ThemeConfigurator
     /** @var AuthorizationCheckerInterface */
     private $authorizationChecker;
 
-    /**
-     * @param ConfigBag $configBag
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     */
     public function __construct(ConfigBag $configBag, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->configBag = $configBag;
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function configure(FormBuilderInterface $builder, array $options)
     {
         $fieldDefinition = $this->buildFieldNode('oro_frontend.page_templates');

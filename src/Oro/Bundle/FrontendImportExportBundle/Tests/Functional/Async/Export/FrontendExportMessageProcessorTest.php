@@ -36,11 +36,6 @@ class FrontendExportMessageProcessorTest extends WebTestCase
 
     /**
      * @dataProvider exportProcessDataProvider
-     *
-     * @param bool $resultSuccess
-     * @param int $readsCount
-     * @param int $errorsCount
-     * @param string $expectedResult
      */
     public function testProcessExport(
         bool $resultSuccess,
@@ -65,7 +60,6 @@ class FrontendExportMessageProcessorTest extends WebTestCase
             'processorAlias' => 'alias',
         ]));
 
-
         $exportResult = [
             'success' => $resultSuccess,
             'url' => 'http://localhost',
@@ -73,7 +67,6 @@ class FrontendExportMessageProcessorTest extends WebTestCase
             'errorsCount' => $errorsCount,
             'entities' => 'User',
         ];
-
 
         $this->exportHandler
             ->expects($this->once())
@@ -126,9 +119,6 @@ class FrontendExportMessageProcessorTest extends WebTestCase
         return $this->createMock(SessionInterface::class);
     }
 
-    /**
-     * @return JobProcessor
-     */
     private function getJobProcessor(): JobProcessor
     {
         return $this->getContainer()->get('oro_message_queue.job.processor');

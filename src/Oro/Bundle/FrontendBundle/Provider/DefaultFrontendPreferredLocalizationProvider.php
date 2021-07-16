@@ -44,10 +44,6 @@ class DefaultFrontendPreferredLocalizationProvider extends AbstractPreferredLoca
             && $this->frontendHelper->isFrontendRequest();
     }
 
-    /**
-     * @param $entity
-     * @return Localization|null
-     */
     protected function getPreferredLocalizationForEntity($entity): ?Localization
     {
         return $this->userLocalizationManager->getCurrentLocalization();

@@ -23,9 +23,6 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         $this->loadFixtures([LoadTestCustomerUser::class]);
     }
 
-    /**
-     * @param bool $value
-     */
     private function setCaseInsensitiveEmailAddresses(bool $value)
     {
         $configManager = self::getConfigManager('global');
@@ -33,29 +30,17 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         $configManager->flush();
     }
 
-    /**
-     * @return CustomerUserRepository
-     */
     private function getCustomerUserRepository(): CustomerUserRepository
     {
         return $this->getEntityManager()->getRepository(CustomerUser::class);
     }
 
-    /**
-     * @param string $firstName
-     * @param string $lastName
-     *
-     * @return CustomerUser|null
-     */
     private function findCustomerUser(string $firstName, string $lastName): ?CustomerUser
     {
         return $this->getCustomerUserRepository()
             ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
     }
 
-    /**
-     * @return array
-     */
     protected function getData(): array
     {
         return [
@@ -87,11 +72,6 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         ];
     }
 
-    /**
-     * @param array $data
-     *
-     * @return CustomerUser
-     */
     private function assertRequestSuccess(array $data): CustomerUser
     {
         $attributes = $data['data']['attributes'];

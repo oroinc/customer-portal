@@ -54,9 +54,6 @@ class AnonymousCustomerUserToken extends AnonymousToken implements
         return $this->visitor;
     }
 
-    /**
-     * @param CustomerVisitor|null $visitor
-     */
     public function setVisitor(CustomerVisitor $visitor = null)
     {
         $this->visitor = $visitor;
@@ -70,9 +67,6 @@ class AnonymousCustomerUserToken extends AnonymousToken implements
         return $this->credentials;
     }
 
-    /**
-     * @param array $credentials
-     */
     public function setCredentials(array $credentials)
     {
         $this->credentials = $credentials;

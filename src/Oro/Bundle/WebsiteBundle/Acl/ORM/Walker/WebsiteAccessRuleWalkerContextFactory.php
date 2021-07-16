@@ -22,10 +22,6 @@ class WebsiteAccessRuleWalkerContextFactory implements AccessRuleWalkerContextFa
     /** @var WebsiteManager */
     private $websiteManager;
 
-    /**
-     * @param AccessRuleWalkerContextFactoryInterface $innerFactory
-     * @param WebsiteManager                          $websiteManager
-     */
     public function __construct(
         AccessRuleWalkerContextFactoryInterface $innerFactory,
         WebsiteManager $websiteManager

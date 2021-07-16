@@ -14,9 +14,6 @@ class PlaceholderFilter
 {
     protected $tokenAccessor;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     */
     public function __construct(TokenAccessorInterface $tokenAccessor)
     {
         $this->tokenAccessor = $tokenAccessor;
@@ -48,19 +45,11 @@ class PlaceholderFilter
         return !is_object($user) || $user instanceof CustomerUser;
     }
 
-    /**
-     * @param object|null $entity
-     * @return bool
-     */
     public function isCustomerPage(?object $entity): bool
     {
         return $entity instanceof Customer;
     }
 
-    /**
-     * @param object|null $entity
-     * @return bool
-     */
     public function isCustomerGroupPage(?object $entity): bool
     {
         return $entity instanceof CustomerGroup;

@@ -24,11 +24,6 @@ class SetCustomer implements ProcessorInterface
     /** @var string */
     private $customerFieldName;
 
-    /**
-     * @param PropertyAccessorInterface $propertyAccessor
-     * @param TokenAccessorInterface    $tokenAccessor
-     * @param string                    $customerFieldName
-     */
     public function __construct(
         PropertyAccessorInterface $propertyAccessor,
         TokenAccessorInterface $tokenAccessor,
@@ -57,8 +52,6 @@ class SetCustomer implements ProcessorInterface
 
     /**
      * Returns a customer a processing entity should be assigned to.
-     *
-     * @return Customer|null
      */
     private function getCustomer(): ?Customer
     {

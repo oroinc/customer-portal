@@ -17,9 +17,6 @@ class UpdateNewCustomerUser implements ProcessorInterface
     /** @var CustomerUserManager */
     private $userManager;
 
-    /**
-     * @param CustomerUserManager $userManager
-     */
     public function __construct(CustomerUserManager $userManager)
     {
         $this->userManager = $userManager;

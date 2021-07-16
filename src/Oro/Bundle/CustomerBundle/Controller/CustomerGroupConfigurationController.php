@@ -29,12 +29,6 @@ class CustomerGroupConfigurationController extends AbstractController
      * )
      * @Template()
      * @AclAncestor("oro_customer_customer_group_update")
-     *
-     * @param Request $request
-     * @param CustomerGroup $entity
-     * @param string|null $activeGroup
-     * @param string|null $activeSubGroup
-     * @return array
      */
     public function customerGroupConfigAction(
         Request $request,

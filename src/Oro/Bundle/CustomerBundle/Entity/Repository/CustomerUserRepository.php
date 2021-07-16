@@ -16,13 +16,6 @@ use Oro\Bundle\UserBundle\Entity\Repository\AbstractUserRepository;
  */
 class CustomerUserRepository extends AbstractUserRepository implements EmailAwareRepository
 {
-    /**
-     * @param string $email
-     * @param OrganizationInterface $organization
-     * @param bool $useLowercase
-     *
-     * @return null|CustomerUser
-     */
     public function findUserByEmailAndOrganization(
         string $email,
         OrganizationInterface $organization,
@@ -135,11 +128,6 @@ class CustomerUserRepository extends AbstractUserRepository implements EmailAwar
         return $qb;
     }
 
-    /**
-     * @param AclHelper $aclHelper
-     * @param string $targetEntityClass
-     * @return array
-     */
     public function getAssignableCustomerUserIds(AclHelper $aclHelper, string $targetEntityClass): array
     {
         $qb = $this->createQueryBuilder('cu')

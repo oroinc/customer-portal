@@ -90,8 +90,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 
     /**
      * Validates the web_backend_prefix parameter.
-     *
-     * @param ContainerBuilder $container
      */
     private function validateBackendPrefix(ContainerBuilder $container): void
     {
@@ -116,9 +114,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         }
     }
 
-    /**
-     * @param ExtendedContainerBuilder $container
-     */
     private function modifySecurityConfig(ExtendedContainerBuilder $container)
     {
         $configs = $container->getExtensionConfig('security');
@@ -139,9 +134,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $container->setExtensionConfig('security', $configs);
     }
 
-    /**
-     * @param ExtendedContainerBuilder $container
-     */
     private function modifyFosRestConfig(ExtendedContainerBuilder $container)
     {
         $configs = $container->getExtensionConfig('fos_rest');
@@ -170,9 +162,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $container->setExtensionConfig('fos_rest', $configs);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     private function configureFrontendHelper(ContainerBuilder $container)
     {
         if ($container->hasParameter('installed') && $container->getParameter('installed')) {
@@ -184,10 +173,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
             ->setArguments([]);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
     private function configureFrontendSession(ContainerBuilder $container, array $config)
     {
         $options = [];
@@ -214,10 +199,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $container->setParameter(self::FRONTEND_SESSION_STORAGE_OPTIONS_PARAMETER_NAME, $options);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
     private function configureApiDocViews(ContainerBuilder $container, array $config)
     {
         $apiDocViews = $this->getApiDocViews($container);
@@ -234,10 +215,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         $this->setDefaultHtmlFormatterForFrontendApiViews($container, $apiDocViews, $frontendApiDocViews);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
     private function configureApiCors(ContainerBuilder $container, array $config): void
     {
         $corsConfig = $config['frontend_api']['cors'];
@@ -334,11 +311,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         DependencyInjectionUtil::setConfig($container, $config);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     *
-     * @return array
-     */
     private function getApiDocViews(ContainerBuilder $container): array
     {
         $config = DependencyInjectionUtil::getConfig($container);

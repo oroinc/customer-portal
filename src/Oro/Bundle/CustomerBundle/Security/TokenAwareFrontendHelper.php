@@ -29,9 +29,6 @@ class TokenAwareFrontendHelper extends FrontendHelper
         $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * @return bool
-     */
     public function isFrontendRequest(): bool
     {
         $token = $this->tokenStorage->getToken();

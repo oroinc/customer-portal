@@ -38,13 +38,6 @@ class HandleLogin implements ProcessorInterface
     /** @var TranslatorInterface */
     private $translator;
 
-    /**
-     * @param string                          $authenticationProviderKey
-     * @param AuthenticationProviderInterface $authenticationProvider
-     * @param ConfigManager                   $configManager
-     * @param DoctrineHelper                  $doctrineHelper
-     * @param TranslatorInterface             $translator
-     */
     public function __construct(
         string $authenticationProviderKey,
         AuthenticationProviderInterface $authenticationProvider,
@@ -88,11 +81,6 @@ class HandleLogin implements ProcessorInterface
         $model->setApiKey($apiKey);
     }
 
-    /**
-     * @param Login $model
-     *
-     * @return TokenInterface
-     */
     private function authenticate(Login $model): TokenInterface
     {
         $token = new UsernamePasswordToken(

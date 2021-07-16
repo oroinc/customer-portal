@@ -17,12 +17,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class CustomerUserScopeCacheKeyBuilderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @param ScopeCriteria $criteria
-     * @param null|string   $cacheKey
-     *
-     * @return ScopeCacheKeyBuilderInterface
-     */
     private function getInnerBuilder(ScopeCriteria $criteria, ?string $cacheKey): ScopeCacheKeyBuilderInterface
     {
         $innerBuilder = $this->createMock(ScopeCacheKeyBuilderInterface::class);

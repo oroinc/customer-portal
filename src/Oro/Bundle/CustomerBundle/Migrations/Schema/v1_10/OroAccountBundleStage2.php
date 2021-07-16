@@ -65,9 +65,6 @@ class OroAccountBundleStage2 implements
         $this->alterScopes($schema);
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function renameAccountUserRole(Schema $schema)
     {
         $this->activityExtension->addActivityAssociation(
@@ -119,9 +116,6 @@ class OroAccountBundleStage2 implements
         $table->addIndex(['customeruserrole_id'], 'idx_7ef0304fd5b2dcce', []);
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function renameAccountUserSidebarWidget(Schema $schema)
     {
         $table = $schema->getTable("oro_customer_user_sdbar_wdg");
@@ -137,9 +131,6 @@ class OroAccountBundleStage2 implements
         $table->addIndex(['customer_user_id', 'placement'], 'oro_cus_sdbr_wdgs_usr_place_idx', []);
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function renameAccWindowsState(Schema $schema)
     {
         $table = $schema->getTable("oro_cus_windows_state");
@@ -153,9 +144,6 @@ class OroAccountBundleStage2 implements
         $table->addIndex(['customer_user_id'], 'oro_cus_windows_state_acu_idx', []);
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function renameAccountUserSidebarState(Schema $schema)
     {
         $table = $schema->getTable('oro_customer_user_sdbar_st');
@@ -169,9 +157,6 @@ class OroAccountBundleStage2 implements
         $table->addUniqueIndex(['customer_user_id', 'position'], 'oro_cus_sdbar_st_unq_idx');
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function renameCustomerSettings(Schema $schema)
     {
         $table = $schema->getTable('oro_customer_user_settings');
@@ -184,9 +169,6 @@ class OroAccountBundleStage2 implements
         $table->addUniqueIndex(['customer_user_id', 'website_id'], 'unique_acc_user_website');
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function renameAccountUserAddressToAddressType(Schema $schema)
     {
         $table = $schema->getTable('oro_cus_usr_adr_to_adr_type');
@@ -199,9 +181,6 @@ class OroAccountBundleStage2 implements
         $table->addUniqueIndex(['customer_user_address_id', 'type_name'], 'oro_customer_user_adr_id_type_name_idx');
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function renameAccountAddressToAddressType(Schema $schema)
     {
         $table = $schema->getTable('oro_customer_adr_adr_type');
@@ -214,9 +193,6 @@ class OroAccountBundleStage2 implements
         $table->addUniqueIndex(['customer_address_id', 'type_name'], 'oro_customer_adr_id_type_name_idx');
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function renameCustomerGroup(Schema $schema)
     {
         $table = $schema->getTable('oro_rel_c3990ba616cbf45899499b');
@@ -237,9 +213,6 @@ class OroAccountBundleStage2 implements
         }
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function renameCustomer(Schema $schema)
     {
         $schema->getTable('oro_customer')->addIndex(['name'], 'oro_customer_name_idx', []);
@@ -301,8 +274,6 @@ class OroAccountBundleStage2 implements
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
-     * @param Schema $schema
      */
     public function renameCustomerUser(Schema $schema)
     {
@@ -416,9 +387,6 @@ class OroAccountBundleStage2 implements
         }
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function alterScopes(Schema $schema)
     {
         $table = $schema->getTable('oro_scope');
@@ -438,8 +406,6 @@ class OroAccountBundleStage2 implements
 
     /**
      * Sets the RenameExtension
-     *
-     * @param RenameExtension $renameExtension
      */
     public function setRenameExtension(RenameExtension $renameExtension)
     {
@@ -448,8 +414,6 @@ class OroAccountBundleStage2 implements
 
     /**
      * Sets the ActivityExtension
-     *
-     * @param ActivityExtension $activityExtension
      */
     public function setActivityExtension(ActivityExtension $activityExtension)
     {

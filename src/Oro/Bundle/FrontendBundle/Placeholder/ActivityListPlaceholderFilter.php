@@ -18,10 +18,6 @@ class ActivityListPlaceholderFilter
     /** @var FrontendHelper */
     private $helper;
 
-    /**
-     * @param PlaceholderFilter $filter
-     * @param FrontendHelper $helper
-     */
     public function __construct(PlaceholderFilter $filter, FrontendHelper $helper)
     {
         $this->filter = $filter;
@@ -40,9 +36,6 @@ class ActivityListPlaceholderFilter
             && $this->filter->isApplicable($entity, $pageType);
     }
 
-    /**
-     * @param BeforeGroupingChainWidgetEvent $event
-     */
     public function isAllowedButton(BeforeGroupingChainWidgetEvent $event)
     {
         if ($this->helper->isFrontendRequest()) {

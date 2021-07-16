@@ -226,7 +226,6 @@ class CustomerAddressControllerTest extends WebTestCase
         $form['oro_customer_typed_address[types]'] = [AddressType::TYPE_BILLING, AddressType::TYPE_SHIPPING];
         $form['oro_customer_typed_address[defaults][default]'] = [false, AddressType::TYPE_SHIPPING];
 
-
         $doc = new \DOMDocument("1.0");
         $doc->loadHTML(
             '<select name="oro_customer_typed_address[country]" id="oro_customer_typed_address_country" ' .

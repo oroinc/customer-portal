@@ -27,27 +27,17 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
     /** @var DateTimeExtension */
     protected $dateTimeExtension;
 
-    /**
-     * @param ContainerInterface $container
-     * @param DateTimeExtension $dateTimeExtension
-     */
     public function __construct(ContainerInterface $container, DateTimeExtension $dateTimeExtension)
     {
         $this->container = $container;
         $this->dateTimeExtension = $dateTimeExtension;
     }
 
-    /**
-     * @return ConfigManager
-     */
     protected function getConfigManager(): ConfigManager
     {
         return $this->container->get('oro_config.manager');
     }
 
-    /**
-     * @return ConfigManager
-     */
     protected function getSystemConfigManager(): ConfigManager
     {
         return $this->container->get('oro_config.global');

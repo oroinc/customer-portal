@@ -272,11 +272,6 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
 
     /**
      * @dataProvider isAssociatedWithBusinessUnitDataProvider
-     * @param string $organization
-     * @param string $customer
-     * @param string $customerUser
-     * @param bool $deep
-     * @param bool $isAssociated
      */
     public function testIsAssociatedWithBusinessUnitWhenNoCustomerUserForDomainObject(
         string $organization,
@@ -296,9 +291,6 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
         );
     }
 
-    /**
-     * @return array
-     */
     public function isAssociatedWithBusinessUnitDataProvider(): array
     {
         return [

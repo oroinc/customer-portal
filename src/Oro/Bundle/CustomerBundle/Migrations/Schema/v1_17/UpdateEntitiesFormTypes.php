@@ -37,12 +37,6 @@ class UpdateEntitiesFormTypes implements Migration
         ));
     }
 
-    /**
-     * @param string $entityClass
-     * @param string $formType
-     * @param string $replaceValue
-     * @return UpdateEntityConfigEntityValueQuery
-     */
     private function createUpdateEntityQuery(
         string $entityClass,
         string $formType,

@@ -17,10 +17,6 @@ class GuestAccessDecisionMaker implements GuestAccessDecisionMakerInterface
     /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @param GuestAccessAllowedUrlsProviderInterface $guestAccessAllowedUrlsProvider
-     * @param FrontendHelper                          $frontendHelper
-     */
     public function __construct(
         GuestAccessAllowedUrlsProviderInterface $guestAccessAllowedUrlsProvider,
         FrontendHelper $frontendHelper
@@ -45,12 +41,6 @@ class GuestAccessDecisionMaker implements GuestAccessDecisionMakerInterface
         return self::URL_DISALLOW;
     }
 
-    /**
-     * @param array  $urlPatterns
-     * @param string $url
-     *
-     * @return bool
-     */
     private function matches(array $urlPatterns, string $url): bool
     {
         foreach ($urlPatterns as $pattern) {

@@ -32,13 +32,6 @@ class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
     /** @var ManagerRegistry */
     private $doctrine;
 
-    /**
-     * @param FormFactoryInterface  $formFactory
-     * @param ConfigManager         $configManager
-     * @param WebsiteManager        $websiteManager
-     * @param ManagerRegistry       $doctrine
-     * @param UrlGeneratorInterface $router
-     */
     public function __construct(
         FormFactoryInterface $formFactory,
         ConfigManager $configManager,

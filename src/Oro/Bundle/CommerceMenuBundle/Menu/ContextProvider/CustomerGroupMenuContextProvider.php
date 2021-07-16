@@ -15,9 +15,6 @@ class CustomerGroupMenuContextProvider implements CustomerGroupMenuContextProvid
     /** @var WebsiteManager */
     protected $websiteManager;
 
-    /**
-     * @param WebsiteManager $websiteManager
-     */
     public function __construct(WebsiteManager $websiteManager)
     {
         $this->websiteManager = $websiteManager;

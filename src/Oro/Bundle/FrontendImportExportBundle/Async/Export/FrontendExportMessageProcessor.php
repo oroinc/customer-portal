@@ -12,9 +12,6 @@ use Oro\Bundle\ImportExportBundle\File\FileManager;
  */
 class FrontendExportMessageProcessor extends ExportMessageProcessor
 {
-    /**
-     * @param FileManager $fileManager
-     */
     public function setFileManager(FileManager $fileManager): void
     {
         $this->fileManager = $fileManager;

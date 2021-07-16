@@ -17,9 +17,6 @@ class CustomerUserPreferredLocalizationProvider extends AbstractPreferredLocaliz
      */
     private $userLocalizationManager;
 
-    /**
-     * @param UserLocalizationManagerInterface|null $userLocalizationManager
-     */
     public function __construct(?UserLocalizationManagerInterface $userLocalizationManager)
     {
         $this->userLocalizationManager = $userLocalizationManager;
@@ -42,19 +39,11 @@ class CustomerUserPreferredLocalizationProvider extends AbstractPreferredLocaliz
         return $this->getLocalizationByCurrentWebsite($entity) ?? $this->getLocalizationByPrimaryWebsite($entity);
     }
 
-    /**
-     * @param CustomerUser $entity
-     * @return Localization|null
-     */
     private function getLocalizationByCurrentWebsite(CustomerUser $entity): ?Localization
     {
         return $this->userLocalizationManager->getCurrentLocalizationByCustomerUser($entity);
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @return Localization|null
-     */
     private function getLocalizationByPrimaryWebsite(CustomerUser $customerUser): ?Localization
     {
         if (!$customerUser->getWebsite()) {

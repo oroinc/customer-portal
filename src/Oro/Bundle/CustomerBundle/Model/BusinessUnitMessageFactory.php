@@ -28,7 +28,6 @@ class BusinessUnitMessageFactory
 
     /**
      * BusinessUnitMessageFactory constructor.
-     * @param DoctrineHelper $doctrineHelper
      */
     public function __construct(DoctrineHelper $doctrineHelper)
     {
@@ -65,9 +64,6 @@ class BusinessUnitMessageFactory
         );
     }
 
-    /**
-     * @return int
-     */
     public function getJobIdFromMessage($data): int
     {
         $data = $this->getResolvedData($data);
@@ -75,9 +71,6 @@ class BusinessUnitMessageFactory
         return $data[self::JOB_ID];
     }
 
-    /**
-     * @return OptionsResolver
-     */
     private function getOptionsResolver(): OptionsResolver
     {
         if (null === $this->resolver) {
@@ -100,8 +93,6 @@ class BusinessUnitMessageFactory
     }
 
     /**
-     * @param array $data
-     * @return array
      * @throws InvalidArgumentException
      */
     private function getResolvedData(array $data): array

@@ -37,14 +37,6 @@ class CustomerUserHandler
     /** @var LoggerInterface */
     protected $logger;
 
-    /**
-     * @param FormInterface $form
-     * @param Request $request
-     * @param CustomerUserManager $userManager
-     * @param TokenAccessorInterface $tokenAccessor
-     * @param TranslatorInterface $translator
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         FormInterface $form,
         Request $request,

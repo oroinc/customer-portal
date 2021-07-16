@@ -32,13 +32,6 @@ class ResourceRestApiGetActionUrlResolver implements ResourceApiUrlResolverInter
     /** @var string|null */
     private $defaultEntityId;
 
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param RestRoutesRegistry    $routesRegistry
-     * @param ValueNormalizer       $valueNormalizer
-     * @param string                $entityClass
-     * @param string                $entityIdParameterName
-     */
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
         RestRoutesRegistry $routesRegistry,
@@ -57,8 +50,6 @@ class ResourceRestApiGetActionUrlResolver implements ResourceApiUrlResolverInter
      * Sets a predefined identifier of API resource that should be used
      * if an entity identifier does not exist route parameters or it is NULL.
      * @see \Oro\Bundle\ApiBundle\Request\EntityIdResolverInterface
-     *
-     * @param string $entityId
      */
     public function setDefaultEntityId(string $entityId): void
     {

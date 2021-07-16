@@ -61,9 +61,6 @@ class CustomerRegistrationHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param Request $request
-     * @param bool $expectedResult
-     *
      * @dataProvider handleIsRegistrationDataProvider
      */
     public function testHandleIsRegistrationRequest(Request $request, bool $expectedResult)

@@ -78,10 +78,6 @@ class LoadCustomerUserRoles extends AbstractRolesData
         }
     }
 
-    /**
-     * @param AclManager $aclManager
-     * @param SecurityIdentityInterface $sid
-     */
     protected function setPermissionGroup(AclManager $aclManager, SecurityIdentityInterface $sid)
     {
         foreach ($aclManager->getAllExtensions() as $extension) {
@@ -113,9 +109,6 @@ class LoadCustomerUserRoles extends AbstractRolesData
         return $role;
     }
 
-    /**
-     * @param CustomerUserRole $role
-     */
     protected function setWebsiteDefaultRoles(CustomerUserRole $role)
     {
         foreach ($this->getWebsites($role->getOrganization()) as $website) {
@@ -123,9 +116,6 @@ class LoadCustomerUserRoles extends AbstractRolesData
         }
     }
 
-    /**
-     * @param CustomerUserRole $role
-     */
     protected function setWebsiteGuestRoles(CustomerUserRole $role)
     {
         foreach ($this->getWebsites($role->getOrganization()) as $website) {
@@ -149,10 +139,6 @@ class LoadCustomerUserRoles extends AbstractRolesData
         return $this->websites;
     }
 
-    /**
-     * @param CustomerUserRole $role
-     * @param array            $roleConfigData
-     */
     protected function setUpSelfManagedData(CustomerUserRole $role, array $roleConfigData)
     {
         $role->setSelfManaged($roleConfigData['self_managed'] ?? false);

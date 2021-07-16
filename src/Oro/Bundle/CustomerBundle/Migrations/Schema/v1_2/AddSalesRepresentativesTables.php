@@ -32,8 +32,6 @@ class AddSalesRepresentativesTables implements Migration
 
     /**
      * Create orob2b_account_sales_representatives table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountSalesRepresentativesTable(Schema $schema)
     {
@@ -45,8 +43,6 @@ class AddSalesRepresentativesTables implements Migration
 
     /**
      * Create orob2b_account_user_sales_representatives table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountUserSalesRepresentativesTable(Schema $schema)
     {
@@ -58,8 +54,6 @@ class AddSalesRepresentativesTables implements Migration
 
     /**
      * Add orob2b_account_sales_representatives foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountSalesRepresentativesForeignKeys(Schema $schema)
     {
@@ -80,8 +74,6 @@ class AddSalesRepresentativesTables implements Migration
 
     /**
      * Add orob2b_account_user_sales_representatives foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountUserSalesRepresentativesForeignKeys(Schema $schema)
     {

@@ -22,10 +22,6 @@ class ConfigMigration
      */
     private $configManager;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param ConfigManager $configManager
-     */
     public function __construct(ManagerRegistry $managerRegistry, ConfigManager $configManager)
     {
         $this->managerRegistry = $managerRegistry;

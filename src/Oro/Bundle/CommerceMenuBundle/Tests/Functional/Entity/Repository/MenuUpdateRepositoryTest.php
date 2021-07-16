@@ -30,8 +30,6 @@ class MenuUpdateRepositoryTest extends WebTestCase
 
     /**
      * @dataProvider menuUpdateDataProvider
-     * @param string $global
-     * @param string $user
      */
     public function testUpdateDependentMenuUpdate(string $global, string $user)
     {

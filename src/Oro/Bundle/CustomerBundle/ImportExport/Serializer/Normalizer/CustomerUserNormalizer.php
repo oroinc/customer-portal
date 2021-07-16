@@ -24,7 +24,7 @@ class CustomerUserNormalizer extends ConfigurableEntityNormalizer
         if (isset($result['customer']) && $object->getCustomer()) {
             $result['customer']['name'] = $object->getCustomer()->getName();
         }
-        
+
         if (isset($result['owner']) && $object->getOwner()) {
             $result['owner']['id'] = $object->getOwner()->getId();
             unset($result['owner']['username']);

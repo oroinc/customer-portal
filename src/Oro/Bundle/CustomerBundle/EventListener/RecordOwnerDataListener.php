@@ -27,11 +27,6 @@ class RecordOwnerDataListener
     /** @var PropertyAccessor */
     protected $propertyAccessor;
 
-    /**
-     * @param CustomerUserProvider $customerUserProvider
-     * @param ConfigProvider $configProvider
-     * @param PropertyAccessor $propertyAccessor
-     */
     public function __construct(
         CustomerUserProvider $customerUserProvider,
         ConfigProvider $configProvider,
@@ -45,7 +40,6 @@ class RecordOwnerDataListener
     /**
      * Handle prePersist.
      *
-     * @param LifecycleEventArgs $args
      * @throws \LogicException when getOwner method isn't implemented for entity with ownership type
      */
     public function prePersist(LifecycleEventArgs $args)

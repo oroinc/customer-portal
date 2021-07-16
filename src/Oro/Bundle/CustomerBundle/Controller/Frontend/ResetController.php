@@ -141,9 +141,6 @@ class ResetController extends AbstractController
         ];
     }
 
-    /**
-     * @return CustomerUserManager
-     */
     protected function getUserManager(): CustomerUserManager
     {
         return $this->get(CustomerUserManager::class);

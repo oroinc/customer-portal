@@ -29,11 +29,6 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
     }
 
     /**
-     * @param $route
-     * @param $role
-     * @param $user
-     * @param $expectedStatus
-     *
      * @dataProvider viewProvider
      */
     public function testACL($route, $role, $user, $expectedStatus)

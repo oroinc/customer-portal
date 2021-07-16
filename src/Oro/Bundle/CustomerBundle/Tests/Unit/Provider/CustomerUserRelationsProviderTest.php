@@ -44,8 +44,6 @@ class CustomerUserRelationsProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider customerDataProvider
-     * @param CustomerUser|null $customerUser
-     * @param Customer|null $expectedCustomer
      */
     public function testGetCustomer(CustomerUser $customerUser = null, Customer $expectedCustomer = null)
     {
@@ -141,9 +139,6 @@ class CustomerUserRelationsProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($customer, $this->provider->getCustomerIncludingEmpty($customerUser));
     }
 
-    /**
-     * @param CustomerGroup $customerGroup
-     */
     protected function assertCustomerGroupConfigCall(CustomerGroup $customerGroup)
     {
         $this->configManager->expects($this->once())

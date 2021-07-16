@@ -25,7 +25,6 @@ class MenuUserAgentConditionTypeTest extends FormIntegrationTestCase
         $this->formType = new MenuUserAgentConditionType();
     }
 
-
     /**
      * {@inheritDoc}
      */

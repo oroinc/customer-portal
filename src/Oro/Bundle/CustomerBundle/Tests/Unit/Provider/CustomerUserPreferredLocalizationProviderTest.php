@@ -38,9 +38,6 @@ class CustomerUserPreferredLocalizationProviderTest extends \PHPUnit\Framework\T
         }
     }
 
-    /**
-     * @return array
-     */
     public function supportsDataProvider(): array
     {
         return [

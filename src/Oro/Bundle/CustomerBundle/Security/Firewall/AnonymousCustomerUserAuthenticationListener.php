@@ -34,7 +34,6 @@ class AnonymousCustomerUserAuthenticationListener
 
     /**
      * This property is assumed to be filled on Request basis only so no need permanent cache for it
-     * @var CacheProvider
      */
     private CacheProvider $cacheProvider;
 
@@ -166,10 +165,6 @@ class AnonymousCustomerUserAuthenticationListener
     /**
      * Checks whether the request is AJAX request to API resource
      * (cookies has the session cookie and the request has "X-CSRF-Header" header with valid CSRF token).
-     *
-     * @param Request $request
-     *
-     * @return bool
      */
     private function isAjaxApiRequest(Request $request): bool
     {

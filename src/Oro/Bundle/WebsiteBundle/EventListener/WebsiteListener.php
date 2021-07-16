@@ -16,17 +16,11 @@ class WebsiteListener
     /** @var CacheableWebsiteProvider */
     private $cacheableWebsiteProvider;
 
-    /**
-     * @param CacheableWebsiteProvider $cacheableWebsiteProvider
-     */
     public function __construct(CacheableWebsiteProvider $cacheableWebsiteProvider)
     {
         $this->cacheableWebsiteProvider = $cacheableWebsiteProvider;
     }
 
-    /**
-     * @param OnFlushEventArgs $args
-     */
     public function onFlush(OnFlushEventArgs $args)
     {
         if ($this->hasScheduledWebsites($args->getEntityManager()->getUnitOfWork())) {

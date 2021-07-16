@@ -31,9 +31,6 @@ class LoadTreeProviderCustomerUserData extends AbstractFixture implements
         return [LoadCustomerUserData::class, LoadTreeProviderCustomers::class];
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager): void
     {
         /** @var BaseUserManager $userManager */

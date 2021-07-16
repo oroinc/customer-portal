@@ -15,9 +15,6 @@ class UserAgentConditionsEvaluator implements ConditionEvaluatorInterface
      */
     private $userAgentProvider;
 
-    /**
-     * @param UserAgentProviderInterface $userAgentProvider
-     */
     public function __construct(UserAgentProviderInterface $userAgentProvider)
     {
         $this->userAgentProvider = $userAgentProvider;

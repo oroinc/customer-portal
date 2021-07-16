@@ -12,8 +12,6 @@ class CustomerVisitorCookieResponseListener
 {
     /**
      * Set cookie from request attribute to response
-     *
-     * @param ResponseEvent $event
      */
     public function onKernelResponse(ResponseEvent $event): void
     {

@@ -462,7 +462,6 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->method('stopProviderEmulation');
         $result = $handler->getCustomerUserRolePrivileges($role);
 
-
         $this->assertEquals(array_keys($expected), array_keys($result));
         /**
          * @var string $key

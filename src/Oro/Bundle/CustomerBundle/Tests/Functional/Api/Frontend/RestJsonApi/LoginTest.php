@@ -269,11 +269,6 @@ class LoginTest extends FrontendWebTestCase
         $this->assertCustomerUserLoggedIn($response, $user, $apiKey);
     }
 
-    /**
-     * @param Response $response
-     * @param CustomerUser $user
-     * @param CustomerUserApi $apiKey
-     */
     private function assertCustomerUserLoggedIn(Response $response, CustomerUser $user, CustomerUserApi $apiKey)
     {
         $existingApiKey = $apiKey->getApiKey();

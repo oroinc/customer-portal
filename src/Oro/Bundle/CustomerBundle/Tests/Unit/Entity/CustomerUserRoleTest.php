@@ -64,7 +64,6 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(CustomerUserRole::PREFIX_ROLE . 'ANOTHER_TEST_ROLE', $role->getRole());
     }
 
-
     public function testSelfManaged()
     {
         $role = new CustomerUserRole('test');

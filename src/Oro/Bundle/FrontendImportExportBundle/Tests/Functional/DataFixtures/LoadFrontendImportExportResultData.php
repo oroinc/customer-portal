@@ -17,9 +17,6 @@ class LoadFrontendImportExportResultData extends AbstractFixture implements Depe
     public const EXPIRED_IMPORT_EXPORT_RESULT = 'expiredFrontendImportExportResult';
     public const NOT_EXPIRED_IMPORT_EXPORT_RESULT = 'notExpiredFrontendImportExportResult';
 
-    /**
-     * @var array
-     */
     private array $importExportResults = [
         self::EXPIRED_IMPORT_EXPORT_RESULT => [
             'jobId' =>  10,

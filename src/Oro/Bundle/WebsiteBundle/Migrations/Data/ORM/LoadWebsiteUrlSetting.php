@@ -22,9 +22,6 @@ class LoadWebsiteUrlSetting extends AbstractFixture implements ContainerAwareInt
         $this->container = $container;
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         $configManager = $this->container->get('oro_config.global');

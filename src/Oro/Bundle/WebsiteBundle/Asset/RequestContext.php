@@ -14,9 +14,6 @@ class RequestContext extends BaseRequestContext
      */
     protected $resolver;
 
-    /**
-     * @param BasePathResolver $resolver
-     */
     public function setBasePathResolver(BasePathResolver $resolver)
     {
         $this->resolver = $resolver;

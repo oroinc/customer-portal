@@ -16,9 +16,6 @@ class CustomerFixture extends AbstractTemplateRepository implements TemplateFixt
      */
     private $enumValueProvider;
 
-    /**
-     * @param EnumValueProvider $enumValueProvider
-     */
     public function __construct(EnumValueProvider $enumValueProvider)
     {
         $this->enumValueProvider = $enumValueProvider;

@@ -52,25 +52,16 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    /**
-     * @param ConfigProvider $provider
-     */
     public function setOwnershipConfigProvider(ConfigProvider $provider)
     {
         $this->ownershipConfigProvider = $provider;
     }
 
-    /**
-     * @param ChainOwnershipMetadataProvider $chainMetadataProvider
-     */
     public function setChainMetadataProvider(ChainOwnershipMetadataProvider $chainMetadataProvider)
     {
         $this->chainMetadataProvider = $chainMetadataProvider;
     }
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     */
     public function setDoctrineHelper(DoctrineHelper $doctrineHelper)
     {
         $this->doctrineHelper = $doctrineHelper;

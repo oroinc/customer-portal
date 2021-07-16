@@ -34,11 +34,6 @@ class WebsiteManager
      */
     protected $maintenance;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param FrontendHelper $frontendHelper
-     * @param Mode $maintenance
-     */
     public function __construct(
         ManagerRegistry $managerRegistry,
         FrontendHelper $frontendHelper,
@@ -61,9 +56,6 @@ class WebsiteManager
         return $this->currentWebsite;
     }
 
-    /**
-     * @param Website|null $currentWebsite
-     */
     public function setCurrentWebsite(?Website $currentWebsite): void
     {
         $this->currentWebsite = $currentWebsite;

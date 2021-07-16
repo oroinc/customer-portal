@@ -40,7 +40,6 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-
     /**
      * {@inheritDoc}
      */

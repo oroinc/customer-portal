@@ -19,10 +19,6 @@ class LoginAttemptsLogHandler implements LoginAttemptsHandlerInterface
     /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @param LoginAttemptsHandlerInterface $innerHandler
-     * @param FrontendHelper                $frontendHelper
-     */
     public function __construct(LoginAttemptsHandlerInterface $innerHandler, FrontendHelper $frontendHelper)
     {
         $this->innerHandler = $innerHandler;

@@ -51,8 +51,6 @@ class GuestAccessRequestListener
     }
 
     /**
-     * @param RequestEvent $event
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function onKernelRequest(RequestEvent $event): void

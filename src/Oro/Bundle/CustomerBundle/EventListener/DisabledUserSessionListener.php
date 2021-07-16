@@ -17,10 +17,6 @@ class DisabledUserSessionListener
 
     private LogoutUrlGenerator $logoutUrlGenerator;
 
-    /**
-     * @param LogoutUrlGenerator $logoutUrlGenerator
-     * @param FrontendHelper     $frontendHelper
-     */
     public function __construct(LogoutUrlGenerator $logoutUrlGenerator, FrontendHelper $frontendHelper)
     {
         $this->logoutUrlGenerator = $logoutUrlGenerator;

@@ -13,9 +13,6 @@ class CustomerDeleteHandlerExtension extends AbstractEntityDeleteHandlerExtensio
     /** @var CustomerAssignHelper */
     private $customerAssignHelper;
 
-    /**
-     * @param CustomerAssignHelper $customerAssignHelper
-     */
     public function __construct(CustomerAssignHelper $customerAssignHelper)
     {
         $this->customerAssignHelper = $customerAssignHelper;

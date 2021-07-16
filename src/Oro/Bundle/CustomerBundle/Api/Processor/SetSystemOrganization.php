@@ -23,11 +23,6 @@ class SetSystemOrganization implements ProcessorInterface
     /** @var OwnershipMetadataProviderInterface */
     private $ownershipMetadataProvider;
 
-    /**
-     * @param PropertyAccessorInterface          $propertyAccessor
-     * @param TokenAccessorInterface             $tokenAccessor
-     * @param OwnershipMetadataProviderInterface $ownershipMetadataProvider
-     */
     public function __construct(
         PropertyAccessorInterface $propertyAccessor,
         TokenAccessorInterface $tokenAccessor,

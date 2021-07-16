@@ -40,13 +40,6 @@ class RedirectListenerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @param bool          $isMasterRequest
-     * @param Request       $request
-     * @param Response|null $response
-     *
-     * @return RequestEvent
-     */
     private function getEvent(bool $isMasterRequest, Request $request, Response $response = null): RequestEvent
     {
         $event = new RequestEvent(
@@ -72,7 +65,6 @@ class RedirectListenerTest extends \PHPUnit\Framework\TestCase
 
         self::assertNull($event->getResponse());
     }
-
 
     public function testNoRedirectWhenMediaCache(): void
     {
