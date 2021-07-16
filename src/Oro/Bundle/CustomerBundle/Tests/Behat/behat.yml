@@ -14,7 +14,6 @@ oro_behat_extension:
         - OroLocaleBundle::LocalizationContext
         - OroCustomerBundle::ACLContext
         - OroCustomerBundle::FrontendGridContext
-        - OroSecurityBundle::PermissionContext
         - OroCustomerBundle::RegistrationInstructionFeatureContext
         - OroProductBundle::FeatureContext
         - OroShoppingListBundle::FeatureContext
