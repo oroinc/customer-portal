@@ -78,8 +78,6 @@ trait AddressEntityTestTrait
     }
 
     /**
-     * @param $addresses
-     * @param $expectedAddress
      * @dataProvider getPrimaryAddressProvider
      */
     public function testGetPrimaryAddress($addresses, $expectedAddress)

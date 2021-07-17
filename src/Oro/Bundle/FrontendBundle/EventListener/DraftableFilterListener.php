@@ -17,19 +17,12 @@ class DraftableFilterListener extends BaseDraftableFilterListener
      */
     private $frontendHelper;
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     * @param FrontendHelper $frontendHelper
-     */
     public function __construct(DoctrineHelper $doctrineHelper, FrontendHelper $frontendHelper)
     {
         $this->frontendHelper = $frontendHelper;
         parent::__construct($doctrineHelper);
     }
 
-    /**
-     * @param FilterControllerEvent $event
-     */
     public function onKernelController(FilterControllerEvent $event): void
     {
         if ($this->frontendHelper->isFrontendRequest()) {

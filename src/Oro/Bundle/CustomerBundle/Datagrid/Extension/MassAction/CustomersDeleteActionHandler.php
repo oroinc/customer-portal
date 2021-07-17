@@ -11,9 +11,6 @@ class CustomersDeleteActionHandler extends DeleteMassActionHandler
     /** @var TokenAccessorInterface */
     private $tokenAccessor;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     */
     public function setTokenAccessor(TokenAccessorInterface $tokenAccessor)
     {
         $this->tokenAccessor = $tokenAccessor;

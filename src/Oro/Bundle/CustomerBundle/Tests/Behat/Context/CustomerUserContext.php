@@ -45,8 +45,6 @@ class CustomerUserContext extends OroFeatureContext
      * Example: AmandaRCole@example.org customer user confirms registration
      *
      * @Given /^(?P<username>\S+) customer user confirms registration$/
-     *
-     * @param string $username
      */
     public function iConfirmRegistrationEmail(string $username): void
     {

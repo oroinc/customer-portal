@@ -60,10 +60,6 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
         return self::ALIAS;
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
     private function configureCustomerVisitorCookieFactory(ContainerBuilder $container, array $config): void
     {
         $container->getDefinition('oro_customer.authentication.customer_visitor_cookie_factory')

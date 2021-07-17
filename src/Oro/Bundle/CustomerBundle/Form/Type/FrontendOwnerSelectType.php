@@ -33,10 +33,6 @@ class FrontendOwnerSelectType extends AbstractType
      */
     protected $configProvider;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param ConfigProvider $configProvider
-     */
     public function __construct(ManagerRegistry $registry, ConfigProvider $configProvider)
     {
         $this->registry = $registry;

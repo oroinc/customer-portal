@@ -91,7 +91,6 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
             )
             ->willReturn($form);
 
-
         $this->handler->setRequest($request);
         $this->handler->setTokenStorage($this->tokenStorage);
 
@@ -128,11 +127,6 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
     }
 
     /**
-     * @param CustomerUserRole $role
-     * @param CustomerUserRole $expectedRole
-     * @param CustomerUser $customerUser
-     * @param array $existingPrivileges
-
      * @dataProvider successDataPrivilegesProvider
      */
     public function testOnSuccessSetPrivileges(

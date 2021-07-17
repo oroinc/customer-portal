@@ -13,9 +13,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class AssetBuildCommandListener
 {
-    /**
-     * @param ConsoleCommandEvent $event
-     */
     public function onConsoleCommand(ConsoleCommandEvent $event)
     {
         $command = $event->getCommand();

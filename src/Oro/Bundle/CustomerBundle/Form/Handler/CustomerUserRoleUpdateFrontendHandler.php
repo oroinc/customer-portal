@@ -29,9 +29,6 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
      */
     protected $predefinedRole;
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     */
     public function setTokenStorage(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;

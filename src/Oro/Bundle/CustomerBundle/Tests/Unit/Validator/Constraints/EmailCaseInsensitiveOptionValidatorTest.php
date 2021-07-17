@@ -89,8 +89,6 @@ class EmailCaseInsensitiveOptionValidatorTest extends \PHPUnit\Framework\TestCas
 
     /**
      * @dataProvider validateValidDataProvider
-     *
-     * @param bool $value
      */
     public function testValidateValid(bool $value)
     {

@@ -118,9 +118,6 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
 
     /**
      * @dataProvider getProcessWithInvalidMessageDataProvider
-     *
-     * @param array $parameters
-     * @param string $expectedError
      */
     public function testProcessWithInvalidMessage(array $parameters, string $expectedError): void
     {

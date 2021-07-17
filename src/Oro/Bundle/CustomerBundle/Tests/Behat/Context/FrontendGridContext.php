@@ -99,9 +99,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      *
      * @Given /^(?:I )?switch to "(?P<gridViewName>([^"]+))" grid view in frontend grid$/
      * @Given /^(?:I )?switch to "(?P<gridViewName>([^"]+))" grid view in "(?P<gridName>([\w\s]+))" frontend grid$/
-     *
-     * @param string $gridViewName
-     * @param null|string $gridName
      */
     public function switchToGridView(string $gridViewName, ?string $gridName = null): void
     {
@@ -117,12 +114,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
         $this->getFrontendGrid($gridName)->closeGridViewDropdown();
     }
 
-    /**
-     * @param string $gridViewName
-     * @param null|string $gridName
-     *
-     * @return Element
-     */
     private function getGridViewItem(string $gridViewName, ?string $gridName = null): Element
     {
         $grid = $this->getFrontendGrid($gridName);
@@ -218,9 +209,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      * @When /^(?:|I) hide all columns in "(?P<gridName>[\w\s]+)" frontend grid except (?P<exceptions>(?:[^"]|\\")*)$/
      * @When /^(?:|I) hide all columns in frontend grid$/
      * @When /^(?:|I) hide all columns in "(?P<gridName>[\w\s]+)" frontend grid$/
-     *
-     * @param string $exceptions
-     * @param string|null $gridName
      */
     public function iHideAllColumnsInFrontendGrid(string $exceptions = '', ?string $gridName = null): void
     {
@@ -295,9 +283,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      * @Then /^(?:|I )should see available "(?P<filter>(?:[^"]|\\")*)" filter in "(?P<datagridName>[\w\s]+)" frontend grid$/
      *
      * @codingStandardsIgnoreEnd
-     *
-     * @param string $filter
-     * @param null|string $dataGridName
      */
     public function assertHasFilterInManagerInFrontendGrid(string $filter, string $dataGridName = null)
     {
@@ -317,9 +302,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      * @Then /^(?:|I )should see no available "(?P<filter>(?:[^"]|\\")*)" filter in "(?P<datagridName>[\w\s]+)" frontend grid$/
      *
      * @codingStandardsIgnoreEnd
-     *
-     * @param string $filter
-     * @param null|string $dataGridName
      */
     public function assertHasNoFilterInManagerInFrontendGrid(string $filter, string $dataGridName = null)
     {
@@ -350,9 +332,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     /**
      * @Given /^(?:|I) hide filter "(?P<filter>(?:[^"]|\\")*)" in frontend grid$/
      * @Given /^(?:|I) hide filter "(?P<filter>(?:[^"]|\\")*)" in "(?P<datagridName>[\w\s]+)" frontend grid$/
-     *
-     * @param string $filter
-     * @param string|null $datagridName
      */
     public function iHideFilterInFrontendGrid(string $filter, ?string $datagridName = null): void
     {
@@ -365,9 +344,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     /**
      * @Given /^(?:|I) sort frontend grid by "(?P<sorter>(?:[^"]|\\")*)"$/
      * @Given /^(?:|I) sort frontend grid "(?P<datagridName>[\w\s]+)" by "(?P<sorter>(?:[^"]|\\")*)"$/
-     *
-     * @param string $sorter
-     * @param null|string $datagridName
      */
     public function iSortFrontendGrid(string $sorter, ?string $datagridName = null): void
     {

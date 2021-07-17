@@ -18,17 +18,11 @@ class FrontendExtension extends AbstractExtension implements ServiceSubscriberIn
     /** @var ContainerInterface */
     private $container;
 
-    /**
-     * @param ContainerInterface $container
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    /**
-     * @return FrontendHelper
-     */
     private function getFrontendHelper(): FrontendHelper
     {
         return $this->container->get(FrontendHelper::class);
@@ -44,9 +38,6 @@ class FrontendExtension extends AbstractExtension implements ServiceSubscriberIn
         ];
     }
 
-    /**
-     * @return string
-     */
     public function getDefaultPage(): string
     {
         return $this->container->get(RouterInterface::class)

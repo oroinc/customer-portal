@@ -45,9 +45,6 @@ class OroWebsiteBundle implements
         $queries->addPostQuery(new RenameConfigSectionQuery('oro_b2b_website', 'oro_website'));
     }
 
-    /**
-     * @param QueryBag $queries
-     */
     private function changeLocalizationRelations(QueryBag $queries)
     {
         $queries->addPreQuery(
@@ -57,10 +54,6 @@ class OroWebsiteBundle implements
         $queries->addQuery('DROP TABLE orob2b_websites_localizations');
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameTables(Schema $schema, QueryBag $queries)
     {
         $extension = $this->renameExtension;
@@ -77,10 +70,6 @@ class OroWebsiteBundle implements
         $extension->addIndex($schema, $queries, 'oro_website', ['updated_at'], 'idx_oro_website_updated_at');
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function updateWebsiteTable(Schema $schema, QueryBag $queries)
     {
         $this->addIsDefaultColumn($schema, $queries);
@@ -98,8 +87,6 @@ class OroWebsiteBundle implements
     }
 
     /**
-     * @param Schema $schema
-     * @param QueryBag $queries
      * @throws SchemaException
      */
     private function addIsDefaultColumn(Schema $schema, QueryBag $queries)
@@ -133,7 +120,6 @@ class OroWebsiteBundle implements
             );
         }
 
-
         $this->doPostUpdateChanges($schema, $queries);
     }
 
@@ -150,8 +136,6 @@ class OroWebsiteBundle implements
     }
 
     /**
-     * @param Schema $schema
-     * @param QueryBag $queries
      * @throws SchemaException
      */
     private function doPostUpdateChanges(Schema $schema, QueryBag $queries)
@@ -166,9 +150,6 @@ class OroWebsiteBundle implements
         }
     }
 
-    /**
-     * @param QueryBag $queries
-     */
     private function moveUrlToConfigValue(QueryBag $queries)
     {
         $queries->addPreQuery(

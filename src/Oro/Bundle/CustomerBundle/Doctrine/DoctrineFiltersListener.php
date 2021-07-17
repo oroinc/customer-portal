@@ -23,10 +23,6 @@ class DoctrineFiltersListener
      */
     protected $frontendHelper;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param FrontendHelper $frontendHelper
-     */
     public function __construct(ManagerRegistry $registry, FrontendHelper $frontendHelper)
     {
         $this->registry = $registry;

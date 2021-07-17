@@ -58,14 +58,6 @@ class LoginManager
 
     /**
      * LoginManager constructor.
-     *
-     * @param TokenStorageInterface $tokenStorage
-     * @param UserCheckerInterface $userChecker
-     * @param SessionAuthenticationStrategyInterface $sessionStrategy
-     * @param RequestStack $requestStack
-     * @param UsernamePasswordOrganizationTokenFactoryInterface $tokenFactory
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param RememberMeServicesInterface|null $rememberMeService
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
@@ -85,11 +77,6 @@ class LoginManager
         $this->rememberMeService = $rememberMeService;
     }
 
-    /**
-     * @param $firewallName
-     * @param AbstractUser $user
-     * @param Response|null $response
-     */
     public function logInUser($firewallName, AbstractUser $user, Response $response = null)
     {
         try {

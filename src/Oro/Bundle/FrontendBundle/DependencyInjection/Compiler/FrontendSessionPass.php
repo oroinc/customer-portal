@@ -29,8 +29,6 @@ class FrontendSessionPass implements CompilerPassInterface
 
     /**
      * Decorates "http_kernel" service.
-     *
-     * @param ContainerBuilder $container
      */
     private function configureHttpKernel(ContainerBuilder $container): void
     {

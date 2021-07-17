@@ -10,9 +10,6 @@ use Symfony\Component\Routing\RouteCollection;
 class FrontendRouteCollectionListenerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @param RouteCollection $collection
-     * @param array $expected
-     *
      * @dataProvider dataProvider
      */
     public function testOnCollectionAutoload(RouteCollection $collection, array $expected)

@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class CustomerGroupScopeExtension extends AbstractTypeExtension
 {
     const SCOPE_FIELD = 'customerGroup';
-    
+
     /**
      * @var string
      */

@@ -21,11 +21,6 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $this->basicFilter = $this->createMock(PlaceholderFilter::class);
     }
 
-    /**
-     * @param Request|null $currentRequest
-     *
-     * @return ActivityListPlaceholderFilter
-     */
     private function getFilter(Request $currentRequest = null): ActivityListPlaceholderFilter
     {
         $requestStack = new RequestStack();

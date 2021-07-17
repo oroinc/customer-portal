@@ -45,13 +45,6 @@ class WYSIWYGTypeExtension extends AbstractTypeExtension
      */
     private $packages;
 
-    /**
-     * @param ThemeManager $themeManager
-     * @param ThemeProvider $themeProvider
-     * @param ConfigManager $configManager
-     * @param WebsiteManager $websiteManager
-     * @param Packages $packages
-     */
     public function __construct(
         ThemeManager $themeManager,
         ThemeProvider $themeProvider,

@@ -23,9 +23,6 @@ class CustomerExtension extends AbstractExtension implements ServiceSubscriberIn
     /** @var ContainerInterface */
     protected $container;
 
-    /**
-     * @param ContainerInterface $container
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -57,10 +54,7 @@ class CustomerExtension extends AbstractExtension implements ServiceSubscriberIn
             new TwigFunction('oro_customer_parent_parts', [$this, 'getCustomerParentParts']),
         ];
     }
-    /**
-     * @param Customer $customer
-     * @return array
-     */
+
     public function getCustomerParentParts(Customer $customer): array
     {
         $parts = [];

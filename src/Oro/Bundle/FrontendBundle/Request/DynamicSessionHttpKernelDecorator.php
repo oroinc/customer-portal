@@ -23,12 +23,6 @@ class DynamicSessionHttpKernelDecorator extends SessionHttpKernelDecorator
     /** @var array|null */
     private $backendSessionOptions;
 
-    /**
-     * @param HttpKernelInterface $kernel
-     * @param ContainerInterface  $container
-     * @param FrontendHelper      $frontendHelper
-     * @param array               $frontendSessionOptions
-     */
     public function __construct(
         HttpKernelInterface $kernel,
         ContainerInterface $container,

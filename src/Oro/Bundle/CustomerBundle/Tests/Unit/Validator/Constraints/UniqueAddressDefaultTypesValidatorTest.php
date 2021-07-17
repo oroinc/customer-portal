@@ -38,7 +38,6 @@ class UniqueAddressDefaultTypesValidatorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider validAddressesDataProvider
-     * @param array $addresses
      */
     public function testValidateValid(array $addresses)
     {

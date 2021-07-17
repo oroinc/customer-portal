@@ -17,9 +17,6 @@ class UniqueCustomerUserNameAndEmailValidator extends ConstraintValidator
      */
     private $customerUserManager;
 
-    /**
-     * @param CustomerUserManager $customerUserManager
-     */
     public function __construct(CustomerUserManager $customerUserManager)
     {
         $this->customerUserManager = $customerUserManager;

@@ -88,7 +88,6 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
         $user->setOrganization(new Organization());
         $user->setRoles($roles);
 
-
         $token = $this->createMock(UsernamePasswordToken::class);
 
         $this->tokenStorage

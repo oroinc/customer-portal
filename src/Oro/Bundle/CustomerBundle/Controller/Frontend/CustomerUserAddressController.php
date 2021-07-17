@@ -149,11 +149,6 @@ class CustomerUserAddressController extends AbstractController
         ];
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @param CustomerUserAddress $customerUserAddress
-     * @param Request $request
-     */
     private function prepareEntities(
         CustomerUser $customerUser,
         CustomerUserAddress $customerUserAddress,

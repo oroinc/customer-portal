@@ -38,9 +38,6 @@ class CustomerGroupConfigurationFormProvider extends AbstractProvider
         return $this->getJsTreeData(self::CUSTOMER_GROUP_CONFIGURATION_TREE_NAME, self::CORRECT_MENU_NESTING_LEVEL);
     }
 
-    /**
-     * @param string $label
-     */
     public function setParentCheckboxLabel(string $label): void
     {
         $this->parentCheckboxLabel = $label;

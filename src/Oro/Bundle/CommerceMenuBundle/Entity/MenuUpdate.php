@@ -271,11 +271,6 @@ class MenuUpdate extends ExtendMenuUpdate implements
         return $this;
     }
 
-    /**
-     * @param ContentNode|null $contentNode
-     *
-     * @return self
-     */
     public function setContentNode(?ContentNode $contentNode): self
     {
         $this->contentNode = $contentNode;
@@ -283,9 +278,6 @@ class MenuUpdate extends ExtendMenuUpdate implements
         return $this;
     }
 
-    /**
-     * @return ContentNode|null
-     */
     public function getContentNode(): ?ContentNode
     {
         return $this->contentNode;
@@ -303,17 +295,11 @@ class MenuUpdate extends ExtendMenuUpdate implements
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSystemPageRoute(): ?string
     {
         return $this->systemPageRoute;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTargetType(): ?string
     {
         if ($this->getContentNode()) {
@@ -331,18 +317,11 @@ class MenuUpdate extends ExtendMenuUpdate implements
         return null;
     }
 
-    /**
-     * @return int
-     */
     public function getLinkTarget(): int
     {
         return $this->linkTarget;
     }
 
-    /**
-     * @param int $linkTarget
-     * @return self
-     */
     public function setLinkTarget(int $linkTarget): self
     {
         $this->linkTarget = $linkTarget;

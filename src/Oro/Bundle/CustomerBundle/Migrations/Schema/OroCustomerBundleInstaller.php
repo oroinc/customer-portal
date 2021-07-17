@@ -64,8 +64,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Sets the ActivityExtension
-     *
-     * @param ActivityExtension $activityExtension
      */
     public function setActivityExtension(ActivityExtension $activityExtension)
     {
@@ -82,8 +80,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Sets the ExtendExtension
-     *
-     * @param ExtendExtension $extendExtension
      */
     public function setExtendExtension(ExtendExtension $extendExtension)
     {
@@ -161,8 +157,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_user table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerUserTable(Schema $schema)
     {
@@ -232,8 +226,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerTable(Schema $schema)
     {
@@ -289,8 +281,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_user_access_user_role table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerUserAccessCustomerUserRoleTable(Schema $schema)
     {
@@ -304,8 +294,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_group table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerGroupTable(Schema $schema)
     {
@@ -329,8 +317,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_audit table
-     *
-     * @param Schema $schema
      */
     protected function updateOroAuditTable(Schema $schema)
     {
@@ -347,8 +333,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_user_role table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerUserRoleTable(Schema $schema)
     {
@@ -419,8 +403,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_user_api table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerUserApiTable(Schema $schema)
     {
@@ -435,8 +417,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_address table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerAddressTable(Schema $schema)
     {
@@ -468,8 +448,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_adr_adr_type table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerAdrAdrTypeTable(Schema $schema)
     {
@@ -484,8 +462,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_navigation_history table
-     *
-     * @param Schema $schema
      */
     protected function createOroNavigationHistoryTable(Schema $schema)
     {
@@ -507,8 +483,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_navigation_item table
-     *
-     * @param Schema $schema
      */
     protected function createOroNavigationItemTable(Schema $schema)
     {
@@ -528,8 +502,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_cus_nav_item_pinbar table
-     *
-     * @param Schema $schema
      */
     protected function createOroNavigationItemPinbarTable(Schema $schema)
     {
@@ -545,8 +517,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_user_sdbar_st table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerUserSdbarStTable(Schema $schema)
     {
@@ -561,8 +531,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_user_sdbar_wdg table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerUserSdbarWdgTable(Schema $schema)
     {
@@ -582,8 +550,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_cus_pagestate table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccNavigationPagestateTable(Schema $schema)
     {
@@ -601,8 +567,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_sales_representatives table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerSalesRepresentativesTable(Schema $schema)
     {
@@ -614,8 +578,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_user_sales_representatives table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerUserSalesRepresentativesTable(Schema $schema)
     {
@@ -625,9 +587,6 @@ class OroCustomerBundleInstaller implements
         $table->setPrimaryKey(['customer_user_id', 'user_id']);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function createOroCustomerUserSettingsTable(Schema $schema)
     {
         $table = $schema->createTable(self::ORO_CUSTOMER_USER_SETTINGS);
@@ -643,8 +602,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_user foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerUserForeignKeys(Schema $schema)
     {
@@ -677,8 +634,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_user_access_user_role foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerUserAccessCustomerUserRoleForeignKeys(Schema $schema)
     {
@@ -699,8 +654,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerForeignKeys(Schema $schema)
     {
@@ -733,8 +686,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_user_role foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerUserRoleForeignKeys(Schema $schema)
     {
@@ -755,8 +706,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_user_api foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerUserApiForeignKeys(Schema $schema)
     {
@@ -771,8 +720,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_address foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerAddressForeignKeys(Schema $schema)
     {
@@ -811,8 +758,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_adr_adr_type foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerAdrAdrTypeForeignKeys(Schema $schema)
     {
@@ -833,8 +778,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_user_address table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerUserAddressTable(Schema $schema)
     {
@@ -866,8 +809,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_user_address foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerUserAddressForeignKeys(Schema $schema)
     {
@@ -906,8 +847,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_adr_to_adr_type table
-     *
-     * @param Schema $schema
      */
     protected function createOroCusUsrAdrToAdrTypeTable(Schema $schema)
     {
@@ -922,8 +861,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_adr_to_adr_type foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCusUsrAdrToAdrTypeForeignKeys(Schema $schema)
     {
@@ -944,8 +881,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_navigation_history foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroNavigationHistoryForeignKeys(Schema $schema)
     {
@@ -966,8 +901,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_navigation_item foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroNavigationItemForeignKeys(Schema $schema)
     {
@@ -988,8 +921,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_cus_nav_item_pinbar foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroNavigationItemPinbarForeignKeys(Schema $schema)
     {
@@ -1004,8 +935,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_user_sdbar_st foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerUserSdbarStForeignKeys(Schema $schema)
     {
@@ -1020,8 +949,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_user_sdbar_wdg foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerUserSdbarWdgForeignKeys(Schema $schema)
     {
@@ -1042,8 +969,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_cus_navigation_pagestate foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccNavigationPagestateForeignKeys(Schema $schema)
     {
@@ -1058,8 +983,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_cus_windows_state table
-     *
-     * @param Schema $schema
      */
     protected function createOroCustomerWindowsStateTable(Schema $schema)
     {
@@ -1075,8 +998,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_cus_windows_state foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerWindowsStateForeignKeys(Schema $schema)
     {
@@ -1091,8 +1012,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_sales_representatives foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerSalesRepresentativesForeignKeys(Schema $schema)
     {
@@ -1113,8 +1032,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_user_sales_representatives foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCustomerUserSalesRepresentativesForeignKeys(Schema $schema)
     {
@@ -1133,9 +1050,6 @@ class OroCustomerBundleInstaller implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroCustomerUserSettingsForeignKeys(Schema $schema)
     {
         $table = $schema->getTable(self::ORO_CUSTOMER_USER_SETTINGS);
@@ -1167,9 +1081,6 @@ class OroCustomerBundleInstaller implements
         $table->addUniqueIndex(['customer_user_id', 'website_id'], 'unique_cus_user_website');
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function addRelationsToScope(Schema $schema)
     {
         $this->scopeExtension->addScopeAssociation(
@@ -1189,7 +1100,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_group foreign keys.
-     * @param Schema $schema
      */
     protected function addOroCustomerGroupForeignKeys(Schema $schema)
     {
@@ -1210,8 +1120,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Update oro_grid_view table
-     *
-     * @param Schema $schema
      */
     private function updateOroGridViewTable(Schema $schema)
     {
@@ -1222,8 +1130,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Update oro_grid_view_user_rel table
-     *
-     * @param Schema $schema
      */
     private function updateOroGridViewUserTable(Schema $schema)
     {
@@ -1234,8 +1140,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_grid_view foreign keys
-     *
-     * @param Schema $schema
      */
     private function addOroGridViewForeignKeys(Schema $schema)
     {
@@ -1250,8 +1154,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_grid_view_user_rel foreign keys
-     *
-     * @param Schema $schema
      */
     private function addOroGridViewUserForeignKeys(Schema $schema)
     {
@@ -1266,8 +1168,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Create oro_customer_visitor table
-     *
-     * @param Schema $schema
      */
     protected function createCustomerVisitorTable(Schema $schema)
     {
@@ -1282,8 +1182,6 @@ class OroCustomerBundleInstaller implements
 
     /**
      * Add oro_customer_visitor foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addCustomerVisitorForeignKeys(Schema $schema)
     {
@@ -1298,7 +1196,6 @@ class OroCustomerBundleInstaller implements
     }
 
     /**
-     * @param Schema $schema
      * @throws \Doctrine\DBAL\Schema\SchemaException
      */
     protected function addOwnerToOroEmailAddress(Schema $schema)

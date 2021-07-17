@@ -38,12 +38,6 @@ class BusinessUnitOwnerTreeCacheJobProcessor implements MessageProcessorInterfac
      */
     private $logger;
 
-    /**
-     * @param JobRunner $jobRunner
-     * @param FrontendOwnerTreeProvider $frontendOwnerTreeProvider
-     * @param BusinessUnitMessageFactory $businessUnitMessageFactory
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         JobRunner $jobRunner,
         FrontendOwnerTreeProvider $frontendOwnerTreeProvider,

@@ -136,9 +136,6 @@ class PlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->placeholderFilter->isCustomerGroupPage($entity));
     }
 
-    /**
-     * @return array
-     */
     public function isCustomerGroupPageDataProvider(): array
     {
         return [

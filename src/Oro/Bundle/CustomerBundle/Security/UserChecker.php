@@ -17,9 +17,6 @@ class UserChecker implements UserCheckerInterface
     /** @var UserCheckerInterface */
     private $userCheckerInner;
 
-    /**
-     * @param UserCheckerInterface $userCheckerInner
-     */
     public function __construct(UserCheckerInterface $userCheckerInner)
     {
         $this->userCheckerInner = $userCheckerInner;

@@ -33,10 +33,6 @@ class FrontendCustomerUserRegistrationType extends AbstractType
     /** @var string */
     private $dataClass;
 
-    /**
-     * @param ConfigManager $configManager
-     * @param ManagerRegistry $doctrine
-     */
     public function __construct(ConfigManager $configManager, ManagerRegistry $doctrine)
     {
         $this->configManager = $configManager;
@@ -119,9 +115,6 @@ class FrontendCustomerUserRegistrationType extends AbstractType
         $this->addBuilderListeners($builder);
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     */
     private function addBuilderListeners(FormBuilderInterface $builder)
     {
         $builder->addEventListener(

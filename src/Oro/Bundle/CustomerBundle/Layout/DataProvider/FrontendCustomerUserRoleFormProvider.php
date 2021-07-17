@@ -18,11 +18,6 @@ class FrontendCustomerUserRoleFormProvider extends AbstractFormProvider
     /** @var CustomerUserRoleUpdateFrontendHandler */
     protected $handler;
 
-    /**
-     * @param FormFactoryInterface                 $formFactory
-     * @param CustomerUserRoleUpdateFrontendHandler $handler
-     * @param UrlGeneratorInterface                $router
-     */
     public function __construct(
         FormFactoryInterface $formFactory,
         CustomerUserRoleUpdateFrontendHandler $handler,

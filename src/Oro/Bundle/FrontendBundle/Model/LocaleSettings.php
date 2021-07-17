@@ -40,11 +40,6 @@ class LocaleSettings extends BaseLocaleSettings
      */
     private $themeManager;
 
-    /**
-     * @param BaseLocaleSettings $inner
-     * @param FrontendHelper $frontendHelper
-     * @param UserLocalizationManagerInterface $localizationManager
-     */
     public function __construct(
         BaseLocaleSettings $inner,
         FrontendHelper $frontendHelper,
@@ -55,17 +50,11 @@ class LocaleSettings extends BaseLocaleSettings
         $this->localizationManager = $localizationManager;
     }
 
-    /**
-     * @param LayoutContextHolder $layoutContextHolder
-     */
     public function setLayoutContextHolder(LayoutContextHolder $layoutContextHolder): void
     {
         $this->layoutContextHolder = $layoutContextHolder;
     }
 
-    /**
-     * @param ThemeManager $themeManager
-     */
     public function setThemeManager(ThemeManager $themeManager): void
     {
         $this->themeManager = $themeManager;

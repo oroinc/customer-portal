@@ -17,19 +17,12 @@ class DatagridContentTagsListener
     /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @param DataGridTagListener $dataGridTagListener
-     * @param FrontendHelper $frontendHelper
-     */
     public function __construct(DataGridTagListener $dataGridTagListener, FrontendHelper $frontendHelper)
     {
         $this->dataGridTagListener = $dataGridTagListener;
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * @param BuildAfter $event
-     */
     public function buildAfter(BuildAfter $event): void
     {
         if ($this->frontendHelper->isFrontendRequest()) {

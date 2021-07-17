@@ -34,10 +34,6 @@ trait ResetCustomerUserTrait
         return $qb->getQuery()->execute();
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @return int
-     */
     public function getRelatedEntitiesCount(CustomerUser $customerUser): int
     {
         /** @var QueryBuilder $qb */

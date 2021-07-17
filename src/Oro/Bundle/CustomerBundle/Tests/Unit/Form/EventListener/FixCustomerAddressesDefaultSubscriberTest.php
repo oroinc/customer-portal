@@ -33,9 +33,6 @@ class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestC
 
     /**
      * @dataProvider postSubmitDataProvider
-     * @param array $allAddresses
-     * @param $formAddressKey
-     * @param array $expectedAddressesData
      */
     public function testPostSubmit(array $allAddresses, $formAddressKey, array $expectedAddressesData)
     {

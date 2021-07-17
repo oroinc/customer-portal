@@ -26,12 +26,6 @@ class ResourceRestApiGetListActionUrlResolver implements ResourceApiUrlResolverI
     /** @var string */
     private $entityClass;
 
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param RestRoutesRegistry    $routesRegistry
-     * @param ValueNormalizer       $valueNormalizer
-     * @param string                $entityClass
-     */
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
         RestRoutesRegistry $routesRegistry,

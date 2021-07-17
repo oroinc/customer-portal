@@ -30,7 +30,6 @@ class BusinessUnitMessageFactoryTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider entityIdDataProvider
-     * @param int| string $entityId
      */
     public function testGetJobIdFromMessage($entityId): void
     {
@@ -43,9 +42,6 @@ class BusinessUnitMessageFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(self::JOB_ID, $this->messageFactory->getJobIdFromMessage($messageData));
     }
 
-    /**
-     * @return array
-     */
     public function entityIdDataProvider(): array
     {
         return [
@@ -90,9 +86,6 @@ class BusinessUnitMessageFactoryTest extends \PHPUnit\Framework\TestCase
         $this->messageFactory->createMessage(self::JOB_ID, self::ENTITY_CLASS, $entityId);
     }
 
-    /**
-     * @return array
-     */
     public function wrongEntityIdDataProvider(): array
     {
         return [

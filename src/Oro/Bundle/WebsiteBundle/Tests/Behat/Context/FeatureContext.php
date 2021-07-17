@@ -11,9 +11,6 @@ class FeatureContext extends OroFeatureContext
 {
     /**
      * @Given /^(?:|I )visit path "(?P<path>.*)" on (?P<subdomain>\w+) subdomain$/
-     *
-     * @param string $path
-     * @param string $subdomain
      */
     public function visitPathOnSubdomain(string $path, string $subdomain)
     {
@@ -31,8 +28,6 @@ class FeatureContext extends OroFeatureContext
 
     /**
      * @Given /^(?:|I )check path "(?P<path>.*)" is located on the base domain$/
-     *
-     * @param string $path
      */
     public function checkPathIsLocateOnTheBaseDomain(string $path)
     {

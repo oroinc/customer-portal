@@ -23,11 +23,6 @@ class ContentNodeTargetBuilder implements BuilderInterface
     /** @var ScopeManager */
     private $scopeManager;
 
-    /**
-     * @param RequestWebContentScopeProvider $requestWebContentScopeProvider
-     * @param ScopeManager $scopeManager
-     * @param LocalizationHelper $localizationHelper
-     */
     public function __construct(
         RequestWebContentScopeProvider $requestWebContentScopeProvider,
         ScopeManager $scopeManager,
@@ -46,10 +41,6 @@ class ContentNodeTargetBuilder implements BuilderInterface
         $this->applyRecursively($menu, $options);
     }
 
-    /**
-     * @param ItemInterface $menuItem
-     * @param array $options
-     */
     private function applyRecursively(ItemInterface $menuItem, array $options): void
     {
         if (!$menuItem->isDisplayed()) {
@@ -74,11 +65,6 @@ class ContentNodeTargetBuilder implements BuilderInterface
         }
     }
 
-    /**
-     * @param ContentNode $contentNode
-     *
-     * @return bool
-     */
     private function isScopeMatches(ContentNode $contentNode): bool
     {
         $contentNodeScopes = $contentNode->getScopesConsideringParent();

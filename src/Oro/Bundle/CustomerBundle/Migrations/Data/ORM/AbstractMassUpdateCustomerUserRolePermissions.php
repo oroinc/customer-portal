@@ -36,10 +36,6 @@ abstract class AbstractMassUpdateCustomerUserRolePermissions extends AbstractUpd
         $aclManager->flush();
     }
 
-    /**
-     * @param AclManager    $aclManager
-     * @param ObjectManager $manager
-     */
     protected function updateRoles(AclManager $aclManager, ObjectManager $manager)
     {
         foreach ($this->getACLData() as $roleName => $aclData) {

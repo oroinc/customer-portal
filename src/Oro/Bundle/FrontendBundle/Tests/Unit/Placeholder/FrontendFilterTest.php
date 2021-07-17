@@ -11,11 +11,6 @@ class FrontendFilterTest extends \PHPUnit\Framework\TestCase
 {
     private const BACKEND_PREFIX = '/admin';
 
-    /**
-     * @param Request|null $currentRequest
-     *
-     * @return FrontendFilter
-     */
     private function getFilter(Request $currentRequest = null): FrontendFilter
     {
         $requestStack = new RequestStack();

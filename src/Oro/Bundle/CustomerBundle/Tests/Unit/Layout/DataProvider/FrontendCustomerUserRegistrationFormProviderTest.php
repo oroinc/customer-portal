@@ -292,9 +292,6 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
         }
     }
 
-    /**
-     * @param FormInterface|null $formToCreate
-     */
     private function configureCreateForm(FormInterface $formToCreate = null)
     {
         if ($formToCreate === null) {

@@ -43,8 +43,6 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
 
     /**
      * PRE_SET_DATA event handler
-     *
-     * @param FormEvent $event
      */
     public function preSetData(FormEvent $event)
     {
@@ -54,17 +52,11 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
         ]);
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSubmit(FormEvent $event)
     {
         $this->updateCustomerUsers($event);
     }
 
-    /**
-     * @param FormEvent $event
-     */
     protected function updateCustomerUsers(FormEvent $event)
     {
         $data = $event->getData();
@@ -109,9 +101,6 @@ class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
         $event->setData($data);
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function postSubmit(FormEvent $event)
     {
         $role = $this->getRole($event);

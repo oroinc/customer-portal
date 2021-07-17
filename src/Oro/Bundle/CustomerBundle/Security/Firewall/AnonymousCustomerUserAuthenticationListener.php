@@ -60,16 +60,6 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     /** @var CustomerVisitorCookieFactory */
     private $cookieFactory;
 
-    /**
-     * @param TokenStorageInterface          $tokenStorage
-     * @param AuthenticationManagerInterface $authenticationManager
-     * @param LoggerInterface                $logger
-     * @param WebsiteManager                 $websiteManager
-     * @param CacheProvider                  $cacheProvider
-     * @param CsrfRequestManager             $csrfRequestManager
-     * @param string                         $apiPattern
-     * @param CustomerVisitorCookieFactory   $cookieFactory
-     */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
@@ -134,7 +124,6 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         }
     }
 
-
     /**
      * @return array
      */
@@ -169,10 +158,6 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         ];
     }
 
-    /**
-     * @param Request $request
-     * @param AnonymousCustomerUserToken $token
-     */
     private function saveCredentials(Request $request, AnonymousCustomerUserToken $token)
     {
         $visitor = $token->getVisitor();
@@ -186,12 +171,6 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
         );
     }
 
-    /**
-     * @param Request             $request
-     * @param TokenInterface|null $token
-     *
-     * @return bool
-     */
     private function shouldBeAuthenticatedAsCustomerVisitor(Request $request, TokenInterface $token = null): bool
     {
         if (null === $token) {
@@ -205,11 +184,6 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
             && $token->getVisitor() === null;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return bool
-     */
     private function isApiRequest(Request $request): bool
     {
         return preg_match('{' . $this->apiPattern . '}', $request->getPathInfo()) === 1;
@@ -218,10 +192,6 @@ class AnonymousCustomerUserAuthenticationListener implements ListenerInterface
     /**
      * Checks whether the request is AJAX request to API resource
      * (cookies has the session cookie and the request has "X-CSRF-Header" header with valid CSRF token).
-     *
-     * @param Request $request
-     *
-     * @return bool
      */
     private function isAjaxApiRequest(Request $request): bool
     {

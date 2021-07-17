@@ -16,9 +16,6 @@ class ScopeCriteriaProvider implements ScopeCriteriaProviderInterface
     /** @var WebsiteManager */
     private $websiteManager;
 
-    /**
-     * @param WebsiteManager $websiteManager
-     */
     public function __construct(WebsiteManager $websiteManager)
     {
         $this->websiteManager = $websiteManager;

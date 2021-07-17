@@ -235,7 +235,6 @@ class CustomerUserAddressControllerTest extends WebTestCase
         ];
         $form['oro_customer_customer_user_typed_address[defaults][default]'] = [false, AddressType::TYPE_SHIPPING];
 
-
         $doc = new \DOMDocument("1.0");
         $doc->loadHTML(
             '<select name="oro_customer_customer_user_typed_address[country]" ' .

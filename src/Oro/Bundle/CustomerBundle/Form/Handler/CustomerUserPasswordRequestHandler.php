@@ -24,11 +24,6 @@ class CustomerUserPasswordRequestHandler
     /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * @param CustomerUserManager $userManager
-     * @param TranslatorInterface $translator
-     * @param LoggerInterface     $logger
-     */
     public function __construct(
         CustomerUserManager $userManager,
         TranslatorInterface $translator,
@@ -73,12 +68,6 @@ class CustomerUserPasswordRequestHandler
         return $result;
     }
 
-    /**
-     * @param CustomerUser $user
-     * @param string       $email
-     *
-     * @return bool
-     */
     private function sendResetPasswordEmail(CustomerUser $user, string $email): bool
     {
         $result = true;

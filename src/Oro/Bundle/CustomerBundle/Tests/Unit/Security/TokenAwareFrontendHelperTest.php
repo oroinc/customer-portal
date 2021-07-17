@@ -16,11 +16,6 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
 {
     private const BACKEND_PREFIX = '/admin';
 
-    /**
-     * @param Request|null $currentRequest
-     *
-     * @return RequestStack
-     */
     private function getRequestStack(Request $currentRequest = null): RequestStack
     {
         $requestStack = new RequestStack();
@@ -31,11 +26,6 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
         return $requestStack;
     }
 
-    /**
-     * @param TokenInterface|null $currentToken
-     *
-     * @return TokenStorageInterface
-     */
     private function getTokenStorage(TokenInterface $currentToken = null): TokenStorageInterface
     {
         $tokenStorage = new TokenStorage();

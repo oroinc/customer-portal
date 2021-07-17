@@ -23,10 +23,6 @@ class WebsiteUrlResolver
     /** @var ConfigManager */
     protected $configManager;
 
-    /**
-     * @param ConfigManager         $configManager
-     * @param UrlGeneratorInterface $urlGenerator
-     */
     public function __construct(ConfigManager $configManager, UrlGeneratorInterface $urlGenerator)
     {
         $this->configManager = $configManager;

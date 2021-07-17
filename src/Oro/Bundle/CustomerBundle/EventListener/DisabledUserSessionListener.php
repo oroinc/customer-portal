@@ -19,19 +19,12 @@ class DisabledUserSessionListener
     /** @var LogoutUrlGenerator */
     private $logoutUrlGenerator;
 
-    /**
-     * @param LogoutUrlGenerator $logoutUrlGenerator
-     * @param FrontendHelper     $frontendHelper
-     */
     public function __construct(LogoutUrlGenerator $logoutUrlGenerator, FrontendHelper $frontendHelper)
     {
         $this->logoutUrlGenerator = $logoutUrlGenerator;
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * @param GetResponseForExceptionEvent $event
-     */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         if ($event->getThrowable() instanceof LockedException

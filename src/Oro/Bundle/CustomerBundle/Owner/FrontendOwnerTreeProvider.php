@@ -52,15 +52,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
     /** @var OwnerTreeMessageFactory */
     private $ownerTreeMessageFactory;
 
-    /**
-     * @param ManagerRegistry $doctrine
-     * @param DatabaseChecker $databaseChecker
-     * @param CacheProvider $cache
-     * @param OwnershipMetadataProviderInterface $ownershipMetadataProvider
-     * @param TokenStorageInterface $tokenStorage
-     * @param MessageProducerInterface $messageProducer
-     * @param OwnerTreeMessageFactory $ownerTreeMessageFactory
-     */
     public function __construct(
         ManagerRegistry $doctrine,
         DatabaseChecker $databaseChecker,
@@ -128,9 +119,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         return $tree;
     }
 
-    /**
-     * @param int $cacheTtl
-     */
     public function setCacheTtl(int $cacheTtl): void
     {
         $this->cacheTtl = $cacheTtl;
@@ -159,12 +147,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         }
     }
 
-    /**
-     * @param array  $item
-     * @param string $property
-     *
-     * @return int|null
-     */
     protected function getId(array $item, string $property): ?int
     {
         $id = $item[$property];
@@ -192,10 +174,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         ];
     }
 
-    /**
-     * @param OwnerTreeBuilderInterface $tree
-     * @param $businessUnits
-     */
     protected function setSubordinateBusinessUnitIds(OwnerTreeBuilderInterface $tree, $businessUnits)
     {
         foreach ($businessUnits as $parentId => $businessUnitIds) {
@@ -203,30 +181,16 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         }
     }
 
-    /**
-     * @param string $className
-     *
-     * @return EntityManagerInterface
-     */
     private function getManagerForClass(string $className): EntityManagerInterface
     {
         return $this->doctrine->getManagerForClass($className);
     }
 
-    /**
-     * @param string $entityClass
-     *
-     * @return EntityRepository
-     */
     private function getRepository(string $entityClass): EntityRepository
     {
         return $this->getManagerForClass($entityClass)->getRepository($entityClass);
     }
 
-    /**
-     * @param array $customerIds
-     * @return array
-     */
     private function executeCustomerUsersQuery(array $customerIds = []): array
     {
         $customerUserClass = $this->ownershipMetadataProvider->getUserClass();
@@ -287,9 +251,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         return $this->addCustomersSubtree($tree, $topCustomerId, $customers, $columnMap);
     }
 
-    /**
-     * @return int|null
-     */
     private function getTopLevelCustomerId(): ?int
     {
         if ($this->currentCustomer) {
@@ -318,10 +279,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         return $topCustomerId;
     }
 
-    /**
-     * @param Customer $customer
-     * @return int
-     */
     private function getRootCustomer(Customer $customer): int
     {
         $originalId = $customerId = $customer->getId();
@@ -338,10 +295,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         return $customerId;
     }
 
-    /**
-     * @param int $customerId
-     * @return int|null
-     */
     private function getCustomerParentId(int $customerId): ?int
     {
         $customerClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
@@ -358,18 +311,11 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
             ->getSingleScalarResult();
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @return string
-     */
     private function getCustomerUserCacheKey(CustomerUser $customerUser): string
     {
         return sprintf('user_%d', $customerUser->getId());
     }
 
-    /**
-     * @return string|null
-     */
     private function getOwnerTreeCacheKey(): ?string
     {
         $customerId = $this->getTopLevelCustomerId();
@@ -380,9 +326,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         return sprintf('%s_%s', self::CACHE_KEY, $customerId);
     }
 
-    /**
-     * @return CustomerUser|null
-     */
     private function getCustomerUser(): ?CustomerUser
     {
         $token = $this->tokenStorage->getToken();
@@ -398,11 +341,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         return $user;
     }
 
-    /**
-     * @param OwnerTreeBuilderInterface $tree
-     * @param iterable $customers
-     * @param array $columnMap
-     */
     private function addAllCustomers(OwnerTreeBuilderInterface $tree, iterable $customers, array $columnMap): void
     {
         $businessUnitRelations = [];
@@ -474,9 +412,6 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         return $customerIds;
     }
 
-    /**
-     * @return int
-     */
     private function getCacheTtl(): int
     {
         return $this->cacheTtl ?? self::DEFAULT_CACHE_TTL;

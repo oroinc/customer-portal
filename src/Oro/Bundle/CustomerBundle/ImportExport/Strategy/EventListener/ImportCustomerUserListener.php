@@ -37,12 +37,6 @@ class ImportCustomerUserListener
      */
     protected $strategyHelper;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param CustomerUserManager $customerUserManager
-     * @param TranslatorInterface $translator
-     * @param ImportStrategyHelper $strategyHelper
-     */
     public function __construct(
         ManagerRegistry $registry,
         CustomerUserManager $customerUserManager,
@@ -55,9 +49,6 @@ class ImportCustomerUserListener
         $this->strategyHelper = $strategyHelper;
     }
 
-    /**
-     * @param StrategyEvent $event
-     */
     public function onProcessAfter(StrategyEvent $event)
     {
         $entity = $event->getEntity();
@@ -131,9 +122,6 @@ class ImportCustomerUserListener
         return false;
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     protected function updatePasswordIfEmpty(CustomerUser $customerUser)
     {
         if ($customerUser->getPassword()) {

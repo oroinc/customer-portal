@@ -53,9 +53,6 @@ class CustomerGroupConfigurationControllerTest extends AbstractConfigurationCont
         ];
     }
 
-    /**
-     * @return CustomerGroup
-     */
     private function getCustomerGroup(): CustomerGroup
     {
         $managerRegistry = $this->getContainer()->get('doctrine');

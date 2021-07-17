@@ -60,10 +60,6 @@ class WebsiteScopedDataType extends AbstractType
         return self::NAME;
     }
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param AclHelper $aclHelper
-     */
     public function __construct(ManagerRegistry $registry, AclHelper $aclHelper)
     {
         $this->registry = $registry;
@@ -114,9 +110,6 @@ class WebsiteScopedDataType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'preSubmit']);
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSubmit(FormEvent $event)
     {
         $data = $event->getData();
@@ -149,7 +142,6 @@ class WebsiteScopedDataType extends AbstractType
     }
 
     /**
-     * @param FormEvent $event
      * @throws \Doctrine\ORM\ORMException
      */
     public function preSetData(FormEvent $event)

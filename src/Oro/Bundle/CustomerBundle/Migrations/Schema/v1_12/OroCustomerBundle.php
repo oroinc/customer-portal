@@ -37,9 +37,6 @@ class OroCustomerBundle implements Migration
         ));
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOwnership(Schema $schema)
     {
         $table = $schema->getTable('oro_customer_group');

@@ -60,7 +60,6 @@ class WebsiteListenerTest extends \PHPUnit\Framework\TestCase
         $this->uow->expects($this->never())
             ->method('getScheduledEntityDeletions');
 
-
         $this->listener->onFlush($this->getEventArgs());
     }
 

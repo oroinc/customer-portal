@@ -26,11 +26,6 @@ class OrganizationGuesser implements OrganizationGuesserInterface
     /** @var WebsiteManager */
     private $websiteManager;
 
-    /**
-     * @param OrganizationGuesserInterface $innerGuesser
-     * @param FrontendHelper               $frontendHelper
-     * @param WebsiteManager               $websiteManager
-     */
     public function __construct(
         OrganizationGuesserInterface $innerGuesser,
         FrontendHelper $frontendHelper,
@@ -40,7 +35,6 @@ class OrganizationGuesser implements OrganizationGuesserInterface
         $this->frontendHelper = $frontendHelper;
         $this->websiteManager = $websiteManager;
     }
-
 
     /**
      * {@inheritdoc}

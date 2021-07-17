@@ -211,9 +211,6 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitTargetPageDataProvider
-     *
-     * @param array $submitData
-     * @param MenuUpdate $expectedMenuUpdate
      */
     public function testSubmitTargetPage(array $submitData, MenuUpdate $expectedMenuUpdate): void
     {
@@ -233,9 +230,6 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         $this->assertEquals($expectedMenuUpdate, $form->getData());
     }
 
-    /**
-     * @return array
-     */
     public function submitTargetPageDataProvider(): array
     {
         $contentNode = $this->createMock(ContentNode::class);
@@ -306,9 +300,6 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         return $factory;
     }
 
-    /**
-     * @return ConfigProvider
-     */
     private function mockConfigProvider(): ConfigProvider
     {
         $configProvider = $this->createMock(ConfigProvider::class);

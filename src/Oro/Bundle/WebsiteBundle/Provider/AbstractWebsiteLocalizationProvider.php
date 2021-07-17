@@ -24,11 +24,6 @@ abstract class AbstractWebsiteLocalizationProvider
     /** @var WebsiteRepository */
     private $websiteRepository;
 
-    /**
-     * @param ConfigManager $configManager
-     * @param LocalizationManager $localizationManager
-     * @param DoctrineHelper $doctrineHelper
-     */
     public function __construct(
         ConfigManager $configManager,
         LocalizationManager $localizationManager,

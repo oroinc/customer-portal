@@ -76,7 +76,6 @@ class WebsiteTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($thirdWebsite->getRelatedWebsites()->toArray());
     }
 
-
     public function testPrePersist()
     {
         $website = new Website();

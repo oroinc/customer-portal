@@ -30,9 +30,6 @@ class FrontendCustomerUserProfileType extends AbstractType
      */
     protected $dataClass;
 
-    /**
-     * @param ConfigManager $configManager
-     */
     public function __construct(ConfigManager $configManager)
     {
         $this->configManager = $configManager;
@@ -123,8 +120,6 @@ class FrontendCustomerUserProfileType extends AbstractType
 
     /**
      * PRE_SET_DATA event handler
-     *
-     * @param FormEvent $event
      */
     public function preSetData(FormEvent $event)
     {

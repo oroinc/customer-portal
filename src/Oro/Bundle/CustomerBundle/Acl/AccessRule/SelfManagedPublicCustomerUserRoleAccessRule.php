@@ -18,9 +18,6 @@ class SelfManagedPublicCustomerUserRoleAccessRule implements AccessRuleInterface
     /** @var TokenAccessorInterface */
     private $tokenAccessor;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     */
     public function __construct(TokenAccessorInterface $tokenAccessor)
     {
         $this->tokenAccessor = $tokenAccessor;
@@ -53,8 +50,6 @@ class SelfManagedPublicCustomerUserRoleAccessRule implements AccessRuleInterface
      * (selfManaged = TRUE AND public = TRUE)
      * AND
      * ({previous expression} OR (customer IS NULL AND organization = {organizationId}))
-     *
-     * @param Criteria            $criteria
      */
     private function processViewPermission(Criteria $criteria): void
     {

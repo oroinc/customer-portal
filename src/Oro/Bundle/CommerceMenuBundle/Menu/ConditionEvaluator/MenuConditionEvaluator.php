@@ -21,10 +21,6 @@ class MenuConditionEvaluator implements ConditionEvaluatorInterface
      */
     private $logger;
 
-    /**
-     * @param ExpressionLanguage $expressionLanguage
-     * @param LoggerInterface    $logger
-     */
     public function __construct(ExpressionLanguage $expressionLanguage, LoggerInterface $logger)
     {
         $this->expressionLanguage = $expressionLanguage;

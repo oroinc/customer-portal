@@ -42,11 +42,6 @@ class FrontendJsRoutingDumpCommandTest extends WebTestCase
         static::assertStringContainsString($this->getEndPath('frontend_custom_routes', 'json'), $result);
     }
 
-    /**
-     * @param string $filename
-     * @param string $format
-     * @return string
-     */
     private function getEndPath(string $filename, string $format): string
     {
         return implode(DIRECTORY_SEPARATOR, ['', 'public', 'media', 'js', $filename . '.' . $format]);

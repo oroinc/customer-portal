@@ -155,9 +155,6 @@ class CustomerUserRole extends ExtendCustomerUserRole implements OrganizationAwa
      */
     protected $public = true;
 
-    /**
-     * @param string $role
-     */
     public function __construct(string $role = '')
     {
         if ($role) {

@@ -31,9 +31,6 @@ class ThemeConfiguratorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider fieldsRootDataProvider
-     *
-     * @param array $fieldsRoot
-     * @param array $expectedOptions
      */
     public function testConfigure(array $fieldsRoot, array $expectedOptions)
     {

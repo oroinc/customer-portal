@@ -129,11 +129,6 @@ class LoadFeaturedMenuData extends AbstractFixture implements ContainerAwareInte
         return $scopeManager->findOrCreate('menu_frontend_visibility', []);
     }
 
-    /**
-     * @param array $data
-     *
-     * @return MenuUpdate
-     */
     protected function createMenuUpdate(array $data): MenuUpdate
     {
         $menuUpdate = new MenuUpdate();

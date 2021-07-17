@@ -18,10 +18,6 @@ class OwnerTreeMessageFactory
      */
     private $resolver;
 
-    /**
-     * @param int $cacheTtl
-     * @return array
-     */
     public function createMessage(int $cacheTtl): array
     {
         return $this->getResolvedData([self::CACHE_TTL => $cacheTtl]);
@@ -39,9 +35,6 @@ class OwnerTreeMessageFactory
         return $data[self::CACHE_TTL];
     }
 
-    /**
-     * @return OptionsResolver
-     */
     private function getOptionsResolver(): OptionsResolver
     {
         if (null === $this->resolver) {
@@ -60,8 +53,6 @@ class OwnerTreeMessageFactory
     }
 
     /**
-     * @param array $data
-     * @return array
      * @throws InvalidArgumentException
      */
     private function getResolvedData(array $data): array

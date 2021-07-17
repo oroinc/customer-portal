@@ -29,12 +29,6 @@ class CustomerUserScopeCacheKeyBuilder implements ScopeCacheKeyBuilderInterface
     /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @param ScopeCacheKeyBuilderInterface $innerBuilder
-     * @param TokenStorageInterface         $tokenStorage
-     * @param WebsiteManager                $websiteManager
-     * @param FrontendHelper                $frontendHelper
-     */
     public function __construct(
         ScopeCacheKeyBuilderInterface $innerBuilder,
         TokenStorageInterface $tokenStorage,
@@ -77,11 +71,6 @@ class CustomerUserScopeCacheKeyBuilder implements ScopeCacheKeyBuilderInterface
         return $cacheKey;
     }
 
-    /**
-     * @param TokenInterface $token
-     *
-     * @return string|null
-     */
     private function getCustomerUserId(TokenInterface $token): ?string
     {
         if ($token instanceof AnonymousCustomerUserToken) {

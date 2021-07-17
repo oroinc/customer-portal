@@ -24,9 +24,6 @@ class FrontendApiDocPass implements CompilerPassInterface
         $this->configureHtmlFormatters($container);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     private function configureValidateApiDocViewListener(ContainerBuilder $container)
     {
         $container->getDefinition('oro_api.api_doc.validate_view_listener')
@@ -35,9 +32,6 @@ class FrontendApiDocPass implements CompilerPassInterface
             ->addArgument($container->getParameter(OroFrontendExtension::API_DOC_DEFAULT_VIEW_PARAMETER_NAME));
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     private function configureHtmlFormatters(ContainerBuilder $container)
     {
         $htmlFormatters = $this->getHtmlFormatters($container);
@@ -98,12 +92,6 @@ class FrontendApiDocPass implements CompilerPassInterface
         return $htmlFormatters;
     }
 
-
-    /**
-     * @param ContainerBuilder $container
-     *
-     * @return array
-     */
     private function getApiDocViews(ContainerBuilder $container): array
     {
         $config = DependencyInjectionUtil::getConfig($container);

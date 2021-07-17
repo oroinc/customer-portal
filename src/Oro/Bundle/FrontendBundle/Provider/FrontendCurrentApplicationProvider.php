@@ -17,10 +17,6 @@ class FrontendCurrentApplicationProvider extends CurrentApplicationProvider
     /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     * @param FrontendHelper        $frontendHelper
-     */
     public function __construct(TokenStorageInterface $tokenStorage, FrontendHelper $frontendHelper)
     {
         parent::__construct($tokenStorage);

@@ -192,7 +192,7 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
         return $this->handleOwnerOfExistingCustomer($entity);
     }
-    
+
     /**
      * @param Customer $entity
      * @return bool

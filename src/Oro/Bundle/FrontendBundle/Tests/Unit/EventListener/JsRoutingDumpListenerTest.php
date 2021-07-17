@@ -53,11 +53,6 @@ class JsRoutingDumpListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(123, $event->getExitCode());
     }
 
-    /**
-     * @param string $commandName
-     * @param Application $app
-     * @return ConsoleTerminateEvent
-     */
     private function getEvent(string $commandName, Application $app): ConsoleTerminateEvent
     {
         /** @var Command|\PHPUnit\Framework\MockObject\MockObject $command */

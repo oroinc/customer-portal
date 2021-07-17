@@ -21,9 +21,6 @@ class PermissionGrantingStrategy implements PermissionGrantingStrategyInterface
     /** @var InnerStrategy */
     private $innerStrategy;
 
-    /**
-     * @param InnerStrategy $innerStrategy
-     */
     public function __construct(InnerStrategy $innerStrategy)
     {
         $this->innerStrategy = $innerStrategy;

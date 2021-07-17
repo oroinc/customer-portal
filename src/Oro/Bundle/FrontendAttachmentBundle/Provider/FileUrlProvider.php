@@ -39,15 +39,6 @@ class FileUrlProvider implements FileUrlProviderInterface
      */
     private $filenameProvider;
 
-    /**
-     * @param FileUrlProviderInterface $innerFileUrlProvider
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param FileApplicationsProvider $fileApplicationsProvider
-     * @param CurrentApplicationProviderInterface $currentApplicationProvider
-     * @param FileAccessControlChecker $fileAccessControlChecker
-     * @param ConfigManager $configManager
-     * @param FileNameProviderInterface $filenameProvider
-     */
     public function __construct(
         FileUrlProviderInterface $innerFileUrlProvider,
         UrlGeneratorInterface $urlGenerator,
@@ -133,11 +124,6 @@ class FileUrlProvider implements FileUrlProviderInterface
         return $this->innerFileUrlProvider->getFilteredImageUrl($file, $filterName, $referenceType);
     }
 
-    /**
-     * @param File $file
-     *
-     * @return bool
-     */
     private function isPublicOrFrontend(File $file): bool
     {
         $fileApplications = $this->fileApplicationsProvider->getFileApplications($file);
@@ -158,9 +144,6 @@ class FileUrlProvider implements FileUrlProviderInterface
         return !$this->isBackofficeApplication();
     }
 
-    /**
-     * @return bool
-     */
     private function isBackofficeApplication(): bool
     {
         $currentApplication = $this->currentApplicationProvider->getCurrentApplication();

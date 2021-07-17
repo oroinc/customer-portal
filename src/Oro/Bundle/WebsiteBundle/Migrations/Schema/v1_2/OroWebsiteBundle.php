@@ -28,7 +28,6 @@ class OroWebsiteBundle implements Migration, ActivityExtensionAwareInterface
     }
 
     /**
-     * @param Schema $schema
      * @throws \Doctrine\DBAL\Schema\SchemaException
      */
     protected function addIndexForCreateAndUpdateFields(Schema $schema)
@@ -38,16 +37,12 @@ class OroWebsiteBundle implements Migration, ActivityExtensionAwareInterface
         $table->addIndex(['updated_at'], 'idx_orob2b_website_updated_at', []);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addNoteAssociations(Schema $schema)
     {
         $this->activityExtension->addActivityAssociation($schema, 'oro_note', self::WEBSITE_TABLE_NAME);
     }
 
     /**
-     * @param Schema $schema
      * @throws \Doctrine\DBAL\Schema\SchemaException
      */
     protected function allowNullOnUrl(Schema $schema)

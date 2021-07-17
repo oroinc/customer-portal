@@ -10,9 +10,6 @@ use Symfony\Component\Console\Event\ConsoleTerminateEvent;
  */
 class JsRoutingDumpListener
 {
-    /**
-     * @param ConsoleTerminateEvent $event
-     */
     public function afterConsoleCommand(ConsoleTerminateEvent $event): void
     {
         $command = $event->getCommand();

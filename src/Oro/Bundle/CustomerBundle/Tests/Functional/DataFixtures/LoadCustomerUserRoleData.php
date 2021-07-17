@@ -34,9 +34,6 @@ class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtu
         ];
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         $this->loadRoleWithCustomerUser(

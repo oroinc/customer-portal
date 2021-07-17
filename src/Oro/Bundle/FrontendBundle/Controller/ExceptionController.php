@@ -113,9 +113,6 @@ class ExceptionController extends BaseExceptionController
             ->trans(sprintf('oro_frontend.exception.status_text.%d', $code));
     }
 
-    /**
-     * @return bool
-     */
     private function isCircularHandlingException(): bool
     {
         $parentRequest = $this->getParentRequest();
@@ -123,9 +120,6 @@ class ExceptionController extends BaseExceptionController
         return $parentRequest && $parentRequest->get('_route') === self::EXCEPTION_ROUTE_NAME;
     }
 
-    /**
-     * @param Request $request
-     */
     private function updateRequest(Request $request): void
     {
         $parentRequest = $this->getParentRequest();
@@ -142,9 +136,6 @@ class ExceptionController extends BaseExceptionController
         $request->server->add($parentRequest->server->all());
     }
 
-    /**
-     * @return Request|null
-     */
     private function getParentRequest(): ?Request
     {
         return $this->container->get(RequestStack::class)->getParentRequest();
@@ -152,10 +143,6 @@ class ExceptionController extends BaseExceptionController
 
     /**
      * Determines the status code to use for the response.
-     *
-     * @param \Throwable $exception
-     *
-     * @return int
      */
     private function getStatusCodeFromThrowable(\Throwable $exception): int
     {
@@ -172,9 +159,6 @@ class ExceptionController extends BaseExceptionController
         return 500;
     }
 
-    /**
-     * @return ExceptionValueMap
-     */
     private function getExceptionCodes(): ExceptionValueMap
     {
         if (!$this->exceptionCodes) {

@@ -15,9 +15,6 @@ trait WebsiteTrait
      */
     abstract protected static function getContainer();
 
-    /**
-     * @return Website
-     */
     protected function getDefaultWebsite(): Website
     {
         return self::getContainer()

@@ -150,8 +150,6 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
 
     /**
      * @dataProvider preSubmitProvider
-     * @param array $data
-     * @param array $expected
      */
     public function testPreSubmit(array $data, array $expected)
     {

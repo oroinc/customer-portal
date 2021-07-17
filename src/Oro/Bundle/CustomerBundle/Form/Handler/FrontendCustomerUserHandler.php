@@ -24,12 +24,6 @@ class FrontendCustomerUserHandler extends FormHandler
     /** @var CustomerUserManager */
     private $userManager;
 
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param DoctrineHelper $doctrineHelper
-     * @param RequestWebsiteProvider $requestWebsiteProvider
-     * @param CustomerUserManager $userManager
-     */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         DoctrineHelper $doctrineHelper,

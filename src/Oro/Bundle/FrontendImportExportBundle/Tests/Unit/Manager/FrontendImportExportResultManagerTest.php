@@ -50,14 +50,6 @@ class FrontendImportExportResultManagerTest extends TestCase
 
     /**
      * @dataProvider saveResultDataProvider
-     *
-     * @param int $jobId
-     * @param string $type
-     * @param string $entity
-     * @param CustomerUser $customerUser
-     * @param string $fileName
-     * @param array $options
-     * @param FrontendImportExportResult $expected
      */
     public function testSaveResult(
         int $jobId,

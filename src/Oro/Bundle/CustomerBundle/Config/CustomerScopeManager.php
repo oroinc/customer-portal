@@ -53,10 +53,6 @@ class CustomerScopeManager extends AbstractScopeManager
         return $entity instanceof Customer || $this->isCustomerAware($entity);
     }
 
-    /**
-     * @param $entity
-     * @return bool
-     */
     private function isCustomerAware($entity): bool
     {
         return $entity instanceof CustomerAwareInterface && $entity->getCustomer();
@@ -94,9 +90,6 @@ class CustomerScopeManager extends AbstractScopeManager
         return $entity->getId();
     }
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     */
     public function setTokenStorage(TokenStorageInterface $tokenStorage): void
     {
         $this->tokenStorage = $tokenStorage;

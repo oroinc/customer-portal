@@ -19,9 +19,6 @@ class LoadAdminCustomerUserData extends LoadCustomerUserData
         return array_merge(parent::getDependencies(), [LoadCustomerUserRoles::class]);
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     protected function initializeCustomerUser(CustomerUser $customerUser)
     {
         $customerUser
