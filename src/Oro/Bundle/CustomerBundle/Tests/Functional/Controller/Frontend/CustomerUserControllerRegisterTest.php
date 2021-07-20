@@ -360,9 +360,6 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         return $this->client->submit($form, $submittedData);
     }
 
-    /**
-     * @param Crawler $crawler
-     */
     protected function assertKnownEmail(Crawler $crawler)
     {
         $form = $crawler->selectButton('Request')->form();

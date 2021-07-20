@@ -17,7 +17,6 @@ class AddOwnerToOroEmailAddress implements Migration
     }
 
     /**
-     * @param Schema $schema
      * @throws \Doctrine\DBAL\Schema\SchemaException
      */
     protected function addOwnerToOroEmailAddress(Schema $schema)

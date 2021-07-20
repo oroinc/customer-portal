@@ -22,11 +22,6 @@ class FrontendLoginListenerDecorator
     /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @param KernelInterface $kernel
-     * @param LoginListener   $loginListener
-     * @param FrontendHelper  $frontendHelper
-     */
     public function __construct(
         KernelInterface $kernel,
         LoginListener $loginListener,
@@ -37,9 +32,6 @@ class FrontendLoginListenerDecorator
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * @param InteractiveLoginEvent $event
-     */
     public function onLogin(InteractiveLoginEvent $event)
     {
         if ($this->frontendHelper->isFrontendUrl($event->getRequest()->getPathInfo())

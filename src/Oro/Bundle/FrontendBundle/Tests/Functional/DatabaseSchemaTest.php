@@ -47,9 +47,6 @@ class DatabaseSchemaTest extends WebTestCase
         return md5(json_encode($connection->getParams()));
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function assertSchema(Schema $schema)
     {
         $tableNames = array_map(

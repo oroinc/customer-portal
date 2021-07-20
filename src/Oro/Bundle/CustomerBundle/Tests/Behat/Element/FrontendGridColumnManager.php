@@ -7,7 +7,6 @@ use Oro\Bundle\DataGridBundle\Tests\Behat\Element\GridColumnManager;
 
 class FrontendGridColumnManager extends GridColumnManager
 {
-
     /**
      * {@inheritdoc}
      */

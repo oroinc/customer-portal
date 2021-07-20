@@ -24,9 +24,6 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
     /** @var bool|null */
     private $isCaseSensitiveEmailEnabled;
 
-    /**
-     * @param ConfigManager $configManager
-     */
     public function setConfigManager(ConfigManager $configManager): void
     {
         $this->configManager = $configManager;
@@ -274,9 +271,6 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         return $identityValues;
     }
 
-    /**
-     * @return bool
-     */
     private function isCaseInsensitiveEmailEnabled(): bool
     {
         if ($this->isCaseSensitiveEmailEnabled === null) {
@@ -325,10 +319,6 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
         return [];
     }
 
-    /**
-     * @param CustomerUser $entity
-     * @return string|null
-     */
     private function getEntityEmail(CustomerUser $entity): ?string
     {
         if ($this->isCaseInsensitiveEmailEnabled()) {

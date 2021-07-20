@@ -44,8 +44,6 @@ class OroCustomerBundle implements
 
     /**
      * Create oro_customer_visitor table
-     *
-     * @param Schema $schema
      */
     protected function createCustomerVisitorTable(Schema $schema)
     {

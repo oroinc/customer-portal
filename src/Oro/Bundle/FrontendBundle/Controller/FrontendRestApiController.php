@@ -15,9 +15,6 @@ class FrontendRestApiController
     /** @var RequestHandler */
     private $requestHandler;
 
-    /**
-     * @param RequestHandler $requestHandler
-     */
     public function __construct(RequestHandler $requestHandler)
     {
         $this->requestHandler = $requestHandler;
@@ -26,15 +23,11 @@ class FrontendRestApiController
     /**
      * Handle an entity
      *
-     * @param Request $request
-     *
      * @ApiDoc(
      *     description="Handle an entity",
      *     resource=true,
      *     views={"frontend_rest_json_api"}
      * )
-     *
-     * @return Response
      */
     public function itemAction(Request $request): Response
     {
@@ -44,15 +37,11 @@ class FrontendRestApiController
     /**
      * Handle a list of entities
      *
-     * @param Request $request
-     *
      * @ApiDoc(
      *     description="Handle a list of entities",
      *     resource=true,
      *     views={"frontend_rest_json_api"}
      * )
-     *
-     * @return Response
      */
     public function listAction(Request $request): Response
     {
@@ -62,15 +51,11 @@ class FrontendRestApiController
     /**
      * Handle a subresource
      *
-     * @param Request $request
-     *
      * @ApiDoc(
      *     description="Handle a subresource",
      *     resource=true,
      *     views={"frontend_rest_json_api"}
      * )
-     *
-     * @return Response
      */
     public function subresourceAction(Request $request): Response
     {
@@ -80,15 +65,11 @@ class FrontendRestApiController
     /**
      * Handle a relationship
      *
-     * @param Request $request
-     *
      * @ApiDoc(
      *     description="Handle a relationship",
      *     resource=true,
      *     views={"frontend_rest_json_api"}
      * )
-     *
-     * @return Response
      */
     public function relationshipAction(Request $request): Response
     {
@@ -98,15 +79,11 @@ class FrontendRestApiController
     /**
      * Handle an entity without identifier
      *
-     * @param Request $request
-     *
      * @ApiDoc(
      *     description="Handle an entity without identifier",
      *     resource=true,
      *     views={"frontend_rest_json_api"}
      * )
-     *
-     * @return Response
      */
     public function itemWithoutIdAction(Request $request): Response
     {

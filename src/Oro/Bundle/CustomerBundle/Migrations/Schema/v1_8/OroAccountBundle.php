@@ -41,10 +41,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface, Orde
         $queries->addPostQuery(new RenameConfigSectionQuery('oro_account', 'oro_customer'));
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameActivityTables(Schema $schema, QueryBag $queries)
     {
         $extension = $this->renameExtension;
@@ -60,10 +56,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface, Orde
         ));
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameCustomerActivityTables(Schema $schema, QueryBag $queries)
     {
         if ($schema->hasTable('oro_rel_c3990ba6b28b6f38e2d624')) {
@@ -118,9 +110,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface, Orde
         }
     }
 
-    /**
-     * @param QueryBag $queries
-     */
     private function renameOldActivityTables(QueryBag $queries)
     {
         // email to account user association
@@ -133,10 +122,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface, Orde
         ));
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function updateAttachments(Schema $schema, QueryBag $queries)
     {
         $extension = $this->renameExtension;
@@ -196,9 +181,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface, Orde
         ));
     }
 
-    /**
-     * @param QueryBag $queries
-     */
     private function updateOldAttachments(QueryBag $queries)
     {
         $queries->addQuery(new UpdateExtendRelationQuery(
@@ -218,9 +200,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface, Orde
         ));
     }
 
-    /**
-     * @param QueryBag $queries
-     */
     private function updateTableField(QueryBag $queries)
     {
         $queries->addQuery(new UpdateTableFieldQuery(
@@ -266,10 +245,6 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface, Orde
         $this->renameExtension = $renameExtension;
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function dropVisibilityTables(Schema $schema, QueryBag $queries)
     {
         $schema->dropTable('oro_category_visibility');

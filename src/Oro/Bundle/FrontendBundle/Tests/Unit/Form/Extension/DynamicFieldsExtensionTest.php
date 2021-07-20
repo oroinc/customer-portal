@@ -68,11 +68,6 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider buildFormDataProvider
-     *
-     * @param bool $isFrontendRequest
-     * @param array $extend
-     * @param array $frontend
-     * @param bool $expected
      */
     public function testBuildForm(bool $isFrontendRequest, array $extend, array $frontend, bool $expected): void
     {
@@ -98,9 +93,6 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
         $this->assertEquals($expected, $form->has('test'));
     }
 
-    /**
-     * @return array
-     */
     public function buildFormDataProvider(): array
     {
         return [

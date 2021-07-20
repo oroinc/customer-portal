@@ -14,18 +14,11 @@ class CustomerUserReassignEventListener
     /** @var CustomerUserReassignUpdaterInterface */
     private $customerUserReassignUpdater;
 
-    /**
-     * @param CustomerUserReassignUpdaterInterface $customerUserReassignUpdater
-     */
     public function __construct(CustomerUserReassignUpdaterInterface $customerUserReassignUpdater)
     {
         $this->customerUserReassignUpdater = $customerUserReassignUpdater;
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @param PreUpdateEventArgs $event
-     */
     public function preUpdate(CustomerUser $customerUser, PreUpdateEventArgs $event)
     {
         if (!$event->hasChangedField('customer')) {

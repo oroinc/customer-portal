@@ -15,17 +15,11 @@ class AssetsRequestListener
      */
     private $context;
 
-    /**
-     * @param RequestContext $context
-     */
     public function __construct(RequestContext $context)
     {
         $this->context = $context;
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
     public function onKernelRequest(GetResponseEvent $event)
     {
         $this->context->fromRequest($event->getRequest());

@@ -77,10 +77,6 @@ class OroAccountBundle implements
         $this->alterScopes($schema, $queries);
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameCustomerUserSidebarWidget(Schema $schema, QueryBag $queries)
     {
         $table = $schema->getTable("oro_account_user_sdbar_wdg");
@@ -100,10 +96,6 @@ class OroAccountBundle implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameAccountUserSidebarState(Schema $schema, QueryBag $queries)
     {
         $table = $schema->getTable("oro_account_user_sdbar_st");
@@ -121,9 +113,6 @@ class OroAccountBundle implements
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     *
-     * @param Schema $schema
-     * @param QueryBag $queries
      */
     private function renameCustomer(Schema $schema, QueryBag $queries)
     {
@@ -316,9 +305,6 @@ class OroAccountBundle implements
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
-     * @param Schema $schema
-     * @param QueryBag $queries
      */
     private function renameCustomerUserRole(Schema $schema, QueryBag $queries)
     {
@@ -478,10 +464,6 @@ class OroAccountBundle implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameCustomerSettings(Schema $schema, QueryBag $queries)
     {
         $table = $schema->getTable("oro_account_user_settings");
@@ -507,10 +489,6 @@ class OroAccountBundle implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameAccountUserAddressToAddressType(Schema $schema, QueryBag $queries)
     {
         $table = $schema->getTable("oro_acc_usr_adr_to_adr_type");
@@ -535,10 +513,6 @@ class OroAccountBundle implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameAccountAdrAdrTypeTable(Schema $schema, QueryBag $queries)
     {
         $table = $schema->getTable("oro_account_adr_adr_type");
@@ -563,10 +537,6 @@ class OroAccountBundle implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameAccountUserAddressTable(Schema $schema, QueryBag $queries)
     {
         $this->renameExtension->renameTable(
@@ -586,10 +556,6 @@ class OroAccountBundle implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameAccountAddressTable(Schema $schema, QueryBag $queries)
     {
         $this->renameExtension->renameTable(
@@ -612,9 +578,6 @@ class OroAccountBundle implements
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     *
-     * @param Schema $schema
-     * @param QueryBag $queries
      */
     public function renameCustomerGroup(Schema $schema, QueryBag $queries)
     {
@@ -739,8 +702,6 @@ class OroAccountBundle implements
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @param Schema $schema
-     * @param QueryBag $queries
      */
     private function renameCustomerUser(Schema $schema, QueryBag $queries)
     {
@@ -1063,10 +1024,6 @@ class OroAccountBundle implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameAccWindowsStateTable(Schema $schema, QueryBag $queries)
     {
         $windowsState = $schema->getTable('oro_acc_windows_state');
@@ -1082,10 +1039,6 @@ class OroAccountBundle implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function renameAccNavItemPinbarTable(Schema $schema, QueryBag $queries)
     {
         $this->renameExtension->renameTable(
@@ -1098,8 +1051,6 @@ class OroAccountBundle implements
 
     /**
      * Sets the RenameExtension
-     *
-     * @param RenameExtension $renameExtension
      */
     public function setRenameExtension(RenameExtension $renameExtension)
     {
@@ -1170,10 +1121,6 @@ class OroAccountBundle implements
         }
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     private function alterScopes(Schema $schema, QueryBag $queries)
     {
         /** @var ConfigManager $configManager */
@@ -1213,9 +1160,6 @@ class OroAccountBundle implements
         );
     }
 
-    /**
-     * @param QueryBag $queries
-     */
     private function renameLoadedFixtures(QueryBag $queries)
     {
         $queries->addQuery(new UpdateTableFieldQuery(

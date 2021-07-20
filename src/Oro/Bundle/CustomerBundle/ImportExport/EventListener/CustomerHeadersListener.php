@@ -17,17 +17,11 @@ class CustomerHeadersListener
      */
     private $fieldHelper;
 
-    /**
-     * @param FieldHelper $fieldHelper
-     */
     public function __construct(FieldHelper $fieldHelper)
     {
         $this->fieldHelper = $fieldHelper;
     }
 
-    /**
-     * @param LoadEntityRulesAndBackendHeadersEvent $event
-     */
     public function afterLoadEntityRulesAndBackendHeaders(LoadEntityRulesAndBackendHeadersEvent $event): void
     {
         if ($event->getEntityName() !== Customer::class) {

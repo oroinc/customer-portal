@@ -41,7 +41,6 @@ class CustomerUserTypeTest extends WebTestCase
     }
 
     /**
-     * @param array $data
      * @dataProvider formWrongDataProvider
      */
     public function testUpdateAddressWithWrongData(array $data): void
@@ -66,9 +65,6 @@ class CustomerUserTypeTest extends WebTestCase
         );
     }
 
-    /**
-     * @return array
-     */
     public function formWrongDataProvider(): array
     {
         return [
@@ -97,7 +93,6 @@ class CustomerUserTypeTest extends WebTestCase
     }
 
     /**
-     * @param array $data
      * @dataProvider formCorrectDataProvider
      */
     public function testUpdateAddressWithCorrectData(array $data): void
@@ -119,9 +114,6 @@ class CustomerUserTypeTest extends WebTestCase
         static::assertStringContainsString('Customer User has been saved', $crawler->html());
     }
 
-    /**
-     * @return array
-     */
     public function formCorrectDataProvider(): array
     {
         return [
@@ -150,7 +142,6 @@ class CustomerUserTypeTest extends WebTestCase
     }
 
     /**
-     * @param array $data
      * @dataProvider formAddressTypeDataProvider
      */
     public function testCreatePrimaryAddress(array $data): void
@@ -161,9 +152,6 @@ class CustomerUserTypeTest extends WebTestCase
         static::assertStringContainsString('Customer User has been saved', $crawler->html());
     }
 
-    /**
-     * @return array
-     */
     public function formAddressTypeDataProvider(): array
     {
         return [
@@ -180,10 +168,6 @@ class CustomerUserTypeTest extends WebTestCase
         ];
     }
 
-    /**
-     * @param array $data
-     * @return Crawler
-     */
     private function submitCustomerUserForm(array $data): Crawler
     {
         $crawler = $this->client->request(

@@ -65,9 +65,6 @@ class ExportResultNotificationSenderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider sendEmailNotificationDataProvider
-     *
-     * @param array $exportResultSummary
-     * @param string $templateName
      */
     public function testSendEmailNotification(array $exportResultSummary, string $templateName): void
     {

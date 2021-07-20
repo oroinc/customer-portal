@@ -459,9 +459,6 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
     }
 
     /**
-     * @param ArrayCollection $privileges
-     * @param array $expected
-     *
      * @dataProvider CustomerUserRolePrivilegesDataProvider
      */
     public function testGetCustomerUserRolePrivileges(ArrayCollection $privileges, array $expected)
@@ -490,7 +487,6 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $this->chainMetadataProvider->expects($this->at(1))
             ->method('stopProviderEmulation');
         $result = $handler->getCustomerUserRolePrivileges($role);
-
 
         $this->assertEquals(array_keys($expected), array_keys($result));
         /**

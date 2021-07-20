@@ -35,7 +35,7 @@ class CustomerSelectTypeStub extends AbstractType
             ]
         );
     }
-    
+
     /**
      * {@inheritdoc}
      */

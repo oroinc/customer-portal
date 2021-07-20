@@ -23,9 +23,6 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
      */
     protected $tokenStorage;
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     */
     public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
@@ -71,9 +68,6 @@ class CustomerVisitorEmailAddressType extends EmailAddressType
         }
     }
 
-    /**
-     * @return bool
-     */
     private function isGuest(): bool
     {
         $token = $this->tokenStorage->getToken();

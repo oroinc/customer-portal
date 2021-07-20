@@ -30,7 +30,6 @@ class MenuUserAgentConditionType extends AbstractType
             ]);
     }
 
-
     /**
      * {@inheritDoc}
      */

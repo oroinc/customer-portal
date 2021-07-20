@@ -19,19 +19,12 @@ class EmailBodyAddListener
     /** @var EmailActivityManager */
     private $activityManager;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param EmailActivityManager $activityManager
-     */
     public function __construct(ManagerRegistry $registry, EmailActivityManager $activityManager)
     {
         $this->registry = $registry;
         $this->activityManager = $activityManager;
     }
 
-    /**
-     * @param EmailBodyAdded $event
-     */
     public function linkToCustomerUser(EmailBodyAdded $event): void
     {
         $email = $event->getEmail();
@@ -55,10 +48,6 @@ class EmailBodyAddListener
         $manager->flush();
     }
 
-    /**
-     * @param Email $email
-     * @return array
-     */
     private function getCustomerUserEmails(Email $email): array
     {
         $emails = [];

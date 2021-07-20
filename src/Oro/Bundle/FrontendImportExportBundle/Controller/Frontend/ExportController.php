@@ -26,10 +26,6 @@ class ExportController extends AbstractController
      *      class="OroFrontendImportExportBundle:FrontendImportExportResult",
      *      permission="VIEW"
      * )
-     *
-     * @param FrontendImportExportResult $result
-     *
-     * @return Response
      */
     public function downloadExportResultAction(FrontendImportExportResult $result): Response
     {

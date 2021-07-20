@@ -19,19 +19,12 @@ class ThemeListener
     /** @var ConfigManager */
     private $configManager;
 
-    /**
-     * @param FrontendHelper $frontendHelper
-     * @param ConfigManager  $configManager
-     */
     public function __construct(FrontendHelper $frontendHelper, ConfigManager $configManager)
     {
         $this->frontendHelper = $frontendHelper;
         $this->configManager = $configManager;
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
     public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
@@ -50,9 +43,6 @@ class ThemeListener
         }
     }
 
-    /**
-     * @param GetResponseForControllerResultEvent $event
-     */
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
         if (!$event->isMasterRequest()) {

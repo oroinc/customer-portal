@@ -21,9 +21,6 @@ class WebsiteStub extends Website
         return $this->defaultRole;
     }
 
-    /**
-     * @param CustomerUserRole $defaultRole
-     */
     public function setDefaultRole(CustomerUserRole $defaultRole)
     {
         $this->defaultRole = $defaultRole;
@@ -37,9 +34,6 @@ class WebsiteStub extends Website
         return $this->guestRole;
     }
 
-    /**
-     * @param CustomerUserRole $guestRole
-     */
     public function setGuestRole(CustomerUserRole $guestRole)
     {
         $this->guestRole = $guestRole;

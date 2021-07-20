@@ -23,10 +23,6 @@ class SystemPageTargetBuilder implements BuilderInterface, LoggerAwareInterface
     /** @var FeatureChecker */
     private $featureChecker;
 
-    /**
-     * @param RouterInterface $router
-     * @param FeatureChecker $featureChecker
-     */
     public function __construct(RouterInterface $router, FeatureChecker $featureChecker)
     {
         $this->router = $router;
@@ -42,10 +38,6 @@ class SystemPageTargetBuilder implements BuilderInterface, LoggerAwareInterface
         $this->applyRecursively($menu, $options);
     }
 
-    /**
-     * @param ItemInterface $menuItem
-     * @param array $options
-     */
     private function applyRecursively(ItemInterface $menuItem, array $options): void
     {
         if (!$menuItem->isDisplayed()) {
@@ -95,11 +87,6 @@ class SystemPageTargetBuilder implements BuilderInterface, LoggerAwareInterface
         return null;
     }
 
-    /**
-     * @param string $routeName
-     *
-     * @return bool
-     */
     private function isRouteEnabled(string $routeName): bool
     {
         return $this->featureChecker->isResourceEnabled($routeName, 'routes');

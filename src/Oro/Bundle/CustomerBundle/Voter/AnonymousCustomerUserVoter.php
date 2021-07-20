@@ -23,10 +23,6 @@ class AnonymousCustomerUserVoter implements VoterInterface
      */
     private $featureName;
 
-    /**
-     * @param VoterInterface        $configVoter
-     * @param TokenStorageInterface $tokenStorage
-     */
     public function __construct(VoterInterface $configVoter, TokenStorageInterface $tokenStorage)
     {
         $this->configVoter  = $configVoter;

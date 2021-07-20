@@ -233,9 +233,6 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
         }
     }
 
-    /**
-     * @param AbstractCustomerUserRoleHandler $handler
-     */
     protected function setRequirementsForHandler(AbstractCustomerUserRoleHandler $handler)
     {
         $handler->setAclManager($this->aclManager);

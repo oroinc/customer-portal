@@ -113,18 +113,12 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getTargetTypeDataProvider
-     *
-     * @param MenuUpdate $menuUpdate
-     * @param string|null $expectedTargetType
      */
     public function testGetTargetType(MenuUpdate $menuUpdate, ?string $expectedTargetType): void
     {
         $this->assertSame($expectedTargetType, $menuUpdate->getTargetType());
     }
 
-    /**
-     * @return array
-     */
     public function getTargetTypeDataProvider(): array
     {
         return [

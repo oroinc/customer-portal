@@ -40,9 +40,6 @@ class FrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getDefaultPageDataProvider
-     *
-     * @param bool $isFrontendRequest
-     * @param string $routeName
      */
     public function testGetDefaultPage(bool $isFrontendRequest, string $routeName): void
     {
@@ -60,9 +57,6 @@ class FrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($url, self::callTwigFunction($this->extension, 'oro_default_page', [$this->environment]));
     }
 
-    /**
-     * @return array
-     */
     public function getDefaultPageDataProvider(): array
     {
         return [

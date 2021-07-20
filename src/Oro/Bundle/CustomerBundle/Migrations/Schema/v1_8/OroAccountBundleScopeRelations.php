@@ -20,9 +20,6 @@ class OroAccountBundleScopeRelations implements Migration, ScopeExtensionAwareIn
         $this->addRelationsToScope($schema);
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function addRelationsToScope(Schema $schema)
     {
         $this->scopeExtension->addScopeAssociation(

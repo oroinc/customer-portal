@@ -112,9 +112,6 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
         return $this->id;
     }
 
-    /**
-     * @return User|null
-     */
     public function getOwner(): ?User
     {
         return $this->owner;
@@ -132,9 +129,6 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFilename(): ?string
     {
         return $this->filename;
@@ -152,9 +146,6 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getJobId(): ?int
     {
         return $this->jobId;
@@ -192,9 +183,6 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getType(): ?string
     {
         return $this->type;
@@ -212,9 +200,6 @@ class FrontendImportExportResult implements CreatedAtAwareInterface
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
     public function getEntity(): ?string
     {
         return $this->entity;

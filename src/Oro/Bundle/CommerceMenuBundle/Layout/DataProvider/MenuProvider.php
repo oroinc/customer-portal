@@ -10,9 +10,6 @@ class MenuProvider
     /** @var MenuProviderInterface */
     private $provider;
 
-    /**
-     * @param MenuProviderInterface $provider
-     */
     public function __construct(MenuProviderInterface $provider)
     {
         $this->provider = $provider;

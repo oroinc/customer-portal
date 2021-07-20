@@ -28,12 +28,6 @@ class CustomerUserLoader implements UserLoaderInterface
     /** @var WebsiteManager */
     private $websiteManager;
 
-    /**
-     * @param ManagerRegistry $doctrine
-     * @param ConfigManager   $configManager
-     * @param TokenAccessor   $tokenAccessor
-     * @param WebsiteManager  $websiteManager
-     */
     public function __construct(
         ManagerRegistry $doctrine,
         ConfigManager $configManager,
@@ -91,9 +85,6 @@ class CustomerUserLoader implements UserLoaderInterface
         return $this->getRepository()->findUserByEmail($email, $useLowercase);
     }
 
-    /**
-     * @return CustomerUserRepository
-     */
     private function getRepository(): CustomerUserRepository
     {
         return $this->doctrine

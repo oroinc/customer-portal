@@ -20,10 +20,6 @@ class FrontendCustomerUserRoleCapabilitySetOptionsProvider implements FrontendCu
     /** @var array|null */
     private $options;
 
-    /**
-     * @param RolePrivilegeCapabilityProvider $capabilityProvider
-     * @param RolePrivilegeCategoryProvider   $categoryProvider
-     */
     public function __construct(
         RolePrivilegeCapabilityProvider $capabilityProvider,
         RolePrivilegeCategoryProvider $categoryProvider
@@ -32,11 +28,6 @@ class FrontendCustomerUserRoleCapabilitySetOptionsProvider implements FrontendCu
         $this->categoryProvider = $categoryProvider;
     }
 
-    /**
-     * @param CustomerUserRole $role
-     *
-     * @return array
-     */
     public function getOptions(CustomerUserRole $role): array
     {
         if (null === $this->options) {

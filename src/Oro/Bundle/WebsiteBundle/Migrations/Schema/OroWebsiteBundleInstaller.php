@@ -75,8 +75,6 @@ class OroWebsiteBundleInstaller implements
 
     /**
      * Create oro_related_website table
-     *
-     * @param Schema $schema
      */
     protected function createOroRelatedWebsiteTable(Schema $schema)
     {
@@ -88,8 +86,6 @@ class OroWebsiteBundleInstaller implements
 
     /**
      * Create oro_website table
-     *
-     * @param Schema $schema
      */
     protected function createOroWebsiteTable(Schema $schema)
     {
@@ -111,8 +107,6 @@ class OroWebsiteBundleInstaller implements
 
     /**
      * Add oro_related_website foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroRelatedWebsiteForeignKeys(Schema $schema)
     {
@@ -133,8 +127,6 @@ class OroWebsiteBundleInstaller implements
 
     /**
      * Add oro_website foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroWebsiteForeignKeys(Schema $schema)
     {
@@ -153,17 +145,11 @@ class OroWebsiteBundleInstaller implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addNoteAssociations(Schema $schema)
     {
         $this->activityExtension->addActivityAssociation($schema, 'oro_note', self::WEBSITE_TABLE_NAME);
     }
 
-    /**
-     * @param Schema $schema
-     */
     private function addRelationsToScope(Schema $schema)
     {
         $this->scopeExtension->addScopeAssociation(

@@ -30,11 +30,6 @@ class FrontendCustomerUserRoleTabOptionsProvider implements FrontendCustomerUser
     /** @var PrivilegeCategory[]|null */
     private $options;
 
-    /**
-     * @param RolePrivilegeCategoryProvider   $categoryProvider
-     * @param TranslatorInterface             $translator
-     * @param AbstractCustomerUserRoleHandler $aclRoleHandler
-     */
     public function __construct(
         RolePrivilegeCategoryProvider $categoryProvider,
         TranslatorInterface $translator,
@@ -45,11 +40,6 @@ class FrontendCustomerUserRoleTabOptionsProvider implements FrontendCustomerUser
         $this->aclRoleHandler = $aclRoleHandler;
     }
 
-    /**
-     * @param CustomerUserRole $role
-     *
-     * @return array
-     */
     public function getOptions(CustomerUserRole $role): array
     {
         if (null === $this->options) {

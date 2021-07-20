@@ -30,12 +30,6 @@ class CustomerRelatedEntitiesValidator extends ConstraintValidator
     /** @var EntityClassNameProviderInterface */
     private $entityClassNameProvider;
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param CustomerUserReassignUpdaterInterface $customerUserReassignUpdater
-     * @param ManagerRegistry $registry
-     * @param EntityClassNameProviderInterface $entityClassNameProvider
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         CustomerUserReassignUpdaterInterface $customerUserReassignUpdater,

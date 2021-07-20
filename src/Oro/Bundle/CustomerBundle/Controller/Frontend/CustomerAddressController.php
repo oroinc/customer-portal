@@ -116,11 +116,6 @@ class CustomerAddressController extends AbstractController
         ];
     }
 
-    /**
-     * @param Customer $customer
-     * @param CustomerAddress $customerAddress
-     * @param Request $request
-     */
     private function prepareEntities(Customer $customer, CustomerAddress $customerAddress, Request $request)
     {
         if ($request->getMethod() === 'GET' && !$customerAddress->getId()) {

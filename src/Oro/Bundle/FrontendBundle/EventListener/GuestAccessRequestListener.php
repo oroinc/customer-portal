@@ -48,13 +48,6 @@ class GuestAccessRequestListener
     /** @var string */
     private $restApiPrefix;
 
-    /**
-     * @param TokenAccessorInterface            $tokenAccessor
-     * @param ConfigManager                     $configManager
-     * @param GuestAccessDecisionMakerInterface $guestAccessDeniedDecisionMaker
-     * @param RouterInterface                   $router
-     * @param string                            $restApiPrefix
-     */
     public function __construct(
         TokenAccessorInterface $tokenAccessor,
         ConfigManager $configManager,
@@ -70,8 +63,6 @@ class GuestAccessRequestListener
     }
 
     /**
-     * @param GetResponseEvent $event
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function onKernelRequest(GetResponseEvent $event)

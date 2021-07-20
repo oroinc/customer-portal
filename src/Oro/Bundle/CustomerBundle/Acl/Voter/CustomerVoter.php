@@ -60,13 +60,6 @@ class CustomerVoter extends AbstractEntityVoter
      */
     private $customerUserRelationsProvider;
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     * @param AuthenticationTrustResolverInterface $authenticationTrustResolver
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param CustomerUserProvider $customerUserProvider
-     * @param CustomerUserRelationsProvider $customerUserRelationsProvider
-     */
     public function __construct(
         DoctrineHelper $doctrineHelper,
         AuthenticationTrustResolverInterface $authenticationTrustResolver,

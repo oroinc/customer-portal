@@ -127,9 +127,6 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         }
     }
 
-    /**
-     * @param CustomerVisitor $visitor
-     */
     protected function setVisitorCookie(CustomerVisitor $visitor)
     {
         $this->assertVisitorEnabled();

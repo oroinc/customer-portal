@@ -38,10 +38,6 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $user
-     * @param $securityConfig
-     * @param $expect
-     *
      * @dataProvider preSetData
      */
     public function testPrePersistUser($user, $securityConfig, $expect)

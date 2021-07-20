@@ -20,11 +20,6 @@ class SignInTargetPathProvider implements SignInTargetPathProviderInterface
     /** @var RestDocUrlGeneratorInterface */
     private $restDocUrlGenerator;
 
-    /**
-     * @param SignInTargetPathProviderInterface $innerProvider
-     * @param RequestStack                      $requestStack
-     * @param RestDocUrlGeneratorInterface      $restDocUrlGenerator
-     */
     public function __construct(
         SignInTargetPathProviderInterface $innerProvider,
         RequestStack $requestStack,

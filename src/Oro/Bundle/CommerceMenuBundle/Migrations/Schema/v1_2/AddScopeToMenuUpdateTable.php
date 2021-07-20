@@ -29,8 +29,6 @@ class AddScopeToMenuUpdateTable implements Migration, OrderedMigrationInterface
 
     /**
      * Update oro_commerce_menu_upd
-     *
-     * @param Schema $schema
      */
     protected function updateOroCommerceMenuUpdateTable(Schema $schema)
     {
@@ -41,8 +39,6 @@ class AddScopeToMenuUpdateTable implements Migration, OrderedMigrationInterface
 
     /**
      * Add oro_commerce_menu_upd foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCommerceMenuUpdateForeignKeys(Schema $schema)
     {

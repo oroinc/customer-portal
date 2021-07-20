@@ -24,8 +24,6 @@ class OroAccountBundle implements Migration
     }
 
     /**
-    * @param Schema $schema
-    *
     * @throws \Doctrine\DBAL\Schema\SchemaException
     */
     protected function alterAccountAddressTable(Schema $schema)
@@ -35,8 +33,6 @@ class OroAccountBundle implements Migration
     }
 
     /**
-     * @param Schema $schema
-     *
      * @throws \Doctrine\DBAL\Schema\SchemaException
      */
     protected function alterAccountUserAddressTable(Schema $schema)

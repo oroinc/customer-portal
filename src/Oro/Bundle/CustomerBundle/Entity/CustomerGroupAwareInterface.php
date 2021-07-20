@@ -10,7 +10,6 @@ interface CustomerGroupAwareInterface
     public function getCustomerGroup();
 
     /**
-     *
      * @param CustomerGroup $customerGroup
      * @return $this
      */

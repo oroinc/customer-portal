@@ -10,11 +10,6 @@ class FrontendHelperTest extends \PHPUnit\Framework\TestCase
 {
     private const BACKEND_PREFIX = '/admin';
 
-    /**
-     * @param Request|null $currentRequest
-     *
-     * @return RequestStack
-     */
     private function getRequestStack(Request $currentRequest = null): RequestStack
     {
         $requestStack = new RequestStack();

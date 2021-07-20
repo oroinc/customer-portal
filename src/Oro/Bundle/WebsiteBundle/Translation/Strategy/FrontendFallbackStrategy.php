@@ -17,10 +17,6 @@ class FrontendFallbackStrategy implements TranslationStrategyInterface
      */
     protected $strategy;
 
-    /**
-     * @param FrontendHelper $frontendHelper
-     * @param TranslationStrategyInterface $strategy
-     */
     public function __construct(FrontendHelper $frontendHelper, TranslationStrategyInterface $strategy)
     {
         $this->frontendHelper = $frontendHelper;

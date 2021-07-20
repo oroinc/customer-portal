@@ -20,10 +20,6 @@ class AssignCurrentWebsite extends AbstractAction
      */
     protected $websiteManager;
 
-    /**
-     * @param ContextAccessor $contextAccessor
-     * @param WebsiteManager $websiteManager
-     */
     public function __construct(ContextAccessor $contextAccessor, WebsiteManager $websiteManager)
     {
         parent::__construct($contextAccessor);

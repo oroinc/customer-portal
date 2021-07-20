@@ -125,9 +125,6 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
     }
 
     /**
-     * @param CustomerUser $customerUser
-     * @param bool $isGranted
-     *
      * @throws \Exception
      */
     private function setProfilePermission(CustomerUser $customerUser, bool $isGranted = true): void
@@ -142,11 +139,6 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
         }
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @param string $entityClass
-     * @param array $permissions
-     */
     protected function setEntityPermissions(
         CustomerUser $customerUser,
         string $entityClass,

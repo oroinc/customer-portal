@@ -124,9 +124,6 @@ class PreExportMessageProcessorTest extends WebTestCase
         return $this->createMock(SessionInterface::class);
     }
 
-    /**
-     * @return CustomerUser
-     */
     protected function getCurrentUser(): CustomerUser
     {
         return self::getContainer()->get('doctrine')

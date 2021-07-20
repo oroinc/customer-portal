@@ -269,10 +269,6 @@ class GuestAccessRequestListenerTest extends \PHPUnit\Framework\TestCase
         return true;
     }
 
-    /**
-     * @param string $requestUrl
-     * @param string $requestMethod
-     */
     private function mockRequest(string $requestUrl = self::REQUEST_URL, string $requestMethod = 'GET')
     {
         $this->request

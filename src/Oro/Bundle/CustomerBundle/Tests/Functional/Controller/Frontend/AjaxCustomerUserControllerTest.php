@@ -48,8 +48,6 @@ class AjaxCustomerUserControllerTest extends WebTestCase
 
     /**
      * @dataProvider validateDataProvider
-     * @param string $value
-     * @param bool $expected
      */
     public function testValidate(string $value, bool $expected)
     {
@@ -64,9 +62,6 @@ class AjaxCustomerUserControllerTest extends WebTestCase
         $this->assertEquals($expected, $data['valid']);
     }
 
-    /**
-     * @return array
-     */
     public function validateDataProvider(): array
     {
         return [

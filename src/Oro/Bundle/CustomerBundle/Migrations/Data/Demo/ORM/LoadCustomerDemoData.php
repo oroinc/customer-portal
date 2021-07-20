@@ -89,7 +89,6 @@ class LoadCustomerDemoData extends AbstractEntityReferenceFixture implements Dep
                     $customerOwner->getOrganization()
                 );
 
-
             $this->addReference(static::ACCOUNT_REFERENCE_PREFIX . $parent->getName(), $parent);
 
             if (isset($customerData['subsidiaries'])) {

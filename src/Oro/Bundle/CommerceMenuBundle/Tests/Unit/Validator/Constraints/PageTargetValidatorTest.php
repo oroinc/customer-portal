@@ -113,8 +113,6 @@ class PageTargetValidatorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider validateDataProvider
-     *
-     * @param bool $isCustom
      */
     public function testValidate(bool $isCustom): void
     {
@@ -129,9 +127,6 @@ class PageTargetValidatorTest extends \PHPUnit\Framework\TestCase
         $this->validator->validate($menuUpdate, new PageTarget());
     }
 
-    /**
-     * @return array
-     */
     public function validateDataProvider(): array
     {
         return [

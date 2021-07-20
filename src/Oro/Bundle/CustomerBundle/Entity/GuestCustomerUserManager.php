@@ -40,13 +40,6 @@ class GuestCustomerUserManager
      */
     protected $propertyAccessor;
 
-    /**
-     * @param WebsiteManager $websiteManager
-     * @param CustomerUserManager $customerUserManager
-     * @param CustomerUserRelationsProvider $customerUserRelationsProvider
-     * @param DefaultUserProvider $defaultUserProvider
-     * @param PropertyAccessor $propertyAccessor
-     */
     public function __construct(
         WebsiteManager $websiteManager,
         CustomerUserManager $customerUserManager,
@@ -74,10 +67,6 @@ class GuestCustomerUserManager
         return $customerUser;
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @param array $properties
-     */
     public function initializeGuestCustomerUser(CustomerUser $customerUser, array $properties = [])
     {
         $customerUser->setIsGuest(true);

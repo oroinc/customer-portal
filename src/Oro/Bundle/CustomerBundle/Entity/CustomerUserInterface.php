@@ -14,9 +14,6 @@ interface CustomerUserInterface extends
     WebsiteAwareInterface,
     CustomerUserIdentity
 {
-    /**
-     * @return User|null
-     */
     public function getOwner(): ?User;
 
     /**

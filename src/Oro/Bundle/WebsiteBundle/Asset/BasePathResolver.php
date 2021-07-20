@@ -14,18 +14,11 @@ class BasePathResolver
      */
     private $requestStack;
 
-    /**
-     * @param RequestStack $requestStack
-     */
     public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
     }
 
-    /**
-     * @param string $defaultBasePath
-     * @return string
-     */
     public function resolveBasePath(string $defaultBasePath): string
     {
         $masterRequest = $this->requestStack->getMasterRequest();

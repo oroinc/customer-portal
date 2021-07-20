@@ -39,9 +39,6 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
         ];
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         /** @var OrganizationInterface $organization */

@@ -9,15 +9,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
  */
 interface ResettableCustomerUserRepositoryInterface
 {
-    /**
-     * @param CustomerUser $customerUser
-     * @param array $updatedEntities
-     */
     public function resetCustomerUser(CustomerUser $customerUser, array $updatedEntities = []);
 
-    /**
-     * @param CustomerUser $customerUser
-     * @return int
-     */
     public function getRelatedEntitiesCount(CustomerUser $customerUser): int;
 }

@@ -53,7 +53,6 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-
     /**
      * {@inheritDoc}
      */

@@ -64,7 +64,7 @@ trait AddressTypeTestTrait
     }
 
     /**
-     * @param array                                     $expected
+     * @param array                                     $expectedIds
      * @param Collection|AbstractAddressToAddressType[] $actual
      */
     private static function assertAddressTypeIds(array $expectedIds, Collection $actual)

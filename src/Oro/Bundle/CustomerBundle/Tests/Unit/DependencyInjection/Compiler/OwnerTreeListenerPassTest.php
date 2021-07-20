@@ -62,7 +62,6 @@ class OwnerTreeListenerPassTest extends \PHPUnit\Framework\TestCase
             ->with(OwnerTreeListenerPass::LISTENER_SERVICE)
             ->willReturn(false);
 
-
         $compilerPass = new OwnerTreeListenerPass();
         $compilerPass->process($containerBuilder);
     }

@@ -273,9 +273,6 @@ class CustomerUserAddressController extends RestController implements ClassResou
         return $this->get('oro_security.acl_helper')->apply($dql)->getResult();
     }
 
-    /**
-     * @param $entity
-     */
     protected function checkAccess($entity)
     {
         if (!$this->isGranted('VIEW', $entity)) {

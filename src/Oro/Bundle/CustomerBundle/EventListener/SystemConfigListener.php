@@ -31,9 +31,6 @@ class SystemConfigListener
         $this->ownerClass = $userClass;
     }
 
-    /**
-     * @param ConfigSettingsUpdateEvent $event
-     */
     public function onFormPreSetData(ConfigSettingsUpdateEvent $event)
     {
         $settingsKey = implode(ConfigManager::SECTION_VIEW_SEPARATOR, [OroCustomerExtension::ALIAS, self::SETTING]);
@@ -48,9 +45,6 @@ class SystemConfigListener
         }
     }
 
-    /**
-     * @param ConfigSettingsUpdateEvent $event
-     */
     public function onSettingsSaveBefore(ConfigSettingsUpdateEvent $event)
     {
         $settings = $event->getSettings();

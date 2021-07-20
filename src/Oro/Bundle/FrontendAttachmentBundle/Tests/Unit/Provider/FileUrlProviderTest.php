@@ -90,9 +90,6 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(self::URL, $this->provider->getFileUrl($file, self::ACTION, self::REFERENCE_TYPE));
     }
 
-    /**
-     * @param bool $enabled
-     */
     private function mockGuestAccessMode(bool $enabled): void
     {
         $this->configManager
@@ -101,10 +98,6 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
             ->willReturn($enabled);
     }
 
-    /**
-     * @param File $file
-     * @param bool $isCoveredByAcl
-     */
     private function mockCoveredByAcl(File $file, bool $isCoveredByAcl): void
     {
         $this->fileAccessControlChecker
@@ -195,9 +188,6 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider frontendOrPublicDataProvider
-     *
-     * @param array $fileApplications
-     * @param bool $isCoveredByAcl
      */
     public function testGetFileUrlWhenFrontend(array $fileApplications, bool $isCoveredByAcl): void
     {
@@ -227,12 +217,6 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @param int|null $id
-     * @param string $filename
-     *
-     * @return File
-     */
     private function getFile(int $id = null, string $filename = ''): File
     {
         $file = $this->createMock(File::class);
@@ -247,9 +231,6 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         return $file;
     }
 
-    /**
-     * @return array
-     */
     public function frontendOrPublicDataProvider(): array
     {
         return [
@@ -280,9 +261,6 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider frontendOrPublicDataProvider
-     *
-     * @param array $fileApplications
-     * @param bool $isCoveredByAcl
      */
     public function testResizedImageUrlWhenFrontend(array $fileApplications, bool $isCoveredByAcl): void
     {
@@ -317,9 +295,6 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider frontendOrPublicDataProvider
-     *
-     * @param array $fileApplications
-     * @param bool $isCoveredByAcl
      */
     public function testGetFilteredImageUrlWhenFrontend(array $fileApplications, bool $isCoveredByAcl): void
     {
@@ -353,8 +328,6 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider frontendOrPublicWhenGuestModeDisabledDataProvider
-     *
-     * @param array $fileApplications
      */
     public function testResizedImageUrlWhenGuestModeDisabled(array $fileApplications): void
     {
@@ -373,9 +346,6 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @return array
-     */
     public function frontendOrPublicWhenGuestModeDisabledDataProvider(): array
     {
         return [
@@ -395,8 +365,6 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider frontendOrPublicWhenGuestModeDisabledDataProvider
-     *
-     * @param array $fileApplications
      */
     public function testGetFilteredImageUrlWhenGuestModeDisabled(array $fileApplications): void
     {

@@ -28,9 +28,6 @@ class ThemeSelectType extends AbstractType
      */
     protected $themes = [];
 
-    /**
-     * @param ThemeManager $themeManager
-     */
     public function __construct(ThemeManager $themeManager)
     {
         $this->themeManager = $themeManager;

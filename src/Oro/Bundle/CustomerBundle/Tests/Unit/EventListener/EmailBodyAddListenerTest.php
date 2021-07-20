@@ -120,11 +120,6 @@ class EmailBodyAddListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->linkToCustomerUser(new EmailBodyAdded($entity));
     }
 
-    /**
-     * @param string $type
-     * @param string|null $email
-     * @return EmailRecipient
-     */
     private function getRecipient(string $type, string $email = null): EmailRecipient
     {
         $rcpt = new EmailRecipient();

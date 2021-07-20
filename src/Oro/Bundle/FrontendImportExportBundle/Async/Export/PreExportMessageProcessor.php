@@ -34,10 +34,6 @@ class PreExportMessageProcessor extends BasePreExportMessageProcessor
         return [Topics::PRE_EXPORT];
     }
 
-    /**
-     * @param Job   $rootJob
-     * @param array $body
-     */
     protected function addDependentJob(Job $rootJob, array $body)
     {
         $context = $this->dependentJob->createDependentJobContext($rootJob);

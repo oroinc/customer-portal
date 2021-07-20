@@ -27,7 +27,6 @@ class OwnerTreeMessageFactoryTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider wrongCacheTtlDataProvider
-     * @param int $cacheTtl
      */
     public function testGetCacheTtlWithWrongValue(int $cacheTtl): void
     {
@@ -36,9 +35,6 @@ class OwnerTreeMessageFactoryTest extends \PHPUnit\Framework\TestCase
         $this->messageFactory->createMessage($cacheTtl);
     }
 
-    /**
-     * @return array
-     */
     public function wrongCacheTtlDataProvider(): array
     {
         return [

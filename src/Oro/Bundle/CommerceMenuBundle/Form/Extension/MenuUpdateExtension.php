@@ -29,9 +29,6 @@ class MenuUpdateExtension extends AbstractTypeExtension
     /** @var WebCatalogProvider */
     private $webCatalogProvider;
 
-    /**
-     * @param WebCatalogProvider $webCatalogProvider
-     */
     public function __construct(WebCatalogProvider $webCatalogProvider)
     {
         $this->webCatalogProvider = $webCatalogProvider;
@@ -73,9 +70,6 @@ class MenuUpdateExtension extends AbstractTypeExtension
         $builder->addEventListener(FormEvents::SUBMIT, [$this, 'clearTargetFields']);
     }
 
-    /**
-     * @param FormEvent $event
-     */
     private function addConditionalFields(FormEvent $event): void
     {
         $form = $event->getForm();
@@ -107,9 +101,6 @@ class MenuUpdateExtension extends AbstractTypeExtension
             );
     }
 
-    /**
-     * @param FormEvent $event
-     */
     private function addTargetFields(FormEvent $event): void
     {
         $form = $event->getForm();
@@ -182,9 +173,6 @@ class MenuUpdateExtension extends AbstractTypeExtension
         );
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function clearTargetFields(FormEvent $event): void
     {
         /** @var MenuUpdate $menuUpdate */

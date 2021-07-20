@@ -39,14 +39,20 @@ class BusinessUnitOwnerTreeCacheJobProcessorTest extends \PHPUnit\Framework\Test
      */
     private $processor;
 
+    /**
+     * @var JobRunner
+     */
+    private $jobRunner;
+
     protected function setUp(): void
     {
         $this->messageFactory = $this->createMock(BusinessUnitMessageFactory::class);
         $this->frontendOwnerTreeProvider = $this->createMock(FrontendOwnerTreeProvider::class);
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->jobRunner = new JobRunner();
 
         $this->processor = new BusinessUnitOwnerTreeCacheJobProcessor(
-            new JobRunner(),
+            $this->jobRunner,
             $this->frontendOwnerTreeProvider,
             $this->messageFactory,
             $this->logger
@@ -138,5 +144,37 @@ class BusinessUnitOwnerTreeCacheJobProcessorTest extends \PHPUnit\Framework\Test
         /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
         $session = $this->createMock(SessionInterface::class);
         $this->assertEquals(MessageProcessorInterface::ACK, $this->processor->process($message, $session));
+    }
+
+    public function testProcessWithDelayedJobResult(): void
+    {
+        $this->messageFactory
+            ->expects($this->once())
+            ->method('getJobIdFromMessage')
+            ->willReturn(self::JOB_ID);
+
+        $businessUnit = new Customer();
+        $this->messageFactory
+            ->expects($this->once())
+            ->method('getBusinessUnitFromMessage')
+            ->willReturn($businessUnit);
+
+        $this->frontendOwnerTreeProvider
+            ->expects($this->exactly(2))
+            ->method('getTreeByBusinessUnit')
+            ->with($businessUnit);
+
+        $message = new Message();
+        $message->setBody(JSON::encode([]));
+
+        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
+        $session = $this->createMock(SessionInterface::class);
+        $this->assertEquals(MessageProcessorInterface::ACK, $this->processor->process($message, $session));
+
+        $delayedJobs = $this->jobRunner->getRunDelayedJobs();
+        $this->assertCount(1, $delayedJobs);
+
+        $delayedJob = reset($delayedJobs);
+        $this->assertTrue(call_user_func($delayedJob['runCallback']));
     }
 }

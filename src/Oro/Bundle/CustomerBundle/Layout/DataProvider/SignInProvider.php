@@ -32,13 +32,6 @@ class SignInProvider
     /** @var TranslatorInterface */
     private $translator;
 
-    /**
-     * @param RequestStack                      $requestStack
-     * @param TokenAccessorInterface            $tokenAccessor
-     * @param CsrfTokenManagerInterface         $csrfTokenManager
-     * @param SignInTargetPathProviderInterface $targetPathProvider
-     * @param TranslatorInterface               $translator
-     */
     public function __construct(
         RequestStack $requestStack,
         TokenAccessorInterface $tokenAccessor,
@@ -61,7 +54,7 @@ class SignInProvider
         if (!array_key_exists('last_username', $this->options)) {
             $request = $this->requestStack->getCurrentRequest();
             $session = $request->getSession();
-            
+
             // last username entered by the user
             $this->options['last_username'] = (null === $session) ? '' : $session->get(Security::LAST_USERNAME);
         }
@@ -125,9 +118,6 @@ class SignInProvider
         return $this->tokenAccessor->getUser();
     }
 
-    /**
-     * @return string|null
-     */
     public function getTargetPath(): ?string
     {
         return $this->targetPathProvider->getTargetPath();

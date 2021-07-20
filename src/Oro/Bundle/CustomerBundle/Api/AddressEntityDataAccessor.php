@@ -17,9 +17,6 @@ class AddressEntityDataAccessor implements DataAccessorInterface
     /** @var DataAccessorInterface */
     private $innerDataAccessor;
 
-    /**
-     * @param DataAccessorInterface $innerDataAccessor
-     */
     public function __construct(DataAccessorInterface $innerDataAccessor)
     {
         $this->innerDataAccessor = $innerDataAccessor;

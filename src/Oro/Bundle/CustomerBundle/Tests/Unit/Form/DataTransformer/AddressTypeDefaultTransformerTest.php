@@ -69,8 +69,6 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $parameters
-     * @param $expected
      * @dataProvider transformerProvider
      */
     public function testTransform($parameters, $expected)
@@ -96,8 +94,6 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $parameters
-     * @param $expected
      * @dataProvider reverseTransformerProvider
      */
     public function testReverseTransform($parameters, $expected)

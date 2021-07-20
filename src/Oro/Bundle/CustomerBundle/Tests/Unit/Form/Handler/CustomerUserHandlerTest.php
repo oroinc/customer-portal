@@ -242,10 +242,6 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
         }
     }
 
-    /**
-     * @param Organization $organization
-     * @param CustomerUser $customerUser
-     */
     protected function assertExistingUserSaveCalls(Organization $organization, CustomerUser $customerUser)
     {
         $this->tokenAccessor->expects($this->any())

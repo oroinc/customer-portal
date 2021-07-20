@@ -88,33 +88,21 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
         );
     }
 
-    /**
-     * @return JobProcessor
-     */
     private function getJobProcessor(): JobProcessor
     {
         return $this->getContainer()->get('oro_message_queue.job.processor');
     }
 
-    /**
-     * @return OwnerTreeCacheJobProcessor
-     */
     private function getOwnerTreeCacheJobProcessor(): OwnerTreeCacheJobProcessor
     {
         return $this->getContainer()->get('oro_customer.tests.async.owner_tree_cache_job_processor');
     }
 
-    /**
-     * @return OwnerTreeMessageFactory
-     */
     private function getOwnerTreeMessageFactory(): OwnerTreeMessageFactory
     {
         return $this->getContainer()->get('oro_customer.tests.model.owner_tree_message_factory');
     }
 
-    /**
-     * @return BusinessUnitMessageFactory
-     */
     private function getBusinessUnitMessageFactory(): BusinessUnitMessageFactory
     {
         return $this->getContainer()->get('oro_customer.tests.model.business_unit_message_factory');
@@ -129,8 +117,6 @@ class OwnerTreeCacheJobProcessorTest extends WebTestCase
     }
 
     /**
-     * @param string $reference
-     * @param int $secondsAgo
      * @throws \Exception
      */
     private function updateCustomerUserLastLogin(string $reference, int $secondsAgo)

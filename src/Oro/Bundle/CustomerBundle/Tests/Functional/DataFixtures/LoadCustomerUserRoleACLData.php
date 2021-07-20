@@ -40,9 +40,6 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
         ]
     ];
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         parent::load($manager);
@@ -50,9 +47,6 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
         $this->loadCustomerPermissions($manager);
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     protected function loadCustomerUserRoles(ObjectManager $manager)
     {
         foreach (self::$roles as $name => $role) {
@@ -83,8 +77,6 @@ class LoadCustomerUserRoleACLData extends AbstractLoadACLData
 
     /**
      * Loads permissions for Customer entity class for the supported roles.
-     *
-     * @param ObjectManager $manager
      */
     protected function loadCustomerPermissions(ObjectManager $manager)
     {

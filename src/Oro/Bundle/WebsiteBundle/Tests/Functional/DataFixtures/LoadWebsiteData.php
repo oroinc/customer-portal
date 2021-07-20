@@ -42,8 +42,6 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
 
     /**
      * Load websites
-     *
-     * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {

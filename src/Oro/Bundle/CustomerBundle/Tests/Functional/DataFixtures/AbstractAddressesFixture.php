@@ -13,11 +13,6 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 abstract class AbstractAddressesFixture extends AbstractFixture
 {
-    /**
-     * @param EntityManager               $manager
-     * @param array                       $addressData
-     * @param AbstractDefaultTypedAddress $address
-     */
     protected function addAddress(EntityManager $manager, array $addressData, AbstractDefaultTypedAddress $address)
     {
         $defaults = [];

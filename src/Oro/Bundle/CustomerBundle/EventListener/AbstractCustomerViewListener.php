@@ -30,11 +30,6 @@ abstract class AbstractCustomerViewListener
      */
     protected $requestStack;
 
-    /**
-     * @param TranslatorInterface $translator
-     * @param DoctrineHelper $doctrineHelper
-     * @param RequestStack $requestStack
-     */
     public function __construct(
         TranslatorInterface $translator,
         DoctrineHelper $doctrineHelper,
@@ -45,9 +40,6 @@ abstract class AbstractCustomerViewListener
         $this->requestStack = $requestStack;
     }
 
-    /**
-     * @param BeforeListRenderEvent $event
-     */
     public function onCustomerView(BeforeListRenderEvent $event)
     {
         /** @var Customer $customer */
@@ -65,9 +57,6 @@ abstract class AbstractCustomerViewListener
         }
     }
 
-    /**
-     * @param BeforeListRenderEvent $event
-     */
     public function onCustomerUserView(BeforeListRenderEvent $event)
     {
         /** @var CustomerUser $customer */

@@ -20,10 +20,6 @@ class ScopeCustomerGroupCriteriaProvider implements ScopeCriteriaProviderInterfa
     /** @var CustomerUserRelationsProvider */
     private $customerUserProvider;
 
-    /**
-     * @param TokenStorageInterface         $tokenStorage
-     * @param CustomerUserRelationsProvider $customerUserRelationsProvider
-     */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         CustomerUserRelationsProvider $customerUserRelationsProvider

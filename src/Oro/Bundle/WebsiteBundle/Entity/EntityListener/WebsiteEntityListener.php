@@ -12,17 +12,11 @@ class WebsiteEntityListener
      */
     private $scopeManager;
 
-    /**
-     * @param ScopeManager $scopeManager
-     */
     public function __construct(ScopeManager $scopeManager)
     {
         $this->scopeManager = $scopeManager;
     }
 
-    /**
-     * @param Website $website
-     */
     public function prePersist(Website $website)
     {
         $criteria = $this->scopeManager->getCriteria(ScopeManager::BASE_SCOPE, ['website' => $website]);

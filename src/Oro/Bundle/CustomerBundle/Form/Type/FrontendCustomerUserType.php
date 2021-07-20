@@ -31,11 +31,6 @@ class FrontendCustomerUserType extends AbstractType
     /** @var WebsiteManager */
     protected $websiteManager;
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenAccessorInterface $tokenAccessor
-     * @param WebsiteManager $websiteManager
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         TokenAccessorInterface $tokenAccessor,
@@ -96,9 +91,6 @@ class FrontendCustomerUserType extends AbstractType
         $data->setOrganization($user->getOrganization());
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function onSubmit(FormEvent $event)
     {
         $data = $event->getData();

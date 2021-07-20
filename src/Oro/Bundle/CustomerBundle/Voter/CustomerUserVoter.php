@@ -18,9 +18,6 @@ class CustomerUserVoter implements VoterInterface
      */
     private $featureName;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     */
     public function __construct(TokenAccessorInterface $tokenAccessor)
     {
         $this->tokenAccessor = $tokenAccessor;

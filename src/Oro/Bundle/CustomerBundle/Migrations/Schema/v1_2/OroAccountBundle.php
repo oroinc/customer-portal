@@ -31,7 +31,6 @@ class OroAccountBundle implements Migration
         $this->addOroAccountGroupProductVisibilityResolvedForeignKeys($schema);
         $this->addOroAccountProductVisibilityResolvedForeignKeys($schema);
 
-
         $queries->addQuery(
             new UpdateEntityConfigFieldValueQuery(
                 'Oro\Bundle\CustomerBundle\Entity\Customer',
@@ -45,8 +44,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_prod_vsb_resolv table
-     *
-     * @param Schema $schema
      */
     protected function createOroProductVisibilityResolvedTable(Schema $schema)
     {
@@ -62,8 +59,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_acc_grp_prod_vsb_resolv table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountGroupProductVisibilityResolvedTable(Schema $schema)
     {
@@ -80,8 +75,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_acc_prod_vsb_resolv table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountProductVisibilityResolvedTable(Schema $schema)
     {
@@ -98,8 +91,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_prod_vsb_resolv foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroProductVisibilityResolvedForeignKeys(Schema $schema)
     {
@@ -132,8 +123,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_acc_grp_prod_vsb_resolv foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountGroupProductVisibilityResolvedForeignKeys(Schema $schema)
     {
@@ -172,8 +161,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_acc_prod_vsb_resolv foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountProductVisibilityResolvedForeignKeys(Schema $schema)
     {

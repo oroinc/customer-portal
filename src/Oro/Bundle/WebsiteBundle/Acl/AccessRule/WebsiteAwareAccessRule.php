@@ -16,9 +16,6 @@ class WebsiteAwareAccessRule implements AccessRuleInterface
     /** @var string */
     private $websiteFieldName;
 
-    /**
-     * @param string $websiteFieldName
-     */
     public function __construct(string $websiteFieldName = 'website')
     {
         $this->websiteFieldName = $websiteFieldName;

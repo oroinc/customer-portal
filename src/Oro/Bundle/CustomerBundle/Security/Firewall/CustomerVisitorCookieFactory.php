@@ -35,9 +35,6 @@ class CustomerVisitorCookieFactory
         $this->configManager = $configManager;
     }
 
-    /**
-     * @param string|null $sameSite
-     */
     public function setSameSite(?string $sameSite): void
     {
         $this->sameSite = $sameSite;

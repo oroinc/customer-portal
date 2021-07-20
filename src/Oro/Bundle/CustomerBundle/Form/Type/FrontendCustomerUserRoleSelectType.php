@@ -25,10 +25,6 @@ class FrontendCustomerUserRoleSelectType extends AbstractType
     /** @var string */
     protected $roleClass;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     * @param ManagerRegistry        $registry
-     */
     public function __construct(TokenAccessorInterface $tokenAccessor, ManagerRegistry $registry)
     {
         $this->tokenAccessor = $tokenAccessor;

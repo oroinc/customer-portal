@@ -23,10 +23,6 @@ class CustomerUserRelationsProvider
      */
     protected $doctrineHelper;
 
-    /**
-     * @param ConfigManager $configManager
-     * @param DoctrineHelper $doctrineHelper
-     */
     public function __construct(ConfigManager $configManager, DoctrineHelper $doctrineHelper)
     {
         $this->configManager = $configManager;
