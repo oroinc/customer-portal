@@ -9,9 +9,6 @@ use Oro\Bundle\DataGridBundle\Event\BuildBefore;
  */
 class CustomerGroupConfigurationDatagridListener
 {
-    /**
-     * @param BuildBefore $event
-     */
     public function onBuildBefore(BuildBefore $event): void
     {
         $config = $event->getConfig();

@@ -26,12 +26,6 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
     /** @var TokenStorageInterface */
     private $tokenStorage;
 
-    /**
-     * @param WebsiteProviderInterface $websiteProvider
-     * @param CacheProvider $cacheProvider
-     * @param DoctrineHelper $doctrineHelper
-     * @param TokenStorageInterface $tokenStorage
-     */
     public function __construct(
         WebsiteProviderInterface $websiteProvider,
         CacheProvider $cacheProvider,
@@ -95,10 +89,6 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
         $this->cacheProvider->deleteAll();
     }
 
-    /**
-     * @param string $postfix
-     * @return string
-     */
     private function getCacheKey(string $postfix): string
     {
         return self::WEBSITE_CACHE_KEY . '_' . $this->getOrganizationId() . '_' . $postfix;

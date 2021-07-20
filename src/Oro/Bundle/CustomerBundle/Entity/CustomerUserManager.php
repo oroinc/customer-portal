@@ -40,17 +40,6 @@ class CustomerUserManager extends BaseUserManager
     /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * @param UserLoaderInterface     $userLoader
-     * @param ManagerRegistry         $doctrine
-     * @param EncoderFactoryInterface $encoderFactory
-     * @param ConfigManager           $configManager
-     * @param ServiceLink             $emailProcessor
-     * @param FrontendHelper          $frontendHelper
-     * @param LocalizationHelper      $localizationHelper
-     * @param WebsiteManager          $websiteManager
-     * @param LoggerInterface         $logger
-     */
     public function __construct(
         UserLoaderInterface $userLoader,
         ManagerRegistry $doctrine,
@@ -71,9 +60,6 @@ class CustomerUserManager extends BaseUserManager
         $this->logger = $logger;
     }
 
-    /**
-     * @param CustomerUser $user
-     */
     public function register(CustomerUser $user): void
     {
         $this->updateWebsiteSettings($user);
@@ -100,17 +86,11 @@ class CustomerUserManager extends BaseUserManager
         }
     }
 
-    /**
-     * @return bool
-     */
     public function isConfirmationRequired(): bool
     {
         return (bool)$this->configManager->get('oro_customer.confirmation_required');
     }
 
-    /**
-     * @param CustomerUser $user
-     */
     public function confirmRegistration(CustomerUser $user): void
     {
         $user->setConfirmed(true)
@@ -123,9 +103,6 @@ class CustomerUserManager extends BaseUserManager
         }
     }
 
-    /**
-     * @param CustomerUser $user
-     */
     public function confirmRegistrationByAdmin(CustomerUser $user): void
     {
         $user->setConfirmed(true);
@@ -133,9 +110,6 @@ class CustomerUserManager extends BaseUserManager
         $this->sendWelcomeRegisteredByAdminEmail($user);
     }
 
-    /**
-     * @param CustomerUser $user
-     */
     public function sendWelcomeRegisteredByAdminEmail(CustomerUser $user): void
     {
         $user->setConfirmationToken($user->generateToken());
@@ -150,9 +124,6 @@ class CustomerUserManager extends BaseUserManager
         }
     }
 
-    /**
-     * @param CustomerUser $user
-     */
     public function sendConfirmationEmail(CustomerUser $user): void
     {
         $user->setConfirmed(false)
@@ -167,9 +138,6 @@ class CustomerUserManager extends BaseUserManager
         }
     }
 
-    /**
-     * @param CustomerUser $user
-     */
     public function sendResetPasswordEmail(CustomerUser $user): void
     {
         $user->setConfirmationToken($user->generateToken());
@@ -185,9 +153,6 @@ class CustomerUserManager extends BaseUserManager
         return parent::findUserBy(array_merge($criteria, ['isGuest' => false]));
     }
 
-    /**
-     * @return Processor
-     */
     private function getEmailProcessor(): Processor
     {
         return $this->emailProcessorLink->getService();

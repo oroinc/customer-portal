@@ -21,7 +21,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class SignInProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var SignInProvider */
     private SignInProvider $dataProvider;
 
     /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */

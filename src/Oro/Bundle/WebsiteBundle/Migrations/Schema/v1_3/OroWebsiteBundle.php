@@ -66,10 +66,6 @@ class OroWebsiteBundle implements
         $this->updateWebsiteTable($schema, $queries);
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     public function updateLocaleTable(Schema $schema, QueryBag $queries)
     {
         $queries->addQuery(
@@ -77,7 +73,7 @@ class OroWebsiteBundle implements
             '(id, parent_id, name, language_code, formatting_code, created_at, updated_at) ' .
             'SELECT id, parent_id, title, code, code, created_at, updated_at FROM orob2b_locale'
         );
-        
+
         if ($this->platform instanceof PostgreSqlPlatform) {
             $queries->addQuery(
                 "SELECT setval(pg_get_serial_sequence('oro_localization', 'id'), max(id)) " .
@@ -96,10 +92,6 @@ class OroWebsiteBundle implements
         }
     }
 
-    /**
-     * @param Schema $schema
-     * @param QueryBag $queries
-     */
     public function updateWebsiteTable(Schema $schema, QueryBag $queries)
     {
         $table = $schema->getTable('orob2b_websites_locales');

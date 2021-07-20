@@ -31,15 +31,6 @@ class CustomerOwnershipConditionDataBuilder extends AbstractOwnershipConditionDa
     /** @var AclGroupProviderInterface */
     protected $aclGroupProvider;
 
-    /**
-     * @param AuthorizationCheckerInterface      $authorizationChecker
-     * @param TokenStorageInterface              $tokenStorage
-     * @param OwnershipMetadataProviderInterface $metadataProvider
-     * @param OwnerTreeProviderInterface         $treeProvider
-     * @param AclVoterInterface                  $aclVoter
-     * @param AclConditionDataBuilderInterface   $ownerConditionBuilder
-     * @param AclGroupProviderInterface          $aclGroupProvider
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         TokenStorageInterface $tokenStorage,

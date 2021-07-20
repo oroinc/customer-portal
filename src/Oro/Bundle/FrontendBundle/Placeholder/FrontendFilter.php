@@ -13,9 +13,6 @@ class FrontendFilter
     /** @var FrontendHelper */
     private $helper;
 
-    /**
-     * @param FrontendHelper $helper
-     */
     public function __construct(FrontendHelper $helper)
     {
         $this->helper = $helper;

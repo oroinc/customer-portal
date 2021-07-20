@@ -9,8 +9,6 @@ interface SignInTargetPathProviderInterface
 {
     /**
      * Returns URL an user should be redirected after login.
-     *
-     * @return string|null
      */
     public function getTargetPath(): ?string;
 }

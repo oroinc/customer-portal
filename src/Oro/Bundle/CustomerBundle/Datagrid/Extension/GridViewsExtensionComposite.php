@@ -24,11 +24,6 @@ class GridViewsExtensionComposite extends BaseGridViewsExtension
     /** @var TokenAccessorInterface */
     protected $tokenAccessor;
 
-    /**
-     * @param BaseGridViewsExtension $defaultGridViewsExtension
-     * @param BaseGridViewsExtension $frontendGridViewsExtension
-     * @param TokenAccessorInterface $tokenAccessor
-     */
     public function __construct(
         BaseGridViewsExtension $defaultGridViewsExtension,
         BaseGridViewsExtension $frontendGridViewsExtension,

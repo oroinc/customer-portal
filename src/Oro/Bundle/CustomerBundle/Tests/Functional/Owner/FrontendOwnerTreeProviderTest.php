@@ -31,8 +31,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
 
     /**
      * @dataProvider getTreeDataProvider
-     * @param array $token
-     * @param array $expectedTreeData
      */
     public function testGetTree(array $token, array $expectedTreeData): void
     {
@@ -54,7 +52,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     * @return array
      */
     public function getTreeDataProvider(): array
     {
@@ -418,7 +415,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
 
     /**
      * @dataProvider getTreeNoLoggedInCustomerUserDataProvider
-     * @param array $expectedTreeData
      */
     public function testGetTreeWhenNoLoggedInCustomerUser(array $expectedTreeData): void
     {
@@ -484,7 +480,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     * @return array
      */
     public function getTreeNoLoggedInCustomerUserDataProvider(): array
     {
@@ -665,8 +660,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
 
     /**
      * @dataProvider getTreeDataProvider
-     * @param array $token
-     * @param array $expectedTreeData
      */
     public function testGetTreeByCustomer(array $token, array $expectedTreeData): void
     {
@@ -745,9 +738,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
         $this->assertGetTreeByCustomerQueries($customer, 1);
     }
 
-    /**
-     * @param int $queriesNumber
-     */
     private function assertGetTreeQueries(int $queriesNumber): void
     {
         /** @var EntityManagerInterface $entityManager */
@@ -761,10 +751,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
         $this->assertCount($queriesNumber, $queryTracker->getExecutedQueries());
     }
 
-    /**
-     * @param Customer $customer
-     * @param int $queriesNumber
-     */
     private function assertGetTreeByCustomerQueries(Customer $customer, int $queriesNumber): void
     {
         /** @var EntityManagerInterface $entityManager */
@@ -778,10 +764,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
         $this->assertCount($queriesNumber, $queryTracker->getExecutedQueries());
     }
 
-    /**
-     * @param array $treeData
-     * @return array
-     */
     private function prepareTreeData(array $treeData): array
     {
         $result = [];
@@ -839,11 +821,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
         );
     }
 
-    /**
-     * @param string $userReference
-     * @param string $password
-     * @param string $organizationReference
-     */
     private function createToken(string $userReference, string $password, string $organizationReference): void
     {
         $token = new UsernamePasswordOrganizationToken(
@@ -856,9 +833,6 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
         $this->client->getContainer()->get('security.token_storage')->setToken($token);
     }
 
-    /**
-     * @return FrontendOwnerTreeProvider
-     */
     private function getFrontendOwnerTreeProvider(): FrontendOwnerTreeProvider
     {
         return $this->client->getContainer()->get('oro_customer.tests.owner.tree_provider');

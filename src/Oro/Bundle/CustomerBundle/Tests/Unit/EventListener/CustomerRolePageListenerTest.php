@@ -119,7 +119,6 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
             )
             ->willReturn($renderedHtml);
 
-
         $this->requestStack->push(new Request([], [], ['_route' => $routeName]));
 
         $this->listener->onUpdatePageRender($event);
@@ -189,7 +188,6 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
             $entity
         );
 
-
         $renderedHtml = '<div>Rendered datagrid position</div>';
         $twig->expects($this->once())
             ->method('render')
@@ -201,7 +199,6 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
                 ]
             )
             ->willReturn($renderedHtml);
-
 
         $this->requestStack->push(new Request([], [], ['_route' => 'oro_customer_customer_user_role_view']));
 

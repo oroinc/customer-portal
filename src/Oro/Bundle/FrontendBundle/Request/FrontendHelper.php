@@ -34,8 +34,6 @@ class FrontendHelper
 
     /**
      * Checks whether the current HTTP request is the storefront or management console request.
-     *
-     * @return bool
      */
     public function isFrontendRequest(): bool
     {

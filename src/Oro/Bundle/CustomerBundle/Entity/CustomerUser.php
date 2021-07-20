@@ -812,9 +812,6 @@ class CustomerUser extends ExtendCustomerUser implements
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
     public function getBirthday(): ?\DateTime
     {
         return $this->birthday;
@@ -1164,8 +1161,6 @@ class CustomerUser extends ExtendCustomerUser implements
      * Invoked before the entity is updated.
      *
      * @ORM\PreUpdate
-     *
-     * @param PreUpdateEventArgs $event
      */
     public function preUpdate(PreUpdateEventArgs $event)
     {

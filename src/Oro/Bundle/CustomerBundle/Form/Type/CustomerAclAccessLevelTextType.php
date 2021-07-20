@@ -19,9 +19,6 @@ class CustomerAclAccessLevelTextType extends AbstractType
      */
     protected $roleTranslationPrefixResolver;
 
-    /**
-     * @param RoleTranslationPrefixResolver $roleTranslationPrefixResolver
-     */
     public function __construct(RoleTranslationPrefixResolver $roleTranslationPrefixResolver)
     {
         $this->roleTranslationPrefixResolver = $roleTranslationPrefixResolver;

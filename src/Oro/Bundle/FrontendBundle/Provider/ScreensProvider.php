@@ -18,10 +18,6 @@ class ScreensProvider implements ScreensProviderInterface
     /** @var Cache */
     private $cache;
 
-    /**
-     * @param ThemeManager $themeManager
-     * @param Cache        $cache
-     */
     public function __construct(ThemeManager $themeManager, Cache $cache)
     {
         $this->themeManager = $themeManager;

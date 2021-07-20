@@ -20,10 +20,6 @@ class EmailRecipientsProvider implements EmailRecipientsProviderInterface
     /** @var EmailRecipientsHelper */
     protected $emailRecipientsHelper;
 
-    /**
-     * @param Registry $registry
-     * @param EmailRecipientsHelper $emailRecipientsHelper
-     */
     public function __construct(
         Registry $registry,
         EmailRecipientsHelper $emailRecipientsHelper

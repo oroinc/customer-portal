@@ -42,8 +42,6 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
 
     /**
      * PRE_SET_DATA event handler
-     *
-     * @param FormEvent $event
      */
     public function preSetData(FormEvent $event)
     {

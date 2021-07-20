@@ -12,10 +12,6 @@ interface GuestAccessDecisionMakerInterface
 
     /**
      * Detects whether an access is granted or not for the given URL.
-     *
-     * @param string $url
-     *
-     * @return int
      */
     public function decide(string $url): int;
 }

@@ -50,8 +50,6 @@ class OroAccountBundle implements
 
     /**
      * Sets the ActivityExtension
-     *
-     * @param ActivityExtension $activityExtension
      */
     public function setActivityExtension(ActivityExtension $activityExtension)
     {
@@ -60,8 +58,6 @@ class OroAccountBundle implements
 
     /**
      * Sets the ExtendExtension
-     *
-     * @param ExtendExtension $extendExtension
      */
     public function setExtendExtension(ExtendExtension $extendExtension)
     {
@@ -117,8 +113,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_user table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountUserTable(Schema $schema)
     {
@@ -181,8 +175,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountTable(Schema $schema)
     {
@@ -227,8 +219,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_user_access_user_role table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountUserAccessAccountUserRoleTable(Schema $schema)
     {
@@ -242,8 +232,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_group table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountGroupTable(Schema $schema)
     {
@@ -261,8 +249,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_audit_field table
-     *
-     * @param Schema $schema
      */
     protected function createOroAuditFieldTable(Schema $schema)
     {
@@ -309,8 +295,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_audit table
-     *
-     * @param Schema $schema
      */
     protected function createOroAuditTable(Schema $schema)
     {
@@ -330,8 +314,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_user_organization table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountUserOrganizationTable(Schema $schema)
     {
@@ -345,8 +327,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_user_role table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountUserRoleTable(Schema $schema)
     {
@@ -369,8 +349,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_role_to_website table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountUserRoleToWebsiteTable(Schema $schema)
     {
@@ -383,8 +361,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_address table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountAddressTable(Schema $schema)
     {
@@ -415,8 +391,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_adr_adr_type table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountAdrAdrTypeTable(Schema $schema)
     {
@@ -431,8 +405,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_navigation_history table
-     *
-     * @param Schema $schema
      */
     protected function createOroNavigationHistoryTable(Schema $schema)
     {
@@ -454,8 +426,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_navigation_item table
-     *
-     * @param Schema $schema
      */
     protected function createOroNavigationItemTable(Schema $schema)
     {
@@ -475,8 +445,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_acc_nav_item_pinbar table
-     *
-     * @param Schema $schema
      */
     protected function createOroNavigationItemPinbarTable(Schema $schema)
     {
@@ -490,8 +458,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_user_sdbar_st table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountUserSdbarStTable(Schema $schema)
     {
@@ -506,8 +472,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_user_sdbar_wdg table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountUserSdbarWdgTable(Schema $schema)
     {
@@ -527,8 +491,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_acc_pagestate table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccNavigationPagestateTable(Schema $schema)
     {
@@ -546,8 +508,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account_user foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountUserForeignKeys(Schema $schema)
     {
@@ -574,8 +534,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account_user_access_user_role foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountUserAccessAccountUserRoleForeignKeys(Schema $schema)
     {
@@ -596,8 +554,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountForeignKeys(Schema $schema)
     {
@@ -630,8 +586,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account_user_organization foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountUserOrganizationForeignKeys(Schema $schema)
     {
@@ -652,8 +606,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account_user_role foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountUserRoleForeignKeys(Schema $schema)
     {
@@ -674,8 +626,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account_role_to_website foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountUserRoleToWebsiteForeignKeys(Schema $schema)
     {
@@ -696,8 +646,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account_address foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountAddressForeignKeys(Schema $schema)
     {
@@ -736,8 +684,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_audit_field foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAuditFieldForeignKeys(Schema $schema)
     {
@@ -752,8 +698,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account_adr_adr_type foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountAdrAdrTypeForeignKeys(Schema $schema)
     {
@@ -774,8 +718,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_audit foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAuditForeignKeys(Schema $schema)
     {
@@ -796,8 +738,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_user_address table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountUserAddressTable(Schema $schema)
     {
@@ -828,8 +768,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account_user_address foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountUserAddressForeignKeys(Schema $schema)
     {
@@ -868,8 +806,6 @@ class OroAccountBundle implements
 
     /**
      * Create orob2b_account_adr_to_adr_type table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccUsrAdrToAdrTypeTable(Schema $schema)
     {
@@ -884,8 +820,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account_adr_to_adr_type foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccUsrAdrToAdrTypeForeignKeys(Schema $schema)
     {
@@ -906,8 +840,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_navigation_history foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroNavigationHistoryForeignKeys(Schema $schema)
     {
@@ -928,8 +860,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_navigation_item foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroNavigationItemForeignKeys(Schema $schema)
     {
@@ -950,8 +880,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_acc_nav_item_pinbar foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroNavigationItemPinbarForeignKeys(Schema $schema)
     {
@@ -966,8 +894,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account_user_sdbar_st foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountUserSdbarStForeignKeys(Schema $schema)
     {
@@ -982,8 +908,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_account_user_sdbar_wdg foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountUserSdbarWdgForeignKeys(Schema $schema)
     {
@@ -1004,8 +928,6 @@ class OroAccountBundle implements
 
     /**
      * Add orob2b_acc_navigation_pagestate foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccNavigationPagestateForeignKeys(Schema $schema)
     {

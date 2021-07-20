@@ -58,15 +58,6 @@ class OwnerTreeCacheJobProcessor implements MessageProcessorInterface, TopicSubs
      */
     private $logger;
 
-    /**
-     * @param JobRunner $jobRunner
-     * @param MessageProducerInterface $producer
-     * @param ManagerRegistry $doctrine
-     * @param OwnershipMetadataProviderInterface $ownershipMetadataProvider
-     * @param BusinessUnitMessageFactory $businessUnitMessageFactory
-     * @param OwnerTreeMessageFactory $ownerTreeMessageFactory
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         JobRunner $jobRunner,
         MessageProducerInterface $producer,
@@ -140,11 +131,6 @@ class OwnerTreeCacheJobProcessor implements MessageProcessorInterface, TopicSubs
         return $result ? self::ACK : self::REJECT;
     }
 
-    /**
-     * @param JobRunner $jobRunner
-     * @param string $entityClass
-     * @param int $entityId
-     */
     private function scheduleCacheRecalculationForCustomer(JobRunner $jobRunner, string $entityClass, int $entityId)
     {
         $jobRunner->createDelayed(

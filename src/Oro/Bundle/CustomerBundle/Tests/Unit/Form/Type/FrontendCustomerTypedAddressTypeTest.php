@@ -209,9 +209,6 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
         );
     }
 
-    /**
-     * @return string
-     */
     protected function getTypeClass(): string
     {
         return FrontendCustomerTypedAddressType::class;

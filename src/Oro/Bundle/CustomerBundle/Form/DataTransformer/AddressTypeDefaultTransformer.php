@@ -11,9 +11,6 @@ class AddressTypeDefaultTransformer implements DataTransformerInterface
     /** @var ObjectManager */
     protected $om;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;

@@ -28,8 +28,6 @@ class OroWebsiteBundle implements Migration
 
     /**
      * Create orob2b_locale table
-     *
-     * @param Schema $schema
      */
     protected function createOrob2BLocaleTable(Schema $schema)
     {
@@ -45,8 +43,6 @@ class OroWebsiteBundle implements Migration
 
     /**
      * Create orob2b_related_website table
-     *
-     * @param Schema $schema
      */
     protected function createOrob2BRelatedWebsiteTable(Schema $schema)
     {
@@ -58,8 +54,6 @@ class OroWebsiteBundle implements Migration
 
     /**
      * Create orob2b_website table
-     *
-     * @param Schema $schema
      */
     protected function createOrob2BWebsiteTable(Schema $schema)
     {
@@ -80,8 +74,6 @@ class OroWebsiteBundle implements Migration
 
     /**
      * Create orob2b_websites_locales table
-     *
-     * @param Schema $schema
      */
     protected function createOrob2BWebsitesLocalesTable(Schema $schema)
     {
@@ -93,8 +85,6 @@ class OroWebsiteBundle implements Migration
 
     /**
      * Add orob2b_locale foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOrob2BLocaleForeignKeys(Schema $schema)
     {
@@ -109,8 +99,6 @@ class OroWebsiteBundle implements Migration
 
     /**
      * Add orob2b_related_website foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOrob2BRelatedWebsiteForeignKeys(Schema $schema)
     {
@@ -131,8 +119,6 @@ class OroWebsiteBundle implements Migration
 
     /**
      * Add orob2b_website foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOrob2BWebsiteForeignKeys(Schema $schema)
     {
@@ -153,8 +139,6 @@ class OroWebsiteBundle implements Migration
 
     /**
      * Add orob2b_websites_locales foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOrob2BWebsitesLocalesForeignKeys(Schema $schema)
     {

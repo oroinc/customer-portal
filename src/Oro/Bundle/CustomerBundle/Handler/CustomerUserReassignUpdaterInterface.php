@@ -9,9 +9,6 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
  */
 interface CustomerUserReassignUpdaterInterface
 {
-    /**
-     * @param CustomerUser $customerUser
-     */
     public function update(CustomerUser $customerUser);
 
     /**

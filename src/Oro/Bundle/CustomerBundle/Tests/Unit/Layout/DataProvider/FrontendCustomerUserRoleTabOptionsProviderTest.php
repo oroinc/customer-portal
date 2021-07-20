@@ -52,11 +52,6 @@ class FrontendCustomerUserRoleTabOptionsProviderTest extends \PHPUnit\Framework\
         );
     }
 
-    /**
-     * @param string $category
-     *
-     * @return AclPrivilege
-     */
     private function getPrivilegeWithCategory(string $category): AclPrivilege
     {
         $privilege = new AclPrivilege();

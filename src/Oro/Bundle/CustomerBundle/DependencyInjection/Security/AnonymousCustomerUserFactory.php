@@ -50,9 +50,6 @@ class AnonymousCustomerUserFactory implements SecurityFactoryInterface
         return 'anonymous_customer_user';
     }
 
-    /**
-     * @param NodeDefinition $builder
-     */
     public function addConfiguration(NodeDefinition $builder)
     {
         $builder

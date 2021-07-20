@@ -23,11 +23,6 @@ class SetWebsite implements ProcessorInterface
     /** @var string */
     private $websiteFieldName;
 
-    /**
-     * @param PropertyAccessorInterface $propertyAccessor
-     * @param WebsiteManager            $websiteManager
-     * @param string                    $websiteFieldName
-     */
     public function __construct(
         PropertyAccessorInterface $propertyAccessor,
         WebsiteManager $websiteManager,
@@ -56,8 +51,6 @@ class SetWebsite implements ProcessorInterface
 
     /**
      * Returns a website a processing entity should be assigned to.
-     *
-     * @return Website|null
      */
     private function getWebsite(): ?Website
     {

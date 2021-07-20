@@ -23,9 +23,6 @@ class RouteCollectionListener
         $this->prefix = trim(trim($prefix), '/');
     }
 
-    /**
-     * @param RouteCollectionEvent $event
-     */
     public function onCollectionAutoload(RouteCollectionEvent $event)
     {
         if ('' === $this->prefix) {

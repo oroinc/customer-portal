@@ -317,10 +317,6 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         );
     }
 
-    /**
-     * @param array $expectedLabels
-     * @param array $resultData
-     */
     private function assertResponseDataHaveLabels(array $expectedLabels, array $resultData)
     {
         foreach ($resultData as $result) {

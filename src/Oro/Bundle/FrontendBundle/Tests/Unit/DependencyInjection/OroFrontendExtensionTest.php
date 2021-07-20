@@ -395,9 +395,6 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $extension->prepend($container);
     }
 
-    /**
-     * @return ContainerBuilder
-     */
     private function getContainerBuilder(): ContainerBuilder
     {
         $container = new ContainerBuilder();

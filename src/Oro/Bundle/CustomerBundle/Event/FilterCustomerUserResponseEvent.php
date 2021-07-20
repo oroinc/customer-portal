@@ -27,11 +27,6 @@ class FilterCustomerUserResponseEvent extends Event
      */
     private $response;
 
-    /**
-     * @param CustomerUser $customerUser
-     * @param Request $request
-     * @param Response $response
-     */
     public function __construct(CustomerUser $customerUser, Request $request, Response $response)
     {
         $this->customerUser = $customerUser;

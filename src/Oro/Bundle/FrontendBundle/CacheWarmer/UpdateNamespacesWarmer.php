@@ -15,9 +15,6 @@ class UpdateNamespacesWarmer implements CacheWarmerInterface
      */
     private $classMigration;
 
-    /**
-     * @param ClassMigration $classMigration
-     */
     public function __construct(ClassMigration $classMigration)
     {
         $this->classMigration = $classMigration;

@@ -19,7 +19,7 @@ class LoginManagerPass implements CompilerPassInterface
         if (!$container->hasDefinition('oro_customer.security.login_manager')) {
             return;
         }
-        
+
         $firewallName = $container->getParameter('oro_customer.firewall_name');
         $loginManager = $container->getDefinition('oro_customer.security.login_manager');
 

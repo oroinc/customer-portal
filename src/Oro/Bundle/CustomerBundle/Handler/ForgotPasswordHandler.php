@@ -27,11 +27,6 @@ class ForgotPasswordHandler
      */
     private $session;
 
-    /**
-     * @param CustomerUserPasswordRequestHandler $passwordRequestHandler
-     * @param FrontendCustomerUserFormProvider $customerUserFormProvider
-     * @param Session $session
-     */
     public function __construct(
         CustomerUserPasswordRequestHandler $passwordRequestHandler,
         FrontendCustomerUserFormProvider $customerUserFormProvider,

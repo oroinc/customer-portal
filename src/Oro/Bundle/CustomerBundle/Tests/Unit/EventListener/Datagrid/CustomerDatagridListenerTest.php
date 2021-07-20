@@ -63,8 +63,6 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param array $inputData
-     * @param array $expectedData
      * @dataProvider buildBeforeFrontendQuotesProvider
      */
     public function testBuildBefore(array $inputData, array $expectedData)

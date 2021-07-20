@@ -29,12 +29,6 @@ class AclPermissionController
     /** @var RoleTranslationPrefixResolver */
     private $roleTranslationPrefixResolver;
 
-    /**
-     * @param EntityRoutingHelper            $entityRoutingHelper
-     * @param AclManager                     $aclManager
-     * @param ChainOwnershipMetadataProvider $ownershipMetadataProvider
-     * @param RoleTranslationPrefixResolver  $roleTranslationPrefixResolver
-     */
     public function __construct(
         EntityRoutingHelper $entityRoutingHelper,
         AclManager $aclManager,
@@ -55,11 +49,6 @@ class AclPermissionController
      *      defaults={"_format"="json", "permission"=null}
      * )
      * @Template
-     *
-     * @param string      $oid
-     * @param string|null $permission
-     *
-     * @return array
      */
     public function aclAccessLevelsAction(string $oid, string $permission = null): array
     {
@@ -76,12 +65,6 @@ class AclPermissionController
         ];
     }
 
-    /**
-     * @param string      $oid
-     * @param string|null $permission
-     *
-     * @return array
-     */
     private function getAccessLevels(string $oid, string $permission = null): array
     {
         $this->ownershipMetadataProvider->startProviderEmulation(FrontendOwnershipMetadataProvider::ALIAS);

@@ -60,9 +60,6 @@ class CustomerUserSettings extends ExtendCustomerUserSettings
      */
     protected $localization;
 
-    /**
-     * @param Website $website
-     */
     public function __construct(Website $website)
     {
         parent::__construct();

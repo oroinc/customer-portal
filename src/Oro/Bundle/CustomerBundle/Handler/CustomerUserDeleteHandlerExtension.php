@@ -18,10 +18,6 @@ class CustomerUserDeleteHandlerExtension extends AbstractEntityDeleteHandlerExte
     /** @var OwnerDeletionManager */
     private $ownerDeletionManager;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     * @param OwnerDeletionManager   $ownerDeletionManager
-     */
     public function __construct(
         TokenAccessorInterface $tokenAccessor,
         OwnerDeletionManager $ownerDeletionManager

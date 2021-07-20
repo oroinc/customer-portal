@@ -40,8 +40,6 @@ class CustomerTypeTest extends WebTestCase
     }
 
     /**
-     * @param array $addressData
-     *
      * @dataProvider formAddressTypeDataProvider
      */
     public function testCreatePrimaryAddress(array $addressData): void
@@ -56,9 +54,6 @@ class CustomerTypeTest extends WebTestCase
         static::assertStringNotContainsString('One of the addresses must be set as primary.', $crawler->html());
     }
 
-    /**
-     * @return array
-     */
     public function formAddressTypeDataProvider(): array
     {
         $addressData = [
@@ -84,12 +79,6 @@ class CustomerTypeTest extends WebTestCase
         ];
     }
 
-
-    /**
-     * @param array $addressData
-     *
-     * @return Crawler
-     */
     private function submitCustomerForm(array $addressData): Crawler
     {
         $form = $this->getUpdateForm();
@@ -106,9 +95,6 @@ class CustomerTypeTest extends WebTestCase
         return $crawler;
     }
 
-    /**
-     * @return Form
-     */
     private function getUpdateForm(): Form
     {
         $crawler = $this->client->request(
@@ -124,9 +110,6 @@ class CustomerTypeTest extends WebTestCase
         return $crawler->selectButton('Save')->form();
     }
 
-    /**
-     * @return Customer
-     */
     private function getCustomer(): Customer
     {
         return $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1);

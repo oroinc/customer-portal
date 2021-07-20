@@ -30,10 +30,6 @@ class WebsiteManagerStub extends WebsiteManager
     /** @var CacheProvider */
     private $cacheProvider;
 
-    /**
-     * @param WebsiteManager $websiteManager
-     * @param CacheProvider  $cacheProvider
-     */
     public function __construct(WebsiteManager $websiteManager, CacheProvider $cacheProvider)
     {
         $this->cacheProvider = $cacheProvider;
@@ -83,9 +79,6 @@ class WebsiteManagerStub extends WebsiteManager
         return $this->websiteManager->getDefaultWebsite();
     }
 
-    /**
-     * @param Website|null $currentWebsite
-     */
     public function setCurrentWebsiteStub(Website $currentWebsite = null)
     {
         if (!$this->enabled) {
@@ -94,9 +87,6 @@ class WebsiteManagerStub extends WebsiteManager
         $this->stubCurrentWebsite = $currentWebsite;
     }
 
-    /**
-     * @param Website|null $defaultWebsite
-     */
     public function setDefaultWebsiteStub(Website $defaultWebsite = null)
     {
         if (!$this->enabled) {
@@ -105,9 +95,6 @@ class WebsiteManagerStub extends WebsiteManager
         $this->stubDefaultWebsite = $defaultWebsite;
     }
 
-    /**
-     * @param Website|null $currentWebsite
-     */
     public function setCurrentWebsite(?Website $currentWebsite): void
     {
         if ($this->stubbingSetCurrentWebsiteEnabled) {

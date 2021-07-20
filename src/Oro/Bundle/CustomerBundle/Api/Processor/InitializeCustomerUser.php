@@ -25,11 +25,6 @@ class InitializeCustomerUser implements ProcessorInterface
     /** @var WebsiteManager */
     private $websiteManager;
 
-    /**
-     * @param DoctrineHelper $doctrineHelper
-     * @param ConfigManager  $configManager
-     * @param WebsiteManager $websiteManager
-     */
     public function __construct(
         DoctrineHelper $doctrineHelper,
         ConfigManager $configManager,
@@ -55,9 +50,6 @@ class InitializeCustomerUser implements ProcessorInterface
         $this->setRoles($customerUser);
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     private function setWebsite(CustomerUser $customerUser): void
     {
         if (null === $customerUser->getWebsite()) {
@@ -65,9 +57,6 @@ class InitializeCustomerUser implements ProcessorInterface
         }
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     private function setOrganization(CustomerUser $customerUser): void
     {
         if (null === $customerUser->getOrganization()) {
@@ -78,9 +67,6 @@ class InitializeCustomerUser implements ProcessorInterface
         }
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     private function setOwner(CustomerUser $customerUser): void
     {
         if (null === $customerUser->getOwner()) {
@@ -93,9 +79,6 @@ class InitializeCustomerUser implements ProcessorInterface
         }
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     private function setRoles(CustomerUser $customerUser): void
     {
         if (count($customerUser->getUserRoles()) === 0) {

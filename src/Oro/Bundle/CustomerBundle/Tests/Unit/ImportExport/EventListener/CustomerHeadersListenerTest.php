@@ -75,9 +75,6 @@ class CustomerHeadersListenerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider fieldsConfigDataProvider
-     * @param array $fieldsConfig
-     * @param array $expectedHeaders
-     * @param array $expectedRules
      */
     public function testAfterLoadEntityRulesAndBackendHeadersWhenHeadersNotExist(
         array $fieldsConfig,
@@ -101,9 +98,6 @@ class CustomerHeadersListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($event->getRules(), $expectedRules);
     }
 
-    /**
-     * @return array
-     */
     public function fieldsConfigDataProvider(): array
     {
         return [

@@ -104,7 +104,7 @@ class CustomerUserTest extends AbstractUserTest
         self::assertEmpty($user->getUsername());
         self::assertEquals('new-name', $user->getEmail());
     }
-    
+
     public function provider(): array
     {
         return [
@@ -171,8 +171,6 @@ class CustomerUserTest extends AbstractUserTest
 
     /**
      * @dataProvider preUpdateDataProvider
-     *
-     * @param array $changeSet
      */
     public function testPreUpdateChanged(array $changeSet): void
     {
@@ -196,9 +194,6 @@ class CustomerUserTest extends AbstractUserTest
         self::assertNull($user->getPasswordRequestedAt());
     }
 
-    /**
-     * @return array
-     */
     public function preUpdateDataProvider(): array
     {
         return [

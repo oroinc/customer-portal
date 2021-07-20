@@ -240,9 +240,6 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($passwordBefore, $customerUser->getPassword());
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     protected function updateEventMock(CustomerUser $customerUser)
     {
         $this->event->method('getEntity')

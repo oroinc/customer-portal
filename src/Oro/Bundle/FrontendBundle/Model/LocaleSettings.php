@@ -38,13 +38,6 @@ class LocaleSettings extends BaseLocaleSettings
      */
     private $themeManager;
 
-    /**
-     * @param BaseLocaleSettings $inner
-     * @param FrontendHelper $frontendHelper
-     * @param UserLocalizationManagerInterface $localizationManager
-     * @param LayoutContextHolder $layoutContextHolder
-     * @param ThemeManager $themeManager
-     */
     public function __construct(
         BaseLocaleSettings $inner,
         FrontendHelper $frontendHelper,

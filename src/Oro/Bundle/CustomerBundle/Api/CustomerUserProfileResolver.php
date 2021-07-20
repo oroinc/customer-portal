@@ -26,10 +26,6 @@ class CustomerUserProfileResolver
      */
     private $authorizationChecker;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     */
     public function __construct(
         TokenAccessorInterface $tokenAccessor,
         AuthorizationCheckerInterface $authorizationChecker
@@ -38,12 +34,6 @@ class CustomerUserProfileResolver
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    /**
-     * @param ContextInterface $context
-     * @param int $customerUserId
-     *
-     * @return bool
-     */
     public function hasProfilePermission(ContextInterface $context, int $customerUserId): bool
     {
         if ($context->getClassName() !== CustomerUser::class) {

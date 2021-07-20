@@ -25,18 +25,11 @@ class CustomerUserDatagridListener
     const ACCOUNT_CONDITION = 'user.customer = :customer';
     const NEW_ACCOUNT_CONDITION = 'user.customer = :newCustomer';
 
-    /**
-     * @param PreBuild $event
-     */
     public function onBuildBefore(PreBuild $event)
     {
         $this->applyCustomerFilters($event->getConfig(), $event->getParameters());
     }
 
-    /**
-     * @param DatagridConfiguration $config
-     * @param ParameterBag $parameters
-     */
     protected function applyCustomerFilters(DatagridConfiguration $config, ParameterBag $parameters)
     {
         $query = $config->getOrmQuery();

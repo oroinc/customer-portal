@@ -58,9 +58,6 @@ class OroAccountBundle implements Migration
         $table->getColumn('label')->setType(Type::getType(Types::STRING))->setOptions(['length' => 255]);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function updateAuditAndRoleTables(Schema $schema)
     {
         $schema->dropTable('orob2b_audit_field');
@@ -79,8 +76,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_category_visibility table
-     *
-     * @param Schema $schema
      */
     protected function createOroCategoryVisibilityTable(Schema $schema)
     {
@@ -93,8 +88,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_acc_category_visibility table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountCategoryVisibilityTable(Schema $schema)
     {
@@ -108,8 +101,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_acc_grp_ctgr_visibility table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountGroupCategoryVisibilityTable(Schema $schema)
     {
@@ -123,8 +114,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_product_visibility table
-     *
-     * @param Schema $schema
      */
     protected function createOroProductVisibilityTable(Schema $schema)
     {
@@ -138,8 +127,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_acc_product_visibility table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountProductVisibilityTable(Schema $schema)
     {
@@ -154,8 +141,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Create orob2b_acc_grp_prod_visibility table
-     *
-     * @param Schema $schema
      */
     protected function createOroAccountGroupProductVisibilityTable(Schema $schema)
     {
@@ -170,8 +155,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_category_visibility foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCategoryVisibilityForeignKeys(Schema $schema)
     {
@@ -186,8 +169,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_acc_category_visibility foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountCategoryVisibilityForeignKeys(Schema $schema)
     {
@@ -208,8 +189,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_acc_grp_ctgr_visibility foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountGroupCategoryVisibilityForeignKeys(Schema $schema)
     {
@@ -230,8 +209,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_product_visibility foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroProductVisibilityForeignKeys(Schema $schema)
     {
@@ -252,8 +229,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_acc_product_visibility foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountProductVisibilityForeignKeys(Schema $schema)
     {
@@ -280,8 +255,6 @@ class OroAccountBundle implements Migration
 
     /**
      * Add orob2b_acc_grp_prod_visibility foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroAccountGroupProductVisibilityForeignKeys(Schema $schema)
     {

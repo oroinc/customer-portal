@@ -63,9 +63,6 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    /**
-     * @param NodeBuilder $node
-     */
     private function appendSessionNode(NodeBuilder $node)
     {
         $node
@@ -98,9 +95,6 @@ class Configuration implements ConfigurationInterface
             ->end();
     }
 
-    /**
-     * @param NodeBuilder $node
-     */
     private function appendFrontendApiCorsNode(NodeBuilder $node)
     {
         $node

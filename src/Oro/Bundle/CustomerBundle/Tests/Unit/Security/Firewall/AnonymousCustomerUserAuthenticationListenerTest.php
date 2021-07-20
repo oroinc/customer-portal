@@ -208,9 +208,6 @@ class AnonymousCustomerUserAuthenticationListenerTest extends \PHPUnit\Framework
         self::assertNull($request->attributes->get(AnonymousCustomerUserAuthenticationListener::COOKIE_ATTR_NAME));
     }
 
-    /**
-     * @return array
-     */
     public function handleDataProvider(): array
     {
         return [

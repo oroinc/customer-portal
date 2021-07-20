@@ -34,11 +34,6 @@ class PreferredLocalizationCustomerUserSubscriber implements EventSubscriberInte
      */
     protected $registry;
 
-    /**
-     * @param WebsiteManager $websiteManager
-     * @param ConfigManager $configManager
-     * @param ManagerRegistry $registry
-     */
     public function __construct(
         WebsiteManager $websiteManager,
         ConfigManager $configManager,
@@ -60,9 +55,6 @@ class PreferredLocalizationCustomerUserSubscriber implements EventSubscriberInte
         ];
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function onPostSetData(FormEvent $event)
     {
         $form = $event->getForm();
@@ -81,9 +73,6 @@ class PreferredLocalizationCustomerUserSubscriber implements EventSubscriberInte
             ->setData($this->getPreferredLocalization($event->getData()));
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function onPostSubmit(FormEvent $event)
     {
         $form = $event->getForm();
@@ -108,10 +97,6 @@ class PreferredLocalizationCustomerUserSubscriber implements EventSubscriberInte
         }
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     * @return Localization|null
-     */
     protected function getPreferredLocalization(CustomerUser $customerUser): ?Localization
     {
         $website = $customerUser->getWebsite() ?? $this->websiteManager->getDefaultWebsite();
@@ -125,9 +110,6 @@ class PreferredLocalizationCustomerUserSubscriber implements EventSubscriberInte
         return $preferredLocalization;
     }
 
-    /**
-     * @return bool
-     */
     protected function isAvailable(): bool
     {
         $enabledLocalizationIds = (array) $this->configManager->get(

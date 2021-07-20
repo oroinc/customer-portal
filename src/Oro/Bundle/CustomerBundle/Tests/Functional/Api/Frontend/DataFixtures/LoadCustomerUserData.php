@@ -93,9 +93,6 @@ class LoadCustomerUserData extends AbstractFixture implements
         return $customerUser;
     }
 
-    /**
-     * @param CustomerUser $customerUser
-     */
     protected function initializeCustomerUser(CustomerUser $customerUser)
     {
     }

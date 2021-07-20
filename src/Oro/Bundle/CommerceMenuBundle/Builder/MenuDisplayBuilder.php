@@ -13,9 +13,6 @@ class MenuDisplayBuilder implements BuilderInterface
      */
     private $conditionEvaluator;
 
-    /**
-     * @param ConditionEvaluatorInterface $conditionEvaluator
-     */
     public function __construct(ConditionEvaluatorInterface $conditionEvaluator)
     {
         $this->conditionEvaluator = $conditionEvaluator;
@@ -29,10 +26,6 @@ class MenuDisplayBuilder implements BuilderInterface
         $this->applyEvaluatorRecursively($menu, $options);
     }
 
-    /**
-     * @param ItemInterface $menuItem
-     * @param array         $options
-     */
     private function applyEvaluatorRecursively(ItemInterface $menuItem, array $options)
     {
         $menuChildren = $menuItem->getChildren();

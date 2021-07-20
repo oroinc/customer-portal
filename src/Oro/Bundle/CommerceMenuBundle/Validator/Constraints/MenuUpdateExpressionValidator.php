@@ -11,9 +11,6 @@ class MenuUpdateExpressionValidator extends ConstraintValidator
     /** @var ExpressionLanguage */
     private $expressionLanguage;
 
-    /**
-     * @param ExpressionLanguage $expressionLanguage
-     */
     public function __construct(ExpressionLanguage $expressionLanguage)
     {
         $this->expressionLanguage = $expressionLanguage;

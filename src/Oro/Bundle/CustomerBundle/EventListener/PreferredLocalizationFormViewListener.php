@@ -16,17 +16,11 @@ class PreferredLocalizationFormViewListener
      */
     protected $websiteManager;
 
-    /**
-     * @param WebsiteManager $websiteManager
-     */
     public function __construct(WebsiteManager $websiteManager)
     {
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * @param BeforeListRenderEvent $event
-     */
     public function onEntityEdit(BeforeListRenderEvent $event)
     {
         $template = $event->getEnvironment()->render(
@@ -37,9 +31,6 @@ class PreferredLocalizationFormViewListener
         $scrollData->addSubBlockData(0, 0, $template);
     }
 
-    /**
-     * @param BeforeListRenderEvent $event
-     */
     public function onEntityView(BeforeListRenderEvent $event)
     {
         /** @var CustomerUser $customerUser */

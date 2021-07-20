@@ -55,8 +55,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Create oro_commerce_menu_upd table.
-     *
-     * @param Schema $schema
      */
     protected function createOroCommerceMenuUpdateTable(Schema $schema)
     {
@@ -86,8 +84,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Create oro_commerce_menu_upd_title table
-     *
-     * @param Schema $schema
      */
     protected function createOroCommerceMenuUpdateTitleTable(Schema $schema)
     {
@@ -100,8 +96,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Add oro_commerce_menu_upd_title foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCommerceMenuUpdateTitleForeignKeys(Schema $schema)
     {
@@ -120,11 +114,8 @@ class OroCommerceMenuBundleInstaller implements
         );
     }
 
-
     /**
      * Create `oro_navigation_menu_upd_descr` table
-     *
-     * @param Schema $schema
      */
     protected function createOroCommerceMenuUpdateDescriptionTable(Schema $schema)
     {
@@ -137,8 +128,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Add `oro_navigation_menu_upd_descr` foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCommerceMenuUpdateDescriptionForeignKeys(Schema $schema)
     {
@@ -157,9 +146,6 @@ class OroCommerceMenuBundleInstaller implements
         );
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function addOroCommerceMenuUpdateImageAssociation(Schema $schema)
     {
         $this->attachmentExtension->addImageRelation(
@@ -179,8 +165,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Add `oro_commerce_menu_upd` foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroCommerceMenuUpdateForeignKeys(Schema $schema)
     {
@@ -200,8 +184,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Create `oro_menu_user_agent_condition` table
-     *
-     * @param Schema $schema
      */
     protected function createOroMenuUserAgentConditionTable(Schema $schema)
     {
@@ -216,8 +198,6 @@ class OroCommerceMenuBundleInstaller implements
 
     /**
      * Add `oro_menu_user_agent_condition` foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroMenuUserAgentConditionForeignKeys(Schema $schema)
     {

@@ -27,7 +27,6 @@ class UserCheckerTest extends \PHPUnit\Framework\TestCase
         $this->userChecker = new UserChecker($this->innerUserChecker);
     }
 
-
     public function testCheckPostAuth()
     {
         $user = $this->createMock(UserInterface::class);

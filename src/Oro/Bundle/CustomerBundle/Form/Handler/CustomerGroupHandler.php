@@ -32,12 +32,6 @@ class CustomerGroupHandler
     /** @var EventDispatcherInterface */
     protected $dispatcher;
 
-    /**
-     * @param FormInterface $form
-     * @param Request $request
-     * @param ObjectManager $manager
-     * @param EventDispatcherInterface $dispatcher
-     */
     public function __construct(
         FormInterface $form,
         Request $request,

@@ -123,9 +123,6 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
         $this->container = $container;
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function load(ObjectManager $manager)
     {
         /** @var BaseUserManager $userManager */

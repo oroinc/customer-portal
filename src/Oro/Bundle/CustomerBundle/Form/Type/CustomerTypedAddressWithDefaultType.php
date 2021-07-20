@@ -93,9 +93,6 @@ class CustomerTypedAddressWithDefaultType extends AbstractType
         ]);
     }
 
-    /**
-     * @param ManagerRegistry $registry
-     */
     public function setRegistry(ManagerRegistry $registry)
     {
         $this->registry = $registry;

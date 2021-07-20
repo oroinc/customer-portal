@@ -40,10 +40,6 @@ class CustomerUserType extends AbstractType
     /** @var TokenAccessorInterface */
     protected $tokenAccessor;
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenAccessorInterface        $tokenAccessor
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         TokenAccessorInterface $tokenAccessor
@@ -68,10 +64,6 @@ class CustomerUserType extends AbstractType
         $this->addressClass = $addressClass;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addEntityFields($builder);
@@ -103,7 +95,6 @@ class CustomerUserType extends AbstractType
     }
 
     /**
-     * @param FormBuilderInterface $builder
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function addEntityFields(FormBuilderInterface $builder)
@@ -197,7 +188,6 @@ class CustomerUserType extends AbstractType
                 ]
             );
 
-
         if ($this->authorizationChecker->isGranted('oro_customer_customer_user_role_view')) {
             $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'preSetData']);
             $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'preSubmit']);
@@ -231,9 +221,6 @@ class CustomerUserType extends AbstractType
         }
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     */
     protected function addNewUserFields(FormBuilderInterface $builder)
     {
         $builder
@@ -257,9 +244,6 @@ class CustomerUserType extends AbstractType
             );
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSetData(FormEvent $event)
     {
         $form = $event->getForm();
@@ -282,9 +266,6 @@ class CustomerUserType extends AbstractType
         );
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSubmit(FormEvent $event)
     {
         $form = $event->getForm();

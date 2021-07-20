@@ -24,7 +24,6 @@ class LoadInternalRating extends AbstractEnumFixture
     }
 
     /**
-     *
      * Returns an enum code of an extend entity
      *
      * @return string

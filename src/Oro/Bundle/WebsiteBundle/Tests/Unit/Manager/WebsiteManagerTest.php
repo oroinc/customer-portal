@@ -5,7 +5,7 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Manager;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\PlatformBundle\Maintenance\Mode;
+use Oro\Bundle\MaintenanceBundle\Maintenance\Mode;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
@@ -136,7 +136,7 @@ class WebsiteManagerTest extends \PHPUnit\Framework\TestCase
         $this->maintenance
             ->expects(static::once())
             ->method('isOn')
-            ->willReturn('true');
+            ->willReturn(true);
 
         $this->managerRegistry
             ->expects($this->never())

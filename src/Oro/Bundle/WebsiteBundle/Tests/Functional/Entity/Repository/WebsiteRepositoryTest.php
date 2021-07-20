@@ -17,8 +17,6 @@ class WebsiteRepositoryTest extends WebTestCase
     }
 
     /**
-     * @param array $expectedData
-     *
      * @dataProvider getAllWebsitesProvider
      */
     public function testGetAllWebsites(array $expectedData)
@@ -85,8 +83,6 @@ class WebsiteRepositoryTest extends WebTestCase
 
     /**
      * @dataProvider getAllWebsitesProvider
-     *
-     * @param array $expectedWebsiteNames
      */
     public function testBatchIterator(array $expectedWebsiteNames)
     {
@@ -102,7 +98,6 @@ class WebsiteRepositoryTest extends WebTestCase
 
     /**
      * @dataProvider getAllWebsitesProvider
-     * @param array $websites
      */
     public function testGetWebsiteIdentifiers(array $websites)
     {

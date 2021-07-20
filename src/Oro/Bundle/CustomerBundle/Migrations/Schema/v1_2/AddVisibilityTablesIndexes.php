@@ -33,54 +33,36 @@ class AddVisibilityTablesIndexes implements Migration
         $this->addOroAccountGroupProductVisibilityTableIndex($schema);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroCategoryVisibilityTableIndex(Schema $schema)
     {
         $table = $schema->getTable(self::ORO_B2B_CATEGORY_VISIBILITY_TABLE_NAME);
         $table->addUniqueIndex(['category_id'], 'orob2b_ctgr_vis_uidx');
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAccountGroupCategoryVisibilityTableIndex(Schema $schema)
     {
         $table = $schema->getTable(self::ORO_B2B_ACCOUNT_GROUP_CATEGORY_VISIBILITY_TABLE_NAME);
         $table->addUniqueIndex(['category_id', 'account_group_id'], 'orob2b_acc_grp_ctgr_vis_uidx');
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAccountCategoryVisibilityTableIndex(Schema $schema)
     {
         $table = $schema->getTable(self::ORO_B2B_ACCOUNT_CATEGORY_VISIBILITY_TABLE_NAME);
         $table->addUniqueIndex(['category_id', 'account_id'], 'orob2b_acc_ctgr_vis_uidx');
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroProductVisibilityTableIndex(Schema $schema)
     {
         $table = $schema->getTable(self::ORO_B2B_PRODUCT_VISIBILITY_TABLE_NAME);
         $table->addUniqueIndex(['website_id', 'product_id'], 'orob2b_prod_vis_uidx');
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAccountProductVisibilityTableIndex(Schema $schema)
     {
         $table = $schema->getTable(self::ORO_B2B_ACCOUNT_PRODUCT_VISIBILITY_TABLE_NAME);
         $table->addUniqueIndex(['website_id', 'product_id', 'account_id'], 'orob2b_acc_prod_vis_uidx');
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function addOroAccountGroupProductVisibilityTableIndex(Schema $schema)
     {
         $table = $schema->getTable(self::ORO_B2B_ACCOUNT_GROUP_PRODUCT_VISIBILITY_TABLE_NAME);

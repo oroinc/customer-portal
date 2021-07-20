@@ -12,9 +12,6 @@ class AssetsRequestListener
 {
     private RequestContext $context;
 
-    /**
-     * @param RequestContext $context
-     */
     public function __construct(RequestContext $context)
     {
         $this->context = $context;

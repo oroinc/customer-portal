@@ -25,11 +25,6 @@ class RedirectListener
     /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @param WebsiteManager     $websiteManager
-     * @param WebsiteUrlResolver $websiteUrlResolver
-     * @param FrontendHelper     $frontendHelper
-     */
     public function __construct(
         WebsiteManager $websiteManager,
         WebsiteUrlResolver $websiteUrlResolver,
@@ -40,9 +35,6 @@ class RedirectListener
         $this->frontendHelper = $frontendHelper;
     }
 
-    /**
-     * @param RequestEvent $event
-     */
     public function onRequest(RequestEvent $event): void
     {
         if (!$this->isSupported($event)) {
@@ -62,11 +54,6 @@ class RedirectListener
         }
     }
 
-    /**
-     * @param RequestEvent $event
-     *
-     * @return bool
-     */
     private function isSupported(RequestEvent $event): bool
     {
         return
@@ -76,11 +63,6 @@ class RedirectListener
             && strpos($event->getRequest()->getPathInfo(), '/media/cache/') !== 0;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Website|null
-     */
     private function getWebsite(Request $request): ?Website
     {
         $website = $request->attributes->get(RequestWebsiteProvider::REQUEST_WEBSITE_ATTRIBUTE);
@@ -91,12 +73,6 @@ class RedirectListener
         return $website;
     }
 
-    /**
-     * @param Request $request
-     * @param Website $website
-     *
-     * @return string|null
-     */
     private function getRedirectUrl(Request $request, Website $website): ?string
     {
         $websiteUrl = $this->urlResolver->getWebsiteUrl($website, true);

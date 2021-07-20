@@ -22,10 +22,6 @@ class FrontendAccessRuleWalkerContextFactory implements AccessRuleWalkerContextF
     /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @param AccessRuleWalkerContextFactoryInterface $innerFactory
-     * @param FrontendHelper                          $frontendHelper
-     */
     public function __construct(
         AccessRuleWalkerContextFactoryInterface $innerFactory,
         FrontendHelper $frontendHelper

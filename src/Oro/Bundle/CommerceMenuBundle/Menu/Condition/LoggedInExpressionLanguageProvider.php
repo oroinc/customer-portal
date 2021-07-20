@@ -11,9 +11,6 @@ class LoggedInExpressionLanguageProvider implements ExpressionFunctionProviderIn
     /** @var TokenAccessorInterface */
     private $tokenAccessor;
 
-    /**
-     * @param TokenAccessorInterface $tokenAccessor
-     */
     public function __construct(TokenAccessorInterface $tokenAccessor)
     {
         $this->tokenAccessor = $tokenAccessor;

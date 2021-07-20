@@ -28,10 +28,6 @@ class ClearLostCustomerUsers implements MessageProcessorInterface
     /** @var NativeQueryExecutorHelper */
     protected $queryHelper;
 
-    /**
-     * @param MessageProducerInterface  $messageProducer
-     * @param NativeQueryExecutorHelper $queryHelper
-     */
     public function __construct(
         MessageProducerInterface $messageProducer,
         NativeQueryExecutorHelper $queryHelper

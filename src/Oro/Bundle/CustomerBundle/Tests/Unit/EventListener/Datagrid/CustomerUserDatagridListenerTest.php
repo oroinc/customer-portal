@@ -20,9 +20,6 @@ class CustomerUserDatagridListenerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param ParameterBag $parameters
-     * @param DatagridConfiguration $expectedConfig
-     *
      * @dataProvider dataProvider
      */
     public function testCustomerLimitations(ParameterBag $parameters, DatagridConfiguration $expectedConfig)

@@ -16,9 +16,6 @@ class AddressExtension extends AbstractTypeExtension
     /** @var FrontendHelper */
     private $frontendHelper;
 
-    /**
-     * @param FrontendHelper $frontendHelper
-     */
     public function __construct(FrontendHelper $frontendHelper)
     {
         $this->frontendHelper = $frontendHelper;

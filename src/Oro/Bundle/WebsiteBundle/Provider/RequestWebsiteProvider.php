@@ -19,19 +19,12 @@ class RequestWebsiteProvider
     /** @var WebsiteManager */
     private $websiteManager;
 
-    /**
-     * @param RequestStack   $requestStack
-     * @param WebsiteManager $websiteManager
-     */
     public function __construct(RequestStack $requestStack, WebsiteManager $websiteManager)
     {
         $this->requestStack = $requestStack;
         $this->websiteManager = $websiteManager;
     }
 
-    /**
-     * @return Website|null
-     */
     public function getWebsite(): ?Website
     {
         $request = $this->requestStack->getMasterRequest();

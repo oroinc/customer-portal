@@ -14,9 +14,6 @@ class CustomerEvent extends Event
      */
     protected $customer;
 
-    /**
-     * @param Customer $customer
-     */
     public function __construct(Customer $customer)
     {
         $this->customer = $customer;

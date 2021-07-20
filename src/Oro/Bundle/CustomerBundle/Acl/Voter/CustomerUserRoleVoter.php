@@ -52,9 +52,6 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
      */
     protected $container;
 
-    /**
-     * @param ContainerInterface $container
-     */
     public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;

@@ -16,9 +16,6 @@ class MenuScreensConditionType extends AbstractType
      */
     private $screensProvider;
 
-    /**
-     * @param ScreensProviderInterface $screensProvider
-     */
     public function __construct(ScreensProviderInterface $screensProvider)
     {
         $this->screensProvider = $screensProvider;
