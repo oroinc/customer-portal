@@ -39,7 +39,7 @@ class CustomerExtension extends AbstractExtension implements ServiceSubscriberIn
      */
     protected function getLogger()
     {
-        return $this->container->get('logger');
+        return $this->container->get(LoggerInterface::class);
     }
 
     /**
@@ -91,7 +91,7 @@ class CustomerExtension extends AbstractExtension implements ServiceSubscriberIn
     {
         return [
             'oro_customer.security.customer_user_provider' => CustomerUserProvider::class,
-            'logger' => LoggerInterface::class,
+            LoggerInterface::class,
         ];
     }
 }

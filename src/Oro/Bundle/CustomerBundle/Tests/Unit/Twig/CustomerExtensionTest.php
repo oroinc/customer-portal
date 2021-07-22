@@ -13,20 +13,15 @@ class CustomerExtensionTest extends \PHPUnit\Framework\TestCase
     use TwigExtensionTestCaseTrait;
     use EntityTrait;
 
-    /** @var CustomerExtension */
-    protected $extension;
-
     /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
-    protected $securityProvider;
+    private $securityProvider;
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @var CustomerExtension */
+    private $extension;
+
     protected function setUp(): void
     {
-        $this->securityProvider = $this->getMockBuilder(CustomerUserProvider::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->securityProvider = $this->createMock(CustomerUserProvider::class);
 
         $container = $this->getContainerBuilder()
             ->add('oro_customer.security.customer_user_provider', $this->securityProvider)

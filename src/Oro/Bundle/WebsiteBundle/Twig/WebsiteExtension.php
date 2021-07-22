@@ -3,6 +3,7 @@
 namespace Oro\Bundle\WebsiteBundle\Twig;
 
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 use Psr\Container\ContainerInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
@@ -10,26 +11,20 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
+ * Provides a Twig function to retrieve the current website information:
+ *   - oro_website_get_current_website
+ *
  * Provides Twig functions to retrieve website path values:
  *   - website_path
  *   - website_secure_path
  */
-class WebsitePathExtension extends AbstractExtension implements ServiceSubscriberInterface
+class WebsiteExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    /** @var ContainerInterface */
-    protected $container;
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-    }
-
-    /**
-     * @return WebsiteUrlResolver
-     */
-    protected function getWebsiteUrlResolver()
-    {
-        return $this->container->get('oro_website.resolver.website_url_resolver');
     }
 
     /**
@@ -38,9 +33,15 @@ class WebsitePathExtension extends AbstractExtension implements ServiceSubscribe
     public function getFunctions()
     {
         return [
+            new TwigFunction('oro_website_get_current_website', [$this, 'getCurrentWebsite']),
             new TwigFunction('website_path', [$this, 'getWebsitePath']),
             new TwigFunction('website_secure_path', [$this, 'getWebsiteSecurePath'])
         ];
+    }
+
+    public function getCurrentWebsite(): ?Website
+    {
+        return $this->getWebsiteManager()->getCurrentWebsite();
     }
 
     /**
@@ -73,7 +74,18 @@ class WebsitePathExtension extends AbstractExtension implements ServiceSubscribe
     public static function getSubscribedServices()
     {
         return [
+            'oro_website.manager' => WebsiteManager::class,
             'oro_website.resolver.website_url_resolver' => WebsiteUrlResolver::class,
         ];
+    }
+
+    private function getWebsiteManager(): WebsiteManager
+    {
+        return $this->container->get('oro_website.manager');
+    }
+
+    private function getWebsiteUrlResolver(): WebsiteUrlResolver
+    {
+        return $this->container->get('oro_website.resolver.website_url_resolver');
     }
 }

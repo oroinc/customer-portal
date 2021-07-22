@@ -22,20 +22,14 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var MenuExtension */
     private $extension;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
-        $this->matcher = $this->getMockBuilder(MatcherInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->requestStack = $this->getMockBuilder(RequestStack::class)->getMock();
+        $this->matcher = $this->createMock(MatcherInterface::class);
+        $this->requestStack = $this->createMock(RequestStack::class);
 
         $container = self::getContainerBuilder()
             ->add('knp_menu.matcher', $this->matcher)
-            ->add('request_stack', $this->requestStack)
+            ->add(RequestStack::class, $this->requestStack)
             ->getContainer($this);
 
         $this->extension = new MenuExtension($container);
@@ -43,13 +37,12 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testIsCurrent()
     {
-        /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject $item */
         $item = $this->createMock(ItemInterface::class);
 
         $this->matcher->expects($this->once())
             ->method('isCurrent')
             ->with(self::identicalTo($item))
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->assertTrue(
             self::callTwigFunction($this->extension, 'oro_commercemenu_is_current', [$item])
@@ -58,14 +51,12 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testIsAncestor()
     {
-        /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject $item */
         $item = $this->createMock(ItemInterface::class);
 
-        $this->matcher
-            ->expects($this->once())
+        $this->matcher->expects($this->once())
             ->method('isAncestor')
             ->with(self::identicalTo($item))
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->assertTrue(
             self::callTwigFunction($this->extension, 'oro_commercemenu_is_ancestor', [$item])
@@ -79,11 +70,13 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetUrlOriginal($url)
     {
-        $this->requestStack
-            ->expects($this->never())
+        $this->requestStack->expects($this->never())
             ->method('getCurrentRequest');
 
-        $this->assertEquals($url, $this->extension->getUrl($url));
+        $this->assertEquals(
+            $url,
+            self::callTwigFunction($this->extension, 'oro_commercemenu_get_url', [$url])
+        );
     }
 
     /**
@@ -94,18 +87,20 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetUrlPrepared($url, $result)
     {
-        $request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->getMock();
+        $request = $this->createMock(Request::class);
         $request->expects($this->once())
             ->method('getUriForPath')
             ->with($result)
             ->willReturn('http://example.com'. $result);
 
-        $this->requestStack
-            ->expects($this->once())
+        $this->requestStack->expects($this->once())
             ->method('getCurrentRequest')
             ->willReturn($request);
 
-        $this->assertEquals('http://example.com' . $result, $this->extension->getUrl($url));
+        $this->assertEquals(
+            'http://example.com' . $result,
+            self::callTwigFunction($this->extension, 'oro_commercemenu_get_url', [$url])
+        );
     }
 
     /**
@@ -151,7 +146,7 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
     public function testGetUrlWithBaseUrl()
     {
         $passedUrl = '/index.php/contact-us';
-        $request = $this->getMockBuilder(Request::class)->disableOriginalConstructor()->getMock();
+        $request = $this->createMock(Request::class);
 
         $request->expects($this->once())
             ->method('getBaseUrl')
@@ -160,11 +155,13 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
         $request->expects($this->never())
             ->method('getUriForPath');
 
-        $this->requestStack
-            ->expects($this->once())
+        $this->requestStack->expects($this->once())
             ->method('getCurrentRequest')
             ->willReturn($request);
 
-        $this->assertEquals('/index.php/contact-us', $this->extension->getUrl($passedUrl));
+        $this->assertEquals(
+            '/index.php/contact-us',
+            self::callTwigFunction($this->extension, 'oro_commercemenu_get_url', [$passedUrl])
+        );
     }
 }
