@@ -46,14 +46,6 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
-        return 'oro_entity_date_time_extension';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFilters()
     {
         return [

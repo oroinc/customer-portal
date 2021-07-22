@@ -41,11 +41,6 @@ class MenuExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension = new MenuExtension($container);
     }
 
-    public function testGetName()
-    {
-        $this->assertEquals(MenuExtension::NAME, $this->extension->getName());
-    }
-
     public function testIsCurrent()
     {
         /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject $item */

@@ -16,8 +16,6 @@ use Twig\TwigFunction;
  */
 class WebsitePathExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    const NAME = 'oro_website_path';
-
     /** @var ContainerInterface */
     protected $container;
 
@@ -32,14 +30,6 @@ class WebsitePathExtension extends AbstractExtension implements ServiceSubscribe
     protected function getWebsiteUrlResolver()
     {
         return $this->container->get('oro_website.resolver.website_url_resolver');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return self::NAME;
     }
 
     /**

@@ -18,8 +18,6 @@ use Twig\TwigFunction;
  */
 class CustomerExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    const NAME = 'customer_extension';
-
     /** @var ContainerInterface */
     protected $container;
 
@@ -84,14 +82,6 @@ class CustomerExtension extends AbstractExtension implements ServiceSubscriberIn
     public function isGrantedViewCustomerUser($object)
     {
         return $this->getCustomerUserProvider()->isGrantedViewCustomerUser($object);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return self::NAME;
     }
 
     /**

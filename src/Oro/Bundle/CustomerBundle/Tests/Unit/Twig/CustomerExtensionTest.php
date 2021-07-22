@@ -35,11 +35,6 @@ class CustomerExtensionTest extends \PHPUnit\Framework\TestCase
         $this->extension = new CustomerExtension($container);
     }
 
-    public function testGetName()
-    {
-        $this->assertEquals(CustomerExtension::NAME, $this->extension->getName());
-    }
-
     public function testIsGrantedViewCustomerUser()
     {
         $object = new \stdClass();

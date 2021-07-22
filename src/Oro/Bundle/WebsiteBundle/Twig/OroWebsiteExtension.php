@@ -15,8 +15,6 @@ use Twig\TwigFunction;
  */
 class OroWebsiteExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    const NAME = 'oro_website_extension';
-
     /** @var ContainerInterface */
     protected $container;
 
@@ -41,14 +39,6 @@ class OroWebsiteExtension extends AbstractExtension implements ServiceSubscriber
         return [
             new TwigFunction('oro_website_get_current_website', [$this, 'getCurrentWebsite'])
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return self::NAME;
     }
 
     /**

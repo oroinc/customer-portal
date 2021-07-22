@@ -18,8 +18,6 @@ use Twig\TwigFunction;
  */
 class MenuExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    const NAME = 'oro_commercemenu';
-
     /** @var ContainerInterface */
     protected $container;
 
@@ -34,14 +32,6 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
     protected function getMatcher()
     {
         return $this->container->get('knp_menu.matcher');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return self::NAME;
     }
 
     /**
