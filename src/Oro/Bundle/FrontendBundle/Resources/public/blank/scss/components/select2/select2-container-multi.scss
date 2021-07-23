@@ -12,6 +12,8 @@
 
         overflow: hidden;
 
+        list-style: none;
+
         @include clearfix();
 
         li {
