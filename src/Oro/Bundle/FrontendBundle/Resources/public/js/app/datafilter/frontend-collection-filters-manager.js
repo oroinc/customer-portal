@@ -102,12 +102,13 @@ define(function(require, exports, module) {
          * @private
          */
         _createButtonReset: function() {
+            // Use link to keep focus even on disabled state
             return $(`
                 <div class="datagrid-manager__footer">
-                    <button class="btn btn--link btn--no-x-offset btn--no-y-offset"
-                        type="button" data-role="reset-filters">
+                    <a href="#" role="button" class="btn btn--link btn--no-x-offset btn--no-y-offset"
+                        data-role="reset-filters">
                         <span class="fa-refresh" aria-hidden="true"></span>${this.multiselectResetButtonLabel}
-                    </button>
+                    </a>
                 </div>
             `);
         },
