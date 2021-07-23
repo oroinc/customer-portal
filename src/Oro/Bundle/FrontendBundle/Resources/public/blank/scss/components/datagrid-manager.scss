@@ -78,12 +78,7 @@
         margin-bottom: $offset-y-s;
         padding-left: $offset-x-m;
         padding-bottom: $offset-y-m;
-
-        // Rewrite ui-* styles
-        &.ui-rewrite {
-            // Break inline styles
-            overflow-y: inherit !important;
-        }
+        overflow-y: auto;
     }
 
     &__list-item {
