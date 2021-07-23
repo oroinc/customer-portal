@@ -5,6 +5,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Twig;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\MatcherInterface;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Twig\Extension\AbstractExtension;
@@ -18,30 +19,11 @@ use Twig\TwigFunction;
  */
 class MenuExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    const NAME = 'oro_commercemenu';
-
-    /** @var ContainerInterface */
-    protected $container;
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-    }
-
-    /**
-     * @return MatcherInterface
-     */
-    protected function getMatcher()
-    {
-        return $this->container->get('knp_menu.matcher');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return self::NAME;
     }
 
     /**
@@ -84,12 +66,14 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
     public function getUrl($url)
     {
         $result = parse_url($url);
-        if (array_key_exists('host', $result) || array_key_exists('scheme', $result)) {
+        if (\array_key_exists('host', $result) || \array_key_exists('scheme', $result)) {
             return $url;
         }
-        /** @var RequestStack $requestStack */
-        $requestStack = $this->container->get('request_stack');
-        $request = $requestStack->getCurrentRequest();
+
+        $request = $this->getRequest();
+        if (null === $request) {
+            return $url;
+        }
 
         $baseUrl = $request->getBaseUrl();
 
@@ -99,7 +83,7 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
             return $url;
         }
 
-        if (0 !== strpos($url, '/')) {
+        if (!str_starts_with($url, '/')) {
             $url = '/' . $url;
         }
 
@@ -113,7 +97,17 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
     {
         return [
             'knp_menu.matcher' => MatcherInterface::class,
-            'request_stack' => RequestStack::class,
+            RequestStack::class,
         ];
+    }
+
+    private function getMatcher(): MatcherInterface
+    {
+        return $this->container->get('knp_menu.matcher');
+    }
+
+    protected function getRequest(): ?Request
+    {
+        return $this->container->get(RequestStack::class)->getCurrentRequest();
     }
 }

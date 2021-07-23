@@ -76,13 +76,10 @@
         // stylelint-disable-next-line declaration-no-important
         height: auto !important;
         max-height: $datagrid-manager-filters-dropdown-max-height;
-
-        // Rewrite ui-* styles
-        &.ui-rewrite {
-            // Break inline styles
-            // stylelint-disable-next-line declaration-no-important
-            overflow-y: inherit !important;
-        }
+        margin-bottom: $offset-y-s;
+        padding-left: $offset-x-m;
+        padding-bottom: $offset-y-m;
+        overflow-y: auto;
     }
 
     &__list-item {

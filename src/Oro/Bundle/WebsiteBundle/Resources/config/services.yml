@@ -12,24 +12,13 @@ services:
     Oro\Bundle\WebsiteBundle\Manager\WebsiteManager:
         alias: 'oro_website.manager'
 
-    oro_website.twig.website_extension:
-        class: 'Oro\Bundle\WebsiteBundle\Twig\OroWebsiteExtension'
-        public: false
-        arguments:
-            - "@oro_platform.twig.service_locator"
-        tags:
-            - { name: twig.extension }
-
     oro_website.twig.entity_date_time_extension:
         class: Oro\Bundle\WebsiteBundle\Twig\EntityDateTimeExtension
         public: false
         arguments:
-            - '@Psr\Container\ContainerInterface'
-            - '@oro_locale.twig.date_time'
+            - '@oro_platform.twig.service_locator'
         tags:
             - { name: twig.extension }
-            - { name: container.service_subscriber, id: 'oro_config.global' }
-            - { name: container.service_subscriber, id: 'oro_config.manager' }
 
     oro_website.website.manager.api:
         class: 'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'
@@ -115,8 +104,8 @@ services:
         calls:
             - [setMemoryCacheProvider, ['@oro_website.resolver.website_system_url_resolver.memory_cache']]
 
-    oro_website.twig.website_path:
-        class: Oro\Bundle\WebsiteBundle\Twig\WebsitePathExtension
+    oro_website.twig.website_extension:
+        class: Oro\Bundle\WebsiteBundle\Twig\WebsiteExtension
         public: false
         arguments:
             - '@oro_platform.twig.service_locator'

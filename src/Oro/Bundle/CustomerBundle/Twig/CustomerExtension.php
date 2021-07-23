@@ -18,8 +18,6 @@ use Twig\TwigFunction;
  */
 class CustomerExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    const NAME = 'customer_extension';
-
     /** @var ContainerInterface */
     protected $container;
 
@@ -41,7 +39,7 @@ class CustomerExtension extends AbstractExtension implements ServiceSubscriberIn
      */
     protected function getLogger()
     {
-        return $this->container->get('logger');
+        return $this->container->get(LoggerInterface::class);
     }
 
     /**
@@ -89,19 +87,11 @@ class CustomerExtension extends AbstractExtension implements ServiceSubscriberIn
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
-        return self::NAME;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public static function getSubscribedServices()
     {
         return [
             'oro_customer.security.customer_user_provider' => CustomerUserProvider::class,
-            'logger' => LoggerInterface::class,
+            LoggerInterface::class,
         ];
     }
 }

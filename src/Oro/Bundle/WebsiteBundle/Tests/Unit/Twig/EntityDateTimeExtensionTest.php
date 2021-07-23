@@ -10,10 +10,14 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
 use Oro\Bundle\WebsiteBundle\Twig\EntityDateTimeExtension;
 use Oro\Component\Testing\Unit\TwigExtensionTestCaseTrait;
+use Twig\Environment;
 
 class EntityDateTimeExtensionTest extends \PHPUnit\Framework\TestCase
 {
     use TwigExtensionTestCaseTrait;
+
+    /** @var \PHPUnit\Framework\MockObject\MockObject|Environment */
+    private $env;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|DateTimeExtension */
     private $dateTimeExtension;
@@ -27,21 +31,24 @@ class EntityDateTimeExtensionTest extends \PHPUnit\Framework\TestCase
     /** @var EntityDateTimeExtension */
     private $extension;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->dateTimeExtension = $this->createMock(DateTimeExtension::class);
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->globalConfigManager = $this->createMock(ConfigManager::class);
 
+        $this->env = $this->createMock(Environment::class);
+        $this->env->expects(self::any())
+            ->method('getExtension')
+            ->with(DateTimeExtension::class)
+            ->willReturn($this->dateTimeExtension);
+
         $container = self::getContainerBuilder()
             ->add('oro_config.manager', $this->configManager)
             ->add('oro_config.global', $this->globalConfigManager)
             ->getContainer($this);
 
-        $this->extension = new EntityDateTimeExtension($container, $this->dateTimeExtension);
+        $this->extension = new EntityDateTimeExtension($container);
     }
 
     public function testFormatByEntityByTimezoneFromWebsite()
@@ -56,12 +63,7 @@ class EntityDateTimeExtensionTest extends \PHPUnit\Framework\TestCase
         $timezone = 'Europe/Kyiv';
         $this->configManager->expects($this->exactly(4))
             ->method('get')
-            ->with(
-                'oro_locale.timezone',
-                false,
-                false,
-                $organization
-            )
+            ->with('oro_locale.timezone', false, false, $organization)
             ->willReturn($timezone);
 
         $date = '01.01.2001';
@@ -83,10 +85,22 @@ class EntityDateTimeExtensionTest extends \PHPUnit\Framework\TestCase
             ->with($date, ['timeZone' => $timezone])
             ->willReturn($formattedDate);
 
-        self::assertEquals($formattedDate, $this->extension->formatDateTimeByEntity($date, $entity));
-        self::assertEquals($formattedDate, $this->extension->formatDateByEntity($date, $entity));
-        self::assertEquals($formattedDate, $this->extension->formatDayByEntity($date, $entity));
-        self::assertEquals($formattedDate, $this->extension->formatTimeByEntity($date, $entity));
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_datetime_by_entity', [$this->env, $date, $entity])
+        );
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_date_by_entity', [$this->env, $date, $entity])
+        );
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_day_by_entity', [$this->env, $date, $entity])
+        );
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_time_by_entity', [$this->env, $date, $entity])
+        );
     }
 
     public function getEntityTimezoneWithOrganization()
@@ -99,12 +113,7 @@ class EntityDateTimeExtensionTest extends \PHPUnit\Framework\TestCase
         $timezone = 'Europe/Kyiv';
         $this->configManager->expects($this->once())
             ->method('get')
-            ->with(
-                'oro_locale.timezone',
-                false,
-                false,
-                $organization
-            )
+            ->with('oro_locale.timezone', false, false, $organization)
             ->willReturn($timezone);
 
         $date = '01.01.2001';
@@ -126,10 +135,22 @@ class EntityDateTimeExtensionTest extends \PHPUnit\Framework\TestCase
             ->with($date, ['timeZone' => $timezone])
             ->willReturn($formattedDate);
 
-        self::assertEquals($formattedDate, $this->extension->formatDateTimeByEntity($date, $entity));
-        self::assertEquals($formattedDate, $this->extension->formatDateByEntity($date, $entity));
-        self::assertEquals($formattedDate, $this->extension->formatDayByEntity($date, $entity));
-        self::assertEquals($formattedDate, $this->extension->formatTimeByEntity($date, $entity));
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_datetime_by_entity', [$this->env, $date, $entity])
+        );
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_date_by_entity', [$this->env, $date, $entity])
+        );
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_day_by_entity', [$this->env, $date, $entity])
+        );
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_time_by_entity', [$this->env, $date, $entity])
+        );
     }
 
     public function getEntityTimezone()
@@ -160,9 +181,21 @@ class EntityDateTimeExtensionTest extends \PHPUnit\Framework\TestCase
             ->with($date, ['timeZone' => $timezone])
             ->willReturn($formattedDate);
 
-        self::assertEquals($formattedDate, $this->extension->formatDateTimeByEntity($date, $entity));
-        self::assertEquals($formattedDate, $this->extension->formatDateByEntity($date, $entity));
-        self::assertEquals($formattedDate, $this->extension->formatDayByEntity($date, $entity));
-        self::assertEquals($formattedDate, $this->extension->formatTimeByEntity($date, $entity));
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_datetime_by_entity', [$this->env, $date, $entity])
+        );
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_date_by_entity', [$this->env, $date, $entity])
+        );
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_day_by_entity', [$this->env, $date, $entity])
+        );
+        self::assertEquals(
+            $formattedDate,
+            self::callTwigFilter($this->extension, 'oro_format_time_by_entity', [$this->env, $date, $entity])
+        );
     }
 }

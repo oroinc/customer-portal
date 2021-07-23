@@ -9,6 +9,7 @@ use Oro\Bundle\OrganizationBundle\Entity\OrganizationAwareInterface;
 use Oro\Bundle\WebsiteBundle\Entity\WebsiteAwareInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
+use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -21,34 +22,11 @@ use Twig\TwigFilter;
  */
 class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    /** @var ContainerInterface */
-    protected $container;
+    private ContainerInterface $container;
 
-    /** @var DateTimeExtension */
-    protected $dateTimeExtension;
-
-    public function __construct(ContainerInterface $container, DateTimeExtension $dateTimeExtension)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->dateTimeExtension = $dateTimeExtension;
-    }
-
-    protected function getConfigManager(): ConfigManager
-    {
-        return $this->container->get('oro_config.manager');
-    }
-
-    protected function getSystemConfigManager(): ConfigManager
-    {
-        return $this->container->get('oro_config.global');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'oro_entity_date_time_extension';
     }
 
     /**
@@ -59,80 +37,88 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
         return [
             new TwigFilter(
                 'oro_format_datetime_by_entity',
-                [$this, 'formatDateTimeByEntity']
+                [$this, 'formatDateTimeByEntity'],
+                ['needs_environment' => true]
             ),
             new TwigFilter(
                 'oro_format_date_by_entity',
-                [$this, 'formatDateByEntity']
+                [$this, 'formatDateByEntity'],
+                ['needs_environment' => true]
             ),
             new TwigFilter(
                 'oro_format_day_by_entity',
-                [$this, 'formatDayByEntity']
+                [$this, 'formatDayByEntity'],
+                ['needs_environment' => true]
             ),
             new TwigFilter(
                 'oro_format_time_by_entity',
-                [$this, 'formatTimeByEntity']
+                [$this, 'formatTimeByEntity'],
+                ['needs_environment' => true]
             ),
         ];
     }
 
     /**
+     * @param Environment $env
      * @param \DateTime|string|int $date
      * @param object $entity
      * @param array $options
      * @return string
      */
-    public function formatDateTimeByEntity($date, $entity, array $options = []): string
+    public function formatDateTimeByEntity(Environment $env, $date, $entity, array $options = []): string
     {
         $options['timeZone'] = $this->getEntityTimezone($entity);
 
-        return $this->dateTimeExtension->formatDateTime($date, $options);
+        return $this->getDateTimeExtension($env)->formatDateTime($date, $options);
     }
 
     /**
+     * @param Environment $env
      * @param \DateTime|string|int $date
      * @param object $entity
      * @param array $options
      * @return string
      */
-    public function formatDateByEntity($date, $entity, array $options = []): string
+    public function formatDateByEntity(Environment $env, $date, $entity, array $options = []): string
     {
         $options['timeZone'] = $this->getEntityTimezone($entity);
 
-        return $this->dateTimeExtension->formatDate($date, $options);
+        return $this->getDateTimeExtension($env)->formatDate($date, $options);
     }
 
     /**
+     * @param Environment $env
      * @param \DateTime|string|int $date
      * @param object $entity
      * @param array $options
      * @return string
      */
-    public function formatDayByEntity($date, $entity, array $options = []): string
+    public function formatDayByEntity(Environment $env, $date, $entity, array $options = []): string
     {
         $options['timeZone'] = $this->getEntityTimezone($entity);
 
-        return $this->dateTimeExtension->formatDay($date, $options);
+        return $this->getDateTimeExtension($env)->formatDay($date, $options);
     }
 
     /**
+     * @param Environment $env
      * @param \DateTime|string|int $date
      * @param object $entity
      * @param array $options
      * @return string
      */
-    public function formatTimeByEntity($date, $entity, array $options = []): string
+    public function formatTimeByEntity(Environment $env, $date, $entity, array $options = []): string
     {
         $options['timeZone'] = $this->getEntityTimezone($entity);
 
-        return $this->dateTimeExtension->formatTime($date, $options);
+        return $this->getDateTimeExtension($env)->formatTime($date, $options);
     }
 
     /**
      * @param object $entity
      * @return mixed
      */
-    protected function getEntityTimezone($entity)
+    private function getEntityTimezone($entity)
     {
         $organization = null;
         if ($entity instanceof WebsiteAwareInterface && $entity->getWebsite()) {
@@ -156,11 +142,26 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
     /**
      * {@inheritdoc]
      */
-    public static function getSubscribedServices(): array
+    public static function getSubscribedServices()
     {
         return [
             'oro_config.global' => ConfigManager::class,
             'oro_config.manager' => ConfigManager::class,
         ];
+    }
+
+    private function getConfigManager(): ConfigManager
+    {
+        return $this->container->get('oro_config.manager');
+    }
+
+    private function getSystemConfigManager(): ConfigManager
+    {
+        return $this->container->get('oro_config.global');
+    }
+
+    private function getDateTimeExtension(Environment $env): DateTimeExtension
+    {
+        return $env->getExtension(DateTimeExtension::class);
     }
 }
