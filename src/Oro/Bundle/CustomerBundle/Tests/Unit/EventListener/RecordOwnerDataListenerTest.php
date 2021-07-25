@@ -16,23 +16,23 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var RecordOwnerDataListener */
-    protected $listener;
-
     /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
-    protected $customerUserProvider;
+    private $customerUserProvider;
 
     /** @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
-    protected $configProvider;
+    private $ownershipConfigProvider;
+
+    /** @var RecordOwnerDataListener */
+    private $listener;
 
     protected function setUp(): void
     {
         $this->customerUserProvider = $this->createMock(CustomerUserProvider::class);
-        $this->configProvider = $this->createMock(ConfigProvider::class);
+        $this->ownershipConfigProvider = $this->createMock(ConfigProvider::class);
 
         $this->listener = new RecordOwnerDataListener(
             $this->customerUserProvider,
-            $this->configProvider,
+            $this->ownershipConfigProvider,
             PropertyAccess::createPropertyAccessor()
         );
     }
@@ -46,15 +46,15 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
         $this->customerUserProvider->expects($this->once())
             ->method('getLoggedUser')
             ->with(false)
-            ->will($this->returnValue($user));
+            ->willReturn($user);
 
         $args = new LifecycleEventArgs($entity, $this->createMock(ObjectManager::class));
-        $this->configProvider->expects($this->once())
+        $this->ownershipConfigProvider->expects($this->once())
             ->method('hasConfig')
-            ->will($this->returnValue(true));
-        $this->configProvider->expects($this->once())
+            ->willReturn(true);
+        $this->ownershipConfigProvider->expects($this->once())
             ->method('getConfig')
-            ->will($this->returnValue($securityConfig));
+            ->willReturn($securityConfig);
 
         $this->listener->prePersist($args);
         if (isset($expect['owner'])) {
@@ -64,10 +64,7 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function preSetData()
+    public function preSetData(): array
     {
         /** @var EntityConfigId $entityConfigId */
         $entityConfigId = $this->createMock(EntityConfigId::class);

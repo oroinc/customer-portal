@@ -12,7 +12,7 @@ class OwnerTreeListenerPassTest extends \PHPUnit\Framework\TestCase
     public function testProcess()
     {
         $container = new ContainerBuilder();
-        $ownershipTreeSubscriberDef = $container->register('oro_security.ownership_tree_subscriber');
+        $ownershipTreeSubscriberDef = $container->register('oro_security.ownership_tree_listener');
 
         $compiler = new OwnerTreeListenerPass();
         $compiler->process($container);
