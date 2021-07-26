@@ -24,7 +24,7 @@ class DependencyInjectionContainerTest extends WebTestCase
         $invalidParameters = array_filter(
             array_keys($container->getParameterBag()->all()),
             function ($name) {
-                return strpos($name, 'orob2b') === 0;
+                return str_starts_with($name, 'orob2b');
             }
         );
         $this->assertEmpty(
@@ -35,7 +35,7 @@ class DependencyInjectionContainerTest extends WebTestCase
         $invalidServices = array_filter(
             $container->getServiceIds(),
             function ($name) {
-                return strpos($name, 'orob2b') === 0;
+                return str_starts_with($name, 'orob2b');
             }
         );
         $this->assertEmpty(

@@ -6,6 +6,9 @@ use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Oro\Bundle\UIBundle\Provider\UserAgentProviderInterface;
 
+/**
+ * Evaluates expression in "userAgentConditions" option.
+ */
 class UserAgentConditionsEvaluator implements ConditionEvaluatorInterface
 {
     const MENU_CONDITION_KEY_EXTRA = 'userAgentConditions';
@@ -64,9 +67,9 @@ class UserAgentConditionsEvaluator implements ConditionEvaluatorInterface
     {
         switch ($operation) {
             case MenuUserAgentCondition::OPERATION_CONTAINS:
-                return (strpos($userAgent, $value) !== false);
+                return (str_contains($userAgent, $value));
             case MenuUserAgentCondition::OPERATION_DOES_NOT_CONTAIN:
-                return (strpos($userAgent, $value) === false);
+                return (!str_contains($userAgent, $value));
             case MenuUserAgentCondition::OPERATION_MATCHES:
                 return (preg_match('#'.str_replace('#', '\#', $value).'#', $userAgent) !== 0);
             case MenuUserAgentCondition::OPERATION_DOES_NOT_MATCHES:

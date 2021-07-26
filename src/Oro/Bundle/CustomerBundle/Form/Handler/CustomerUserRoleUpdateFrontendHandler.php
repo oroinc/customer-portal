@@ -12,6 +12,9 @@ use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * The handler for the storefront that saves customer user role data with privileges to the database.
+ */
 class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHandler
 {
     /**
@@ -120,8 +123,8 @@ class CustomerUserRoleUpdateFrontendHandler extends AbstractCustomerUserRoleHand
 
         foreach ($privileges as $privilege) {
             $oid = $privilege->getIdentity()->getId();
-            if (strpos($oid, $entityPrefix) === 0) {
-                $className = substr($oid, strlen($entityPrefix));
+            if (str_starts_with($oid, $entityPrefix)) {
+                $className = substr($oid, \strlen($entityPrefix));
 
                 if ($className === ObjectIdentityFactory::ROOT_IDENTITY_TYPE) {
                     continue;

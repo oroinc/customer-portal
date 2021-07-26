@@ -22,7 +22,7 @@ class RouterTest extends WebTestCase
         $invalidRoutes = array_filter(
             array_keys(iterator_to_array($routeCollection)),
             function ($name) {
-                return strpos($name, 'orob2b') === 0;
+                return str_starts_with($name, 'orob2b');
             }
         );
 

@@ -5,6 +5,9 @@ namespace Oro\Bundle\CustomerBundle\Autocomplete;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
 use Oro\Bundle\FormBundle\Autocomplete\SearchHandler;
 
+/**
+ * The search handler to search by a parent customer.
+ */
 class ParentCustomerSearchHandler extends SearchHandler
 {
     const DELIMITER = ';';
@@ -14,10 +17,11 @@ class ParentCustomerSearchHandler extends SearchHandler
      */
     protected function searchEntities($search, $firstResult, $maxResults)
     {
-        if (strpos($search, self::DELIMITER) === false) {
+        if (!str_contains($search, self::DELIMITER)) {
             return [];
         }
-        list($searchTerm, $customerId) = $this->explodeSearchTerm($search);
+
+        [$searchTerm, $customerId] = $this->explodeSearchTerm($search);
 
         $entityIds = $this->searchIds($searchTerm, $firstResult, $maxResults);
 

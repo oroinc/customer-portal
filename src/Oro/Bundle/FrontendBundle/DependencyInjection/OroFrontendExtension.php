@@ -101,13 +101,13 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
             );
         }
 
-        if (substr($prefix, 0, 1) !== '/') {
+        if (!str_starts_with($prefix, '/')) {
             throw new InvalidConfigurationException(
                 'The "web_backend_prefix" parameter should start with a "/" character.'
             );
         }
 
-        if (substr($prefix, -1) === '/') {
+        if (str_ends_with($prefix, '/')) {
             throw new InvalidConfigurationException(
                 'The "web_backend_prefix" parameter should not end with a "/" character.'
             );
@@ -123,7 +123,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
                 foreach ($config['firewalls'] as $key => $firewall) {
                     if (!empty($firewall['pattern'])
                         && $firewall['pattern'] === $restApiPatternPlaceholder
-                        && 0 !== strpos($key, 'frontend_')
+                        && !str_starts_with($key, 'frontend_')
                     ) {
                         // add backend prefix to the pattern of the backend REST API firewall
                         $configs[$configKey]['firewalls'][$key]['pattern'] = $this->getBackendApiPattern($container);
