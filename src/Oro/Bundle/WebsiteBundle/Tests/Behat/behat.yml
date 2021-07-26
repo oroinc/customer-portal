@@ -3,9 +3,9 @@ oro_behat_extension:
     OroWebsiteBundle:
       contexts:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
-        - OroConfigBundle::FeatureContext
-        - OroFormBundle::FormContext
-        - OroWebsiteBundle::FeatureContext
+        - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FormContext
+        - Oro\Bundle\WebsiteBundle\Tests\Behat\Context\FeatureContext
       paths:
         - '@OroWebsiteBundle/Tests/Behat/Features'
   elements:
