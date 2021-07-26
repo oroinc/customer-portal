@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Type;
+namespace Oro\Bundle\FrontendBundle\Tests\Unit\Form\Configurator;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigBag;
 use Oro\Bundle\FrontendBundle\Form\Configurator\ThemeConfigurator;

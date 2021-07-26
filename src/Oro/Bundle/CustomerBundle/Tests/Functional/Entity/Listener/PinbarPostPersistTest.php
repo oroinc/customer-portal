@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\NavigationBundle\Tests\Functional\Entity\Listener;
+namespace Oro\Bundle\CustomerBundle\Tests\Functional\Entity\Listener;
 
 use Oro\Bundle\CustomerBundle\Entity\NavigationItem;
 use Oro\Bundle\CustomerBundle\Entity\PinbarTab;
