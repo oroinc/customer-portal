@@ -4,6 +4,7 @@ define(function(require) {
     const $ = require('jquery');
     const _ = require('underscore');
     const AbstractInputWidget = require('oroui/js/app/views/input-widget/abstract');
+    const {ENTER} = require('oroui/js/tools/keyboard-key-codes').default;
 
     const CheckboxInputWidget = AbstractInputWidget.extend({
         checkedParentCssClass: 'checked',
@@ -14,7 +15,7 @@ define(function(require) {
         },
 
         _handleEnterPress: function(event) {
-            if (event.which === 32) {
+            if (event.keyCode === ENTER) {
                 event.preventDefault();
                 this.$el.trigger('click');
             }
