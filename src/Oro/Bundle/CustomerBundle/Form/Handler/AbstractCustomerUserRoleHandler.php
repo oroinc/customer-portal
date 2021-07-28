@@ -90,8 +90,8 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
 
         foreach ($privileges as $key => $privilege) {
             $oid = $privilege->getIdentity()->getId();
-            if (strpos($oid, $entityPrefix) === 0) {
-                $className = substr($oid, strlen($entityPrefix));
+            if (str_starts_with($oid, $entityPrefix)) {
+                $className = substr($oid, \strlen($entityPrefix));
                 if (!$this->ownershipConfigProvider->hasConfig($className)) {
                     unset($privileges[$key]);
                 }

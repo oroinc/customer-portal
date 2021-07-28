@@ -704,17 +704,25 @@ services:
             - '@oro_website.manager'
             - '@oro_frontend.request.frontend_helper'
 
+    oro_customer.customer_role.listener:
+        class: Oro\Bundle\UserBundle\EventListener\RoleListener
+        arguments:
+            - '@oro_security.acl.sid_manager'
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: Oro\Bundle\CustomerBundle\Entity\CustomerUserRole, event: prePersist}
+            - { name: doctrine.orm.entity_listener, entity: Oro\Bundle\CustomerBundle\Entity\CustomerUserRole, event: preUpdate}
+
     oro_customer.entity_ownership.listener:
         class: Oro\Bundle\CustomerBundle\EventListener\RecordOwnerDataListener
         arguments:
-            - "@oro_customer.security.customer_user_provider"
-            - "@oro_entity_config.provider.ownership"
-            - "@property_accessor"
+            - '@oro_customer.security.customer_user_provider'
+            - '@oro_entity_config.provider.ownership'
+            - '@property_accessor'
         tags:
              - { name: doctrine.event_listener, event: prePersist }
 
     oro_customer.event_listener.role_page_listener:
-        class: 'Oro\Bundle\CustomerBundle\EventListener\CustomerRolePageListener'
+        class: Oro\Bundle\CustomerBundle\EventListener\CustomerRolePageListener
         arguments:
             - '@translator'
             - '@request_stack'

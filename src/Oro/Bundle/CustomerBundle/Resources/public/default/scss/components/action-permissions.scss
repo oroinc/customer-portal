@@ -3,6 +3,7 @@
 .action-permissions {
     margin-left: $action-permissions-offset-left;
     margin-right: $action-permissions-offset-right;
+    list-style: none;
 
     @include clearfix();
 

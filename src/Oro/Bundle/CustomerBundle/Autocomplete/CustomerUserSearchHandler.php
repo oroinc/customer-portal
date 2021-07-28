@@ -19,11 +19,11 @@ class CustomerUserSearchHandler extends BaseSearchHandler
      */
     protected function searchEntities($search, $firstResult, $maxResults)
     {
-        if (false === strpos($search, static::DELIMITER)) {
+        if (!str_contains($search, static::DELIMITER)) {
             return [];
         }
 
-        list($searchTerm, $customerId) = explode(static::DELIMITER, $search, 2);
+        [$searchTerm, $customerId] = explode(static::DELIMITER, $search, 2);
         $entityIds = $this->searchIdsByTermAndCustomer($searchTerm, $firstResult, $maxResults, $customerId);
         if (!count($entityIds)) {
             return [];

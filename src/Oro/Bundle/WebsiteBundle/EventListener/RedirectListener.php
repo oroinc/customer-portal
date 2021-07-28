@@ -60,7 +60,7 @@ class RedirectListener
             $event->isMasterRequest()
             && !$event->getResponse() instanceof RedirectResponse
             && $this->frontendHelper->isFrontendRequest()
-            && strpos($event->getRequest()->getPathInfo(), '/media/cache/') !== 0;
+            && !str_starts_with($event->getRequest()->getPathInfo(), '/media/cache/');
     }
 
     private function getWebsite(Request $request): ?Website
@@ -81,7 +81,7 @@ class RedirectListener
         }
 
         $redirectUrl = null;
-        if (false === strpos($request->getUri(), $websiteUrl)) {
+        if (!str_contains($request->getUri(), $websiteUrl)) {
             $queryString = http_build_query($request->query->all());
             $queryString = $queryString ? '?' . $queryString : $queryString;
             $redirectUrl = $websiteUrl . $request->getPathInfo() . $queryString;

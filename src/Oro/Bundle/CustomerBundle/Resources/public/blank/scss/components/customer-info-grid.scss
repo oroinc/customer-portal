@@ -28,6 +28,11 @@
 
         font-style: $customer-info-grid-element-content-font-style;
         word-wrap: $customer-info-grid-element-content-word-wrap;
+
+        ul,
+        ol {
+            list-style: none;
+        }
     }
 
     &__table {

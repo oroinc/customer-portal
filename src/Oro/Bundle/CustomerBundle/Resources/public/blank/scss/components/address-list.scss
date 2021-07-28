@@ -79,6 +79,7 @@
 .map-address-list {
     flex-basis: 44%;
     flex-grow: 1;
+    list-style: none;
 
     .map-item {
         padding-top: $address-list-item-v-space;

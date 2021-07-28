@@ -16,7 +16,7 @@ class ImagineRouteOptionsResolver implements RouteOptionsResolverInterface
      */
     public function resolve(Route $route, RouteCollectionAccessor $routes): void
     {
-        if (strpos($route->getPath(), '/media/cache/resolve/') === 0) {
+        if (str_starts_with($route->getPath(), '/media/cache/resolve/')) {
             $route->setOption('frontend', true);
         }
     }

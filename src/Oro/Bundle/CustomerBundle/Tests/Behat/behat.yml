@@ -3,28 +3,26 @@ oro_behat_extension:
     OroCustomerBundle:
       contexts:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
-        - OroApplicationBundle::CommerceMainContext
+        - Oro\Bundle\ApplicationBundle\Tests\Behat\Context\CommerceMainContext
         - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\UserBundle\Tests\Behat\Context\FeatureContext
-        - OroDataGridBundle::GridContext
-        - OroFormBundle::FormContext
-        - OroCustomerBundle::CustomerUserContext
-        - OroFrontendLocalizationBundle::LocalizationSwitcherContext
-        - OroLocaleBundle::LocalizationContext
-        - OroCustomerBundle::ACLContext
-        - OroCustomerBundle::FrontendGridContext
-        - OroCustomerBundle::RegistrationInstructionFeatureContext
-        - OroProductBundle::FeatureContext
-        - OroShoppingListBundle::FeatureContext
-        - OroImportExportBundle::ImportExportContext:
-            - '@oro_entity.entity_alias_resolver'
-            - '@oro_importexport.processor.registry'
-        - OroAddressBundle::AddressContext
-        - OroCustomerBundle::CustomerVisitorContext
-        - OroEmailBundle::EmailContext
-        - OroSearchBundle::SearchContext
-        - OroFrontendBundle::ApiContext
+        - Oro\Bundle\DataGridBundle\Tests\Behat\Context\GridContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FormContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerUserContext
+        - Oro\Bundle\FrontendLocalizationBundle\Tests\Behat\Context\LocalizationSwitcherContext
+        - Oro\Bundle\LocaleBundle\Tests\Behat\Context\LocalizationContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\ACLContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\FrontendGridContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\RegistrationInstructionFeatureContext
+        - Oro\Bundle\ProductBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\ShoppingListBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\ImportExportBundle\Tests\Behat\Context\ImportExportContext
+        - Oro\Bundle\AddressBundle\Tests\Behat\Context\AddressContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerVisitorContext
+        - Oro\Bundle\EmailBundle\Tests\Behat\Context\EmailContext
+        - Oro\Bundle\SearchBundle\Tests\Behat\Context\SearchContext
+        - Oro\Bundle\FrontendBundle\Tests\Behat\Context\ApiContext
       paths:
         - '@OroCustomerBundle/Tests/Behat/Features'
 

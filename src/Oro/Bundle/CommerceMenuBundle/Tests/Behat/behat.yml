@@ -100,16 +100,16 @@ oro_behat_extension:
         - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\BrowserTabContext
         - Oro\Bundle\FormBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\ConfigBundle\Tests\Behat\Context\FeatureContext
-        - OroDataGridBundle::GridContext
-        - OroApplicationBundle::CommerceMainContext
-        - OroShippingBundle::SingleCurrencyContext
-        - OroShoppingListBundle::ShoppingListContext
-        - OroCustomerBundle::CustomerUserContext
-        - OroCheckoutBundle::FeatureContext
-        - OroFormBundle::FormContext
-        - OroEntityExtendBundle::EntityExtendContext
-        - OroNavigationBundle::FeatureContext
-        - OroLocaleBundle::LocalizationContext
-        - OroWebCatalogBundle::FeatureContext
+        - Oro\Bundle\DataGridBundle\Tests\Behat\Context\GridContext
+        - Oro\Bundle\ApplicationBundle\Tests\Behat\Context\CommerceMainContext
+        - Oro\Bundle\ShippingBundle\Tests\Behat\Context\SingleCurrencyContext
+        - Oro\Bundle\ShoppingListBundle\Tests\Behat\Context\ShoppingListContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerUserContext
+        - Oro\Bundle\CheckoutBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\FormBundle\Tests\Behat\Context\FormContext
+        - Oro\Bundle\EntityExtendBundle\Tests\Behat\Context\EntityExtendContext
+        - Oro\Bundle\NavigationBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\LocaleBundle\Tests\Behat\Context\LocalizationContext
+        - Oro\Bundle\WebCatalogBundle\Tests\Behat\Context\FeatureContext
       paths:
         - '@OroCommerceMenuBundle/Tests/Behat/Features'

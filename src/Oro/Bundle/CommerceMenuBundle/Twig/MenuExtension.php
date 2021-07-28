@@ -20,6 +20,8 @@ use Twig\TwigFunction;
 class MenuExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
     private ContainerInterface $container;
+    private ?MatcherInterface $matcher = null;
+    private ?RequestStack $requestStack = null;
 
     public function __construct(ContainerInterface $container)
     {
@@ -38,32 +40,17 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
         ];
     }
 
-    /**
-     * @param ItemInterface $item
-     *
-     * @return bool
-     */
-    public function isCurrent(ItemInterface $item)
+    public function isCurrent(ItemInterface $item): bool
     {
         return $this->getMatcher()->isCurrent($item);
     }
 
-    /**
-     * @param ItemInterface $item
-     *
-     * @return bool
-     */
-    public function isAncestor(ItemInterface $item)
+    public function isAncestor(ItemInterface $item): bool
     {
         return $this->getMatcher()->isAncestor($item);
     }
 
-    /**
-     * @param string $url
-     *
-     * @return string
-     */
-    public function getUrl($url)
+    public function getUrl(string $url): string
     {
         $result = parse_url($url);
         if (\array_key_exists('host', $result) || \array_key_exists('scheme', $result)) {
@@ -103,11 +90,19 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
 
     private function getMatcher(): MatcherInterface
     {
-        return $this->container->get('knp_menu.matcher');
+        if (null === $this->matcher) {
+            $this->matcher = $this->container->get('knp_menu.matcher');
+        }
+
+        return $this->matcher;
     }
 
-    protected function getRequest(): ?Request
+    private function getRequest(): ?Request
     {
-        return $this->container->get(RequestStack::class)->getCurrentRequest();
+        if (null === $this->requestStack) {
+            $this->requestStack = $this->container->get(RequestStack::class);
+        }
+
+        return $this->requestStack->getCurrentRequest();
     }
 }

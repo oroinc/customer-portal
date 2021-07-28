@@ -23,6 +23,11 @@
 
         /* rtl:ignore */
     }
+
+    ul,
+    ol {
+        list-style: none;
+    }
 }
 
 .dropdown-toggle {

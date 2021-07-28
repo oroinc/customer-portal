@@ -58,7 +58,7 @@ class DatabaseSchemaTest extends WebTestCase
         $incorrectTableNames = array_filter(
             $tableNames,
             function ($name) {
-                return strpos($name, 'orob2b') === 0;
+                return str_starts_with($name, 'orob2b');
             }
         );
         $this->assertEmpty(
@@ -75,7 +75,7 @@ class DatabaseSchemaTest extends WebTestCase
         $incorrectSequenceNames = array_filter(
             $sequenceNames,
             function ($name) {
-                return strpos($name, 'orob2b') === 0;
+                return str_starts_with($name, 'orob2b');
             }
         );
         $this->assertEmpty(

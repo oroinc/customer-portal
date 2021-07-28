@@ -59,7 +59,7 @@ class FrontendHelper
     public function isFrontendUrl(string $pathinfo): bool
     {
         // the least time consuming method to check whether URL is frontend
-        if (strpos($pathinfo, $this->backendPrefix) === 0) {
+        if (str_starts_with($pathinfo, $this->backendPrefix)) {
             $prefixLength = \strlen($this->backendPrefix);
 
             return

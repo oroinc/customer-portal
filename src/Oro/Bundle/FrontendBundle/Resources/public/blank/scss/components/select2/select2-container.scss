@@ -271,6 +271,8 @@
     overflow-x: hidden;
     overflow-y: auto;
 
+    list-style: none;
+
     .select2-disabled {
         background: $select2-results-disabled-background;
         display: list-item;

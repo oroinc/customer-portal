@@ -17,7 +17,7 @@ class OwnerTreeListenerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $container->getDefinition('oro_security.ownership_tree_subscriber')
+        $container->getDefinition('oro_security.ownership_tree_listener')
             ->addMethodCall('addSupportedClass', [Customer::class, ['parent', 'organization']])
             ->addMethodCall('addSupportedClass', [CustomerUser::class, ['customer', 'organization']]);
     }

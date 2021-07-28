@@ -6,6 +6,10 @@ use Oro\Bundle\ApiBundle\ApiDoc\RestRouteOptionsResolver;
 use Oro\Bundle\DistributionBundle\Event\RouteCollectionEvent;
 use Symfony\Component\Routing\Route;
 
+/**
+ * Adds backend prefix for not frontend routes.
+ * Fixes handling of backend routes with "override_path" option.
+ */
 class RouteCollectionListener
 {
     const OPTION_FRONTEND = 'frontend';
@@ -61,8 +65,8 @@ class RouteCollectionListener
         $prefix = $this->prefix . '/';
 
         return
-            0 === strpos($path, $prefix)
-            || 0 === strpos($path, '/' . $prefix);
+            str_starts_with($path, $prefix)
+            || str_starts_with($path, '/' . $prefix);
     }
 
     /**
@@ -72,7 +76,7 @@ class RouteCollectionListener
      */
     private function addPrefix($path)
     {
-        if (0 === strpos($path, '/')) {
+        if (str_starts_with($path, '/')) {
             return '/' . $this->prefix . $path;
         }
 
