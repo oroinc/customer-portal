@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\FrontendImportExportBundle\Tests\Functional\Async;
+namespace Oro\Bundle\FrontendImportExportBundle\Tests\Functional\Async\Export;
 
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\EmailBundle\Entity\EmailUser;
