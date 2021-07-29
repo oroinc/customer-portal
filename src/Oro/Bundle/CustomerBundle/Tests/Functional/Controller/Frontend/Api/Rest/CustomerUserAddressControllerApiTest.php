@@ -39,7 +39,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         $this->loginCustomerUser();
 
         $user = $this->getReference('customer_user');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_customer_frontend_get_customeruser_addresses', ['entityId' => $user->getId()])
         );
@@ -60,7 +60,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         $this->loginCustomerUser();
 
         $user = $this->getReference('customer_user1');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_customer_frontend_get_customeruser_addresses', ['entityId' => $user->getId()])
         );
@@ -81,7 +81,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         $this->loginCustomerUser();
 
         $user = $this->getReference('customer_user_from_another_department');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_customer_frontend_get_customeruser_addresses', ['entityId' => $user->getId()])
         );
@@ -98,7 +98,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         $this->loginCustomerUser();
 
         $user = $this->getReference('customer_user');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_customer_frontend_get_customeruser_addresses', ['entityId' => $user->getId()])
         );
@@ -119,7 +119,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         $this->loginCustomerUser();
 
         $user = $this->getReference('customer_user1');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_customer_frontend_get_customeruser_addresses', ['entityId' => $user->getId()])
         );
@@ -140,7 +140,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         $this->loginCustomerUser();
 
         $user = $this->getReference('customer_user_from_another_department');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_customer_frontend_get_customeruser_addresses', ['entityId' => $user->getId()])
         );
@@ -157,7 +157,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         $this->loginCustomerUser();
 
         $user = $this->getReference('customer_user');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_customer_frontend_get_customeruser_addresses', ['entityId' => $user->getId()])
         );
@@ -178,7 +178,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         $this->loginCustomerUser();
 
         $user = $this->getReference('customer_user1');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_customer_frontend_get_customeruser_addresses', ['entityId' => $user->getId()])
         );
@@ -195,7 +195,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         $this->loginCustomerUser();
 
         $user = $this->getReference('customer_user');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_customer_frontend_get_customeruser_addresses', ['entityId' => $user->getId()])
         );
@@ -212,7 +212,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         $this->loginCustomerUser();
 
         $user = $this->getReference('customer_user1');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_customer_frontend_get_customeruser_addresses', ['entityId' => $user->getId()])
         );
@@ -229,7 +229,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
         $this->loginCustomerUser();
 
         $user = $this->getReference('customer_user_from_another_department');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl('oro_api_customer_frontend_get_customeruser_addresses', ['entityId' => $user->getId()])
         );
@@ -247,7 +247,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
 
         $user = $this->getReference('customer_user');
         $address = $this->getReference('customer_user_address');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl(
                 'oro_api_customer_frontend_get_customeruser_address',
@@ -271,7 +271,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
 
         $user = $this->getReference('customer_user1');
         $address = $this->getReference('customer_user_address1');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl(
                 'oro_api_customer_frontend_get_customeruser_address',
@@ -295,7 +295,7 @@ class CustomerUserAddressControllerApiTest extends WebTestCase
 
         $user = $this->getReference('customer_user_from_another_department');
         $address = $this->getReference('customer_user_address_from_another_department');
-        $this->client->request(
+        $this->client->jsonRequest(
             'GET',
             $this->getUrl(
                 'oro_api_customer_frontend_get_customeruser_address',

@@ -27,13 +27,13 @@ class GridViewControllerTest extends WebTestCase
 
     public function testPostActionWithIncorrectData()
     {
-        $this->client->request('POST', $this->getUrl('oro_api_frontend_datagrid_gridview_post'));
+        $this->client->jsonRequest('POST', $this->getUrl('oro_api_frontend_datagrid_gridview_post'));
         $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 400);
     }
 
     public function testPostAction()
     {
-        $this->client->request(
+        $this->client->jsonRequest(
             'POST',
             $this->getUrl('oro_api_frontend_datagrid_gridview_post'),
             [
@@ -72,7 +72,7 @@ class GridViewControllerTest extends WebTestCase
         /** @var GridView $gridView */
         $gridView = $this->getReference(LoadGridViewData::GRID_VIEW_PUBLIC);
 
-        $this->client->request(
+        $this->client->jsonRequest(
             'PUT',
             $this->getUrl('oro_api_frontend_datagrid_gridview_put', ['id' => $gridView->getId()]),
             [
@@ -92,7 +92,7 @@ class GridViewControllerTest extends WebTestCase
         /** @var GridView $gridView */
         $gridView = $this->getReference(LoadGridViewData::GRID_VIEW_1);
 
-        $this->client->request(
+        $this->client->jsonRequest(
             'PUT',
             $this->getUrl('oro_api_frontend_datagrid_gridview_put', ['id' => $gridView->getId()]),
             [
@@ -113,7 +113,7 @@ class GridViewControllerTest extends WebTestCase
         $gridViewPrivate = $this->getReference(LoadGridViewData::GRID_VIEW_PRIVATE);
         $id = $gridViewPrivate->getId();
 
-        $this->client->request(
+        $this->client->jsonRequest(
             'PUT',
             $this->getUrl('oro_api_frontend_datagrid_gridview_put', ['id' => $id]),
             [
@@ -156,7 +156,7 @@ class GridViewControllerTest extends WebTestCase
 
         $this->assertNotNull($this->findGridView($id));
 
-        $this->client->request(
+        $this->client->jsonRequest(
             'DELETE',
             $this->getUrl('oro_api_frontend_datagrid_gridview_delete', ['id' => $id])
         );
@@ -176,7 +176,7 @@ class GridViewControllerTest extends WebTestCase
 
         $this->assertEmpty($repository->findAll());
 
-        $this->client->request(
+        $this->client->jsonRequest(
             'POST',
             $this->getUrl(
                 'oro_api_frontend_datagrid_gridview_default',
