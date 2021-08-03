@@ -1,5 +1,6 @@
 /* @theme: blank; */
 
+$datagrid-filters-state-font: #{$base-font-size}/#{$base-line-height} $base-font !default;
 $datagrid-filters-state-color: lighten(get-color('additional', 'dark'), 21%) !default;
 $datagrid-filters-state-background-color: transparent !default;
 $datagrid-filters-state-margin: 13px 0 !default;
