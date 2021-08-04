@@ -77,14 +77,14 @@ define(function(require, exports, module) {
         counterBadgeView: CounterBadgeView,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendFullScreenFiltersAction(options) {
             FrontendFullScreenFiltersAction.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.filtersPopupOptions = _.extend(
@@ -111,7 +111,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * {@inheritdoc}
+         * @inheritdoc
          */
         toggleFilters: function(mode) {
             const filterManager = this.datagrid.filterManager;

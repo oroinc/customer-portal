@@ -7,7 +7,7 @@ define(function(require) {
 
     const FrontendSearchBooleanFilter = MultiSelectFilter.extend(_.extend({}, FilterCountHelper, {
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         populateDefault: false,
 
@@ -20,14 +20,14 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendBooleanFilter(options) {
             FrontendSearchBooleanFilter.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getTemplateData: function() {
             let templateData = FrontendSearchBooleanFilter.__super__.getTemplateData.call(this);

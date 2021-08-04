@@ -56,14 +56,14 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendSelectFilter(options) {
             FrontendSelectFilter.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getTemplateData: function() {
             const templateData = FrontendSelectFilter.__super__.getTemplateData.call(this);
@@ -72,7 +72,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          * @return {jQuery}
          */
         _appendToContainer: function() {
@@ -80,7 +80,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         render: function() {
             if (this.isToggleMode()) {
@@ -122,7 +122,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         reset: function() {
             FrontendSelectFilter.__super__.reset.call(this);
@@ -134,7 +134,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         _getSelectWidgetPosition: function() {
             const position = FrontendSelectFilter.__super__._getSelectWidgetPosition.call(this);

@@ -16,7 +16,7 @@ define(function(require) {
             hiddenClass: 'hidden'
         },
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function EmptyItemsComponent(options) {
             EmptyItemsComponent.__super__.constructor.call(this, options);
@@ -40,7 +40,7 @@ define(function(require) {
             }
         },
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {

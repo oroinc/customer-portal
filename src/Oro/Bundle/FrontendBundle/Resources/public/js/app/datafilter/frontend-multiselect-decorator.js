@@ -14,7 +14,7 @@ define(function(require, exports, module) {
     }, config);
 
     const FrontendMultiSelectDecorator = function(options) {
-        const params = _.pick(options.parameters, ['additionalClass', 'hideHeader', 'themeName']);
+        const params = _.pick(options.parameters, ['additionalClass', 'hideHeader', 'themeName', 'listAriaLabel']);
 
         if (!_.isEmpty(params)) {
             this.parameters = _.extend({}, this.parameters, params);
@@ -49,10 +49,11 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         multiselectFilterParameters: {
-            placeholder: __('oro_frontend.filter_manager.placeholder')
+            placeholder: __('oro_frontend.filters.multiselect.placeholder'),
+            searchAriaLabel: __('oro_frontend.filters.multiselect.aria_label')
         },
 
         /**
@@ -121,7 +122,7 @@ define(function(require, exports, module) {
          */
         setDesignForCheckboxesDefaultTheme: function(instance) {
             const className = instance.options.multiple ? 'checkbox' : 'radio';
-            const $icon = instance.labels.find('.custom-' + className + '__icon');
+            const $icon = instance.labels.find(`.custom-${className}__icon`);
 
             instance.menu
                 .children('.ui-multiselect-checkboxes')
@@ -131,14 +132,17 @@ define(function(require, exports, module) {
                 .addClass('datagrid-manager__list-item');
 
             instance.labels
-                .addClass('custom-' + className + ' absolute')
+                .addClass(`custom-${className} absolute`)
                 .find('span')
-                .addClass('custom-' + className + '__text');
+                .addClass(`custom-${className}__text`);
 
             if (!$icon.length) {
                 instance.inputs
-                    .addClass('custom-' + className + '__input ui-rewrite')
-                    .after($('<i></i>', {'class': 'custom-' + className + '__icon'}));
+                    .addClass(`custom-${className}__input ui-rewrite`)
+                    .after($('<i></i>', {
+                        'class': `custom-${className}__icon`,
+                        'aria-hidden': true
+                    }));
             }
         },
 

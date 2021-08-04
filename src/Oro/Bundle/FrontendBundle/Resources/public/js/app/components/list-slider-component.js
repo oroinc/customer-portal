@@ -36,7 +36,7 @@ define(function(require) {
         previousSlide: 0,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function ContentSliderComponent(options) {
             ContentSliderComponent.__super__.constructor.call(this, options);
@@ -183,7 +183,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {

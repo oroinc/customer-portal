@@ -12,7 +12,7 @@ define(function(require) {
      */
     const StyleBookPlayground = BaseView.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          * @property {Array}
          */
         optionNames: BaseView.prototype.optionNames.concat(
@@ -35,7 +35,7 @@ define(function(require) {
         props: {},
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          * @property {Object}
          */
         events: {
@@ -79,7 +79,7 @@ define(function(require) {
 
         /**
          * @Constructor
-         * @inheritDoc
+         * @inheritdoc
          * @returns {*}
          */
         constructor: function StyleBookPlayground(options) {
@@ -88,7 +88,7 @@ define(function(require) {
 
         /**
          * @Initialize
-         * @inheritDoc
+         * @inheritdoc
          * @param {Object} options
          */
         initialize: function(options) {

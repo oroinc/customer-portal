@@ -15,7 +15,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         optionNames: BaseView.prototype.optionNames.concat(['lazy']),
 

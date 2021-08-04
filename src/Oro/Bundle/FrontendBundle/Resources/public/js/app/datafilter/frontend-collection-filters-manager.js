@@ -24,12 +24,12 @@ define(function(require, exports, module) {
         MultiselectDecorator: MultiselectDecorator,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         enableMultiselectWidget: true,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         multiselectParameters: {
             classes: 'select-filter-widget',
@@ -38,7 +38,8 @@ define(function(require, exports, module) {
             height: 'auto',
             menuWidth: 312,
             selectedText: __('oro_frontend.filter_manager.button_label'),
-            noneSelectedText: __('oro_frontend.filter_manager.button_label')
+            noneSelectedText: __('oro_frontend.filter_manager.button_label'),
+            listAriaLabel: __('oro_frontend.filter_manager.listAriaLabel')
         },
 
         /** @property */
@@ -47,24 +48,19 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         templateData: config.templateData,
 
         /**
-         * @inheritDoc
-         */
-        renderMode: '',
-
-        /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendCollectionFiltersManager(options) {
             FrontendCollectionFiltersManager.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this._updateRenderMode();
@@ -72,7 +68,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         render: function() {
             FrontendCollectionFiltersManager.__super__.render.call(this);
@@ -106,13 +102,15 @@ define(function(require, exports, module) {
          * @private
          */
         _createButtonReset: function() {
-            return $(
-                '<div class="datagrid-manager__footer">' +
-                    '<a href="#" class="link" data-role="reset-filters">' +
-                        '<i class="fa-refresh"></i>' + this.multiselectResetButtonLabel + '' +
-                    '</a>' +
-                '</div>'
-            );
+            // Use link to keep focus even on disabled state
+            return $(`
+                <div class="datagrid-manager__footer">
+                    <a href="#" role="button" class="btn btn--link btn--no-x-offset btn--no-y-offset"
+                        data-role="reset-filters">
+                        <span class="fa-refresh" aria-hidden="true"></span>${this.multiselectResetButtonLabel}
+                    </a>
+                </div>
+            `);
         },
 
         _onClose: function() {
@@ -122,7 +120,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getTemplateData: function() {
             let data = FrontendCollectionFiltersManager.__super__.getTemplateData.call(this);
@@ -131,7 +129,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         _onCollectionReset: function(collection) {
             if (!_.isMobile()) {

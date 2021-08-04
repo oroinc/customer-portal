@@ -23,14 +23,14 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendMapAction(options) {
             FrontendMapAction.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             FrontendMapAction.__super__.initialize.call(this, options);
@@ -47,7 +47,7 @@ define(function(require) {
             }
         },
         /**
-        * @inheritDoc
+        * @inheritdoc
         */
         onActionClick: function(e) {
             e.preventDefault();

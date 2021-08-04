@@ -95,8 +95,7 @@
     }
 
     &__footer {
-        padding-bottom: $offset-y-m;
-        margin-bottom: -$offset-y-m;
+        margin-top: $offset-y-m;
     }
 
     &__no-columns {
@@ -198,6 +197,7 @@
             .datagrid-manager {
                 &__reset-btn {
                     display: block;
+                    width: 100%;
                     padding: $datagrid-manager-fullscreen-reset-btn-inner-offset;
 
                     text-align: $datagrid-manager-fullscreen-reset-btn-text-align;
@@ -225,6 +225,10 @@
 
                 &__footer {
                     padding: $datagrid-manager-fullscreen-footer-inner-offset;
+                }
+
+                .close-dialog {
+                    display: none;
                 }
             }
         }
@@ -269,6 +273,7 @@
             justify-content: center;
 
             width: 100%;
+            height: 100%;
             padding: $datagrid-manager-filters-dropdown-content-inner-offset;
 
             line-height: $datagrid-manager-filters-dropdown-content-line-height;
@@ -283,12 +288,32 @@
         &__inputs {
             position: absolute;
 
-            visibility: hidden;
+            opacity: 0;
+            z-index: z('hidden');
+
+            &.focus-visible,
+            &.focus {
+                + span {
+                    box-shadow: $checkbox-icon-box-shadow-focus-state;
+                    background-color: $datagrid-manager-filters-dropdown-content-hover-bg-color;
+                }
+            }
 
             &:checked {
                 + span {
                     background-color: $datagrid-manager-filters-dropdown-content-checked-background-color;
                     color: $datagrid-manager-filters-dropdown-content-checked-color;
+                }
+            }
+
+            &:disabled {
+                + span {
+                    color: $checkbox-icon-color-disabled-state;
+                    box-shadow: none;
+
+                    @include base-disabled-style(.55, true) {
+                        cursor: default;
+                    }
                 }
             }
         }

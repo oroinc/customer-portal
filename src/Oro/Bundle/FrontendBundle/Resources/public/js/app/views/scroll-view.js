@@ -21,7 +21,7 @@ define(function(require) {
         $followYAxis: null,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function ScrollView(options) {
             ScrollView.__super__.constructor.call(this, options);

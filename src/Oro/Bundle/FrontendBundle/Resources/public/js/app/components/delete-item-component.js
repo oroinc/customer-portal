@@ -11,14 +11,14 @@ define(function(require) {
 
     const DeleteItemComponent = BaseComponent.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function DeleteItemComponent(options) {
             DeleteItemComponent.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.$elem = options._sourceElement;

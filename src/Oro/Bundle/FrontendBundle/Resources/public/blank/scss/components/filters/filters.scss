@@ -6,16 +6,17 @@
 
 .filter-criteria-selector {
     position: relative;
+    text-align: left;
 }
 
 .filter-criteria-selector-icon-wrap {
     position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .filter-criteria-selector-icon {
-    width: $filter-criteria-selector-icon-width;
     height: $filter-criteria-selector-icon-height;
-    text-align: $filter-criteria-selector-icon-text-align;
     transition: all linear 250ms;
     color: $filter-criteria-selector-icon-color;
     display: $filter-criteria-selector-icon-display;
@@ -78,7 +79,7 @@
         flex-shrink: $filter-container-manager-flex-shrink;
         margin-left: auto;
     }
-    
+
     .filter-container-title,
     .filter-container-manager {
         margin-top: $filter-container-manager-offset-top;

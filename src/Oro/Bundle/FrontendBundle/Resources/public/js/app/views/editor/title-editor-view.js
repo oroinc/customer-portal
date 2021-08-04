@@ -15,7 +15,7 @@ define(function(require) {
         className: 'inline-view-editor',
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function TitleEditorView(options) {
             TitleEditorView.__super__.constructor.call(this, options);

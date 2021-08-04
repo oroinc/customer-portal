@@ -6,7 +6,8 @@ $filter-fullscreen-popup-mode-criteria-hint-item-border-radius: null !default;
 
 $filter-fullscreen-popup-mode-items-hint-offset-inner: 0 $offset-x-m !default;
 
-$filter-fullscreen-popup-mode-criteria-selector-offset-inner: 12px ($offset-x * 2) 12px $offset-x !default;
+$filter-fullscreen-popup-mode-criteria-selector-offset-inner: 8px ($offset-x * 2) 8px $offset-x !default;
+$filter-fullscreen-popup-mode-criteria-selector-offset: $offset-y-s 0 !default;
 
 $filter-fullscreen-popup-mode-criteria-offset-inner: 12px $offset-x !default;
 

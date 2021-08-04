@@ -33,7 +33,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         listen: {
             'page:afterChange mediator': 'initState'
@@ -52,14 +52,14 @@ define(function(require) {
         pageScrollDuration: 20,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function StyleBookElementsNavigationView(options) {
             StyleBookElementsNavigationView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             this.options = _.extend({}, this.options, options);
@@ -82,7 +82,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         onSwitchClick: function(e) {
             e.preventDefault();
@@ -108,7 +108,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         getElementsList: function() {
             const $elemList = $(this.options.elementSelector);
@@ -121,7 +121,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         render: function() {
             this.$el.html(this.template({

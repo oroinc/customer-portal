@@ -33,12 +33,12 @@ define(function(require) {
         consideringTopPosition: 40,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         keepElement: true,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function MenuTravelingWidget(options) {
             MenuTravelingWidget.__super__.constructor.call(this, options);
@@ -153,7 +153,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function(options) {
             if (this.disposed) {

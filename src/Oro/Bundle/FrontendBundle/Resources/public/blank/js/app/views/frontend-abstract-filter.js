@@ -19,7 +19,7 @@ define(function(require, exports, module) {
         animationDuration: config.animationDuration,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendAbstractFilter(options) {
             FrontendAbstractFilter.__super__.constructor.call(this, options);
@@ -39,10 +39,12 @@ define(function(require, exports, module) {
 
             if (status) {
                 element.slideDown(this.animationDuration, () => {
+                    this._setButtonExpanded(true);
                     element.parent().addClass(this.buttonActiveClass);
                 });
             } else {
                 element.slideUp(this.animationDuration, () => {
+                    this._setButtonExpanded(false);
                     element.parent().removeClass(this.buttonActiveClass);
                 });
             }

@@ -11,14 +11,14 @@ define(function(require) {
      */
     const FrontendDatagridSettingsView = DatagridSettingsView.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendDatagridSettingsView(options) {
             FrontendDatagridSettingsView.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         render: function() {
             FrontendDatagridSettingsView.__super__.render.call(this);
@@ -34,7 +34,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         beforeOpen: function(showEvent) {
             FrontendDatagridSettingsView.__super__.beforeOpen.call(this, showEvent);

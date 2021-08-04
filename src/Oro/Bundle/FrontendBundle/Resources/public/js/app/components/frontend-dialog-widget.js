@@ -10,7 +10,7 @@ define(function(require) {
 
     const FrontendDialogWidget = DialogWidget.extend({
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         optionNames: DialogWidget.prototype.optionNames.concat([
             'fullscreenViewport', 'fullscreenViewOptions', 'fullscreenDialogOptions',
@@ -97,14 +97,14 @@ define(function(require) {
         staticPage: false,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendDialogWidget(options) {
             FrontendDialogWidget.__super__.constructor.call(this, options);
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         initialize: function(options) {
             FrontendDialogWidget.__super__.initialize.call(this, options);
@@ -121,7 +121,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         isEmbedded: function() {
             if (this.fullscreenMode) {
@@ -132,7 +132,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         dispose: function() {
             if (this.disposed) {
@@ -143,7 +143,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         show: function(options) {
             FrontendDialogWidget.__super__.show.call(this, options);
@@ -222,7 +222,7 @@ define(function(require) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         resetDialogPosition: function() {
             if (!this.subview('fullscreenView')) {

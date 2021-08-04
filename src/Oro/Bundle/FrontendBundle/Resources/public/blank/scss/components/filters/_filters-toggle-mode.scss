@@ -47,11 +47,10 @@
         align-content: $filter-toggle-mode-criteria-selector-align-content;
         align-items: $filter-toggle-mode-criteria-selector-align-items;
         padding: $filter-toggle-mode-criteria-selector-offset-inner;
-        color: $filter-toggle-mode-criteria-selector-color;
+        margin: $filter-toggle-mode-criteria-selector-offset;
     }
 
     .filter-criteria-selector-icon-wrap {
-        top: $filter-toggle-mode-criteria-selector-icon-top-pos;
         right: $filter-toggle-mode-criteria-selector-icon-right-pos;
     }
 

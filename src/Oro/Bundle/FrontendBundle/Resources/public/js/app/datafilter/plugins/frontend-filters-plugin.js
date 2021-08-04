@@ -24,7 +24,7 @@ define(function(require, exports, module) {
         },
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         constructor: function FrontendFiltersTogglePlugin(main, options) {
             FrontendFiltersTogglePlugin.__super__.constructor.call(this, main, options);

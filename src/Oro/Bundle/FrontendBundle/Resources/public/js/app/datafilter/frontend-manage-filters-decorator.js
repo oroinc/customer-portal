@@ -33,16 +33,17 @@ define(function(require, exports, module) {
         applyMarkup: true,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         parameters: config,
 
         /**
-         * @inheritDoc
+         * @inheritdoc
          */
         multiselectFilterParameters: {
             label: __('oro_frontend.filter_manager.label'),
-            placeholder: __('oro_frontend.filter_manager.placeholder')
+            placeholder: __('oro_frontend.filter_manager.placeholder'),
+            searchAriaLabel: __('oro_frontend.filter_manager.searchAriaLabel')
         },
 
         /**
@@ -50,10 +51,19 @@ define(function(require, exports, module) {
          * @private
          */
         _setDropdownDesign: function() {
+            const widget = this.getWidget();
             const instance = this.multiselect('instance');
 
             if (this.applyMarkup) {
                 this.updateDropdownMarkup(instance);
+
+                widget.find('.datagrid-manager__footer').append($('<button></button>', {
+                    'type': 'button',
+                    'class': 'close-dialog',
+                    'title': __('Close'),
+                    'aria-label': __('oro_frontend.filter_manager.close.aria_label'),
+                    'data-role': 'close'
+                }));
             }
 
             FrontendMultiSelectDecorator.prototype._setDropdownDesign.call(this);
@@ -80,7 +90,8 @@ define(function(require, exports, module) {
                 .filter(':first')
                 .after(
                     $('<li/>', {
-                        'class': 'datagrid-manager__actions-item'
+                        'class': 'datagrid-manager__actions-item',
+                        'aria-hidden': true
                     }).append(
                         $('<span/>', {
                             'class': 'datagrid-manager__separator',
@@ -96,15 +107,6 @@ define(function(require, exports, module) {
          */
         setDropdownHeaderDesign: function(instance) {
             instance.header
-                .append($('<button></button>', {
-                    'type': 'button',
-                    'class': 'close-dialog',
-                    'title': __('Close'),
-                    'aria-label': __('oro_frontend.filter_manager.close.aria_label'),
-                    'data-role': 'close'
-                }));
-
-            instance.header
                 .removeAttr('class')
                 .addClass('datagrid-manager__header');
 
@@ -118,15 +120,37 @@ define(function(require, exports, module) {
          * @param {object} instance
          */
         setActionsState: function(instance) {
-            const checked = instance.getChecked().length;
+            const value = instance.element.val();
+            const selectedNone = value.length === 0;
+            const selectedAll = value.length === instance.element.children(':enabled').length;
+            const valueChanged = instance.initialValue.length !== value.length ||
+                !instance.initialValue.includes(...value);
 
-            instance.header
-                .find('.ui-multiselect-none')
-                .toggleClass('disabled', checked === 0);
+            const actions = [{
+                $el: instance.header.find('.ui-multiselect-none'),
+                toApply: selectedNone
+            }, {
+                $el: instance.header.find('.ui-multiselect-all'),
+                toApply: selectedAll
+            }, {
+                $el: instance.menu.find('[data-role="reset-filters"]'),
+                toApply: !valueChanged
+            }];
 
-            instance.header
-                .find('.ui-multiselect-all')
-                .toggleClass('disabled', checked === instance.inputs.length);
+            for (const {$el, toApply} of actions) {
+                $el.toggleClass('disabled', toApply);
+
+                if ($el.is(':button')) {
+                    $el.attr('disabled', toApply);
+                } else {
+                    $el.attr({
+                        'tabindex': toApply ? '-1' : null,
+                        'role': 'button',
+                        'href': toApply ? null : '#',
+                        'aria-disabled': toApply ? true : null
+                    }).addClass('btn btn--link btn--no-x-offset btn--no-y-offset');
+                }
+            }
         },
 
         /**
