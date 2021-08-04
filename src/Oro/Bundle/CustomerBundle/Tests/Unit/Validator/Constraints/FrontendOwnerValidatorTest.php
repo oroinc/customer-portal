@@ -13,7 +13,6 @@ use Oro\Bundle\CustomerBundle\Validator\Constraints\FrontendOwner;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\FrontendOwnerValidator;
 use Oro\Bundle\OrganizationBundle\Tests\Unit\Fixture\Entity\Entity;
 use Oro\Bundle\OrganizationBundle\Tests\Unit\Fixture\Entity\Organization;
-use Oro\Bundle\OrganizationBundle\Tests\Unit\Fixture\Entity\User;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
 use Oro\Bundle\SecurityBundle\Acl\Domain\OneShotIsGrantedObserver;
 use Oro\Bundle\SecurityBundle\Acl\Group\AclGroupProviderInterface;
@@ -35,38 +34,27 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  */
 class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry */
-    private $doctrine;
+    private \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry $doctrine;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|OwnershipMetadataProviderInterface */
-    private $ownershipMetadataProvider;
+    private \PHPUnit\Framework\MockObject\MockObject|OwnershipMetadataProviderInterface $ownershipMetadataProvider;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|AuthorizationCheckerInterface */
-    private $authorizationChecker;
+    private \PHPUnit\Framework\MockObject\MockObject|AuthorizationCheckerInterface $authorizationChecker;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
-    private $tokenAccessor;
+    private \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface $tokenAccessor;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|OwnerTreeInterface */
-    private $ownerTree;
+    private \PHPUnit\Framework\MockObject\MockObject|OwnerTreeInterface $ownerTree;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|OwnerTreeProviderInterface */
-    private $ownerTreeProvider;
+    private \PHPUnit\Framework\MockObject\MockObject|OwnerTreeProviderInterface $ownerTreeProvider;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|AclVoter */
-    private $aclVoter;
+    private \PHPUnit\Framework\MockObject\MockObject|AclVoter $aclVoter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|AclGroupProviderInterface */
-    private $aclGroupProvider;
+    private \PHPUnit\Framework\MockObject\MockObject|AclGroupProviderInterface $aclGroupProvider;
 
-    /** @var Entity */
-    private $testEntity;
+    private Entity $testEntity;
 
-    /** @var CustomerUser */
-    private $currentUser;
+    private CustomerUser $currentUser;
 
-    /** @var Organization */
-    private $currentOrg;
+    private Organization $currentOrg;
 
     protected function setUp(): void
     {
@@ -123,7 +111,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
      *
      * @return FrontendOwnershipMetadata
      */
-    private function createOwnershipMetadata($ownerType)
+    private function createOwnershipMetadata($ownerType): FrontendOwnershipMetadata
     {
         return new FrontendOwnershipMetadata($ownerType, 'owner', 'owner', 'organization', 'organization');
     }
@@ -134,7 +122,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
     protected function createContext()
     {
         $this->constraint = new FrontendOwner();
-        $this->propertyPath = null;
+        $this->propertyPath = '';
 
         return parent::createContext();
     }
@@ -142,9 +130,9 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
     /**
      * @param int $id
      *
-     * @return User
+     * @return CustomerUser
      */
-    private function createUser($id)
+    private function createUser($id): CustomerUser
     {
         $user = new CustomerUser();
         ReflectionUtil::setId($user, $id);
@@ -157,7 +145,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
      *
      * @return Customer
      */
-    private function createCustomer($id)
+    private function createCustomer($id): Customer
     {
         $customer = new Customer();
         ReflectionUtil::setId($customer, $id);
@@ -168,10 +156,8 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
     /**
      * @param \PHPUnit\Framework\MockObject\MockObject|ClassMetadata $entityMetadata
      * @param array                                                  $originalEntityData
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|UnitOfWork
      */
-    private function expectManageableEntity(ClassMetadata $entityMetadata, array $originalEntityData)
+    private function expectManageableEntity(ClassMetadata $entityMetadata, array $originalEntityData): void
     {
         $em = $this->createMock(EntityManagerInterface::class);
         $uow = $this->createMock(UnitOfWork::class);
@@ -191,14 +177,12 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->method('getOriginalEntityData')
             ->with($this->testEntity)
             ->willReturn($originalEntityData);
-
-        return $uow;
     }
 
     /**
      * @param int $accessLevel
      */
-    private function expectAddOneShotIsGrantedObserver($accessLevel)
+    private function expectAddOneShotIsGrantedObserver($accessLevel): void
     {
         $this->aclVoter->expects(self::once())
             ->method('addOneShotIsGrantedObserver')
@@ -207,13 +191,13 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             });
     }
 
-    public function testValidateForInvalidConstraintType()
+    public function testValidateForInvalidConstraintType(): void
     {
         $this->expectException(\Symfony\Component\Validator\Exception\UnexpectedTypeException::class);
         $this->validator->validate($this->testEntity, $this->createMock(Constraint::class));
     }
 
-    public function testValidateForNull()
+    public function testValidateForNull(): void
     {
         $this->doctrine->expects(self::never())
             ->method('getManagerForClass');
@@ -222,7 +206,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testValidateForNotManageableEntity()
+    public function testValidateForNotManageableEntity(): void
     {
         $this->doctrine->expects(self::once())
             ->method('getManagerForClass')
@@ -235,7 +219,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testValidateForNonAclProtectedEntity()
+    public function testValidateForNonAclProtectedEntity(): void
     {
         $ownershipMetadata = new FrontendOwnershipMetadata();
 
@@ -252,7 +236,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testValidWithNullOwner()
+    public function testValidWithNullOwner(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -283,7 +267,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testValidWithNotChangedOwner()
+    public function testValidWithNotChangedOwner(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -314,7 +298,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testInvalidBecauseAccessDenied()
+    public function testInvalidBecauseAccessDenied(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -352,7 +336,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function testValidExistingEntityWithUserOwnerAndSystemAccessLevel()
+    public function testValidExistingEntityWithUserOwnerAndSystemAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -387,7 +371,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testValidExistingEntityWithUserOwnerAndBasicAccessLevel()
+    public function testValidExistingEntityWithUserOwnerAndBasicAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -422,7 +406,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testValidExistingEntityWithUserOwnerAndDeepAccessLevel()
+    public function testValidExistingEntityWithUserOwnerAndDeepAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -465,7 +449,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testValidExistingEntityWithCustomerOwnerAndDeepAccessLevel()
+    public function testValidExistingEntityWithCustomerOwnerAndDeepAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_CUSTOMER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -504,7 +488,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testValidExistingEntityWithCustomerOwnerAndLocalAccessLevel()
+    public function testValidExistingEntityWithCustomerOwnerAndLocalAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_CUSTOMER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -543,7 +527,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testInvalidExistingEntityWithUserOwnerAndBasicAccessLevel()
+    public function testInvalidExistingEntityWithUserOwnerAndBasicAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -581,7 +565,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function testInvalidExistingEntityWithUserOwnerAndDeepAccessLevel()
+    public function testInvalidExistingEntityWithUserOwnerAndDeepAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -627,7 +611,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function testInvalidExistingEntityWithCustomerOwnerAndDeepAccessLevel()
+    public function testInvalidExistingEntityWithCustomerOwnerAndDeepAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_CUSTOMER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -669,7 +653,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function testInvalidExistingEntityWithCustomerOwnerAndLocalAccessLevel()
+    public function testInvalidExistingEntityWithCustomerOwnerAndLocalAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_CUSTOMER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -711,7 +695,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function testValidNewEntityWithUserOwner()
+    public function testValidNewEntityWithUserOwner(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -753,7 +737,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testValidNewEntityWithCustomerOwnerAndDeepAccessLevel()
+    public function testValidNewEntityWithCustomerOwnerAndDeepAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_CUSTOMER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -791,7 +775,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testValidNewEntityWithCustomerOwnerAndLocalAccessLevel()
+    public function testValidNewEntityWithCustomerOwnerAndLocalAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_CUSTOMER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -829,7 +813,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testInvalidNewEntityWithUserOwner()
+    public function testInvalidNewEntityWithUserOwner(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -874,7 +858,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function testInvalidNewEntityWithCustomerOwnerAndDeepAccessLevel()
+    public function testInvalidNewEntityWithCustomerOwnerAndDeepAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_CUSTOMER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -915,7 +899,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function testInvalidNewEntityWithCustomerOwnerAndLocalAccessLevel()
+    public function testInvalidNewEntityWithCustomerOwnerAndLocalAccessLevel(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_CUSTOMER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -956,7 +940,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function testValidNewEntityWithNewUserOwner()
+    public function testValidNewEntityWithNewUserOwner(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -998,7 +982,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testValidNewEntityWithNewCustomerOwner()
+    public function testValidNewEntityWithNewCustomerOwner(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_CUSTOMER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -1040,7 +1024,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testInvalidNewEntityWithNewUserOwner()
+    public function testInvalidNewEntityWithNewUserOwner(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_USER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -1085,7 +1069,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function testInvalidNewEntityWithNewCustomerOwner()
+    public function testInvalidNewEntityWithNewCustomerOwner(): void
     {
         $ownershipMetadata = $this->createOwnershipMetadata('FRONTEND_CUSTOMER');
         $entityMetadata = $this->createMock(ClassMetadata::class);
@@ -1130,7 +1114,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function testValidExistingEntityWithCustomerOwnerAndLocalAccessLevelAndWithoutUserInToken()
+    public function testValidExistingEntityWithCustomerOwnerAndLocalAccessLevelAndWithoutUserInToken(): void
     {
         $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $tokenAccessor->expects(self::any())
