@@ -38,4 +38,17 @@ class MenuUpdateRepository extends BaseMenuUpdateRepository
 
         $qb->getQuery()->execute();
     }
+
+    protected function loadMenuUpdateDependencies(array $menuUpdates): void
+    {
+        parent::loadMenuUpdateDependencies($menuUpdates);
+
+        $this->createQueryBuilder('u')
+            ->select(['PARTIAL u.{id}', 'conditions'])
+            ->leftJoin('u.menuUserAgentConditions', 'conditions')
+            ->where('u.id IN (:menuUpdates)')
+            ->setParameter('menuUpdates', $menuUpdates)
+            ->getQuery()
+            ->getResult();
+    }
 }
