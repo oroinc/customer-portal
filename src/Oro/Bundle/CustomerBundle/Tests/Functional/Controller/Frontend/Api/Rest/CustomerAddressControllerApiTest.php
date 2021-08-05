@@ -87,7 +87,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     public function testGetAddressesForOwnCustomerOnDepartmentAceessLevel()
@@ -125,7 +125,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     public function testTryToGetAddressesForAnotherCustomerOnDepartmentAceessLevel()
@@ -142,7 +142,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     public function testTryToGetAddressesForOwnCustomerOnNoneAceessLevel()
@@ -159,7 +159,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     public function testTryToGetAddressesForChildCustomerOnNoneAceessLevel()
@@ -176,7 +176,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     public function testTryToGetAddressesForAnotherCustomerOnNoneAceessLevel()
@@ -193,7 +193,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     public function testGetAddressForOwnCustomerOnCorporateAceessLevel()
@@ -265,7 +265,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     public function testGetAddressForOwnCustomerOnDepartmentAceessLevel()
@@ -313,7 +313,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     public function testTryToGetAddressForAnotherCustomerOnDepartmentAceessLevel()
@@ -337,7 +337,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     public function testTryToGetAddressForOwnCustomerOnNoneAceessLevel()
@@ -361,7 +361,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     public function testTryToGetAddressForChildCustomerOnNoneAceessLevel()
@@ -385,7 +385,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     public function testTryToGetAddressForAnotherCustomerOnNoneAceessLevel()
@@ -409,7 +409,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
         );
 
         $result = self::getJsonResponseContent($this->client->getResponse(), 403);
-        self::assertEquals(['code' => 403, 'message' => 'Forbidden'], $result);
+        self::assertEquals(['code' => 403], $result);
     }
 
     private function loginCustomerUser()

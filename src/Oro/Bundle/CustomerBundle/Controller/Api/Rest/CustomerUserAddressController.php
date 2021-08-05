@@ -2,9 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Api\Rest;
 
-use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\Controller\Annotations\NamePrefix;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
@@ -18,19 +15,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * API controller for customer user address entity.
- *
- * @NamePrefix("oro_api_customer_")
+ * REST API controller for customer user address entity.
  */
-class CustomerUserAddressController extends RestController implements ClassResourceInterface
+class CustomerUserAddressController extends RestController
 {
     /**
      * REST GET address
      *
      * @param int $entityId
      * @param int $addressId
-     *
-     * @Rest\Get(requirements={"entityId"="\d+", "addressId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get customer user address",
@@ -61,8 +54,6 @@ class CustomerUserAddressController extends RestController implements ClassResou
 
     /**
      * REST GET list
-     *
-     * @Rest\Get(requirements={"entityId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get all addresses items",
@@ -103,8 +94,6 @@ class CustomerUserAddressController extends RestController implements ClassResou
     /**
      * REST DELETE address
      *
-     * @Rest\Delete(requirements={"entityId"="\d+", "addressId"="\d+"})
-     *
      * @ApiDoc(
      *      description="Delete address items",
      *      resource=true
@@ -135,8 +124,6 @@ class CustomerUserAddressController extends RestController implements ClassResou
      * @param int $entityId
      * @param string $typeName
      *
-     * @Rest\Get(requirements={"entityId"="\d+"})
-     *
      * @ApiDoc(
      *      description="Get customer user address by type",
      *      resource=true
@@ -164,8 +151,6 @@ class CustomerUserAddressController extends RestController implements ClassResou
      * REST GET primary address
      *
      * @param int $entityId
-     *
-     * @Rest\Get(requirements={"entityId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get customer user primary address",

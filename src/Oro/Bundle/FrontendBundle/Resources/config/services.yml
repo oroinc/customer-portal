@@ -62,6 +62,17 @@ services:
             - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%login$']]
         tags: ['oro_frontend.guest_access_urls_provider']
 
+    oro_frontend.error_renderer.html:
+        class: Oro\Bundle\FrontendBundle\ErrorRenderer\FrontendErrorRenderer
+        decorates: error_renderer.html
+        arguments:
+            - '@Psr\Container\ContainerInterface'
+            - '@oro_frontend.error_renderer.html.inner'
+            - '@error_handler.error_renderer.html'
+            - '%kernel.debug%'
+        tags:
+            - { name: container.service_subscriber }
+
     oro_frontend.placeholder.filter:
         class: 'Oro\Bundle\FrontendBundle\Placeholder\FrontendFilter'
         public: true

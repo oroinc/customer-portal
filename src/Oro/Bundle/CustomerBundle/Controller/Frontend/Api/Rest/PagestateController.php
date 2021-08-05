@@ -2,14 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest;
 
-use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use Oro\Bundle\CustomerBundle\Entity\PageState;
 use Oro\Bundle\NavigationBundle\Controller\Api\PagestateController as BasePagestateController;
 
 /**
- * Provides REST API CRUD actions for PageState entity on the storefront.
- *
- * @NamePrefix("oro_api_frontend_")
+ * REST API CRUD controller for PageState entity on the storefront.
  */
 class PagestateController extends BasePagestateController
 {

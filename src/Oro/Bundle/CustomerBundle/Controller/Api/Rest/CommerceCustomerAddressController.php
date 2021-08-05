@@ -2,9 +2,6 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Api\Rest;
 
-use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\Controller\Annotations\NamePrefix;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -15,19 +12,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * API controller for customer address entity.
- *
- * @NamePrefix("oro_api_customer_")
+ * REST API controller for customer address entity.
  */
-class CommerceCustomerAddressController extends RestController implements ClassResourceInterface
+class CommerceCustomerAddressController extends RestController
 {
     /**
      * REST GET address
      *
      * @param int $entityId
      * @param int $addressId
-     *
-     * @Rest\Get(requirements={"entityId"="\d+", "addressId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get customer address",
@@ -59,8 +52,6 @@ class CommerceCustomerAddressController extends RestController implements ClassR
     /**
      * REST GET list
      *
-     * @Rest\Get(requirements={"entityId"="\d+"})
-     *
      * @ApiDoc(
      *      description="Get all addresses items",
      *      resource=true
@@ -90,8 +81,6 @@ class CommerceCustomerAddressController extends RestController implements ClassR
 
     /**
      * REST DELETE address
-     *
-     * @Rest\Delete(requirements={"entityId"="\d+", "addressId"="\d+"})
      *
      * @ApiDoc(
      *      description="Delete address items",
@@ -123,8 +112,6 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * @param int $entityId
      * @param string $typeName
      *
-     * @Rest\Get(requirements={"entityId"="\d+"})
-     *
      * @ApiDoc(
      *      description="Get customer address by type",
      *      resource=true
@@ -152,8 +139,6 @@ class CommerceCustomerAddressController extends RestController implements ClassR
      * REST GET primary address
      *
      * @param int $entityId
-     *
-     * @Rest\Get(requirements={"entityId"="\d+"})
      *
      * @ApiDoc(
      *      description="Get customer primary address",

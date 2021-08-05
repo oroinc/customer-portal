@@ -25,7 +25,7 @@ oro_frontend_rest_api_item:
     path: '%oro_api.rest.prefix%{entity}/{id}'
     controller: Oro\Bundle\FrontendBundle\Controller\FrontendRestApiController::itemAction
     requirements:
-        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+        entity: (?:(?!(rest)(/|$))[^/]+)
     options:
         frontend: true
         group: frontend_rest_api
@@ -39,7 +39,7 @@ oro_frontend_rest_api_list:
     path: '%oro_api.rest.prefix%{entity}'
     controller: Oro\Bundle\FrontendBundle\Controller\FrontendRestApiController::listAction
     requirements:
-        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+        entity: (?:(?!(rest)(/|$))[^/]+)
     options:
         frontend: true
         group: frontend_rest_api
@@ -64,7 +64,7 @@ oro_frontend_rest_api_subresource:
     path: '%oro_api.rest.prefix%{entity}/{id}/{association}'
     controller: Oro\Bundle\FrontendBundle\Controller\FrontendRestApiController::subresourceAction
     requirements:
-        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+        entity: (?:(?!(rest)(/|$))[^/]+)
     options:
         frontend: true
         group: frontend_rest_api
@@ -82,7 +82,7 @@ oro_frontend_rest_api_relationship:
     path: '%oro_api.rest.prefix%{entity}/{id}/relationships/{association}'
     controller: Oro\Bundle\FrontendBundle\Controller\FrontendRestApiController::relationshipAction
     requirements:
-        entity: (?:(?!(soap|rest)(/|$))[^/]+)
+        entity: (?:(?!(rest)(/|$))[^/]+)
     options:
         frontend: true
         group: frontend_rest_api

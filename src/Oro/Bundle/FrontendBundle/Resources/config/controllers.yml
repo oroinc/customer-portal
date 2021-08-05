@@ -6,15 +6,6 @@ services:
         arguments:
             - '@oro_frontend.api.rest.request_handler'
 
-    Oro\Bundle\FrontendBundle\Controller\ExceptionController:
-        arguments:
-            - '@Psr\Container\ContainerInterface'
-            - '%kernel.debug%'
-        tags:
-            - { name: container.service_subscriber }
-            - { name: container.service_subscriber, id: 'fos_rest.view_handler' }
-            - { name: container.service_subscriber, id: 'fos_rest.exception.codes_map' }
-
     Oro\Bundle\FrontendBundle\Controller\Workflow\WidgetController:
         calls:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]

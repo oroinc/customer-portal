@@ -2,14 +2,11 @@
 
 namespace Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest;
 
-use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use Oro\Bundle\CustomerBundle\Controller\Api\Rest\CustomerUserAddressController as BaseCustomerUserAddressController;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 
 /**
- * Frontend API controller for customer user address entity.
- *
- * @NamePrefix("oro_api_customer_frontend_")
+ * REST API controller for customer user address entity.
  */
 class CustomerUserAddressController extends BaseCustomerUserAddressController
 {

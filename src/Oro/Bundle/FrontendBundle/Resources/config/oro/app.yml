@@ -104,10 +104,6 @@ oro_theme:
         demo:
             logo: bundles/orofrontend/images/oro-commerce-logo.svg
 
-fos_rest:
-    exception:
-        exception_controller: 'Oro\Bundle\FrontendBundle\Controller\ExceptionController::showAction'
-
 oro_translation:
     package_names:
         # The oro/customer-portal package was a part of oro/commerce package initially, and the translations

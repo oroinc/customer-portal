@@ -320,18 +320,19 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
                 'format_listener' => [
                     'rules' => [
                         ['path' => '%oro_api.rest.pattern%', 'prefer_extension' => false],
-                        ['path' => '^/api/rest']
+                        ['path' => '^/api/rest', 'prefer_extension' => false],
+                        ['path' => '^/', 'stop' => true]
                     ]
                 ]
             ]
         ];
 
         $expected = $configs;
-        array_unshift(
-            $expected[3]['format_listener']['rules'],
-            $expected[3]['format_listener']['rules'][0]
-        );
-        $expected[3]['format_listener']['rules'][1]['path'] = '^/admin/api/(?!(rest|doc)($|/.*))';
+        $rules = $expected[3]['format_listener']['rules'];
+        array_unshift($expected[3]['format_listener']['rules'], $rules[0]);
+        array_unshift($expected[3]['format_listener']['rules'], $rules[1]);
+        $expected[3]['format_listener']['rules'][0]['path'] = '^/admin/api/(?!(rest|doc)($|/.*))';
+        $expected[3]['format_listener']['rules'][1]['path'] = '^/admin/api/rest';
 
         $container = new ExtendedContainerBuilder();
         $container->setParameter('kernel.environment', 'prod');
@@ -349,7 +350,20 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
     public function testValidateBackendPrefixWithNullValue()
     {
         $this->expectException(InvalidConfigurationException::class);
-        $this->expectExceptionMessage('The "web_backend_prefix" parameter value should not be null.');
+        $this->expectExceptionMessage('The "web_backend_prefix" parameter value should not be empty.');
+
+        $container = new ExtendedContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+        $container->setParameter('web_backend_prefix', null);
+
+        $extension = new OroFrontendExtension();
+        $extension->prepend($container);
+    }
+
+    public function testValidateBackendPrefixWithEmptyValue()
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('The "web_backend_prefix" parameter value should not be empty.');
 
         $container = new ExtendedContainerBuilder();
         $container->setParameter('kernel.environment', 'prod');
