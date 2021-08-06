@@ -531,6 +531,7 @@ oro_api_frontend_put_navigationitems_id:
         _format: json
         version: latest
     requirements:
+        itemId: \d+
         _format: json
         version: latest|v1
     options:
@@ -544,6 +545,7 @@ oro_api_frontend_delete_navigationitems_id:
         _format: json
         version: latest
     requirements:
+        itemId: \d+
         _format: json
         version: latest|v1
     options:
@@ -583,6 +585,7 @@ oro_api_frontend_put_sidebars:
         _format: json
         version: latest
     requirements:
+        stateId: \d+
         _format: json
         version: latest|v1
     options:
@@ -635,6 +638,7 @@ oro_api_frontend_put_sidebarwidgets:
         _format: json
         version: latest
     requirements:
+        widgetId: \d+
         _format: json
         version: latest|v1
     options:
@@ -648,6 +652,7 @@ oro_api_frontend_delete_sidebarwidgets:
         _format: json
         version: latest
     requirements:
+        widgetId: \d+
         _format: json
         version: latest|v1
     options:
@@ -674,6 +679,7 @@ oro_api_frontend_get_pagestate:
         _format: json
         version: latest
     requirements:
+        id: \d+
         _format: json
         version: latest|v1
     options:
@@ -700,6 +706,7 @@ oro_api_frontend_put_pagestate:
         _format: json
         version: latest
     requirements:
+        id: \d+
         _format: json
         version: latest|v1
     options:
@@ -713,6 +720,7 @@ oro_api_frontend_delete_pagestate:
         _format: json
         version: latest
     requirements:
+        id: \d+
         _format: json
         version: latest|v1
     options:
@@ -804,6 +812,7 @@ oro_api_customer_put_windows:
         _format: json
         version: latest
     requirements:
+        windowId: \d+
         _format: json
         version: latest|v1
     options:
@@ -817,6 +826,7 @@ oro_api_customer_delete_windows:
         _format: json
         version: latest
     requirements:
+        windowId: \d+
         _format: json
         version: latest|v1
     options:

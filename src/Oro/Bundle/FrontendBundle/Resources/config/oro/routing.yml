@@ -83,8 +83,8 @@ oro_api_frontend_workflow_transit:
         version: latest
         _format: json
     requirements:
-        version: latest|v1
         workflowItemId: \d+
+        version: latest|v1
         _format: json
     options:
         frontend: true
