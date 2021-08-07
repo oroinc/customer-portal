@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Exclude;
 use Oro\Bundle\SidebarBundle\Entity\AbstractSidebarState;
 
 /**
@@ -24,7 +23,6 @@ class CustomerUserSidebarState extends AbstractSidebarState
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerUser")
      * @ORM\JoinColumn(name="customer_user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * @Exclude
      */
     protected $user;
 }
