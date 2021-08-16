@@ -2,11 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Security\Firewall;
 
-use Doctrine\Common\Cache\CacheProvider;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserRolesProvider;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\SecurityBundle\Csrf\CsrfRequestManager;
-use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -25,101 +23,86 @@ class AnonymousCustomerUserAuthenticationListener
     public const CACHE_KEY = 'visitor_token';
 
     private TokenStorageInterface $tokenStorage;
-
-    private LoggerInterface $logger;
-
     private AuthenticationManagerInterface $authenticationManager;
-
-    private WebsiteManager $websiteManager;
-
-    /**
-     * This property is assumed to be filled on Request basis only so no need permanent cache for it
-     */
-    private CacheProvider $cacheProvider;
-
     private CsrfRequestManager $csrfRequestManager;
-
-    private string $apiPattern;
-
     private CustomerVisitorCookieFactory $cookieFactory;
+    private AnonymousCustomerUserRolesProvider $rolesProvider;
+    private string $apiPattern;
+    private LoggerInterface $logger;
+    private ?TokenInterface $rememberedToken = null;
 
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
-        LoggerInterface $logger,
-        WebsiteManager $websiteManager,
-        CacheProvider $cacheProvider,
         CsrfRequestManager $csrfRequestManager,
+        CustomerVisitorCookieFactory $cookieFactory,
+        AnonymousCustomerUserRolesProvider $rolesProvider,
         string $apiPattern,
-        CustomerVisitorCookieFactory $cookieFactory
+        LoggerInterface $logger,
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
-        $this->logger = $logger;
-        $this->websiteManager = $websiteManager;
-        $this->cacheProvider = $cacheProvider;
         $this->csrfRequestManager = $csrfRequestManager;
-        $this->apiPattern = $apiPattern;
         $this->cookieFactory = $cookieFactory;
+        $this->rolesProvider = $rolesProvider;
+        $this->apiPattern = $apiPattern;
+        $this->logger = $logger;
     }
 
     public function __invoke(RequestEvent $event): void
     {
         $token = $this->tokenStorage->getToken();
-        if (null === $token) {
-            /**
-             * Oro\Bundle\RedirectBundle\Security\Firewall two times triggers RequestEvent event
-             * this causes current listener executes two times as well
-             * So check if we already created and saved token for current request
-             * If yes there is no need to do same actions once more
-             */
-            $cachedToken = $this->cacheProvider->fetch(self::CACHE_KEY);
-            if ($cachedToken) {
-                $this->tokenStorage->setToken($cachedToken);
 
-                return;
-            }
+        /**
+         * {@see \Oro\Bundle\RedirectBundle\Security\Firewall} triggers RequestEvent event two times.
+         * This causes this listener executes two times as well.
+         * So, check if we already created and saved token for the current request.
+         * If yes, there is no need to do same actions once more.
+         */
+        if (null === $token && null !== $this->rememberedToken) {
+            $this->tokenStorage->setToken($this->rememberedToken);
+            $this->rememberedToken = null;
+
+            return;
         }
 
         $request = $event->getRequest();
         if ($this->shouldBeAuthenticatedAsCustomerVisitor($request, $token)) {
-            $token = new AnonymousCustomerUserToken(
-                'Anonymous Customer User',
-                $this->getRoles()
-            );
+            $token = new AnonymousCustomerUserToken('Anonymous Customer User', $this->rolesProvider->getRoles());
             $token->setCredentials($this->getCredentials($request));
 
-            try {
-                $newToken = $this->authenticationManager->authenticate($token);
-
-                $this->tokenStorage->setToken($newToken);
-                $this->saveCredentials($request, $newToken);
-                //Token storage is always reset so we need to save our token to more permanent property
-                $this->cacheProvider->save(self::CACHE_KEY, $newToken);
-
+            $authenticatedToken = $this->authenticate($token);
+            if (null !== $authenticatedToken) {
+                $this->tokenStorage->setToken($authenticatedToken);
+                $this->saveCredentials($request, $authenticatedToken);
                 $this->logger->info('Populated the TokenStorage with an Anonymous Customer User Token.');
-            } catch (AuthenticationException $e) {
-                $this->logger->info('Customer User anonymous authentication failed.', ['exception' => $e]);
+
+                /**
+                 * The token storage is always reset, we need to save our token to more permanent storage
+                 * to be possible to get it at the next execution of this listener.
+                 */
+                $this->rememberedToken = $authenticatedToken;
             }
         }
     }
 
-    private function getRoles(): array
+    private function authenticate(AnonymousCustomerUserToken $token): ?AnonymousCustomerUserToken
     {
-        $currentWebsite = $this->websiteManager->getCurrentWebsite();
-        if (!$currentWebsite || !$currentWebsite->getGuestRole() || !$currentWebsite->getGuestRole()->getRole()) {
-            return [];
+        try {
+            /** @noinspection PhpIncompatibleReturnTypeInspection */
+            return $this->authenticationManager->authenticate($token);
+        } catch (AuthenticationException $e) {
+            $this->logger->info('Customer User anonymous authentication failed.', ['exception' => $e]);
+
+            return null;
         }
-        /** @var CustomerUserRole $guestRole */
-        $guestRole = $currentWebsite->getGuestRole();
-        return [$guestRole->getRole()];
     }
 
     private function getCredentials(Request $request): array
     {
         $value = $request->cookies->get(self::COOKIE_NAME);
         if ($value) {
-            [$visitorId, $sessionId] = json_decode(base64_decode($value));
+            [$visitorId, $sessionId] = json_decode(base64_decode($value), false, 512, JSON_THROW_ON_ERROR);
         } else {
             $visitorId = null;
             $sessionId = null;

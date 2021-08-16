@@ -50,12 +50,28 @@ class CustomerScopeManager extends AbstractScopeManager
      */
     protected function isSupportedScopeEntity($entity): bool
     {
-        return $entity instanceof Customer || $this->isCustomerAware($entity);
+        return
+            $entity instanceof Customer
+            || ($entity instanceof CustomerAwareInterface && null !== $entity->getCustomer());
     }
 
-    private function isCustomerAware($entity): bool
+    /**
+     * {@inheritdoc}
+     */
+    protected function getScopeEntityIdValue($entity): int
     {
-        return $entity instanceof CustomerAwareInterface && $entity->getCustomer();
+        if ($entity instanceof Customer) {
+            return $entity->getId();
+        }
+        if ($entity instanceof CustomerAwareInterface) {
+            $customer = $entity->getCustomer();
+            if (null === $customer) {
+                throw new \LogicException(sprintf('"%s" does not have a customer.', \get_class($entity)));
+            }
+
+            return $customer->getId();
+        }
+        throw new \LogicException(sprintf('"%s" is not supported.', \get_class($entity)));
     }
 
     /**
@@ -76,18 +92,6 @@ class CustomerScopeManager extends AbstractScopeManager
 
             $this->scopeId = $scopeId;
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getScopeEntityIdValue($entity): int
-    {
-        if ($this->isCustomerAware($entity)) {
-            return $entity->getCustomer()->getId();
-        }
-
-        return $entity->getId();
     }
 
     public function setTokenStorage(TokenStorageInterface $tokenStorage): void

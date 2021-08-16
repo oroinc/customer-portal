@@ -218,23 +218,17 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
-    oro_customer.visitor_token.cache:
-        class: Doctrine\Common\Cache\ArrayCache
-        calls:
-            - [ setNamespace, [ 'visitor_token_cache' ] ]
-
     oro_customer.authentication.listener.anonymous_customer_user:
         class: Oro\Bundle\CustomerBundle\Security\Firewall\AnonymousCustomerUserAuthenticationListener
         abstract: true
         arguments:
             - '@security.token_storage'
             - '@security.authentication.manager'
-            - '@logger'
-            - '@oro_website.manager'
-            - '@oro_customer.visitor_token.cache'
             - '@oro_security.csrf_request_manager'
-            - '%oro_api.rest.pattern%'
             - '@oro_customer.authentication.customer_visitor_cookie_factory'
+            - '@oro_customer.authentication.anonymous_customer_user_roles_provider'
+            - '%oro_api.rest.pattern%'
+            - '@logger'
         tags:
             - { name: monolog.logger, channel: security }
 
@@ -249,6 +243,12 @@ services:
             - ~ #sets in Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension
             - '@oro_config.manager'
             - ~ #sets in Oro\Bundle\CustomerBundle\DependencyInjection\OroCustomerExtension
+
+    oro_customer.authentication.anonymous_customer_user_roles_provider:
+        class: Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserRolesProvider
+        arguments:
+            - '@oro_website.manager'
+            - '@doctrine'
 
     oro_customer.authentication.provider.anonymous_customer_user:
         class: 'Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticationProvider'

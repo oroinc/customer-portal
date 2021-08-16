@@ -49,7 +49,28 @@ class CustomerGroupScopeManager extends AbstractScopeManager
      */
     protected function isSupportedScopeEntity($entity): bool
     {
-        return $entity instanceof CustomerGroup || $entity instanceof Customer;
+        return
+            $entity instanceof CustomerGroup
+            || ($entity instanceof Customer && null !== $entity->getGroup());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getScopeEntityIdValue($entity): int
+    {
+        if ($entity instanceof CustomerGroup) {
+            return $entity->getId();
+        }
+        if ($entity instanceof Customer && $entity->getGroup()) {
+            $customerGroup = $entity->getGroup();
+            if (null === $customerGroup) {
+                throw new \LogicException(sprintf('"%s" does not have a customer group.', \get_class($entity)));
+            }
+
+            return $customerGroup->getId();
+        }
+        throw new \LogicException(sprintf('"%s" is not supported.', \get_class($entity)));
     }
 
     protected function ensureScopeIdInitialized(): void
@@ -71,17 +92,6 @@ class CustomerGroupScopeManager extends AbstractScopeManager
 
             $this->scopeId = $scopeId;
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getScopeEntityIdValue($entity): int
-    {
-        if ($entity instanceof Customer && $entity->getGroup()) {
-            return $entity->getGroup()->getId();
-        }
-        return $entity->getId();
     }
 
     public function setTokenStorage(TokenStorageInterface $tokenStorage): void
