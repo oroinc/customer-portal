@@ -3,25 +3,13 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
 use Behat\Mink\Driver\Selenium2Driver;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
 use Oro\Bundle\UserBundle\Entity\Role;
-use Oro\Bundle\WebsiteBundle\Resolver\WebsiteUrlResolver;
 
 class CustomerUserContext extends OroFeatureContext
 {
-    private ManagerRegistry $managerRegistry;
-
-    private WebsiteUrlResolver $websiteUrlResolver;
-
-    public function __construct(ManagerRegistry $managerRegistry, WebsiteUrlResolver $websiteUrlResolver)
-    {
-        $this->managerRegistry = $managerRegistry;
-        $this->websiteUrlResolver = $websiteUrlResolver;
-    }
-
     /**
      * Example: AmandaRCole@example.org customer user has Buyer role
      *
@@ -63,7 +51,7 @@ class CustomerUserContext extends OroFeatureContext
         ]);
         self::assertNotNull($customerUser, sprintf('Could not found customer user "%s",', $username));
 
-        $path = $this->websiteUrlResolver->getWebsitePath(
+        $path = $this->getAppContainer()->get('oro_website.resolver.website_url_resolver')->getWebsitePath(
             'oro_customer_frontend_customer_user_confirmation',
             ['token' => $customerUser->getConfirmationToken()],
             $customerUser->getWebsite()
@@ -105,7 +93,8 @@ class CustomerUserContext extends OroFeatureContext
      */
     protected function getRepository($className)
     {
-        return $this->managerRegistry
+        return $this->getAppContainer()
+            ->get('doctrine')
             ->getManagerForClass($className)
             ->getRepository($className);
     }

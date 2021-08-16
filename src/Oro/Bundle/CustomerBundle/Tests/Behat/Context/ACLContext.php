@@ -2,20 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\Tests\Behat\Context\ACLContext as BaseACLContext;
 
 class ACLContext extends BaseACLContext
 {
-    private string $webBackendPrefix;
-
-    public function __construct(DoctrineHelper $doctrineHelper, string $webBackendPrefix)
-    {
-        $this->webBackendPrefix = $webBackendPrefix;
-
-        parent::__construct($doctrineHelper);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -33,7 +23,7 @@ class ACLContext extends BaseACLContext
     private function isUserRoleEditPage()
     {
         return (bool) preg_match(
-            '/\\'.$this->webBackendPrefix.'\/user\/role\/update\//',
+            '/\\'.$this->getAppContainer()->getParameter('web_backend_prefix').'\/user\/role\/update\//',
             $this->getSession()->getCurrentUrl()
         );
     }
@@ -44,7 +34,7 @@ class ACLContext extends BaseACLContext
     private function isUserRoleCreatePage()
     {
         return (bool) preg_match(
-            '/\\'.$this->webBackendPrefix.'\/user\/role\/create/',
+            '/\\'.$this->getAppContainer()->getParameter('web_backend_prefix').'\/user\/role\/create/',
             $this->getSession()->getCurrentUrl()
         );
     }
