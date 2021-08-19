@@ -159,7 +159,7 @@ instead of `'%oro_email.email.entity.class%'` (in service definitions, datagrid 
 
 ### Changed
 #### FrontendBundle
-* Added `frontend` option for datagrids. This option should be set to `true` for all datagrids are used in the store frontend. For details see [Frontend Datagrids](https://doc.oroinc.com/backend/bundles/commerce/FrontendBundle/frontend-access/#frontend-datagrids)
+* Added `frontend` option for datagrids. This option should be set to `true` for all datagrids are used in the store frontend. For details see [Frontend Datagrids](https://doc.oroinc.com/bundles/commerce/FrontendBundle/frontend-access/#frontend-datagrids)
 
 ## 2.5.0 (2017-11-30)
 [Show detailed list of changes](incompatibilities-2-5.md)
