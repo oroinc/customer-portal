@@ -37,3 +37,6 @@ Feature: Resending confirmation email from back office
     And I follow "Confirm" link from the email
     Then I should not see "404 Not Found"
     And I should see "Confirmation successful" flash message
+    When I follow "Confirm" link from the email
+    Then I should see "404 Not Found"
+    And I should see "This confirmation link may have already been used or is expired. Please contact us if you have issues with registration." flash message
