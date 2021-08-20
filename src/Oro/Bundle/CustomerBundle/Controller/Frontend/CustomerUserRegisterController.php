@@ -76,14 +76,23 @@ class CustomerUserRegisterController extends AbstractController
     public function confirmEmailAction(Request $request)
     {
         $userManager = $this->get('oro_customer_user.manager');
+        $session = $this->get('session');
         $token = $request->get('token');
         if (empty($token)) {
+            $session->getFlashBag()->add(
+                'error',
+                'oro.user.security.confirmation_link_expired_or_used.message'
+            );
             throw $this->createNotFoundException('CustomerUser not found or incorrect confirmation token');
         }
 
         /** @var CustomerUser $customerUser */
         $customerUser = $userManager->findUserByConfirmationToken($token);
         if ($customerUser === null) {
+            $session->getFlashBag()->add(
+                'error',
+                'oro.user.security.confirmation_link_expired_or_used.message'
+            );
             throw $this->createNotFoundException('CustomerUser not found or incorrect confirmation token');
         }
 
@@ -96,7 +105,7 @@ class CustomerUserRegisterController extends AbstractController
             $message = 'oro.customer.controller.customeruser.confirmed.message';
         }
 
-        $this->get('session')->getFlashBag()->add($messageType, $message);
+        $session->getFlashBag()->add($messageType, $message);
 
         if ($request->get(Router::ACTION_PARAMETER)) {
             $response = $this->get('oro_ui.router')->redirect($customerUser);
