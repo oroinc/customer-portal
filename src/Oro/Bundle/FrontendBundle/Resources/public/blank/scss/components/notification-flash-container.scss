@@ -12,10 +12,3 @@
         display: none;
     }
 }
-
-@include breakpoint('print') {
-    .notification-flash-container {
-        // stylelint-disable-next-line declaration-no-important
-        display: none !important;
-    }
-}

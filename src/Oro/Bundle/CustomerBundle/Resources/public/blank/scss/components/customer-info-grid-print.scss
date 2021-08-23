@@ -1,0 +1,11 @@
+/* @theme: blank; */
+
+.customer-info-grid {
+    .grid__column {
+        width: $customer-info-grid-column-width;
+    }
+
+    &__element-label {
+        white-space: normal;
+    }
+}

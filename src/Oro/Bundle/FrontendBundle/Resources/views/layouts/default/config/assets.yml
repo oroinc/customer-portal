@@ -58,3 +58,10 @@ styles:
     output: 'css/styles.css'
     auto_rtl_inputs:
         - 'bundles/oro*/**'
+
+print_styles:
+    inputs:
+        - 'bundles/orofrontend/default/scss/styles-print.scss'
+    output: 'css/styles-print.css'
+    auto_rtl_inputs:
+        - 'bundles/oro*/**'

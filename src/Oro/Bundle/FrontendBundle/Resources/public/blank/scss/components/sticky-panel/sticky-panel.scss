@@ -34,10 +34,3 @@
         display: block;
     }
 }
-
-@include breakpoint('print') {
-    .sticky-panel {
-        // stylelint-disable-next-line declaration-no-important
-        display: none !important;
-    }
-}

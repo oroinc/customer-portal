@@ -1,0 +1,8 @@
+/* @theme: blank; */
+
+.customer-line-items {
+    &__title {
+        float: $customer-line-items-title-float-print;
+        padding-top: $customer-line-items-title-offset-top-print;
+    }
+}

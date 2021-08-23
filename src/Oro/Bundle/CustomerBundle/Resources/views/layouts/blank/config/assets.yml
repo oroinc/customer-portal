@@ -18,3 +18,10 @@ styles:
         - 'bundles/orocustomer/blank/scss/components/info-list-status.scss'
 
         - 'bundles/orocustomer/blank/scss/styles.scss'
+
+print_styles:
+    inputs:
+        - 'bundles/orocustomer/blank/scss/variables/customer-info-grid-print-config.scss'
+        - 'bundles/orocustomer/blank/scss/variables/customer-line-items-print-config.scss'
+
+        - 'bundles/orocustomer/blank/scss/styles-print.scss'

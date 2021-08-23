@@ -72,3 +72,10 @@ styles:
         - 'bundles/orofrontend/blank/scss/components/select2/select2-container-multi.scss'
         - 'bundles/orofrontend/blank/scss/components/close-dialog.scss'
         - 'bundles/orofrontend/blank/scss/components/sidebar-filter-container.scss'
+
+
+print_styles:
+    inputs:
+        - 'bundles/orofrontend/blank/scss/components/datagrid/datagrid-toolbar-print.scss'
+
+        - 'bundles/orofrontend/blank/scss/styles-print.scss'
