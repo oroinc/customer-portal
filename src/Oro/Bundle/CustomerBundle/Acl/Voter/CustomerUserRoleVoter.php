@@ -5,11 +5,9 @@ namespace Oro\Bundle\CustomerBundle\Acl\Voter;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
-use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
-use Oro\Bundle\UserBundle\Entity\AbstractUser;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -29,9 +27,7 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
     const VIEW = 'view';
     const UPDATE = 'update';
 
-    /**
-     * @var array
-     */
+    /** {@inheritDoc} */
     protected $supportedAttributes = [
         self::ATTRIBUTE_VIEW,
         self::ATTRIBUTE_EDIT,
@@ -42,19 +38,15 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
         self::ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_DELETE,
     ];
 
-    /**
-     * @var CustomerUserRole
-     */
-    protected $object;
+    private AuthorizationCheckerInterface $authorizationChecker;
 
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    private ?CustomerUserRole $object;
+    private ?TokenInterface $token;
 
-    public function setContainer(ContainerInterface $container)
+    public function __construct(DoctrineHelper $doctrineHelper, AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->container = $container;
+        parent::__construct($doctrineHelper);
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -62,20 +54,25 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
      */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
-        $this->object = $object;
-
-        return parent::vote($token, $object, $attributes);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getPermissionForAttribute($class, $identifier, $attribute)
-    {
-        if (!$this->object instanceof CustomerUserRole) {
+        if (!$object instanceof CustomerUserRole) {
             return self::ACCESS_ABSTAIN;
         }
 
+        $this->object = $object;
+        $this->token = $token;
+        try {
+            return parent::vote($token, $object, $attributes);
+        } finally {
+            $this->object = null;
+            $this->token = null;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getPermissionForAttribute($class, $identifier, $attribute)
+    {
         switch ($attribute) {
             case static::ATTRIBUTE_VIEW:
             case static::ATTRIBUTE_EDIT:
@@ -94,26 +91,20 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
         }
     }
 
-    /**
-     * @return int
-     */
-    protected function isGrantedCustomerViewPermission()
+    private function isGrantedCustomerViewPermission(): int
     {
         $customer = $this->object->getCustomer();
-        if ($customer && !$this->getAuthorizationChecker()->isGranted(static::ATTRIBUTE_VIEW, $customer)) {
+        if ($customer && !$this->authorizationChecker->isGranted(static::ATTRIBUTE_VIEW, $customer)) {
             return self::ACCESS_DENIED;
         }
 
         return self::ACCESS_GRANTED;
     }
 
-    /**
-     * @return int
-     */
-    protected function getPermissionForDelete()
+    private function getPermissionForDelete(): int
     {
         /** @var CustomerUserRoleRepository $repository */
-        $repository = $this->doctrineHelper->getEntityRepository('OroCustomerBundle:CustomerUserRole');
+        $repository = $this->doctrineHelper->getEntityRepository(CustomerUserRole::class);
         if ($repository->isDefaultOrGuestForWebsite($this->object)) {
             return self::ACCESS_DENIED;
         }
@@ -124,97 +115,53 @@ class CustomerUserRoleVoter extends AbstractEntityVoter
         return $this->isGrantedCustomerViewPermission();
     }
 
-    /**
-     * @param string $type
-     * @return int
-     */
-    protected function getPermissionForCustomerRole($type)
+    private function getPermissionForCustomerRole(string $type): int
     {
-        if (!$this->getLoggedUser() instanceof CustomerUser) {
+        if (!$this->token->getUser() instanceof CustomerUser) {
             return self::ACCESS_DENIED;
         }
 
         $isGranted = false;
-
-        switch ($type) {
-            case self::VIEW:
-                $isGranted = $this->isGrantedViewCustomerUserRole();
-                break;
-            case self::UPDATE:
-                $isGranted = $this->isGrantedUpdateCustomerUserRole();
-                break;
+        if (self::VIEW === $type) {
+            $isGranted = $this->isGrantedViewCustomerUserRole();
+        } elseif (self::UPDATE === $type) {
+            $isGranted = $this->isGrantedUpdateCustomerUserRole();
         }
 
         return $isGranted ? self::ACCESS_GRANTED : self::ACCESS_DENIED;
     }
 
-    /**
-     * @return AuthorizationCheckerInterface
-     */
-    protected function getAuthorizationChecker()
-    {
-        return $this->container->get('security.authorization_checker');
-    }
-
-    /**
-     * @return TokenAccessorInterface
-     */
-    protected function getTokenAccessor()
-    {
-        return $this->container->get('oro_security.token_accessor');
-    }
-
-    /**
-     * @return AbstractUser|null
-     */
-    protected function getLoggedUser()
-    {
-        return $this->getTokenAccessor()->getUser();
-    }
-
-    /**
-     * @return boolean
-     */
-    protected function isGrantedUpdateCustomerUserRole()
+    private function isGrantedUpdateCustomerUserRole(): bool
     {
         if ($this->object->isPredefined()) {
             return true;
         }
 
-        return $this->getAuthorizationChecker()->isGranted(BasicPermission::EDIT, $this->object);
+        return $this->authorizationChecker->isGranted(BasicPermission::EDIT, $this->object);
     }
 
-    /**
-     * @return boolean
-     */
-    protected function isGrantedViewCustomerUserRole()
+    private function isGrantedViewCustomerUserRole(): bool
     {
         if ($this->object->isPredefined()) {
             return true;
         }
 
-        return $this->getAuthorizationChecker()->isGranted(BasicPermission::VIEW, $this->object);
+        return $this->authorizationChecker->isGranted(BasicPermission::VIEW, $this->object);
     }
 
-    /**
-     * @return bool
-     * @return int
-     */
-    protected function getFrontendPermissionForDelete()
+    private function getFrontendPermissionForDelete(): int
     {
         if ($this->object->isPredefined()) {
             return self::ACCESS_DENIED;
         }
 
-        return $this->isGrantedDeleteCustomerUserRole($this->object) ? self::ACCESS_GRANTED : self::ACCESS_DENIED;
+        return $this->isGrantedDeleteCustomerUserRole($this->object)
+            ? self::ACCESS_GRANTED
+            : self::ACCESS_DENIED;
     }
 
-    /**
-     * @param $object
-     * @return bool
-     */
-    protected function isGrantedDeleteCustomerUserRole($object)
+    private function isGrantedDeleteCustomerUserRole(CustomerUserRole $object): bool
     {
-        return $this->getAuthorizationChecker()->isGranted(BasicPermission::DELETE, $object);
+        return $this->authorizationChecker->isGranted(BasicPermission::DELETE, $object);
     }
 }

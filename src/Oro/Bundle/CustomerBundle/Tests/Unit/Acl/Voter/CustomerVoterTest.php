@@ -11,24 +11,20 @@ use Oro\Bundle\CustomerBundle\Security\CustomerUserProvider;
 use Oro\Bundle\EntityBundle\Exception\NotManageableEntityException;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Component\Testing\ReflectionUtil;
+use Oro\Component\Testing\Unit\TestContainerBuilder;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class CustomerVoterTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var CustomerVoter */
-    private $voter;
-
     /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
-
-    /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $securityProvider;
 
     /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $authorizationChecker;
@@ -36,23 +32,33 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
     /** @var AuthenticationTrustResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $trustResolver;
 
+    /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $securityProvider;
+
     /** @var CustomerUserRelationsProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $relationsProvider;
+
+    /** @var CustomerVoter */
+    private $voter;
 
     protected function setUp(): void
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
-        $this->securityProvider = $this->createMock(CustomerUserProvider::class);
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->trustResolver = $this->createMock(AuthenticationTrustResolverInterface::class);
+        $this->securityProvider = $this->createMock(CustomerUserProvider::class);
         $this->relationsProvider = $this->createMock(CustomerUserRelationsProvider::class);
+
+        $container = TestContainerBuilder::create()
+            ->add('oro_customer.security.customer_user_provider', $this->securityProvider)
+            ->add('oro_customer.provider.customer_user_relations_provider', $this->relationsProvider)
+            ->getContainer($this);
 
         $this->voter = new CustomerVoter(
             $this->doctrineHelper,
-            $this->trustResolver,
             $this->authorizationChecker,
-            $this->securityProvider,
-            $this->relationsProvider
+            $this->trustResolver,
+            $container
         );
     }
 
@@ -71,21 +77,18 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
             ->will($this->throwException(new NotManageableEntityException($class)));
 
         $this->assertEquals(
-            CustomerVoter::ACCESS_ABSTAIN,
+            VoterInterface::ACCESS_ABSTAIN,
             $this->voter->vote($token, $object, [])
         );
     }
 
     /**
-     * @param array $inputData
-     * @param int $expectedResult
-     *
      * @dataProvider voteProvider
      */
-    public function testVote(array $inputData, $expectedResult)
+    public function testVote(array $inputData, int $expectedResult)
     {
         $object = $inputData['object'];
-        if (is_null($object) && is_array($inputData['initObjectParams'])) {
+        if (null === $object && is_array($inputData['initObjectParams'])) {
             $object = call_user_func_array([$this, 'getObject'], $inputData['initObjectParams']);
         }
         $class  = is_object($object) ? get_class($object) : null;
@@ -137,11 +140,9 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
-     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function voteProvider()
+    public function voteProvider(): array
     {
         return [
             '!CustomerUser' => [
@@ -159,7 +160,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_ABSTAIN,
+                'expected' => VoterInterface::ACCESS_ABSTAIN,
             ],
             '!Entity' => [
                 'input' => [
@@ -176,7 +177,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_ABSTAIN,
+                'expected' => VoterInterface::ACCESS_ABSTAIN,
             ],
             'Entity is !object' => [
                 'input' => [
@@ -193,7 +194,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_ABSTAIN,
+                'expected' => VoterInterface::ACCESS_ABSTAIN,
             ],
             'Entity is not supported' => [
                 'input' => [
@@ -210,7 +211,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_ABSTAIN,
+                'expected' => VoterInterface::ACCESS_ABSTAIN,
             ],
             'Entity::VIEW_BASIC and different users' => [
                 'input' => [
@@ -227,7 +228,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_DENIED,
+                'expected' => VoterInterface::ACCESS_DENIED,
             ],
             'Entity::VIEW_BASIC and equal users' => [
                 'input' => [
@@ -244,7 +245,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_GRANTED,
+                'expected' => VoterInterface::ACCESS_GRANTED,
             ],
             'Entity::VIEW_LOCAL, different customers and different users' => [
                 'input' => [
@@ -261,7 +262,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_DENIED,
+                'expected' => VoterInterface::ACCESS_DENIED,
             ],
             'Entity::VIEW_LOCAL, equal customers and different users' => [
                 'input' => [
@@ -278,7 +279,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_GRANTED,
+                'expected' => VoterInterface::ACCESS_GRANTED,
             ],
             'Entity::VIEW_LOCAL, different customers and equal users' => [
                 'input' => [
@@ -295,7 +296,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_GRANTED,
+                'expected' => VoterInterface::ACCESS_GRANTED,
             ],
             'Entity::EDIT_BASIC and different users' => [
                 'input' => [
@@ -312,7 +313,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_DENIED,
+                'expected' => VoterInterface::ACCESS_DENIED,
             ],
             'Entity::EDIT_BASIC and equal users' => [
                 'input' => [
@@ -329,7 +330,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_GRANTED,
+                'expected' => VoterInterface::ACCESS_GRANTED,
             ],
             'Entity::EDIT_LOCAL, different customers and different users' => [
                 'input' => [
@@ -346,7 +347,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_DENIED,
+                'expected' => VoterInterface::ACCESS_DENIED,
             ],
             'Entity::EDIT_LOCAL, equal customers and different users' => [
                 'input' => [
@@ -363,7 +364,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_GRANTED,
+                'expected' => VoterInterface::ACCESS_GRANTED,
             ],
             'Entity::EDIT_LOCAL, different customers and equal users' => [
                 'input' => [
@@ -380,7 +381,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => null,
                     'isGrantedDescr'   => null,
                 ],
-                'expected' => CustomerVoter::ACCESS_GRANTED,
+                'expected' => VoterInterface::ACCESS_GRANTED,
             ],
             '!ident and !Entity:ACCOUNT_VIEW' => [
                 'input' => [
@@ -397,7 +398,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => 'VIEW',
                     'isGrantedDescr'   => $this->getDescriptor(),
                 ],
-                'expected' => CustomerVoter::ACCESS_DENIED,
+                'expected' => VoterInterface::ACCESS_DENIED,
             ],
             '!ident and !Entity:ACCOUNT_EDIT' => [
                 'input' => [
@@ -414,7 +415,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => 'EDIT',
                     'isGrantedDescr'   => $this->getDescriptor(),
                 ],
-                'expected' => CustomerVoter::ACCESS_DENIED,
+                'expected' => VoterInterface::ACCESS_DENIED,
             ],
             '!ident and Entity:ACCOUNT_VIEW' => [
                 'input' => [
@@ -431,7 +432,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => 'VIEW',
                     'isGrantedDescr'   => $this->getDescriptor(),
                 ],
-                'expected' => CustomerVoter::ACCESS_GRANTED,
+                'expected' => VoterInterface::ACCESS_GRANTED,
             ],
             '!ident and Entity:ACCOUNT_EDIT' => [
                 'input' => [
@@ -448,23 +449,17 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
                     'isGrantedAttr'    => 'EDIT',
                     'isGrantedDescr'   => $this->getDescriptor(),
                 ],
-                'expected' => CustomerVoter::ACCESS_GRANTED,
+                'expected' => VoterInterface::ACCESS_GRANTED,
             ],
         ];
     }
 
-    /**
-     * @return ObjectIdentity
-     */
-    private function getIdentity()
+    private function getIdentity(): ObjectIdentity
     {
         return new ObjectIdentity('entity', 'commerce@' . CustomerOwnerAwareInterface::class);
     }
 
-    /**
-     * @return string
-     */
-    private function getDescriptor()
+    private function getDescriptor(): string
     {
         return sprintf(
             'entity:%s@%s',
@@ -473,12 +468,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @param int $customerUserId
-     * @param int $customerId
-     * @return CustomerOwnerAwareInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getObject($customerUserId = null, $customerId = null)
+    private function getObject(int $customerUserId = null, int $customerId = null): CustomerOwnerAwareInterface
     {
         $object = $this->createMock(CustomerOwnerAwareInterface::class);
 
@@ -518,11 +508,9 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed $object
-     *
      * @dataProvider voteAnonymousAbstainProvider
      */
-    public function testVoteAnonymousAbstain($object)
+    public function testVoteAnonymousAbstain(mixed $object)
     {
         $this->authorizationChecker->expects($this->never())
             ->method('isGranted');
@@ -542,15 +530,12 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
             ->willReturn(new Customer());
 
         $this->assertEquals(
-            CustomerVoter::ACCESS_ABSTAIN,
+            VoterInterface::ACCESS_ABSTAIN,
             $this->voter->vote($token, $object, [CustomerVoter::ATTRIBUTE_VIEW])
         );
     }
 
-    /**
-     * @return array
-     */
-    public function voteAnonymousAbstainProvider()
+    public function voteAnonymousAbstainProvider(): array
     {
         return [
             '!Entity' => ['object' => null],
@@ -560,14 +545,13 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider voteAnonymousProvider
-     *
-     * @param string $attribute
-     * @param string $permissionAttribute
-     * @param bool $isGranted
-     * @param int $expectedResult
      */
-    public function testVoteAnonymous($attribute, $permissionAttribute, $isGranted, $expectedResult)
-    {
+    public function testVoteAnonymous(
+        string $attribute,
+        string $permissionAttribute,
+        bool $isGranted,
+        int $expectedResult
+    ) {
         $this->authorizationChecker->expects($this->once())
             ->method('isGranted')
             ->with($permissionAttribute, $this->getDescriptor())
@@ -593,35 +577,32 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @return array
-     */
-    public function voteAnonymousProvider()
+    public function voteAnonymousProvider(): array
     {
         return [
             'view allowed' => [
                 CustomerVoter::ATTRIBUTE_VIEW,
                 'VIEW',
                 true,
-                CustomerVoter::ACCESS_GRANTED
+                VoterInterface::ACCESS_GRANTED
             ],
             'view denied' => [
                 CustomerVoter::ATTRIBUTE_VIEW,
                 'VIEW',
                 false,
-                CustomerVoter::ACCESS_DENIED
+                VoterInterface::ACCESS_DENIED
             ],
             'edit allowed' => [
                 CustomerVoter::ATTRIBUTE_EDIT,
                 'EDIT',
                 true,
-                CustomerVoter::ACCESS_GRANTED
+                VoterInterface::ACCESS_GRANTED
             ],
             'edit denied' => [
                 CustomerVoter::ATTRIBUTE_EDIT,
                 'EDIT',
                 false,
-                CustomerVoter::ACCESS_DENIED
+                VoterInterface::ACCESS_DENIED
             ],
         ];
     }

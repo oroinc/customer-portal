@@ -3,53 +3,55 @@
 namespace Oro\Bundle\CustomerBundle\Acl\Voter;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
+use Psr\Container\ContainerInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 /**
  * Prevents removal of a customer group that is configured to be used for anonymous customers.
  */
-class CustomerGroupVoter extends AbstractEntityVoter
+class CustomerGroupVoter extends AbstractEntityVoter implements ServiceSubscriberInterface
 {
-    /**
-     * @var array
-     */
+    /** {@inheritDoc} */
     protected $supportedAttributes = [BasicPermission::DELETE];
 
-    /**
-     * @var ConfigManager
-     */
-    protected $configManager;
+    private ContainerInterface $container;
 
-    /**
-     * @param ConfigManager $configManager
-     */
-    public function setConfigManager($configManager)
+    public function __construct(DoctrineHelper $doctrineHelper, ContainerInterface $container)
     {
-        $this->configManager = $configManager;
+        parent::__construct($doctrineHelper);
+        $this->container = $container;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return [
+            'oro_config.global' => ConfigManager::class
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
      */
     protected function getPermissionForAttribute($class, $identifier, $attribute)
     {
-        if ($this->configManager
-            && $identifier
-            && $this->isAnonymousCustomerGroup($identifier)
-        ) {
-            return self::ACCESS_DENIED;
-        }
-
-        return self::ACCESS_ABSTAIN;
+        return $identifier && $this->isAnonymousCustomerGroup($identifier)
+            ? self::ACCESS_DENIED
+            : self::ACCESS_ABSTAIN;
     }
 
-    /**
-     * @param int $identifier
-     * @return bool
-     */
-    protected function isAnonymousCustomerGroup($identifier)
+    private function isAnonymousCustomerGroup(int $identifier): bool
     {
-        return $identifier === (int)$this->configManager->get('oro_customer.anonymous_customer_group');
+        return $identifier === (int)$this->getConfigManager()->get('oro_customer.anonymous_customer_group');
+    }
+
+    private function getConfigManager(): ConfigManager
+    {
+        return $this->container->get('oro_config.global');
     }
 }

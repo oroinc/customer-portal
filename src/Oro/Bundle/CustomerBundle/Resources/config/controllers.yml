@@ -28,6 +28,7 @@ services:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer_user.manager, key: Oro\Bundle\CustomerBundle\Entity\CustomerUserManager }
 
     Oro\Bundle\CustomerBundle\Controller\CustomerController:
         calls:
@@ -73,6 +74,8 @@ services:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer_user.manager, key: Oro\Bundle\CustomerBundle\Entity\CustomerUserManager }
+            - { name: container.service_subscriber, id: oro_customer.provider.frontend_customer_user_form, key: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider }
 
     Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserAddressController:
         calls:
@@ -85,18 +88,26 @@ services:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer_user.manager, key: Oro\Bundle\CustomerBundle\Entity\CustomerUserManager }
+            - { name: container.service_subscriber, id: oro_customer.handler.customer_registration_handler, key: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler }
 
     Oro\Bundle\CustomerBundle\Controller\Frontend\ResetController:
         calls:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer_user.manager, key: Oro\Bundle\CustomerBundle\Entity\CustomerUserManager }
+            - { name: container.service_subscriber, id: oro_customer.provider.frontend_customer_user_form, key: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider }
+            - { name: container.service_subscriber, id: oro_customer.customer_user.password_request.handler, key: Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler }
+            - { name: container.service_subscriber, id: oro_customer.customer_user.password_reset.handler, key: Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler }
 
     Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserProfileController:
         calls:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer.provider.frontend_customer_user_form, key: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider }
+            - { name: container.service_subscriber, id: oro_customer.handler.frontend_customer_user_handler, key: Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler }
 
     Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerAddressController:
         calls:

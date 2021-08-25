@@ -7,69 +7,53 @@ use Oro\Bundle\CustomerBundle\Acl\Voter\CustomerGroupVoter;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
+use Oro\Component\Testing\Unit\TestContainerBuilder;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class CustomerGroupVoterTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
+    private const DEFAULT_GROUP_ID = 1;
 
-    const DEFAULT_GROUP_ID = 1;
+    /** @var CustomerGroupVoter */
+    private $voter;
 
-    /**
-     * @var CustomerGroupVoter
-     */
-    protected $voter;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
-        parent::setUp();
-
-        /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject $doctrineHelper */
-        $doctrineHelper = $this->getMockBuilder('Oro\Bundle\EntityBundle\ORM\DoctrineHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $doctrineHelper = $this->createMock(DoctrineHelper::class);
         $doctrineHelper->expects($this->any())
             ->method('getSingleEntityIdentifier')
             ->willReturnCallback(function ($group) {
                 return $group instanceof CustomerGroup ? $group->getId() : null;
             });
 
-        /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject $configManager */
-        $configManager = $this->getMockBuilder('Oro\Bundle\ConfigBundle\Config\ConfigManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $configManager = $this->createMock(ConfigManager::class);
         $configManager->expects($this->any())
             ->method('get')
             ->with('oro_customer.anonymous_customer_group')
             ->willReturn(self::DEFAULT_GROUP_ID);
 
-        $this->voter = new CustomerGroupVoter($doctrineHelper);
-        $this->voter->setClassName('Oro\Bundle\CustomerBundle\Entity\CustomerGroup');
-        $this->voter->setConfigManager($configManager);
+        $container = TestContainerBuilder::create()
+            ->add('oro_config.global', $configManager)
+            ->getContainer($this);
+
+        $this->voter = new CustomerGroupVoter($doctrineHelper, $container);
+        $this->voter->setClassName(CustomerGroup::class);
     }
 
     /**
      * @dataProvider voteDataProvider
-     * @param object $object
-     * @param int $result
-     * @param string $attribute
      */
-    public function testVote($object, $result, $attribute)
+    public function testVote(object $object, int $result, string $attribute)
     {
-        $this->assertSame($result, $this->voter->vote($this->getToken(), $object, [$attribute]));
+        $this->assertSame(
+            $result,
+            $this->voter->vote($this->createMock(TokenInterface::class), $object, [$attribute])
+        );
     }
 
-    /**
-     * @return array
-     */
-    public function voteDataProvider()
+    public function voteDataProvider(): array
     {
         return [
             'denied when default group' => [
@@ -95,22 +79,11 @@ class CustomerGroupVoterTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|TokenInterface
-     */
-    protected function getToken()
+    private function getGroup(int $id): CustomerGroup
     {
-        return $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\TokenInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
+        $group = new CustomerGroup();
+        ReflectionUtil::setId($group, $id);
 
-    /**
-     * @param int $id
-     * @return CustomerGroup
-     */
-    protected function getGroup($id)
-    {
-        return $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerGroup', ['id' => $id]);
+        return $group;
     }
 }

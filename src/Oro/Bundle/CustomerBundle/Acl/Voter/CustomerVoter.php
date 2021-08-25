@@ -10,72 +10,56 @@ use Oro\Bundle\EntityBundle\Exception\NotManageableEntityException;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 /**
  * Handles custom attributes for classes which implements CustomerOwnerAwareInterface.
  */
-class CustomerVoter extends AbstractEntityVoter
+class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInterface
 {
     const ATTRIBUTE_VIEW = 'ACCOUNT_VIEW';
     const ATTRIBUTE_EDIT = 'ACCOUNT_EDIT';
 
-    /**
-     * @var array
-     */
-    protected $supportedAttributes = [
-        self::ATTRIBUTE_VIEW,
-        self::ATTRIBUTE_EDIT,
-    ];
+    /** {@inheritDoc} */
+    protected $supportedAttributes = [self::ATTRIBUTE_VIEW, self::ATTRIBUTE_EDIT];
 
-    /**
-     * @var CustomerOwnerAwareInterface
-     */
-    protected $object;
+    private AuthorizationCheckerInterface $authorizationChecker;
+    private AuthenticationTrustResolverInterface $authenticationTrustResolver;
+    private ContainerInterface $container;
+    private ?CustomerUserProvider $customerUserProvider = null;
 
-    /**
-     * @var CustomerUser
-     */
-    protected $user;
-
-    /**
-     * @var AuthenticationTrustResolverInterface
-     */
-    private $authenticationTrustResolver;
-
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
-
-    /**
-     * @var CustomerUserProvider
-     */
-    private $customerUserProvider;
-
-    /**
-     * @var CustomerUserRelationsProvider
-     */
-    private $customerUserRelationsProvider;
+    private mixed $object;
+    private ?CustomerUser $user;
 
     public function __construct(
         DoctrineHelper $doctrineHelper,
-        AuthenticationTrustResolverInterface $authenticationTrustResolver,
         AuthorizationCheckerInterface $authorizationChecker,
-        CustomerUserProvider $customerUserProvider,
-        CustomerUserRelationsProvider $customerUserRelationsProvider
+        AuthenticationTrustResolverInterface $authenticationTrustResolver,
+        ContainerInterface $container
     ) {
         parent::__construct($doctrineHelper);
-        $this->authenticationTrustResolver = $authenticationTrustResolver;
         $this->authorizationChecker = $authorizationChecker;
-        $this->customerUserProvider = $customerUserProvider;
-        $this->customerUserRelationsProvider = $customerUserRelationsProvider;
+        $this->authenticationTrustResolver = $authenticationTrustResolver;
+        $this->container = $container;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     */
+    public static function getSubscribedServices()
+    {
+        return [
+            'oro_customer.security.customer_user_provider' => CustomerUserProvider::class,
+            'oro_customer.provider.customer_user_relations_provider' => CustomerUserRelationsProvider::class
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
      */
     protected function supportsClass($class)
     {
@@ -92,10 +76,7 @@ class CustomerVoter extends AbstractEntityVoter
             return self::ACCESS_ABSTAIN;
         }
 
-        $this->object = $object;
-        $this->user = $user;
-
-        if (!$object || !is_object($object)) {
+        if (!$object || !\is_object($object)) {
             return self::ACCESS_ABSTAIN;
         }
 
@@ -111,18 +92,21 @@ class CustomerVoter extends AbstractEntityVoter
             return self::ACCESS_ABSTAIN;
         }
 
-        return $this->getPermission($class, $identifier, $attributes);
+        $this->object = $object;
+        $this->user = $user;
+        try {
+            return $this->getPermission($class, $identifier, $attributes);
+        } finally {
+            $this->object = null;
+            $this->user = null;
+        }
     }
 
-    /**
-     * @param TokenInterface $token
-     * @return mixed
-     */
-    protected function getUser(TokenInterface $token)
+    private function getUser(TokenInterface $token): mixed
     {
         if ($this->authenticationTrustResolver->isAnonymous($token)) {
             $user = new CustomerUser();
-            $user->setCustomer($this->customerUserRelationsProvider->getCustomerIncludingEmpty());
+            $user->setCustomer($this->getCustomerUserRelationsProvider()->getCustomerIncludingEmpty());
 
             return $user;
         }
@@ -131,7 +115,7 @@ class CustomerVoter extends AbstractEntityVoter
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getPermissionForAttribute($class, $identifier, $attribute)
     {
@@ -156,107 +140,74 @@ class CustomerVoter extends AbstractEntityVoter
         return self::ACCESS_DENIED;
     }
 
-    /**
-     * @param CustomerUser $user
-     * @param CustomerOwnerAwareInterface $object
-     * @return bool
-     */
-    protected function isSameCustomer(CustomerUser $user, CustomerOwnerAwareInterface $object)
+    private function isSameCustomer(CustomerUser $user, CustomerOwnerAwareInterface $object): bool
     {
         return $object->getCustomer() && $user->getCustomer()->getId() === $object->getCustomer()->getId();
     }
 
-    /**
-     * @param CustomerUser $user
-     * @param CustomerOwnerAwareInterface $object
-     * @return bool
-     */
-    protected function isSameUser(CustomerUser $user, CustomerOwnerAwareInterface $object)
+    private function isSameUser(CustomerUser $user, CustomerOwnerAwareInterface $object): bool
     {
         return $object->getCustomerUser() && $user->getId() === $object->getCustomerUser()->getId();
     }
 
-    /**
-     * @param string $attribute
-     * @param string $class
-     * @return bool
-     */
-    protected function isGrantedClassPermission($attribute, $class)
+    private function isGrantedClassPermission(string $attribute, string $class): bool
     {
-        $descriptor = $this->getDescriptorByClass($class);
-
-        switch ($attribute) {
-            case self::ATTRIBUTE_VIEW:
-                $isGranted = $this->authorizationChecker->isGranted(BasicPermission::VIEW, $descriptor);
-                break;
-
-            case self::ATTRIBUTE_EDIT:
-                $isGranted = $this->authorizationChecker->isGranted(BasicPermission::EDIT, $descriptor);
-                break;
-
-            default:
-                $isGranted = false;
+        $isGranted = false;
+        if (self::ATTRIBUTE_VIEW === $attribute) {
+            $isGranted = $this->authorizationChecker->isGranted(
+                BasicPermission::VIEW,
+                $this->getDescriptorByClass($class)
+            );
+        } elseif (self::ATTRIBUTE_EDIT === $attribute) {
+            $isGranted = $this->authorizationChecker->isGranted(
+                BasicPermission::EDIT,
+                $this->getDescriptorByClass($class)
+            );
         }
 
         return $isGranted;
     }
 
-    /**
-     * @param string $attribute
-     * @param string $class
-     * @return bool
-     */
-    protected function isGrantedBasicPermission($attribute, $class)
+    private function isGrantedBasicPermission(string $attribute, string $class): bool
     {
-        $securityProvider = $this->customerUserProvider;
-
-        switch ($attribute) {
-            case self::ATTRIBUTE_VIEW:
-                $isGranted = $securityProvider->isGrantedViewBasic($class);
-                break;
-
-            case self::ATTRIBUTE_EDIT:
-                $isGranted = $securityProvider->isGrantedEditBasic($class);
-                break;
-
-            default:
-                $isGranted = false;
+        $isGranted = false;
+        if (self::ATTRIBUTE_VIEW === $attribute) {
+            $isGranted = $this->getCustomerUserProvider()->isGrantedViewBasic($class);
+        } elseif (self::ATTRIBUTE_EDIT === $attribute) {
+            $isGranted = $this->getCustomerUserProvider()->isGrantedEditBasic($class);
         }
 
         return $isGranted;
     }
 
-    /**
-     * @param string $attribute
-     * @param string $class
-     * @return bool
-     */
-    protected function isGrantedLocalPermission($attribute, $class)
+    private function isGrantedLocalPermission(string $attribute, string $class): bool
     {
-        $securityProvider = $this->customerUserProvider;
-
-        switch ($attribute) {
-            case self::ATTRIBUTE_VIEW:
-                $isGranted = $securityProvider->isGrantedViewLocal($class);
-                break;
-
-            case self::ATTRIBUTE_EDIT:
-                $isGranted = $securityProvider->isGrantedEditLocal($class);
-                break;
-
-            default:
-                $isGranted = false;
+        $isGranted = false;
+        if (self::ATTRIBUTE_VIEW === $attribute) {
+            $isGranted = $this->getCustomerUserProvider()->isGrantedViewLocal($class);
+        } elseif (self::ATTRIBUTE_EDIT === $attribute) {
+            $isGranted = $this->getCustomerUserProvider()->isGrantedEditLocal($class);
         }
 
         return $isGranted;
     }
 
-    /**
-     * @param string $class
-     * @return string
-     */
-    protected function getDescriptorByClass($class)
+    private function getDescriptorByClass(string $class): string
     {
         return sprintf('entity:%s@%s', CustomerUser::SECURITY_GROUP, $class);
+    }
+
+    private function getCustomerUserProvider(): CustomerUserProvider
+    {
+        if (null === $this->customerUserProvider) {
+            $this->customerUserProvider = $this->container->get('oro_customer.security.customer_user_provider');
+        }
+
+        return $this->customerUserProvider;
+    }
+
+    private function getCustomerUserRelationsProvider(): CustomerUserRelationsProvider
+    {
+        return $this->container->get('oro_customer.provider.customer_user_relations_provider');
     }
 }
