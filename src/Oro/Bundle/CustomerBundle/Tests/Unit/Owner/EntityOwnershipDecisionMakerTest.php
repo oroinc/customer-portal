@@ -18,54 +18,48 @@ use Oro\Bundle\SecurityBundle\Owner\EntityOwnerAccessor;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTree;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProvider;
 use Oro\Bundle\SecurityBundle\Tests\Unit\Acl\Domain\Fixtures\Entity\Organization;
-use Oro\Bundle\SecurityBundle\Tests\Unit\Owner\AbstractCommonEntityOwnershipDecisionMakerTest;
 use Oro\Bundle\SecurityBundle\Tests\Unit\Stub\OwnershipMetadataProviderStub;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDecisionMakerTest
+class EntityOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject|OwnerTreeProvider */
-    protected $treeProvider;
+    private const ORG_ID = 10;
+    private const CUSTOMER_ID = 100;
+    private const CUSTOMER_USER_ID = 10000;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|EntityOwnershipDecisionMaker */
-    protected $decisionMaker;
+    private $decisionMaker;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
-    protected $tokenAccessor;
+    private $tokenAccessor;
 
-    /** @var Customer */
-    protected $cust1;
-    /** @var Customer */
-    protected $cust2;
-    /** @var Customer */
-    protected $cust3;
-    /** @var Customer */
-    protected $cust31;
-    /** @var Customer */
-    protected $cust4;
-    /** @var Customer */
-    protected $cust41;
-    /** @var Customer */
-    protected $cust411;
+    private OwnerTree $tree;
 
-    /** @var CustomerUser */
-    protected $custUsr1;
-    /** @var CustomerUser */
-    protected $custUsr2;
-    /** @var CustomerUser */
-    protected $custUsr3;
-    /** @var CustomerUser */
-    protected $custUsr31;
-    /** @var CustomerUser */
-    protected $custUsr4;
-    /** @var CustomerUser */
-    protected $custUsr411;
+    private OwnershipMetadataProviderStub $metadataProvider;
+
+    private Organization $org1;
+    private Organization $org2;
+    private Organization $org3;
+    private Organization $org4;
+
+    private Customer $cust1;
+    private Customer $cust2;
+    private Customer $cust3;
+    private Customer $cust31;
+    private Customer $cust4;
+    private Customer $cust41;
+    private Customer $cust411;
+
+    private CustomerUser $custUsr1;
+    private CustomerUser $custUsr2;
+    private CustomerUser $custUsr3;
+    private CustomerUser $custUsr31;
+    private CustomerUser $custUsr4;
+    private CustomerUser $custUsr411;
 
     protected function setUp(): void
     {
@@ -93,15 +87,13 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
             )
         );
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|OwnerTreeProvider $this->treeProvider */
-        $this->treeProvider = $this->createMock(OwnerTreeProvider::class);
-        $this->treeProvider->expects($this->any())
+        $treeProvider = $this->createMock(OwnerTreeProvider::class);
+        $treeProvider->expects($this->any())
             ->method('getTree')
-            ->will($this->returnValue($this->tree));
+            ->willReturn($this->tree);
 
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
 
-        /** @var DoctrineHelper $doctrineHelper */
         $doctrineHelper = $this->createMock(DoctrineHelper::class);
 
         $repository = $this->createMock(CustomerRepository::class);
@@ -109,26 +101,24 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
             ->method('getChildrenIds')
             ->willReturnMap(
                 [
-                    ['cust1', null, []],
-                    ['cust2', null, []],
-                    ['cust3', null, ['cust31']],
-                    ['cust31', null, []],
-                    ['cust3a', null, ['cust3a1']],
-                    ['cust3a1', null, []],
-                    ['cust4', null, ['cust41', 'cust411']],
-                    ['cust41', null, ['cust411']],
-                    ['cust411', null, []],
+                    [self::CUSTOMER_ID + 1, null, []],
+                    [self::CUSTOMER_ID + 2, null, []],
+                    [self::CUSTOMER_ID + 3, null, [self::CUSTOMER_ID + 31]],
+                    [self::CUSTOMER_ID + 31, null, []],
+                    [self::CUSTOMER_ID + 32, null, [self::CUSTOMER_ID + 321]],
+                    [self::CUSTOMER_ID + 321, null, []],
+                    [self::CUSTOMER_ID + 4, null, [self::CUSTOMER_ID + 41, self::CUSTOMER_ID + 411]],
+                    [self::CUSTOMER_ID + 41, null, [self::CUSTOMER_ID + 411]],
+                    [self::CUSTOMER_ID + 411, null, []],
                 ]
             );
 
-        /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject $manager */
         $manager = $this->createMock(ObjectManager::class);
         $manager->expects($this->any())
             ->method('getRepository')
             ->with(Customer::class)
             ->willReturn($repository);
 
-        /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $doctrine */
         $doctrine = $this->createMock(ManagerRegistry::class);
         $doctrine->expects($this->any())
             ->method('getManagerForClass')
@@ -136,7 +126,7 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
             ->willReturn($manager);
 
         $this->decisionMaker = new EntityOwnershipDecisionMaker(
-            $this->treeProvider,
+            $treeProvider,
             new ObjectIdAccessor($doctrineHelper),
             new EntityOwnerAccessor($this->metadataProvider, (new InflectorFactory())->build()),
             $this->metadataProvider,
@@ -146,13 +136,103 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
         );
     }
 
+    private function getCustomer(int $id, Customer $parent = null): Customer
+    {
+        $customer = new Customer();
+        ReflectionUtil::setId($customer, $id);
+        if (null !== $parent) {
+            $customer->setParent($parent);
+        }
+
+        return $customer;
+    }
+
+    private function getCustomerUser(int $id, Organization $organization, Customer $customer = null): CustomerUser
+    {
+        $customerUser = new CustomerUser();
+        ReflectionUtil::setId($customerUser, $id);
+        $customerUser->setOrganization($organization);
+        if (null !== $customer) {
+            $customerUser->setCustomer($customer);
+        }
+
+        return $customerUser;
+    }
+
+    private function buildTestTree(): void
+    {
+        $this->org1 = new Organization(self::ORG_ID + 1);
+        $this->org2 = new Organization(self::ORG_ID + 2);
+        $this->org3 = new Organization(self::ORG_ID + 3);
+        $this->org4 = new Organization(self::ORG_ID + 4);
+
+        $this->cust1 = $this->getCustomer(self::CUSTOMER_ID + 1);
+        $this->cust2 = $this->getCustomer(self::CUSTOMER_ID + 2);
+        $this->cust3 = $this->getCustomer(self::CUSTOMER_ID + 3);
+        $this->cust31 = $this->getCustomer(self::CUSTOMER_ID + 31);
+        $this->cust4 = $this->getCustomer(self::CUSTOMER_ID + 4);
+        $this->cust41 = $this->getCustomer(self::CUSTOMER_ID + 41, $this->cust4);
+        $this->cust411 = $this->getCustomer(self::CUSTOMER_ID + 411, $this->cust41);
+
+        $this->custUsr1 = $this->getCustomerUser(self::CUSTOMER_USER_ID + 1, $this->org1);
+        $this->custUsr2 = $this->getCustomerUser(self::CUSTOMER_USER_ID + 2, $this->org2, $this->cust2);
+        $this->custUsr3 = $this->getCustomerUser(self::CUSTOMER_USER_ID + 3, $this->org3, $this->cust3);
+        $this->custUsr31 = $this->getCustomerUser(self::CUSTOMER_USER_ID + 31, $this->org3, $this->cust31);
+        $this->custUsr4 = $this->getCustomerUser(self::CUSTOMER_USER_ID + 4, $this->org4, $this->cust4);
+        $this->custUsr411 = $this->getCustomerUser(self::CUSTOMER_USER_ID + 411, $this->org4, $this->cust411);
+
+        $this->tree->addBusinessUnit(self::CUSTOMER_ID + 1, null);
+        $this->tree->addBusinessUnit(self::CUSTOMER_ID + 2, null);
+        $this->tree->addBusinessUnit(self::CUSTOMER_ID + 3, self::ORG_ID + 3);
+        $this->tree->addBusinessUnit(self::CUSTOMER_ID + 31, self::ORG_ID + 3);
+        $this->tree->addBusinessUnit(self::CUSTOMER_ID + 32, self::ORG_ID + 3);
+        $this->tree->addBusinessUnit(self::CUSTOMER_ID + 321, self::ORG_ID + 3);
+        $this->tree->addBusinessUnit(self::CUSTOMER_ID + 4, self::ORG_ID + 4);
+        $this->tree->addBusinessUnit(self::CUSTOMER_ID + 41, self::ORG_ID + 4);
+        $this->tree->addBusinessUnit(self::CUSTOMER_ID + 411, self::ORG_ID + 4);
+
+        $subordinateBusinessUnits  = [
+            self::CUSTOMER_ID + 3  => [self::CUSTOMER_ID + 31],
+            self::CUSTOMER_ID + 32 => [self::CUSTOMER_ID + 321],
+            self::CUSTOMER_ID + 41 => [self::CUSTOMER_ID + 411],
+            self::CUSTOMER_ID + 4  => [self::CUSTOMER_ID + 41, self::CUSTOMER_ID + 411],
+        ];
+
+        foreach ($subordinateBusinessUnits as $parentBuId => $buIds) {
+            $this->tree->setSubordinateBusinessUnitIds($parentBuId, $buIds);
+        }
+
+        $this->tree->addUser(self::CUSTOMER_USER_ID + 1, null);
+        $this->tree->addUser(self::CUSTOMER_USER_ID + 2, self::CUSTOMER_ID + 2);
+        $this->tree->addUser(self::CUSTOMER_USER_ID + 3, self::CUSTOMER_ID + 3);
+        $this->tree->addUser(self::CUSTOMER_USER_ID + 31, self::CUSTOMER_ID + 31);
+        $this->tree->addUser(self::CUSTOMER_USER_ID + 4, self::CUSTOMER_ID + 4);
+        $this->tree->addUser(self::CUSTOMER_USER_ID + 41, self::CUSTOMER_ID + 41);
+        $this->tree->addUser(self::CUSTOMER_USER_ID + 411, self::CUSTOMER_ID + 411);
+
+        $this->tree->addUserOrganization(self::CUSTOMER_USER_ID + 1, self::ORG_ID + 1);
+        $this->tree->addUserOrganization(self::CUSTOMER_USER_ID + 1, self::ORG_ID + 2);
+        $this->tree->addUserOrganization(self::CUSTOMER_USER_ID + 2, self::ORG_ID + 2);
+        $this->tree->addUserOrganization(self::CUSTOMER_USER_ID + 3, self::ORG_ID + 2);
+        $this->tree->addUserOrganization(self::CUSTOMER_USER_ID + 3, self::ORG_ID + 3);
+        $this->tree->addUserOrganization(self::CUSTOMER_USER_ID + 31, self::ORG_ID + 3);
+        $this->tree->addUserOrganization(self::CUSTOMER_USER_ID + 4, self::ORG_ID + 4);
+        $this->tree->addUserOrganization(self::CUSTOMER_USER_ID + 411, self::ORG_ID + 4);
+
+        $this->tree->addUserBusinessUnit(self::CUSTOMER_USER_ID + 1, self::ORG_ID + 1, self::CUSTOMER_ID + 1);
+        $this->tree->addUserBusinessUnit(self::CUSTOMER_USER_ID + 1, self::ORG_ID + 2, self::CUSTOMER_ID + 2);
+        $this->tree->addUserBusinessUnit(self::CUSTOMER_USER_ID + 2, self::ORG_ID + 2, self::CUSTOMER_ID + 2);
+        $this->tree->addUserBusinessUnit(self::CUSTOMER_USER_ID + 3, self::ORG_ID + 3, self::CUSTOMER_ID + 3);
+        $this->tree->addUserBusinessUnit(self::CUSTOMER_USER_ID + 3, self::ORG_ID + 2, self::CUSTOMER_ID + 2);
+        $this->tree->addUserBusinessUnit(self::CUSTOMER_USER_ID + 31, self::ORG_ID + 3, self::CUSTOMER_ID + 31);
+        $this->tree->addUserBusinessUnit(self::CUSTOMER_USER_ID + 4, self::ORG_ID + 4, self::CUSTOMER_ID + 4);
+        $this->tree->addUserBusinessUnit(self::CUSTOMER_USER_ID + 411, self::ORG_ID + 4, self::CUSTOMER_ID + 411);
+    }
+
     /**
      * @dataProvider supportsDataProvider
-     *
-     * @param mixed $user
-     * @param bool $expectedResult
      */
-    public function testSupports($user, $expectedResult)
+    public function testSupports(?object $user, bool $expectedResult)
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
@@ -161,10 +241,7 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
         $this->assertEquals($expectedResult, $this->decisionMaker->supports());
     }
 
-    /**
-     * @return array
-     */
-    public function supportsDataProvider()
+    public function supportsDataProvider(): array
     {
         return [
             'without user' => [
@@ -180,94 +257,6 @@ class EntityOwnershipDecisionMakerTest extends AbstractCommonEntityOwnershipDeci
                 'expectedResult' => true,
             ],
         ];
-    }
-
-    protected function buildTestTree()
-    {
-        $this->org1 = new Organization('org1');
-        $this->org2 = new Organization('org2');
-        $this->org3 = new Organization('org3');
-        $this->org4 = new Organization('org4');
-
-        $this->cust1 = $this->getEntity(Customer::class, ['id' => 'cust1']);
-        $this->cust2 = $this->getEntity(Customer::class, ['id' => 'cust2']);
-        $this->cust3 = $this->getEntity(Customer::class, ['id' => 'cust3']);
-        $this->cust31 = $this->getEntity(Customer::class, ['id' => 'cust31']);
-        $this->cust4 = $this->getEntity(Customer::class, ['id' => 'cust4']);
-        $this->cust41 = $this->getEntity(Customer::class, ['id' => 'cust41', 'parent' => $this->cust4]);
-        $this->cust411 = $this->getEntity(Customer::class, ['id' => 'cust411', 'parent' => $this->cust41]);
-
-        $this->custUsr1 = $this->getEntity(
-            CustomerUser::class,
-            ['id' => 'custUsr1', 'customer' => null, 'organization' => $this->org1]
-        );
-        $this->custUsr2 = $this->getEntity(
-            CustomerUser::class,
-            ['id' => 'custUsr2', 'customer' => $this->cust2, 'organization' => $this->org2]
-        );
-        $this->custUsr3 = $this->getEntity(
-            CustomerUser::class,
-            ['id' => 'custUsr3', 'customer' => $this->cust3, 'organization' => $this->org3]
-        );
-        $this->custUsr31 = $this->getEntity(
-            CustomerUser::class,
-            ['id' => 'custUsr31', 'customer' => $this->cust31, 'organization' => $this->org3]
-        );
-        $this->custUsr4 = $this->getEntity(
-            CustomerUser::class,
-            ['id' => 'custUsr4', 'customer' => $this->cust4, 'organization' => $this->org4]
-        );
-        $this->custUsr411 = $this->getEntity(
-            CustomerUser::class,
-            ['id' => 'custUsr411', 'customer' => $this->cust411, 'organization' => $this->org4]
-        );
-
-        $this->tree->addBusinessUnit('cust1', null);
-        $this->tree->addBusinessUnit('cust2', null);
-        $this->tree->addBusinessUnit('cust3', 'org3');
-        $this->tree->addBusinessUnit('cust31', 'org3');
-        $this->tree->addBusinessUnit('cust3a', 'org3');
-        $this->tree->addBusinessUnit('cust3a1', 'org3');
-        $this->tree->addBusinessUnit('cust4', 'org4');
-        $this->tree->addBusinessUnit('cust41', 'org4');
-        $this->tree->addBusinessUnit('cust411', 'org4');
-
-        $subordinateBusinessUnits  = [
-            'cust3'  => ['cust31'],
-            'cust3a' => ['cust3a1'],
-            'cust41' => ['cust411'],
-            'cust4'  => ['cust41', 'cust411'],
-        ];
-
-        foreach ($subordinateBusinessUnits as $parentBuId => $buIds) {
-            $this->tree->setSubordinateBusinessUnitIds($parentBuId, $buIds);
-        }
-
-        $this->tree->addUser('custUsr1', null);
-        $this->tree->addUser('custUsr2', 'cust2');
-        $this->tree->addUser('custUsr3', 'cust3');
-        $this->tree->addUser('custUsr31', 'cust31');
-        $this->tree->addUser('custUsr4', 'cust4');
-        $this->tree->addUser('custUsr41', 'cust41');
-        $this->tree->addUser('custUsr411', 'cust411');
-
-        $this->tree->addUserOrganization('custUsr1', 'org1');
-        $this->tree->addUserOrganization('custUsr1', 'org2');
-        $this->tree->addUserOrganization('custUsr2', 'org2');
-        $this->tree->addUserOrganization('custUsr3', 'org2');
-        $this->tree->addUserOrganization('custUsr3', 'org3');
-        $this->tree->addUserOrganization('custUsr31', 'org3');
-        $this->tree->addUserOrganization('custUsr4', 'org4');
-        $this->tree->addUserOrganization('custUsr411', 'org4');
-
-        $this->tree->addUserBusinessUnit('custUsr1', 'org1', 'cust1');
-        $this->tree->addUserBusinessUnit('custUsr1', 'org2', 'cust2');
-        $this->tree->addUserBusinessUnit('custUsr2', 'org2', 'cust2');
-        $this->tree->addUserBusinessUnit('custUsr3', 'org3', 'cust3');
-        $this->tree->addUserBusinessUnit('custUsr3', 'org2', 'cust2');
-        $this->tree->addUserBusinessUnit('custUsr31', 'org3', 'cust31');
-        $this->tree->addUserBusinessUnit('custUsr4', 'org4', 'cust4');
-        $this->tree->addUserBusinessUnit('custUsr411', 'org4', 'cust411');
     }
 
     /**
