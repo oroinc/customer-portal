@@ -88,14 +88,16 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
 
     protected function setUp(): void
     {
-        $reader = new AnnotationReader();
-        $metadataDriver = new AnnotationDriver($reader, self::ENTITY_NAMESPACE);
-
         $conn = new ConnectionMock([], new DriverMock());
         $conn->setDatabasePlatform(new MySqlPlatform());
         $this->em = $this->getTestEntityManager($conn);
-        $this->em->getConfiguration()->setMetadataDriverImpl($metadataDriver);
-        $this->em->getConfiguration()->setEntityNamespaces(['Test' => self::ENTITY_NAMESPACE]);
+        $this->em->getConfiguration()->setMetadataDriverImpl(new AnnotationDriver(
+            new AnnotationReader(),
+            self::ENTITY_NAMESPACE
+        ));
+        $this->em->getConfiguration()->setEntityNamespaces([
+            'Test' => self::ENTITY_NAMESPACE
+        ]);
 
         /** @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry $doctrine */
         $doctrine = $this->getMockBuilder(ManagerRegistry::class)
