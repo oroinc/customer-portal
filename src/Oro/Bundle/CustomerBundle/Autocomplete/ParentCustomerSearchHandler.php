@@ -4,6 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Autocomplete;
 
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
 use Oro\Bundle\FormBundle\Autocomplete\SearchHandler;
+use Oro\Bundle\SearchBundle\Query\Criteria\Criteria;
+use Oro\Bundle\SearchBundle\Query\Query;
+use Oro\Bundle\SearchBundle\Query\Result\Item;
 
 /**
  * The search handler to search by a parent customer.
@@ -22,20 +25,41 @@ class ParentCustomerSearchHandler extends SearchHandler
         }
 
         [$searchTerm, $customerId] = $this->explodeSearchTerm($search);
-
-        $entityIds = $this->searchIds($searchTerm, $firstResult, $maxResults);
-
+        $excludedIds = [];
         if ($customerId) {
             /** @var CustomerRepository $repository */
             $repository = $this->entityRepository;
             $children = $repository->getChildrenIds($customerId, $this->aclHelper);
-            $entityIds = array_diff($entityIds, array_merge($children, [$customerId]));
+            $excludedIds = \array_merge($children, [$customerId]);
         }
 
-        $resultEntities = [];
+        $entityIds = $this->searchIdsByTermAndExcludedCustomers(
+            $searchTerm,
+            $firstResult,
+            $maxResults,
+            $excludedIds
+        );
 
+        $resultEntities = [];
         if ($entityIds) {
-            $resultEntities = $this->getEntitiesByIds($entityIds);
+            $unsortedEntities = $this->getEntitiesByIds($entityIds);
+
+            /**
+             * We need to sort entities in the same order given by method searchIds.
+             *
+             * Should be not necessary after implementation of BAP-5691.
+             */
+            $entityByIdHash = [];
+
+            foreach ($unsortedEntities as $entity) {
+                $entityByIdHash[$this->getPropertyValue($this->idFieldName, $entity)] = $entity;
+            }
+
+            foreach ($entityIds as $entityId) {
+                if (isset($entityByIdHash[$entityId])) {
+                    $resultEntities[] = $entityByIdHash[$entityId];
+                }
+            }
         }
 
         return $resultEntities;
@@ -57,5 +81,34 @@ class ParentCustomerSearchHandler extends SearchHandler
         }
 
         return [$searchTerm, $customerId];
+    }
+
+    /**
+     * @param string $search
+     * @param int $firstResult
+     * @param int $maxResults
+     * @param int $customerId
+     *
+     * @return array
+     */
+    private function searchIdsByTermAndExcludedCustomers(
+        string $search,
+        int $firstResult,
+        int $maxResults,
+        array $excludedCustomerIds = []
+    ): array {
+        $query = $this->indexer->getSimpleSearchQuery($search, $firstResult, $maxResults, $this->entitySearchAlias);
+        if ($excludedCustomerIds) {
+            $field = Criteria::implodeFieldTypeName(Query::TYPE_INTEGER, 'oro_customer_id');
+
+            $query->getCriteria()->andWhere(Criteria::expr()->notIn($field, $excludedCustomerIds));
+        }
+
+        $result = $this->indexer->query($query);
+
+        return array_map(
+            static fn (Item $element) => $element->getRecordId(),
+            $result->getElements()
+        );
     }
 }

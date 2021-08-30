@@ -15,6 +15,7 @@ oro_behat_extension:
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\ACLContext
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\FrontendGridContext
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\RegistrationInstructionFeatureContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerContext
         - Oro\Bundle\ProductBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\ShoppingListBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\ImportExportBundle\Tests\Behat\Context\ImportExportContext

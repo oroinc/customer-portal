@@ -14,6 +14,8 @@ use Oro\Bundle\CustomerBundle\Autocomplete\ParentCustomerSearchHandler;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
 use Oro\Bundle\SearchBundle\Engine\Indexer;
 use Oro\Bundle\SearchBundle\Provider\SearchMappingProvider;
+use Oro\Bundle\SearchBundle\Query\Criteria\Criteria;
+use Oro\Bundle\SearchBundle\Query\Query;
 use Oro\Bundle\SearchBundle\Query\Result;
 use Oro\Bundle\SearchBundle\Query\Result\Item;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
@@ -107,26 +109,38 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $queryString = $search . ';';
 
         $foundElements = [
-            $this->getSearchItem(1),
-            $this->getSearchItem(2)
+            $this->getSearchItem(2),
+            $this->getSearchItem(1)
         ];
+
+        /**
+         * Test correct order
+         */
         $resultData = [
-            $this->getResultStub(1, 'test1'),
-            $this->getResultStub(2, 'test2')
+            $this->getResultStub(2, 'test2'),
+            $this->getResultStub(1, 'test1')
         ];
         $expectedResultData = [
-            ['id' => 1, 'name' => 'test1'],
-            ['id' => 2, 'name' => 'test2']
+            ['id' => 2, 'name' => 'test2'],
+            ['id' => 1, 'name' => 'test1']
         ];
-        $expectedIds = [1, 2];
+        $expectedIds = [2, 1];
 
-        $this->assertSearchCall($search, $page, $perPage, $foundElements, $resultData, $expectedIds);
+        $this->assertSearchCall(
+            $search,
+            $page,
+            $perPage,
+            $foundElements,
+            $resultData,
+            $expectedIds,
+            []
+        );
 
         $searchResult = $this->searchHandler->search($queryString, $page, $perPage);
         $this->assertIsArray($searchResult);
         $this->assertArrayHasKey('more', $searchResult);
         $this->assertArrayHasKey('results', $searchResult);
-        $this->assertEquals($expectedResultData, $searchResult['results']);
+        $this->assertSame($expectedResultData, $searchResult['results']);
     }
 
     /**
@@ -140,29 +154,39 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $queryString = $search . ';' . $customerId;
 
         $foundElements = [
-            $this->getSearchItem(1),
-            $this->getSearchItem($customerId)
+            $this->getSearchItem(3),
+            $this->getSearchItem(1)
         ];
         $resultData = [
-            $this->getResultStub(1, 'test1')
+            $this->getResultStub(3, 'test3'),
+            $this->getResultStub(1, 'test1'),
         ];
         $expectedResultData = [
+            ['id' => 3, 'name' => 'test3'],
             ['id' => 1, 'name' => 'test1']
         ];
-        $expectedIds = [1];
+        $expectedIds = [3,1];
 
         $this->entityRepository->expects($this->once())
             ->method('getChildrenIds')
             ->with($customerId, $this->aclHelper)
             ->willReturn([]);
 
-        $this->assertSearchCall($search, $page, $perPage, $foundElements, $resultData, $expectedIds);
+        $this->assertSearchCall(
+            $search,
+            $page,
+            $perPage,
+            $foundElements,
+            $resultData,
+            $expectedIds,
+            [2]
+        );
 
         $searchResult = $this->searchHandler->search($queryString, $page, $perPage);
         $this->assertIsArray($searchResult);
         $this->assertArrayHasKey('more', $searchResult);
         $this->assertArrayHasKey('results', $searchResult);
-        $this->assertEquals($expectedResultData, $searchResult['results']);
+        $this->assertSame($expectedResultData, $searchResult['results']);
     }
 
     /**
@@ -175,29 +199,39 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $customerId = 2;
         $queryString = $search . ';' . $customerId;
         $foundElements = [
-            $this->getSearchItem(1),
-            $this->getSearchItem(3)
+            $this->getSearchItem(4),
+            $this->getSearchItem(1)
         ];
         $resultData = [
+            $this->getResultStub(4, 'test4'),
             $this->getResultStub(1, 'test1')
         ];
         $expectedResultData = [
+            ['id' => 4, 'name' => 'test4'],
             ['id' => 1, 'name' => 'test1']
         ];
-        $expectedIds = [1];
+        $expectedIds = [4, 1];
 
         $this->entityRepository->expects($this->once())
             ->method('getChildrenIds')
             ->with($customerId, $this->aclHelper)
             ->willReturn([3]);
 
-        $this->assertSearchCall($search, $page, $perPage, $foundElements, $resultData, $expectedIds);
+        $this->assertSearchCall(
+            $search,
+            $page,
+            $perPage,
+            $foundElements,
+            $resultData,
+            $expectedIds,
+            [3, 2]
+        );
 
         $searchResult = $this->searchHandler->search($queryString, $page, $perPage);
         $this->assertIsArray($searchResult);
         $this->assertArrayHasKey('more', $searchResult);
         $this->assertArrayHasKey('results', $searchResult);
-        $this->assertEquals($expectedResultData, $searchResult['results']);
+        $this->assertSame($expectedResultData, $searchResult['results']);
     }
 
     /**
@@ -243,15 +277,41 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         int $perPage,
         array $foundElements,
         array $resultData,
-        array $expectedIds
+        array $expectedIds,
+        array $excludedIds
     ): void {
+        $query = $this->createMock(Query::class);
+        $this->indexer->expects($this->once())
+            ->method('getSimpleSearchQuery')
+            ->with($search, $page - 1, $perPage + 1, 'alias')
+            ->willReturn($query);
+
+        if (count($excludedIds) > 0) {
+            $field = Criteria::implodeFieldTypeName(Query::TYPE_INTEGER, 'oro_customer_id');
+
+            $criteria = $this->createMock(Criteria::class);
+            $query
+                ->expects($this->once())
+                ->method('getCriteria')
+                ->willReturn($criteria);
+
+            $criteria
+                ->expects($this->once())
+                ->method('andWhere')
+                ->with(Criteria::expr()->notIn($field, $excludedIds));
+        } else {
+            $query
+                ->expects($this->never())
+                ->method('getCriteria');
+        }
+
         $searchResult = $this->createMock(Result::class);
         $searchResult->expects($this->once())
             ->method('getElements')
             ->willReturn($foundElements);
         $this->indexer->expects($this->once())
-            ->method('simpleSearch')
-            ->with($search, $page - 1, $perPage + 1, 'alias')
+            ->method('query')
+            ->with($query)
             ->willReturn($searchResult);
 
         $queryBuilder = $this->createMock(QueryBuilder::class);

@@ -19,6 +19,8 @@ The current file describes significant changes in the code that may affect the u
 * The configuration parameter `cookie_secure` has been moved to `visitor_session` node.
 * The configuration parameter `cookie_httponly` has been moved to `visitor_session` node.
 * The configuration parameter `cookie_samesite` has been moved to `visitor_session` node.
+* Updated search configuration file `Oro/Bundle/CustomerBundle/Resources/config/oro/search.yml`:
+    * added configuration for next field `oro_customer_id`
 
 ## 4.2.0 (2020-01-29)
 [Show detailed list of changes](incompatibilities-4-2.md)
