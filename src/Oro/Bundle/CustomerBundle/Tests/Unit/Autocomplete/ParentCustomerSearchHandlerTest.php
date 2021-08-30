@@ -125,18 +125,18 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $queryString = $search . ';';
 
         $foundElements = [
+            $this->getSearchItem(2),
             $this->getSearchItem(1),
-            $this->getSearchItem(2)
         ];
         $resultData = [
             $this->getResultStub(1, 'test1'),
             $this->getResultStub(2, 'test2')
         ];
         $expectedResultData = [
+            ['id' => 2, 'name' => 'test2'],
             ['id' => 1, 'name' => 'test1'],
-            ['id' => 2, 'name' => 'test2']
         ];
-        $expectedIds = [1, 2];
+        $expectedIds = [2, 1];
 
         $this->assertSearchCall($search, $page, $perPage, $foundElements, $resultData, $expectedIds);
 
@@ -159,16 +159,20 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $queryString = $search . ';' . $customerId;
 
         $foundElements = [
+            $this->getSearchItem(3),
+            $this->getSearchItem($customerId),
             $this->getSearchItem(1),
-            $this->getSearchItem($customerId)
         ];
         $resultData = [
-            $this->getResultStub(1, 'test1')
+            $this->getResultStub(1, 'test1'),
+            $this->getResultStub(2, 'test2'),
+            $this->getResultStub(3, 'test3'),
         ];
         $expectedResultData = [
-            ['id' => 1, 'name' => 'test1']
+            ['id' => 3, 'name' => 'test3'],
+            ['id' => 1, 'name' => 'test1'],
         ];
-        $expectedIds = [1];
+        $expectedIds = [3, 2, 1];
 
         $this->entityRepository->expects($this->once())
             ->method('getChildrenIds')
@@ -195,16 +199,22 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $customerId = 2;
         $queryString = $search . ';' . $customerId;
         $foundElements = [
+            $this->getSearchItem(4),
+            $this->getSearchItem(3),
+            $this->getSearchItem(2),
             $this->getSearchItem(1),
-            $this->getSearchItem(3)
         ];
         $resultData = [
-            $this->getResultStub(1, 'test1')
+            $this->getResultStub(1, 'test1'),
+            $this->getResultStub(2, 'test2'),
+            $this->getResultStub(3, 'test3'),
+            $this->getResultStub(4, 'test4'),
         ];
         $expectedResultData = [
-            ['id' => 1, 'name' => 'test1']
+            ['id' => 4, 'name' => 'test4'],
+            ['id' => 1, 'name' => 'test1'],
         ];
-        $expectedIds = [1];
+        $expectedIds = [4, 3, 2, 1];
 
         $this->entityRepository->expects($this->once())
             ->method('getChildrenIds')

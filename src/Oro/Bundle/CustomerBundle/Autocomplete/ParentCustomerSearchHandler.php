@@ -5,9 +5,45 @@ namespace Oro\Bundle\CustomerBundle\Autocomplete;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
 use Oro\Bundle\FormBundle\Autocomplete\SearchHandler;
 
+/**
+ * The search handler to search by a parent customer.
+ */
 class ParentCustomerSearchHandler extends SearchHandler
 {
     const DELIMITER = ';';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function search($query, $page, $perPage, $searchById = false)
+    {
+        $searchResult = parent::search($query, $page, $perPage, $searchById);
+        if (false === $searchById) {
+            if (strpos($query, self::DELIMITER) === false) {
+                return $searchResult;
+            }
+
+            [, $customerId] = $this->explodeSearchTerm($query);
+            if (!$customerId) {
+                return $searchResult;
+            }
+
+            $idFieldName = $this->idFieldName;
+            /** @var CustomerRepository $repository */
+            $repository = $this->entityRepository;
+            $children = $repository->getChildrenIds($customerId, $this->aclHelper);
+            $excludedIds = \array_merge($children, [$customerId]);
+
+            $searchResult['results'] = \array_values(\array_filter(
+                $searchResult['results'],
+                static function (array $resultItem) use ($idFieldName, $excludedIds) {
+                    return !\in_array($resultItem[$idFieldName], $excludedIds, true);
+                }
+            ));
+        }
+
+        return $searchResult;
+    }
 
     /**
      * {@inheritdoc}
@@ -17,24 +53,9 @@ class ParentCustomerSearchHandler extends SearchHandler
         if (strpos($search, self::DELIMITER) === false) {
             return [];
         }
-        list($searchTerm, $customerId) = $this->explodeSearchTerm($search);
 
-        $entityIds = $this->searchIds($searchTerm, $firstResult, $maxResults);
-
-        if ($customerId) {
-            /** @var CustomerRepository $repository */
-            $repository = $this->entityRepository;
-            $children = $repository->getChildrenIds($customerId, $this->aclHelper);
-            $entityIds = array_diff($entityIds, array_merge($children, [$customerId]));
-        }
-
-        $resultEntities = [];
-
-        if ($entityIds) {
-            $resultEntities = $this->getEntitiesByIds($entityIds);
-        }
-
-        return $resultEntities;
+        [$searchTerm,] = $this->explodeSearchTerm($search);
+        return parent::searchEntities($searchTerm, $firstResult, $maxResults);
     }
 
     /**
