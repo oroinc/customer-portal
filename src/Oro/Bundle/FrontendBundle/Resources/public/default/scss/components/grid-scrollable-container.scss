@@ -5,4 +5,9 @@
     overflow-x: auto;
 
     clear: both;
+
+    // Avoid z-index fall down of overlay scrollbar container
+    .os-padding {
+        z-index: initial;
+    }
 }
