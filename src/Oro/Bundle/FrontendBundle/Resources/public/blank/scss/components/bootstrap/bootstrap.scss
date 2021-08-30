@@ -2,14 +2,13 @@
 
 @import '~bootstrap/scss/tables';
 @import '~bootstrap/scss/transitions';
-@import '~bootstrap/scss/utilities';
+@import 'utilities';
 
 /* rtl:begin:ignore */
 @import '~bootstrap/scss/popover';
 
 /* rtl:end:ignore */
 @import '~bootstrap/scss/dropdown';
-@import '~bootstrap/scss/grid';
 @import 'buttons';
 @import 'button-group';
 @import 'dropdown';
