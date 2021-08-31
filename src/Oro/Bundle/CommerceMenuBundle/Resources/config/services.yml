@@ -94,12 +94,16 @@ services:
             - '@oro_website.manager'
 
     oro_commerce_menu.repository.menu_update:
-        class: 'Oro\Bundle\CommerceMenuBundle\Entity\Repository\MenuUpdateRepository'
+        alias: Oro\Bundle\CommerceMenuBundle\Entity\Repository\MenuUpdateRepository
+
+    Oro\Bundle\CommerceMenuBundle\Entity\Repository\MenuUpdateRepository:
         parent: oro_entity.abstract_repository
         arguments:
             - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
         calls:
             - [ setQueryResultCache, [ '@oro_navigation.menu_update.cache' ] ]
+        tags:
+            - { name: doctrine.repository_service }
 
     oro_commerce_menu.event_listener.menu_update_cache_flusher:
         class: Oro\Bundle\NavigationBundle\EventListener\MenuUpdateCacheFlusher
