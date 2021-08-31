@@ -69,6 +69,9 @@ oro_behat_extension:
       selector: 'div[data-page-component-name="customer-customers-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
 
+    Customer Roles Users Update Grid GridFilters:
+      selector: 'div[data-page-component-name="frontend-customer-customer-users-grid-update"] [data-grid-toolbar="top"] div.filter-box'
+
     Customer Company Addresses Grid:
       selector: '[id^="grid-frontend-customer-customer-address-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
