@@ -282,6 +282,10 @@
             $arrow-placeholder: $filter-box-apply-arrow-placeholder
         );
     }
+
+    .ui-multiselect-checkboxes {
+        list-style: none;
+    }
 }
 
 @include only-desktop() {
