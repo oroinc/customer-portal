@@ -8,7 +8,7 @@
     }
 
     &__primary {
-        margin: 5px 0 0;
+        margin: 12px 0 0;
 
         font-size: $base-font-size--s - 1;
     }
@@ -18,9 +18,9 @@
     }
 
     &__type {
-        margin-top: 4px;
+        margin-top: $offset-y-m;
 
-        font-size: $base-font-size--s;
+        font-size: $base-font-size;
 
         color: $address-list-type-color;
     }

@@ -1,5 +1,9 @@
 /* @theme: blank; */
 
+.map-visual-container {
+    height: 100%;
+}
+
 .map-visual {
     height: 100%;
 }
@@ -25,6 +29,7 @@
     &__item {
         position: relative;
 
+        padding-top: $offset-y-m;
         padding-right: 70px;
     }
 
@@ -39,7 +44,8 @@
     }
 
     &__button {
-        display: inline-flex;
+        display: $address-list-button-display;
+        padding: $address-list-button-offset;
 
         &.item-map-button {
             display: none;
@@ -80,9 +86,15 @@
     flex-basis: 44%;
     flex-grow: 1;
     list-style: none;
+    padding-top: $address-list-item-v-space;
 
     .map-item {
-        padding-top: $address-list-item-v-space;
+        padding: $address-list-item-offset;
+        border-bottom: $address-list-item-border-bottom;
+
+        &.active {
+            background: $address-list-item-active-background;
+        }
     }
 }
 
@@ -93,6 +105,14 @@
 
     &.active {
         background-color: $address-list-item-background-color;
+    }
+}
+
+.fullscreen-popup {
+    .map-visual-container {
+        .alert {
+            margin-top: $offset-y-m;
+        }
     }
 }
 
@@ -109,8 +129,19 @@
         padding: 15px 10px;
     }
 
+    .map-address-list {
+        padding-top: $address-list-item-v-space-tablet-small;
+    }
+
+    .map-visual:empty {
+        height: auto;
+    }
+
     .map-visual-frame {
         height: auto;
         margin-left: 0;
+        // Override inline styles
+        // stylelint-disable-next-line declaration-no-important
+        display: none !important;
     }
 }
