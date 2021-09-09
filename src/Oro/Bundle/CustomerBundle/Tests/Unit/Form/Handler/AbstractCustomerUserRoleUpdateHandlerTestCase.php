@@ -307,6 +307,9 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends \PHPUnit\Fr
             ->willReturn($removedUsers);
 
         $form = $this->createMock(FormInterface::class);
+        $form->expects(self::any())
+            ->method('getName')
+            ->willReturn('formName');
         $form->expects(self::once())
             ->method('submit')
             ->willReturnCallback(

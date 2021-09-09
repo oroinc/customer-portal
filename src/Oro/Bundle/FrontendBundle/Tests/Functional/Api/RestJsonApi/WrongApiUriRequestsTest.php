@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Functional\Api\RestJsonApi;
 
 use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class WrongApiUriRequestsTest extends FrontendRestJsonApiTestCase
 {
@@ -14,7 +15,7 @@ class WrongApiUriRequestsTest extends FrontendRestJsonApiTestCase
         $this->loadVisitor();
     }
 
-    public function testTryToGetAnotherApiResourceWithFullReplaceOfBaseUrl()
+    public function testTryToGetAnotherApiResourceWithFullReplaceOfBaseUrl(): void
     {
         $baseUrl = $this->getUrl($this->getListRouteName(), ['entity' => 'testapientity1']);
         $additionalUrl = $this->getUrl($this->getItemRouteName(), ['entity' => 'products', 'id' => 1]);
@@ -36,7 +37,7 @@ class WrongApiUriRequestsTest extends FrontendRestJsonApiTestCase
         );
     }
 
-    public function testTryToGetAnotherApiResource()
+    public function testTryToGetAnotherApiResource(): void
     {
         $baseUrl = $this->getUrl($this->getListRouteName(), ['entity' => 'testapientity1']);
 
@@ -57,11 +58,11 @@ class WrongApiUriRequestsTest extends FrontendRestJsonApiTestCase
         );
     }
 
-    public function testTryToGetProductViewPageThroughtApiRequest()
+    public function testTryToGetProductViewPageThroughtApiRequest(): void
     {
         $baseUrl = $this->getUrl($this->getListRouteName(), ['entity' => 'testapientity1']);
         $additionalUrl = self::getContainer()->get('router')
-            ->generate('oro_product_frontend_product_view', ['id' => 1], false);
+            ->generate('oro_product_frontend_product_view', ['id' => 1], UrlGeneratorInterface::ABSOLUTE_PATH);
         $slashesCount = substr_count($baseUrl, '/') - 1;
 
         $response = $this->request(

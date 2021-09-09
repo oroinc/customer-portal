@@ -58,7 +58,7 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
         );
     }
 
-    public function testProcessUnsupportedRequest()
+    public function testProcessUnsupportedRequest(): void
     {
         $this->request->setMethod('GET');
 
@@ -71,7 +71,7 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
     /**
      * @dataProvider supportedMethods
      */
-    public function testProcessSupportedRequest($method, $isValid, $isProcessed)
+    public function testProcessSupportedRequest(string $method, bool $isValid, bool $isProcessed): void
     {
         $organization = null;
         if ($isValid) {
@@ -125,7 +125,7 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
         }
     }
 
-    public function testProcessValidData()
+    public function testProcessValidData(): void
     {
         $this->request->initialize([], self::FORM_DATA);
         $this->request->setMethod('POST');
@@ -156,7 +156,7 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
         $this->assertTrue($this->handler->process($this->entity));
     }
 
-    public function testProcessCurrentUser()
+    public function testProcessCurrentUser(): void
     {
         $customerUser = $this->getCustomerUser(1);
         $organization = $this->getOrganization('test');
@@ -176,7 +176,7 @@ class CustomerUserHandlerTest extends FormHandlerTestCase
         }
     }
 
-    public function testProcessAnotherUser()
+    public function testProcessAnotherUser(): void
     {
         $customerUser = $this->getCustomerUser(2);
         $organization = $this->getOrganization('test');

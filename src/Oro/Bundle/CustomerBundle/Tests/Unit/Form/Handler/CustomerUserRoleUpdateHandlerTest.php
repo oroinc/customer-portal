@@ -52,7 +52,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         return $this->handler;
     }
 
-    public function testCreateForm()
+    public function testCreateForm(): void
     {
         $role = new CustomerUserRole('TEST');
 
@@ -61,7 +61,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             $expectedConfig[$key]['permissions'] = $this->getPermissionNames($value['types']);
         }
 
-        $this->privilegeRepository->expects($this->any())
+        $this->privilegeRepository->expects(self::any())
             ->method('getPermissionNames')
             ->with($this->isType('array'))
             ->willReturnCallback(function ($types) {
@@ -70,13 +70,13 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
 
         $expectedForm = $this->createMock(FormInterface::class);
 
-        $this->formFactory->expects($this->once())
+        $this->formFactory->expects(self::once())
             ->method('create')
             ->with(CustomerUserRoleType::class, $role, ['privilege_config' => $expectedConfig])
             ->willReturn($expectedForm);
 
         $actualForm = $this->handler->createForm($role);
-        $this->assertEquals($expectedForm, $actualForm);
+        self::assertEquals($expectedForm, $actualForm);
     }
 
     private function getPermissionNames(array $types): array
@@ -94,7 +94,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function testSetRolePrivileges()
+    public function testSetRolePrivileges(): void
     {
         $role = new CustomerUserRole('TEST');
         $roleSecurityIdentity = new RoleSecurityIdentity($role);
@@ -107,7 +107,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $request->setMethod('GET');
 
         $requestStack = $this->createMock(RequestStack::class);
-        $requestStack->expects($this->once())
+        $requestStack->expects(self::once())
             ->method('getCurrentRequest')
             ->willReturn($request);
 
@@ -122,32 +122,32 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $actionPrivilege = $this->createPrivilege('action', 'action', 'random_action', true);
 
         $privilegesForm = $this->createMock(FormInterface::class);
-        $privilegesForm->expects($this->once())
+        $privilegesForm->expects(self::once())
             ->method('setData');
 
         $form = $this->createMock(FormInterface::class);
-        $form->expects($this->any())
+        $form->expects(self::any())
             ->method('get')
             ->willReturnMap([
                 ['privileges', $privilegesForm],
             ]);
 
-        $this->formFactory->expects($this->once())
+        $this->formFactory->expects(self::once())
             ->method('create')
             ->willReturn($form);
 
-        $this->chainMetadataProvider->expects($this->once())
+        $this->chainMetadataProvider->expects(self::once())
             ->method('startProviderEmulation')
             ->with(FrontendOwnershipMetadataProvider::ALIAS);
-        $this->chainMetadataProvider->expects($this->once())
+        $this->chainMetadataProvider->expects(self::once())
             ->method('stopProviderEmulation');
 
-        $this->aclManager->expects($this->any())
+        $this->aclManager->expects(self::any())
             ->method('getSid')
             ->with($role)
             ->willReturn($roleSecurityIdentity);
 
-        $this->privilegeRepository->expects($this->any())
+        $this->privilegeRepository->expects(self::any())
             ->method('getPrivileges')
             ->with($roleSecurityIdentity)
             ->willReturn(
@@ -156,14 +156,14 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
                 )
             );
 
-        $this->ownershipConfigProvider->expects($this->any())
+        $this->ownershipConfigProvider->expects(self::any())
             ->method('hasConfig')
             ->willReturnMap([
                 [$firstClass, null, true],
                 [$secondClass, null, true],
                 [$unknownClass, null, false],
             ]);
-        $this->ownershipConfigProvider->expects($this->any())
+        $this->ownershipConfigProvider->expects(self::any())
             ->method('getConfig')
             ->willReturnMap([
                 [$firstClass, null, $firstEntityConfig],
@@ -178,13 +178,13 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function testProcessPrivileges()
+    public function testProcessPrivileges(): void
     {
         $request = new Request();
         $request->setMethod('POST');
 
         $requestStack = $this->createMock(RequestStack::class);
-        $requestStack->expects($this->once())
+        $requestStack->expects(self::once())
             ->method('getCurrentRequest')
             ->willReturn($request);
 
@@ -194,12 +194,12 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $productObjectIdentity = new ObjectIdentity('entity', Product::class);
 
         $appendForm = $this->createMock(FormInterface::class);
-        $appendForm->expects($this->once())
+        $appendForm->expects(self::once())
             ->method('getData')
             ->willReturn([]);
 
         $removeForm = $this->createMock(FormInterface::class);
-        $removeForm->expects($this->once())
+        $removeForm->expects(self::once())
             ->method('getData')
             ->willReturn([]);
 
@@ -249,17 +249,20 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ],
         ], JSON_THROW_ON_ERROR);
         $privilegesForm = $this->createMock(FormInterface::class);
-        $privilegesForm->expects($this->once())
+        $privilegesForm->expects(self::once())
             ->method('getData')
             ->willReturn($privilegesData);
 
         $form = $this->createMock(FormInterface::class);
-        $form->expects($this->once())
+        $form->expects(self::any())
+            ->method('getName')
+            ->willReturn('formName');
+        $form->expects(self::once())
             ->method('submit');
-        $form->expects($this->once())
+        $form->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
-        $form->expects($this->any())
+        $form->expects(self::any())
             ->method('get')
             ->willReturnMap([
                 ['appendUsers', $appendForm],
@@ -269,28 +272,28 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
                 ['privileges', $privilegesForm],
             ]);
 
-        $this->formFactory->expects($this->once())
+        $this->formFactory->expects(self::once())
             ->method('create')
             ->willReturn($form);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
-        $this->managerRegistry->expects($this->any())
+        $this->managerRegistry->expects(self::any())
             ->method('getManagerForClass')
             ->with(get_class($role))
             ->willReturn($objectManager);
 
         $configuration = $this->createMock(Configuration::class);
         $cache = $this->createMock(ArrayCache::class);
-        $this->managerRegistry->expects($this->once())
+        $this->managerRegistry->expects(self::once())
             ->method('getManager')
             ->willReturn($objectManager);
-        $objectManager->expects($this->once())
+        $objectManager->expects(self::once())
             ->method('getConfiguration')
             ->willReturn($configuration);
-        $configuration->expects($this->once())
+        $configuration->expects(self::once())
             ->method('getQueryCacheImpl')
             ->willReturn($cache);
-        $cache->expects($this->once())
+        $cache->expects(self::once())
             ->method('deleteAll');
 
         $expectedFirstEntityPrivilege = $this->createPrivilege('entity', 'entity:FirstClass', 'VIEW');
@@ -302,7 +305,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $expectedActionPrivilege = $this->createPrivilege('action', 'action', 'random_action');
         $expectedActionPrivilege->setGroup(CustomerUser::SECURITY_GROUP);
 
-        $this->privilegeRepository->expects($this->once())
+        $this->privilegeRepository->expects(self::once())
             ->method('savePrivileges')
             ->with(
                 $roleSecurityIdentity,
@@ -311,20 +314,20 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
                 )
             );
 
-        $this->aclManager->expects($this->any())
+        $this->aclManager->expects(self::any())
             ->method('getSid')
             ->with($role)
             ->willReturn($roleSecurityIdentity);
 
-        $this->aclManager->expects($this->any())
+        $this->aclManager->expects(self::any())
             ->method('getOid')
             ->with($productObjectIdentity->getIdentifier() . ':' . $productObjectIdentity->getType())
             ->willReturn($productObjectIdentity);
 
-        $this->chainMetadataProvider->expects($this->once())
+        $this->chainMetadataProvider->expects(self::once())
             ->method('startProviderEmulation')
             ->with(FrontendOwnershipMetadataProvider::ALIAS);
-        $this->chainMetadataProvider->expects($this->once())
+        $this->chainMetadataProvider->expects(self::once())
             ->method('stopProviderEmulation');
 
         $handler = new CustomerUserRoleUpdateHandler($this->formFactory, $this->aclCache, $this->privilegeConfig);
@@ -417,7 +420,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
     private function getClassConfig(bool $hasFrontendOwner): ConfigInterface
     {
         $config = $this->createMock(ConfigInterface::class);
-        $config->expects($this->any())
+        $config->expects(self::any())
             ->method('has')
             ->with('frontend_owner_type')
             ->willReturn($hasFrontendOwner);
@@ -425,17 +428,17 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         return $config;
     }
 
-    public function testGetCustomerUserRolePrivilegeConfig()
+    public function testGetCustomerUserRolePrivilegeConfig(): void
     {
         $role = new CustomerUserRole('');
-        $this->assertIsArray($this->handler->getCustomerUserRolePrivilegeConfig($role));
-        $this->assertEquals($this->privilegeConfig, $this->handler->getCustomerUserRolePrivilegeConfig($role));
+        self::assertIsArray($this->handler->getCustomerUserRolePrivilegeConfig($role));
+        self::assertEquals($this->privilegeConfig, $this->handler->getCustomerUserRolePrivilegeConfig($role));
     }
 
     /**
      * @dataProvider CustomerUserRolePrivilegesDataProvider
      */
-    public function testGetCustomerUserRolePrivileges(ArrayCollection $privileges, array $expected)
+    public function testGetCustomerUserRolePrivileges(ArrayCollection $privileges, array $expected): void
     {
         $privilegeConfig = [
             'entity' => ['types' => ['entity'], 'fix_values' => false, 'show_default' => true],
@@ -447,28 +450,28 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
 
         $role = new CustomerUserRole('ROLE_ADMIN');
         $securityIdentity = new RoleSecurityIdentity($role);
-        $this->aclManager->expects($this->once())
+        $this->aclManager->expects(self::once())
             ->method('getSid')
             ->with($role)
             ->willReturn($securityIdentity);
-        $this->privilegeRepository->expects($this->once())
+        $this->privilegeRepository->expects(self::once())
             ->method('getPrivileges')
             ->with($securityIdentity)
             ->willReturn($privileges);
-        $this->chainMetadataProvider->expects($this->once())
+        $this->chainMetadataProvider->expects(self::once())
             ->method('startProviderEmulation')
             ->with(FrontendOwnershipMetadataProvider::ALIAS);
-        $this->chainMetadataProvider->expects($this->once())
+        $this->chainMetadataProvider->expects(self::once())
             ->method('stopProviderEmulation');
         $result = $handler->getCustomerUserRolePrivileges($role);
 
-        $this->assertEquals(array_keys($expected), array_keys($result));
+        self::assertEquals(array_keys($expected), array_keys($result));
         /**
          * @var string $key
          * @var ArrayCollection $value
          */
         foreach ($expected as $key => $value) {
-            $this->assertEquals($value->getValues(), $result[$key]->getValues());
+            self::assertEquals($value->getValues(), $result[$key]->getValues());
         }
     }
 

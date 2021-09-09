@@ -21,7 +21,7 @@ class BasePathResolver
 
     public function resolveBasePath(string $defaultBasePath): string
     {
-        $masterRequest = $this->requestStack->getMasterRequest();
+        $masterRequest = $this->requestStack->getMainRequest();
         if ($masterRequest && $configuredPath = $masterRequest->server->get('WEBSITE_PATH')) {
             return str_replace($configuredPath, '', $defaultBasePath);
         }

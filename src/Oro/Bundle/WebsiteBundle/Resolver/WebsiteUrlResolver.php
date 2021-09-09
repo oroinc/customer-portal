@@ -76,7 +76,7 @@ class WebsiteUrlResolver
      *
      * @return string
      */
-    public function getWebsitePath($route, array $routeParams, WebsiteInterface $website = null)
+    public function getWebsitePath(string $route, array $routeParams, WebsiteInterface $website = null)
     {
         return $this->preparePath($this->getWebsiteUrl($website), $route, $routeParams);
     }
@@ -88,7 +88,7 @@ class WebsiteUrlResolver
      *
      * @return string
      */
-    public function getWebsiteSecurePath($route, array $routeParams, WebsiteInterface $website = null)
+    public function getWebsiteSecurePath(string $route, array $routeParams, WebsiteInterface $website = null)
     {
         return $this->preparePath($this->getWebsiteSecureUrl($website), $route, $routeParams);
     }

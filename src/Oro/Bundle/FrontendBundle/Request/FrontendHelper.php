@@ -41,7 +41,7 @@ class FrontendHelper
             return $this->emulateFrontendRequest;
         }
 
-        $request = $this->requestStack->getMasterRequest();
+        $request = $this->requestStack->getMainRequest();
 
         return
             null !== $request
