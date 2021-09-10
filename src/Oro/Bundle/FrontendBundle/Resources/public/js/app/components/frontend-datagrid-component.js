@@ -5,12 +5,17 @@ define(function(require, exports, module) {
     const ElasticSwipeActionsPlugin = require('orofrontend/js/app/plugins/plugin-elastic-swipe-actions');
     const _ = require('underscore');
 
-    let config = require('module-config').default(module.id);
+    const moduleConfig = require('module-config').default(module.id);
 
-    config = _.extend({
+    const config = {
         responsiveGridClassName: 'frontend-datagrid--responsive',
-        gridHasSwipeClassName: 'frontend-datagrid--has-swipe'
-    }, config);
+        gridHasSwipeClassName: 'frontend-datagrid--has-swipe',
+        ...moduleConfig,
+        themeOptions: {
+            enabledAccessibilityPlugin: true,
+            ...moduleConfig.themeOptions
+        }
+    };
 
     const FrontendDataGridComponent = DataGridComponent.extend({
         options: {
@@ -29,6 +34,14 @@ define(function(require, exports, module) {
          * @inheritdoc
          */
         initDataGrid: function(options) {
+            options = {
+                ...options,
+                themeOptions: {
+                    ...config.themeOptions,
+                    ...options.themeOptions
+                }
+            };
+
             FrontendDataGridComponent.__super__.initDataGrid.call(this, options);
 
             if ((this.metadata.responsiveGrids && this.metadata.responsiveGrids.enable)) {
