@@ -9,6 +9,10 @@ search:
         search_template:                '@OroCustomer/Customer/searchResult.html.twig'
         fields:
             -
+                name:                   id
+                target_type:            integer
+                target_fields:          [oro_customer_id]
+            -
                 name:                   name
                 target_type:            text
                 target_fields:          [name]

@@ -15,6 +15,7 @@ oro_behat_extension:
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\ACLContext
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\FrontendGridContext
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\RegistrationInstructionFeatureContext
+        - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerContext
         - Oro\Bundle\ProductBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\ShoppingListBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\ImportExportBundle\Tests\Behat\Context\ImportExportContext
@@ -67,6 +68,9 @@ oro_behat_extension:
     Customers Grid:
       selector: 'div[data-page-component-name="customer-customers-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
+
+    Customer Roles Users Update Grid GridFilters:
+      selector: 'div[data-page-component-name="frontend-customer-customer-users-grid-update"] [data-grid-toolbar="top"] div.filter-box'
 
     Customer Company Addresses Grid:
       selector: '[id^="grid-frontend-customer-customer-address-grid"]'

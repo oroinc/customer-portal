@@ -11,39 +11,25 @@ use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
  */
 class RouteProvider implements RouteProviderInterface
 {
-    /** @var RouteProviderInterface */
-    private $routeProvider;
+    private RouteProviderInterface $routeProvider;
 
-    /** @var FrontendHelper */
-    private $frontendHelper;
+    private FrontendHelper $frontendHelper;
 
-    /** @var string */
-    private $formDialogRoute;
+    private string $formDialogRoute;
 
-    /** @var string */
-    private $formPageRoute;
+    private string $formPageRoute;
 
-    /** @var string */
-    private $executionRoute;
+    private string $executionRoute;
 
-    /** @var string|null */
-    private $widgetRoute;
+    private string $widgetRoute;
 
-    /**
-     * @param RouteProviderInterface $routeProvider
-     * @param FrontendHelper         $frontendHelper
-     * @param string                 $formDialogRoute
-     * @param string                 $formPageRoute
-     * @param string                 $executionRoute
-     * @param string|null            $widgetRoute
-     */
     public function __construct(
         RouteProviderInterface $routeProvider,
         FrontendHelper $frontendHelper,
-        $formDialogRoute,
-        $formPageRoute,
-        $executionRoute,
-        $widgetRoute = null
+        string $formDialogRoute,
+        string $formPageRoute,
+        string $executionRoute,
+        string $widgetRoute = ''
     ) {
         $this->routeProvider = $routeProvider;
         $this->frontendHelper = $frontendHelper;
@@ -53,40 +39,28 @@ class RouteProvider implements RouteProviderInterface
         $this->widgetRoute = $widgetRoute;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getWidgetRoute()
+    public function getWidgetRoute(): string
     {
         return $this->frontendHelper->isFrontendRequest()
             ? $this->widgetRoute
             : $this->routeProvider->getWidgetRoute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFormDialogRoute()
+    public function getFormDialogRoute(): string
     {
         return $this->frontendHelper->isFrontendRequest()
             ? $this->formDialogRoute
             : $this->routeProvider->getFormDialogRoute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFormPageRoute()
+    public function getFormPageRoute(): string
     {
         return $this->frontendHelper->isFrontendRequest()
             ? $this->formPageRoute
             : $this->routeProvider->getFormPageRoute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExecutionRoute()
+    public function getExecutionRoute(): string
     {
         return $this->frontendHelper->isFrontendRequest()
             ? $this->executionRoute

@@ -181,13 +181,13 @@ services:
         class: 'Oro\Bundle\FrontendBundle\Extension\FrontendStartTransitionButtonProviderExtension'
         parent: oro_workflow.extension.start_transition_button_provider
         tags:
-           - { name: oro.action.extension.button_provider, priority: 110 }
+           - { name: oro.action.extension.button_provider, priority: -110 }
 
     oro_frontend.extension.transition_button_provider:
         class: 'Oro\Bundle\FrontendBundle\Extension\FrontendTransitionButtonProviderExtension'
         parent: oro_workflow.extension.transition_button_provider
         tags:
-           - { name: oro.action.extension.button_provider, priority: 120 }
+           - { name: oro.action.extension.button_provider, priority: -120 }
 
     oro_frontend.layout_theme_config_extension.screens:
         class: 'Oro\Bundle\FrontendBundle\Layout\Extension\ScreensThemeConfigurationExtension'

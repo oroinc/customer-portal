@@ -10,14 +10,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestWebsiteProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
-    private $requestStack;
+    private RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack;
 
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
+    private WebsiteManager|\PHPUnit\Framework\MockObject\MockObject $websiteManager;
 
-    /** @var RequestWebsiteProvider */
-    private $provider;
+    private RequestWebsiteProvider $provider;
 
     /**
      * {@inheritdoc}
@@ -33,18 +30,18 @@ class RequestWebsiteProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetWebsiteWhenNoRequest()
+    public function testGetWebsiteWhenNoRequest(): void
     {
         $this->requestStack->expects($this->once())
-            ->method('getMasterRequest')
+            ->method('getMainRequest')
             ->willReturn(null);
         $this->websiteManager->expects($this->never())
             ->method('getCurrentWebsite');
 
-        $this->assertNull($this->provider->getWebsite());
+        self::assertNull($this->provider->getWebsite());
     }
 
-    public function testGetWebsiteWhenHasRequestAttribute()
+    public function testGetWebsiteWhenHasRequestAttribute(): void
     {
         $request = Request::create('/');
         $website = $this->createMock(Website::class);
@@ -52,44 +49,44 @@ class RequestWebsiteProviderTest extends \PHPUnit\Framework\TestCase
         $request->attributes->set('current_website', $website);
 
         $this->requestStack->expects($this->once())
-            ->method('getMasterRequest')
+            ->method('getMainRequest')
             ->willReturn($request);
         $this->websiteManager->expects($this->never())
             ->method('getCurrentWebsite');
 
-        $this->assertSame($website, $this->provider->getWebsite());
+        self::assertSame($website, $this->provider->getWebsite());
     }
 
-    public function testGetWebsiteWhenNoRequestAttribute()
+    public function testGetWebsiteWhenNoRequestAttribute(): void
     {
         $request = Request::create('/');
         $website = $this->createMock(Website::class);
 
         $this->requestStack->expects($this->once())
-            ->method('getMasterRequest')
+            ->method('getMainRequest')
             ->willReturn($request);
         $this->websiteManager->expects($this->once())
             ->method('getCurrentWebsite')
             ->willReturn($website);
 
-        $this->assertSame($website, $this->provider->getWebsite());
-        $this->assertTrue($request->attributes->has('current_website'));
-        $this->assertSame($website, $request->attributes->get('current_website'));
+        self::assertSame($website, $this->provider->getWebsite());
+        self::assertTrue($request->attributes->has('current_website'));
+        self::assertSame($website, $request->attributes->get('current_website'));
     }
 
-    public function testGetWebsiteWhenNoRequestAttributeAndNoCurrentWebsite()
+    public function testGetWebsiteWhenNoRequestAttributeAndNoCurrentWebsite(): void
     {
         $request = Request::create('/');
 
         $this->requestStack->expects($this->once())
-            ->method('getMasterRequest')
+            ->method('getMainRequest')
             ->willReturn($request);
         $this->websiteManager->expects($this->once())
             ->method('getCurrentWebsite')
             ->willReturn(null);
 
-        $this->assertNull($this->provider->getWebsite());
-        $this->assertTrue($request->attributes->has('current_website'));
-        $this->assertNull($request->attributes->get('current_website'));
+        self::assertNull($this->provider->getWebsite());
+        self::assertTrue($request->attributes->has('current_website'));
+        self::assertNull($request->attributes->get('current_website'));
     }
 }

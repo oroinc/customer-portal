@@ -27,7 +27,7 @@ class RequestWebsiteProvider
 
     public function getWebsite(): ?Website
     {
-        $request = $this->requestStack->getMasterRequest();
+        $request = $this->requestStack->getMainRequest();
         if (null === $request) {
             return null;
         }

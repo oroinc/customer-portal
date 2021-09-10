@@ -35,6 +35,11 @@
     .entity-permission-container {
         display: flex;
         align-items: flex-start;
+
+        // Fix position of actions row when permission items are not enough
+        .entity-row-action {
+            margin-left: auto;
+        }
     }
 }
 

@@ -51,10 +51,14 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
      * @param array $defaultData
      * @param array $submittedData
      * @param bool $isValid
-     * @param array|null $expectedData
+     * @param array $expectedData
      */
-    public function testSubmit(array $defaultData, array $submittedData, $isValid = false, $expectedData = null)
-    {
+    public function testSubmit(
+        array $defaultData,
+        array $submittedData,
+        bool $isValid = false,
+        array $expectedData = []
+    ) {
         $form = $this->factory->create(CustomerUserMultiSelectType::class, $defaultData, []);
 
         $this->assertEquals($defaultData, $form->getData());
@@ -62,7 +66,7 @@ class CustomerUserMultiSelectTypeTest extends FormIntegrationTestCase
         $form->submit($submittedData);
 
         $this->assertEquals($isValid, $form->isValid(), $form->getErrors(true));
-        $this->assertEquals($isValid, $form->isSynchronized());
+        $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expectedData, $form->getData());
     }
 

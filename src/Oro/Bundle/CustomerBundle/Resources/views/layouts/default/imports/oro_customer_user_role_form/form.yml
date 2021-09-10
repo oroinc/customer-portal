@@ -41,6 +41,8 @@ layout:
                                             className: 'btn btn--default btn--size-s'
                                             icon: 'refresh fa--no-offset'
                                             iconHideText: true
+                                customModules:
+                                    datagridSettingsComponent: 'orofrontend/js/app/views/datagrid-settings/frontend-datagrid-settings-view'
                             toolbarOptions:
                                 actionsPanel:
                                     className: 'btn-group not-expand frontend-datagrid__panel'
@@ -48,7 +50,7 @@ layout:
                                     className: 'datagrid-tool'
                                     transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.users'
                                 hideItemsCounter: false
-                            filterContainerSelector: '[data-grid-toolbar="top"] [data-datafilter-container]'
+                            filterContainerSelector: '[data-grid-toolbar="top"] [data-role="filter-container"]'
                         form: '=data["oro_customer_frontend_customer_user_role_form"].getRoleFormView(data["entity"])'
                 __customer_user_role_form_end:
                     blockType: form_end
