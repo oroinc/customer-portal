@@ -9,20 +9,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class AssetsContextTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var RequestStack|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $requestStack;
+    private RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack;
 
-    /**
-     * @var BasePathResolver|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $resolver;
+    private BasePathResolver|\PHPUnit\Framework\MockObject\MockObject $resolver;
 
-    /**
-     * @var AssetsContext
-     */
-    private $context;
+    private AssetsContext $context;
 
     /**
      * {@inheritdoc}
@@ -35,25 +26,25 @@ class AssetsContextTest extends \PHPUnit\Framework\TestCase
         $this->context->setBasePathResolver($this->resolver);
     }
 
-    public function testGetBasePath()
+    public function testGetBasePath(): void
     {
         $path = '/path';
         $expected = '/resolved-path';
         /** @var Request|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(Request::class);
-        $request->expects($this->atLeastOnce())
+        $request->expects(self::atLeastOnce())
             ->method('getBasePath')
             ->willReturn($path);
 
-        $this->requestStack->expects($this->atLeastOnce())
-            ->method('getMasterRequest')
+        $this->requestStack->expects(self::atLeastOnce())
+            ->method('getMainRequest')
             ->willReturn($request);
 
-        $this->resolver->expects($this->once())
+        $this->resolver->expects(self::once())
             ->method('resolveBasePath')
             ->with($path)
             ->willReturn($expected);
 
-        $this->assertEquals($expected, $this->context->getBasePath());
+        self::assertEquals($expected, $this->context->getBasePath());
     }
 }

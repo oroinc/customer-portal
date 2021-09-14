@@ -32,10 +32,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $this->getHandler();
         $this->setRequirementsForHandler($this->handler);
 
-        $this->tokenStorage = $this
-            ->getMockBuilder(TokenStorageInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
     }
 
     /**
@@ -62,7 +59,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         CustomerUserRole $expectedRole,
         CustomerUser $customerUser,
         CustomerUserRole $expectedPredefinedRole = null
-    ) {
+    ): void {
         $request = new Request();
         $request->setMethod('POST');
 
@@ -96,10 +93,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $this->handler->createForm($role);
     }
 
-    /**
-     * @return array
-     */
-    public function successDataProvider()
+    public function successDataProvider(): array
     {
         $customerUser = new CustomerUser();
         $customer = new Customer();
@@ -128,7 +122,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         CustomerUserRole $expectedRole,
         CustomerUser $customerUser,
         array $existingPrivileges
-    ) {
+    ): void {
         $request = new Request();
         $request->setMethod('GET');
 
@@ -170,10 +164,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         $this->handler->process($role);
     }
 
-    /**
-     * @return array
-     */
-    public function successDataPrivilegesProvider()
+    public function successDataPrivilegesProvider(): array
     {
         $customerUser = new CustomerUser();
         $customer = new Customer();
@@ -213,7 +204,7 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         ];
     }
 
-    public function testMissingCustomerUser()
+    public function testMissingCustomerUser(): void
     {
         $this->expectException(\Symfony\Component\Security\Core\Exception\AccessDeniedException::class);
         $request = new Request();
@@ -237,15 +228,15 @@ class CustomerUserRoleUpdateFrontendHandlerTest extends AbstractCustomerUserRole
         /** @var CustomerUser[] $users */
         /** @var CustomerUserRole[] $roles */
         /** @var Customer[] $customers */
-        list(
+        [
             $users,
             $roles,
             $customers
-        ) = $this->prepareUsersAndRoles();
+        ] = $this->prepareUsersAndRoles();
 
-        list($users1, $users2, $users3, $users4, $users5) = $users;
-        list($role1, $role2, $role3, $role4, $role5) = $roles;
-        list($newCustomer1, $newCustomer2, $newCustomer4, $newCustomer5) = $customers;
+        [$users1, $users2, $users3, $users4, $users5] = $users;
+        [$role1, $role2, $role3, $role4, $role5] = $roles;
+        [$newCustomer1, $newCustomer2, $newCustomer4, $newCustomer5] = $customers;
 
         return [
             'set another customer for role with customer (assigned users should be removed except appendUsers)' => [

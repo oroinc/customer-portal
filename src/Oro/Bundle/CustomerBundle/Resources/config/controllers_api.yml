@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        public: true
+
+    OroCustomerBundleRestApiController:
+        namespace: Oro\Bundle\CustomerBundle\Controller\Api\Rest\
+        resource: '../../Controller/Api/Rest/*Controller.php'
+        calls:
+            - [setContainer, ['@service_container']]
+
+    OroCustomerBundleFrontendRestApiController:
+        namespace: Oro\Bundle\CustomerBundle\Controller\Frontend\Api\Rest\
+        resource: '../../Controller/Frontend/Api/Rest/*Controller.php'
+        calls:
+            - [setContainer, ['@service_container']]

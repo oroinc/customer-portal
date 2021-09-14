@@ -9,15 +9,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class BasePathResolverTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var RequestStack|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $requestStack;
+    private RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack;
 
-    /**
-     * @var BasePathResolver
-     */
-    private $resolver;
+    private BasePathResolver $resolver;
 
     /**
      * {@inheritdoc}
@@ -28,38 +22,38 @@ class BasePathResolverTest extends \PHPUnit\Framework\TestCase
         $this->resolver = new BasePathResolver($this->requestStack);
     }
 
-    public function testResolveBasePathNoMasterRequest()
+    public function testResolveBasePathNoMasterRequest(): void
     {
-        $this->requestStack->expects($this->once())
-            ->method('getMasterRequest')
+        $this->requestStack->expects(self::once())
+            ->method('getMainRequest')
             ->willReturn(null);
 
-        $this->assertEquals('/path', $this->resolver->resolveBasePath('/path'));
+        self::assertEquals('/path', $this->resolver->resolveBasePath('/path'));
     }
 
-    public function testResolveBasePath()
+    public function testResolveBasePath(): void
     {
         /** @var Request|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(Request::class);
         $request->server = new ParameterBag(['WEBSITE_PATH' => '/path']);
 
-        $this->requestStack->expects($this->atLeastOnce())
-            ->method('getMasterRequest')
+        $this->requestStack->expects(self::atLeastOnce())
+            ->method('getMainRequest')
             ->willReturn($request);
 
-        $this->assertEquals('/base', $this->resolver->resolveBasePath('/base/path'));
+        self::assertEquals('/base', $this->resolver->resolveBasePath('/base/path'));
     }
 
-    public function testGetBasePathNoConfiguration()
+    public function testGetBasePathNoConfiguration(): void
     {
         /** @var Request|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(Request::class);
         $request->server = new ParameterBag([]);
 
-        $this->requestStack->expects($this->atLeastOnce())
-            ->method('getMasterRequest')
+        $this->requestStack->expects(self::atLeastOnce())
+            ->method('getMainRequest')
             ->willReturn($request);
 
-        $this->assertEquals('/base/path', $this->resolver->resolveBasePath('/base/path'));
+        self::assertEquals('/base/path', $this->resolver->resolveBasePath('/base/path'));
     }
 }

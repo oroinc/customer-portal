@@ -15,17 +15,13 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class RedirectListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
+    private WebsiteManager|\PHPUnit\Framework\MockObject\MockObject $websiteManager;
 
-    /** @var WebsiteUrlResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $urlResolver;
+    private WebsiteUrlResolver|\PHPUnit\Framework\MockObject\MockObject $urlResolver;
 
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
+    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
 
-    /** @var RedirectListener */
-    private $listener;
+    private RedirectListener $listener;
 
     protected function setUp(): void
     {
@@ -54,7 +50,7 @@ class RedirectListenerTest extends \PHPUnit\Framework\TestCase
         return $event;
     }
 
-    public function testNoRedirectWhenSubRequest()
+    public function testNoRedirectWhenSubRequest(): void
     {
         $this->frontendHelper->expects(self::never())
             ->method('isFrontendRequest');
@@ -73,14 +69,14 @@ class RedirectListenerTest extends \PHPUnit\Framework\TestCase
             ->willReturn(true);
 
         $request = Request::create('https://eu.orocommerce.com/product');
-        $response = Response::create();
+        $response = new Response();
         $event = $this->getEvent(true, $request, $response);
         $this->listener->onRequest($event);
 
         self::assertSame($response, $event->getResponse());
     }
 
-    public function testNoRedirectWhenUrlMatchWithBase()
+    public function testNoRedirectWhenUrlMatchWithBase(): void
     {
         $website = $this->createMock(Website::class);
 
@@ -97,14 +93,14 @@ class RedirectListenerTest extends \PHPUnit\Framework\TestCase
             ]);
 
         $request = Request::create('https://eu.orocommerce.com/product?test=1&test2=2');
-        $response = Response::create();
+        $response = new Response();
         $event = $this->getEvent(true, $request, $response);
         $this->listener->onRequest($event);
 
         self::assertSame($response, $event->getResponse());
     }
 
-    public function testRedirectToBaseUrl()
+    public function testRedirectToBaseUrl(): void
     {
         $website = $this->createMock(Website::class);
 
@@ -121,7 +117,7 @@ class RedirectListenerTest extends \PHPUnit\Framework\TestCase
             ]);
 
         $request = Request::create('https://ua.orocommerce.com/product?a=b');
-        $response = Response::create();
+        $response = new Response();
         $event = $this->getEvent(true, $request, $response);
         $this->listener->onRequest($event);
 
@@ -134,7 +130,7 @@ class RedirectListenerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testNoRedirectForMediaCacheRequest()
+    public function testNoRedirectForMediaCacheRequest(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -145,7 +141,7 @@ class RedirectListenerTest extends \PHPUnit\Framework\TestCase
             ->method('getWebsiteUrl');
 
         $request = Request::create('https://ua.orocommerce.com/media/cache/product');
-        $response = Response::create();
+        $response = new Response();
         $event = $this->getEvent(true, $request, $response);
         $this->listener->onRequest($event);
 
