@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 @if $focus-visible-style {
-    .focus-visible.focus-via-arrows-keys {
+    .focus-visible.focus-via-arrows-keys:focus {
         box-shadow: $focus-via-arrows-keys-style;
 
         &.grid-cell {

@@ -60,6 +60,7 @@ $btn-plain-inner-offset: $btn-plain-inner-offset-y $btn-plain-inner-offset-x !de
 $btn-plain-line-height: 1 !default;
 $btn-plain-border-color: transparent !default;
 $btn-plain-background-color: transparent !default;
+$btn-plain-border-radius: 0 !default;
 $btn-plain-color: get-color('additional', 'middle') !default;
 $btn-plain-cursor: pointer !default;
 
