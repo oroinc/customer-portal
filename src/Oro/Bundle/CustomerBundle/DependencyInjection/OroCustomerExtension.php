@@ -31,6 +31,7 @@ class OroCustomerExtension extends Extension implements PrependExtensionInterfac
         $loader->load('form.yml');
         $loader->load('importexport.yml');
         $loader->load('controllers.yml');
+        $loader->load('controllers_api.yml');
         $loader->load('commands.yml');
 
         $container->prependExtensionConfig($this->getAlias(), array_intersect_key($config, array_flip(['settings'])));
