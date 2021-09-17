@@ -46,7 +46,8 @@
     }
 
     &__list {
-        @include list-normalize();
+        margin: $notification-list-margin;
+        padding: $notification-list-padding;
     }
 
     &__item {
