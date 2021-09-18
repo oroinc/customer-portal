@@ -29,11 +29,13 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
 
         $this->assertArrayHasKey('themes', $actualOptions);
         $this->assertIsArray($actualOptions['themes']);
-        $this->assertContains([
+
+        $this->assertThemeOptions([
             'name' => 'blank',
             'label' => 'Blank theme',
             'stylesheet' => '/build/blank/css/styles.css'
         ], $actualOptions['themes']);
+
         $defaultTheme = [
             'name' => 'default',
             'label' => 'Default theme',
@@ -42,11 +44,34 @@ class WYSIWYGTypeExtensionTest extends WebTestCase
         if ($layoutThemeName === 'default') {
             $defaultTheme['active'] = true;
         }
-        $this->assertContains($defaultTheme, $actualOptions['themes']);
-        $this->assertContains([
+        $this->assertThemeOptions($defaultTheme, $actualOptions['themes']);
+
+        $this->assertThemeOptions([
             'name' => 'custom',
             'label' => 'Custom theme',
             'stylesheet' => '/build/custom/css/styles.css',
         ], $actualOptions['themes']);
+    }
+
+    /**
+     * @param array $themeOptions
+     * @param array $actualThemesOptions
+     */
+    private function assertThemeOptions(array $themeOptions, array $actualThemesOptions): void
+    {
+        $hasThemeOptions = false;
+        foreach ($actualThemesOptions as $actualThemeOptions) {
+            if (($actualThemeOptions['name'] ?? null) === $themeOptions['name']) {
+                $hasThemeOptions = true;
+                break;
+            }
+        }
+        $this->assertTrue($hasThemeOptions, sprintf("Theme's '%s' options are missing", $themeOptions['name']));
+        $this->assertEquals($themeOptions['label'], $actualThemeOptions['label'] ?? null);
+        $this->assertMatchesRegularExpression(
+            '/^' . preg_quote($themeOptions['stylesheet'], '/') . '(\?|$)/',
+            $actualThemeOptions['stylesheet'] ?? ''
+        );
+        $this->assertEquals($themeOptions['active'] ?? null, $actualThemeOptions['active'] ?? null);
     }
 }

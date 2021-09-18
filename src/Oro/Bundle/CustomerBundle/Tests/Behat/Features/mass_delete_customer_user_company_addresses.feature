@@ -46,7 +46,7 @@ Feature: Mass delete customer user company addresses
     Then I should see "Please select items to delete." flash message
 
   Scenario: Delete few manually selected records
-    Given I reload the page
+    Given I close all flash messages
     And I keep in mind number of records in list in "Customer Company Addresses Grid"
     When I check first 1 records in "Customer Company Addresses Grid"
     And I click "Delete" link from select all mass action dropdown in "Customer Company Addresses Grid"
@@ -55,7 +55,7 @@ Feature: Mass delete customer user company addresses
     And the number of records in "Customer Company Addresses Grid" decreased by 1
 
   Scenario: Cancel Delete records
-    Given I reload the page
+    Given I close all flash messages
     And I keep in mind number of records in list in "Customer Company Addresses Grid"
     And I check first 1 records in "Customer Company Addresses Grid"
     When I click "Delete" link from select all mass action dropdown in "Customer Company Addresses Grid"
@@ -63,9 +63,7 @@ Feature: Mass delete customer user company addresses
     Then the number of records in "Customer Company Addresses Grid" remained the same
 
   Scenario: Uncheck few records
-    Given I reload the page
-    And I keep in mind number of records in list in "Customer Company Addresses Grid"
-    When I check All Visible records in "Customer Company Addresses Grid"
+    Given I check All Visible records in "Customer Company Addresses Grid"
     And I uncheck first 4 records in "Customer Company Addresses Grid"
     And I click "Delete" link from select all mass action dropdown in "Customer Company Addresses Grid"
     And confirm deletion
@@ -73,6 +71,7 @@ Feature: Mass delete customer user company addresses
 
   Scenario: Select and delete All Visible records
     Given I keep in mind number of records in list in "Customer Company Addresses Grid"
+    And I close all flash messages
     When I check All Visible records in "Customer Company Addresses Grid"
     And I click "Delete" link from select all mass action dropdown in "Customer Company Addresses Grid"
     And confirm deletion
