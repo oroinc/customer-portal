@@ -12,6 +12,7 @@ use Oro\Bundle\FrontendBundle\EventListener\DraftableFilterListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class DraftableFilterListenerTest extends \PHPUnit\Framework\TestCase
 {
@@ -41,7 +42,12 @@ class DraftableFilterListenerTest extends \PHPUnit\Framework\TestCase
         $this->doctrineHelper->expects(self::never())
             ->method('getEntityManagerForClass');
 
-        $event = $this->createMock(ControllerEvent::class);
+        $event = new ControllerEvent(
+            $this->createMock(HttpKernelInterface::class),
+            fn ($x) => $x,
+            new Request(),
+            HttpKernelInterface::MAIN_REQUEST
+        );
 
         $this->listener->onKernelController($event);
     }
@@ -56,13 +62,12 @@ class DraftableFilterListenerTest extends \PHPUnit\Framework\TestCase
             ->method('isFrontendRequest')
             ->willReturn(false);
 
-        $event = $this->createMock(ControllerEvent::class);
-        $event->expects(self::any())
-            ->method('getRequest')
-            ->willReturn($request);
-        $event->expects(self::any())
-            ->method('getController')
-            ->willReturn([new StubController(), 'viewAction']);
+        $event = new ControllerEvent(
+            $this->createMock(HttpKernelInterface::class),
+            [new StubController(), 'viewAction'],
+            $request,
+            HttpKernelInterface::MAIN_REQUEST
+        );
 
         $this->listener->onKernelController($event);
     }

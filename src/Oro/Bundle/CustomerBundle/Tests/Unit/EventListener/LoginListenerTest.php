@@ -12,44 +12,20 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginListenerTest extends \PHPUnit\Framework\TestCase
 {
-    const TEST_URL = 'http://test_url/';
+    private const TEST_URL = 'http://test_url/';
 
-    /**
-     * @var Request
-     */
-    protected $request;
+    private Request $request;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|TokenInterface
-     */
-    protected $token;
+    private TokenInterface|\PHPUnit\Framework\MockObject\MockObject $token;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|InteractiveLoginEvent
-     */
-    protected $event;
-
-    /**
-     * @var LoginListener
-     */
-    protected $listener;
+    private LoginListener $listener;
 
     protected function setUp(): void
     {
         $this->request = Request::create(self::TEST_URL);
-
-        $this->token = $this->createMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-
-        $this->event = $this->getMockBuilder('Symfony\Component\Security\Http\Event\InteractiveLoginEvent')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->token = $this->createMock(TokenInterface::class);
 
         $this->listener = new LoginListener();
-    }
-
-    protected function tearDown(): void
-    {
-        unset($this->request, $this->token, $this->event, $this->listener);
     }
 
     /**
@@ -58,30 +34,20 @@ class LoginListenerTest extends \PHPUnit\Framework\TestCase
      * @param UserInterface $user
      * @param bool $expected
      */
-    public function testOnSuccessLogin(UserInterface $user, $expected)
+    public function testOnSuccessLogin(UserInterface $user, $expected): void
     {
-        $this->token->expects($this->once())
+        $this->token->expects(self::once())
             ->method('getUser')
             ->willReturn($user);
 
-        $this->event->expects($this->once())
-            ->method('getAuthenticationToken')
-            ->willReturn($this->token);
-        $this->event->expects($expected ? $this->once() : $this->never())
-            ->method('getRequest')
-            ->willReturn($this->request);
+        self::assertNull($this->request->attributes->get('_fullRedirect'));
 
-        $this->assertNull($this->request->attributes->get('_fullRedirect'));
+        $this->listener->onSecurityInteractiveLogin(new InteractiveLoginEvent($this->request, $this->token));
 
-        $this->listener->onSecurityInteractiveLogin($this->event);
-
-        $this->assertEquals($expected, $this->request->attributes->get('_fullRedirect'));
+        self::assertEquals($expected, $this->request->attributes->get('_fullRedirect'));
     }
 
-    /**
-     * @return array
-     */
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return [
             'backend user' => [

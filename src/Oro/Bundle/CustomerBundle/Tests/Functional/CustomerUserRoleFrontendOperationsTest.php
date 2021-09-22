@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional;
 
 use Doctrine\Persistence\ObjectRepository;
+use Oro\Bundle\ActionBundle\Tests\Functional\OperationAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleACLData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -10,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomerUserRoleFrontendOperationsTest extends WebTestCase
 {
+    use OperationAwareTestTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -148,30 +151,5 @@ class CustomerUserRoleFrontendOperationsTest extends WebTestCase
             [],
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
-    }
-
-    /**
-     * @param $operationName
-     * @param $entityId
-     * @param $entityClass
-     *
-     * @return array
-     */
-    protected function getOperationExecuteParams($operationName, $entityId, $entityClass)
-    {
-        $actionContext = [
-            'entityId'    => $entityId,
-            'entityClass' => $entityClass
-        ];
-        $container = self::getContainer();
-        $operation = $container->get('oro_action.operation_registry')->findByName($operationName);
-        $actionData = $container->get('oro_action.helper.context')->getActionData($actionContext);
-
-        $tokenData = $container
-            ->get('oro_action.operation.execution.form_provider')
-            ->createTokenData($operation, $actionData);
-        $container->get('session')->save();
-
-        return $tokenData;
     }
 }

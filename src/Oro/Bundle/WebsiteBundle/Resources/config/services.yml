@@ -142,8 +142,15 @@ services:
 
     oro_website.asset.request_context:
         class: Oro\Bundle\WebsiteBundle\Asset\RequestContext
-        parent: router.request_context
+        factory: [Oro\Bundle\WebsiteBundle\Asset\RequestContext, fromUri]
+        arguments:
+            - '%router.request_context.base_url%'
+            - '%router.request_context.host%'
+            - '%router.request_context.scheme%'
+            - '%request_listener.http_port%'
+            - '%request_listener.https_port%'
         calls:
+            - [setParameter, ['_functions', '@?router.expression_language_provider']]
             - [setBasePathResolver, ['@oro_website.asset.base_path_resolver']]
 
     oro_website.event_listener.assets_request:

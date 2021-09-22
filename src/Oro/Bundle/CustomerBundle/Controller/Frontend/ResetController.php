@@ -40,7 +40,7 @@ class ResetController extends AbstractController
         $request = $this->get('request_stack')->getCurrentRequest();
         $email = $handler->process($form, $request);
         if ($email) {
-            $this->get('session')->set(static::SESSION_EMAIL, $email);
+            $request->getSession()->set(static::SESSION_EMAIL, $email);
             return $this->redirect($this->generateUrl('oro_customer_frontend_customer_user_reset_check_email'));
         }
 
@@ -53,9 +53,9 @@ class ResetController extends AbstractController
      * @Layout()
      * @Route("/check-email", name="oro_customer_frontend_customer_user_reset_check_email", methods={"GET"})
      */
-    public function checkEmailAction()
+    public function checkEmailAction(Request $request)
     {
-        $session = $this->get('session');
+        $session = $request->getSession();
         $email = $session->get(static::SESSION_EMAIL);
         $session->remove(static::SESSION_EMAIL);
 
@@ -96,7 +96,7 @@ class ResetController extends AbstractController
             );
         }
 
-        $session = $this->get('session');
+        $session = $request->getSession();
         $ttl = $this->getParameter('oro_user.reset.ttl');
         if (!$user->isPasswordRequestNonExpired($ttl)) {
             $session->getFlashBag()->add(
