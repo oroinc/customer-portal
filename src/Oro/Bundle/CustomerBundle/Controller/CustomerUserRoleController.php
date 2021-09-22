@@ -78,9 +78,7 @@ class CustomerUserRoleController extends AbstractController
      */
     public function createAction(Request $request)
     {
-        $roleClass = CustomerUserRole::class;
-
-        return $this->update($request, new $roleClass());
+        return $this->update(new CustomerUserRole(), $request);
     }
 
     /**
@@ -99,22 +97,22 @@ class CustomerUserRoleController extends AbstractController
      */
     public function updateAction(Request $request, CustomerUserRole $role)
     {
-        return $this->update($request, $role);
+        return $this->update($role, $request);
     }
 
     /**
-     * @param Request $request
      * @param CustomerUserRole $role
+     * @param Request $request
      * @return array|RedirectResponse
      */
-    protected function update(Request $request, CustomerUserRole $role)
+    protected function update(CustomerUserRole $role, Request $request)
     {
         $handler = $this->get(CustomerUserRoleUpdateHandler::class);
         $handler->createForm($role);
         $isWidgetContext = (bool)$request->get('_wid', false);
 
         if ($handler->process($role) && !$isWidgetContext) {
-            $this->get('session')->getFlashBag()->add(
+            $request->getSession()->getFlashBag()->add(
                 'success',
                 $this->get(TranslatorInterface::class)->trans('oro.customer.controller.customeruserrole.saved.message')
             );

@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Action;
 
+use Oro\Bundle\ActionBundle\Tests\Functional\OperationAwareTestTrait;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -9,6 +10,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 class CustomerGroupActionTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
+    use OperationAwareTestTrait;
 
     protected function setUp(): void
     {
@@ -77,30 +79,5 @@ class CustomerGroupActionTest extends WebTestCase
         );
         $result = $this->client->getResponse();
         $this->assertSame(403, $result->getStatusCode());
-    }
-
-    /**
-     * @param $operationName
-     * @param $entityId
-     * @param $entityClass
-     *
-     * @return array
-     */
-    protected function getOperationExecuteParams($operationName, $entityId, $entityClass)
-    {
-        $actionContext = [
-            'entityId'    => $entityId,
-            'entityClass' => $entityClass
-        ];
-        $container = $this->getContainer();
-        $operation = $container->get('oro_action.operation_registry')->findByName($operationName);
-        $actionData = $container->get('oro_action.helper.context')->getActionData($actionContext);
-
-        $tokenData = $this->getContainer()
-            ->get('oro_action.operation.execution.form_provider')
-            ->createTokenData($operation, $actionData);
-        $container->get('session')->save();
-
-        return $tokenData;
     }
 }

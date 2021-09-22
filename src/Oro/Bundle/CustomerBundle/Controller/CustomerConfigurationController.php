@@ -53,7 +53,7 @@ class CustomerConfigurationController extends AbstractController
                 ->setConfigManager($manager)
                 ->process($form, $request)
             ) {
-                $this->get('session')->getFlashBag()->add(
+                $request->getSession()->getFlashBag()->add(
                     'success',
                     $this->get(TranslatorInterface::class)->trans('oro.config.controller.config.saved.message')
                 );

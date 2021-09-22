@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -24,9 +23,6 @@ class SignInProviderTest extends WebTestCase
     /** @var RequestStack */
     protected $requestStack;
 
-    /** @var CsrfTokenManagerInterface */
-    protected $tokenManager;
-
     /** @var TranslatorInterface */
     protected $translator;
 
@@ -35,7 +31,6 @@ class SignInProviderTest extends WebTestCase
         $this->initClient();
         $this->client->useHashNavigation(true);
         $this->requestStack = $this->getContainer()->get('request_stack');
-        $this->tokenManager = $this->getContainer()->get('security.csrf.token_manager');
         $this->dataProvider = $this->getContainer()->get('oro_customer.provider.sign_in');
         $this->translator = $this->getContainer()->get('translator');
     }

@@ -31,6 +31,6 @@ class DefaultGridViewLoadListener extends BaseDefaultGridViewLoadListener
     {
         $provider = $this->configManager->getProvider('entity');
 
-        return $provider ? $provider->getConfig($className)->get('frontend_grid_all_view_label', false, '') : '';
+        return $provider ? (string) $provider->getConfig($className)->get('frontend_grid_all_view_label') : '';
     }
 }

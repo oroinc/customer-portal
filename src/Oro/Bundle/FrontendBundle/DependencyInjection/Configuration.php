@@ -87,6 +87,7 @@ class Configuration implements ConfigurationInterface
                     ->booleanNode('cookie_httponly')->end()
                     ->enumNode('cookie_samesite')
                         ->values([null, Cookie::SAMESITE_LAX, Cookie::SAMESITE_STRICT, Cookie::SAMESITE_NONE])
+                        ->defaultValue(Cookie::SAMESITE_LAX)
                         ->end()
                     ->scalarNode('gc_maxlifetime')->end()
                     ->scalarNode('gc_probability')->end()

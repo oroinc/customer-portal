@@ -44,7 +44,7 @@ class EmailRecipientsProvider implements EmailRecipientsProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getSection()
+    public function getSection(): string
     {
         return 'oro.customer.customeruser.entity_plural_label';
     }

@@ -5,19 +5,19 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 use Oro\Bundle\FrontendBundle\EventListener\LoginAttemptsLogHandler;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\UserBundle\EventListener\LoginAttemptsHandlerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginAttemptsLogSubscriberTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $frontendHelper;
+    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
 
-    /** @var LoginAttemptsHandlerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $innerSubscriber;
+    private LoginAttemptsHandlerInterface|\PHPUnit\Framework\MockObject\MockObject $innerSubscriber;
 
-    /** @var LoginAttemptsLogHandler */
-    private $subscriber;
+    private LoginAttemptsLogHandler $subscriber;
 
     protected function setUp(): void
     {
@@ -27,9 +27,12 @@ class LoginAttemptsLogSubscriberTest extends \PHPUnit\Framework\TestCase
         $this->subscriber = new LoginAttemptsLogHandler($this->innerSubscriber, $this->frontendHelper);
     }
 
-    public function testOnAuthenticationFailureOnNotFrontendRequest()
+    public function testOnAuthenticationFailureOnNotFrontendRequest(): void
     {
-        $event = $this->createMock(AuthenticationFailureEvent::class);
+        $event = new AuthenticationFailureEvent(
+            $this->createMock(TokenInterface::class),
+            new AuthenticationException()
+        );
 
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -42,7 +45,7 @@ class LoginAttemptsLogSubscriberTest extends \PHPUnit\Framework\TestCase
         $this->subscriber->onAuthenticationFailure($event);
     }
 
-    public function testOnAuthenticationFailureOnFrontendRequest()
+    public function testOnAuthenticationFailureOnFrontendRequest(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -51,12 +54,17 @@ class LoginAttemptsLogSubscriberTest extends \PHPUnit\Framework\TestCase
         $this->innerSubscriber->expects(self::never())
             ->method('onAuthenticationFailure');
 
-        $this->subscriber->onAuthenticationFailure($this->createMock(AuthenticationFailureEvent::class));
+        $this->subscriber->onAuthenticationFailure(
+            new AuthenticationFailureEvent($this->createMock(TokenInterface::class), new AuthenticationException())
+        );
     }
 
-    public function testOnInteractiveLoginOnNotFrontendRequest()
+    public function testOnInteractiveLoginOnNotFrontendRequest(): void
     {
-        $event = $this->createMock(InteractiveLoginEvent::class);
+        $event = new InteractiveLoginEvent(
+            new Request(),
+            $this->createMock(TokenInterface::class)
+        );
 
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -69,7 +77,7 @@ class LoginAttemptsLogSubscriberTest extends \PHPUnit\Framework\TestCase
         $this->subscriber->onInteractiveLogin($event);
     }
 
-    public function testOnInteractiveLoginOnFrontendRequest()
+    public function testOnInteractiveLoginOnFrontendRequest(): void
     {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
@@ -78,6 +86,8 @@ class LoginAttemptsLogSubscriberTest extends \PHPUnit\Framework\TestCase
         $this->innerSubscriber->expects(self::never())
             ->method('onInteractiveLogin');
 
-        $this->subscriber->onInteractiveLogin($this->createMock(InteractiveLoginEvent::class));
+        $this->subscriber->onInteractiveLogin(
+            new InteractiveLoginEvent(new Request(), $this->createMock(TokenInterface::class))
+        );
     }
 }
