@@ -726,6 +726,8 @@ oro.customer:
                     zip: ""
                     phone: ""
                     name.prefix: ""
+                    country: "Country"
+                    region: "State"
                 label:
                     address_label: Label
                     primary: Is Primary Address
