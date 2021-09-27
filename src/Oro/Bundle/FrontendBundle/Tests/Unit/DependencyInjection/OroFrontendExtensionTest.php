@@ -88,7 +88,8 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(
             [
                 'name'            => 'TEST',
-                'cookie_path'     => '/test'
+                'cookie_path'     => '/test',
+                'cookie_samesite' => 'lax',
             ],
             $container->getParameter('oro_frontend.session.storage.options')
         );
@@ -112,7 +113,8 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(
             [
                 'name'            => 'TEST',
-                'cookie_httponly' => false
+                'cookie_httponly' => false,
+                'cookie_samesite' => 'lax',
             ],
             $container->getParameter('oro_frontend.session.storage.options')
         );

@@ -80,7 +80,7 @@ class CustomerUserRegisterController extends AbstractController
     public function confirmEmailAction(Request $request)
     {
         $userManager = $this->get(CustomerUserManager::class);
-        $session = $this->get('session');
+        $session = $request->getSession();
         $token = $request->get('token');
         if (empty($token)) {
             $session->getFlashBag()->add(

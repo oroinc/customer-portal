@@ -30,7 +30,7 @@ class WrongApiUriRequestsTest extends FrontendRestJsonApiTestCase
             [
                 'status' => '404',
                 'title'  => 'not found http exception',
-                'detail' => 'No route found for "GET /api/testapientity1/../api/products/1".'
+                'detail' => 'No route found for "GET http://localhost/api/testapientity1/../api/products/1".'
             ],
             $response,
             Response::HTTP_NOT_FOUND
@@ -50,7 +50,7 @@ class WrongApiUriRequestsTest extends FrontendRestJsonApiTestCase
             [
                 'status' => '404',
                 'title'  => 'not found http exception',
-                'detail' => 'No route found for "GET /api/testapientity1/../products/1"'
+                'detail' => 'No route found for "GET http://localhost/api/testapientity1/../products/1"'
                     . ' (from "http://localhost/api/testapientity1/../api/products/1").'
             ],
             $response,
@@ -74,7 +74,7 @@ class WrongApiUriRequestsTest extends FrontendRestJsonApiTestCase
             [
                 'status' => '404',
                 'title'  => 'not found http exception',
-                'detail' => 'No route found for "GET /api/testapientity1/../product/view/1"'
+                'detail' => 'No route found for "GET http://localhost/api/testapientity1/../product/view/1"'
                     . ' (from "http://localhost/api/testapientity1/../products/1").'
             ],
             $response,

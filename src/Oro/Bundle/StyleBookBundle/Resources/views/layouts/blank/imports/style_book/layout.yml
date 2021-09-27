@@ -16,7 +16,7 @@ layout:
             parentId: head
             blockType: style
             options:
-                src: '=data["asset"].getUrl(data["theme"].getStylesOutput(context["theme"], "stylebook_styles"))'
+                src: '=data["theme"].getStylesOutput(context["theme"], "stylebook_styles")'
 
         - '@add':
             id: __init_code_highlighter
