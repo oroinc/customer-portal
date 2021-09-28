@@ -977,6 +977,9 @@ datagrids:
                     data_name: hasRole
             default:
                 hasRole: DESC
+        actions:
+            view:
+                rowAction: false
         options:
             rowSelection:
                 dataField: id
