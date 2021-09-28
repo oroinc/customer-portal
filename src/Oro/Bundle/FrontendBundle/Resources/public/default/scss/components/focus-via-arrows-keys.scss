@@ -4,7 +4,8 @@
     .focus-visible.focus-via-arrows-keys:focus {
         box-shadow: $focus-via-arrows-keys-style;
 
-        &.grid-cell {
+        &.grid-cell,
+        &.permissions-cell {
             box-shadow: $focus-via-arrows-keys-grid-cell-style;
         }
 
