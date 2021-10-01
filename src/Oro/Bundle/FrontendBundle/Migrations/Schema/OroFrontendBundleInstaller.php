@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Migrations\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\ConfigBundle\Migration\RenameConfigSectionQuery;
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -40,7 +41,7 @@ class OroFrontendBundleInstaller implements Installation, ContainerAwareInterfac
     public function up(Schema $schema, QueryBag $queries)
     {
         // update system configuration for installed instances
-        if ($this->container->hasParameter('installed') && $this->container->getParameter('installed')) {
+        if ($this->container->get(ApplicationState::class)->isInstalled()) {
             $queries->addPostQuery(new RenameConfigSectionQuery('oro_b2b_frontend', 'oro_frontend'));
         }
     }
