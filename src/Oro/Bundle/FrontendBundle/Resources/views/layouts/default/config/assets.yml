@@ -11,6 +11,7 @@ styles:
 
         - 'bundles/orofrontend/default/scss/settings/global-settings.scss'
         - 'bundles/orofrontend/default/scss/variables/base-config.scss'
+        - 'bundles/orofrontend/default/scss/variables/focus-via-arrows-keys-config.scss'
         - 'bundles/orofrontend/default/scss/variables/custom-icons-config.scss'
         - 'bundles/orofrontend/default/scss/variables/breadcrumbs-config.scss'
         - 'bundles/orofrontend/default/scss/variables/collapse-view-config.scss'
@@ -49,6 +50,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/bootstrap/bootstrap.scss'
 
         - 'bundles/orofrontend/default/scss/components/custom-icons.scss'
+        - 'bundles/orofrontend/default/scss/components/focus-via-arrows-keys.scss'
         - 'bundles/orofrontend/default/scss/components/clear-search-button.scss'
         - 'bundles/orofrontend/default/scss/styles.scss'
     output: 'css/styles.css'

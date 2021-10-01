@@ -1,0 +1,8 @@
+{% block __oro_customer_user_role_permission_grid__datagrid_js_modules_config_widget %}
+    {% import '@OroAsset/Asset.html.twig' as Asset %}
+    {{ Asset.js_modules_config({
+        'orouser/js/views/role/capability-group-view': {
+            selectAllClassName: 'btn btn--plain btn--default-color'
+        }
+    }) }}
+{% endblock %}

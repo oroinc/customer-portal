@@ -1,7 +1,7 @@
 @ticket-BB-18755
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 
-Feature: Frontend filters accessibility
+Feature: My Shopping List Accessibility
   As a User
   I want to be sure that filters are accessible via keyboard
 
@@ -19,51 +19,51 @@ Feature: Frontend filters accessibility
 
   Scenario: Open filter dropdown by pressing Enter key
     When I click "Filter By Last Name"
-    And I press "ESC" key on "Opened Filter Dropdown" element
+    And I press "Esc" key on "Opened Filter Dropdown" element
     Then I should see "Filter By Last Name" element focused
     When I press "Enter" key on "Filter By Last Name" element
     Then I should see focus within "Opened Filter Dropdown" element
-    And I press "ESC" key on "Opened Filter Dropdown" element
+    And I press "Esc" key on "Opened Filter Dropdown" element
 
   Scenario: Open filter dropdown by pressing Space key
     When I click "Filter By Last Name"
-    And I press "ESC" key on "Opened Filter Dropdown" element
+    And I press "Esc" key on "Opened Filter Dropdown" element
     When I press "Space" key on "Filter By Last Name" element
     Then I should see focus within "Opened Filter Dropdown" element
-    And I press "ESC" key on "Opened Filter Dropdown" element
+    And I press "Esc" key on "Opened Filter Dropdown" element
 
   Scenario: Open filter dropdown by pressing UpArrow key
     When I click "Filter By Last Name"
-    And I press "ESC" key on "Opened Filter Dropdown" element
-    When I press "UpArrow" key on "Filter By Last Name" element
+    And I press "Esc" key on "Opened Filter Dropdown" element
+    When I press "ArrowUp" key on "Filter By Last Name" element
     Then I should see focus within "Opened Filter Dropdown" element
-    And I press "ESC" key on "Opened Filter Dropdown" element
+    And I press "Esc" key on "Opened Filter Dropdown" element
 
   Scenario: Open filter dropdown by pressing DownArrow key
     When I click "Filter By Last Name"
-    And I press "ESC" key on "Opened Filter Dropdown" element
-    When I press "DownArrow" key on "Filter By Last Name" element
+    And I press "Esc" key on "Opened Filter Dropdown" element
+    When I press "ArrowDown" key on "Filter By Last Name" element
     Then I should see focus within "Opened Filter Dropdown" element
-    And I press "ESC" key on "Opened Filter Dropdown" element
+    And I press "Esc" key on "Opened Filter Dropdown" element
 
   Scenario: Looping filters navigation by pressing RightArrow key
     When I click "Filter By Last Name"
-    And I press "ESC" key on "Opened Filter Dropdown" element
-    When I press "RightArrow" key on "Filter By Last Name" element
+    And I press "Esc" key on "Opened Filter Dropdown" element
+    When I press "ArrowRight" key on "Filter By Last Name" element
     Then I should see "Filter By Enabled" element focused
-    When I press "RightArrow" key on "Filter By Enabled" element
+    When I press "ArrowRight" key on "Filter By Enabled" element
     Then I should see "Filter By First Name" element focused
-    When I press "RightArrow" key on "Filter By First Name" element
+    When I press "ArrowRight" key on "Filter By First Name" element
     Then I should see "Filter By Last Name" element focused
 
   Scenario: Looping filters navigation by pressing LeftArrow key
     When I click "Filter By Last Name"
-    And I press "ESC" key on "Opened Filter Dropdown" element
-    When I press "LeftArrow" key on "Filter By Last Name" element
+    And I press "Esc" key on "Opened Filter Dropdown" element
+    When I press "ArrowLeft" key on "Filter By Last Name" element
     Then I should see "Filter By First Name" element focused
-    When I press "LeftArrow" key on "Filter By First Name" element
+    When I press "ArrowLeft" key on "Filter By First Name" element
     Then I should see "Filter By Enabled" element focused
-    When I press "LeftArrow" key on "Filter By Enabled" element
+    When I press "ArrowLeft" key on "Filter By Enabled" element
     Then I should see "Filter By Last Name" element focused
 
   Scenario: Toggle filters/state view by keyboard

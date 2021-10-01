@@ -10,10 +10,10 @@
         overflow: visible;
     }
 
-    .grid-header-cell {
+    .grid-header-cell,
+    .permissions-cell {
         &:first-child {
             width: $permissions-grid-first-header-cell-width;
-            padding-left: $permissions-grid-first-header-cell-offser-inner-left;
         }
     }
 
@@ -23,7 +23,7 @@
 
         font-weight: $permissions-grid-first-entity-name-font-weight;
     }
-    
+
 
     .fields-list {
         display: none;
@@ -35,12 +35,29 @@
 
     .entity-permission-container {
         display: flex;
-        align-items: flex-start;
+        align-items: stretch;
 
         // Fix position of actions row when permission items are not enough
         .entity-row-action {
             margin-left: auto;
+            width: $datagrid-body-cell-action-cell-width;
+            padding: $permissions-grid-entity-row-action-offset;
+
+            text-align: $datagrid-body-cell-action-cell-text-align;
         }
+    }
+
+    .grid-body-cell {
+        padding: 0;
+    }
+
+    .collapse-expand-action-container,
+    .action-permissions-container {
+        padding: $datagrid-body-cell-offset;
+    }
+
+    .action-permissions-container {
+        flex-grow: 1;
     }
 }
 

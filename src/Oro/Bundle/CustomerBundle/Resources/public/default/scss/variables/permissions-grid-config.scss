@@ -1,6 +1,6 @@
 /* @theme: default; */
 
-$permissions-grid-first-header-cell-width: 155px !default;
+$permissions-grid-first-header-cell-width: 200px !default;
 $permissions-grid-first-header-cell-offser-inner-left: $offset-x-m !default;
 $permissions-grid-first-entity-name-float: left !default;
 $permissions-grid-first-entity-name-width: $permissions-grid-first-header-cell-width !default;
@@ -16,3 +16,10 @@ $permissions-grid-field-permission-container-field-name-float: left !default;
 $permissions-grid-field-permission-container-field-name-width: 120px !default;
 $permissions-grid-field-permission-container-field-name-offset-inner-left: 10px !default;
 $permissions-grid-field-permission-container-action-permissions-offset-left: 120px !default;
+
+$permissions-grid-entity-row-action-offset: (
+        $datagrid-body-cell-offset
+        $datagrid-body-cell-action-offset
+        $datagrid-body-cell-offset
+        $datagrid-body-cell-offset
+) !default;
