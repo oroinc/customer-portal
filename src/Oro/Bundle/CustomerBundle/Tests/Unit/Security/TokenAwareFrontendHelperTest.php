@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\CustomerBundle\Security\TokenAwareFrontendHelper;
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -15,6 +16,15 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
 {
     private const BACKEND_PREFIX = '/admin';
+
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ApplicationState */
+    private $applicationState;
+
+    protected function setUp(): void
+    {
+        $this->applicationState = $this->createMock(ApplicationState::class);
+        $this->applicationState->method('isInstalled')->willReturn(true);
+    }
 
     private function getRequestStack(Request $currentRequest = null): RequestStack
     {
@@ -48,6 +58,7 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
         $helper = new TokenAwareFrontendHelper(
             self::BACKEND_PREFIX,
             $this->getRequestStack(),
+            $this->applicationState,
             $this->getTokenStorage($token)
         );
         $this->assertFalse($helper->isFrontendRequest());
@@ -66,6 +77,7 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
         $helper = new TokenAwareFrontendHelper(
             self::BACKEND_PREFIX,
             $this->getRequestStack(),
+            $this->applicationState,
             $this->getTokenStorage($token)
         );
         $this->assertTrue($helper->isFrontendRequest());
@@ -83,6 +95,7 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
         $helper = new TokenAwareFrontendHelper(
             self::BACKEND_PREFIX,
             $this->getRequestStack(),
+            $this->applicationState,
             $this->getTokenStorage($token)
         );
         $this->assertTrue($helper->isFrontendRequest());
@@ -101,6 +114,7 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
         $helper = new TokenAwareFrontendHelper(
             self::BACKEND_PREFIX,
             $this->getRequestStack(),
+            $this->applicationState,
             $this->getTokenStorage($token)
         );
         $this->assertFalse($helper->isFrontendRequest());
@@ -113,6 +127,7 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
         $helper = new TokenAwareFrontendHelper(
             self::BACKEND_PREFIX,
             $this->getRequestStack($request),
+            $this->applicationState,
             $this->getTokenStorage()
         );
         $this->assertTrue($helper->isFrontendRequest());
@@ -125,6 +140,7 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
         $helper = new TokenAwareFrontendHelper(
             self::BACKEND_PREFIX,
             $this->getRequestStack($request),
+            $this->applicationState,
             $this->getTokenStorage()
         );
         $this->assertFalse($helper->isFrontendRequest());
@@ -135,6 +151,7 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
         $helper = new TokenAwareFrontendHelper(
             self::BACKEND_PREFIX,
             $this->getRequestStack(),
+            $this->applicationState,
             $this->getTokenStorage()
         );
         $this->assertFalse($helper->isFrontendRequest());
@@ -145,6 +162,7 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
         $helper = new TokenAwareFrontendHelper(
             self::BACKEND_PREFIX,
             $this->getRequestStack(),
+            $this->applicationState,
             $this->getTokenStorage()
         );
         $this->assertFalse($helper->isFrontendUrl(self::BACKEND_PREFIX . '/test'));
@@ -155,6 +173,7 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
         $helper = new TokenAwareFrontendHelper(
             self::BACKEND_PREFIX,
             $this->getRequestStack(),
+            $this->applicationState,
             $this->getTokenStorage()
         );
         $this->assertTrue($helper->isFrontendUrl('/test'));

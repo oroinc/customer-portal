@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Security;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserInterface;
 use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -19,13 +20,18 @@ class TokenAwareFrontendHelper extends FrontendHelper
     private $tokenStorage;
 
     /**
-     * @param string                $backendPrefix
-     * @param RequestStack          $requestStack
+     * @param string $backendPrefix
+     * @param RequestStack $requestStack
+     * @param ApplicationState $applicationState
      * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct($backendPrefix, RequestStack $requestStack, TokenStorageInterface $tokenStorage)
-    {
-        parent::__construct($backendPrefix, $requestStack);
+    public function __construct(
+        $backendPrefix,
+        RequestStack $requestStack,
+        ApplicationState $applicationState,
+        TokenStorageInterface $tokenStorage
+    ) {
+        parent::__construct($backendPrefix, $requestStack, $applicationState);
         $this->tokenStorage = $tokenStorage;
     }
 

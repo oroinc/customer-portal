@@ -3,6 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Placeholder;
 
 use Oro\Bundle\ActivityListBundle\Placeholder\PlaceholderFilter;
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\Placeholder\ActivityListPlaceholderFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\UIBundle\Event\BeforeGroupingChainWidgetEvent;
@@ -16,9 +17,14 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|PlaceholderFilter */
     private $basicFilter;
 
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ApplicationState */
+    private $applicationState;
+
     protected function setUp(): void
     {
         $this->basicFilter = $this->createMock(PlaceholderFilter::class);
+        $this->applicationState = $this->createMock(ApplicationState::class);
+        $this->applicationState->method('isInstalled')->willReturn(true);
     }
 
     private function getFilter(Request $currentRequest = null): ActivityListPlaceholderFilter
@@ -30,7 +36,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
 
         return new ActivityListPlaceholderFilter(
             $this->basicFilter,
-            new FrontendHelper(self::BACKEND_PREFIX, $requestStack)
+            new FrontendHelper(self::BACKEND_PREFIX, $requestStack, $this->applicationState)
         );
     }
 

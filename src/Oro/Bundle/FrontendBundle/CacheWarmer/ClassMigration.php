@@ -5,6 +5,7 @@ namespace Oro\Bundle\FrontendBundle\CacheWarmer;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\EntityBundle\ORM\DatabasePlatformInterface;
 use Oro\Bundle\EntityBundle\Tools\SafeDatabaseChecker;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
@@ -21,8 +22,7 @@ class ClassMigration
     /** @var ConfigManager */
     private $configManager;
 
-    /** @var bool */
-    private $applicationInstalled;
+    private ApplicationState $applicationState;
 
     /** @var string[] */
     private $config = [];
@@ -30,13 +30,16 @@ class ClassMigration
     /**
      * @param ManagerRegistry $managerRegistry
      * @param ConfigManager $configManager
-     * @param bool $applicationInstalled
+     * @param ApplicationState $applicationState
      */
-    public function __construct(ManagerRegistry $managerRegistry, ConfigManager $configManager, $applicationInstalled)
-    {
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        ConfigManager $configManager,
+        ApplicationState $applicationState
+    ) {
         $this->managerRegistry = $managerRegistry;
         $this->configManager = $configManager;
-        $this->applicationInstalled = (bool)$applicationInstalled;
+        $this->applicationState = $applicationState;
     }
 
     public function migrate()
@@ -45,7 +48,7 @@ class ClassMigration
             throw new \InvalidArgumentException('Migration not configured');
         }
 
-        if (!$this->applicationInstalled) {
+        if (!$this->applicationState->isInstalled()) {
             return;
         }
 

@@ -264,6 +264,27 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
         );
     }
 
+    public function testTryToCreateWithInvalidEmail(): void
+    {
+        $data = $this->getRequestData('create_customer_user_with_invalid_email.yml');
+        $data['data']['attributes']['password'] = 'Admin123';
+        $response = $this->post(
+            ['entity' => 'customerusers'],
+            $data,
+            [],
+            false
+        );
+        
+        self::assertResponseValidationError(
+            [
+                'title'  => 'email constraint',
+                'detail'  => 'This value is not a valid email address.',
+                'source' => ['pointer' => '/data/attributes/email']
+            ],
+            $response
+        );
+    }
+
     public function testTryToCreateWithEnabledAndConfirmedFields()
     {
         $data = $this->getRequestData('create_customer_user_min.yml');

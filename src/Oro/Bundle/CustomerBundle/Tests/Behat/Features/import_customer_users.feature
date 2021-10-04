@@ -1,6 +1,7 @@
 @fixture-OroCustomerBundle:ImportCustomerUsersFixture.yml
 @fixture-OroCustomerBundle:CustomerUserRoleSuffixFixture.yml
 @regression
+
 Feature: Import Customer Users
   In order to add multiple customer users at once
   As an Administrator
@@ -76,8 +77,20 @@ Feature: Import Customer Users
       | Roles       | Buyer Test  |
       | Website     | Second      |
 
+  Scenario: Import Customer User with invalid email
+    Given I go to Customers/ Customer Users
+    When I download "Customer Users" Data Template file
+    And fill template with data:
+      | ID | Name Prefix | First Name | Middle Name | Last Name | Name Suffix | Birthday   | Email Address              | Customer Id | Roles 1 Role                | Website Id | Enabled | Confirmed | Owner Id |
+      |    | NewUser     | NewFirst   | NewMiddle   | NewLast   | NewUser     | 10/21/2010 | just"not"right@example.com | 1           | ROLE_FRONTEND_ADMINISTRATOR | 1          | 1       | 1         | 1        |
+    And import file
+    Then Email should contains the following "Errors: 1 processed: 0, read: 1, added: 0, updated: 0, replaced: 0" text
+    And follow "Error log" link from the email
+    And should see "Error in row #1. Email Address: This value is not a valid email address."
+
   Scenario: Enable Case-Insensitive Email option
-    Given I go to System/Configuration
+    Given I am on dashboard
+    And go to System/Configuration
     And I follow "Commerce/Customer/Customer Users" on configuration sidebar
     And I check "Case-Insensitive Email Addresses"
     When I save form
