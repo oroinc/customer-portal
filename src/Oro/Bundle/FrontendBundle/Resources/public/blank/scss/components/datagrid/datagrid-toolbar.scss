@@ -161,12 +161,12 @@
 
 @include breakpoint('tablet-small') {
     .datagrid-toolbar {
-        margin-left: -($offset-x-s/2);
-        margin-right: -($offset-x-s/2);
+        margin-left: -($offset-x-s * .5);
+        margin-right: -($offset-x-s * .5);
     }
 
     .datagrid-tool {
-        margin: $offset-y-s ($offset-x-s/2);
+        margin: $offset-y-s ($offset-x-s * .5);
 
         &__label {
             display: none;

@@ -1,5 +1,7 @@
 /* @theme: blank; */
 
+@use 'sass:math';
+
 .featured-menu {
     margin: $featured-menu-offset;
 
@@ -11,7 +13,7 @@
     }
 
     &__item {
-        width: 100% / $featured-menu-item-items-row;
+        width: math.div(100%, $featured-menu-item-items-row);
         padding: 0 $featured-menu-item-offset-x;
 
         &:nth-child(n+#{$featured-menu-item-items-row + 1}) {

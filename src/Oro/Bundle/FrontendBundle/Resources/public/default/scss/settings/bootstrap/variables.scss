@@ -61,7 +61,7 @@ $popover-arrow-height: 8px;
 $popover-arrow-color: $popover-bg;
 $popover-arrow-outer-color: $popover-border-color;
 
-@import '~bootstrap/scss/variables';
+@import '~@oroinc/bootstrap/scss/variables';
 
 // Modals
 $modal-content-border-radius: $base-ui-popup-border-radius;

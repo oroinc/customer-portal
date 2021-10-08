@@ -1,14 +1,14 @@
 /* @theme: blank; */
 
-@import '~bootstrap/scss/tables';
-@import '~bootstrap/scss/transitions';
+@import '~@oroinc/bootstrap/scss/tables';
+@import '~@oroinc/bootstrap/scss/transitions';
 @import 'utilities';
 
 /* rtl:begin:ignore */
-@import '~bootstrap/scss/popover';
+@import '~@oroinc/bootstrap/scss/popover';
 
 /* rtl:end:ignore */
-@import '~bootstrap/scss/dropdown';
+@import '~@oroinc/bootstrap/scss/dropdown';
 @import 'buttons';
 @import 'button-group';
 @import 'dropdown';

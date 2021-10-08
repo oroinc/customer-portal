@@ -63,7 +63,7 @@ $zindex-navbar-sticky: z('dropdown') + 3;
 $zindex-modal-bg: z('popup');
 $zindex-modal: z('popup') + 1;
 
-@import '~bootstrap/scss/variables';
+@import '~@oroinc/bootstrap/scss/variables';
 
 $dt-font-weight: $font-weight-normal;
 

@@ -29,7 +29,7 @@ $featured-menu-item-offset-y-tablet-small: $offset-y !default;
 
 $featured-menu-offset-tablet-small: $offset-y 0 !default;
 
-$featured-menu-item-width-tablet-small: calc(50% - #{$featured-menu-item-offset-x-tablet-small / 2}) !default;
+$featured-menu-item-width-tablet-small: calc(50% - #{$featured-menu-item-offset-x-tablet-small * .5}) !default;
 $featured-menu-item-offset-tablet-small: $featured-menu-item-offset-y-tablet-small 0 0 !default;
 $featured-menu-item-offset-inner-tablet-small: 20px 15px !default;
 $featured-menu-item-description-font-size-tablet-small: $base-font-size--large !default;

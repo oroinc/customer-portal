@@ -40,7 +40,7 @@ $filter-toggle-mode-in-sticky-criteria-hint-item-offset-inner: 0 !default;
 $filter-toggle-mode-items-hint-line-height: $filter-dropdown-mode-items-hint-line-height !default;
 $filter-toggle-mode-items-hint-font-size: $filter-dropdown-mode-items-hint-font-size !default;
 
-$filter-toggle-mode-criteria-hint-item-offset-bottom: $offset-y-s / 2 !default;
+$filter-toggle-mode-criteria-hint-item-offset-bottom: $offset-y-s * .5 !default;
 $filter-toggle-mode-criteria-hint-item-offset: 0
     $offset-y-m $filter-toggle-mode-criteria-hint-item-offset-bottom 0 !default;
 $filter-toggle-mode-criteria-hint-item-offset-inner: $filter-dropdown-mode-criteria-hint-item-offset-inner !default;

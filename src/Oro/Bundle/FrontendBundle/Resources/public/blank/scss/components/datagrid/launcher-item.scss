@@ -60,7 +60,7 @@
             .icon {
                 &::before {
                     font-size: $launcher-item-icon-size;
-                    line-height: strip-units($launcher-item-icon-size / 10);
+                    line-height: strip-units($launcher-item-icon-size * .1);
                 }
             }
         }

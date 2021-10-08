@@ -52,7 +52,7 @@
             height: $select2-container-arrow-height;
             width: $select2-container-arrow-size * 2;
 
-            margin-top: -($select2-container-arrow-height / 2);
+            margin-top: -($select2-container-arrow-height * .5);
 
             overflow: inherit;
 
@@ -188,8 +188,8 @@
     display: inline-block;
     width: 100%;
     min-height: 26px;
-    margin-bottom: $offset-y-m / 2;
-    padding: $offset-x-m  $offset-y-m / 2;
+    margin-bottom: $offset-y-m * .5;
+    padding: $offset-x-m  $offset-y-m * .5;
 
     border-bottom: $select2-search-border;
 

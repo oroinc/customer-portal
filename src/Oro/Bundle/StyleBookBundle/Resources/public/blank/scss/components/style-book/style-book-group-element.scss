@@ -1,5 +1,7 @@
 /* @theme: blank; */
 
+@use 'sass:math';
+
 .style-book-group-element {
     margin-bottom: 30px;
 
@@ -90,7 +92,7 @@
 
             &__color-box {
                 display: inline-block;
-                width: (100 / 3) * 1%;
+                width: math.div(100, 3) * 1%;
                 margin-bottom: 20px;
                 padding: 0 5px;
 

@@ -1,7 +1,9 @@
 /* @theme: blank; */
 
+@use 'sass:math';
+
 $information-nav-offset: 0 0 $offset-y-m !default;
-$information-nav-width: 100% / 3 !default;
+$information-nav-width: math.div(100%, 3) !default;
 
 $information-nav-title-offset: 0 0 $offset-y !default;
 $information-nav-title-font-size: null !default;

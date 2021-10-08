@@ -1,5 +1,7 @@
 /* @theme: blank; */
 
+@use 'sass:math';
+
 .scroll-top {
     position: $scroll-top-position;
     z-index: $scroll-top-z-index;
@@ -52,7 +54,7 @@
         transform: translateX(-#{$scroll-top-c-left});
 
         &.scroll-top--landed {
-            margin: (- $scroll-top-size) 0 0 (- $scroll-top-size / 2);
+            margin: (- $scroll-top-size) 0 0 (- $scroll-top-size * .5);
 
             transform: none;
         }
@@ -78,11 +80,11 @@
 
             width: $scroll-top-background-dumper-size;
             height: $scroll-top-background-dumper-size;
-            margin: $scroll-top-background-dumper-size / -2;
+            margin: math.div($scroll-top-background-dumper-size, -2);
 
             background-color: $scroll-top-background-color;
 
-            border-radius: $scroll-top-background-dumper-size / 2;
+            border-radius: $scroll-top-background-dumper-size * .5;
             content: '';
             z-index: 0;
         }
