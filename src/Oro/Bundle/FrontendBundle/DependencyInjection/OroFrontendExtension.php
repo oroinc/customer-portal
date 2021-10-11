@@ -4,7 +4,6 @@ namespace Oro\Bundle\FrontendBundle\DependencyInjection;
 
 use Oro\Bundle\ApiBundle\DependencyInjection\OroApiExtension;
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
-use Oro\Bundle\FrontendBundle\Request\NotInstalledFrontendHelper;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
@@ -54,7 +53,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
 
         $container->setParameter('oro_frontend.debug_routes', $config['debug_routes']);
 
-        $this->configureFrontendHelper($container);
         $this->configureFrontendSession($container, $config);
         $this->configureApiDocViews($container, $config);
         $this->configureApiCors($container, $config);
@@ -164,17 +162,6 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         }
 
         $container->setExtensionConfig('fos_rest', $configs);
-    }
-
-    private function configureFrontendHelper(ContainerBuilder $container): void
-    {
-        if ($container->hasParameter('installed') && $container->getParameter('installed')) {
-            return;
-        }
-
-        $container->getDefinition('oro_frontend.request.frontend_helper')
-            ->setClass(NotInstalledFrontendHelper::class)
-            ->setArguments([]);
     }
 
     private function configureFrontendSession(ContainerBuilder $container, array $config): void

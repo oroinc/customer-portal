@@ -3,9 +3,9 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
-use Oro\Bundle\FrontendBundle\Request\NotInstalledFrontendHelper;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -21,7 +21,10 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
     public function testLoad()
     {
         $container = $this->getContainerBuilder();
-        $container->setParameter('installed', true);
+
+        $applicationState = $this->createMock(ApplicationState::class);
+        $applicationState->method('isInstalled')->willReturn(true);
+        $container->set('oro_distribution.handler.application_status', $applicationState);
 
         $config = [
             'routes_to_expose' => ['expose_route1']
@@ -40,20 +43,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
 
         $frontendHelperDef = $container->getDefinition('oro_frontend.request.frontend_helper');
         self::assertEquals(FrontendHelper::class, $frontendHelperDef->getClass());
-        self::assertCount(2, $frontendHelperDef->getArguments());
-    }
-
-    public function testLoadForNotInstalled()
-    {
-        $container = $this->getContainerBuilder();
-        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
-
-        $extension = new OroFrontendExtension();
-        $extension->load([], $container);
-
-        $frontendHelperDef = $container->getDefinition('oro_frontend.request.frontend_helper');
-        self::assertEquals(NotInstalledFrontendHelper::class, $frontendHelperDef->getClass());
-        self::assertCount(0, $frontendHelperDef->getArguments());
+        self::assertCount(3, $frontendHelperDef->getArguments());
     }
 
     public function testConfigurationForNotConfiguredFrontendSession()

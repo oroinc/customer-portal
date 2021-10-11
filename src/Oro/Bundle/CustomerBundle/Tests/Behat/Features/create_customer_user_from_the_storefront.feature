@@ -2,23 +2,34 @@
 @ticket-BB-16456
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 @fixture-OroCustomerBundle:CustomerUserRoleFixture.yml
+
 Feature: Create customer user from the store-front
   In order to manage customer users
   As an administrator
   I want to create new Customer user
 
-  Scenario: Create new user from front-store
+  Scenario: Create new user with invalid email from front-store
     Given I signed in as NancyJSallee@example.org on the store frontend
     And follow "Account"
     And click "Users"
     And click "Create User"
     And fill form with:
-      | Email Address      | newuser@test.com |
-      | First Name         | newFirst         |
-      | Last Name          | newLast          |
-      | Password           | 25253124Ff       |
-      | Confirm Password   | 25253124Ff       |
-      | Buyer (Predefined) | true             |
+      | Email Address      | just"not"right@example.com |
+      | First Name         | newFirst                   |
+      | Last Name          | newLast                    |
+      | Password           | 25253124Ff                 |
+      | Confirm Password   | 25253124Ff                 |
+      | Buyer (Predefined) | true                       |
+    And click "Save"
+    Then I should see validation errors:
+      | Email Address | This value is not a valid email address. |
+    And should not see "Customer User has been saved" flash message
+
+  Scenario: Create new user from front-store
+    Given fill form with:
+      | Password         | 25253124Ff       |
+      | Confirm Password | 25253124Ff       |
+      | Email Address    | newuser@test.com |
     And click "Save"
     And should see "Customer User has been saved" flash message
     And click "Users"

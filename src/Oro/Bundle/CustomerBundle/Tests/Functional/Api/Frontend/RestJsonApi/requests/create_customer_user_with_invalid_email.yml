@@ -1,0 +1,6 @@
+data:
+    type: customerusers
+    attributes:
+        email: 'just"not"right@example.com'
+        firstName: 'Bob'
+        lastName: 'Doo'

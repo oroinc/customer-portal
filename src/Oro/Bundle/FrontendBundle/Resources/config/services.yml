@@ -84,6 +84,7 @@ services:
         arguments:
             - '%web_backend_prefix%'
             - '@request_stack'
+            - '@oro_distribution.handler.application_status'
 
     Oro\Bundle\FrontendBundle\Request\FrontendHelper:
         alias: oro_frontend.request.frontend_helper
@@ -124,7 +125,7 @@ services:
         arguments:
             - '@doctrine'
             - '@oro_entity_config.config_manager'
-            - '%installed%'
+            - '@oro_distribution.handler.application_status'
         calls:
             - ['append', ['OroB2B', 'Oro']]
             - ['append', ['orob2b', 'oro']]
@@ -350,11 +351,3 @@ services:
             - '@oro_frontend.request.frontend_helper'
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after, method: buildAfter }
-
-    Oro\Bundle\FrontendBundle\Config\Validation\EntityEntityConfiguration:
-        tags:
-            - oro_entity_config.validation.entity_config
-
-    Oro\Bundle\FrontendBundle\Config\Validation\FrontendFieldConfiguration:
-        tags:
-            - oro_entity_config.validation.entity_config

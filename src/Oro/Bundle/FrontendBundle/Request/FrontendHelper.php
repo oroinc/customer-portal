@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Request;
 
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -15,6 +16,8 @@ class FrontendHelper
     /** @var RequestStack */
     private $requestStack;
 
+    private ApplicationState $applicationState;
+
     /**
      * Used if the check should return that a request is the storefront or management console
      * without any additional checks
@@ -23,13 +26,15 @@ class FrontendHelper
     private $emulateFrontendRequest;
 
     /**
-     * @param string       $backendPrefix
+     * @param string $backendPrefix
      * @param RequestStack $requestStack
+     * @param ApplicationState $applicationState
      */
-    public function __construct($backendPrefix, RequestStack $requestStack)
+    public function __construct($backendPrefix, RequestStack $requestStack, ApplicationState $applicationState)
     {
         $this->backendPrefix = $backendPrefix;
         $this->requestStack = $requestStack;
+        $this->applicationState = $applicationState;
     }
 
     /**
@@ -37,6 +42,10 @@ class FrontendHelper
      */
     public function isFrontendRequest(): bool
     {
+        if (!$this->applicationState->isInstalled()) {
+            return false;
+        }
+
         if (null !== $this->emulateFrontendRequest) {
             return $this->emulateFrontendRequest;
         }
@@ -58,6 +67,10 @@ class FrontendHelper
      */
     public function isFrontendUrl(string $pathinfo): bool
     {
+        if (!$this->applicationState->isInstalled()) {
+            return false;
+        }
+
         // the least time consuming method to check whether URL is frontend
         if (str_starts_with($pathinfo, $this->backendPrefix)) {
             $prefixLength = \strlen($this->backendPrefix);
