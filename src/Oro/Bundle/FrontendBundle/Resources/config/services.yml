@@ -84,6 +84,7 @@ services:
         arguments:
             - '%web_backend_prefix%'
             - '@request_stack'
+            - '@oro_distribution.handler.application_status'
 
     Oro\Bundle\FrontendBundle\Request\FrontendHelper:
         alias: oro_frontend.request.frontend_helper
@@ -124,7 +125,7 @@ services:
         arguments:
             - '@doctrine'
             - '@oro_entity_config.config_manager'
-            - '%installed%'
+            - '@oro_distribution.handler.application_status'
         calls:
             - ['append', ['OroB2B', 'Oro']]
             - ['append', ['orob2b', 'oro']]

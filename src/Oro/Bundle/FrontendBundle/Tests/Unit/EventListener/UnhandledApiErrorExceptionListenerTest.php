@@ -3,6 +3,7 @@
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\ApiBundle\Request\Rest\RequestActionHandler;
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\EventListener\UnhandledApiErrorExceptionListener;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Component\Testing\Unit\TestContainerBuilder;
@@ -29,7 +30,15 @@ class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
 
         $this->backendHandler = $this->createMock(RequestActionHandler::class);
         $this->frontendHandler = $this->createMock(RequestActionHandler::class);
-        $frontendHelper = new FrontendHelper($backendPrefix, $this->createMock(RequestStack::class));
+
+        $applicationState = $this->createMock(ApplicationState::class);
+        $applicationState->method('isInstalled')->willReturn(true);
+
+        $frontendHelper = new FrontendHelper(
+            $backendPrefix,
+            $this->createMock(RequestStack::class),
+            $applicationState
+        );
 
         $container = TestContainerBuilder::create()
             ->add('handler', $this->backendHandler)

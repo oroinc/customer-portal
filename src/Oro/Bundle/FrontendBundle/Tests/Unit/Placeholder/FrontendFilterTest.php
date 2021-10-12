@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\Placeholder;
 
+use Oro\Bundle\DistributionBundle\Handler\ApplicationState;
 use Oro\Bundle\FrontendBundle\Placeholder\FrontendFilter;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,8 +18,10 @@ class FrontendFilterTest extends \PHPUnit\Framework\TestCase
         if (null !== $currentRequest) {
             $requestStack->push($currentRequest);
         }
+        $applicationState = $this->createMock(ApplicationState::class);
+        $applicationState->method('isInstalled')->willReturn(true);
 
-        return new FrontendFilter(new FrontendHelper(self::BACKEND_PREFIX, $requestStack));
+        return new FrontendFilter(new FrontendHelper(self::BACKEND_PREFIX, $requestStack, $applicationState));
     }
 
     public function testNoRequestBehaviour()
