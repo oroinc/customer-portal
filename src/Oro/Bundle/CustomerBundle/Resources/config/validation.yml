@@ -61,7 +61,8 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
                 max: 255
         email:
             - NotBlank: ~
-            - Email: ~
+            - Email:
+                mode: strict
             - Length:
                 min: 6
                 max: 255
