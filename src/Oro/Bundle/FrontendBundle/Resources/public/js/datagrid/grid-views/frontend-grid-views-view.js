@@ -187,6 +187,8 @@ define(function(require) {
             this.$gridViewPopupContainer = this.$('[data-grid-view-popup-container]');
             this.$gridViewSwitchEditButton = this.$('[data-switch-edit-button]');
             this.$editContainer = this.$('[data-edit-container]');
+            this.$('[data-role="subtitle"]').attr('id', `subtitle-${this.uniqueId}`);
+            this.$('[data-role="grid-views-list"]').attr('aria-labelledby', `subtitle-${this.uniqueId}`);
             this.initLayout();
             this.restoreDropdownState();
             this.updateButtonLabel();

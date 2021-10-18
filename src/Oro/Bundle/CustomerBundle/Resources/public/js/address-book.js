@@ -54,9 +54,18 @@ define(function(require) {
         addAll: function(items) {
             AddressBook.__super__.addAll.call(this, items);
 
-            $(this.options.manageAddressesLink)
-                .appendTo(this.$addressesContainer)
-                .removeClass('hidden');
+            let $linkContainer = $(this.options.manageAddressesLink);
+
+            $linkContainer.removeClass('hidden');
+            if (
+                $linkContainer.prop('nodeName') !== 'LI' &&
+                ['OL', 'UL'].includes(this.$addressesContainer.prop('nodeName'))
+            ) {
+                $linkContainer.wrap('<li></li>');
+                $linkContainer = $linkContainer.parent();
+            }
+
+            $linkContainer.appendTo(this.$addressesContainer);
         },
 
         _checkMapVisibility: function(viewport) {

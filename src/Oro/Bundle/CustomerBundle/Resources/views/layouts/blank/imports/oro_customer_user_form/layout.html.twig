@@ -20,7 +20,7 @@
             <div class="grid__row grid__row--offset-none">
                 {% if form.customer is defined %}
                     <div class="grid__column grid__column--12 grid__column--offset-y">
-                        {{ form_row(form.customer, {'attr': {'placeholder': 'oro.customer.form.placeholder.customer'|trans}})}}
+                        {{ form_row(form.customer)}}
                     </div>
                 {% endif %}
                 {% if form.enabled is defined %}

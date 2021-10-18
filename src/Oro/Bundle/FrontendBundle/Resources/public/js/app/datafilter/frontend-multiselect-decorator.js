@@ -139,6 +139,7 @@ define(function(require, exports, module) {
             if (!$icon.length) {
                 instance.inputs
                     .addClass(`custom-${className}__input ui-rewrite`)
+                    .removeAttr('aria-selected')
                     .after($('<i></i>', {
                         'class': `custom-${className}__icon`,
                         'aria-hidden': true

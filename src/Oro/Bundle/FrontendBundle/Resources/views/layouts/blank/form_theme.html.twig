@@ -12,7 +12,18 @@
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' input input--full'
     }) %}
-
+    {% set type = type|default('text') %}
+    {# Attr "placeholder" is allowed only for next types #}
+    {% if attr.placeholder is defined and type not in ['email', 'number', 'password', 'search', 'tel', 'text', 'url'] %}
+        {% set attr = layout_attr_defaults(attr, {
+            'data-placeholder': translation_domain is same as(false) ? attr.placeholder : attr.placeholder|trans(attr_translation_parameters, translation_domain)
+        }) %}
+        {% set attr = attr|filter((v, k) => k != 'placeholder') %}
+    {% endif %}
+    {# Attr "required" is allowed only for next types #}
+    {% if required is defined and type not in ['text', 'search', 'url', 'tel', 'email', 'password', 'date', 'month', 'week', 'time', 'datetime-local', 'number', 'checkbox', 'radio', 'file'] %}
+        {% set required = null %}
+    {% endif %}
     {{ parent() }}
 {% endblock %}
 
@@ -81,6 +92,13 @@
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' select select--full'
     }) %}
+    {% if attr.placeholder is defined  %}
+        {% set attr = layout_attr_defaults(attr, {
+            'data-placeholder': translation_domain is same as(false) ? attr.placeholder : attr.placeholder|trans(attr_translation_parameters, translation_domain)
+        }) %}
+        {# "placeholder" is not allowed on the "select" element #}
+        {% set attr = attr|filter((v, k) => k != 'placeholder') %}
+    {% endif %}
 
     {{ parent() }}
 {% endblock %}
@@ -161,9 +179,7 @@
                 'data-validation': dateValidation,
                 class: 'datepicker-input ' ~ (attribute(attr, 'class') is defined ? attr['class'] : ''),
                 'aria-live': 'assertive',
-                autocomplete: 'off',
-                autocorrect: 'off',
-                autocapitalize: 'off'
+                autocomplete: 'off'
             },
             datePickerOptions: {
                 altFormat: 'yy-mm-dd',
