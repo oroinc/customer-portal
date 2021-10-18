@@ -49,6 +49,7 @@
 
                 &::before {
                     margin-right: $offset-x-s;
+                    display: inline-block;
                 }
 
                 &.calendar {

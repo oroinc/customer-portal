@@ -16,11 +16,11 @@ Feature: Featured menu ignore a field that matches the default language
     And I click "Commerce Menu Form Title Fallbacks"
     Then "Commerce Menu Form" must contains values:
       | Title                     | Information       |
-      | Title First               |                   |
+      | Title First               | Information       |
       | Title First Use Fallback  | true              |
       | Title First Fallback      | Default Value     |
       | Title Second              | Information LANG1 |
       | Title Second Use Fallback | false             |
-      | Title Third               |                   |
+      | Title Third               | Information       |
       | Title Third Use Fallback  | true              |
       | Title Third Fallback      | Default Value     |
