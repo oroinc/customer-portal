@@ -9,7 +9,7 @@
         box-shadow: $active-box-shadow;
 
         @if ($active-box-shadow and $btn-focus-visible-style) {
-            &.focus-visible {
+            &.focus-visible:focus {
                 box-shadow: $active-box-shadow, $btn-focus-visible-style;
             }
         }
@@ -38,14 +38,14 @@
     &.checked,
     &.active,
     &.pressed {
-        &.focus-visible {
+        &.focus-visible:focus {
             box-shadow: $btn-focus-visible-style;
         }
     }
 
     &:not(.disabled):active,
     &:not(.disabled).active {
-        &.focus-visible {
+        &.focus-visible:focus {
             box-shadow: $btn-focus-visible-style;
         }
     }

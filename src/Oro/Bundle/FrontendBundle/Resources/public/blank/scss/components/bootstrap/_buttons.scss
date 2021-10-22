@@ -40,7 +40,7 @@
         cursor: $btn-cursor;
 
         @if $btn-focus-visible-style {
-            &.focus-visible {
+            &.focus-visible:focus {
                 box-shadow: $btn-focus-visible-style;
             }
         }
