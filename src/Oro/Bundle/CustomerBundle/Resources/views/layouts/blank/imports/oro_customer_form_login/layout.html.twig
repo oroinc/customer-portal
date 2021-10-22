@@ -63,7 +63,7 @@
 {% block __oro_customer_form_login__login_form_username_widget %}
     {% set attr = layout_attr_defaults(attr, {
         'required': 'required',
-        'autofocus': true,
+        'autofocus': '',
         'autocomplete': 'username',
         'data-validation': {"NotBlank":{"payload":null}, "Email":{"payload": null}},
         '~class': " input input--full"
@@ -81,10 +81,18 @@
 
 {% block __oro_customer_form_login__login_form_password_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        'autofocus': null,
+        'required': 'required',
         'autocomplete': 'off',
-        'data-validation': {"NotBlank":{"payload":null}}
+        'data-validation': {"NotBlank":{"payload":null}},
+        '~class': " input input--full"
     }) %}
 
-    {{ block('__oro_customer_form_login__login_form_username_widget') }}
+    {% set label_attr = layout_attr_defaults(label_attr, {
+        '~class': " label"
+    }) %}
+
+    {{ block_row(block, {
+        attr: attr,
+        label_attr: label_attr
+    }) }}
 {% endblock %}

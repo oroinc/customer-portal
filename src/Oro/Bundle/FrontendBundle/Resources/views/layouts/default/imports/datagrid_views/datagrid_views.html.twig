@@ -72,9 +72,6 @@
         'data-grid-view-popup-container': ''
     }) %}
 
-    {% do block|merge_context({
-        subtitleId: 'grid-views-subtitle-'|uniqid
-    }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
@@ -83,7 +80,7 @@
 {% block __datagrid_views__datagrid_views_popup_title_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid-views__subtitle',
-        'id': subtitleId
+        'data-role': 'subtitle'
     }) %}
     <h3 {{ block('block_attributes') }}>{{ 'oro_frontend.datagrid_views.saved_views'|trans }}</h3>
 {% endblock %}
@@ -91,7 +88,7 @@
 {% block __datagrid_views__datagrid_views_popup_list_widget %}
     {% set attr = layout_attr_defaults(attr, {
         '~class': ' grid-views__list',
-        'aria-labelledby': subtitleId
+        'data-role': 'grid-views-list'
     }) %}
     <ul {{ block('block_attributes') }}>
         <% _.each(choices, function (choice, iterate) { %>
