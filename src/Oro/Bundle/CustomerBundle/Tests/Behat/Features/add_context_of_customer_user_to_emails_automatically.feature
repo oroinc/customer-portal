@@ -1,6 +1,7 @@
 @ticket-BB-19206
 @fixture-OroUserBundle:user.yml
 @fixture-OroCustomerBundle:CustomerUserFixture.yml
+@elasticsearch
 
 Feature: Add context of customer user to emails automatically
   In order to have ability to send email
