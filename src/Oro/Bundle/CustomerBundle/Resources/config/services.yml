@@ -496,6 +496,13 @@ services:
         tags:
             - { name: oro_windows.windows_state_manager, user_class: Oro\Bundle\CustomerBundle\Entity\CustomerUser }
 
+    oro_customer.provider.current_user:
+        class: Oro\Bundle\CustomerBundle\Layout\DataProvider\CurrentUserProvider
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: layout.data_provider, alias: current_user }
+
     oro_customer.provider.sign_in:
         class: 'Oro\Bundle\CustomerBundle\Layout\DataProvider\SignInProvider'
         arguments:
