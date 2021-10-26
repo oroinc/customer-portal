@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Owner\Metadata;
 
 use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\EntityBundle\ORM\EntityClassResolver;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
@@ -90,7 +91,8 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
      */
     public function supports()
     {
-        return $this->tokenAccessor->getUser() instanceof CustomerUser;
+        return $this->tokenAccessor->getUser() instanceof CustomerUser
+            || $this->tokenAccessor->getToken() instanceof AnonymousCustomerUserToken;
     }
 
     /**
