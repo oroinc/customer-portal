@@ -3,7 +3,6 @@
 namespace Oro\Bundle\WebsiteBundle\Provider;
 
 use Doctrine\Common\Cache\CacheProvider;
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -20,21 +19,16 @@ class CacheableWebsiteProvider implements WebsiteProviderInterface
     /** @var CacheProvider */
     private $cacheProvider;
 
-    /** @var DoctrineHelper */
-    private $doctrineHelper;
-
     /** @var TokenStorageInterface */
     private $tokenStorage;
 
     public function __construct(
         WebsiteProviderInterface $websiteProvider,
         CacheProvider $cacheProvider,
-        DoctrineHelper $doctrineHelper,
         TokenStorageInterface $tokenStorage
     ) {
         $this->websiteProvider = $websiteProvider;
         $this->cacheProvider = $cacheProvider;
-        $this->doctrineHelper = $doctrineHelper;
         $this->tokenStorage = $tokenStorage;
     }
 
