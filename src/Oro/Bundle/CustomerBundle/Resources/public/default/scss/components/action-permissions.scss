@@ -1,10 +1,12 @@
 /* @theme: default; */
 
 .action-permissions {
-    margin-left: $action-permissions-offset-left;
-    margin-right: $action-permissions-offset-right;
-
     @include clearfix();
+
+    &-contaier {
+        margin-left: $action-permissions-offset-left;
+        margin-right: $action-permissions-offset-right;
+    }
 
     &__item {
         float: $action-permissions-item-float;
