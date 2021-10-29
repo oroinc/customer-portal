@@ -67,15 +67,6 @@
 
         color: $featured-menu-item-icon-color;
     }
-
-    .line-clamp-polyfill::after {
-        height: ceil($featured-menu-item-description-font-size * $featured-menu-item-description-line-height);
-
-        background:
-            linear-gradient(
-                to right, rgba($featured-menu-content-bg, 0), rgba($featured-menu-content-bg, 1) 50%
-            );
-    }
 }
 
 @include breakpoint('tablet-small') {
@@ -105,14 +96,6 @@
                 );
 
             font-size: $featured-menu-item-description-font-size-tablet-small;
-        }
-
-        .line-clamp-polyfill::after {
-            height:
-                ceil(
-                    $featured-menu-item-description-font-size-tablet-small *
-                    $featured-menu-item-description-line-height
-                );
         }
     }
 }

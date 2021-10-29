@@ -7,7 +7,8 @@ The current file describes significant changes in the code that may affect the u
 
 ### Removed
 #### FrontendBundle
-* orofrontend/default/js/app/views/footer-align-view was removed; use CSS features (Flex Box, Grid) to align the required part of HTML.
+* `orofrontend/default/js/widgets/line-clamp-widget` was removed; use CSS `-webkit-line-clamp` property instead. Also was added the `line-clamp` class to does this out of the box.
+* `orofrontend/default/js/app/views/footer-align-view` was removed; use CSS features (Flex Box, Grid) to align the required part of HTML.
 
 
 ## 5.0.0-alpha.1 (2021-03-31)

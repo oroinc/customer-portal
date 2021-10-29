@@ -28,13 +28,7 @@
                                 {% endif %}
                             </div>
                             <h2 class="featured-menu__title">{{ label }}</h2>
-                            <div class="featured-menu__description"
-                                 data-page-component-module="oroui/js/app/components/viewport-component"
-                                 data-page-component-options="{{ {
-                                     component: 'oroui/js/app/components/jquery-widget-component',
-                                     widgetModule: 'orofrontend/default/js/widgets/line-clamp-widget'
-                                 }|json_encode }}"
-                            >
+                            <div class="featured-menu__description line-clamp">
                                 {% if child.extras.description is defined and child.extras.description is not empty %}
                                     {{ child.extras.description }}
                                 {% endif %}
