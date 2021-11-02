@@ -50,7 +50,9 @@
         color: $launcher-item-icon-action-color;
 
         &.mode-icon-only {
+            min-width: $btn-xs-min-size;
             color: $launcher-item-icon-color;
+            text-align: center;
 
             @include hover-focus {
                 text-decoration: none;
@@ -60,7 +62,7 @@
             .icon {
                 &::before {
                     font-size: $launcher-item-icon-size;
-                    line-height: strip-units($launcher-item-icon-size * .1);
+                    line-height: 0;
                 }
             }
         }

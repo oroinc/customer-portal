@@ -6,7 +6,9 @@ layout:
 
     actions:
         - '@setBlockTheme':
-            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_role_permission_grid/layout.html.twig'
+            themes:
+              - '@OroCustomer/layouts/default/imports/oro_customer_user_role_permission_grid/layout.html.twig'
+              - '@OroCustomer/layouts/default/imports/oro_customer_user_role_permission_grid/js_modules_config.html.twig'
 
         - '@setOption':
             id: __datagrid
@@ -41,3 +43,7 @@ layout:
                 options:
                     tabsOptions: '=data["oro_customer_fronted_customer_user_role_tab_options"].getOptions(data["entity"])'
                     capabilitySetOptions: '=data["oro_customer_fronted_customer_user_role_capability_set_options"].getOptions(data["entity"])'
+        - '@add':
+              id: __datagrid_js_modules_config
+              parentId: layout_js_modules_config
+              blockType: block

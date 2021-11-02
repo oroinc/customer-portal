@@ -4,27 +4,21 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Provider;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\CacheProvider;
-use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
-
     /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteProvider;
 
     /** @var ArrayCache */
     private $cacheProvider;
-
-    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrineHelper;
 
     /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenStorage;
@@ -36,15 +30,22 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
     {
         $this->websiteProvider = $this->createMock(WebsiteProviderInterface::class);
         $this->cacheProvider = new ArrayCache();
-        $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
 
         $this->cacheableProvider = new CacheableWebsiteProvider(
             $this->websiteProvider,
             $this->cacheProvider,
-            $this->doctrineHelper,
             $this->tokenStorage
         );
+    }
+
+    private function getWebsite(int $id, string $name): Website
+    {
+        $website = new Website();
+        ReflectionUtil::setId($website, $id);
+        $website->setName($name);
+
+        return $website;
     }
 
     public function testGetWebsites(): void
@@ -155,23 +156,12 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
         $this->cacheableProvider = new CacheableWebsiteProvider(
             $this->websiteProvider,
             $this->cacheProvider,
-            $this->doctrineHelper,
             $this->tokenStorage
         );
 
-        $this->cacheProvider->expects($this->exactly(1))
+        $this->cacheProvider->expects($this->once())
             ->method('deleteAll');
 
         $this->cacheableProvider->clearCache();
-    }
-
-    /**
-     * @param int $id
-     * @param string $name
-     * @return object|Website
-     */
-    protected function getWebsite($id, string $name): Website
-    {
-        return $this->getEntity(Website::class, ['id' => $id, 'name' => $name]);
     }
 }

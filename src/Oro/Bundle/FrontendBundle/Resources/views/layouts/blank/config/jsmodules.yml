@@ -37,7 +37,6 @@ dynamic-imports:
         - orofrontend/default/js/app/views/sticky-panel-view
         - orofrontend/default/js/widgets/elastic-area-widget
         - orofrontend/default/js/widgets/expand-text-widget
-        - orofrontend/default/js/widgets/line-clamp-widget
         - orofrontend/default/js/widgets/rows-collapse-widget
         - orofrontend/js/app/components/delete-item-component
         - orofrontend/js/app/components/embedded-list-component

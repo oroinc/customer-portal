@@ -1,11 +1,14 @@
 /* @theme: default; */
 
 .action-permissions {
-    margin-left: $action-permissions-offset-left;
-    margin-right: $action-permissions-offset-right;
     list-style: none;
 
     @include clearfix();
+
+    &-contaier {
+        margin-left: $action-permissions-offset-left;
+        margin-right: $action-permissions-offset-right;
+    }
 
     &__item {
         float: $action-permissions-item-float;
