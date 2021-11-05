@@ -190,3 +190,9 @@ services:
             - '@oro_frontend.request.frontend_helper'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onRequest, priority: 45 }
+
+    oro_website.layout.cache.extension.website:
+        class: Oro\Bundle\WebsiteBundle\Layout\Cache\Extension\WebsiteRenderCacheExtension
+        arguments:
+            - '@oro_website.manager'
+        tags: [layout.cache.extension]
