@@ -22,25 +22,29 @@
     <ul {{ block('block_attributes') }}>
         {% set found = false %}
 
-        {% for child in block if child.vars.visible %}
-            {% for menuItem in child.vars.item.children if menuItem.displayed and menuItem.extras.isAllowed %}
-                {% set itemCurrentClass = '' %}
-                {% set linkCurrentClass = '' %}
-                {% if oro_commercemenu_is_current(menuItem) or oro_commercemenu_is_ancestor(menuItem) and not found %}
-                    {% set itemCurrentClass = 'primary-menu__item--current' %}
-                    {% set linkCurrentClass = 'primary-menu__link--current' %}
-                {% endif %}
+        {% for child in block %}
+            {% if child.vars.visible %}
+                {% for menuItem in child.vars.item.children %}
+                    {% if menuItem.displayed and menuItem.extras.isAllowed %}
+                        {% set itemCurrentClass = '' %}
+                        {% set linkCurrentClass = '' %}
+                        {% if oro_commercemenu_is_current(menuItem) or oro_commercemenu_is_ancestor(menuItem) and not found %}
+                            {% set itemCurrentClass = 'primary-menu__item--current' %}
+                            {% set linkCurrentClass = 'primary-menu__link--current' %}
+                        {% endif %}
 
-                <li class="primary-menu__item {{ itemCurrentClass }}">
-                    {% set linkAttributes = menuItem.linkAttributes|merge({
-                        'class': 'primary-menu__link ' ~ linkCurrentClass,
-                    }) %}
-                    <a href="{{ menuItem.uri }}"{{ oro_menu.attributes(linkAttributes) }}>{{ menuItem.label|trans }}</a>
-                </li>
-                {% if oro_commercemenu_is_current(menuItem) or oro_commercemenu_is_ancestor(menuItem) and not found %}
-                    {% set found = true %}
-                {% endif %}
-            {% endfor %}
+                        <li class="primary-menu__item {{ itemCurrentClass }}">
+                            {% set linkAttributes = menuItem.linkAttributes|merge({
+                                'class': 'primary-menu__link ' ~ linkCurrentClass,
+                            }) %}
+                            <a href="{{ menuItem.uri }}"{{ oro_menu.attributes(linkAttributes) }}>{{ menuItem.label|trans }}</a>
+                        </li>
+                        {% if oro_commercemenu_is_current(menuItem) or oro_commercemenu_is_ancestor(menuItem) and not found %}
+                            {% set found = true %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         {% endfor %}
     </ul>
 {% endblock %}

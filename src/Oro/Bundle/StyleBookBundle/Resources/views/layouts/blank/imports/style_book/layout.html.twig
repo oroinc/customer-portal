@@ -256,9 +256,9 @@
         <div class="style-book-group-element__source">
             <pre>
                 <code class="style-book-group-element__code language-{{ source_language }}">
-                    {%- spaceless -%}
+                    {%- apply spaceless -%}
                         {{ content|trim|escape }}
-                    {%- endspaceless -%}
+                    {%- endapply -%}
                 </code>
             </pre>
         </div>
@@ -356,9 +356,9 @@
             <div class="style-book-group-element__source">
             <pre>
                 <code class="style-book-group-element__code language-{{ source_language }}">
-                    {%- spaceless -%}
+                    {%- apply spaceless -%}
                         {{ content|trim|escape }}
-                    {%- endspaceless -%}
+                    {%- endapply -%}
                 </code>
             </pre>
             </div>
@@ -407,9 +407,9 @@
                         <div class="style-book-group-element__source">
                             <pre>
                                 <code class="style-book-group-element__code language-scss">
-                                    {%- spaceless -%}
+                                    {%- apply spaceless -%}
                                         {{ source|trim|escape }}
-                                    {%- endspaceless -%}
+                                    {%- endapply -%}
                                 </code>
                             </pre>
                         </div>
@@ -423,8 +423,8 @@
 {% block file_printer_widget %}
     {% if sourcePath is defined %}
         {% set source = source(sourcePath, ignore_missing = true) %}
-        {%- spaceless -%}
+        {%- apply spaceless -%}
             {{ source|trim|raw }}
-        {%- endspaceless -%}
+        {%- endapply -%}
     {% endif %}
 {% endblock %}

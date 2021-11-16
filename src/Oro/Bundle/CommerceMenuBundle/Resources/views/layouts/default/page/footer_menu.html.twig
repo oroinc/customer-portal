@@ -21,7 +21,7 @@
     }) %}
 
     {% if item.displayed and item.extras.isAllowed %}
-        {% spaceless %}
+        {% apply spaceless %}
             {% for child in item.children %}
                 {% if child.displayed and child.extras.isAllowed %}
                     <div class="information-nav information-nav--responsive">
@@ -45,6 +45,6 @@
                     </div>
                 {% endif %}
             {% endfor %}
-        {% endspaceless %}
+        {% endapply %}
     {% endif %}
 {% endblock %}

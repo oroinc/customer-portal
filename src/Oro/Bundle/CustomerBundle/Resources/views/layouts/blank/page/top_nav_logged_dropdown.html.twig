@@ -65,22 +65,24 @@
     {% endif %}
     {% set found = false %}
 
-    {% for child in item.children if child.displayed and child.extras.isAllowed %}
-        {% set currentUrl = child.uri %}
-        {% set itemCurrentClass = '' %}
-        {% set linkCurrentClass = '' %}
-        {% if currentUrl in requestUrl and not found %}
-            {% set itemCurrentClass = 'current' %}
-            {% set linkCurrentClass = 'current' %}
-        {% endif %}
+    {% for child in item.children %}
+        {% if child.displayed and child.extras.isAllowed %}
+            {% set currentUrl = child.uri %}
+            {% set itemCurrentClass = '' %}
+            {% set linkCurrentClass = '' %}
+            {% if currentUrl in requestUrl and not found %}
+                {% set itemCurrentClass = 'current' %}
+                {% set linkCurrentClass = 'current' %}
+            {% endif %}
 
-        <li class="topbar-customer-menu-list__item {{ itemCurrentClass }}">
-            <a href="{{ child.uri }}" class="{{ ' topbar-customer-menu-list__link ' ~ linkCurrentClass }}">
-                {{- child.label|trans -}}
-            </a>
-        </li>
-        {% if currentUrl in requestUrl and not found %}
-            {% set found = true %}
+            <li class="topbar-customer-menu-list__item {{ itemCurrentClass }}">
+                <a href="{{ child.uri }}" class="{{ ' topbar-customer-menu-list__link ' ~ linkCurrentClass }}">
+                    {{- child.label|trans -}}
+                </a>
+            </li>
+            {% if currentUrl in requestUrl and not found %}
+                {% set found = true %}
+            {% endif %}
         {% endif %}
     {% endfor %}
 {% endblock %}

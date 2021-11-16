@@ -15,7 +15,7 @@
 {% macro buildCollapsedBreadcrumbsByParts(parts) %}
     {% import _self as selfMacro %}
     {% import '@OroUI/macros.html.twig' as UI %}
-    {% spaceless %}
+    {% apply spaceless %}
         {% set first, last, collapsedParts = '', '', [] %}
         {% for parentPart in parts %}
             {% if loop.first %}
@@ -42,18 +42,18 @@
             </span>
         </span>
         {{ last }}
-    {% endspaceless %}
+    {% endapply %}
 {% endmacro %}
 
 {% macro buildBreadcrumbsByParts(parts) %}
     {% import '@OroUI/macros.html.twig' as UI %}
-    {% spaceless %}
+    {% apply spaceless %}
         {% for parentPart in parts %}
-            {% spaceless %}
+            {% apply spaceless %}
                 {{ loop.first ? '' : ' / ' }}{{ UI.renderUrl(path('oro_customer_customer_view', {'id': parentPart.id}), parentPart.name) }}
-            {% endspaceless %}
+            {% endapply %}
         {% endfor %}
-    {% endspaceless %}
+    {% endapply %}
 {% endmacro %}
 
 {% macro buildBreadcrumbTitleByParts(parts) %}
@@ -61,7 +61,7 @@
     {% for parentPart in parts %}
         {% set names = names|merge([parentPart.name]) %}
     {% endfor %}
-    {% spaceless %}
+    {% apply spaceless %}
         {{ names|join(' / ')|e('html_attr') }}
-    {% endspaceless %}
+    {% endapply %}
 {% endmacro %}

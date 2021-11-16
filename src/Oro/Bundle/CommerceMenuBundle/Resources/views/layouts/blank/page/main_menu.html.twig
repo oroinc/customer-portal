@@ -91,7 +91,7 @@
 
 {% block _main_menu_widget %}
     {% if item.displayed and item.extras.isAllowed %}
-        {% spaceless %}
+        {% apply spaceless %}
             {% for child in item.children -%}
                 {% if child.displayed and child.extras.isAllowed %}
                 <li class="main-menu__item">
@@ -102,6 +102,6 @@
                 </li>
                 {% endif %}
             {%- endfor %}
-        {% endspaceless %}
+        {% endapply %}
     {% endif %}
 {% endblock %}

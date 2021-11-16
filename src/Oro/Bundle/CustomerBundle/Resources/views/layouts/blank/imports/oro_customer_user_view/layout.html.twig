@@ -26,9 +26,9 @@
 {% block _customer_user_profile_controls_widget %}
     {% set attr = attr|merge({ class: attr.class|default('') ~ " controls-list" }) %}
     <div{{ block('block_attributes') }}>
-        {% spaceless %}
+        {% apply spaceless %}
         {{ block_widget(block) }}
-        {% endspaceless %}
+        {% endapply %}
     </div>
 {% endblock %}
 

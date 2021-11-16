@@ -49,8 +49,10 @@
 
 {% block __oro_customer_form__links_widget %}
     {% set childs = [] %}
-    {% for child in block if child.vars.visible %}
-        {% set childs = childs|merge([child]) %}
+    {% for child in block %}
+        {% if child.vars.visible %}
+            {% set childs = childs|merge([child]) %}
+        {% endif %}
     {% endfor %}
     {% for child in childs %}
         <div class="form-row form-row--offset-s {{ loop.last ? 'form-row--offset-none' }}">

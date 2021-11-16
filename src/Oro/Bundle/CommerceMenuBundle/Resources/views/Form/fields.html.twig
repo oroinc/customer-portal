@@ -1,5 +1,5 @@
 {% block oro_commerce_menu_user_agent_condition_widget %}
-    {% spaceless %}
+    {% apply spaceless %}
         <div class="menu-user-agent-condition-item" data-layout="separate">
             <div class="menu-user-agent-inner-condition-label">AND</div>
             <div class="menu-user-agent-condition-item-container">
@@ -11,7 +11,7 @@
                 </div>
             </div>
         </div>
-    {% endspaceless %}
+    {% endapply %}
 {% endblock %}
 
 {% macro oro_collection_item_prototype(form, name, disabled, allow_delete, allow_add_after) %}
@@ -69,7 +69,7 @@
 {% block oro_commerce_menu_user_agent_conditions_collection_widget %}
     {% import _self as commerceMenuFormFields %}
 
-    {% spaceless %}
+    {% apply spaceless %}
         {% if prototype is defined %}
             {% set prototype_html = commerceMenuFormFields.oro_collection_item_prototype_html(form) %}
         {% endif %}
@@ -96,5 +96,5 @@
         {% if handle_primary and (prototype is not defined or prototype.primary is defined) %}
             {{ commerceMenuFormFields.oro_collection_validate_primary_js(_context) }}
         {% endif %}
-    {% endspaceless %}
+    {% endapply %}
 {% endblock %}
