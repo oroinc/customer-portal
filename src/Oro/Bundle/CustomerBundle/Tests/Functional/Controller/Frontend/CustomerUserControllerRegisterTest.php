@@ -8,13 +8,14 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserAndGuestWithSameUsername;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Mime\Email as SymfonyEmail;
 
 class CustomerUserControllerRegisterTest extends WebTestCase
 {
     use EmailMessageAssertionTrait;
 
-    const EMAIL = 'john.doe@example.com';
-    const PASSWORD = '123456';
+    private const EMAIL = 'john.doe@example.com';
+    private const PASSWORD = '123456';
 
     protected function setUp(): void
     {
@@ -32,11 +33,11 @@ class CustomerUserControllerRegisterTest extends WebTestCase
      * @param string $secondPassword
      * @param string $message
      */
-    public function testInvalidRegister($firstPassword, $secondPassword, $message)
+    public function testInvalidRegister(string $firstPassword, string $secondPassword, string $message): void
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_register'));
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
 
         $form = $crawler->selectButton('Create An Account')->form();
 
@@ -49,40 +50,40 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 'email' => self::EMAIL,
                 'plainPassword' => [
                     'first' => $firstPassword,
-                    'second' => $secondPassword
-                ]
-            ]
+                    'second' => $secondPassword,
+                ],
+            ],
         ];
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form, $submittedData);
         $result = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertEmpty($this->getCustomerUser(['email' => self::EMAIL]));
-        static::assertStringContainsString($message, $crawler->html());
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertEmpty($this->getCustomerUser(['email' => self::EMAIL]));
+        self::assertStringContainsString($message, $crawler->html());
     }
 
     /**
      * @return array
      */
-    public function getInvalidData()
+    public function getInvalidData(): array
     {
         return [
             'mismatch passwords' => [
                 'firstPassword' => 'plainPassword',
                 'secondPassword' => 'plainPassword2',
-                'errorMessage' => 'The password fields must match.'
+                'errorMessage' => 'The password fields must match.',
             ],
             'low password complexity' => [
                 'firstPassword' => '0',
                 'secondPassword' => '0',
-                'errorMessage' => 'The password must be at least 2 characters long'
-            ]
+                'errorMessage' => 'The password must be at least 2 characters long',
+            ],
         ];
     }
 
-    public function testRegisterWithoutConfirmation()
+    public function testRegisterWithoutConfirmation(): void
     {
         $email = 'adam.smith@example.com';
         $configManager = self::getConfigManager('global');
@@ -91,36 +92,34 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_register'));
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
 
         $this->submitRegisterForm($crawler, $email);
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = $this->getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
+        $emailMessages = self::getMailerMessages();
+        self::assertCount(1, $emailMessages);
 
-        $this->assertCount(1, $emailMessages);
-
-        /** @var \Swift_Message $emailMessage */
+        /** @var SymfonyEmail $emailMessage */
         $emailMessage = array_shift($emailMessages);
+
         $this->assertWelcomeMessage($email, $emailMessage);
-        static::assertStringNotContainsString(
+        self::assertStringNotContainsString(
             'Please follow the link below to create a password for your new account.',
-            $emailMessage->getBody()
+            $emailMessage->getHtmlBody()
         );
 
         $crawler = $this->client->followRedirect();
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
 
         $user = $this->getCustomerUser(['email' => $email]);
-        $this->assertNotEmpty($user);
-        $this->assertTrue($user->isEnabled());
-        $this->assertTrue($user->isConfirmed());
-        static::assertStringContainsString('Registration successful', $crawler->html());
+        self::assertNotEmpty($user);
+        self::assertTrue($user->isEnabled());
+        self::assertTrue($user->isConfirmed());
+        self::assertStringContainsString('Registration successful', $crawler->html());
     }
 
-    public function testRegisterWithConfirmation()
+    public function testRegisterWithConfirmation(): void
     {
         $configManager = self::getConfigManager('global');
         $configManager->set('oro_customer.confirmation_required', true);
@@ -128,46 +127,47 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_register'));
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
 
         $this->submitRegisterForm($crawler, self::EMAIL);
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = $this->getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
+        $emailMessages = self::getMailerMessages();
+        self::assertCount(1, $emailMessages);
 
-        /** @var \Swift_Message $message */
-        $message = reset($emailMessages);
+        /** @var SymfonyEmail $emailMessage */
+        $emailMessage = array_shift($emailMessages);
 
-        $this->assertInstanceOf('Swift_Message', $message);
-        $this->assertEquals(self::EMAIL, key($message->getTo()));
-        static::assertStringContainsString('Confirmation of account registration', $message->getSubject());
+        self::assertInstanceOf(SymfonyEmail::class, $emailMessage);
+        self::assertEmailAddressContains($emailMessage, 'to', self::EMAIL);
+        self::assertStringContainsString('Confirmation of account registration', $emailMessage->getSubject());
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
 
         $applicationUrl = self::getConfigManager(null)->get('oro_ui.application_url');
         $confirmMessage = 'Please follow this link to confirm your email address: <a href="'
             . $applicationUrl
-            . htmlspecialchars($this->getUrl(
-                'oro_customer_frontend_customer_user_confirmation',
-                [
-                    'token' => $user->getConfirmationToken()
-                ]
-            ))
+            . htmlspecialchars(
+                $this->getUrl(
+                    'oro_customer_frontend_customer_user_confirmation',
+                    [
+                        'token' => $user->getConfirmationToken(),
+                    ]
+                )
+            )
             . '">Confirm</a>';
-        static::assertStringContainsString($confirmMessage, $message->getBody());
+        self::assertStringContainsString($confirmMessage, $emailMessage->getHtmlBody());
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
-        $this->assertNotEmpty($user);
-        $this->assertTrue($user->isEnabled());
-        $this->assertFalse($user->isConfirmed());
+        self::assertNotEmpty($user);
+        self::assertTrue($user->isEnabled());
+        self::assertFalse($user->isConfirmed());
 
         $crawler = $this->client->followRedirect();
-        $this->assertEquals(
+        self::assertEquals(
             'Sign In',
             trim($crawler->filter('.login-form h1')->html())
         );
-        static::assertStringContainsString('Please check your email to complete registration', $crawler->html());
+        self::assertStringContainsString('Please check your email to complete registration', $crawler->html());
 
         $this->client->followRedirects(true);
 
@@ -177,29 +177,29 @@ class CustomerUserControllerRegisterTest extends WebTestCase
             $this->getUrl(
                 'oro_customer_frontend_customer_user_confirmation',
                 [
-                    'token' => $user->getConfirmationToken()
+                    'token' => $user->getConfirmationToken(),
                 ]
             )
         );
 
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertStringContainsString('Sign In', $crawler->html());
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString('Sign In', $crawler->html());
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
-        $this->assertNotEmpty($user);
-        $this->assertTrue($user->isEnabled());
-        $this->assertTrue($user->isConfirmed());
+        self::assertNotEmpty($user);
+        self::assertTrue($user->isEnabled());
+        self::assertTrue($user->isConfirmed());
     }
 
     /**
      * @depends testRegisterWithConfirmation
      */
-    public function testRegisterExistingEmail()
+    public function testRegisterExistingEmail(): void
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_register'));
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
 
         $form = $crawler->selectButton('Create An Account')->form();
         $submittedData = [
@@ -211,23 +211,23 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 'email' => self::EMAIL,
                 'plainPassword' => [
                     'first' => self::PASSWORD,
-                    'second' => self::PASSWORD
-                ]
-            ]
+                    'second' => self::PASSWORD,
+                ],
+            ],
         ];
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form, $submittedData);
         $result = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertStringContainsString(
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString(
             'This email is already used.',
             $crawler->filter('.validation-failed')->html()
         );
     }
 
-    public function testResetPasswordWithLowPasswordComplexity()
+    public function testResetPasswordWithLowPasswordComplexity(): void
     {
         $user = $this->getCustomerUser(['email' => LoadCustomerUserData::RESET_EMAIL]);
         $crawler = $this->client->request(
@@ -246,28 +246,28 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 '_token' => $form->get('oro_customer_customer_user_password_reset[_token]')->getValue(),
                 'plainPassword' => [
                     'first' => '0',
-                    'second' => '0'
-                ]
-            ]
+                    'second' => '0',
+                ],
+            ],
         ];
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form, $submittedData);
         $result = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertStringContainsString('The password must be at least 2 characters long', $crawler->html());
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString('The password must be at least 2 characters long', $crawler->html());
     }
 
     /**
      * @depends testRegisterWithConfirmation
      */
-    public function testResetPassword()
+    public function testResetPassword(): void
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_security_login'));
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertEquals(
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertEquals(
             'Sign In',
             trim($crawler->filter('.login-form h1')->html())
         );
@@ -275,8 +275,8 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $forgotPasswordLink = $crawler->filter('a:contains("Forgot Your Password?")')->link();
         $crawler = $this->client->click($forgotPasswordLink);
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertEquals('Forgot Your Password?', $crawler->filter('h1')->html());
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertEquals('Forgot Your Password?', $crawler->filter('h1')->html());
 
         $this->assertKnownEmail($crawler);
 
@@ -293,8 +293,8 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         );
 
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertEquals('Create New Password', $crawler->filter('h1')->html());
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertEquals('Create New Password', $crawler->filter('h1')->html());
 
         $form = $crawler->selectButton('Create')->form();
 
@@ -303,42 +303,33 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 '_token' => $form->get('oro_customer_customer_user_password_reset[_token]')->getValue(),
                 'plainPassword' => [
                     'first' => '654321',
-                    'second' => '654321'
-                ]
-            ]
+                    'second' => '654321',
+                ],
+            ],
         ];
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form, $submittedData);
         $result = $this->client->getResponse();
 
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        $this->assertEquals(
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertEquals(
             'Sign In',
             trim($crawler->filter('.login-form h1')->html())
         );
-        static::assertStringContainsString('Password was created successfully.', $crawler->html());
+        self::assertStringContainsString('Password was created successfully.', $crawler->html());
     }
 
-    /**
-     * @param array $criteria
-     * @return CustomerUser
-     */
-    protected function getCustomerUser(array $criteria)
+    private function getCustomerUser(array $criteria): ?CustomerUser
     {
-        return $this->getContainer()
+        return self::getContainer()
             ->get('doctrine')
             ->getManagerForClass('OroCustomerBundle:CustomerUser')
             ->getRepository('OroCustomerBundle:CustomerUser')
             ->findOneBy($criteria);
     }
 
-    /**
-     * @param Crawler $crawler
-     * @param string $email
-     * @return Crawler
-     */
-    protected function submitRegisterForm(Crawler $crawler, $email)
+    private function submitRegisterForm(Crawler $crawler, string $email): Crawler
     {
         $form = $crawler->selectButton('Create An Account')->form();
         $submittedData = [
@@ -350,9 +341,9 @@ class CustomerUserControllerRegisterTest extends WebTestCase
                 'email' => $email,
                 'plainPassword' => [
                     'first' => self::PASSWORD,
-                    'second' => self::PASSWORD
-                ]
-            ]
+                    'second' => self::PASSWORD,
+                ],
+            ],
         ];
 
         $this->client->followRedirects(false);
@@ -360,57 +351,57 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         return $this->client->submit($form, $submittedData);
     }
 
-    protected function assertKnownEmail(Crawler $crawler)
+    private function assertKnownEmail(Crawler $crawler): void
     {
         $form = $crawler->selectButton('Request')->form();
         $submittedData = [
             'oro_customer_customer_user_password_request' => [
                 '_token' => $form->get('oro_customer_customer_user_password_request[_token]')->getValue(),
-                'email' => self::EMAIL
-            ]
+                'email' => self::EMAIL,
+            ],
         ];
 
         $this->client->followRedirects(false);
         $this->client->submit($form, $submittedData);
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = $this->getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
+        $emailMessages = self::getMailerMessages();
+        self::assertCount(1, $emailMessages);
 
-        /** @var \Swift_Message $message */
-        $message = reset($emailMessages);
+        /** @var SymfonyEmail $emailMessage */
+        $emailMessage = array_shift($emailMessages);
 
-        $this->assertInstanceOf('Swift_Message', $message);
-        $this->assertEquals(self::EMAIL, key($message->getTo()));
-        static::assertStringContainsString('Reset Account User Password', $message->getSubject());
-        static::assertStringContainsString('To reset your password - please visit', $message->getBody());
-        static::assertStringContainsString(self::EMAIL, $message->getBody());
+        self::assertEmailAddressContains($emailMessage, 'to', self::EMAIL);
+        self::assertStringContainsString('Reset Account User Password', $emailMessage->getSubject());
+        self::assertStringContainsString('To reset your password - please visit', $emailMessage->getHtmlBody());
+        self::assertStringContainsString(self::EMAIL, $emailMessage->getHtmlBody());
 
         $user = $this->getCustomerUser(['email' => self::EMAIL]);
         $applicationUrl = self::getConfigManager(null)->get('oro_ui.application_url');
 
         $resetUrl = $applicationUrl
-            . htmlspecialchars($this->getUrl(
-                'oro_customer_frontend_customer_user_password_reset',
-                [
-                    'token' => $user->getConfirmationToken(),
-                ]
-            ));
+            . htmlspecialchars(
+                $this->getUrl(
+                    'oro_customer_frontend_customer_user_password_reset',
+                    [
+                        'token' => $user->getConfirmationToken(),
+                    ]
+                )
+            );
 
-        static::assertStringContainsString($resetUrl, $message->getBody());
+        self::assertStringContainsString($resetUrl, $emailMessage->getHtmlBody());
 
         $crawler = $this->client->followRedirect();
 
-        $this->assertEquals('Check Email', $crawler->filter('h1')->html());
+        self::assertEquals('Check Email', $crawler->filter('h1')->html());
     }
 
-    public function testConfirmEmailSameUsernameForUserAndVisitor()
+    public function testConfirmEmailSameUsernameForUserAndVisitor(): void
     {
         $user = $this->getCustomerUser(['email' => LoadUserAndGuestWithSameUsername::SAME_EMAIL, 'isGuest' => false]);
-        $this->assertNotEmpty($user);
-        $this->assertTrue($user->isEnabled());
-        $this->assertFalse($user->isConfirmed());
-        $this->assertNotNull($user->getConfirmationToken());
+        self::assertNotEmpty($user);
+        self::assertTrue($user->isEnabled());
+        self::assertFalse($user->isConfirmed());
+        self::assertNotNull($user->getConfirmationToken());
 
         $this->client->followRedirects(true);
 
@@ -420,17 +411,17 @@ class CustomerUserControllerRegisterTest extends WebTestCase
             $this->getUrl(
                 'oro_customer_frontend_customer_user_confirmation',
                 [
-                    'token' => $user->getConfirmationToken()
+                    'token' => $user->getConfirmationToken(),
                 ]
             )
         );
 
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
 
         $user = $this->getCustomerUser(['email' => LoadUserAndGuestWithSameUsername::SAME_EMAIL, 'isGuest' => false]);
-        $this->assertNotEmpty($user);
-        $this->assertTrue($user->isEnabled());
-        $this->assertTrue($user->isConfirmed());
+        self::assertNotEmpty($user);
+        self::assertTrue($user->isEnabled());
+        self::assertTrue($user->isConfirmed());
     }
 }

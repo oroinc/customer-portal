@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendImportExportBundle\Tests\Unit\Manager;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\EmailBundle\Entity\EmailUser;
+use Oro\Bundle\EmailBundle\Model\From;
 use Oro\Bundle\EmailBundle\Tools\AggregatedEmailTemplatesSender;
 use Oro\Bundle\FrontendImportExportBundle\Async\Export\FrontendExportResultSummarizer;
 use Oro\Bundle\FrontendImportExportBundle\Entity\FrontendImportExportResult;
@@ -14,13 +15,11 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 
 class ExportResultNotificationSenderTest extends \PHPUnit\Framework\TestCase
 {
-    private const SENDER_EMAIL = 'John Doe <example.org>';
+    private const SENDER_EMAIL = 'John Doe <doe@example.org>';
 
     private AggregatedEmailTemplatesSender|\PHPUnit\Framework\MockObject\MockObject $emailTemplatesSender;
 
     private FrontendExportResultSummarizer|\PHPUnit\Framework\MockObject\MockObject $exportResultSummarizer;
-
-    private NotificationSettings|\PHPUnit\Framework\MockObject\MockObject $notificationSettings;
 
     private WebsiteManager|\PHPUnit\Framework\MockObject\MockObject $websiteManager;
 
@@ -30,20 +29,20 @@ class ExportResultNotificationSenderTest extends \PHPUnit\Framework\TestCase
     {
         $this->emailTemplatesSender = $this->createMock(AggregatedEmailTemplatesSender::class);
         $this->exportResultSummarizer = $this->createMock(FrontendExportResultSummarizer::class);
-        $this->notificationSettings = $this->createMock(NotificationSettings::class);
+        $notificationSettings = $this->createMock(NotificationSettings::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
 
         $this->sender = new ExportResultNotificationSender(
             $this->emailTemplatesSender,
             $this->exportResultSummarizer,
-            $this->notificationSettings,
+            $notificationSettings,
             $this->websiteManager
         );
 
-        $this->notificationSettings
+        $notificationSettings
             ->expects(self::any())
-            ->method('getSenderEmail')
-            ->willReturn(self::SENDER_EMAIL);
+            ->method('getSender')
+            ->willReturn(From::emailAddress(self::SENDER_EMAIL));
     }
 
     public function testSendEmailNotificationWhenNoCustomerUser(): void
@@ -92,7 +91,7 @@ class ExportResultNotificationSenderTest extends \PHPUnit\Framework\TestCase
             ->with(
                 $importExportResult,
                 [$customerUser],
-                self::SENDER_EMAIL,
+                From::emailAddress(self::SENDER_EMAIL),
                 $templateName,
                 $exportResultSummary
             )

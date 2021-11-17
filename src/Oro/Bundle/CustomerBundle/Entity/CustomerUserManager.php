@@ -96,10 +96,11 @@ class CustomerUserManager extends BaseUserManager
         $user->setConfirmed(true)
             ->setConfirmationToken($user->generateToken());
 
-        try {
-            $this->getEmailProcessor()->sendWelcomeNotification($user);
-        } catch (\Swift_SwiftException $e) {
-            $this->logger->error('Unable to send welcome notification email', ['exception' => $e]);
+        $sent = $this->getEmailProcessor()->sendWelcomeNotification($user);
+        if (!$sent) {
+            $this->logger->error(
+                sprintf('Unable to send welcome notification email to user "%s"', $user->getUsername())
+            );
         }
     }
 
@@ -114,12 +115,13 @@ class CustomerUserManager extends BaseUserManager
     {
         $user->setConfirmationToken($user->generateToken());
 
-        try {
-            $this->getEmailProcessor()->sendWelcomeForRegisteredByAdminNotification($user);
-        } catch (\Swift_SwiftException $e) {
+        $sent = $this->getEmailProcessor()->sendWelcomeForRegisteredByAdminNotification($user);
+        if (!$sent) {
             $this->logger->error(
-                'Unable to send welcome notification email for registered by admin',
-                ['exception' => $e]
+                sprintf(
+                    'Unable to send welcome notification email for the registered by admin user "%s"',
+                    $user->getUsername()
+                )
             );
         }
     }
@@ -131,10 +133,11 @@ class CustomerUserManager extends BaseUserManager
 
         $this->updateUser($user);
 
-        try {
-            $this->getEmailProcessor()->sendConfirmationEmail($user);
-        } catch (\Swift_SwiftException $e) {
-            $this->logger->error('Unable to send confirmation email', ['exception' => $e]);
+        $sent = $this->getEmailProcessor()->sendConfirmationEmail($user);
+        if (!$sent) {
+            $this->logger->error(
+                sprintf('Unable to send confirmation email to user "%s"', $user->getUsername())
+            );
         }
     }
 

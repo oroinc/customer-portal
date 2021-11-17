@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\EmailMessageAssertionT
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Email as SymfonyEmail;
 
 /**
  * @dbIsolationPerTest
@@ -23,7 +24,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         $this->client->useHashNavigation(true);
         $this->loadFixtures(
             [
-                LoadCustomerUserACLData::class
+                LoadCustomerUserACLData::class,
             ]
         );
     }
@@ -34,7 +35,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      * @param string $login
      * @param string $resource
      */
-    public function testSendConfirmation($login, $resource)
+    public function testSendConfirmation(string $login, string $resource): void
     {
         $em = self::getContainer()->get('doctrine')
             ->getManagerForClass(CustomerUser::class);
@@ -50,17 +51,16 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         $result = $this->client->getResponse();
         self::assertJsonResponseStatusCodeEquals($result, Response::HTTP_OK);
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = self::getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
+        $emailMessages = self::getMailerMessages();
+        self::assertCount(1, $emailMessages);
 
-        /** @var \Swift_Message $message */
-        $message = reset($emailMessages);
+        /** @var SymfonyEmail $emailMessage */
+        $emailMessage = array_shift($emailMessages);
 
-        self::assertInstanceOf('Swift_Message', $message);
-        self::assertEquals($resource, key($message->getTo()));
-        self::assertStringContainsString('Confirmation of account registration', $message->getSubject());
-        self::assertStringContainsString($resource, $message->getBody());
+        self::assertInstanceOf(SymfonyEmail::class, $emailMessage);
+        self::assertEmailAddressContains($emailMessage, 'to', $resource);
+        self::assertStringContainsString('Confirmation of account registration', $emailMessage->getSubject());
+        self::assertStringContainsString($resource, $emailMessage->getHtmlBody());
 
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(true);
@@ -74,7 +74,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      * @param string $resource
      * @param int $status
      */
-    public function testSendConfirmationAccessDenied($login, $resource, $status)
+    public function testSendConfirmationAccessDenied(string $login, string $resource, int $status): void
     {
         $em = self::getContainer()->get('doctrine')
             ->getManagerForClass(CustomerUser::class);
@@ -101,12 +101,11 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      * @param string $login
      * @param string $resource
      */
-    public function testConfirmAccessGranted($login, $resource)
+    public function testConfirmAccessGranted(string $login, string $resource): void
     {
         $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
-        /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUser $user */
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(false);
         $em->flush();
@@ -117,18 +116,16 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         $user = $this->findCustomerUser($resource);
         self::assertTrue($user->isConfirmed());
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = self::getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
-
+        $emailMessages = self::getMailerMessages();
         self::assertCount(1, $emailMessages);
 
-        /** @var \Swift_Message $emailMessage */
+        /** @var SymfonyEmail $emailMessage */
         $emailMessage = array_shift($emailMessages);
-        self::assertWelcomeMessage($user->getEmail(), $emailMessage);
+
+        $this->assertWelcomeMessage($user->getEmail(), $emailMessage);
         self::assertStringContainsString(
             'Please follow the link below to create a password for your new account.',
-            $emailMessage->getBody()
+            $emailMessage->getHtmlBody()
         );
 
         $user = $this->findCustomerUser($resource);
@@ -142,7 +139,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      * @param string $resource
      * @param int $status
      */
-    public function testConfirmAccessDenied($login, $resource, $status)
+    public function testConfirmAccessDenied(string $login, string $resource, int $status): void
     {
         $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
@@ -167,7 +164,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      * @param string $login
      * @param string $resource
      */
-    public function testEnableAndDisable($login, $resource)
+    public function testEnableAndDisable(string $login, string $resource): void
     {
         $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
@@ -199,7 +196,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      * @param string $resource
      * @param int $status
      */
-    public function testEnableAndDisableAccessDenied($login, $resource, $status)
+    public function testEnableAndDisableAccessDenied(string $login, string $resource, int $status): void
     {
         $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
@@ -220,16 +217,16 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
     /**
      * @return array
      */
-    public function accessGrantedDataProvider()
+    public function accessGrantedDataProvider(): array
     {
         return [
             'parent customer: DEEP' => [
-                'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_DEEP,
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
+                'login' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_ROLE_DEEP,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
             ],
             'same customer: LOCAL' => [
-                'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_DEEP,
+                'login' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_DEEP,
             ],
         ];
     }
@@ -237,36 +234,33 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
     /**
      * @return array
      */
-    public function accessDeniedDataProvider()
+    public function accessDeniedDataProvider(): array
     {
         return [
             'anonymous user' => [
                 'login' => '',
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
                 'status' => Response::HTTP_FORBIDDEN,
             ],
             'same customer: LOCAL_VIEW_ONLY' => [
-                'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL_VIEW_ONLY,
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL,
+                'login' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_ROLE_LOCAL_VIEW_ONLY,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_ROLE_LOCAL,
                 'status' => Response::HTTP_FORBIDDEN,
             ],
             'parent customer: LOCAL' => [
-                'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_LOCAL,
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
+                'login' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_ROLE_LOCAL,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
                 'status' => Response::HTTP_FORBIDDEN,
             ],
             'parent customer: DEEP_VIEW_ONLY' => [
-                'login' => LoadCustomerUserACLData::USER_ACCOUNT_1_ROLE_DEEP_VIEW_ONLY,
-                'resource' => LoadCustomerUserACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
+                'login' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_ROLE_DEEP_VIEW_ONLY,
+                'resource' => DataFixtures\AbstractLoadACLData::USER_ACCOUNT_1_1_ROLE_LOCAL,
                 'status' => Response::HTTP_FORBIDDEN,
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function executeOperation(CustomerUser $customerUser, $operationName)
+    protected function executeOperation(CustomerUser $customerUser, $operationName): void
     {
         $entityId = $customerUser->getId();
         $entityClass = CustomerUser::class;
@@ -278,7 +272,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
                     'operationName' => $operationName,
                     'route' => 'oro_customer_frontend_customer_user_view',
                     'entityId' => $entityId,
-                    'entityClass' => $entityClass
+                    'entityClass' => $entityClass,
                 ]
             ),
             $this->getOperationExecuteParams($operationName, $entityId, $entityClass),
@@ -291,7 +285,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
      * @param string $resource
      * @return CustomerUser
      */
-    private function findCustomerUser($resource): CustomerUser
+    private function findCustomerUser(string $resource): CustomerUser
     {
         $repository = self::getContainer()->get('doctrine')
             ->getManagerForClass(CustomerUser::class)

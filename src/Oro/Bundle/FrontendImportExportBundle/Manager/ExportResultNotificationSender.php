@@ -14,7 +14,7 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
  */
 class ExportResultNotificationSender
 {
-    private AggregatedEmailTemplatesSender $emailTemplatesSender;
+    private AggregatedEmailTemplatesSender $aggregatedEmailTemplatesSender;
 
     private FrontendExportResultSummarizer $exportResultSummarizer;
 
@@ -28,7 +28,7 @@ class ExportResultNotificationSender
         NotificationSettings $notificationSettings,
         WebsiteManager $websiteManager
     ) {
-        $this->emailTemplatesSender = $aggregatedEmailTemplatesSender;
+        $this->aggregatedEmailTemplatesSender = $aggregatedEmailTemplatesSender;
         $this->exportResultSummarizer = $exportResultSummarizer;
         $this->notificationSettings = $notificationSettings;
         $this->websiteManager = $websiteManager;
@@ -51,10 +51,10 @@ class ExportResultNotificationSender
         $previousWebsite = $this->websiteManager->getCurrentWebsite();
         $this->websiteManager->setCurrentWebsite($customerUser->getWebsite());
 
-        $emailUsers = $this->emailTemplatesSender->send(
+        $emailUsers = $this->aggregatedEmailTemplatesSender->send(
             $importExportResult,
             [$customerUser],
-            $this->notificationSettings->getSenderEmail(),
+            $this->notificationSettings->getSender(),
             $this->getNotificationTemplate($exportResultSummary['exportResult'] ?? []),
             $exportResultSummary
         );

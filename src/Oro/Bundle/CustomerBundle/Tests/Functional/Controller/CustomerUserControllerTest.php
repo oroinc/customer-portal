@@ -11,6 +11,7 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRole
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserData;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Mime\Email as SymfonyEmail;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -19,32 +20,32 @@ class CustomerUserControllerTest extends WebTestCase
 {
     use EmailMessageAssertionTrait;
 
-    const NAME_PREFIX = 'NamePrefix';
-    const MIDDLE_NAME = 'MiddleName';
-    const NAME_SUFFIX = 'NameSuffix';
-    const EMAIL = 'first@example.com';
-    const FIRST_NAME = 'John';
-    const LAST_NAME = 'Doe';
+    private const NAME_PREFIX = 'NamePrefix';
+    private const MIDDLE_NAME = 'MiddleName';
+    private const NAME_SUFFIX = 'NameSuffix';
+    private const EMAIL = 'first@example.com';
+    private const FIRST_NAME = 'John';
+    private const LAST_NAME = 'Doe';
 
-    const UPDATED_NAME_PREFIX = 'UNamePrefix';
-    const UPDATED_FIRST_NAME = 'UFirstName';
-    const UPDATED_MIDDLE_NAME = 'UMiddleName';
-    const UPDATED_LAST_NAME = 'UpdLastName';
-    const UPDATED_NAME_SUFFIX = 'UNameSuffix';
-    const UPDATED_EMAIL = 'updated@example.com';
+    private const UPDATED_NAME_PREFIX = 'UNamePrefix';
+    private const UPDATED_FIRST_NAME = 'UFirstName';
+    private const UPDATED_MIDDLE_NAME = 'UMiddleName';
+    private const UPDATED_LAST_NAME = 'UpdLastName';
+    private const UPDATED_NAME_SUFFIX = 'UNameSuffix';
+    private const UPDATED_EMAIL = 'updated@example.com';
 
     /**
      * {@inheritDoc}
      */
     protected function setUp(): void
     {
-        $this->initClient([], $this->generateBasicAuthHeader());
+        $this->initClient([], self::generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
         $this->loadFixtures(
             [
                 LoadCustomers::class,
                 LoadCustomerUserRoleData::class,
-                LoadUserData::class
+                LoadUserData::class,
             ]
         );
     }
@@ -57,8 +58,13 @@ class CustomerUserControllerTest extends WebTestCase
      * @param bool $isSendEmail
      * @param int $emailsCount
      */
-    public function testCreate($email, $password, $isPasswordGenerate, $isSendEmail, $emailsCount)
-    {
+    public function testCreate(
+        string $email,
+        string $password,
+        bool $isPasswordGenerate,
+        bool $isSendEmail,
+        int $emailsCount
+    ): void {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_create'));
         self::assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
 
@@ -98,24 +104,22 @@ class CustomerUserControllerTest extends WebTestCase
         $form['oro_customer_customer_user[userRoles][0]']->tick();
         $form['oro_customer_customer_user[salesRepresentatives]'] = implode(',', [
             $this->getReference(LoadUserData::USER1)->getId(),
-            $this->getReference(LoadUserData::USER2)->getId()
+            $this->getReference(LoadUserData::USER2)->getId(),
         ]);
 
         $this->client->submit($form);
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = self::getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
-
+        $emailMessages = self::getMailerMessages();
         self::assertCount($emailsCount, $emailMessages);
 
         if ($isSendEmail) {
-            /** @var \Swift_Message $emailMessage */
+            /** @var SymfonyEmail $emailMessage */
             $emailMessage = array_shift($emailMessages);
-            self::assertWelcomeMessage($email, $emailMessage);
+
+            $this->assertWelcomeMessage($email, $emailMessage);
             self::assertStringContainsString(
                 'Please follow the link below to create a password for your new account.',
-                $emailMessage->getBody()
+                $emailMessage->getHtmlBody()
             );
         }
 
@@ -137,7 +141,7 @@ class CustomerUserControllerTest extends WebTestCase
     /**
      * @return array
      */
-    public function createDataProvider()
+    public function createDataProvider(): array
     {
         return [
             'simple create' => [
@@ -145,26 +149,26 @@ class CustomerUserControllerTest extends WebTestCase
                 'password' => '123456',
                 'isPasswordGenerate' => false,
                 'isSendEmail' => false,
-                'emailsCount' => 0
+                'emailsCount' => 0,
             ],
             'create with email and without password generator' => [
                 'email' => 'second@example.com',
                 'password' => '123456',
                 'isPasswordGenerate' => false,
                 'isSendEmail' => true,
-                'emailsCount' => 1
+                'emailsCount' => 1,
             ],
             'create with email and password generator' => [
                 'email' => 'third@example.com',
                 'password' => '',
                 'isPasswordGenerate' => true,
                 'isSendEmail' => true,
-                'emailsCount' => 1
-            ]
+                'emailsCount' => 1,
+            ],
         ];
     }
 
-    public function testCreateWithLowPasswordComplexity()
+    public function testCreateWithLowPasswordComplexity(): void
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_create'));
         self::assertHtmlResponseStatusCodeEquals($this->client->getResponse(), 200);
@@ -182,7 +186,7 @@ class CustomerUserControllerTest extends WebTestCase
     /**
      * @depends testCreate
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_index'));
         $result = $this->client->getResponse();
@@ -197,19 +201,21 @@ class CustomerUserControllerTest extends WebTestCase
 
     /**
      * @depends testCreate
-     * @return integer
+     * @return int
      */
-    public function testUpdate()
+    public function testUpdate(): int
     {
         /** @var CustomerUser $customer */
         $customerUser = self::getContainer()->get('doctrine')
             ->getManagerForClass(CustomerUser::class)
             ->getRepository(CustomerUser::class)
-            ->findOneBy([
-                'email' => self::EMAIL,
-                'firstName' => self::FIRST_NAME,
-                'lastName' => self::LAST_NAME
-            ]);
+            ->findOneBy(
+                [
+                    'email' => self::EMAIL,
+                    'firstName' => self::FIRST_NAME,
+                    'lastName' => self::LAST_NAME,
+                ]
+            );
         $id = $customerUser->getId();
 
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_customer_user_update', ['id' => $id]));
@@ -235,10 +241,10 @@ class CustomerUserControllerTest extends WebTestCase
 
     /**
      * @depends testUpdate
-     * @param integer $id
-     * @return integer
+     * @param int $id
+     * @return int
      */
-    public function testView($id)
+    public function testView(int $id): int
     {
         $this->client->request('GET', $this->getUrl('oro_customer_customer_user_view', ['id' => $id]));
 
@@ -262,9 +268,9 @@ class CustomerUserControllerTest extends WebTestCase
 
     /**
      * @depends testUpdate
-     * @param integer $id
+     * @param int $id
      */
-    public function testInfo($id)
+    public function testInfo(int $id): void
     {
         $this->client->request(
             'GET',
@@ -279,7 +285,7 @@ class CustomerUserControllerTest extends WebTestCase
             ->find($id);
         self::assertNotNull($user);
 
-        /** @var \Oro\Bundle\CustomerBundle\Entity\CustomerUserRole $role */
+        /** @var CustomerUserRole $role */
         $roles = $user->getUserRoles();
         $role = reset($roles);
         self::assertNotNull($role);
@@ -294,7 +300,7 @@ class CustomerUserControllerTest extends WebTestCase
         self::assertStringContainsString($role->getLabel(), $result->getContent());
     }
 
-    public function testGetRolesWithCustomerAction()
+    public function testGetRolesWithCustomerAction(): void
     {
         $manager = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUserRole::class);
 
@@ -314,7 +320,7 @@ class CustomerUserControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         self::assertHtmlResponseStatusCodeEquals($response, 200);
-        self::assertRoles($expectedRoles, $notExpectedRoles, $response->getContent());
+        $this->assertRoles($expectedRoles, $notExpectedRoles, $response->getContent());
 
         // With customer parameter
         $expectedRoles = $notExpectedRoles = [];
@@ -327,10 +333,10 @@ class CustomerUserControllerTest extends WebTestCase
 
         $response = $this->client->getResponse();
 
-        self::assertRoles($expectedRoles, $notExpectedRoles, $response->getContent());
+        $this->assertRoles($expectedRoles, $notExpectedRoles, $response->getContent());
     }
 
-    public function testGetRolesWithUserAction()
+    public function testGetRolesWithUserAction(): void
     {
         $manager = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUserRole::class);
 
@@ -366,7 +372,7 @@ class CustomerUserControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         self::assertHtmlResponseStatusCodeEquals($response, 200);
-        self::assertRoles($expectedRoles, $notExpectedRoles, $response->getContent(), $customerUser);
+        $this->assertRoles($expectedRoles, $notExpectedRoles, $response->getContent(), $customerUser);
 
         // Without customer parameter
         $expectedRoles = $notExpectedRoles = [];
@@ -387,7 +393,7 @@ class CustomerUserControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         self::assertHtmlResponseStatusCodeEquals($response, 200);
-        self::assertRoles($expectedRoles, $notExpectedRoles, $response->getContent(), $customerUser);
+        $this->assertRoles($expectedRoles, $notExpectedRoles, $response->getContent(), $customerUser);
 
         //with predefined error
         $errorMessage = 'Test error message';
@@ -397,7 +403,7 @@ class CustomerUserControllerTest extends WebTestCase
                 'oro_customer_customer_user_roles',
                 [
                     'customerUserId' => $customerUser->getId(),
-                    'error' => $errorMessage
+                    'error' => $errorMessage,
                 ]
             ),
             ['_widgetContainer' => 'widget']
@@ -411,7 +417,7 @@ class CustomerUserControllerTest extends WebTestCase
      * @param string $name
      * @return Customer
      */
-    protected function createCustomer($name)
+    protected function createCustomer(string $name): Customer
     {
         $customer = new Customer();
         $customer->setName($name);
@@ -427,7 +433,7 @@ class CustomerUserControllerTest extends WebTestCase
      * @param string $name
      * @return CustomerUserRole
      */
-    protected function createCustomerUserRole($name)
+    protected function createCustomerUserRole(string $name): CustomerUserRole
     {
         $role = new CustomerUserRole($name);
         $role->setLabel($name);
@@ -443,7 +449,7 @@ class CustomerUserControllerTest extends WebTestCase
      * @param string $email
      * @return CustomerUser
      */
-    protected function createCustomerUser($email)
+    protected function createCustomerUser(string $email): CustomerUser
     {
         $customerUser = new CustomerUser();
         $customerUser->setEmail($email);
@@ -459,7 +465,7 @@ class CustomerUserControllerTest extends WebTestCase
     /**
      * @return Organization
      */
-    protected function getDefaultOrganization()
+    protected function getDefaultOrganization(): Organization
     {
         return self::getContainer()->get('doctrine')
             ->getManagerForClass(Organization::class)
@@ -476,9 +482,9 @@ class CustomerUserControllerTest extends WebTestCase
     protected function assertRoles(
         array $expectedRoles,
         array $notExpectedRoles,
-        $content,
+        string $content,
         CustomerUser $customerUser = null
-    ) {
+    ): void {
         $shouldBeChecked = 0;
         /** @var CustomerUserRole $expectedRole */
         foreach ($expectedRoles as $expectedRole) {
@@ -495,10 +501,7 @@ class CustomerUserControllerTest extends WebTestCase
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getEmail()
+    private function getEmail(): string
     {
         return self::EMAIL;
     }

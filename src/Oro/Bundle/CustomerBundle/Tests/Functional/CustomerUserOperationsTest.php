@@ -6,27 +6,29 @@ use Oro\Bundle\ActionBundle\Tests\Functional\OperationAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\EmailMessageAssertionTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Mime\Email as SymfonyEmail;
 
 class CustomerUserOperationsTest extends WebTestCase
 {
     use EmailMessageAssertionTrait;
     use OperationAwareTestTrait;
 
-    const EMAIL = LoadCustomerUserData::EMAIL;
+    private const EMAIL = LoadCustomerUserData::EMAIL;
 
     protected function setUp(): void
     {
-        $this->initClient([], $this->generateBasicAuthHeader());
+        $this->initClient([], self::generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
         $this->loadFixtures(
             [
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData'
+                LoadCustomerUserRoleData::class,
             ]
         );
     }
 
-    public function testConfirm()
+    public function testConfirm(): void
     {
         /** @var CustomerUser $user */
         $user = $this->getReference(static::EMAIL);
@@ -41,18 +43,16 @@ class CustomerUserOperationsTest extends WebTestCase
 
         $this->executeOperation($user, 'oro_customer_customeruser_confirm');
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = self::getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
-
+        $emailMessages = self::getMailerMessages();
         self::assertCount(1, $emailMessages);
 
-        /** @var \Swift_Message $emailMessage */
+        /** @var SymfonyEmail $emailMessage */
         $emailMessage = array_shift($emailMessages);
-        self::assertWelcomeMessage($user->getEmail(), $emailMessage);
+
+        $this->assertWelcomeMessage($user->getEmail(), $emailMessage);
         self::assertStringContainsString(
             'Please follow the link below to create a password for your new account.',
-            $emailMessage->getBody()
+            $emailMessage->getHtmlBody()
         );
 
         self::assertJsonResponseStatusCodeEquals($this->client->getResponse(), 200);
@@ -63,12 +63,10 @@ class CustomerUserOperationsTest extends WebTestCase
         self::assertTrue($user->isConfirmed());
     }
 
-    public function testSendConfirmation()
+    public function testSendConfirmation(): void
     {
         /** @var CustomerUser $user */
-        $email = static::EMAIL;
-
-        $user = $this->getReference($email);
+        $user = $this->getReference(self::EMAIL);
         $user->setConfirmed(false);
         $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $em->flush();
@@ -79,20 +77,19 @@ class CustomerUserOperationsTest extends WebTestCase
         $result = $this->client->getResponse();
         self::assertJsonResponseStatusCodeEquals($result, 200);
 
-        /** @var \Swift_Plugins_MessageLogger $emailLogging */
-        $emailLogger = self::getContainer()->get('swiftmailer.plugin.messagelogger');
-        $emailMessages = $emailLogger->getMessages();
+        $emailMessages = self::getMailerMessages();
+        self::assertCount(1, $emailMessages);
 
-        /** @var \Swift_Message $message */
-        $message = reset($emailMessages);
+        /** @var SymfonyEmail $emailMessage */
+        $emailMessage = array_shift($emailMessages);
 
-        self::assertInstanceOf('Swift_Message', $message);
-        self::assertEquals($email, key($message->getTo()));
-        self::assertStringContainsString('Confirmation of account registration', $message->getSubject());
-        self::assertStringContainsString($email, $message->getBody());
+        self::assertInstanceOf(SymfonyEmail::class, $emailMessage);
+        self::assertEmailAddressContains($emailMessage, 'to', self::EMAIL);
+        self::assertStringContainsString('Confirmation of account registration', $emailMessage->getSubject());
+        self::assertStringContainsString(self::EMAIL, $emailMessage->getHtmlBody());
     }
 
-    public function testEnableAndDisable()
+    public function testEnableAndDisable(): void
     {
         $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $repository = $em->getRepository(CustomerUser::class);
@@ -125,7 +122,7 @@ class CustomerUserOperationsTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    protected function executeOperation(CustomerUser $customerUser, $operationName)
+    protected function executeOperation(CustomerUser $customerUser, $operationName): void
     {
         $entityId = $customerUser->getId();
         $entityClass = CustomerUser::class;
@@ -137,7 +134,7 @@ class CustomerUserOperationsTest extends WebTestCase
                     'operationName' => $operationName,
                     'route' => 'oro_customer_customer_user_view',
                     'entityId' => $entityId,
-                    'entityClass' => $entityClass
+                    'entityClass' => $entityClass,
                 ]
             ),
             $this->getOperationExecuteParams($operationName, $entityId, $entityClass)
