@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Provider;
 
-use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\SecurityBundle\Authentication\Token\OrganizationAwareTokenInterface;
@@ -10,15 +9,16 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use Oro\Component\Testing\ReflectionUtil;
+use Oro\Component\Testing\Unit\Cache\CacheTrait;
+use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
 {
+    use EntityTrait, CacheTrait;
+
     /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteProvider;
-
-    /** @var ArrayCache */
-    private $cacheProvider;
 
     /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenStorage;
@@ -29,12 +29,10 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->websiteProvider = $this->createMock(WebsiteProviderInterface::class);
-        $this->cacheProvider = new ArrayCache();
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
-
         $this->cacheableProvider = new CacheableWebsiteProvider(
             $this->websiteProvider,
-            $this->cacheProvider,
+            $this->getArrayCache(),
             $this->tokenStorage
         );
     }
@@ -151,16 +149,18 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testClearCache(): void
     {
-        $this->cacheProvider = $this->createMock(CacheProvider::class);
+        $cacheProvider = $this->createMock(CacheProvider::class);
 
         $this->cacheableProvider = new CacheableWebsiteProvider(
             $this->websiteProvider,
-            $this->cacheProvider,
+            $cacheProvider,
             $this->tokenStorage
         );
 
-        $this->cacheProvider->expects($this->once())
+        $cacheProvider
+            ->expects($this->exactly(1))
             ->method('deleteAll');
+
 
         $this->cacheableProvider->clearCache();
     }

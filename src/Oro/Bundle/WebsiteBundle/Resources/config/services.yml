@@ -34,8 +34,8 @@ services:
             - "@doctrine"
 
     oro_website.cache.website:
+        parent: oro_cache.array_cache
         public: false
-        class: Doctrine\Common\Cache\ArrayCache
 
     oro_website.cacheable_website_provider:
         class: 'Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider'

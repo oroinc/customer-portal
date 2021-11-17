@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
-use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\CacheProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
@@ -283,7 +283,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
             ->willReturn($objectManager);
 
         $configuration = $this->createMock(Configuration::class);
-        $cache = $this->createMock(ArrayCache::class);
+        $cache = $this->createMock(CacheProvider::class);
         $this->managerRegistry->expects(self::once())
             ->method('getManager')
             ->willReturn($objectManager);
