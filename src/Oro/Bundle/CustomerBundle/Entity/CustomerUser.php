@@ -17,6 +17,7 @@ use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Security\AdvancedApiUserInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 /**
  * The entity that represents a person who acts on behalf of the company
@@ -574,7 +575,7 @@ class CustomerUser extends ExtendCustomerUser implements
      */
     public function unserialize($serialized)
     {
-        list(
+        [
             $this->password,
             $this->salt,
             $this->username,
@@ -582,7 +583,7 @@ class CustomerUser extends ExtendCustomerUser implements
             $this->confirmed,
             $this->confirmationToken,
             $this->id
-            ) = unserialize($serialized);
+            ] = unserialize($serialized);
     }
 
     /**
@@ -644,14 +645,6 @@ class CustomerUser extends ExtendCustomerUser implements
         }
 
         return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isAccountNonLocked(): bool
-    {
-        return $this->isEnabled() && $this->isConfirmed();
     }
 
     /**
@@ -1217,5 +1210,21 @@ class CustomerUser extends ExtendCustomerUser implements
         }
 
         return $organizations;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEqualTo(SymfonyUserInterface $user): bool
+    {
+        if (!parent::isEqualTo($user)) {
+            return false;
+        }
+
+        if ($user instanceof CustomerUser && $this->isConfirmed() !== $user->isConfirmed()) {
+            return false;
+        }
+
+        return true;
     }
 }

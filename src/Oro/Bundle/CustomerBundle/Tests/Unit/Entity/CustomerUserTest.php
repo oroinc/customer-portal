@@ -244,24 +244,26 @@ class CustomerUserTest extends AbstractUserTest
         self::assertEquals($serialized[6], $user->getId());
     }
 
-    public function testIsEnabledAndIsConfirmed(): void
+    public function testIsEnabled(): void
     {
         $user = $this->getUser();
 
         self::assertTrue($user->isEnabled());
-        self::assertTrue($user->isConfirmed());
-        self::assertTrue($user->isAccountNonLocked());
 
         $user->setEnabled(false);
 
         self::assertFalse($user->isEnabled());
-        self::assertFalse($user->isAccountNonLocked());
+    }
 
-        $user->setEnabled(true);
+    public function testIsConfirmed(): void
+    {
+        $user = $this->getUser();
+
+        self::assertTrue($user->isConfirmed());
+
         $user->setConfirmed(false);
 
         self::assertFalse($user->isConfirmed());
-        self::assertFalse($user->isAccountNonLocked());
     }
 
     public function testGetFullName(): void

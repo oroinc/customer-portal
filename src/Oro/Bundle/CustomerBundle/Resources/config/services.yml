@@ -777,7 +777,6 @@ services:
 
     oro_customer.validator.customer_without_role:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRoleValidator
-        parent: oro_user.validator.user_without_role
         tags:
             - { name: validator.constraint_validator }
 
