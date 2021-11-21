@@ -799,7 +799,7 @@ services:
             - '@translator'
             - '@oro_datagrid.helper.route'
         tags:
-            - { name: validator.constraint_validator, alias: oro_customer.validator.email_case_insensitive_option }
+            - { name: validator.constraint_validator }
 
     oro_customer.grid_view.manager.api:
         class: 'Oro\Bundle\DataGridBundle\Entity\Manager\GridViewApiEntityManager'

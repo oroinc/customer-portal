@@ -2,11 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Validator\Constraints;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
-use Oro\Bundle\CustomerBundle\Validator\Constraints\EmailCaseInsensitiveOptionConstraint;
+use Oro\Bundle\CustomerBundle\Validator\Constraints\EmailCaseInsensitiveOption;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\EmailCaseInsensitiveOptionValidator;
 use Oro\Bundle\DataGridBundle\Tools\DatagridRouteHelper;
 use Oro\Bundle\FilterBundle\Form\Type\Filter\TextFilterType;
@@ -38,12 +37,7 @@ class EmailCaseInsensitiveOptionValidatorTest extends ConstraintValidatorTestCas
     protected function createValidator()
     {
         $doctrine = $this->createMock(ManagerRegistry::class);
-        $em = $this->createMock(EntityManagerInterface::class);
         $doctrine->expects($this->any())
-            ->method('getManagerForClass')
-            ->with(CustomerUser::class)
-            ->willReturn($em);
-        $em->expects($this->any())
             ->method('getRepository')
             ->with(CustomerUser::class)
             ->willReturn($this->userRepository);
@@ -59,7 +53,7 @@ class EmailCaseInsensitiveOptionValidatorTest extends ConstraintValidatorTestCas
     {
         $this->expectException(UnexpectedTypeException::class);
         $this->expectExceptionMessage(
-            sprintf('Expected argument of type "%s"', EmailCaseInsensitiveOptionConstraint::class)
+            sprintf('Expected argument of type "%s"', EmailCaseInsensitiveOption::class)
         );
 
         $this->validator->validate('', $this->createMock(Constraint::class));
@@ -75,7 +69,7 @@ class EmailCaseInsensitiveOptionValidatorTest extends ConstraintValidatorTestCas
             ->with(10)
             ->willReturn([]);
 
-        $constraint = new EmailCaseInsensitiveOptionConstraint();
+        $constraint = new EmailCaseInsensitiveOption();
         $this->validator->validate($value, $constraint);
 
         $this->assertNoViolation();
@@ -95,7 +89,7 @@ class EmailCaseInsensitiveOptionValidatorTest extends ConstraintValidatorTestCas
 
     public function testValidateInvalidDuplicatedEmails()
     {
-        $constraint = new EmailCaseInsensitiveOptionConstraint();
+        $constraint = new EmailCaseInsensitiveOption();
 
         $this->userRepository->expects($this->once())
             ->method('findLowercaseDuplicatedEmails')

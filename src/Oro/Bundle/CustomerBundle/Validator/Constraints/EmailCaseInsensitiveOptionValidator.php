@@ -21,14 +21,9 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
 {
     private const LIMIT = 10;
 
-    /** @var ManagerRegistry */
-    private $doctrine;
-
-    /** @var TranslatorInterface */
-    private $translator;
-
-    /** @var DatagridRouteHelper */
-    private $datagridRouteHelper;
+    private ManagerRegistry $doctrine;
+    private TranslatorInterface $translator;
+    private DatagridRouteHelper $datagridRouteHelper;
 
     public function __construct(
         ManagerRegistry $doctrine,
@@ -45,8 +40,8 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if (!$constraint instanceof EmailCaseInsensitiveOptionConstraint) {
-            throw new UnexpectedTypeException($constraint, EmailCaseInsensitiveOptionConstraint::class);
+        if (!$constraint instanceof EmailCaseInsensitiveOption) {
+            throw new UnexpectedTypeException($constraint, EmailCaseInsensitiveOption::class);
         }
 
         if ($value) {
@@ -54,11 +49,7 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
         }
     }
 
-    /**
-     * @param EmailCaseInsensitiveOptionConstraint $constraint
-     * @param bool $value
-     */
-    private function checkDuplicatedEmails(EmailCaseInsensitiveOptionConstraint $constraint, $value)
+    private function checkDuplicatedEmails(EmailCaseInsensitiveOption $constraint, mixed $value): void
     {
         $emails = $this->getRepository()->findLowercaseDuplicatedEmails(self::LIMIT);
         if (!$emails) {
@@ -93,13 +84,8 @@ class EmailCaseInsensitiveOptionValidator extends ConstraintValidator
         );
     }
 
-    /**
-     * @return CustomerUserRepository
-     */
-    private function getRepository()
+    private function getRepository(): CustomerUserRepository
     {
-        return $this->doctrine
-            ->getManagerForClass(CustomerUser::class)
-            ->getRepository(CustomerUser::class);
+        return $this->doctrine->getRepository(CustomerUser::class);
     }
 }
