@@ -16,9 +16,6 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
     /** @var CustomerGroupType */
     private $formType;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->formType = new CustomerGroupType();
@@ -29,15 +26,7 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function tearDown(): void
-    {
-        unset($this->formType);
-    }
-
-    /**
-     * @return array
+     * {@inheritDoc}
      */
     protected function getExtensions()
     {
@@ -55,19 +44,14 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @param array $options
-     * @param mixed $defaultData
-     * @param mixed $viewData
-     * @param mixed $submittedData
-     * @param mixed $expectedData
      * @dataProvider submitDataProvider
      */
     public function testSubmit(
         array $options,
-        $defaultData,
-        $viewData,
-        $submittedData,
-        $expectedData
+        mixed $defaultData,
+        mixed $viewData,
+        mixed $submittedData,
+        mixed $expectedData
     ) {
         $form = $this->factory->create(CustomerGroupType::class, $defaultData, $options);
 
@@ -86,10 +70,7 @@ class CustomerGroupTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitDataProvider()
+    public function submitDataProvider(): array
     {
         $groupName = 'customer_group_name';
         $alteredGroupName = 'altered_group_name';

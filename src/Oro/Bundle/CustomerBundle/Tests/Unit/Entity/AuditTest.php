@@ -31,7 +31,7 @@ class AuditTest extends \PHPUnit\Framework\TestCase
             ['version', 1],
         ];
 
-        static::assertPropertyAccessors(new Audit(), $properties);
+        self::assertPropertyAccessors(new Audit(), $properties);
     }
 
     public function testLoggedAt()

@@ -90,18 +90,16 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
     public function testBuildForm()
     {
         $builder = $this->createMock(FormBuilderInterface::class);
-        $builder
-            ->expects(static::once())
+        $builder->expects(self::once())
             ->method('addModelTransformer')
             ->with($this->transformer);
 
-        $builder
-            ->expects(static::once())
+        $builder->expects(self::once())
             ->method('addEventListener')
             ->willReturnCallback(function ($eventType, $callback, $priority) {
-                static::assertEquals(FormEvents::PRE_SET_DATA, $eventType);
-                static::assertEquals('preSetData', $callback[1]);
-                static::assertEquals(10, $priority);
+                self::assertEquals(FormEvents::PRE_SET_DATA, $eventType);
+                self::assertEquals('preSetData', $callback[1]);
+                self::assertEquals(10, $priority);
             });
 
         $this->formType->buildForm($builder, []);
@@ -109,7 +107,7 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
 
     public function testGetBlockPrefix()
     {
-        static::assertEquals('oro_commerce_menu_user_agent_conditions_collection', $this->formType->getBlockPrefix());
+        self::assertEquals('oro_commerce_menu_user_agent_conditions_collection', $this->formType->getBlockPrefix());
     }
 
     public function testConfigureOptions()
@@ -135,7 +133,7 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
             ],
         ];
 
-        static::assertEquals($expectedOptions, $actualOptions);
+        self::assertEquals($expectedOptions, $actualOptions);
     }
 
     /**
@@ -151,9 +149,7 @@ class MenuUserAgentConditionsCollectionTypeTest extends FormIntegrationTestCase
                         $className = $constraint->validatedBy();
 
                         if ($className === MaxNestedLevelValidator::class) {
-                            $this->validators[$className] = $this->getMockBuilder(MaxNestedLevelValidator::class)
-                                                                 ->disableOriginalConstructor()
-                                                                 ->getMock();
+                            $this->validators[$className] = $this->createMock(MaxNestedLevelValidator::class);
                         }
 
                         if (!isset($this->validators[$className]) ||

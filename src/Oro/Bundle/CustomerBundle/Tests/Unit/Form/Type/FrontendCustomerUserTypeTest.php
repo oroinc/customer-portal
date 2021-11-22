@@ -59,7 +59,9 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
         $customer = $this->getCustomer(1);
         $user = new CustomerUser();
         $user->setCustomer($customer);
-        $this->tokenAccessor->expects($this->any())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->any())
+            ->method('getUser')
+            ->willReturn($user);
 
         $frontendUserRoleSelectType = new EntitySelectTypeStub(
             $this->getRoles(),
@@ -214,11 +216,11 @@ class FrontendCustomerUserTypeTest extends CustomerUserTypeTest
             $this->websiteManager
         );
 
-        $event = $this->getMockBuilder(FormEvent::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $event = $this->createMock(FormEvent::class);
 
-        $tokenAccessor->expects($this->any())->method('getUser')->willReturn(null);
+        $tokenAccessor->expects($this->any())
+            ->method('getUser')
+            ->willReturn(null);
 
         $formType->onPreSetData($event);
     }

@@ -7,7 +7,7 @@ use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRoleFormProvider;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\FormConfigInterface;
-use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -17,43 +17,27 @@ class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit\Framework\TestCa
     use EntityTrait;
 
     /** @var CustomerUserRoleUpdateFrontendHandler|\PHPUnit\Framework\MockObject\MockObject */
-    protected $handler;
+    private $handler;
+
+    /** @var \PHPUnit\Framework\MockObject\MockObject|UrlGeneratorInterface */
+    private $router;
 
     /** @var FrontendCustomerUserRoleFormProvider */
-    protected $provider;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|UrlGeneratorInterface
-     */
-    protected $router;
+    private $provider;
 
     protected function setUp(): void
     {
-        $this->handler = $this
-            ->getMockBuilder('Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateFrontendHandler')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        /** @var FormFactory|\PHPUnit\Framework\MockObject\MockObject $formFactory */
-        $formFactory = $this->getMockBuilder('Symfony\Component\Form\FormFactoryInterface')->getMock();
-        $this->router = $this->createMock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
+        $this->handler = $this->createMock(CustomerUserRoleUpdateFrontendHandler::class);
+        $this->router = $this->createMock(UrlGeneratorInterface::class);
+        $formFactory = $this->createMock(FormFactoryInterface::class);
 
         $this->provider = new FrontendCustomerUserRoleFormProvider($formFactory, $this->handler, $this->router);
     }
 
-    protected function tearDown(): void
-    {
-        unset($this->provider, $this->handler);
-    }
-
     /**
      * @dataProvider getDataProvider
-     *
-     * @param CustomerUserRole $role
-     * @param string $route
-     * @param array $routeParameters
      */
-    public function testGetRoleFormView(CustomerUserRole $role, $route, array $routeParameters = [])
+    public function testGetRoleFormView(CustomerUserRole $role, string $route, array $routeParameters = [])
     {
         $form = $this->assertCustomerUserRoleFormHandlerCalled($role);
 
@@ -72,12 +56,8 @@ class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit\Framework\TestCa
 
     /**
      * @dataProvider getDataProvider
-     *
-     * @param CustomerUserRole $role
-     * @param string $route
-     * @param array $routeParameters
      */
-    public function testGetRoleForm(CustomerUserRole $role, $route, array $routeParameters = [])
+    public function testGetRoleForm(CustomerUserRole $role, string $route, array $routeParameters = [])
     {
         $form = $this->assertCustomerUserRoleFormHandlerCalled($role);
 
@@ -94,43 +74,34 @@ class FrontendCustomerUserRoleFormProviderTest extends \PHPUnit\Framework\TestCa
         $this->assertSame($actual, $this->provider->getRoleForm($role));
     }
 
-    /**
-     * @return array
-     */
-    public function getDataProvider()
+    public function getDataProvider(): array
     {
         return [
             [
-                'role' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerUserRole'),
+                'role' => $this->getEntity(CustomerUserRole::class),
                 'route' => 'oro_customer_frontend_customer_user_role_create'
             ],
             [
-                'role' => $this->getEntity('Oro\Bundle\CustomerBundle\Entity\CustomerUserRole', ['id' => 42]),
+                'role' => $this->getEntity(CustomerUserRole::class, ['id' => 42]),
                 'route' => 'oro_customer_frontend_customer_user_role_update',
                 'routeParameters' => ['id' => 42]
             ]
         ];
     }
 
-    /**
-     * @param CustomerUserRole $role
-     * @param string $method
-     * @return \PHPUnit\Framework\MockObject\MockObject|FormInterface
-     */
-    protected function assertCustomerUserRoleFormHandlerCalled(CustomerUserRole $role, $method = 'TEST')
-    {
-        /** @var FormConfigInterface|\PHPUnit\Framework\MockObject\MockObject $config */
-        $config = $this->createMock('Symfony\Component\Form\FormConfigInterface');
+    private function assertCustomerUserRoleFormHandlerCalled(
+        CustomerUserRole $role,
+        string $method = 'TEST'
+    ): FormInterface {
+        $config = $this->createMock(FormConfigInterface::class);
         $config->expects($this->any())
             ->method('getMethod')
             ->willReturn($method);
 
-        /** @var FormView|\PHPUnit\Framework\MockObject\MockObject $config */
-        $view = $this->createMock('Symfony\Component\Form\FormView');
+        $view = $this->createMock(FormView::class);
         $view->vars = ['multipart' => null];
 
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
-        $form = $this->createMock('Symfony\Component\Form\FormInterface');
+        $form = $this->createMock(FormInterface::class);
         $form->expects($this->any())
             ->method('getConfig')
             ->willReturn($config);

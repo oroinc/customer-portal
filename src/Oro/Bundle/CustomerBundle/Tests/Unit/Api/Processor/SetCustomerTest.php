@@ -36,10 +36,7 @@ class SetCustomerTest extends CustomizeFormDataProcessorTestCase
         );
     }
 
-    /**
-     * @return FormBuilderInterface
-     */
-    private function getFormBuilder()
+    private function getFormBuilder(): FormBuilderInterface
     {
         return $this->createFormBuilder()->create(
             '',

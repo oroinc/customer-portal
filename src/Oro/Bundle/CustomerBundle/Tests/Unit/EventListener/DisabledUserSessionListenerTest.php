@@ -49,8 +49,8 @@ class DisabledUserSessionListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener->onKernelException($event);
         /** @var RedirectResponse $response */
         $response = $event->getResponse();
-        static::assertInstanceOf(RedirectResponse::class, $response);
-        static::assertEquals($logoutUrl, $response->getTargetUrl());
+        self::assertInstanceOf(RedirectResponse::class, $response);
+        self::assertEquals($logoutUrl, $response->getTargetUrl());
     }
 
     public function testExceptionOnBackend(): void
@@ -71,6 +71,6 @@ class DisabledUserSessionListenerTest extends \PHPUnit\Framework\TestCase
             ->method('getLogoutUrl');
 
         $this->listener->onKernelException($event);
-        static::assertNull($event->getResponse());
+        self::assertNull($event->getResponse());
     }
 }

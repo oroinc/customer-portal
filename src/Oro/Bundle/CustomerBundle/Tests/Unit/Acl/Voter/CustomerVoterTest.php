@@ -74,7 +74,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
 
         $this->doctrineHelper->expects($this->any())
             ->method('getSingleEntityIdentifier')
-            ->will($this->throwException(new NotManageableEntityException($class)));
+            ->willThrowException(new NotManageableEntityException($class));
 
         $this->assertEquals(
             VoterInterface::ACCESS_ABSTAIN,
@@ -91,7 +91,7 @@ class CustomerVoterTest extends \PHPUnit\Framework\TestCase
         if (null === $object && is_array($inputData['initObjectParams'])) {
             $object = call_user_func_array([$this, 'getObject'], $inputData['initObjectParams']);
         }
-        $class  = is_object($object) ? get_class($object) : null;
+        $class = is_object($object) ? get_class($object) : null;
 
         $this->doctrineHelper->expects($this->any())
             ->method('getSingleEntityIdentifier')

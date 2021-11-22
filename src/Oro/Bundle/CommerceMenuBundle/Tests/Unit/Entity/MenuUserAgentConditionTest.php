@@ -21,6 +21,6 @@ class MenuUserAgentConditionTest extends \PHPUnit\Framework\TestCase
         ];
 
         $entity = new MenuUserAgentCondition();
-        static::assertPropertyAccessors($entity, $properties);
+        self::assertPropertyAccessors($entity, $properties);
     }
 }

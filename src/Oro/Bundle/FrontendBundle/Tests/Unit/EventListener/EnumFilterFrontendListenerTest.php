@@ -13,47 +13,32 @@ use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
 class EnumFilterFrontendListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var EnumFilterFrontendListener
-     */
-    private $listener;
+    /** @var DatagridConfiguration */
+    private $datagridConfig;
 
-    /**
-     * @var BuildBefore|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var BuildBefore|\PHPUnit\Framework\MockObject\MockObject */
     private $event;
 
-    /**
-     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $frontendHelper;
 
-    /**
-     * @var DatagridConfiguration
-     */
-    private $datagridConfig;
+    /** @var EnumFilterFrontendListener */
+    private $listener;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->datagridConfig = DatagridConfiguration::create([]);
-
-        $this->event = $this->getMockBuilder(BuildBefore::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->frontendHelper = $this->getMockBuilder(FrontendHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->event = $this->createMock(BuildBefore::class);
+        $this->frontendHelper = $this->createMock(FrontendHelper::class);
 
         $this->listener = new EnumFilterFrontendListener($this->frontendHelper);
     }
 
     public function testOnBuildBeforeWhenNotFrontendRequest()
     {
-        $this->frontendHelper
-            ->expects($this->once())
+        $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
@@ -68,8 +53,7 @@ class EnumFilterFrontendListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnBuildBeforeWhenFrontendRequest()
     {
-        $this->frontendHelper
-            ->expects($this->once())
+        $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 

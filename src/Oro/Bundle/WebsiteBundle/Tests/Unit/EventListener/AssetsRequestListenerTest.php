@@ -10,13 +10,16 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class AssetsRequestListenerTest extends \PHPUnit\Framework\TestCase
 {
-    private RequestContext|\PHPUnit\Framework\MockObject\MockObject $requestContext;
+    /** @var RequestContext|\PHPUnit\Framework\MockObject\MockObject */
+    private $requestContext;
 
-    private AssetsRequestListener $listener;
+    /** @var AssetsRequestListener */
+    private $listener;
 
     protected function setUp(): void
     {
         $this->requestContext = $this->createMock(RequestContext::class);
+
         $this->listener = new AssetsRequestListener($this->requestContext);
     }
 

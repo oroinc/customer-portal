@@ -69,8 +69,7 @@ class CustomerHasAssignmentsTest extends \PHPUnit\Framework\TestCase
 
     public function testEvaluateCustomerWithoutId()
     {
-        $this->helper
-            ->expects($this->never())
+        $this->helper->expects($this->never())
             ->method($this->anything());
 
         $this->assertSame($this->condition, $this->condition->initialize(['customer' => new Customer()]));

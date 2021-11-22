@@ -20,7 +20,6 @@ class FrontendCustomerUserAwareTraitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetCustomerUser()
     {
-        /** @var CustomerUser|\PHPUnit\Framework\MockObject\MockObject $customerUser **/
         $customerUser = $this->createMock(CustomerUser::class);
         $this->frontendCustomerUserAwareTrait->setCustomerUser($customerUser);
 
@@ -29,7 +28,6 @@ class FrontendCustomerUserAwareTraitTest extends \PHPUnit\Framework\TestCase
 
     public function testSetCustomer()
     {
-        /** @var Customer|\PHPUnit\Framework\MockObject\MockObject $customer **/
         $customer = $this->createMock(Customer::class);
         $this->frontendCustomerUserAwareTrait->setCustomer($customer);
 

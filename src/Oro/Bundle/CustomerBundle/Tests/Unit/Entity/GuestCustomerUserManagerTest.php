@@ -33,9 +33,6 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     /** @var GuestCustomerUserManager */
     private $guestCustomerUserManager;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->websiteManager = $this->createMock(WebsiteManager::class);
@@ -120,7 +117,7 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 
         $properties = $this->expectsGuestCustomerUserInitialization($website, $owner, $customerGroup);
         $customerUser = $this->guestCustomerUserManager->generateGuestCustomerUser($properties);
-        self::assertGuestCustomerUserInitialization($customerUser, $properties, $website, $owner, $customerGroup);
+        $this->assertGuestCustomerUserInitialization($customerUser, $properties, $website, $owner, $customerGroup);
     }
 
     public function testInitializeGuestCustomerUser(): void
@@ -132,6 +129,6 @@ class GuestCustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $properties = $this->expectsGuestCustomerUserInitialization($website, $owner, $customerGroup);
         $customerUser = new CustomerUser();
         $this->guestCustomerUserManager->initializeGuestCustomerUser($customerUser, $properties);
-        self::assertGuestCustomerUserInitialization($customerUser, $properties, $website, $owner, $customerGroup);
+        $this->assertGuestCustomerUserInitialization($customerUser, $properties, $website, $owner, $customerGroup);
     }
 }

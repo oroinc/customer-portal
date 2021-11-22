@@ -11,14 +11,14 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var MenuListFrontendItemNavigationListener */
-    private $listener;
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $authorizationChecker;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
+
+    /** @var MenuListFrontendItemNavigationListener */
+    private $listener;
 
     protected function setUp(): void
     {
@@ -40,8 +40,8 @@ class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\Test
         $this->authorizationChecker->expects($this->never())
             ->method('isGranted');
 
-        $factory     = new MenuFactory();
-        $menu  = new MenuItem('parent_item', $factory);
+        $factory = new MenuFactory();
+        $menu = new MenuItem('parent_item', $factory);
         $menuListFrontendItem = new MenuItem('menu_list_frontend', $factory);
         $menu->addChild($menuListFrontendItem);
 
@@ -59,8 +59,8 @@ class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\Test
         $this->authorizationChecker->expects($this->never())
             ->method('isGranted');
 
-        $factory     = new MenuFactory();
-        $menu  = new MenuItem('parent_item', $factory);
+        $factory = new MenuFactory();
+        $menu = new MenuItem('parent_item', $factory);
 
         $this->listener->onNavigationConfigure(new ConfigureMenuEvent($factory, $menu));
     }
@@ -73,15 +73,13 @@ class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\Test
 
         $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
-            ->willReturnMap(
-                [
-                    ['oro_config_system', null, false],
-                    ['oro_navigation_manage_menus', null, true]
-                ]
-            );
+            ->willReturnMap([
+                ['oro_config_system', null, false],
+                ['oro_navigation_manage_menus', null, true]
+            ]);
 
-        $factory     = new MenuFactory();
-        $menu  = new MenuItem('parent_item', $factory);
+        $factory = new MenuFactory();
+        $menu = new MenuItem('parent_item', $factory);
         $menuListFrontendItem = new MenuItem('menu_list_frontend', $factory);
         $menu->addChild($menuListFrontendItem);
 
@@ -98,15 +96,13 @@ class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\Test
 
         $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
-            ->willReturnMap(
-                [
-                    ['oro_config_system', null, true],
-                    ['oro_navigation_manage_menus', null, false]
-                ]
-            );
+            ->willReturnMap([
+                ['oro_config_system', null, true],
+                ['oro_navigation_manage_menus', null, false]
+            ]);
 
-        $factory     = new MenuFactory();
-        $menu  = new MenuItem('parent_item', $factory);
+        $factory = new MenuFactory();
+        $menu = new MenuItem('parent_item', $factory);
         $menuListFrontendItem = new MenuItem('menu_list_frontend', $factory);
         $menu->addChild($menuListFrontendItem);
 
@@ -123,15 +119,13 @@ class MenuListFrontendItemNavigationListenerTest extends \PHPUnit\Framework\Test
 
         $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
-            ->willReturnMap(
-                [
-                    ['oro_config_system', null, true],
-                    ['oro_navigation_manage_menus', null, true]
-                ]
-            );
+            ->willReturnMap([
+                ['oro_config_system', null, true],
+                ['oro_navigation_manage_menus', null, true]
+            ]);
 
-        $factory     = new MenuFactory();
-        $menu  = new MenuItem('parent_item', $factory);
+        $factory = new MenuFactory();
+        $menu = new MenuItem('parent_item', $factory);
         $menuListFrontendItem = new MenuItem('menu_list_frontend', $factory);
         $menu->addChild($menuListFrontendItem);
 

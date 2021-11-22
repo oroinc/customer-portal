@@ -27,12 +27,6 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
     /** @var AbstractSearchMappingProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $mappingProvider;
 
-    /** @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $configProvider;
-
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
     /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $translator;
 
@@ -50,14 +44,12 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
         $this->entityClassResolver = $this->createMock(EntityClassResolver::class);
         $this->mappingProvider = $this->createMock(AbstractSearchMappingProvider::class);
 
-        $this->configProvider = $this->createMock(ConfigProvider::class);
-        $this->configProvider
-            ->expects($this->any())
+        $configProvider = $this->createMock(ConfigProvider::class);
+        $configProvider->expects($this->any())
             ->method('hasConfig')
             ->with('SampleClass')
             ->willReturn(true);
-        $this->configProvider
-            ->expects($this->any())
+        $configProvider->expects($this->any())
             ->method('getConfig')
             ->with('SampleClass')
             ->willReturn(
@@ -70,12 +62,11 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
                 )
             );
 
-        $this->configManager = $this->createMock(ConfigManager::class);
-        $this->configManager
-            ->expects($this->any())
+        $configManager = $this->createMock(ConfigManager::class);
+        $configManager->expects($this->any())
             ->method('getProvider')
             ->with('entity')
-            ->willReturn($this->configProvider);
+            ->willReturn($configProvider);
 
         $this->translator = $this->createMock(TranslatorInterface::class);
         $this->config = $this->createMock(DatagridConfiguration::class);
@@ -85,7 +76,7 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new DefaultGridViewLoadListener(
             $this->entityClassResolver,
             $this->mappingProvider,
-            $this->configManager,
+            $configManager,
             $this->translator
         );
     }
@@ -109,14 +100,12 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnViewsLoadWhenNotFrontend(): void
     {
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('offsetGetByPath')
             ->with(FrontendDatagridExtension::FRONTEND_OPTION_PATH)
             ->willReturn(false);
 
-        $this->translator
-            ->expects($this->never())
+        $this->translator->expects($this->never())
             ->method('trans');
 
         $this->listener->onViewsLoad($this->event);
@@ -126,16 +115,14 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnViewsLoadWhenAllLabelInOptions(): void
     {
-        $this->config
-            ->expects($this->exactly(2))
+        $this->config->expects($this->exactly(2))
             ->method('offsetGetByPath')
             ->willReturnMap([
                 [FrontendDatagridExtension::FRONTEND_OPTION_PATH, false, true],
                 ['[options][gridViews][allLabel]', null, $allLabel = 'sample_all_label'],
             ]);
 
-        $this->translator
-            ->expects($this->exactly(2))
+        $this->translator->expects($this->exactly(2))
             ->method('trans')
             ->willReturnMap(
                 [
@@ -156,21 +143,18 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
                 ]
             );
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('isOrmDatasource')
             ->willReturn(true);
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getOrmQuery')
             ->willReturn($query = $this->createMock(OrmQueryConfiguration::class));
 
-        $query
-            ->expects($this->once())
+        $query->expects($this->once())
             ->method('getRootEntity')
             ->with($this->entityClassResolver, true)
-            ->willReturn($entityClass = 'SampleClass');
+            ->willReturn('SampleClass');
 
         $this->listener->onViewsLoad($this->event);
 
@@ -196,32 +180,27 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnViewsLoadWhenOrmDataSource(): void
     {
-        $this->config
-            ->expects($this->exactly(2))
+        $this->config->expects($this->exactly(2))
             ->method('offsetGetByPath')
             ->willReturnMap([
                 [FrontendDatagridExtension::FRONTEND_OPTION_PATH, false, true],
                 ['[options][gridViews][allLabel]', null, null],
             ]);
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('isOrmDatasource')
             ->willReturn(true);
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getOrmQuery')
             ->willReturn($query = $this->createMock(OrmQueryConfiguration::class));
 
-        $query
-            ->expects($this->once())
+        $query->expects($this->once())
             ->method('getRootEntity')
             ->with($this->entityClassResolver, true)
-            ->willReturn($entityClass = 'SampleClass');
+            ->willReturn('SampleClass');
 
-        $this->translator
-            ->expects($this->exactly(2))
+        $this->translator->expects($this->exactly(2))
             ->method('trans')
             ->willReturnMap(
                 [
@@ -249,32 +228,27 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnViewsLoadWhenOrmDataSourceAndNoRootEntity(): void
     {
-        $this->config
-            ->expects($this->exactly(2))
+        $this->config->expects($this->exactly(2))
             ->method('offsetGetByPath')
             ->willReturnMap([
                 [FrontendDatagridExtension::FRONTEND_OPTION_PATH, false, true],
                 ['[options][gridViews][allLabel]', null, null],
             ]);
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('isOrmDatasource')
             ->willReturn(true);
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getOrmQuery')
             ->willReturn($query = $this->createMock(OrmQueryConfiguration::class));
 
-        $query
-            ->expects($this->once())
+        $query->expects($this->once())
             ->method('getRootEntity')
             ->with($this->entityClassResolver, true)
             ->willReturn(null);
 
-        $this->translator
-            ->expects($this->never())
+        $this->translator->expects($this->never())
             ->method('trans');
 
         $this->listener->onViewsLoad($this->event);
@@ -284,8 +258,7 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnViewsLoadWhenSearchDataSource(): void
     {
-        $this->config
-            ->expects($this->exactly(3))
+        $this->config->expects($this->exactly(3))
             ->method('offsetGetByPath')
             ->willReturnMap([
                 [FrontendDatagridExtension::FRONTEND_OPTION_PATH, false, true],
@@ -293,24 +266,20 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
                 [DatagridConfiguration::FROM_PATH, null, [$alias = 'sample_alias']],
             ]);
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('isOrmDatasource')
             ->willReturn(false);
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getDatasourceType')
             ->willReturn(SearchDatasource::TYPE);
 
-        $this->mappingProvider
-            ->expects($this->once())
+        $this->mappingProvider->expects($this->once())
             ->method('getEntityClass')
             ->with($alias)
-            ->willReturn($entityClass = 'SampleClass');
+            ->willReturn('SampleClass');
 
-        $this->translator
-            ->expects($this->exactly(2))
+        $this->translator->expects($this->exactly(2))
             ->method('trans')
             ->willReturnMap(
                 [
@@ -338,8 +307,7 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnViewsLoadWhenSearchDataSourceAndEmptyFromPath(): void
     {
-        $this->config
-            ->expects($this->exactly(3))
+        $this->config->expects($this->exactly(3))
             ->method('offsetGetByPath')
             ->willReturnMap([
                 [FrontendDatagridExtension::FRONTEND_OPTION_PATH, false, true],
@@ -347,22 +315,18 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
                 [DatagridConfiguration::FROM_PATH, null, []],
             ]);
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('isOrmDatasource')
             ->willReturn(false);
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getDatasourceType')
             ->willReturn(SearchDatasource::TYPE);
 
-        $this->mappingProvider
-            ->expects($this->never())
+        $this->mappingProvider->expects($this->never())
             ->method('getEntityClass');
 
-        $this->translator
-            ->expects($this->never())
+        $this->translator->expects($this->never())
             ->method('trans');
 
         $this->listener->onViewsLoad($this->event);
@@ -372,30 +336,25 @@ class DefaultGridViewLoadListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnViewsLoadWhenUnsupportedDataSourceType(): void
     {
-        $this->config
-            ->expects($this->exactly(2))
+        $this->config->expects($this->exactly(2))
             ->method('offsetGetByPath')
             ->willReturnMap([
                 [FrontendDatagridExtension::FRONTEND_OPTION_PATH, false, true],
                 ['[options][gridViews][allLabel]', null, null],
             ]);
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('isOrmDatasource')
             ->willReturn(false);
 
-        $this->config
-            ->expects($this->once())
+        $this->config->expects($this->once())
             ->method('getDatasourceType')
             ->willReturn('sample_type');
 
-        $this->mappingProvider
-            ->expects($this->never())
+        $this->mappingProvider->expects($this->never())
             ->method('getEntityClass');
 
-        $this->translator
-            ->expects($this->never())
+        $this->translator->expects($this->never())
             ->method('trans');
 
         $this->listener->onViewsLoad($this->event);

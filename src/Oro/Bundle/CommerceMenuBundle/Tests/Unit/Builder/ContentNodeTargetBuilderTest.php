@@ -46,13 +46,10 @@ class ContentNodeTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildWhenNotDisplayed(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(false);
-
-        $menuItem
-            ->expects($this->never())
+        $menuItem->expects($this->never())
             ->method('setUri');
 
         $this->builder->build($menuItem);
@@ -61,24 +58,17 @@ class ContentNodeTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildWhenNoContentNode(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getExtra')
             ->with('content_node')
             ->willReturn(null);
-
-        $menuItem
-            ->expects($this->never())
+        $menuItem->expects($this->never())
             ->method('setUri');
 
         $this->builder->build($menuItem);
@@ -87,40 +77,30 @@ class ContentNodeTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildWhenNoContentNodeScopes(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getExtra')
             ->with('content_node')
             ->willReturn($contentNode = $this->createMock(ContentNode::class));
 
-        $contentNode
-            ->expects($this->once())
+        $contentNode->expects($this->once())
             ->method('getScopesConsideringParent')
             ->willReturn($scopes = new ArrayCollection([]));
-
-        $contentNode
-            ->expects($this->once())
+        $contentNode->expects($this->once())
             ->method('getLocalizedUrls')
             ->willReturn($urls = $this->createMock(Collection::class));
 
-        $this->localizationHelper
-            ->expects($this->once())
+        $this->localizationHelper->expects($this->once())
             ->method('getLocalizedValue')
             ->with($urls)
             ->willReturn($uri = '/sample/uri');
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('setUri')
             ->with($uri);
 
@@ -130,38 +110,29 @@ class ContentNodeTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildWhenNoCurrentScopeCriteria(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getExtra')
             ->with('content_node')
             ->willReturn($contentNode = $this->createMock(ContentNode::class));
 
-        $contentNode
-            ->expects($this->once())
+        $contentNode->expects($this->once())
             ->method('getScopesConsideringParent')
             ->willReturn($scopes = new ArrayCollection([$scope = $this->createMock(Scope::class)]));
 
-        $this->requestWebContentScopeProvider
-            ->expects($this->once())
+        $this->requestWebContentScopeProvider->expects($this->once())
             ->method('getScopeCriteria')
             ->willReturn(null);
 
-        $menuItem
-            ->expects($this->never())
+        $menuItem->expects($this->never())
             ->method('setUri');
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('setDisplay')
             ->with(false);
 
@@ -171,51 +142,40 @@ class ContentNodeTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildWhenScopeMatchesCriteria(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getExtra')
             ->with('content_node')
             ->willReturn($contentNode = $this->createMock(ContentNode::class));
 
-        $contentNode
-            ->expects($this->once())
+        $contentNode->expects($this->once())
             ->method('getScopesConsideringParent')
             ->willReturn($scopes = new ArrayCollection([$scope = $this->createMock(Scope::class)]));
 
-        $this->requestWebContentScopeProvider
-            ->expects($this->once())
+        $this->requestWebContentScopeProvider->expects($this->once())
             ->method('getScopeCriteria')
             ->willReturn($currentScopeCriteria = $this->createMock(ScopeCriteria::class));
 
-        $this->scopeManager
-            ->expects($this->once())
+        $this->scopeManager->expects($this->once())
             ->method('isScopeMatchCriteria')
             ->with($scope, $currentScopeCriteria, 'web_content')
             ->willReturn(true);
 
-        $contentNode
-            ->expects($this->once())
+        $contentNode->expects($this->once())
             ->method('getLocalizedUrls')
             ->willReturn($urls = $this->createMock(Collection::class));
 
-        $this->localizationHelper
-            ->expects($this->once())
+        $this->localizationHelper->expects($this->once())
             ->method('getLocalizedValue')
             ->with($urls)
             ->willReturn($uri = '/sample/uri');
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('setUri')
             ->with($uri);
 
@@ -225,44 +185,36 @@ class ContentNodeTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildWhenScopeNotMatchesCriteria(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([]);
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getExtra')
             ->with('content_node')
             ->willReturn($contentNode = $this->createMock(ContentNode::class));
 
-        $contentNode
-            ->expects($this->once())
+        $contentNode->expects($this->once())
             ->method('getScopesConsideringParent')
             ->willReturn($scopes = new ArrayCollection([$scope = $this->createMock(Scope::class)]));
 
-        $this->requestWebContentScopeProvider
-            ->expects($this->once())
+        $this->requestWebContentScopeProvider->expects($this->once())
             ->method('getScopeCriteria')
             ->willReturn($currentScopeCriteria = $this->createMock(ScopeCriteria::class));
 
-        $this->scopeManager
-            ->expects($this->once())
+        $this->scopeManager->expects($this->once())
             ->method('isScopeMatchCriteria')
             ->with($scope, $currentScopeCriteria, 'web_content')
             ->willReturn(false);
 
-        $menuItem
-            ->expects($this->never())
+        $menuItem->expects($this->never())
             ->method('setUri');
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('setDisplay')
             ->with(false);
 
@@ -272,67 +224,51 @@ class ContentNodeTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildChildWhenScopeMatchesCriteria(): void
     {
         $parentMenuItem = $this->createMock(ItemInterface::class);
-        $parentMenuItem
-            ->expects($this->once())
+        $parentMenuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $parentMenuItem
-            ->expects($this->once())
+        $parentMenuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([$menuItem = $this->createMock(ItemInterface::class)]);
-
-        $parentMenuItem
-            ->expects($this->once())
+        $parentMenuItem->expects($this->once())
             ->method('getExtra')
             ->with('content_node')
             ->willReturn(null);
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getExtra')
             ->with('content_node')
             ->willReturn($contentNode = $this->createMock(ContentNode::class));
 
-        $contentNode
-            ->expects($this->once())
+        $contentNode->expects($this->once())
             ->method('getScopesConsideringParent')
             ->willReturn($scopes = new ArrayCollection([$scope = $this->createMock(Scope::class)]));
 
-        $this->requestWebContentScopeProvider
-            ->expects($this->once())
+        $this->requestWebContentScopeProvider->expects($this->once())
             ->method('getScopeCriteria')
             ->willReturn($currentScopeCriteria = $this->createMock(ScopeCriteria::class));
 
-        $this->scopeManager
-            ->expects($this->once())
+        $this->scopeManager->expects($this->once())
             ->method('isScopeMatchCriteria')
             ->with($scope, $currentScopeCriteria, 'web_content')
             ->willReturn(true);
 
-        $contentNode
-            ->expects($this->once())
+        $contentNode->expects($this->once())
             ->method('getLocalizedUrls')
             ->willReturn($urls = $this->createMock(Collection::class));
 
-        $this->localizationHelper
-            ->expects($this->once())
+        $this->localizationHelper->expects($this->once())
             ->method('getLocalizedValue')
             ->with($urls)
             ->willReturn($uri = '/sample/uri');
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('setUri')
             ->with($uri);
 

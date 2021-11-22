@@ -47,11 +47,11 @@ class CustomerUserRoleTest extends \PHPUnit\Framework\TestCase
      */
     public function testRelations()
     {
-        static::assertPropertyCollections(new CustomerUserRole(''), [
+        self::assertPropertyCollections(new CustomerUserRole(''), [
             ['customerUsers', new CustomerUser()],
         ]);
 
-        static::assertPropertyAccessors(new CustomerUserRole(''), [
+        self::assertPropertyAccessors(new CustomerUserRole(''), [
             ['customer', new Customer()],
             ['organization', new Organization()]
         ]);

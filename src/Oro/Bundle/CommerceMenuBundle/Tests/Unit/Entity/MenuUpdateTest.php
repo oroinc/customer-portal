@@ -23,7 +23,7 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
             ['linkTarget', 0, 1],
         ];
 
-        static::assertPropertyAccessors(new MenuUpdate(), $properties);
+        self::assertPropertyAccessors(new MenuUpdate(), $properties);
     }
 
     public function testPropertiesCollections()
@@ -32,7 +32,7 @@ class MenuUpdateTest extends \PHPUnit\Framework\TestCase
             ['menuUserAgentConditions', new MenuUserAgentCondition()],
         ];
 
-        static::assertPropertyCollections(new MenuUpdate(), $properties);
+        self::assertPropertyCollections(new MenuUpdate(), $properties);
     }
 
     public function testGetExtras()

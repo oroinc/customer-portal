@@ -39,13 +39,11 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
         $request = new Request();
         $response = new Response();
         $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-        $this->configManager
-            ->expects($this->any())
+        $this->configManager->expects($this->any())
             ->method('get')
             ->with('oro_customer.auto_login_after_registration')
             ->willReturn(false);
-        $this->loginManager
-            ->expects($this->never())
+        $this->loginManager->expects($this->never())
             ->method('logInUser');
         $this->listener->authenticate($event);
     }
@@ -57,13 +55,11 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
         $request->query->set('_oro_customer_auto_login', true);
         $response = new Response();
         $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-        $this->configManager
-            ->expects($this->any())
+        $this->configManager->expects($this->any())
             ->method('get')
             ->with('oro_customer.auto_login_after_registration')
             ->willReturn(false);
-        $this->loginManager
-            ->expects($this->once())
+        $this->loginManager->expects($this->once())
             ->method('logInUser')
             ->with(self::FIREWALL_NAME, $customerUser, $response);
         $this->listener->authenticate($event);
@@ -75,13 +71,11 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
         $response = new Response();
         $customerUser = new CustomerUser();
         $event = new FilterCustomerUserResponseEvent($customerUser, $request, $response);
-        $this->configManager
-            ->expects($this->once())
+        $this->configManager->expects($this->once())
             ->method('get')
             ->with('oro_customer.auto_login_after_registration')
             ->willReturn(true);
-        $this->loginManager
-            ->expects($this->once())
+        $this->loginManager->expects($this->once())
             ->method('logInUser')
             ->with(self::FIREWALL_NAME, $customerUser, $response);
         $this->listener->authenticate($event);

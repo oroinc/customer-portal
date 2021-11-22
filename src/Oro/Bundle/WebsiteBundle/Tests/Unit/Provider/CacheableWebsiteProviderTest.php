@@ -10,12 +10,11 @@ use Oro\Bundle\WebsiteBundle\Provider\CacheableWebsiteProvider;
 use Oro\Bundle\WebsiteBundle\Provider\WebsiteProviderInterface;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Cache\CacheTrait;
-use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait, CacheTrait;
+    use CacheTrait;
 
     /** @var WebsiteProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteProvider;
@@ -157,8 +156,7 @@ class CacheableWebsiteProviderTest extends \PHPUnit\Framework\TestCase
             $this->tokenStorage
         );
 
-        $cacheProvider
-            ->expects($this->exactly(1))
+        $cacheProvider->expects($this->once())
             ->method('deleteAll');
 
 

@@ -10,21 +10,16 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class RuleEditorTextTypeTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var RuleEditorOptionsConfigurator|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var RuleEditorOptionsConfigurator|\PHPUnit\Framework\MockObject\MockObject */
     private $optionsConfigurator;
 
-    /**
-     * @var PriceRuleEditorType
-     */
+    /** @var PriceRuleEditorType */
     private $type;
 
     protected function setUp(): void
     {
-        $this->optionsConfigurator = $this->getMockBuilder(RuleEditorOptionsConfigurator::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->optionsConfigurator = $this->createMock(RuleEditorOptionsConfigurator::class);
+
         $this->type = new RuleEditorTextType($this->optionsConfigurator);
     }
 

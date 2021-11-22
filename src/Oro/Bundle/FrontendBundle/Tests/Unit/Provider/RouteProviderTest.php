@@ -28,9 +28,6 @@ class RouteProviderTest extends \PHPUnit\Framework\TestCase
     /** @var RouteProvider */
     private $provider;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
@@ -98,10 +95,7 @@ class RouteProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedRoutes['execution'], $this->provider->getExecutionRoute());
     }
 
-    /**
-     * @return array
-     */
-    public function applicationRoutesProvider()
+    public function applicationRoutesProvider(): array
     {
         return [
             'backend user'  => [

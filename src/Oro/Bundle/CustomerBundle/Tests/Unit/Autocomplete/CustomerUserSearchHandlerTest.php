@@ -191,8 +191,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
             ->with('e.customer = :customer')
             ->willReturnSelf();
 
-        $this->entityRepository
-            ->expects(self::once())
+        $this->entityRepository->expects(self::once())
             ->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 
@@ -233,8 +232,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $queryBuilder->expects(self::never())
             ->method('andWhere');
 
-        $this->entityRepository
-            ->expects(self::once())
+        $this->entityRepository->expects(self::once())
             ->method('createQueryBuilder')
             ->willReturn($queryBuilder);
 

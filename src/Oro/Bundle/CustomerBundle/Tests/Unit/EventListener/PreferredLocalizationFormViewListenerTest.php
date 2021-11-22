@@ -35,7 +35,6 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
     {
         $template = '<div>Some template</div>';
         $formView = new FormView();
-        /** @var Environment|\PHPUnit\Framework\MockObject\MockObject $env */
         $env = $this->createMock(Environment::class);
         $env->expects($this->once())
             ->method('render')
@@ -69,7 +68,6 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
         $this->websiteManager->expects($this->once())
             ->method('getDefaultWebsite')
             ->willReturn(new Website());
-        /** @var Environment|\PHPUnit\Framework\MockObject\MockObject $env */
         $env = $this->createMock(Environment::class);
         $env->expects($this->never())
             ->method('render');
@@ -88,7 +86,6 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
         $this->websiteManager->expects($this->once())
             ->method('getDefaultWebsite')
             ->willReturn($defaultWebsite);
-        /** @var Environment|\PHPUnit\Framework\MockObject\MockObject $env */
         $env = $this->createMock(Environment::class);
         $env->expects($this->never())
             ->method('render');
@@ -111,7 +108,6 @@ class PreferredLocalizationFormViewListenerTest extends \PHPUnit\Framework\TestC
             ->method('getDefaultWebsite')
             ->willReturn($defaultWebsite);
         $template = '<div>Some template</div>';
-        /** @var Environment|\PHPUnit\Framework\MockObject\MockObject $env */
         $env = $this->createMock(Environment::class);
         $env->expects($this->once())
             ->method('render')

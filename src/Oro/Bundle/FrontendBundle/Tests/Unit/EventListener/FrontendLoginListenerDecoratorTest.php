@@ -35,7 +35,6 @@ class FrontendLoginListenerDecoratorTest extends \PHPUnit\Framework\TestCase
         $this->kernel = $this->createMock(KernelInterface::class);
         $this->baseLoginListener = $this->createMock(LoginListener::class);
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
-
         $this->request = new Request();
         $this->event = new InteractiveLoginEvent($this->request, $this->createMock(TokenInterface::class));
 
@@ -47,13 +46,9 @@ class FrontendLoginListenerDecoratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param bool   $frontend
-     * @param string $env
-     * @param bool   $expected
-     *
      * @dataProvider onLoginProvider
      */
-    public function testOnLogin($frontend, $env, $expected)
+    public function testOnLogin(bool $frontend, string $env, bool $expected)
     {
         $this->kernel->expects(self::any())
             ->method('getEnvironment')
@@ -76,7 +71,7 @@ class FrontendLoginListenerDecoratorTest extends \PHPUnit\Framework\TestCase
         $this->loginListener->onLogin($this->event);
     }
 
-    public function onLoginProvider()
+    public function onLoginProvider(): array
     {
         return [
             'frontend request, prod env' => [

@@ -30,13 +30,8 @@ class EmailRecipientsProviderTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->registry = $this->getMockBuilder(Registry::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->emailRecipientsHelper = $this->getMockBuilder(EmailRecipientsHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->registry = $this->createMock(Registry::class);
+        $this->emailRecipientsHelper = $this->createMock(EmailRecipientsHelper::class);
 
         $this->emailRecipientsProvider = new EmailRecipientsProvider(
             $this->registry,
@@ -49,9 +44,7 @@ class EmailRecipientsProviderTest extends TestCase
      */
     public function testGetRecipients(EmailRecipientsProviderArgs $args, array $recipients)
     {
-        $customerUserRepository = $this->getMockBuilder(CustomerUserRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $customerUserRepository = $this->createMock(CustomerUserRepository::class);
 
         $this->registry->expects($this->once())
             ->method('getRepository')

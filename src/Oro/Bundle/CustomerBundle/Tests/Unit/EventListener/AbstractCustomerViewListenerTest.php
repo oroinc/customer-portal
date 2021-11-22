@@ -15,8 +15,8 @@ use Twig\Environment;
 
 abstract class AbstractCustomerViewListenerTest extends \PHPUnit\Framework\TestCase
 {
-    const RENDER_HTML = 'render_html';
-    const TRANSLATED_TEXT = 'translated_text';
+    protected const RENDER_HTML = 'render_html';
+    protected const TRANSLATED_TEXT = 'translated_text';
 
     /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $translator;
@@ -44,11 +44,9 @@ abstract class AbstractCustomerViewListenerTest extends \PHPUnit\Framework\TestC
         $this->translator = $this->createMock(TranslatorInterface::class);
         $this->translator->expects($this->any())
             ->method('trans')
-            ->willReturnCallback(
-                function ($id) {
-                    return $id . '.trans';
-                }
-            );
+            ->willReturnCallback(function ($id) {
+                return $id . '.trans';
+            });
 
         $this->env = $this->createMock(Environment::class);
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);

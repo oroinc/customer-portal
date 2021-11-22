@@ -28,13 +28,11 @@ class DatagridContentTagsListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildAfterWhenFrontend(): void
     {
-        $this->frontendHelper
-            ->expects($this->once())
+        $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
             ->willReturn(true);
 
-        $this->dataGridTagListener
-            ->expects($this->never())
+        $this->dataGridTagListener->expects($this->never())
             ->method($this->anything());
 
         $this->listener->buildAfter($this->createMock(BuildAfter::class));
@@ -42,14 +40,12 @@ class DatagridContentTagsListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testBuildAfterWhenNotFrontend(): void
     {
-        $this->frontendHelper
-            ->expects($this->once())
+        $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
             ->willReturn(false);
 
         $event = $this->createMock(BuildAfter::class);
-        $this->dataGridTagListener
-            ->expects($this->once())
+        $this->dataGridTagListener->expects($this->once())
             ->method('buildAfter')
             ->with($event);
 

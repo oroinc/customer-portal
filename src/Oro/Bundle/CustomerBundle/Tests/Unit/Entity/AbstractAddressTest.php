@@ -58,12 +58,12 @@ abstract class AbstractAddressTest extends \PHPUnit\Framework\TestCase
      */
     public function testTypesCollection()
     {
-        static::assertPropertyCollections($this->address, [['types', $this->billingType]]);
+        self::assertPropertyCollections($this->address, [['types', $this->billingType]]);
     }
 
     public function testProperties()
     {
-        static::assertPropertyAccessors($this->address, [
+        self::assertPropertyAccessors($this->address, [
             ['systemOrganization', new Organization()],
             ['owner', new User()],
             ['phone', '11111111111']

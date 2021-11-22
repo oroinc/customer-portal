@@ -30,7 +30,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
     protected $formType;
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
     protected function getExtensions()
     {
@@ -60,10 +60,10 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
      */
     public function testSubmit(
         array $options,
-        $defaultData,
-        $viewData,
+        ?CustomerUserRole $defaultData,
+        ?CustomerUserRole $viewData,
         array $submittedData,
-        $expectedData
+        ?CustomerUserRole $expectedData
     ) {
         $form = $this->factory->create(FrontendCustomerUserRoleType::class, $defaultData, $options);
 
@@ -210,7 +210,7 @@ class FrontendCustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
     /**
      * {@inheritdoc}
      */
-    protected function createCustomerUserRoleFormTypeAndSetDataClass()
+    protected function createCustomerUserRoleFormTypeAndSetDataClass(): void
     {
         $this->formType = new FrontendCustomerUserRoleType();
         $this->formType->setDataClass(CustomerUserRole::class);

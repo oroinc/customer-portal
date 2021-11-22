@@ -57,7 +57,6 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
             ->method('getUser')
             ->willReturn($this->getCustomerUser('user3', 'c3', 'org3'));
 
-        /** @var TokenStorageInterface|\PHPUnit\Framework\MockObject\MockObject $tokenStorage */
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
         $tokenStorage->expects($this->any())
             ->method('getToken')
@@ -70,7 +69,6 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
 
         $this->tree = new OwnerTree();
 
-        /** @var OwnerTreeProviderInterface|\PHPUnit\Framework\MockObject\MockObject $treeProvider */
         $treeProvider = $this->createMock(OwnerTreeProviderInterface::class);
         $treeProvider->expects($this->any())
             ->method('getTree')
@@ -81,7 +79,6 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
         $this->aclVoter = $this->createMock(AclVoter::class);
         $this->ownerConditionBuilder = $this->createMock(AclConditionDataBuilderInterface::class);
 
-        /** @var AclGroupProviderInterface|\PHPUnit\Framework\MockObject\MockObject $aclGroupProvider */
         $aclGroupProvider = $this->createMock(AclGroupProviderInterface::class);
         $aclGroupProvider->expects($this->any())
             ->method('getGroup')
@@ -262,7 +259,6 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
     {
         $organization = $this->getEntity(Organization::class, ['id' => $orgId]);
 
-        /** @var CustomerUser $user */
         return $this->getEntity(
             CustomerUser::class,
             [

@@ -26,12 +26,6 @@ use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
  */
 class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var UserLoaderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $userLoader;
-
-    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $doctrine;
-
     /** @var EncoderFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $encoderFactory;
 
@@ -53,13 +47,14 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $logger;
 
+    /** @var EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $em;
+
     /** @var CustomerUserManager */
     private $userManager;
 
     protected function setUp(): void
     {
-        $this->userLoader = $this->createMock(UserLoaderInterface::class);
-        $this->doctrine = $this->createMock(ManagerRegistry::class);
         $this->encoderFactory = $this->createMock(EncoderFactoryInterface::class);
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->emailProcessor = $this->createMock(Processor::class);
@@ -67,10 +62,18 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
 
-        $this->userLoader->expects(self::any())
+        $userLoader = $this->createMock(UserLoaderInterface::class);
+        $userLoader->expects(self::any())
             ->method('getUserClass')
             ->willReturn(CustomerUser::class);
+
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects(self::any())
+            ->method('getManagerForClass')
+            ->with(CustomerUser::class)
+            ->willReturn($this->em);
 
         $emailProcessorLink = $this->createMock(ServiceLink::class);
         $emailProcessorLink->expects(self::any())
@@ -78,8 +81,8 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->emailProcessor);
 
         $this->userManager = new CustomerUserManager(
-            $this->userLoader,
-            $this->doctrine,
+            $userLoader,
+            $doctrine,
             $this->encoderFactory,
             $this->configManager,
             $emailProcessorLink,
@@ -88,52 +91,6 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             $this->websiteManager,
             $this->logger
         );
-    }
-
-    /**
-     * @return EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function expectGetEntityManager()
-    {
-        $em = $this->createMock(EntityManagerInterface::class);
-        $this->doctrine->expects(self::atLeastOnce())
-            ->method('getManagerForClass')
-            ->with(CustomerUser::class)
-            ->willReturn($em);
-
-        return $em;
-    }
-
-    /**
-     * @param EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject $em
-     *
-     * @return CustomerUserRepository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function expectGetRepository($em)
-    {
-        $repository = $this->createMock(CustomerUserRepository::class);
-        $em->expects(self::atLeastOnce())
-            ->method('getRepository')
-            ->with(CustomerUser::class)
-            ->willReturn($repository);
-
-        return $repository;
-    }
-
-    /**
-     * @param CustomerUser $user
-     *
-     * @return PasswordEncoderInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function expectGetPasswordEncoder(CustomerUser $user)
-    {
-        $encoder = $this->createMock(PasswordEncoderInterface::class);
-        $this->encoderFactory->expects(self::once())
-            ->method('getEncoder')
-            ->with($user)
-            ->willReturn($encoder);
-
-        return $encoder;
     }
 
     public function testConfirmRegistration()
@@ -196,11 +153,10 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
             ->with('oro_customer.confirmation_required')
             ->willReturn(true);
 
-        $em = $this->expectGetEntityManager();
-        $em->expects(self::once())
+        $this->em->expects(self::once())
             ->method('persist')
             ->with(self::identicalTo($user));
-        $em->expects(self::once())
+        $this->em->expects(self::once())
             ->method('flush');
 
         $this->emailProcessor->expects(self::once())
@@ -359,7 +315,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider isConfirmationRequiredDataProvider
      */
-    public function testIsConfirmationRequired($value)
+    public function testIsConfirmationRequired(bool $value)
     {
         $this->configManager->expects(self::once())
             ->method('get')
@@ -369,10 +325,7 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($value, $this->userManager->isConfirmationRequired());
     }
 
-    /**
-     * @return array
-     */
-    public function isConfirmationRequiredDataProvider()
+    public function isConfirmationRequiredDataProvider(): array
     {
         return [
             [true],
@@ -390,17 +343,20 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $user->setPlainPassword($password);
         $user->setSalt($salt);
 
-        $encoder = $this->expectGetPasswordEncoder($user);
+        $encoder = $this->createMock(PasswordEncoderInterface::class);
+        $this->encoderFactory->expects(self::once())
+            ->method('getEncoder')
+            ->with($user)
+            ->willReturn($encoder);
         $encoder->expects(self::once())
             ->method('encodePassword')
             ->with($password, $salt)
             ->willReturn($encodedPassword);
 
-        $em = $this->expectGetEntityManager();
-        $em->expects(self::once())
+        $this->em->expects(self::once())
             ->method('persist')
             ->with(self::identicalTo($user));
-        $em->expects(self::once())
+        $this->em->expects(self::once())
             ->method('flush');
 
         $this->userManager->updateUser($user);
@@ -414,8 +370,11 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
         $criteria = ['id' => 1];
         $user = $this->createMock(CustomerUser::class);
 
-        $em = $this->expectGetEntityManager();
-        $repository = $this->expectGetRepository($em);
+        $repository = $this->createMock(CustomerUserRepository::class);
+        $this->em->expects(self::atLeastOnce())
+            ->method('getRepository')
+            ->with(CustomerUser::class)
+            ->willReturn($repository);
         $repository->expects(self::once())
             ->method('findOneBy')
             ->with(array_merge($criteria, ['isGuest' => false]))

@@ -11,7 +11,6 @@ class WebsiteAwareAccessRuleTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsApplicableWithoutWebsite()
     {
-        /** @var Criteria|\PHPUnit\Framework\MockObject\MockObject $criteria */
         $criteria = $this->createMock(Criteria::class);
         $criteria->expects($this->once())
             ->method('hasOption')
@@ -24,7 +23,6 @@ class WebsiteAwareAccessRuleTest extends \PHPUnit\Framework\TestCase
 
     public function testIsApplicableWithWebsite()
     {
-        /** @var Criteria|\PHPUnit\Framework\MockObject\MockObject $criteria */
         $criteria = $this->createMock(Criteria::class);
         $criteria->expects($this->once())
             ->method('hasOption')
@@ -37,7 +35,6 @@ class WebsiteAwareAccessRuleTest extends \PHPUnit\Framework\TestCase
 
     public function testProcess()
     {
-        /** @var Criteria|\PHPUnit\Framework\MockObject\MockObject $criteria */
         $criteria = $this->createMock(Criteria::class);
         $criteria->expects($this->once())
             ->method('getOption')

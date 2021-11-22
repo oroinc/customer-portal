@@ -14,33 +14,24 @@ use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Validator\Validation;
 
 abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var Customer
-     */
-    protected static $customers;
+    /** @var Customer[]|null */
+    private static ?array $customers = null;
 
-    /**
-     * @var CustomerUserRoleType
-     */
+    /** @var CustomerUserRoleType */
     protected $formType;
 
-    /**
-     * @var array
-     */
-    protected $privilegeConfig = [
+    protected array $privilegeConfig = [
         'entity' => ['entity' => 'config'],
         'action' => ['action' => 'config'],
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->createCustomerUserRoleFormTypeAndSetDataClass();
@@ -48,15 +39,7 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function tearDown(): void
-    {
-        unset($this->formType);
-    }
-
-    /**
-     * @return array
+     * {@inheritDoc}
      */
     protected function getExtensions()
     {
@@ -127,7 +110,7 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
 
         $this->formType->finishView(
             $formView,
-            $this->createMock('Symfony\Component\Form\FormInterface'),
+            $this->createMock(FormInterface::class),
             ['privilege_config' => $privilegeConfig]
         );
 
@@ -138,9 +121,9 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
     /**
      * @return Customer[]
      */
-    protected function getCustomers()
+    protected function getCustomers(): array
     {
-        if (!self::$customers) {
+        if (null === self::$customers) {
             self::$customers = [
                 '1' => $this->createCustomer(1, 'first'),
                 '2' => $this->createCustomer(2, 'second')
@@ -162,20 +145,13 @@ abstract class AbstractCustomerUserRoleTypeTest extends FormIntegrationTestCase
     /**
      * Create form type
      */
-    abstract protected function createCustomerUserRoleFormTypeAndSetDataClass();
+    abstract protected function createCustomerUserRoleFormTypeAndSetDataClass(): void;
 
-    /**
-     * @param array $options
-     * @param CustomerUserRole|null $defaultData
-     * @param CustomerUserRole|null $viewData
-     * @param array $submittedData
-     * @param CustomerUserRole|null $expectedData
-     */
     abstract public function testSubmit(
         array $options,
-        $defaultData,
-        $viewData,
+        ?CustomerUserRole $defaultData,
+        ?CustomerUserRole $viewData,
         array $submittedData,
-        $expectedData
+        ?CustomerUserRole $expectedData
     );
 }

@@ -33,7 +33,6 @@ class PreferredLocalizationCustomerUserExtensionTest extends \PHPUnit\Framework\
 
     public function testBuildForm()
     {
-        /** @var FormBuilderInterface|\PHPUnit\Framework\MockObject\MockObject $builder */
         $builder = $this->createMock(FormBuilderInterface::class);
         $builder->expects($this->once())
             ->method('addEventSubscriber')

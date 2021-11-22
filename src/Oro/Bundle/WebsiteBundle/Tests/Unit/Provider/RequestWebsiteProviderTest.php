@@ -10,15 +10,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestWebsiteProviderTest extends \PHPUnit\Framework\TestCase
 {
-    private RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack;
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
+    private $requestStack;
 
-    private WebsiteManager|\PHPUnit\Framework\MockObject\MockObject $websiteManager;
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $websiteManager;
 
-    private RequestWebsiteProvider $provider;
+    /** @var RequestWebsiteProvider */
+    private $provider;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);

@@ -86,24 +86,20 @@ class SystemConfigListenerTest extends \PHPUnit\Framework\TestCase
         $id = 1;
         $key = 'oro_customer___default_customer_owner';
 
-        $user = $this->getMockBuilder($this->userClass)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $user = $this->createMock($this->userClass);
 
         $event = $this->getEvent([$key => ['value' => $id]]);
 
-        $manager = $this->getMockBuilder(ObjectManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $manager = $this->createMock(ObjectManager::class);
         $manager->expects($this->once())
             ->method('find')
             ->with($this->userClass, $id)
-            ->will($this->returnValue($user));
+            ->willReturn($user);
 
         $this->registry->expects($this->once())
             ->method('getManagerForClass')
             ->with($this->userClass)
-            ->will($this->returnValue($manager));
+            ->willReturn($manager);
 
         $this->listener->onFormPreSetData($event);
 
@@ -117,9 +113,7 @@ class SystemConfigListenerTest extends \PHPUnit\Framework\TestCase
 
         $event = $this->getEvent([$key => ['value' => $id]]);
 
-        $manager = $this->getMockBuilder(ObjectManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $manager = $this->createMock(ObjectManager::class);
         $manager->expects($this->never())
             ->method('find');
 
@@ -134,12 +128,10 @@ class SystemConfigListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnSettingsSaveBefore()
     {
         $id = 1;
-        $user = $this->getMockBuilder($this->userClass)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $user = $this->createMock($this->userClass);
         $user->expects($this->once())
             ->method('getId')
-            ->will($this->returnValue($id));
+            ->willReturn($id);
 
         $event = $this->getEvent(['value' => $user]);
 

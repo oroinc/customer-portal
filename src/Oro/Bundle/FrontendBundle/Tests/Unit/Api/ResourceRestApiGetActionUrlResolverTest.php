@@ -102,7 +102,7 @@ class ResourceRestApiGetActionUrlResolverTest extends \PHPUnit\Framework\TestCas
         );
     }
 
-    public function resolveApiUrlForDefaultEntityIdDataProvider()
+    public function resolveApiUrlForDefaultEntityIdDataProvider(): array
     {
         return [
             ['routeParameters' => []],

@@ -16,35 +16,23 @@ class WYSIWYGTypeExtensionTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /**
-     * @var ThemeManager|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ThemeManager|\PHPUnit\Framework\MockObject\MockObject */
     private $themeManager;
 
-    /**
-     * @var ThemeProvider|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ThemeProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $themeProvider;
 
-    /**
-     * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
 
-    /**
-     * @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
     private $websiteManager;
 
-    /**
-     * @var Packages|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var Packages|\PHPUnit\Framework\MockObject\MockObject */
     private $packages;
 
-    /**
-     * @var WYSIWYGTypeExtension
-     */
-    protected $extension;
+    /** @var WYSIWYGTypeExtension */
+    private $extension;
 
     protected function setUp(): void
     {
@@ -75,7 +63,7 @@ class WYSIWYGTypeExtensionTest extends \PHPUnit\Framework\TestCase
             ->method('setDefault')
             ->with('page-component', function () {
             })
-            ->will($this->returnSelf());
+            ->willReturnSelf();
 
         $this->extension->configureOptions($resolver);
     }

@@ -61,7 +61,7 @@ class MenuUserAgentConditionTypeTest extends FormIntegrationTestCase
 
     public function testGetBlockPrefix()
     {
-        static::assertEquals('oro_commerce_menu_user_agent_condition', $this->formType->getBlockPrefix());
+        self::assertEquals('oro_commerce_menu_user_agent_condition', $this->formType->getBlockPrefix());
     }
 
     public function testConfigureOptions()
@@ -72,6 +72,6 @@ class MenuUserAgentConditionTypeTest extends FormIntegrationTestCase
         $actualOptions = $optionsResolver->resolve([]);
         $expectedOptions = ['data_class' => MenuUserAgentCondition::class];
 
-        static::assertEquals($expectedOptions, $actualOptions);
+        self::assertEquals($expectedOptions, $actualOptions);
     }
 }

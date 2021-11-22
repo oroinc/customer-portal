@@ -82,7 +82,7 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
 
     public function testGetBlockPrefix()
     {
-        static::assertEquals('oro_commerce_menu_screens_condition', $this->formType->getBlockPrefix());
+        self::assertEquals('oro_commerce_menu_screens_condition', $this->formType->getBlockPrefix());
     }
 
     public function testConfigureOptions()
@@ -99,13 +99,12 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
             'required' => false,
         ];
 
-        static::assertEquals($expectedOptions, $actualOptions);
+        self::assertEquals($expectedOptions, $actualOptions);
     }
 
     private function mockScreensProvider()
     {
-        $this->screensProvider
-            ->expects(static::once())
+        $this->screensProvider->expects(self::once())
             ->method('getScreens')
             ->willReturn(self::SCREENS_CONFIG);
     }

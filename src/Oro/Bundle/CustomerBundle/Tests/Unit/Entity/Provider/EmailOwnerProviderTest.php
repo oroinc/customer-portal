@@ -6,9 +6,8 @@ use Doctrine\ORM\EntityManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Provider\EmailOwnerProvider;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRepository;
-use PHPUnit\Framework\TestCase;
 
-class EmailOwnerProviderTest extends TestCase
+class EmailOwnerProviderTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetEmailOwnerClass()
     {

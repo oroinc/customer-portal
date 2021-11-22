@@ -53,8 +53,7 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
     public function testSendWelcomeNotification(): void
     {
         $returnValue = 1;
-        $this->userTemplateEmailSender
-            ->expects($this->once())
+        $this->userTemplateEmailSender->expects($this->once())
             ->method('sendUserTemplateEmail')
             ->with(
                 $this->user,
@@ -76,8 +75,7 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
     {
         $returnValue = 1;
 
-        $this->userTemplateEmailSender
-            ->expects($this->once())
+        $this->userTemplateEmailSender->expects($this->once())
             ->method('sendUserTemplateEmail')
             ->with(
                 $this->user,
@@ -101,8 +99,7 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
     public function testSendConfirmationEmail(): void
     {
         $returnValue = 1;
-        $this->userTemplateEmailSender
-            ->expects($this->once())
+        $this->userTemplateEmailSender->expects($this->once())
             ->method('sendUserTemplateEmail')
             ->with(
                 $this->user,
@@ -123,8 +120,7 @@ class ProcessorTest extends \PHPUnit\Framework\TestCase
     public function testSendResetPasswordEmail(): void
     {
         $returnValue = 1;
-        $this->userTemplateEmailSender
-            ->expects($this->once())
+        $this->userTemplateEmailSender->expects($this->once())
             ->method('sendUserTemplateEmail')
             ->with(
                 $this->user,

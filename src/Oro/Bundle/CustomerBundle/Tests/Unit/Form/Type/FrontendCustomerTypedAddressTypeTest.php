@@ -27,14 +27,11 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
     /** @var FrontendCustomerTypedAddressType */
     protected $formType;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->formType = new FrontendCustomerTypedAddressType();
-        $this->formType->setAddressTypeDataClass('Oro\Bundle\AddressBundle\Entity\AddressType');
-        $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerAddress');
+        $this->formType->setAddressTypeDataClass(AddressType::class);
+        $this->formType->setDataClass(CustomerAddress::class);
 
         $this->factory = Forms::createFormFactoryBuilder()
             ->addExtensions($this->getExtensions())
@@ -42,17 +39,7 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function tearDown(): void
-    {
-        unset($this->formType);
-
-        parent::tearDown();
-    }
-
-    /**
-     * @return array
+     * {@inheritDoc}
      */
     protected function getExtensions()
     {
@@ -84,21 +71,15 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
     }
 
     /**
-     * @param array $options
-     * @param mixed $defaultData
-     * @param mixed $viewData
-     * @param mixed $submittedData
-     * @param mixed $expectedData
-     * @param null  $updateOwner
      * @dataProvider submitDataProvider
      */
     public function testSubmit(
         array $options,
-        $defaultData,
-        $viewData,
-        $submittedData,
-        $expectedData,
-        $updateOwner = null
+        mixed $defaultData,
+        mixed $viewData,
+        mixed $submittedData,
+        mixed $expectedData,
+        mixed $updateOwner = null
     ) {
         $form = $this->factory->create($this->getTypeClass(), $defaultData, $options);
         $this->assertTrue($form->has('frontendOwner'));
@@ -112,9 +93,9 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    public function submitWithFormSubscribersProvider()
+    public function submitWithFormSubscribersProvider(): array
     {
         $customerAddress1 = new CustomerAddress();
         $customerAddress1
@@ -214,10 +195,7 @@ class FrontendCustomerTypedAddressTypeTest extends CustomerTypedAddressTypeTest
         return FrontendCustomerTypedAddressType::class;
     }
 
-    /**
-     * @return Customer
-     */
-    protected function getCustomer()
+    protected function getCustomer(): object
     {
         return new Customer();
     }

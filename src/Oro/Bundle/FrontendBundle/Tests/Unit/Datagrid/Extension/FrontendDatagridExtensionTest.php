@@ -4,6 +4,7 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Datagrid\Extension;
 
 use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Datagrid\ParameterBag;
+use Oro\Bundle\DataGridBundle\Exception\LogicException;
 use Oro\Bundle\FrontendBundle\Datagrid\Extension\FrontendDatagridExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 
@@ -64,7 +65,7 @@ class FrontendDatagridExtensionTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldDenyAccessForBackendGridForFrontendRequest()
     {
-        $this->expectException(\Oro\Bundle\DataGridBundle\Exception\LogicException::class);
+        $this->expectException(LogicException::class);
         $datagridConfig = DatagridConfiguration::createNamed('test_grid', []);
 
         $this->frontendHelper->expects(self::once())

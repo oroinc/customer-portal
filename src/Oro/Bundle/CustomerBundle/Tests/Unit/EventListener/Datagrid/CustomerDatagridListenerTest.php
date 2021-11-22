@@ -12,31 +12,18 @@ use Symfony\Component\Security\Acl\Exception\InvalidDomainObjectException;
 
 class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
 {
+    private const ENTITY_CLASS = 'TestEntity';
     private const COLUMN_NAME = 'testColumnName';
 
-    /**
-     * @var CustomerDatagridListener
-     */
-    protected $listener;
+    /** @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $securityProvider;
 
-    /**
-     * @var string
-     */
-    protected $entityClass = 'TestEntity';
+    /** @var DatagridInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $datagrid;
 
-    /**
-     * @var CustomerUserProvider|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $securityProvider;
+    /** @var CustomerDatagridListener */
+    private $listener;
 
-    /**
-     * @var DatagridInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $datagrid;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->securityProvider = $this->createMock(CustomerUserProvider::class);
@@ -49,10 +36,12 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
     {
         $this->securityProvider->expects($this->any())
             ->method('isGrantedViewCustomerUser')
-            ->with($this->entityClass)
+            ->with(self::ENTITY_CLASS)
             ->willThrowException(new InvalidDomainObjectException('Exception'));
 
-        $this->securityProvider->expects($this->any())->method('getLoggedUser')->willReturn(new CustomerUser());
+        $this->securityProvider->expects($this->any())
+            ->method('getLoggedUser')
+            ->willReturn(new CustomerUser());
 
         $config = $this->getConfig();
         $datagridConfig = DatagridConfiguration::create($config);
@@ -69,10 +58,12 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
     {
         $this->securityProvider->expects($this->any())
             ->method('isGrantedViewCustomerUser')
-            ->with($this->entityClass)
+            ->with(self::ENTITY_CLASS)
             ->willReturn($inputData['grantedViewCustomerUser']);
 
-        $this->securityProvider->expects($this->any())->method('getLoggedUser')->willReturn($inputData['user']);
+        $this->securityProvider->expects($this->any())
+            ->method('getLoggedUser')
+            ->willReturn($inputData['user']);
 
         $datagridConfig = DatagridConfiguration::create($inputData['config']);
 
@@ -81,10 +72,7 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedData['config'], $datagridConfig->toArray());
     }
 
-    /**
-     * @return array
-     */
-    public function buildBeforeFrontendQuotesProvider()
+    public function buildBeforeFrontendQuotesProvider(): array
     {
         return [
             'invalid user' => [
@@ -150,15 +138,12 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @param bool $empty
-     * @param bool $sourceQueryFrom
-     * @param string $sourceType
-     * @param bool $skipAcl
-     * @return array
-     */
-    protected function getConfig($empty = false, $sourceQueryFrom = true, $sourceType = 'orm', $skipAcl = false)
-    {
+    private function getConfig(
+        bool $empty = false,
+        bool $sourceQueryFrom = true,
+        string $sourceType = 'orm',
+        bool $skipAcl = false
+    ): array {
         $config = [
             'options' => [],
             'source' => [
@@ -178,7 +163,7 @@ class CustomerDatagridListenerTest extends \PHPUnit\Framework\TestCase
         if ($sourceQueryFrom) {
             $config['source']['query']['from'] = [
                 [
-                    'table' => $this->entityClass,
+                    'table' => self::ENTITY_CLASS,
                     'alias' => 'tableAlias',
                 ],
             ];

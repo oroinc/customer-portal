@@ -9,6 +9,7 @@ use Oro\Bundle\UIBundle\Event\BeforeViewRenderEvent;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
@@ -21,7 +22,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
+        $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects($this->any())
             ->method('trans')
             ->willReturnCallback(function ($value) {
@@ -35,7 +36,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnUpdatePageRenderWithoutRequest()
     {
         $event = new BeforeFormRenderEvent(
-            $this->createMock('Symfony\Component\Form\FormView'),
+            $this->createMock(FormView::class),
             [],
             $this->createMock(Environment::class),
             null
@@ -49,7 +50,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnUpdatePageRenderOnWrongPage()
     {
         $event = new BeforeFormRenderEvent(
-            $this->createMock('Symfony\Component\Form\FormView'),
+            $this->createMock(FormView::class),
             [],
             $this->createMock(Environment::class),
             null
@@ -65,7 +66,7 @@ class CustomerRolePageListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnUpdatePageRenderOnNonCloneRolePage()
     {
         $event = new BeforeFormRenderEvent(
-            $this->createMock('Symfony\Component\Form\FormView'),
+            $this->createMock(FormView::class),
             [],
             $this->createMock(Environment::class),
             null

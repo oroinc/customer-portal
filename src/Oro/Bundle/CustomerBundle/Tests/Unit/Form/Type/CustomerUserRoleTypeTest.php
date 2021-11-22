@@ -8,15 +8,14 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 class CustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
 {
     /**
-     * @inheritdoc
      * @dataProvider submitDataProvider
      */
     public function testSubmit(
         array $options,
-        $defaultData,
-        $viewData,
+        ?CustomerUserRole $defaultData,
+        ?CustomerUserRole $viewData,
         array $submittedData,
-        $expectedData
+        ?CustomerUserRole $expectedData
     ) {
         $form = $this->factory->create(CustomerUserRoleType::class, $defaultData, $options);
 
@@ -48,9 +47,9 @@ class CustomerUserRoleTypeTest extends AbstractCustomerUserRoleTypeTest
     }
 
     /**
-     * Create form type
+     * {@inheritDoc}
      */
-    protected function createCustomerUserRoleFormTypeAndSetDataClass()
+    protected function createCustomerUserRoleFormTypeAndSetDataClass(): void
     {
         $this->formType = new CustomerUserRoleType();
         $this->formType->setDataClass(CustomerUserRole::class);

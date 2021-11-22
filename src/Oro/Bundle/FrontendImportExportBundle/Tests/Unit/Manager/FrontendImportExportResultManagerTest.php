@@ -21,31 +21,30 @@ class FrontendImportExportResultManagerTest extends TestCase
 
     private const TOKEN_USER_ID = 42;
 
-    private TokenAccessorInterface $tokenAccessor;
+    /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject  */
+    private $entityManager;
 
-    private ObjectManager $entityManager;
-
-    private FrontendImportExportResultManager $manager;
+    /** @var FrontendImportExportResultManager */
+    private $manager;
 
     protected function setUp(): void
     {
-        $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-        $managerRegistry = $this->createMock(ManagerRegistry::class);
-
-        $this->manager = new FrontendImportExportResultManager($managerRegistry, $this->tokenAccessor);
-
         $this->entityManager = $this->createMock(ObjectManager::class);
-        $managerRegistry->expects(self::any())
+
+        $doctrine = $this->createMock(ManagerRegistry::class);
+        $doctrine->expects(self::any())
             ->method('getManagerForClass')
             ->willReturn($this->entityManager);
 
-        $this->tokenAccessor->expects(self::any())
+        $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $tokenAccessor->expects(self::any())
             ->method('getOrganization')
             ->willReturn(self::getTokenOrganization());
-
-        $this->tokenAccessor->expects(self::any())
+        $tokenAccessor->expects(self::any())
             ->method('getUserid')
             ->willReturn(self::TOKEN_USER_ID);
+
+        $this->manager = new FrontendImportExportResultManager($doctrine, $tokenAccessor);
     }
 
     /**
@@ -63,8 +62,7 @@ class FrontendImportExportResultManagerTest extends TestCase
         $this->entityManager->expects(self::once())
             ->method('persist');
 
-        $this->entityManager
-            ->expects(self::once())
+        $this->entityManager->expects(self::once())
             ->method('flush');
 
         $importExportResult = $this->manager->saveResult($jobId, $type, $entity, $customerUser, $fileName, $options);
@@ -120,19 +118,16 @@ class FrontendImportExportResultManagerTest extends TestCase
         $date = new \DateTime('now', new \DateTimeZone('UTC'));
 
         $importExportRepository = $this->createMock(FrontendImportExportResultRepository::class);
-        $importExportRepository
-            ->expects(self::once())
+        $importExportRepository->expects(self::once())
             ->method('updateExpiredRecords')
             ->with($date, $date);
 
-        $this->entityManager
-            ->expects(self::once())
+        $this->entityManager->expects(self::once())
             ->method('getRepository')
             ->with(FrontendImportExportResult::class)
             ->willReturn($importExportRepository);
 
-        $this->entityManager
-            ->expects(self::once())
+        $this->entityManager->expects(self::once())
             ->method('flush');
 
         $this->manager->markResultsAsExpired($date, $date);

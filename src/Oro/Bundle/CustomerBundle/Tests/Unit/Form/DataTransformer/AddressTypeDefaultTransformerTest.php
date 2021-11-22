@@ -43,7 +43,7 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
         ]);
         $this->addressRepository->expects($this->any())
             ->method('findBy')
-            ->will($this->returnCallback(function ($params) {
+            ->willReturnCallback(function ($params) {
                 $result = [];
                 foreach ($params['name'] as $name) {
                     switch ($name) {
@@ -57,7 +57,7 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
                 }
 
                 return $result;
-            }));
+            });
     }
 
     /**
@@ -128,17 +128,14 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
      */
     protected function createRepositoryMock($entityModels = [])
     {
-        $repo = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $repo = $this->createMock(EntityRepository::class);
         $repo->expects($this->any())
             ->method('findAll')
-            ->will($this->returnValue($entityModels));
+            ->willReturn($entityModels);
 
         $this->em->expects($this->any())
             ->method('getRepository')
-            ->will($this->returnValue($repo));
+            ->willReturn($repo);
 
         return $repo;
     }
@@ -148,8 +145,6 @@ class AddressTypeDefaultTransformerTest extends \PHPUnit\Framework\TestCase
      */
     protected function createEntityManagerMock()
     {
-        return $this->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        return $this->createMock(EntityManager::class);
     }
 }

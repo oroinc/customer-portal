@@ -37,7 +37,7 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
     private $themeManager;
 
     /** @var LocaleSettings */
-    protected $localeSettings;
+    private $localeSettings;
 
     protected function setUp(): void
     {
@@ -770,19 +770,13 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getValidLocaleDataProvider
-     *
-     * @param string $locale
-     * @param string $expectedLocale
      */
-    public function testGetValidLocale($locale, $expectedLocale)
+    public function testGetValidLocale(?string $locale, string $expectedLocale)
     {
         $this->assertEquals($expectedLocale, LocaleSettings::getValidLocale($locale));
     }
 
-    /**
-     * @return array
-     */
-    public function getValidLocaleDataProvider()
+    public function getValidLocaleDataProvider(): array
     {
         return [
             ['ru_RU', 'ru_RU'],
@@ -797,19 +791,13 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider getCountryByLocaleDataProvider
-     *
-     * @param string $locale
-     * @param string $expectedCountry
      */
-    public function testGetCountryByLocale($locale, $expectedCountry)
+    public function testGetCountryByLocale(string $locale, string $expectedCountry)
     {
         $this->assertEquals($expectedCountry, LocaleSettings::getCountryByLocale($locale));
     }
 
-    /**
-     * @return array
-     */
-    public function getCountryByLocaleDataProvider()
+    public function getCountryByLocaleDataProvider(): array
     {
         return [
             ['EN', LocaleConfiguration::DEFAULT_COUNTRY],
@@ -821,11 +809,8 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider localeProvider
-     *
-     * @param string $locale
-     * @param string $expectedCurrency
      */
-    public function testGetCountryByLocal($locale, $expectedCurrency)
+    public function testGetCountryByLocal(string $locale, string $expectedCurrency)
     {
         $currency = LocaleSettings::getCurrencyByLocale($locale);
 
@@ -834,44 +819,20 @@ class LocaleSettingsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * The USD is default currency
-     *
-     * @return array
      */
-    public function localeProvider()
+    public function localeProvider(): array
     {
         return [
-            [
-                'en',
-                'USD'
-            ],
-            [
-                'en_CA',
-                $this->getCurrencyBuLocale('en_CA')
-            ],
-            [
-                'it',
-                'USD'
-            ],
-            [
-                'it_IT',
-                $this->getCurrencyBuLocale('it_IT')
-            ],
-            [
-                'ua',
-                'USD'
-            ],
-            [
-                'ru_UA',
-                $this->getCurrencyBuLocale('ru_UA')
-            ]
+            ['en', 'USD'],
+            ['en_CA', $this->getCurrencyByLocale('en_CA')],
+            ['it', 'USD'],
+            ['it_IT', $this->getCurrencyByLocale('it_IT')],
+            ['ua', 'USD'],
+            ['ru_UA', $this->getCurrencyByLocale('ru_UA')]
         ];
     }
 
-    /**
-     * @param string $locale
-     * @return bool|string
-     */
-    protected function getCurrencyBuLocale($locale)
+    private function getCurrencyByLocale(string $locale): string
     {
         $formatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
 

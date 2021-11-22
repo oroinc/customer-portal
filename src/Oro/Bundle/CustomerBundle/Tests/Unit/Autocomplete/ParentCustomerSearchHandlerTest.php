@@ -340,8 +340,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $queryBuilder->expects($this->once())
             ->method('getQuery')
             ->willReturn($query);
-        $this->entityRepository
-            ->expects($this->any())
+        $this->entityRepository->expects($this->any())
             ->method('createQueryBuilder')
             ->willReturn($queryBuilder);
         $this->aclHelper->expects($this->once())

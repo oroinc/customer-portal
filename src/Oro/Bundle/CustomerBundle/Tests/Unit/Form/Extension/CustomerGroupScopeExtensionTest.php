@@ -54,9 +54,7 @@ class CustomerGroupScopeExtensionTest extends FormIntegrationTestCase
      */
     protected function getExtensions()
     {
-        $this->scopeManager = $this->getMockBuilder(ScopeManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->scopeManager = $this->createMock(ScopeManager::class);
 
         return [
             new PreloadedExtension(

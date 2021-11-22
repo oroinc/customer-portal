@@ -36,16 +36,16 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
                 'oro_customer.authentication.listener.anonymous_customer_user.fake_id',
             ]
         );
-        static::assertInstanceOf(
+        self::assertInstanceOf(
             ChildDefinition::class,
             $this->actualDefinitions['oro_customer.authentication.provider.anonymous_customer_user.fake_id']
         );
-        static::assertEquals(
+        self::assertEquals(
             'oro_customer.authentication.provider.anonymous_customer_user',
             $this->actualDefinitions['oro_customer.authentication.provider.anonymous_customer_user.fake_id']
                 ->getParent()
         );
-        static::assertEquals(
+        self::assertEquals(
             [
                 'index_2' => 300,
             ],
@@ -53,11 +53,11 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
                 ->getArguments()
         );
 
-        static::assertInstanceOf(
+        self::assertInstanceOf(
             ChildDefinition::class,
             $this->actualDefinitions['oro_customer.authentication.listener.anonymous_customer_user.fake_id']
         );
-        static::assertEquals(
+        self::assertEquals(
             'oro_customer.authentication.listener.anonymous_customer_user',
             $this->actualDefinitions['oro_customer.authentication.listener.anonymous_customer_user.fake_id']
                 ->getParent()
@@ -66,12 +66,12 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
 
     public function testGetPosition(): void
     {
-        static::assertEquals('remember_me', $this->factory->getPosition());
+        self::assertEquals('remember_me', $this->factory->getPosition());
     }
 
     public function testGetKey(): void
     {
-        static::assertEquals('anonymous_customer_user', $this->factory->getKey());
+        self::assertEquals('anonymous_customer_user', $this->factory->getKey());
     }
 
     public function testAddConfiguration(): void
@@ -79,7 +79,7 @@ class AnonymousCustomerUserFactoryTest extends ExtensionTestCase
         $config = new ArrayNodeDefinition('root');
         $this->factory->addConfiguration($config);
         $loadedNodes = $config->getNode()->getChildren();
-        static::assertCount(1, $loadedNodes);
-        static::assertInstanceOf(IntegerNode::class, $loadedNodes['update_latency']);
+        self::assertCount(1, $loadedNodes);
+        self::assertInstanceOf(IntegerNode::class, $loadedNodes['update_latency']);
     }
 }

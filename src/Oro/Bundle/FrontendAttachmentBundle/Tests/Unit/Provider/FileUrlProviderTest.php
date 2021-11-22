@@ -76,13 +76,11 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     {
         $file = new File();
 
-        $this->currentApplicationProvider
-            ->expects($this->once())
+        $this->currentApplicationProvider->expects($this->once())
             ->method('getCurrentApplication')
             ->willReturn(CurrentApplicationProviderInterface::DEFAULT_APPLICATION);
 
-        $this->innerFileUrlProvider
-            ->expects(self::once())
+        $this->innerFileUrlProvider->expects(self::once())
             ->method('getFileUrl')
             ->with($file, self::ACTION, self::REFERENCE_TYPE)
             ->willReturn(self::URL);
@@ -132,8 +130,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
             CurrentApplicationProviderInterface::DEFAULT_APPLICATION
         );
 
-        $this->innerFileUrlProvider
-            ->expects(self::once())
+        $this->innerFileUrlProvider->expects(self::once())
             ->method('getResizedImageUrl')
             ->with($file, self::WIDTH, self::HEIGHT, self::REFERENCE_TYPE)
             ->willReturn(self::URL);
@@ -155,8 +152,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
             CurrentApplicationProviderInterface::DEFAULT_APPLICATION
         );
 
-        $this->innerFileUrlProvider
-            ->expects(self::once())
+        $this->innerFileUrlProvider->expects(self::once())
             ->method('getFilteredImageUrl')
             ->with($file, self::FILTER, self::REFERENCE_TYPE)
             ->willReturn(self::URL);
@@ -174,8 +170,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->mockApplications([CurrentApplicationProviderInterface::DEFAULT_APPLICATION], null);
 
-        $this->innerFileUrlProvider
-            ->expects(self::once())
+        $this->innerFileUrlProvider->expects(self::once())
             ->method('getFilteredImageUrl')
             ->with($file, self::FILTER, self::REFERENCE_TYPE)
             ->willReturn(self::URL);
@@ -193,8 +188,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     {
         $file = $this->getFile(self::FILE_ID, self::FILENAME);
 
-        $this->currentApplicationProvider
-            ->expects($this->once())
+        $this->currentApplicationProvider->expects($this->once())
             ->method('getCurrentApplication')
             ->willReturn(FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
@@ -336,8 +330,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
-        $this->urlGenerator
-            ->expects(self::never())
+        $this->urlGenerator->expects(self::never())
             ->method('generate');
 
         self::assertEquals(
@@ -373,8 +366,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->mockApplications($fileApplications, FrontendCurrentApplicationProvider::COMMERCE_APPLICATION);
 
-        $this->urlGenerator
-            ->expects(self::never())
+        $this->urlGenerator->expects(self::never())
             ->method('generate');
 
         self::assertEquals(

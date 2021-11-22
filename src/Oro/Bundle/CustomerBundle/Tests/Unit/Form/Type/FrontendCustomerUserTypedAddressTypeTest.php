@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Validator\Constraints\NameOrOrganization;
 use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -14,15 +15,12 @@ class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddr
     /** @var FrontendCustomerUserTypedAddressType */
     protected $formType;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->formType = new FrontendCustomerUserTypedAddressType();
-        $this->formType->setAddressTypeDataClass('Oro\Bundle\AddressBundle\Entity\AddressType');
-        $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerAddress');
+        $this->formType->setAddressTypeDataClass(AddressType::class);
+        $this->formType->setDataClass(CustomerAddress::class);
         $this->factory = Forms::createFormFactoryBuilder()
             ->addExtensions($this->getExtensions())
             ->getFormFactory();
@@ -63,9 +61,9 @@ class FrontendCustomerUserTypedAddressTypeTest extends FrontendCustomerTypedAddr
     }
 
     /**
-     * @return CustomerUser
+     * {@inheritdoc}
      */
-    protected function getCustomer()
+    protected function getCustomer(): object
     {
         return new CustomerUser();
     }

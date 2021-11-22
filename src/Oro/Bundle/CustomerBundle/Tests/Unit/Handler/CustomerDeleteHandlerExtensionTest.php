@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CustomerDeleteHandlerExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var CustomerAssignHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $customerAssignHelper;
 
     /** @var CustomerDeleteHandlerExtension */
@@ -21,9 +21,7 @@ class CustomerDeleteHandlerExtensionTest extends \PHPUnit\Framework\TestCase
     {
         $this->customerAssignHelper = $this->createMock(CustomerAssignHelper::class);
 
-        $this->extension = new CustomerDeleteHandlerExtension(
-            $this->customerAssignHelper
-        );
+        $this->extension = new CustomerDeleteHandlerExtension($this->customerAssignHelper);
         $this->extension->setDoctrine($this->createMock(ManagerRegistry::class));
         $this->extension->setAccessDeniedExceptionFactory(new EntityDeleteAccessDeniedExceptionFactory());
     }

@@ -19,7 +19,7 @@ class MenuProviderTest extends \PHPUnit\Framework\TestCase
      */
     protected function setUp(): void
     {
-        $this->builderChainProvider = $this->getMockBuilder(MenuProviderInterface::class)->getMock();
+        $this->builderChainProvider = $this->createMock(MenuProviderInterface::class);
         $this->provider = new MenuProvider($this->builderChainProvider);
     }
 
@@ -28,11 +28,9 @@ class MenuProviderTest extends \PHPUnit\Framework\TestCase
         $menuName = 'menuName';
         $options = ['option1', 'option2'];
 
-        /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject $item */
-        $item = $this->getMockBuilder(ItemInterface::class)->getMock();
+        $item = $this->createMock(ItemInterface::class);
 
-        $this->builderChainProvider
-            ->expects($this->once())
+        $this->builderChainProvider->expects($this->once())
             ->method('get')
             ->with($menuName, $options)
             ->willReturn($item);
@@ -45,11 +43,9 @@ class MenuProviderTest extends \PHPUnit\Framework\TestCase
         $menuName = 'menuName';
         $options = ['check_access_not_logged_in' => true];
 
-        /** @var ItemInterface|\PHPUnit\Framework\MockObject\MockObject $item */
-        $item = $this->getMockBuilder(ItemInterface::class)->getMock();
+        $item = $this->createMock(ItemInterface::class);
 
-        $this->builderChainProvider
-            ->expects($this->once())
+        $this->builderChainProvider->expects($this->once())
             ->method('get')
             ->with($menuName, $options)
             ->willReturn($item);

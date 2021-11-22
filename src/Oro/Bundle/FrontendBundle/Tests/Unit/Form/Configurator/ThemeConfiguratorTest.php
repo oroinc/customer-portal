@@ -19,13 +19,11 @@ class ThemeConfiguratorTest extends \PHPUnit\Framework\TestCase
     /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $authorizationChecker;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->configBag = $this->createMock(ConfigBag::class);
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
+
         $this->themeConfigurator = new ThemeConfigurator($this->configBag, $this->authorizationChecker);
     }
 
@@ -34,8 +32,7 @@ class ThemeConfiguratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testConfigure(array $fieldsRoot, array $expectedOptions)
     {
-        $this->configBag
-            ->expects($this->once())
+        $this->configBag->expects($this->once())
             ->method('getFieldsRoot')
             ->with('oro_frontend.page_templates')
             ->willReturn($fieldsRoot);
@@ -50,10 +47,7 @@ class ThemeConfiguratorTest extends \PHPUnit\Framework\TestCase
         $this->themeConfigurator->configure($builder, []);
     }
 
-    /**
-     * @return array
-     */
-    public function fieldsRootDataProvider()
+    public function fieldsRootDataProvider(): array
     {
         return [
             'default' => [

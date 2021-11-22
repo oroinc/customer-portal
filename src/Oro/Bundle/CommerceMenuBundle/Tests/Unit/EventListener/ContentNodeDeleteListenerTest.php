@@ -21,8 +21,7 @@ class ContentNodeDeleteListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testPostRemove(): void
     {
-        $this->cacheProvider
-            ->expects($this->once())
+        $this->cacheProvider->expects($this->once())
             ->method('deleteAll');
 
         $this->listener->postRemove();

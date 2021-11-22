@@ -50,20 +50,16 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->tokenStorage = $this->getMockBuilder(TokenStorageInterface::class)->getMock();
+        $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $this->userChecker = $this->createMock(UserCheckerInterface::class);
+        $this->request = $this->createMock(Request::class);
+        $this->sessionStrategy = $this->createMock(SessionAuthenticationStrategyInterface::class);
 
-        $this->userChecker = $this->getMockBuilder(UserCheckerInterface::class)->getMock();
-
-        $this->request = $this->getMockBuilder(Request::class)->getMock();
-
-        $this->sessionStrategy = $this->getMockBuilder(SessionAuthenticationStrategyInterface::class)->getMock();
-
-        $this->requestStack = $this->getMockBuilder(RequestStack::class)->getMock();
-        $this->requestStack
-            ->expects(self::once())
+        $this->requestStack = $this->createMock(RequestStack::class);
+        $this->requestStack->expects(self::once())
             ->method('getCurrentRequest')
             ->willReturn($this->request);
-        $this->rememberMe = $this->getMockBuilder(RememberMeServicesInterface::class)->getMock();
+        $this->rememberMe = $this->createMock(RememberMeServicesInterface::class);
 
         $this->tokenFactory = $this->createMock(UsernamePasswordOrganizationTokenFactoryInterface::class);
 
@@ -90,18 +86,15 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
 
         $token = $this->createMock(UsernamePasswordToken::class);
 
-        $this->tokenStorage
-            ->expects(self::once())
+        $this->tokenStorage->expects(self::once())
             ->method('setToken')
             ->with($this->isInstanceOf(TokenInterface::class));
 
-        $this->userChecker
-            ->expects(self::once())
+        $this->userChecker->expects(self::once())
             ->method('checkPreAuth')
             ->with($this->isInstanceOf(UserInterface::class));
 
-        $this->sessionStrategy
-            ->expects(self::once())
+        $this->sessionStrategy->expects(self::once())
             ->method('onAuthentication')
             ->with($this->request, $this->isInstanceOf(TokenInterface::class));
 
@@ -121,7 +114,7 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
 
     public function testLogInUserWithRememberMeAndRequest()
     {
-        $response = $this->getMockBuilder(Response::class)->getMock();
+        $response = $this->createMock(Response::class);
 
         $roles = [new Role('SAMPLE_ROLE_1')];
 
@@ -131,18 +124,15 @@ class LoginManagerTest extends \PHPUnit\Framework\TestCase
 
         $token = $this->createMock(UsernamePasswordToken::class);
 
-        $this->tokenStorage
-            ->expects(self::once())
+        $this->tokenStorage->expects(self::once())
             ->method('setToken')
             ->with($this->isInstanceOf(TokenInterface::class));
 
-        $this->userChecker
-            ->expects(self::once())
+        $this->userChecker->expects(self::once())
             ->method('checkPreAuth')
             ->with($this->isInstanceOf(UserInterface::class));
 
-        $this->sessionStrategy
-            ->expects(self::once())
+        $this->sessionStrategy->expects(self::once())
             ->method('onAuthentication')
             ->with($this->request, $this->isInstanceOf(TokenInterface::class));
 

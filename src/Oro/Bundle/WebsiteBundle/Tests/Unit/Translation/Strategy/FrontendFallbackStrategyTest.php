@@ -8,28 +8,19 @@ use Oro\Bundle\WebsiteBundle\Translation\Strategy\FrontendFallbackStrategy;
 
 class FrontendFallbackStrategyTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $frontendHelper;
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendHelper;
 
-    /**
-     * @var DefaultTranslationStrategy|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $frontendStrategy;
+    /** @var DefaultTranslationStrategy|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendStrategy;
 
-    /**
-     * @var FrontendFallbackStrategy
-     */
-    protected $strategy;
+    /** @var FrontendFallbackStrategy */
+    private $strategy;
 
     protected function setUp(): void
     {
-        $this->frontendHelper = $this->getMockBuilder(FrontendHelper::class)
-            ->disableOriginalConstructor()->getMock();
-
-        $this->frontendStrategy = $this->getMockBuilder(DefaultTranslationStrategy::class)
-            ->disableOriginalConstructor()->getMock();
+        $this->frontendHelper = $this->createMock(FrontendHelper::class);
+        $this->frontendStrategy = $this->createMock(DefaultTranslationStrategy::class);
 
         $this->strategy = new FrontendFallbackStrategy($this->frontendHelper, $this->frontendStrategy);
     }

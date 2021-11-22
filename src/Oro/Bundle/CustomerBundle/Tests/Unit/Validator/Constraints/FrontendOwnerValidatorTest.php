@@ -24,6 +24,7 @@ use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
 use Oro\Component\Testing\ReflectionUtil;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 /**
@@ -34,27 +35,38 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  */
 class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
 {
-    private \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry $doctrine;
+    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    private $doctrine;
 
-    private \PHPUnit\Framework\MockObject\MockObject|OwnershipMetadataProviderInterface $ownershipMetadataProvider;
+    /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $ownershipMetadataProvider;
 
-    private \PHPUnit\Framework\MockObject\MockObject|AuthorizationCheckerInterface $authorizationChecker;
+    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $authorizationChecker;
 
-    private \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface $tokenAccessor;
+    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $tokenAccessor;
 
-    private \PHPUnit\Framework\MockObject\MockObject|OwnerTreeInterface $ownerTree;
+    /** @var OwnerTreeInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $ownerTree;
 
-    private \PHPUnit\Framework\MockObject\MockObject|OwnerTreeProviderInterface $ownerTreeProvider;
+    /** @var OwnerTreeProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $ownerTreeProvider;
 
-    private \PHPUnit\Framework\MockObject\MockObject|AclVoter $aclVoter;
+    /** @var AclVoter|\PHPUnit\Framework\MockObject\MockObject */
+    private $aclVoter;
 
-    private \PHPUnit\Framework\MockObject\MockObject|AclGroupProviderInterface $aclGroupProvider;
+    /** @var AclGroupProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $aclGroupProvider;
 
-    private Entity $testEntity;
+    /** @var Entity */
+    private $testEntity;
 
-    private CustomerUser $currentUser;
+    /** @var CustomerUser */
+    private $currentUser;
 
-    private Organization $currentOrg;
+    /** @var Organization */
+    private $currentOrg;
 
     protected function setUp(): void
     {
@@ -107,16 +119,6 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
     }
 
     /**
-     * @param string $ownerType
-     *
-     * @return FrontendOwnershipMetadata
-     */
-    private function createOwnershipMetadata($ownerType): FrontendOwnershipMetadata
-    {
-        return new FrontendOwnershipMetadata($ownerType, 'owner', 'owner', 'organization', 'organization');
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function createContext()
@@ -127,12 +129,12 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         return parent::createContext();
     }
 
-    /**
-     * @param int $id
-     *
-     * @return CustomerUser
-     */
-    private function createUser($id): CustomerUser
+    private function createOwnershipMetadata(string $ownerType): FrontendOwnershipMetadata
+    {
+        return new FrontendOwnershipMetadata($ownerType, 'owner', 'owner', 'organization', 'organization');
+    }
+
+    private function createUser(int $id): CustomerUser
     {
         $user = new CustomerUser();
         ReflectionUtil::setId($user, $id);
@@ -140,12 +142,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         return $user;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Customer
-     */
-    private function createCustomer($id): Customer
+    private function createCustomer(int $id): Customer
     {
         $customer = new Customer();
         ReflectionUtil::setId($customer, $id);
@@ -153,10 +150,6 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
         return $customer;
     }
 
-    /**
-     * @param \PHPUnit\Framework\MockObject\MockObject|ClassMetadata $entityMetadata
-     * @param array                                                  $originalEntityData
-     */
     private function expectManageableEntity(ClassMetadata $entityMetadata, array $originalEntityData): void
     {
         $em = $this->createMock(EntityManagerInterface::class);
@@ -179,10 +172,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
             ->willReturn($originalEntityData);
     }
 
-    /**
-     * @param int $accessLevel
-     */
-    private function expectAddOneShotIsGrantedObserver($accessLevel): void
+    private function expectAddOneShotIsGrantedObserver(?int $accessLevel): void
     {
         $this->aclVoter->expects(self::once())
             ->method('addOneShotIsGrantedObserver')
@@ -193,7 +183,7 @@ class FrontendOwnerValidatorTest extends ConstraintValidatorTestCase
 
     public function testValidateForInvalidConstraintType(): void
     {
-        $this->expectException(\Symfony\Component\Validator\Exception\UnexpectedTypeException::class);
+        $this->expectException(UnexpectedTypeException::class);
         $this->validator->validate($this->testEntity, $this->createMock(Constraint::class));
     }
 

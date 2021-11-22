@@ -51,7 +51,6 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
         $this->request = $this->createMock(Request::class);
         $this->request->attributes = $this->parameterBag;
 
-        /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack */
         $this->requestStack = $this->createMock(RequestStack::class);
         $this->requestStack->expects(self::any())
             ->method('getCurrentRequest')
@@ -73,14 +72,11 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetLastNameWithSession(): void
     {
-        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
         $session = $this->createMock(SessionInterface::class);
-        $this->request
-            ->expects(self::once())
+        $this->request->expects(self::once())
             ->method('hasSession')
             ->willReturn(true);
-        $this->request
-            ->expects(self::once())
+        $this->request->expects(self::once())
             ->method('getSession')
             ->willReturn($session);
 
@@ -103,14 +99,11 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetErrorWithSession(): void
     {
-        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
         $session = $this->createMock(SessionInterface::class);
-        $this->request
-            ->expects(self::once())
+        $this->request->expects(self::once())
             ->method('hasSession')
             ->willReturn(true);
-        $this->request
-            ->expects(self::once())
+        $this->request->expects(self::once())
             ->method('getSession')
             ->willReturn($session);
 
@@ -138,14 +131,11 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetErrorWithoutError(): void
     {
-        /** @var SessionInterface|\PHPUnit\Framework\MockObject\MockObject $session */
         $session = $this->createMock(SessionInterface::class);
-        $this->request
-            ->expects(self::once())
+        $this->request->expects(self::once())
             ->method('hasSession')
             ->willReturn(true);
-        $this->request
-            ->expects(self::once())
+        $this->request->expects(self::once())
             ->method('getSession')
             ->willReturn($session);
 
@@ -156,12 +146,10 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetErrorWithoutSession(): void
     {
-        $this->request
-            ->expects(self::once())
+        $this->request->expects(self::once())
             ->method('hasSession')
             ->willReturn(false);
-        $this->request
-            ->expects(self::never())
+        $this->request->expects(self::never())
             ->method('getSession');
 
         self::assertEquals('', $this->dataProvider->getError());
@@ -171,12 +159,10 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetErrorFromRequestAttributes(): void
     {
-        $this->request
-            ->expects(self::never())
+        $this->request->expects(self::never())
             ->method('getSession');
 
-        $this->parameterBag
-            ->expects(self::once())
+        $this->parameterBag->expects(self::once())
             ->method('has')
             ->with(Security::AUTHENTICATION_ERROR)
             ->willReturn(true);
@@ -188,8 +174,7 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
             ->with($exception->getMessageKey(), $exception->getMessageData(), 'security')
             ->willReturn($translatedErrorMessage);
 
-        $this->parameterBag
-            ->expects(self::once())
+        $this->parameterBag->expects(self::once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
             ->willReturn($exception);
@@ -201,8 +186,7 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetErrorWhenNotAuthenticationExceptionOccurred(): void
     {
-        $this->parameterBag
-            ->expects(self::once())
+        $this->parameterBag->expects(self::once())
             ->method('has')
             ->with(Security::AUTHENTICATION_ERROR)
             ->willReturn(true);
@@ -211,8 +195,7 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
         $this->translator->expects(self::never())
             ->method('trans');
 
-        $this->parameterBag
-            ->expects(self::once())
+        $this->parameterBag->expects(self::once())
             ->method('get')
             ->with(Security::AUTHENTICATION_ERROR)
             ->willReturn($exception);
@@ -224,14 +207,12 @@ class SignInProviderTest extends \PHPUnit\Framework\TestCase
 
     public function testGetCSRFToken(): void
     {
-        /** @var CsrfToken|\PHPUnit\Framework\MockObject\MockObject $csrfToken */
         $csrfToken = $this->createMock(CsrfToken::class);
         $csrfToken->expects(self::once())
             ->method('getValue')
             ->willReturn('csrf_token');
 
-        $this->csrfTokenManager
-            ->expects(self::once())
+        $this->csrfTokenManager->expects(self::once())
             ->method('getToken')
             ->with('authenticate')
             ->willReturn($csrfToken);

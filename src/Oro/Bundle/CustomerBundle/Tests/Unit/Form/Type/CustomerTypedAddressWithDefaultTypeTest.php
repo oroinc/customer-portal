@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Entity\Repository\AddressTypeRepository;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerTypedAddressWithDefaultType;
@@ -89,7 +90,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
     {
         return [
             'without defaults' => [
-                'options'       => ['class' => 'Oro\Bundle\AddressBundle\Entity\AddressType'],
+                'options'       => ['class' => AddressType::class],
                 'defaultData'   => [],
                 'viewData'      => [],
                 'submittedData' => [
@@ -98,7 +99,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
                 'expectedData'  => [],
             ],
             'all default types' => [
-                'options'       => ['class' => 'Oro\Bundle\AddressBundle\Entity\AddressType'],
+                'options'       => ['class' => AddressType::class],
                 'defaultData'   => [],
                 'viewData'      => [],
                 'submittedData' => [
@@ -110,7 +111,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
                 ],
             ],
             'one default type' => [
-                'options'       => ['class' => 'Oro\Bundle\AddressBundle\Entity\AddressType'],
+                'options'       => ['class' => AddressType::class],
                 'defaultData'   => [],
                 'viewData'      => [],
                 'submittedData' => [
@@ -119,7 +120,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
                 'expectedData'  => [new AddressType(AddressType::TYPE_SHIPPING)],
             ],
             'all default types with custom em' => [
-                'options'       => ['class' => 'Oro\Bundle\AddressBundle\Entity\AddressType', 'em' => 'EntityManager'],
+                'options'       => ['class' => AddressType::class, 'em' => 'EntityManager'],
                 'defaultData'   => [],
                 'viewData'      => [],
                 'submittedData' => [
@@ -128,7 +129,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
                 'expectedData'  => [new AddressType(AddressType::TYPE_SHIPPING)],
             ],
             'all default types with custom property' => [
-                'options'       => ['class' => 'Oro\Bundle\AddressBundle\Entity\AddressType', 'property' => 'name'],
+                'options'       => ['class' => AddressType::class, 'property' => 'name'],
                 'defaultData'   => [],
                 'viewData'      => [],
                 'submittedData' => [
@@ -145,17 +146,14 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
      */
     protected function createRepositoryMock(array $entityModels = [])
     {
-        $repo = $this->getMockBuilder(AddressTypeRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $repo = $this->createMock(AddressTypeRepository::class);
         $repo->expects($this->any())
             ->method('getBatchIterator')
-            ->will($this->returnValue($entityModels));
+            ->willReturn($entityModels);
 
         $repo->expects($this->any())
             ->method('findBy')
-            ->will($this->returnCallback(function ($params) {
+            ->willReturnCallback(function ($params) {
                 $result = [];
                 foreach ($params['name'] as $name) {
                     switch ($name) {
@@ -169,7 +167,7 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
                 }
 
                 return $result;
-            }));
+            });
 
         return $repo;
     }
@@ -180,17 +178,13 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
      */
     protected function createEntityManagerMock($repo)
     {
-        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $em = $this->createMock(EntityManager::class);
         $em->expects($this->any())
             ->method('getRepository')
-            ->will($this->returnValue($repo));
-
+            ->willReturn($repo);
         $em->expects($this->any())
             ->method('getClassMetadata')
-            ->will($this->returnValue($this->createClassMetadataMock()));
+            ->willReturn($this->createClassMetadataMock());
 
         return $em;
     }
@@ -201,19 +195,17 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
      */
     private function createManagerRegistryMock($em)
     {
-        $registry = $this->getMockBuilder('\Doctrine\Persistence\ManagerRegistry')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $registry = $this->createMock(\Doctrine\Persistence\ManagerRegistry::class);
         $registry->expects($this->any())
             ->method('getManagerForClass')
-            ->will($this->returnValue($em));
+            ->willReturn($em);
         $registry->expects($this->any())
             ->method('getManager')
             ->with($this->equalTo('EntityManager'))
-            ->will($this->returnValue($em));
+            ->willReturn($em);
         $registry->expects($this->any())
             ->method('getManager')
-            ->will($this->returnValue($em));
+            ->willReturn($em);
 
         return $registry;
     }
@@ -223,19 +215,15 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
      */
     private function createClassMetadataMock()
     {
-        $classMetadata = $this->getMockBuilder('\Doctrine\ORM\Mapping\ClassMetadataInfo')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $classMetadata = $this->createMock(ClassMetadataInfo::class);
         $classMetadata->expects($this->any())
             ->method('getSingleIdentifierFieldName')
-            ->will($this->returnValue('name'));
-
+            ->willReturn('name');
         $classMetadata->expects($this->any())
             ->method('getReflectionProperty')
-            ->will($this->returnCallback(function ($field) {
+            ->willReturnCallback(function ($field) {
                 return $this->createReflectionProperty($field);
-            }));
+            });
 
         return $classMetadata;
     }
@@ -246,15 +234,14 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
      */
     public function createReflectionProperty($field)
     {
-        $class = $this->getMockBuilder('\ReflectionProperty')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $class = $this->createMock(\ReflectionProperty::class);
         $class->expects($this->any())
             ->method('getValue')
-            ->will($this->returnCallback(function ($entity) use ($field) {
+            ->willReturnCallback(function ($entity) use ($field) {
                 $method = 'get' . ucfirst($field);
+
                 return $entity->$method();
-            }));
+            });
 
         return $class;
     }
@@ -264,14 +251,12 @@ class CustomerTypedAddressWithDefaultTypeTest extends FormIntegrationTestCase
      */
     private function createTranslatorMock()
     {
-        $translator = $this->createMock('Symfony\Contracts\Translation\TranslatorInterface');
-        $translator->expects($this->any())->method('trans')->will(
-            $this->returnCallback(
-                function ($message) {
-                    return $message . uniqid('trans', true);
-                }
-            )
-        );
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->expects($this->any())
+            ->method('trans')
+            ->willReturnCallback(function ($message) {
+                return $message . uniqid('trans', true);
+            });
 
         return $translator;
     }

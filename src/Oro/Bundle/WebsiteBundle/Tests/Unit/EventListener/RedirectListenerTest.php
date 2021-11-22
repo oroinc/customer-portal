@@ -15,13 +15,17 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class RedirectListenerTest extends \PHPUnit\Framework\TestCase
 {
-    private WebsiteManager|\PHPUnit\Framework\MockObject\MockObject $websiteManager;
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $websiteManager;
 
-    private WebsiteUrlResolver|\PHPUnit\Framework\MockObject\MockObject $urlResolver;
+    /** @var WebsiteUrlResolver|\PHPUnit\Framework\MockObject\MockObject */
+    private $urlResolver;
 
-    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendHelper;
 
-    private RedirectListener $listener;
+    /** @var RedirectListener */
+    private $listener;
 
     protected function setUp(): void
     {

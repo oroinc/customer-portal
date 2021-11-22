@@ -99,17 +99,12 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
             'Test' => self::ENTITY_NAMESPACE
         ]);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry $doctrine */
-        $doctrine = $this->getMockBuilder(ManagerRegistry::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $doctrine = $this->createMock(ManagerRegistry::class);
         $doctrine->expects($this->any())
             ->method('getManagerForClass')
-            ->will($this->returnValue($this->em));
+            ->willReturn($this->em);
 
-        $this->databaseChecker = $this->getMockBuilder(DatabaseChecker::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->databaseChecker = $this->createMock(DatabaseChecker::class);
 
         $this->cache = $this->getMockForAbstractClass(
             CacheProvider::class,
@@ -122,7 +117,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         );
         $this->cache->expects($this->any())
             ->method('fetch')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
         $this->cache->expects($this->any())
             ->method('save');
 
@@ -337,14 +332,12 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         $cacheTtl = 100000;
         $data = ['cache_ttl' => $cacheTtl];
 
-        $this->ownerTreeMessageFactory
-            ->expects(self::once())
+        $this->ownerTreeMessageFactory->expects(self::once())
             ->method('createMessage')
             ->with($cacheTtl)
             ->willReturn($data);
 
-        $this->messageProducer
-            ->expects(self::once())
+        $this->messageProducer->expects(self::once())
             ->method('send')
             ->with(Topics::CALCULATE_OWNER_TREE_CACHE, new Message($data));
 

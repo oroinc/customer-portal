@@ -13,13 +13,17 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class ThemeListenerTest extends \PHPUnit\Framework\TestCase
 {
-    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $helper;
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $helper;
 
-    private HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject $kernel;
+    /** @var HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $kernel;
 
-    private ConfigManager|\PHPUnit\Framework\MockObject\MockObject $configManager;
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $configManager;
 
-    private ThemeListener $listener;
+    /** @var ThemeListener */
+    private $listener;
 
     protected function setUp(): void
     {
@@ -31,12 +35,6 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param int $requestType
-     * @param boolean $isFrontendRequest
-     * @param string|null $expectedLayoutTheme
-     * @param boolean $hashNavigation
-     * @param boolean $fullRedirect
-     *
      * @dataProvider onKernelRequestProvider
      */
     public function testOnKernelRequest(
@@ -97,17 +95,12 @@ class ThemeListenerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider onKernelViewProvider
-     *
-     * @param int $requestType
-     * @param bool $isFrontendRequest
-     * @param bool $hasTheme
-     * @param bool|string $deletedAnnotation
      */
     public function testOnKernelView(
         int $requestType,
         bool $isFrontendRequest,
         bool $hasTheme,
-        $deletedAnnotation
+        string|bool $deletedAnnotation
     ): void {
         $request = new Request();
         $request->attributes->set('_template', true);

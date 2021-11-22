@@ -37,13 +37,10 @@ class SystemPageTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildWhenNotDisplayed(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(false);
-
-        $menuItem
-            ->expects($this->never())
+        $menuItem->expects($this->never())
             ->method('setUri');
 
         $this->builder->build($menuItem);
@@ -52,24 +49,17 @@ class SystemPageTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildWhenNoSystemPageRoute(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getExtra')
             ->with('system_page_route')
             ->willReturn(null);
-
-        $menuItem
-            ->expects($this->never())
+        $menuItem->expects($this->never())
             ->method('setUri');
 
         $this->builder->build($menuItem);
@@ -78,34 +68,26 @@ class SystemPageTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildWhenRouteNotEnabled(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getExtra')
             ->with('system_page_route')
             ->willReturn($routeName = 'sample_route');
 
-        $this->featureChecker
-            ->expects($this->once())
+        $this->featureChecker->expects($this->once())
             ->method('isResourceEnabled')
             ->with($routeName, 'routes')
             ->willReturn(false);
 
-        $menuItem
-            ->expects($this->never())
+        $menuItem->expects($this->never())
             ->method('setUri');
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('setDisplay')
             ->with(false);
 
@@ -115,42 +97,33 @@ class SystemPageTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildWhenCannotGenerateUrl(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getExtra')
             ->with('system_page_route')
             ->willReturn($routeName = 'sample_route');
 
-        $this->featureChecker
-            ->expects($this->once())
+        $this->featureChecker->expects($this->once())
             ->method('isResourceEnabled')
             ->with($routeName, 'routes')
             ->willReturn(true);
 
-        $this->router
-            ->expects($this->once())
+        $this->router->expects($this->once())
             ->method('generate')
             ->with($routeName)
             ->willThrowException(new \Exception());
 
         $this->assertLoggerWarningMethodCalled();
 
-        $menuItem
-            ->expects($this->never())
+        $menuItem->expects($this->never())
             ->method('setUri');
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('setDisplay')
             ->with(false);
 
@@ -160,41 +133,32 @@ class SystemPageTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildWhenRouteEnabled(): void
     {
         $menuItem = $this->createMock(ItemInterface::class);
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getExtra')
             ->with('system_page_route')
             ->willReturn($routeName = 'sample_route');
 
-        $this->featureChecker
-            ->expects($this->once())
+        $this->featureChecker->expects($this->once())
             ->method('isResourceEnabled')
             ->with($routeName, 'routes')
             ->willReturn(true);
 
-        $this->router
-            ->expects($this->once())
+        $this->router->expects($this->once())
             ->method('generate')
             ->with($routeName)
             ->willReturn($url = 'sample/url');
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('setUri')
             ->with($url);
 
-        $menuItem
-            ->expects($this->never())
+        $menuItem->expects($this->never())
             ->method('setDisplay');
 
         $this->builder->build($menuItem);
@@ -203,57 +167,43 @@ class SystemPageTargetBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildChildWhenRouteEnabled(): void
     {
         $parentMenuItem = $this->createMock(ItemInterface::class);
-        $parentMenuItem
-            ->expects($this->once())
+        $parentMenuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $parentMenuItem
-            ->expects($this->once())
+        $parentMenuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([$menuItem = $this->createMock(ItemInterface::class)]);
-
-        $parentMenuItem
-            ->expects($this->once())
+        $parentMenuItem->expects($this->once())
             ->method('getExtra')
             ->with('system_page_route')
             ->willReturn(null);
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('getExtra')
             ->with('system_page_route')
             ->willReturn($routeName = 'sample_route');
 
-        $this->featureChecker
-            ->expects($this->once())
+        $this->featureChecker->expects($this->once())
             ->method('isResourceEnabled')
             ->with($routeName, 'routes')
             ->willReturn(true);
 
-        $this->router
-            ->expects($this->once())
+        $this->router->expects($this->once())
             ->method('generate')
             ->with($routeName)
             ->willReturn($url = 'sample/url');
 
-        $menuItem
-            ->expects($this->once())
+        $menuItem->expects($this->once())
             ->method('setUri')
             ->with($url);
 
-        $menuItem
-            ->expects($this->never())
+        $menuItem->expects($this->never())
             ->method('setDisplay');
 
         $this->builder->build($parentMenuItem);

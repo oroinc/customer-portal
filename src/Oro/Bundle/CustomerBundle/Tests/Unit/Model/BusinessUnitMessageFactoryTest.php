@@ -35,8 +35,7 @@ class BusinessUnitMessageFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $messageData = $this->messageFactory->createMessage(self::JOB_ID, self::ENTITY_CLASS, $entityId);
 
-        $this->doctrineHelper
-            ->expects($this->never())
+        $this->doctrineHelper->expects($this->never())
             ->method('getEntityReference');
 
         $this->assertEquals(self::JOB_ID, $this->messageFactory->getJobIdFromMessage($messageData));
@@ -63,8 +62,7 @@ class BusinessUnitMessageFactoryTest extends \PHPUnit\Framework\TestCase
         $messageData = $this->messageFactory->createMessage(self::JOB_ID, self::ENTITY_CLASS, $entityId);
         $entity = new Customer();
 
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityReference')
             ->with(self::ENTITY_CLASS, $entityId)
             ->willReturn($entity);

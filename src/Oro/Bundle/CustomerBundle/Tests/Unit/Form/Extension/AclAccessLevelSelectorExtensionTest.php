@@ -8,34 +8,25 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleType;
 use Oro\Bundle\SecurityBundle\Form\Type\AclAccessLevelSelectorType;
 use Oro\Component\Testing\Unit\Form\Type\Stub\FormStub;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\ResolvedFormTypeInterface;
 
 class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|RoleTranslationPrefixResolver
-     */
-    protected $roleTranslationPrefixResolver;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|RoleTranslationPrefixResolver */
+    private $roleTranslationPrefixResolver;
 
-    /**
-     * @var AclAccessLevelSelectorExtension
-     */
-    protected $extension;
+    /** @var AclAccessLevelSelectorExtension */
+    private $extension;
 
     protected function setUp(): void
     {
-        $this->roleTranslationPrefixResolver = $this
-            ->getMockBuilder('Oro\Bundle\CustomerBundle\Acl\Resolver\RoleTranslationPrefixResolver')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->roleTranslationPrefixResolver = $this->createMock(RoleTranslationPrefixResolver::class);
 
         $this->extension = new AclAccessLevelSelectorExtension($this->roleTranslationPrefixResolver);
-    }
-
-    protected function tearDown(): void
-    {
-        unset($this->roleTranslationPrefixResolver, $this->extension);
     }
 
     public function testGetExtendedTypes()
@@ -44,25 +35,17 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param bool $hasPermissionForm
-     * @param bool $hasPermissionsForm
-     * @param bool $hasPrivilegeForm
-     * @param bool $hasPrivilegesForm
-     * @param bool $hasRoleForm
-     * @param string|null $roleFormType
-     * @param string|null $expectedPrefix
      * @dataProvider finishViewDataProvider
-     *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function testFinishView(
-        $hasPermissionForm = false,
-        $hasPermissionsForm = false,
-        $hasPrivilegeForm = false,
-        $hasPrivilegesForm = false,
-        $hasRoleForm = false,
-        $roleFormType = null,
-        $expectedPrefix = null
+        bool $hasPermissionForm = false,
+        bool $hasPermissionsForm = false,
+        bool $hasPrivilegeForm = false,
+        bool $hasPrivilegesForm = false,
+        bool $hasRoleForm = false,
+        AbstractType $roleFormType = null,
+        string $expectedPrefix = null
     ) {
         $this->roleTranslationPrefixResolver->expects($expectedPrefix ? $this->once() : $this->never())
             ->method('getPrefix')
@@ -70,17 +53,17 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
 
         $roleForm = null;
         if ($hasRoleForm) {
-            $type = $this->createMock('Symfony\Component\Form\ResolvedFormTypeInterface');
+            $type = $this->createMock(ResolvedFormTypeInterface::class);
             $type->expects($this->any())
                 ->method('getInnerType')
                 ->willReturn($roleFormType);
 
-            $formConfig = $this->createMock('Symfony\Component\Form\FormConfigInterface');
+            $formConfig = $this->createMock(FormConfigInterface::class);
             $formConfig->expects($this->once())
                 ->method('getType')
                 ->willReturn($type);
 
-            $roleForm = $this->createMock('Symfony\Component\Form\FormInterface');
+            $roleForm = $this->createMock(FormInterface::class);
             $roleForm->expects($this->once())
                 ->method('getConfig')
                 ->willReturn($formConfig);
@@ -88,7 +71,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
 
         $privilegesForm = null;
         if ($hasPrivilegesForm) {
-            $privilegesForm = $this->createMock('Symfony\Component\Form\FormInterface');
+            $privilegesForm = $this->createMock(FormInterface::class);
             $privilegesForm->expects($this->once())
                 ->method('getParent')
                 ->willReturn($roleForm);
@@ -96,7 +79,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
 
         $privilegeForm = null;
         if ($hasPrivilegeForm) {
-            $privilegeForm = $this->createMock('Symfony\Component\Form\FormInterface');
+            $privilegeForm = $this->createMock(FormInterface::class);
             $privilegeForm->expects($this->once())
                 ->method('getParent')
                 ->willReturn($privilegesForm);
@@ -104,7 +87,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
 
         $permissionsForm = null;
         if ($hasPermissionsForm) {
-            $permissionsForm = $this->createMock('Symfony\Component\Form\FormInterface');
+            $permissionsForm = $this->createMock(FormInterface::class);
             $permissionsForm->expects($this->once())
                 ->method('getParent')
                 ->willReturn($privilegeForm);
@@ -112,14 +95,13 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
 
         $permissionForm = null;
         if ($hasPermissionForm) {
-            $permissionForm = $this->createMock('Symfony\Component\Form\FormInterface');
+            $permissionForm = $this->createMock(FormInterface::class);
             $permissionForm->expects($this->once())
                 ->method('getParent')
                 ->willReturn($permissionsForm);
         }
 
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
-        $form = $this->createMock('Symfony\Component\Form\FormInterface');
+        $form = $this->createMock(FormInterface::class);
         $form->expects($this->once())
             ->method('getParent')
             ->willReturn($permissionForm);
@@ -136,10 +118,7 @@ class AclAccessLevelSelectorExtensionTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function finishViewDataProvider()
+    public function finishViewDataProvider(): array
     {
         return [
             'no permission form' => [],

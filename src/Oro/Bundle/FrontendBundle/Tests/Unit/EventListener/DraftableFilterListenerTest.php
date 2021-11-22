@@ -16,11 +16,14 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class DraftableFilterListenerTest extends \PHPUnit\Framework\TestCase
 {
-    private DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject $doctrineHelper;
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $doctrineHelper;
 
-    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendHelper;
 
-    private DraftableFilterListener $listener;
+    /** @var DraftableFilterListener */
+    private $listener;
 
     protected function setUp(): void
     {

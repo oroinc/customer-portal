@@ -38,6 +38,6 @@ class GuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
         ];
         $this->guestAccessAllowedUrlsProvider->addAllowedUrlPattern('^/api/');
 
-        static::assertSame($allowedUrls, $this->guestAccessAllowedUrlsProvider->getAllowedUrlsPatterns());
+        self::assertSame($allowedUrls, $this->guestAccessAllowedUrlsProvider->getAllowedUrlsPatterns());
     }
 }

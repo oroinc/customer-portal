@@ -19,7 +19,9 @@ class FrontendFilterTest extends \PHPUnit\Framework\TestCase
             $requestStack->push($currentRequest);
         }
         $applicationState = $this->createMock(ApplicationState::class);
-        $applicationState->method('isInstalled')->willReturn(true);
+        $applicationState->expects(self::any())
+            ->method('isInstalled')
+            ->willReturn(true);
 
         return new FrontendFilter(new FrontendHelper(self::BACKEND_PREFIX, $requestStack, $applicationState));
     }
@@ -43,10 +45,7 @@ class FrontendFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($isFrontend, $filter->isFrontendRoute());
     }
 
-    /**
-     * @return array
-     */
-    public function isBackendIsFrontendDataProvider()
+    public function isBackendIsFrontendDataProvider(): array
     {
         return [
             'backend request' => [

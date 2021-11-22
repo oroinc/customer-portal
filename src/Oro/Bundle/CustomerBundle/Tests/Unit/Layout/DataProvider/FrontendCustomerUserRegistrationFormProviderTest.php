@@ -249,8 +249,7 @@ class FrontendCustomerUserRegistrationFormProviderTest extends \PHPUnit\Framewor
      */
     private function configureDefaultOwner($ownerId)
     {
-        $this->configManager
-            ->expects($this->once())
+        $this->configManager->expects($this->once())
             ->method('get')
             ->with('oro_customer.default_customer_owner')
             ->willReturn($ownerId);

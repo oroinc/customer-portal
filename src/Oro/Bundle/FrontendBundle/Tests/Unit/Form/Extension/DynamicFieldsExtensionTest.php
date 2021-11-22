@@ -11,10 +11,7 @@ use Oro\Bundle\FrontendBundle\Form\Extension\DynamicFieldsExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\FrontendBundle\Tests\Unit\Form\Extension\Stub\TestFormTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 class DynamicFieldsExtensionTest extends FormIntegrationTestCase
@@ -28,37 +25,26 @@ class DynamicFieldsExtensionTest extends FormIntegrationTestCase
     /** @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $frontendConfigProvider;
 
-    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $configManager;
-
     /** @var DynamicFieldsExtension */
     private $extension;
-
-    /** @var FormBuilderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $formBuilder;
 
     protected function setUp(): void
     {
         $this->frontendHelper = $this->createMock(FrontendHelper::class);
-        $this->configManager = $this->createMock(ConfigManager::class);
-
-        $this->extension = new DynamicFieldsExtension($this->frontendHelper, $this->configManager);
-
-        parent::setUp();
-
-        $this->formBuilder = new FormBuilder(null, \stdClass::class, new EventDispatcher(), $this->factory);
-
         $this->extendConfigProvider = $this->createMock(ConfigProvider::class);
         $this->frontendConfigProvider= $this->createMock(ConfigProvider::class);
 
-        $this->configManager->expects($this->any())
+        $configManager = $this->createMock(ConfigManager::class);
+        $configManager->expects($this->any())
             ->method('getProvider')
-            ->willReturnMap(
-                [
-                    ['extend', $this->extendConfigProvider],
-                    ['frontend', $this->frontendConfigProvider],
-                ]
-            );
+            ->willReturnMap([
+                ['extend', $this->extendConfigProvider],
+                ['frontend', $this->frontendConfigProvider],
+            ]);
+
+        $this->extension = new DynamicFieldsExtension($this->frontendHelper, $configManager);
+
+        parent::setUp();
     }
 
     public function testGetExtendedTypes(): void

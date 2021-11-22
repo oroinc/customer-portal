@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
+use Oro\Bundle\CustomerBundle\Form\Handler\AbstractCustomerUserRoleHandler;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserRoleUpdateHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleType;
 use Oro\Bundle\CustomerBundle\Owner\Metadata\FrontendOwnershipMetadataProvider;
@@ -39,7 +40,7 @@ class CustomerUserRoleUpdateHandlerTest extends AbstractCustomerUserRoleUpdateHa
         $this->setRequirementsForHandler($this->handler);
     }
 
-    protected function getHandler()
+    protected function getHandler(): AbstractCustomerUserRoleHandler
     {
         if (!$this->handler) {
             $this->handler = new CustomerUserRoleUpdateHandler(

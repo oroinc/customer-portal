@@ -76,55 +76,46 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
         $this->webCatalogProvider = $this->createMock(WebCatalogProvider::class);
 
         $screensProvider = $this->createMock(ScreensProviderInterface::class);
-        $screensProvider
-            ->expects($this->any())
+        $screensProvider->expects($this->any())
             ->method('getScreens')
             ->willReturn(self::SCREENS_CONFIG);
 
         $managerRegistry = $this->createMock(ManagerRegistry::class);
-        $managerRegistry
-            ->expects($this->any())
+        $managerRegistry->expects($this->any())
             ->method('getManagerForClass')
             ->willReturn($entityManager = $this->createMock(EntityManager::class));
 
-        $entityManager
-            ->expects($this->any())
+        $entityManager->expects($this->any())
             ->method('getClassMetadata')
             ->willReturn($classMetadata = new ClassMetadata(WebCatalog::class));
 
         $classMetadata->setIdentifier(['id']);
 
-        $entityManager
-            ->expects($this->any())
+        $entityManager->expects($this->any())
             ->method('getRepository')
             ->willReturn($repo = $this->createMock(EntityRepository::class));
 
-        $repo
-            ->expects($this->any())
+        $repo->expects($this->any())
             ->method('find')
             ->willReturn($this->createMock(ContentNode::class));
 
         $handler = $this->createMock(SearchHandlerInterface::class);
-        $handler
-            ->expects($this->any())
+        $handler->expects($this->any())
             ->method('getProperties')
             ->willReturn([]);
 
-        $handler
-            ->expects($this->any())
+        $handler->expects($this->any())
             ->method('getEntityName')
             ->willReturn(Product::class);
 
         $searchRegistry = $this->createMock(SearchRegistry::class);
-        $searchRegistry
-            ->expects($this->any())
+        $searchRegistry->expects($this->any())
             ->method('getSearchHandler')
             ->willReturn($handler);
 
         $configManager = $this->createMock(ConfigManager::class);
 
-        $configManager
-            ->expects($this->any())
+        $configManager->expects($this->any())
             ->method('getProvider')
             ->willReturn($configProvider = $this->mockConfigProvider());
 
@@ -167,8 +158,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
 
     public function testSubmitConditions(): void
     {
-        $this->webCatalogProvider
-            ->expects($this->never())
+        $this->webCatalogProvider->expects($this->never())
             ->method('getWebCatalog');
 
         $menuUserAgentCondition = new MenuUserAgentCondition();
@@ -214,8 +204,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
      */
     public function testSubmitTargetPage(array $submitData, MenuUpdate $expectedMenuUpdate): void
     {
-        $this->webCatalogProvider
-            ->expects($this->once())
+        $this->webCatalogProvider->expects($this->once())
             ->method('getWebCatalog')
             ->willReturn($webCatalog = $this->createMock(WebCatalog::class));
 
@@ -284,9 +273,7 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
                     $className = $constraint->validatedBy();
 
                     foreach ($mockedValidators as $mockedValidator) {
-                        $this->validators[$className] = $this->getMockBuilder($mockedValidator)
-                            ->disableOriginalConstructor()
-                            ->getMock();
+                        $this->validators[$className] = $this->createMock($mockedValidator);
                     }
 
                     if (!isset($this->validators[$className]) || $className === CollectionValidator::class) {
@@ -304,19 +291,16 @@ class MenuUpdateExtensionTest extends FormIntegrationTestCase
     {
         $configProvider = $this->createMock(ConfigProvider::class);
 
-        $configProvider
-            ->expects($this->any())
+        $configProvider->expects($this->any())
             ->method('getConfig')
             ->willReturn($config = $this->createMock(Config::class));
 
-        $config
-            ->expects($this->any())
+        $config->expects($this->any())
             ->method('has')
             ->with('grid_name')
             ->willReturn(true);
 
-        $config
-            ->expects($this->any())
+        $config->expects($this->any())
             ->method('get')
             ->with('grid_name')
             ->willReturn('sample-grid');

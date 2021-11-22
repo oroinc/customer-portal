@@ -19,9 +19,6 @@ class FrontendCurrentApplicationProviderTest extends \PHPUnit\Framework\TestCase
     /** @var FrontendCurrentApplicationProvider */
     private $provider;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);

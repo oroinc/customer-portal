@@ -24,7 +24,10 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
     {
         $this->basicFilter = $this->createMock(PlaceholderFilter::class);
         $this->applicationState = $this->createMock(ApplicationState::class);
-        $this->applicationState->method('isInstalled')->willReturn(true);
+
+        $this->applicationState->expects(self::any())
+            ->method('isInstalled')
+            ->willReturn(true);
     }
 
     private function getFilter(Request $currentRequest = null): ActivityListPlaceholderFilter
@@ -48,7 +51,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $this->basicFilter->expects($this->once())
             ->method('isApplicable')
             ->with($entity, $pageType)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $filter = $this->getFilter();
         $this->assertTrue($filter->isApplicable($entity, $pageType));
@@ -62,7 +65,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $this->basicFilter->expects($this->once())
             ->method('isApplicable')
             ->with($entity, $pageType)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $filter = $this->getFilter(Request::create(self::BACKEND_PREFIX . '/backend'));
         $this->assertTrue($filter->isApplicable($entity, $pageType));
@@ -82,7 +85,6 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testIsAllowedButtonNotFrontend()
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject|BeforeGroupingChainWidgetEvent $event */
         $event = $this->createMock(BeforeGroupingChainWidgetEvent::class);
 
         $this->basicFilter->expects($this->once())
@@ -95,9 +97,7 @@ class ActivityListPlaceholderFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testIsAllowedButton()
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject|BeforeGroupingChainWidgetEvent $event */
         $event = $this->createMock(BeforeGroupingChainWidgetEvent::class);
-
         $event->expects($this->once())
             ->method('setWidgets')
             ->with([]);

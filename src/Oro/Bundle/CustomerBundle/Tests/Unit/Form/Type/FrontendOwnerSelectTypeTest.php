@@ -21,18 +21,15 @@ class FrontendOwnerSelectTypeTest extends FormIntegrationTestCase
 {
     use EntityTrait;
 
+    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    private $registry;
+
+    /** @var ConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $configProvider;
+
     /** @var FrontendOwnerSelectType */
     private $formType;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $registry;
-
-    /** @var ConfigProvider */
-    private $configProvider;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->registry = $this->createMock(ManagerRegistry::class);

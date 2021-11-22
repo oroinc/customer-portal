@@ -58,7 +58,8 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         bool $expectedResult
     ) {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
-        $token->method('getVisitor')
+        $token->expects(self::any())
+            ->method('getVisitor')
             ->willReturn($tokenVisitor);
         $this->tokenAccessor->expects($this->once())
             ->method('getToken')
@@ -79,7 +80,8 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         bool $expectedResult
     ) {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
-        $token->method('getVisitor')
+        $token->expects(self::any())
+            ->method('getVisitor')
             ->willReturn($tokenVisitor);
         $this->tokenAccessor->expects($this->once())
             ->method('getToken')
@@ -100,7 +102,8 @@ class AnonymousOwnershipDecisionMakerTest extends \PHPUnit\Framework\TestCase
         bool $expectedResult
     ) {
         $token = $this->createMock(AnonymousCustomerUserToken::class);
-        $token->method('getVisitor')
+        $token->expects(self::any())
+            ->method('getVisitor')
             ->willReturn($tokenVisitor);
         $this->tokenAccessor->expects($this->once())
             ->method('getToken')

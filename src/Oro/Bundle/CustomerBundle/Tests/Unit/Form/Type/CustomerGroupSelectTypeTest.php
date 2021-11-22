@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerGroupSelectType;
 use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerGroupSelectTypeTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +25,7 @@ class CustomerGroupSelectTypeTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigureOptions()
     {
-        $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
+        $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects($this->once())
             ->method('setDefaults')
             ->with(

@@ -15,7 +15,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Tests\Unit\Entity\AbstractUserTest;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -24,7 +24,6 @@ use Oro\Component\Testing\Unit\EntityTrait;
 class CustomerUserTest extends AbstractUserTest
 {
     use AddressEntityTestTrait;
-    use EntityTrait;
 
     public function getUser(): CustomerUser
     {
@@ -47,6 +46,14 @@ class CustomerUserTest extends AbstractUserTest
             ['addresses', $this->createAddressEntity()],
             ['salesRepresentatives', new User()],
         ]);
+    }
+
+    public function getWebsite(int $id): Website
+    {
+        $website = new Website();
+        ReflectionUtil::setId($website, $id);
+
+        return $website;
     }
 
     public function testCreateCustomer(): void
@@ -279,10 +286,9 @@ class CustomerUserTest extends AbstractUserTest
     public function testSettingsAccessors(): void
     {
         $user = $this->getUser();
-        /** @var Website $website */
-        $website = $this->getEntity(Website::class, ['id' => 1]);
+        $website = $this->getWebsite(1);
 
-        $user->setWebsiteSettings(new CustomerUserSettings($this->getEntity(Website::class, ['id' => 2])))
+        $user->setWebsiteSettings(new CustomerUserSettings($this->getWebsite(2)))
             ->setWebsiteSettings(new CustomerUserSettings($website))
             ->setWebsiteSettings((new CustomerUserSettings($website))->setCurrency('USD'))
             ->setWebsiteSettings(new CustomerUserSettings(new Website()));
@@ -293,12 +299,9 @@ class CustomerUserTest extends AbstractUserTest
     public function testSettingGetter(): void
     {
         $user = $this->getUser();
-        /** @var Website $website1 */
-        $website1 = $this->getEntity(Website::class, ['id' => 1]);
-        /** @var Website $website2 */
-        $website2 = $this->getEntity(Website::class, ['id' => 2]);
-        /** @var Website $website3 */
-        $website3 = $this->getEntity(Website::class, ['id' => 3]);
+        $website1 = $this->getWebsite(1);
+        $website2 = $this->getWebsite(2);
+        $website3 = $this->getWebsite(3);
 
         self::assertEquals(0, $user->getSettings()->count());
 

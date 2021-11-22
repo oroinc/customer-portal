@@ -37,10 +37,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|EntityRepository */
     protected $addressRepository;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($name = null, array $data = array(), $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 
@@ -48,14 +45,14 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
         $this->billingType = new AddressType(AddressType::TYPE_BILLING);
         $this->shippingType = new AddressType(AddressType::TYPE_SHIPPING);
 
-        $this->em = $this->createEntityManagerMock();
-        $this->addressRepository = $this->createRepositoryMock([
-            $this->billingType,
-            $this->shippingType
-        ]);
+        $this->addressRepository = $this->createMock(EntityRepository::class);
+        $this->addressRepository->expects($this->any())
+            ->method('findAll')
+            ->willReturn([$this->billingType, $this->shippingType]);
+
         $this->addressRepository->expects($this->any())
             ->method('findBy')
-            ->will($this->returnCallback(function ($params) {
+            ->willReturnCallback(function ($params) {
                 $result = [];
                 foreach ($params['name'] as $name) {
                     switch ($name) {
@@ -69,30 +66,24 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
                 }
 
                 return $result;
-            }));
+            });
+
+        $this->em = $this->createMock(EntityManager::class);
+        $this->em->expects($this->any())
+            ->method('getRepository')
+            ->willReturn($this->addressRepository);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->formType = new CustomerTypedAddressType();
-        $this->formType->setAddressTypeDataClass('Oro\Bundle\AddressBundle\Entity\AddressType');
-        $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerAddress');
+        $this->formType->setAddressTypeDataClass(AddressType::class);
+        $this->formType->setDataClass(CustomerAddress::class);
         parent::setUp();
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function tearDown(): void
-    {
-        unset($this->formType);
-    }
-
-    /**
-     * @return array
+     * {@inheritDoc}
      */
     protected function getExtensions()
     {
@@ -123,21 +114,15 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @param array $options
-     * @param mixed $defaultData
-     * @param mixed $viewData
-     * @param mixed $submittedData
-     * @param mixed $expectedData
-     * @param null  $updateOwner
      * @dataProvider submitDataProvider
      */
     public function testSubmit(
         array $options,
-        $defaultData,
-        $viewData,
-        $submittedData,
-        $expectedData,
-        $updateOwner = null
+        mixed $defaultData,
+        mixed $viewData,
+        mixed $submittedData,
+        mixed $expectedData,
+        mixed $updateOwner = null
     ) {
         $form = $this->factory->create(CustomerTypedAddressType::class, $defaultData, $options);
 
@@ -154,11 +139,9 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return array
-     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function submitDataProvider()
+    public function submitDataProvider(): array
     {
         $customerAddressWithAllDefaultTypes = new CustomerAddress();
         $customerAddressWithAllDefaultTypes
@@ -184,22 +167,15 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitWithFormSubscribersProvider
-     * @param array $options
-     * @param       $defaultData
-     * @param       $viewData
-     * @param       $submittedData
-     * @param       $expectedData
-     * @param       $otherAddresses
-     * @param null  $updateOwner
      */
     public function testSubmitWithSubscribers(
         array $options,
-        $defaultData,
-        $viewData,
-        $submittedData,
-        $expectedData,
-        $otherAddresses,
-        $updateOwner = null
+        mixed $defaultData,
+        mixed $viewData,
+        mixed $submittedData,
+        mixed $expectedData,
+        mixed $otherAddresses,
+        mixed $updateOwner = null
     ) {
         $this->testSubmit($options, $defaultData, $viewData, $submittedData, $expectedData, $updateOwner);
 
@@ -212,10 +188,7 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function submitWithFormSubscribersProvider()
+    public function submitWithFormSubscribersProvider(): array
     {
         $customerAddress1 = new CustomerAddress();
         $customerAddress1
@@ -262,36 +235,5 @@ class CustomerTypedAddressTypeTest extends FormIntegrationTestCase
     {
         $this->assertIsString($this->formType->getName());
         $this->assertEquals('oro_customer_typed_address', $this->formType->getName());
-    }
-
-    /**
-     * @param array $entityModels
-     * @return \PHPUnit\Framework\MockObject\MockObject|EntityRepository
-     */
-    protected function createRepositoryMock(array $entityModels = [])
-    {
-        $repo = $this->getMockBuilder(EntityRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $repo->expects($this->any())
-            ->method('findAll')
-            ->will($this->returnValue($entityModels));
-
-        $this->em->expects($this->any())
-            ->method('getRepository')
-            ->will($this->returnValue($repo));
-
-        return $repo;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|EntityManager
-     */
-    protected function createEntityManagerMock()
-    {
-        return $this->getMockBuilder(EntityManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 }

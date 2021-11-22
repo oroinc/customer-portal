@@ -30,39 +30,30 @@ class MenuDisplayBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuild()
     {
         $childMenu1 = $this->createMock(ItemInterface::class);
-        $childMenu1
-            ->expects(static::once())
+        $childMenu1->expects(self::once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $childMenu1
-            ->expects(static::once())
+        $childMenu1->expects(self::once())
             ->method('isDisplayed')
             ->willReturn(false);
 
         $childMenu2 = $this->createMock(ItemInterface::class);
-        $childMenu2
-            ->expects(static::once())
+        $childMenu2->expects(self::once())
             ->method('getChildren')
             ->willReturn([]);
-
-        $childMenu2
-            ->expects(static::once())
+        $childMenu2->expects(self::once())
             ->method('isDisplayed')
             ->willReturn(true);
-
-        $childMenu2
-            ->expects(static::once())
+        $childMenu2->expects(self::once())
             ->method('setDisplay')
             ->willReturn(false);
 
         $mainMenu = $this->createMock(ItemInterface::class);
-        $mainMenu->expects(static::once())
+        $mainMenu->expects(self::once())
             ->method('getChildren')
             ->willReturn([$childMenu1, $childMenu2]);
 
-        $this->conditionEvaluator
-            ->expects(static::once())
+        $this->conditionEvaluator->expects(self::once())
             ->method('evaluate')
             ->willReturnMap([
                 [$childMenu2, [], false],

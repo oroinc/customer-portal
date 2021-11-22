@@ -36,12 +36,13 @@ class CustomerGroupScopeManagerTest extends AbstractScopeManagerTestCase
         $customer = $this->getEntity(Customer::class, [
             'group' => $this->getScopedEntity()
         ]);
-        $token->expects($this->once())->method('getUser')->willReturn($this->getEntity(CustomerUser::class, [
-            'id' => 123,
-            'customer' => $customer
-        ]));
+        $token->expects($this->once())
+            ->method('getUser')
+            ->willReturn($this->getEntity(CustomerUser::class, ['id' => 123, 'customer' => $customer]));
 
-        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($token);
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
 
         $this->assertEquals(456, $this->manager->getScopeId());
     }
@@ -50,9 +51,13 @@ class CustomerGroupScopeManagerTest extends AbstractScopeManagerTestCase
     {
         $token = $this->createMock(TokenInterface::class);
 
-        $token->expects($this->once())->method('getUser')->willReturn(new CustomerUser());
+        $token->expects($this->once())
+            ->method('getUser')
+            ->willReturn(new CustomerUser());
 
-        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($token);
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
 
         $this->assertEquals(0, $this->manager->getScopeId());
     }
@@ -65,9 +70,13 @@ class CustomerGroupScopeManagerTest extends AbstractScopeManagerTestCase
             'customer' => new Customer()
         ]);
 
-        $token->expects($this->once())->method('getUser')->willReturn($customerUser);
+        $token->expects($this->once())
+            ->method('getUser')
+            ->willReturn($customerUser);
 
-        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($token);
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
 
         $this->assertEquals(0, $this->manager->getScopeId());
     }
@@ -84,9 +93,13 @@ class CustomerGroupScopeManagerTest extends AbstractScopeManagerTestCase
             'customer' => $customer
         ]);
 
-        $token->expects($this->once())->method('getUser')->willReturn($customerUser);
+        $token->expects($this->once())
+            ->method('getUser')
+            ->willReturn($customerUser);
 
-        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($token);
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
 
         $this->assertEquals(0, $this->manager->getScopeId());
     }
@@ -94,23 +107,30 @@ class CustomerGroupScopeManagerTest extends AbstractScopeManagerTestCase
     public function testInitializeScopeIdForUnsupportedUserObject(): void
     {
         $token = $this->createMock(TokenInterface::class);
-        $token->expects($this->once())->method('getUser')->willReturn(new Organization());
+        $token->expects($this->once())
+            ->method('getUser')
+            ->willReturn(new Organization());
 
-        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn($token);
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn($token);
 
         $this->assertEquals(0, $this->manager->getScopeId());
     }
 
     public function testInitializeScopeIdNoToken(): void
     {
-        $this->tokenStorage->expects($this->once())->method('getToken')->willReturn(null);
+        $this->tokenStorage->expects($this->once())
+            ->method('getToken')
+            ->willReturn(null);
 
         $this->assertEquals(0, $this->manager->getScopeId());
     }
 
     public function testSetScopeId(): void
     {
-        $this->tokenStorage->expects($this->never())->method('getToken');
+        $this->tokenStorage->expects($this->never())
+            ->method('getToken');
 
         $this->manager->setScopeId(789);
 

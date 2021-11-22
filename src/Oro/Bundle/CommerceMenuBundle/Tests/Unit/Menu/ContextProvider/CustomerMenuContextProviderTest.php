@@ -15,7 +15,6 @@ class CustomerMenuContextProviderTest extends \PHPUnit\Framework\TestCase
     public function testGetContexts()
     {
         $website = $this->getEntity(Website::class, ['id' => 1]);
-        /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject $websiteManager */
         $websiteManager = $this->createMock(WebsiteManager::class);
         $websiteManager->expects($this->once())
             ->method('getDefaultWebsite')

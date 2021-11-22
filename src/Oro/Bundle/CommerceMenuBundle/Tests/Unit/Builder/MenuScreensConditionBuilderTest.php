@@ -51,8 +51,7 @@ class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuild($screen, array $attributes, array $expectedAttributes)
     {
-        $this->screensProvider
-            ->expects(static::atLeastOnce())
+        $this->screensProvider->expects(self::atLeastOnce())
             ->method('getScreen')
             ->with(self::SCREEN_NAME)
             ->willReturn($screen);
@@ -62,7 +61,7 @@ class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
         $this->builder->build($mainMenu);
 
         $expectedMainMenu = $this->mockMenuAndChildren($expectedAttributes, ['screens' => [self::SCREEN_NAME]]);
-        static::assertEquals($expectedMainMenu, $mainMenu);
+        self::assertEquals($expectedMainMenu, $mainMenu);
     }
 
     /**
@@ -107,8 +106,7 @@ class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildWhenNoScreensInExtras()
     {
-        $this->screensProvider
-            ->expects(static::never())
+        $this->screensProvider->expects(self::never())
             ->method('getScreen');
 
         $mainMenu = $this->mockMenuAndChildren([], []);
@@ -116,7 +114,7 @@ class MenuScreensConditionBuilderTest extends \PHPUnit\Framework\TestCase
         $this->builder->build($mainMenu);
 
         $expectedMainMenu = $this->mockMenuAndChildren([], []);
-        static::assertEquals(
+        self::assertEquals(
             $expectedMainMenu,
             $mainMenu,
             'Menu should not be changed when screens are not set in menu item'

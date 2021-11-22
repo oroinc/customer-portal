@@ -20,32 +20,16 @@ class FrontendExportResultSummarizerTest extends TestCase
     private const ROOT_JOB_NAME = 'sample.root_job.name';
     private const REFERER_URL = 'sample/url';
 
-    private WebsiteUrlResolver|\PHPUnit\Framework\MockObject\MockObject $websiteUrlResolver;
+    /** @var WebsiteUrlResolver|\PHPUnit\Framework\MockObject\MockObject */
+    private $websiteUrlResolver;
 
-    private FrontendExportResultSummarizer $resultSummarizer;
+    /** @var FrontendExportResultSummarizer */
+    private $resultSummarizer;
 
     protected function setUp(): void
     {
         $this->websiteUrlResolver = $this->createMock(WebsiteUrlResolver::class);
-        $entityNameResolver = $this->createMock(EntityNameResolver::class);
-        $jobProcessor = $this->createMock(JobProcessor::class);
 
-        $this->resultSummarizer = new FrontendExportResultSummarizer(
-            $this->websiteUrlResolver,
-            $jobProcessor,
-            $entityNameResolver
-        );
-
-        $this->setUpJobs($jobProcessor);
-
-        $entityNameResolver
-            ->expects(self::any())
-            ->method('getName')
-            ->willReturnCallback(static fn (CustomerUser $customerUser) => $customerUser->getFullName());
-    }
-
-    private function setUpJobs(\PHPUnit\Framework\MockObject\MockObject $jobProcessor): void
-    {
         $rootJob = new Job();
         $rootJob->setName(self::ROOT_JOB_NAME);
         $rootJob->setData(['refererUrl' => self::REFERER_URL]);
@@ -66,10 +50,21 @@ class FrontendExportResultSummarizerTest extends TestCase
         $rootJob->addChildJob($emptyChildJob);
         $rootJob->addChildJob($childJob3);
 
-        $jobProcessor
-            ->expects(self::any())
+        $jobProcessor = $this->createMock(JobProcessor::class);
+        $jobProcessor->expects(self::any())
             ->method('findJobById')
             ->willReturnMap([[self::JOB_ID, $job], [self::ROOT_JOB_ID, $rootJob]]);
+
+        $entityNameResolver = $this->createMock(EntityNameResolver::class);
+        $entityNameResolver->expects(self::any())
+            ->method('getName')
+            ->willReturnCallback(static fn (CustomerUser $customerUser) => $customerUser->getFullName());
+
+        $this->resultSummarizer = new FrontendExportResultSummarizer(
+            $this->websiteUrlResolver,
+            $jobProcessor,
+            $entityNameResolver
+        );
     }
 
     /**
@@ -79,8 +74,7 @@ class FrontendExportResultSummarizerTest extends TestCase
         FrontendImportExportResult $importExportResult,
         array $expected
     ): void {
-        $this->websiteUrlResolver
-            ->expects(self::any())
+        $this->websiteUrlResolver->expects(self::any())
             ->method('getWebsiteSecurePath')
             ->willReturnMap(
                 [
@@ -99,8 +93,7 @@ class FrontendExportResultSummarizerTest extends TestCase
                 ]
             );
 
-        $this->websiteUrlResolver
-            ->expects(self::any())
+        $this->websiteUrlResolver->expects(self::any())
             ->method('getWebsiteUrl')
             ->with($importExportResult->getCustomerUser()?->getWebsite(), true)
             ->willReturn('https://example.org/');
@@ -111,8 +104,6 @@ class FrontendExportResultSummarizerTest extends TestCase
     }
 
     /**
-     * @return array[]
-     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function getSummaryFromImportExportResultDataProvider(): array

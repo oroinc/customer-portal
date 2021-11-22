@@ -23,7 +23,9 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
         $container = $this->getContainerBuilder();
 
         $applicationState = $this->createMock(ApplicationState::class);
-        $applicationState->method('isInstalled')->willReturn(true);
+        $applicationState->expects(self::any())
+            ->method('isInstalled')
+            ->willReturn(true);
         $container->set('oro_distribution.handler.application_status', $applicationState);
 
         $config = [

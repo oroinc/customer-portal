@@ -15,7 +15,7 @@ trait AddressEntityTestTrait
     public function testAddressesCollection()
     {
         $customer = $this->createTestedEntity();
-        static::assertPropertyCollections($customer, [['addresses', $this->createAddressEntity()]]);
+        self::assertPropertyCollections($customer, [['addresses', $this->createAddressEntity()]]);
     }
 
     /**

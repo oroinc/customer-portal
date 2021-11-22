@@ -23,15 +23,20 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
 {
     use LoggerAwareTraitTestTrait;
 
-    private FrontendImportExportResultManager|\PHPUnit\Framework\MockObject\MockObject $importExportResultManager;
+    /** @var FrontendImportExportResultManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $importExportResultManager;
 
-    private JobProcessor|\PHPUnit\Framework\MockObject\MockObject $jobProcessor;
+    /** @var JobProcessor|\PHPUnit\Framework\MockObject\MockObject */
+    private $jobProcessor;
 
-    private ExportResultNotificationSender|\PHPUnit\Framework\MockObject\MockObject $exportResultNotificationSender;
+    /** @var ExportResultNotificationSender|\PHPUnit\Framework\MockObject\MockObject */
+    private $exportResultNotificationSender;
 
-    private SaveFrontendExportResultProcessor $saveExportResultProcessor;
+    /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $entityManager;
 
-    private ObjectManager|\PHPUnit\Framework\MockObject\MockObject $entityManager;
+    /** @var SaveFrontendExportResultProcessor */
+    private $saveExportResultProcessor;
 
     protected function setUp(): void
     {
@@ -50,8 +55,7 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
         $this->setUpLoggerMock($this->saveExportResultProcessor);
 
         $this->entityManager = $this->createMock(ObjectManager::class);
-        $managerRegistry
-            ->expects(self::any())
+        $managerRegistry->expects(self::any())
             ->method('getManagerForClass')
             ->with(CustomerUser::class)
             ->willReturn($this->entityManager);
@@ -68,16 +72,14 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
         $job->setId(1);
         $job->setRootJob($rootJob);
 
-        $this->jobProcessor
-            ->expects(self::once())
+        $this->jobProcessor->expects(self::once())
             ->method('findJobById')
             ->with($job->getId())
             ->willReturn($job);
 
         $customerUserId = 42;
         $customerUser = new CustomerUser();
-        $this->entityManager
-            ->expects(self::once())
+        $this->entityManager->expects(self::once())
             ->method('find')
             ->with(CustomerUser::class, $customerUserId)
             ->willReturn($customerUser);
@@ -93,15 +95,13 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
         $message->setBody(JSON::encode($body));
 
         $importExportResult = $this->createMock(FrontendImportExportResult::class);
-        $this->importExportResultManager
-            ->expects(self::once())
+        $this->importExportResultManager->expects(self::once())
             ->method('saveResult')
             ->with($rootJob->getId(), $body['type'], $body['entity'], $customerUser, $fileName, $body['options'])
             ->willReturn($importExportResult);
 
         $emailUser = $this->createMock(EmailUser::class);
-        $this->exportResultNotificationSender
-            ->expects(self::once())
+        $this->exportResultNotificationSender->expects(self::once())
             ->method('sendEmailNotification')
             ->with($importExportResult)
             ->willReturn([$emailUser]);
@@ -117,8 +117,7 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
      */
     public function testProcessWithInvalidMessage(array $parameters, string $expectedError): void
     {
-        $this->loggerMock
-            ->expects(self::once())
+        $this->loggerMock->expects(self::once())
             ->method('error')
             ->with(self::stringContains($expectedError));
 
@@ -128,22 +127,18 @@ class SaveFrontendImportExportResultProcessorTest extends \PHPUnit\Framework\Tes
         $job = new Job();
         $job->setId(11);
 
-        $this->jobProcessor
-            ->expects(self::any())
+        $this->jobProcessor->expects(self::any())
             ->method('findJobById')
             ->willReturn($job);
 
-        $this->entityManager
-            ->expects(self::any())
+        $this->entityManager->expects(self::any())
             ->method('find')
             ->willReturn(new CustomerUser());
 
-        $this->importExportResultManager
-            ->expects(self::never())
+        $this->importExportResultManager->expects(self::never())
             ->method('saveResult');
 
-        $this->exportResultNotificationSender
-            ->expects(self::never())
+        $this->exportResultNotificationSender->expects(self::never())
             ->method('sendEmailNotification');
 
         $result = $this->saveExportResultProcessor->process($message, $this->createMock(SessionInterface::class));

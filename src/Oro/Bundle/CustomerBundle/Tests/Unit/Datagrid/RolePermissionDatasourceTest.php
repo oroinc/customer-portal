@@ -93,10 +93,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($record->getValue('permissions'));
     }
 
-    /**
-     * @return RolePermissionDatasource
-     */
-    protected function getDatasource()
+    protected function getDatasource(): RolePermissionDatasource
     {
         return new RolePermissionDatasource(
             $this->translator,
@@ -110,11 +107,14 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @param RolePermissionDatasource $datasource
-     * @param string $identity
+     * @param string                   $identity
+     *
      * @return ResultRecordInterface[]
      */
-    protected function retrieveResultsFromPermissionsDatasource(RolePermissionDatasource $datasource, $identity)
-    {
+    protected function retrieveResultsFromPermissionsDatasource(
+        RolePermissionDatasource $datasource,
+        string $identity
+    ): array {
         $role = new Role('');
 
         $datasource->process($this->getDatagrid($role), []);
@@ -144,13 +144,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
         return $datasource->getResults();
     }
 
-    /**
-     * @param string $id
-     * @param string $name
-     * @param AclPermission $permission
-     * @return AclPrivilege|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getAclPrivilege($id, $name, AclPermission $permission)
+    protected function getAclPrivilege(string $id, string $name, AclPermission $permission): AclPrivilege
     {
         $identity = new AclPrivilegeIdentity($id, $name);
 
@@ -160,13 +154,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
             ->willReturn($identity);
         $privilege->expects($this->any())
             ->method('getPermissions')
-            ->willReturn(
-                new ArrayCollection(
-                    [
-                        $permission->getName() => $permission
-                    ]
-                )
-            );
+            ->willReturn(new ArrayCollection([$permission->getName() => $permission]));
         $privilege->expects($this->any())
             ->method('getFields')
             ->willReturn(new ArrayCollection());
@@ -174,11 +162,7 @@ class RolePermissionDatasourceTest extends \PHPUnit\Framework\TestCase
         return $privilege;
     }
 
-    /**
-     * @param Role $role
-     * @return DatagridInterface
-     */
-    protected function getDatagrid(Role $role)
+    protected function getDatagrid(Role $role): DatagridInterface
     {
         $datagrid = $this->createMock(DatagridInterface::class);
         $datagrid->expects($this->once())

@@ -66,7 +66,6 @@ class RecordOwnerDataListenerTest extends \PHPUnit\Framework\TestCase
 
     public function preSetData(): array
     {
-        /** @var EntityConfigId $entityConfigId */
         $entityConfigId = $this->createMock(EntityConfigId::class);
 
         $user = new User();

@@ -32,9 +32,7 @@ class AddressProviderTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->router = $this->createMock(UrlGeneratorInterface::class);
-        $this->fragmentHandler = $this->getMockBuilder(FragmentHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->fragmentHandler = $this->createMock(FragmentHandler::class);
         $this->configManager = $this->createMock(ConfigManager::class);
 
         $this->provider = new AddressProvider($this->router, $this->fragmentHandler, $this->configManager);

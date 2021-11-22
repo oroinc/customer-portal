@@ -22,7 +22,6 @@ class JsRoutingDumpListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testAfterConsoleCommandForUnsupportedCommand(): void
     {
-        /** @var Application|\PHPUnit\Framework\MockObject\MockObject $app */
         $app = $this->createMock(Application::class);
         $app->expects($this->never())
             ->method($this->anything());
@@ -32,13 +31,12 @@ class JsRoutingDumpListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testAfterConsoleCommand(): void
     {
-        /** @var Application|\PHPUnit\Framework\MockObject\MockObject $app */
         $app = $this->createMock(Application::class);
 
         $event = $this->getEvent('fos:js-routing:dump', $app);
 
-        $fontendCommmand = $this->createMock(FrontendJsRoutingDumpCommand::class);
-        $fontendCommmand->expects($this->once())
+        $frontendCommand = $this->createMock(FrontendJsRoutingDumpCommand::class);
+        $frontendCommand->expects($this->once())
             ->method('run')
             ->with($event->getInput(), $event->getOutput())
             ->willReturn(123);
@@ -46,7 +44,7 @@ class JsRoutingDumpListenerTest extends \PHPUnit\Framework\TestCase
         $app->expects($this->once())
             ->method('find')
             ->with('oro:frontend:js-routing:dump')
-            ->willReturn($fontendCommmand);
+            ->willReturn($frontendCommand);
 
         $this->listener->afterConsoleCommand($event);
 
@@ -55,7 +53,6 @@ class JsRoutingDumpListenerTest extends \PHPUnit\Framework\TestCase
 
     private function getEvent(string $commandName, Application $app): ConsoleTerminateEvent
     {
-        /** @var Command|\PHPUnit\Framework\MockObject\MockObject $command */
         $command = $this->createMock(Command::class);
         $command->expects($this->once())
             ->method('getName')
@@ -64,12 +61,10 @@ class JsRoutingDumpListenerTest extends \PHPUnit\Framework\TestCase
             ->method('getApplication')
             ->willReturn($app);
 
-        /** @var InputInterface|\PHPUnit\Framework\MockObject\MockObject $input */
         $input = $this->createMock(InputInterface::class);
         $input->expects($this->never())
             ->method($this->anything());
 
-        /** @var OutputInterface|\PHPUnit\Framework\MockObject\MockObject $output */
         $output = $this->createMock(OutputInterface::class);
         $output->expects($this->never())
             ->method($this->anything());

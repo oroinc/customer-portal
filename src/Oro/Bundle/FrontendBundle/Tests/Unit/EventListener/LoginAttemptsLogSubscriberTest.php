@@ -13,11 +13,14 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginAttemptsLogSubscriberTest extends \PHPUnit\Framework\TestCase
 {
-    private FrontendHelper|\PHPUnit\Framework\MockObject\MockObject $frontendHelper;
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $frontendHelper;
 
-    private LoginAttemptsHandlerInterface|\PHPUnit\Framework\MockObject\MockObject $innerSubscriber;
+    /** @var LoginAttemptsHandlerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $innerSubscriber;
 
-    private LoginAttemptsLogHandler $subscriber;
+    /** @var LoginAttemptsLogHandler */
+    private $subscriber;
 
     protected function setUp(): void
     {

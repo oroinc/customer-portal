@@ -6,7 +6,6 @@ use Oro\Bundle\FrontendBundle\Request\DynamicSessionHttpKernelDecorator;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Bundle\SecurityBundle\Tests\Unit\Request\ContainerStub;
 use Oro\Component\Testing\ReflectionUtil;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,13 +25,13 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
         'cookie_path' => '/'
     ];
 
-    /** @var HttpKernel|MockObject */
+    /** @var HttpKernel|\PHPUnit\Framework\MockObject\MockObject */
     private $kernel;
 
     /** @var ContainerInterface */
     private $container;
 
-    /** @var FrontendHelper|MockObject */
+    /** @var FrontendHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $frontendHelper;
 
     /** @var DynamicSessionHttpKernelDecorator */
@@ -85,7 +84,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             $this->container->getParameter('session.storage.options')
         );
 
-        static::assertSame(
+        self::assertSame(
             [
                 'name' => 'BACK',
                 'cookie_path' => '/admin',
@@ -120,7 +119,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             array_replace(self::BACKEND_SESSION_OPTIONS, self::FRONTEND_SESSION_OPTIONS),
             $this->container->getParameter('session.storage.options')
         );
-        static::assertEquals(
+        self::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
             $this->getBackendSessionOptions()
         );
@@ -142,7 +141,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             self::BACKEND_SESSION_OPTIONS,
             $this->container->getParameter('session.storage.options')
         );
-        static::assertEquals(
+        self::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
             $this->getBackendSessionOptions()
         );
@@ -164,7 +163,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             array_replace(self::BACKEND_SESSION_OPTIONS, self::FRONTEND_SESSION_OPTIONS),
             $this->container->getParameter('session.storage.options')
         );
-        static::assertEquals(
+        self::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
             $this->getBackendSessionOptions()
         );
@@ -202,7 +201,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             $this->container->getParameter('session.storage.options')['cookie_path']
         );
 
-        static::assertSame(
+        self::assertSame(
             [
                 'name' => 'BACK',
                 'cookie_path' => '/admin',
@@ -247,7 +246,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             ],
             $this->container->getParameter('session.storage.options')
         );
-        static::assertEquals(
+        self::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
             $this->getBackendSessionOptions()
         );
@@ -283,7 +282,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             ],
             $this->container->getParameter('session.storage.options')
         );
-        static::assertEquals(
+        self::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
             $this->getBackendSessionOptions()
         );
@@ -319,7 +318,7 @@ class DynamicSessionHttpKernelDecoratorTest extends \PHPUnit\Framework\TestCase
             ],
             $this->container->getParameter('session.storage.options')
         );
-        static::assertEquals(
+        self::assertEquals(
             self::BACKEND_SESSION_OPTIONS,
             $this->getBackendSessionOptions()
         );

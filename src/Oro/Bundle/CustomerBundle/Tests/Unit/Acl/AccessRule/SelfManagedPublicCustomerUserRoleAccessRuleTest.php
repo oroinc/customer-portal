@@ -114,8 +114,7 @@ class SelfManagedPublicCustomerUserRoleAccessRuleTest extends TestCase
 
     public function testProcessWithOrganizationId()
     {
-        $this->tokenAccessor
-            ->expects($this->once())
+        $this->tokenAccessor->expects($this->once())
             ->method('getOrganizationId')
             ->willReturn($organizationId = 10);
 

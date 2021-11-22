@@ -94,7 +94,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $website = new WebsiteStub();
         $website->setName($websiteName);
 
-        $this->websiteRepository->method('getDefaultWebsite')
+        $this->websiteRepository->expects(self::any())
+            ->method('getDefaultWebsite')
             ->willReturn($website);
 
         $roleName = 'ROLE_FRONTEND_TEST';
@@ -165,7 +166,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $website = new WebsiteStub();
         $website->setName($websiteName);
 
-        $this->websiteRepository->method('getDefaultWebsite')
+        $this->websiteRepository->expects(self::any())
+            ->method('getDefaultWebsite')
             ->willReturn($website);
 
         $customerUser = new CustomerUser();
@@ -205,7 +207,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
         $websiteAfter = new WebsiteStub();
         $websiteAfter->setName('WebsiteAfter');
 
-        $this->websiteRepository->method('getDefaultWebsite')
+        $this->websiteRepository->expects(self::any())
+            ->method('getDefaultWebsite')
             ->willReturn($websiteAfter);
 
         $roleNameBefore = 'ROLE_FRONTEND_TEST_BEFORE';
@@ -242,12 +245,14 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
     protected function updateEventMock(CustomerUser $customerUser)
     {
-        $this->event->method('getEntity')
+        $this->event->expects(self::any())
+            ->method('getEntity')
             ->willReturn($customerUser);
 
         $this->context->setValue('read_offset', 0);
 
-        $this->event->method('getContext')
+        $this->event->expects(self::any())
+            ->method('getContext')
             ->willReturn($this->context);
     }
 
@@ -256,7 +261,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
      */
     protected function updateTranslationMock(Website $website = null)
     {
-        $this->translation->method('trans')
+        $this->translation->expects(self::any())
+            ->method('trans')
             ->willReturnMap([
                 [
                     'oro.customer.customeruser.import.message.default_website_does_not_exist',
@@ -287,10 +293,12 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
      */
     protected function updateCustomerManagerMock($password)
     {
-        $this->customerUserManager->method('generatePassword')
+        $this->customerUserManager->expects(self::any())
+            ->method('generatePassword')
             ->willReturn($password);
 
-        $this->customerUserManager->method('updatePassword')
+        $this->customerUserManager->expects(self::any())
+            ->method('updatePassword')
             ->willReturnCallback(function ($customerUser) use ($password) {
                 $customerUser->setPassword($password);
             });
@@ -298,7 +306,8 @@ class ImportCustomerUserListenerTest extends \PHPUnit\Framework\TestCase
 
     protected function updateRegistryMock()
     {
-        $this->registry->method('getRepository')
+        $this->registry->expects(self::any())
+            ->method('getRepository')
             ->with(Website::class)
             ->willReturn($this->websiteRepository);
     }

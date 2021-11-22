@@ -18,7 +18,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
     use EntityTrait;
     use MemoryCacheProviderAwareTestTrait;
 
-    private const CONFIG_URL        = 'oro_website.url';
+    private const CONFIG_URL = 'oro_website.url';
     private const CONFIG_SECURE_URL = 'oro_website.secure_url';
 
     /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -67,8 +67,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         /** @var Website $website */
         $website = $this->getEntity(Website::class, ['id' => 2]);
 
-        $this->configManager
-            ->expects($this->never())
+        $this->configManager->expects($this->never())
             ->method('get');
 
         $this->mockMemoryCacheProvider($url);
@@ -109,8 +108,7 @@ class WebsiteUrlResolverTest extends \PHPUnit\Framework\TestCase
         /** @var Website $website */
         $website = $this->getEntity(Website::class, ['id' => 2]);
 
-        $this->configManager
-            ->expects($this->never())
+        $this->configManager->expects($this->never())
             ->method('get');
 
         $this->mockMemoryCacheProvider($url);

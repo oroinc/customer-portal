@@ -5,7 +5,6 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\Extractor;
 
 use Oro\Bundle\FrontendBundle\Extractor\FrontendExposedRoutesExtractor;
 use Oro\Component\Testing\TempDirExtension;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
@@ -14,19 +13,22 @@ class FrontendExposedRoutesExtractorTest extends \PHPUnit\Framework\TestCase
 {
     use TempDirExtension;
 
-    private FrontendExposedRoutesExtractor $extractor;
     private string $cacheDir;
+
+    /** @var FrontendExposedRoutesExtractor */
+    private $extractor;
 
     protected function setUp(): void
     {
-        /** @var RouterInterface|MockObject $router */
         $router = $this->createMock(RouterInterface::class);
 
         $routes = new RouteCollection();
         foreach ($this->routeProvider() as $data) {
             $routes->add($data['name'], $data['route']);
         }
-        $router->method('getRouteCollection')->willReturn($routes);
+        $router->expects(self::any())
+            ->method('getRouteCollection')
+            ->willReturn($routes);
 
         $this->cacheDir = $this->getTempDir('exposed_routes');
 
@@ -36,16 +38,18 @@ class FrontendExposedRoutesExtractorTest extends \PHPUnit\Framework\TestCase
     public function testGetRoutes(): void
     {
         // comparing route names
-        static::assertSame(
-            \array_column(\array_filter($this->routeProvider(), static fn ($d) => $d['should_be_exposed']), 'name'),
-            \array_keys($this->extractor->getRoutes()->all())
+        self::assertSame(
+            array_column(array_filter($this->routeProvider(), static fn ($d) => $d['should_be_exposed']), 'name'),
+            array_keys($this->extractor->getRoutes()->all())
         );
     }
 
-    /** @dataProvider routeProvider */
+    /**
+     * @dataProvider routeProvider
+     */
     public function testIsRouteExposed(Route $route, string $name, bool $shouldBeExposed): void
     {
-        static::assertEquals($shouldBeExposed, $this->extractor->isRouteExposed($route, $name));
+        self::assertEquals($shouldBeExposed, $this->extractor->isRouteExposed($route, $name));
     }
 
     public function routeProvider(): array
@@ -81,6 +85,6 @@ class FrontendExposedRoutesExtractorTest extends \PHPUnit\Framework\TestCase
 
     public function testGetCachePath(): void
     {
-        static::assertEquals($this->cacheDir . '/fosJsRouting/frontend_data.json', $this->extractor->getCachePath(''));
+        self::assertEquals($this->cacheDir . '/fosJsRouting/frontend_data.json', $this->extractor->getCachePath(''));
     }
 }

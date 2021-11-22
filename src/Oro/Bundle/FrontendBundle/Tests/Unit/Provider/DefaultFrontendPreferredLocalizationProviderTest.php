@@ -32,10 +32,8 @@ class DefaultFrontendPreferredLocalizationProviderTest extends \PHPUnit\Framewor
 
     /**
      * @dataProvider entityDataProvider
-     *
-     * @param mixed $entity
      */
-    public function testSupportsForFrontendRequest($entity): void
+    public function testSupportsForFrontendRequest(mixed $entity): void
     {
         $this->frontendHelper->expects($this->atLeastOnce())
             ->method('isFrontendRequest')
@@ -46,10 +44,8 @@ class DefaultFrontendPreferredLocalizationProviderTest extends \PHPUnit\Framewor
 
     /**
      * @dataProvider entityDataProvider
-     *
-     * @param mixed $entity
      */
-    public function testSupportsForNotFrontendRequest($entity): void
+    public function testSupportsForNotFrontendRequest(mixed $entity): void
     {
         $this->frontendHelper->expects($this->atLeastOnce())
             ->method('isFrontendRequest')
@@ -70,10 +66,8 @@ class DefaultFrontendPreferredLocalizationProviderTest extends \PHPUnit\Framewor
 
     /**
      * @dataProvider entityDataProvider
-     *
-     * @param mixed $entity
      */
-    public function testGetPreferredLocalization($entity): void
+    public function testGetPreferredLocalization(mixed $entity): void
     {
         $this->frontendHelper->expects($this->atLeastOnce())
             ->method('isFrontendRequest')

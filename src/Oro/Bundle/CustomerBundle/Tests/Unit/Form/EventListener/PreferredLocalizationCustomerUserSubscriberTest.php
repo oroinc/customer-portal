@@ -51,7 +51,6 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
 
     public function testPostSetDataWhenNoPreferredLocalizationField()
     {
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock(FormInterface::class);
         $form->expects($this->once())
             ->method('has')
@@ -71,7 +70,6 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
 
     public function testOnPostSetDataWhenIsNotAvailable()
     {
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock(FormInterface::class);
         $form->expects($this->once())
             ->method('has')
@@ -99,7 +97,6 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
             ->with(Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS))
             ->willReturn([1, 2]);
 
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock(FormInterface::class);
         $form->expects($this->once())
             ->method('has')
@@ -128,7 +125,6 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
             ->with(Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS))
             ->willReturn([1, 2]);
 
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock(FormInterface::class);
         $form->expects($this->once())
             ->method('has')
@@ -158,7 +154,6 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
 
     public function testPostSubmitWhenNoPreferredLocalizationForm()
     {
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock(FormInterface::class);
         $form->expects($this->once())
             ->method('has')
@@ -176,12 +171,10 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
     public function testPostSubmitWhenNoSettings()
     {
         $preferredLocalization = new Localization();
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $preferredLocalizationForm */
         $preferredLocalizationForm = $this->createMock(FormInterface::class);
         $preferredLocalizationForm->expects($this->once())
             ->method('getData')
             ->willReturn($preferredLocalization);
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock(FormInterface::class);
         $form->expects($this->once())
             ->method('has')
@@ -211,12 +204,10 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
     public function testPostSubmit()
     {
         $preferredLocalization = new Localization();
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $preferredLocalizationForm */
         $preferredLocalizationForm = $this->createMock(FormInterface::class);
         $preferredLocalizationForm->expects($this->once())
             ->method('getData')
             ->willReturn($preferredLocalization);
-        /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock(FormInterface::class);
         $form->expects($this->once())
             ->method('has')

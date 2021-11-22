@@ -37,9 +37,7 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework
 
     protected function setUp(): void
     {
-        $this->visitorManager = $this->getMockBuilder(CustomerVisitorManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->visitorManager = $this->createMock(CustomerVisitorManager::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
 
         $this->provider = new AnonymousCustomerUserAuthenticationProvider(

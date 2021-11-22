@@ -55,10 +55,7 @@ class GuestAccessDecisionMakerTest extends \PHPUnit\Framework\TestCase
         self::assertSame($expectedDecision, $decision);
     }
 
-    /**
-     * @return array
-     */
-    public function decideDataProvider()
+    public function decideDataProvider(): array
     {
         return [
             'not frontend url' => ['/admin/', GuestAccessDecisionMakerInterface::URL_ALLOW],

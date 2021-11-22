@@ -23,7 +23,9 @@ class TokenAwareFrontendHelperTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->applicationState = $this->createMock(ApplicationState::class);
-        $this->applicationState->method('isInstalled')->willReturn(true);
+        $this->applicationState->expects(self::any())
+            ->method('isInstalled')
+            ->willReturn(true);
     }
 
     private function getRequestStack(Request $currentRequest = null): RequestStack

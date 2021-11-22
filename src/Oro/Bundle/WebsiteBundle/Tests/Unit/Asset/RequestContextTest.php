@@ -7,7 +7,8 @@ use Oro\Bundle\WebsiteBundle\Asset\RequestContext;
 
 class RequestContextTest extends \PHPUnit\Framework\TestCase
 {
-    private BasePathResolver|\PHPUnit\Framework\MockObject\MockObject $resolver;
+    /** @var BasePathResolver|\PHPUnit\Framework\MockObject\MockObject */
+    private $resolver;
 
     protected function setUp(): void
     {
@@ -38,13 +39,6 @@ class RequestContextTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider fromUriDataProvider
-     *
-     * @param string $uri
-     * @param string|null $host
-     * @param string|null $scheme
-     * @param int|null $httpPort
-     * @param int|null $httpsPort
-     * @param RequestContext $expected
      */
     public function testFromUri(
         string $uri,

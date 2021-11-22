@@ -12,6 +12,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRoleSelectType;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\EntityTrait;
@@ -42,11 +43,11 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
         $user->setCustomer($customer);
         $user->setOrganization($organization);
-        $this->qb = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->qb = $this->createMock(QueryBuilder::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-        $this->tokenAccessor->expects($this->any())->method('getUser')->willReturn($user);
+        $this->tokenAccessor->expects($this->any())
+            ->method('getUser')
+            ->willReturn($user);
         $this->registry = $this->createMock(ManagerRegistry::class);
         $repo = $this->createMock(CustomerUserRoleRepository::class);
         $repo->expects($this->any())
@@ -56,14 +57,16 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
         $em = $this->createMock(ObjectManager::class);
         $em->expects($this->any())
             ->method('getRepository')
-            ->with('Oro\Bundle\CustomerBundle\Entity\CustomerUserRole')
+            ->with(CustomerUserRole::class)
             ->willReturn($repo);
-        $this->registry->expects($this->any())->method('getManagerForClass')->willReturn($em);
+        $this->registry->expects($this->any())
+            ->method('getManagerForClass')
+            ->willReturn($em);
         $this->formType = new FrontendCustomerUserRoleSelectType(
             $this->tokenAccessor,
             $this->registry
         );
-        $this->formType->setRoleClass('Oro\Bundle\CustomerBundle\Entity\CustomerUserRole');
+        $this->formType->setRoleClass(CustomerUserRole::class);
 
         parent::setUp();
     }
@@ -87,7 +90,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
             ->willReturnCallback(
                 function (array $options) {
                     $this->assertArrayHasKey('query_builder', $options);
-                    $this->assertInstanceOf('\Closure', $options['query_builder']);
+                    $this->assertInstanceOf(\Closure::class, $options['query_builder']);
                     $this->assertArrayHasKey('acl_options', $options);
                     $this->assertEquals(
                         [
@@ -102,9 +105,10 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
 
     public function testEmptyUser()
     {
-        /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject $tokenAccessor */
         $tokenAccessor = $this->createMock(TokenAccessorInterface::class);
-        $tokenAccessor->expects($this->once())->method('getUser')->willReturn(null);
+        $tokenAccessor->expects($this->once())
+            ->method('getUser')
+            ->willReturn(null);
         $resolver = $this->createMock(OptionsResolver::class);
         $roleFormType = new FrontendCustomerUserRoleSelectType($tokenAccessor, $this->registry);
         $roleFormType->configureOptions($resolver);
@@ -117,7 +121,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
      */
     protected function createCustomer($id, $name)
     {
-        $customer = $this->getEntity('Oro\Bundle\CustomerBundle\Entity\Customer', ['id' => $id]);
+        $customer = $this->getEntity(Customer::class, ['id' => $id]);
         $customer->setName($name);
 
         return $customer;
@@ -129,7 +133,7 @@ class FrontendCustomerUserRoleSelectTypeTest extends FormIntegrationTestCase
      */
     protected function createOrganization($id)
     {
-        return $this->getEntity('Oro\Bundle\OrganizationBundle\Entity\Organization', ['id' => $id]);
+        return $this->getEntity(Organization::class, ['id' => $id]);
     }
 
     /**

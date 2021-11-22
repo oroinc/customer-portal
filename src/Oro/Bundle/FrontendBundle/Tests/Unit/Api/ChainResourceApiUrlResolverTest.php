@@ -7,7 +7,6 @@ use Oro\Bundle\ApiBundle\Util\RequestExpressionMatcher;
 use Oro\Bundle\FrontendBundle\Api\ChainResourceApiUrlResolver;
 use Oro\Bundle\FrontendBundle\Api\ResourceApiUrlResolverInterface;
 use Oro\Component\Testing\Unit\TestContainerBuilder;
-use Psr\Container\ContainerInterface;
 
 class ChainResourceApiUrlResolverTest extends \PHPUnit\Framework\TestCase
 {
@@ -28,9 +27,6 @@ class ChainResourceApiUrlResolverTest extends \PHPUnit\Framework\TestCase
     /** @var ResourceApiUrlResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $resolver5;
 
-    /** @var ContainerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $container;
-
     /** @var ChainResourceApiUrlResolver */
     private $chainResolver;
 
@@ -41,7 +37,8 @@ class ChainResourceApiUrlResolverTest extends \PHPUnit\Framework\TestCase
         $this->resolver3 = $this->createMock(ResourceApiUrlResolverInterface::class);
         $this->resolver4 = $this->createMock(ResourceApiUrlResolverInterface::class);
         $this->resolver5 = $this->createMock(ResourceApiUrlResolverInterface::class);
-        $this->container = TestContainerBuilder::create()
+
+        $container = TestContainerBuilder::create()
             ->add('resolver1', $this->resolver1)
             ->add('resolver2', $this->resolver2)
             ->add('resolver3', $this->resolver3)
@@ -57,7 +54,7 @@ class ChainResourceApiUrlResolverTest extends \PHPUnit\Framework\TestCase
                 ['resolver4', 'another_route', 'another|test'],
                 ['resolver5', self::TEST_ROUTE, 'another|test']
             ],
-            $this->container,
+            $container,
             new RequestExpressionMatcher()
         );
     }

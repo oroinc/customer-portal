@@ -18,41 +18,18 @@ use Symfony\Component\Validator\Validation;
 
 class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
 
-    /**
-     * @var FrontendCustomerUserProfileType
-     */
+    /** @var FrontendCustomerUserProfileType */
     private $formType;
 
-    /**
-     * @var Customer[]
-     */
-    protected static $customers = [];
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->formType = new FrontendCustomerUserProfileType($this->configManager);
-        $this->formType->setDataClass('Oro\Bundle\CustomerBundle\Entity\CustomerUser');
+        $this->formType->setDataClass(CustomerUser::class);
         parent::setUp();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        unset($this->formType);
-        self::$customers = [];
     }
 
     /**
@@ -74,12 +51,9 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @param CustomerUser $defaultData
-     * @param array $submittedData
-     * @param CustomerUser $expectedData
      * @dataProvider submitProvider
      */
-    public function testSubmit($defaultData, array $submittedData, $expectedData)
+    public function testSubmit(CustomerUser $defaultData, array $submittedData, CustomerUser $expectedData)
     {
         $this->configManager->expects($this->once())
             ->method('get')
@@ -94,10 +68,7 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         $entity = new CustomerUser();
         $customer = new Customer();

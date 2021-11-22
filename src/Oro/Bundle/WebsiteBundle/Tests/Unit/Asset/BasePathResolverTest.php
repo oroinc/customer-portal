@@ -9,13 +9,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class BasePathResolverTest extends \PHPUnit\Framework\TestCase
 {
-    private RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack;
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
+    private $requestStack;
 
-    private BasePathResolver $resolver;
+    /** @var BasePathResolver */
+    private $resolver;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);
@@ -33,7 +32,6 @@ class BasePathResolverTest extends \PHPUnit\Framework\TestCase
 
     public function testResolveBasePath(): void
     {
-        /** @var Request|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(Request::class);
         $request->server = new ParameterBag(['WEBSITE_PATH' => '/path']);
 
@@ -46,7 +44,6 @@ class BasePathResolverTest extends \PHPUnit\Framework\TestCase
 
     public function testGetBasePathNoConfiguration(): void
     {
-        /** @var Request|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(Request::class);
         $request->server = new ParameterBag([]);
 

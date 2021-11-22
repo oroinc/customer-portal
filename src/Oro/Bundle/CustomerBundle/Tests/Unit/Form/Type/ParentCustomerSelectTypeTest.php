@@ -6,7 +6,9 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Form\Type\ParentCustomerSelectType;
 use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType;
 use Oro\Component\Testing\ReflectionUtil;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
 {
@@ -27,7 +29,7 @@ class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigureOptions()
     {
-        $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
+        $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects($this->once())
             ->method('setDefaults')
             ->with($this->isType('array'))
@@ -56,14 +58,14 @@ class ParentCustomerSelectTypeTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildView($parentData, $expectedParentId)
     {
-        $parentForm = $this->createMock('Symfony\Component\Form\FormInterface');
+        $parentForm = $this->createMock(FormInterface::class);
         $parentForm->expects($this->any())
             ->method('getData')
             ->willReturn($parentData);
 
         $formView = new FormView();
 
-        $form = $this->createMock('Symfony\Component\Form\FormInterface');
+        $form = $this->createMock(FormInterface::class);
         $form->expects($this->any())
             ->method('getParent')
             ->willReturn($parentForm);

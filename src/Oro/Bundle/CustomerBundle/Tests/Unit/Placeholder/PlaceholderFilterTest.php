@@ -11,10 +11,11 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 class PlaceholderFilterTest extends \PHPUnit\Framework\TestCase
 {
-    protected PlaceholderFilter $placeholderFilter;
-
     /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
-    protected TokenAccessorInterface $tokenAccessor;
+    private $tokenAccessor;
+
+    /** @var PlaceholderFilter */
+    private $placeholderFilter;
 
     protected function setUp(): void
     {
@@ -23,18 +24,10 @@ class PlaceholderFilterTest extends \PHPUnit\Framework\TestCase
         $this->placeholderFilter = new PlaceholderFilter($this->tokenAccessor);
     }
 
-    protected function tearDown(): void
-    {
-        unset($this->placeholderFilter, $this->tokenAccessor);
-    }
-
     /**
      * @dataProvider isUserApplicableDataProvider
-     *
-     * @param object $user
-     * @param bool $expected
      */
-    public function testIsUserApplicable($user, bool $expected): void
+    public function testIsUserApplicable(object $user, bool $expected): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
@@ -53,11 +46,8 @@ class PlaceholderFilterTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider isLoginRequiredDataProvider
-     *
-     * @param mixed $user
-     * @param bool $expected
      */
-    public function testIsLoginRequired($user, bool $expected): void
+    public function testIsLoginRequired(object|string $user, bool $expected): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
@@ -76,11 +66,8 @@ class PlaceholderFilterTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider isFrontendApplicableDataProvider
-     *
-     * @param object|string $user
-     * @param bool $expected
      */
-    public function testIsFrontendApplicable($user, bool $expected): void
+    public function testIsFrontendApplicable(object|string $user, bool $expected): void
     {
         $this->tokenAccessor->expects($this->once())
             ->method('getUser')
@@ -100,10 +87,8 @@ class PlaceholderFilterTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider isCustomerPageDataProvider
-     * @param mixed $entity
-     * @param bool $expected
      */
-    public function testIsCustomerPage($entity, bool $expected): void
+    public function testIsCustomerPage(?object $entity, bool $expected): void
     {
         $this->assertEquals($expected, $this->placeholderFilter->isCustomerPage($entity));
     }
@@ -128,10 +113,8 @@ class PlaceholderFilterTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider isCustomerGroupPageDataProvider
-     * @param mixed $entity
-     * @param bool $expected
      */
-    public function testIsCustomerGroupPage($entity, bool $expected): void
+    public function testIsCustomerGroupPage(?object $entity, bool $expected): void
     {
         $this->assertEquals($expected, $this->placeholderFilter->isCustomerGroupPage($entity));
     }

@@ -13,9 +13,6 @@ use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
 class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FrontendAddressProvider */
-    private $provider;
-
     /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
     private $registry;
 
@@ -28,16 +25,13 @@ class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
     /** @var string */
     private $customerUserAddressClass = 'customerUserAddressClass';
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @var FrontendAddressProvider */
+    private $provider;
+
     protected function setUp(): void
     {
         $this->registry = $this->createMock(ManagerRegistry::class);
-
-        $this->aclHelper = $this->getMockBuilder(AclHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->aclHelper = $this->createMock(AclHelper::class);
 
         $this->provider = new FrontendAddressProvider(
             $this->registry,
@@ -45,14 +39,6 @@ class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
             $this->customerAddressClass,
             $this->customerUserAddressClass
         );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function tearDown(): void
-    {
-        unset($this->provider);
     }
 
     public function testGetCurrentCustomerAddresses()
@@ -78,7 +64,7 @@ class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @return CustomerAddress[]
      */
-    protected function prepareCustomerAddresses()
+    private function prepareCustomerAddresses(): array
     {
         $address1 = new CustomerAddress();
         $address2 = new CustomerAddress();
@@ -87,11 +73,22 @@ class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
             $address2,
         ];
 
-        $repository = $this->prepareCustomerAddressRepository();
+        $repository = $this->createMock(CustomerAddressRepository::class);
         $repository->expects($this->once())
             ->method('getAddresses')
             ->with($this->aclHelper)
             ->willReturn($addresses);
+
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager->expects($this->any())
+            ->method('getRepository')
+            ->with($this->customerAddressClass)
+            ->willReturn($repository);
+
+        $this->registry->expects($this->any())
+            ->method('getManagerForClass')
+            ->with($this->customerAddressClass)
+            ->willReturn($manager);
 
         return $addresses;
     }
@@ -99,7 +96,7 @@ class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @return CustomerUserAddress[]
      */
-    protected function prepareCustomerUserAddresses()
+    private function prepareCustomerUserAddresses(): array
     {
         $address1 = new CustomerUserAddress();
         $address2 = new CustomerUserAddress();
@@ -108,58 +105,23 @@ class FrontendAddressProviderTest extends \PHPUnit\Framework\TestCase
             $address2,
         ];
 
-        $repository = $this->prepareCustomerUserAddressRepository();
+        $repository = $this->createMock(CustomerUserAddressRepository::class);
         $repository->expects($this->once())
             ->method('getAddresses')
             ->with($this->aclHelper)
             ->willReturn($addresses);
 
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager->expects($this->any())
+            ->method('getRepository')
+            ->with($this->customerUserAddressClass)
+            ->willReturn($repository);
+
+        $this->registry->expects($this->any())
+            ->method('getManagerForClass')
+            ->with($this->customerUserAddressClass)
+            ->willReturn($manager);
+
         return $addresses;
-    }
-
-    /**
-     * @return CustomerAddressRepository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function prepareCustomerAddressRepository()
-    {
-        $repository = $this->getMockBuilder(CustomerAddressRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $manager = $this->createMock(EntityManagerInterface::class);
-        $manager->expects($this->any())
-            ->method('getRepository')
-            ->with($this->customerAddressClass)
-            ->will($this->returnValue($repository));
-
-        $this->registry->expects($this->any())
-            ->method('getManagerForClass')
-            ->with($this->customerAddressClass)
-            ->will($this->returnValue($manager));
-
-        return $repository;
-    }
-
-    /**
-     * @return CustomerUserAddressRepository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function prepareCustomerUserAddressRepository()
-    {
-        $repository = $this->getMockBuilder(CustomerUserAddressRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $manager = $this->createMock(EntityManagerInterface::class);
-        $manager->expects($this->any())
-            ->method('getRepository')
-            ->with($this->customerUserAddressClass)
-            ->will($this->returnValue($repository));
-
-        $this->registry->expects($this->any())
-            ->method('getManagerForClass')
-            ->with($this->customerUserAddressClass)
-            ->will($this->returnValue($manager));
-
-        return $repository;
     }
 }

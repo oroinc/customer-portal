@@ -17,20 +17,28 @@ class ExportResultNotificationSenderTest extends \PHPUnit\Framework\TestCase
 {
     private const SENDER_EMAIL = 'John Doe <doe@example.org>';
 
-    private AggregatedEmailTemplatesSender|\PHPUnit\Framework\MockObject\MockObject $emailTemplatesSender;
+    /** @var AggregatedEmailTemplatesSender|\PHPUnit\Framework\MockObject\MockObject */
+    private $emailTemplatesSender;
 
-    private FrontendExportResultSummarizer|\PHPUnit\Framework\MockObject\MockObject $exportResultSummarizer;
+    /** @var FrontendExportResultSummarizer|\PHPUnit\Framework\MockObject\MockObject */
+    private $exportResultSummarizer;
 
-    private WebsiteManager|\PHPUnit\Framework\MockObject\MockObject $websiteManager;
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $websiteManager;
 
-    private ExportResultNotificationSender $sender;
+    /** @var ExportResultNotificationSender */
+    private $sender;
 
     protected function setUp(): void
     {
         $this->emailTemplatesSender = $this->createMock(AggregatedEmailTemplatesSender::class);
         $this->exportResultSummarizer = $this->createMock(FrontendExportResultSummarizer::class);
-        $notificationSettings = $this->createMock(NotificationSettings::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
+
+        $notificationSettings = $this->createMock(NotificationSettings::class);
+        $notificationSettings->expects(self::any())
+            ->method('getSender')
+            ->willReturn(From::emailAddress(self::SENDER_EMAIL));
 
         $this->sender = new ExportResultNotificationSender(
             $this->emailTemplatesSender,
@@ -38,21 +46,14 @@ class ExportResultNotificationSenderTest extends \PHPUnit\Framework\TestCase
             $notificationSettings,
             $this->websiteManager
         );
-
-        $notificationSettings
-            ->expects(self::any())
-            ->method('getSender')
-            ->willReturn(From::emailAddress(self::SENDER_EMAIL));
     }
 
     public function testSendEmailNotificationWhenNoCustomerUser(): void
     {
-        $this->exportResultSummarizer
-            ->expects(self::never())
+        $this->exportResultSummarizer->expects(self::never())
             ->method('getSummaryFromImportExportResult');
 
-        $this->emailTemplatesSender
-            ->expects(self::never())
+        $this->emailTemplatesSender->expects(self::never())
             ->method('send');
 
         self::assertEmpty($this->sender->sendEmailNotification(new FrontendImportExportResult()));
@@ -67,26 +68,22 @@ class ExportResultNotificationSenderTest extends \PHPUnit\Framework\TestCase
         $customerUser = (new CustomerUser())->setWebsite($website);
         $importExportResult = (new FrontendImportExportResult())->setCustomerUser($customerUser);
 
-        $this->exportResultSummarizer
-            ->expects(self::once())
+        $this->exportResultSummarizer->expects(self::once())
             ->method('getSummaryFromImportExportResult')
             ->with($importExportResult)
             ->willReturn($exportResultSummary);
 
         $currentWebsite = new Website();
-        $this->websiteManager
-            ->expects(self::once())
+        $this->websiteManager->expects(self::once())
             ->method('getCurrentWebsite')
             ->willReturn($currentWebsite);
 
-        $this->websiteManager
-            ->expects(self::exactly(2))
+        $this->websiteManager->expects(self::exactly(2))
             ->method('setCurrentWebsite')
             ->withConsecutive([$website], [$currentWebsite]);
 
         $emailUser = $this->createMock(EmailUser::class);
-        $this->emailTemplatesSender
-            ->expects(self::once())
+        $this->emailTemplatesSender->expects(self::once())
             ->method('send')
             ->with(
                 $importExportResult,

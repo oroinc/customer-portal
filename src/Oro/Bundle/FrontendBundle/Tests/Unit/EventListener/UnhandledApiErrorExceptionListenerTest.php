@@ -32,7 +32,9 @@ class UnhandledApiErrorExceptionListenerTest extends \PHPUnit\Framework\TestCase
         $this->frontendHandler = $this->createMock(RequestActionHandler::class);
 
         $applicationState = $this->createMock(ApplicationState::class);
-        $applicationState->method('isInstalled')->willReturn(true);
+        $applicationState->expects(self::any())
+            ->method('isInstalled')
+            ->willReturn(true);
 
         $frontendHelper = new FrontendHelper(
             $backendPrefix,

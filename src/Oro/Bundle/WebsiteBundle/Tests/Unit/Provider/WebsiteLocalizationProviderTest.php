@@ -9,25 +9,23 @@ use Oro\Bundle\WebsiteBundle\Provider\WebsiteLocalizationProvider;
 
 class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProviderTest
 {
-    /** @var WebsiteLocalizationProvider */
-    protected $provider;
-
     /** @var WebsiteRepository|\PHPUnit\Framework\MockObject\MockObject */
-    protected $websiteRepository;
+    private $websiteRepository;
+
+    /** @var WebsiteLocalizationProvider */
+    private $provider;
 
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->websiteRepository = $this->createMock(WebsiteRepository::class);
 
         $this->provider = new WebsiteLocalizationProvider(
             $this->configManager,
             $this->localizationManager,
             $this->doctrineHelper
         );
-
-        $this->websiteRepository = $this->getMockBuilder(WebsiteRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
     }
 
     public function testGetLocalizations()
@@ -40,14 +38,12 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
             $this->getLocalization(200),
         ];
 
-        $this->configManager
-            ->expects($this->once())
+        $this->configManager->expects($this->once())
             ->method('get')
             ->with(sprintf('oro_locale.%s', Configuration::ENABLED_LOCALIZATIONS))
             ->willReturn($ids);
 
-        $this->localizationManager
-            ->expects($this->once())
+        $this->localizationManager->expects($this->once())
             ->method('getLocalizations')
             ->with($ids)
             ->willReturn($localizations);
@@ -57,20 +53,17 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
 
     public function testGetLocalizationsByWebsiteId()
     {
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepositoryForClass')
             ->with(Website::class)
             ->willReturn($this->websiteRepository);
 
-        $this->websiteRepository
-            ->expects($this->once())
+        $this->websiteRepository->expects($this->once())
             ->method('find')
             ->with(42)
             ->willReturn(new Website());
 
-        $this->websiteRepository
-            ->expects($this->never())
+        $this->websiteRepository->expects($this->never())
             ->method('getDefaultWebsite');
 
         $this->provider->getLocalizationsByWebsiteId(42);
@@ -78,18 +71,15 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
 
     public function testGetLocalizationsByWebsiteIdEmptyId()
     {
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepositoryForClass')
             ->with(Website::class)
             ->willReturn($this->websiteRepository);
 
-        $this->websiteRepository
-            ->expects($this->never())
+        $this->websiteRepository->expects($this->never())
             ->method('find');
 
-        $this->websiteRepository
-            ->expects($this->once())
+        $this->websiteRepository->expects($this->once())
             ->method('getDefaultWebsite')
             ->willReturn(new Website());
 
@@ -98,20 +88,17 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
 
     public function testGetLocalizationsByWebsiteIdNonExistentId()
     {
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepositoryForClass')
             ->with(Website::class)
             ->willReturn($this->websiteRepository);
 
-        $this->websiteRepository
-            ->expects($this->once())
+        $this->websiteRepository->expects($this->once())
             ->method('find')
             ->with(123)
             ->willReturn(null);
 
-        $this->websiteRepository
-            ->expects($this->once())
+        $this->websiteRepository->expects($this->once())
             ->method('getDefaultWebsite')
             ->willReturn(new Website());
 
@@ -120,18 +107,15 @@ class WebsiteLocalizationProviderTest extends AbstractWebsiteLocalizationProvide
 
     public function testGetLocalizationsByWebsiteIdNonIntegerId()
     {
-        $this->doctrineHelper
-            ->expects($this->once())
+        $this->doctrineHelper->expects($this->once())
             ->method('getEntityRepositoryForClass')
             ->with(Website::class)
             ->willReturn($this->websiteRepository);
 
-        $this->websiteRepository
-            ->expects($this->never())
+        $this->websiteRepository->expects($this->never())
             ->method('find');
 
-        $this->websiteRepository
-            ->expects($this->once())
+        $this->websiteRepository->expects($this->once())
             ->method('getDefaultWebsite')
             ->willReturn(new Website());
 

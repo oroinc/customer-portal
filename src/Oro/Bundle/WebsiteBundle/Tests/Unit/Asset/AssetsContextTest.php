@@ -9,19 +9,20 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class AssetsContextTest extends \PHPUnit\Framework\TestCase
 {
-    private RequestStack|\PHPUnit\Framework\MockObject\MockObject $requestStack;
+    /** @var RequestStack|\PHPUnit\Framework\MockObject\MockObject */
+    private $requestStack;
 
-    private BasePathResolver|\PHPUnit\Framework\MockObject\MockObject $resolver;
+    /** @var BasePathResolver|\PHPUnit\Framework\MockObject\MockObject */
+    private $resolver;
 
-    private AssetsContext $context;
+    /** @var AssetsContext */
+    private $context;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->requestStack = $this->createMock(RequestStack::class);
         $this->resolver = $this->createMock(BasePathResolver::class);
+
         $this->context = new AssetsContext($this->requestStack);
         $this->context->setBasePathResolver($this->resolver);
     }
@@ -30,7 +31,6 @@ class AssetsContextTest extends \PHPUnit\Framework\TestCase
     {
         $path = '/path';
         $expected = '/resolved-path';
-        /** @var Request|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(Request::class);
         $request->expects(self::atLeastOnce())
             ->method('getBasePath')

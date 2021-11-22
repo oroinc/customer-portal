@@ -11,44 +11,20 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ActionPermissionProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var ActionPermissionProvider
-     */
-    protected $actionPermissionProvider;
+    private array $customerUserRoleActionList = ['view', 'update'];
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ResultRecordInterface
-     */
-    protected $record;
-
-    /**
-     * @var array
-     */
-    protected $actionsList = [
-        'enable',
-        'disable',
-        'view',
-        'update',
-        'delete'
-    ];
-
-    /**
-     * @var array
-     */
-    protected $customerUserRoleActionList = [
-        'view',
-        'update'
-    ];
+    /** @var \PHPUnit\Framework\MockObject\MockObject|ResultRecordInterface */
+    private $record;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|AuthorizationCheckerInterface */
-    protected $authorizationChecker;
+    private $authorizationChecker;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|TokenAccessorInterface */
-    protected $tokenAccessor;
+    private $tokenAccessor;
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @var ActionPermissionProvider */
+    private $actionPermissionProvider;
+
     protected function setUp(): void
     {
         $this->record = $this->createMock(ResultRecordInterface::class);
@@ -61,10 +37,7 @@ class ActionPermissionProviderTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @return array
-     */
-    public function recordConditions()
+    public function recordConditions(): array
     {
         return [
             'enabled record' => [
@@ -93,13 +66,9 @@ class ActionPermissionProviderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param boolean  $isRolePredefined
-     * @param boolean  $isGranted
-     * @param array    $expected
-     *
      * @dataProvider getCustomerUserRolePermissionProvider
      */
-    public function testGetCustomerUserRolePermission($isRolePredefined, $isGranted, array $expected)
+    public function testGetCustomerUserRolePermission(bool $isRolePredefined, bool $isGranted, array $expected)
     {
         $this->record->expects($this->any())
             ->method('getValue')
@@ -122,10 +91,7 @@ class ActionPermissionProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @return array
-     */
-    public function getCustomerUserRolePermissionProvider()
+    public function getCustomerUserRolePermissionProvider(): array
     {
         return [
             'user have permission to create and role is predefined' => [

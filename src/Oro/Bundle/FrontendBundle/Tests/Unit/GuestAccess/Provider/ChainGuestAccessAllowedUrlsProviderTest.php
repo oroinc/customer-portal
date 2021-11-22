@@ -4,9 +4,8 @@ namespace Oro\Bundle\FrontendBundle\Tests\Unit\GuestAccess\Provider;
 
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\ChainGuestAccessAllowedUrlsProvider;
 use Oro\Bundle\FrontendBundle\GuestAccess\Provider\GuestAccessAllowedUrlsProviderInterface;
-use PHPUnit\Framework\TestCase;
 
-class ChainGuestAccessAllowedUrlsProviderTest extends TestCase
+class ChainGuestAccessAllowedUrlsProviderTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetAllowedUrlsPatternsWithoutRegisteredProviders(): void
     {
@@ -18,24 +17,20 @@ class ChainGuestAccessAllowedUrlsProviderTest extends TestCase
     public function testGetAllowedUrlsPatterns(): void
     {
         $providerAPatterns = ['^/pattern1$', '^/pattern2$', '^/pattern3$'];
-        $providerA = $this->mockProvider($providerAPatterns);
+        $providerA = $this->getProvider($providerAPatterns);
 
         $providerBPatterns = ['^/pattern4$', '^/pattern5$'];
-        $providerB = $this->mockProvider($providerBPatterns);
+        $providerB = $this->getProvider($providerBPatterns);
 
         $chainProvider = new ChainGuestAccessAllowedUrlsProvider([$providerA, $providerB]);
 
         $this->assertEquals(
-            \array_merge($providerAPatterns, $providerBPatterns),
+            array_merge($providerAPatterns, $providerBPatterns),
             $chainProvider->getAllowedUrlsPatterns()
         );
     }
 
-    /**
-     * @param string[] $patterns
-     * @return GuestAccessAllowedUrlsProviderInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function mockProvider(array $patterns): GuestAccessAllowedUrlsProviderInterface
+    private function getProvider(array $patterns): GuestAccessAllowedUrlsProviderInterface
     {
         $provider = $this->createMock(GuestAccessAllowedUrlsProviderInterface::class);
         $provider->expects($this->once())

@@ -43,13 +43,11 @@ class FrontendExtensionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetDefaultPage(bool $isFrontendRequest, string $routeName): void
     {
-        $this->frontendHelper
-            ->expects($this->once())
+        $this->frontendHelper->expects($this->once())
             ->method('isFrontendRequest')
             ->willReturn($isFrontendRequest);
 
-        $this->router
-            ->expects($this->once())
+        $this->router->expects($this->once())
             ->method('generate')
             ->with($routeName)
             ->willReturn($url = 'http://sample-app/sample-url');

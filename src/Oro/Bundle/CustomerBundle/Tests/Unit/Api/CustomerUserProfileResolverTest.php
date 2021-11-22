@@ -34,8 +34,7 @@ class CustomerUserProfileResolverTest extends \PHPUnit\Framework\TestCase
     public function testProfileWithoutCustomerUser(): void
     {
         $customerUser = $this->getEntity(CustomerUser::class, ['id' => 1]);
-        $this->tokenAccessor
-            ->expects($this->once())
+        $this->tokenAccessor->expects($this->once())
             ->method('getUser')
             ->willReturn(null);
 
@@ -45,13 +44,11 @@ class CustomerUserProfileResolverTest extends \PHPUnit\Framework\TestCase
     public function testProfileWithProfilePermission(): void
     {
         $customerUser = $this->getEntity(CustomerUser::class, ['id' => 1]);
-        $this->tokenAccessor
-            ->expects($this->once())
+        $this->tokenAccessor->expects($this->once())
             ->method('getUser')
             ->willReturn($customerUser);
 
-        $this->authorizationChecker
-            ->expects($this->any())
+        $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
             ->willReturnMap([
                 ['EDIT', 'entity:' . CustomerUser::class, false],
@@ -64,13 +61,11 @@ class CustomerUserProfileResolverTest extends \PHPUnit\Framework\TestCase
     public function testProfileWithCustomerUserUpdatePermission(): void
     {
         $customerUser = $this->getEntity(CustomerUser::class, ['id' => 1]);
-        $this->tokenAccessor
-            ->expects($this->once())
+        $this->tokenAccessor->expects($this->once())
             ->method('getUser')
             ->willReturn($customerUser);
 
-        $this->authorizationChecker
-            ->expects($this->any())
+        $this->authorizationChecker->expects($this->any())
             ->method('isGranted')
             ->willReturnMap([
                 ['EDIT', 'entity:' . CustomerUser::class, true],
@@ -88,8 +83,7 @@ class CustomerUserProfileResolverTest extends \PHPUnit\Framework\TestCase
     private function getContext(string $className = CustomerUser::class)
     {
         $context = $this->createMock(Context::class);
-        $context
-            ->expects($this->once())
+        $context->expects($this->once())
             ->method('getClassName')
             ->willReturn($className);
 

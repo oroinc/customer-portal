@@ -38,11 +38,7 @@ class FixCustomerAddressesDefaultSubscriberTest extends \PHPUnit\Framework\TestC
             $customer->addAddress($address);
         }
 
-        $event = $this->getMockBuilder(FormEvent::class)
-            ->onlyMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $event = $this->createMock(FormEvent::class);
         $event->expects($this->once())
             ->method('getData')
             ->willReturn($allAddresses[$formAddressKey]);

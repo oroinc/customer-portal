@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Entity;
 
 use Oro\Bundle\CustomerBundle\Entity\Audit;
 use Oro\Bundle\DataAuditBundle\Entity\AuditField;
+use Oro\Bundle\DataAuditBundle\Exception\UnsupportedDataTypeException;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
 class AuditFieldTest extends \PHPUnit\Framework\TestCase
@@ -17,7 +18,7 @@ class AuditFieldTest extends \PHPUnit\Framework\TestCase
             ['translationDomain', 'message']
         ];
 
-        static::assertPropertyAccessors(new AuditField('field1', 'string', 'value', 'oldValue'), $properties);
+        self::assertPropertyAccessors(new AuditField('field1', 'string', 'value', 'oldValue'), $properties);
     }
 
     public function testGetters()
@@ -37,7 +38,7 @@ class AuditFieldTest extends \PHPUnit\Framework\TestCase
 
     public function testUnsupportedType()
     {
-        $this->expectException(\Oro\Bundle\DataAuditBundle\Exception\UnsupportedDataTypeException::class);
+        $this->expectException(UnsupportedDataTypeException::class);
         $this->expectExceptionMessage('Unsupported audit data type "string1"');
 
         new AuditField('field1', 'string1', 'value', 'oldValue');

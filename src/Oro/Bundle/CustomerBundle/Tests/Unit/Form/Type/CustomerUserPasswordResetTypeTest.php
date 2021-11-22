@@ -11,10 +11,10 @@ use Symfony\Component\Validator\Validation;
 
 class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
 {
-    const DATA_CLASS = 'Oro\Bundle\CustomerBundle\Entity\CustomerUser';
+    private const DATA_CLASS = CustomerUser::class;
 
     /** @var CustomerUserPasswordResetType */
-    protected $formType;
+    private $formType;
 
     protected function setUp(): void
     {
@@ -23,13 +23,8 @@ class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    protected function tearDown(): void
-    {
-        unset($this->formType);
-    }
-
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getExtensions()
     {
@@ -43,12 +38,8 @@ class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
 
     /**
      * @dataProvider submitProvider
-     *
-     * @param CustomerUser $defaultData
-     * @param array $submittedData
-     * @param CustomerUser $expectedData
      */
-    public function testSubmit($defaultData, array $submittedData, $expectedData)
+    public function testSubmit(CustomerUser $defaultData, array $submittedData, CustomerUser $expectedData)
     {
         $form = $this->factory->create(CustomerUserPasswordResetType::class, $defaultData, []);
 
@@ -59,10 +50,7 @@ class CustomerUserPasswordResetTypeTest extends FormIntegrationTestCase
         $this->assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         $entity = new CustomerUser();
         $expectedEntity = new CustomerUser();

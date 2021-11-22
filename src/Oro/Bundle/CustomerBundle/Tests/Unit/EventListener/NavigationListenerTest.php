@@ -37,12 +37,10 @@ class NavigationListenerTest extends \PHPUnit\Framework\TestCase
     ) {
         $this->authorizationChecker->expects($this->atLeastOnce())
             ->method('isGranted')
-            ->will($this->returnValueMap(
-                [
-                    ['oro_customer_frontend_customer_address_view', null, $isGrantedCustomerAddress],
-                    ['oro_customer_frontend_customer_user_address_view', null, $isGrantedCustomerUserAddress]
-                ]
-            ));
+            ->willReturnMap([
+                ['oro_customer_frontend_customer_address_view', null, $isGrantedCustomerAddress],
+                ['oro_customer_frontend_customer_user_address_view', null, $isGrantedCustomerUserAddress]
+            ]);
 
         $factory         = new MenuFactory();
         $menu            = new MenuItem('oro_customer_menu', $factory);
