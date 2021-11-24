@@ -3,7 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Form\Extension;
 
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
-use Oro\Bundle\LocaleBundle\Form\Type\EnabledLocalizationSelectType;
+use Oro\Bundle\CustomerBundle\Form\Type\EnabledLocalizationSelectType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;

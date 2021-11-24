@@ -3,21 +3,19 @@
 namespace Oro\Bundle\CustomerBundle\Provider;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
 use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManagerInterface;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
 use Oro\Bundle\LocaleBundle\Provider\AbstractPreferredLocalizationProvider;
 
 /**
- * Returns preferred localization for CustomerUser entity based on customer user settings on frontend.
+ * Returns preferred localization for CustomerUser entity based on customer user settings.
  */
 class CustomerUserPreferredLocalizationProvider extends AbstractPreferredLocalizationProvider
 {
-    /**
-     * @var UserLocalizationManagerInterface|null
-     */
-    private $userLocalizationManager;
+    private UserLocalizationManagerInterface $userLocalizationManager;
 
-    public function __construct(?UserLocalizationManagerInterface $userLocalizationManager)
+    public function __construct(UserLocalizationManagerInterface $userLocalizationManager)
     {
         $this->userLocalizationManager = $userLocalizationManager;
     }
@@ -36,23 +34,17 @@ class CustomerUserPreferredLocalizationProvider extends AbstractPreferredLocaliz
      */
     protected function getPreferredLocalizationForEntity($entity): ?Localization
     {
-        return $this->getLocalizationByCurrentWebsite($entity) ?? $this->getLocalizationByPrimaryWebsite($entity);
-    }
-
-    private function getLocalizationByCurrentWebsite(CustomerUser $entity): ?Localization
-    {
-        return $this->userLocalizationManager->getCurrentLocalizationByCustomerUser($entity);
-    }
-
-    private function getLocalizationByPrimaryWebsite(CustomerUser $customerUser): ?Localization
-    {
-        if (!$customerUser->getWebsite()) {
-            return null;
+        /**
+         * There can be only one website configuration for the CE version as it is not allowed to have more than one
+         * website.
+         *
+         * @var CustomerUserSettings $settings
+         */
+        $website = null;
+        if (!$entity->getSettings()->isEmpty()) {
+            $website = $entity->getSettings()->first()->getWebsite();
         }
 
-        return $this->userLocalizationManager->getCurrentLocalizationByCustomerUser(
-            $customerUser,
-            $customerUser->getWebsite()
-        );
+        return $this->userLocalizationManager->getCurrentLocalizationByCustomerUser($entity, $website);
     }
 }

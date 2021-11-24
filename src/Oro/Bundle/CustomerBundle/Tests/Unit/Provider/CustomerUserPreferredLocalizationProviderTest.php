@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Provider;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserSettings;
 use Oro\Bundle\CustomerBundle\Provider\CustomerUserPreferredLocalizationProvider;
 use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManager;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
@@ -56,50 +57,33 @@ class CustomerUserPreferredLocalizationProviderTest extends \PHPUnit\Framework\T
         ];
     }
 
-    public function testGetPreferredLocalizationByCurrentWebsite(): void
-    {
-        $entity = (new CustomerUser())->setIsGuest(false);
-
-        $localization = new Localization();
-        $this->userLocalizationManager->expects($this->once())
-            ->method('getCurrentLocalizationByCustomerUser')
-            ->with($this->identicalTo($entity))
-            ->willReturn($localization);
-
-        $this->assertSame($localization, $this->provider->getPreferredLocalization($entity));
-    }
-
-    public function testGetPreferredLocalizationWithoutWebsite(): void
-    {
-        $entity = (new CustomerUser())->setIsGuest(false);
-
-        $this->userLocalizationManager->expects($this->once())
-            ->method('getCurrentLocalizationByCustomerUser')
-            ->with($this->identicalTo($entity))
-            ->willReturn(null);
-
-        $this->assertNull($this->provider->getPreferredLocalization($entity));
-    }
-
-    public function testGetPreferredLocalizationByPrimaryWebsite(): void
+    public function testGetPreferredLocalizationForEntity(): void
     {
         $website = new Website();
-        $entity = (new CustomerUser())
-            ->setIsGuest(false)
-            ->setWebsite($website);
+        $customerUser = new CustomerUser();
+        $customerUserSettings = new CustomerUserSettings($website);
+        $customerUser->setWebsiteSettings($customerUserSettings);
 
         $localization = new Localization();
-        $this->userLocalizationManager->expects($this->exactly(2))
+        $this->userLocalizationManager
+            ->expects($this->once())
             ->method('getCurrentLocalizationByCustomerUser')
-            ->withConsecutive(
-                [$this->identicalTo($entity)],
-                [$this->identicalTo($entity), $this->identicalTo($website)]
-            )
-            ->willReturnOnConsecutiveCalls(
-                null,
-                $localization
-            );
+            ->with($customerUser, $website)
+            ->willReturn($localization);
 
-        $this->assertSame($localization, $this->provider->getPreferredLocalization($entity));
+        $this->assertEquals($localization, $this->provider->getPreferredLocalization($customerUser));
+    }
+
+    public function testGetPreferredLocalizationForEntityWithoutSettings(): void
+    {
+        $customerUser = new CustomerUser();
+
+        $this->userLocalizationManager
+            ->expects($this->once())
+            ->method('getCurrentLocalizationByCustomerUser')
+            ->with($customerUser, null)
+            ->willReturn(null);
+
+        $this->assertNull($this->provider->getPreferredLocalization($customerUser));
     }
 }

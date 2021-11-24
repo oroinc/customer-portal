@@ -1224,3 +1224,22 @@ services:
         class: Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerGroupConfigurationDatagridListener
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.customer-groups-grid, method: onBuildBefore }
+
+    oro_customer.datagrid.event_listener.enabled_localizations_grid:
+        class: Oro\Bundle\CustomerBundle\EventListener\EnabledLocalizationsGridListener
+        arguments:
+            - '@oro_config.manager'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after.enabled-localizations-select-grid, method: onBuildAfter }
+
+    oro_customer.autocomplete.enabled_localizations.search_handler:
+        parent: oro_form.autocomplete.search_handler
+        class: Oro\Bundle\CustomerBundle\Autocomplete\EnabledLocalizationsSearchHandler
+        arguments:
+            - 'Oro\Bundle\LocaleBundle\Entity\Localization'
+            - ['name']
+            - '@oro_config.manager'
+            - '@doctrine'
+        tags:
+            - { name: oro_form.autocomplete.search_handler, alias: oro_enabled_localization, acl_resource: oro_locale_localization_view }
+
