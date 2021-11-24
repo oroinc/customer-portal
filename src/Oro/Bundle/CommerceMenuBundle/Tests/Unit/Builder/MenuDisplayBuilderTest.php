@@ -46,7 +46,7 @@ class MenuDisplayBuilderTest extends \PHPUnit\Framework\TestCase
             ->willReturn(true);
         $childMenu2->expects(self::once())
             ->method('setDisplay')
-            ->willReturn(false);
+            ->willReturn($childMenu2);
 
         $mainMenu = $this->createMock(ItemInterface::class);
         $mainMenu->expects(self::once())
