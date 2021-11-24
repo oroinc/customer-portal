@@ -49,7 +49,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
         );
     }
 
-    public function testPostSetDataWhenNoPreferredLocalizationField()
+    public function testPostSetDataWhenNoPreferredLocalizationField(): void
     {
         /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock(FormInterface::class);
@@ -65,11 +65,11 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
         $form->expects($this->never())
             ->method('get');
 
-        $event = new FormEvent($form, null);
+        $event = new FormEvent($form, (new CustomerUser())->setWebsite(new Website()));
         $this->subscriber->onPostSetData($event);
     }
 
-    public function testOnPostSetDataWhenIsNotAvailable()
+    public function testOnPostSetDataWhenIsNotAvailable(): void
     {
         /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock(FormInterface::class);
@@ -87,11 +87,11 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
             ->with(Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS))
             ->willReturn([]);
 
-        $event = new FormEvent($form, null);
+        $event = new FormEvent($form, (new CustomerUser())->setWebsite(new Website()));
         $this->subscriber->onPostSetData($event);
     }
 
-    public function testOnPostSetDataWhenAvailableWithoutData()
+    public function testOnPostSetDataWhenAvailableWithoutData(): void
     {
         $website = new Website();
         $this->configManager->expects($this->once())
@@ -120,7 +120,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
         $this->subscriber->onPostSetData($event);
     }
 
-    public function testOnPostSetData()
+    public function testOnPostSetData(): void
     {
         $website = new Website();
         $this->configManager->expects($this->once())
@@ -156,7 +156,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
         $this->subscriber->onPostSetData($event);
     }
 
-    public function testPostSubmitWhenNoPreferredLocalizationForm()
+    public function testPostSubmitWhenNoPreferredLocalizationForm(): void
     {
         /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $form */
         $form = $this->createMock(FormInterface::class);
@@ -173,7 +173,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
         self::assertEquals($expectedCustomerUser, $customerUser);
     }
 
-    public function testPostSubmitWhenNoSettings()
+    public function testPostSubmitWhenNoSettings(): void
     {
         $preferredLocalization = new Localization();
         /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $preferredLocalizationForm */
@@ -193,10 +193,8 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
             ->willReturn($preferredLocalizationForm);
 
         $website = new Website();
-        $this->websiteManager->expects($this->once())
-            ->method('getDefaultWebsite')
-            ->willReturn($website);
         $customerUser = new CustomerUser();
+        $customerUser->setWebsite($website);
         $expectedCustomerUser = clone $customerUser;
         $expectedCustomerUser->setWebsiteSettings(
             (new CustomerUserSettings($website))->setLocalization($preferredLocalization)
@@ -208,7 +206,7 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
         self::assertEquals($expectedCustomerUser, $customerUser);
     }
 
-    public function testPostSubmit()
+    public function testPostSubmit(): void
     {
         $preferredLocalization = new Localization();
         /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject $preferredLocalizationForm */
@@ -228,10 +226,8 @@ class PreferredLocalizationCustomerUserSubscriberTest extends \PHPUnit\Framework
             ->willReturn($preferredLocalizationForm);
 
         $website = new Website();
-        $this->websiteManager->expects($this->once())
-            ->method('getDefaultWebsite')
-            ->willReturn($website);
         $customerUser = new CustomerUser();
+        $customerUser->setWebsite($website);
         $expectedCustomerUser = clone $customerUser;
         $customerUser->setWebsiteSettings(
             (new CustomerUserSettings($website))->setLocalization(new Localization())

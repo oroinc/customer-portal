@@ -1282,3 +1282,19 @@ datagrids:
         actions:
             view:
                 rowAction: true
+
+    enabled-localizations-select-grid:
+        extends: oro-locale-localizations-grid
+        source:
+            type: orm
+            query:
+                where:
+                    and:
+                        - l.id IN (:ids)
+            bind_parameters:
+                -
+                    name: ids
+                    default: []
+        options:
+            entity_pagination: false
+        actions: ~
