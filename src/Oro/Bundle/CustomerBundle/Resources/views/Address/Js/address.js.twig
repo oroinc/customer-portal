@@ -3,11 +3,11 @@
         <div class="address-book-item__actions actions">
             <% if (!_.isMobile()) { %>
             {% if options.acl.addressEdit is not defined or is_granted(options.acl.addressEdit) %}
-                <button class="address-book-item__action btn btn-icon btn-light item-edit-button" title="<%= _.__('oro.customer.address.edit') %>"><span class="fa-pencil-square-o hide-text" aria-hidden="true"></span></button>
+                <button class="address-book-item__action btn btn-icon btn-light item-edit-button" title="<%- _.__('oro.customer.address.edit') %>"><span class="fa-pencil-square-o hide-text" aria-hidden="true"></span></button>
             {% endif %}
             {% if options.acl.addressRemove is not defined or is_granted(options.acl.addressRemove) %}
                 <% if (!primary) { %>
-                    <button class="address-book-item__action btn btn-icon btn-light item-remove-button" title="<%= _.__('oro.customer.address.remove') %>"><span class="fa-trash-o" aria-hidden="true"></span></button>
+                    <button class="address-book-item__action btn btn-icon btn-light item-remove-button" title="<%- _.__('oro.customer.address.remove') %>"><span class="fa-trash-o" aria-hidden="true"></span></button>
                 <% } %>
             {% endif %}
             <% } else { %>
@@ -48,7 +48,7 @@
                 </div>
             <% } %>
         </div>
-        <div class="address-book-item__title"><%= _.escape(label) %></div>
+        <div class="address-book-item__title"><%- label %></div>
         <ul class="address-book-item__labels">
             <% if (primary) { %> <li class="address-book-item__label-container"><span class="address-book-item__label label-info"><%= _.__('oro.customer.address.primary') %></span></li> <% } %>
             <% _.each(types, function(type) { %>

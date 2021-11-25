@@ -2,27 +2,27 @@
 <div class="form-row">
     <% if (prop.type === 'input') { %>
     <% if(_.isBoolean(prop.value)) { %>
-    <label for="form_checkbox-<%= key %>" class="custom-checkbox">
-        <input type="checkbox" id="form_checkbox-<%= key %>" name="form[<%= key %>]" data-ftid="form_checkbox" data-name="<%= key %>" class="custom-checkbox__input" <%= (prop.value ? 'checked' : '') %> data-bind="<%= prop.bind %>"/>
+    <label for="form_checkbox-<%- key %>" class="custom-checkbox">
+        <input type="checkbox" id="form_checkbox-<%- key %>" name="form[<%- key %>]" data-ftid="form_checkbox" data-name="<%- key %>" class="custom-checkbox__input" <%= (prop.value ? 'checked' : '') %> data-bind="<%- prop.bind %>"/>
         <span class="custom-checkbox__icon"></span>
         <span class="custom-checkbox__text"><%= prop.label %></span>
     </label>
     <% } %>
 
     <% if(_.isString(prop.value)) { %>
-    <label class="label label--full required" for="form_text-<%= key %>"><%= prop.label %></label>
-    <input type="text" id="form_text-<%= key %>" name="form[<%= key %>]" data-ftid="form_text" data-name="<%= key %>" class=" form-field-text input input--full" placeholder="" value="<%= prop.value %>" data-bind="<%= prop.bind %>" />
+    <label class="label label--full required" for="form_text-<%- key %>"><%= prop.label %></label>
+    <input type="text" id="form_text-<%- key %>" name="form[<%- key %>]" data-ftid="form_text" data-name="<%- key %>" class=" form-field-text input input--full" placeholder="" value="<%- prop.value %>" data-bind="<%- prop.bind %>" />
     <% } %>
 
     <% if(_.isNumber(prop.value)) { %>
-    <label class="label label--full required" for="form_number-<%= key %>"><%= prop.label %></label>
-    <input type="number" id="form_number-<%= key %>" name="form[<%= key %>]" data-ftid="form_text" data-name="<%= key %>" class=" form-field-text input input--full" placeholder="" value="<%= prop.value %>" data-bind="<%= prop.bind %>" />
+    <label class="label label--full required" for="form_number-<%- key %>"><%= prop.label %></label>
+    <input type="number" id="form_number-<%- key %>" name="form[<%- key %>]" data-ftid="form_text" data-name="<%- key %>" class=" form-field-text input input--full" placeholder="" value="<%- prop.value %>" data-bind="<%- prop.bind %>" />
     <% } %>
     <% } %>
 
     <% if (prop.type === 'textarea' || prop.type === 'template') { %>
-    <label class="label label--full required" for="form_textarea-<%= key %>"><%= prop.label %></label>
-    <textarea id="form_textarea-<%= key %>" <%= prop.type === 'template' ? 'data-template="true"' : '' %> name="form[<%= key %>]" data-ftid="form_textarea" data-name="<%= key %>" class=" form-field-textarea textarea textarea--full" rows="3" data-bind="<%= prop.bind %>"><%= prop.value %></textarea>
+    <label class="label label--full required" for="form_textarea-<%- key %>"><%= prop.label %></label>
+    <textarea id="form_textarea-<%- key %>" <%= prop.type === 'template' ? 'data-template="true"' : '' %> name="form[<%- key %>]" data-ftid="form_textarea" data-name="<%- key %>" class=" form-field-textarea textarea textarea--full" rows="3" data-bind="<%- prop.bind %>"><%= prop.value %></textarea>
     <% } %>
 </div>
 <% }) %>
