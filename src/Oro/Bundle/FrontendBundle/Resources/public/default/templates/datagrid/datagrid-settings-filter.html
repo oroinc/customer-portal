@@ -1,5 +1,5 @@
 <div class="datagrid-manager-search<% if (search.length === 0) { %> empty<% } %>">
-    <input type="text" data-role="datagrid-settings-search" value="<%=search %>"
-           placeholder="<%= _.__('oro.datagrid.settings.filter.search_placeholder') %>" />
-    <a href="#" class="clear" data-role="datagrid-settings-clear-search" title="<%= _.__('oro.datagrid.settings.filter.clear_search_tooltip') %>">×</a>
+    <input type="text" data-role="datagrid-settings-search" value="<%- search %>"
+           placeholder="<%- _.__('oro.datagrid.settings.filter.search_placeholder') %>" />
+    <a href="#" class="clear" data-role="datagrid-settings-clear-search" title="<%- _.__('oro.datagrid.settings.filter.clear_search_tooltip') %>">×</a>
 </div>
