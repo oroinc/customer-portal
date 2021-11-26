@@ -36,24 +36,28 @@ $skeleton-color: get-color('additional', 'base');
 .sidebar-filter-container {
     width: 100%;
     max-width: 100%;
+}
 
-    /*rtl:begin:ignore*/
-    &:empty {
-        &::before,
-        &::after {
-            content: '';
-            height: 340px;
-            display: block;
+@include breakpoint('desktop') {
+    .sidebar-filter-container {
+        /*rtl:begin:ignore*/
+        &:empty {
+            &::before,
+            &::after {
+                content: '';
+                height: 340px;
+                display: block;
 
-            @include skeleton(
-                sidebar-filter-skeleton-primary($color: $skeleton-color, $x: 0, $y: 0),
-                sidebar-filter-skeleton-secondary($color: $skeleton-color, $x: 0, $y: 152px),
-            );
+                @include skeleton(
+                    sidebar-filter-skeleton-primary($color: $skeleton-color, $x: 0, $y: 0),
+                    sidebar-filter-skeleton-secondary($color: $skeleton-color, $x: 0, $y: 152px),
+                );
+            }
+
+            animation: 1s ease-in infinite alternate skeleton-pulse;
         }
-
-        animation: 1s ease-in infinite alternate skeleton-pulse;
+        /*rtl:end:ignore*/
     }
-    /*rtl:end:ignore*/
 }
 
 @keyframes skeleton-pulse {

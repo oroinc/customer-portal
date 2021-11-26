@@ -41,7 +41,7 @@ define(function(require, exports, module) {
                 }
             });
 
-            return _.isMobile() && _.isFunction(Action) ? Action : ToggleFiltersAction;
+            return _.isFunction(Action) ? Action : ToggleFiltersAction;
         },
 
         onBeforeToolbarInit: function(toolbarOptions) {

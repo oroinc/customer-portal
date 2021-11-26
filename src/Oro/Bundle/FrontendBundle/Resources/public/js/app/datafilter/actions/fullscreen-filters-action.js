@@ -267,10 +267,16 @@ define(function(require, exports, module) {
                 this.filterManagerPopup.show();
             }, this);
 
+            const multiselect = selectWidget.multiselect('instance');
+
+            // Disable JS positioning
+            // https://stackoverflow.com/questions/16047795/disable-js-positioning-of-jquery-ui-dialog
+            multiselect.position = $.noop;
             // Don't close filter before open Filter Manager
-            selectWidget.multiselect('instance').options.beforeopen = function() {
+            multiselect.options.beforeopen = function() {
                 selectWidget.onBeforeOpenDropdown();
             };
+            multiselect.element.on('multiselectopened', () => selectWidget.multiselect('getMenu').removeAttr('style'));
 
             this.$filterManagerButton.on('click.multiselectfullscreen', handler);
             this.$filterManagerButtonContent.on('click.multiselectfullscreen', handler);

@@ -60,6 +60,8 @@ oro_behat_extension:
       selector: ".sticky-panel.sticky-panel--top.has-content .filter-box"
     Product Filter Into Page Content:
       selector: ".page-content .filter-box"
+    Grid Filters Button Into Sticky Panel:
+      selector: ".sticky-panel.sticky-panel--top.has-content .action[title=\"Filter Toggle\"]"
     Header:
       selector: ".page-header"
     Copyright:
