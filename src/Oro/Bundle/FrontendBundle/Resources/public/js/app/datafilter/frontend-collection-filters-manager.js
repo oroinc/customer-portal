@@ -4,7 +4,6 @@ define(function(require, exports, module) {
     const $ = require('jquery');
     const _ = require('underscore');
     const __ = require('orotranslation/js/translator');
-    const viewportManager = require('oroui/js/viewport-manager');
     const CollectionFiltersManager = require('orofilter/js/collection-filters-manager');
     const MultiselectDecorator = require('orofrontend/js/app/datafilter/frontend-manage-filters-decorator');
     let config = require('module-config').default(module.id);
@@ -52,19 +51,13 @@ define(function(require, exports, module) {
          */
         templateData: config.templateData,
 
+        optionNames: CollectionFiltersManager.prototype.optionNames.concat(['fullscreenTemplate']),
+
         /**
          * @inheritdoc
          */
         constructor: function FrontendCollectionFiltersManager(options) {
             FrontendCollectionFiltersManager.__super__.constructor.call(this, options);
-        },
-
-        /**
-         * @inheritdoc
-         */
-        initialize: function(options) {
-            this._updateRenderMode();
-            FrontendCollectionFiltersManager.__super__.initialize.call(this, options);
         },
 
         /**
@@ -134,21 +127,6 @@ define(function(require, exports, module) {
         _onCollectionReset: function(collection) {
             if (!_.isMobile()) {
                 FrontendCollectionFiltersManager.__super__._onCollectionReset.call(this, collection);
-            }
-        },
-
-        /**
-         * Update render mode for filters manager
-         *
-         * @protected
-         */
-        _updateRenderMode: function() {
-            const breakpoints = {
-                screenType: 'tablet'
-            };
-
-            if (viewportManager.isApplicable(breakpoints)) {
-                this.renderMode = 'toggle-mode';
             }
         },
 

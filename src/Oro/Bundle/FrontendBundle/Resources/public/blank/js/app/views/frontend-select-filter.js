@@ -82,14 +82,13 @@ define(function(require, exports, module) {
         /**
          * @inheritdoc
          */
-        render: function() {
-            if (this.isToggleMode()) {
-                this.widgetOptions = _.defaults(this.widgetOptions, {
-                    hideHeader: false,
-                    additionalClass: false
-                });
-            }
-            return FrontendSelectFilter.__super__.render.call(this);
+        _initializeSelectWidget() {
+            this.widgetOptions = Object.assign({}, this.widgetOptions, {
+                hideHeader: !this.isToggleMode(),
+                additionalClass: !this.isToggleMode()
+            });
+
+            return FrontendSelectFilter.__super__._initializeSelectWidget.call(this);
         },
 
         /**

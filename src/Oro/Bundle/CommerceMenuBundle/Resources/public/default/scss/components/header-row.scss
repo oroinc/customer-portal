@@ -91,8 +91,6 @@
         }
 
         &__toggle {
-            display: block;
-
             position: absolute;
             z-index: z('dropdown') + 1;
             right: 0;
@@ -105,6 +103,10 @@
 
             box-shadow: $header-row-tablet-toggle-box-shadow;
             opacity: 0;
+
+            &.show {
+                display: block;
+            }
         }
 
         &__dropdown {

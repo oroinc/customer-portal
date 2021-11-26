@@ -3,10 +3,9 @@ define(function(require, exports, module) {
 
     const _ = require('underscore');
     const __ = require('orotranslation/js/translator');
-    const ToggleFiltersAction = require('orofilter/js/actions/toggle-filters-action');
     const FullScreenFiltersAction = require('orofrontend/js/app/datafilter/actions/fullscreen-filters-action');
     const FiltersTogglePlugin = require('orofilter/js/plugins/filters-toggle-plugin');
-    const viewportManager = require('oroui/js/viewport-manager');
+    const FullscreenFilters = require('orofrontend/js/app/datafilter/fullscreen-filters').default;
     const config = require('module-config').default(module.id);
     const launcherOptions = _.extend({
         className: 'btn',
@@ -17,43 +16,58 @@ define(function(require, exports, module) {
 
     const FrontendFiltersTogglePlugin = FiltersTogglePlugin.extend({
         /**
-         * {Object}
-         */
-        filtersActions: {
-            tablet: FullScreenFiltersAction
-        },
-
-        /**
          * @inheritdoc
          */
         constructor: function FrontendFiltersTogglePlugin(main, options) {
             FrontendFiltersTogglePlugin.__super__.constructor.call(this, main, options);
         },
 
-        /**
-         * @returns {Function}
-         * @private
-         */
-        _getApplicableAction: function() {
-            const Action = _.find(this.filtersActions, function(action, name) {
-                if (viewportManager.isApplicable({maxScreenType: name})) {
-                    return action;
-                }
-            });
+        initialize(options) {
+            FrontendFiltersTogglePlugin.__super__.initialize.call(this, options);
 
-            return _.isMobile() && _.isFunction(Action) ? Action : ToggleFiltersAction;
+            this.fullscreenFilters = new FullscreenFilters({datagrid: this.main});
+            this.listenToOnce(this.main, 'filterManager:connected', () => {
+                this.fullscreenFilters.onceFilterManagerConnected();
+            });
         },
 
-        onBeforeToolbarInit: function(toolbarOptions) {
-            const Action = this._getApplicableAction();
+        onBeforeToolbarInit(toolbarOptions) {
+            this.addAction(toolbarOptions);
+        },
 
-            const options = {
+        addAction(toolbarOptions) {
+            let options = {
                 datagrid: this.main,
                 launcherOptions: launcherOptions,
-                order: config.order || 50
+                order: config.order || 50,
+                fullscreenFilters: this.fullscreenFilters
             };
+            let Action = FullScreenFiltersAction;
+
+            if (_.isObject(toolbarOptions.customAction)) {
+                if (toolbarOptions.customAction.constructor) {
+                    Action = toolbarOptions.customAction.constructor;
+                }
+
+                options = Object.assign({}, options, toolbarOptions.customAction.options);
+            }
 
             toolbarOptions.addToolbarAction(new Action(options));
+        },
+
+        dispose() {
+            if (this.disposed) {
+                return;
+            }
+
+            this.disable();
+
+            if (this.fullscreenFilters && !this.fullscreenFilters.disposed) {
+                this.fullscreenFilters.dispose();
+                delete this.fullscreenFilters;
+            }
+
+            FrontendFiltersTogglePlugin.__super__.dispose.call(this);
         }
     });
     return FrontendFiltersTogglePlugin;

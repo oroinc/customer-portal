@@ -38,10 +38,12 @@ Feature: Sticky panel for main menu, product filters etc
     And I am on "/product/?grid"
     Then I should not see an "Active Sticky Panel" element
     And I click "GridFiltersButton"
-    And I should see a "Product Filter Into Page Content" element
+    Then I should see an "Fullscreen Popup" element
+    And I should see "Fullscreen Popup Header" element with text "Filter Toggle" inside "Fullscreen Popup" element
+    And click "Close Fullscreen Popup"
     When I click "Copyright"
     Then I should see an "Active Sticky Panel" element
-    And I should see a "Product Filter Into Sticky Panel" element
+    And I should see a "Grid Filters Button Into Sticky Panel" element
     When I click "Header"
     Then I should not see an "Active Sticky Panel" element
-    And I should see a "Product Filter Into Page Content" element
+    And I should see a "GridFiltersButton" element

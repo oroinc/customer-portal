@@ -56,6 +56,7 @@ styles:
         - 'bundles/orofrontend/default/scss/components/custom-icons.scss'
         - 'bundles/orofrontend/default/scss/components/focus-via-arrows-keys.scss'
         - 'bundles/orofrontend/default/scss/components/clear-search-button.scss'
+        - 'bundles/orofrontend/default/scss/components/toggle-filters-action.scss'
         - 'bundles/orofrontend/default/scss/styles.scss'
     output: 'css/styles.css'
     auto_rtl_inputs:

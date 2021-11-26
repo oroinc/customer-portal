@@ -192,7 +192,7 @@ define(function(require, exports, module) {
         setDropdownWidgetContainer: function(instance) {
             instance.menu
                 .wrap(
-                    $('<div></div>', {'class': 'datagrid-manager'})
+                    $('<div></div>', {'class': 'datagrid-manager', 'data-cid': `menu-${this.cid}`})
                 );
         },
 
@@ -237,6 +237,12 @@ define(function(require, exports, module) {
             instance.header
                 .find('.ui-multiselect-close')
                 .addClass('hide');
+        },
+
+        dispose() {
+            $(`[data-cid="menu-${this.cid}"]`).remove();
+
+            return MultiSelectDecorator.prototype.dispose.call(this);
         }
     });
 

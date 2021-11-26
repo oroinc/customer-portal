@@ -16,6 +16,7 @@ $main-menu-sublist-container-transition: left .4s linear !default;
 $main-menu-button-arrow-d-width: 20px !default;
 $main-menu-button-arrow-d-offset-left: -20px !default;
 $main-menu-button-arrow-d-inner-offset: 0 0 0 5px !default;
+$main-menu-button-arrow-d-align-items: center !default;
 $main-menu-sublist-container-d-border: 1px solid get-color('additional', 'light') !default;
 $main-menu-sublist-container-d-z-index: z('base') + 10 !default;
 $main-menu-sublist-container-d-bg-color: get-color('additional', 'ultra') !default;

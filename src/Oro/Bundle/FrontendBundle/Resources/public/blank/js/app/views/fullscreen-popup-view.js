@@ -168,6 +168,8 @@ define(function(require) {
                 return;
             }
 
+            this.trigger('beforeclose');
+
             scrollHelper.enableBodyTouchScroll();
 
             _.each(this.sections, this.closeSection, this);

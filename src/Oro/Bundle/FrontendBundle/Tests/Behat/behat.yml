@@ -59,6 +59,8 @@ oro_behat_extension:
       selector: ".sticky-panel.sticky-panel--top.has-content .filter-box"
     Product Filter Into Page Content:
       selector: ".page-content .filter-box"
+    Grid Filters Button Into Sticky Panel:
+      selector: ".sticky-panel.sticky-panel--top.has-content .action[title=\"Filter Toggle\"]"
     Header:
       selector: ".page-header"
     Copyright:
@@ -101,7 +103,7 @@ oro_behat_extension:
     Opened Filter Dropdown:
       selector: '.filter-criteria.dropdown-menu.criteria-visible'
     Filter Checkboxes:
-      selector: ".datagrid-manager .ui-multiselect-checkboxes .datagrid-manager__list-item"
+      selector: ".datagrid-manager .filter-default .ui-multiselect-checkboxes .datagrid-manager__list-item"
     Filter Checkboxes All At Once:
       selector: ".datagrid-manager .ui-multiselect-checkboxes .filters-dropdown__items"
     Filters Dropdown:

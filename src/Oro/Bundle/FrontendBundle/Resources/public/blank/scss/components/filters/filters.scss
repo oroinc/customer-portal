@@ -288,16 +288,14 @@
     }
 }
 
-@include only-desktop() {
-    .product-price-filter-criteria {
-        max-width: $product-price-filter-criteria-max-width;
+.filter-item {
+    .select-widget-trigger {
+        display: none;
     }
 }
 
-@include only-mobile() {
-    .filter-box {
-        &.toggle-mode {
-            display: none;
-        }
+@include only-desktop() {
+    .product-price-filter-criteria {
+        max-width: $product-price-filter-criteria-max-width;
     }
 }

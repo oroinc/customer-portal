@@ -23,6 +23,7 @@
 
     &--xs {
         width: $badge-size-xs;
+        min-width: $badge-size-xs;
         height: $badge-size-xs;
 
         font-size: $badge-font-size-xs;
