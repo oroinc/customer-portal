@@ -4,8 +4,6 @@
     &__dropdown {
         li {
             margin: $top-bar-cusomer-menu-dropdown-item-offset;
-            // fixes issue in Edge browser with unexpected bullets for line items
-            list-style-image: url(data:0);
 
             &:first-child {
                 margin-top: 0;

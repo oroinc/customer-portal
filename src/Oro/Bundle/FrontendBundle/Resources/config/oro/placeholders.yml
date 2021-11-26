@@ -7,11 +7,6 @@ placeholders:
                 frontend_logo:
                     order: 100
 
-        scripts_after:
-            items:
-                window_bundle_js:
-                    order: 200
-
         install_additional_configuration_fields:
             items:
                 web_settings:
@@ -24,8 +19,7 @@ placeholders:
         frontend_logo:
             template: '@@OroFrontend/Organization/logo_frontend.html.twig'
             applicable: "@oro_frontend.placeholder.filter->isFrontendRoute()"
-        window_bundle_js:
-            template: '@@OroWindows/Include/javascript.html.twig'
+        window_js_modules_config:
             applicable: "@oro_frontend.placeholder.filter->isBackendRoute()"
         view_oro_activity_list:
             applicable: '@oro_frontend.activity_list.placeholder.filter->isApplicable($entity$, Oro\Bundle\ActivityBundle\EntityConfig\ActivityScope::VIEW_PAGE)'
@@ -51,4 +45,20 @@ placeholders:
         sync_js:
             applicable:
                 - "@oro_security.token_accessor->hasUser()"
-                - "@oro_layout.helper->isTemplateRequest()"
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
+        maintenance_js:
+            applicable:
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
+        ping_js:
+            applicable:
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
+        oro_user_outdated_page:
+            applicable:
+                - "@oro_security.token_accessor->hasUser()"
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
+        oro_imap_sync_origin_credential_notifications_topic:
+            applicable:
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"
+        oro_message_queue_consumer_heartbeat:
+            applicable:
+                - "@oro_frontend.placeholder.filter->isBackendRoute()"

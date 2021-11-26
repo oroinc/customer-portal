@@ -48,10 +48,6 @@ placeholders:
 #            items:
 #                frontend_change_history_link: ~
 
-        scripts_after:
-            items:
-                frontend_window_bundle_js:
-                    order: 200
     items:
         frontend_menu:
             template: '@@OroCustomer/Menu/frontendMenu.html.twig'
@@ -77,9 +73,6 @@ placeholders:
         entity_pagination_frontend_edit:
             template: '@@OroCustomer/EntityPagination/editPagination.html.twig'
             applicable: "@oro_customer.placeholder.filter->isUserApplicable()"
-        frontend_window_bundle_js:
-            template: '@@OroCustomer/Windows/javascript.html.twig'
-            applicable: "@oro_frontend.placeholder.filter->isFrontendRoute()"
         customer_config_button:
             template: '@@OroCustomer/CustomerConfiguration/button.html.twig'
             applicable: "@oro_customer.placeholder.filter->isCustomerPage($entity$)"
