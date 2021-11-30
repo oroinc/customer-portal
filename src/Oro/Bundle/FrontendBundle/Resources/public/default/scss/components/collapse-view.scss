@@ -122,10 +122,6 @@
     &.expanded {
         .collapse-view {
             &__trigger {
-                &-icon {
-                    transform: rotate(90deg);
-                }
-
                 &.hide-on-expand {
                     display: none;
                 }
@@ -133,6 +129,16 @@
 
             &__container {
                 display: block;
+            }
+        }
+    }
+
+    &:not(&--overflow).expanded {
+        .collapse-view {
+            &__trigger {
+                &-icon {
+                    transform: rotate(90deg);
+                }
             }
         }
     }
