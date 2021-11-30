@@ -7,7 +7,6 @@ use Oro\Bundle\CustomerBundle\ImportExport\Strategy\CustomerAddOrReplaceStrategy
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomers;
 use Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\Strategy\DataFixtures\LoadTestUser;
 use Oro\Bundle\ImportExportBundle\Context\Context;
-use Oro\Bundle\SecurityBundle\Authentication\Token\UsernamePasswordOrganizationToken;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\Testing\Unit\EntityTrait;
@@ -127,13 +126,8 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
      */
     private function createToken()
     {
-        $token = new UsernamePasswordOrganizationToken(
-            $this->getReference('user_with_main_organization_access'),
-            self::AUTH_PW,
-            'main',
-            $this->getReference('organization')
-        );
-        $this->client->getContainer()->get('security.token_storage')->setToken($token);
+        $user = $this->getReference('user_with_main_organization_access');
+        $this->updateUserSecurityToken($user->getEmail());
     }
 
     /**
