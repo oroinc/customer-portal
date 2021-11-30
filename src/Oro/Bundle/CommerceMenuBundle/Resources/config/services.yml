@@ -29,6 +29,7 @@ services:
         arguments:
             - "@doctrine"
             - "@oro_navigation.menu_helper.menu_update"
+            - "@property_accessor"
             - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
             - 'menu_frontend_visibility'
 

@@ -19,6 +19,7 @@ use Oro\Bundle\SearchBundle\Query\Query;
 use Oro\Bundle\SearchBundle\Query\Result;
 use Oro\Bundle\SearchBundle\Query\Result\Item;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -74,6 +75,7 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $this->searchHandler->initSearchIndexer($this->indexer, $searchMappingProvider);
         $this->searchHandler->initDoctrinePropertiesByManagerRegistry($this->managerRegistry);
         $this->searchHandler->setAclHelper($this->aclHelper);
+        $this->searchHandler->setPropertyAccessor(new PropertyAccessor());
     }
 
     /**

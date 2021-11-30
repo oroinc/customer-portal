@@ -19,6 +19,7 @@ use Oro\Bundle\SearchBundle\Query\Criteria\Criteria;
 use Oro\Bundle\SearchBundle\Query\Query as SearchQuery;
 use Oro\Bundle\SearchBundle\Query\Result;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -82,6 +83,7 @@ class CustomerUserSearchHandlerTest extends \PHPUnit\Framework\TestCase
         $this->searchHandler->initSearchIndexer($this->indexer, $searchMappingProvider);
         $this->searchHandler->initDoctrinePropertiesByManagerRegistry($doctrine);
         $this->searchHandler->setAclHelper($this->aclHelper);
+        $this->searchHandler->setPropertyAccessor(new PropertyAccessor());
     }
 
     public function testSearchWithoutDelimiter(): void
