@@ -335,14 +335,6 @@ services:
         tags:
             - { name: layout.block_type, alias: attribute_text }
 
-    oro_frontend.security.login_attempts_handler:
-        class: Oro\Bundle\FrontendBundle\EventListener\LoginAttemptsLogHandler
-        decorates: oro_user.security.login_attempts_handler
-        decoration_priority: -250
-        arguments:
-            - '@oro_frontend.security.login_attempts_handler.inner'
-            - '@oro_frontend.request.frontend_helper'
-
     oro_frontend.datagrid.event_listener.datagrid_content_tags:
         class: Oro\Bundle\FrontendBundle\Datagrid\EventListener\DatagridContentTagsListener
         decorates: oro_sync.content.listener.datagrid_tag

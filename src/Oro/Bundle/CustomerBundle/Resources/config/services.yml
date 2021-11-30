@@ -207,6 +207,32 @@ services:
             - '@oro_customer.security.user_loader'
             - '@doctrine'
 
+    oro_customer.provider.user_logging_info_provider:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerUserLoggingInfoProvider
+        arguments:
+            - '@request_stack'
+
+    oro_customer.security.customer_user_login_attempts_log_listener:
+        class: Oro\Bundle\CustomerBundle\EventListener\CustomerUserLoginAttemptsLogListener
+        decorates: oro_user.security.login_attempts_log_listener
+        arguments:
+            - '@Psr\Container\ContainerInterface'
+            - '@oro_frontend.request.frontend_helper'
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }
+            - { name: kernel.event_listener, event: security.authentication.failure, method: onAuthenticationFailure }
+            - { name: container.service_subscriber, id: oro_user.security.login_attempts_handler, key: handler }
+            - { name: container.service_subscriber, id: oro_customer.security.login_attempts_handler, key: frontend_handler }
+
+    oro_customer.security.login_attempts_handler:
+        class: Oro\Bundle\UserBundle\Security\LoginAttemptsHandler
+        arguments:
+            - '@oro_customer_user.manager'
+            - '@oro_customer.provider.user_logging_info_provider'
+            - '@logger'
+        tags:
+            - { name: monolog.logger, channel: security }
+
     oro_customer.customer_visitor_manager:
         class: 'Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager'
         arguments:
