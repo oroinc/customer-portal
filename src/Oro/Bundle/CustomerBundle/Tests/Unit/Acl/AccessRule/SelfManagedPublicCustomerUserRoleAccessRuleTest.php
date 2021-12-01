@@ -11,9 +11,8 @@ use Oro\Bundle\SecurityBundle\AccessRule\Expr\NullComparison;
 use Oro\Bundle\SecurityBundle\AccessRule\Expr\Path;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AccessRuleWalker;
-use PHPUnit\Framework\TestCase;
 
-class SelfManagedPublicCustomerUserRoleAccessRuleTest extends TestCase
+class SelfManagedPublicCustomerUserRoleAccessRuleTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $tokenAccessor;
