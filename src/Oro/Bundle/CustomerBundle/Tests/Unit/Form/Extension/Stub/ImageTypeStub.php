@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ImageTypeStub extends AbstractType
 {
-    const NAME = 'oro_image';
+    private const NAME = 'oro_image';
 
     /**
      * {@inheritdoc}

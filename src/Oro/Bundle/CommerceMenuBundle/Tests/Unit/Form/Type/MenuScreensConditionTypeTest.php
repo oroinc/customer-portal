@@ -10,10 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuScreensConditionTypeTest extends FormIntegrationTestCase
 {
-    /**
-     * @internal
-     */
-    const SCREENS_CONFIG = [
+    private const SCREENS_CONFIG = [
         'desktop' => [
             'label' => 'Sample desktop label',
             'hidingCssClass' => 'sample-desktop-class',
@@ -23,31 +20,21 @@ class MenuScreensConditionTypeTest extends FormIntegrationTestCase
             'hidingCssClass' => 'sample-mobile-class',
         ],
     ];
-
-    /**
-     * @internal
-     */
-    const SCREENS_CHOICES = [
+    private const SCREENS_CHOICES = [
         'Sample desktop label' => 'desktop',
         'Sample mobile label' => 'mobile',
     ];
 
-    /**
-     * @var MenuScreensConditionType
-     */
-    private $formType;
-
-    /**
-     * @var ScreensProviderInterface
-     */
+    /** @var ScreensProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $screensProvider;
 
-    /**
-     * {@inheritDoc}
-     */
+    /** @var MenuScreensConditionType */
+    private $formType;
+
     protected function setUp(): void
     {
         $this->screensProvider = $this->createMock(ScreensProviderInterface::class);
+
         $this->formType = new MenuScreensConditionType($this->screensProvider);
 
         parent::setUp();

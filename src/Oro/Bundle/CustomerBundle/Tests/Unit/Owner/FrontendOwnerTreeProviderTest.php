@@ -31,60 +31,34 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class FrontendOwnerTreeProviderTest extends OrmTestCase
 {
-    const ENTITY_NAMESPACE = 'Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Fixtures\Entity';
-
-    const ORG_1 = 1;
-    const ORG_2 = 2;
-
-    const MAIN_ACCOUNT_1 = 10;
-    const MAIN_ACCOUNT_2 = 20;
-    const ACCOUNT_1 = 30;
-    const ACCOUNT_2 = 40;
-    const ACCOUNT_2_1 = 50;
-
-    const USER_1 = 100;
-    const USER_2 = 200;
+    private const ENTITY_NAMESPACE = 'Oro\Bundle\CustomerBundle\Tests\Unit\Owner\Fixtures\Entity';
 
     /** @var EntityManagerMock */
-    protected $em;
+    private $em;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|DatabaseChecker
-     */
-    protected $databaseChecker;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|DatabaseChecker */
+    private $databaseChecker;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|CacheProvider
-     */
-    protected $cache;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|CacheProvider */
+    private $cache;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|OwnershipMetadataProviderInterface
-     */
-    protected $ownershipMetadataProvider;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|OwnershipMetadataProviderInterface */
+    private $ownershipMetadataProvider;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|TokenStorageInterface
-     */
-    protected $tokenStorage;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|TokenStorageInterface */
+    private $tokenStorage;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|MessageProducer
-     */
-    protected $messageProducer;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|MessageProducer */
+    private $messageProducer;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|OwnerTreeMessageFactory
-     */
-    protected $ownerTreeMessageFactory;
+    /** @var \PHPUnit\Framework\MockObject\MockObject|OwnerTreeMessageFactory */
+    private $ownerTreeMessageFactory;
 
-    /**
-     * @var FrontendOwnerTreeProvider
-     */
-    protected $treeProvider;
+    /** @var FrontendOwnerTreeProvider */
+    private $treeProvider;
 
     /** @var LoggerInterface */
-    protected $logger;
+    private $logger;
 
     protected function setUp(): void
     {
@@ -184,8 +158,11 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
     /**
      * @dataProvider addBusinessUnitDirectCyclicRelationProvider
      */
-    public function testDirectCyclicRelationshipBetweenBusinessUnits($src, $expected, $criticalMessageArguments)
-    {
+    public function testDirectCyclicRelationshipBetweenBusinessUnits(
+        array $src,
+        array $expected,
+        array $criticalMessageArguments
+    ) {
         $this->logger->expects($this->once())
             ->method('critical')
             ->with(
@@ -217,8 +194,11 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
     /**
      * @dataProvider addBusinessUnitNotDirectCyclicRelationProvider
      */
-    public function testNotDirectCyclicRelationshipBetweenBusinessUnits($src, $expected, $criticalMessageArguments)
-    {
+    public function testNotDirectCyclicRelationshipBetweenBusinessUnits(
+        array $src,
+        array $expected,
+        array  $criticalMessageArguments
+    ) {
         $this->logger->expects($this->exactly(count($criticalMessageArguments)))
             ->method('critical')
             ->withConsecutive(
@@ -257,10 +237,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         }
     }
 
-    /**
-     * @return array
-     */
-    public function addBusinessUnitDirectCyclicRelationProvider()
+    public function addBusinessUnitDirectCyclicRelationProvider(): array
     {
         return [
             'direct cyclic relationship' => [
@@ -286,10 +263,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function addBusinessUnitNotDirectCyclicRelationProvider()
+    public function addBusinessUnitNotDirectCyclicRelationProvider(): array
     {
         return [
             'not direct cyclic relationship' => [

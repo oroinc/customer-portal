@@ -16,24 +16,18 @@ class AnonymousCustomerUserAuthenticationProviderTest extends \PHPUnit\Framework
 {
     use EntityTrait;
 
-    const ENTITY_ID = 3;
-    const SESSION_ID = 5;
-    const UPDATE_LATENCY = 500;
+    private const ENTITY_ID = 3;
+    private const SESSION_ID = 5;
+    private const UPDATE_LATENCY = 500;
 
-    /**
-     * @var CustomerVisitorManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $visitorManager;
+    /** @var CustomerVisitorManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $visitorManager;
 
-    /**
-     * @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $websiteManager;
+    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $websiteManager;
 
-    /**
-     * @var AnonymousCustomerUserAuthenticationProvider
-     */
-    protected $provider;
+    /** @var AnonymousCustomerUserAuthenticationProvider */
+    private $provider;
 
     protected function setUp(): void
     {

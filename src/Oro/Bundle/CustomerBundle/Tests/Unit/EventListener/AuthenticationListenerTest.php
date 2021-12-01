@@ -12,10 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
 {
-    const FIREWALL_NAME = 'test_firewall';
-
-    /** @var AuthenticationListener */
-    private $listener;
+    private const FIREWALL_NAME = 'test_firewall';
 
     /** @var LoginManager|\PHPUnit\Framework\MockObject\MockObject */
     private $loginManager;
@@ -23,13 +20,14 @@ class AuthenticationListenerTest extends \PHPUnit\Framework\TestCase
     /** @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject */
     private $configManager;
 
-    /**
-     * {@inheritdoc}
-     */
+    /** @var AuthenticationListener */
+    private $listener;
+
     protected function setUp(): void
     {
         $this->loginManager = $this->createMock(LoginManager::class);
         $this->configManager = $this->createMock(ConfigManager::class);
+
         $this->listener = new AuthenticationListener($this->loginManager, $this->configManager, self::FIREWALL_NAME);
     }
 

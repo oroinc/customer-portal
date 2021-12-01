@@ -13,7 +13,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerConfigurationFormProviderTest extends AbstractProviderTest
 {
-    const CONFIG_NAME = 'customer_configuration';
+    protected const CONFIG_NAME = 'customer_configuration';
 
     /**
      * {@inheritdoc}

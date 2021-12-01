@@ -9,16 +9,12 @@ use Oro\Bundle\ImportExportBundle\Event\LoadEntityRulesAndBackendHeadersEvent;
 
 class CustomerUserHeadersListenerTest extends \PHPUnit\Framework\TestCase
 {
-    const DELIMITER = ':';
+    private const DELIMITER = ':';
 
-    /**
-     * @var FieldHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var FieldHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $fieldHelper;
 
-    /**
-     * @var CustomerUserHeadersListener
-     */
+    /** @var CustomerUserHeadersListener */
     private $listener;
 
     protected function setUp(): void

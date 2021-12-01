@@ -27,26 +27,26 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
 {
     use EntityTrait;
 
-    const ENTITY_NAME = TestEntity::class;
-    const PERMISSIONS = ['EDIT'];
+    private const ENTITY_NAME = TestEntity::class;
+    private const PERMISSIONS = ['EDIT'];
 
     /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $authorizationChecker;
+    private $authorizationChecker;
 
     /** @var OwnershipMetadataProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $metadataProvider;
+    private $metadataProvider;
 
     /** @var OwnerTree */
-    protected $tree;
+    private $tree;
 
     /** @var AclVoter|\PHPUnit\Framework\MockObject\MockObject */
-    protected $aclVoter;
+    private $aclVoter;
 
     /** @var AclConditionDataBuilderInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $ownerConditionBuilder;
+    private $ownerConditionBuilder;
 
     /** @var CustomerOwnershipConditionDataBuilder */
-    protected $builder;
+    private $builder;
 
     protected function setUp(): void
     {
@@ -97,18 +97,12 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
 
     /**
      * @dataProvider getAclConditionDataProvider
-     *
-     * @param array $parentResult
-     * @param OwnershipMetadata $metadata
-     * @param int $accessLevel
-     * @param bool $isGranted
-     * @param array $expected
      */
     public function testGetAclConditionData(
         array $parentResult,
         OwnershipMetadata $metadata,
-        $accessLevel,
-        $isGranted,
+        int $accessLevel,
+        bool $isGranted,
         array $expected
     ) {
         $this->ownerConditionBuilder->expects($this->any())
@@ -143,10 +137,8 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     *
-     * @return array
      */
-    public function getAclConditionDataProvider()
+    public function getAclConditionDataProvider(): array
     {
         $constraint = [
             'owner',
@@ -249,13 +241,7 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
         ];
     }
 
-    /**
-     * @param string $userId
-     * @param string $customerId
-     * @param string $orgId
-     * @return CustomerUser|object
-     */
-    protected function getCustomerUser($userId, $customerId, $orgId)
+    private function getCustomerUser(string $userId, string $customerId, string $orgId): CustomerUser
     {
         $organization = $this->getEntity(Organization::class, ['id' => $orgId]);
 
@@ -269,7 +255,7 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
         );
     }
 
-    protected function buildTestTree()
+    private function buildTestTree()
     {
         /**
          * org3
@@ -302,7 +288,7 @@ class CustomerOwnershipConditionDataBuilderTest extends \PHPUnit\Framework\TestC
         $this->tree->addUserBusinessUnit('user31', 'org3', 'c31');
     }
 
-    protected function buildTree()
+    private function buildTree()
     {
         $subordinateBusinessUnits = [
             'c3'  => ['c31', 'c32', 'c321'],
