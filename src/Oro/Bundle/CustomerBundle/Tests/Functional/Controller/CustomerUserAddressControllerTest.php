@@ -12,17 +12,12 @@ use Symfony\Component\DomCrawler\Form;
 class CustomerUserAddressControllerTest extends WebTestCase
 {
     /** @var CustomerUser */
-    protected $customerUser;
+    private $customerUser;
 
     protected function setUp(): void
     {
         $this->initClient([], array_merge($this->generateBasicAuthHeader()));
-
-        $this->loadFixtures(
-            [
-                'Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData',
-            ]
-        );
+        $this->loadFixtures([LoadCustomerUserData::class]);
 
         $this->customerUser = $this->getReference(LoadCustomerUserData::EMAIL);
     }
@@ -37,17 +32,16 @@ class CustomerUserAddressControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $content = $result->getContent();
 
-        static::assertStringContainsString('Address Book', $content);
+        self::assertStringContainsString('Address Book', $content);
     }
 
     /**
      * @depends testCustomerUserView
-     * @return int
      */
-    public function testCreateAddress()
+    public function testCreateAddress(): int
     {
         $customerUser = $this->customerUser;
-        $crawler     = $this->client->request(
+        $crawler = $this->client->request(
             'GET',
             $this->getUrl(
                 'oro_customer_customer_user_address_create',
@@ -58,7 +52,6 @@ class CustomerUserAddressControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertEquals(200, $result->getStatusCode());
 
-        /** @var Form $form */
         $form = $crawler->selectButton('Save')->form();
         $this->fillFormForCreateTest($form);
 
@@ -101,11 +94,8 @@ class CustomerUserAddressControllerTest extends WebTestCase
 
     /**
      * @depends testCreateAddress
-     *
-     * @param int $customerUserId
-     * @return int
      */
-    public function testUpdateAddress($customerUserId)
+    public function testUpdateAddress(int $customerUserId): int
     {
         $this->client->request(
             'GET',
@@ -130,7 +120,6 @@ class CustomerUserAddressControllerTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertEquals(200, $result->getStatusCode());
 
-        /** @var Form $form */
         $form = $crawler->selectButton('Save')->form();
         $this->fillFormForUpdateTest($form);
 
@@ -177,22 +166,19 @@ class CustomerUserAddressControllerTest extends WebTestCase
 
     /**
      * Fill form for address tests (create test)
-     *
-     * @param Form $form
-     * @return Form
      */
-    protected function fillFormForCreateTest(Form $form)
+    private function fillFormForCreateTest(Form $form): Form
     {
         $formNode = $form->getNode();
         $formNode->setAttribute('action', $formNode->getAttribute('action') . '?_widgetContainer=dialog');
 
-        $form['oro_customer_customer_user_typed_address[street]']            = 'Street';
-        $form['oro_customer_customer_user_typed_address[city]']              = 'City';
-        $form['oro_customer_customer_user_typed_address[postalCode]']        = 'Zip code';
-        $form['oro_customer_customer_user_typed_address[types]']             = [AddressType::TYPE_BILLING];
+        $form['oro_customer_customer_user_typed_address[street]'] = 'Street';
+        $form['oro_customer_customer_user_typed_address[city]'] = 'City';
+        $form['oro_customer_customer_user_typed_address[postalCode]'] = 'Zip code';
+        $form['oro_customer_customer_user_typed_address[types]'] = [AddressType::TYPE_BILLING];
         $form['oro_customer_customer_user_typed_address[defaults][default]'] = [AddressType::TYPE_BILLING];
 
-        $doc = new \DOMDocument("1.0");
+        $doc = new \DOMDocument('1.0');
         $doc->loadHTML(
             '<select name="oro_customer_customer_user_typed_address[country]" ' .
             'id="oro_customer_customer_user_typed_address_country" ' .
@@ -220,11 +206,8 @@ class CustomerUserAddressControllerTest extends WebTestCase
 
     /**
      * Fill form for address tests (update test)
-     *
-     * @param Form $form
-     * @return Form
      */
-    protected function fillFormForUpdateTest(Form $form)
+    private function fillFormForUpdateTest(Form $form): Form
     {
         $formNode = $form->getNode();
         $formNode->setAttribute('action', $formNode->getAttribute('action') . '?_widgetContainer=dialog');
@@ -235,7 +218,7 @@ class CustomerUserAddressControllerTest extends WebTestCase
         ];
         $form['oro_customer_customer_user_typed_address[defaults][default]'] = [false, AddressType::TYPE_SHIPPING];
 
-        $doc = new \DOMDocument("1.0");
+        $doc = new \DOMDocument('1.0');
         $doc->loadHTML(
             '<select name="oro_customer_customer_user_typed_address[country]" ' .
             'id="oro_customer_customer_user_typed_address_country" ' .

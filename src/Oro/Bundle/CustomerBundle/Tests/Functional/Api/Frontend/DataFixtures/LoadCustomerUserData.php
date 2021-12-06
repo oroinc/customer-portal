@@ -9,7 +9,6 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserApi;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Api\DataFixtures\LoadCustomerUserRoles;
-use Oro\Bundle\FrontendBundle\Tests\Functional\Api\FrontendRestJsonApiTestCase;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -22,6 +21,9 @@ class LoadCustomerUserData extends AbstractFixture implements
     DependentFixtureInterface,
     ContainerAwareInterface
 {
+    protected const USER_NAME = 'frontend_admin_api@example.com';
+    protected const USER_PASSWORD = 'frontend_admin_api_key';
+
     /** @var ContainerInterface */
     protected $container;
 
@@ -81,7 +83,7 @@ class LoadCustomerUserData extends AbstractFixture implements
 
         $apiKey = new CustomerUserApi();
         $apiKey
-            ->setApiKey(FrontendRestJsonApiTestCase::USER_PASSWORD)
+            ->setApiKey(static::USER_PASSWORD)
             ->setUser($customerUser);
         $customerUser->addApiKey($apiKey);
 

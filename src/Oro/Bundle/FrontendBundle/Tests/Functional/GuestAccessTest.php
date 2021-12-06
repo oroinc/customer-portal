@@ -24,7 +24,7 @@ class GuestAccessTest extends WebTestCase
 
     private function setGuestAccess(bool $guestAccessEnabled): void
     {
-        $configManager = self::getConfigManager('global');
+        $configManager = self::getConfigManager();
         $configManager->set('oro_frontend.guest_access_enabled', $guestAccessEnabled);
         $configManager->flush();
     }

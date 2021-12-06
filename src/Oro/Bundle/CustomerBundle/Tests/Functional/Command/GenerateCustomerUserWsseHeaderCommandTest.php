@@ -47,12 +47,12 @@ class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestC
         $apiKey = $this->getApiKey(LoadCustomerUserData::EMAIL, LoadCustomerUserData::PASSWORD);
         $result = $this->runCommand('oro:customer-user:wsse:generate-header', [$apiKey]);
 
-        static::assertStringContainsString(
+        self::assertStringContainsString(
             'To use WSSE authentication add following headers to the request:',
             $result
         );
-        static::assertStringContainsString('Authorization: WSSE profile="UsernameToken"', $result);
-        static::assertStringContainsString(
+        self::assertStringContainsString('Authorization: WSSE profile="UsernameToken"', $result);
+        self::assertStringContainsString(
             'X-WSSE: UsernameToken Username="grzegorz.brzeczyszczykiewicz@example.com"',
             $result
         );
@@ -76,8 +76,8 @@ class GenerateCustomerUserWsseHeaderCommandTest extends FrontendRestJsonApiTestC
     {
         $result = $this->runCommand('oro:customer-user:wsse:generate-header', ['wrongKey']);
 
-        $this->assertStringNotContainsString('To use WSSE authentication add following headers', $result);
-        $this->assertStringNotContainsString('Authorization: WSSE profile="UsernameToken"', $result);
-        static::assertStringContainsString('API key "wrongKey" does not exists', $result);
+        self::assertStringNotContainsString('To use WSSE authentication add following headers', $result);
+        self::assertStringNotContainsString('Authorization: WSSE profile="UsernameToken"', $result);
+        self::assertStringContainsString('API key "wrongKey" does not exists', $result);
     }
 }

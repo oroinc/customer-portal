@@ -4,11 +4,12 @@ namespace Oro\Bundle\FrontendImportExportBundle\Tests\Functional\Async\Export;
 
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\EmailBundle\Entity\EmailUser;
+use Oro\Bundle\FrontendImportExportBundle\Async\Export\SaveFrontendExportResultProcessor;
 use Oro\Bundle\FrontendImportExportBundle\Entity\FrontendImportExportResult;
 use Oro\Bundle\FrontendImportExportBundle\Manager\ExportResultNotificationSender;
-use Oro\Bundle\ImportExportBundle\Async\Export\ExportMessageProcessor;
 use Oro\Bundle\ImportExportBundle\Processor\ProcessorRegistry;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Component\MessageQueue\Consumption\MessageProcessorInterface;
 use Oro\Component\MessageQueue\Job\JobProcessor;
 use Oro\Component\MessageQueue\Transport\Message;
 use Oro\Component\MessageQueue\Transport\SessionInterface;
@@ -19,21 +20,25 @@ use Oro\Component\MessageQueue\Util\JSON;
  */
 class SaveFrontendExportResultProcessorTest extends WebTestCase
 {
-    private ExportResultNotificationSender|\PHPUnit\Framework\MockObject\MockObject $notificationSender;
+    /** @var ExportResultNotificationSender|\PHPUnit\Framework\MockObject\MockObject */
+    private $notificationSender;
+
+    /** @var SaveFrontendExportResultProcessor */
+    private $processor;
 
     protected function setUp(): void
     {
         $this->initClient();
-
-        $this->loadFixtures([
-            LoadCustomerUserData::class,
-        ]);
+        $this->loadFixtures([LoadCustomerUserData::class]);
 
         $this->notificationSender = $this->createMock(ExportResultNotificationSender::class);
         self::getContainer()->set(
             'oro_frontend_importexport.manager.export_result_notification_sender.stub',
             $this->notificationSender
         );
+
+        $this->processor = self::getContainer()
+            ->get('oro_frontend_importexport.async.save_frontend_export_result_processor');
     }
 
     public function testProcessSaveJobWithValidData(): void
@@ -57,8 +62,7 @@ class SaveFrontendExportResultProcessorTest extends WebTestCase
             )
         );
 
-        $this->notificationSender
-            ->expects(self::once())
+        $this->notificationSender->expects(self::once())
             ->method('sendEmailNotification')
             ->willReturnCallback(
                 function (FrontendImportExportResult $importExportResult) use ($rootJob) {
@@ -69,10 +73,10 @@ class SaveFrontendExportResultProcessorTest extends WebTestCase
             )
             ->willReturn([$this->createMock(EmailUser::class)]);
 
-        $processor = self::getContainer()->get('oro_frontend_importexport.async.save_frontend_export_result_processor');
-        $result = $processor->process($message, $this->createMock(SessionInterface::class));
-
-        self::assertEquals(ExportMessageProcessor::ACK, $result);
+        self::assertEquals(
+            MessageProcessorInterface::ACK,
+            $this->processor->process($message, $this->createMock(SessionInterface::class))
+        );
     }
 
     public function testProcessSaveJobWithInvalidData():void
@@ -81,12 +85,10 @@ class SaveFrontendExportResultProcessorTest extends WebTestCase
         $message->setMessageId('abc');
         $message->setBody(JSON::encode([]));
 
-        $processor = self::getContainer()
-            ->get('oro_frontend_importexport.async.save_frontend_export_result_processor');
-
-        $processorResult = $processor->process($message, $this->createMock(SessionInterface::class));
-
-        self::assertEquals(ExportMessageProcessor::REJECT, $processorResult);
+        self::assertEquals(
+            MessageProcessorInterface::REJECT,
+            $this->processor->process($message, $this->createMock(SessionInterface::class))
+        );
     }
 
     private function getJobProcessor(): JobProcessor

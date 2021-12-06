@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\FrontendBundle\Tests\Functional\Controller\Workflow;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Oro\Bundle\FrontendBundle\Tests\Functional\DataFixtures\LoadWorkflowDefinitions;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData;
 use Oro\Bundle\TestFrameworkBundle\Entity\WorkflowAwareEntity;
@@ -14,19 +14,13 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class WorkflowControllerTest extends WebTestCase
 {
-    /**
-     * @var EntityManager
-     */
+    /** @var EntityManagerInterface */
     private $entityManager;
 
-    /**
-     * @var WorkflowManager
-     */
+    /** @var WorkflowManager */
     private $workflowManager;
 
-    /**
-     * @var WorkflowAwareEntity
-     */
+    /** @var WorkflowAwareEntity */
     private $entity;
 
     protected function setUp(): void
@@ -35,12 +29,9 @@ class WorkflowControllerTest extends WebTestCase
             [],
             $this->generateBasicAuthHeader(LoadCustomerUserData::AUTH_USER, LoadCustomerUserData::AUTH_PW)
         );
-
-        $this->loadFixtures([
-            LoadWorkflowDefinitions::class,
-        ]);
-
         $this->client->useHashNavigation(true);
+        $this->loadFixtures([LoadWorkflowDefinitions::class]);
+
         $this->entityManager = $this->client->getContainer()->get('doctrine')
             ->getManagerForClass(WorkflowAwareEntity::class);
         $this->workflowManager = $this->client->getContainer()->get('oro_workflow.manager');
@@ -62,8 +53,8 @@ class WorkflowControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($response, 200);
         $html = $crawler->html();
         $this->assertNotEmpty($html);
-        static::assertStringContainsStringIgnoringCase('oro.testframework.workflowawareentity.name.label', $html);
-        static::assertStringContainsStringIgnoringCase(\sprintf(
+        self::assertStringContainsStringIgnoringCase('oro.testframework.workflowawareentity.name.label', $html);
+        self::assertStringContainsStringIgnoringCase(\sprintf(
             '%s / %s',
             'oro.workflow.commerce_workflow_with_form_configuration.label',
             'oro.workflow.commerce_workflow_with_form_configuration.transition.start_transition.label'
@@ -102,9 +93,9 @@ class WorkflowControllerTest extends WebTestCase
         $this->assertHtmlResponseStatusCodeEquals($response, 200);
         $html = $crawler->html();
         $this->assertNotEmpty($html);
-        static::assertStringContainsStringIgnoringCase('oro.testframework.workflowawareentity.name.label', $html);
-        static::assertStringContainsStringIgnoringCase(
-            \sprintf(
+        self::assertStringContainsStringIgnoringCase('oro.testframework.workflowawareentity.name.label', $html);
+        self::assertStringContainsStringIgnoringCase(
+            sprintf(
                 '%s / %s',
                 'oro.workflow.commerce_workflow_with_form_configuration.label',
                 'oro.workflow.commerce_workflow_with_form_configuration.transition.transition_1.label'
@@ -119,18 +110,12 @@ class WorkflowControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @param Crawler $crawler
-     * @param WorkflowItem $workflowItem
-     * @param string $dataAttribute
-     * @param array $data
-     */
-    protected function assertTransitionFormSubmit(
+    private function assertTransitionFormSubmit(
         Crawler $crawler,
         WorkflowItem $workflowItem,
-        $dataAttribute,
+        string $dataAttribute,
         array $data = []
-    ) {
+    ): void {
         $form = $crawler->selectButton('Submit')->form($data);
 
         $this->client->followRedirects(true);
@@ -145,10 +130,7 @@ class WorkflowControllerTest extends WebTestCase
         $this->assertInstanceOf(WorkflowAwareEntity::class, $workflowItemNew->getData()->get($dataAttribute));
     }
 
-    /**
-     * @return WorkflowAwareEntity
-     */
-    protected function createNewEntity()
+    private function createNewEntity(): WorkflowAwareEntity
     {
         $testEntity = new WorkflowAwareEntity();
         $testEntity->setName('test_' . uniqid('test', true));
@@ -158,16 +140,9 @@ class WorkflowControllerTest extends WebTestCase
         return $testEntity;
     }
 
-    /**
-     * @param WorkflowAwareEntity $entity
-     * @param $workflowName
-     *
-     * @return null|WorkflowItem
-     */
-    protected function getWorkflowItem(WorkflowAwareEntity $entity, $workflowName)
+    private function getWorkflowItem(WorkflowAwareEntity $entity, string $workflowName): WorkflowItem
     {
-        return $this->getContainer()
-            ->get('oro_workflow.manager')
+        return $this->getContainer()->get('oro_workflow.manager')
             ->getWorkflowItem($entity, $workflowName);
     }
 }

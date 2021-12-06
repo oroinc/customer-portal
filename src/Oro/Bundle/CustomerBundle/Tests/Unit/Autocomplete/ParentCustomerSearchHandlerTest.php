@@ -292,18 +292,15 @@ class ParentCustomerSearchHandlerTest extends \PHPUnit\Framework\TestCase
             $field = Criteria::implodeFieldTypeName(Query::TYPE_INTEGER, 'oro_customer_id');
 
             $criteria = $this->createMock(Criteria::class);
-            $query
-                ->expects($this->once())
+            $query->expects($this->once())
                 ->method('getCriteria')
                 ->willReturn($criteria);
 
-            $criteria
-                ->expects($this->once())
+            $criteria->expects($this->once())
                 ->method('andWhere')
                 ->with(Criteria::expr()->notIn($field, $excludedIds));
         } else {
-            $query
-                ->expects($this->never())
+            $query->expects($this->never())
                 ->method('getCriteria');
         }
 

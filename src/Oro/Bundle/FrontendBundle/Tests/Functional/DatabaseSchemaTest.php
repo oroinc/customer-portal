@@ -11,9 +11,6 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class DatabaseSchemaTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient();
@@ -38,16 +35,12 @@ class DatabaseSchemaTest extends WebTestCase
         }
     }
 
-    /**
-     * @param Connection $connection
-     * @return string
-     */
-    protected function getConnectionIdentifier(Connection $connection)
+    private function getConnectionIdentifier(Connection $connection): string
     {
-        return md5(json_encode($connection->getParams()));
+        return md5(json_encode($connection->getParams(), JSON_THROW_ON_ERROR));
     }
 
-    protected function assertSchema(Schema $schema)
+    private function assertSchema(Schema $schema): void
     {
         $tableNames = array_map(
             function (Table $table) {

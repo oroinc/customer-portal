@@ -124,9 +124,6 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
         );
     }
 
-    /**
-     * @throws \Exception
-     */
     private function setProfilePermission(CustomerUser $customerUser, bool $isGranted = true): void
     {
         /** @var AclManager $manager */
@@ -139,11 +136,11 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
         }
     }
 
-    protected function setEntityPermissions(
+    private function setEntityPermissions(
         CustomerUser $customerUser,
         string $entityClass,
         array $permissions
-    ) {
+    ): void {
         $aclManager = self::getContainer()->get('oro_security.acl.manager');
         foreach ($customerUser->getUserRoles() as $role) {
             $sid = $aclManager->getSid($role);

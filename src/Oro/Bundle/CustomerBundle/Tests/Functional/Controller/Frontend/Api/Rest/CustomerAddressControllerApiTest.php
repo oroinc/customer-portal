@@ -415,7 +415,7 @@ class CustomerAddressControllerApiTest extends WebTestCase
     private function loginCustomerUser()
     {
         self::getClientInstance()->setServerParameters(
-            static::generateBasicAuthHeader('frontend_admin_api@example.com', 'test')
+            self::generateBasicAuthHeader('frontend_admin_api@example.com', 'test')
         );
     }
 

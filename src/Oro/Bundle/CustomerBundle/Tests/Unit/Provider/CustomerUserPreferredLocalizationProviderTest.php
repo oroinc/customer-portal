@@ -65,8 +65,7 @@ class CustomerUserPreferredLocalizationProviderTest extends \PHPUnit\Framework\T
         $customerUser->setWebsiteSettings($customerUserSettings);
 
         $localization = new Localization();
-        $this->userLocalizationManager
-            ->expects($this->once())
+        $this->userLocalizationManager->expects($this->once())
             ->method('getCurrentLocalizationByCustomerUser')
             ->with($customerUser, $website)
             ->willReturn($localization);
@@ -78,8 +77,7 @@ class CustomerUserPreferredLocalizationProviderTest extends \PHPUnit\Framework\T
     {
         $customerUser = new CustomerUser();
 
-        $this->userLocalizationManager
-            ->expects($this->once())
+        $this->userLocalizationManager->expects($this->once())
             ->method('getCurrentLocalizationByCustomerUser')
             ->with($customerUser, null)
             ->willReturn(null);

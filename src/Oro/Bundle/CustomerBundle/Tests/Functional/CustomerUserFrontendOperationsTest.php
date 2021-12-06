@@ -22,23 +22,15 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                LoadCustomerUserACLData::class,
-            ]
-        );
+        $this->loadFixtures([LoadCustomerUserACLData::class]);
     }
 
     /**
      * @dataProvider accessGrantedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
      */
     public function testSendConfirmation(string $login, string $resource): void
     {
-        $em = self::getContainer()->get('doctrine')
-            ->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
         $user = $this->findCustomerUser($resource);
@@ -69,18 +61,12 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
     /**
      * @dataProvider accessDeniedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
-     * @param int $status
      */
     public function testSendConfirmationAccessDenied(string $login, string $resource, int $status): void
     {
-        $em = self::getContainer()->get('doctrine')
-            ->getManagerForClass(CustomerUser::class);
+        $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
-        /** @var CustomerUser $user */
         $user = $this->findCustomerUser($resource);
         $user->setConfirmed(false);
         $em->flush();
@@ -97,9 +83,6 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
     /**
      * @dataProvider accessGrantedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
      */
     public function testConfirmAccessGranted(string $login, string $resource): void
     {
@@ -134,17 +117,12 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
     /**
      * @dataProvider accessDeniedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
-     * @param int $status
      */
     public function testConfirmAccessDenied(string $login, string $resource, int $status): void
     {
         $em = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
         $this->loginUser($login);
 
-        /** @var CustomerUser $user */
         $user = $this->findCustomerUser($resource);
 
         $user->setConfirmed(false);
@@ -160,9 +138,6 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
     /**
      * @dataProvider accessGrantedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
      */
     public function testEnableAndDisable(string $login, string $resource): void
     {
@@ -191,10 +166,6 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
 
     /**
      * @dataProvider accessDeniedDataProvider
-     *
-     * @param string $login
-     * @param string $resource
-     * @param int $status
      */
     public function testEnableAndDisableAccessDenied(string $login, string $resource, int $status): void
     {
@@ -214,9 +185,6 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         self::assertSame($status, $this->client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @return array
-     */
     public function accessGrantedDataProvider(): array
     {
         return [
@@ -231,9 +199,6 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function accessDeniedDataProvider(): array
     {
         return [
@@ -260,7 +225,7 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         ];
     }
 
-    protected function executeOperation(CustomerUser $customerUser, $operationName): void
+    private function executeOperation(CustomerUser $customerUser, string $operationName): void
     {
         $entityId = $customerUser->getId();
         $entityClass = CustomerUser::class;
@@ -281,10 +246,6 @@ class CustomerUserFrontendOperationsTest extends WebTestCase
         );
     }
 
-    /**
-     * @param string $resource
-     * @return CustomerUser
-     */
     private function findCustomerUser(string $resource): CustomerUser
     {
         $repository = self::getContainer()->get('doctrine')

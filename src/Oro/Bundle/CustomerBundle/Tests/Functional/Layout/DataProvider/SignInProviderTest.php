@@ -18,13 +18,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class SignInProviderTest extends WebTestCase
 {
     /** @var SignInProvider */
-    protected $dataProvider;
+    private $dataProvider;
 
     /** @var RequestStack */
-    protected $requestStack;
+    private $requestStack;
 
     /** @var TranslatorInterface */
-    protected $translator;
+    private $translator;
 
     protected function setUp(): void
     {

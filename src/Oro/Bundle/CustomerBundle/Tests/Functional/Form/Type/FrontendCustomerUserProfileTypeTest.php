@@ -5,7 +5,6 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Form\Type;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DomCrawler\Form;
 
 class FrontendCustomerUserProfileTypeTest extends WebTestCase
 {
@@ -16,9 +15,7 @@ class FrontendCustomerUserProfileTypeTest extends WebTestCase
             $this->generateBasicAuthHeader(LoadCustomerUserData::GROUP2_EMAIL, LoadCustomerUserData::GROUP2_PASSWORD)
         );
         $this->client->useHashNavigation(true);
-        $this->loadFixtures([
-            LoadCustomerUserData::class
-        ]);
+        $this->loadFixtures([LoadCustomerUserData::class]);
     }
 
     public function testUserChangeEmailToAnotherUserEmail()
@@ -27,7 +24,6 @@ class FrontendCustomerUserProfileTypeTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
-        /** @var Form $form */
         $form = $crawler->selectButton('Save')->form();
         $form['oro_customer_frontend_customer_user_profile[email]'] = LoadCustomerUserData::EMAIL;
 
@@ -36,8 +32,8 @@ class FrontendCustomerUserProfileTypeTest extends WebTestCase
 
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-        static::assertStringContainsString("This email is already used", $crawler->html());
-        static::assertStringNotContainsString("Customer User profile updated", $crawler->html());
+        self::assertStringContainsString('This email is already used', $crawler->html());
+        self::assertStringNotContainsString('Customer User profile updated', $crawler->html());
 
         /** @var CustomerUser $expectedUser */
         $expectedUser = $this->getReference(LoadCustomerUserData::GROUP2_EMAIL);

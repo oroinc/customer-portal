@@ -9,32 +9,24 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\Strategy\DataFixture
 use Oro\Bundle\ImportExportBundle\Context\Context;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Component\Testing\Unit\EntityTrait;
+use Oro\Component\Testing\ReflectionUtil;
 
 /**
  * Checks the user for the possibility of using it as the owner of the entity
  */
 class CustomerAddOrReplaceStrategyTest extends WebTestCase
 {
-    use EntityTrait;
-
-    /**
-     * @var CustomerAddOrReplaceStrategy
-     */
+    /** @var CustomerAddOrReplaceStrategy */
     private $strategy;
 
-    /**
-     * @var Context
-     */
-    protected $context;
+    /** @var Context */
+    private $context;
 
     protected function setUp(): void
     {
         $this->initClient();
-        $this->loadFixtures([
-            LoadTestUser::class,
-            LoadCustomers::class
-        ]);
+        $this->loadFixtures([LoadTestUser::class, LoadCustomers::class]);
+
         $this->createToken();
         $this->strategy = $this->getContainer()->get('oro_customer.importexport.strategy.customer.add_or_replace');
 
@@ -90,8 +82,8 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
         $context->setValue('rawItemData', $data);
         $this->strategy->setImportExportContext($context);
 
-        /** @var Customer $parent */
-        $parent = $this->getEntity(Customer::class, ['id' => 0]);
+        $parent = new Customer();
+        ReflectionUtil::setId($parent, 0);
         $customer = $this->createCustomer($this->getReference('user_with_main_organization_access'), $parent);
 
         $processedCustomer = $this->strategy->process($customer);
@@ -111,8 +103,8 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
         $context->setValue('rawItemData', $data);
         $this->strategy->setImportExportContext($context);
 
-        /** @var Customer $parent */
-        $parent = $this->getEntity(Customer::class, ['id' => 0]);
+        $parent = new Customer();
+        ReflectionUtil::setId($parent, 0);
         $customer = $this->createCustomer($this->getReference('user_with_main_organization_access'), $parent);
 
         $processedCustomer = $this->strategy->process($customer);
@@ -124,20 +116,14 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
     /**
      * The strategy use user data to verify access to the entity modification
      */
-    private function createToken()
+    private function createToken(): void
     {
         $user = $this->getReference('user_with_main_organization_access');
         $this->updateUserSecurityToken($user->getEmail());
     }
 
-    /**
-     * @param User $owner
-     * @param Customer|null $parent
-     * @return Customer
-     */
-    private function createCustomer(User $owner, Customer $parent = null)
+    private function createCustomer(User $owner, Customer $parent = null): Customer
     {
-        /** @var Customer $customer */
         $customer = new Customer();
         $customer->setName('customer');
         $customer->setOwner($owner);

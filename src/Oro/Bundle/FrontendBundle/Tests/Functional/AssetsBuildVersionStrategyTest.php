@@ -72,10 +72,7 @@ class AssetsBuildVersionStrategyTest extends WebTestCase
         );
     }
 
-    /**
-     * @return Crawler|null
-     */
-    protected function requestOroFrontendRootRoute(): ?Crawler
+    private function requestOroFrontendRootRoute(): ?Crawler
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_frontend_root'));
 

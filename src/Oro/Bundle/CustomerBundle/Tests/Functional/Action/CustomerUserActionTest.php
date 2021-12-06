@@ -15,26 +15,19 @@ class CustomerUserActionTest extends WebTestCase
     {
         $this->initClient();
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                LoadCustomerUserACLData::class,
-            ]
-        );
+        $this->loadFixtures([LoadCustomerUserACLData::class]);
     }
 
     /**
      * @dataProvider deleteDataProvider
-     * @param string $login
-     * @param string $resource
-     * @param int $status
      */
-    public function testDelete($login, $resource, $status)
+    public function testDelete(string $login, string $resource, int $status)
     {
         $this->loginUser($login);
         $id = $this->getReference($resource)->getId();
 
         $operationName = 'oro_customer_frontend_user_delete';
-        $entityClass   = CustomerUser::class;
+        $entityClass = CustomerUser::class;
         $this->client->request(
             'POST',
             $this->getUrl(
@@ -55,19 +48,14 @@ class CustomerUserActionTest extends WebTestCase
         if ($status === 200) {
             self::getContainer()->get('doctrine')->getManagerForClass($entityClass)->clear();
 
-            $removedCustomer = static::getContainer()
-                ->get('doctrine')
-                ->getRepository('OroCustomerBundle:CustomerUser')
+            $removedCustomer = self::getContainer()->get('doctrine')->getRepository(CustomerUser::class)
                 ->find($id);
 
-            static::assertNull($removedCustomer);
+            self::assertNull($removedCustomer);
         }
     }
 
-    /**
-     * @return array
-     */
-    public function deleteDataProvider()
+    public function deleteDataProvider(): array
     {
         return [
             'anonymous user' => [

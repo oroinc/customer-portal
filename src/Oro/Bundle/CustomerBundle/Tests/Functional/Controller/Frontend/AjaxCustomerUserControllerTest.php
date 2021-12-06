@@ -11,9 +11,6 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class AjaxCustomerUserControllerTest extends WebTestCase
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->initClient(
@@ -21,11 +18,7 @@ class AjaxCustomerUserControllerTest extends WebTestCase
             $this->generateBasicAuthHeader(LoadLoginCustomerUserData::AUTH_USER, LoadLoginCustomerUserData::AUTH_PW)
         );
         $this->client->useHashNavigation(true);
-        $this->loadFixtures(
-            [
-                LoadCustomerUserRoleData::class
-            ]
-        );
+        $this->loadFixtures([LoadCustomerUserRoleData::class]);
     }
 
     public function testGetCustomerIdAction()
@@ -40,9 +33,9 @@ class AjaxCustomerUserControllerTest extends WebTestCase
         );
         $result = $this->client->getResponse();
         $this->assertJsonResponseStatusCodeEquals($result, 200);
-        $data = json_decode($result->getContent(), true);
+        $data = json_decode($result->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertArrayHasKey('customerId', $data);
-        $customerId = $user->getCustomer() ? $user->getCustomer()->getId() : null;
+        $customerId = $user->getCustomer()?->getId();
         $this->assertEquals($data['customerId'], $customerId);
     }
 
@@ -57,7 +50,7 @@ class AjaxCustomerUserControllerTest extends WebTestCase
         );
         $result = $this->client->getResponse();
         $this->assertJsonResponseStatusCodeEquals($result, 200);
-        $data = json_decode($result->getContent(), true);
+        $data = json_decode($result->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertArrayHasKey('valid', $data);
         $this->assertEquals($expected, $data['valid']);
     }
@@ -70,18 +63,12 @@ class AjaxCustomerUserControllerTest extends WebTestCase
         ];
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
-    protected function getObjectManager()
+    private function getObjectManager(): EntityManagerInterface
     {
         return $this->getContainer()->get('doctrine')->getManager();
     }
 
-    /**
-     * @return EntityRepository
-     */
-    protected function getUserRepository()
+    private function getUserRepository(): EntityRepository
     {
         return $this->getObjectManager()->getRepository(CustomerUser::class);
     }

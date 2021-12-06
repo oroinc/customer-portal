@@ -24,7 +24,7 @@ class EnabledLocalizationsSearchHandlerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->initClient([], static::generateBasicAuthHeader());
+        $this->initClient([], self::generateBasicAuthHeader());
         $this->loadFixtures([LoadLocalizationData::class]);
         $this->searchHandler = self::getContainer()
             ->get('oro_customer.autocomplete.enabled_localizations.search_handler');

@@ -75,10 +75,7 @@ class LoadGroups extends AbstractFixture implements ContainerAwareInterface, Dep
 
     protected function loadAnonymousGroup()
     {
-        $group = $this->container
-            ->get('doctrine')
-            ->getManagerForClass('OroCustomerBundle:CustomerGroup')
-            ->getRepository('OroCustomerBundle:CustomerGroup')
+        $group = $this->container->get('doctrine')->getRepository(CustomerGroup::class)
             ->findOneBy(['name' => LoadAnonymousCustomerGroup::GROUP_NAME_NON_AUTHENTICATED]);
         $this->addReference(self::ANONYMOUS_GROUP, $group);
     }

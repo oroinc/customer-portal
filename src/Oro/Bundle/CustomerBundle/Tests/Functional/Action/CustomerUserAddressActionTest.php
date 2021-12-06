@@ -54,11 +54,9 @@ class CustomerUserAddressActionTest extends WebTestCase
 
         self::getContainer()->get('doctrine')->getManagerForClass($entityClass)->clear();
 
-        $removedAddress = self::getContainer()
-            ->get('doctrine')
-            ->getRepository('OroCustomerBundle:CustomerUserAddress')
+        $removedAddress = self::getContainer()->get('doctrine')->getRepository(CustomerUserAddress::class)
             ->find($id);
 
-        static::assertNull($removedAddress);
+        self::assertNull($removedAddress);
     }
 }

@@ -42,7 +42,7 @@ class CustomerUserRoleControllerACLTest extends WebTestCase
         ));
 
         $result = $this->client->getResponse();
-        static::assertHtmlResponseStatusCodeEquals($result, $expectedStatus);
+        self::assertHtmlResponseStatusCodeEquals($result, $expectedStatus);
     }
 
     /**

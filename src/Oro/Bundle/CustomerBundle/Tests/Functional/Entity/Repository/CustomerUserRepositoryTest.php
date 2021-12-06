@@ -11,27 +11,25 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerUserRepositoryTest extends WebTestCase
 {
-    /** @var CustomerUserRepository */
-    private $repository;
-
     protected function setUp(): void
     {
         $this->initClient();
+    }
 
-        $this->repository = $this->getContainer()
-            ->get('doctrine')
-            ->getRepository(CustomerUser::class);
+    private function getRepository(): CustomerUserRepository
+    {
+        return self::getContainer()->get('doctrine')->getRepository(CustomerUser::class);
     }
 
     public function testGetAssignableCustomerUserIds()
     {
-        $user = $this->repository->findOneBy([]);
+        $user = $this->getRepository()->findOneBy([]);
 
         $this->assertEquals(
             [
                 $user->getId()
             ],
-            $this->repository->getAssignableCustomerUserIds(
+            $this->getRepository()->getAssignableCustomerUserIds(
                 $this->getContainer()->get('oro_security.acl_helper'),
                 CustomerUser::class
             )
@@ -45,9 +43,9 @@ class CustomerUserRepositoryTest extends WebTestCase
         /** @var CustomerUser $user */
         $user = $this->getReference(LoadCustomerUserData::EMAIL);
 
-        $this->assertEquals($user, $this->repository->findUserByEmail(strtoupper($user->getEmail()), true));
-        $this->assertEquals($user, $this->repository->findUserByEmail(ucfirst($user->getEmail()), true));
-        $this->assertEquals($user, $this->repository->findUserByEmail($user->getEmail(), true));
+        $this->assertEquals($user, $this->getRepository()->findUserByEmail(strtoupper($user->getEmail()), true));
+        $this->assertEquals($user, $this->getRepository()->findUserByEmail(ucfirst($user->getEmail()), true));
+        $this->assertEquals($user, $this->getRepository()->findUserByEmail($user->getEmail(), true));
     }
 
     public function testFindUserByEmailInsensitive()
@@ -57,9 +55,9 @@ class CustomerUserRepositoryTest extends WebTestCase
         /** @var CustomerUser $user */
         $user = $this->getReference(LoadCustomerUserData::EMAIL);
 
-        $this->assertNull($this->repository->findUserByEmail(strtoupper($user->getEmail()), false));
-        $this->assertNull($this->repository->findUserByEmail(ucfirst($user->getEmail()), false));
-        $this->assertEquals($user, $this->repository->findUserByEmail($user->getEmail(), false));
+        $this->assertNull($this->getRepository()->findUserByEmail(strtoupper($user->getEmail()), false));
+        $this->assertNull($this->getRepository()->findUserByEmail(ucfirst($user->getEmail()), false));
+        $this->assertEquals($user, $this->getRepository()->findUserByEmail($user->getEmail(), false));
     }
 
     public function testFindUserByEmailAndOrganizationSensitive()
@@ -69,11 +67,11 @@ class CustomerUserRepositoryTest extends WebTestCase
         /** @var CustomerUser $user */
         $user = $this->getReference(LoadCustomerUserData::EMAIL);
 
-        $this->assertEquals($user, $this->repository
+        $this->assertEquals($user, $this->getRepository()
             ->findUserByEmailAndOrganization(strtoupper($user->getEmail()), $user->getOrganization(), true));
-        $this->assertEquals($user, $this->repository
+        $this->assertEquals($user, $this->getRepository()
             ->findUserByEmailAndOrganization(ucfirst($user->getEmail()), $user->getOrganization(), true));
-        $this->assertEquals($user, $this->repository
+        $this->assertEquals($user, $this->getRepository()
             ->findUserByEmailAndOrganization($user->getEmail(), $user->getOrganization(), true));
     }
 
@@ -84,11 +82,11 @@ class CustomerUserRepositoryTest extends WebTestCase
         /** @var CustomerUser $user */
         $user = $this->getReference(LoadCustomerUserData::EMAIL);
 
-        $this->assertNull($this->repository
+        $this->assertNull($this->getRepository()
             ->findUserByEmailAndOrganization(strtoupper($user->getEmail()), $user->getOrganization(), false));
-        $this->assertNull($this->repository
+        $this->assertNull($this->getRepository()
             ->findUserByEmailAndOrganization(ucfirst($user->getEmail()), $user->getOrganization(), false));
-        $this->assertEquals($user, $this->repository
+        $this->assertEquals($user, $this->getRepository()
             ->findUserByEmailAndOrganization($user->getEmail(), $user->getOrganization(), false));
     }
 
@@ -96,7 +94,7 @@ class CustomerUserRepositoryTest extends WebTestCase
     {
         $this->loadFixtures([LoadUserAndGuestWithSameUsername::class]);
 
-        $this->assertEmpty($this->repository->findLowercaseDuplicatedEmails(10));
+        $this->assertEmpty($this->getRepository()->findLowercaseDuplicatedEmails(10));
     }
 
     public function testFindLowercaseDuplicatedEmails()
@@ -105,7 +103,7 @@ class CustomerUserRepositoryTest extends WebTestCase
 
         $this->assertEquals(
             [LoadUsersWithSameEmail::SAME_EMAIL],
-            $this->repository->findLowercaseDuplicatedEmails(10)
+            $this->getRepository()->findLowercaseDuplicatedEmails(10)
         );
     }
 }

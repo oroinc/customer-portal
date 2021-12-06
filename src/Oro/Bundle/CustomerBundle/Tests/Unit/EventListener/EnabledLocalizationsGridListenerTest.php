@@ -36,13 +36,11 @@ class EnabledLocalizationsGridListenerTest extends \PHPUnit\Framework\TestCase
     {
         $datasource = $this->createMock(DatasourceInterface::class);
         $datagrid = $this->createMock(DatagridInterface::class);
-        $datagrid
-            ->expects($this->once())
+        $datagrid->expects($this->once())
             ->method('getDatasource')
             ->willReturn($datasource);
 
-        $this->configManager
-            ->expects($this->never())
+        $this->configManager->expects($this->never())
             ->method('get');
 
         $event = new BuildAfter($datagrid);
@@ -52,26 +50,22 @@ class EnabledLocalizationsGridListenerTest extends \PHPUnit\Framework\TestCase
     public function testOnBuildAfterWithWebsiteId(): void
     {
         $queryBuilder = $this->createMock(QueryBuilder::class);
-        $queryBuilder
-            ->expects($this->once())
+        $queryBuilder->expects($this->once())
             ->method('setParameter')
             ->with('ids', [1,2]);
 
         $datasource = $this->createMock(OrmDatasource::class);
-        $datasource
-            ->expects($this->once())
+        $datasource->expects($this->once())
             ->method('getQueryBuilder')
             ->willReturn($queryBuilder);
 
         $datagrid = $this->createMock(DatagridInterface::class);
-        $datagrid
-            ->expects($this->once())
+        $datagrid->expects($this->once())
             ->method('getDatasource')
             ->willReturn($datasource);
 
         $enabledLocalizationKey = Configuration::getConfigKeyByName(Configuration::ENABLED_LOCALIZATIONS);
-        $this->configManager
-            ->expects($this->once())
+        $this->configManager->expects($this->once())
             ->method('get')
             ->with($enabledLocalizationKey, false, false, null)
             ->willReturn([1,2]);

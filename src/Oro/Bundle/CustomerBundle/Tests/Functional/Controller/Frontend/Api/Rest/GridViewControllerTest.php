@@ -2,8 +2,9 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller\Frontend\Api\Rest;
 
-use Doctrine\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Entity\GridView;
+use Oro\Bundle\CustomerBundle\Entity\GridViewUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\GridViewUserRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserGridViewACLData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadGridViewData;
@@ -47,7 +48,7 @@ class GridViewControllerTest extends WebTestCase
 
         $this->assertJsonResponseStatusCodeEquals($this->client->getResponse(), 201);
 
-        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $response = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertArrayHasKey('id', $response);
 
@@ -168,7 +169,7 @@ class GridViewControllerTest extends WebTestCase
     public function testDefaultAction()
     {
         /** @var GridViewUserRepository $repository */
-        $repository = $this->getRepository('OroCustomerBundle:GridViewUser');
+        $repository = $this->getRepository(GridViewUser::class);
 
         /** @var GridView $gridView */
         $gridView = $this->getReference(LoadGridViewData::GRID_VIEW_PRIVATE);
@@ -192,21 +193,13 @@ class GridViewControllerTest extends WebTestCase
         $this->assertNotEmpty($repository->findAll());
     }
 
-    /**
-     * @param int $id
-     * @return GridView
-     */
-    private function findGridView($id)
+    private function findGridView(int $id): ?GridView
     {
-        return $this->getRepository('OroCustomerBundle:GridView')->find($id);
+        return $this->getRepository(GridView::class)->find($id);
     }
 
-    /**
-     * @param string $className
-     * @return ObjectRepository
-     */
-    private function getRepository($className)
+    private function getRepository(string $className): EntityRepository
     {
-        return $this->getContainer()->get('doctrine')->getManagerForClass($className)->getRepository($className);
+        return self::getContainer()->get('doctrine')->getRepository($className);
     }
 }

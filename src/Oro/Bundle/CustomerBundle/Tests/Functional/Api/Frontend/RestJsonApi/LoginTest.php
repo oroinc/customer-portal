@@ -90,10 +90,7 @@ class LoginTest extends FrontendWebTestCase
         return $response;
     }
 
-    /**
-     * @return Response
-     */
-    protected function sendOptionsRequest()
+    private function sendOptionsRequest(): Response
     {
         $response = $this->request('OPTIONS');
 
