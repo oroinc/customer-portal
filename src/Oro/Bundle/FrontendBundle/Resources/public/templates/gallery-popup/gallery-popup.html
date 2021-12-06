@@ -6,11 +6,17 @@
             <% if (images && images.length) { %>
                 <% _.each(images, function(image) { %>
                     <div class="popup-gallery-widget__image">
-                        <img data-lazy="<%= image.src %>"
-                             alt="<%- image.alt %>"
-                             width="100%"
-                             height="100%"
-                        />
+                        <picture>
+                            <% _.each(image.sources || [], function(source) { %>
+                                <source srcset="<%= source.srcset %>" type="<%= source.type %>">
+                            <% }); %>
+
+                            <img data-lazy="<%= image.src %>"
+                                 alt="<%- image.alt %>"
+                                 width="100%"
+                                 height="100%"
+                            />
+                        </picture>
                     </div>
                 <% }); %>
             <% } %>
@@ -19,12 +25,17 @@
             <div class="popup-gallery-widget__thumbnails" data-gallery-thumbnails>
                 <% _.each(images, function(image) { %>
                     <div class="popup-gallery-widget__thumbnails-img">
-                        <img
-                             src="<%= image.thumb %>"
-                             alt="<%- image.alt %>"
-                             width="80"
-                             height="80"
-                        />
+                        <picture>
+                            <% _.each(image.thumbSources || [], function(source) { %>
+                                <source srcset="<%= source.srcset %>" type="<%= source.type %>">
+                            <% }); %>
+
+                            <img src="<%= image.thumb %>"
+                                 alt="<%- image.alt %>"
+                                 width="80"
+                                 height="80"
+                            />
+                        </picture>
                     </div>
                 <% }); %>
             </div>

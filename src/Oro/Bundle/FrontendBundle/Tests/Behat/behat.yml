@@ -73,6 +73,8 @@ oro_behat_extension:
       selector: ".popup-gallery-widget"
     Popup Gallery Widget Image:
       selector: ".popup-gallery-widget img"
+    Popup Gallery Widget Picture:
+      selector: ".popup-gallery-widget picture"
     Popover Image:
       selector: "div.popover img"
     Popup Gallery Widget Close:

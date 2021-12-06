@@ -1,6 +1,6 @@
 oro_frontend_attachment_filter_image:
     path: "media/cache/attachment/filter/{filter}/{filterMd5}/{id}/{filename}"
-    defaults: { _controller: Oro\Bundle\AttachmentBundle\Controller\FileController::getFilteredImageAction}
+    defaults: { _controller: oro_attachment.controller.file::getFilteredImageAction }
     requirements:
         id: '\d+'
         filterMd5: '^[0-9a-f]{32}$'
@@ -9,7 +9,7 @@ oro_frontend_attachment_filter_image:
 
 oro_frontend_attachment_resize_image:
     path: "media/cache/attachment/resize/{id}/{width}/{height}/{filename}"
-    defaults: { _controller: Oro\Bundle\AttachmentBundle\Controller\FileController::getResizedAttachmentImageAction }
+    defaults: { _controller: oro_attachment.controller.file::getResizedAttachmentImageAction }
     requirements:
         id: '\d+'
         width: '\d+'
@@ -19,7 +19,7 @@ oro_frontend_attachment_resize_image:
 
 oro_frontend_attachment_get_file:
     path: "attachment/{action}/{id}/{filename}"
-    defaults: { _controller: Oro\Bundle\AttachmentBundle\Controller\FileController::getFileAction}
+    defaults: { _controller: oro_attachment.controller.file::getFileAction}
     requirements:
         id: '\d+'
         action: '(get|download)'

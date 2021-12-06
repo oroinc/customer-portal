@@ -17,6 +17,7 @@ oro_behat_extension:
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\RegistrationInstructionFeatureContext
         - Oro\Bundle\CustomerBundle\Tests\Behat\Context\CustomerContext
         - Oro\Bundle\ProductBundle\Tests\Behat\Context\FeatureContext
+        - Oro\Bundle\AttachmentBundle\Tests\Behat\Context\AttachmentImageContext
         - Oro\Bundle\ShoppingListBundle\Tests\Behat\Context\FeatureContext
         - Oro\Bundle\ImportExportBundle\Tests\Behat\Context\ImportExportContext
         - Oro\Bundle\AddressBundle\Tests\Behat\Context\AddressContext
