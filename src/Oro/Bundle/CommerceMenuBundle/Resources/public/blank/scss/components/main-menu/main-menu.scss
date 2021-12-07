@@ -27,8 +27,6 @@
 
         color: $main-menu-link-color;
 
-        @extend %base-transition;
-
         &:hover {
             color: $main-menu-link-color-hover;
         }
