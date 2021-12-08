@@ -10,6 +10,7 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 /**
  * Decorator that executes decorated LoginAttemptsHandlerInterface implementation
  * only for not frontend requests.
+ * @deprecated this handler is not used and will be removed in v5.0
  */
 class LoginAttemptsLogHandler implements LoginAttemptsHandlerInterface
 {
@@ -30,10 +31,6 @@ class LoginAttemptsLogHandler implements LoginAttemptsHandlerInterface
      */
     public function onAuthenticationFailure(AuthenticationFailureEvent $event)
     {
-        if ($this->frontendHelper->isFrontendRequest()) {
-            return;
-        }
-
         $this->innerHandler->onAuthenticationFailure($event);
     }
 
@@ -42,10 +39,6 @@ class LoginAttemptsLogHandler implements LoginAttemptsHandlerInterface
      */
     public function onInteractiveLogin(InteractiveLoginEvent $event)
     {
-        if ($this->frontendHelper->isFrontendRequest()) {
-            return;
-        }
-
         $this->innerHandler->onInteractiveLogin($event);
     }
 }

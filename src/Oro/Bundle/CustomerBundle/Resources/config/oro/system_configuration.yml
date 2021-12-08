@@ -173,6 +173,7 @@ system_configuration:
                                 priority: 100
                                 children:
                                     customer_users_registration:
+                                        priority: 100
                                         children:
                                             - oro_customer.default_customer_owner
                                             - oro_customer.registration_allowed
@@ -184,9 +185,11 @@ system_configuration:
                                             - oro_customer.registration_instructions_text
                                             - oro_customer.case_insensitive_email_addresses_enabled
                                     customer_visitor_section:
+                                        priority: 90
                                         children:
                                             - oro_customer.customer_visitor_cookie_lifetime_days
                                     rest_api:
+                                        priority: 50
                                         children:
                                             - oro_customer.api_key_generation_enabled
 
