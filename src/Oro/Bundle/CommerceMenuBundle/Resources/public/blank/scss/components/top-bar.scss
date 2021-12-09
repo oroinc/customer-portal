@@ -4,19 +4,11 @@
     font-size: $top-bar-font-size;
 }
 
-.topbar-navigation-wrap {
-    display: inline-block;
-}
-
 .topbar-navigation {
     @include list-normalize();
-    
+
     display: flex;
     justify-content: flex-end;
-
-    &--controls {
-        justify-content: flex-start;
-    }
 
     &__item {
         margin-right: $top-bar-menu-item-offset-right;
@@ -26,6 +18,10 @@
         &:last-child {
             margin-right: 0;
         }
+    }
+
+    &--align-end {
+        margin-left: auto;
     }
 }
 

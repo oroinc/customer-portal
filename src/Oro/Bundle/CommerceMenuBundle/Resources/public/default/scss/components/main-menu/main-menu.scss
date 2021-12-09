@@ -40,11 +40,15 @@
     }
 
     &__button-arrow {
-        padding: $main-menu-button-arrow-d-inner-offset;
+        position: relative;
+        z-index: z('base');
+        width: $main-menu-button-arrow-width;
+        padding: $main-menu-button-arrow-inner-offset;
+        margin-left: $main-menu-button-arrow-offset;
 
         font-size: inherit;
-
         cursor: pointer;
+        text-align: $main-menu-button-arrow-text-align;
     }
 }
 

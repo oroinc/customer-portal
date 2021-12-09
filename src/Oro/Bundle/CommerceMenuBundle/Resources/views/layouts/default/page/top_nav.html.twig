@@ -3,7 +3,7 @@
         '~class': " topbar"
     }) %}
     <div {{ block('block_attributes') }}>
-        <div class="page-area-container">
+        <div class="page-area-container page-header-content">
             {{ block_widget(block) }}
         </div>
     </div>
@@ -11,7 +11,7 @@
 
 {% block _top_nav_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " topbar-navigation"
+        '~class': " topbar-navigation topbar-navigation--align-end"
     }) %}
 
     {% set child_attr = layout_attr_defaults(child_attr, {
@@ -22,16 +22,9 @@
         '~class': 'topbar-navigation__link'
     }) %}
 
-    <div class="topbar-navigation-wrap">
-        {{ block('menu_widget') }}
-    </div>
+    {{ block('menu_widget') }}
 {% endblock %}
 
 {% block _top_nav_menu_container_widget %}
-    {% set attr = layout_attr_defaults(attr, {
-        '~class': " pull-right"
-    }) %}
-    <div {{ block('block_attributes') }}>
-        {{ block_widget(block) }}
-    </div>
+    {{ block_widget(block) }}
 {% endblock %}

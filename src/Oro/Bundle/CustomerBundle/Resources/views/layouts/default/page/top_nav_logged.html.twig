@@ -1,6 +1,6 @@
 {% block _top_nav_controls_widget %}
     {% set attr = layout_attr_defaults(attr, {
-        '~class': " pull-left"
+        '~class': " topbar-navigation"
     }) %}
     {% set dom_relocation_options =  {
         responsive: [
@@ -13,13 +13,9 @@
         ]
     }|json_encode %}
 
-    <div {{ block('block_attributes') }}>
-        <ul class="topbar-navigation topbar-navigation--controls"
-            data-dom-relocation-options="{{ dom_relocation_options }}"
-        >
-            {{ block_widget(block) }}
-        </ul>
-    </div>
+    <ul {{ block('block_attributes') }}
+        data-dom-relocation-options="{{ dom_relocation_options }}"
+    >{{ block_widget(block) }}</ul>
 {% endblock %}
 
 {% block _top_nav_logged_user_widget %}
