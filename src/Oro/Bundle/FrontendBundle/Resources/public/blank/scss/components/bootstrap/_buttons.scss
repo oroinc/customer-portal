@@ -222,7 +222,7 @@ fieldset:disabled a.btn {
     &:active,
     &.active,
     &:not(.disabled):active,
-    &:not(.disabled).active, {
+    &:not(.disabled).active {
         background-color: $btn-plain-active-background-color;
         border-color: $btn-plain-active-border-color;
         box-shadow: none;
