@@ -4,10 +4,6 @@ layout:
             themes: '@OroCommerceMenu/layouts/blank/page/footer_menu.html.twig'
         - '@addTree':
             items:
-                footer_menu_container:
-                    blockType: container
-                footer_menu_row:
-                    blockType: container
                 footer_menu:
                     blockType: menu
                     options:
@@ -15,6 +11,4 @@ layout:
                         depth: 2
             tree:
                 page_footer_base:
-                    footer_menu_container:
-                        footer_menu_row:
-                            footer_menu: ~
+                    footer_menu: ~

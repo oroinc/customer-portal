@@ -1,9 +1,15 @@
 /* @theme: default; */
 
 // Base styles
+
+$main-menu-button-arrow-width: 24px !default;
+$main-menu-button-arrow-inner-offset: 0 6px 0 4px !default;
+$main-menu-button-arrow-offset: -$main-menu-button-arrow-width !default;
+$main-menu-button-arrow-text-align: left !default;
+
 $main-menu-item-height: 49px;
 $main-menu-item--nested: 0 24px 0 22px;
-$main-menu-link-inner-offset: 14px 24px;
+$main-menu-link-inner-offset: 14px $main-menu-button-arrow-width 14px 24px;
 $main-menu-ancestor-link-inner-offset: 35px;
 $main-menu-link-color: get-color('additional', 'dark');
 $main-menu-link-color-hover: get-color('additional', 'dark');
@@ -15,11 +21,6 @@ $main-menu-item-nested-background: get-color('additional', 'base');
 
 // Only Desktop
 $main-menu-item-hover-only-desktop-background: get-color('additional', 'base');
-
-// Desktop
-$main-menu-button-arrow-d-width: 35px;
-$main-menu-button-arrow-d-offset-left: -35px;
-$main-menu-button-arrow-d-inner-offset: 8px 12px 8px 8px;
 
 $main-menu-item-first-level-desktop-font-weight: null !default;
 $main-menu-column-title-desktop-font-weight: null !default;

@@ -32,9 +32,7 @@
                             {% set footerSectionId = 'footer-section-panel'|uniqid %}
                             <h6 class="information-nav__title"
                                 data-collapse-trigger-footer aria-controls="{{ footerSectionId }}">
-                                <span class="information-nav__icon" aria-hidden="true">
-                                    <span class="collapse-view__trigger-icon fa-caret-right"></span>
-                                </span>
+                                <span class="information-nav__icon collapse-view__trigger-icon fa-caret-right" aria-hidden="true"></span>
                                 {{- label -}}
                             </h6>
                             <div id="{{ footerSectionId }}" role="region" data-collapse-container-footer="true">
