@@ -13,6 +13,11 @@
         padding: $search-widget-input-inner-offset;
         width: $search-widget-input-width;
         position: $search-widget-input-position;
+
+        &.undo-focus {
+            border: $search-widget-input-undo-focus-border;
+            box-shadow: $search-widget-input-undo-focus-box-shadow;
+        }
     }
 
     &__submit {
