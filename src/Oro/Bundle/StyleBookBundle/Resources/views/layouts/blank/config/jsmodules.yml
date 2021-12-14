@@ -19,6 +19,6 @@ dynamic-imports:
         - orostylebook/js/style-book/toggle-action-view
 entry:
     stylebook-highlighter:
+        - prismjs/prism.js
         - prismjs/components/prism-scss.min.js
         - prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.min.js
-        - prismjs/prism.js
