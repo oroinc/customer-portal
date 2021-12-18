@@ -144,7 +144,6 @@ api:
                     region:
                         allow_array: true
                     addressType:
-                        description: Filter records by address type, e.g. shipping, billing, etc.
                         data_type: string
                         property_path: types.type
                         allow_array: true
@@ -209,7 +208,6 @@ api:
                     region:
                         allow_array: true
                     addressType:
-                        description: Filter records by address type, e.g. shipping, billing, etc.
                         data_type: string
                         property_path: types.type
                         allow_array: true
