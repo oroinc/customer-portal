@@ -286,6 +286,12 @@ The **default** property is a boolean and defines whether the address is used as
 
 Example of data: **\[{"addressType": "billing", "default": false}, {"addressType": "shipping", "default": true}\]**
 
+## FILTERS
+
+### addressType
+
+Filter records by address type, e.g. shipping, billing, etc.
+
 ## SUBRESOURCES
 
 ### country

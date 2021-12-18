@@ -312,6 +312,12 @@ Example of data: **\[{"addressType": "billing", "default": false}, {"addressType
 
 **The read-only field. A passed value will be ignored.**
 
+## FILTERS
+
+### addressType
+
+Filter records by address type, e.g. shipping, billing, etc.
+
 ## SUBRESOURCES
 
 ### country
