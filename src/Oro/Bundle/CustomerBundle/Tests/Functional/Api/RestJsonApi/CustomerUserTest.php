@@ -42,7 +42,7 @@ class CustomerUserTest extends RestJsonApiTestCase
             ['filter[email]' => LoadCustomerUserData::EMAIL]
         );
 
-        self::assertResponseContains('cget_customer_user.yml', $response);
+        $this->assertResponseContains('cget_customer_user.yml', $response);
     }
 
     public function testGet()
@@ -52,8 +52,8 @@ class CustomerUserTest extends RestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => $customerUserId]
         );
 
-        self::assertResponseContains('get_customer_user.yml', $response);
-        self::assertResponseNotHasAttributes(
+        $this->assertResponseContains('get_customer_user.yml', $response);
+        $this->assertResponseNotHasAttributes(
             ['password', 'plainPassword', 'salt', 'confirmationToken', 'emailLowercase', 'username'],
             $response
         );
@@ -99,7 +99,7 @@ class CustomerUserTest extends RestJsonApiTestCase
 
         $customerUserId = (int)$this->getResourceId($response);
         $responseContent = $this->updateResponseContent('create_customer_user.yml', $response);
-        self::assertResponseContains($responseContent, $response);
+        $this->assertResponseContains($responseContent, $response);
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntityManager()
@@ -144,7 +144,7 @@ class CustomerUserTest extends RestJsonApiTestCase
             'type' => 'customers',
             'id'   => (string)$customerId
         ];
-        self::assertResponseContains($responseContent, $response);
+        $this->assertResponseContains($responseContent, $response);
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntityManager()
@@ -204,7 +204,7 @@ class CustomerUserTest extends RestJsonApiTestCase
             false
         );
 
-        self::assertResponseValidationErrors(
+        $this->assertResponseValidationErrors(
             [
                 ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/email']],
                 ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/firstName']],
@@ -262,7 +262,7 @@ class CustomerUserTest extends RestJsonApiTestCase
             false
         );
 
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'password complexity constraint',
                 'source' => ['pointer' => '/data/attributes/password']

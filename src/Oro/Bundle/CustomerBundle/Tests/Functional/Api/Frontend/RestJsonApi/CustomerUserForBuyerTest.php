@@ -41,7 +41,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
     {
         $response = $this->cget(['entity' => 'customerusers']);
 
-        self::assertResponseContains(
+        $this->assertResponseContains(
             [
                 'data' => [
                     ['type' => 'customerusers', 'id' => '<toString(@customer_user->id)>']
@@ -57,7 +57,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => '<toString(@customer_user->id)>']
         );
 
-        self::assertResponseContains(
+        $this->assertResponseContains(
             [
                 'data' => ['type' => 'customerusers', 'id' => '<toString(@customer_user->id)>']
             ],
@@ -73,7 +73,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to the entity.'
@@ -91,7 +91,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to the entity.'
@@ -109,7 +109,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -139,7 +139,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -167,7 +167,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -187,7 +187,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -207,7 +207,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -225,7 +225,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -243,7 +243,7 @@ class CustomerUserForBuyerTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to this type of entities.'

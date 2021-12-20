@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\TestFrameworkBundle\Test\DataFixtures\InitialFixtureInterface;
@@ -11,7 +12,7 @@ use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganizatio
 /**
  * Loads the first customer user belongs to the first customer and organization from the database.
  */
-class LoadCustomerUser extends AbstractFixture implements InitialFixtureInterface
+class LoadCustomerUser extends AbstractFixture implements DependentFixtureInterface, InitialFixtureInterface
 {
     public const CUSTOMER_USER = 'customer_user';
 
