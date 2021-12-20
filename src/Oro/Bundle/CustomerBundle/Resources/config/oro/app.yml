@@ -57,6 +57,14 @@ security:
                 httponly:                   true
             anonymous_customer_user:        true
 
+monolog:
+    channels: ['oro_customer_user_security']
+    handlers:
+        database_handler:
+            type: service
+            id: oro_logger.monolog.db_logs.handler
+            channels: ['oro_customer_user_security']
+
 doctrine:
     orm:
         resolve_target_entities:

@@ -13,6 +13,7 @@ Feature: My Shopping List Accessibility
     And I click "Grid Filters Button"
     When I hide filter "Email Address" in frontend grid
     And I hide filter "Confirmed" in frontend grid
+    And I hide filter "Locked" in frontend grid
     Then I should see "First Name" filter in frontend grid
     And I should see "Last Name" filter in frontend grid
     And I should see "Enabled" filter in frontend grid

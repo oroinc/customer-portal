@@ -116,9 +116,7 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
                 'status' => '400',
                 'title' => 'unchangeable field constraint',
                 'detail' => 'Field cannot be changed once set',
-                "source" => [
-                    "pointer" => "/data/relationships/roles/data"
-                ]
+                'source' => ['pointer' => '/data/relationships/roles/data']
             ],
             $response
         );

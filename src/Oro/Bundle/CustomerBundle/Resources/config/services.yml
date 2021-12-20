@@ -225,7 +225,7 @@ services:
             - '@oro_customer.provider.user_logging_info_provider'
             - '@logger'
         tags:
-            - { name: monolog.logger, channel: security }
+            - { name: monolog.logger, channel: oro_customer_user_security }
 
     oro_customer.customer_visitor_manager:
         class: 'Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager'

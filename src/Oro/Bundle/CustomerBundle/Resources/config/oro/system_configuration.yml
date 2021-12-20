@@ -16,7 +16,7 @@ system_configuration:
             title: oro.customer.system_configuration.groups.map_settings.title
         responsive_grid_settings:
             title: oro.customer.system_configuration.groups.responsive_grid_settings.title
-        rest_api:
+        frontend_rest_api:
             title: oro.customer.system_configuration.groups.rest_api.title
     fields:
         oro_customer.default_customer_owner:
@@ -188,7 +188,7 @@ system_configuration:
                                         priority: 90
                                         children:
                                             - oro_customer.customer_visitor_cookie_lifetime_days
-                                    rest_api:
+                                    frontend_rest_api:
                                         priority: 50
                                         children:
                                             - oro_customer.api_key_generation_enabled

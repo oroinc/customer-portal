@@ -274,11 +274,11 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        
-        self::assertResponseValidationError(
+
+        $this->assertResponseValidationError(
             [
                 'title'  => 'email constraint',
-                'detail'  => 'This value is not a valid email address.',
+                'detail' => 'This value is not a valid email address.',
                 'source' => ['pointer' => '/data/attributes/email']
             ],
             $response
