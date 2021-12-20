@@ -33,7 +33,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
     {
         $response = $this->cget(['entity' => 'customerusers']);
 
-        self::assertResponseContains('cget_customer_user.yml', $response);
+        $this->assertResponseContains('cget_customer_user.yml', $response);
     }
 
     public function testGetListFilteredByMineId()
@@ -43,7 +43,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['filter' => ['id' => 'mine']]
         );
 
-        self::assertResponseContains('cget_customer_user_mine.yml', $response);
+        $this->assertResponseContains('cget_customer_user_mine.yml', $response);
     }
 
     public function testGetListFilteredByMineCustomerId()
@@ -53,7 +53,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['filter' => ['customer' => 'mine']]
         );
 
-        self::assertResponseContains('cget_customer_user_mine.yml', $response);
+        $this->assertResponseContains('cget_customer_user_mine.yml', $response);
     }
 
     public function testGet()
@@ -62,8 +62,8 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => '<toString(@customer_user1->id)>']
         );
 
-        self::assertResponseContains('get_customer_user.yml', $response);
-        self::assertResponseNotHasAttributes(
+        $this->assertResponseContains('get_customer_user.yml', $response);
+        $this->assertResponseNotHasAttributes(
             [
                 'password',
                 'plainPassword',
@@ -87,7 +87,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => 'mine']
         );
 
-        self::assertResponseContains('get_customer_user_mine.yml', $response);
+        $this->assertResponseContains('get_customer_user_mine.yml', $response);
     }
 
     public function testTryToGetFromAnotherRootCustomer()
@@ -98,7 +98,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'No access to the entity.'
@@ -123,7 +123,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
 
         $customerUserId = (int)$this->getResourceId($response);
         $responseContent = $this->updateResponseContent('create_customer_user.yml', $response);
-        self::assertResponseContains($responseContent, $response);
+        $this->assertResponseContains($responseContent, $response);
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntityManager()
@@ -170,7 +170,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             'type' => 'customers',
             'id'   => (string)$customerId
         ];
-        self::assertResponseContains($responseContent, $response);
+        $this->assertResponseContains($responseContent, $response);
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getEntityManager()
@@ -198,7 +198,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        self::assertResponseValidationErrors(
+        $this->assertResponseValidationErrors(
             [
                 ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/email']],
                 ['title' => 'not blank constraint', 'source' => ['pointer' => '/data/attributes/firstName']],
@@ -255,7 +255,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'password complexity constraint',
                 'source' => ['pointer' => '/data/attributes/password']
@@ -274,11 +274,11 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        
-        self::assertResponseValidationError(
+
+        $this->assertResponseValidationError(
             [
                 'title'  => 'email constraint',
-                'detail'  => 'This value is not a valid email address.',
+                'detail' => 'This value is not a valid email address.',
                 'source' => ['pointer' => '/data/attributes/email']
             ],
             $response
@@ -386,7 +386,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ]
         );
 
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'not blank constraint',
                 'source' => ['pointer' => '/data/attributes/email']
@@ -436,7 +436,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'The delete operation is forbidden. Reason: self delete.'
@@ -454,7 +454,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             [],
             false
         );
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'access denied exception',
                 'detail' => 'The delete operation is forbidden. Reason: self delete.'
@@ -470,7 +470,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => 'mine', 'association' => 'customer']
         );
 
-        self::assertResponseContains(
+        $this->assertResponseContains(
             [
                 'data' => [
                     'type'       => 'customers',
@@ -490,7 +490,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             ['entity' => 'customerusers', 'id' => 'mine', 'association' => 'customer']
         );
 
-        self::assertResponseContains(
+        $this->assertResponseContains(
             [
                 'data' => [
                     'type' => 'customers',
@@ -583,7 +583,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        self::assertResponseValidationErrors(
+        $this->assertResponseValidationErrors(
             [
                 [
                     'title'  => 'frontend owner constraint',
@@ -623,7 +623,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        self::assertResponseValidationErrors(
+        $this->assertResponseValidationErrors(
             [
                 [
                     'title'  => 'frontend owner constraint',
@@ -655,7 +655,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        self::assertResponseValidationErrors(
+        $this->assertResponseValidationErrors(
             [
                 [
                     'title'  => 'frontend owner constraint',
@@ -697,7 +697,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'frontend owner constraint',
                 'detail' => 'You have no access to set this value as customer.',
@@ -740,7 +740,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'frontend owner constraint',
                 'detail' => 'You have no access to set this value as customer.',
@@ -775,7 +775,7 @@ class CustomerUserTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title'  => 'frontend owner constraint',
                 'detail' => 'You have no access to set this value as customer.'

@@ -22,9 +22,8 @@ class CustomerUserLoggingInfoProvider implements UserLoggingInfoProviderInterfac
     {
         $info = [];
         if ($user instanceof CustomerUser) {
-            $info['user'] = [
+            $info['customer_user'] = [
                 'id' => $user->getId(),
-                'username' => $user->getUsername(),
                 'email' => $user->getEmail(),
                 'fullname' => $user->getFullName(),
                 'enabled' => $user->isEnabled(),
@@ -33,7 +32,7 @@ class CustomerUserLoggingInfoProvider implements UserLoggingInfoProviderInterfac
                 'createdat' => $user->getCreatedAt()
             ];
         } elseif (\is_string($user)) {
-            $info['username'] = $user;
+            $info['customer_user_email'] = $user;
         }
 
         $ip = $this->getIp();

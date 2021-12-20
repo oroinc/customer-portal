@@ -48,7 +48,7 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
             false
         );
 
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title' => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -72,7 +72,7 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
         );
 
         // Profile permissions do not apply to other customer users.
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'title' => 'access denied exception',
                 'detail' => 'No access to this type of entities.'
@@ -111,14 +111,12 @@ class CustomerUserProfileTest extends FrontendRestJsonApiTestCase
             false,
         );
 
-        self::assertResponseValidationError(
+        $this->assertResponseValidationError(
             [
                 'status' => '400',
                 'title' => 'unchangeable field constraint',
                 'detail' => 'Field cannot be changed once set',
-                "source" => [
-                    "pointer" => "/data/relationships/userRoles/data"
-                ]
+                'source' => ['pointer' => '/data/relationships/userRoles/data']
             ],
             $response
         );
